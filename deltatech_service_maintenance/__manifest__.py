@@ -24,6 +24,8 @@
         "views/service_equipment_view.xml",
         "views/stock_view.xml",
         "views/sale_view.xml",
+        "views/report_notification.xml",
+        "views/report_order.xml",
         "security/ir.model.access.csv",
     ],
     "development_status": "Production/Stable",

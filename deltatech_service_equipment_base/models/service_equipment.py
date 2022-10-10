@@ -1,7 +1,7 @@
 # ©  2015-2022 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 
 class ServiceEquipment(models.Model):
@@ -9,7 +9,7 @@ class ServiceEquipment(models.Model):
     _description = "Service Equipment"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(string="Name", index=True, required=True, copy=False)
+    name = fields.Char(string="Reference", index=True, default=lambda self: _("New"))
     display_name = fields.Char(compute="_compute_display_name")
     partner_id = fields.Many2one("res.partner", string="Customer")
     contact_id = fields.Many2one(
@@ -37,20 +37,9 @@ class ServiceEquipment(models.Model):
 
     @api.model
     def create(self, vals):
-        if ("name" not in vals) or (vals.get("name") in ("/", False)):
-            sequence = self.env.ref("deltatech_service_equipment_base.sequence_equipment")
-            if sequence:
-                vals["name"] = sequence.next_by_id()
-
+        if vals.get("name", _("New")) == _("New") or vals.get("name") == "/":
+            vals["name"] = self.env["ir.sequence"].next_by_code("service.equipment") or _("New")
         return super(ServiceEquipment, self).create(vals)
-
-    def write(self, vals):
-        if ("name" in vals) and (vals.get("name") in ("/", False)):
-            self.ensure_one()
-            sequence = self.env.ref("deltatech_service_equipment_base.sequence_equipment")
-            if sequence:
-                vals["name"] = sequence.next_by_id()
-        return super(ServiceEquipment, self).write(vals)
 
     @api.onchange("product_id")
     def onchange_product_id(self):

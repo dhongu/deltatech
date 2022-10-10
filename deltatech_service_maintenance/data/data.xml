@@ -4,6 +4,7 @@
     <data noupdate="1">
         <record id="sequence_notification" model="ir.sequence">
             <field name="name">Service Notification</field>
+            <field name="code">service.notification</field>
             <field name="prefix">NO/</field>
             <field name="padding">5</field>
             <field name="number_next">1</field>
@@ -11,6 +12,7 @@
         </record>
         <record id="sequence_order" model="ir.sequence">
             <field name="name">Service Order</field>
+            <field name="code">service.order</field>
             <field name="prefix">ORD/</field>
             <field name="padding">5</field>
             <field name="number_next">1</field>

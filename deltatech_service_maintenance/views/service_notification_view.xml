@@ -17,6 +17,7 @@
                     decoration-primary="category in ['sale_support','sale']"
                 />
                 <field name="equipment_id" />
+                <field name="order_id" />
                 <field name="partner_id" />
                 <field name="subject" />
                 <field name="user_id" widget="many2one_avatar_user" />
@@ -48,6 +49,15 @@
                         string="New transfer"
                         attrs="{'invisible': ['|', ('category','!=','transfer' ), ('piking_id','!=',False )]}"
                     />
+
+                    <button
+                        name="new_sale_order_button"
+                        type="object"
+                        class="oe_highlight"
+                        string="Quotation"
+                        attrs="{'invisible': [('category','!=','defect_finding' )]}"
+                    />
+
                     <button name="action_assign" type="object" string="Assign" class="oe_highlight" states="new" />
                     <button name="action_taking" type="object" string="Taking " states="new" />
                     <button name="action_start" type="object" string="Start" class="oe_highlight" states="assigned" />
@@ -78,20 +88,14 @@
                     <group>
                         <group>
                             <field name="date" />
-                            <field name="type" />
+
                             <field name="category" />
                             <field name="user_id" domain="[('share', '=', False)]" widget="many2one_avatar_user" />
                             <field name="order_id" />
-                            <field name="piking_id" attrs="{'invisible': [('piking_id','=',False )]}" />
-                            <field name="sale_order_id" attrs="{'invisible': [('sale_order_id','=',False)]}" />
-                            <field name="required_order_id" attrs="{'invisible': [('required_order_id','=',False)]}" />
+
                         </group>
                         <group>
-                            <field
-                                name="contact_id"
-                                context="{'search_default_customer':1,   'show_phone':1}"
-                                options="{'always_reload': True}"
-                            />
+
                             <field name="equipment_id" attrs="{'required': [('category','in',('delivery') )]}" />
                             <field name="partner_id" attrs="{'required': [('category','in',('delivery','sale') )]}" />
                             <field
@@ -110,57 +114,82 @@
                         </group>
                         <group>
                             <field name="priority" widget="priority" />
-                            <field name="subject" />
-                            <field name="description" />
-                        </group>
-                        <group>
-                            <field name="date_assign" />
-                            <field name="date_start" />
-                            <field name="date_done" />
                         </group>
                     </group>
-                    <field name="item_ids" mode="tree,kanban">
-                        <tree editable="bottom">
-                            <field name="product_id" />
-                            <field name="quantity" />
-                            <field name="product_uom" />
-                            <field name="note" />
-                        </tree>
+                    <notebook>
+                        <page string="Components" name="lines">
+                            <field name="item_ids" mode="tree,kanban">
+                                <tree editable="bottom">
+                                    <field name="product_id" />
+                                    <field name="quantity" />
+                                    <field name="product_uom" />
+                                    <field name="note" />
+                                </tree>
 
-                        <kanban class="o_kanban_mobile">
-                            <field name="product_id" />
-                            <field name="quantity" />
-                            <field name="product_uom" />
+                                <kanban class="o_kanban_mobile">
+                                    <field name="product_id" />
+                                    <field name="quantity" />
+                                    <field name="product_uom" />
 
-                            <templates>
-                                <t t-name="kanban-box">
-                                    <div t-attf-class="oe_kanban_card oe_kanban_global_click">
-                                        <div class="row">
-                                            <div class="col-8">
-                                                <strong>
-                                                    <span>
-                                                        <t t-esc="record.product_id.value" />
-                                                    </span>
-                                                </strong>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <strong>
+                                                            <span>
+                                                                <t t-esc="record.product_id.value" />
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 text-muted">
+                                                        <span>
+                                                            Quantity:
+                                                            <t t-esc="record.quantity.value" />
+                                                            <t t-esc="record.product_uom.value" />
+                                                        </span>
+                                                    </div>
+                                                </div>
+
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-12 text-muted">
-                                                <span>
-                                                    Quantity:
-                                                    <t t-esc="record.quantity.value" />
-                                                    <t t-esc="record.product_uom.value" />
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </t>
-                            </templates>
-                        </kanban>
+                                        </t>
+                                    </templates>
+                                </kanban>
 
 
-                    </field>
+                            </field>
+                            <field name="description" />
+                        </page>
+                        <page string="Other Info" name="other_information">
+                            <group>
+                                <group>
+                                    <field name="type" />
+                                    <field
+                                        name="contact_id"
+                                        context="{'search_default_customer':1,   'show_phone':1}"
+                                        options="{'always_reload': True}"
+                                    />
+                                    <field name="subject" />
+                                    <field name="description" />
+                                </group>
+                                <group>
+                                    <field name="date_assign" />
+                                    <field name="date_start" />
+                                    <field name="date_done" />
+                                </group>
+                                <group>
+                                    <field name="piking_id" attrs="{'invisible': [('piking_id','=',False )]}" />
+                                    <field name="sale_order_id" attrs="{'invisible': [('sale_order_id','=',False)]}" />
+                                    <field
+                                        name="required_order_id"
+                                        attrs="{'invisible': [('required_order_id','=',False)]}"
+                                    />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" />
@@ -177,46 +206,45 @@
         <field name="arch" type="xml">
 
             <kanban class="o_kanban_mobile" sample="1">
-                    <field name="name" />
-                    <field name="partner_id" />
-                    <field name="state" />
-                    <field name="date" />
-                    <field name="activity_state" />
-                    <progressbar
-                    field="activity_state"
-                    colors="{'planned': 'success', 'today': 'warning', 'overdue': 'danger'}"
-                />
-                    <templates>
-                        <t t-name="kanban-box">
-                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
-                                <div class="o_kanban_record_top mb16">
-                                    <div class="o_kanban_record_headings mt4">
-                                        <strong class="o_kanban_record_title"><span><t
-                                                t-esc="record.partner_id.value"
-                                            /></span></strong>
-                                    </div>
-<!--                                    <strong><field name="amount_total" widget="monetary"/></strong>-->
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="state" />
+                <field name="date" />
+                <field name="activity_state" />
+                <!--                <progressbar field="activity_state"-->
+                <!--                             colors="{'planned': 'success', 'today': 'warning', 'overdue': 'danger'}" />-->
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_record_top mb16">
+                                <div class="o_kanban_record_headings mt4">
+                                    <strong class="o_kanban_record_title">
+                                        <span>
+                                            <t t-esc="record.partner_id.value" />
+                                        </span>
+                                    </strong>
                                 </div>
-                                <div class="o_kanban_record_bottom">
-                                    <div class="oe_kanban_bottom_left text-muted">
-                                        <span><t t-esc="record.name.value" />
-                                            <t t-esc="record.date.value and record.date.value.split(' ')[0] or False" />
-                                             </span>
-                                        <field name="activity_ids" widget="kanban_activity" />
-                                    </div>
-                                    <div class="oe_kanban_bottom_right">
-                                        <field
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left text-muted">
+                                    <span>
+                                        <t t-esc="record.name.value" />
+                                        <t t-esc="record.date.value and record.date.value.split(' ')[0] or False" />
+                                    </span>
+                                    <field name="activity_ids" widget="kanban_activity" />
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <field
                                         name="state"
                                         widget="label_selection"
                                         options="{'classes': {'new': 'default', 'progress': 'primary', 'assigned': 'success'}}"
                                     />
-                                    </div>
                                 </div>
                             </div>
-                        </t>
-                    </templates>
-                </kanban>
-
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
 
 
         </field>

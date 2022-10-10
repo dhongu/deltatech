@@ -3,6 +3,7 @@
     <data noupdate="1">
         <record id="sequence_equipment" model="ir.sequence">
             <field name="name">Service Equipment</field>
+            <field name="code">service.equipment</field>
             <field name="prefix">E/</field>
             <field name="padding">5</field>
             <field name="number_next">1</field>

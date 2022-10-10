@@ -9,6 +9,7 @@
                 <field name="name" />
                 <field name="date" />
                 <field name="equipment_id" />
+                <field name="notification_id" />
                 <field
                     name='state'
                     widget="badge"
@@ -71,7 +72,7 @@
                     />
                 </header>
                 <sheet>
-                     <div class="oe_title">
+                    <div class="oe_title">
                         <h1>
                             <field name="name" attrs="{'invisible': [('name','=','/')]}" readonly="1" />
                         </h1>
@@ -84,14 +85,9 @@
                             <field name="type_id" />
                             <field name="notification_id" />
                             <field name="user_id" />
-
                         </group>
                         <group>
-                            <field
-                                name="contact_id"
-                                context="{'search_default_customer':1,   'show_phone':1}"
-                                options="{'always_reload': True}"
-                            />
+
                             <field name="equipment_id" />
                             <field name="partner_id" />
                             <field
@@ -100,19 +96,23 @@
                                 context="{'search_default_customer':1, 'show_address': 1 }"
                                 options="{'always_reload': True}"
                             />
-
-                            <field name="equipment_id" invisible="1" />
                         </group>
                         <group>
                             <field name="reason_id" />
                         </group>
-                        <group>
-                            <field name="date_start_travel" attrs="{'invisible': [('with_travel','=',False)]}" />
-                            <field name="date_start" />
-                            <field name="date_done" />
-                        </group>
+
                     </group>
                     <notebook>
+                        <page string="Operations">
+                            <field name="operation_ids">
+                                <tree editable="bottom">
+                                    <field name="operation_id" />
+                                    <field name="duration" widget="float_time" />
+                                </tree>
+                            </field>
+                            <field name="description" />
+                        </page>
+
                         <page string="Components">
                             <field name="component_ids">
                                 <tree editable="bottom">
@@ -123,20 +123,33 @@
                                 </tree>
                             </field>
                         </page>
-                        <page string="Operations">
-                            <field name="operation_ids">
-                                <tree editable="bottom">
-                                    <field name="operation_id" />
-                                    <field name="duration" widget="float_time" />
-                                </tree>
-                            </field>
-                        </page>
+
                         <page string="Parameters">
                             <field name="parameter_ids" widget="many2many_checkboxes" />
                         </page>
+                        <page string="Other Info" name="other_information">
+                            <group>
+                                <group>
+                                    <field
+                                        name="contact_id"
+                                        context="{'search_default_customer':1,   'show_phone':1}"
+                                        options="{'always_reload': True}"
+                                    />
+                                </group>
+                                <group>
+                                    <field
+                                        name="date_start_travel"
+                                        attrs="{'invisible': [('with_travel','=',False)]}"
+                                    />
+                                    <field name="date_start" />
+                                    <field name="date_done" />
+                                </group>
+                            </group>
+                        </page>
                     </notebook>
                     <div class="oe_clear" />
-                    <field name="description" class="oe_inline" placeholder="Notes..." />
+
+
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" />

@@ -83,7 +83,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:deltatech_service_equipment_base.selection__service_equipment__internal_type__equipment
 #: model:ir.ui.menu,name:deltatech_service_equipment_base.menu_service_equipment
 msgid "Equipment"
-msgstr "echipament"
+msgstr "Echipament"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.ui.menu,name:deltatech_service_equipment_base.menu_service_equipment_type
@@ -290,7 +290,7 @@ msgstr ""
 #. module: deltatech_service_equipment_base
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_equipment_filter
 msgid "Search"
-msgstr ""
+msgstr "Caută"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__serial_no

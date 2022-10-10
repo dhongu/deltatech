@@ -17,9 +17,9 @@ class ServiceOrder(models.Model):
     _description = "Service Order"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(string="Reference", readonly=True, default="/")
+    name = fields.Char(string="Reference", readonly=True, index=True, default=lambda self: _("New"))
     date = fields.Date(
-        string="Date", default=lambda *a: fields.Date.today(), readonly=True, states={"draft": [("readonly", False)]}
+        string="Date", default=fields.Date.context_today, readonly=True, states={"draft": [("readonly", False)]}
     )
 
     access_token = fields.Char(string="Security Token", required=True, copy=False, default=str(uuid.uuid4()))
@@ -40,20 +40,21 @@ class ServiceOrder(models.Model):
     )
 
     date_start_travel = fields.Datetime("Start Travel Date", readonly=True, copy=False)
-    date_start = fields.Datetime("Start Date", readonly=True, copy=False)
-    date_done = fields.Datetime("Done Date", readonly=True, copy=False)
+    date_start = fields.Datetime("Start Date", readonly=True, copy=False, states={"progress": [("readonly", False)]})
+    date_done = fields.Datetime("Done Date", readonly=True, copy=False, states={"work_done": [("readonly", False)]})
 
     # equipment_history_id = fields.Many2one("service.equipment.history", string="Equipment history")
     equipment_id = fields.Many2one(
-        "service.equipment", string="Equipment", index=True, readonly=True, states={"draft": [("readonly", False)]}
+        "service.equipment",
+        string="Equipment",
+        index=True,
+        required=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
 
     partner_id = fields.Many2one(
-        "res.partner",
-        string="Partner",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-        related="equipment_id.partner_id",
+        "res.partner", string="Partner", readonly=True, states={"draft": [("readonly", False)]}
     )
 
     contact_id = fields.Many2one(
@@ -79,7 +80,7 @@ class ServiceOrder(models.Model):
         "service.order.reason", string="Reason", readonly=False, states={"done": [("readonly", True)]}
     )
     type_id = fields.Many2one(
-        "service.order.type", string="Type", readonly=True, states={"draft": [("readonly", False)]}
+        "service.order.type", string="Type", required=True, readonly=True, states={"draft": [("readonly", False)]}
     )
     with_travel = fields.Boolean(related="type_id.with_travel")
     can_delivered = fields.Boolean(related="type_id.can_delivered")
@@ -120,10 +121,11 @@ class ServiceOrder(models.Model):
 
     @api.model
     def create(self, vals):
-        if ("name" not in vals) or (vals.get("name") in ("/", False)):
-            sequence_order = self.env.ref("deltatech_service_maintenance.sequence_order")
-            if sequence_order:
-                vals["name"] = sequence_order.next_by_id()
+        if vals.get("name", _("New")) == _("New"):
+            seq_date = None
+            if "date" in vals:
+                seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals["date"]))
+            vals["name"] = self.env["ir.sequence"].next_by_code("service.order", sequence_date=seq_date) or _("New")
         return super(ServiceOrder, self).create(vals)
 
     @api.onchange("equipment_id", "date")
@@ -186,11 +188,14 @@ class ServiceOrder(models.Model):
             raise UserError(_("This partner is blocked"))
 
         sale_order = self.env["sale.order"].search([("service_order_id", "=", self.id)])
+        if not sale_order and self.notification_id:
+            sale_order = self.env["sale.order"].search([("notification_id", "=", self.notification_id.id)])
 
         context = {
             "default_partner_id": self.partner_id.id,
             "default_partner_shipping_id": self.address_id.id,
             "default_service_order_id": self.id,
+            "default_notification_id": self.notification_id.id,
         }
 
         action = {

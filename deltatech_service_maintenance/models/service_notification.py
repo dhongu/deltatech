@@ -29,9 +29,9 @@ class ServiceNotification(models.Model):
     def compute_default_user_id(self):
         return self.env.user.id
 
-    name = fields.Char(string="Reference", readonly=True, default="/")
+    name = fields.Char(string="Reference", readonly=True, index=True, default=lambda self: _("New"))
     date = fields.Datetime(
-        string="Date", default=fields.Datetime.now, readonly=True, states={"new": [("readonly", False)]}
+        string="Date", default=fields.Date.context_today, readonly=True, states={"new": [("readonly", False)]}
     )
 
     state = fields.Selection(
@@ -67,8 +67,8 @@ class ServiceNotification(models.Model):
         states={"new": [("readonly", False)]},
     )
 
-    subject = fields.Char("Subject", readonly=True, states={"new": [("readonly", False)]})
-    description = fields.Text("Notes", readonly=True, states={"new": [("readonly", False)]})
+    subject = fields.Char("Subject", readonly=False, states={"done": [("readonly", True)]})
+    description = fields.Text("Notes", readonly=False, states={"done": [("readonly", True)]})
 
     date_assign = fields.Datetime("Assigning Date", readonly=True, copy=False)
     date_start = fields.Datetime("Start Date", readonly=True, copy=False)
@@ -120,7 +120,10 @@ class ServiceNotification(models.Model):
     }
 
     def _compute_order_id(self):
-        self.order_id = self.env["service.order"].search([("notification_id", "=", self.id)], limit=1)
+        for notification in self:
+            notification.order_id = self.env["service.order"].search(
+                [("notification_id", "=", notification.id)], limit=1
+            )
 
     @api.onchange("equipment_id", "date")
     def onchange_equipment_id(self):
@@ -131,6 +134,8 @@ class ServiceNotification(models.Model):
 
     @api.model
     def create(self, vals):
+        if "company_id" in vals:
+            self = self.with_company(vals["company_id"])
 
         equipment_id = vals.get("equipment_id", False)
 
@@ -163,10 +168,14 @@ class ServiceNotification(models.Model):
                 if not vals.get("partner_id", False):
                     vals["partner_id"] = equipments.agreement_id.partner_id.id
 
-        if ("name" not in vals) or (vals.get("name") in ("/", False)):
-            sequence_notification = self.env.ref("deltatech_service_maintenance.sequence_notification")
-            if sequence_notification:
-                vals["name"] = sequence_notification.next_by_id()
+        if vals.get("name", _("New")) == _("New"):
+            seq_date = None
+            if "date" in vals:
+                seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals["date"]))
+            vals["name"] = self.env["ir.sequence"].next_by_code("service.notification", sequence_date=seq_date) or _(
+                "New"
+            )
+
         return super(ServiceNotification, self).create(vals)
 
     def write(self, vals):
@@ -410,39 +419,53 @@ class ServiceNotification(models.Model):
 
     def new_sale_order_button(self):
 
-        context = {"default_partner_id": self.partner_id.id, "default_partner_shipping_id": self.address_id.id}
-
-        if self.item_ids:
-
-            sale_order = self.env["sale.order"].with_context(context)
-            pricelist = (
-                self.partner_id.property_product_pricelist and self.partner_id.property_product_pricelist.id or False
-            )
-            context["default_order_line"] = []
-            for item in self.item_ids:
-                res = sale_order.order_line.product_id_change(
-                    pricelist=pricelist, product=item.product_id.id, qty=item.quantity, partner_id=self.partner_id.id
-                )
-                value = res.get("value", {})
-                value["product_id"] = item.product_id.id
-                value["product_uom_qty"] = item.quantity
-                value["state"] = "draft"
-                context["default_order_line"] += [(0, 0, value)]
-
-        context["notification_id"] = self.id
         if self.partner_id.sale_warn and self.partner_id.sale_warn == "block":
             raise UserError(_("This partner is blocked"))
+
+        sale_order = self.env["sale.order"].search([("notification_id", "=", self.id)])
+        if not sale_order and self.order_id:
+            sale_order = self.env["sale.order"].search([("service_order_id", "=", self.order_id.id)])
+
+        context = {
+            "default_partner_id": self.partner_id.id,
+            "default_partner_shipping_id": self.address_id.id,
+            "default_service_order_id": self.order_id.id,
+            "default_notification_id": self.id,
+        }
+
+        action = {
+            "name": _("Sale Order for Notification"),
+            "view_type": "form",
+            "view_mode": "form",
+            "res_model": "sale.order",
+            "view_id": False,
+            "views": [[False, "form"]],
+            "context": context,
+            "type": "ir.actions.act_window",
+        }
+        if sale_order:
+            action["res_id"] = sale_order.id
         else:
-            return {
-                "name": _("Sale Order for Notification"),
-                "view_type": "form",
-                "view_mode": "form",
-                "res_model": "sale.order",
-                "view_id": False,
-                "views": [[False, "form"]],
-                "context": context,
-                "type": "ir.actions.act_window",
-            }
+            context["default_pricelist_id"] = self.partner_id.property_product_pricelist.id
+            sale_order = self.env["sale.order"].with_context(context).new()
+
+            context["default_order_line"] = []
+            for item in self.item_ids:
+                value = {
+                    "product_id": item.product_id.id,
+                    "product_uom_qty": item.quantity,
+                    "state": "draft",
+                    "order_id": sale_order.id,
+                }
+                line = self.env["sale.order.line"].new(value)
+                line.product_id_change()
+                for field in ["name", "price_unit", "product_uom", "tax_id"]:
+                    value[field] = line._fields[field].convert_to_write(line[field], line)
+
+                context["default_order_line"] += [(0, 0, value)]
+
+        action["context"] = context
+        return action
 
     def sale_order_button(self):
         if self.sale_order_id:
