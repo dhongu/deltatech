@@ -29,8 +29,8 @@ class TestSale(TransactionCase):
                 "standard_price": 70,
                 "list_price": 150,
                 "seller_ids": seller_ids,
-                "pallet_product_id": self.product_a.id,
-                "pallet_qty_min": 10,
+                "extra_product_id": self.product_a.id,
+                "extra_percent": 10,
             }
         )
 
