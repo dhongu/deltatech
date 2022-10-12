@@ -41,7 +41,6 @@ class ServiceNotification(models.Model):
         tracking=True,
     )
 
-    # equipment_history_id = fields.Many2one("service.equipment.history", string="Equipment history")
     equipment_id = fields.Many2one(
         "service.equipment", string="Equipment", index=True, readonly=True, states={"new": [("readonly", False)]}
     )
