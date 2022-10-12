@@ -20,6 +20,62 @@
 
                     <div class="page">
 
+                        <h2 class="mt16">
+                            <t t-if="doc.category=='defect_finding'">
+                                <span>Defect Finding</span>
+                            </t>
+                            <t t-else="">
+                                <span>Notification</span>
+                            </t>
+                            <span t-field="doc.name" />
+                        </h2>
+                        <br />
+                        <div class="row mt32 mb32" id="information">
+                            <div t-if="doc.date" class="col-auto col-3 mw-100 mb-2">
+                                <strong>Date:</strong>
+                                <p class="m-0" t-field="doc.date" />
+                            </div>
+                            <div t-if="doc.partner_id.name" class="col-auto col-3 mw-100 mb-2">
+                                <strong>Partner:</strong>
+                                <p class="m-0" t-field="doc.partner_id" />
+                            </div>
+                            <div t-if="doc.contact_id.name" class="col-auto col-3 mw-100 mb-2">
+                                <strong>Reported by:</strong>
+                                <p class="m-0" t-field="doc.contact_id" />
+                            </div>
+                            <div t-if="doc.address_id.name" class="col-auto col-3 mw-100 mb-2">
+                                <strong>Address:</strong>
+                                <p class="m-0" t-field="doc.address_id" />
+                            </div>
+                            <div t-if="doc.user_id.name" class="col-auto col-3 mw-100 mb-2">
+                                <strong>Responsible:</strong>
+                                <p class="m-0" t-field="doc.user_id" />
+                            </div>
+
+                        </div>
+                        <br />
+                        <div class="row mt32 mb32" id="equipment">
+                            <div t-if="doc.equipment_id.name" class="col-auto col-3 mw-100 mb-2">
+                                <strong>Equipment:</strong>
+                                <p class="m-0" t-field="doc.equipment_id" />
+                            </div>
+                            <div t-if="doc.equipment_id.serial_no" class="col-auto col-3 mw-100 mb-2">
+                                <strong>Serial Number:</strong>
+                                <p class="m-0" t-field="doc.equipment_id.serial_no" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="oe_structure" />
+                        <p t-field="doc.description" />
+
+                        <div class="row mt32 mb32" id="signatures">
+                            <div class="col-auto col-3 mw-100 mb-2">
+                                <strong>Partner:</strong>
+                            </div>
+                            <div class="col-auto col-3 mw-100 mb-2">
+                                <strong>Responsible:</strong>
+                            </div>
+                        </div>
                     </div>
                 </t>
             </t>
