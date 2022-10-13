@@ -16,6 +16,7 @@ class ServiceOrder(models.Model):
     _name = "service.order"
     _description = "Service Order"
     _inherit = ["mail.thread", "mail.activity.mixin"]
+    _order = "date desc"
 
     name = fields.Char(string="Reference", readonly=True, index=True, default=lambda self: _("New"))
     date = fields.Date(
@@ -66,6 +67,10 @@ class ServiceOrder(models.Model):
     city = fields.Char(string="City", related="address_id.city")
 
     user_id = fields.Many2one("res.users", string="Responsible", readonly=True, states={"draft": [("readonly", False)]})
+
+    work_center_id = fields.Many2one(
+        "service.work.center", string="Work Center", readonly=True, states={"new": [("readonly", False)]}
+    )
 
     # raportul poate sa fie legat de o sesizre
     notification_id = fields.Many2one(
@@ -183,20 +188,16 @@ class ServiceOrder(models.Model):
         if self.equipment_id:
             return self.equipment_id.new_piking_button()
 
-    def new_sale_order_button(self):
-        if self.partner_id.sale_warn and self.partner_id.sale_warn == "block":
-            raise UserError(_("This partner is blocked"))
+    def sale_order_button(self):
+        action = self.get_action_sale_order()
+        if action["res_id"]:
+            return action
 
+    def get_action_sale_order(self):
         sale_order = self.env["sale.order"].search([("service_order_id", "=", self.id)])
         if not sale_order and self.notification_id:
             sale_order = self.env["sale.order"].search([("notification_id", "=", self.notification_id.id)])
-
-        context = {
-            "default_partner_id": self.partner_id.id,
-            "default_partner_shipping_id": self.address_id.id,
-            "default_service_order_id": self.id,
-            "default_notification_id": self.notification_id.id,
-        }
+            sale_order.write({"service_order_id": self.id})
 
         action = {
             "name": _("Sale Order for Service Order"),
@@ -205,12 +206,44 @@ class ServiceOrder(models.Model):
             "res_model": "sale.order",
             "view_id": False,
             "views": [[False, "form"]],
-            "context": context,
+            "context": {},
             "type": "ir.actions.act_window",
+            "res_id": sale_order.id,
         }
-        if sale_order:
-            action["res_id"] = sale_order.id
+        return action
+
+    def new_sale_order_button(self):
+        if self.partner_id.sale_warn and self.partner_id.sale_warn == "block":
+            raise UserError(_("This partner is blocked"))
+
+        action = self.get_action_sale_order()
+        context = {
+            "default_partner_id": self.partner_id.id,
+            "default_partner_shipping_id": self.address_id.id,
+            "default_service_order_id": self.id,
+            "default_notification_id": self.notification_id.id,
+        }
+
+        route = self.work_center_id.sale_route_id
+
+        if action["res_id"]:
+            sale_order = self.env["sale.order"].browse(action["res_id"])
+
+            for item in self.component_ids:
+                sale_line = sale_order.order_line.filtered(lambda l: l.product_id == item.product_id)
+                if not sale_line:
+                    value = {
+                        "product_id": item.product_id.id,
+                        "product_uom_qty": item.quantity,
+                        "route_id": route.id,
+                        "state": "draft",
+                        "order_id": sale_order.id,
+                    }
+                    self.env["sale.order.line"].create(value)
+                else:
+                    sale_line.write({"product_uom_qty": item.quantity})
         else:
+
             context["pricelist_id"] = self.partner_id.property_product_pricelist.id
             sale_order = self.env["sale.order"].with_context(context).new()
 
@@ -219,6 +252,7 @@ class ServiceOrder(models.Model):
                 value = {
                     "product_id": item.product_id.id,
                     "product_uom_qty": item.quantity,
+                    "route_id": route.id,
                     "state": "draft",
                     "order_id": sale_order.id,
                 }
@@ -250,8 +284,13 @@ class ServiceOrder(models.Model):
 class ServiceOrderComponent(models.Model):
     _name = "service.order.component"
     _description = "Service Order Component"
+    _order = "order_id, sequence, id"
 
-    order_id = fields.Many2one("service.order", string="Order", readonly=True)
+    sequence = fields.Integer(string="Sequence", default=10)
+    name = fields.Char()
+    order_id = fields.Many2one(
+        "service.order", string="Order", readonly=True, index=True, required=True, ondelete="cascade"
+    )
     product_id = fields.Many2one("product.product", string="Product", domain=[("type", "!=", "service")])
     quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
     product_uom = fields.Many2one("uom.uom", string="Unit of Measure ")
@@ -260,13 +299,19 @@ class ServiceOrderComponent(models.Model):
     @api.onchange("product_id")
     def onchange_product_id(self):
         self.product_uom = self.product_id.uom_id
+        self.name = self.product_id.name
 
 
 class ServiceOrderOperation(models.Model):
     _name = "service.order.operation"
     _description = "Service Order Operation"
+    _order = "order_id, sequence, id"
 
-    order_id = fields.Many2one("service.order", string="Order", readonly=True)
+    sequence = fields.Integer(string="Sequence", default=10)
+
+    order_id = fields.Many2one(
+        "service.order", string="Order", readonly=True, index=True, required=True, ondelete="cascade"
+    )
     operation_id = fields.Many2one("service.operation", string="Operation")
     duration = fields.Float(string="Duration")
 
@@ -307,10 +352,11 @@ class ServiceOperatingParameter(models.Model):
 class ServiceOrderType(models.Model):
     _name = "service.order.type"
     _description = "Service Order Type"
+
     name = fields.Char(string="Type", translate=True)
     category = fields.Selection([("cor", "Corrective"), ("pre", "Preventive")])
-    with_travel = fields.Boolean()
 
+    with_travel = fields.Boolean()
     can_delivered = fields.Boolean()
     can_ordered = fields.Boolean()
 

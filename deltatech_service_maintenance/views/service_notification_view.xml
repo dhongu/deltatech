@@ -55,6 +55,7 @@
                         type="object"
                         class="oe_highlight"
                         string="Quotation"
+                        groups="sales_team.group_sale_salesman"
                         attrs="{'invisible': [('category','!=','defect_finding' )]}"
                     />
 
@@ -89,10 +90,15 @@
                         <group>
                             <field name="date" />
 
+                            <field name="priority" widget="priority" />
+                        </group>
+                        <group>
                             <field name="category" />
+                        </group>
+                        <group>
+                            <field name="work_center_id" />
                             <field name="user_id" domain="[('share', '=', False)]" widget="many2one_avatar_user" />
                             <field name="order_id" />
-
                         </group>
                         <group>
 
@@ -110,17 +116,17 @@
                                 attrs="{'invisible': [('category','!=','delivery' )]}"
                                 readonly="1"
                             />
-                            <field name="equipment_id" invisible="1" />
+
                         </group>
-                        <group>
-                            <field name="priority" widget="priority" />
-                        </group>
+
                     </group>
                     <notebook>
                         <page string="Components" name="lines">
                             <field name="item_ids" mode="tree,kanban">
                                 <tree editable="bottom">
+                                    <field name="sequence" widget="handle" />
                                     <field name="product_id" />
+                                    <field name="name" />
                                     <field name="quantity" />
                                     <field name="product_uom" />
                                     <field name="note" />
@@ -187,10 +193,10 @@
                                 <group>
                                     <field name="piking_id" attrs="{'invisible': [('piking_id','=',False )]}" />
                                     <field name="sale_order_id" attrs="{'invisible': [('sale_order_id','=',False)]}" />
-                                    <field
-                                        name="required_order_id"
-                                        attrs="{'invisible': [('required_order_id','=',False)]}"
-                                    />
+                                    <!--                                    <field-->
+                                    <!--                                        name="required_order_id"-->
+                                    <!--                                        attrs="{'invisible': [('required_order_id','=',False)]}"-->
+                                    <!--                                    />-->
                                 </group>
                             </group>
                         </page>

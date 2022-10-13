@@ -12,8 +12,9 @@
     "depends": [
         "deltatech_service_equipment_base",
         "sale",
+        "sales_team",
         "stock",
-        "deltatech_procurement",
+        # "deltatech_procurement",
     ],
     "license": "AGPL-3",
     "data": [
@@ -26,6 +27,7 @@
         "views/sale_view.xml",
         "views/report_notification.xml",
         "views/report_order.xml",
+        "views/service_work_center_view.xml",
         "security/ir.model.access.csv",
     ],
     "development_status": "Production/Stable",

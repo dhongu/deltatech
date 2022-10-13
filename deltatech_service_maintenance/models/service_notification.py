@@ -58,6 +58,10 @@ class ServiceNotification(models.Model):
     address_id = fields.Many2one("res.partner", string="Location", readonly=True, states={"new": [("readonly", False)]})
     user_id = fields.Many2one("res.users", string="Responsible", readonly=True, states={"new": [("readonly", False)]})
 
+    work_center_id = fields.Many2one(
+        "service.work.center", string="Work Center", readonly=True, required=True, states={"new": [("readonly", False)]}
+    )
+
     type = fields.Selection(
         [("external", "External"), ("internal", "Internal")],
         default="external",
@@ -81,13 +85,13 @@ class ServiceNotification(models.Model):
 
     category = fields.Selection(
         [("delivery", "Delivery"), ("transfer", "Transfer"), ("sale", "Sale"), ("defect_finding", "Defect Finding")],
-        default="sale",
+        default="defect_finding",
         string="Category",
     )
 
     piking_id = fields.Many2one("stock.picking", string="Consumables")  # legatua cu necesarul / consumul de consumabile
     sale_order_id = fields.Many2one("sale.order", string="Sale Order")  # legatua la comanda de vanzare
-    required_order_id = fields.Many2one("required.order", string="Required Products Order")
+    # required_order_id = fields.Many2one("required.order", string="Required Products Order")
 
     related_doc = fields.Boolean(compute="_compute_related_doc")
 
@@ -103,7 +107,7 @@ class ServiceNotification(models.Model):
     def _compute_related_doc(self):
         for item in self:
             item.related_doc = False
-            if item.piking_id or item.sale_order_id or item.required_order_id:
+            if item.piking_id or item.sale_order_id:  # or item.required_order_id:
                 item.related_doc = True
 
     @api.model
@@ -240,6 +244,7 @@ class ServiceNotification(models.Model):
             "default_client_order_ref": self.name,
             "default_contact_id": self.contact_id.id,
             "default_user_id": self.user_id.id,
+            "default_work_center_id": self.work_center_id.id,
         }
         return context
 
@@ -252,6 +257,16 @@ class ServiceNotification(models.Model):
         else:
             domain = "[]"
             res_id = False
+            context["default_component_ids"] = []
+
+            for item in self.item_ids:
+                value = {
+                    "name": item.name,
+                    "product_id": item.product_id.id,
+                    "product_uom": item.product_id.uom_id.id,
+                    "quantity": item.quantity,
+                }
+                context["default_component_ids"] += [(0, 0, value)]
 
         if self.partner_id.sale_warn and self.partner_id.sale_warn == "block":
             raise UserError(_("This partner is blocked"))
@@ -431,7 +446,7 @@ class ServiceNotification(models.Model):
             "default_service_order_id": self.order_id.id,
             "default_notification_id": self.id,
         }
-
+        route = self.work_center_id.sale_route_id
         action = {
             "name": _("Sale Order for Notification"),
             "view_type": "form",
@@ -452,13 +467,15 @@ class ServiceNotification(models.Model):
             for item in self.item_ids:
                 value = {
                     "product_id": item.product_id.id,
+                    "name": item.name,
                     "product_uom_qty": item.quantity,
+                    "route_id": route.id,
                     "state": "draft",
                     "order_id": sale_order.id,
                 }
                 line = self.env["sale.order.line"].new(value)
                 line.product_id_change()
-                for field in ["name", "price_unit", "product_uom", "tax_id"]:
+                for field in ["price_unit", "product_uom", "tax_id"]:
                     value[field] = line._fields[field].convert_to_write(line[field], line)
 
                 context["default_order_line"] += [(0, 0, value)]
@@ -479,50 +496,55 @@ class ServiceNotification(models.Model):
                 "type": "ir.actions.act_window",
             }
 
-    def new_required_order_button(self):
-        context = {
-            "default_partner_id": self.partner_id.id,
-            # "default_partner_shipping_id": self.address_id.id
-        }
-        if self.item_ids:
-            context["default_required_line"] = []
-            for item in self.item_ids:
-                value = {}
-                value["product_id"] = item.product_id.id
-                value["product_qty"] = item.quantity
-                value["note"] = item.note
-                context["default_required_line"] += [(0, 0, value)]
-                context["notification_id"] = self.id
-        return {
-            "name": _("Required Products Order for Notification"),
-            "view_type": "form",
-            "view_mode": "form",
-            "res_model": "required.order",
-            "view_id": False,
-            "views": [[False, "form"]],
-            "context": context,
-            "type": "ir.actions.act_window",
-        }
+    # def new_required_order_button(self):
+    #     context = {
+    #         "default_partner_id": self.partner_id.id,
+    #         # "default_partner_shipping_id": self.address_id.id
+    #     }
+    #     if self.item_ids:
+    #         context["default_required_line"] = []
+    #         for item in self.item_ids:
+    #             value = {}
+    #             value["product_id"] = item.product_id.id
+    #             value["product_qty"] = item.quantity
+    #             value["note"] = item.note
+    #             context["default_required_line"] += [(0, 0, value)]
+    #             context["notification_id"] = self.id
+    #     return {
+    #         "name": _("Required Products Order for Notification"),
+    #         "view_type": "form",
+    #         "view_mode": "form",
+    #         "res_model": "required.order",
+    #         "view_id": False,
+    #         "views": [[False, "form"]],
+    #         "context": context,
+    #         "type": "ir.actions.act_window",
+    #     }
 
-    def required_order_button(self):
-        if self.required_order_id:
-            return {
-                "domain": "[('id','=', [" + str(self.required_order.id) + "])]",
-                "name": _("Required Products Order for Notification"),
-                "view_type": "form",
-                "view_mode": "tree,form",
-                "res_model": "required.order",
-                "view_id": False,
-                "context": {},
-                "type": "ir.actions.act_window",
-            }
+    # def required_order_button(self):
+    #     if self.required_order_id:
+    #         return {
+    #             "domain": "[('id','=', [" + str(self.required_order.id) + "])]",
+    #             "name": _("Required Products Order for Notification"),
+    #             "view_type": "form",
+    #             "view_mode": "tree,form",
+    #             "res_model": "required.order",
+    #             "view_id": False,
+    #             "context": {},
+    #             "type": "ir.actions.act_window",
+    #         }
 
 
 class ServiceNotificationItem(models.Model):
     _name = "service.notification.item"
     _description = "Notification Item"
+    _order = "notification_id, sequence, id"
 
-    notification_id = fields.Many2one("service.notification", string="Notification", readonly=True)
+    sequence = fields.Integer(string="Sequence", default=10)
+    name = fields.Char("Name")
+    notification_id = fields.Many2one(
+        "service.notification", string="Notification", readonly=True, index=True, required=True, ondelete="cascade"
+    )
     product_id = fields.Many2one("product.product", string="Product")
     quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
     product_uom = fields.Many2one("uom.uom", string="Unit of Measure ")
@@ -531,6 +553,7 @@ class ServiceNotificationItem(models.Model):
     @api.onchange("product_id")
     def onchange_product_id(self):
         self.product_uom = self.product_id.uom_id
+        self.name = self.product_id.name
 
 
 class ServiceNotificationType(models.Model):
