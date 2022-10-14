@@ -69,7 +69,7 @@ class ServiceOrder(models.Model):
     user_id = fields.Many2one("res.users", string="Responsible", readonly=True, states={"draft": [("readonly", False)]})
 
     work_center_id = fields.Many2one(
-        "service.work.center", string="Work Center", readonly=True, states={"new": [("readonly", False)]}
+        "service.work.center", string="Work Center", readonly=True, states={"draft": [("readonly", False)]}
     )
 
     # raportul poate sa fie legat de o sesizre
@@ -136,7 +136,7 @@ class ServiceOrder(models.Model):
     @api.onchange("equipment_id", "date")
     def onchange_equipment_id(self):
         if self.equipment_id:
-            self.user_id = self.equipment_id.technician_user_id
+            self.user_id = self.equipment_id.technician_user_id or self.user_id
             self.partner_id = self.equipment_id.partner_id
             # self.address_id = self.equipment_id.address_id
 
