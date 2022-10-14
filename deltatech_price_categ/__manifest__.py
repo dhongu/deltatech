@@ -4,7 +4,8 @@
 
 
 {
-    "name": "Price List: Bronze Silver and Gold ",
+    "name": "Price Categ ",
+    "summary": "Price List: Bronze Silver and Gold ",
     "version": "15.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
