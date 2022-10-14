@@ -6,7 +6,7 @@ from odoo import api, fields, models
 
 
 class ProductionLot(models.Model):
-    _inherit = "stock.production.lot"
+    _inherit = "stock.lot"
 
     location_id = fields.Many2one("stock.location", compute="_compute_location", store=True)
 
