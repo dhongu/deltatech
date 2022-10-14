@@ -20,10 +20,10 @@ class SaleOrder(models.Model):
             for picking in order.picking_ids:
                 if picking.state not in ["done", "cancel"]:
                     picking.action_assign()  # verifica disponibilitate
-                    if not all(move.state == "assigned" for move in picking.move_lines):
+                    if not all(move.state == "assigned" for move in picking.move_ids):
                         raise UserError(_("Not all products are available."))
 
-                    for move_line in picking.move_lines:
+                    for move_line in picking.move_ids:
                         if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
                             move_line.write({"quantity_done": move_line.product_uom_qty})
                         else:
