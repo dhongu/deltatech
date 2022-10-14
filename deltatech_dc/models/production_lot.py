@@ -7,7 +7,7 @@ from odoo import api, fields, models
 
 
 class StockProductionLot(models.Model):
-    _inherit = "stock.production.lot"
+    _inherit = "stock.lot"
 
     production_date = fields.Datetime()
 

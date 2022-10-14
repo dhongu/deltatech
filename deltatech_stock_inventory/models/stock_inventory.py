@@ -475,7 +475,7 @@ class InventoryLine(models.Model):
         domain="[('location_id', '=', location_id)]",
     )
     prod_lot_id = fields.Many2one(
-        "stock.production.lot",
+        "stock.lot",
         "Lot/Serial Number",
         check_company=True,
         domain="[('product_id','=',product_id), ('company_id', '=', company_id)]",

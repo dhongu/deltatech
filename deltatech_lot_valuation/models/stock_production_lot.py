@@ -6,7 +6,7 @@ from odoo import api, fields, models
 
 
 class ProductionLot(models.Model):
-    _inherit = "stock.production.lot"
+    _inherit = "stock.lot"
 
     inventory_value = fields.Float("Inventory value")
     unit_price = fields.Float("Unit Price")

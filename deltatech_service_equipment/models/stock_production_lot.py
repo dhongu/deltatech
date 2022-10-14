@@ -6,7 +6,7 @@ from odoo import api, fields, models
 
 
 class ProductionLot(models.Model):
-    _inherit = "stock.production.lot"
+    _inherit = "stock.lot"
 
     @api.model_create_multi
     def create(self, vals_list):

@@ -9,7 +9,7 @@ from odoo import api, models
 class StockValuationLayer(models.Model):
     _inherit = "stock.valuation.layer"
 
-    # lot_id = fields.Many2one("stock.production.lot", "Lot/Serial Number")
+    # lot_id = fields.Many2one("stock.lot", "Lot/Serial Number")
 
     @api.model
     def _search(self, args, offset=0, limit=None, order=None, count=False, access_rights_uid=None):

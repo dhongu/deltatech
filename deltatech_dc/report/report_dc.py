@@ -70,7 +70,7 @@ class ReportDCInvoicePrint(models.AbstractModel):
         for invoice in invoices.filtered(lambda x: x.state not in ["draft", "cancel"]):
             lots = invoice._get_invoiced_lot_values()
             for line in lots:
-                lot = self.env["stock.production.lot"].browse(line["lot_id"])
+                lot = self.env["stock.lot"].browse(line["lot_id"])
                 domain = [("lot_id", "=", lot.id)]
                 dc = self.env["deltatech.dc"].search(domain)
                 if not dc:

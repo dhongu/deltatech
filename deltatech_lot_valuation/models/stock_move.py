@@ -10,7 +10,7 @@ class StockMove(models.Model):
     _inherit = "stock.move"
 
     # def _create_out_svl(self, forced_quantity=None):
-    #     lots = self.env["stock.production.lot"]
+    #     lots = self.env["stock.lot"]
     #     for move in self:
     #         move = move.with_company(move.company_id)
     #         valued_move_lines = move._get_out_move_lines()
@@ -22,7 +22,7 @@ class StockMove(models.Model):
     #         return super(StockMove, self)._create_out_svl(forced_quantity)
 
     def _action_done(self, cancel_backorder=False):
-        lots = self.env["stock.production.lot"]
+        lots = self.env["stock.lot"]
         move_lines = self.env["stock.move.line"]
         for move in self:
             for line in move.move_line_ids:
