@@ -38,7 +38,7 @@ class DeltatechExpensesDeduction(models.Model):
         except Exception:
             try:
                 account_id = account_pool.search(
-                    [("user_type_id.name", "=", "expense"), ("internal_type", "!=", "view")], limit=1
+                    [("user_type_id.name", "=", "expense"), ("account_type", "!=", "view")], limit=1
                 )
             except Exception:
                 account_id = False
@@ -344,12 +344,12 @@ class DeltatechExpensesDeduction(models.Model):
             move_lines = self.env["account.move.line"]
             for voucher in vouchers:
                 for aml in voucher.line_ids:
-                    if aml.account_id.internal_type == "payable":
+                    if aml.account_id.account_type == "payable":
                         move_lines |= aml
 
             for payment in payments:
                 for aml in payment.move_id.line_ids:
-                    if aml.account_id.internal_type == "payable":
+                    if aml.account_id.account_type == "payable":
                         move_lines |= aml
 
             move_lines.reconcile()
@@ -451,7 +451,7 @@ class DeltatechExpensesDeductionLine(models.Model):
         account = account_pool.search([("code", "=ilike", "623%")], limit=1)  # cheltuieli de protocol
         if not account:
             account = account_pool.search(
-                [("user_type_id.name", "=", "expense"), ("internal_type", "!=", "view")], limit=1
+                [("user_type_id.name", "=", "expense"), ("account_type", "!=", "view")], limit=1
             )
         return account
 
