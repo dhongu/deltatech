@@ -73,21 +73,21 @@ class MRPSimple(models.Model):
         self.receipt_id = picking_in
 
         # se face consumul
-        if picking_out.move_lines:
+        if picking_out.move_ids:
             picking_out.action_assign()
             if self.validation_consume:
                 if picking_out.state == "assigned":
-                    for move in picking_out.move_lines:
+                    for move in picking_out.move_ids:
                         for move_line in move.move_line_ids:
                             move_line.qty_done = move_line.product_uom_qty
                 picking_out.button_validate()
 
         # se face receptia
-        if picking_in.move_lines:
+        if picking_in.move_ids:
             picking_in.action_assign()
             if self.validation_receipt:
                 if picking_in.state == "assigned":
-                    for move in picking_in.move_lines:
+                    for move in picking_in.move_ids:
                         for move_line in move.move_line_ids:
                             move_line.qty_done = move_line.product_uom_qty
                 picking_in.button_validate()
