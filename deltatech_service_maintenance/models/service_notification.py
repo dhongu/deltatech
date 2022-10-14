@@ -393,7 +393,7 @@ class ServiceNotification(models.Model):
         )
 
         if self.item_ids:
-            context["default_move_lines"] = []
+            context["default_move_ids"] = []
             for item in self.item_ids:
                 value = {
                     "name": item.product_id.name,
@@ -405,7 +405,7 @@ class ServiceNotification(models.Model):
                     "price_unit": item.product_id.standard_price,
                 }
 
-                context["default_move_lines"] += [(0, 0, value)]
+                context["default_move_ids"] += [(0, 0, value)]
                 context["notification_id"] = self.id
         return {
             "name": _("Transfer for service"),

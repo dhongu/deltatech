@@ -62,7 +62,7 @@ class TestSale(TransactionCase):
 
         self.picking = self.so.picking_ids
         self.picking.action_assign()
-        for move_line in self.picking.move_lines:
+        for move_line in self.picking.move_ids:
             if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
                 move_line.write({"quantity_done": move_line.product_uom_qty})
         self.picking._action_done()

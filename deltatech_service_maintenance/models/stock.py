@@ -27,11 +27,11 @@ class StockPicking(models.Model):
         self.ensure_one()
         context = {"default_partner_id": self.partner_id.id}
 
-        if self.move_lines:
+        if self.move_ids:
 
             context["default_item_ids"] = []
 
-            for item in self.move_lines:
+            for item in self.move_ids:
                 value = {}
                 value["product_id"] = item.product_id.id
                 value["quantity"] = item.product_uom_qty

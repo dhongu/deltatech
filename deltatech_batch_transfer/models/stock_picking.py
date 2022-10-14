@@ -16,7 +16,7 @@ class StockPicking(models.Model):
         else:
             all_pickings = self
             for picking in self:
-                move_lines = picking.move_line_ids.filtered(lambda r: r.qty_done > 0)
+                move_lines = picking.move_ids.filtered(lambda r: r.qty_done > 0)
                 if not move_lines:
                     all_pickings -= picking
             if not all_pickings:

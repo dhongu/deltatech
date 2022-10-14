@@ -13,10 +13,10 @@ class StockPicking(models.Model):
     def auto_transfer(self):
         for picking in self:
             picking.action_assign()  # verifica disponibilitate
-            if not all(move.state == "assigned" for move in picking.move_lines):
+            if not all(move.state == "assigned" for move in picking.move_ids):
                 raise UserError(_("Not all products are available."))
 
-            for move in picking.move_lines:
+            for move in picking.move_ids:
                 if move.product_uom_qty > 0 and move.quantity_done == 0:
                     # check if move has multiple move lines. You cannot set quantity_done if so
                     move_line_ids = move._get_move_lines()

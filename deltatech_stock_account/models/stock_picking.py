@@ -14,7 +14,7 @@ class StockPicking(models.Model):
     def _compute_amount(self):
         for picking in self:
             amount = 0
-            for move in picking.move_lines:
+            for move in picking.move_ids:
                 for valuation in move.stock_valuation_layer_ids:
                     amount += valuation.value
             picking.amount = amount

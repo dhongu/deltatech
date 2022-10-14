@@ -40,7 +40,7 @@ class StockPickingBatch(models.Model):
         else:
             pickings = self.mapped("picking_ids").filtered(lambda p: p.state not in ("cancel", "done"))
             for picking in pickings:
-                move_lines = picking.move_line_ids.filtered(lambda r: r.qty_done)
+                move_lines = picking.move_ids.filtered(lambda r: r.qty_done)
                 if not move_lines:  # picking has no qty done lines
                     self.write({"picking_ids": [(3, picking.id)]})  # remove picking from batch
             return super(StockPickingBatch, self).action_done()

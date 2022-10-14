@@ -86,7 +86,7 @@ class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     # def button_validate(self):
-    #     for move in self.move_lines:
+    #     for move in self.move_ids:
     #         if move.product_id.product_tmpl_id.trade_markup:
     #             move.product_id.product_tmpl_id.onchange_last_purchase_price()
     #     return super(StockPicking, self).button_validate()

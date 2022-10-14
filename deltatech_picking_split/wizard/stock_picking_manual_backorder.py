@@ -20,7 +20,7 @@ class ManualBackOrder(models.TransientModel):
             raise UserError(_("The transfer status does not allow the change"))
 
         line_ids = []
-        for move in picking.move_lines:
+        for move in picking.move_ids:
             values = {
                 "product_id": move.product_id,
                 "move_id": move.id,
@@ -40,7 +40,7 @@ class ManualBackOrder(models.TransientModel):
             picking = self.env["stock.picking"].browse(active_id)
 
             backorder_picking = picking.copy(
-                {"name": "/", "state": "draft", "move_lines": [], "move_line_ids": [], "backorder_id": picking.id}
+                {"name": "/", "state": "draft", "move_ids": [], "move_line_ids": [], "backorder_id": picking.id}
             )
             picking.message_post(
                 body=_("The backorder <a href=# data-oe-model=stock.picking data-oe-id=%d>%s</a> has been created.")
