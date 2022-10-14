@@ -91,7 +91,7 @@ class AccountInvoiceLine(models.Model):
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
     def _compute_purchase_price(self):
         for invoice_line in self:
-            if invoice_line.exclude_from_invoice_tab or invoice_line.display_type:
+            if invoice_line.display_type != "product":
                 invoice_line.purchase_price = 0.0
                 continue
             if not invoice_line.product_id:
@@ -132,7 +132,7 @@ class AccountInvoiceLine(models.Model):
         for invoice_line in self:
             if not invoice_line.product_id:
                 continue
-            if invoice_line.exclude_from_invoice_tab or invoice_line.display_type:
+            if invoice_line.display_type != "product":
                 continue
             if invoice_line.move_id.move_type == "out_invoice":
                 if not self.env.user.has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
