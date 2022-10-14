@@ -54,7 +54,7 @@ class StockPicking(models.Model):
                 picking.write({"delivery_state": "delivered"})
         return res
 
-    @api.depends("move_type", "immediate_transfer", "move_lines.state", "move_lines.picking_id", "postponed")
+    @api.depends("move_type", "immediate_transfer", "move_ids.state", "move_ids.picking_id", "postponed")
     def _compute_state(self):
         super(StockPicking, self)._compute_state()
 
@@ -65,7 +65,7 @@ class StockPicking(models.Model):
         picking_in_progress = self.filtered(lambda p: p.state in ["assigned", "waiting", "confirmed"])
         remaining = self - picking_in_progress
         for picking in picking_in_progress:
-            move_state = picking.move_lines._get_relevant_state_among_moves()
+            move_state = picking.move_ids._get_relevant_state_among_moves()
             map_state = {"assigned": "available", "partially_available": "partially"}
             picking.available_state = map_state.get(move_state, "unavailable")
 

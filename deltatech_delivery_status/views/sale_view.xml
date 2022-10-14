@@ -10,12 +10,14 @@
                      <button
                     name="postpone_delivery"
                     type="object"
+                    groups="stock.group_stock_user"
                     attrs="{'invisible': ['|',('delivery_count', '=', 0),('postponed_delivery', '=', True)]}"
                     string="Postpone delivery"
                 />
                      <button
                     name="release_delivery"
                     type="object"
+                    groups="stock.group_stock_user"
                     attrs="{'invisible': [('postponed_delivery', '=', False)]}"
                     string="Release delivery"
                 />
