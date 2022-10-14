@@ -3,7 +3,7 @@
 {
     "name": "Deltatech Account",
     "summary": "Deltatech Account",
-    "version": "15.0.2.0.0",
+    "version": "16.0.2.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
