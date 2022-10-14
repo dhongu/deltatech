@@ -3,10 +3,10 @@ name: pre-commit
 on:
   pull_request:
     branches:
-      - "15.0*"
+      - "16.0*"
   push:
     branches:
-      - "15.0"
+      - "16.0"
 
 jobs:
   pre-commit:

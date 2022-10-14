@@ -5,7 +5,7 @@
     "name": "eCommerce Product Code",
     "summary": "Afisare pagina produs in functie de cod",
     "category": "Website",
-    "version": "15.0.1.0.0",
+    "version": "16.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",

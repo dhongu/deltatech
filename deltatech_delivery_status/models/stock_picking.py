@@ -41,7 +41,7 @@ class StockPicking(models.Model):
         readonly=False,
     )
     available_state = fields.Selection(
-        [("unavailable", "unavailable"), ("partially", "Partially available"), ("available", "Available")],
+        [("unavailable", "Unavailable"), ("partially", "Partially available"), ("available", "Available")],
         default=False,
         store=True,
         compute="_compute_state",

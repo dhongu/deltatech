@@ -5,7 +5,7 @@
 {
     "name": "Deltatech POS - Numpad Dot as decimal separator",
     "summary": "Numpad Dot as decimal separator",
-    "version": "15.0.1.0.0",
+    "version": "16.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales/Point of Sale",

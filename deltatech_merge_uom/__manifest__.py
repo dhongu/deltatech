@@ -4,7 +4,7 @@
 {
     "name": "Merge Unit of Measure",
     "summary": "Merge Unit of Measure",
-    "version": "15.0.0.0.1",
+    "version": "16.0.0.0.1",
     "author": "Terrabit, Dorin Hongu",
     "category": "Generic Modules",
     "website": "https://www.terrabit.ro",

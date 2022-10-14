@@ -5,7 +5,7 @@
 {
     "name": "Watermark",
     "summary": "Watermark field",
-    "version": "15.0.3.0.0",
+    "version": "16.0.3.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Tools",

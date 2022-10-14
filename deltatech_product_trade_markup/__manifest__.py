@@ -3,7 +3,7 @@
 {
     "name": "Product trade markup",
     "summary": "Product trade markup",
-    "version": "15.0.1.0.1",
+    "version": "16.0.1.0.1",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",

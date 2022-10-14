@@ -5,11 +5,11 @@
     "name": "Website City",
     "category": "Website/Website",
     "summary": "City extension",
-    "version": "15.0.1.0.1",
+    "version": "16.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
-    "depends": ["portal", "website_sale", "base_address_city"],
+    "depends": ["portal", "website_sale", "base_address_extended"],
     "data": [
         "views/portal.xml",
         #     "views/assets.xml"

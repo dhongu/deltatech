@@ -131,7 +131,7 @@ class ServiceNotification(models.Model):
     @api.onchange("equipment_id", "date")
     def onchange_equipment_id(self):
         if self.equipment_id:
-            self.user_id = self.equipment_id.technician_user_id
+            self.user_id = self.equipment_id.technician_user_id or self.user_id
             self.partner_id = self.equipment_id.partner_id
             # self.address_id = self.equipment_id.address_id
 

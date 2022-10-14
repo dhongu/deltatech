@@ -6,7 +6,7 @@
 {
     "name": "Products Code",
     "summary": "Product codification internal",
-    "version": "15.0.1.0.3",
+    "version": "16.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
