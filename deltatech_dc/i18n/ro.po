@@ -223,3 +223,4 @@ msgstr ""
 "înconjurător dacă este folosit în conformitate cu destinația pentru care a "
 "fost produs respectând depozitarea, manipularea din fișa cu date de "
 "securitate.  "
+

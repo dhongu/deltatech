@@ -190,3 +190,4 @@ msgstr "UM"
 #: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_valuation_layer__l10n_ro_valued_type
 msgid "Valued Type"
 msgstr "Tip evaluare"
+

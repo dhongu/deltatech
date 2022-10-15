@@ -117,3 +117,4 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_saleorder_pickup_list.report_saleorder_document_pickup_list
 msgid "Rând"
 msgstr ""
+

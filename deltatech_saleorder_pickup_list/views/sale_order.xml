@@ -169,7 +169,19 @@
             </t>
         </t>
     </template>
-    <report
+
+            <record id="action_report_saleorder_pickup_list" model="ir.actions.report">
+            <field name="name">Lista de ridicare</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">deltatech_saleorder_pickup_list.report_saleorder_pickup_list</field>
+            <field name="report_file">deltatech_saleorder_pickup_list.report_saleorder_pickup_list</field>
+            <field name="binding_type">report</field>
+
+        </record>
+
+
+<!--    <report
         id="action_report_saleorder_pickup_list"
         string="Lista de ridicare"
         model="sale.order"
@@ -177,7 +189,7 @@
         file="deltatech_saleorder_pickup_list.report_saleorder_pickup_list"
         name="deltatech_saleorder_pickup_list.report_saleorder_pickup_list"
         print_report_name="(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)"
-    />
+    />-->
 <!--    <template id="report_pickup_list">-->
 <!--        <t t-call="web.html_container">-->
 <!--            <t t-foreach="docs" t-as="doc">-->
