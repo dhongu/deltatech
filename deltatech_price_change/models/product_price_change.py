@@ -54,9 +54,9 @@ class ProductPriceChange(models.Model):
     parent_id = fields.Many2one("product.price.change", "Parent Product Price Change", index=True, ondelete="cascade")
     child_ids = fields.One2many("product.price.change", "parent_id", string="Child Product Price Change", readonly=True)
 
-    old_amount = fields.Monetary(compute="_compute_amount_all", digits="Account", string="Old Amount")
-    new_amount = fields.Monetary(compute="_compute_amount_all", digits="Account", string="New Amount")
-    diff_amount = fields.Monetary(compute="_compute_amount_all", digits="Account", string="Difference Amount")
+    old_amount = fields.Monetary(compute="_compute_amount_all", string="Old Amount")
+    new_amount = fields.Monetary(compute="_compute_amount_all", string="New Amount")
+    diff_amount = fields.Monetary(compute="_compute_amount_all", string="Difference Amount")
 
     currency_id = fields.Many2one("res.currency", related="company_id.currency_id")
 
