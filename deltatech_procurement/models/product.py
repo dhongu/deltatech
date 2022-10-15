@@ -5,6 +5,7 @@
 
 from odoo import _, api, models
 from odoo.exceptions import ValidationError
+from odoo.tools.safe_eval import safe_eval
 
 
 class ProductTemplate(models.Model):
@@ -14,4 +15,7 @@ class ProductTemplate(models.Model):
     def _check_description(self):
         if self.purchase_ok and self.type == "product":
             if not self.seller_ids:
-                raise ValidationError(_("No defined a supplier of this product"))
+                get_param = self.env["ir.config_parameter"].sudo().get_param
+                required_supplier = safe_eval(get_param("product.required_supplier", "False"))
+                if required_supplier:
+                    raise ValidationError(_("No defined a supplier of this product"))
