@@ -165,7 +165,6 @@ class ProductPriceChangeLine(models.Model):
     old_amount = fields.Monetary(
         compute="_compute_old_amount",
         string="Old Amount",
-        digits="Account",
         readonly=True,
         store=True,
     )
@@ -174,7 +173,6 @@ class ProductPriceChangeLine(models.Model):
     new_amount = fields.Monetary(
         compute="_compute_new_amount",
         string="New Amount",
-        digits="Account",
         readonly=True,
         store=True,
     )
@@ -182,7 +180,6 @@ class ProductPriceChangeLine(models.Model):
     diff_amount = fields.Monetary(
         compute="_compute_diff_amount",
         string="Difference Amount",
-        digits="Account",
         readonly=True,
         store=True,
     )

@@ -29,8 +29,8 @@ class PricelistItem(models.Model):
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    standard_price = fields.Float(track_visibility="always")
-    list_price = fields.Float(track_visibility="always")
+    standard_price = fields.Float(tracking=True)
+    list_price = fields.Float(tracking=True)
 
     list_price_base = fields.Selection(
         [("list_price", "List price"), ("standard_price", "Cost Price")], string="Base Price", default="standard_price"
@@ -46,7 +46,7 @@ class ProductTemplate(models.Model):
     list_price_bronze = fields.Float(
         string="Bronze Price",
         compute="_compute_price_list",
-        track_visibility="always",
+        tracking=True,
         store=True,
         readonly=True,
         compute_sudo=True,
@@ -55,7 +55,7 @@ class ProductTemplate(models.Model):
     list_price_copper = fields.Float(
         string="Copper Price",
         compute="_compute_price_list",
-        track_visibility="always",
+        tracking=True,
         store=True,
         readonly=True,
         compute_sudo=True,
@@ -64,7 +64,7 @@ class ProductTemplate(models.Model):
     list_price_silver = fields.Float(
         string="Silver Price",
         compute="_compute_price_list",
-        track_visibility="always",
+        tracking=True,
         store=True,
         readonly=True,
         compute_sudo=True,
@@ -72,13 +72,13 @@ class ProductTemplate(models.Model):
     list_price_gold = fields.Float(
         string="Gold Price",
         compute="_compute_price_list",
-        track_visibility="always",
+        tracking=True,
         store=True,
         readonly=True,
         compute_sudo=True,
     )
     # list_price_platinum = fields.Float(string="Platinum Price", compute="_compute_price_list",
-    #                                    track_visibility='always', store=True, readonly=True, compute_sudo=True)
+    #                                    tracking=True, store=True, readonly=True, compute_sudo=True)
 
     price_issue = fields.Boolean(compute="_compute_price_issue", store=True)
 
