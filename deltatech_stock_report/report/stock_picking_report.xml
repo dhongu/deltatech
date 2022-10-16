@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_stock_picking_report_tree" model="ir.ui.view">
+            <field name="name">stock.picking.report.tree</field>
+            <field name="model">stock.picking.report</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Picking Report" create="0" delete="0">
+                    <field name="picking_id" />
+                    <field name="date" optional="hide" />
+                    <field name="location_id" optional="hide" />
+                    <field name="location_dest_id" optional="hide" />
+                    <field name="categ_id" optional="hide" />
+                    <field name="picking_type_id" />
+                    <field name="commercial_partner_id" />
+                    <field name="partner_id" />
+                    <field name="product_id" />
+                    <field name="product_qty" sum='Quantity ' />
+                    <field name="amount" sum='Amount' />
+                    <field name="company_id" groups="base.group_multi_company" invisible="1" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_stock_picking_report_pivot" model="ir.ui.view">
+            <field name="name">stock.picking.report.pivot</field>
+            <field name="model">stock.picking.report</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <field name="picking_type_id" type="row" />
+                    <field name="commercial_partner_id" type="row" />
+                    <!--   <field name="product_id" type="row"/>      -->
+                    <field name="product_qty" type="measure" />
+                    <field name="amount" type="measure" />
+                </pivot>
+            </field>
+        </record>
+        <record id="view_stock_picking_report_filter" model="ir.ui.view">
+            <field name="name">stock.picking.report.select</field>
+            <field name="model">stock.picking.report</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="location_id" />
+                    <field name="categ_id" />
+                    <field name="product_id" />
+                    <field name="commercial_partner_id" />
+                    <field name="partner_id" />
+                    <field name="picking_type_id" />
+                    <field name="picking_type_code" />
+
+
+                    <filter name="date" date="date" default_period="this_month" />
+
+                    <filter
+                        name="picking_type_incoming"
+                        string="Incoming"
+                        domain="[('picking_type_id.code','=','incoming')]"
+                    />
+                    <filter
+                        name="picking_type_internal"
+                        string="Internal"
+                        domain="[('picking_type_id.code','=','internal')]"
+                    />
+                    <filter
+                        name="picking_type_outgoing"
+                        string="Outgoing"
+                        domain="[('picking_type_id.code','=','outgoing')]"
+                    />
+                    <field name="company_id" groups="base.group_multi_company" />
+                    <group expand="1" string="Group By...">
+                        <filter string="Picking type" name="picking_type" context="{'group_by':'picking_type_id'}" />
+                        <filter string="Partner" name="partner" context="{'group_by':'partner_id'}" />
+                        <filter
+                            string="Commercial Entity"
+                            name="commercial_partner"
+                            context="{'group_by':'commercial_partner_id'}"
+                        />
+                        <filter string="Category" name="category" context="{'group_by':'categ_id'}" />
+                        <filter string="Product" name="product" context="{'group_by':'product_id'}" />
+                        <filter string="Location" name="location" context="{'group_by':'location_id'}" />
+                        <filter
+                            string="Location Destination"
+                            name="location_dest"
+                            context="{'group_by':'location_dest_id'}"
+                        />
+                        <filter string="Date" name='group_by_date' context="{'group_by':'date'}" />
+                        <filter
+                            string="Company"
+                            name="company"
+                            context="{'group_by':'company_id'}"
+                            groups="base.group_multi_company"
+                        />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_stock_picking_report" model="ir.actions.act_window">
+            <field name="name">Picking Report</field>
+            <field name="res_model">stock.picking.report</field>
+
+            <field name="view_mode">pivot,tree</field>
+            <field name="view_id" ref="view_stock_picking_report_tree" />
+            <!--            <field name="search_view_id" ref="view_stock_picking_report_filter"/>-->
+            <field name="help">This reporting allows you to analysis stock pickings.</field>
+            <field
+                name="context"
+            >{'search_default_location': 1,'search_default_category': 1, 'search_default_date': 'previous_period'}</field>
+        </record>
+        <!--
+        <record model="ir.actions.act_window.view" id="action_stock_picking_report_pivot">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="view_stock_picking_report_pivot"/>
+            <field name="act_window_id" ref="action_stock_picking_report"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_stock_picking_report_tree">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_stock_picking_report_tree"/>
+            <field name="act_window_id" ref="action_stock_picking_report"/>
+        </record>
+        -->
+        <menuitem
+            name="Picking Analysis"
+            action="action_stock_picking_report"
+            id="menu_stock_picking_report_tree"
+            parent="stock.menu_warehouse_report"
+        />
+    </data>
+</odoo>
