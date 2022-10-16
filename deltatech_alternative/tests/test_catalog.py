@@ -37,5 +37,8 @@ class TestCatalog(TransactionCase):
         self.assertEqual(prod1.name, "Product 1")
 
     def test_search_product(self):
+        set_param = self.env["ir.config_parameter"].sudo().set_param
+        set_param("alternative.search_name", "True")
+        set_param("alternative.search_catalog", "True")
         prod2 = self.env["product.product"].name_search("Code2")
-        self.assertEqual(prod2[0][1], "[Code2] Product 2")
+        self.assertEqual(prod2[0][1], "Product 2")

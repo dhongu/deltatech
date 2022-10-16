@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="report_pricechange">
+            <t t-name="deltatech_price_change.report_pricechange">
+                <t t-name="deltatech_price_change.report_pricechange">
+                    <t t-call="web.html_container">
+                        <t t-foreach="docs" t-as="o">
+                            <t t-call="web.external_layout">
+                                <div class="page">
+                                    <newline />
+                                    <h2>
+                                        Price change:
+                                        <span t-field="o.name" />
+                                    </h2>
+                                    <h3>
+                                        from date:
+                                        <span t-field="o.date" />
+                                    </h3>
+                                    <div>
+                                        <div t-if="o.location_id">
+                                            Location:
+                                            <span t-field="o.location_id" />
+                                        </div>
+                                    </div>
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <strong>Description</strong>
+                                                </th>
+                                                <th class="text-right">
+                                                    <strong>Quantity</strong>
+                                                </th>
+                                                <th class="text-right">
+                                                    <strong>Old Price</strong>
+                                                </th>
+                                                <th class="text-right">
+                                                    <strong>Old Amount</strong>
+                                                </th>
+                                                <th class="text-right">
+                                                    <strong>New Price</strong>
+                                                </th>
+                                                <th class="text-right">
+                                                    <strong>New Amount</strong>
+                                                </th>
+                                                <th class="text-right">
+                                                    <strong>Difference Amount</strong>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr t-foreach="o.line_ids" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <span t-field="line.product_id.name" />
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <span t-field="line.quantity" />
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <span t-field="line.old_price" />
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <span t-field="line.old_amount" />
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <span t-field="line.new_price" />
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <span t-field="line.new_amount" />
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <span t-field="line.diff_amount" />
+                                                    </td>
+                                                </tr>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="oe_structure" />
+                                </div>
+                            </t>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

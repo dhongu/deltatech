@@ -45,6 +45,9 @@ In versiunea 8.0
  - Buton nou in lista de ridicare pentru validare operare transfer fizic
  - Camap nou in comanda de vanzare pentru specificare date de livrare, date care sunt preluate in picking
 
+
+Paramentrul product.required_supplier trebuie setat pe True pentru ca sa fie obligatoriu introducerea de furnizor pentru produsele achizitionate.
+
 **Table of contents**
 
 .. contents::
