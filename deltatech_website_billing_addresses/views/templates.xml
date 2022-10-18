@@ -25,8 +25,17 @@
                 >
                     <i class='fa fa-edit' />
                 </a>
-                <t t-esc="contact.commercial_company_name or contact.name" />
-                <t t-esc="contact" t-options="dict(widget='contact', fields=['address'], no_marker=True)" />
+                <t t-if="contact.parent_id and contact.parent_id.company_type == 'person'">
+                    <span class="font-weight-bold"><t t-esc="contact.name" /></span>
+                    <t t-esc="contact" t-options="dict(widget='contact', fields=['address'], no_marker=True)" />
+                </t>
+                <t t-else="contact.parent_id and contact.parent_id.company_type == 'company'">
+                    <span class="font-weight-bold"><t t-esc="contact.parent_id.name or contact.name" /></span>
+                    <div id="billing_vat" t-if="contact.parent_id.vat">
+                        <span t-field="contact.parent_id.vat" />
+                    </div>
+                    <t t-esc="contact" t-options="dict(widget='contact', fields=['address'], no_marker=True)" />
+                </t>
             </div>
             <div class='card-footer' t-if='not readonly'>
                 <span class='btn-bill' t-att-style="'' if selected else 'display:none;'">
@@ -64,39 +73,34 @@
             <div class="row all_billings">
                 <div class="col-lg-12">
                     <div class="row mt8">
-                        <!--       <div class="col-md-12 col-lg-12 one_kanban">
-                                   <form action="/shop/billing_address" method="post" class=''>
-                                       <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
-                                       <a role="button" href="#" class='a-submit btn btn-secondary mb-2 btn-block'>
-                                           <i class="fa fa-plus-square" />
-                                           <span>Add an address</span>
-                                       </a>
-                                   </form>
-                               </div>-->
                         <div class="col-md-12 col-lg-12 one_kanban">
                             <ul class="nav nav-tabs" id="billingTab" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <a
-                                        class="nav-link active"
+                                        class="btn btn-secondary mb-2 btn-block active select-button-person"
                                         id="billing_person-tab"
                                         data-toggle="tab"
                                         href="#billing_person"
                                         role="tab"
                                         aria-controls="billing_person"
                                         aria-selected="true"
-                                    >Person
+                                    >
+                                        <i class="fa fa-user" />
+                                        Person
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <a
-                                        class="nav-link"
+                                        class="btn btn-secondary mb-2 btn-block select-button-company"
                                         id="billing_company-tab"
                                         data-toggle="tab"
                                         href="#billing_company"
                                         role="tab"
                                         aria-controls="billing_company"
                                         aria-selected="false"
-                                    >Legal entity
+                                    >
+                                        <i class="fa fa-building" />
+                                        Legal entity
                                     </a>
                                 </li>
                             </ul>
@@ -108,7 +112,10 @@
                                     aria-labelledby="billing_person-tab"
                                 >
                                     <div class="row mt8">
-                                        <t t-foreach="billings_addresses" t-as="billing">
+                                        <t
+                                            t-foreach="billings_addresses.filtered(lambda j: j.commercial_partner_id.is_company is False).sorted(key=lambda x: x.id)"
+                                            t-as="billing"
+                                        >
                                             <div
                                                 t-if="not billing.commercial_partner_id.is_company"
                                                 class="col-md-12 col-lg-6 one_kanban mt-2 mb-2"
@@ -135,7 +142,7 @@
                                                 <a
                                                     role="button"
                                                     href="#"
-                                                    class='a-submit btn btn-secondary mb-2 btn-block'
+                                                    class='a-submit btn btn-secondary mb-2 btn-block add-button'
                                                 >
                                                     <i class="fa fa-plus-square" />
                                                     <span>Add an address</span>
@@ -151,7 +158,10 @@
                                     aria-labelledby="billing_company-tab"
                                 >
                                     <div class="row mt8">
-                                        <t t-foreach="billings_addresses" t-as="billing">
+                                        <t
+                                            t-foreach="billings_addresses.filtered(lambda j: j.commercial_partner_id.is_company).sorted(key=lambda x: x.id)"
+                                            t-as="billing"
+                                        >
                                             <div
                                                 t-if="billing.commercial_partner_id.is_company"
                                                 class="col-md-12 col-lg-6 one_kanban mt-2 mb-2"
@@ -178,7 +188,7 @@
                                                 <a
                                                     role="button"
                                                     href="#"
-                                                    class='a-submit btn btn-secondary mb-2 btn-block'
+                                                    class='a-submit btn btn-secondary mb-2 btn-block add-button'
                                                 >
                                                     <i class="fa fa-plus-square" />
                                                     <span>Add an address</span>
@@ -202,9 +212,9 @@
             <div class="col-md-12 col-lg-6 one_kanban">
                 <form action="/shop/address" method="post" class="">
                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
-                    <a role="button" href="#" class="a-submit btn btn-secondary mb16 btn-block">
+                    <a role="button" href="#" class="a-submit btn btn-secondary mb-2 btn-block add-button">
                         <i class="fa fa-plus-square" />
-                        <span>Add an address</span>
+                        <span>Add a delivery address</span>
                     </a>
                 </form>
             </div>
