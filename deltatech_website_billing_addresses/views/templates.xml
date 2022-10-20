@@ -53,6 +53,43 @@
         </div>
     </template>
 
+    <template id="address_shipping_kanban" name="Kanban shipping address">
+        <form action="/shop/checkout" method="POST" class="d-none">
+            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+            <input type="hidden" name="partner_id" t-att-value="contact.id" />
+            <t t-if="edit_billing">
+                <input type="hidden" name="callback" value="/shop/checkout?use_shipping" />
+            </t>
+            <input type="submit" />
+        </form>
+        <div t-attf-class="card #{selected and 'border border-primary' or 'js_change_shipping'}">
+            <div class="card-body" style="min-height: 130px;">
+                <a
+                    t-if="allow_edit"
+                    href="#"
+                    class="btn btn-link float-right p-0 js_edit_address no-decoration"
+                    role="button"
+                    title="Edit this address"
+                    aria-label="Edit this address"
+                ><i class="fa fa-edit" /></a>
+                <span class="font-weight-bold"><t t-esc="contact.name" /></span>
+                <t t-esc="contact" t-options="dict(widget='contact', fields=['address'], no_marker=True)" />
+            </div>
+            <div class="card-footer" t-if="not readonly">
+                <span class="btn-ship" t-att-style="'' if selected else 'display:none;'">
+                    <a role="button" href="#" class="btn btn-block btn-primary">
+                        <i class="fa fa-check" /> Ship to this address
+                    </a>
+                </span>
+                <span class="btn-ship" t-att-style="'' if not selected else 'display:none;'">
+                    <a role="button" href="#" class="btn btn-block btn-secondary">
+                        Select this address
+                    </a>
+                </span>
+            </div>
+        </div>
+    </template>
+
 
     <template id="checkout" inherit_id="website_sale.checkout">
 
@@ -117,7 +154,7 @@
                                             t-as="billing"
                                         >
                                             <div
-                                                t-if="not billing.commercial_partner_id.is_company"
+                                                t-if="not billing.commercial_partner_id.is_company and billing.parent_id"
                                                 class="col-md-12 col-lg-6 one_kanban mt-2 mb-2"
                                             >
                                                 <t t-call="deltatech_website_billing_addresses.address_billing_kanban">
@@ -208,6 +245,43 @@
         </xpath>
 
         <xpath expr="//div[hasclass('all_shipping')]//div[hasclass('one_kanban')]" position="replace" />
+        <xpath expr="//div[hasclass('all_shipping')]" position="replace">
+            <div class="row all_shipping">
+                <div class="col-lg-12">
+                    <div class="row mt8">
+                        <t t-foreach="shippings" t-as="ship">
+                            <t t-if="ship.parent_id">
+                                <div class="col-md-12 col-lg-6 one_kanban mb-2">
+                                    <t t-call="deltatech_website_billing_addresses.address_shipping_kanban">
+                                        <t t-set="contact" t-value="ship" />
+                                        <t t-set="selected" t-value="order.partner_shipping_id==ship" />
+                                        <t t-set="readonly" t-value="bool(len(shippings)==1)" />
+                                        <t t-set="edit_billing" t-value="bool(ship==order.partner_id)" />
+                                        <t
+                                            t-set="allow_edit"
+                                            t-value="not order.partner_id or (ship.id in order.partner_id.child_ids.ids)"
+                                        />
+                                    </t>
+                                </div>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+<!--        <xpath expr="//t[@t-foreach='shippings']" position="replace">-->
+<!--            <t t-foreach="shippings" t-as="ship">-->
+<!--                <t t-if="1">-->
+<!--                    <t t-call="deltatech_website_billing_addresses.address_shipping_kanban">-->
+<!--                        <t t-set="contact" t-value="order.partner_id"/>-->
+<!--                        <t t-set="selected" t-value="1"/>-->
+<!--                        <t t-set="readonly" t-value="1"/>-->
+<!--                        <t t-set="allow_edit" t-value="1"/>-->
+<!--                    </t>-->
+<!--                </t>-->
+<!--            </t>-->
+<!--        </xpath>-->
+
         <xpath expr="//div[hasclass('all_shipping')]//t" position="after">
             <div class="col-md-12 col-lg-6 one_kanban">
                 <form action="/shop/address" method="post" class="">
@@ -316,7 +390,6 @@
         <t t-if="mode[1] == 'shipping'" position="after">
             <t t-set="mode" t-value="mode_backup" />
         </t>
-
 
     </template>
 
