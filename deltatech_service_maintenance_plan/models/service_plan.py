@@ -71,6 +71,10 @@ class ServicePlan(models.Model):
         "service.order.type", string="Order Type", readonly=True, states={"draft": [("readonly", False)]}
     )
 
+    work_center_id = fields.Many2one(
+        "service.work.center", string="Work Center", readonly=True, states={"draft": [("readonly", False)]}
+    )
+
     call_ids = fields.One2many("service.plan.call", "plan_id", string="Plan Calls", readonly=True)
 
     last_call_done_date = fields.Date(
@@ -277,6 +281,7 @@ class ServicePlanCall(models.Model):
                 "reason_id": self.plan_id.reason_id.id,
                 "plan_call_id": self.id,
                 "type_id": self.plan_id.order_type_id.id,
+                "work_center_id": self.plan_id.work_center_id.id,
             }
         )
         self.write({"state": "called", "order_id": order.id})

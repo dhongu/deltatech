@@ -71,8 +71,6 @@ class ServiceEquipment(models.Model):
 
     start_date = fields.Date(string="Start Date")
 
-    meter_ids = fields.One2many("service.meter", "equipment_id", string="Meters", copy=True)
-
     readings_status = fields.Selection(
         [("", "N/A"), ("unmade", "Unmade"), ("done", "Done")],
         string="Readings Status",
@@ -236,6 +234,7 @@ class ServiceEquipment(models.Model):
                 equi.meter_ids.create({"equipment_id": equi.id, "meter_categ_id": categ.id, "uom_id": categ.uom_id.id})
 
     def update_meter_status(self):
+        super(ServiceEquipment, self).update_meter_status()
         self._compute_readings_status()
 
     # o fi ok sa elimin echipmanetul din contract

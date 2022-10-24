@@ -5,7 +5,7 @@
 {
     "name": "Services Equipment",
     "summary": "Service Equipment Management",
-    "version": "15.0.1.1.0",
+    "version": "15.0.1.1.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Services/Equipment",
@@ -27,7 +27,7 @@
         "security/service_security.xml",
         "security/ir.model.access.csv",
         # 'wizard/estimate_view.xml',
-        "wizard/enter_readings_view.xml",
+        # "wizard/enter_readings_view.xml",
         "wizard/service_equi_operation_view.xml",
         # "wizard/service_equi_agreement_view.xml",
         "views/service_meter_view.xml",

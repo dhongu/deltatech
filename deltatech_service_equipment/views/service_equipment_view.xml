@@ -199,65 +199,19 @@
                 <field name="analytic_account_id" />
             </group>
 
-            <field name="note" position="before">
-                <notebook>
-                    <page id='meters' string="Meters">
-                        <group>
-                            <group>
-                                <field name="reading_day" />
-                                <field name="last_reading" />
-                            </group>
-                            <group>
-                                <field name="next_reading" widget="remaining_days" />
-                                <field
-                                    name="readings_status"
-                                    widget="badge"
-                                    decoration-success="readings_status == 'done'"
-                                />
+            <field name="meter_ids" position="before">
+                <group>
+                    <group>
+                        <field name="reading_day" />
+                        <field name="last_reading" />
+                    </group>
+                    <group>
+                        <field name="next_reading" widget="remaining_days" />
+                        <field name="readings_status" widget="badge" decoration-success="readings_status == 'done'" />
 
-                            </group>
+                    </group>
 
-                        </group>
-                        <field name="meter_ids" mode="kanban,tree">
-                            <tree string="Meters" editable="bottom">
-                                <field name="name" />
-                                <field name="meter_categ_id" />
-                                <field name="uom_id" />
-                                <field name="total_counter_value" />
-                                <field name="estimated_value" optional="show" />
-                            </tree>
-                            <kanban class="o_kanban">
-                                <field name="name" />
-                                <field name="meter_categ_id" />
-                                <field name="uom_id" />
-                                <field name="total_counter_value" />
-                                <field name="estimated_value" />
-                                <templates>
-                                    <t t-name="kanban-box">
-                                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
-                                            <div class="row">
-                                                <div class="col-xs-8">
-                                                    <strong>
-                                                        <span>
-                                                            <t t-esc="record.meter_categ_id.value" />
-                                                        </span>
-                                                    </strong>
-                                                </div>
-                                                <div class="col-xs-4">
-                                                    <strong>
-                                                        <span class="pull-right text-right">
-                                                            <t t-esc="record.total_counter_value.value" />
-                                                        </span>
-                                                    </strong>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </t>
-                                </templates>
-                            </kanban>
-                        </field>
-                    </page>
-                </notebook>
+                </group>
             </field>
 
 
@@ -299,8 +253,6 @@
     </record>
 
 
-
-
     <record id="action_update_meter_status" model="ir.actions.server">
         <field name="name">Update Meter Status</field>
         <field name="model_id" ref="model_service_equipment" />
@@ -339,7 +291,6 @@
 
         </field>
     </record>
-
 
 
     <record id="view_service_equipment_category_tree" model="ir.ui.view">
