@@ -11,6 +11,7 @@
                     name="payment_term_id"
                     attrs="{'invisible': [('advance_payment_method', 'in', ['percentage'])]}"
                 />
+                <field name="currency_rate" />
                 <field name="order_id" invisible="1" />
             </field>
         </field>
