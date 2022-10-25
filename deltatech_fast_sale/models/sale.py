@@ -48,7 +48,10 @@ class SaleOrder(models.Model):
         picking_ids = self.env["stock.picking"]
         for picking in self.picking_ids:
             if picking.state == "assigned":
-                picking.write({"notice": True})
+                if "notice" in picking._fields:
+                    picking.write({"notice": True})
+                if "l10n_ro_notice" in picking._fields:
+                    picking.write({"l10n_ro_notice": True})
                 picking_ids |= picking
 
         if not picking_ids:
