@@ -19,6 +19,7 @@
         "views/service_notification_view.xml",
         "views/service_order_view.xml",
     ],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }

@@ -36,6 +36,7 @@
                             <field name="meter_id" attrs="{'required': [('unit','=','counter')]}" />
                             <field name="reason_id" />
                             <field name="order_type_id" />
+                            <field name="work_center_id" />
                         </group>
                         <group>
                             <field name="cycle_id" />

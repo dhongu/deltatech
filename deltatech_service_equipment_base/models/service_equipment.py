@@ -35,6 +35,8 @@ class ServiceEquipment(models.Model):
 
     technician_user_id = fields.Many2one("res.users", string="Responsible", tracking=True)
 
+    meter_ids = fields.One2many("service.meter", "equipment_id", string="Meters", copy=True)
+
     @api.model
     def create(self, vals):
         if vals.get("name", _("New")) == _("New") or vals.get("name") == "/":
@@ -62,6 +64,9 @@ class ServiceEquipment(models.Model):
                 name += "/" + equipment.serial_id.name
             res.append((equipment.id, name))
         return res
+
+    def update_meter_status(self):
+        pass
 
 
 class ServiceEquipmentType(models.Model):

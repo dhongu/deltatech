@@ -20,8 +20,7 @@
         <field name="model">service.equipment</field>
         <field name="arch" type="xml">
             <form string="Service Equipment">
-                <header>
-                </header>
+                <header />
                 <sheet>
                     <div class="oe_button_box" name="button_box" />
                     <div class="oe_title">
@@ -30,7 +29,7 @@
                         </h1>
                     </div>
                     <group>
-                         <group string="Technical Details" name="technical_details">
+                        <group string="Technical Details" name="technical_details">
                             <field name="type_id" required="1" />
                             <field name="manufacturer_id" />
                             <field name="serial_no" />
@@ -49,10 +48,52 @@
                             <field name="contact_id" />
                         </group>
                         <group string="Technician" name="technician">
-                             <field name="technician_user_id" />
+                            <field name="technician_user_id" />
                         </group>
                     </group>
+                    <notebook>
+                        <page id='meters' string="Meters">
 
+                            <field name="meter_ids" mode="kanban,tree">
+                                <tree string="Meters" editable="bottom">
+                                    <field name="name" />
+                                    <field name="meter_categ_id" />
+                                    <field name="uom_id" />
+                                    <field name="total_counter_value" />
+                                    <field name="estimated_value" optional="show" />
+                                </tree>
+                                <kanban class="o_kanban">
+                                    <field name="name" />
+                                    <field name="meter_categ_id" />
+                                    <field name="uom_id" />
+                                    <field name="total_counter_value" />
+                                    <field name="estimated_value" />
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                                <div class="row">
+                                                    <div class="col-xs-8">
+                                                        <strong>
+                                                            <span>
+                                                                <t t-esc="record.meter_categ_id.value" />
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <strong>
+                                                            <span class="pull-right text-right">
+                                                                <t t-esc="record.total_counter_value.value" />
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                    </notebook>
                     <field name="note" />
                 </sheet>
                 <div class="oe_chatter">
@@ -120,7 +161,6 @@
         parent="deltatech_service_base.menu_service"
         sequence="500"
     />
-
 
 
     <record id="view_service_equipment_type_form" model="ir.ui.view">
