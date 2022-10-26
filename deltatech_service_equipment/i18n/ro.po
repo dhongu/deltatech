@@ -875,7 +875,6 @@ msgid "Meter Category"
 msgstr "Categorie contor"
 
 #. module: deltatech_service_equipment
-#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_meter_reading
 #: model:ir.model,name:deltatech_service_equipment.model_service_meter_reading
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter__meter_reading_ids
 #: model:ir.ui.menu,name:deltatech_service_equipment.menu_service_meter_reading

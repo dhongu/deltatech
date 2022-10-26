@@ -122,17 +122,7 @@
                 >
                     <span class="o_stat_text">Meters</span>
                 </button>
-                <!--
-                   <button
-                       type="action"
-                       class="oe_stat_button"
-                       id="meter_reading_button"
-                       icon="fa-tachometer"
-                       name="%(action_service_meter_reading)d"
-                       context="{'search_default_equipment_id': id,'default_equipment_id': id}"
-                   >
-                       <span class="o_stat_text">Meter Readings</span>
-                   </button>-->
+
                 <button
                     type="object"
                     class="oe_stat_button"
