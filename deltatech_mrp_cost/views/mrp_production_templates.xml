@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_mrporder" inherit_id="mrp.report_mrporder">
+
+        <xpath expr="//div[@t-if='o.workorder_ids']" position="before">
+            <div class="row mt32 mb32">
+                <div class="col-3" t-if="o.overhead_amount">
+                    <strong>Overhead Amount:</strong><br />
+                    <span t-field="o.overhead_amount" />
+                </div>
+                 <div class="col-3" t-if="o.utility_consumption">
+                    <strong>Utility Consumption:</strong><br />
+                    <span t-field="o.utility_consumption" />
+                </div>
+                 <div class="col-3" t-if="o.net_salary_rate">
+                    <strong>Net Salary Rate:</strong><br />
+                    <span t-field="o.net_salary_rate" />
+                </div>
+                <div class="col-3" t-if="o.salary_contributions">
+                    <strong>Salary Contributions:</strong><br />
+                    <span t-field="o.salary_contributions" />
+                </div>
+            </div>
+         <br />
+        </xpath>
+
+
+        <xpath expr="//div[@t-if='o.workorder_ids']" position="after">
+            <h3 t-if="o.move_finished_ids">Finished Products</h3>
+            <table class="table table-condensed" t-if="o.move_finished_ids">
+                <thead>
+                    <tr>
+                        <th>
+                            <strong>Product</strong>
+                        </th>
+                        <th class="text-right">
+                            <strong>Quantity</strong>
+                        </th>
+                        <th class="text-right">
+                            <strong>Effective Quantity</strong>
+                        </th>
+                        <th class="text-right">
+                            <strong>Price</strong>
+                        </th>
+                        <th class="text-right">
+                            <strong>Amount</strong>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-if="o.move_finished_ids">
+                        <tr t-foreach="o.move_finished_ids" t-as="line">
+                            <td>
+                                <span t-field="line.product_id" />
+                            </td>
+                            <td class="text-right">
+                                <span t-field="line.product_uom_qty" />
+                                <span t-field="line.product_uom.name" groups="uom.group_uom" />
+                            </td>
+                            <td class="text-right">
+                                <span t-field="line.quantity_done" />
+                                <span t-field="line.product_uom.name" groups="uom.group_uom" />
+                            </td>
+                            <t t-set="value" t-value="-sum(line.mapped('stock_valuation_layer_ids.value'))" />
+                            <td class="text-right">
+                                <span t-if="line.quantity_done">
+                                   <span t-field="line.price_unit" />
+                                </span>
+                                <span t-else="">
+                                    <span t-field="o.calculate_price" />
+                                </span>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="value" t-options='{"widget": "float", "precision": 2}' />
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </xpath>
+
+                <xpath expr="//table[@t-if='o.move_raw_ids']//thead/tr" position="inside">
+            <th class="text-right">
+                <strong>Effective Quantity</strong>
+            </th>
+            <th class="text-right">
+                <strong>Price</strong>
+            </th>
+            <th class="text-right">
+                <strong>Amount</strong>
+            </th>
+        </xpath>
+
+        <xpath expr="//table[@t-if='o.move_raw_ids']//tbody//tr" position="inside">
+            <td class="text-right">
+                <span t-field="raw_line.quantity_done" />
+                <span t-field="raw_line.product_uom.name" groups="uom.group_uom" />
+            </td>
+            <t t-set="value" t-value="-sum(raw_line.mapped('stock_valuation_layer_ids.value'))" />
+            <td class="text-right">
+                <span t-if="raw_line.quantity_done">
+                    <t t-set="price_unit" t-value="value/raw_line.quantity_done" />
+                   <span t-esc="price_unit" t-options='{"widget": "float", "precision": 2}' />
+                </span>
+                <span t-else="">
+                    <span t-field="raw_line.product_id.sudo().standard_price" />
+                </span>
+
+            </td>
+            <td class="text-right">
+                <span t-esc="value" t-options='{"widget": "float", "precision": 2}' />
+            </td>
+        </xpath>
+
+    </template>
+</odoo>
