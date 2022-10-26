@@ -116,7 +116,7 @@
                     class="oe_stat_button"
                     id="meter_button"
                     icon="fa-slack"
-                    name="%(action_service_meter)d"
+                    name="%(deltatech_service_equipment_base.action_service_meter)d"
                     context="{'search_default_equipment_id': id,'default_equipment_id': id}"
                     groups="deltatech_service_base.group_service_user"
                 >
