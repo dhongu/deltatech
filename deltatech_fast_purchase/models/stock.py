@@ -2,13 +2,13 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import models
+from odoo import fields, models
 
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    # l10n_ro_notice = fields.Boolean()
+    l10n_ro_notice = fields.Boolean()
 
     def action_view_invoice(self):
         if self.purchase_id:
