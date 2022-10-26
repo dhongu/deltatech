@@ -23,7 +23,7 @@
             </xpath>
         </template>
         <template
-            id="product_alterantive_code"
+            id="product_alternative_code"
             inherit_id="website_sale.product"
             active="True"
             customize_show="True"
