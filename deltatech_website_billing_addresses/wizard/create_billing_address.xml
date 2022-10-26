@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_create_billing_address_form" model="ir.ui.view">
+        <field name="name">Create billing address</field>
+        <field name="model">create.billing.address</field>
+        <field name="arch" type="xml">
+            <form string="Create billing address">
+                <div>
+                    Create a billing address to link frontend users to existing company
+                </div>
+                <group>
+                    <field name="from_partner" readonly="1" />
+                    <field name="user_id" />
+                    <field name="update_vat" />
+                    <field name="vat" attrs="{'readonly': [('update_vat', '!=', True)]}" />
+                </group>
+                <footer>
+                    <button name="create_address" string="Create" type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_create_billing_address" model="ir.actions.act_window">
+        <field name="name">Create billing address</field>
+        <field name="res_model">create.billing.address</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="base.model_res_partner" />
+        <field name="binding_view_types">form</field>
+    </record>
+
+</odoo>
