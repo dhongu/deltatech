@@ -55,7 +55,7 @@
             <header position="inside">
 
                 <button
-                    name="%(action_service_enter_reading)d"
+                    name="%(deltatech_service_equipment_base.action_service_enter_reading)d"
                     type="action"
                     string="Add Readings"
                     class="oe_highlight"
