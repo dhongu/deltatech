@@ -310,7 +310,13 @@
                 <div>
                     <b>Billing<t t-if="same_shipping and not only_services">&amp; Shipping</t>:
                     </b>
-                    <span t-field='order.partner_invoice_id' />,
+                    <t t-if="order.partner_invoice_id.parent_id">
+                        <t t-set="billing_name" t-value="order.partner_invoice_id.parent_id.name" />
+                    </t>
+                    <t t-else="">
+                        <t t-set="billing_name" t-value="order.partner_invoice_id" />
+                    </t>
+                    <span t-esc="billing_name" />,
                     <span
                         t-esc='order.partner_invoice_id'
                         t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
