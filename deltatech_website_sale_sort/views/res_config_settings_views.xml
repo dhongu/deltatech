@@ -13,6 +13,12 @@
                         <div class="row mt16">
                             <label for="product_price_pricelist" string="Pricelist" class="col-lg-4 o_light_label" />
                             <field name="product_price_pricelist" class="oe_inline" />
+                            <label
+                                for="price_from_pricelist_taxes"
+                                string="With taxes"
+                                class="col-lg-4 o_light_label"
+                            />
+                            <field name="price_from_pricelist_taxes" class="oe_inline" />
                         </div>
                     </div>
                 </div>

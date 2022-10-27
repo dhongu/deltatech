@@ -24,7 +24,7 @@ class ProductTemplate(models.Model):
     rating_count2 = fields.Integer("Rating count2")
     rating_avg2 = fields.Float("Rating Average2")
     in_stock = fields.Boolean()
-    price_from_pricelist = fields.Float(string="Price from pricelist (tax included)")
+    price_from_pricelist = fields.Float(string="Price from pricelist")
 
     def _update_statistics(self):
         domain = [("res_model", "=", self._name), ("res_id", "in", self.ids), ("consumed", "=", True)]
@@ -104,6 +104,7 @@ class ProductProduct(models.Model):
 
     def set_pricelist_price(self):
         pricelist_id = self.env["ir.config_parameter"].sudo().get_param("sale.product_price_pricelist")
+        with_taxes = self.env["ir.config_parameter"].sudo().get_param("sale.price_from_pricelist_taxes")
         if pricelist_id:
             pricelist = self.env["product.pricelist"].browse(int(pricelist_id))
             quantities = [1] * len(self)
@@ -113,11 +114,12 @@ class ProductProduct(models.Model):
                 pricelist_price = prices.get(product.id, 0.0)
 
                 # get taxes
-                taxes = product.taxes_id.compute_all(pricelist_price, quantity=1, product=product)["taxes"]
-                taxes_amount = 0.0
-                for tax in taxes:
-                    taxes_amount += tax["amount"]
-                pricelist_price += taxes_amount
+                if with_taxes:
+                    taxes = product.taxes_id.compute_all(pricelist_price, quantity=1, product=product)["taxes"]
+                    taxes_amount = 0.0
+                    for tax in taxes:
+                        taxes_amount += tax["amount"]
+                    pricelist_price += taxes_amount
                 product.write({"price_from_pricelist": pricelist_price})
                 if product.product_tmpl_id.product_variant_count == 1:
                     product.product_tmpl_id.write({"price_from_pricelist": pricelist_price})
