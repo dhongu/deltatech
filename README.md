@@ -63,6 +63,7 @@ addon | version | maintainers | summary
 [deltatech_move_negative_stock](deltatech_move_negative_stock/) | 15.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Replenish negative stock from other location
 [deltatech_mrp](deltatech_mrp/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Extension - Obsolete
 [deltatech_mrp_bom](deltatech_mrp_bom/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Bom
+[deltatech_mrp_cost](deltatech_mrp_cost/) | 15.0.2.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Cost
 [deltatech_mrp_simple](deltatech_mrp_simple/) | 15.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Simple production
 [deltatech_no_quick_create](deltatech_no_quick_create/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | disable quick_create
 [deltatech_partner_discount](deltatech_partner_discount/) | 15.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Creates a discount field on partner and alerts the user on invoice

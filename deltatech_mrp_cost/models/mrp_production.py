@@ -27,8 +27,7 @@ class MrpProduction(models.Model):
             if not production.qty_produced:
                 for move in production.move_raw_ids:
                     if move.product_id.type == "product":
-                        qty = move.product_qty + move.product_qty
-                        amount += move.product_id.standard_price * qty
+                        amount += move.product_id.standard_price * move.product_qty
                 product_qty = production.product_qty
                 amount += (
                     production.overhead_amount
