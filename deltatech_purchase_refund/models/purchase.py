@@ -26,7 +26,7 @@ class PurchaseOrder(models.Model):
         notice = self.env.context.get("notice", False)
         if not notice:
             for picking in self.picking_ids:
-                notice = notice or picking.notice
+                notice = notice or picking.l10n_ro_notice
 
         action["context"]["notice"] = notice
         return action
