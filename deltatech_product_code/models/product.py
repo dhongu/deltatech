@@ -55,14 +55,13 @@ class ProductTemplate(models.Model):
         create_product_product = self.env.context.get("create_product_product", False)
         if not create_product_product:
             for vals in vals_list:
-                if "default_code" not in vals or vals["default_code"] in ["/", "", False]:
-                    categ_id = vals.get("categ_id")
-                    if categ_id:
-                        categ = self.env["product.category"].browse(categ_id)
-                        default_code = vals.get("default_code", False)
-                        barcode = vals.get("barcode", False)
-                        values = self.env["product.template"].get_new_code(categ, default_code, barcode)
-                        vals.update(values)
+                categ_id = vals.get("categ_id")
+                if categ_id:
+                    categ = self.env["product.category"].browse(categ_id)
+                    default_code = vals.get("default_code", False)
+                    barcode = vals.get("barcode", False)
+                    values = self.env["product.template"].get_new_code(categ, default_code, barcode)
+                    vals.update(values)
 
         return super(ProductTemplate, self).create(vals_list)
 
@@ -99,14 +98,13 @@ class ProductProduct(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if "default_code" not in vals or vals["default_code"] in ["/", "", False]:
-                categ_id = vals.get("categ_id")
-                if categ_id:
-                    categ = self.env["product.category"].browse(categ_id)
-                    default_code = vals.get("default_code", False)
-                    barcode = vals.get("barcode", False)
-                    values = self.env["product.template"].get_new_code(categ, default_code, barcode)
-                    vals.update(values)
+            categ_id = vals.get("categ_id")
+            if categ_id:
+                categ = self.env["product.category"].browse(categ_id)
+                default_code = vals.get("default_code", False)
+                barcode = vals.get("barcode", False)
+                values = self.env["product.template"].get_new_code(categ, default_code, barcode)
+                vals.update(values)
 
         return super(ProductProduct, self).create(vals_list)
 

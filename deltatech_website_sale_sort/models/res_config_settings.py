@@ -14,3 +14,8 @@ class ResConfigSettings(models.TransientModel):
         config_parameter="sale.product_price_pricelist",
         help="Pricelist from which product prices are computed",
     )
+    price_from_pricelist_taxes = fields.Boolean(
+        "Compute price with taxes",
+        config_parameter="sale.price_from_pricelist_taxes",
+        help="If checked, taxes are added to the product price",
+    )

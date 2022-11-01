@@ -12,7 +12,7 @@ from odoo.tools.translate import _
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    # l10n_ro_notice = fields.Boolean()
+    l10n_ro_notice = fields.Boolean()
 
 
 class PurchaseOrder(models.Model):
@@ -31,7 +31,13 @@ class PurchaseOrder(models.Model):
                     if picking.state != "assigned":
                         raise UserError(_("The stock transfer cannot be validated!"))
                 if picking.state == "assigned":
-                    picking.write({"notice": False, "origin": purchase_order.partner_ref})
+                    # era si "notice": False,
+                    picking.write({"origin": purchase_order.partner_ref})
+                    if "notice" in picking._fields:
+                        picking.write({"notice": False})
+                    if "l10n_ro_notice" in picking._fields:
+                        picking.write({"l10n_ro_notice": False})
+
                     for move_line in picking.move_lines:
                         if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
                             move_line.write({"quantity_done": move_line.product_uom_qty})

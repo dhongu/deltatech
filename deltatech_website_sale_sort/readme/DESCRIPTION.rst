@@ -9,4 +9,4 @@ Features:
 
 Nota
  - modulul adauga un camp in produs in care se calculeaza periodic numarul de vanzari
- - modulul adauga un camp in produs in care se calculeaza periodic pretul in functie de o lista de preturi setata in Vanzari->Setari
+ - modulul adauga un camp in produs in care se calculeaza periodic pretul in functie de o lista de preturi setata in Vanzari->Setari, cu sau fara taxe (tot in Vanzari->Setari)
