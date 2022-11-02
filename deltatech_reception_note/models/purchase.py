@@ -13,6 +13,7 @@ class PurchaseOrder(models.Model):
         [("normal", "Normal"), ("rfq_only", "RFQ Only"), ("note", "Reception Note")], string="Type", default="normal"
     )
     delivery_note_no = fields.Char(string="Delivery Note No")
+    is_empty = fields.Boolean(string="Is empty", default=False)
 
     def action_rfq_send(self):
         if self.reception_type != "note":
@@ -67,3 +68,12 @@ class PurchaseOrder(models.Model):
                         line.product_id.name,
                     )
                 )
+            rfq_lines.order_id.check_if_empty()
+
+    def check_if_empty(self):
+        for order in self:
+            qty = 0.0
+            for line in order.order_line:
+                qty += line.product_qty
+            if qty == 0.0:
+                order.write({"is_empty": True})
