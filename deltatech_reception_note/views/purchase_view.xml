@@ -63,6 +63,27 @@
         </field>
     </record>
 
+    <record id="purchase_order_search_type" model="ir.ui.view">
+        <field name="name">purchase.order.filter.type</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='starred']" position="after">
+                <separator />
+                <filter
+                    name="not_empty"
+                    string="Not empty"
+                    domain="[('reception_type', '=', 'rfq_only'), ('is_empty', '=', False)]"
+                />
+                <filter
+                    name="empty"
+                    string="Empty"
+                    domain="[('reception_type', '=', 'rfq_only'), ('is_empty', '=', True)]"
+                />
+            </xpath>
+        </field>
+    </record>
+
     <record id='prepare_reception_note_action' model='ir.actions.act_window'>
         <field name="name">Reception note</field>
         <field name="res_model">purchase.order</field>
