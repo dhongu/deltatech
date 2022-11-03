@@ -26,4 +26,7 @@ class SaleOrder(models.Model):
                     extra_line_id.product_uom_change()
 
                 extra_line_id.product_uom_qty = line.product_uom_qty
-                extra_line_id.price_unit = line.price_unit * (line.product_id.extra_percent or 0.0) / 100.0
+                if line.product_id.extra_percent:
+                    extra_line_id.price_unit = line.price_unit * (line.product_id.extra_percent or 0.0) / 100.0
+                else:
+                    extra_line_id.price_unit = line.product_id.extra_product_id.lst_price
