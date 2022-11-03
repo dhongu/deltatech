@@ -20,7 +20,9 @@ class PurchaseOrderXlsx(models.AbstractModel):
         lin = 1
         for order in objs:
             for line in order.order_line:
-                sheet.write(lin, 0, line.product_id.default_code or "")
-                sheet.write(lin, 1, line.product_id.name or "")
+                product = line.product_id.with_context(partner_id=order.partner_id.id)
+                sheet.write(lin, 0, product.code or "")
+                sheet.write(lin, 1, product.name or "")
                 sheet.write(lin, 2, line.product_qty)
+                sheet.write(lin, 3, line.price_unit)
                 lin += 1
