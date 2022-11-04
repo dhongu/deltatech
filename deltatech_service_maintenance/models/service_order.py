@@ -122,6 +122,7 @@ class ServiceOrder(models.Model):
     # semantura client !!
     signature = fields.Binary(string="Signature", readonly=True)
 
+    init_description = fields.Text("Initial description", readonly=False, states={"done": [("readonly", True)]})
     description = fields.Text("Notes", readonly=False, states={"done": [("readonly", True)]})
 
     @api.model

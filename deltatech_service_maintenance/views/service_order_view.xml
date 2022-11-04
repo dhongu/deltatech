@@ -43,7 +43,13 @@
                     <button name="action_start" type="object" string="Start Work" states="draft,acknowledge,on_way" />
                     <button name="action_work_done" type="object" string="Work Done" states="progress" />
                     <button name="action_work_again" type="object" string="Work Again" states="rejected" />
-                    <button name="action_done" type="object" string="Done" states="work_done" />
+                    <button
+                        name="action_done"
+                        type="object"
+                        string="Done"
+                        groups="sales_team.group_sale_salesman"
+                        states="work_done"
+                    />
                     <button name="action_cancel" type="object" string="Cancel Order" states="progress,rejected" />
                     <button
                         name="new_piking_button"
@@ -173,6 +179,20 @@
                                 </group>
                             </group>
                         </page>
+                        <page string="description">
+                            <field
+                                name="init_description"
+                                class="oe-bordered-editor"
+                                nolabel="1"
+                                placeholder="Initial status description..."
+                            />
+                            <field
+                                name="description"
+                                class="oe-bordered-editor"
+                                nolabel="1"
+                                placeholder="Description..."
+                            />
+                        </page>
                     </notebook>
                     <div class="oe_clear" />
 
@@ -228,6 +248,7 @@
                 <field name="code" />
                 <field name="name" />
                 <field name="duration" widget="float_time" />
+                <field name="product_id" />
             </tree>
         </field>
     </record>
@@ -240,6 +261,9 @@
                     <field name="code" />
                     <field name="name" />
                     <field name="duration" widget="float_time" />
+                </group>
+                <group>
+                    <field name="product_id" />
                 </group>
             </form>
         </field>

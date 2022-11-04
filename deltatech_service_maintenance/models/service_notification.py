@@ -104,6 +104,15 @@ class ServiceNotification(models.Model):
         copy=True,
     )
 
+    operation_ids = fields.One2many(
+        "service.notification.operation",
+        "notification_id",
+        string="Notification Operations",
+        readonly=False,
+        states={"done": [("readonly", True)]},
+        copy=True,
+    )
+
     def _compute_related_doc(self):
         for item in self:
             item.related_doc = False
@@ -251,6 +260,8 @@ class ServiceNotification(models.Model):
     def action_order(self):
         context = self.get_context_default()
 
+        context["default_init_description"] = self.description
+
         if self.order_id:
             domain = "[('id','=', " + str(self.order_id.id) + ")]"
             res_id = self.order_id.id
@@ -267,6 +278,15 @@ class ServiceNotification(models.Model):
                     "quantity": item.quantity,
                 }
                 context["default_component_ids"] += [(0, 0, value)]
+
+            context["default_operation_ids"] = []
+
+            for item in self.operation_ids:
+                value = {
+                    "operation_id": item.operation_id,
+                    "duration": item.quantity,
+                }
+                context["default_operation_ids"] += [(0, 0, value)]
 
         if self.partner_id.sale_warn and self.partner_id.sale_warn == "block":
             raise UserError(_("This partner is blocked"))
@@ -554,6 +574,24 @@ class ServiceNotificationItem(models.Model):
     def onchange_product_id(self):
         self.product_uom = self.product_id.uom_id
         self.name = self.product_id.name
+
+
+class ServiceNotificationOperation(models.Model):
+    _name = "service.notification.operation"
+    _description = "Service Notification Operation"
+    _order = "notification_id, sequence, id"
+
+    sequence = fields.Integer(string="Sequence", default=10)
+
+    notification_id = fields.Many2one(
+        "service.notification", string="Notification", readonly=True, index=True, required=True, ondelete="cascade"
+    )
+    operation_id = fields.Many2one("service.operation", string="Operation")
+    duration = fields.Float(string="Duration")
+
+    @api.onchange("operation_id")
+    def onchange_operation_id(self):
+        self.duration = self.operation_id.duration
 
 
 class ServiceNotificationType(models.Model):
