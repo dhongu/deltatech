@@ -45,7 +45,7 @@ class ServiceNotification(models.Model):
         "service.equipment", string="Equipment", index=True, readonly=True, states={"new": [("readonly", False)]}
     )
 
-    partner_id = fields.Many2one("res.partner", string="Partner", readonly=True, states={"new": [("readonly", False)]})
+    partner_id = fields.Many2one("res.partner", string="Customer", readonly=True, states={"new": [("readonly", False)]})
 
     contact_id = fields.Many2one(
         "res.partner",
@@ -141,8 +141,7 @@ class ServiceNotification(models.Model):
     def onchange_equipment_id(self):
         if self.equipment_id:
             self.user_id = self.equipment_id.technician_user_id or self.user_id
-            self.partner_id = self.equipment_id.partner_id
-            # self.address_id = self.equipment_id.address_id
+            self.partner_id = self.equipment_id.partner_id or self.partner_id
 
     @api.model
     def create(self, vals):
@@ -283,8 +282,8 @@ class ServiceNotification(models.Model):
 
             for item in self.operation_ids:
                 value = {
-                    "operation_id": item.operation_id,
-                    "duration": item.quantity,
+                    "operation_id": item.operation_id.id,
+                    "duration": item.duration,
                 }
                 context["default_operation_ids"] += [(0, 0, value)]
 
@@ -490,6 +489,20 @@ class ServiceNotification(models.Model):
                     "name": item.name,
                     "product_uom_qty": item.quantity,
                     "route_id": route.id,
+                    "state": "draft",
+                    "order_id": sale_order.id,
+                }
+                line = self.env["sale.order.line"].new(value)
+                line.product_id_change()
+                for field in ["price_unit", "product_uom", "tax_id"]:
+                    value[field] = line._fields[field].convert_to_write(line[field], line)
+
+                context["default_order_line"] += [(0, 0, value)]
+            for item in self.operation_ids:
+                value = {
+                    "product_id": item.operation_id.product_id.id,
+                    "name": item.operation_id.name,
+                    "product_uom_qty": item.duration,
                     "state": "draft",
                     "order_id": sale_order.id,
                 }

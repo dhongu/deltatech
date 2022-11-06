@@ -179,13 +179,15 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="description">
+                        <page string="Description">
+                            <label for="init_description" />
                             <field
                                 name="init_description"
                                 class="oe-bordered-editor"
                                 nolabel="1"
                                 placeholder="Initial status description..."
                             />
+                            <label for="description" />
                             <field
                                 name="description"
                                 class="oe-bordered-editor"

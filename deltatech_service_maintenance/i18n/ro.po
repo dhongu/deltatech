@@ -583,7 +583,7 @@ msgstr "Mesaje"
 #. module: deltatech_service_maintenance
 #: model:ir.actions.report,name:deltatech_service_maintenance.action_report_minute_report
 msgid "Minutes of receipt"
-msgstr "Proces vedbal de receplție"
+msgstr "Proces verbal de recepție"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_filter
@@ -1301,8 +1301,8 @@ msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_order_form
-msgid "description"
-msgstr "descriere"
+msgid "Description"
+msgstr "Descriere"
 
 #. module: deltatech_service_maintenance
 #: model:service.operating.parameter,name:deltatech_service_maintenance.equi_work_again
