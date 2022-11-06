@@ -20,7 +20,7 @@ default_language_version:
   node: "14.13.0"
 repos:
   - repo: https://github.com/OCA/maintainer-tools
-    rev: 5de7edda47f5c22398bb0ca1ea8bdb0f249a8ff2 # This is just an example; you must use a tag/commit instead!
+    rev: a17a3431379fc2affed9b0b99cdfbe232db6db4c # This is just an example; you must use a tag/commit instead!
     hooks:
       # Use each script's `--help` to understand the args
       - id: oca-gen-addon-readme
@@ -47,19 +47,19 @@ repos:
         language: fail
         files: "\\.rej$"
   - repo: https://github.com/oca/maintainer-tools
-    rev: 5de7edda47f5c22398bb0ca1ea8bdb0f249a8ff2
+    rev: a17a3431379fc2affed9b0b99cdfbe232db6db4c
     hooks:
       # update the NOT INSTALLABLE ADDONS section above
       - id: oca-update-pre-commit-excluded-addons
       - id: oca-fix-manifest-website
         args: ["https://www.terrabit.ro"]
   - repo: https://github.com/myint/autoflake
-    rev: v1.4
+    rev: v1.7.7
     hooks:
       - id: autoflake
         args: ["-i", "--ignore-init-module-imports"]
   - repo: https://github.com/psf/black
-    rev: 22.3.0
+    rev: 22.10.0
     hooks:
       - id: black
         args: [-l 120]
@@ -74,7 +74,7 @@ repos:
         args:
           - --plugin=@prettier/plugin-xml
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.17.0
+    rev: v8.26.0
     hooks:
       - id: eslint
         verbose: true
