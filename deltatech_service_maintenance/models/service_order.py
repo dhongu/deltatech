@@ -55,7 +55,7 @@ class ServiceOrder(models.Model):
     )
 
     partner_id = fields.Many2one(
-        "res.partner", string="Partner", readonly=True, states={"draft": [("readonly", False)]}
+        "res.partner", string="Customer", readonly=True, states={"draft": [("readonly", False)]}
     )
 
     contact_id = fields.Many2one(
@@ -122,6 +122,7 @@ class ServiceOrder(models.Model):
     # semantura client !!
     signature = fields.Binary(string="Signature", readonly=True)
 
+    init_description = fields.Text("Initial description", readonly=False, states={"done": [("readonly", True)]})
     description = fields.Text("Notes", readonly=False, states={"done": [("readonly", True)]})
 
     @api.model
@@ -137,7 +138,7 @@ class ServiceOrder(models.Model):
     def onchange_equipment_id(self):
         if self.equipment_id:
             self.user_id = self.equipment_id.technician_user_id or self.user_id
-            self.partner_id = self.equipment_id.partner_id
+            self.partner_id = self.equipment_id.partner_id or self.partner_id
             # self.address_id = self.equipment_id.address_id
 
     @api.onchange("notification_id")
@@ -242,6 +243,23 @@ class ServiceOrder(models.Model):
                     self.env["sale.order.line"].create(value)
                 else:
                     sale_line.write({"product_uom_qty": item.quantity})
+
+            for item in self.operation_ids:
+                sale_line = sale_order.order_line.filtered(
+                    lambda l: l.product_id == item.operation_id.product_id and l.name == item.operation_id.name
+                )
+                if not sale_line:
+                    value = {
+                        "product_id": item.operation_id.product_id.id,
+                        "name": item.operation_id.name,
+                        "product_uom_qty": item.duration,
+                        "state": "draft",
+                        "order_id": sale_order.id,
+                    }
+                    self.env["sale.order.line"].create(value)
+                else:
+                    sale_line.write({"product_uom_qty": item.duration})
+
         else:
 
             context["pricelist_id"] = self.partner_id.property_product_pricelist.id
@@ -259,6 +277,21 @@ class ServiceOrder(models.Model):
                 line = self.env["sale.order.line"].new(value)
                 line.product_id_change()
                 for field in ["name", "price_unit", "product_uom", "tax_id"]:
+                    value[field] = line._fields[field].convert_to_write(line[field], line)
+
+                context["default_order_line"] += [(0, 0, value)]
+
+            for item in self.operation_ids:
+                value = {
+                    "product_id": item.operation_id.product_id.id,
+                    "name": item.operation_id.name,
+                    "product_uom_qty": item.duration,
+                    "state": "draft",
+                    "order_id": sale_order.id,
+                }
+                line = self.env["sale.order.line"].new(value)
+                line.product_id_change()
+                for field in ["price_unit", "product_uom", "tax_id"]:
                     value[field] = line._fields[field].convert_to_write(line[field], line)
 
                 context["default_order_line"] += [(0, 0, value)]

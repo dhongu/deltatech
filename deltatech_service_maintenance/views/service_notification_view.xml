@@ -121,6 +121,22 @@
 
                     </group>
                     <notebook>
+                        <page string="Operations">
+                            <field name="operation_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="operation_id" />
+                                    <field name="duration" widget="float_time" />
+                                </tree>
+                            </field>
+                            <field
+                                name="description"
+                                class="oe-bordered-editor"
+                                nolabel="1"
+                                placeholder="Description..."
+                            />
+                        </page>
+
                         <page string="Components" name="lines">
                             <field name="item_ids" mode="tree,kanban">
                                 <tree editable="bottom">
@@ -166,12 +182,7 @@
 
 
                             </field>
-                            <field
-                                name="description"
-                                class="oe-bordered-editor"
-                                nolabel="1"
-                                placeholder="Description..."
-                            />
+
                         </page>
                         <page string="Other Info" name="other_information">
                             <group>
