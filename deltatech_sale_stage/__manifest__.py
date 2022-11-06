@@ -5,14 +5,14 @@
 
 {
     "name": "Deltatech Sale Order Stage",
-    "version": "14.0.1.0.5",
+    "version": "14.0.1.0.6",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
     "summary": "Sale Order Stage",
     "category": "Sales",
     "depends": ["sale_stock"],
-    "data": ["security/ir.model.access.csv", "views/sale_view.xml"],
+    "data": ["security/ir.model.access.csv", "views/sale_view.xml", "views/stock_picking_type_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["dhongu"],
