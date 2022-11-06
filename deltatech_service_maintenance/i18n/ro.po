@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-06 02:09+0000\n"
-"PO-Revision-Date: 2022-11-06 02:09+0000\n"
+"POT-Creation-Date: 2022-11-06 11:04+0000\n"
+"PO-Revision-Date: 2022-11-06 11:04+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -37,8 +37,13 @@ msgstr "<span>Fișă de constatare</span>"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_handover_report_document
+msgid "<span>Handover report</span>"
+msgstr "<span>Proces verbal de predare</span>"
+
+#. module: deltatech_service_maintenance
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_minute_report_document
 msgid "<span>Minutes of receipt</span>"
-msgstr "<span>Proces verbal de recepție</span>"
+msgstr "<span>Proces verbal de primire</span>"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_service_notification
@@ -62,12 +67,24 @@ msgstr "<strong>Componente:</strong>"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_handover_report_document
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_minute_report_document
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_service_notification
 msgid "<strong>Date:</strong>"
 msgstr "<strong>Data:</strong>"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_handover_report_document
+msgid ""
+"<strong>During the tests, the machine/equipment works properly, respecting the technical\n"
+"                                characteristics.\n"
+"                            </strong>"
+msgstr ""
+"<strong>La probele efectuate utilajul/echipamentul functioneaza corespunzator respectand caracteristiciletehnice.\n"
+"                            </strong>"
+
+#. module: deltatech_service_maintenance
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_handover_report_document
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_minute_report_document
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_service_notification
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_service_order_document
 msgid "<strong>Equipment:</strong>"
@@ -75,11 +92,13 @@ msgstr "<strong>Echipament:</strong>"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_handover_report_document
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_minute_report_document
 msgid "<strong>I received:</strong>"
 msgstr "<strong>Am primit:</strong>"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_handover_report_document
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_minute_report_document
 msgid "<strong>I taught:</strong>"
 msgstr "<strong>Am predat:</strong>"
 
@@ -100,6 +119,7 @@ msgstr "<strong>Dată comandă:</strong>"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_handover_report_document
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_minute_report_document
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_service_notification
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_service_order_document
 msgid "<strong>Partner:</strong>"
@@ -118,6 +138,7 @@ msgstr "<strong>Responsabil:</strong>"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_handover_report_document
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_minute_report_document
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_service_notification
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.report_service_order_document
 msgid "<strong>Serial Number:</strong>"
@@ -305,6 +326,12 @@ msgid "Created on"
 msgstr "Creat în"
 
 #. module: deltatech_service_maintenance
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__partner_id
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__partner_id
+msgid "Customer"
+msgstr "Client"
+
+#. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__date
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__date
 msgid "Date"
@@ -327,6 +354,11 @@ msgstr "Aviz nefacturabil service"
 #, python-format
 msgid "Delivery for service"
 msgstr "Aviz nefacturabil service"
+
+#. module: deltatech_service_maintenance
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_order_form
+msgid "Description"
+msgstr "Descriere"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
@@ -834,12 +866,6 @@ msgid "Parameters"
 msgstr "Parametri"
 
 #. module: deltatech_service_maintenance
-#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__partner_id
-#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__partner_id
-msgid "Partner"
-msgstr "Partener"
-
-#. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_work_center__picking_type_id
 msgid "Picking Type"
 msgstr "Tip ridicare"
@@ -1118,7 +1144,7 @@ msgstr "Specificați costu pe oră o formației de lucru"
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__date_start
@@ -1201,7 +1227,7 @@ msgstr "Transfer intern"
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_work_center__transfer_route_id
 msgid "Transfer Route"
-msgstr ""
+msgstr "Rută transfer"
 
 #. module: deltatech_service_maintenance
 #: code:addons/deltatech_service_maintenance/models/service_notification.py:0
@@ -1300,19 +1326,14 @@ msgid "You must have an agreement."
 msgstr ""
 
 #. module: deltatech_service_maintenance
-#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_order_form
-msgid "Description"
-msgstr "Descriere"
-
-#. module: deltatech_service_maintenance
 #: model:service.operating.parameter,name:deltatech_service_maintenance.equi_work_again
 msgid "the defect was fixed equipment works"
-msgstr "defectul a fost înlaturat echipamentul funcționează"
+msgstr "defectul a fost înlăturat echipamentul funcționează"
 
 #. module: deltatech_service_maintenance
 #: model:service.operating.parameter,name:deltatech_service_maintenance.equi_work_with_faulty
 msgid "the defect was not removed equipment works"
-msgstr "defectul nu a fost înlaturat echipamentul funcționează"
+msgstr "defectul nu a fost înlăturat echipamentul funcționează"
 
 #. module: deltatech_service_maintenance
 #: model:service.operating.parameter,name:deltatech_service_maintenance.equi_not_work
