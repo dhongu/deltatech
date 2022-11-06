@@ -377,7 +377,7 @@ msgstr "Categorie contor"
 #: model:ir.ui.menu,name:deltatech_service_equipment_base.menu_service_meter_reading
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_meter_reading_form
 msgid "Meter Reading"
-msgstr ""
+msgstr "Citiri contori"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__meter_ids

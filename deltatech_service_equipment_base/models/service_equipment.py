@@ -21,6 +21,8 @@ class ServiceEquipment(models.Model):
 
     note = fields.Text(string="Notes")
     type_id = fields.Many2one("service.equipment.type", required=False, string="Type")
+    model_id = fields.Many2one("service.equipment.model", required=False, string="Model")
+
     internal_type = fields.Selection([("equipment", "Equipment")], default="equipment")
     product_id = fields.Many2one(
         "product.product", string="Product", ondelete="restrict", domain=[("type", "=", "product")]
@@ -76,8 +78,8 @@ class ServiceEquipmentType(models.Model):
     name = fields.Char(string="Type", translate=True)
 
 
-# class ServiceEquipmentCategory(models.Model):
-#     _name = "service.equipment.category"
-#     _description = "Service Equipment Category"
-#
-#     name = fields.Char(string="Category", translate=True)
+class ServiceEquipmentModel(models.Model):
+    _name = "service.equipment.model"
+    _description = "Service Equipment Model"
+
+    name = fields.Char(string="Model", translate=True)

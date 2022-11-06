@@ -55,7 +55,7 @@ class ServiceOrder(models.Model):
     )
 
     partner_id = fields.Many2one(
-        "res.partner", string="Partner", readonly=True, states={"draft": [("readonly", False)]}
+        "res.partner", string="Customer", readonly=True, states={"draft": [("readonly", False)]}
     )
 
     contact_id = fields.Many2one(
