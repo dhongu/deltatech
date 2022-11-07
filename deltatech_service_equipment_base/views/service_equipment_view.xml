@@ -8,8 +8,12 @@
             <tree string="Services Equipment" sample="1">
                 <field name="name" />
                 <field name="partner_id" />
+                <field name="type_id" optional="show" />
+                <field name="model_id" optional="show" />
+                <field name="manufacturer_id" optional="show" />
+                <field name="serial_no" optional="show" />
                 <field name="serial_id" optional="show" />
-                <field name="activity_ids" widget="list_activity" optional="show" />
+                <field name="activity_ids" widget="list_activity" optional="hide" />
                 <field name="message_unread" invisible="1" />
             </tree>
         </field>
@@ -31,6 +35,7 @@
                     <group>
                         <group string="Technical Details" name="technical_details">
                             <field name="type_id" required="1" />
+                            <field name="model_id" required="1" />
                             <field name="manufacturer_id" />
                             <field name="serial_no" />
                         </group>
@@ -141,6 +146,8 @@
                 <field name="product_id" />
                 <separator />
                 <group expand="1" string="Group By...">
+                    <filter string="Type" name="type" context="{'group_by':'type_id'}" />
+                     <filter string="Model" name="model" context="{'group_by':'model_id'}" />
                     <filter string="Partner" name="partner" context="{'group_by':'partner_id'}" />
                 </group>
             </search>
@@ -158,7 +165,7 @@
         name="Equipment"
         id="menu_service_equipment"
         action="action_service_equipment"
-        parent="deltatech_service_base.menu_service"
+        parent="deltatech_service_base.menu_service_master_data"
         sequence="500"
     />
 
@@ -185,6 +192,33 @@
         name="Equipment Type"
         id="menu_service_equipment_type"
         action="action_service_equipment_type"
+        parent="deltatech_service_base.menu_service_config"
+        sequence="200"
+    />
+
+
+    <record id="view_service_equipment_model_form" model="ir.ui.view">
+        <field name="name">Services Equipment Model</field>
+        <field name="model">service.equipment.model</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name" />
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="action_service_equipment_model" model="ir.actions.act_window">
+        <field name="name">Services Equipment Model</field>
+        <field name="res_model">service.equipment.model</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem
+        name="Equipment Model"
+        id="menu_service_equipment_model"
+        action="action_service_equipment_model"
         parent="deltatech_service_base.menu_service_config"
         sequence="200"
     />

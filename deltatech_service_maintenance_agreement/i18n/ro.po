@@ -634,7 +634,7 @@ msgstr "Aviz nefacturabil service"
 #. module: deltatech_service_maintenance_agreement
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_agreement.view_order_form
 msgid "New Notification"
-msgstr "Sesizare nouă"
+msgstr "Notificare nouă"
 
 #. module: deltatech_service_maintenance_agreement
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_agreement.view_service_notification_form
@@ -693,7 +693,7 @@ msgstr "Note..."
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_agreement.view_service_notification_filter
 #, python-format
 msgid "Notification"
-msgstr "Sesizare"
+msgstr "Notificare"
 
 #. module: deltatech_service_maintenance_agreement
 #: code:addons/deltatech_service_maintenance_agreement/models/service_notification.py:0
@@ -715,26 +715,26 @@ msgstr "Linii notificare"
 #: model:ir.model.fields,field_description:deltatech_service_maintenance_agreement.field_service_notification_type__name
 #: model:ir.ui.menu,name:deltatech_service_maintenance_agreement.menu_service_notification_type
 msgid "Notification Type"
-msgstr "Tip sesizare"
+msgstr "Tip notificare"
 
 #. module: deltatech_service_maintenance_agreement
 #: code:addons/deltatech_service_maintenance_agreement/models/service_notification.py:0
 #: code:addons/deltatech_service_maintenance_agreement/models/service_notification.py:0
 #, python-format
 msgid "Notification is already assigned."
-msgstr "Sesizarea este daja alocată"
+msgstr "Notificarea este daja alocată"
 
 #. module: deltatech_service_maintenance_agreement
 #: code:addons/deltatech_service_maintenance_agreement/models/service_notification.py:0
 #, python-format
 msgid "Notification is assigned."
-msgstr "Sesizarea este alocată."
+msgstr "Notificarea este alocată."
 
 #. module: deltatech_service_maintenance_agreement
 #: code:addons/deltatech_service_maintenance_agreement/models/service_notification.py:0
 #, python-format
 msgid "Notification is not assigned."
-msgstr "Sesizarea nu este alocată."
+msgstr "Notificarea nu este alocată."
 
 #. module: deltatech_service_maintenance_agreement
 #: code:addons/deltatech_service_maintenance_agreement/models/service_equipment.py:0
@@ -1079,7 +1079,7 @@ msgstr "Echipament"
 #. module: deltatech_service_maintenance_agreement
 #: model:ir.model,name:deltatech_service_maintenance_agreement.model_service_notification_type
 msgid "Service Notification Type"
-msgstr "Tip sesizare"
+msgstr "Tip Notificare"
 
 #. module: deltatech_service_maintenance_agreement
 #: model:ir.actions.act_window,name:deltatech_service_maintenance_agreement.action_service_operating_parameter
