@@ -325,6 +325,7 @@ class ServiceOrderComponent(models.Model):
         "service.order", string="Order", readonly=True, index=True, required=True, ondelete="cascade"
     )
     product_id = fields.Many2one("product.product", string="Product", domain=[("type", "!=", "service")])
+    alternative_code = fields.Char(related="product_id.alternative_code")
     quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
     product_uom = fields.Many2one("uom.uom", string="Unit of Measure ")
     note = fields.Char(string="Note")

@@ -142,6 +142,7 @@
                                 <tree editable="bottom">
                                     <field name="sequence" widget="handle" />
                                     <field name="product_id" />
+                                    <field name="alternative_code" />
                                     <field name="name" />
                                     <field name="quantity" />
                                     <field name="product_uom" />
