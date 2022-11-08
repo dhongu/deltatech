@@ -104,6 +104,10 @@
                         <strong>Serial Number:</strong>
                         <p class="m-0" t-field="doc.equipment_id.serial_no" />
                     </div>
+                   <div t-if="doc.equipment_id.model_id" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Model:</strong>
+                        <p class="m-0" t-field="doc.equipment_id.model_id" />
+                    </div>
                 </div>
 
                 <br />
@@ -216,6 +220,10 @@
                         <strong>Serial Number:</strong>
                         <p class="m-0" t-field="doc.equipment_id.serial_no" />
                     </div>
+                    <div t-if="doc.equipment_id.model_id" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Model:</strong>
+                        <p class="m-0" t-field="doc.equipment_id.model_id" />
+                    </div>
                 </div>
 
                 <br />
@@ -283,6 +291,10 @@
                     <div t-if="doc.equipment_id.serial_no" class="col-auto col-3 mw-100 mb-2">
                         <strong>Serial Number:</strong>
                         <p class="m-0" t-field="doc.equipment_id.serial_no" />
+                    </div>
+                    <div t-if="doc.equipment_id.model_id" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Model:</strong>
+                        <p class="m-0" t-field="doc.equipment_id.model_id" />
                     </div>
                 </div>
 
