@@ -17,7 +17,7 @@
                         confirm="Are you sure you want to make the automatic delivery with the quantities and price from the sale order?"
                         string="Confirm, Deliver and Invoice"
                         type="object"
-                        groups="base.group_user"
+                        groups="deltatech_fast_sale.res_group_fast_sale"
                     />
                     <button
                         name="action_button_confirm_to_invoice"
@@ -25,14 +25,14 @@
                         confirm="Are you sure you want to make the automatic delivery with the quantities and price from the sale order?"
                         string="Deliver and Invoice"
                         type="object"
-                        groups="base.group_user"
+                        groups="deltatech_fast_sale.res_group_fast_sale"
                     />
                     <button
                         name="action_button_confirm_notice"
                         states="sale"
                         string="Deliver Notice"
                         type="object"
-                        groups="base.group_user"
+                        groups="deltatech_fast_sale.res_group_fast_sale"
                     />
                 </xpath>
             </field>
