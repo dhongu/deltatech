@@ -1,14 +1,14 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_fast_sale
+# 	* deltatech_fast_sale
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-13 17:37+0000\n"
-"PO-Revision-Date: 2015-08-13 17:37+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2022-11-08 12:02+0000\n"
+"PO-Revision-Date: 2022-11-08 12:02+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,8 +17,12 @@ msgstr ""
 
 #. module: deltatech_fast_sale
 #: model_terms:ir.ui.view,arch_db:deltatech_fast_sale.view_order_form
-msgid "Are you sure you want to make the automatic delivery with the quantities and price from the sale order?"
-msgstr "Sunteți sigur să doriți să faceți automat livrarea cu cantitățile și prețurile din comanda de vânzare"
+msgid ""
+"Are you sure you want to make the automatic delivery with the quantities and"
+" price from the sale order?"
+msgstr ""
+"Sunteți sigur să doriți să faceți automat livrarea cu cantitățile și "
+"prețurile din comanda de vânzare"
 
 #. module: deltatech_fast_sale
 #: model_terms:ir.ui.view,arch_db:deltatech_fast_sale.view_order_form
@@ -36,24 +40,59 @@ msgid "Deliver and Invoice"
 msgstr "Livrează și Facturează"
 
 #. module: deltatech_fast_sale
-#: model:ir.model,name:deltatech_fast_sale.model_account_invoice
+#: model:ir.model.fields,field_description:deltatech_fast_sale.field_sale_order__display_name
+#: model:ir.model.fields,field_description:deltatech_fast_sale.field_stock_picking__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_fast_sale
+#: model:ir.model.fields,field_description:deltatech_fast_sale.field_sale_order__id
+#: model:ir.model.fields,field_description:deltatech_fast_sale.field_stock_picking__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_fast_sale
 #: model_terms:ir.ui.view,arch_db:deltatech_fast_sale.view_picking_form
 msgid "Invoice"
 msgstr "Factură"
 
 #. module: deltatech_fast_sale
-#: code:addons/deltatech_fast_sale/models/sale.py:28
+#: model:ir.model.fields,field_description:deltatech_fast_sale.field_sale_order____last_update
+#: model:ir.model.fields,field_description:deltatech_fast_sale.field_stock_picking____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_fast_sale
+#: code:addons/deltatech_fast_sale/models/sale.py:0
 #, python-format
-msgid "Not all products are available."
-msgstr "Nu sunt disponibile toate produsele ."
+msgid "Not all products are available: %s, "
+msgstr "Există produse indisponibile: %s, "
+
+#. module: deltatech_fast_sale
+#: model:ir.model.fields,field_description:deltatech_fast_sale.field_stock_picking__l10n_ro_notice
+msgid "Romania - Is a notice"
+msgstr ""
 
 #. module: deltatech_fast_sale
 #: model:ir.model,name:deltatech_fast_sale.model_sale_order
-msgid "Sale Order"
+msgid "Sales Order"
 msgstr "Comandă de vânzare"
+
+#. module: deltatech_fast_sale
+#: model:res.groups,name:deltatech_fast_sale.res_group_fast_sale
+msgid "Show Fast Sale buttons"
+msgstr "Vânzare rapidă"
 
 #. module: deltatech_fast_sale
 #: model:ir.model,name:deltatech_fast_sale.model_stock_picking
 msgid "Transfer"
-msgstr "Transfer"
+msgstr ""
 
+#. module: deltatech_fast_sale
+#: model:ir.model.fields,help:deltatech_fast_sale.field_stock_picking__l10n_ro_notice
+msgid ""
+"With this field the reception/delivery is set as a notice. The generated "
+"account move will contain accounts 408/418."
+msgstr ""
+"Cu acest câmp se indică ca recepția/livrare este facuta cu aviz. Astfel nota"
+" contabiă generată se va conține 408/418."

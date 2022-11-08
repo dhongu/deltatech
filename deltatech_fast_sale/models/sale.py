@@ -14,8 +14,12 @@ class SaleOrder(models.Model):
         for picking in self.picking_ids:
             if picking.state not in ["done", "cancel"]:
                 picking.action_assign()  # verifica disponibilitate
-                if not all(move.state == "assigned" for move in picking.move_lines):
-                    raise UserError(_("Not all products are available."))
+                products_unavailable = []
+                for move in picking.move_lines:
+                    if move.state != "assigned":
+                        products_unavailable.append(move.product_id.display_name)
+                if products_unavailable:
+                    raise UserError(_("Not all products are available: %s" % ", ".join(products_unavailable)))
 
     def action_button_confirm_to_invoice(self):
 
@@ -65,7 +69,7 @@ class SaleOrder(models.Model):
         pick_ids = picking_ids.ids
         # choose the view_mode accordingly
         if len(pick_ids) > 1:
-            result["domain"] = "[('id','in',%s)]" % (pick_ids.ids)
+            result["domain"] = "[('id','in',%s)]" % pick_ids.ids
         elif len(pick_ids) == 1:
             res = self.env.ref("stock.view_picking_form", False)
             result["views"] = [(res and res.id or False, "form")]

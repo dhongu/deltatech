@@ -13,7 +13,7 @@
     "price": 5.00,
     "currency": "EUR",
     "license": "LGPL-3",
-    "data": ["views/sale_view.xml", "views/stock_view.xml"],
+    "data": ["security/res_groups.xml", "views/sale_view.xml", "views/stock_view.xml"],
     "images": ["images/main_screenshot.png"],
     "installable": True,
     "development_status": "Mature",
