@@ -87,7 +87,13 @@
                                     <t t-foreach="doc.item_ids" t-as="line">
                                         <tr>
                                             <td name="td_name">
-                                                <span t-field="line.product_id" />
+                                                <t t-if="line.product_id">
+                                                    <span t-field="line.product_id" />
+                                                </t>
+                                                <t t-else="">
+                                                    <span t-field="line.note" />
+                                                </t>
+
                                             </td>
                                             <td name="td_quantity" class="text-right">
                                                 <span t-field="line.quantity" />

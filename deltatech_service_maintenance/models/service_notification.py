@@ -275,6 +275,7 @@ class ServiceNotification(models.Model):
                     "product_id": item.product_id.id,
                     "product_uom": item.product_id.uom_id.id,
                     "quantity": item.quantity,
+                    "note": item.note,
                 }
                 context["default_component_ids"] += [(0, 0, value)]
 

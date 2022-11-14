@@ -43,6 +43,16 @@
                     <button name="action_start" type="object" string="Start Work" states="draft,acknowledge,on_way" />
                     <button name="action_work_done" type="object" string="Work Done" states="progress" />
                     <button name="action_work_again" type="object" string="Work Again" states="rejected" />
+
+                    <button
+                        name="action_check_available"
+                        type="object"
+                        string="Check Available"
+                        states="acknowledge,progress"
+                    />
+
+
+
                     <button
                         name="action_done"
                         type="object"
@@ -124,6 +134,14 @@
                         </group>
                         <group>
                             <field name="reason_id" />
+                            <field
+                                name="available_state"
+                                widget="badge"
+                                decoration-success="available_state == 'available'"
+                                decoration-info="available_state == 'partially'"
+                                decoration-danger="available_state == 'unavailable'"
+                                attrs="{'invisible':[('state','not in',['acknowledge','progress'])]}"
+                            />
                         </group>
 
                     </group>

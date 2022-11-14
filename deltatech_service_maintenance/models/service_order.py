@@ -69,7 +69,11 @@ class ServiceOrder(models.Model):
     user_id = fields.Many2one("res.users", string="Responsible", readonly=True, states={"draft": [("readonly", False)]})
 
     work_center_id = fields.Many2one(
-        "service.work.center", string="Work Center", readonly=True, states={"draft": [("readonly", False)]}
+        "service.work.center",
+        string="Work Center",
+        readonly=True,
+        required=True,
+        states={"draft": [("readonly", False)]},
     )
 
     # raportul poate sa fie legat de o sesizre
@@ -124,6 +128,29 @@ class ServiceOrder(models.Model):
 
     init_description = fields.Text("Initial description", readonly=False, states={"done": [("readonly", True)]})
     description = fields.Text("Notes", readonly=False, states={"done": [("readonly", True)]})
+
+    available_state = fields.Selection(
+        [("unavailable", "Unavailable"), ("partially", "Partially available"), ("available", "Available")],
+        default=False,
+        compute="_compute_available_state",
+    )
+
+    def _compute_available_state(self):
+        for order in self:
+            available_state = "available"
+            location = order.work_center_id.location_id
+            qty = 0
+            for component in order.component_ids:
+                qty_available = component.product_id.with_context(location=location.id).qty_available
+                qty += qty_available
+                if qty_available < component.quantity:
+                    available_state = "partially"
+            if not qty:
+                available_state = "unavailable"
+            order.available_state = available_state
+
+    def action_check_available(self):
+        self._compute_available_state()
 
     @api.model
     def create(self, vals):
