@@ -14,7 +14,7 @@
     # Check https://github.com/odoo/odoo/blob/12.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     "category": "Website",
-    "depends": ["website_sale", "deltatech_alternative"],
+    "depends": ["website", "website_sale", "deltatech_alternative"],
     "data": ["views/product_view.xml", "views/templates.xml"],
     "images": ["images/main_screenshot.png"],
     "development_status": "Mature",
