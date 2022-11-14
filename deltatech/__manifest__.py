@@ -9,7 +9,7 @@
     "website": "https://www.terrabit.ro",
     "summary": "Generic module",
     "category": "Tools",
-    "depends": ["web", "base"],
+    "depends": ["web", "base", "portal"],
     "data": ["views/base_view.xml"],
     "license": "LGPL-3",
     "images": ["images/main_screenshot.png"],
