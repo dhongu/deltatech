@@ -19,6 +19,8 @@ class StockLocation(models.Model):
     route_transfer_id = fields.Many2one("stock.location.route")
     transfer_picking_type_id = fields.Many2one("stock.picking.type", string="Transfer Operation")
 
+    receipt_picking_type_id = fields.Many2one("stock.picking.type", string="Receipt Operation")
+
     def generate_route(self):
         for location in self:
             code = "".join(random.choices(string.ascii_letters, k=2))
@@ -51,6 +53,19 @@ class StockLocation(models.Model):
                 )
                 location.delivery_picking_type_id = picking_type
 
+            if not location.receipt_picking_type_id:
+                picking_type = self.env["stock.picking.type"].create(
+                    {
+                        "name": _("Receipt to %s") % location.name,
+                        "sequence_code": "IN" + code,
+                        "code": "incoming",
+                        "default_location_src_id": self.env.ref("stock.stock_location_suppliers").id,
+                        "default_location_dest_id": location.id,
+                        "warehouse_id": warehouse_id.id,
+                    }
+                )
+                location.receipt_picking_type_id = picking_type
+
             if not location.route_delivery_id:
                 route_name = _("Delivery from %s") % location.name
 
@@ -68,7 +83,7 @@ class StockLocation(models.Model):
                                     "action": "pull",
                                     "picking_type_id": location.delivery_picking_type_id.id,
                                     "location_src_id": location.id,
-                                    "location_id": self.env.ref("stock.stock_location_customers").id,
+                                    "location_id": self.env.ref("stock.stock_location_suppliers").id,
                                     "procure_method": "mts_else_mto",
                                 },
                             )

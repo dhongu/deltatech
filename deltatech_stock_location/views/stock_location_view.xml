@@ -25,6 +25,7 @@
                     <field name="route_transfer_id" />
                     <field name="delivery_picking_type_id" />
                     <field name="route_delivery_id" />
+                    <field name="receipt_picking_type_id" />
                 </group>
             </xpath>
         </field>

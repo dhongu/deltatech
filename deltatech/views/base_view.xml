@@ -19,5 +19,22 @@
                 <xpath expr="//sheet//div//div/a" position="replace" />
             </field>
         </record>
+
+<!--
+        <template id="frontend_layout" name="Main Frontend Layout" inherit_id="web.frontend_layout">
+            <xpath expr="//header" position="inside">
+                <nav class="navbar navbar-expand navbar-light bg-light">
+                </nav>
+            </xpath>
+        </template>
+
+        <template id="layout" name="Main layout" inherit_id="portal.frontend_layout">
+           <xpath expr="//header" position="inside">
+                <nav class="navbar navbar-expand navbar-light bg-light">
+                </nav>
+            </xpath>
+        </template>
+-->
+
     </data>
 </odoo>
