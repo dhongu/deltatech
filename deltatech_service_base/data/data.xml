@@ -7,6 +7,7 @@
             web_icon="deltatech_service_base,static/description/icon.png"
             sequence="25"
         />
+        <menuitem name="Master data" id="menu_service_master_data" parent="menu_service_app" sequence="50" />
         <menuitem name="Service" id="menu_service" parent="menu_service_app" sequence="100" />
 
         <menuitem name="Reports" id="menu_service_report" parent="menu_service_app" sequence="300" />

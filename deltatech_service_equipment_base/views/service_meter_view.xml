@@ -109,7 +109,7 @@
             name="Meter"
             id="menu_service_meter"
             action="action_service_meter"
-            parent="deltatech_service_base.menu_service"
+            parent="deltatech_service_base.menu_service_master_data"
             sequence="501"
         />
         <record id="view_service_meter_reading_tree" model="ir.ui.view">

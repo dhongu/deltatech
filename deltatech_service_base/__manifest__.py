@@ -4,7 +4,7 @@
 {
     "name": "Services Base",
     "summary": "Manage Services Base",
-    "version": "15.0.2.0.4",
+    "version": "15.0.2.0.5",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Services/Agreement",

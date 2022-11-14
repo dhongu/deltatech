@@ -20,8 +20,7 @@ eCommerce Sale Stock extension
 |badge1| |badge2| |badge3| 
 
 Features:
- - adds the posibilty to display if the product is available in stock.
- - registration search istoric in online store
+ - registration search historic in online store
 
 **Table of contents**
 
