@@ -8,14 +8,12 @@ from odoo import models
 class StockRule(models.Model):
     _inherit = "stock.rule"
 
-    def _prepare_purchase_order(self, product_id, product_qty, product_uom, origin, values, partner):
-        values = super(StockRule, self)._prepare_purchase_order(
-            product_id, product_qty, product_uom, origin, values, partner
-        )
+    def _prepare_purchase_order(self, company_id, origins, values):
+        super()._prepare_purchase_order(company_id, origins, values)
         values["from_replenishment"] = True
         return values
 
     def _make_po_get_domain(self, values, partner):
-        domain = super(StockRule, self)._make_po_get_domain(values, partner)
+        domain = super()._make_po_get_domain(values, partner)
         domain += (("from_replenishment", "=", True),)
         return domain
