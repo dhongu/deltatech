@@ -213,7 +213,7 @@ msgstr "Apel plan"
 #: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__call_ids
 #: model:ir.ui.menu,name:deltatech_service_maintenance_plan.menu_service_plan_call
 msgid "Plan Calls"
-msgstr "Apeluir plan"
+msgstr "Apeluri plan"
 
 #. module: deltatech_service_maintenance_plan
 #: model:ir.ui.menu,name:deltatech_service_maintenance_plan.menu_service_planing
@@ -228,7 +228,7 @@ msgstr ""
 #. module: deltatech_service_maintenance_plan
 #: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__plan_date
 msgid "Planned Date"
-msgstr ""
+msgstr "Dată planificată"
 
 #. module: deltatech_service_maintenance_plan
 #: model:ir.model.fields,help:deltatech_service_maintenance_plan.field_service_plan_call__plan_counter
@@ -288,7 +288,7 @@ msgstr "Caută"
 #. module: deltatech_service_maintenance_plan
 #: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "Secvență"
 
 #. module: deltatech_service_maintenance_plan
 #: model:ir.model,name:deltatech_service_maintenance_plan.model_service_equipment

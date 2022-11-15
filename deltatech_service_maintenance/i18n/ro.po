@@ -80,7 +80,7 @@ msgid ""
 "                                characteristics.\n"
 "                            </strong>"
 msgstr ""
-"<strong>La probele efectuate utilajul/echipamentul functioneaza corespunzator respectand caracteristiciletehnice.\n"
+"<strong>La probele efectuate utilajul/echipamentul functioneaza corespunzator respectand caracteristicile tehnice.\n"
 "                            </strong>"
 
 #. module: deltatech_service_maintenance
@@ -361,7 +361,7 @@ msgstr "Creat în"
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__partner_id
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__partner_id
 msgid "Customer"
-msgstr ""
+msgstr "Client"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__date

@@ -76,7 +76,7 @@ msgstr "Companie"
 #. module: deltatech_service_equipment_base
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_meter_form
 msgid "Compute Estimated"
-msgstr "caclul estimat"
+msgstr "Caclul estimat"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__contact_id
@@ -143,7 +143,7 @@ msgstr "Diferență"
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_category__display_name
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_reading__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nume afișat"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model,name:deltatech_service_equipment_base.model_service_enter_reading_item
@@ -287,7 +287,7 @@ msgstr ""
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_enter_reading__items
 msgid "Items"
-msgstr ""
+msgstr "Poziții"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter__last_meter_reading_id
@@ -529,32 +529,32 @@ msgstr "Echipament"
 #. module: deltatech_service_equipment_base
 #: model:ir.model,name:deltatech_service_equipment_base.model_service_equipment_type
 msgid "Service Equipment Type"
-msgstr ""
+msgstr "Tip echipament"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model,name:deltatech_service_equipment_base.model_service_meter_category
 msgid "Service Meter Category"
-msgstr ""
+msgstr "Categorie contor"
 
 #. module: deltatech_service_equipment_base
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_equipment_tree
 msgid "Services Equipment"
-msgstr ""
+msgstr "Echipamente serice"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.actions.act_window,name:deltatech_service_equipment_base.action_service_equipment_type
 msgid "Services Equipment Type"
-msgstr ""
+msgstr "Tip echipament"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.actions.act_window,name:deltatech_service_equipment_base.action_service_meter_category
 msgid "Services Meter Category"
-msgstr ""
+msgstr "Categorie contor"
 
 #. module: deltatech_service_equipment_base
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_meter_reading_tree
 msgid "Services equipment"
-msgstr ""
+msgstr "Echipament"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter__start_value
