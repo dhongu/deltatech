@@ -41,7 +41,7 @@ class CreateBillingAddress(models.TransientModel):
             "commercial_partner_id": self.from_partner.id,
             "commercial_company_name": self.from_partner.name,
             "company_name": self.from_partner.name,
-            "vat_number": vat,
+            "l10n_ro_vat_number": vat,
             "access_for_user_id": self.user_id.id,
             "street": self.from_partner.street,
             "city": self.from_partner.city,
