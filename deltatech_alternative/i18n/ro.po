@@ -24,7 +24,7 @@ msgstr "Alternative"
 #: model:ir.model.fields,field_description:deltatech_alternative.field_product_product__alternative_code
 #: model:ir.model.fields,field_description:deltatech_alternative.field_product_template__alternative_code
 msgid "Alternative Code"
-msgstr "Cod aternativ"
+msgstr "Cod alternativ"
 
 #. module: deltatech_alternative
 #: model:ir.model.fields,field_description:deltatech_alternative.field_product_product__alternative_ids
