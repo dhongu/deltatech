@@ -64,7 +64,7 @@ class StockQuant(models.Model):
 
         date = inventory.date
         values = {"date": date, "state": "done"}
-        if inventory.name == "/":
+        if inventory.name in ("/", _("New")):
             sequence = self.env.ref("deltatech_stock_inventory.sequence_inventory_doc")
             if sequence:
                 values["name"] = sequence.next_by_id()

@@ -2,14 +2,14 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.tools.safe_eval import safe_eval
 
 
 class StockInventory(models.Model):
     _inherit = "stock.inventory"
 
-    name = fields.Char(string="Name", default="/", copy=False)
+    name = fields.Char(string="Name", copy=False)
     date = fields.Datetime(
         string="Inventory Date", required=True, readonly=True, states={"draft": [("readonly", False)]}
     )
@@ -31,7 +31,7 @@ class StockInventory(models.Model):
         for inventory in self:
             date = inventory.date
             values = {"date": date}
-            if inventory.name == "/":
+            if inventory.name in ("/", _("New")):
                 sequence = self.env.ref("deltatech_stock_inventory.sequence_inventory_doc")
                 if sequence:
                     values["name"] = sequence.next_by_id()

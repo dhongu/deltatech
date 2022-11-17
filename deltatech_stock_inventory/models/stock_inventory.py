@@ -17,9 +17,9 @@ class Inventory(models.Model):
 
     name = fields.Char(
         "Inventory Reference",
-        default="Inventory",
         readonly=True,
         required=True,
+        default=lambda self: _("New"),
         states={"draft": [("readonly", False)]},
     )
     date = fields.Datetime(
@@ -156,9 +156,11 @@ class Inventory(models.Model):
                 "target": "new",
                 "res_id": wiz.id,
             }
+        quants = self.line_ids.get_quants()
         self._action_done()
         self.line_ids._check_company()
         self._check_company()
+        quants.write({"inventory_quantity_set": False})
         return True
 
     def _action_done(self):
@@ -707,26 +709,28 @@ class InventoryLine(models.Model):
         return self.env["stock.move"].create(vals_list)
 
     def get_quants(self, create=False):
-        self.ensure_one()
-        quants = self.env["stock.quant"]._gather(
-            self.product_id,
-            self.location_id,
-            lot_id=self.prod_lot_id,
-            package_id=self.package_id,
-            owner_id=self.partner_id,
-            strict=True,
-        )
-        if not quants and create:
-            quants = self.env["stock.quant"].create(
-                {
-                    "product_id": self.product_id.id,
-                    "lot_id": self.prod_lot_id.id,
-                    "owner_id": self.partner_id.id,
-                    "location_id": self.location_id.id,
-                    "package_id": self.package_id.id,
-                }
+        all_quants = self.env["stock.quant"]
+        for line in self:
+            quants = self.env["stock.quant"]._gather(
+                line.product_id,
+                line.location_id,
+                lot_id=line.prod_lot_id,
+                package_id=line.package_id,
+                owner_id=line.partner_id,
+                strict=True,
             )
-        return quants
+            if not quants and create:
+                quants = self.env["stock.quant"].create(
+                    {
+                        "product_id": line.product_id.id,
+                        "lot_id": line.prod_lot_id.id,
+                        "owner_id": line.partner_id.id,
+                        "location_id": line.location_id.id,
+                        "package_id": line.package_id.id,
+                    }
+                )
+            all_quants |= quants
+        return all_quants
 
     def action_refresh_quantity(self):
         filtered_lines = self.filtered(lambda l: l.state != "done")
