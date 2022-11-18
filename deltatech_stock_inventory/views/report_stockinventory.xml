@@ -91,7 +91,7 @@
                                         <t t-set="loc_case" t-value="line.loc_case" />
                                     </t>
                                     <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
-                                    <t t-set="price" t-value="line.standard_price or line.product_id.standard_price" />
+                                    <t t-set="price" t-value="line.standard_price" />
                                     <t t-set="total_amount" t-value="total_amount+line.product_qty*price" />
                                     <t t-set="total_before" t-value="total_before+line.theoretical_qty*price" />
                                     <t t-if='dif&gt;0'>
