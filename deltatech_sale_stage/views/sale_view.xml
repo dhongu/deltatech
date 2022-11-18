@@ -53,15 +53,34 @@
         <record id="view_order_tree" model="ir.ui.view">
             <field name="name">sale.order.form</field>
             <field name="model">sale.order</field>
-
             <field name="inherit_id" ref="sale.view_order_tree" />
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
-                    <field name="stage_id" optional="show" />
+                    <field name="stage_id" invisible="1" />
+                    <field name="stage_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
                 </field>
 
             </field>
         </record>
+
+
+        <record id="view_quotation_tree" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field eval="500" name="priority" />
+            <field name="inherit_id" ref="sale.view_quotation_tree" />
+            <field name="arch" type="xml">
+                <field name="create_date" position="after">
+                    <field name="date_order" widget="date" optional="show" />
+                </field>
+                <field name="state" position="after">
+                    <field name="stage_id" invisible="1" />
+                    <field name="stage_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
+                </field>
+
+            </field>
+        </record>
+
 
 
         <!--        Sale order form view-->
@@ -72,7 +91,14 @@
             <field name="inherit_id" ref="sale.view_order_form" />
             <field name="arch" type="xml">
                 <xpath expr="//sheet/group/group" position="inside">
-                    <field name="stage_id" options="{'no_create':True}" />
+                    <field name="stage_id" options="{'no_create':True}" class="oe_edit_only" />
+                    <field
+                        name="stage_ids"
+                        widget="many2many_tags"
+                        options="{'color_field': 'color'}"
+                        optional="show"
+                        class="oe_read_only"
+                    />
                 </xpath>
             </field>
         </record>
