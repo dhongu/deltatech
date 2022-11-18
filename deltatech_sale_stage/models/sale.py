@@ -11,6 +11,11 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     stage_id = fields.Many2one("sale.order.stage", string="Stage", copy=False)
+    stage_ids = fields.Many2many("sale.order.stage", string="Stage", compute="_compute_stage_ids")
+
+    def _compute_stage_ids(self):
+        for order in self:
+            order.stage_ids = order.stage_id
 
     def _get_invoice_status(self):
         super(SaleOrder, self)._get_invoice_status()
