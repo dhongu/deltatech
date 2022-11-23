@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="test_ribbon" inherit_id="web.layout">
+
+
         <xpath expr="//body" position="inside">
-            <div>
-                <span
-                    style="width: 400px;
+            <t
+                t-set="is_productive_system"
+                t-value="request.env['ir.config_parameter'].sudo().get_param('database.uuid_productive',False)"
+            />
+
+            <div
+                t-if="not is_productive_system"
+                style="text-align: center;  color: #FFFFFF; background-color: #D0442C;   position: relative;
+                      display: block;      font-size: 16px;"
+            >
+                <span>
+                    This is a test database.
+                </span>
+            </div>
+
+
+
+            <div
+                t-if="not is_productive_system"
+                style="width: 400px;
                             bottom: 55px;
                             right: -100px;
                             font-size: 40px;
@@ -20,22 +39,13 @@
                             pointer-events: none;
                             text-transform: uppercase;
                             z-index: 9999;"
-                >
-                    test
-                </span>
+            >
+
+                <span>test</span>
             </div>
         </xpath>
-    </template>
-    <template id="test_banner" inherit_id="web.layout">
-        <xpath expr="//body" position="inside">
-            <div>
-                <span
-                    style="text-align: center;                         color: #FFFFFF;                         background-color: #D0442C;                         position: relative;                         display: block;                         font-size: 16px;"
-                >
-                    This is a test database.
-                </span>
-            </div>
-        </xpath>
+
+
     </template>
 
 </odoo>
