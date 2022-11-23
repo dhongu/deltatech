@@ -11,3 +11,4 @@ class ResConfigSettings(models.TransientModel):
     alternative_search = fields.Boolean(string="Alternative Search", config_parameter="alternative.search_name")
     catalog_search = fields.Boolean(string="Catalog Search", config_parameter="alternative.search_catalog")
     alternative_limit = fields.Integer(string="Alternative Limit", config_parameter="alternative.limit", default=10)
+    alternative_length_min = fields.Integer(string="Mimim Length", config_parameter="alternative.length_min", default=3)
