@@ -55,13 +55,13 @@ class ProductTemplate(models.Model):
                 res_alt = models.lazy_name_get(products)
                 args = expression.AND([args, [("id", "not in", products.ids)]])
 
-        this = self.with_context({"no_catalog": True})
-        res = super(ProductTemplate, this).name_search(name, args, operator=operator, limit=limit) + res_alt
+        self = self.with_context(no_catalog=True)
+        res = super(ProductTemplate, self).name_search(name, args, operator=operator, limit=limit) + res_alt
 
         if not res and catalog_search and name and len(name) > 3:
             prod = self.env["product.catalog"].search_in_catalog(name)
             if prod:
-                res = prod.name_get()
+                res = prod.product_tmpl_id.name_get()
 
         return res
 
@@ -76,12 +76,14 @@ class ProductProduct(models.Model):
 
         args = args or []
         res_alt = []
+
         get_param = self.env["ir.config_parameter"].sudo().get_param
         alternative_search = safe_eval(get_param("alternative.search_name", "False"))
         catalog_search = safe_eval(get_param("alternative.search_catalog", "False"))
         alternative_limit = safe_eval(get_param("alternative.alternative_limit", "10")) or limit
+        length_min = safe_eval(get_param("alternative.length_min", "3"))
 
-        if alternative_search and name and len(name) > 3:
+        if alternative_search and name and len(name) >= length_min:
             domain = [("name", operator, name)]
             alternative_ids = self.env["product.alternative"].search(domain, limit=alternative_limit)
             products = alternative_ids.mapped("product_tmpl_id").mapped("product_variant_ids")
@@ -89,8 +91,8 @@ class ProductProduct(models.Model):
                 res_alt = models.lazy_name_get(products)
                 args = expression.AND([args, [("id", "not in", products.ids)]])
 
-        this = self.with_context({"no_catalog": True})
-        res = super(ProductProduct, this).name_search(name, args, operator=operator, limit=limit) + res_alt
+        self = self.with_context(no_catalog=True)
+        res = super(ProductProduct, self).name_search(name, args, operator=operator, limit=limit) + res_alt
 
         if not res and catalog_search and name and len(name) > 3:
             prod = self.env["product.catalog"].search_in_catalog(name)
