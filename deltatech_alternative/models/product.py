@@ -39,18 +39,16 @@ class ProductTemplate(models.Model):
         catalog_search = safe_eval(get_param("alternative.search_catalog", "True"))
 
         if alternative_search and name and len(name) > 2:
-
-            if alternative_search:
-                alternative_ids = self.env["product.alternative"].search([("name", operator, name)], limit=10)
-                products = alternative_ids.mapped("product_tmpl_id")
-                if products:
-                    res_alt = products.name_get()
-                    args = expression.AND([args, [("id", "not in", products.ids)]])
+            alternative_ids = self.env["product.alternative"].search([("name", operator, name)], limit=10)
+            products = alternative_ids.mapped("product_tmpl_id")
+            if products:
+                res_alt = products.name_get()
+                args = expression.AND([args, [("id", "not in", products.ids)]])
 
         self = self.with_context(no_catalog=True)
         res = super(ProductTemplate, self).name_search(name, args, operator=operator, limit=limit) + res_alt
 
-        if not res and catalog_search:
+        if not res and catalog_search and name and len(name) > 3:
             prod = self.env["product.catalog"].search_in_catalog(name)
             if prod:
                 res = prod.product_tmpl_id.name_get()
@@ -74,18 +72,16 @@ class ProductProduct(models.Model):
         catalog_search = safe_eval(get_param("alternative.search_catalog", "True"))
 
         if alternative_search and name and len(name) > 2:
+            alternative_ids = self.env["product.alternative"].search([("name", operator, name)], limit=10)
+            products = alternative_ids.mapped("product_tmpl_id").mapped("product_variant_ids")
+            if products:
+                res_alt = products.name_get()
+                args = expression.AND([args, [("id", "not in", products.ids)]])
 
-            if alternative_search:
-                alternative_ids = self.env["product.alternative"].search([("name", operator, name)], limit=10)
-                products = alternative_ids.mapped("product_tmpl_id").mapped("product_variant_ids")
-                if products:
-                    res_alt = products.name_get()
-                    args = expression.AND([args, [("id", "not in", products.ids)]])
+        self = self.with_context(no_catalog=True)
+        res = super(ProductProduct, self).name_search(name, args, operator=operator, limit=limit) + res_alt
 
-        this = self.with_context({"no_catalog": True})
-        res = super(ProductProduct, this).name_search(name, args, operator=operator, limit=limit) + res_alt
-
-        if not res and catalog_search:
+        if not res and catalog_search and name and len(name) > 3:
             prod = self.env["product.catalog"].search_in_catalog(name)
             if prod:
                 res = prod.name_get()
