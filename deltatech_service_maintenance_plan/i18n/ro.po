@@ -302,7 +302,8 @@ msgstr "Plan service"
 #. module: deltatech_service_maintenance_plan
 #: model:ir.model,name:deltatech_service_maintenance_plan.model_service_plan_call
 msgid "Service Plan Call"
-msgstr "Plan apel service"
+msgstr "Apel plan de întreținere"
+
 
 #. module: deltatech_service_maintenance_plan
 #: model:ir.actions.act_window,name:deltatech_service_maintenance_plan.action_service_plan
