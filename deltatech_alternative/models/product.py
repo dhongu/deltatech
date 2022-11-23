@@ -82,8 +82,8 @@ class ProductProduct(models.Model):
                     res_alt = products.name_get()
                     args = expression.AND([args, [("id", "not in", products.ids)]])
 
-        this = self.with_context({"no_catalog": True})
-        res = super(ProductProduct, this).name_search(name, args, operator=operator, limit=limit) + res_alt
+        self = self.with_context(no_catalog=True)
+        res = super(ProductProduct, self).name_search(name, args, operator=operator, limit=limit) + res_alt
 
         if not res and catalog_search:
             prod = self.env["product.catalog"].search_in_catalog(name)
