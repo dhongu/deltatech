@@ -46,7 +46,7 @@ msgstr "Operație"
 #: code:addons/deltatech_stock_location/models/stock_location.py:0
 #, python-format
 msgid "Receipt to %s"
-msgstr "Receție în %s"
+msgstr "Recepție în %s"
 
 #. module: deltatech_stock_location
 #: model:ir.model.fields,field_description:deltatech_stock_location.field_stock_location__route_delivery_id
