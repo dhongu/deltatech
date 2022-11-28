@@ -7,7 +7,7 @@
     "name": "eCommerce Sale Stock extension",
     "category": "Website",
     "summary": "eCommerce extension",
-    "version": "15.0.2.0.1",
+    "version": "15.0.2.0.2",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
