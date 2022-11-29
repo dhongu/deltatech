@@ -38,8 +38,10 @@ class InventoryLine(models.Model):
 
     def _generate_moves(self):
         for line in self:
-            if line.prod_lot_id and line.prod_lot_id.unit_price != line.standard_price:
+            if line.prod_lot_id:
                 line.prod_lot_id.write({"unit_price": line.standard_price})
+                if line.prod_lot_id.product_id.tracking == "serial":
+                    line.prod_lot_id.write({"inventory_value": line.standard_price})
             if line.difference_qty:
                 lot_inventory_value = line.standard_price * line.product_qty
                 line.prod_lot_id.write({"inventory_value": lot_inventory_value})
