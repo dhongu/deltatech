@@ -7,7 +7,7 @@ from odoo import api, fields, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    acquirer_id = fields.Many2one("payment.acquirer", compute="_compute_payment", store=True)
+    acquirer_id = fields.Many2one("payment.provider", compute="_compute_payment", store=True)
     payment_amount = fields.Monetary(string="Amount Payment", compute="_compute_payment", store=True)
 
     payment_status = fields.Selection(
@@ -49,7 +49,7 @@ class SaleOrder(models.Model):
             amount = 0
             transactions = order.sudo().transaction_ids.filtered(lambda a: a.state == "done")
 
-            acquirer = self.env["payment.acquirer"]
+            acquirer = self.env["payment.provider"]
 
             for invoice in order.invoice_ids:
                 amount += invoice.amount_total - invoice.amount_residual

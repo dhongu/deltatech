@@ -64,6 +64,6 @@ class TestSale(TransactionCase):
 
         wizard = Form(self.env["sale.confirm.payment"].with_context(active_id=self.so.id))
         wizard.amount = 100
-        wizard.acquirer_id = self.env["payment.acquirer"].search([], limit=1)
+        wizard.acquirer_id = self.env["payment.provider"].search([], limit=1)
         wizard = wizard.save()
         wizard.do_confirm()

@@ -7,7 +7,7 @@ from odoo import fields, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    acquirer_id = fields.Many2one("payment.acquirer")
+    acquirer_id = fields.Many2one("payment.provider")
 
     def _get_delivery_methods(self):
         carriers = super(SaleOrder, self)._get_delivery_methods()

@@ -12,8 +12,8 @@ class ServiceWorkCenter(models.Model):
 
     name = fields.Char()
     location_id = fields.Many2one("stock.location")
-    sale_route_id = fields.Many2one("stock.location.route", string="Sale Route")
+    sale_route_id = fields.Many2one("stock.route", string="Sale Route")
     color = fields.Integer("Color")
     picking_type_id = fields.Many2one("stock.picking.type")
-    transfer_route_id = fields.Many2one("stock.location.route", string="Transfer Route")
+    transfer_route_id = fields.Many2one("stock.route", string="Transfer Route")
     costs_hour = fields.Float(string="Cost per hour", help="Specify cost of work center per hour.", default=0.0)

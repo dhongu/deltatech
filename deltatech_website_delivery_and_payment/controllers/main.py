@@ -29,7 +29,7 @@ class WebsiteSale(Base):
         order = request.website.sale_get_order()
 
         if acquirer_id:
-            acquirer = request.env["payment.acquirer"].sudo().browse(int(acquirer_id))
+            acquirer = request.env["payment.provider"].sudo().browse(int(acquirer_id))
             if acquirer and order.acquirer_id != acquirer:
                 order.write({"acquirer_id": acquirer.id})
 

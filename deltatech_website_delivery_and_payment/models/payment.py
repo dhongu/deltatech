@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 
 
 class PaymentAcquirer(models.Model):
-    _inherit = "payment.acquirer"
+    _inherit = "payment.provider"
 
     value_limit = fields.Float(string="Value Limit")
     restrict_label_ids = fields.Many2many("res.partner.category")

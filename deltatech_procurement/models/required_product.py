@@ -56,9 +56,7 @@ class RequiredOrder(models.Model):
     )
     group_id = fields.Many2one("procurement.group", string="Procurement Group", readonly=True)
 
-    route_id = fields.Many2one(
-        "stock.location.route", string="Route", readonly=True, states={"draft": [("readonly", False)]}
-    )
+    route_id = fields.Many2one("stock.route", string="Route", readonly=True, states={"draft": [("readonly", False)]})
 
     warehouse_id = fields.Many2one(
         "stock.warehouse",

@@ -10,7 +10,10 @@
     "website": "https://www.terrabit.ro",
     "depends": ["sale_margin", "account", "stock_account"],
     "license": "LGPL-3",
-    "data": ["security/sale_security.xml", "views/sale_margin_view.xml"],
+    "data": [
+        "security/sale_security.xml",
+        # "views/sale_margin_view.xml"
+    ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
