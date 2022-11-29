@@ -10,7 +10,7 @@
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
     "category": "Purchase",
-    "depends": ["purchase_stock", "report_xlsx"],
+    "depends": ["purchase_stock", "report_xlsx"],  # de migrat la 16.0
     "data": ["wizard/import_purchase_line_view.xml", "report/purchase_xls.xml", "security/ir.model.access.csv"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
