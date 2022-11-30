@@ -6,9 +6,9 @@ from string import Template
 from odoo import api, models
 
 
-class FollowupSend(models.TransientModel):
-    _name = "followup.send"
-    _description = "Followup Send"
+class FollowupSendWizard(models.TransientModel):
+    _name = "followup.send.wizard"
+    _description = "Followup Send Wizard"
 
     @api.model
     def run_followup(self, codes=False):
