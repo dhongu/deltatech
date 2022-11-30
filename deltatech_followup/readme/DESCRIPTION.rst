@@ -12,7 +12,7 @@ Features:
  - Configure Partners
       - will receive followups - check if the partner will be processed for followups
  - Configure cron job for followup mails:
-      - model: Followup Send (followup.send)
+      - model: Followup Send (followup.send.wizard)
       - Python code:
           - for all followups: model.run_followup()
           - for selected followups: model.run_followup(["12D", "20D"]) - 12D and 20D are the codes of the followups to run
