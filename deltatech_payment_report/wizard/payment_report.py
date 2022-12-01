@@ -54,7 +54,9 @@ class PaymentReport(models.TransientModel):
 
     def button_show_report(self):
         self.do_compute()
-        action = self.env.ref("deltatech_payment_report.action_account_payment_report_line").read()[0]
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            "deltatech_payment_report.action_account_payment_report_line"
+        )
         action["display_name"] = "{} ({}-{})".format(
             action["name"],
             self.date_from,

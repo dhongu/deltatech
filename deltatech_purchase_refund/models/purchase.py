@@ -10,8 +10,8 @@ from odoo.tools.float_utils import float_compare
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
-    def action_view_invoice(self):
-        action = super(PurchaseOrder, self).action_view_invoice()
+    def action_view_invoice(self, invoices=False):
+        action = super(PurchaseOrder, self).action_view_invoice(invoices)
         invoice_type = "in_invoice"
         for line in self.order_line:
             if line.product_id.purchase_method == "purchase":

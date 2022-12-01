@@ -11,7 +11,7 @@
     "category": "Sales",
     "depends": ["sales_team", "account", "stock", "sale_stock"],
     "license": "LGPL-3",
-    "data": ["views/crm_team_views.xml", "views/sale_team_view.xml", "security/sales_team_security.xml"],
+    "data": ["views/sale_team_view.xml", "security/sales_team_security.xml"],
     "development_status": "Production/Stable",
     "images": ["static/description/main_screenshot.png"],
     "installable": True,

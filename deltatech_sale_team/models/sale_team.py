@@ -27,14 +27,14 @@ class CrmTeam(models.Model):
 
     def show_products(self):
         self.ensure_one()
-        action = self.env.ref("stock.product_template_action_product").read()[0]
+        action = self.env["ir.actions.actions"]._for_xml_id("stock.product_template_action_product")
 
         action["context"] = {"warehouse": self.warehouse_id.id, "search_default_real_stock_available": 1}
         return action
 
     def show_validated_quotations(self):
         self.ensure_one()
-        action = self.env.ref("sale.action_quotations_salesteams").read()[0]
+        action = self.env["ir.actions.actions"]._for_xml_id("sale.action_quotations_salesteams")
         action["domain"] = [("state", "=", "sent")]
         action["context"] = {
             "search_default_team_id": [self.id],

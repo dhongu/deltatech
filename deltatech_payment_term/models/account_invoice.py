@@ -11,7 +11,7 @@ class AccountInvoice(models.Model):
     in_rates = fields.Boolean(string="In Rates", compute="_compute_in_rates", store=True)
 
     def view_rate(self):
-        action = self.env.ref("deltatech_payment_term.action_account_moves_sale").read()[0]
+        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_payment_term.action_account_moves_sale")
         action["domain"] = "['|',('move_id','='," + str(self.id) + " ),('name','ilike','" + str(self.name) + "')]"
         return action
 

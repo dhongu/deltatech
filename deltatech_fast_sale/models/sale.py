@@ -32,8 +32,7 @@ class SaleOrder(models.Model):
                         move_line.unlink()
                 picking.with_context(force_period_date=self.date_order)._action_done()
 
-        action_obj = self.env.ref("sale.action_view_sale_advance_payment_inv")
-        action = action_obj.read()[0]
+        action = self.env["ir.actions.actions"]._for_xml_id("sale.action_view_sale_advance_payment_inv")
         action["context"] = {"force_period_date": self.date_order}
         return action
 
@@ -54,8 +53,8 @@ class SaleOrder(models.Model):
         if not picking_ids:
             return
 
-        action = self.env.ref("stock.action_picking_tree_all")
-        result = action.read()[0]
+        action = self.env["ir.actions.actions"]._for_xml_id("stock.action_picking_tree_all")
+        result = action
 
         result["context"] = {}
 

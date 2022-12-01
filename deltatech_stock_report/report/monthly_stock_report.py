@@ -19,7 +19,7 @@ class MonthlyStockReport(models.TransientModel):
         "stock.location", domain="[('usage','=','internal'),('company_id','=',company_id)]", required=True
     )
 
-    date_range_id = fields.Many2one("date.range", string="Date range", required=True)  #
+    # date_range_id = fields.Many2one("date.range", string="Date range", required=True)  #
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
     date_to = fields.Date("End Date", required=True, default=fields.Date.today)
 
@@ -43,12 +43,12 @@ class MonthlyStockReport(models.TransientModel):
         res["date_to"] = fields.Date.to_string(to_date)
         return res
 
-    @api.onchange("date_range_id")
-    def onchange_date_range_id(self):
-        """Handle date range change."""
-        if self.date_range_id:
-            self.date_from = self.date_range_id.date_start
-            self.date_to = self.date_range_id.date_end
+    # @api.onchange("date_range_id")
+    # def onchange_date_range_id(self):
+    #     """Handle date range change."""
+    #     if self.date_range_id:
+    #         self.date_from = self.date_range_id.date_start
+    #         self.date_to = self.date_range_id.date_end
 
     def do_execute(self):
         domain = [
@@ -246,7 +246,7 @@ class MonthlyStockReport(models.TransientModel):
         # action['target'] = 'main'
         # action['name'] = _('Monthly Stock %s') % report.date_range_id.name
         action = {
-            "name": _("Monthly Stock %s") % report.date_range_id.name,
+            "name": _("Monthly Stock %s") % report.name,
             "type": "ir.actions.act_window",
             "view_type": "form",
             "view_mode": "pivot,tree",
