@@ -18,4 +18,5 @@
     "assets": {
         "web.assets_backend": ["deltatech_widget_fontawesome/static/src/js/fontawesome.js"],
     },
+    "images": ["static/description/main_screenshot.png"],
 }
