@@ -22,3 +22,8 @@ class SaleOrder(models.Model):
         return warehouse_id
 
     warehouse_id = fields.Many2one("stock.warehouse", default=_default_warehouse_id)
+
+    @api.onchange("team_id")
+    def on_change_team_id(self):
+        if self.team_id and self.team_id.warehouse_id:
+            self.warehouse_id = self.team_id.warehouse_id
