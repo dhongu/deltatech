@@ -63,7 +63,7 @@ class SaleOrder(models.Model):
         if len(pick_ids) > 1:
             result["domain"] = "[('id','in',%s)]" % (pick_ids.ids)
         elif len(pick_ids) == 1:
-            res = self.env["ir.actions.actions"]._for_xml_id("stock.view_picking_form")
+            res = self.env.ref("stock.view_picking_form", False)
             result["views"] = [(res and res.id or False, "form")]
             result["res_id"] = picking_ids.id
         return result
