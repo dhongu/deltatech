@@ -7,3 +7,4 @@ from . import sale_order
 from . import purchase_order
 from . import account_invoice
 from . import ir_actions_report
+from . import ir_attachment

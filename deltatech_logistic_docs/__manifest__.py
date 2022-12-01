@@ -4,7 +4,7 @@
 {
     "name": "Logistic Documents",
     "summary": "Logistic Documents",
-    "version": "15.0.1.0.2",
+    "version": "15.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "LGPL-3",
@@ -15,6 +15,7 @@
         "views/sale_order_view.xml",
         "views/purchase_order_view.xml",
         "views/account_invoice_view.xml",
+        "views/ir_attachment_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
