@@ -21,6 +21,10 @@ class StockMove(models.Model):
             update_list_price = get_param("purchase.update_list_price", default="False")
             update_list_price = safe_eval(update_list_price)
 
+            # este neidicat de a se forta actualizarea pretului standard
+            update_standard_price = get_param("purchase.update_standard_price", default="False")
+            update_standard_price = safe_eval(update_standard_price)
+
             price_unit = self.purchase_line_id.with_context(date=self.date)._get_stock_move_price_unit()
             self.product_id.write({"last_purchase_price": price_unit})
             self.write({"price_unit": price_unit})  # mai trebuie sa pun o conditie de status ?
@@ -40,6 +44,9 @@ class StockMove(models.Model):
             # pretul standard se actualizeaza prin rutinele standard. Aici este o fortare pe ultimul pret
             if update_list_price:
                 self.product_id.product_tmpl_id.onchange_last_purchase_price()
+
+            if update_standard_price:
+                self.product_id.write({"standard_price": price_unit})
 
             return price_unit
 
