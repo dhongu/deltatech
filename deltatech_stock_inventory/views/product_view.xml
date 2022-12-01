@@ -7,29 +7,143 @@
             <field name="inherit_id" ref="stock.view_template_property_form" />
             <field name="arch" type="xml">
                 <group name="group_lots_and_weight" position="after">
-                    <group string='Stock' name="store" attrs="{'invisible':[('type','=','service')]}">
-
+                    <group
+                        string='Stock'
+                        name="store"
+                        invisible="not context.get('warehouse')"
+                        attrs="{'invisible':[('type','=','service')]}"
+                    >
                         <label for="loc_rack" string="Location" />
                         <div class="o_row">
                             <field name="loc_rack" placeholder="Rack" />
                             <field name="loc_row" placeholder="Row" />
                             <field name="loc_case" placeholder="Case" />
                         </div>
-                        <label for="loc_rack" string="Inventory" />
-                        <div class="o_row">
-                            <field name="last_inventory_date" />
-                            <field name="last_inventory_id" />
-                            <button
-                                string="Update"
-                                name="get_last_inventory_date"
-                                type="object"
-                                class="oe_link oe_edit_only"
-                            />
-                        </div>
-
-
+                    </group>
+                    <group
+                        string='Stock'
+                        groups="stock.group_stock_multi_warehouses"
+                        invisible="context.get('warehouse')"
+                    >
+                        <field name="warehouse_loc_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="warehouse_id" />
+                                <field name="loc_rack" />
+                                <field name="loc_row" />
+                                <field name="loc_case" />
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Inventory">
+                        <field name="last_inventory_date" />
+                        <field name="last_inventory_id" />
+                        <button
+                            string="Update"
+                            name="get_last_inventory_date"
+                            type="object"
+                            class="oe_link oe_edit_only"
+                            groups="deltatech_stock_inventory.group_view_inventory_button"
+                        />
                     </group>
                 </group>
+            </field>
+        </record>
+        <record id="view_product_template_warehouse_form" model="ir.ui.view">
+            <field name="name">product.template.warehouse.form</field>
+            <field name="model">product.template</field>
+            <field name="priority" eval="50" />
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Update Stock" name="get_last_inventory_date" type="object" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button
+                                type="object"
+                                name="action_open_quants"
+                                attrs="{'invisible':[('type', '!=', 'product')]}"
+                                class="oe_stat_button"
+                                icon="fa-building-o"
+                            >
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value" widget="statinfo">
+                                        <field name="qty_available" widget="statinfo" nolabel="1" class="mr4" />
+                                        <field name="uom_name" />
+                                    </span>
+                                    <span class="o_stat_text">On Hand</span>
+                                </div>
+                            </button>
+                        </div>
+                        <field name="image_512" widget="image" class="oe_avatar" />
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name" string="Product Name" />
+                            <h1>
+                                <field name="name" placeholder="Product Name" />
+                            </h1>
+                        </div>
+                        <notebook>
+                            <page string="Inventory" name="inventory">
+                                <group>
+                                    <group>
+                                        <field name="type" />
+                                        <field name="default_code" />
+                                        <field name="qty_available" />
+                                    </group>
+                                    <group
+                                        string='Stock'
+                                        name="store"
+                                        invisible="not context.get('warehouse')"
+                                        attrs="{'invisible':[('type','=','service')]}"
+                                    >
+                                        <label for="loc_rack" string="Location" />
+                                        <div class="o_row">
+                                            <field name="loc_rack" placeholder="Rack" />
+                                            <field name="loc_row" placeholder="Row" />
+                                            <field name="loc_case" placeholder="Case" />
+                                        </div>
+                                    </group>
+                                    <group
+                                        string='Stock'
+                                        groups="stock.group_stock_multi_warehouses"
+                                        invisible="context.get('warehouse')"
+                                    >
+                                        <field name="warehouse_loc_ids" nolabel="1">
+                                            <tree editable="bottom">
+                                                <field name="warehouse_id" />
+                                                <field name="loc_rack" />
+                                                <field name="loc_row" />
+                                                <field name="loc_case" />
+                                            </tree>
+                                        </field>
+                                    </group>
+                                    <group string="Inventory">
+                                        <field name="last_inventory_date" />
+                                        <field name="last_inventory_id" />
+                                        <button
+                                            string="Update"
+                                            name="get_last_inventory_date"
+                                            type="object"
+                                            class="oe_link oe_edit_only"
+                                            groups="deltatech_stock_inventory.group_view_inventory_button"
+                                        />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_product_template_warehouse_tree" model="ir.ui.view">
+            <field name="name">product.template.warehouse.tree</field>
+            <field name="model">product.template</field>
+            <field name="priority" eval="50" />
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="default_code" />
+                    <field name="name" />
+                </tree>
             </field>
         </record>
 <!--        <record id="view_product_template_warehouse_form" model="ir.ui.view">-->
