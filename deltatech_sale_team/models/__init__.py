@@ -4,3 +4,4 @@
 
 
 from . import sale_team
+from . import sale_order
