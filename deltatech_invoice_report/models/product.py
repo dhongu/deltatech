@@ -88,7 +88,7 @@ class ProductTemplate(models.Model):
 
     def action_view_invoice(self):
 
-        action = self.env.ref("account.action_account_invoice_report_all").read()[0]
+        action = self.env["ir.actions.actions"]._for_xml_id("account.action_account_invoice_report_all")
         products = self.env["product.product"]
         for template in self:
             products |= template.product_variant_ids
@@ -110,7 +110,7 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     def action_view_invoice(self):
-        action = self.env.ref("account.action_account_invoice_report_all").read()[0]
+        action = self.env["ir.actions.actions"]._for_xml_id("account.action_account_invoice_report_all")
         action[
             "context"
         ] = """{

@@ -85,7 +85,7 @@ class ProductTemplate(models.Model):
         action = self.env.ref("deltatech_product_code.action_force_new_code")
         action.create_action()
 
-        action = self.env.ref("product.product_template_action").read()[0]
+        action = self.env["ir.actions.actions"]._for_xml_id("product.product_template_action")
 
         action["domain"] = [("id", "in", product_ids)]
         return action

@@ -62,7 +62,7 @@ class FleetVehicle(models.Model):
         @return: the map sheet view
         """
         self.ensure_one()
-        result = self.env.ref("deltatech_fleet.fleet_map_sheet_act").sudo().read()[0]
+        result = self.env["ir.actions.actions"]._for_xml_id("deltatech_fleet.fleet_map_sheet_act")
         result["context"] = dict(self.env.context, default_vehicle_id=self.id)
         result["domain"] = [("vehicle_id", "=", self.id)]
         return result
