@@ -30,6 +30,7 @@ Features:
     - *purchase.update_list_price* - if set to True, the list price will be updated according to trade markup value.
       If set to False, the list price will not be updated
     - *sale.list_price_round* - decimal number to which the list price is rounded
+    - *purchase.update_standard_price* - if set to True, product standard price will be modified with price from purchase order
  - New fields added in product template:
     - last_purchase_price - last purchase price. It's updated at receipt validation
     - trade_markup - trade parkup for the product. It can be updated with a wizard (Action->Set trade markup)

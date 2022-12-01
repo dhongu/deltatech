@@ -19,6 +19,7 @@ class ProductProduct(models.Model):
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
+    standard_price = fields.Float(tracking=True)
     list_price = fields.Float(tracking=True)
     last_purchase_price = fields.Float(digits="Product Price", tracking=True)
 
