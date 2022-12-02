@@ -9,7 +9,7 @@ class ResCompany(models.Model):
     _inherit = "res.company"
 
     no_negative_stock = fields.Boolean(
-        string="No negative stock", default=True, help="Allows you to prohibit negative stock quantities."
+        string="No negative stock", help="Allows you to prohibit negative stock quantities."
     )
 
 
