@@ -5,7 +5,7 @@
     "name": "eCommerce Sale Short Description",
     "category": "Website",
     "summary": "eCommerce short description",
-    "version": "15.0.1.0.0",
+    "version": "15.0.1.0.1",
     "license": "LGPL-3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
