@@ -76,7 +76,7 @@ class StockInventoryLine(models.Model):
     @api.depends("location_id", "product_id")
     def _compute_loc(self):
         for line in self:
-            warehouse = line.location_id.get_warehouse()
+            warehouse = line.location_id.warehouse_id
             product = line.product_id.with_context(warehouse=warehouse.id)
             line.loc_rack = product.loc_rack
             line.loc_row = product.loc_row
