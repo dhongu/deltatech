@@ -188,6 +188,14 @@ msgid "Case"
 msgstr "Cutie"
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_shelf
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__loc_shelf
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__loc_shelf
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
+msgid "Shelf"
+msgstr "Poliță"
+
+#. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__categ_id
 msgid "Category"
 msgstr "Categorie"
