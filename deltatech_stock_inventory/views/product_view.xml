@@ -121,17 +121,17 @@
                                             </tree>
                                         </field>
                                     </group>
-                                    <group string="Inventory">
-                                        <field name="last_inventory_date" />
-                                        <field name="last_inventory_id" />
-                                        <button
-                                            string="Update"
-                                            name="get_last_inventory_date"
-                                            type="object"
-                                            class="oe_link oe_edit_only"
-                                            groups="deltatech_stock_inventory.group_view_inventory_button"
-                                        />
-                                    </group>
+<!--                                    <group string="Inventory">-->
+<!--                                        <field name="last_inventory_date" />-->
+<!--                                        <field name="last_inventory_id" />-->
+<!--                                        <button-->
+<!--                                            string="Update"-->
+<!--                                            name="get_last_inventory_date"-->
+<!--                                            type="object"-->
+<!--                                            class="oe_link oe_edit_only"-->
+<!--                                            groups="deltatech_stock_inventory.group_view_inventory_button"-->
+<!--                                        />-->
+<!--                                    </group>-->
                                 </group>
                             </page>
                         </notebook>
