@@ -30,7 +30,7 @@ class TestMRPSimple(TransactionCase):
         #     "location_id": self.stock_location.id,
         # }
 
-        warehouse_id = self.stock_location.get_warehouse()
+        warehouse_id = self.stock_location.warehouse_id
         company_id = warehouse_id.company_id
         domain = [("usage", "=", "production"), ("company_id", "=", company_id.id)]
         self.location_production = self.env["stock.location"].search(domain, limit=1)

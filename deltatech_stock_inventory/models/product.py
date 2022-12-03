@@ -45,7 +45,7 @@ class ProductTemplate(models.Model):
         if not warehouse_id and location_id:
             if isinstance(location_id, int):
                 location = self.env["stock.location"].browse(location_id)
-                warehouse_id = location.get_warehouse().id
+                warehouse_id = location.warehouse_id.id
         if not warehouse_id:
             warehouse_id = self.env.ref("stock.warehouse0").id
 

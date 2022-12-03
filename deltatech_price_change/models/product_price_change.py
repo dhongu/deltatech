@@ -85,7 +85,7 @@ class ProductPriceChange(models.Model):
 
                 for location in locations:
                     new_lines = []
-                    warehouse = location.get_warehouse()
+                    warehouse = location.warehouse_id
                     for line in change.line_ids:
 
                         available = 0
