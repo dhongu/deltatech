@@ -14,6 +14,7 @@ class ProductWarehouseLocation(models.Model):
     warehouse_id = fields.Many2one("stock.warehouse")
     loc_rack = fields.Char("Rack", size=16)
     loc_row = fields.Char("Row", size=16)
+    loc_shelf = fields.Char("Shelf", size=16)
     loc_case = fields.Char("Case", size=16)
 
     _sql_constraints = [
@@ -26,6 +27,7 @@ class ProductTemplate(models.Model):
 
     loc_rack = fields.Char("Rack", size=16, compute="_compute_loc", inverse="_inverse_loc")
     loc_row = fields.Char("Row", size=16, compute="_compute_loc", inverse="_inverse_loc")
+    loc_shelf = fields.Char("Shelf", size=16, compute="_compute_loc", inverse="_inverse_loc")
     loc_case = fields.Char("Case", size=16, compute="_compute_loc", inverse="_inverse_loc")
 
     warehouse_loc_ids = fields.One2many("product.warehouse.location", "product_id")
@@ -52,6 +54,7 @@ class ProductTemplate(models.Model):
             loc = self.env["product.warehouse.location"].sudo().search(domain, limit=1)
             product.loc_rack = loc.loc_rack
             product.loc_row = loc.loc_row
+            product.loc_shelf = loc.loc_shelf
             product.loc_case = loc.loc_case
 
     def _inverse_loc(self):
@@ -65,6 +68,7 @@ class ProductTemplate(models.Model):
             values = {
                 "loc_rack": product.loc_rack,
                 "loc_row": product.loc_row,
+                "loc_shelf": product.loc_shelf,
                 "loc_case": product.loc_case,
                 "product_id": product.id,
                 "warehouse_id": warehouse_id,

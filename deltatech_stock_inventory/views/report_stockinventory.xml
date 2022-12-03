@@ -72,6 +72,7 @@
                                 <t t-set="total_before" t-value="0" />
                                 <t t-set="loc_rack" t-value="False" />
                                 <t t-set="loc_row" t-value="False" />
+                                <t t-set="loc_shelf" t-value="False" />
                                 <t t-set="loc_case" t-value="False" />
                                 <t t-set="plus" t-value="0" />
                                 <t t-set="minus" t-value="0" />
@@ -92,6 +93,11 @@
                                                         <span>Row:</span>
                                                         <span t-field="line.loc_row" />
                                                     </t>
+                                                    <t t-if="line.loc_shelf">
+                                                        <span>Shelf:</span>
+                                                        <span t-field="line.loc_shelf" />
+                                                    </t>
+
                                                     <t t-if="line.loc_case">
                                                         <span>Case:</span>
                                                         <span t-field="line.loc_case" />
@@ -101,6 +107,7 @@
                                         </tr>
                                         <t t-set="loc_rack" t-value="line.loc_rack" />
                                         <t t-set="loc_row" t-value="line.loc_row" />
+                                        <t t-set="loc_shelf" t-value="line.loc_shelf" />
                                         <t t-set="loc_case" t-value="line.loc_case" />
                                     </t>
                                     <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />

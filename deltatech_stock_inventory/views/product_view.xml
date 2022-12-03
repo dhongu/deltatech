@@ -17,6 +17,7 @@
                         <div class="o_row">
                             <field name="loc_rack" placeholder="Rack" />
                             <field name="loc_row" placeholder="Row" />
+                            <field name="loc_shelf" placeholder="Shelf" />
                             <field name="loc_case" placeholder="Case" />
                         </div>
                     </group>
@@ -30,6 +31,7 @@
                                 <field name="warehouse_id" />
                                 <field name="loc_rack" />
                                 <field name="loc_row" />
+                                <field name="loc_shelf" />
                                 <field name="loc_case" />
                             </tree>
                         </field>
@@ -100,6 +102,7 @@
                                         <div class="o_row">
                                             <field name="loc_rack" placeholder="Rack" />
                                             <field name="loc_row" placeholder="Row" />
+                                            <field name="loc_shelf" placeholder="Shelf" />
                                             <field name="loc_case" placeholder="Case" />
                                         </div>
                                     </group>
@@ -113,6 +116,7 @@
                                                 <field name="warehouse_id" />
                                                 <field name="loc_rack" />
                                                 <field name="loc_row" />
+                                                <field name="loc_shelf" />
                                                 <field name="loc_case" />
                                             </tree>
                                         </field>
