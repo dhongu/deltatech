@@ -36,6 +36,7 @@ class AccountInvoice(models.Model):
 
                 self.env["packaging.invoice.material"].create(lines)
 
+    # nu mai exista
     def action_invoice_open(self):
         res = super(AccountInvoice, self).action_invoice_open()
         for invoice in self:

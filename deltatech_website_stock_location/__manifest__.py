@@ -9,7 +9,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["website", "website_sale_stock"],
-    "data": ["views/website_view.xml"],
+    "data": ["views/website_view.xml", "views/res_config_settings_views.xml"],
     "images": ["static/description/main_screenshot.png"],
     "price": 10.00,
     "currency": "EUR",

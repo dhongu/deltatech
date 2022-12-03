@@ -5,6 +5,17 @@
 from odoo import models
 
 
+class ProductProduct(models.Model):
+    _inherit = "product.product"
+
+    def _get_domain_locations(self):
+        if self.env.context.get("all_warehouses"):
+            self = self.with_context(warehouse=False)
+        if self.env.context.get("all_locations"):
+            self = self.with_context(location=False)
+        return super(ProductProduct, self)._get_domain_locations()
+
+
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
@@ -20,6 +31,12 @@ class ProductTemplate(models.Model):
 
         website = self.env["website"].get_current_website()
         location = website.sudo().location_id
+        warehouse = website.sudo().warehouse_id
+        self = self.with_context(location=location.id, warehouse=warehouse.id)
+        if not warehouse:
+            self = self.with_context(all_warehouses=True)
+        if not location:
+            self = self.with_context(all_locations=True)
 
         combination_info = super(ProductTemplate, self)._get_combination_info(
             combination=combination,
@@ -30,18 +47,18 @@ class ProductTemplate(models.Model):
             only_template=only_template,
         )
 
-        if not self.env.context.get("website_sale_stock_get_quantity"):
-            return combination_info
-        if combination_info["product_id"]:
-            product = self.env["product.product"].sudo().browse(combination_info["product_id"])
-            free_qty = product.with_context(location=location.id).free_qty
-            combination_info.update(
-                {
-                    "virtual_available": free_qty,
-                    "virtual_available_formatted": self.env["ir.qweb.field.float"].value_to_html(
-                        free_qty, {"precision": 0}
-                    ),
-                }
-            )
+        # if not self.env.context.get("website_sale_stock_get_quantity"):
+        #     return combination_info
+        # if combination_info["product_id"]:
+        #     product = self.env["product.product"].sudo().browse(combination_info["product_id"])
+        #     free_qty = product.with_context(location=location.id, warehouse=warehouse.id).free_qty
+        #     combination_info.update(
+        #         {
+        #             "virtual_available": free_qty,
+        #             "virtual_available_formatted": self.env["ir.qweb.field.float"].value_to_html(
+        #                 free_qty, {"precision": 0}
+        #             ),
+        #         }
+        #     )
 
         return combination_info
