@@ -10,8 +10,8 @@ from odoo.tools.float_utils import float_compare
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
-    def action_view_invoice(self, invoices=False):
-        action = super(PurchaseOrder, self).action_view_invoice(invoices)
+    def _prepare_invoice(self):
+        invoice_vals = self._prepare_invoice()
         invoice_type = "in_invoice"
         for line in self.order_line:
             if line.product_id.purchase_method == "purchase":
@@ -20,16 +20,31 @@ class PurchaseOrder(models.Model):
                 qty = line.qty_received - line.qty_invoiced
             if qty < 0:
                 invoice_type = "in_refund"
-        action["context"]["default_type"] = invoice_type
-        action["context"]["default_invoice_date"] = self.date_planned
+        invoice_vals["move_type"] = invoice_type
+        invoice_vals["invoice_date"] = self.date_planned
 
-        notice = self.env.context.get("notice", False)
-        if not notice:
-            for picking in self.picking_ids:
-                notice = notice or picking.l10n_ro_notice
+        return invoice_vals
 
-        action["context"]["notice"] = notice
-        return action
+    # def action_view_invoice(self, invoices=False):
+    #     action = super(PurchaseOrder, self).action_view_invoice(invoices)
+    #     invoice_type = "in_invoice"
+    #     for line in self.order_line:
+    #         if line.product_id.purchase_method == "purchase":
+    #             qty = line.product_qty - line.qty_invoiced
+    #         else:
+    #             qty = line.qty_received - line.qty_invoiced
+    #         if qty < 0:
+    #             invoice_type = "in_refund"
+    #     action["context"]["default_type"] = invoice_type
+    #     action["context"]["default_invoice_date"] = self.date_planned
+    #
+    #     notice = self.env.context.get("notice", False)
+    #     if not notice:
+    #         for picking in self.picking_ids:
+    #             notice = notice or picking.l10n_ro_notice
+    #
+    #     action["context"]["notice"] = notice
+    #     return action
 
 
 class PurchaseOrderLine(models.Model):
