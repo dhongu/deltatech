@@ -261,6 +261,8 @@ class Inventory(models.Model):
             "default_inventory_id": self.id,
             "default_company_id": self.company_id.id,
         }
+        if self.state == "done":
+            context["default_is_editable"] = False
         # Define domains and context
         domain = [("inventory_id", "=", self.id), ("location_id.usage", "in", ["internal", "transit"])]
         if self.location_ids:

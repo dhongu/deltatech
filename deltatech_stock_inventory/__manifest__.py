@@ -5,13 +5,14 @@
 {
     "name": "Stock Inventory",
     "summary": "Inventory Old Method",
-    "version": "15.0.2.1.1",
+    "version": "15.0.2.1.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
     "depends": ["deltatech_stock_date", "stock_account"],
     "license": "LGPL-3",
     "data": [
+        "security/security.xml",
         "security/ir.model.access.csv",
         "data/data.xml",
         "views/stock_inventory_views.xml",

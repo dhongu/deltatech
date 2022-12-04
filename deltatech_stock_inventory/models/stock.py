@@ -67,7 +67,7 @@ class StockInventoryLine(models.Model):
     _order = "inventory_id, location_id, categ_id, product_id, prod_lot_id"
 
     categ_id = fields.Many2one("product.category", string="Category", related="product_id.categ_id", store=True)
-    standard_price = fields.Float(string="Price")
+    standard_price = fields.Float(string="Price", states={"done": [("readonly", True)]})
     loc_rack = fields.Char("Rack", size=16, compute="_compute_loc", store=True)
     loc_row = fields.Char("Row", size=16, compute="_compute_loc", store=True)
     loc_case = fields.Char("Case", size=16, compute="_compute_loc", store=True)

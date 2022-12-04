@@ -88,8 +88,18 @@
                 <field name="product_uom_id" string="UoM" groups="uom.group_uom" width="0.3" force_save="1" />
                 <field name="inventory_id" invisible="1" />
                 <field name="state" invisible="1" />
-                <field name="standard_price" />
-                <field name="is_ok" />
+                <field
+                    name="standard_price"
+                    attrs="{'readonly': ['|',
+                            ('is_editable', '=', False),
+                            ('state', '!=', 'confirm')]}"
+                />
+                <field
+                    name="is_ok"
+                    attrs="{'readonly': ['|',
+                            ('is_editable', '=', False),
+                            ('state', '!=', 'confirm')]}"
+                />
             </tree>
         </field>
     </record>
@@ -253,6 +263,14 @@
                         class="oe_highlight"
                         groups="stock.group_stock_user"
                     />
+                     <button
+                        name="action_open_inventory_lines"
+                        states="done"
+                        string="Show Lines"
+                        type="object"
+                        class="oe_highlight"
+                        groups="stock.group_stock_user"
+                    />
                     <button
                         name="action_validate"
                         string="Validate Inventory"
@@ -326,6 +344,8 @@
                             <field name="exhausted" />
                         </group>
                         <group>
+                            <field name="date" />
+                            <field name="create_uid" string="Created by" widget="many2one_avatar_user" />
                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
                             <field
                                 name="prefill_counted_quantity"

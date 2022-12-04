@@ -78,47 +78,58 @@ class ProductTemplate(models.Model):
             else:
                 self.env["product.warehouse.location"].sudo().create(values)
 
-    def get_last_inventory_date(self):
-        products = self.env["product.product"]
-        for template in self:
-            products |= template.product_variant_ids
-        products.get_last_inventory_date()
-
     def _compute_last_inventory(self):
         for template in self:
             last_inventory_date = False
             last_inventory_id = False
             for product in template.product_variant_ids:
-                if last_inventory_date < product.last_inventory_date:
+                if not last_inventory_date or last_inventory_date < product.last_inventory_date:
                     last_inventory_date = product.last_inventory_date
                     last_inventory_id = product.last_inventory_id
             template.last_inventory_date = last_inventory_date
             template.last_inventory_id = last_inventory_id
 
-    # def action_update_quantity_on_hand(self):
-    #     action = super(ProductTemplate, self).action_update_quantity_on_hand()
-    #     action_inventory_form = self.env.ref("stock.action_inventory_form").read()[0]
-    #     action["name"] = action_inventory_form["name"]
-    #     action["res_model"] = action_inventory_form["res_model"]
-    #     action["view_id"] = action_inventory_form["view_id"]
-    #     action["domain"] = []
-    #     action["views"] = [(False, "form")]
-    #     action["context"] = {"default_product_ids": self.product_variant_ids.ids}
-    #     action["target"] = "new"
-    #     action["res_id"] = False
-    #     return action
+    def confirm_actual_inventory(self):
+        products = self.env["product.product"]
+        for template in self:
+            products |= template.product_variant_ids
+
+        products.confirm_actual_inventory()
 
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
-    last_inventory_date = fields.Date(string="Last Inventory Date", readonly=True, store=False)
-    last_inventory_id = fields.Many2one("stock.inventory", string="Last Inventory", readonly=True, store=False)
+    last_inventory_date = fields.Date(
+        string="Last Inventory Date", compute="_compute_last_inventory", readonly=True, store=False
+    )
+    last_inventory_id = fields.Many2one(
+        "stock.inventory", string="Last Inventory", compute="_compute_last_inventory", readonly=True, store=False
+    )
 
-    def get_last_inventory_date(self):
+    def _compute_last_inventory(self):
         for product in self:
-            line = self.env["stock.inventory.line"].search(
-                [("product_id", "=", product.id), ("is_ok", "=", True)], limit=1, order="id desc"
-            )
-            if line:
-                line.set_last_last_inventory()
+            domain = [("product_id", "=", product.id), ("is_ok", "=", True)]
+            line = self.env["stock.inventory.line"].search(domain, limit=1, order="id desc")
+            product.last_inventory_id = line.inventory_id
+            product.last_inventory_date = line.inventory_id.date
+
+    def confirm_actual_inventory(self):
+        products = self
+        inventory_values = {"state": "confirm", "line_ids": []}
+        quants = self.env["stock.quant"].search([("product_id", "in", products.ids)])
+        for quant in quants:
+            if quant.location_id.usage == "internal" and quant.product_id.last_inventory_date < fields.Date.today():
+                values = {
+                    "product_id": quant.product_id.id,
+                    "product_uom_id": quant.product_id.uom_id.id,
+                    "location_id": quant.location_id.id,
+                    "theoretical_qty": quant.quantity,
+                    "product_qty": quant.quantity,
+                    "standard_price": quant.product_id.product_tmpl_id.standard_price,
+                    "is_ok": True,
+                }
+                inventory_values["line_ids"].append((0, 0, values))
+        if inventory_values["line_ids"]:
+            inventory = self.env["stock.inventory"].create(inventory_values)
+            inventory.action_validate()

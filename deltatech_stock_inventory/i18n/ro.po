@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-17 10:31+0000\n"
-"PO-Revision-Date: 2022-11-17 10:31+0000\n"
+"POT-Creation-Date: 2022-12-04 19:04+0000\n"
+"PO-Revision-Date: 2022-12-04 19:04+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,11 @@ msgstr ""
 #, python-format
 msgid "%s (copy)"
 msgstr "%s (copie)"
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+msgid "<span class=\"o_stat_text\">On Hand</span>"
+msgstr ""
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_position
@@ -35,6 +40,11 @@ msgstr "<span>Raft:</span>"
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_position
 msgid "<span>Row:</span>"
 msgstr "<span>Rând:</span>"
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_position
+msgid "<span>Shelf:</span>"
+msgstr "<span>Poliță:</span>"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_total
@@ -112,7 +122,7 @@ msgstr "<strong>Cantitate teoretică</strong>"
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_total
 msgid "<strong>Total general</strong>"
-msgstr "<strong>Total general</strong>"
+msgstr ""
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
@@ -142,6 +152,11 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_type_icon
 msgid "Activity Type Icon"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:res.groups,name:deltatech_stock_inventory.group_change_inventory_date
+msgid "Allow to change inventory date"
 msgstr ""
 
 #. module: deltatech_stock_inventory
@@ -182,18 +197,12 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_case
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__loc_case
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__loc_case
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__loc_case
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
 msgid "Case"
 msgstr "Cutie"
-
-#. module: deltatech_stock_inventory
-#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_shelf
-#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__loc_shelf
-#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__loc_shelf
-#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
-msgid "Shelf"
-msgstr "Poliță"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__categ_id
@@ -205,6 +214,11 @@ msgstr "Categorie"
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__company_id
 msgid "Company"
 msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+msgid "Confirm Stock"
+msgstr "Confirmă stoc"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
@@ -232,12 +246,15 @@ msgid "Created Moves"
 msgstr "Mișcări create"
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__create_uid
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__create_uid
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__create_uid
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
 msgid "Created by"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__create_date
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__create_date
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__create_date
 msgid "Created on"
@@ -264,6 +281,7 @@ msgid "Difference different than zero"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__display_name
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__display_name
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__display_name
 msgid "Display Name"
@@ -316,6 +334,7 @@ msgid "Has Message"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__id
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__id
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__id
 msgid "ID"
@@ -400,6 +419,7 @@ msgstr "Inventare"
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_move__inventory_id
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_quant__inventory_id
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_track_confirmation__inventory_id
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
 msgid "Inventory"
 msgstr "Inventar"
@@ -494,18 +514,21 @@ msgid "Last Inventory Date"
 msgstr "Data ultimului inventar"
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location____last_update
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory____last_update
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line____last_update
 msgid "Last Modified on"
 msgstr "Ultima modificare la"
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__write_uid
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__write_uid
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__write_date
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__write_date
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__write_date
 msgid "Last Updated on"
@@ -519,6 +542,7 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__location_id
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_search
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
 msgid "Location"
 msgstr "Locație"
@@ -526,17 +550,17 @@ msgstr "Locație"
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__location_ids
 msgid "Locations"
-msgstr "locații"
+msgstr "Locații"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__prod_lot_id
 msgid "Lot/Serial Number"
-msgstr ""
+msgstr "Lot/numar serial"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_tree
 msgid "Lot/Serial Number Inventory"
-msgstr ""
+msgstr "Lot/Număr serial"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_main_attachment_id
@@ -562,6 +586,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__name
 msgid "Name"
 msgstr "Nume"
+
+#. module: deltatech_stock_inventory
+#: code:addons/deltatech_stock_inventory/models/stock.py:0
+#: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
+#: code:addons/deltatech_stock_inventory/models/stock_quant.py:0
+#, python-format
+msgid "New"
+msgstr "Nou"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
@@ -666,6 +698,7 @@ msgstr ""
 
 #. module: deltatech_stock_inventory
 #: model:ir.model,name:deltatech_stock_inventory.model_product_product
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__product_id
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__product_id
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_search
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_filter
@@ -675,13 +708,18 @@ msgstr "Produs"
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_search
 msgid "Product Category"
-msgstr ""
+msgstr "Categorie produs"
 
 #. module: deltatech_stock_inventory
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
 #, python-format
 msgid "Product Moves"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+msgid "Product Name"
 msgstr ""
 
 #. module: deltatech_stock_inventory
@@ -695,6 +733,12 @@ msgid "Product Unit of Measure"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_product_warehouse_location
+msgid "Product Warehouse Location"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.actions.act_window,name:deltatech_stock_inventory.action_product_template_warehouse
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__product_ids
 msgid "Products"
 msgstr "Produse"
@@ -717,8 +761,10 @@ msgstr "Poziții de stoc"
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_rack
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__loc_rack
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__loc_rack
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__filterbyrack
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__loc_rack
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
 msgid "Rack"
 msgstr "Raft"
@@ -751,7 +797,9 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_row
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__loc_row
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__loc_row
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__loc_row
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
 msgid "Row"
 msgstr "Rând"
@@ -787,6 +835,20 @@ msgid "Set to Draft"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_shelf
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__loc_shelf
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__loc_shelf
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
+msgid "Shelf"
+msgstr "Poliță"
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
+msgid "Show Lines"
+msgstr ""
+
+#. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__product_ids
 msgid "Specify Products to focus your inventory on particular Products."
 msgstr ""
@@ -813,6 +875,7 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
 msgid "Stock"
 msgstr "Stoc"
@@ -858,6 +921,12 @@ msgstr ""
 #, python-format
 msgid "The selected items are in different inventories"
 msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
+msgid "The theoretical quantity corresponds to the actual one."
+msgstr "Cantitatea scriptică corespunde cu cea reală"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__theoretical_qty
@@ -911,9 +980,15 @@ msgid "UoM"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
 msgid "Update"
 msgstr "Actualizează"
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+msgid "Update Stock"
+msgstr ""
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
@@ -927,8 +1002,34 @@ msgid "Validated"
 msgstr "Validat"
 
 #. module: deltatech_stock_inventory
+#: model:res.groups,name:deltatech_stock_inventory.group_view_inventory_button
+msgid "View inventory button in product"
+msgstr "Buton inventar în produs"
+
+#. module: deltatech_stock_inventory
 #: model_terms:ir.actions.act_window,help:deltatech_stock_inventory.action_inventory_form
 msgid "Want to speed up your inventory counts? Try our Barcode app"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__warehouse_id
+msgid "Warehouse"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__warehouse_loc_ids
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__warehouse_loc_ids
+msgid "Warehouse Loc"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.ui.menu,name:deltatech_stock_inventory.menu_product_template_warehouse
+msgid "Warehouse Products"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.constraint,message:deltatech_stock_inventory.constraint_product_warehouse_location_product_product_uniq
+msgid "Warehouse must be unique per product!"
 msgstr ""
 
 #. module: deltatech_stock_inventory
