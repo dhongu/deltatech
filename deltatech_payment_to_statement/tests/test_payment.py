@@ -11,10 +11,12 @@ class TestPayment(TransactionCase):
     def setUp(self):
         super(TestPayment, self).setUp()
         self.partner_a = self.env["res.partner"].create({"name": "test"})
+        cash_journal = self.env["account.journal"].search([("type", "=", "cash")], limit=1)
+        if not cash_journal:
+            cash_journal = self.env["account.journal"].create({"name": "test", "type": "cash"})
+        self.cash_journal = cash_journal
 
     def test_payment(self):
-
-        cash_journal = self.env["account.journal"].search([("type", "=", "cash")], limit=1)
 
         payment_1 = self.env["account.payment"].create(
             {
@@ -22,7 +24,7 @@ class TestPayment(TransactionCase):
                 "payment_type": "inbound",
                 "partner_type": "customer",
                 "date": "2015-01-01",
-                "journal_id": cash_journal.id,
+                "journal_id": self.cash_journal.id,
                 "partner_id": self.partner_a.id,
                 "payment_method_id": self.env.ref("account.account_payment_method_manual_in").id,
             }
@@ -34,7 +36,7 @@ class TestPayment(TransactionCase):
                 "payment_type": "outbound",
                 "partner_type": "supplier",
                 "date": "2015-01-02",
-                "journal_id": cash_journal.id,
+                "journal_id": self.cash_journal.id,
                 "partner_id": self.partner_a.id,
                 "payment_method_id": self.env.ref("account.account_payment_method_manual_out").id,
             }
@@ -43,17 +45,17 @@ class TestPayment(TransactionCase):
         payment_1.action_post()
         payment_2.action_post()
 
-        cash_journal.get_journal_dashboard_datas()
+        self.cash_journal.get_journal_dashboard_datas()
 
     def test_payment_date_journal(self):
-        cash_journal = self.env["account.journal"].search([("type", "=", "cash")], limit=1)
+
         payment_3 = self.env["account.payment"].create(
             {
                 "amount": 150.0,
                 "payment_type": "inbound",
                 "partner_type": "customer",
                 "date": "2015-02-02",
-                "journal_id": cash_journal.id,
+                "journal_id": self.cash_journal.id,
                 "partner_id": self.partner_a.id,
                 "payment_method_id": self.env.ref("account.account_payment_method_manual_in").id,
             }
