@@ -75,7 +75,9 @@ class SupplierInfo(models.Model):
     def update_last_purchase_price(self):
         date = self._context.get("date") or fields.Date.today()
         for item in self:
-            price = item.product_uom._compute_price(item.price, item.product_tmpl_id.uom_id)
+            from_uom = item.product_uom or item.product_tmpl_id.uom_id
+            to_uom = item.product_tmpl_id.uom_id
+            price = from_uom._compute_price(item.price, to_uom)
             if item.currency_id:
                 to_currency = self.env.user.company_id.currency_id
                 company = self.env.user.company_id
