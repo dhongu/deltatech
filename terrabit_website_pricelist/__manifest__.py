@@ -5,7 +5,7 @@
     "name": "Terrabit Website Pricelist Extension",
     "category": "Website",
     "summary": "Pricelist extension",
-    "version": "15.0.2.0.0",
+    "version": "15.0.2.0.1",
     "license": "LGPL-3",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
