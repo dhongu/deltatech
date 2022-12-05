@@ -1,7 +1,7 @@
 # ©  2015-2020 Terrabit
 # See README.rst file on addons root folder for license details
 
-from odoo import models
+from odoo import fields, models
 
 
 class ProductTemplate(models.Model):
@@ -32,7 +32,14 @@ class ProductTemplate(models.Model):
             if len(public_pricelist) > 1:
                 public_pricelist = public_pricelist[0]
             list_price = public_pricelist.get_product_price(product, add_qty, False)
-
+            if pricelist.currency_id != public_pricelist.currency_id:
+                list_price = public_pricelist.currency_id._convert(
+                    from_amount=list_price,
+                    to_currency=pricelist.currency_id,
+                    company=self.company_id or self.env.company,
+                    date=fields.Date.today(),
+                    round=True,
+                )
             price = combination_info["price"]
             has_discounted_price = pricelist.currency_id.compare_amounts(list_price, price) == 1
 
