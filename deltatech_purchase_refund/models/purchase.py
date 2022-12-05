@@ -11,7 +11,7 @@ class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
     def _prepare_invoice(self):
-        invoice_vals = self._prepare_invoice()
+        invoice_vals = super()._prepare_invoice()
         invoice_type = "in_invoice"
         for line in self.order_line:
             if line.product_id.purchase_method == "purchase":
