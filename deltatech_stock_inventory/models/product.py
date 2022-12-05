@@ -119,7 +119,10 @@ class ProductProduct(models.Model):
         inventory_values = {"state": "confirm", "line_ids": []}
         quants = self.env["stock.quant"].search([("product_id", "in", products.ids)])
         for quant in quants:
-            if quant.location_id.usage == "internal" and quant.product_id.last_inventory_date < fields.Date.today():
+            if quant.location_id.usage == "internal" and (
+                not quant.product_id.last_inventory_date
+                or (quant.product_id.last_inventory_date and quant.product_id.last_inventory_date < fields.Date.today())
+            ):
                 values = {
                     "product_id": quant.product_id.id,
                     "product_uom_id": quant.product_id.uom_id.id,
