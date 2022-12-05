@@ -43,11 +43,14 @@ class TestStockInventory(TransactionCase):
         inventory.action_start()
         inventory.action_validate()
 
-    def test_action_update_quantity_on_hand(self):
-        self.product_b.product_tmpl_id.action_update_quantity_on_hand()
+    # def test_action_update_quantity_on_hand(self):
+    #     self.product_b.product_tmpl_id.action_update_quantity_on_hand()
 
-    def test_get_last_inventory_date(self):
-        self.product_a.product_tmpl_id.get_last_inventory_date()
+    # def test_get_last_inventory_date(self):
+    #     self.product_a.product_tmpl_id.get_last_inventory_date()
+
+    def test_confirm_actual_inventory(self):
+        self.product_b.product_tmpl_id.confirm_actual_inventory()
 
     def test_new_inventory(self):
         inventory = self.env["stock.inventory"].create({"location_ids": [(6, 0, self.stock_location.ids)]})

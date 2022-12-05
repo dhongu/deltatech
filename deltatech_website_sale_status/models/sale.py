@@ -47,11 +47,12 @@ class SaleOrder(models.Model):
             if order.stage == "in_process" and order.postponed_delivery:
                 order.stage = "postponed"
 
-            if order.stage == "in_process" and order.state == "sale":
+            if order.stage == "in_process" and order.state in ["sale", "done"]:
                 qty_to_deliver = 0
                 order.stage = "delivered"
                 for line in order.order_line:
-                    qty_to_deliver += line.qty_to_deliver
+                    if line.product_id.type == "product":
+                        qty_to_deliver += line.qty_to_deliver
                 if qty_to_deliver != 0:
                     order.stage = "to_be_delivery"
                 else:
