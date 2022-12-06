@@ -18,6 +18,7 @@ class ServiceEquipment(models.Model):
         tracking=True,
         domain=[("type", "=", "contact"), ("is_company", "=", False)],
     )
+    service_location_id = fields.Many2one("service.location", string="Functional Location")
 
     note = fields.Text(string="Notes")
     type_id = fields.Many2one("service.equipment.type", required=False, string="Type")

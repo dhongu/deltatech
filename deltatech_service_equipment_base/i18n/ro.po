@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-04 13:09+0000\n"
-"PO-Revision-Date: 2022-11-04 13:09+0000\n"
+"POT-Creation-Date: 2022-12-06 06:16+0000\n"
+"PO-Revision-Date: 2022-12-06 06:16+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,31 +22,42 @@ msgstr "<span class=\"o_stat_text\">Citiri contoare</span>"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__message_needaction
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__message_needaction
 msgid "Action Needed"
 msgstr "Necesită atenție"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__activity_ids
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__activity_ids
 msgid "Activities"
 msgstr "Activități"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__activity_exception_decoration
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__activity_exception_decoration
 msgid "Activity Exception Decoration"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__activity_state
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__activity_state
 msgid "Activity State"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__activity_type_icon
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__activity_type_icon
 msgid "Activity Type Icon"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__address_id
+msgid "Address"
+msgstr "Adresă"
+
+#. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__message_attachment_count
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__message_attachment_count
 msgid "Attachment Count"
 msgstr ""
 
@@ -60,6 +71,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_category__name
 msgid "Category"
 msgstr "Categorie"
+
+#. module: deltatech_service_equipment_base
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__children_ids
+msgid "Children"
+msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields.selection,name:deltatech_service_equipment_base.selection__service_meter_category__type__collector
@@ -80,6 +96,7 @@ msgstr "Caclul estimat"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__contact_id
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__contact_id
 msgid "Contact Person"
 msgstr "Persoană contact"
 
@@ -98,7 +115,9 @@ msgstr "Valoare contor"
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_enter_reading__create_uid
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_enter_reading_item__create_uid
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__create_uid
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_model__create_uid
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_type__create_uid
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__create_uid
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter__create_uid
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_category__create_uid
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_reading__create_uid
@@ -109,7 +128,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_enter_reading__create_date
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_enter_reading_item__create_date
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__create_date
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_model__create_date
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_type__create_date
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__create_date
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter__create_date
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_category__create_date
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_reading__create_date
@@ -118,8 +139,10 @@ msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__partner_id
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__partner_id
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_reading__partner_id
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_equipment_form
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_location_form
 msgid "Customer"
 msgstr "Client"
 
@@ -138,7 +161,9 @@ msgstr "Diferență"
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_enter_reading__display_name
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_enter_reading_item__display_name
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__display_name
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_model__display_name
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_type__display_name
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__display_name
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter__display_name
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_category__display_name
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_reading__display_name
@@ -174,6 +199,11 @@ msgid "Equipment"
 msgstr "Echipament"
 
 #. module: deltatech_service_equipment_base
+#: model:ir.ui.menu,name:deltatech_service_equipment_base.menu_service_equipment_model
+msgid "Equipment Model"
+msgstr "Model Echipament"
+
+#. module: deltatech_service_equipment_base
 #: model:ir.ui.menu,name:deltatech_service_equipment_base.menu_service_equipment_type
 msgid "Equipment Type"
 msgstr "Tip echipament"
@@ -201,16 +231,19 @@ msgstr "Valoare estimată"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__message_follower_ids
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__message_follower_ids
 msgid "Followers"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__message_partner_ids
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_equipment__activity_type_icon
+#: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_location__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
@@ -220,7 +253,18 @@ msgid "For the selected meters please enter readings"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
+#: model:ir.actions.act_window,name:deltatech_service_equipment_base.action_service_location
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__service_location_id
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__parent_id
+#: model:ir.ui.menu,name:deltatech_service_equipment_base.menu_service_location
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_location_form
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_location_tree
+msgid "Functional Location"
+msgstr "Loc funcțional"
+
+#. module: deltatech_service_equipment_base
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_equipment_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_location_filter
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_meter_filter
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_meter_reading_filter
 msgid "Group By..."
@@ -228,6 +272,7 @@ msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__has_message
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__has_message
 msgid "Has Message"
 msgstr ""
 
@@ -235,7 +280,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_enter_reading__id
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_enter_reading_item__id
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__id
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_model__id
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_type__id
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__id
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter__id
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_category__id
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_reading__id
@@ -244,11 +291,13 @@ msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__activity_exception_icon
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__activity_exception_icon
 msgid "Icon"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_equipment__activity_exception_icon
+#: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_location__activity_exception_icon
 msgid "Icon to indicate an exception activity."
 msgstr ""
 
@@ -260,12 +309,16 @@ msgstr "Identificare"
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_equipment__message_needaction
 #: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_equipment__message_unread
+#: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_location__message_needaction
+#: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_location__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_equipment__message_has_error
 #: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_equipment__message_has_sms_error
+#: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_location__message_has_error
+#: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_location__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -281,6 +334,7 @@ msgstr "Tip intern"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__message_is_follower
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__message_is_follower
 msgid "Is Follower"
 msgstr ""
 
@@ -298,7 +352,9 @@ msgstr "Utima citire"
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_enter_reading____last_update
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_enter_reading_item____last_update
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment____last_update
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_model____last_update
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_type____last_update
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location____last_update
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter____last_update
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_category____last_update
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_reading____last_update
@@ -309,7 +365,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_enter_reading__write_uid
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_enter_reading_item__write_uid
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__write_uid
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_model__write_uid
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_type__write_uid
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__write_uid
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter__write_uid
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_category__write_uid
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_reading__write_uid
@@ -320,7 +378,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_enter_reading__write_date
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_enter_reading_item__write_date
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__write_date
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_model__write_date
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_type__write_date
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__write_date
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter__write_date
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_category__write_date
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_reading__write_date
@@ -334,6 +394,7 @@ msgstr "Ultima citire la data"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__message_main_attachment_id
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__message_main_attachment_id
 msgid "Main Attachment"
 msgstr ""
 
@@ -344,11 +405,13 @@ msgstr "Producator"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__message_has_error
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__message_has_error
 msgid "Message Delivery error"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__message_ids
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__message_ids
 msgid "Messages"
 msgstr ""
 
@@ -386,13 +449,22 @@ msgid "Meters"
 msgstr "Contori"
 
 #. module: deltatech_service_equipment_base
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__model_id
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_model__name
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_equipment_filter
+msgid "Model"
+msgstr "Model"
+
+#. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__my_activity_date_deadline
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter__name
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_equipment_form
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_location_form
 msgid "Name"
 msgstr "Nume"
 
@@ -401,59 +473,78 @@ msgstr "Nume"
 #: code:addons/deltatech_service_equipment_base/models/service_equipment.py:0
 #: code:addons/deltatech_service_equipment_base/models/service_equipment.py:0
 #: code:addons/deltatech_service_equipment_base/models/service_equipment.py:0
+#: code:addons/deltatech_service_equipment_base/models/service_location.py:0
+#: code:addons/deltatech_service_equipment_base/models/service_location.py:0
+#: code:addons/deltatech_service_equipment_base/models/service_location.py:0
+#: code:addons/deltatech_service_equipment_base/models/service_location.py:0
 #, python-format
 msgid "New"
-msgstr ""
+msgstr "Nou"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__activity_date_deadline
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__activity_summary
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__activity_summary
 msgid "Next Activity Summary"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__activity_type_id
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__activity_type_id
 msgid "Next Activity Type"
+msgstr ""
+
+#. module: deltatech_service_equipment_base
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_location_form
+msgid "Note"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_enter_reading__note
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__note
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__note
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_reading__note
 msgid "Notes"
 msgstr "Note"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__message_needaction_counter
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__message_needaction_counter
 msgid "Number of Actions"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__message_has_error_counter
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__message_has_error_counter
 msgid "Number of errors"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_equipment__message_needaction_counter
+#: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_location__message_needaction_counter
 msgid "Number of messages which requires an action"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_equipment__message_has_error_counter
+#: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_location__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_equipment__message_unread_counter
+#: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_location__message_unread_counter
 msgid "Number of unread messages"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_equipment_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_location_filter
 msgid "Partner"
 msgstr "Partener"
 
@@ -490,26 +581,31 @@ msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__name
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__name
 msgid "Reference"
 msgstr "Referință"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__technician_user_id
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__technician_user_id
 msgid "Responsible"
 msgstr "Responsabil"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__activity_user_id
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__activity_user_id
 msgid "Responsible User"
 msgstr "Utilizator responsabil"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__message_has_sms_error
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_equipment_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_location_filter
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_meter_filter
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_meter_reading_filter
 msgid "Search"
@@ -527,9 +623,19 @@ msgid "Service Equipment"
 msgstr "Echipament"
 
 #. module: deltatech_service_equipment_base
+#: model:ir.model,name:deltatech_service_equipment_base.model_service_equipment_model
+msgid "Service Equipment Model"
+msgstr ""
+
+#. module: deltatech_service_equipment_base
 #: model:ir.model,name:deltatech_service_equipment_base.model_service_equipment_type
 msgid "Service Equipment Type"
 msgstr "Tip echipament"
+
+#. module: deltatech_service_equipment_base
+#: model:ir.model,name:deltatech_service_equipment_base.model_service_location
+msgid "Service Location"
+msgstr "Loc Funcțional"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model,name:deltatech_service_equipment_base.model_service_meter_category
@@ -540,6 +646,11 @@ msgstr "Categorie contor"
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_equipment_tree
 msgid "Services Equipment"
 msgstr "Echipamente serice"
+
+#. module: deltatech_service_equipment_base
+#: model:ir.actions.act_window,name:deltatech_service_equipment_base.action_service_equipment_model
+msgid "Services Equipment Model"
+msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.actions.act_window,name:deltatech_service_equipment_base.action_service_equipment_type
@@ -563,6 +674,7 @@ msgstr "Valoare start"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_equipment__activity_state
+#: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_location__activity_state
 msgid ""
 "Status based on activities\n"
 "Overdue: Due date is already passed\n"
@@ -577,6 +689,7 @@ msgstr "Detalii tehnice"
 
 #. module: deltatech_service_equipment_base
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_equipment_form
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_location_form
 msgid "Technician"
 msgstr "Tehnician"
 
@@ -612,11 +725,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_type__name
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter__type
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter_category__type
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_equipment_filter
 msgid "Type"
 msgstr "Tip"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_equipment__activity_exception_decoration
+#: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_location__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr ""
 
@@ -628,11 +743,13 @@ msgstr "Unitate de masură"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__message_unread
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__message_unread
 msgid "Unread Messages"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__message_unread_counter
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__message_unread_counter
 msgid "Unread Messages Counter"
 msgstr ""
 
@@ -653,11 +770,13 @@ msgstr "Furnizor"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__website_message_ids
+#: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_location__website_message_ids
 msgid "Website Messages"
 msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_equipment__website_message_ids
+#: model:ir.model.fields,help:deltatech_service_equipment_base.field_service_location__website_message_ids
 msgid "Website communication history"
 msgstr ""
 

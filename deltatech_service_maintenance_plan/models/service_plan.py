@@ -14,13 +14,16 @@ class ServicePlan(models.Model):
     _description = "Service Plan"
 
     name = fields.Char(string="Reference", readonly=True, default="/")
-    equipment_id = fields.Many2one(
-        "service.equipment",
-        string="Equipment",
+    service_location_id = fields.Many2one(
+        "service.location",
+        string="Functional Location",
         index=True,
-        required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
+    )
+
+    equipment_id = fields.Many2one(
+        "service.equipment", string="Equipment", index=True, readonly=True, states={"draft": [("readonly", False)]}
     )
     cycle_id = fields.Many2one(
         "service.cycle", string="Cycle", required=True, readonly=True, states={"draft": [("readonly", False)]}
@@ -277,6 +280,7 @@ class ServicePlanCall(models.Model):
         order = self.env["service.order"].create(
             {
                 "date": self.plan_date,
+                "service_location_id": self.plan_id.service_location_id.id,
                 "equipment_id": self.plan_id.equipment_id.id,
                 "reason_id": self.plan_id.reason_id.id,
                 "plan_call_id": self.id,

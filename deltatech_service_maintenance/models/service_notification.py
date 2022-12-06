@@ -40,6 +40,13 @@ class ServiceNotification(models.Model):
         string="Status",
         tracking=True,
     )
+    service_location_id = fields.Many2one(
+        "service.location",
+        string="Functional Location",
+        index=True,
+        readonly=True,
+        states={"new": [("readonly", False)]},
+    )
 
     equipment_id = fields.Many2one(
         "service.equipment", string="Equipment", index=True, readonly=True, states={"new": [("readonly", False)]}
@@ -55,7 +62,7 @@ class ServiceNotification(models.Model):
         readonly=True,
         states={"new": [("readonly", False)]},
     )
-    address_id = fields.Many2one("res.partner", string="Location", readonly=True, states={"new": [("readonly", False)]})
+    address_id = fields.Many2one("res.partner", string="Address", readonly=True, states={"new": [("readonly", False)]})
     user_id = fields.Many2one("res.users", string="Responsible", readonly=True, states={"new": [("readonly", False)]})
 
     work_center_id = fields.Many2one(
@@ -137,11 +144,21 @@ class ServiceNotification(models.Model):
                 [("notification_id", "=", notification.id)], limit=1
             )
 
-    @api.onchange("equipment_id", "date")
+    @api.onchange("equipment_id")
     def onchange_equipment_id(self):
         if self.equipment_id:
             self.user_id = self.equipment_id.technician_user_id or self.user_id
             self.partner_id = self.equipment_id.partner_id or self.partner_id
+            self.service_location_id = self.equipment_id.service_location_id
+            self.work_center_id = self.equipment_id.work_center_id or self.work_center_id
+
+    @api.onchange("service_location_id")
+    def onchange_location_id(self):
+        if self.service_location_id:
+            self.user_id = self.service_location_id.technician_user_id or self.user_id
+            self.partner_id = self.service_location_id.partner_id or self.partner_id
+            self.work_center_id = self.service_location_id.work_center_id or self.work_center_id
+            self.onchange_equipment_id()
 
     @api.model
     def create(self, vals):
@@ -247,6 +264,7 @@ class ServiceNotification(models.Model):
     def get_context_default(self):
         context = {
             "default_notification_id": self.id,
+            "default_service_location_id": self.service_location_id.id,
             "default_equipment_id": self.equipment_id.id,
             "default_partner_id": self.partner_id.id,
             "default_client_order_ref": self.name,
@@ -344,18 +362,16 @@ class ServiceNotification(models.Model):
 
         picking_type = self.env["stock.picking.type"].browse(picking_type_id)
 
-        # check if agreement permits
-        if not self.agreement_id:
-            raise UserError(_("You must have an agreement."))
-        else:
-            if not self.agreement_id.type_id.permits_pickings:
-                raise UserError(_("This agreement type does not allow pickings."))
+        # # check if agreement permits
+        # if not self.agreement_id:
+        #     raise UserError(_("You must have an agreement."))
+        # else:
+        #     if not self.agreement_id.type_id.permits_pickings:
+        #         raise UserError(_("This agreement type does not allow pickings."))
 
         context = self.get_context_default()
         context.update(
             {
-                "default_equipment_id": self.equipment_id.id,
-                "default_agreement_id": self.agreement_id.id,
                 "default_origin": self.name,
                 "default_picking_type_code": "outgoing",
                 "default_picking_type_id": picking_type_id,

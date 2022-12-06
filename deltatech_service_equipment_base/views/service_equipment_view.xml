@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <tree string="Services Equipment" sample="1">
                 <field name="name" />
+                <field name="service_location_id" optional="show" />
                 <field name="partner_id" />
                 <field name="type_id" optional="show" />
                 <field name="model_id" optional="show" />
@@ -54,6 +55,7 @@
                         </group>
                         <group string="Technician" name="technician">
                             <field name="technician_user_id" />
+                            <field name="service_location_id" />
                         </group>
                     </group>
                     <notebook>

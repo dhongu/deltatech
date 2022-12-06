@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-21 11:33+0000\n"
-"PO-Revision-Date: 2022-11-21 11:33+0000\n"
+"POT-Creation-Date: 2022-12-06 06:33+0000\n"
+"PO-Revision-Date: 2022-12-06 06:33+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -122,6 +122,11 @@ msgid "From counter"
 msgstr "De la contor"
 
 #. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__service_location_id
+msgid "Functional Location"
+msgstr "Loc funcțional"
+
+#. module: deltatech_service_maintenance_plan
 #: model:ir.model.fields,help:deltatech_service_maintenance_plan.field_service_plan_call__sequence
 msgid "Gives the sequence order when displaying a list of plan call."
 msgstr ""
@@ -167,6 +172,7 @@ msgstr ""
 
 #. module: deltatech_service_maintenance_plan
 #: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_equipment__last_call_done
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_location__last_call_done
 msgid "Last call done"
 msgstr "Ultimul apel efectuat"
 
@@ -202,7 +208,7 @@ msgstr "Tip comandă"
 #: model:ir.ui.menu,name:deltatech_service_maintenance_plan.menu_service_plan
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_call_filter
 msgid "Plan"
-msgstr ""
+msgstr "Plan"
 
 #. module: deltatech_service_maintenance_plan
 #: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_order__plan_call_id
@@ -213,7 +219,7 @@ msgstr "Apel plan"
 #: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__call_ids
 #: model:ir.ui.menu,name:deltatech_service_maintenance_plan.menu_service_plan_call
 msgid "Plan Calls"
-msgstr "Apeluri planificate"
+msgstr "Apeluir plan"
 
 #. module: deltatech_service_maintenance_plan
 #: model:ir.ui.menu,name:deltatech_service_maintenance_plan.menu_service_planing
@@ -243,10 +249,22 @@ msgid "Planned date describes the time at which an order is to be executed."
 msgstr ""
 
 #. module: deltatech_service_maintenance_plan
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_form
+msgid "Planning Parameters"
+msgstr "Parametri planificare"
+
+#. module: deltatech_service_maintenance_plan
 #: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_equipment__plan_ids
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_location__plan_ids
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_equipment_form
 msgid "Plans"
 msgstr "Planuri"
+
+#. module: deltatech_service_maintenance_plan
+#: code:addons/deltatech_service_maintenance_plan/models/service_plan.py:0
+#, python-format
+msgid "Please select close order %s."
+msgstr ""
 
 #. module: deltatech_service_maintenance_plan
 #: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__reason_id
@@ -256,7 +274,7 @@ msgstr "Motiv"
 #. module: deltatech_service_maintenance_plan
 #: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__name
 msgid "Reference"
-msgstr "Referință"
+msgstr "Referină"
 
 #. module: deltatech_service_maintenance_plan
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_form
@@ -290,7 +308,13 @@ msgid "Service Equipment"
 msgstr "Echipament"
 
 #. module: deltatech_service_maintenance_plan
+#: model:ir.model,name:deltatech_service_maintenance_plan.model_service_location
+msgid "Service Location"
+msgstr "Loc Funcțional"
+
+#. module: deltatech_service_maintenance_plan
 #: model:ir.model,name:deltatech_service_maintenance_plan.model_service_order
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_form
 msgid "Service Order"
 msgstr "Comandă Service"
 
@@ -303,7 +327,6 @@ msgstr "Plan service"
 #: model:ir.model,name:deltatech_service_maintenance_plan.model_service_plan_call
 msgid "Service Plan Call"
 msgstr "Apel plan de întreținere"
-
 
 #. module: deltatech_service_maintenance_plan
 #: model:ir.actions.act_window,name:deltatech_service_maintenance_plan.action_service_plan
@@ -370,6 +393,11 @@ msgid "Stopped"
 msgstr ""
 
 #. module: deltatech_service_maintenance_plan
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_form
+msgid "Technical Object"
+msgstr "Obiectiv tehnic"
+
+#. module: deltatech_service_maintenance_plan
 #: model:ir.model.fields,help:deltatech_service_maintenance_plan.field_service_plan__horizon
 msgid ""
 "The call horizon determines when a service order should be generated for a "
@@ -402,3 +430,4 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__work_center_id
 msgid "Work Center"
 msgstr "Formație de lucru"
+
