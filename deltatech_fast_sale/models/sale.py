@@ -36,11 +36,6 @@ class SaleOrder(models.Model):
         action["context"] = {"force_period_date": self.date_order}
         return action
 
-    def _prepare_invoice(self):
-        invoice_vals = super(SaleOrder, self)._prepare_invoice()
-        invoice_vals["invoice_date"] = self.date_order.date()
-        return invoice_vals
-
     def action_button_confirm_notice(self):
         self._prepare_pickings()
 
