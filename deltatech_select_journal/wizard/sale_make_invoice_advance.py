@@ -110,7 +110,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
             invoice.write({"invoice_payment_term_id": self.payment_term_id.id})
             invoice.write({"invoice_date": False})
         if self.currency_rate:
-            invoice.write({"currency_rate_custom": self.currency_rate})
+            invoice.write({"currency_rate_custom": self.currency_rate or 1})
         return invoice
 
     @api.onchange("advance_payment_method")

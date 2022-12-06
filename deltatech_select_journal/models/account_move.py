@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
@@ -15,20 +15,19 @@ class AccountMove(models.Model):
         res = super(AccountMove, self).action_post()
         line_ids = self.mapped("line_ids").filtered(lambda line: line.sale_line_ids.is_downpayment)
         for line in line_ids:
-            try:
-                line.sale_line_ids.tax_id = line.tax_ids
-                invoice = line.move_id
-                date_eval = invoice.invoice_date
-                from_currency = invoice.currency_id
-                for sale_line in line.sale_line_ids:
-                    to_currency = sale_line.order_id.currency_id
+            line.sale_line_ids.tax_id = line.tax_ids
+            invoice = line.move_id
+            date_eval = invoice.invoice_date
+            from_currency = invoice.currency_id
+            for sale_line in line.sale_line_ids:
+                to_currency = sale_line.order_id.currency_id
+                if from_currency != to_currency:
+                    if not self.currency_rate_custom:
+                        raise UserError(_("The exchange rate is not maintained"))
                     price_unit = from_currency.with_context(currency_rate=1 / self.currency_rate_custom)._convert(
                         line.price_unit, to_currency, invoice.company_id, date_eval
                     )
                     sale_line.write({"price_unit": price_unit})
-
-            except UserError:
-                pass
         return res
 
 
