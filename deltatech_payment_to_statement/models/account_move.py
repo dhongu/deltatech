@@ -14,5 +14,9 @@ class AccountMove(models.Model):
                 if (not move.name or move.name == "/") and move.journal_id.journal_sequence_id:
                     new_number = move.journal_id.journal_sequence_id.next_by_id()
                     super(AccountMove, move).write({"name": new_number})
-
+        if "payment_id" in vals and vals.get("payment_id"):
+            payment_id = self.env["account.payment"].browse(vals.get("payment_id"))
+            for move in self:
+                if (not move.name or move.name == "/") and payment_id:
+                    payment_id.force_cash_sequence()
         return super(AccountMove, self).write(vals)

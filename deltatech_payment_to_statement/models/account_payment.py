@@ -42,7 +42,11 @@ class AccountPayment(models.Model):
     def force_cash_sequence(self):
         # force cash in/out sequence
         for payment in self:
-            if not payment.name and payment.partner_type == "customer" and payment.journal_id.type == "cash":
+            if (
+                (not payment.name or payment.name == "/")
+                and payment.partner_type == "customer"
+                and payment.journal_id.type == "cash"
+            ):
                 if payment.journal_id.cash_in_sequence_id and payment.payment_type == "inbound":
                     payment.name = payment.journal_id.cash_in_sequence_id.next_by_id()
                 if payment.journal_id.cash_out_sequence_id and payment.payment_type == "outbound":
@@ -78,11 +82,14 @@ class AccountPayment(models.Model):
                 payment.write({"statement_id": statement.id})
 
             if payment.state == "posted" and not payment.statement_line_id and payment.statement_id:
-                ref = ""
-                for invoice in payment.reconciled_bill_ids:
-                    ref += invoice.name
-                for invoice in payment.reconciled_invoice_ids:
-                    ref += invoice.name
+                if not payment.ref:
+                    ref = ""
+                    for invoice in payment.reconciled_bill_ids:
+                        ref += invoice.name
+                    for invoice in payment.reconciled_invoice_ids:
+                        ref += invoice.name
+                else:
+                    ref = payment.ref
                 values = {
                     # "name": payment.communication or payment.name,
                     "statement_id": payment.statement_id.id,
