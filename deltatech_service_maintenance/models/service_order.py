@@ -70,7 +70,7 @@ class ServiceOrder(models.Model):
         "res.partner", string="Contact person", tracking=True, readonly=True, states={"draft": [("readonly", False)]}
     )
     address_id = fields.Many2one(
-        "res.partner", string="Location", readonly=True, states={"draft": [("readonly", False)]}
+        "res.partner", string="Address", readonly=True, states={"draft": [("readonly", False)]}
     )
     city = fields.Char(string="City", related="address_id.city")
 
