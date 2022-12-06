@@ -5,7 +5,7 @@
 {
     "name": "Deltatech Services Maintenance Plan",
     "summary": "Services Maintenance Plan",
-    "version": "15.0.1.0.5",
+    "version": "15.0.1.0.6",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Services/Maintenance",

@@ -1,0 +1,112 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="view_service_location_tree" model="ir.ui.view">
+        <field name="name">Services location</field>
+        <field name="model">service.location</field>
+        <field name="arch" type="xml">
+            <tree string="Functional Location" sample="1">
+                <field name="name" />
+                <field name="partner_id" />
+
+                <field name="activity_ids" widget="list_activity" optional="hide" />
+                <field name="message_unread" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_service_location_form" model="ir.ui.view">
+        <field name="name">Service location</field>
+        <field name="model">service.location</field>
+        <field name="arch" type="xml">
+            <form string="Functional Location">
+                <header />
+                <sheet>
+                    <div class="oe_button_box" name="button_box" />
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name" class="oe_inline" />
+                        </h1>
+                    </div>
+                    <group>
+
+                        <group string="Customer" name="customer">
+                            <field name="partner_id" />
+                            <field name="contact_id" />
+                            <field name="address_id" />
+                        </group>
+                        <group string="Technician" name="technician">
+                            <field name="technician_user_id" />
+                        </group>
+                    </group>
+
+                    <field name="note" placeholder="Note" />
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_service_location_kanban" model="ir.ui.view">
+        <field name="name">service.location.kanban</field>
+        <field name="model">service.location</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="name" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_record_top mb16">
+                                <div class="o_kanban_record_headings mt4">
+                                    <strong class="o_kanban_record_title">
+                                        <span>
+                                            <t t-esc="record.name.value" />
+                                        </span>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="view_service_location_filter" model="ir.ui.view">
+        <field name="name">service.location.select</field>
+        <field name="model">service.location</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="partner_id" />
+
+                <separator />
+                <group expand="1" string="Group By...">
+
+                    <filter string="Partner" name="partner" context="{'group_by':'partner_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_service_location" model="ir.actions.act_window">
+        <field name="name">Functional Location</field>
+        <field name="res_model">service.location</field>
+        <field name="view_mode">tree,form,kanban,pivot,activity</field>
+    </record>
+
+    <menuitem
+        name="Functional Location"
+        id="menu_service_location"
+        action="action_service_location"
+        parent="deltatech_service_base.menu_service_master_data"
+        sequence="400"
+    />
+
+
+</odoo>

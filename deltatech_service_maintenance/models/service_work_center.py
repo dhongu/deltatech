@@ -11,7 +11,7 @@ class ServiceWorkCenter(models.Model):
     _description = "Service Work Center"
 
     name = fields.Char()
-    location_id = fields.Many2one("stock.location")
+    location_id = fields.Many2one("stock.location", string="Stock Location")
     sale_route_id = fields.Many2one("stock.location.route", string="Sale Route")
     color = fields.Integer("Color")
     picking_type_id = fields.Many2one("stock.picking.type")

@@ -6,21 +6,22 @@
 from odoo import _, fields, models
 
 
-class ServiceEquipment(models.Model):
-    _inherit = "service.equipment"
+class ServiceLocation(models.Model):
+    _inherit = "service.location"
 
     work_center_id = fields.Many2one("service.work.center", string="Work Center")
+    location_id = fields.Many2one("stock.location", string="Stock Location")
 
     def get_context_default(self):
         context = {
-            "default_equipment_id": self.id,
+            "default_service_location_id": self.id,
             "default_partner_id": self.partner_id.id,
             "default_contact_id": self.contact_id.id,
         }
         return context
 
     def notification_button(self):
-        notifications = self.env["service.notification"].search([("equipment_id", "in", self.ids)])
+        notifications = self.env["service.notification"].search([("service_location_id", "in", self.ids)])
         context = self.get_context_default()
         return {
             "domain": "[('id','in', [" + ",".join(map(str, notifications.ids)) + "])]",
@@ -34,7 +35,7 @@ class ServiceEquipment(models.Model):
         }
 
     def order_button(self):
-        orders = self.env["service.order"].search([("equipment_id", "in", self.ids)])
+        orders = self.env["service.order"].search([("service_location_id", "in", self.ids)])
         context = self.get_context_default()
         return {
             "domain": "[('id','in', [" + ",".join(map(str, orders.ids)) + "])]",

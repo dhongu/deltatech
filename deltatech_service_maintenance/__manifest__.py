@@ -5,7 +5,7 @@
 {
     "name": "Deltatech Services Maintenance",
     "summary": "Services Maintenance",
-    "version": "15.0.1.0.9",
+    "version": "15.0.1.1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Services/Maintenance",
@@ -22,6 +22,7 @@
         "data/data.xml",
         "views/service_notification_view.xml",
         "views/service_order_view.xml",
+        "views/service_location_view.xml",
         "views/service_equipment_view.xml",
         "views/stock_view.xml",
         "views/sale_view.xml",
