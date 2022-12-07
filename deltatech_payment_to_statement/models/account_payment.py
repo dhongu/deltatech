@@ -43,7 +43,7 @@ class AccountPayment(models.Model):
         # force cash in/out sequence
         for payment in self:
             if (
-                (not payment.name or payment.name == "/")
+                (not payment.name or payment.name == "/" or payment.name == "_New")
                 and payment.partner_type == "customer"
                 and payment.journal_id.type == "cash"
             ):
