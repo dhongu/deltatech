@@ -27,11 +27,13 @@ class SmsApi(models.AbstractModel):
 
             endpoint = account.endpoint
             endpoint = endpoint.format(**message)
-            result = requests.get(endpoint)
+            self.env.cr.execute("select unaccent(%s);", [endpoint])
+            endpoint_unaccent = self.env.cr.fetchone()[0]
+            result = requests.get(endpoint_unaccent)
             response = result.content.decode("utf-8")
             res_value = {"state": "success", "res_id": message["res_id"]}
             if "OK" not in response:
-                res_value["state"] = "server_error"
+                res_value["state"] = "server_error: %s " % response
             res += [res_value]
 
         return res
