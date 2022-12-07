@@ -135,4 +135,4 @@ class ProductProduct(models.Model):
                 inventory_values["line_ids"].append((0, 0, values))
         if inventory_values["line_ids"]:
             inventory = self.env["stock.inventory"].create(inventory_values)
-            inventory.sudo().action_validate()
+            inventory.action_validate()
