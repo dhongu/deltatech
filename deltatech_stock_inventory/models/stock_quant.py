@@ -55,7 +55,6 @@ class StockQuant(models.Model):
 
     def action_apply_inventory(self):
         inventory = self.filtered(lambda q: q.inventory_quantity_set).create_inventory_lines()
-        self = self.sudo()
         super(StockQuant, self.with_context(apply_inventory=True)).action_apply_inventory()
         for quant in self:
             inventor_line = quant.inventory_line_id
