@@ -8,11 +8,14 @@
             <field name="arch" type="xml">
                 <group name="first" position="after">
                     <group name="product_code">
-                        <group string="Products">
+                        <group string="Product Code">
                             <field name="sequence_id" />
                             <field name="generate_barcode" />
                             <field name="prefix_barcode" />
                             <field name="barcode_random" />
+                        </group>
+                        <group string="Website">
+                            <field name="website_position" />
                         </group>
                     </group>
                 </group>
