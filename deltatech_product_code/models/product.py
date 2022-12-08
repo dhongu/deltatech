@@ -15,6 +15,9 @@ class ProductCategory(models.Model):
     generate_barcode = fields.Boolean()
     prefix_barcode = fields.Char(default="40", size=2)
     barcode_random = fields.Boolean(default=True)
+    website_position = fields.Selection(
+        [("default", "Default"), ("top", "Top"), ("bottom", "Bottom")], default="default"
+    )
 
 
 class ProductTemplate(models.Model):
@@ -40,6 +43,12 @@ class ProductTemplate(models.Model):
                 barcode = categ.prefix_barcode + barcode.zfill(10)
                 barcode = self.env["barcode.nomenclature"].sanitize_ean(barcode)
                 values["barcode"] = barcode
+        if categ.website_position == "top":
+            min_sequence = self.sudo().search([], order="website_sequence ASC", limit=1)
+            values["website_sequence"] = min_sequence.website_sequence - 5
+        elif categ.website_position == "bottom":
+            max_sequence = self.sudo().search([], order="website_sequence DESC", limit=1)
+            values["website_sequence"] = max_sequence.website_sequence + 5
 
         return values
 
@@ -89,6 +98,27 @@ class ProductTemplate(models.Model):
 
         action["domain"] = [("id", "in", product_ids)]
         return action
+
+    def fix_website_sequence(self):
+        product_max = self.env["product.template"].search([], order="website_sequence DESC", limit=1)
+        product_min = self.env["product.template"].search([], order="website_sequence ASC", limit=1)
+
+        max_sequence = product_max.website_sequence
+        min_sequence = product_min.website_sequence
+
+        for category in self:
+            if category.website_position == "default":
+                continue
+            domain = [("categ_id", "=", category.id)]
+            products = self.env["product.template"].search(domain, order="id ASC")
+
+            for product in products:
+                if category.website_position == "top":
+                    min_sequence = min_sequence - 5
+                    product.write({"website_sequence": min_sequence})
+                else:  # bottom
+                    max_sequence = max_sequence + 5
+                    product.write({"website_sequence": max_sequence})
 
 
 class ProductProduct(models.Model):
