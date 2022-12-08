@@ -5,7 +5,7 @@
     "name": "eCommerce Stock Availability",
     "category": "Website",
     "summary": "eCommerce Stock Availability",
-    "version": "15.0.1.0.0",
+    "version": "15.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["website", "website_sale_stock", "purchase"],
