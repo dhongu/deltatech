@@ -2,44 +2,13 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    # inventory_availability = fields.Selection(
-    #     [("preorder", "Show inventory below a threshold and allow sales if not enough stock")]
-    # )
-    # in loc de inventory_availability se vor utiliza campurile standard allow_out_of_stock_order show_availability
     sale_delay_safety = fields.Float("Customer Safety Lead Time", default=1)
-
-    availability_text = fields.Char(compute="_compute_availability_text")
-
-    def _compute_availability_text(self):
-        for product in self.sudo():
-            if product.qty_available > 0:
-                product.availability_text = _("In stock")
-            else:
-                if not product.allow_out_of_stock_order:
-                    product.availability_text = _("Not in stock")
-                else:
-                    product.availability_text = _("At order")
-                    supplier_lead_time = product.seller_ids and product.seller_ids[0].delay or 0
-                    if product.seller_ids[0].date_start and product.seller_ids[0].date_start > fields.Date.today():
-                        weeks = (product.seller_ids[0].date_start - fields.Date.today()).days // 7
-                        if weeks > 2:
-                            product.availability_text = _("Delivery in %s weeks") % weeks
-                        else:
-                            days = (product.seller_ids[0].date_start - fields.Date.today()).days
-                            product.availability_text = _("Delivery in %s days") % days
-                    elif supplier_lead_time:
-                        d1 = product.sale_delay + supplier_lead_time
-                        d2 = d1 + product.sale_delay_safety
-                        if d1 == d2:
-                            product.availability_text = _("Delivery in %s days") % int(d1)
-                        else:
-                            product.availability_text = _("Delivery in %s - %s days") % (int(d1), int(d2))
 
     def _get_combination_info(
         self,
@@ -78,11 +47,5 @@ class ProductTemplate(models.Model):
             ):
                 days = (product.seller_ids[0].date_start - fields.Date.today()).days
                 combination_info["purchase_lead_time"] += days
-
-            # if product.type == "product" and product.inventory_availability in ["preorder"]:
-            #     lead_min = company_lead_time + supplier_lead_time + product.sale_delay
-            #     lead_max = lead_min + product.sale_delay_safety
-            #     interval = '%d - %s' % (lead_min, lead_max)
-            #     combination_info["custom_message"] = _("Delivery in %s days") % interval
 
         return combination_info

@@ -26,8 +26,11 @@ class ProductTemplate(models.Model):
         )
         if combination_info["product_id"]:
             product_id = combination_info["product_id"]
-        if product_id and pricelist:
             product = self.env["product.product"].browse(product_id)
+        else:
+            product = self
+        if pricelist:
+
             public_pricelist = self.env["product.pricelist"].search([("selectable", "=", True)])
             if len(public_pricelist) > 1:
                 public_pricelist = public_pricelist[0]
