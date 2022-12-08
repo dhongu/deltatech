@@ -25,6 +25,7 @@ class SmsApi(models.AbstractModel):
         # endpoint = self.env["ir.config_parameter"].sudo().get_param("sms.endpoint", "")
         # endpoint =  account.endpoint or endpoint
         for message in params["messages"]:
+            res_value = {"state": "success", "res_id": message["res_id"]}
 
             endpoint = account.endpoint
             if not endpoint:
@@ -34,10 +35,10 @@ class SmsApi(models.AbstractModel):
             endpoint_unaccent = self.env.cr.fetchone()[0]
             result = requests.get(endpoint_unaccent)
             response = result.content.decode("utf-8")
-            res_value = {"state": "success", "res_id": message["res_id"]}
+
             if "OK" not in response:
                 _logger.error("SMS: %s" % response)
-                res_value["state"] = "server_error: %s " % response
+                res_value["state"] = "server_error"
             res += [res_value]
 
         return res
