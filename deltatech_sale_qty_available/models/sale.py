@@ -16,7 +16,7 @@ class SaleOrder(models.Model):
     def _compute_is_ready(self):
         for order in self:
             is_ready = order.state in ["draft", "sent", "sale"] and order.invoice_status not in ["invoiced"]
-            if is_ready and order.state == "draft":
+            if is_ready and order.state in ("draft", "sent"):
                 if order.picking_policy == "direct":
                     is_ready = False
                     for line in order.order_line:
@@ -27,7 +27,7 @@ class SaleOrder(models.Model):
                         available = line.product_id.qty_available - line.product_id.outgoing_qty
                         is_ready = is_ready and (available >= line.qty_to_deliver)
 
-            if is_ready and order.state != "draft":
+            if is_ready and order.state not in ["draft", "sent"]:
                 # verific daca comanzile de livrare au stocul rezervat
                 if order.picking_policy == "direct":
                     is_ready = False
