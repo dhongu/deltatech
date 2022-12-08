@@ -22,10 +22,13 @@ class SmsApi(models.AbstractModel):
         # endpoint = self.env['ir.config_parameter'].sudo().get_param('sms.endpoint')
 
         res = []
-        endpoint = self.env["ir.config_parameter"].sudo().get_param("sms.endpoint", "")
+        # endpoint = self.env["ir.config_parameter"].sudo().get_param("sms.endpoint", "")
+        # endpoint =  account.endpoint or endpoint
         for message in params["messages"]:
 
             endpoint = account.endpoint
+            if not endpoint:
+                res_value["state"] = "Endpoint is not defined."
             endpoint = endpoint.format(**message)
             self.env.cr.execute("select unaccent(%s);", [endpoint])
             endpoint_unaccent = self.env.cr.fetchone()[0]
@@ -33,6 +36,7 @@ class SmsApi(models.AbstractModel):
             response = result.content.decode("utf-8")
             res_value = {"state": "success", "res_id": message["res_id"]}
             if "OK" not in response:
+                _logger.error("SMS: %s" % response)
                 res_value["state"] = "server_error: %s " % response
             res += [res_value]
 
