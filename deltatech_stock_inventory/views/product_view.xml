@@ -36,23 +36,8 @@
                             </tree>
                         </field>
                     </group>
-                    <group string="Inventory">
-                        <field name="last_inventory_id" />
-                        <field name="last_inventory_date" />
-                        <label for="qty_available" groups="deltatech_stock_inventory.group_view_inventory_button" />
-                        <div groups="deltatech_stock_inventory.group_view_inventory_button" class="o_row">
-                            <field name="qty_available" />
-                            <button
-                                name="confirm_actual_inventory"
-                                type="object"
-                                string=" Update"
-                                class="btn-link mb-1 px-0"
-                                icon="fa-check-circle-o"
-                                confirm="The theoretical quantity corresponds to the actual one."
-                                groups="deltatech_stock_inventory.group_view_inventory_button"
-                            />
-                        </div>
-                    </group>
+
+
                 </group>
             </field>
         </record>
@@ -134,29 +119,8 @@
                                             </tree>
                                         </field>
                                     </group>
-                                        <group string="Inventory">
-                                            <field name="last_inventory_id" />
-                                            <field name="last_inventory_date" />
-                                            <label
-                                            for="qty_available"
-                                            groups="deltatech_stock_inventory.group_view_inventory_button"
-                                        />
-                                            <div
-                                            groups="deltatech_stock_inventory.group_view_inventory_button"
-                                            class="o_row"
-                                        >
-                                                <field name="qty_available" />
-                                                <button
-                                                name="confirm_actual_inventory"
-                                                type="object"
-                                                string=" Update"
-                                                class="btn-link mb-1 px-0"
-                                                icon="fa-check-circle-o"
-                                                confirm="The theoretical quantity corresponds to the actual one."
-                                                groups="deltatech_stock_inventory.group_view_inventory_button"
-                                            />
-                                            </div>
-                                        </group>
+
+
                                 </group>
                             </page>
                         </notebook>
