@@ -10,6 +10,8 @@ from odoo.exceptions import UserError
 class StockQuant(models.Model):
     _inherit = "stock.quant"
 
+    last_inventory_date = fields.Date(string="Last Inventory Date")
+
     inventory_id = fields.Many2one("stock.inventory", "Inventory")
     inventory_line_id = fields.Many2one("stock.inventory.line", "Inventory Line")
 
@@ -54,6 +56,9 @@ class StockQuant(models.Model):
         super(StockQuant, self).action_set_inventory_quantity_to_zero()
 
     def action_apply_inventory(self):
+        for quant in self:
+            quant.last_inventory_date = fields.Date.today()
+
         inventory = self.filtered(lambda q: q.inventory_quantity_set).create_inventory_lines()
         super(StockQuant, self.with_context(apply_inventory=True)).action_apply_inventory()
         for quant in self:
