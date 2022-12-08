@@ -10,6 +10,7 @@ class ProductTemplate(models.Model):
 
     sale_delay_safety = fields.Float("Customer Safety Lead Time", default=1)
 
+
     def _get_combination_info(
         self,
         combination=False,
