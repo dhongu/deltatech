@@ -158,7 +158,7 @@ class Inventory(models.Model):
         self._action_done()
         self.line_ids._check_company()
         self._check_company()
-        quants.write({"inventory_quantity_set": False})
+        quants.write({"inventory_quantity_set": False, "last_inventory_date": self.date})
         return True
 
     def _action_done(self):

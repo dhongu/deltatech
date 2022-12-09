@@ -121,22 +121,22 @@ class StockInventoryLine(models.Model):
             ):
                 inventory_line.product_id.write({"standard_price": inventory_line.standard_price})
         moves = super(StockInventoryLine, self)._generate_moves()
-        self.set_last_last_inventory()
+        # self.set_last_last_inventory()
         return moves
 
-    def set_last_last_inventory(self):
-        for inventory_line in self:
-            prod_last_inventory_date = inventory_line.product_id.last_inventory_date
-            product_tmpl_inventory_date = inventory_line.product_id.product_tmpl_id.last_inventory_date
-            inventory_date = inventory_line.inventory_id.date.date()
-            if not prod_last_inventory_date or prod_last_inventory_date < inventory_date:
-                inventory_line.product_id.write(
-                    {"last_inventory_date": inventory_date, "last_inventory_id": inventory_line.inventory_id.id}
-                )
-                if not product_tmpl_inventory_date or product_tmpl_inventory_date < inventory_date:
-                    inventory_line.product_id.product_tmpl_id.write(
-                        {"last_inventory_date": inventory_date, "last_inventory_id": inventory_line.inventory_id.id}
-                    )
+    # def set_last_last_inventory(self):
+    #     for inventory_line in self:
+    #         prod_last_inventory_date = inventory_line.product_id.last_inventory_date
+    #         product_tmpl_inventory_date = inventory_line.product_id.product_tmpl_id.last_inventory_date
+    #         inventory_date = inventory_line.inventory_id.date.date()
+    #         if not prod_last_inventory_date or prod_last_inventory_date < inventory_date:
+    #             inventory_line.product_id.write(
+    #                 {"last_inventory_date": inventory_date, "last_inventory_id": inventory_line.inventory_id.id}
+    #             )
+    #             if not product_tmpl_inventory_date or product_tmpl_inventory_date < inventory_date:
+    #                 inventory_line.product_id.product_tmpl_id.write(
+    #                     {"last_inventory_date": inventory_date, "last_inventory_id": inventory_line.inventory_id.id}
+    #                 )
 
     @api.onchange("product_qty")
     def onchange_product_qty(self):

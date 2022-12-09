@@ -10,8 +10,8 @@ class ProductWarehouseLocation(models.Model):
     _name = "product.warehouse.location"
     _description = "Product Warehouse Location"
 
-    product_id = fields.Many2one("product.template")
-    warehouse_id = fields.Many2one("stock.warehouse")
+    product_id = fields.Many2one("product.template", index=True)
+    warehouse_id = fields.Many2one("stock.warehouse", index=True)
     loc_rack = fields.Char("Rack", size=16)
     loc_row = fields.Char("Row", size=16)
     loc_shelf = fields.Char("Shelf", size=16)
@@ -31,13 +31,6 @@ class ProductTemplate(models.Model):
     loc_case = fields.Char("Case", size=16, compute="_compute_loc", inverse="_inverse_loc")
 
     warehouse_loc_ids = fields.One2many("product.warehouse.location", "product_id")
-
-    last_inventory_date = fields.Date(
-        string="Last Inventory Date", readonly=True, compute="_compute_last_inventory", store=False
-    )
-    last_inventory_id = fields.Many2one(
-        "stock.inventory", string="Last Inventory", readonly=True, compute="_compute_last_inventory", store=False
-    )
 
     def _compute_loc(self):
         warehouse_id = self.env.context.get("warehouse", False)
@@ -78,17 +71,6 @@ class ProductTemplate(models.Model):
             else:
                 self.env["product.warehouse.location"].sudo().create(values)
 
-    def _compute_last_inventory(self):
-        for template in self:
-            last_inventory_date = False
-            last_inventory_id = False
-            for product in template.product_variant_ids:
-                if not last_inventory_date or last_inventory_date < product.last_inventory_date:
-                    last_inventory_date = product.last_inventory_date
-                    last_inventory_id = product.last_inventory_id
-            template.last_inventory_date = last_inventory_date
-            template.last_inventory_id = last_inventory_id
-
     def confirm_actual_inventory(self):
         products = self.env["product.product"]
         for template in self:
@@ -99,20 +81,6 @@ class ProductTemplate(models.Model):
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
-
-    last_inventory_date = fields.Date(
-        string="Last Inventory Date", compute="_compute_last_inventory", readonly=True, store=False
-    )
-    last_inventory_id = fields.Many2one(
-        "stock.inventory", string="Last Inventory", compute="_compute_last_inventory", readonly=True, store=False
-    )
-
-    def _compute_last_inventory(self):
-        for product in self:
-            domain = [("product_id", "=", product.id), ("is_ok", "=", True)]
-            line = self.env["stock.inventory.line"].search(domain, limit=1, order="id desc")
-            product.last_inventory_id = line.inventory_id
-            product.last_inventory_date = line.inventory_id.date
 
     def confirm_actual_inventory(self):
         products = self
