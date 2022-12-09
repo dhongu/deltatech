@@ -19,22 +19,22 @@ msgstr ""
 #: model:sms.template,body:deltatech_sms_sale.sms_template_data_sale_order_confirm
 msgid ""
 "\n"
-"                    ${object.company_id.name}: We are glad to inform you that your order  ${object.name} has been confirmed.\n"
+"                    {{object.company_id.name}}: We are glad to inform you that your order  {{object.name}} has been confirmed.\n"
 "            "
 msgstr ""
 "\n"
-"                    ${object.company_id.name}: Ne bucuram sa va informam ca a fost confirmata comanda order  ${object.name}.\n"
+"                    {{object.company_id.name}: Ne bucuram sa va informam ca a fost confirmata comanda order {{object.name}}}.\n"
 "            "
 
 #. module: deltatech_sms_sale
 #: model:sms.template,body:deltatech_sms_sale.sms_template_data_sale_order_post
 msgid ""
 "\n"
-"                    ${object.company_id.name}: We are glad to inform you that your order ${object.name} has been posted.\n"
+"                    {{object.company_id.name}}: We are glad to inform you that your order {{object.name}} has been posted.\n"
 "            "
 msgstr ""
 "\n"
-"                    ${object.company_id.name}: Ne bucuram sa va informam ca a fost plasata comanda  order ${object.name}.\n"
+"                    {{object.company_id.name}}: Ne bucuram sa va informam ca a fost plasata comanda  order {{object.name}}.\n"
 "            "
 
 #. module: deltatech_sms_sale

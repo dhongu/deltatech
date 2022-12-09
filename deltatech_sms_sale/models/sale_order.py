@@ -16,7 +16,7 @@ class SaleOrder(models.Model):
             sales = self.filtered(
                 lambda o: o.company_id.sale_order_sms_post and (o.partner_id.mobile or o.partner_id.phone)
             )
-            for sale in sales:
+            for sale in sales.sudo():
                 # Sudo as the user has not always the right to read this sms template.
                 template = sale.company_id.sudo().sale_order_sms_post_template_id
                 sale.with_context(mail_notify_author=True)._message_sms_with_template(
@@ -30,7 +30,7 @@ class SaleOrder(models.Model):
             sales = self.filtered(
                 lambda p: p.company_id.sale_order_sms_confirm and (p.partner_id.mobile or p.partner_id.phone)
             )
-            for sale in sales:
+            for sale in sales.sudo():
                 # Sudo as the user has not always the right to read this sms template.
                 template = sale.company_id.sudo().sale_order_sms_confirm_template_id
                 sale.with_context(mail_notify_author=True)._message_sms_with_template(
