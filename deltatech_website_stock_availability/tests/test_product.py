@@ -65,13 +65,13 @@ class TestProduct(TransactionCase):
         # inventory.action_start()
         # inventory.action_validate()
 
-    def test_product(self):
-        product = self.product_a
-        self.assertIsNotNone(product.availability_text)
-        product = self.product_b
-        self.assertIsNotNone(product.availability_text)
-        product = self.product_c
-        self.assertIsNotNone(product.availability_text)
+    # def test_product(self):
+    #     product = self.product_a
+    #     self.assertIsNotNone(product.availability_text)
+    #     product = self.product_b
+    #     self.assertIsNotNone(product.availability_text)
+    #     product = self.product_c
+    #     self.assertIsNotNone(product.availability_text)
 
     def test_get_combination_info(self):
         product = self.product_b.product_tmpl_id.with_context(website_sale_stock_get_quantity=True)
