@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -14,6 +14,11 @@ class StockQuant(models.Model):
 
     inventory_id = fields.Many2one("stock.inventory", "Inventory")
     inventory_line_id = fields.Many2one("stock.inventory.line", "Inventory Line")
+
+    @api.model
+    def _get_inventory_fields_write(self):
+        fields = ["last_inventory_date"] + super(StockQuant, self)._get_inventory_fields_write()
+        return fields
 
     def create_inventory_lines(self):
         inventory = False
