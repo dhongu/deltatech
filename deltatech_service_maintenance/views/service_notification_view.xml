@@ -333,4 +333,17 @@
         parent="deltatech_service_base.menu_service_config"
     />
 
+        <record id="action_notification_set_draft" model="ir.actions.server">
+            <field name="name">Reset status</field>
+            <field name="type">ir.actions.server</field>
+            <field name="binding_view_types">form</field>
+            <field name="model_id" ref="model_service_notification" />
+            <field name="binding_model_id" ref="model_service_notification" />
+            <field name="state">code</field>
+            <field name="code">
+if records:
+    records.write({'state':'new'})
+            </field>
+        </record>
+
 </odoo>
