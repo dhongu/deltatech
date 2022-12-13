@@ -12,6 +12,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
     journal_id = fields.Many2one("account.journal", string="Journal", domain="[('type', '=', 'sale')]")
     order_id = fields.Many2one("sale.order")
     payment_term_id = fields.Many2one("account.payment.term", string="Payment Terms")
+    is_currency_rate_custom = fields.Boolean(string="Custom currency rate", default=False)
     currency_rate = fields.Float(digits=(6, 4))
 
     @api.model
@@ -42,7 +43,10 @@ class SaleAdvancePaymentInv(models.TransientModel):
         return defaults
 
     def create_invoices(self):
-        new_self = self.with_context(default_journal_id=self.journal_id.id, currency_rate=self.currency_rate)
+        if self.is_currency_rate_custom:
+            new_self = self.with_context(default_journal_id=self.journal_id.id, currency_rate=self.currency_rate)
+        else:
+            new_self = self.with_context(default_journal_id=self.journal_id.id)
         return super(SaleAdvancePaymentInv, new_self).create_invoices()
 
     def _get_advance_details(self, order):
