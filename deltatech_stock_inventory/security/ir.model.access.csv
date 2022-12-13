@@ -6,3 +6,4 @@ access_stock_inventory_line_user,stock.inventory.line user,model_stock_inventory
 access_stock_inventory_line_manager,stock.inventory.line manager,model_stock_inventory_line,stock.group_stock_manager,1,1,1,1
 
 access_stock_confirm_inventory,access_stock_confirm_inventory,model_stock_confirm_inventory,stock.group_stock_manager,1,1,1,1
+access_stock_inventory_merge,access_stock_inventory_merge,model_stock_inventory_merge,deltatech_stock_inventory.group_merge_inventory,1,1,1,1
