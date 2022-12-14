@@ -92,16 +92,13 @@ class ProductTemplate(models.Model):
         products = self.env["product.product"]
         for template in self:
             products |= template.product_variant_ids
-        action[
-            "context"
-        ] = """{
-             'group_by':['date:year'],
-             'measures': ['product_qty', 'price_average'],
-             'col_group_by': ['move_type'] ,
-              'group_by_no_leaf': 1,
-              'search_disable_custom_filters': True
-             }"""
-        #
+        action["context"] = {
+            "group_by": ["date:year"],
+            "measures": ["product_qty", "price_average"],
+            "col_group_by": ["move_type"],
+            "group_by_no_leaf": 1,
+            "search_disable_custom_filters": True,
+        }
         action["domain"] = [("move_type", "in", ["out_invoice", "out_refund"]), ("product_id", "in", products.ids)]
         return action
 

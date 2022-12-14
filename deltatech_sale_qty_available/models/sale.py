@@ -64,6 +64,10 @@ class SaleOrderLine(models.Model):
 
     qty_available_text = fields.Char(string="Available", compute="_compute_qty_available_text")
 
+    @api.onchange("product_id")
+    def onchange_product_(self):
+        self._compute_qty_available_text()
+
     def _compute_qty_available_text(self):
         for line in self:
             product = line.product_id
@@ -88,3 +92,7 @@ class SaleOrderLine(models.Model):
                     qty_available_text += " +%s " % incoming_qty
 
             line.qty_available_text = qty_available_text
+
+    def _compute_qty_at_date(self):
+        self = self.with_context(all_warehouses=True)
+        return super(SaleOrderLine, self)._compute_qty_at_date()
