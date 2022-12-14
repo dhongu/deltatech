@@ -8,6 +8,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval
 
 
 class ServiceEquipment(models.Model):
@@ -176,6 +177,8 @@ class ServiceEquipment(models.Model):
                     equipment.location_id = False
 
     def compute_totals(self):
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
         for equipment in self:
             total_consumption = 0.0
             total_invoiced = 0.0
@@ -190,7 +193,22 @@ class ServiceEquipment(models.Model):
                     for line in invoice.invoice_line_ids:
                         if line.agreement_line_id.equipment_id == equipment:
                             total_invoiced += line.price_subtotal
-            equipment.write({"total_invoiced": total_invoiced, "total_revenues": total_consumption})
+
+            pickings = self.env["stock.picking"].search(
+                [
+                    ("equipment_id", "=", equipment.id),
+                    ("picking_type_id", "=", picking_type_id),
+                    ("picking_type_code", "=", "outgoing"),
+                    ("state", "=", "done"),
+                ]
+            )
+            svls = pickings.move_lines.stock_valuation_layer_ids
+            value = 0.0
+            for svl in svls:
+                value += svl.value
+            equipment.write(
+                {"total_invoiced": total_invoiced, "total_revenues": total_consumption, "total_costs": value}
+            )
 
     def costs_and_revenues(self):
         self.compute_totals()
@@ -335,6 +353,8 @@ class ServiceEquipment(models.Model):
                 name += "/" + equipment.address_id.name
             if equipment.serial_id:
                 name += "/" + equipment.serial_id.name
+            if equipment.emplacement:
+                name += "/" + equipment.emplacement
             res.append((equipment.id, name))
         return res
 

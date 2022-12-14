@@ -18,6 +18,18 @@ class StockPicking(models.Model):
         for picking in self:
             picking.agreement_id = picking.equipment_id.agreement_id
 
+    def button_validate(self):
+        res = super(StockPicking, self).button_validate()
+        for picking in self:
+            if picking.agreement_id:
+                svls = picking.move_lines.stock_valuation_layer_ids
+                value = 0.0
+                for svl in svls:
+                    value += svl.value
+                cons_value = picking.agreement_id.total_costs + value
+                picking.agreement_id.write({"total_costs": cons_value})
+        return res
+
     def check_consumable(self):
         # returns False if all is ok, returns string with error if products exceeds max
         # can be called at picking validation

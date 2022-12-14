@@ -42,16 +42,16 @@ class ServiceEquiOperation(models.TransientModel):
             defaults["partner_id"] = equipment.partner_id.id
             defaults["address_id"] = equipment.address_id.id
             defaults["emplacement"] = equipment.emplacement
-            agreement = self.env["service.agreement"].search([("partner_id", "=", equipment.partner_id.id)], limit=1)
-            if agreement:
-                defaults["agreement_id"] = agreement.id
+            # agreement = self.env["service.agreement"].search([("partner_id", "=", equipment.partner_id.id)], limit=1)
+            # if agreement:
+            #     defaults["agreement_id"] = agreement.id
         else:
             raise UserError(_("Please select equipment."))
         return defaults
 
-    @api.onchange("partner_id")
-    def onchange_partner_id(self):
-        self.address_id = self.partner_id
+    # @api.onchange("partner_id")
+    # def onchange_partner_id(self):
+    #     self.address_id = self.partner_id
 
     def _compute_can_remove(self):
         # ca sa se poata elimina dintr-un contract trebuie ca:
@@ -189,6 +189,8 @@ class ServiceEquiOperation(models.TransientModel):
                 "equipment_id": self.equipment_id.id,
                 "currency_id": template.currency_id.id,
                 "product_id": template.product_id.id,
+                "uom_id": template.meter_categ_id.bill_uom_id.id or template.product_id.uom_id.id,
+                "price_unit": template.product_id.lst_price
                 # "analytic_account_id": template.analytic_account_id.id,
             }
             for meter in self.equipment_id.meter_ids:

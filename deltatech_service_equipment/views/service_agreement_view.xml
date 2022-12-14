@@ -33,6 +33,11 @@
                         options="{'no_create': True}"
                     />
                 </field>
+                <xpath expr="//field[@name='agreement_line']/tree" position="attributes">
+                    <attribute
+                        name="decoration-danger"
+                    >(quantity == 0.0 and meter_id == False) or price_unit == 0.0</attribute>
+                </xpath>
             </field>
         </record>
 
