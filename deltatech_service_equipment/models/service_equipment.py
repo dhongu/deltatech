@@ -353,6 +353,8 @@ class ServiceEquipment(models.Model):
                 name += "/" + equipment.address_id.name
             if equipment.serial_id:
                 name += "/" + equipment.serial_id.name
+            if equipment.emplacement:
+                name += "/" + equipment.emplacement
             res.append((equipment.id, name))
         return res
 
