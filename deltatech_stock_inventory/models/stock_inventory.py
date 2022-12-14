@@ -108,7 +108,11 @@ class Inventory(models.Model):
 
     def unlink(self):
         for inventory in self:
-            if inventory.state not in ("draft", "cancel") and not self.env.context.get(MODULE_UNINSTALL_FLAG, False):
+            if (
+                inventory.state not in ("draft", "cancel")
+                and not self.env.context.get(MODULE_UNINSTALL_FLAG, False)
+                and not self.env.context.get("merge_inventory", False)
+            ):
                 raise UserError(
                     _(
                         "You can only delete a draft inventory adjustment. "
