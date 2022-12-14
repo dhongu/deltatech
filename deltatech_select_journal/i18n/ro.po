@@ -72,3 +72,8 @@ msgstr "Comandă de vânzare"
 #: model:ir.model,name:deltatech_select_journal.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Linie comandă vânzare"
+
+#. module: deltatech_select_journal
+#: model:ir.model.fields,field_description:deltatech_select_journal.field_sale_advance_payment_inv__is_currency_rate_custom
+msgid "Custom currency rate"
+msgstr "Alt curs valutar"
