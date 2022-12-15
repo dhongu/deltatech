@@ -210,6 +210,55 @@ class ServiceEquipment(models.Model):
                 {"total_invoiced": total_invoiced, "total_revenues": total_consumption, "total_costs": value}
             )
 
+    def compute_revenues(self):
+        query = """
+        SELECT equipment_id, sum(sc.revenues) as revenues_total
+        FROM service_consumption sc
+        WHERE equipment_id in %(equipment)s AND
+            state = %(state)s
+        GROUP BY equipment_id
+        """
+        params = {
+            "equipment": tuple(self.ids),
+            "state": "done",
+        }
+        self.env.cr.execute(query, params=params)
+        res = self.env.cr.fetchall()
+        for row in res:
+            equipment = self.env["service.equipment"].browse(row[0])
+            equipment.write({"total_revenues": round(row[1], 2)})
+
+    def compute_costs(self):
+        """
+        Used to recompute costs from pickings, if necessary.
+        The costs are added at each picking validation, if the picking has the
+        picking_type_for_service type (see button_validate function)
+        :return: nothing
+        """
+
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
+        query = """
+                SELECT sp.equipment_id, sum(sv.value) as svls_total
+                FROM stock_picking sp
+                LEFT JOIN stock_move sm ON sm.picking_id = sp.id
+                LEFT JOIN stock_valuation_layer sv ON sm.id = sv.stock_move_id
+                WHERE equipment_id in %(equipment)s AND
+                    sp.state = %(state)s AND
+                    sp.picking_type_id = %(picking_type)s
+                GROUP BY equipment_id
+                """
+        params = {
+            "equipment": tuple(self.ids),
+            "state": "done",
+            "picking_type": picking_type_id,
+        }
+        self.env.cr.execute(query, params=params)
+        res = self.env.cr.fetchall()
+        for row in res:
+            equipment = self.env["service.equipment"].browse(row[0])
+            equipment.write({"total_costs": round(row[1], 2)})
+
     def costs_and_revenues(self):
         self.compute_totals()
 
