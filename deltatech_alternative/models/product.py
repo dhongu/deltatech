@@ -19,6 +19,8 @@ class ProductTemplate(models.Model):
 
     def _inverse_alternative_code(self):
         for product in self:
+            if any(a.hide for a in product.alternative_ids):
+                continue
             if len(product.alternative_ids) == 1:
                 product.alternative_ids.name = product.alternative_code
             if not product.alternative_ids:
