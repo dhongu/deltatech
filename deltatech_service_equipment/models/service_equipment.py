@@ -79,8 +79,6 @@ class ServiceEquipment(models.Model):
     )
 
     # se va calcula din suma consumurilor de servicii
-
-    total_invoiced = fields.Float(string="Total invoiced", readonly=True)
     total_revenues = fields.Float(string="Total Revenues", readonly=True)
     # se va calcula din suma avizelor
     total_costs = fields.Float(string="Total cost", readonly=True)
@@ -177,38 +175,8 @@ class ServiceEquipment(models.Model):
                     equipment.location_id = False
 
     def compute_totals(self):
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
-        for equipment in self:
-            total_consumption = 0.0
-            total_invoiced = 0.0
-            consumptions = self.env["service.consumption"].search([("equipment_id", "=", equipment.id)])
-            invoices = self.env["account.move"]
-            for consumption in consumptions:
-                if consumption.state == "done":
-                    total_consumption += consumption.revenues
-                    invoices |= consumption.invoice_id
-            for invoice in invoices:
-                if invoice.state == "posted":
-                    for line in invoice.invoice_line_ids:
-                        if line.agreement_line_id.equipment_id == equipment:
-                            total_invoiced += line.price_subtotal
-
-            pickings = self.env["stock.picking"].search(
-                [
-                    ("equipment_id", "=", equipment.id),
-                    ("picking_type_id", "=", picking_type_id),
-                    ("picking_type_code", "=", "outgoing"),
-                    ("state", "=", "done"),
-                ]
-            )
-            svls = pickings.move_lines.stock_valuation_layer_ids
-            value = 0.0
-            for svl in svls:
-                value += svl.value
-            equipment.write(
-                {"total_invoiced": total_invoiced, "total_revenues": total_consumption, "total_costs": value}
-            )
+        self.compute_costs()
+        self.compute_revenues()
 
     def compute_revenues(self):
         if self:
