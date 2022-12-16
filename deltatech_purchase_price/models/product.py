@@ -77,7 +77,10 @@ class SupplierInfo(models.Model):
         for item in self:
             from_uom = item.product_uom or item.product_tmpl_id.uom_id
             to_uom = item.product_tmpl_id.uom_id
-            price = from_uom._compute_price(item.price, to_uom)
+            if from_uom and to_uom:
+                price = from_uom._compute_price(item.price, to_uom)
+            else:
+                price = item.price
             if item.currency_id:
                 to_currency = self.env.user.company_id.currency_id
                 company = self.env.user.company_id
