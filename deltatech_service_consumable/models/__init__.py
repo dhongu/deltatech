@@ -8,3 +8,4 @@ from . import service_agreement
 from . import stock_picking
 
 from . import service_efficiency_report
+from . import account_move

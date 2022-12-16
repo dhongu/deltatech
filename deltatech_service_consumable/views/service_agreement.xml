@@ -28,4 +28,16 @@
             </div>
         </field>
     </record>
+
+    <record id="view_service_agreement_tree" model="ir.ui.view">
+        <field name="name">Service agreement</field>
+        <field name="model">service.agreement</field>
+        <field name="inherit_id" ref="deltatech_service.view_service_agreement_tree" />
+        <field name="arch" type="xml">
+            <field name="total_invoiced" position="before">
+                <field name="total_percent" optional="show" />
+                <field name="total_costs" optional="show" />
+            </field>
+        </field>
+    </record>
 </odoo>
