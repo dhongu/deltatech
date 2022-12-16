@@ -27,7 +27,7 @@ class StockPicking(models.Model):
                 for svl in svls:
                     value += svl.value
                 cons_value = picking.agreement_id.total_costs + value
-                picking.agreement_id.write({"total_costs": cons_value})
+                picking.agreement_id.sudo().write({"total_costs": cons_value})
         return res
 
     def check_consumable(self):

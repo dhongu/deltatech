@@ -45,12 +45,18 @@ class ServiceAgreement(models.Model):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
         for agreement in self:
+            partners = self.env["res.partner"]
+            partners |= agreement.partner_id
+            if agreement.partner_id.child_ids:
+                for child in agreement.partner_id.child_ids:
+                    partners |= child
             pickings = self.env["stock.picking"].search(
                 [
                     ("agreement_id", "=", agreement.id),
                     ("picking_type_id", "=", picking_type_id),
                     ("picking_type_code", "=", "outgoing"),
                     ("state", "=", "done"),
+                    ("partner_id", "in", partners.ids),
                 ]
             )
             svls = pickings.move_lines.stock_valuation_layer_ids
