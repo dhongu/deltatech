@@ -4,7 +4,7 @@
         <field name="name">Services Agreements</field>
         <field name="model">service.agreement</field>
         <field name="arch" type="xml">
-            <tree string="Services Agreements" sample="1">
+            <tree string="Services Agreements" sample="1" default_order="create_date desc">
                 <field name="name" decoration-bf="1" />
                 <field name="date_agreement" />
                 <field name="partner_id" />

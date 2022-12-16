@@ -135,12 +135,6 @@
                             name="invoice_button"
                             groups="account.group_account_invoice"
                         >
-                            <div class="o_form_field o_stat_info">
-                                <span class="o_stat_value">
-                                    <field string="Invoiced" name="total_invoiced" widget="monetary" />
-                                </span>
-                                <span class="o_stat_text">Invoiced</span>
-                            </div>
                         </button>
                         <button
                             type="action"

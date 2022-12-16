@@ -99,7 +99,7 @@ class ServiceEquiOperation(models.TransientModel):
                     "address_id": self.address_id.id,
                     "emplacement": self.emplacement,
                     "state": "installed",
-                    "installation_date": fields.Date.today(),
+                    "installation_date": self.date,
                 }
             )
 

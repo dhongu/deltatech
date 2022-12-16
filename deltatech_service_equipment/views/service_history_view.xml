@@ -22,7 +22,7 @@
         <record id="service_history_tree" model="ir.ui.view">
             <field name="model">service.history</field>
             <field name="arch" type="xml">
-                <tree string="Istoric">
+                <tree string="Istoric" default_order="date desc">
                     <field name="name" string="Type" />
                     <field name="date" />
                     <field name="equipment_id" />
