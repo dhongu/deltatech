@@ -13,8 +13,8 @@
                 <field name="type_id" optional="show" />
                 <field name="user_id" widget="many2one_avatar_user" />
                 <field name="group_id" string="Service Group" optional="hide" />
-                <field name="total_consumption" sum="consumption" />
-                <field name="total_invoiced" sum="invoiced" />
+                <field name="total_consumption" sum="consumption" optional="hide" />
+                <field name="total_invoiced" sum="invoiced" optional="show" />
                 <field name="message_unread" invisible="1" />
                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
                 <field name="last_date_invoice" />

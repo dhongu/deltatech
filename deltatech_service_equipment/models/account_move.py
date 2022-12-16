@@ -19,7 +19,8 @@ class AccountInvoice(models.Model):
                 equipments = self.env["service.equipment"]
                 for line in invoice.invoice_line_ids:
                     equipments |= line.agreement_line_id.equipment_id
-                equipments.compute_revenues()
+                if equipments:
+                    equipments.compute_revenues()
         return res
 
     def get_counter_lines(self):
