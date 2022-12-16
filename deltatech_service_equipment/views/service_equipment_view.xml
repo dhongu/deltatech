@@ -5,7 +5,12 @@
         <field name="name">Services equipment</field>
         <field name="model">service.equipment</field>
         <field name="arch" type="xml">
-            <tree string="Services Equipment" decoration-bf="agreement_id!=False" sample="1">
+            <tree
+                string="Services Equipment"
+                decoration-bf="agreement_id!=False"
+                sample="1"
+                default_order="create_date desc"
+            >
                 <field name="name" />
                 <field name="partner_id" />
                 <field name="address_id" optional="show" />

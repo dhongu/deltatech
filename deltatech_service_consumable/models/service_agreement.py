@@ -58,3 +58,11 @@ class ServiceAgreement(models.Model):
             for svl in svls:
                 value += svl.value
             agreement.write({"total_costs": value})
+
+    def compute_percent(self):
+        for agreement in self:
+            if agreement.total_invoiced:
+                total_percent = round(((-1 * agreement.total_costs) / agreement.total_invoiced) * 100, 2)
+            else:
+                total_percent = 0.0
+            agreement.write({"total_percent": total_percent})
