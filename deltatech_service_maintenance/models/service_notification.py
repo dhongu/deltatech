@@ -119,6 +119,13 @@ class ServiceNotification(models.Model):
         states={"done": [("readonly", True)]},
         copy=True,
     )
+    location_id = fields.Many2one("stock.location", string="Stock Location", compute="_compute_location_id")
+
+    def _compute_location_id(self):
+        for notification in self:
+            notification.location_id = notification.service_location_id.location_id
+            if not notification.location_id:
+                notification.location_id = notification.work_center_id.location_id
 
     def _compute_related_doc(self):
         for item in self:
@@ -600,6 +607,37 @@ class ServiceNotificationItem(models.Model):
     quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
     product_uom = fields.Many2one("uom.uom", string="Unit of Measure ")
     note = fields.Char(string="Note")
+    stock_location_issue = fields.Boolean(compute="_compute_stock_issue")
+    stock_issue = fields.Boolean(compute="_compute_stock_issue")
+
+    def action_product_forecast_report(self):
+        self.ensure_one()
+        action = self.product_id.action_product_forecast_report()
+        action["context"] = {
+            "active_id": self.product_id.id,
+            "active_model": "product.product",
+        }
+        warehouse = self.notification_id.location_id.warehouse_id
+        location = self.notification_id.location_id
+        if location:
+            action["context"]["location"] = location.id
+        if warehouse:
+            action["context"]["warehouse"] = warehouse.id
+        return action
+
+    @api.depends("product_id", "quantity")
+    def _compute_stock_issue(self):
+        for line in self:
+            location = line.notification_id.location_id
+            line.stock_location_issue = False
+            line.stock_issue = False
+            if line.product_id:
+                qty_available = line.product_id.with_context(location=location.id).qty_available
+                if qty_available < line.quantity:
+                    line.stock_location_issue = True
+                qty_available = line.product_id.qty_available
+                if qty_available < line.quantity:
+                    line.stock_issue = True
 
     @api.onchange("product_id")
     def onchange_product_id(self):
