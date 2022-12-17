@@ -54,7 +54,7 @@ class MrpProduction(models.Model):
                 + self.net_salary_rate * self.duration
                 + self.salary_contributions * self.duration
             )
-
-            self.extra_cost = costs / self.product_qty
+            if costs:
+                self.extra_cost = costs / self.product_qty
 
         return super(MrpProduction, self)._cal_price(consumed_moves)
