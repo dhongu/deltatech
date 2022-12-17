@@ -14,7 +14,7 @@ class StockMove(models.Model):
 
     def _get_price_unit(self):
         """Returns the unit price to store on the quant"""
-        if self.purchase_line_id:
+        if self.purchase_line_id and self.product_id == self.purchase_line_id.product_id:
             get_param = self.env["ir.config_parameter"].sudo().get_param
             update_product_price = get_param("purchase.update_product_price", default="False")
             update_product_price = safe_eval(update_product_price)
