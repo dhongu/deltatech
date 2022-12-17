@@ -22,24 +22,26 @@ class SaleAdvancePaymentInv(models.TransientModel):
 
             order = self.env["sale.order"].browse(self._context.get("active_ids"))[0]
             defaults["order_id"] = order.id
-            defaults["payment_term_id"] = order.payment_term_id.id
+            if "payment_term_id" in fields_list:
+                defaults["payment_term_id"] = order.payment_term_id.id
             # defaults['advance_payment_method'] = self._get_advance_payment_method()
 
             if order.payment_term_id and order.payment_term_id.line_ids[0].value == "percent":
                 # defaults['payment_term_id'] = self.env.ref('account.account_payment_term_immediate').id
                 if order.invoice_count == 0:
-                    defaults["advance_payment_method"] = "percentage"
-                    defaults["amount"] = order.payment_term_id.line_ids[0].value_amount
+                    if "advance_payment_method" in fields_list:
+                        defaults["advance_payment_method"] = "percentage"
+                    if "amount" in fields_list:
+                        defaults["amount"] = order.payment_term_id.line_ids[0].value_amount
 
-            company_id = self._context.get("company_id", self.env.user.company_id.id)
-            domain = [("type", "=", "sale"), ("company_id", "=", company_id)]
-            # de ce as pune default jurnalul in aceeasi valuta cu oferta? ca doar de aceea vreau sa-l schimb
-            # if order and order.pricelist_id and order.pricelist_id.currency_id:
-            #     if order.pricelist_id.currency_id != self.env.user.company_id.currency_id:
-            #         domain += [('currency_id', '=', order.pricelist_id.currency_id.id)]
-            journal = self.env["account.journal"].search(domain, limit=1)
-            if journal:
-                defaults["journal_id"] = journal.id
+            if "journal_id" in fields_list:
+                journal = order.team_id.journal_id
+                if not journal:
+                    company_id = self._context.get("company_id", self.env.user.company_id.id)
+                    domain = [("type", "=", "sale"), ("company_id", "=", company_id)]
+                    journal = self.env["account.journal"].search(domain, limit=1)
+                if journal:
+                    defaults["journal_id"] = journal.id
         return defaults
 
     def create_invoices(self):
