@@ -14,10 +14,12 @@ class StockQuant(models.Model):
 
     inventory_id = fields.Many2one("stock.inventory", "Inventory")
     inventory_line_id = fields.Many2one("stock.inventory.line", "Inventory Line")
+    inventory_note = fields.Char()
 
     @api.model
     def _get_inventory_fields_write(self):
-        fields = ["last_inventory_date"] + super(StockQuant, self)._get_inventory_fields_write()
+        fields = super(StockQuant, self)._get_inventory_fields_write()
+        fields += ["last_inventory_date", "inventory_note"]
         return fields
 
     def create_inventory_lines(self):
@@ -96,4 +98,5 @@ class StockQuant(models.Model):
     def _get_inventory_move_values(self, qty, location_id, location_dest_id, out=False):
         values = super(StockQuant, self)._get_inventory_move_values(qty, location_id, location_dest_id, out)
         values["inventory_id"] = self.inventory_id.id
+        values["name"] = self.inventory_note or values["name"]
         return values
