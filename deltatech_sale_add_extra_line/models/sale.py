@@ -14,7 +14,9 @@ class SaleOrder(models.Model):
     def _onchange_order_line(self):
         for line in self.order_line:
             if line.product_id.extra_product_id:
-                extra_line_id = self.order_line.filtered(lambda l: l.line_uuid == line.line_uuid and l.id != line.id)
+                extra_line_id = self.order_line.filtered(
+                    lambda l: line.line_uuid is not False and l.line_uuid == line.line_uuid and l.id != line.id
+                )
                 if not extra_line_id:
                     new_uuid = str(uuid.uuid4())
                     values = {
