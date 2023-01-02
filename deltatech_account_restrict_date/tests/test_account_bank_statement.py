@@ -93,8 +93,8 @@ class TestAccountBankStatement(TransactionCase):
             {
                 "journal_id": self.env["account.journal"].search([("type", "=", "bank")], limit=1).id,
                 "line_ids": [
-                    (0, 0, {"partner_id": self.partner1.id, "amount": 100.0, "name": "line1"}),
-                    (0, 0, {"partner_id": self.partner2.id, "amount": 100.0, "name": "line2"}),
+                    (0, 0, {"partner_id": self.partner1.id, "amount": 100.0, "name": "line1", "payment_ref": "line1"}),
+                    (0, 0, {"partner_id": self.partner2.id, "amount": 100.0, "name": "line2", "payment_ref": "line2"}),
                 ],
             }
         )
