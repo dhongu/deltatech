@@ -65,7 +65,7 @@ class TestExpenses(TransactionCase):
         expenses.validate_expenses()
 
         # se verifica ca nota de cheltuieli este in starea cheltuieli
-        self.assertEqual(expenses.state, "expenses")
+        self.assertEqual(expenses.state, "done")
 
         # se verifica daca se poate face invalidarea cheltuielilor
         expenses.invalidate_expenses()
