@@ -8,7 +8,7 @@ class TestProduct(TransactionCase):
         test_category = self.env["product.category"].create({"name": "test category"})
         values = {
             "name": "Product 1",
-            "code": "Code1",
+            "default_code": "Code1",
             "list_price": 5,
             "categ_id": test_category.id,
             "alternative_ids": [
@@ -20,7 +20,7 @@ class TestProduct(TransactionCase):
         self.product1 = self.env["product.product"].create(values)
         values = {
             "name": "Product 2",
-            "code": "CodeZ",
+            "default_code": "CodeZ",
             "list_price": 5,
             "categ_id": test_category.id,
             "alternative_ids": [
@@ -49,7 +49,7 @@ class TestProductTemplate(TransactionCase):
         test_category = self.env["product.category"].create({"name": "test category"})
         values = {
             "name": "Product 1",
-            "code": "Code1",
+            "default_code": "Code1",
             "list_price": 5,
             "categ_id": test_category.id,
             "alternative_ids": [
@@ -61,7 +61,7 @@ class TestProductTemplate(TransactionCase):
         self.product1 = self.env["product.template"].create(values)
         values = {
             "name": "Product 2",
-            "code": "CodeZ",
+            "default_code": "CodeZ",
             "list_price": 5,
             "categ_id": test_category.id,
             "alternative_ids": [
