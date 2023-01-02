@@ -100,7 +100,7 @@ class TestAccountBankStatement(TransactionCase):
         )
 
         # se posteaza extrasul bancar
-        self.account_bank_statement.post()
+        self.account_bank_statement.button_post()
 
         # se va face reconcilierea
         self.account_bank_statement.reconcile()
