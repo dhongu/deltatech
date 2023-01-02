@@ -73,8 +73,8 @@ class TestProductTemplate(TransactionCase):
         self.product2 = self.env["product.template"].create(values)
 
     def test_alternative_code(self):
-        self.assertEqual(self.product1.alternative_code, "Code2, Code3, Code4")
-        self.assertEqual(self.product2.alternative_code, "CodeA, CodeB, CodeC")
+        self.assertEqual(self.product1.alternative_code, "Code2; Code3; Code4")
+        self.assertEqual(self.product2.alternative_code, "CodeA; CodeB; CodeC")
 
     def test_search_product(self):
         prod1 = self.env["product.template"].name_search("Code3")
