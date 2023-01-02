@@ -20,7 +20,6 @@ Deltatech Generic Partner
 |badge1| |badge2| |badge3| 
 
 Features:
- - definire partener generic
  - defining generic partner
 
 **Table of contents**

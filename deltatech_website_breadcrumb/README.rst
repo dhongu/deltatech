@@ -20,7 +20,7 @@ eCommerce Category Breadcrumb
 |badge1| |badge2| |badge3| 
 
 Features:
- -
+ - afisare cale completa in breadcrumb
 
 **Table of contents**
 

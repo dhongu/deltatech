@@ -29,6 +29,7 @@ class SaleOrderLine(models.Model):
     #         return False
 
     def change_price_or_product(self, res):
+        #
         if not res:
             res = {}
         if not res.get("warning", False) and not self.env.context.get("website_id", False):
@@ -65,6 +66,7 @@ class SaleOrderLine(models.Model):
 
     def check_sale_price(self):
         res = {}
+        # daca in context este ignore_price_check atunci nu se verifica pretul
         if self.env.context.get("ignore_price_check", False):
             return res
         # daca comanda se face in website se ignora verificarea pretului de cost pentru a face unele promotii
@@ -89,9 +91,11 @@ class SaleOrderLine(models.Model):
                     return res
 
         for line in self:
+            # daca este o linie de tip discount atunci nu se verifica pretul
             if line.display_type or line.product_type == "service" or line.product_uom_qty < 0 or line.is_delivery:
                 continue
 
+            #
             if line.product_id and line.price_unit == 0:
                 if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
                     raise UserError(_("You can not sell %s without price.") % line.product_id.name)
@@ -119,6 +123,7 @@ class SaleOrderLine(models.Model):
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    # la validare se verifica pretul de vanzare
     def action_confirm(self):
         res = super(SaleOrder, self).action_confirm()
         if self.env.context.get("ignore_price_check", False):

@@ -1,2 +1,2 @@
 Features:
- - Searching invoice using product
+ - Searching invoice using product name

@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
+from odoo.exceptions import UserError
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
@@ -42,10 +43,23 @@ class TestSale(TransactionCase):
         inventory.action_start()
         inventory.action_validate()
 
-    def test_sale(self):
+    def test_error_price(self):
+        # se creeaza o comanda de vanzare
         so = Form(self.env["sale.order"])
         so.partner_id = self.partner_a
+        # se verifica daca se genereaza eroare daca se  adauga in comanda de vanzare
+        # un produs cu pret de vanzare mai mic decat cel de achizitie
+        with self.assertRaises(UserError):
+            with so.order_line.new() as so_line:
+                so_line.product_id = self.product_a
+                so_line.product_uom_qty = 10
+                so_line.price_unit = 50
 
+    def test_sale(self):
+        # se creeaza o comanda de vanzare
+        so = Form(self.env["sale.order"])
+        so.partner_id = self.partner_a
+        # se adauga un produs in comanda de vanzare
         with so.order_line.new() as so_line:
             so_line.product_id = self.product_a
             so_line.product_uom_qty = 100
@@ -54,6 +68,7 @@ class TestSale(TransactionCase):
             so_line.product_id = self.product_b
             so_line.product_uom_qty = 10
 
+        # se valideaza comanda de vanzare
         self.so = so.save()
         self.so.action_confirm()
 

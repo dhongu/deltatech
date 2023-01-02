@@ -20,7 +20,7 @@ Invoice Product Filter
 |badge1| |badge2| |badge3| 
 
 Features:
- - Searching invoice using product
+ - Searching invoice using product name
 
 **Table of contents**
 

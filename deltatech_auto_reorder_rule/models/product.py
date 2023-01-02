@@ -20,8 +20,17 @@ class ProductProduct(models.Model):
         warehouse_id = self.env["stock.warehouse"].search([("company_id", "=", company_id.id)], limit=1)
         location_id = warehouse_id.lot_stock_id
         for product in self:
+            # daca tipul de produs este consumabil sau serviciu nu se creeaza regula
             if product.type != "product":
                 continue
+            # daca produsul are deja regula nu se mai creeaza
+            if product.auto_reorder_rule_id:
+                continue
+
+            # daca pprdusul nu se cumpara nu se creeaza regula
+            if not product.purchase_ok:
+                continue
+
             domain = [("product_id", "=", product.id), ("company_id", "=", company_id.id)]
             rules = self.env["stock.warehouse.orderpoint"].search(domain)
             if not rules:
