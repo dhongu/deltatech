@@ -43,17 +43,40 @@ class TestSale(TransactionCase):
         inventory.action_start()
         inventory.action_validate()
 
-    def test_error_price(self):
+    def test_error_price_onchange(self):
+        # setare paramteru sale.margin_limit_check_validate
+        self.env["ir.config_parameter"].set_param("sale.margin_limit_check_validate", "True")
+
         # se creeaza o comanda de vanzare
         so = Form(self.env["sale.order"])
         so.partner_id = self.partner_a
-        # se verifica daca se genereaza eroare daca se  adauga in comanda de vanzare
+        # se verifica daca se genereaza mesaj de avertizare daca se adauga in comanda de vanzare
         # un produs cu pret de vanzare mai mic decat cel de achizitie
+        with so.order_line.new() as so_line:
+            so_line.product_id = self.product_a
+            so_line.product_uom_qty = 10
+            # se seteaza pretul de vanzare mai mic decat cel de achizitie
+            so_line.price_unit = 50
+            # se verifica daca se genereaza mesaj de avertizare
+
+        self.so = so.save()
+
+    def test_error_price_validate(self):
+        self.env["ir.config_parameter"].set_param("sale.margin_limit_check_validate", "True")
+        # se creeaza o comanda de vanzare
+        so = Form(self.env["sale.order"])
+        so.partner_id = self.partner_a
+
+        # se verifica daca se genereaza eroare daca se confirma comanda de vanzare si un produs
+        # are pret de vanzare mai mic decat cel de achizitie
         with self.assertRaises(UserError):
             with so.order_line.new() as so_line:
                 so_line.product_id = self.product_a
                 so_line.product_uom_qty = 10
+                # se seteaza pretul de vanzare mai mic decat cel de achizitie
                 so_line.price_unit = 50
+            self.so = so.save()
+            self.so.action_confirm()
 
     def test_sale(self):
         # se creeaza o comanda de vanzare
