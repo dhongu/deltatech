@@ -10,11 +10,7 @@ class TestCatalog(TransactionCase):
     def setUp(self):
         super(TestCatalog, self).setUp()
 
-        test_category = self.env["product.category"].create(
-            {
-                "name": "test category",
-            }
-        )
+        test_category = self.env["product.category"].create({"name": "test category"})
         values = {
             "name": "Product 1",
             "code": "Code1",

@@ -5,16 +5,11 @@ class TestProduct(TransactionCase):
     def setUp(self):
         super(TestProduct, self).setUp()
 
-        test_category = self.env["product.category"].create(
-            {
-                "name": "test category",
-            }
-        )
+        test_category = self.env["product.category"].create({"name": "test category"})
         values = {
             "name": "Product 1",
             "code": "Code1",
             "list_price": 5,
-            "purchase_price": 2,
             "categ_id": test_category.id,
             "alternative_ids": [
                 (0, 0, {"name": "Code2"}),
@@ -27,7 +22,6 @@ class TestProduct(TransactionCase):
             "name": "Product 2",
             "code": "CodeZ",
             "list_price": 5,
-            "purchase_price": 2,
             "categ_id": test_category.id,
             "alternative_ids": [
                 (0, 0, {"name": "CodeA"}),
@@ -52,16 +46,11 @@ class TestProductTemplate(TransactionCase):
     def setUp(self):
         super(TestProductTemplate, self).setUp()
 
-        test_category = self.env["product.category"].create(
-            {
-                "name": "test category",
-            }
-        )
+        test_category = self.env["product.category"].create({"name": "test category"})
         values = {
             "name": "Product 1",
             "code": "Code1",
             "list_price": 5,
-            "purchase_price": 2,
             "categ_id": test_category.id,
             "alternative_ids": [
                 (0, 0, {"name": "Code2"}),
@@ -74,7 +63,6 @@ class TestProductTemplate(TransactionCase):
             "name": "Product 2",
             "code": "CodeZ",
             "list_price": 5,
-            "purchase_price": 2,
             "categ_id": test_category.id,
             "alternative_ids": [
                 (0, 0, {"name": "CodeA"}),
