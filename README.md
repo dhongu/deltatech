@@ -2,7 +2,6 @@
 [![codecov](https://codecov.io/gh/dhongu/deltatech/branch/15.0/graph/badge.svg)](https://codecov.io/gh/dhongu/deltatech)
 
 
-
 Deltatech
 =========================
 
