@@ -27,6 +27,8 @@ class ImportPurchaseLine(models.TransientModel):
     new_product = fields.Boolean("Create missing product")
     is_amount = fields.Boolean("Is amount")
     purchase_id = fields.Many2one("purchase.order")
+    product_code_is_barcode = fields.Boolean(string='Product code is barcode')
+
 
     @api.model
     def default_get(self, fields_list):
@@ -44,6 +46,7 @@ class ImportPurchaseLine(models.TransientModel):
         book = xlrd.open_workbook(file_contents=decoded_data)
         sheet = book.sheet_by_index(0)
         table_values = []
+        header = None
         for row in list(map(sheet.row, range(sheet.nrows))):
             values = []
             for cell in row:
@@ -57,12 +60,24 @@ class ImportPurchaseLine(models.TransientModel):
         if not table_values:
             return False
         if self.has_header:
-            table_values.pop(0)
-        return table_values
+            header = table_values.pop(0)
+        return table_values, header
 
     def do_import(self):
 
-        table_values = self.get_rows()
+        ir_model_fields_obj = self.env['ir.model.fields']
+
+        table_values, header = self.get_rows()
+        if header:
+            for name_field in header:
+                search_field = ir_model_fields_obj.sudo().search([
+                                        ("model", "=", "purchase.order.line"),
+                                        ("name", "=", name_field),
+                                        ("store", "=", True),
+                                        ], limit = 1)
+                if len(search_field) == 0:
+                    raise UserError(_(f"Field {name_field} does not exist in purchase.order.line"))
+
         lines = []
         for row in table_values:
             if len(row) == 5:
@@ -93,6 +108,7 @@ class ImportPurchaseLine(models.TransientModel):
                         uom_id = uom.id
                     else:
                         uom_id = 1
+
                     values = {
                         "type": "product",
                         "name": product_name,
@@ -100,8 +116,18 @@ class ImportPurchaseLine(models.TransientModel):
                         "uom_po_id": uom_id,
                         "uom_id": uom_id,
                     }
-                    product_tmpl_id = self.env["product.template"].create(values)
+
+                    product_tmpl_id = []
+
+                    if self.product_code_is_barcode:
+                        values["barcode"] = product_code
+                        product_tmpl_id = self.env["product.template"].search([("barcode", "=", values["barcode"])], limit=1)
+
+                    if len(product_tmpl_id) == 0:
+                        product_tmpl_id = self.env["product.template"].create(values)
+                        
                     product_id = product_tmpl_id.product_variant_id
+
                 else:
                     raise UserError(_("Product %s not found") % product_code)
             else:
