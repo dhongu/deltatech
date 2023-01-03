@@ -5,6 +5,7 @@ on:
 
 jobs:
   create-pr:
+    if: startsWith(github.ref, 'refs/heads/15.0')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
