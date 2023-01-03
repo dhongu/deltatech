@@ -50,7 +50,7 @@ class TestAccountBankStatement(TransactionCase):
                 ],
             }
         )
-        self.account_move1.post()
+        self.account_move1.action_post()
         self.account_move2 = self.env["account.move"].create(
             {
                 "partner_id": self.partner2.id,
@@ -86,7 +86,7 @@ class TestAccountBankStatement(TransactionCase):
                 ],
             }
         )
-        self.account_move2.post()
+        self.account_move2.action_post()
 
         # se va adauga un extras bancar pentru acesti partneri
         self.account_bank_statement = self.env["account.bank.statement"].create(
