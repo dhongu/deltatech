@@ -66,10 +66,10 @@ class ImportPurchaseLine(models.TransientModel):
     def do_import(self):
 
         ir_model_fields_obj = self.env['ir.model.fields']
-
+        row_field_dic = {}
         table_values, header = self.get_rows()
         if header:
-            for name_field in header:
+            for idx, name_field in enumerate(header):
                 search_field = ir_model_fields_obj.sudo().search([
                                         ("model", "=", "purchase.order.line"),
                                         ("name", "=", name_field),
@@ -77,23 +77,42 @@ class ImportPurchaseLine(models.TransientModel):
                                         ], limit = 1)
                 if len(search_field) == 0:
                     raise UserError(_(f"Field {name_field} does not exist in purchase.order.line"))
+                row_field_dic[name_field] = {"id": idx}
 
         lines = []
         for row in table_values:
-            if len(row) == 5:
-                product_code, product_name, quantity, price, uom_name = row
-            elif len(row) == 4:
-                product_code, product_name, quantity, price = row
-                uom_name = False
+            if header:
+                if "product_code" in row_field_dic.keys():
+                    product_code = table_values[row_field_dic["product_code"]["id"]]
+                elif "barcode" in row_field_dic.keys():
+                    product_code = table_values[row_field_dic["barcode"]["id"]]
+
+                if "name" in row_field_dic.keys():
+                    name = table_values[row_field_dic["name"]["id"]]
+
+                if "product_qty" in row_field_dic.keys():
+                    product_qty = table_values[row_field_dic["product_qty"]["id"]]
+
+                if "price_unit" in row_field_dic.keys():
+                    price_unit = table_values[row_field_dic["price_unit"]["id"]]
+
+                if "uom_name" in row_field_dic.keys():
+                    uom_name = table_values[row_field_dic["uom_name"]["id"]]
             else:
-                continue
+                if len(row) == 5:
+                    product_code, name, product_qty, price_unit, uom_name = row
+                elif len(row) == 4:
+                    product_code, name, product_qty, price_unit = row
+                    uom_name = False
+                else:
+                    continue
 
             product_id = False
-            quantity = float(quantity)
-            if self.is_amount and quantity:
-                price = float(price) / quantity
+            product_qty = float(product_qty)
+            if self.is_amount and product_qty:
+                price_unit = float(price_unit) / product_qty
             else:
-                price = float(price)
+                price_unit = float(price_unit)
             domain = [("product_code", "=", product_code)]
             supplierinfo = self.env["product.supplierinfo"].sudo().search(domain, limit=1)
             if not supplierinfo:
@@ -101,7 +120,7 @@ class ImportPurchaseLine(models.TransientModel):
                     seller_values = {
                         "name": self.purchase_id.partner_id.id,
                         "product_code": product_code,
-                        "price": price,
+                        "price": price_unit,
                     }
                     uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
                     if uom:
@@ -111,7 +130,7 @@ class ImportPurchaseLine(models.TransientModel):
 
                     values = {
                         "type": "product",
-                        "name": product_name,
+                        "name": name,
                         "seller_ids": [(0, 0, seller_values)],
                         "uom_po_id": uom_id,
                         "uom_id": uom_id,
@@ -125,11 +144,17 @@ class ImportPurchaseLine(models.TransientModel):
 
                     if len(product_tmpl_id) == 0:
                         product_tmpl_id = self.env["product.template"].create(values)
-                        
+
                     product_id = product_tmpl_id.product_variant_id
 
                 else:
-                    raise UserError(_("Product %s not found") % product_code)
+                    product_tmpl_id = self.env["product.template"].search([("barcode", "=", values["barcode"])], limit=1)
+                    if len(product_tmpl_id) == 0:
+                        raise UserError(_("Product %s not found") % product_code)
+                    else:
+                        values = {
+
+                        }
             else:
                 if supplierinfo.product_id:
                     product_id = supplierinfo.product_id
@@ -147,9 +172,9 @@ class ImportPurchaseLine(models.TransientModel):
                 {
                     "order_id": self.purchase_id.id,
                     "product_id": product_id.id,
-                    "name": product_name,
-                    "product_qty": quantity,
-                    "price_unit": price,
+                    "name": product_tmpl_id.name,
+                    "product_qty": product_qty,
+                    "price_unit": price_unit,
                     "product_uom": product_uom.id,
                     "date_planned": self.purchase_id.date_order,
                 }
