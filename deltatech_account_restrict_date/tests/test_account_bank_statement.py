@@ -111,6 +111,6 @@ class TestAccountBankStatement(TransactionCase):
     #     self.account_bank_statement.line_ids[1].reconcile([{"id": self.account_move2.line_ids[0].id}])
 
     def test_account_bank_statement(self):
-
+        # se va incearca undo reconciliation
         with self.assertRaises(UserError):
-            self.account_bank_statement.button_undo_reconciliation()
+            self.account_bank_statement.line_ids[0].button_undo_reconciliation()
