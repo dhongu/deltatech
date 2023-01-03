@@ -164,6 +164,10 @@ class ImportPurchaseLine(models.TransientModel):
                 else:
                     product_id = supplierinfo.product_tmpl_id.product_variant_id
 
+            if not product_id:
+                product_tmpl_id = self.env["product.template"].search([("barcode", "=", product_code)], limit=1)
+                product_id = product_tmpl_id.product_variant_id
+
             product_uom = product_id.uom_po_id or product_id.uom_id
             if uom_name and uom_name != product_uom.name:
                 uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
