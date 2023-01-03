@@ -131,6 +131,10 @@ class TestAccountBankStatement(TransactionCase):
     #     self.account_bank_statement.line_ids[1].reconcile([{"id": self.account_move2.line_ids[0].id}])
 
     def test_account_bank_statement(self):
+        # setare parametru restrictie data sequence.mixin.constraint_start_dat
+        self.env["ir.config_parameter"].set_param("sequence.mixin.constraint_start_date", "2023-12-31")
+
         # se va incearca undo reconciliation
+
         with self.assertRaises(UserError):
             self.account_bank_statement.line_ids[0].button_undo_reconciliation()
