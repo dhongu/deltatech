@@ -1,3 +1,4 @@
+from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
 
@@ -29,22 +30,11 @@ class TestAccountMove(TransactionCase):
         invoice.action_post()
 
         # se va crea o plata pentru factura inregistrata
-        payment = self.env["account.payment"].create(
-            {
-                "payment_type": "inbound",
-                "partner_type": "customer",
-                "partner_id": self.partner.id,
-                "amount": 100,
-                "payment_method_id": self.env.ref("account.account_payment_method_manual_in").id,
-            }
-        )
-        # se posteaza plata
-        payment.action_post()
-
-        # se va reconcilia factura cu plata
-        payment.move_line_ids[0].reconcile(
-            invoice.line_ids.filtered(lambda line: line.account_id.user_type_id.type in ("receivable", "payable"))
-        )
+        payment_register = self.env["account.payment.register"]
+        payment_register = payment_register.with_context(active_model="account.move", active_ids=invoice.ids)
+        payment_form = Form(payment_register)
+        payment = payment_form.save()
+        payment.action_create_payments()
 
         # se deschide plata
         action = invoice.open_payments()
