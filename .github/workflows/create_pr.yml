@@ -1,0 +1,27 @@
+name: Create PR
+on:
+  create:
+    types: [branch]
+    branches:
+      - '15.0*'
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get commit info
+        id: commit
+        run: |
+          COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          COMMIT_AUTHOR=$(git log -1 --pretty=%an)
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: ${{ steps.commit.outputs.COMMIT_MESSAGE }}
+          title: '[14.0] ${{ steps.commit.outputs.COMMIT_MESSAGE }}'
+          body: 'Author: ${{ steps.commit.outputs.COMMIT_AUTHOR }}'
+          labels: 'automatic, new commit'
+          head: ${{ github.ref }}
+          base: '15.0'
+          maintainer-can-modify: true
