@@ -32,14 +32,14 @@ class TestProduct(TransactionCase):
         self.product2 = self.env["product.product"].create(values)
 
     def test_alternative_code(self):
-        self.assertEqual(self.product1.alternative_code, "Code2, Code3, Code4")
-        self.assertEqual(self.product2.alternative_code, "CodeA, CodeB, CodeC")
+        self.assertEqual(self.product1.alternative_code, "Code2; Code3; Code4")
+        self.assertEqual(self.product2.alternative_code, "CodeA; CodeB; CodeC")
 
     def test_search_product(self):
         prod1 = self.env["product.product"].name_search("Code3")
-        self.assertEqual(prod1[0][1], "[Code3] Product 1")
+        self.assertEqual(prod1[0][1], "[Code1] Product 1")
         prod2 = self.env["product.product"].name_search("CodeA")
-        self.assertEqual(prod2[0][1], "[CodeA] Product 2")
+        self.assertEqual(prod2[0][1], "[CodeZ] Product 2")
 
 
 class TestProductTemplate(TransactionCase):
@@ -78,6 +78,6 @@ class TestProductTemplate(TransactionCase):
 
     def test_search_product(self):
         prod1 = self.env["product.template"].name_search("Code3")
-        self.assertEqual(prod1[0][1], "[Code3] Product 1")
+        self.assertEqual(prod1[0][1], "[Code1] Product 1")
         prod2 = self.env["product.template"].name_search("CodeA")
-        self.assertEqual(prod2[0][1], "[CodeA] Product 2")
+        self.assertEqual(prod2[0][1], "[CodeZ] Product 2")

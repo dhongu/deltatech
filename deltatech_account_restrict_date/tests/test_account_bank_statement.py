@@ -96,6 +96,10 @@ class TestAccountBankStatement(TransactionCase):
                     (0, 0, {"partner_id": self.partner1.id, "amount": 100.0, "name": "line1", "payment_ref": "line1"}),
                     (0, 0, {"partner_id": self.partner2.id, "amount": 100.0, "name": "line2", "payment_ref": "line2"}),
                 ],
+                "date": "2019-01-01",
+                "name": "statement1",
+                "balance_end_real": 200.0,
+                "balance_start": 0.0,
             }
         )
 
@@ -103,7 +107,8 @@ class TestAccountBankStatement(TransactionCase):
         self.account_bank_statement.button_post()
 
         # se va face reconcilierea
-        self.account_bank_statement.reconcile()
+        self.account_bank_statement.line_ids[0].reconcile([{"id": self.account_move1.line_ids[0].id}])
+        self.account_bank_statement.line_ids[1].reconcile([{"id": self.account_move2.line_ids[0].id}])
 
     def test_account_bank_statement(self):
         self.assertEqual(self.account_bank_statement.state, "confirm")
