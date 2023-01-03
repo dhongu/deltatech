@@ -86,21 +86,21 @@ class ImportPurchaseLine(models.TransientModel):
         for row in table_values:
             if header:
                 if "product_code" in row_field_dic.keys():
-                    product_code = table_values[row_field_dic["product_code"]["id"]]
+                    product_code = row[row_field_dic["product_code"]["id"]]
                 elif "barcode" in row_field_dic.keys():
-                    product_code = table_values[row_field_dic["barcode"]["id"]]
+                    product_code = row[row_field_dic["barcode"]["id"]]
 
                 if "name" in row_field_dic.keys():
-                    name = table_values[row_field_dic["name"]["id"]]
+                    name = row[row_field_dic["name"]["id"]]
 
                 if "product_qty" in row_field_dic.keys():
-                    product_qty = table_values[row_field_dic["product_qty"]["id"]]
+                    product_qty = row[row_field_dic["product_qty"]["id"]]
 
                 if "price_unit" in row_field_dic.keys():
-                    price_unit = table_values[row_field_dic["price_unit"]["id"]]
+                    price_unit = row[row_field_dic["price_unit"]["id"]]
 
                 if "product_uom" in row_field_dic.keys():
-                    uom_name = table_values[row_field_dic["product_uom"]["id"]]
+                    uom_name = row[row_field_dic["product_uom"]["id"]]
             else:
                 if len(row) == 5:
                     product_code, name, product_qty, price_unit, uom_name = row
@@ -153,9 +153,7 @@ class ImportPurchaseLine(models.TransientModel):
                     product_id = product_tmpl_id.product_variant_id
 
                 else:
-                    product_tmpl_id = self.env["product.template"].search(
-                        [("barcode", "=", values["barcode"])], limit=1
-                    )
+                    product_tmpl_id = self.env["product.template"].search([("barcode", "=", product_code)], limit=1)
                     if len(product_tmpl_id) == 0:
                         raise UserError(_("Product %s not found") % product_code)
                     else:
