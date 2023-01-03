@@ -19,7 +19,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: ${{ steps.commit.outputs.COMMIT_MESSAGE }}
-          title: '[14.0] ${{ steps.commit.outputs.COMMIT_MESSAGE }}'
+          title: '[15.0] ${{ steps.commit.outputs.COMMIT_MESSAGE }}'
           body: 'Author: ${{ steps.commit.outputs.COMMIT_AUTHOR }}'
           labels: 'automatic, new commit'
           head: ${{ github.ref }}
