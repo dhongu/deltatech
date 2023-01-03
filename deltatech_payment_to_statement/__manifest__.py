@@ -5,7 +5,7 @@
 {
     "name": "Payment to Statement",
     "summary": "Add payment to cash statement",
-    "version": "15.0.1.0.6",
+    "version": "15.0.1.0.7",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
@@ -13,6 +13,7 @@
     "license": "LGPL-3",
     "data": [
         "security/ir.model.access.csv",
+        "data/ir_config_param.xml",
         "views/account_payment_view.xml",
         "views/account_view.xml",
         "views/account_journal_dashboard_view.xml",
