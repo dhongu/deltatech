@@ -4,12 +4,15 @@ odoo.define("deltatech_notification_sound.Notification", function (require) {
     const AbstractWebClient = require("web.AbstractWebClient");
 
     AbstractWebClient.include({
+        // La afisarea notificarii se va reda sunetul
+
         _onDisplayWarning: function (e) {
             var data = e.data;
             this.play_sound(data.type);
             this._super.apply(this, arguments);
         },
 
+        // Redarea sunetului din folderul static/src/sound
         play_sound: function (sound) {
             var src = "";
             if (sound === "danger") {

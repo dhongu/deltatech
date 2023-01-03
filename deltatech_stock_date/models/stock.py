@@ -7,23 +7,9 @@ from datetime import date, timedelta
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
-
-
-class StockQuant(models.Model):
-    _inherit = "stock.quant"
-
-    @api.model
-    def _update_available_quantity(
-        self, product_id, location_id, quantity, lot_id=None, package_id=None, owner_id=None, in_date=None
-    ):
-        res = super(StockQuant, self)._update_available_quantity(
-            product_id, location_id, quantity, lot_id, package_id, owner_id, in_date
-        )
-
-        return res
 
 
 class StockMove(models.Model):
@@ -49,9 +35,11 @@ class StockMove(models.Model):
         return super(StockMove, self).write(vals)
 
     def _action_done(self, cancel_backorder=False):
+
         get_param = self.env["ir.config_parameter"].sudo().get_param
         restrict_date = safe_eval(get_param("restrict_stock_move_date_last_months", "False"))
         if restrict_date:
+            # se verifica daca data este in intervalul permis
             last_day_of_prev_month = date.today().replace(day=1) - timedelta(days=1)
             start_day_of_prev_month = date.today().replace(day=1) - timedelta(days=last_day_of_prev_month.day)
             end_day_of_current_month = date.today().replace(day=1) + relativedelta(months=1) - relativedelta(days=1)

@@ -19,9 +19,11 @@ class TestSale(TransactionCase):
         )
 
     def test_sale(self):
+        # se creaza o comanda de vanzare
         so = Form(self.env["sale.order"])
         so.partner_id = self.partner_a
 
+        # se adauga doua linii de comanda
         with so.order_line.new() as so_line:
             so_line.product_id = self.product_a
             so_line.product_uom_qty = 100
@@ -30,11 +32,17 @@ class TestSale(TransactionCase):
             so_line.product_id = self.product_b
             so_line.product_uom_qty = 10
 
+        # se salveaza comanda de vanzare
         self.so = so.save()
+        # se confirma comanda de vanzare
         self.so.action_confirm()
 
-        self.picking = self.so.picking_ids
-        self.picking.action_assign()
-
+        # se amana livrarea
         self.so.postpone_delivery()
+        # se verifica ca livrarea este amanata
+        self.assertTrue(self.so.postponed_delivery)
+
+        # se elibereaza livrarea
         self.so.release_delivery()
+        # se verifica ca livrarea nu este amanata
+        self.assertFalse(self.so.postponed_delivery)

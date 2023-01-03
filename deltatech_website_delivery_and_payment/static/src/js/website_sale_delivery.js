@@ -89,14 +89,16 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
 
             var $carrier = $('#delivery_carrier input[name="delivery_type"]').filter(":checked");
             var carrier_id = $carrier.val();
-            dp.add(
-                this._rpc({
-                    route: "/shop/update_carrier",
-                    params: {
-                        carrier_id: carrier_id,
-                    },
-                })
-            ).then(this._handleCarrierUpdateResult.bind(this));
+            if (typeof carrier_id !== "undefined" && carrier_id !== "") {
+                dp.add(
+                    this._rpc({
+                        route: "/shop/update_carrier",
+                        params: {
+                            carrier_id: carrier_id,
+                        },
+                    })
+                ).then(this._handleCarrierUpdateResult.bind(this));
+            }
         },
     });
 });
