@@ -2,8 +2,7 @@ name: Create PR
 on:
   create:
     types: [branch]
-    branches:
-      - '15.0*'
+
 jobs:
   create-pr:
     runs-on: ubuntu-latest
