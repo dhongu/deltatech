@@ -27,8 +27,7 @@ class ImportPurchaseLine(models.TransientModel):
     new_product = fields.Boolean("Create missing product")
     is_amount = fields.Boolean("Is amount")
     purchase_id = fields.Many2one("purchase.order")
-    product_code_is_barcode = fields.Boolean(string='Product code is barcode')
-
+    product_code_is_barcode = fields.Boolean(string="Product code is barcode")
 
     @api.model
     def default_get(self, fields_list):
@@ -65,18 +64,22 @@ class ImportPurchaseLine(models.TransientModel):
 
     def do_import(self):
 
-        ir_model_fields_obj = self.env['ir.model.fields']
+        ir_model_fields_obj = self.env["ir.model.fields"]
         row_field_dic = {}
         table_values, header = self.get_rows()
         if header:
             for idx, name_field in enumerate(header):
-                search_field = ir_model_fields_obj.sudo().search([
-                                        ("model", "=", "purchase.order.line"),
-                                        ("name", "=", name_field),
-                                        ("store", "=", True),
-                                        ], limit = 1)
-                if len(search_field) == 0:
-                    raise UserError(_(f"Field {name_field} does not exist in purchase.order.line"))
+                if self.product_code_is_barcode and not name_field == "barcode":
+                    search_field = ir_model_fields_obj.sudo().search(
+                        [
+                            ("model", "=", "purchase.order.line"),
+                            ("name", "=", name_field),
+                            ("store", "=", True),
+                        ],
+                        limit=1,
+                    )
+                    if len(search_field) == 0:
+                        raise UserError(_(f"Field {name_field} does not exist in purchase.order.line"))
                 row_field_dic[name_field] = {"id": idx}
 
         lines = []
@@ -96,8 +99,8 @@ class ImportPurchaseLine(models.TransientModel):
                 if "price_unit" in row_field_dic.keys():
                     price_unit = table_values[row_field_dic["price_unit"]["id"]]
 
-                if "uom_name" in row_field_dic.keys():
-                    uom_name = table_values[row_field_dic["uom_name"]["id"]]
+                if "product_uom" in row_field_dic.keys():
+                    uom_name = table_values[row_field_dic["product_uom"]["id"]]
             else:
                 if len(row) == 5:
                     product_code, name, product_qty, price_unit, uom_name = row
@@ -140,7 +143,9 @@ class ImportPurchaseLine(models.TransientModel):
 
                     if self.product_code_is_barcode:
                         values["barcode"] = product_code
-                        product_tmpl_id = self.env["product.template"].search([("barcode", "=", values["barcode"])], limit=1)
+                        product_tmpl_id = self.env["product.template"].search(
+                            [("barcode", "=", values["barcode"])], limit=1
+                        )
 
                     if len(product_tmpl_id) == 0:
                         product_tmpl_id = self.env["product.template"].create(values)
@@ -148,13 +153,13 @@ class ImportPurchaseLine(models.TransientModel):
                     product_id = product_tmpl_id.product_variant_id
 
                 else:
-                    product_tmpl_id = self.env["product.template"].search([("barcode", "=", values["barcode"])], limit=1)
+                    product_tmpl_id = self.env["product.template"].search(
+                        [("barcode", "=", values["barcode"])], limit=1
+                    )
                     if len(product_tmpl_id) == 0:
                         raise UserError(_("Product %s not found") % product_code)
                     else:
-                        values = {
-
-                        }
+                        values = {}
             else:
                 if supplierinfo.product_id:
                     product_id = supplierinfo.product_id
