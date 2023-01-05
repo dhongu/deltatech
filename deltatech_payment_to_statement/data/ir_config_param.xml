@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<odoo>
+    <data noupdate="1">
+        <record id="override_sequence_date_constraint" model="ir.config_parameter">
+            <field name="key">override_sequence_date_constraint</field>
+            <field name="value">0</field>
+        </record>
+    </data>
+</odoo>
