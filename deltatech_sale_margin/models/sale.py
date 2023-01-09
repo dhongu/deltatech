@@ -2,9 +2,44 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
+
+
+class SaleOrder(models.Model):
+    _inherit = "sale.order"
+
+    price_warning_message = fields.Char(compute="_compute_price_warning_message")
+
+    def _compute_price_warning_message(self):
+        self.price_warning_message = False
+        for order in self.filtered(lambda o: o.state in ["draft", "sent"]):
+            warning_message = ""
+            for line in order.order_line:
+                if line.product_id and line.product_id.type == "product":
+                    price_unit = line.price_reduce_taxexcl
+                    if price_unit and price_unit < line.purchase_price and line.purchase_price > 0:
+                        warning_message += _(
+                            "The unit price of product %s is lower than the purchase price. The margin is negative."
+                        ) % (line.product_id.display_name)
+            order.price_warning_message = warning_message
+
+    # la validare se verifica pretul de vanzare
+    def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
+        if self.env.context.get("ignore_price_check", False):
+            return res
+        # daca comanda se face in website se ignora verificarea pretului de cost pentru a face unele promotii
+        if self.env.context.get("website_id", False):
+            return res
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
+        if check_on_validate:
+            for order in self:
+                for line in order.order_line:
+                    line.with_context(call_from_action_confirm=True).check_sale_price()
+        return res
 
 
 class SaleOrderLine(models.Model):
@@ -118,23 +153,3 @@ class SaleOrderLine(models.Model):
                     else:
                         message = _("Sale %s below margin.") % line.product_id.name
                         line.order_id.message_post(body=message)
-
-
-class SaleOrder(models.Model):
-    _inherit = "sale.order"
-
-    # la validare se verifica pretul de vanzare
-    def action_confirm(self):
-        res = super(SaleOrder, self).action_confirm()
-        if self.env.context.get("ignore_price_check", False):
-            return res
-        # daca comanda se face in website se ignora verificarea pretului de cost pentru a face unele promotii
-        if self.env.context.get("website_id", False):
-            return res
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
-        if check_on_validate:
-            for order in self:
-                for line in order.order_line:
-                    line.with_context(call_from_action_confirm=True).check_sale_price()
-        return res
