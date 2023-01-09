@@ -95,6 +95,8 @@ class ImportPurchaseLine(models.TransientModel):
 
                 if "product_qty" in row_field_dic.keys():
                     product_qty = row[row_field_dic["product_qty"]["id"]]
+                else:
+                    product_qty = 1.0
 
                 if "price_unit" in row_field_dic.keys():
                     price_unit = row[row_field_dic["price_unit"]["id"]]
