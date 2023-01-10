@@ -21,8 +21,18 @@ class PurchaseOrderXlsx(models.AbstractModel):
         for order in objs:
             for line in order.order_line:
                 product = line.product_id.with_context(partner_id=order.partner_id.id)
-                sheet.write(lin, 0, product.code or "")
-                sheet.write(lin, 1, product.name or "")
+                code = product.default_code
+                name = product.name
+                if product.seller_ids:
+                    product_sellers = product.seller_ids.filtered(lambda s: s.name == order.partner_id)
+                    if product_sellers:
+                        product_seller = product_sellers[0]
+                        if product_seller.product_code:
+                            code = product_seller.product_code
+                        if product_seller.product_name:
+                            name = product_seller.product_name
+                sheet.write(lin, 0, code or "")
+                sheet.write(lin, 1, name or "")
                 sheet.write(lin, 2, line.product_qty)
                 sheet.write(lin, 3, line.price_unit)
                 lin += 1
