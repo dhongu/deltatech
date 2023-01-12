@@ -23,7 +23,8 @@ class SaleOrder(models.Model):
                         warning_message += _(
                             "The unit price of product %s is lower than the purchase price. The margin is negative."
                         ) % (line.product_id.display_name)
-            order.price_warning_message = warning_message
+            if warning_message:
+                order.price_warning_message = warning_message
 
     # la validare se verifica pretul de vanzare
     def action_confirm(self):
