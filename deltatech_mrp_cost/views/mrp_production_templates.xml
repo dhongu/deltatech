@@ -71,7 +71,7 @@
                                 </span>
                             </td>
                             <td class="text-right">
-                                <span t-esc="value" t-options='{"widget": "float", "precision": 2}' />
+                                <span t-esc="abs(value)" t-options='{"widget": "float", "precision": 2}' />
                             </td>
                         </tr>
                     </t>
