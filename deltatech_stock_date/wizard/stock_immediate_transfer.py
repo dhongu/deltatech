@@ -19,6 +19,8 @@ class StockImmediateTransfer(models.TransientModel):
             picking = self.env["stock.picking"].browse(pick_ids)[0]
             if picking.forced_effective_date:
                 res["date"] = picking.forced_effective_date
+            else:
+                res["date"] = self.env.context.get("force_period_date", fields.Datetime.now())
         return res
 
     def process(self):
