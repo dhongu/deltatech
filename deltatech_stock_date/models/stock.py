@@ -83,16 +83,16 @@ class StockPicking(models.Model):
         return False
 
     def button_validate(self):
-        pickings = self.env["stock.picking"]
-        for picking in self:
-            if picking.request_effective_date:
-                if picking.forced_effective_date:
-                    pickings += picking.with_context(force_period_date=picking.forced_effective_date)
-                else:
-                    raise UserError(_("You must provide an effective date for the transfers."))
+        if len(self) > 1:
+            raise UserError(_("You cannot validate multiple pickings if stock_date module is installed"))
+        else:
+            if self.request_effective_date:
+                if self.forced_effective_date:
+                    return super(
+                        StockPicking, self.with_context(force_period_date=self.forced_effective_date)
+                    ).button_validate()
             else:
-                pickings += picking
-        return super(StockPicking, pickings).button_validate()
+                return super(StockPicking, self).button_validate()
 
     def _action_done(self):
         super(StockPicking, self)._action_done()
