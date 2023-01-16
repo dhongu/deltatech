@@ -14,7 +14,7 @@ class SaleOrder(models.Model):
 
     def _compute_price_warning_message(self):
         self.price_warning_message = False
-        for order in self.filtered(lambda o: o.state in ["draft", "sent"]):
+        for order in self.filtered(lambda o: o.state in ["draft", "sent", "sale"]):
             warning_message = ""
             for line in order.order_line:
                 if line.product_id and line.product_id.type == "product":
@@ -23,7 +23,8 @@ class SaleOrder(models.Model):
                         warning_message += _(
                             "The unit price of product %s is lower than the purchase price. The margin is negative."
                         ) % (line.product_id.display_name)
-            order.price_warning_message = warning_message
+            if warning_message:
+                order.price_warning_message = warning_message
 
     # la validare se verifica pretul de vanzare
     def action_confirm(self):
@@ -146,10 +147,11 @@ class SaleOrderLine(models.Model):
                         message = _("Sale %s under the purchase price.") % line.product_id.name
                         line.order_id.message_post(body=message)
 
-                margin = (price_unit - line.purchase_price) / price_unit * 100
-                if margin < margin_limit:
-                    if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_margin"):
-                        raise UserError(_("You can not sell below margin: %s") % line.product_id.name)
-                    else:
-                        message = _("Sale %s below margin.") % line.product_id.name
-                        line.order_id.message_post(body=message)
+                else:
+                    margin = (price_unit - line.purchase_price) / price_unit * 100
+                    if margin < margin_limit:
+                        if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_margin"):
+                            raise UserError(_("You can not sell below margin: %s") % line.product_id.name)
+                        else:
+                            message = _("Sale %s below margin.") % line.product_id.name
+                            line.order_id.message_post(body=message)
