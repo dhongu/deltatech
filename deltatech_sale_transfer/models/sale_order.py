@@ -25,7 +25,7 @@ class SaleOrder(models.Model):
                 continue
 
             pick_type = warehouse.pick_type_auto_transfer_id or warehouse.int_type_id
-
+            auto_confirm_transfer = self.env.context.get("confirm_transfer", warehouse.auto_confirm_transfer)
             location_source = warehouse.int_type_id.default_location_src_id
             location_dest = order.warehouse_id.int_type_id.default_location_dest_id
             if order.warehouse_id.group_transfer_with_delivery:
@@ -91,5 +91,5 @@ class SaleOrder(models.Model):
                 order.message_post(body=message)
 
                 # order.picking_ids.message_post(body=message)
-                if "confirm_transfer" in self.env.context:
+                if auto_confirm_transfer:
                     picking.auto_transfer()
