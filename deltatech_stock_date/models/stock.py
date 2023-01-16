@@ -91,6 +91,8 @@ class StockPicking(models.Model):
                     return super(
                         StockPicking, self.with_context(force_period_date=self.forced_effective_date)
                     ).button_validate()
+                else:
+                    raise UserError(_("You must provide an effective date for the transfers."))
             else:
                 return super(StockPicking, self).button_validate()
 
