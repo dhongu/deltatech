@@ -14,7 +14,7 @@
                     <field name="company_id" />
                 </group>
                 <footer>
-                    <button name="merge_inventory" string="Confirm" type="object" class="oe_highlight" />
+                    <button name="merge_inventory" string="Merge" type="object" class="oe_highlight" />
                     or
                     <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>
