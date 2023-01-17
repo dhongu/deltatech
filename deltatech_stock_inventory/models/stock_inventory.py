@@ -223,7 +223,7 @@ class Inventory(models.Model):
         for inventory in self:
             if inventory.state != "draft":
                 continue
-            vals = {"state": "confirm", "date": fields.Datetime.now()}
+            vals = {"state": "confirm", "date": inventory.date}
             if not inventory.line_ids and not inventory.start_empty:
                 self.env["stock.inventory.line"].create(inventory._get_inventory_lines_values())
             inventory.write(vals)
