@@ -2,6 +2,24 @@
 <odoo>
 
 
+      <record id="view_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="after">
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    attrs="{'invisible': [('price_warning_message', '=', False)]}"
+                >
+                    <span><field nolabel="1" name="price_warning_message" /></span>
+                </div>
+            </xpath>
+        </field>
+      </record>
+
     <record id="sale_margin_sale_order" model="ir.ui.view">
         <field name="name">sale.order.margin.view.form</field>
         <field name="model">sale.order</field>

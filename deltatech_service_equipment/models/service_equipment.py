@@ -8,6 +8,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval
 
 
 class ServiceEquipment(models.Model):
@@ -78,8 +79,6 @@ class ServiceEquipment(models.Model):
     )
 
     # se va calcula din suma consumurilor de servicii
-
-    total_invoiced = fields.Float(string="Total invoiced", readonly=True)
     total_revenues = fields.Float(string="Total Revenues", readonly=True)
     # se va calcula din suma avizelor
     total_costs = fields.Float(string="Total cost", readonly=True)
@@ -176,21 +175,58 @@ class ServiceEquipment(models.Model):
                     equipment.location_id = False
 
     def compute_totals(self):
-        for equipment in self:
-            total_consumption = 0.0
-            total_invoiced = 0.0
-            consumptions = self.env["service.consumption"].search([("equipment_id", "=", equipment.id)])
-            invoices = self.env["account.move"]
-            for consumption in consumptions:
-                if consumption.state == "done":
-                    total_consumption += consumption.revenues
-                    invoices |= consumption.invoice_id
-            for invoice in invoices:
-                if invoice.state == "posted":
-                    for line in invoice.invoice_line_ids:
-                        if line.agreement_line_id.equipment_id == equipment:
-                            total_invoiced += line.price_subtotal
-            equipment.write({"total_invoiced": total_invoiced, "total_revenues": total_consumption})
+        self.compute_costs()
+        self.compute_revenues()
+
+    def compute_revenues(self):
+        if self:
+            query = """
+            SELECT equipment_id, sum(sc.revenues) as revenues_total
+            FROM service_consumption sc
+            WHERE equipment_id in %(equipment)s AND
+                state = %(state)s
+            GROUP BY equipment_id
+            """
+            params = {
+                "equipment": tuple(self.ids),
+                "state": "done",
+            }
+            self.env.cr.execute(query, params=params)
+            res = self.env.cr.fetchall()
+            for row in res:
+                equipment = self.env["service.equipment"].browse(row[0])
+                equipment.write({"total_revenues": round(row[1], 2)})
+
+    def compute_costs(self):
+        """
+        Used to recompute costs from pickings, if necessary.
+        The costs are added at each picking validation, if the picking has the
+        picking_type_for_service type (see button_validate function)
+        :return: nothing
+        """
+        if self:
+            get_param = self.env["ir.config_parameter"].sudo().get_param
+            picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
+            query = """
+                    SELECT sp.equipment_id, sum(sv.value) as svls_total
+                    FROM stock_picking sp
+                    LEFT JOIN stock_move sm ON sm.picking_id = sp.id
+                    LEFT JOIN stock_valuation_layer sv ON sm.id = sv.stock_move_id
+                    WHERE equipment_id in %(equipment)s AND
+                        sp.state = %(state)s AND
+                        sp.picking_type_id = %(picking_type)s
+                    GROUP BY equipment_id
+                    """
+            params = {
+                "equipment": tuple(self.ids),
+                "state": "done",
+                "picking_type": picking_type_id,
+            }
+            self.env.cr.execute(query, params=params)
+            res = self.env.cr.fetchall()
+            for row in res:
+                equipment = self.env["service.equipment"].browse(row[0])
+                equipment.write({"total_costs": round(row[1], 2)})
 
     def costs_and_revenues(self):
         self.compute_totals()
@@ -335,6 +371,8 @@ class ServiceEquipment(models.Model):
                 name += "/" + equipment.address_id.name
             if equipment.serial_id:
                 name += "/" + equipment.serial_id.name
+            if equipment.emplacement:
+                name += "/" + equipment.emplacement
             res.append((equipment.id, name))
         return res
 

@@ -2,9 +2,45 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
+
+
+class SaleOrder(models.Model):
+    _inherit = "sale.order"
+
+    price_warning_message = fields.Char(compute="_compute_price_warning_message")
+
+    def _compute_price_warning_message(self):
+        self.price_warning_message = False
+        for order in self.filtered(lambda o: o.state in ["draft", "sent", "sale"]):
+            warning_message = ""
+            for line in order.order_line:
+                if line.product_id and line.product_id.type == "product":
+                    price_unit = line.price_reduce_taxexcl
+                    if price_unit and price_unit < line.purchase_price and line.purchase_price > 0:
+                        warning_message += _(
+                            "The unit price of product %s is lower than the purchase price. The margin is negative."
+                        ) % (line.product_id.display_name)
+            if warning_message:
+                order.price_warning_message = warning_message
+
+    # la validare se verifica pretul de vanzare
+    def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
+        if self.env.context.get("ignore_price_check", False):
+            return res
+        # daca comanda se face in website se ignora verificarea pretului de cost pentru a face unele promotii
+        if self.env.context.get("website_id", False):
+            return res
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
+        if check_on_validate:
+            for order in self:
+                for line in order.order_line:
+                    line.with_context(call_from_action_confirm=True).check_sale_price()
+        return res
 
 
 class SaleOrderLine(models.Model):
@@ -29,6 +65,7 @@ class SaleOrderLine(models.Model):
     #         return False
 
     def change_price_or_product(self, res):
+        #
         if not res:
             res = {}
         if not res.get("warning", False) and not self.env.context.get("website_id", False):
@@ -65,6 +102,7 @@ class SaleOrderLine(models.Model):
 
     def check_sale_price(self):
         res = {}
+        # daca in context este ignore_price_check atunci nu se verifica pretul
         if self.env.context.get("ignore_price_check", False):
             return res
         # daca comanda se face in website se ignora verificarea pretului de cost pentru a face unele promotii
@@ -89,9 +127,11 @@ class SaleOrderLine(models.Model):
                     return res
 
         for line in self:
+            # daca este o linie de tip discount atunci nu se verifica pretul
             if line.display_type or line.product_type == "service" or line.product_uom_qty < 0 or line.is_delivery:
                 continue
 
+            #
             if line.product_id and line.price_unit == 0:
                 if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
                     raise UserError(_("You can not sell %s without price.") % line.product_id.name)
@@ -107,29 +147,11 @@ class SaleOrderLine(models.Model):
                         message = _("Sale %s under the purchase price.") % line.product_id.name
                         line.order_id.message_post(body=message)
 
-                margin = (price_unit - line.purchase_price) / price_unit * 100
-                if margin < margin_limit:
-                    if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_margin"):
-                        raise UserError(_("You can not sell below margin: %s") % line.product_id.name)
-                    else:
-                        message = _("Sale %s below margin.") % line.product_id.name
-                        line.order_id.message_post(body=message)
-
-
-class SaleOrder(models.Model):
-    _inherit = "sale.order"
-
-    def action_confirm(self):
-        res = super(SaleOrder, self).action_confirm()
-        if self.env.context.get("ignore_price_check", False):
-            return res
-        # daca comanda se face in website se ignora verificarea pretului de cost pentru a face unele promotii
-        if self.env.context.get("website_id", False):
-            return res
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
-        if check_on_validate:
-            for order in self:
-                for line in order.order_line:
-                    line.with_context(call_from_action_confirm=True).check_sale_price()
-        return res
+                else:
+                    margin = (price_unit - line.purchase_price) / price_unit * 100
+                    if margin < margin_limit:
+                        if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_margin"):
+                            raise UserError(_("You can not sell below margin: %s") % line.product_id.name)
+                        else:
+                            message = _("Sale %s below margin.") % line.product_id.name
+                            line.order_id.message_post(body=message)

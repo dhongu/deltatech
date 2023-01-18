@@ -25,7 +25,7 @@ class AccountInvoiceLine(models.Model):
         digits="Product Price",
         store=True,
         readonly=False,
-        groups="base.group_user",
+        groups="base.group_user",  # trebuie sa fie vizibil pentru a putea fi modificat
     )
 
     commission = fields.Float(string="Commission", default=0.0)
@@ -59,6 +59,7 @@ class AccountInvoiceLine(models.Model):
     #
     #     return super(AccountInvoiceLine, self).create(vals_list)
 
+    # se calculeaza pretul de achizitie din pretul de cost al produsului care se gaseste in SVL de la livrare
     def get_purchase_price(self):
         self.ensure_one()
         purchase_price = 0.0
@@ -91,12 +92,23 @@ class AccountInvoiceLine(models.Model):
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
     def _compute_purchase_price(self):
         for invoice_line in self:
+
+            # nu se calculeaza pretul de achizitie pentru liniile care nu sunt afisate in factura
             if invoice_line.exclude_from_invoice_tab or invoice_line.display_type:
                 invoice_line.purchase_price = 0.0
                 continue
+
+            # nu se calculeaza pretul de achizitie pentru liniile care nu sunt legate de o comanda de vanzare
+            if not invoice_line.sale_line_ids:
+                invoice_line.purchase_price = 0.0
+                continue
+
+            # nu se calculeaza pretul de achizitie pentru liniile care nu sunt legate de un produs
             if not invoice_line.product_id:
                 invoice_line.purchase_price = 0.0
                 continue
+
+            # nu se caluleaza pretul de achizitie pentru liniile care nu sunt legate de o factura de vanzare
             if invoice_line.move_id.move_type not in ["out_invoice", "out_refund"]:
                 invoice_line.purchase_price = 0.0
                 continue
@@ -105,14 +117,15 @@ class AccountInvoiceLine(models.Model):
             product_uom = invoice_line.product_uom_id
             invoice_date = invoice_line.move_id.invoice_date or fields.Date.today()
             if invoice_line.sale_line_ids:
-                purchase_price = 0
-                for line in invoice_line.sale_line_ids:
-                    from_currency = line.order_id.currency_id
-                    price = line.product_uom._compute_price(line.purchase_price, product_uom)
-                    price = from_currency.with_context(date=invoice_date).compute(price, to_cur, round=False)
-                    purchase_price += price
-                purchase_price = purchase_price / len(invoice_line.sale_line_ids)
+                # purchase_price = 0
+                # for line in invoice_line.sale_line_ids:
+                #     from_currency = line.order_id.currency_id
+                #     price = line.product_uom._compute_price(line.purchase_price, product_uom)
+                #     price = from_currency.with_context(date=invoice_date).compute(price, to_cur, round=False)
+                #     purchase_price += price
+                # purchase_price = purchase_price / len(invoice_line.sale_line_ids)
 
+                #
                 purchase_price = invoice_line.get_purchase_price()
 
             else:
@@ -126,7 +139,12 @@ class AccountInvoiceLine(models.Model):
             #     purchase_price = -1 * purchase_price
             invoice_line.purchase_price = purchase_price
 
-    @api.constrains("price_unit", "purchase_price")
+    # la salvare trebuie verificat pretul de achizitie
+    def write(self, vals):
+        if "purchase_price" in vals:
+            self._check_sale_price()
+        return super(AccountInvoiceLine, self).write(vals)
+
     def _check_sale_price(self):
         for invoice_line in self:
             if not invoice_line.product_id:

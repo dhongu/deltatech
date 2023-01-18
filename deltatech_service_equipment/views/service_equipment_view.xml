@@ -5,7 +5,12 @@
         <field name="name">Services equipment</field>
         <field name="model">service.equipment</field>
         <field name="arch" type="xml">
-            <tree string="Services Equipment" decoration-bf="agreement_id!=False" sample="1">
+            <tree
+                string="Services Equipment"
+                decoration-bf="agreement_id!=False"
+                sample="1"
+                default_order="create_date desc"
+            >
                 <field name="name" />
                 <field name="partner_id" />
                 <field name="address_id" optional="show" />
@@ -135,12 +140,6 @@
                             name="invoice_button"
                             groups="account.group_account_invoice"
                         >
-                            <div class="o_form_field o_stat_info">
-                                <span class="o_stat_value">
-                                    <field string="Invoiced" name="total_invoiced" widget="monetary" />
-                                </span>
-                                <span class="o_stat_text">Invoiced</span>
-                            </div>
                         </button>
                         <button
                             type="action"

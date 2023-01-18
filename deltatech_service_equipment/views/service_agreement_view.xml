@@ -16,6 +16,16 @@
                     >
                         <field string="Equipments" name="equipment_count" widget="statinfo" />
                     </button>
+                    <button
+                        type="object"
+                        class="oe_stat_button"
+                        id="common_history_button"
+                        icon="fa-book"
+                        name="common_history_button"
+                        groups="deltatech_service.group_service_user"
+                    >
+                        <span class="o_stat_text">History</span>
+                    </button>
                 </div>
                 <field name="date_agreement" position="before">
                     <field name="meter_reading_status" />
@@ -33,6 +43,11 @@
                         options="{'no_create': True}"
                     />
                 </field>
+                <xpath expr="//field[@name='agreement_line']/tree" position="attributes">
+                    <attribute
+                        name="decoration-danger"
+                    >(quantity == 0.0 and meter_id == False) or price_unit == 0.0</attribute>
+                </xpath>
             </field>
         </record>
 

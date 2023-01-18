@@ -12,20 +12,6 @@ from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
 
-class StockQuant(models.Model):
-    _inherit = "stock.quant"
-
-    @api.model
-    def _update_available_quantity(
-        self, product_id, location_id, quantity, lot_id=None, package_id=None, owner_id=None, in_date=None
-    ):
-        res = super(StockQuant, self)._update_available_quantity(
-            product_id, location_id, quantity, lot_id, package_id, owner_id, in_date
-        )
-
-        return res
-
-
 class StockMove(models.Model):
     _inherit = "stock.move"
 
@@ -49,9 +35,11 @@ class StockMove(models.Model):
         return super(StockMove, self).write(vals)
 
     def _action_done(self, cancel_backorder=False):
+
         get_param = self.env["ir.config_parameter"].sudo().get_param
         restrict_date = safe_eval(get_param("restrict_stock_move_date_last_months", "False"))
         if restrict_date:
+            # se verifica daca data este in intervalul permis
             last_day_of_prev_month = date.today().replace(day=1) - timedelta(days=1)
             start_day_of_prev_month = date.today().replace(day=1) - timedelta(days=last_day_of_prev_month.day)
             end_day_of_current_month = date.today().replace(day=1) + relativedelta(months=1) - relativedelta(days=1)
@@ -61,26 +49,52 @@ class StockMove(models.Model):
                     pass
                 else:
                     raise UserError(_("Cannot validate stock move due to date restriction."))
+                self.check_lock_date(use_date)
             else:
                 for move in self:
                     if start_day_of_prev_month <= move.date.date() <= end_day_of_current_month:
                         pass
                     else:
                         raise UserError(_("Cannot validate stock move due to date restriction."))
+                    move.check_lock_date(move.date.date())
         return super(StockMove, self)._action_done(cancel_backorder)
+
+    def check_lock_date(self, move_date):
+        lock_date = self.env.user.company_id._get_user_fiscal_lock_date()
+        if move_date.date() < lock_date:
+            raise UserError(_("Cannot validate stock move due to account date restriction."))
 
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
+    request_effective_date = fields.Boolean(related="picking_type_id.request_effective_date")
+    forced_effective_date = fields.Datetime(
+        string="Forced effective date", help="This date will override the effective date of the stock moves"
+    )
+
+    @api.onchange("forced_effective_date")
+    def _onchange_force_effective_date(self):
+        if self.forced_effective_date:
+            self.scheduled_date = self.forced_effective_date
+
     def action_toggle_is_locked(self):
         # se suprascrie metoda standard petnru a nu mai permite editarea
         return False
 
-    # def button_validate(self):
-    #     if len(self) == 1:
-    #         return super(StockPicking, self.with_context(force_period_date=self.scheduled_date)).button_validate()
-    #     return super(StockPicking, self).button_validate()
+    def button_validate(self):
+        if len(self) > 1:
+            raise UserError(_("You cannot validate multiple pickings if stock_date module is installed"))
+        else:
+            if self.request_effective_date:
+                if self.forced_effective_date:
+                    return super(
+                        StockPicking, self.with_context(force_period_date=self.forced_effective_date)
+                    ).button_validate()
+                else:
+                    raise UserError(_("You must provide an effective date for the transfers."))
+            else:
+                return super(StockPicking, self).button_validate()
 
     def _action_done(self):
         super(StockPicking, self)._action_done()
@@ -89,3 +103,13 @@ class StockPicking(models.Model):
             self.write({"date": use_date, "date_done": use_date})
             self.move_lines.write({"date": use_date})  # 'date_expected': use_date,
             self.move_line_ids.write({"date": use_date})
+
+
+class StockPickingType(models.Model):
+    _inherit = "stock.picking.type"
+
+    request_effective_date = fields.Boolean(
+        string="Request effective date",
+        help="If checked, a required effective date field will be added to the picking form."
+        "All stock moves related to the picking will be forced to this date",
+    )

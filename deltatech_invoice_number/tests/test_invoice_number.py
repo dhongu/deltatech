@@ -65,6 +65,8 @@ class TestInvoiceNumer(TransactionCase):
         wizard.internal_number = "test_1234"
         wizard = wizard.save()
         wizard.do_change_number()
+        # se verifica ca factura are acum noul numar
+        self.assertEqual(invoice.name, "test_1234")
 
     def test_action_get_number(self):
         invoice = Form(self.env["account.move"].with_context(default_move_type="out_invoice"))

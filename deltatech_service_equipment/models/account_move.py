@@ -12,6 +12,17 @@ from odoo.tools.misc import xlsxwriter
 class AccountInvoice(models.Model):
     _inherit = "account.move"
 
+    def action_post(self):
+        res = super(AccountInvoice, self).action_post()
+        for invoice in self:
+            if invoice.move_type == "out_invoice":
+                equipments = self.env["service.equipment"]
+                for line in invoice.invoice_line_ids:
+                    equipments |= line.agreement_line_id.equipment_id
+                if equipments:
+                    equipments.compute_revenues()
+        return res
+
     def get_counter_lines(self):
 
         consumptions = self.env["service.consumption"].search([("invoice_id", "in", self.ids)])

@@ -5,7 +5,7 @@
 {
     "name": "Services Consumable",
     "summary": "Service Consumable",
-    "version": "14.0.1.0.6",
+    "version": "14.0.1.0.9",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Services/Equipment",
@@ -21,6 +21,7 @@
         "views/service_equipment_view.xml",
         "views/stock_picking_view.xml",
         "security/ir.model.access.csv",
+        "views/service_agreement.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
