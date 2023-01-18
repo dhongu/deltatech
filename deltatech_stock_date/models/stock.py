@@ -83,18 +83,26 @@ class StockPicking(models.Model):
         return False
 
     def button_validate(self):
-        if len(self) > 1:
-            raise UserError(_("You cannot validate multiple pickings if stock_date module is installed"))
-        else:
-            if self.request_effective_date:
-                if self.forced_effective_date:
-                    return super(
-                        StockPicking, self.with_context(force_period_date=self.forced_effective_date)
-                    ).button_validate()
-                else:
-                    raise UserError(_("You must provide an effective date for the transfers."))
+        to_check = False
+        for picking in self:
+            if picking.request_effective_date:
+                to_check = True
+                continue
+        if to_check:
+            if len(self) > 1:
+                raise UserError(_("You cannot validate multiple pickings if stock_date module is installed"))
             else:
-                return super(StockPicking, self).button_validate()
+                if self.request_effective_date:
+                    if self.forced_effective_date:
+                        return super(
+                            StockPicking, self.with_context(force_period_date=self.forced_effective_date)
+                        ).button_validate()
+                    else:
+                        raise UserError(_("You must provide an effective date for the transfers."))
+                else:
+                    return super(StockPicking, self).button_validate()
+        else:
+            return super(StockPicking, self).button_validate()
 
     def _action_done(self):
         super(StockPicking, self)._action_done()
