@@ -27,6 +27,7 @@ class ImportPurchaseLine(models.TransientModel):
     new_product = fields.Boolean("Create missing product")
     is_amount = fields.Boolean("Is amount")
     purchase_id = fields.Many2one("purchase.order")
+    search_by_default_code = fields.Boolean("Search by internal code")
 
     @api.model
     def default_get(self, fields_list):
@@ -72,51 +73,31 @@ class ImportPurchaseLine(models.TransientModel):
                 uom_name = False
             else:
                 continue
-
-            product_id = False
             quantity = float(quantity)
             if self.is_amount and quantity:
                 price = float(price) / quantity
             else:
-                price = float(price)
-            domain = [("product_code", "=", product_code)]
-            supplierinfo = self.env["product.supplierinfo"].sudo().search(domain, limit=1)
-            if not supplierinfo:
-                if self.new_product:
-                    seller_values = {
-                        "name": self.purchase_id.partner_id.id,
-                        "product_code": product_code,
-                        "price": price,
-                    }
+                try:
+                    price = float(price)
+                except Exception:
+                    continue
+
+            product_id = self.search_product(product_code)
+            if product_id:
+                # check UOM
+                product_uom = product_id.uom_po_id or product_id.uom_id
+                if uom_name and uom_name != product_uom.name:
                     uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
                     if uom:
-                        uom_id = uom.id
-                    else:
-                        uom_id = 1
-                    values = {
-                        "type": "product",
-                        "name": product_name,
-                        "seller_ids": [(0, 0, seller_values)],
-                        "uom_po_id": uom_id,
-                        "uom_id": uom_id,
-                    }
-                    product_tmpl_id = self.env["product.template"].create(values)
-                    product_id = product_tmpl_id.product_variant_id
+                        if uom != product_id.uom_po_id and uom != product_id.uom_id:
+                            raise UserError(_("Product %s does not have UOM %s") % (product_id.name, uom.name))
+                        product_uom = uom
+            else:
+                if self.new_product:
+                    product_id = self.create_product(product_code, product_name, quantity, price, uom_name)
+                    product_uom = product_id.uom_po_id or product_id.uom_id
                 else:
                     raise UserError(_("Product %s not found") % product_code)
-            else:
-                if supplierinfo.product_id:
-                    product_id = supplierinfo.product_id
-                else:
-                    product_id = supplierinfo.product_tmpl_id.product_variant_id
-
-            product_uom = product_id.uom_po_id or product_id.uom_id
-            if uom_name and uom_name != product_uom.name:
-                uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
-                if uom:
-                    if uom != product_id.uom_po_id and uom != product_id.uom_id:
-                        raise UserError(_("Product %s does not have UOM %s") % (product_id.name, uom.name))
-                    product_uom = uom
             lines += [
                 {
                     "order_id": self.purchase_id.id,
@@ -128,6 +109,61 @@ class ImportPurchaseLine(models.TransientModel):
                     "date_planned": self.purchase_id.date_order,
                 }
             ]
-
         purchase_lines = self.env["purchase.order.line"].create(lines)
         purchase_lines._compute_tax_id()
+
+    def search_product(self, code=False):
+        """
+        Search for product by code. If supplier code not found internal code is searched,
+        :param code: code to search
+        :return: product record or False if not found
+        """
+        domain = [("product_code", "=", code)]
+        supplier_info = self.env["product.supplierinfo"].sudo().search(domain, limit=1)
+        if not supplier_info:
+            if self.search_by_default_code:
+                domain = [("default_code", "=", code)]
+                product = self.env["product.product"].sudo().search(domain, limit=1)
+                if product:
+                    return product
+                else:
+                    return False
+            else:
+                return False
+        else:
+            if supplier_info.product_id:
+                product = supplier_info.product_id
+            else:
+                product = supplier_info.product_tmpl_id.product_variant_id
+            return product
+
+    def create_product(self, product_code, product_name, quantity, price, uom_name=False):
+        """
+        :param product_code: code
+        :param product_name: name
+        :param quantity: qty to order
+        :param price: price
+        :param uom_name: optional, default uom(1) is set if not present
+        :return: product record
+        """
+        seller_values = {
+            "name": self.purchase_id.partner_id.id,
+            "product_code": product_code,
+            "price": price,
+            "currency_id": self.purchase_id.currency_id.id,
+        }
+        uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
+        if uom:
+            uom_id = uom.id
+        else:
+            uom_id = 1
+        values = {
+            "type": "product",
+            "name": product_name,
+            "seller_ids": [(0, 0, seller_values)],
+            "uom_po_id": uom_id,
+            "uom_id": uom_id,
+        }
+        product_tmpl_id = self.env["product.template"].create(values)
+        product_id = product_tmpl_id.product_variant_id
+        return product_id
