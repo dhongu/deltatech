@@ -119,7 +119,9 @@ class StockInventoryLine(models.Model):
                 or inventory_line.product_id.cost_method == "fifo"
                 and use_inventory_price
             ):
-                inventory_line.product_id.write({"standard_price": inventory_line.standard_price})
+                inventory_line.product_id.with_context(disable_auto_svl=True).write(
+                    {"standard_price": inventory_line.standard_price}
+                )
         moves = super(StockInventoryLine, self)._generate_moves()
         # self.set_last_last_inventory()
         return moves
