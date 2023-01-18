@@ -87,7 +87,6 @@ class StockPicking(models.Model):
         for picking in self:
             if picking.request_effective_date:
                 to_check = True
-                continue
         if to_check:
             if len(self) > 1:
                 raise UserError(_("You cannot validate multiple pickings if stock_date module is installed"))
