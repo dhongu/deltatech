@@ -95,6 +95,7 @@ class ImportPurchaseLine(models.TransientModel):
             else:
                 if self.new_product:
                     product_id = self.create_product(product_code, product_name, quantity, price, uom_name)
+                    product_uom = product_id.uom_po_id or product_id.uom_id
                 else:
                     raise UserError(_("Product %s not found") % product_code)
             lines += [
