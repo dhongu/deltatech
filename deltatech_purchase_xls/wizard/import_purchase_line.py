@@ -113,8 +113,7 @@ class ImportPurchaseLine(models.TransientModel):
 
     def search_product(self, code=False):
         """
-        Search for product by code. If supplier code not found and search by internal code is checked,
-        search by product internal reference
+        Search for product by code. If supplier code not found internal code is searched,
         :param code: code to search
         :return: product record or False if not found
         """
