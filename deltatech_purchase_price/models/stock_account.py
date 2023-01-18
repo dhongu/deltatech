@@ -46,7 +46,7 @@ class StockMove(models.Model):
                 self.product_id.product_tmpl_id.onchange_last_purchase_price()
 
             if update_standard_price:
-                self.product_id.write({"standard_price": price_unit})
+                self.product_id.with_context(disable_auto_svl=True).write({"standard_price": price_unit})
 
             return price_unit
 
