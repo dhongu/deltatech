@@ -30,6 +30,8 @@ class AccountPayment(models.Model):
             if self.journal_id.auto_statement:
                 values = {"journal_id": self.journal_id.id, "date": self.date, "name": "/"}
                 self.statement_id = self.env["account.bank.statement"].sudo().create(values)
+            else:
+                self.statement_id = False
 
     def action_post(self):
         res = super(AccountPayment, self).action_post()

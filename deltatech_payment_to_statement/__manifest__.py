@@ -5,7 +5,7 @@
 {
     "name": "Payment to Statement",
     "summary": "Add payment to cash statement",
-    "version": "15.0.1.0.7",
+    "version": "15.0.1.0.8",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
