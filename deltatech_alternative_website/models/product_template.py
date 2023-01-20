@@ -12,4 +12,5 @@ class ProductTemplate(models.Model):
     def _search_get_detail(self, website, order, options):
         values = super(ProductTemplate, self)._search_get_detail(website, order, options)
         values["search_fields"] += ["alternative_ids.name"]
+        values["mapping"]["alternative_ids.name"] = {"name": "alternative_ids.name", "type": "text", "match": True}
         return values
