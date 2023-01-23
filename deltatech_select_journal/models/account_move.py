@@ -43,6 +43,7 @@ class AccountMove(models.Model):
                 and move.journal_id
                 and move.journal_id.refund_sequence
                 and move.journal_id.refund_journal_id
+                and move.state == "draft"
             ):
                 move.journal_id = move.journal_id.refund_journal_id
         return res
