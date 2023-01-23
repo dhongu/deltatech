@@ -56,7 +56,7 @@ class StockMove(models.Model):
                         pass
                     else:
                         raise UserError(_("Cannot validate stock move due to date restriction."))
-                    move.check_lock_date(move.date.date())
+                    move.check_lock_date(move.date)
         return super(StockMove, self)._action_done(cancel_backorder)
 
     def check_lock_date(self, move_date):
