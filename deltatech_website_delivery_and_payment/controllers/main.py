@@ -9,9 +9,12 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale as Base
 
 class WebsiteSale(Base):
     @route("/shop/carrier_acquirer_check", type="json", auth="public", website=True, sitemap=False)
-    def carrier_acquirer_check(self, carrier_id, acquirer_id=None, **kw):
-        result = {"status": False, "all_acquirer": True}
-        carrier = request.env["delivery.carrier"].sudo().browse(int(carrier_id))
+    def carrier_acquirer_check(self, carrier_id=None, acquirer_id=None, **kw):
+        # if a single carrier is configured, the carrier_id field is not present
+        if carrier_id is None:
+            carrier = False
+        else:
+            carrier = request.env["delivery.carrier"].sudo().browse(int(carrier_id))
         if acquirer_id is None:
             acquirer_id = 0
         if carrier:
@@ -25,6 +28,8 @@ class WebsiteSale(Base):
                     result["status"] = True
             else:
                 result = {"status": True, "all_acquirer": True}
+        else:
+            result = {"status": True, "all_acquirer": True}
 
         order = request.website.sale_get_order()
 
