@@ -31,6 +31,23 @@ class AccountMove(models.Model):
                     sale_line.write({"price_unit": price_unit})
         return res
 
+    def action_switch_invoice_into_refund_credit_note(self):
+        """
+        Force refund journal if present in original journal
+        :return: nothing
+        """
+        res = super().action_switch_invoice_into_refund_credit_note()
+        for move in self:
+            if (
+                move.move_type == "out_refund"
+                and move.journal_id
+                and move.journal_id.refund_sequence
+                and move.journal_id.refund_journal_id
+                and move.state == "draft"
+            ):
+                move.journal_id = move.journal_id.refund_journal_id
+        return res
+
 
 class Currency(models.Model):
     _inherit = "res.currency"
