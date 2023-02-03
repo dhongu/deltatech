@@ -5,7 +5,7 @@
 
 {
     "name": "Products Alternative",
-    "version": "15.0.1.0.4",
+    "version": "15.0.1.0.5",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Alternative product codes",
@@ -13,9 +13,14 @@
     # Check https://github.com/odoo/odoo/blob/12.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     "category": "Sales",
-    "depends": ["product", "stock"],
+    "depends": ["product", "stock", "sale"],
     "license": "LGPL-3",
-    "data": ["views/product_view.xml", "security/ir.model.access.csv", "views/res_config_settings_views.xml"],
+    "data": [
+        "views/product_view.xml",
+        "views/sale_order_view.xml",
+        "security/ir.model.access.csv",
+        "views/res_config_settings_views.xml",
+    ],
     "images": ["images/main_screenshot.png"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
