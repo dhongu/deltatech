@@ -3,15 +3,24 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
 class StockQuant(models.Model):
     _inherit = "stock.quant"
 
+    last_inventory_date = fields.Date(string="Last Inventory Date")
+
     inventory_id = fields.Many2one("stock.inventory", "Inventory")
     inventory_line_id = fields.Many2one("stock.inventory.line", "Inventory Line")
+    inventory_note = fields.Char()
+
+    @api.model
+    def _get_inventory_fields_write(self):
+        fields = super(StockQuant, self)._get_inventory_fields_write()
+        fields += ["last_inventory_date", "inventory_note"]
+        return fields
 
     def create_inventory_lines(self):
         inventory = False
@@ -54,22 +63,25 @@ class StockQuant(models.Model):
         super(StockQuant, self).action_set_inventory_quantity_to_zero()
 
     def action_apply_inventory(self):
-        inventory = self.filtered(lambda q: q.inventory_quantity_set).create_inventory_lines()
+        for quant in self:
+            quant.last_inventory_date = fields.Date.today()
 
+        inventory = self.filtered(lambda q: q.inventory_quantity_set).create_inventory_lines()
         super(StockQuant, self.with_context(apply_inventory=True)).action_apply_inventory()
         for quant in self:
             inventor_line = quant.inventory_line_id
             if inventor_line:
                 inventor_line.write({"is_ok": True})
 
-        date = inventory.date
-        values = {"date": date, "state": "done"}
-        if inventory.name == "/":
-            sequence = self.env.ref("deltatech_stock_inventory.sequence_inventory_doc")
-            if sequence:
-                values["name"] = sequence.next_by_id()
+        if inventory:
+            date = inventory.date
+            values = {"date": date, "state": "done"}
+            if inventory.name in ("/", _("New")):
+                sequence = self.env.ref("deltatech_stock_inventory.sequence_inventory_doc")
+                if sequence:
+                    values["name"] = sequence.next_by_id()
 
-        inventory.write(values)
+            inventory.write(values)
         self.write({"inventory_id": False, "inventory_line_id": False})
 
     def write(self, vals):
@@ -86,4 +98,5 @@ class StockQuant(models.Model):
     def _get_inventory_move_values(self, qty, location_id, location_dest_id, out=False):
         values = super(StockQuant, self)._get_inventory_move_values(qty, location_id, location_dest_id, out)
         values["inventory_id"] = self.inventory_id.id
+        values["name"] = self.inventory_note or values["name"]
         return values

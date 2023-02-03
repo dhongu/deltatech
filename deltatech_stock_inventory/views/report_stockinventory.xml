@@ -70,39 +70,47 @@
                                 <t t-set="total_minus" t-value="0" />
                                 <t t-set="total_amount" t-value="0" />
                                 <t t-set="total_before" t-value="0" />
-                                <t t-set="loc_rack" t-value="False" />
-                                <t t-set="loc_row" t-value="False" />
-                                <t t-set="loc_case" t-value="False" />
+<!--                                <t t-set="loc_rack" t-value="False" />-->
+<!--                                <t t-set="loc_row" t-value="False" />-->
+<!--                                <t t-set="loc_shelf" t-value="False" />-->
+<!--                                <t t-set="loc_case" t-value="False" />-->
                                 <t t-set="plus" t-value="0" />
                                 <t t-set="minus" t-value="0" />
                                 <t t-set="dif" t-value="0" />
-                                <t
-                                    t-foreach="o.line_ids.sorted(key=lambda r: (r.loc_rack, r.loc_row, r.loc_case))"
-                                    t-as="line"
-                                >
-                                    <t
-                                        t-if="loc_rack!=line.loc_rack or loc_row!=line.loc_row or loc_case!=line.loc_case "
-                                    >
-                                        <tr>
-                                            <td colspan="6">
-                                                <strong>
-                                                    <span>Rack:</span>
-                                                    <span t-field="line.loc_rack" />
-                                                    <t t-if="line.loc_row">
-                                                        <span>Row:</span>
-                                                        <span t-field="line.loc_row" />
-                                                    </t>
-                                                    <t t-if="line.loc_case">
-                                                        <span>Case:</span>
-                                                        <span t-field="line.loc_case" />
-                                                    </t>
-                                                </strong>
-                                            </td>
-                                        </tr>
-                                        <t t-set="loc_rack" t-value="line.loc_rack" />
-                                        <t t-set="loc_row" t-value="line.loc_row" />
-                                        <t t-set="loc_case" t-value="line.loc_case" />
-                                    </t>
+<!--                                <t-->
+<!--                                    t-foreach="o.line_ids.sorted(key=lambda r: (r.loc_rack, r.loc_row, r.loc_case))"-->
+<!--                                    t-as="line"-->
+<!--                                >-->
+                                <t t-foreach="o.line_ids" t-as="line">
+<!--                                    <t-->
+<!--                                        t-if="loc_rack!=line.loc_rack or loc_row!=line.loc_row or loc_case!=line.loc_case "-->
+<!--                                    >-->
+<!--                                        <tr>-->
+<!--                                            <td colspan="6">-->
+<!--                                                <strong>-->
+<!--                                                    <span>Rack:</span>-->
+<!--                                                    <span t-field="line.loc_rack" />-->
+<!--                                                    <t t-if="line.loc_row">-->
+<!--                                                        <span>Row:</span>-->
+<!--                                                        <span t-field="line.loc_row" />-->
+<!--                                                    </t>-->
+<!--                                                    <t t-if="line.loc_shelf">-->
+<!--                                                        <span>Shelf:</span>-->
+<!--                                                        <span t-field="line.loc_shelf" />-->
+<!--                                                    </t>-->
+
+<!--                                                    <t t-if="line.loc_case">-->
+<!--                                                        <span>Case:</span>-->
+<!--                                                        <span t-field="line.loc_case" />-->
+<!--                                                    </t>-->
+<!--                                                </strong>-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+<!--                                        <t t-set="loc_rack" t-value="line.loc_rack" />-->
+<!--                                        <t t-set="loc_row" t-value="line.loc_row" />-->
+<!--                                        <t t-set="loc_shelf" t-value="line.loc_shelf" />-->
+<!--                                        <t t-set="loc_case" t-value="line.loc_case" />-->
+<!--                                    </t>-->
                                     <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
                                     <t t-set="price" t-value="line.standard_price or line.product_id.standard_price" />
                                     <t t-set="total_amount" t-value="total_amount+line.product_qty*price" />

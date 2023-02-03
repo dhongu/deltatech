@@ -17,9 +17,9 @@ class Inventory(models.Model):
 
     name = fields.Char(
         "Inventory Reference",
-        default="Inventory",
         readonly=True,
         required=True,
+        default=lambda self: _("New"),
         states={"draft": [("readonly", False)]},
     )
     date = fields.Datetime(
@@ -108,7 +108,11 @@ class Inventory(models.Model):
 
     def unlink(self):
         for inventory in self:
-            if inventory.state not in ("draft", "cancel") and not self.env.context.get(MODULE_UNINSTALL_FLAG, False):
+            if (
+                inventory.state not in ("draft", "cancel")
+                and not self.env.context.get(MODULE_UNINSTALL_FLAG, False)
+                and not self.env.context.get("merge_inventory", False)
+            ):
                 raise UserError(
                     _(
                         "You can only delete a draft inventory adjustment. "
@@ -121,8 +125,6 @@ class Inventory(models.Model):
         if not self.exists():
             return
         self.ensure_one()
-        if not self.user_has_groups("stock.group_stock_manager"):
-            raise UserError(_("Only a stock manager can validate an inventory adjustment."))
         if self.state != "confirm":
             raise UserError(
                 _(
@@ -156,9 +158,11 @@ class Inventory(models.Model):
                 "target": "new",
                 "res_id": wiz.id,
             }
+        quants = self.line_ids.get_quants()
         self._action_done()
         self.line_ids._check_company()
         self._check_company()
+        quants.write({"inventory_quantity_set": False, "last_inventory_date": self.date})
         return True
 
     def _action_done(self):
@@ -219,7 +223,7 @@ class Inventory(models.Model):
         for inventory in self:
             if inventory.state != "draft":
                 continue
-            vals = {"state": "confirm", "date": fields.Datetime.now()}
+            vals = {"state": "confirm", "date": inventory.date}
             if not inventory.line_ids and not inventory.start_empty:
                 self.env["stock.inventory.line"].create(inventory._get_inventory_lines_values())
             inventory.write(vals)
@@ -259,6 +263,8 @@ class Inventory(models.Model):
             "default_inventory_id": self.id,
             "default_company_id": self.company_id.id,
         }
+        if self.state == "done":
+            context["default_is_editable"] = False
         # Define domains and context
         domain = [("inventory_id", "=", self.id), ("location_id.usage", "in", ["internal", "transit"])]
         if self.location_ids:

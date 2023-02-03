@@ -2,14 +2,14 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.tools.safe_eval import safe_eval
 
 
 class StockInventory(models.Model):
     _inherit = "stock.inventory"
 
-    name = fields.Char(string="Name", default="/", copy=False)
+    name = fields.Char(string="Name", copy=False)
     date = fields.Datetime(
         string="Inventory Date", required=True, readonly=True, states={"draft": [("readonly", False)]}
     )
@@ -31,7 +31,7 @@ class StockInventory(models.Model):
         for inventory in self:
             date = inventory.date
             values = {"date": date}
-            if inventory.name == "/":
+            if inventory.name in ("/", _("New")):
                 sequence = self.env.ref("deltatech_stock_inventory.sequence_inventory_doc")
                 if sequence:
                     values["name"] = sequence.next_by_id()
@@ -67,11 +67,20 @@ class StockInventoryLine(models.Model):
     _order = "inventory_id, location_id, categ_id, product_id, prod_lot_id"
 
     categ_id = fields.Many2one("product.category", string="Category", related="product_id.categ_id", store=True)
-    standard_price = fields.Float(string="Price")
-    loc_rack = fields.Char("Rack", size=16, related="product_id.loc_rack", store=True)
-    loc_row = fields.Char("Row", size=16, related="product_id.loc_row", store=True)
-    loc_case = fields.Char("Case", size=16, related="product_id.loc_case", store=True)
+    standard_price = fields.Float(string="Price", states={"done": [("readonly", True)]})
+    loc_rack = fields.Char("Rack", size=16, compute="_compute_loc", store=True)
+    loc_row = fields.Char("Row", size=16, compute="_compute_loc", store=True)
+    loc_case = fields.Char("Case", size=16, compute="_compute_loc", store=True)
     is_ok = fields.Boolean("Is Ok", default=True)
+
+    @api.depends("location_id", "product_id")
+    def _compute_loc(self):
+        for line in self:
+            warehouse = line.location_id.warehouse_id
+            product = line.product_id.with_context(warehouse=warehouse.id)
+            line.loc_rack = product.loc_rack
+            line.loc_row = product.loc_row
+            line.loc_case = product.loc_case
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -102,28 +111,34 @@ class StockInventoryLine(models.Model):
         config_parameter = self.env["ir.config_parameter"].sudo()
         use_inventory_price = config_parameter.get_param(key="stock.use_inventory_price", default="True")
         use_inventory_price = safe_eval(use_inventory_price)
+
+        # actualizare pret in produs
         for inventory_line in self:
-            if inventory_line.product_id.cost_method == "fifo" and use_inventory_price:
-                inventory_line.product_id.write(
+            if (
+                not inventory_line.theoretical_qty
+                or inventory_line.product_id.cost_method == "fifo"
+                and use_inventory_price
+            ):
+                inventory_line.product_id.with_context(disable_auto_svl=True).write(
                     {"standard_price": inventory_line.standard_price}
-                )  # actualizare pret in produs
+                )
         moves = super(StockInventoryLine, self)._generate_moves()
-        self.set_last_last_inventory()
+        # self.set_last_last_inventory()
         return moves
 
-    def set_last_last_inventory(self):
-        for inventory_line in self:
-            prod_last_inventory_date = inventory_line.product_id.last_inventory_date
-            product_tmpl_inventory_date = inventory_line.product_id.product_tmpl_id.last_inventory_date
-            inventory_date = inventory_line.inventory_id.date.date()
-            if not prod_last_inventory_date or prod_last_inventory_date < inventory_date:
-                inventory_line.product_id.write(
-                    {"last_inventory_date": inventory_date, "last_inventory_id": inventory_line.inventory_id.id}
-                )
-                if not product_tmpl_inventory_date or product_tmpl_inventory_date < inventory_date:
-                    inventory_line.product_id.product_tmpl_id.write(
-                        {"last_inventory_date": inventory_date, "last_inventory_id": inventory_line.inventory_id.id}
-                    )
+    # def set_last_last_inventory(self):
+    #     for inventory_line in self:
+    #         prod_last_inventory_date = inventory_line.product_id.last_inventory_date
+    #         product_tmpl_inventory_date = inventory_line.product_id.product_tmpl_id.last_inventory_date
+    #         inventory_date = inventory_line.inventory_id.date.date()
+    #         if not prod_last_inventory_date or prod_last_inventory_date < inventory_date:
+    #             inventory_line.product_id.write(
+    #                 {"last_inventory_date": inventory_date, "last_inventory_id": inventory_line.inventory_id.id}
+    #             )
+    #             if not product_tmpl_inventory_date or product_tmpl_inventory_date < inventory_date:
+    #                 inventory_line.product_id.product_tmpl_id.write(
+    #                     {"last_inventory_date": inventory_date, "last_inventory_id": inventory_line.inventory_id.id}
+    #                 )
 
     @api.onchange("product_qty")
     def onchange_product_qty(self):
