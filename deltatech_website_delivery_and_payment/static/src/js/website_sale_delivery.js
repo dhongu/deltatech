@@ -23,15 +23,12 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
         },
 
         _handleCarrierCheckResult: function (result) {
-            // Var $payButton = $("#o_payment_form_pay");
             var $payButton = this.$('button[name="o_payment_submit_button"]');
-            if (result.status === true) {
-                // $payButton.data("disabled_reasons").acquirer_selection = false;
-                var disabledReasons = $payButton.data("disabled_reasons") || {};
-                disabledReasons.acquirer_selection = false;
-                $payButton.data("disabled_reasons", disabledReasons);
-                $payButton.prop("disabled", _.contains($payButton.data("disabled_reasons"), true));
-            }
+
+            var disabledReasons = $payButton.data("disabled_reasons") || {};
+            disabledReasons.acquirer_cannot_be_selected = !result.status;
+            $payButton.data("disabled_reasons", disabledReasons);
+
             var $acquirers = $('input[name="o_payment_radio"]');
             if (result.all_acquirer === false) {
                 $acquirers.each(function (index, acquirer) {
