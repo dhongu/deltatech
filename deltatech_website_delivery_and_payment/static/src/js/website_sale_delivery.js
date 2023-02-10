@@ -96,14 +96,16 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
 
         _onAcquirerClickCheck: function () {
             this._doCheckSelection();
-
+            var $acquirer = $('#payment_method input[name="o_payment_radio"]').filter(":checked");
+            var acquirer_id = $acquirer.data("payment-option-id");
             var $carrier = $('#delivery_carrier input[name="delivery_type"]').filter(":checked");
             var carrier_id = $carrier.val();
             dp.add(
                 this._rpc({
-                    route: "/shop/update_carrier",
+                    route: "/shop/carrier_rate_shipment",
                     params: {
                         carrier_id: carrier_id,
+                        acquirer_id: acquirer_id,
                     },
                 })
             ).then(this._handleCarrierUpdateResult.bind(this));
