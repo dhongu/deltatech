@@ -73,18 +73,19 @@ class AccountInvoiceLine(models.Model):
         mrp_mod = self.env["ir.module.module"].search([("name", "=", "mrp"), ("state", "=", "installed")])
         if mrp_mod and self.product_id.bom_count:
             bom = self.product_id.bom_ids.filtered(lambda b: b.type == "phantom")
-            purchase_price = 0
-            for move in moves:
-                bom_line = bom.bom_line_ids.filtered(lambda b: b.product_id == move.product_id)
-                price_unit_comp = move.mapped("stock_valuation_layer_ids").mapped("unit_cost")
-                purchase_price += sum(price_unit_comp) * bom_line.product_qty
-            # for a kit return, the number of moves linked to SO lines is increased by the size of the kit,
-            # so we have to adjust
-            kit_length = len(bom.bom_line_ids)
-            move_length = len(moves)
-            if kit_length != move_length:
-                factor = move_length / kit_length
-                purchase_price = purchase_price / factor
+            if bom:
+                purchase_price = 0
+                for move in moves:
+                    bom_line = bom.bom_line_ids.filtered(lambda b: b.product_id == move.product_id)
+                    price_unit_comp = move.mapped("stock_valuation_layer_ids").mapped("unit_cost")
+                    purchase_price += sum(price_unit_comp) * bom_line.product_qty
+                # for a kit return, the number of moves linked to SO lines is increased by the size of the kit,
+                # so we have to adjust
+                kit_length = len(bom.bom_line_ids)
+                move_length = len(moves)
+                if kit_length != move_length:
+                    factor = move_length / kit_length
+                    purchase_price = purchase_price / factor
         else:
             # preluare pret in svl
             svls = moves.mapped("stock_valuation_layer_ids")
