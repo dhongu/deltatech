@@ -6,9 +6,9 @@
         <field name="inherit_id" ref="sale.view_sales_order_filter" />
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="partner_email" string="E-mail" />
-                <field name="partner_phone" string="Phone" />
-                <field name="partner_mobile" string="Mobile" />
+                <field name="partner_id" string="E-mail" filter_domain="[('partner_id.email', 'ilike', self)]" />
+                <field name="partner_id" string="Phone" filter_domain="[('partner_id.phone', 'ilike', self)]" />
+                <field name="partner_id" string="Mobile" filter_domain="[('partner_id.mobile', 'ilike', self)]" />
             </field>
         </field>
     </record>
