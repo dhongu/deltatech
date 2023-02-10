@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_sales_order_filter" model="ir.ui.view">
+        <field name="name">sale.order.list.select</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="partner_email" string="E-mail" />
+                <field name="partner_phone" string="Phone" />
+                <field name="partner_mobile" string="Mobile" />
+            </field>
+        </field>
+    </record>
+</odoo>
