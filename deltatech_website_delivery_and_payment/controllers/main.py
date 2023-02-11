@@ -40,3 +40,14 @@ class WebsiteSale(Base):
                 result["status"] = False
 
         return result
+
+    @route()
+    def cart_carrier_rate_shipment(self, carrier_id, **kw):
+        order = request.website.sale_get_order()
+        acquirer_id = int(kw.get("acquirer_id", 0))
+        if acquirer_id:
+            acquirer = request.env["payment.acquirer"].sudo().browse(int(acquirer_id))
+            if acquirer and order.acquirer_id != acquirer:
+                order.write({"acquirer_id": acquirer.id})
+
+        return super().cart_carrier_rate_shipment(carrier_id, **kw)
