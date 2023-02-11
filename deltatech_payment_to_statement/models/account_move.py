@@ -36,3 +36,8 @@ class AccountMove(models.Model):
                 super(AccountMove, move)._compute_name()
             else:
                 move.name = "_New"
+
+    @api.ondelete(at_uninstall=False)
+    def _unlink_forbid_parts_of_chain(self):
+        moves = self.filtered(lambda move: move.name != "_New")
+        return super(AccountMove, moves)._unlink_forbid_parts_of_chain()
