@@ -275,8 +275,7 @@ class ServiceNotification(models.Model):
     def action_done(self):
         self.write({"state": "done", "date_done": fields.Datetime.now()})
 
-        new_follower_ids = [self.contact_id.id]
-
+        new_follower_ids = [self.contact_id.id or self.user_id.id]
         if self.user_id != self.env.user.id:
             msg = _("Notification %s for %s was done") % (self.description or "", self.partner_id.name)
 
