@@ -11,4 +11,13 @@
             </span>
         </xpath>
     </template>
+
+    <template id="payment_checkout_hide" inherit_id="payment.checkout" priority="200">
+        <xpath expr="//div[@name='o_payment_option_card']" position="before">
+            <t t-set="is_restricted" t-value="acquirer.is_restricted(user_id.partner_id)" />
+        </xpath>
+        <xpath expr="//div[@name='o_payment_option_card']" position="attributes">
+            <attribute name="t-if">not is_restricted</attribute>
+        </xpath>
+    </template>
 </odoo>
