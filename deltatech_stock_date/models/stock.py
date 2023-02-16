@@ -23,9 +23,9 @@ class StockMove(models.Model):
                 for move in self:
                     today = fields.Date.today()
                     if "date" in vals:
-                        date = fields.Date.to_date(vals["date"])
+                        acc_date = fields.Date.to_date(vals["date"])
                         move_date = fields.Date.to_date(move.date)
-                        if move_date < today and move_date < date:
+                        if move_date < today and move_date < acc_date:
                             vals["date"] = move_date
                         move.move_line_ids.write({"date": vals["date"]})
             else:
@@ -70,7 +70,9 @@ class StockPicking(models.Model):
 
     request_effective_date = fields.Boolean(related="picking_type_id.request_effective_date")
     forced_effective_date = fields.Datetime(
-        string="Forced effective date", help="This date will override the effective date of the stock moves"
+        string="Forced effective date",
+        help="This date will override the effective date of the stock moves",
+        copy=False,
     )
 
     @api.onchange("forced_effective_date")
