@@ -20,4 +20,13 @@
             <attribute name="t-if">not is_restricted</attribute>
         </xpath>
     </template>
+
+    <template id="delivery_hide" inherit_id="website_sale_delivery.payment_delivery" priority="200">
+        <xpath expr="//li" position="before">
+            <t t-set="delivery_is_restricted" t-value="delivery.is_restricted(user_id.partner_id)" />
+        </xpath>
+        <xpath expr="//li" position="attributes">
+            <attribute name="t-if">not delivery_is_restricted</attribute>
+        </xpath>
+    </template>
 </odoo>
