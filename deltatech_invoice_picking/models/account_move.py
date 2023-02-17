@@ -75,8 +75,12 @@ class AccountMove(models.Model):
                             # picking seems to be partially invoiced
                         ):
                             # Check if qty in invoice is not all the qty in stock move.
-                            # If not all the qty in invoice, to_invoice will be set to True
-                            if account_move_line.quantity < stock_move.quantity_done:
+                            # If not all the qty in invoice and the product is the same (can be set otherwise),
+                            # to_invoice will be set to True
+                            if (
+                                account_move_line.quantity < stock_move.quantity_done
+                                and account_move_line.product_id == stock_move.product_id
+                            ):
                                 to_invoice = True
                             else:
                                 to_invoice = False
