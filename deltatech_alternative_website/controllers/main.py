@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import http
+
 from odoo.http import request
 from odoo.osv import expression
 
@@ -10,25 +10,10 @@ from odoo.addons.website_sale.controllers import main
 
 #  FH312316, dc35407, CC106785
 
-
-class Website(main.Website):
-    @http.route()
-    def autocomplete(self, search_type=None, term=None, order=None, limit=5, max_nb_chars=999, options=None):
-        options = options or {}
-        options["allowFuzzy"] = False
-        return super().autocomplete(search_type, term, order, limit, max_nb_chars, options)
+# metodele pentru dezactivarea fuzzy search sunt mutate in modulul deltatech_website_disable_fuzzy_search
 
 
 class WebsiteSale(main.WebsiteSale):
-    def _get_search_options(
-        self, category=None, attrib_values=None, pricelist=None, min_price=0.0, max_price=0.0, conversion_rate=1, **post
-    ):
-        options = super(WebsiteSale, self)._get_search_options(
-            category, attrib_values, pricelist, min_price, max_price, conversion_rate, **post
-        )
-        options["allowFuzzy"] = False
-        return options
-
     def _get_search_domain(self, search, category, attrib_values, search_in_description=True):
         domains = super(WebsiteSale, self)._get_search_domain(search, category, attrib_values, search_in_description)
         if search:
