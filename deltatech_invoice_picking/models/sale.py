@@ -58,6 +58,5 @@ class SaleOrder(models.Model):
             for line in moves.line_ids.filtered(lambda l: l.exclude_from_invoice_tab is False):
                 if line.quantity == 0.0:
                     line.with_context(check_move_validity=False).unlink()
-        else:
-            moves.update_pickings()
+        moves.update_pickings()
         return moves
