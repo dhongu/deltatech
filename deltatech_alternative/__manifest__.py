@@ -5,7 +5,7 @@
 
 {
     "name": "Products Alternative",
-    "version": "15.0.1.0.6",
+    "version": "15.0.1.0.7",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Alternative product codes",
@@ -22,6 +22,7 @@
         "views/stock_move_view.xml",
         "security/ir.model.access.csv",
         "views/res_config_settings_views.xml",
+        "views/stock_picking_view.xml",
     ],
     "images": ["images/main_screenshot.png"],
     "development_status": "Mature",
