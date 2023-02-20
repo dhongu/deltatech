@@ -1,0 +1,102 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_website_delivery_and_payment
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-02-17 13:10+0000\n"
+"PO-Revision-Date: 2023-02-17 13:10+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_sale_order__acquirer_id
+msgid "Acquirer"
+msgstr "Mod plată"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__logo
+msgid "Logo"
+msgstr ""
+
+#. module: deltatech_website_delivery_and_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.view_delivery_carrier_form
+msgid "Max"
+msgstr ""
+
+#. module: deltatech_website_delivery_and_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.view_delivery_carrier_form
+msgid "Min"
+msgstr ""
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model,name:deltatech_website_delivery_and_payment.model_payment_acquirer
+#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.view_delivery_carrier_form
+msgid "Payment Acquirer"
+msgstr "Colector plată"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__acquirer_allowed_ids
+msgid "Payments Acquirer Allowed"
+msgstr "Metode de plată permise"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_acquirer__restrict_label_ids
+msgid "Restrict Label"
+msgstr "Restricționează pentru partenerii cu label"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__restrict_label_ids
+msgid "Restrict for partners with label"
+msgstr "Restricționează pentru partenerii cu label"
+
+#. module: deltatech_website_delivery_and_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.acquirer_form_on_delivery
+msgid "Restrictions"
+msgstr "Restrictii"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model,name:deltatech_website_delivery_and_payment.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model,name:deltatech_website_delivery_and_payment.model_delivery_carrier
+msgid "Shipping Methods"
+msgstr "Metode de expediere"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_acquirer__submit_txt
+msgid "Submit text"
+msgstr "Text buton"
+
+#. module: deltatech_website_delivery_and_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.acquirer_form_on_delivery
+msgid "Tags..."
+msgstr ""
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_acquirer__value_limit
+msgid "Value Limit"
+msgstr "Limită valoare"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__weight_max
+msgid "Weight Max"
+msgstr "Greutate max."
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__weight_min
+msgid "Weight Min"
+msgstr "Greutate min."
+
+#. module: deltatech_website_delivery_and_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.view_delivery_carrier_form
+msgid "Weight limits"
+msgstr "Limite greutate"
