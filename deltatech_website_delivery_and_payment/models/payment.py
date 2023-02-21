@@ -18,7 +18,7 @@ class PaymentAcquirer(models.Model):
 
     def is_restricted(self, partner_id):
         self.ensure_one()
-        for label in self.restrict_label_ids:
-            if label in partner_id.category_id:
+        for label in self.sudo().restrict_label_ids:
+            if label in partner_id.sudo().category_id:
                 return True
         return False
