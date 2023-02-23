@@ -76,9 +76,15 @@ class AccountInvoiceLine(models.Model):
             if bom:
                 purchase_price = 0
                 for move in moves:
-                    bom_line = bom.bom_line_ids.filtered(lambda b: b.product_id == move.product_id)
-                    price_unit_comp = move.mapped("stock_valuation_layer_ids").mapped("unit_cost")
-                    purchase_price += sum(price_unit_comp) * bom_line.product_qty
+                    # bom_line = bom.bom_line_ids.filtered(lambda b: b.product_id == move.product_id)
+                    # price_unit_comp = move.mapped("stock_valuation_layer_ids").mapped("unit_cost")
+                    move_layers = move.mapped("stock_valuation_layer_ids")
+                    move_price = 0
+                    for layer in move_layers:
+                        move_price += layer.value
+                    move_price = abs(move_price / move.quantity_done)
+                    purchase_price += move_price
+                    # purchase_price += sum(price_unit_comp) * bom_line.product_qty
                 # for a kit return, the number of moves linked to SO lines is increased by the size of the kit,
                 # so we have to adjust
                 kit_length = len(bom.bom_line_ids)
