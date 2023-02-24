@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
-        <menuitem
-            name="Agreement"
-            id="menu_service_agr"
-            parent="deltatech_service_base.menu_service_app"
-            sequence="200"
-        />
-    </data>
     <data noupdate="1">
         <record id="sequence_agreement" model="ir.sequence">
             <field name="name">Service agreement</field>
