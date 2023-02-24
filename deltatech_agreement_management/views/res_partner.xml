@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_partner_form_agreement" model="ir.ui.view">
+        <field name="name">Partner Agreement</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <field name="category_id" position="after">
+                <field name="agreement_id" />
+                <button
+                    name="create_agreement"
+                    type="object"
+                    class="oe_highlight"
+                    string="Create agreement"
+                    attrs="{'invisible': [('agreement_id','!=', False)]}"
+                />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_partner_search_agreement" model="ir.ui.view">
+        <field name="name">Partner Agreement search</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter" />
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="agreement_id" />
+            </field>
+            <filter name="type_company" position="after">
+                <separator />
+                <filter string="With agreement" name="with_agreement" domain="[('agreement_id', '!=', False)]" />
+            </filter>
+        </field>
+    </record>
+</odoo>

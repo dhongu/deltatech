@@ -4,11 +4,18 @@
 {
     "name": "Services Agreement",
     "summary": "Manage Services Agreement",
-    "version": "15.0.2.0.4",
+    "version": "15.0.2.0.5",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Services/Agreement",
-    "depends": ["base", "product", "account", "date_range", "deltatech_service_base"],
+    "depends": [
+        "base",
+        "product",
+        "account",
+        "date_range",
+        "deltatech_service_base",
+        "deltatech_agreement_management",
+    ],
     "license": "AGPL-3",
     "data": [
         "security/service_security.xml",

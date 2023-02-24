@@ -51,7 +51,7 @@
             name="Billing"
             id="menu_service_billing"
             action="action_service_billing"
-            parent="deltatech_service_agreement.menu_service_agr"
+            parent="deltatech_agreement_management.menu_service_agr"
             sequence="103"
         />
     </data>

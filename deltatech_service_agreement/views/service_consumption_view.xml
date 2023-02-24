@@ -113,7 +113,7 @@
         id="menu_service_consumption"
         groups="deltatech_service_base.group_service_user"
         action="action_service_consumption"
-        parent="deltatech_service_agreement.menu_service_agr"
+        parent="deltatech_agreement_management.menu_service_agr"
         sequence="102"
     />
 
