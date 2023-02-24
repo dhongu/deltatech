@@ -79,7 +79,9 @@ class ReportDCInvoicePrint(models.AbstractModel):
                     )
                 product_with_lots |= lot.product_id
                 declarations |= dc
-            for line in invoice.invoice_line_ids.filtered(lambda m: not m.display_type):
+            for line in invoice.invoice_line_ids.filtered(
+                lambda m: m.display_type not in ("line_section", "line_note")
+            ):
                 if line.product_id in product_with_lots:
                     continue
                 if line.product_id.type != "product":

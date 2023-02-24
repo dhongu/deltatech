@@ -3,9 +3,9 @@
 
 
     <template id="website_sale_stock_product_lead_time" inherit_id="website_sale.product" priority="99">
-        <xpath expr="//div[@id='product_attributes_simple']" position="before">
+        <xpath expr="//form" position="before">
             <div class="lead_time_messages o_not_editable">
-                <i class="fa fa-calendar" />
+
             </div>
         </xpath>
     </template>

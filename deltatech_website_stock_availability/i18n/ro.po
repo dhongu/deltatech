@@ -73,6 +73,7 @@ msgstr "Livrare în %s - %s zile"
 
 #. module: deltatech_website_stock_availability
 #: code:addons/deltatech_website_stock_availability/models/product.py:0
+#: code:addons/deltatech_website_stock_availability/models/product.py:0
 #, python-format
 msgid "Delivery in %s days"
 msgstr "Livrare în %s zile"
@@ -141,6 +142,19 @@ msgstr ""
 #, python-format
 msgid "Warning"
 msgstr "Atenție"
+
+#. module: deltatech_website_stock_availability
+#. openerp-web
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#, python-format
+msgid "Out of stock"
+msgstr "Nu este în stoc"
+
+#. module: deltatech_website_stock_availability
+#: model:ir.model,name:deltatech_website_stock_availability.model_product_template
+msgid "Product Template"
+msgstr "Șablon produs"
+
 
 #. module: deltatech_website_stock_availability
 #. openerp-web

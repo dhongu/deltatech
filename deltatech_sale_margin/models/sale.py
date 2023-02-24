@@ -71,7 +71,12 @@ class SaleOrderLine(models.Model):
                     return True
 
         for line in self.filtered(lambda l: l.qty_to_deliver):
-            if line.display_type or line.product_type == "service" or line.product_uom_qty < 0 or line.is_delivery:
+            if (
+                line.display_type in ("line_section", "line_note")
+                or line.product_type == "service"
+                or line.product_uom_qty < 0
+                or line.is_delivery
+            ):
                 continue
 
             if line.price_unit == 0:
