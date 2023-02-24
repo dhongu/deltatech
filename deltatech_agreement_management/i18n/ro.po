@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-24 07:29+0000\n"
-"PO-Revision-Date: 2023-02-24 07:29+0000\n"
+"POT-Creation-Date: 2023-02-24 09:11+0000\n"
+"PO-Revision-Date: 2023-02-24 09:11+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -42,8 +42,6 @@ msgstr ""
 
 #. module: deltatech_agreement_management
 #: code:addons/deltatech_agreement_management/models/res_partner.py:0
-#: model:ir.model.fields,field_description:deltatech_agreement_management.field_res_partner__agreement_id
-#: model:ir.model.fields,field_description:deltatech_agreement_management.field_res_users__agreement_id
 #: model:ir.ui.menu,name:deltatech_agreement_management.menu_service_agr
 #: model_terms:ir.ui.view,arch_db:deltatech_agreement_management.view_agreement_form
 #, python-format
@@ -59,6 +57,13 @@ msgstr "Data contract"
 #: model:ir.ui.menu,name:deltatech_agreement_management.menu_service_agreement_config_type
 msgid "Agreement types"
 msgstr "Tip contract"
+
+#. module: deltatech_agreement_management
+#: model:ir.model.fields,field_description:deltatech_agreement_management.field_res_partner__agreement_count
+#: model:ir.model.fields,field_description:deltatech_agreement_management.field_res_users__agreement_count
+#: model_terms:ir.ui.view,arch_db:deltatech_agreement_management.view_partner_form_agreement
+msgid "Agreements"
+msgstr "Contracte"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__message_attachment_count
@@ -91,11 +96,6 @@ msgid "Contact"
 msgstr ""
 
 #. module: deltatech_agreement_management
-#: model_terms:ir.ui.view,arch_db:deltatech_agreement_management.view_partner_form_agreement
-msgid "Create agreement"
-msgstr "Creează contract"
-
-#. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__create_uid
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement_type__create_uid
 msgid "Created by"
@@ -121,7 +121,7 @@ msgstr "Descriere"
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__display_name
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement_type__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Afiseaza nume"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields.selection,name:deltatech_agreement_management.selection__service_agreement__state__draft
@@ -335,7 +335,7 @@ msgstr "Contracte"
 #. module: deltatech_agreement_management
 #: model_terms:ir.ui.view,arch_db:deltatech_agreement_management.view_agreement_form
 msgid "Set Draft"
-msgstr ""
+msgstr "Setează ciornă"
 
 #. module: deltatech_agreement_management
 #: model_terms:ir.ui.view,arch_db:deltatech_agreement_management.view_agreement_form

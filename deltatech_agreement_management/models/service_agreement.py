@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
@@ -65,14 +65,6 @@ class ServiceAgreement(models.Model):
             if item.state != "draft":
                 raise UserError(_("You cannot delete a service agreement which is not draft."))
         return super(ServiceAgreement, self).unlink()
-
-    @api.model
-    def create(self, vals):
-        res = super().create(vals)
-        if "partner_id" in vals and vals["partner_id"]:
-            partner_id = self.env["res.partner"].browse(vals["partner_id"])
-            partner_id.write({"agreement_id": res.id})
-        return res
 
     def get_name(self):
         self.ensure_one()

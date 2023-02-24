@@ -3,21 +3,33 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 
 
 class Partner(models.Model):
     _inherit = "res.partner"
 
-    agreement_id = fields.Many2one("service.agreement", string="Agreement")
+    agreement_count = fields.Integer(string="Agreements", compute="_compute_agreements_no", search="_search_agreement")
 
-    def create_agreement(self):
+    def view_agreements(self):
         self.ensure_one()
         action = {
             "name": _("Agreement"),
             "type": "ir.actions.act_window",
-            "view_mode": "form",
+            "view_mode": "tree,form",
             "res_model": "service.agreement",
+            "domain": [("partner_id", "=", self.id)],
             "context": {"default_partner_id": self.id},
         }
         return action
+
+    @api.model
+    def _search_agreement(self, operator, value):
+        agreements = self.env["service.agreement"].search([])
+        domain = [("id", "in", agreements.partner_id.ids)]
+        return domain
+
+    def _compute_agreements_no(self):
+        for partner in self:
+            agreement_count = self.env["service.agreement"].search_count([("partner_id", "=", partner.id)])
+            partner.agreement_count = agreement_count
