@@ -14,6 +14,7 @@ class PurchaseOrder(models.Model):
     )
     delivery_note_no = fields.Char(string="Delivery Note No")
     is_empty = fields.Boolean(string="Is empty", default=False)
+    date_sent = fields.Datetime(string="Date sent")
 
     def action_rfq_send(self):
         if self.reception_type != "note":
@@ -21,7 +22,7 @@ class PurchaseOrder(models.Model):
 
     def set_sent(self):
         self.ensure_one()
-        self.write({"state": "sent"})
+        self.write({"state": "sent", "date_sent": fields.Datetime.now()})
 
     def button_confirm(self):
         orders = self
