@@ -58,6 +58,8 @@ class AccountAveragePaymentReport(models.Model):
                     line["payment_days"] = pondere / amount
                 else:
                     line["payment_days"] = 0.0
+                if line["payment_days"] < 0.0:
+                    line["payment_days"] = abs(line["payment_days"])
 
         return res
 
