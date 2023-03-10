@@ -4,7 +4,7 @@
 
 
         <record id="group_sale_margin" model="res.groups">
-            <field name="name">Show purchase price on sale order lines and customer invoice</field>
+            <field name="name">Hide purchase price on sale order lines and customer invoice</field>
             <field name="category_id" ref="base.module_category_hidden" />
         </record>
 
