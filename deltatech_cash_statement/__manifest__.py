@@ -5,7 +5,7 @@
 {
     "name": "Deltatech Cash Statement Extension",
     "summary": "Update cash balance",
-    "version": "14.0.3.0.0",
+    "version": "14.0.3.0.1",
     "author": "Terrabit,Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
