@@ -4,7 +4,7 @@
 {
     "name": "Lot valuation",
     "summary": "Lot valuation",
-    "version": "14.0.1.1.3",
+    "version": "14.0.1.1.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Inventory/Inventory",
