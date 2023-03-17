@@ -46,7 +46,7 @@ class StockPickingReport(models.Model):
             sp.partner_id, rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date,  sp.company_id,
             pt.categ_id, sm.product_id,  pt.uom_id as product_uom,
             sm.location_id,sm.location_dest_id,
-            sum(sm.product_qty) as product_qty,
+            sum(sm.product_qty)/count(svl.value) as product_qty,
 
             COALESCE(abs(SUM(svl.value)/COALESCE(sum(sm.product_qty),1)), avg(sm.price_unit)) as price,
             COALESCE(abs(SUM(svl.value)),sum(sm.product_qty*sm.price_unit)) as amount
@@ -90,14 +90,22 @@ class StockPickingReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
         # pylint: disable=E8103
-        self.env.cr.execute(
-            """
-        CREATE or REPLACE VIEW %s as (
-            %s
-            %s
-            %s
-            %s
+        query = "CREATE or REPLACE VIEW {} as ({} {} {} {})".format(
+            self._table,
+            self._select(),
+            self._from(),
+            self._where(),
+            self._group_by(),
         )
-        """
-            % (self._table, self._select(), self._from(), self._where(), self._group_by())
-        )
+        self.env.cr.execute(query)
+        # self.env.cr.execute(
+        #     """
+        # CREATE or REPLACE VIEW %s as (
+        #     %s
+        #     %s
+        #     %s
+        #     %s
+        # )
+        # """
+        #     % (self._table, self._select(), self._from(), self._where(), self._group_by())
+        # )
