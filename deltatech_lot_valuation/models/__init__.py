@@ -6,3 +6,6 @@ from . import stock_quant
 from . import stock_production_lot
 from . import stock_picking
 from . import stock_inventory
+from . import stock_valuation_layer
+from . import stock_move
+from . import product
