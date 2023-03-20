@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_stock_sheet_report_form_active" model="ir.ui.view">
+        <field name="name">stock.storage.sheet.form.active</field>
+        <field name="model">l10n.ro.stock.storage.sheet</field>
+        <field name="inherit_id" ref="l10n_ro_stock_report.view_stock_sheet_report_form" />
+        <field name="arch" type="xml">
+            <field name="products_with_move" position="before">
+                <field name="only_active" />
+            </field>
+        </field>
+    </record>
+</odoo>
