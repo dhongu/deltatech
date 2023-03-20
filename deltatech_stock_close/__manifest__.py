@@ -12,7 +12,7 @@
     "data": ["views/stock_report_view.xml"],
     "price": 0.00,
     "currency": "EUR",
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     # "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["dhongu", "danila12"],
