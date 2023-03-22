@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, models
+from odoo import models
 
 
 class StockValuationLayer(models.Model):
