@@ -49,7 +49,7 @@ class StockPickingReport(models.Model):
             sum(sm.product_qty)/count(svl.value) as product_qty,
 
             COALESCE(abs(SUM(svl.value)/COALESCE(sum(sm.product_qty),1)), avg(sm.price_unit)) as price,
-            COALESCE(abs(SUM(svl.value)),sum(sm.product_qty*sm.price_unit)) as amount
+            COALESCE((SUM(svl.value)),sum(sm.product_qty*sm.price_unit)) as amount
         """
         return select_str
 
@@ -98,14 +98,3 @@ class StockPickingReport(models.Model):
             self._group_by(),
         )
         self.env.cr.execute(query)
-        # self.env.cr.execute(
-        #     """
-        # CREATE or REPLACE VIEW %s as (
-        #     %s
-        #     %s
-        #     %s
-        #     %s
-        # )
-        # """
-        #     % (self._table, self._select(), self._from(), self._where(), self._group_by())
-        # )
