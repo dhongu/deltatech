@@ -15,7 +15,13 @@ class SaleOrder(models.Model):
         for order in self:
             pickings |= order.picking_ids.filtered(lambda p: p.state not in ["done", "cancel"])
 
-        pickings.write({"postponed": True})
+        if pickings:
+            res = True
+            pickings.write({"postponed": True})
+        else:
+            res = False
+
+        return res
 
     def release_delivery(self):
         pickings = self.env["stock.picking"]

@@ -41,8 +41,12 @@ class SaleOrder(models.Model):
                 product = line.product_id.with_context(warehouse=order.warehouse_id.id)
                 product_qty = line.product_uom._compute_quantity(line.product_uom_qty, line.product_id.uom_id)
 
+                qty_available = product.qty_available
+                if qty_available < 0:
+                    qty_available = 0
+
                 if float_compare(product.virtual_available, product_qty, precision_digits=precision) == -1:
-                    demand = line.product_uom_qty - product.qty_available
+                    demand = line.product_uom_qty - qty_available
                     if demand <= 0:
                         continue
                     qty_available = line.product_id.with_context(warehouse=warehouse.id).qty_available

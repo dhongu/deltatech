@@ -20,7 +20,7 @@ Sale Prepare Transfer
 |badge1| |badge2| |badge3| 
 
 Features:
- - La validarea unei comenzi de vanzre se verifica stocul existent in alte deposite si se genereaza un transfer
+ - At sale order validation, stock is checked in other warehouses and a transfer is generated if  demand quantity  is not available
 
 **Table of contents**
 
