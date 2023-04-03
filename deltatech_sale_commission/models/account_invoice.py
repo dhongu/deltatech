@@ -15,6 +15,11 @@ class AccountInvoice(models.Model):
                 purchase_price = invoice_line.get_purchase_price()
                 invoice_line.write({"purchase_price": purchase_price})
 
+    def action_post(self):
+        res = super().action_post()
+        self.compute_purchase_price()
+        return res
+
 
 class AccountInvoiceLine(models.Model):
     _inherit = "account.move.line"
@@ -76,15 +81,12 @@ class AccountInvoiceLine(models.Model):
             if bom:
                 purchase_price = 0
                 for move in moves:
-                    # bom_line = bom.bom_line_ids.filtered(lambda b: b.product_id == move.product_id)
-                    # price_unit_comp = move.mapped("stock_valuation_layer_ids").mapped("unit_cost")
-                    move_layers = move.mapped("stock_valuation_layer_ids")
+                    # get total value from svls
+                    move_layers = move.with_context(active_test=False).mapped("stock_valuation_layer_ids")
                     move_price = 0
                     for layer in move_layers:
                         move_price += layer.value
-                    # move_price = abs(move_price / move.quantity_done)
                     purchase_price += abs(move_price)
-                    # purchase_price += sum(price_unit_comp) * bom_line.product_qty
                     # for a kit return, the number of moves linked to SO lines is increased by the size of the kit,
                     # so we have to adjust
                     kit_length = len(bom.bom_line_ids)
@@ -92,15 +94,30 @@ class AccountInvoiceLine(models.Model):
                 if kit_length != move_length:
                     factor = move_length / kit_length
                     purchase_price = purchase_price / factor
+                # total value from svls computed, must divide by product qty
+                if self.quantity:
+                    purchase_price = purchase_price / self.quantity
         else:
             # preluare pret in svl
-            svls = moves.mapped("stock_valuation_layer_ids")
-            price_unit_list = svls.mapped("unit_cost")
+            svls = moves.with_context(active_test=False).mapped("stock_valuation_layer_ids")
+            price_unit_list = svls.with_context(active_test=False).mapped("unit_cost")
             if not price_unit_list:
                 price_unit_list = moves.mapped("price_unit")  # preturile din livare sunt negative
             if price_unit_list:
                 purchase_price = abs(sum(price_unit_list)) / len(price_unit_list)
 
+            # daca e retur, ar trebui sa ia in calcul doar svl-urile de retur
+            if self.move_id.move_type == "out_refund":
+                move_layers = moves.with_context(active_test=False).stock_valuation_layer_ids
+                if hasattr(move_layers, "l10n_ro_invoice_line_id"):
+                    move_layers = move_layers.filtered(lambda l: l.l10n_ro_invoice_line_id == self)
+                    if move_layers:
+                        purchase_price = 0.0
+                        # add all layers
+                        for svl in move_layers:
+                            purchase_price += svl.value
+                        if self.quantity:
+                            purchase_price = purchase_price / self.quantity
         return purchase_price
 
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
