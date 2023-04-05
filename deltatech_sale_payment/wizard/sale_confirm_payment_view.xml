@@ -17,7 +17,7 @@
                     </group>
                 </group>
                 <footer>
-                    <button name="do_confirm" string="_Apply" type="object" class="oe_highlight" />
+                    <button name="do_confirm" string="_Apply" type="object" class="oe_highlight" close="1" />
                     or
                     <button string="_Cancel" class="oe_link" special="cancel" />
                 </footer>
