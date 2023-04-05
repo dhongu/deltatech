@@ -100,31 +100,42 @@ class AccountInvoiceLine(models.Model):
         else:
             # preluare pret in svl
             svls = moves.with_context(active_test=False).mapped("stock_valuation_layer_ids")
-            svl_value = 0.0
-            for svl in svls:
-                svl_value += svl.value
-            if self.quantity:
-                purchase_price = abs(svl_value / self.quantity)
+            if hasattr(svls, "l10n_ro_invoice_line_id"):
+                move_layers = svls.filtered(lambda l: l.l10n_ro_invoice_line_id == self)
+                if move_layers:
+                    purchase_price = 0.0
+                    # add all layers
+                    for svl in move_layers:
+                        purchase_price += svl.value
+                    if self.quantity:
+                        purchase_price = abs(purchase_price / self.quantity)
+                    else:
+                        purchase_price = abs(purchase_price)
+                else:
+                    price_unit_list = svls.with_context(active_test=False).mapped("unit_cost")
+                    if not price_unit_list:
+                        price_unit_list = moves.mapped("price_unit")  # preturile din livare sunt negative
+                    if price_unit_list:
+                        purchase_price = abs(sum(price_unit_list)) / len(price_unit_list)
             else:
-                purchase_price = abs(svl_value)
-            # price_unit_list = svls.with_context(active_test=False).mapped("unit_cost")
-            # if not price_unit_list:
-            #     price_unit_list = moves.mapped("price_unit")  # preturile din livare sunt negative
-            # if price_unit_list:
-            #     purchase_price = abs(sum(price_unit_list)) / len(price_unit_list)
+                price_unit_list = svls.with_context(active_test=False).mapped("unit_cost")
+                if not price_unit_list:
+                    price_unit_list = moves.mapped("price_unit")  # preturile din livare sunt negative
+                if price_unit_list:
+                    purchase_price = abs(sum(price_unit_list)) / len(price_unit_list)
 
             # daca e retur, ar trebui sa ia in calcul doar svl-urile de retur
-            if self.move_id.move_type == "out_refund":
-                move_layers = moves.with_context(active_test=False).stock_valuation_layer_ids
-                if hasattr(move_layers, "l10n_ro_invoice_line_id"):
-                    move_layers = move_layers.filtered(lambda l: l.l10n_ro_invoice_line_id == self)
-                    if move_layers:
-                        purchase_price = 0.0
-                        # add all layers
-                        for svl in move_layers:
-                            purchase_price += svl.value
-                        if self.quantity:
-                            purchase_price = purchase_price / self.quantity
+            # if self.move_id.move_type == "out_refund":
+            #     move_layers = moves.with_context(active_test=False).stock_valuation_layer_ids
+            #     if hasattr(move_layers, "l10n_ro_invoice_line_id"):
+            #         move_layers = move_layers.filtered(lambda l: l.l10n_ro_invoice_line_id == self)
+            #         if move_layers:
+            #             purchase_price = 0.0
+            #             # add all layers
+            #             for svl in move_layers:
+            #                 purchase_price += svl.value
+            #             if self.quantity:
+            #                 purchase_price = purchase_price / self.quantity
         return purchase_price
 
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
