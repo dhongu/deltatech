@@ -100,11 +100,18 @@ class AccountInvoiceLine(models.Model):
         else:
             # preluare pret in svl
             svls = moves.with_context(active_test=False).mapped("stock_valuation_layer_ids")
-            price_unit_list = svls.with_context(active_test=False).mapped("unit_cost")
-            if not price_unit_list:
-                price_unit_list = moves.mapped("price_unit")  # preturile din livare sunt negative
-            if price_unit_list:
-                purchase_price = abs(sum(price_unit_list)) / len(price_unit_list)
+            svl_value = 0.0
+            for svl in svls:
+                svl_value += svl.value
+            if self.quantity:
+                purchase_price = abs(svl_value / self.quantity)
+            else:
+                purchase_price = abs(svl_value)
+            # price_unit_list = svls.with_context(active_test=False).mapped("unit_cost")
+            # if not price_unit_list:
+            #     price_unit_list = moves.mapped("price_unit")  # preturile din livare sunt negative
+            # if price_unit_list:
+            #     purchase_price = abs(sum(price_unit_list)) / len(price_unit_list)
 
             # daca e retur, ar trebui sa ia in calcul doar svl-urile de retur
             if self.move_id.move_type == "out_refund":
