@@ -36,10 +36,12 @@ class ProductTemplate(models.Model):
             product = self.env["product.product"].sudo().browse(combination_info["product_id"])
             company_lead_time = self.env.company.po_lead
             supplier_lead_time = product.seller_ids and product.seller_ids[0].delay or 0
+            availability_vendor = product.seller_ids and product.seller_ids[0].qty_available or 0
 
             combination_info["sale_delay"] = product.sale_delay
             combination_info["sale_delay_safety"] = product.sale_delay_safety
             combination_info["purchase_lead_time"] = company_lead_time + supplier_lead_time
+            combination_info["availability_vendor"] = availability_vendor
             if (
                 product.seller_ids
                 and product.seller_ids[0].date_start

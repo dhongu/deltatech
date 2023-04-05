@@ -96,6 +96,14 @@ msgid "Out of stock"
 msgstr "Nu este în stoc"
 
 #. module: deltatech_website_stock_availability
+#. openerp-web
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#, python-format
+msgid "In stock at vendor"
+msgstr "În stoc la furnizor"
+
+
+#. module: deltatech_website_stock_availability
 #: model:ir.model,name:deltatech_website_stock_availability.model_product_template
 msgid "Product Template"
 msgstr "Șablon produs"
