@@ -92,6 +92,8 @@ class ImportPurchaseLine(models.TransientModel):
 
                 if "name" in row_field_dic.keys():
                     name = row[row_field_dic["name"]["id"]]
+                else:
+                    name = None
 
                 if "product_qty" in row_field_dic.keys():
                     product_qty = row[row_field_dic["product_qty"]["id"]]
@@ -122,6 +124,8 @@ class ImportPurchaseLine(models.TransientModel):
             supplierinfo = self.env["product.supplierinfo"].sudo().search(domain, limit=1)
             if not supplierinfo:
                 if self.new_product:
+                    if not name:
+                        raise UserError(_("Please provide a column with name in order to create new products"))
                     seller_values = {
                         "name": self.purchase_id.partner_id.id,
                         "product_code": product_code,
