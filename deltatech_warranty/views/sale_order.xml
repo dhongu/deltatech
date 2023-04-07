@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="sale_order_warranty_data" inherit_id="sale.report_saleorder_document" priority="50">
+            <xpath expr="//div[hasclass('page')]" position="after">
+                <t t-set="has_warranty" t-value="0" />
+                <t t-foreach="doc.order_line" t-as="line">
+                    <t t-if="not line.display_type and line.product_id and line.product_id.warranty_months">
+                        <t t-set="has_warranty" t-value="1" />
+                    </t>
+                </t>
+                <div class="page" style="page-break-before: always;" t-if="has_warranty">
+                    <!-- You can inherit this div to make your own: -->
+                    <div id="warranty_content" class="container">
+                        <table class="table table-sm o_main_table">
+                            <!-- In case we want to repeat the header, remove "display: table-row-group" -->
+                            <thead id="warranty_head" style="display: table-row-group">
+                                <tr>
+                                    <th name="th_product" class="text-left">Product</th>
+                                    <th name="th_warranty" class="text-center">Warranty(Months)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="sale_tbody">
+                                <t t-foreach="doc.order_line" t-as="line">
+                                    <t
+                                        t-if="not line.display_type and line.product_id and line.product_id.warranty_months"
+                                    >
+                                        <tr>
+                                            <td name="td_product" class="text-left">
+                                                <span t-field="line.name" />
+                                            </td>
+                                            <td name="td_warranty" class="text-center">
+                                                <span t-field="line.product_id.warranty_months" />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>
