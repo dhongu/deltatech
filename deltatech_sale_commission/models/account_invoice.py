@@ -90,6 +90,7 @@ class AccountInvoiceLine(models.Model):
 
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
     def _compute_purchase_price(self):
+        deposit_product = self.env["ir.config_parameter"].sudo().get_param("sale.default_deposit_product_id")
         for invoice_line in self:
             if invoice_line.exclude_from_invoice_tab or invoice_line.display_type:
                 invoice_line.purchase_price = 0.0
@@ -99,6 +100,9 @@ class AccountInvoiceLine(models.Model):
                 continue
             if invoice_line.move_id.move_type not in ["out_invoice", "out_refund"]:
                 invoice_line.purchase_price = 0.0
+                continue
+            if invoice_line.product_id.id == int(deposit_product):
+                invoice_line.purchase_price = invoice_line.price_unit
                 continue
 
             to_cur = self.env.user.company_id.currency_id
