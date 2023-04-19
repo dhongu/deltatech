@@ -49,7 +49,7 @@ class StockPickingReport(models.Model):
             sum(sm.product_qty)/count(svl.value) as product_qty,
 
             COALESCE(abs(SUM(svl.value)/COALESCE(sum(sm.product_qty),1)), avg(sm.price_unit)) as price,
-            COALESCE((SUM(svl.value)),sum(sm.product_qty*sm.price_unit)) as amount
+            -1*COALESCE((SUM(svl.value)),sum(sm.product_qty*sm.price_unit)) as amount
         """
         return select_str
 
