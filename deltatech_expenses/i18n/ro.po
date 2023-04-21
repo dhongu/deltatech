@@ -657,3 +657,4 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
 msgid "Șef contabil"
 msgstr ""
+
