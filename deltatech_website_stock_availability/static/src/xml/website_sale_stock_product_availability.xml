@@ -62,13 +62,21 @@
                     weeks
                 </span>
                 <span t-else="">
-                    Delivery in
-                    <span t-if="sale_delay gt 0">
-                        <t t-esc="sale_delay" />
-                        -
-                    </span>
-                        <t t-esc="sale_delay+sale_delay_safety" />
-                        days
+                    <t t-if="sale_delay gt 1">
+                        Delivery in
+                        <span t-if="sale_delay gt 0">
+                            <t t-esc="sale_delay" />
+                            -
+                        </span>
+                            <t t-esc="sale_delay+sale_delay_safety" />
+                            days
+                    </t>
+                    <t t-if="sale_delay == 1">
+                        <span>Delivery tomorrow</span>
+                    </t>
+                    <t t-if="sale_delay == 0">
+                        <span>Immediate delivery</span>
+                    </t>
                 </span>
             </t>
             <!--            <i class="fa fa-info-circle"/>-->

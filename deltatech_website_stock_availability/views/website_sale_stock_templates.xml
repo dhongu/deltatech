@@ -9,6 +9,41 @@
             </div>
         </xpath>
     </template>
+
+    <template
+        id="cart_summary_website_sale_stock_product_lead_time"
+        inherit_id="website_sale.cart_summary"
+        name="Lead_time"
+    >
+        <xpath expr="//td[hasclass('td-product_name')]/div/strong" position="after">
+            <xpath expr="//div" position="after">
+            <t t-if="line.product_id.free_qty  &gt;   line.product_uom_qty">
+
+                <span class="badge badge-success">Immediate delivery</span>
+            </t>
+            <t t-else="">
+                <span class="badge badge-warning">Subsequent delivery</span>
+            </t>
+        </xpath>
+        </xpath>
+    </template>
+
+
+    <template
+        id="cart_line_description_following_lines"
+        inherit_id="website_sale.cart_line_description_following_lines"
+        customize_show="True"
+        name="Lead Time"
+    >
+        <xpath expr="//div" position="after">
+            <t t-if="line.product_id.free_qty  &gt;= line.product_uom_qty">
+                <span class="badge-pill badge-success">Immediate delivery</span>
+            </t>
+            <t t-else="">
+                <span class="badge-pill badge-warning">Subsequent delivery</span>
+            </t>
+        </xpath>
+    </template>
 <!--
     <template id="availability_filter" inherit_id="website_sale.products_attributes">
         <xpath expr="//div[@id='product_attributes_simple']" position="before">
