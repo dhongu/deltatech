@@ -20,6 +20,6 @@
     "qweb": ["static/src/xml/qty.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
-    "development_status": "Beta",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }
