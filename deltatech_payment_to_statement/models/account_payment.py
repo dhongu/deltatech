@@ -109,15 +109,16 @@ class AccountPayment(models.Model):
         return res
 
 
-class PosBoxOut(models.TransientModel):
-    _inherit = "cash.box.out"
-
-    def _calculate_values_for_statement_line(self, record):
-        values = super(PosBoxOut, self)._calculate_values_for_statement_line(record=record)
-        if values["amount"] > 0:
-            if record.journal_id.cash_in_sequence_id:
-                values["name"] = record.journal_id.cash_in_sequence_id.next_by_id()
-        else:
-            if record.journal_id.cash_out_sequence_id:
-                values["name"] = record.journal_id.cash_out_sequence_id.next_by_id()
-        return values
+# nu mai exista in 16.0
+# class PosBoxOut(models.TransientModel):
+#     _inherit = "cash.box.out"
+#
+#     def _calculate_values_for_statement_line(self, record):
+#         values = super(PosBoxOut, self)._calculate_values_for_statement_line(record=record)
+#         if values["amount"] > 0:
+#             if record.journal_id.cash_in_sequence_id:
+#                 values["name"] = record.journal_id.cash_in_sequence_id.next_by_id()
+#         else:
+#             if record.journal_id.cash_out_sequence_id:
+#                 values["name"] = record.journal_id.cash_out_sequence_id.next_by_id()
+#         return values
