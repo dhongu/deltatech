@@ -17,6 +17,6 @@ msgstr ""
 
 #. module: deltatech_website_sale_request_login
 #: model_terms:ir.ui.view,arch_db:deltatech_website_sale_request_login.request_login
-msgid "<span class=\"text-muted\">Please login to add products to cart.</span>"
-msgstr "<span class=\"text-muted\">Vă rugăm să vă autentificați pentru a adăuga produse în coș.</span>"
+msgid "<span class=\"text-danger\">Please login to add products to cart.</span>"
+msgstr "<span class=\"text-danger\">Vă rugăm să vă autentificați pentru a adăuga produse în coș.</span>"
 
