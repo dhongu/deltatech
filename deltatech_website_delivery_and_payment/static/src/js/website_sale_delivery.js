@@ -41,6 +41,7 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
                         $(acquirer).parent().parent().hide();
                         $(acquirer).parent().hide();
                         $(acquirer).hide();
+                        $(acquirer).prop("checked", false);
                     }
                 });
             } else {
@@ -85,9 +86,9 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
 
         _onCarrierClick: function () {
             this._super.apply(this, arguments);
-            var $acquirer = $('#payment_method input[name="o_payment_radio"]').filter(":checked");
-            $acquirer.prop("checked", false);
-
+            // Var $acquirer = $('#payment_method input[name="o_payment_radio"]').filter(":checked");
+            // $acquirer.prop("checked", false);
+            //
             this._doCheckSelection();
         },
 
