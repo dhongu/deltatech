@@ -8,7 +8,6 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
     var concurrency = require("web.concurrency");
     var dp = new concurrency.DropPrevious();
 
-    // PublicWidget.registry.websiteSaleDeliveryConstrain = publicWidget.Widget.extend({
     websiteSaleDelivery.include({
         selector: ".oe_website_sale",
         events: _.extend({}, websiteSaleDelivery.prototype.events, {
@@ -41,6 +40,7 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
                         $(acquirer).parent().parent().hide();
                         $(acquirer).parent().hide();
                         $(acquirer).hide();
+                        $(acquirer).prop("checked", false);
                     }
                 });
             } else {
@@ -78,23 +78,25 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
 
         _onCarrierClick: function () {
             this._super.apply(this, arguments);
-            var $acquirer = $('#payment_method input[name="pm_id"]').filter(":checked");
-            $acquirer.prop("checked", false);
+            // Var $acquirer = $('#payment_method input[name="pm_id"]').filter(":checked");
+            // $acquirer.prop("checked", false);
 
             this._doCheckSelection();
         },
 
         _onAcquirerClickCheck: function () {
             this._doCheckSelection();
-
+            var $acquirer = $('#payment_method input[name="pm_id"]').filter(":checked");
+            var acquirer_id = $acquirer.data("acquirer-id");
             var $carrier = $('#delivery_carrier input[name="delivery_type"]').filter(":checked");
             var carrier_id = $carrier.val();
             if (typeof carrier_id !== "undefined" && carrier_id !== "") {
                 dp.add(
                     this._rpc({
-                        route: "/shop/update_carrier",
+                        route: "/shop/carrier_rate_shipment",
                         params: {
                             carrier_id: carrier_id,
+                            acquirer_id: acquirer_id,
                         },
                     })
                 ).then(this._handleCarrierUpdateResult.bind(this));
