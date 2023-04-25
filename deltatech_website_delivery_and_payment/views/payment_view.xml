@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="payment.acquirer_form" />
         <field name="arch" type="xml">
             <xpath expr='//group[@name="acquirer"]' position='after'>
-                <group>
+                <group string="Restrictions">
                     <field name="value_limit" />
                     <field
                         name="restrict_label_ids"
