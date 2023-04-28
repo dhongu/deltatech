@@ -108,7 +108,7 @@
         <field name="arch" type="xml">
             <pivot string="Sale margin report">
                 <field name="categ_id" type="row" />
-                <field name="date" type="row" />
+<!--                <field name="date" type="row" />-->
                 <field name="product_uom_qty" type="measure" />
                 <field name="sale_val" type="measure" />
                 <field name="stock_val" type="measure" />
@@ -120,6 +120,19 @@
     </record>
 
 
+    <record id="view_sale_margin_report_graph" model="ir.ui.view">
+        <field name="name">sale.margin.report.graph</field>
+        <field name="model">sale.margin.report</field>
+         <field name="arch" type="xml">
+             <graph string="Sales Analysis" type="line" sample="1" disable_linking="1">
+                 <field name="date" type="row" interval="day" />
+                 <field name="profit_val" type="measure" />
+             </graph>
+         </field>
+    </record>
+
+
+
     <record id="view_sale_margin_report_filter" model="ir.ui.view">
         <field name="name">sale.margin.report.select</field>
         <field name="model">sale.margin.report</field>
@@ -127,17 +140,26 @@
         <field name="arch" type="xml">
             <search string="Search">
 
-                <filter name="date" date="date" default_period="last_month" />
-
-                <separator />
-                <filter string="My Sales" name="mysale" domain="[('user_id','=',uid)]" />
-                <filter string="Paid" name="paid" domain="[('payment_state','=','paid')]" />
-                <filter string="Open" name="open" domain="[('payment_state','!=','paid')]" />
                 <field name="partner_id" />
                 <field name="commercial_partner_id" />
                 <field name="product_id" />
                 <field name="user_id" />
                 <field name="invoice_id" />
+
+                <filter name="filter_date" date="date" default_period="this_month" />
+                <filter
+                    name="filter_order_date"
+                    invisible="1"
+                    string="Order Date: Last 365 Days"
+                    domain="[('date', '&gt;=', (datetime.datetime.combine(context_today() + relativedelta(days=-365), datetime.time(0,0,0))).strftime('%Y-%m-%d %H:%M:%S'))]"
+                />
+
+                <separator />
+                <filter string="My Sales" name="mysale" domain="[('user_id','=',uid)]" />
+                <filter string="Paid" name="paid" domain="[('payment_state','=','paid')]" />
+                <filter string="Open" name="open" domain="[('payment_state','!=','paid')]" />
+                 <separator />
+
 
 
                 <group expand="0" string="Extended Filters...">
@@ -177,11 +199,11 @@
         <field name="name">Sale margin report</field>
         <field name="res_model">sale.margin.report</field>
 
-        <field name="view_mode">tree,pivot</field>
+        <field name="view_mode">tree,pivot,graph</field>
         <field name="view_id" ref="view_sale_margin_report_tree" />
         <field name="search_view_id" ref="view_sale_margin_report_filter" />
         <field name="help">This report performs analysis on your invoices.</field>
-        <field name="context">{"search_default_date":1,
+        <field name="context">{"search_default_filter_date":1,
             'search_default_product':1,'group_by_no_leaf':1,'group_by':['user_id']}
         </field>
     </record>
@@ -200,7 +222,7 @@
         <field name="act_window_id" ref="action_sale_margin_report" />
     </record>
 
-    <menuitem action="action_sale_margin_report" id="menu_sale_margin_report_tree" parent="sale.menu_sale_report" />
+    <menuitem id="menu_sale_margin_report_tree" action="action_sale_margin_report" parent="sale.menu_sale_report" />
 
     <record id="action_sale_margin_commission_report" model="ir.actions.act_window">
         <field name="name">Commission</field>
@@ -209,7 +231,7 @@
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="view_sale_margin_report_commission_tree" />
         <field name="search_view_id" ref="view_sale_margin_report_filter" />
-        <field name="context">{"search_default_date":1, 'search_default_paid':1}</field>
+        <field name="context">{"search_default_filter_date":1, 'search_default_paid':1}</field>
         <field name="domain">[('move_type','in',['out_invoice','out_refund'])]</field>
     </record>
 
