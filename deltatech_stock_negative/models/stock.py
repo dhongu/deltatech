@@ -15,10 +15,10 @@ class StockQuant(models.Model):
         self, product_id, location_id, quantity, lot_id=None, package_id=None, owner_id=None, in_date=None
     ):
         if not location_id.allow_negative_stock and location_id.usage == "internal":
-            quants = self._gather(
-                product_id, location_id, lot_id=lot_id, package_id=package_id, owner_id=owner_id, strict=True
-            )
             if lot_id and quantity < 0:
+                quants = self._gather(
+                    product_id, location_id, lot_id=lot_id, package_id=package_id, owner_id=owner_id, strict=True
+                )
                 quants = quants.filtered(lambda q: q.lot_id)
                 lot_qty = 0.0
                 for quant in quants:
