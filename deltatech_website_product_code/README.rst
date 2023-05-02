@@ -20,9 +20,12 @@ eCommerce Product Code
 |badge1| |badge2| |badge3| 
 
 Features:
- - Afiseaza pagina unui produs folosind codul intern
+ - Display product page using internal code
+ - Displai product code in product page
 
-Se utilizeaza linkul: /shop/product-code/<code>
+
+Usage:
+ - Use link: /shop/product-code/<code>
 
 **Table of contents**
 
