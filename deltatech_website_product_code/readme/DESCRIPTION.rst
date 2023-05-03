@@ -1,6 +1,7 @@
 Features:
  - Display product page using internal code
- - Displai product code in product page
+ - Display product code in product page
+ - Display product code in search results
 
 
 Usage:

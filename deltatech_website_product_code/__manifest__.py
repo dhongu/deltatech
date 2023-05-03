@@ -9,7 +9,7 @@
     "author": "Terrabit, Dorin Hongu",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
-    "depends": ["website_sale"],
+    "depends": ["website", "website_sale"],
     "data": ["views/templates.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
