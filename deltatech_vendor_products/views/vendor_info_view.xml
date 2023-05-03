@@ -1,0 +1,75 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="view_vendor_info_tree" model="ir.ui.view">
+        <field name="name">Vendor Default Values</field>
+        <field name="model">vendor.info</field>
+        <field name="arch" type="xml">
+            <tree string="Product Catalog" multi_edit="1" sample="1">
+
+                <field name="name" />
+                <field name="supplier_id" />
+
+            </tree>
+        </field>
+    </record>
+    <record id="view_vendor_info_form" model="ir.ui.view">
+        <field name="name">Vendor Default Values</field>
+        <field name="model">vendor.info</field>
+        <field name="arch" type="xml">
+            <form string="Vendor Default Values">
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            string="Vendor Products"
+                            class="oe_stat_button"
+                            name="%(action_vendor_product)d"
+                            type="action"
+                            context="{'default_supplier_id':supplier_id, 'search_default_supplier_id':supplier_id}"
+                            domain="[('supplier_id','=',supplier_id)]"
+                            icon="fa-th-list"
+                        />
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="supplier_id" />
+                        </group>
+                        <group>
+                            <field name="type_code" />
+                            <field name="sequence_id" />
+                        </group>
+                        <group string="Default values">
+                            <field name="category_id" />
+                            <field name="purchase_delay" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_vendor_info_filter" model="ir.ui.view">
+        <field name="name">vendor.info.select</field>
+        <field name="model">vendor.info</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+    <record id="action_vendor_info" model="ir.actions.act_window">
+        <field name="name">Vendor Info</field>
+        <field name="res_model">vendor.info</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Vendor Info"
+        id="menu_vendor_info"
+        action="action_vendor_info"
+        parent="purchase.menu_purchase_products"
+        sequence="101"
+    />
+
+</odoo>
