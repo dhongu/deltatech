@@ -1,0 +1,392 @@
+
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_vendor_products
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-05 17:18+0000\n"
+"PO-Revision-Date: 2023-05-05 17:18+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_vendor_products
+#: code:addons/deltatech_vendor_products/models/vendor_info.py:0
+#, python-format
+msgid ""
+"%(base)s with a %(discount)s %% discount and %(surcharge)s extra fee\n"
+"Example: %(amount)s * %(discount_charge)s + %(price_surcharge)s → %(total_amount)s"
+msgstr ""
+"%(base)s cu un discount de %(discount)s %% si o taxa de %(surcharge)s\n"
+"Exemplu: %(amount)s * %(discount_charge)s + %(price_surcharge)s → %(total_amount)s"
+
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_info_form
+msgid "<span>%</span>"
+msgstr ""
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_info_form
+msgid "Are you sure you want to unlink all products?"
+msgstr "Sunteți sigur că doriți să ștergeți toate produsele?"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product__barcode
+msgid "Barcode"
+msgstr "Cod de bare"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,help:deltatech_vendor_products.field_vendor_info__price_base
+msgid ""
+"Base price for computation.\n"
+"Sales Price: The base price will be the List Price.\n"
+"Cost Price : The base price will be the Purchase Price.\n"
+msgstr ""
+"Prețul de bază pentru calcul.\n"
+"Prețul de vânzare: prețul de bază va fi prețul de listă.\n"
+
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__price_base
+msgid "Based on"
+msgstr "Bazat pe"
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_product_import_form
+msgid "Cancel"
+msgstr ""
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields.selection,name:deltatech_vendor_products.selection__vendor_info__type_code__code
+msgid "Code"
+msgstr "Cod"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__sequence_id
+msgid "Code Sequence"
+msgstr "Secvență cod"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__company_id
+msgid "Company"
+msgstr ""
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_product_form
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_product_tree
+msgid "Create Product"
+msgstr "Creează produs"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__create_uid
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product__create_uid
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product_import__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__create_date
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product__create_date
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product_import__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__currency_id
+msgid "Currency"
+msgstr "Monedă"
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_info_form
+msgid "Default values"
+msgstr "Valori implicite"
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_info_form
+msgid "Delete Products"
+msgstr "Șterge produse"
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_info_form
+msgid "Discount"
+msgstr "Discount"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__display_name
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product__display_name
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product_import__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_info_form
+msgid "Extra Fee"
+msgstr "Valoare suplimentară"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product_import__fields_list
+msgid "Fields"
+msgstr "Câmpuri"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product_import__data_file
+msgid "File"
+msgstr "Fișier"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product_import__filename
+msgid "File Name"
+msgstr "Nume fișier"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__id
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product__id
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product_import__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product__url_image
+msgid "Image URL"
+msgstr "Imagine URL"
+
+
+
+#. module: deltatech_vendor_products
+#: model:ir.actions.act_window,name:deltatech_vendor_products.action_vendor_product_import
+msgid "Import product"
+msgstr "Importă produs"
+
+#. module: deltatech_vendor_products
+#: model:ir.model,name:deltatech_vendor_products.model_vendor_product_import
+msgid "Import vendor products"
+msgstr "Importă produse furnizor"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info____last_update
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product____last_update
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product_import____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__write_uid
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product__write_uid
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product_import__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__write_date
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product__write_date
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product_import__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields.selection,name:deltatech_vendor_products.selection__vendor_info__price_base__list_price
+msgid "List Price"
+msgstr "Preț listă"
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_info_form
+msgid "Load File"
+msgstr "Încarcă fișier"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields.selection,name:deltatech_vendor_products.selection__vendor_info__type_code__none
+msgid "None"
+msgstr "Niciunul"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__price_discount
+msgid "Price Discount"
+msgstr "Discount preț"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__price_surcharge
+msgid "Price Surcharge"
+msgstr "Suprataxă preț"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product__product_id
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_info_tree
+msgid "Product Catalog"
+msgstr "Catalog produse"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__category_id
+msgid "Product Category"
+msgstr "Categorie produs"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product__code
+msgid "Product Code"
+msgstr "Cod produs"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product__name
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_product_form
+msgid "Product Name"
+msgstr "Nume produs"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product__product_tmpl_id
+msgid "Product Template"
+msgstr "Șablon produs"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__purchase_delay
+msgid "Purchase Delay"
+msgstr "Întârziere achiziție"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product__purchase_price
+#: model:ir.model.fields.selection,name:deltatech_vendor_products.selection__vendor_info__price_base__purchase_price
+msgid "Purchase Price"
+msgstr "Preț achiziție"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__rule_tip
+msgid "Rule Tip"
+msgstr ""
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product__list_price
+msgid "Sale Price"
+msgstr "Preț vânzare"
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_info_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_product_filter
+msgid "Search"
+msgstr "Caută"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields.selection,name:deltatech_vendor_products.selection__vendor_info__type_code__sequence
+msgid "Sequence"
+msgstr "Secvență"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,help:deltatech_vendor_products.field_vendor_info__price_surcharge
+msgid ""
+"Specify the fixed amount to add or subtract(if negative) to the amount "
+"calculated with the discount."
+msgstr ""
+"Specificați suma fixă de adăugat sau de scăzut (dacă este negativă) la suma "
+"calculată cu discountul."
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product_import__state
+msgid "State"
+msgstr "Stare"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__supplier_id
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product__supplier_id
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product_import__supplier_id
+msgid "Supplier"
+msgstr "Furnizor"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_product__supplierinfo_id
+msgid "Supplier Info"
+msgstr "Informații furnizor"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.constraint,message:deltatech_vendor_products.constraint_vendor_product_code_supplier_uniq
+msgid "The code must be unique per supplier!"
+msgstr "Codul trebuie să fie unic pe furnizor!"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,field_description:deltatech_vendor_products.field_vendor_info__type_code
+msgid "Type Code"
+msgstr "Tip cod"
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_product_form
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_product_tree
+msgid "Update Price"
+msgstr "Actualizează prețul"
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_product_tree
+msgid "Update Price List"
+msgstr "Actualizează prețul de listă"
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_info_form
+msgid "Vendor Default Values"
+msgstr "Valori implicite furnizor"
+
+#. module: deltatech_vendor_products
+#: model:ir.actions.act_window,name:deltatech_vendor_products.action_vendor_info
+#: model:ir.model,name:deltatech_vendor_products.model_vendor_info
+#: model:ir.ui.menu,name:deltatech_vendor_products.menu_vendor_info
+msgid "Vendor Info"
+msgstr "Informații furnizor"
+
+#. module: deltatech_vendor_products
+#: model:ir.model,name:deltatech_vendor_products.model_vendor_product
+msgid "Vendor Product"
+msgstr "Produs furnizor"
+
+#. module: deltatech_vendor_products
+#: model:ir.actions.act_window,name:deltatech_vendor_products.action_vendor_product
+#: model:ir.ui.menu,name:deltatech_vendor_products.menu_vendor_product
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_product_form
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_product_tree
+msgid "Vendor Product Catalog"
+msgstr "Catalog produse furnizor"
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_partner_form
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_info_form
+msgid "Vendor Products"
+msgstr "Produse furnizor"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields,help:deltatech_vendor_products.field_vendor_info__price_discount
+msgid "You can apply a mark-up by setting a negative discount."
+msgstr "Puteți aplica un adaos prin setarea unui discount negativ."
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_product_import_form
+msgid "_Apply"
+msgstr "_Aplică"
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields.selection,name:deltatech_vendor_products.selection__vendor_product_import__state__choose
+msgid "choose"
+msgstr ""
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_product_form
+msgid "e.g. Cheese Burger"
+msgstr ""
+
+#. module: deltatech_vendor_products
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_products.view_vendor_product_import_form
+msgid "or"
+msgstr ""
+
+#. module: deltatech_vendor_products
+#: model:ir.model.fields.selection,name:deltatech_vendor_products.selection__vendor_product_import__state__view
+msgid "view"
+msgstr ""

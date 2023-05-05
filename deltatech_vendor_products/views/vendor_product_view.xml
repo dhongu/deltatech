@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="view_vendor_product_tree" model="ir.ui.view">
+        <field name="name">Vendor Product Catalog</field>
+        <field name="model">vendor.product</field>
+        <field name="arch" type="xml">
+            <tree string="Vendor Product Catalog" multi_edit="1" sample="1">
+                <header>
+                    <button name="create_product" string="Create Product" type="object" />
+                    <button name="update_product_supplierinfo" string="Update Price" type="object" />
+                </header>
+                <field name="code" />
+                <field name="name" />
+                <field name="list_price" />
+                <field name="purchase_price" />
+                <field name="product_id" />
+                <field name="supplier_id" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_vendor_product_form" model="ir.ui.view">
+        <field name="name">Vendor Product Catalog</field>
+        <field name="model">vendor.product</field>
+        <field name="arch" type="xml">
+            <form string="Vendor Product Catalog">
+                <header>
+                    <button name="create_product" string="Create Product" type="object" />
+                    <button name="update_product_supplierinfo" string="Update Price" type="object" />
+                    <button name="update_list_price" string="Update Price List" type="object" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Product Name" />
+                        <h1>
+                            <div class="d-flex">
+                                <field class="text-break" name="name" placeholder="e.g. Cheese Burger" />
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code" />
+                            <field name="supplier_id" />
+                        </group>
+                        <group>
+                            <field name="product_id" />
+                            <field name="barcode" />
+                        </group>
+                        <group>
+                            <field name="list_price" />
+                            <field name="purchase_price" />
+                            <field name="qty_available" />
+                        </group>
+                        <group>
+                            <field name="url_image" />
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_vendor_product_filter" model="ir.ui.view">
+        <field name="name">vendor.product.select</field>
+        <field name="model">vendor.product</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="code" />
+                <field name="name" />
+                <field name="supplier_id" />
+            </search>
+        </field>
+    </record>
+    <record id="action_vendor_product" model="ir.actions.act_window">
+        <field name="name">Vendor Product Catalog</field>
+        <field name="res_model">vendor.product</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Vendor Product Catalog"
+        id="menu_vendor_product"
+        action="action_vendor_product"
+        parent="purchase.menu_purchase_products"
+        sequence="102"
+    />
+
+</odoo>
