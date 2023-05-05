@@ -18,7 +18,20 @@
         <field name="model">vendor.info</field>
         <field name="arch" type="xml">
             <form string="Vendor Default Values">
-
+                <header>
+                       <button
+                        name="%(action_vendor_product_import)d"
+                        context="{'default_supplier_id':supplier_id}"
+                        string="Load File"
+                        type="action"
+                    />
+                        <button
+                        name="unlink_product"
+                        string="Delete Products"
+                        type="object"
+                        confirm="Are you sure you want to unlink all products?"
+                    />
+                </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button

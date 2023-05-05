@@ -27,3 +27,10 @@ class VendorInfo(models.Model):
         if self.supplier_id:
             self.currency_id = self.supplier_id.property_purchase_currency_id
             self.name = self.supplier_id.name
+
+    def load_from_file(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_vendor_products.product_template_action")
+        return action
+
+    def unlink_product(self):
+        self.env["vendor.product"].search([("supplier_id", "=", self.supplier_id.id)]).unlink()

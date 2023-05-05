@@ -26,6 +26,8 @@ class VendorProduct(models.Model):
 
     supplierinfo_id = fields.Many2one("product.supplierinfo", string="Supplier Info", ondelete="set null")
 
+    _sql_constraints = [("code_supplier_uniq", "unique (code,supplier_id)", "The code must be unique per supplier!")]
+
     def search_product(self):
         query = """
         UPDATE vendor_product vp
@@ -126,6 +128,16 @@ class VendorProduct(models.Model):
             (", ".join(fields_name),),
         )
 
+    def _load_data_in_table(self, values, fields_list):
+        query = " INSERT INTO  vendor_product ( %s )" % ",".join(fields_list)
+        query += " VALUES %s "
+        if "code" in fields_list:
+            query += " ON CONFLICT (code, supplier_id) DO UPDATE SET "
+            query += ",".join([f + "=EXCLUDED." + f for f in fields_list if f != "code"])
+
+        psycopg2.extras.execute_values(self.env.cr, query, values, page_size=1000)
+        _logger.info("Inserting %s records into vendor_product" % len(values))
+
     def _load_records(self, data_list, update=False):
         supplier_id = self.env.context.get("default_supplier_id", False)
 
@@ -148,16 +160,7 @@ class VendorProduct(models.Model):
                 "fields": ", ".join(fields_name),
                 "values": values,
             }
-            query = " INSERT INTO  vendor_product ( %s )" % params["fields"]
-            query += " VALUES %s ;"
-            # query += " VALUES (%s) " % ', '.join(['%s'] * len(fields_name))
-            # query += " ON CONFLICT  DO NOTHING  ; "
-
-            _logger.info("Start Insert")
-            psycopg2.extras.execute_values(self.env.cr, query, values, page_size=1000)
-
-            _logger.info("Inserting %s records into vendor_product" % len(values))
-            # self.env.cr.executemany(query, values)
+            self._load_data_in_table(values, params["fields"])
 
             if supplier_id:
                 self.env.cr.execute(

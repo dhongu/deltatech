@@ -27,6 +27,7 @@
                 <header>
                     <button name="create_product" string="Create Product" type="object" />
                     <button name="update_product_supplierinfo" string="Update Price" type="object" />
+
                 </header>
                 <sheet>
                     <group>

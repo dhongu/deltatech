@@ -13,6 +13,7 @@
     "depends": ["product", "purchase"],
     "license": "LGPL-3",
     "data": [
+        "wizard/vendor_product_import_view.xml",
         "views/vendor_info_view.xml",
         "views/vendor_product_view.xml",
         "views/res_partner_view.xml",
