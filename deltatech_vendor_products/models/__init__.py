@@ -5,3 +5,4 @@
 
 from . import vendor_info
 from . import vendor_product
+from . import product_supplierinfo

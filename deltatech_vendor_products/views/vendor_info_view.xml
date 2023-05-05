@@ -19,13 +19,13 @@
         <field name="arch" type="xml">
             <form string="Vendor Default Values">
                 <header>
-                       <button
+                    <button
                         name="%(action_vendor_product_import)d"
-                        context="{'default_supplier_id':supplier_id}"
-                        string="Load File"
+                        context="{'default_supplier_id':supplier_id, 'default_vendor_info_id':id, 'default_url':source_url}"
+                        string="Load Data"
                         type="action"
                     />
-                        <button
+                    <button
                         name="unlink_product"
                         string="Delete Products"
                         type="object"
@@ -44,12 +44,20 @@
                             icon="fa-th-list"
                         />
                     </div>
+                    <div class="oe_title">
+                        <label for="name" string="Vendor Source" />
+                        <h1>
+                            <div class="d-flex">
+                                <field class="text-break" name="name" placeholder="e.g. Kramp" />
+                            </div>
+                        </h1>
+                    </div>
                     <group>
-                        <group>
-                            <field name="name" />
+
+                        <group string="Vendor">
                             <field name="supplier_id" />
                         </group>
-                        <group>
+                        <group string="Coding">
                             <field name="type_code" />
                             <field name="sequence_id" />
                         </group>
@@ -57,6 +65,26 @@
                             <field name="category_id" />
                             <field name="purchase_delay" />
                         </group>
+                        <group string="Source">
+                            <field name="source_url" />
+                            <field name="token_access" />
+                        </group>
+                        <group string="Price">
+
+                            <field name="price_base" />
+
+                            <label for="price_discount" string="Discount" />
+                            <div class="o_row">
+                                <field name="price_discount" />
+                                <span>%%</span>
+                            </div>
+                            <field name="price_surcharge" widget="monetary" string="Extra Fee" />
+                            <field name="currency_id" />
+                            <div class="alert alert-info" role="alert" style="white-space: pre;">
+                                <field name="rule_tip" />
+                            </div>
+                        </group>
+
                     </group>
                 </sheet>
             </form>

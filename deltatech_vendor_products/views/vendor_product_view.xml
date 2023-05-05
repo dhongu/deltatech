@@ -27,13 +27,20 @@
                 <header>
                     <button name="create_product" string="Create Product" type="object" />
                     <button name="update_product_supplierinfo" string="Update Price" type="object" />
-
+                    <button name="update_list_price" string="Update Price List" type="object" />
                 </header>
                 <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Product Name" />
+                        <h1>
+                            <div class="d-flex">
+                                <field class="text-break" name="name" placeholder="e.g. Cheese Burger" />
+                            </div>
+                        </h1>
+                    </div>
                     <group>
                         <group>
                             <field name="code" />
-                            <field name="name" />
                             <field name="supplier_id" />
                         </group>
                         <group>
@@ -43,8 +50,13 @@
                         <group>
                             <field name="list_price" />
                             <field name="purchase_price" />
+                            <field name="qty_available" />
+                        </group>
+                        <group>
+                            <field name="url_image" />
                         </group>
                     </group>
+
                 </sheet>
             </form>
         </field>

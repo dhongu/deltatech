@@ -2,11 +2,15 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+import base64
 import logging
+import threading
 
 import psycopg2.extras
+import requests
 
 from odoo import fields, models
+from odoo.tools import image
 
 _logger = logging.getLogger(__name__)
 
@@ -17,12 +21,19 @@ class VendorProduct(models.Model):
 
     name = fields.Char(string="Product Name", required=True, index=True)
     code = fields.Char(string="Product Code", required=True, index=True)
-    barcode = fields.Char()
+    barcode = fields.Char(index=True)
 
     list_price = fields.Float(string="Sale Price", required=True, digits="Product Price")
     purchase_price = fields.Float(string="Purchase Price", digits="Product Price")
     supplier_id = fields.Many2one("res.partner", string="Supplier", index=True)
+    vendor_info_id = fields.Many2one("vendor.info", string="Vendor Info", ondelete="cascade")
+
     product_id = fields.Many2one("product.product", string="Product", ondelete="set null")
+    product_tmpl_id = fields.Many2one(
+        "product.template", string="Product Template", related="product_id.product_tmpl_id"
+    )
+    url_image = fields.Char(string="Image URL")
+    qty_available = fields.Float("Quantity Available", digits="Product Unit of Measure")
 
     supplierinfo_id = fields.Many2one("product.supplierinfo", string="Supplier Info", ondelete="set null")
 
@@ -55,13 +66,34 @@ class VendorProduct(models.Model):
         """Update price"""
         query = """
         UPDATE product_supplierinfo psi
-            SET price = vp.purchase_price
+            SET price = vp.purchase_price,
+                qty_available = vp.qty_available
                 FROM vendor_product vp
                 JOIN product_product pp on pp.id = vp.product_id
                 WHERE  psi.product_tmpl_id = pp.product_tmpl_id
                     AND vp.supplier_id = psi.name
                     AND vp.purchase_price > 0
                     AND vp.id in %s
+        """
+        self.env.cr.execute(query, (tuple(self.ids),))
+
+    def update_list_price(self):
+        """Update price list"""
+        query = """
+        UPDATE product_template pt
+            SET list_price =
+            CASE vi.price_base
+                WHEN 'list_price'
+                  THEN
+                    vp.list_price - (vp.list_price * (vi.price_discount / 100)) + price_surcharge
+                WHEN 'purchase_price'
+                 THEN
+                  vp.purchase_price - (vp.purchase_price * (vi.price_discount / 100)) + price_surcharge
+            END
+                FROM vendor_product vp
+                JOIN vendor_info vi on vi.supplier_id = vp.supplier_id
+                JOIN product_product pp on pp.id = vp.product_id
+                WHERE   pp.product_tmpl_id = pt.id AND vp.id in %s
         """
         self.env.cr.execute(query, (tuple(self.ids),))
 
@@ -85,7 +117,8 @@ class VendorProduct(models.Model):
                 "product_name": vendor_product.name,
                 "delay": vendor_info.purchase_delay,
                 "price": vendor_product.purchase_price,
-                "currency_id": vendor_info.currency_id.id,
+                "currency_id": vendor_info.currency_id.id or self.env.company.currency_id.id,
+                "qty_available": vendor_product.qty_available,
             }
 
             values = {
@@ -98,35 +131,28 @@ class VendorProduct(models.Model):
             if vendor_info.category_id:
                 values["categ_id"] = vendor_info.category_id.id
 
-            if vendor_product.product_id:
-                products |= vendor_product.product_id
-                vendors = vendor_product.product_id.seller_ids.filtered(lambda s: s.name == vendor_product.supplier_id)
+            product = vendor_product.product_id
+            if product:
+                vendors = product.seller_ids.filtered(lambda s: s.name == vendor_product.supplier_id)
                 if not vendors:
-                    vendor_product.product_id.write({"seller_ids": [(0, 0, seller_values)]})
-                continue
+                    product.write({"seller_ids": [(0, 0, seller_values)]})
+            else:
+                if vendor_info.type_code == "sequence":
+                    values["default_code"] = vendor_info.sequence_id.next_by_id()
+                elif vendor_info.type_code == "code":
+                    values["default_code"] = vendor_product.code
 
-            if vendor_info.type_code == "sequence":
-                values["default_code"] = vendor_info.sequence_id.next_by_id()
-            elif vendor_info.type_code == "code":
-                values["default_code"] = vendor_product.code
+                product = self.env["product.product"].create(values)
+                vendor_product.write({"product_id": product.id})
 
-            product = self.env["product.product"].create(values)
-            vendor_product.write({"product_id": product.id})
+            if vendor_product.url_image:
+                vendor_product._load_image_thread(product.id, vendor_product.url_image)
+
             products |= product
 
         action = self.env["ir.actions.actions"]._for_xml_id("purchase.product_product_action")
         action["domain"] = [("id", "in", products.ids)]
         return action
-
-    def create_staging_table(self, fields_name) -> None:
-        self.env.cr.execute(
-            """
-            DROP TABLE IF EXISTS staging_vendor_product;
-            CREATE UNLOGGED TABLE staging_vendor_product
-            AS SELECT %s FROM vendor_product WITH NO DATA;
-        """,
-            (", ".join(fields_name),),
-        )
 
     def _load_data_in_table(self, values, fields_list):
         query = " INSERT INTO  vendor_product ( %s )" % ",".join(fields_list)
@@ -185,3 +211,34 @@ class VendorProduct(models.Model):
         #             data["values"]["id"] = False
         # return
         return super(VendorProduct, self.sudo())._load_records(data_list, update)
+
+    def get_session(self):
+        return requests.Session()
+
+    def load_image_from_url(self, url):
+        try:
+            session = self.get_session()
+            data = base64.b64encode(session.get(url.strip()).content)  # .replace(b'\n', b'')
+            image.base64_to_image(data)
+        except Exception:
+            data = False
+        return data
+
+    def _load_image_thread(self, product_id, url_image):
+        threaded_calculation = threading.Thread(target=self._load_image, args=(product_id, url_image))
+        threaded_calculation.start()
+        return {"type": "ir.actions.act_window_close"}
+
+    def _load_image(self, product_id, url_image):
+        new_cr = self.pool.cursor()
+        self = self.with_env(self.env(cr=new_cr))
+        image_1920 = self.load_image_from_url(url_image)
+        if image_1920:
+            product = self.env["product.product"].browse(product_id)
+            product = product.with_context(bin_size=False)
+            product.write({"image_1920": image_1920})
+            product._compute_can_image_1024_be_zoomed()
+
+        new_cr.commit()
+        new_cr.close()
+        return {}

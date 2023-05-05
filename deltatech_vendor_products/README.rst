@@ -10,17 +10,19 @@ Vendor Products
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
-    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
-    :alt: License: LGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/15.0/deltatech_vendor_products
     :alt: dhongu/deltatech
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| 
 
 Features:
- - Import lista de produse de la furnizor
+  - Allows defining a supplier product catalog without having to be defined as products in the Odoo database
+  - Import the list of products from the supplier in Excel format (xls, xlsx)
+  - A very large number of products can be imported (50000 in 30 seconds)
+  - Based on the list of imported products, new products can be created or existing products can be updated
+  - The module is the basis of other modules that allow searching on the website by the supplier product code
+  - Processing of product feeds from suppliers
 
 **Table of contents**
 

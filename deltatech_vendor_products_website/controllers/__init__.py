@@ -2,5 +2,4 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from . import vendor_product
-from . import website
+from . import main

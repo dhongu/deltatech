@@ -1,2 +1,2 @@
 Features:
- - Extindere cautare in lista de produse furnizor
+ - Allows searching for products in the product catalogs of suppliers and automatically importing these products into the main product list in Odoo.
