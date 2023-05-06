@@ -62,8 +62,25 @@ class VendorProduct(models.Model):
         """
         self.env.cr.execute(query, (tuple(self.ids),))
 
+        # codul de la furnizor este si codul intern
+        domain = [("id", "in", self.ids), ("product_id", "=", False), ("vendor_info_id.type_code", "=", "code")]
+        vendor_products = self.env["vendor.product"].search(domain)
+        if vendor_products:
+            query = """
+             UPDATE vendor_product vp
+                SET product_id = pp.id
+                  FROM product_product pp
+                    WHERE vp.code = pp.default_code
+                        AND vp.product_id is null
+                        AND vp.id in %s
+            """
+            self.env.cr.execute(query, (tuple(vendor_products.ids),))
+
     def update_product_supplierinfo(self):
         """Update price"""
+
+        self.search_product()
+
         query = """
         UPDATE product_supplierinfo psi
             SET price = vp.purchase_price,
