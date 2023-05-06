@@ -40,6 +40,19 @@ class VendorProduct(models.Model):
     _sql_constraints = [("code_supplier_uniq", "unique (code,supplier_id)", "The code must be unique per supplier!")]
 
     def search_product(self):
+        # mapare dupa cod de bare
+        query = """
+                     UPDATE vendor_product vp
+                        SET product_id = pp.id
+                          FROM product_product pp
+                            WHERE vp.barcode = pp.barcode
+                                AND vp.product_id is null
+                                and pp.barcode is not null
+                                AND vp.id in %s
+                    """
+        self.env.cr.execute(query, (tuple(self.ids),))
+
+        # mapare dupa cod furnizor
         query = """
         UPDATE vendor_product vp
             SET product_id = pp.id
