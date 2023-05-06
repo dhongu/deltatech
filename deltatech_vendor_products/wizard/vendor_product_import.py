@@ -48,10 +48,13 @@ class VendorProductImport(models.TransientModel):
             decoded_data = base64.b64decode(self.data_file)
             return self.do_import_from_file(decoded_data)
 
+    def get_headers(self):
+        return {}
+
     def do_import_from_url(self):
         if not self.url:
             return
-        response = requests.get(self.url)
+        response = requests.get(self.url, headers=self.get_headers())
         if response.status_code == 200:
             self.filename = self.url.split("/")[-1]
             return self.do_import_from_file(response.content)

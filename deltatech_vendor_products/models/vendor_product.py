@@ -40,6 +40,19 @@ class VendorProduct(models.Model):
     _sql_constraints = [("code_supplier_uniq", "unique (code,supplier_id)", "The code must be unique per supplier!")]
 
     def search_product(self):
+        # mapare dupa cod de bare
+        query = """
+                     UPDATE vendor_product vp
+                        SET product_id = pp.id
+                          FROM product_product pp
+                            WHERE vp.barcode = pp.barcode
+                                AND vp.product_id is null
+                                and pp.barcode is not null
+                                AND vp.id in %s
+                    """
+        self.env.cr.execute(query, (tuple(self.ids),))
+
+        # mapare dupa cod furnizor
         query = """
         UPDATE vendor_product vp
             SET product_id = pp.id
@@ -62,8 +75,25 @@ class VendorProduct(models.Model):
         """
         self.env.cr.execute(query, (tuple(self.ids),))
 
+        # codul de la furnizor este si codul intern
+        domain = [("id", "in", self.ids), ("product_id", "=", False), ("vendor_info_id.type_code", "=", "code")]
+        vendor_products = self.env["vendor.product"].search(domain)
+        if vendor_products:
+            query = """
+             UPDATE vendor_product vp
+                SET product_id = pp.id
+                  FROM product_product pp
+                    WHERE vp.code = pp.default_code
+                        AND vp.product_id is null
+                        AND vp.id in %s
+            """
+            self.env.cr.execute(query, (tuple(vendor_products.ids),))
+
     def update_product_supplierinfo(self):
         """Update price"""
+
+        self.search_product()
+
         query = """
         UPDATE product_supplierinfo psi
             SET price = vp.purchase_price,

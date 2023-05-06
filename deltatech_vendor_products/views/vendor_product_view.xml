@@ -7,7 +7,8 @@
         <field name="arch" type="xml">
             <tree string="Vendor Product Catalog" multi_edit="1" sample="1">
                 <header>
-                    <button name="create_product" string="Create Product" type="object" />
+                    <button name="search_product" string="Mapping" type="object" />
+                    <button name="create_product" string="Generate Product" type="object" />
                     <button name="update_product_supplierinfo" string="Update Price" type="object" />
                 </header>
                 <field name="code" />
@@ -70,6 +71,13 @@
                 <field name="code" />
                 <field name="name" />
                 <field name="supplier_id" />
+                <separator />
+                <filter string="With Product" name="with_product" domain="[('product_id','!=',False)]" />
+                <filter string="Without Product" name="without_product" domain="[('product_id','=',False)]" />
+
+                <group string="Group By">
+                    <filter string="Supplier" name="group_supplier_id" context="{'group_by':'supplier_id'}" />
+                </group>
             </search>
         </field>
     </record>
