@@ -17,7 +17,7 @@
     >
         <xpath expr="//td[hasclass('td-product_name')]/div/strong" position="after">
             <xpath expr="//div" position="after">
-            <t t-if="line.product_id.free_qty  &gt;   line.product_uom_qty">
+            <t t-if="line.product_id.qty_available  &gt;=   line.product_uom_qty">
 
                 <span class="badge badge-success">Immediate delivery</span>
             </t>
