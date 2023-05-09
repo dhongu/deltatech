@@ -102,7 +102,7 @@ class ImportPurchaseLine(models.TransientModel):
                 {
                     "order_id": self.purchase_id.id,
                     "product_id": product_id.id,
-                    "name": product_name,
+                    "name": product_name or product_id.display_name,
                     "product_qty": quantity,
                     "price_unit": price,
                     "product_uom": product_uom.id,
