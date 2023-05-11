@@ -12,7 +12,9 @@
 
             <xpath expr="//p[@t-field='product.description_sale']" position="before">
                 <t t-foreach="product.alternative_ids" t-as="alternative">
-                    <span itemprop="alternateName" style="display:none;" t-field="alternative.name" />
+                    <t t-if="not alternative.hide">
+                        <span itemprop="alternateName" style="display:none;" t-field="alternative.name" />
+                    </t>
                 </t>
                 <t t-if="website.user_id != user_id">
                     <t t-if="product.alternative_code">

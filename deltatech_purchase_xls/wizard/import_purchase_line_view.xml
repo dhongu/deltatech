@@ -4,7 +4,7 @@
         <field name="name">Import Purchase Line</field>
         <field name="model">import.purchase.line</field>
         <field name="arch" type="xml">
-            <form string="Import Stock Balance">
+            <form string="Import Purchase Lines">
                 <div>
                     The Excel file must contain the following columns:
                         product_code, product_name, quantity, price, uom_name
