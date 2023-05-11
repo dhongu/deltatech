@@ -20,6 +20,12 @@ class ProductProduct(models.Model):
         prod_id = super(ProductProduct, self).create(vals)
         if prod_id.type == "product":
             self.env["stock.warehouse.orderpoint"].create(
-                {"product_id": prod_id.id, "product_min_qty": 0, "product_max_qty": 0, "qty_multiple": 0}
+                {
+                    "product_id": prod_id.id,
+                    "product_min_qty": 0,
+                    "product_max_qty": 0,
+                    "qty_multiple": 0,
+                    # 'supplier_id': False
+                }
             )
         return prod_id
