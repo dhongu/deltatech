@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Hidden",
     "depends": ["sale", "sales_team", "sms"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "data/sms_data.xml",
         "views/res_config_settings_views.xml",

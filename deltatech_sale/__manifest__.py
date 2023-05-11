@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Sales",
     "depends": ["sale", "sale_margin"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "report/deltatech_sale_report.xml",
         "security/ir.model.access.csv",

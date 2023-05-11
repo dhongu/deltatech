@@ -10,7 +10,7 @@
     "category": "Sales/Sales",
     "depends": ["product"],
     "data": ["views/product_view.xml"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "development_status": "Mature",
     "maintainers": ["dhongu"],
     "images": ["static/description/main_screenshot.png"],

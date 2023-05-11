@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
     "depends": ["account", "deltatech_merge"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "security/ir.model.access.csv",
         "data/ir_config_param.xml",

@@ -14,7 +14,7 @@
     # for the full list
     "category": "Sales",
     "depends": ["product", "stock", "sale", "purchase"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "views/product_view.xml",
         "views/sale_order_view.xml",

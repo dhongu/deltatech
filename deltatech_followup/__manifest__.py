@@ -20,7 +20,7 @@
         "data/security.xml",
         "security/ir.model.access.csv",
     ],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Alpha",
 }

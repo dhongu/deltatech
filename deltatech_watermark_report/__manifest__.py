@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Tools",
     "depends": ["deltatech_watermark"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": ["views/report_templates.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,

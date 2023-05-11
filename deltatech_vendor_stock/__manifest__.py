@@ -15,7 +15,7 @@
         "sale_stock",
         # "deltatech_stock_inventory"
     ],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": ["views/product_supplierinfo_view.xml", "views/sale_view.xml"],
     "qweb": ["static/src/xml/qty.xml"],
     "images": ["static/description/main_screenshot.png"],

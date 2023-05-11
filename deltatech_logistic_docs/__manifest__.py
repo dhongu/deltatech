@@ -7,7 +7,7 @@
     "version": "15.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "category": "Generic Modules",
     "depends": ["purchase_stock", "sale_stock"],
     "data": [

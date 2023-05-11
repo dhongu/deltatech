@@ -1,5 +1,5 @@
 # copyright 2016 Camptocamp
-# license lgpl-3.0 or later (http://www.gnu.org/licenses/lgpl.html)
+# license OPL-1.0 or later (http://www.gnu.org/licenses/lgpl.html)
 
 import json
 from datetime import date, datetime

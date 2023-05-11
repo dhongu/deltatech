@@ -9,7 +9,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",
     "depends": ["mrp_account"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "views/mrp_view.xml",
         "views/mrp_production_templates.xml",

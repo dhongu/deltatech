@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Purchase",
     "depends": ["purchase_stock"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": ["wizard/product_replenish_views.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,

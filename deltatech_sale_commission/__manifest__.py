@@ -9,7 +9,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["deltatech_sale_margin"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "security/ir.model.access.csv",
         "security/security.xml",

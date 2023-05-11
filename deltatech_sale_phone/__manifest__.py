@@ -11,7 +11,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["sale", "account"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": ["views/sale_order_view.xml", "views/account_move_view.xml"],
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],

@@ -9,7 +9,7 @@
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "depends": ["sale_stock"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": ["views/sale_view.xml"],
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],
