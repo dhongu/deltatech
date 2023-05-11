@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Sales",
     "depends": ["stock_account"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "security/security.xml",
     ],

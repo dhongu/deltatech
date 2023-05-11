@@ -8,7 +8,7 @@
     "author": "Vauxoo, Terrabit, Dorin Hongu",
     "category": "Generic Modules",
     "website": "https://www.terrabit.ro",
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "depends": ["product", "deltatech_merge"],
     "data": ["security/res_groups.xml", "wizard/product_merge_view.xml", "security/ir.model.access.csv"],
     "images": ["static/description/main_screenshot.png"],

@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Tools",
     "depends": ["base"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": ["security/ir.model.access.csv", "data/ir_config_parameter.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",

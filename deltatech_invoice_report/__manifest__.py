@@ -5,7 +5,7 @@
     "summary": "Invoice Report",
     "version": "15.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
     "depends": ["account", "product"],

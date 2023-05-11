@@ -10,7 +10,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["account", "product", "deltatech_partner_generic", "deltatech_payment_to_statement"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "views/deltatech_expenses_deduction_view.xml",
         "views/deltatech_expenses_deduction_report.xml",

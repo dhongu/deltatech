@@ -10,7 +10,7 @@
     "summary": "Payment Report",
     "category": "Generic Modules",
     "depends": ["account"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "wizard/payment_report_view.xml",
         "security/ir.model.access.csv",

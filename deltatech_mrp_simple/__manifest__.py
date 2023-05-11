@@ -8,7 +8,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",
     "depends": ["stock", "sale"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "security/groups.xml",
         "security/ir.model.access.csv",

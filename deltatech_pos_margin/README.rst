@@ -10,14 +10,11 @@ Deltatech POS Margin
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
-    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
-    :alt: License: LGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/15.0/deltatech_pos_margin
     :alt: dhongu/deltatech
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| 
 
 This gives the profitability by calculating the difference between the Unit Price and Cost Price.
 

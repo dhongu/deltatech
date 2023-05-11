@@ -8,7 +8,7 @@
     "version": "15.0.0.0.1",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "depends": ["stock"],
     "data": ["data/ir_server_action.xml"],
     "development_status": "Beta",

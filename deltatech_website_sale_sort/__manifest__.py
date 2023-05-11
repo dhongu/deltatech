@@ -6,7 +6,7 @@
     "category": "Website",
     "summary": "Additional sorting criteria ",
     "version": "15.0.1.0.1",
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale"],

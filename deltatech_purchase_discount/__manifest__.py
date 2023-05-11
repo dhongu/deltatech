@@ -12,7 +12,7 @@
     "data": [
         "views/purchase.xml",
     ],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "development_status": "Beta",
     "maintainers": ["danila12"],
     "images": ["static/description/main_screenshot.png"],

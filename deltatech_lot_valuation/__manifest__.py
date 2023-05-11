@@ -9,7 +9,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Inventory/Inventory",
     "depends": ["stock_account"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "views/stock_production_lot.xml",
         "views/stock_quant_view.xml",

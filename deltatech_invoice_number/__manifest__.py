@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
     "depends": ["account"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "security/sale_security.xml",
         # "views/account_invoice_view.xml",

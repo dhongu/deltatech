@@ -14,7 +14,7 @@
     "category": "Administration",
     "depends": ["web", "base"],
     "data": ["security/ir.model.access.csv", "wizard/export_attachment_view.xml"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "application": False,
