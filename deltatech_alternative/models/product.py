@@ -46,7 +46,7 @@ class ProductTemplate(models.Model):
         res_alt = []
         get_param = self.env["ir.config_parameter"].sudo().get_param
         alternative_search = safe_eval(get_param("alternative.search_name", "False"))
-        catalog_search = safe_eval(get_param("alternative.search_catalog", "False"))
+        # catalog_search = safe_eval(get_param("alternative.search_catalog", "False"))
         alternative_limit = safe_eval(get_param("alternative.alternative_limit", "10")) or limit
 
         if alternative_search and name and len(name) > 3:
@@ -60,10 +60,10 @@ class ProductTemplate(models.Model):
         self = self.with_context(no_catalog=True)
         res = super(ProductTemplate, self).name_search(name, args, operator=operator, limit=limit) + res_alt
 
-        if not res and catalog_search and name and len(name) > 3:
-            prod = self.env["product.catalog"].search_in_catalog(name)
-            if prod:
-                res = prod.product_tmpl_id.name_get()
+        # if not res and catalog_search and name and len(name) > 3:
+        #     prod = self.env["product.catalog"].search_in_catalog(name)
+        #     if prod:
+        #         res = prod.product_tmpl_id.name_get()
 
         return res
 
@@ -81,7 +81,7 @@ class ProductProduct(models.Model):
 
         get_param = self.env["ir.config_parameter"].sudo().get_param
         alternative_search = safe_eval(get_param("alternative.search_name", "False"))
-        catalog_search = safe_eval(get_param("alternative.search_catalog", "False"))
+        # catalog_search = safe_eval(get_param("alternative.search_catalog", "False"))
         alternative_limit = safe_eval(get_param("alternative.alternative_limit", "10")) or limit
         length_min = safe_eval(get_param("alternative.length_min", "3"))
 
@@ -96,10 +96,10 @@ class ProductProduct(models.Model):
         self = self.with_context(no_catalog=True)
         res = super(ProductProduct, self).name_search(name, args, operator=operator, limit=limit) + res_alt
 
-        if not res and catalog_search and name and len(name) > 3:
-            prod = self.env["product.catalog"].search_in_catalog(name)
-            if prod:
-                res = prod.name_get()
+        # if not res and catalog_search and name and len(name) > 3:
+        #     prod = self.env["product.catalog"].search_in_catalog(name)
+        #     if prod:
+        #         res = prod.name_get()
 
         return res
 
