@@ -15,7 +15,10 @@
     # for the full list
     "category": "Website",
     "depends": ["website", "website_sale", "deltatech_alternative"],
-    "data": ["views/product_view.xml", "views/templates.xml"],
+    "data": [
+        # "views/product_catalog_view.xml",
+        "views/templates.xml"
+    ],
     "images": ["images/main_screenshot.png"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
