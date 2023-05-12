@@ -76,7 +76,7 @@
                 <field name="categ_id" invisible="1" />
                 <field name="product_id" />
                 <field name="user_id" />
-                <field name="partner_id" invisible="1" />
+                <field name="partner_id" optional="hide" />
                 <field name="commercial_partner_id" />
                 <field name="invoice_id" />
                 <field name="product_uom_qty" sum="Qty" />
@@ -94,9 +94,10 @@
                 <field name="director_user_id" optional="hide" />
                 <field name="commission_director_computed" optional="hide" />
                 <field name="company_id" invisible="1" groups="base.group_multi_company" />
-                <field name="move_type" invisible="1" />
+                <field name="move_type" optional="hide" />
                 <field name="state" invisible="1" />
                 <field name="currency_id" optional="hide" />
+                <field name="journal_id" optional="hide" />
             </tree>
         </field>
     </record>
@@ -188,7 +189,7 @@
                         context="{'group_by':'company_id'}"
                     />
                     <filter string="Date" name='group_by_date' context="{'group_by':'date:month'}" />
-
+                    <filter string="Journal" name='group_by_journal' context="{'group_by':'journal_id'}" />
                 </group>
             </search>
         </field>
