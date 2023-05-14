@@ -1,0 +1,12 @@
+.s_attribute_filter {
+    .s_attribute_filter_content {
+        overflow: hidden;
+        p {
+            margin-bottom: 0;
+        }
+    }
+    .s_attribute_filter_icon {
+        float: left;
+        margin-right: $grid-gutter-width/2;
+    }
+}

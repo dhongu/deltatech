@@ -5,7 +5,7 @@
     "name": "eCommerce Category Snippet",
     "category": "Website",
     "summary": "eCommerce extension Category Snipped",
-    "version": "15.0.1.0.0",
+    "version": "15.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
@@ -17,7 +17,7 @@
     "development_status": "Alpha",
     "maintainers": ["dhongu"],
     "assets": {
-        "website.assets_frontend": [
+        "web.assets_frontend": [
             "deltatech_website_category_snippet/static/src/js/website_category_card.js",
             "deltatech_website_category_snippet/static/src/scss/s_category_card.scss",
         ],
