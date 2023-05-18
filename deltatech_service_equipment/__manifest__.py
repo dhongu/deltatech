@@ -18,7 +18,7 @@
         "deltatech_download",
     ],
     "external_dependencies": {"python": ["xlwt"]},
-    "license": "OPL-1",
+    "license": "AGPL-3",
     "data": [
         "data/data.xml",
         "views/service_agreement_view.xml",

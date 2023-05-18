@@ -9,7 +9,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Services/Agreement",
     "depends": ["deltatech_service_agreement"],
-    "license": "OPL-1",
+    "license": "AGPL-3",
     "data": [],
     "images": ["static/description/main_screenshot.png"],
     "application": False,

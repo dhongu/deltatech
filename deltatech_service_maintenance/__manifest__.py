@@ -16,7 +16,7 @@
         "stock",
         # "deltatech_procurement",
     ],
-    "license": "OPL-1",
+    "license": "AGPL-3",
     "data": [
         "security/service_security.xml",
         "data/data.xml",
