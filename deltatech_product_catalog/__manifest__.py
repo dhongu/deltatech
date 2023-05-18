@@ -15,7 +15,7 @@
     "depends": ["product", "deltatech_alternative", "website_sale"],
     "data": ["report/product_catalog_report.xml", "report/product_catalog_template.xml"],
     "images": ["static/description/main_screenshot.png"],
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["dhongu"],

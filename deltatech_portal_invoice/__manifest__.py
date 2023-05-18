@@ -11,7 +11,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Portal",
     "depends": ["account", "portal"],
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "data": ["views/portal_templates.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",

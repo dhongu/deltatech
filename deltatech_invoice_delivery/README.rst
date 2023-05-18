@@ -10,14 +10,11 @@ Deltatech Invoice Delivery
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
-    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
-    :alt: License: AGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/15.0/deltatech_invoice_delivery
     :alt: dhongu/deltatech
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| 
 
 Features:
  - Generation of a sale order and delivery automatically when validating an sale invoice

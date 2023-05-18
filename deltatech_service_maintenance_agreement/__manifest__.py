@@ -14,7 +14,7 @@
         "deltatech_service_equipment",
         "deltatech_service_agreement",
     ],
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "data": [
         "views/service_notification_view.xml",
         "views/service_order_view.xml",

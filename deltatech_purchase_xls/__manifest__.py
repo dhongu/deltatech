@@ -7,7 +7,7 @@
     "summary": "Import/export purchase line from/to Excel",
     "author": "Terrabit, Dorin Hongu",
     "version": "15.0.1.0.5",
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Purchase",
     "depends": ["purchase_stock", "report_xlsx"],
