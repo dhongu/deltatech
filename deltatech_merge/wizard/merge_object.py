@@ -11,7 +11,7 @@ import psycopg2
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import mute_logger
+from odoo.tools import mute_logger, is_html_empty
 
 _logger = logging.getLogger("merge.object")
 
@@ -270,6 +270,12 @@ class MergeObject(models.TransientModel):
                 return item.id
             else:
                 return item
+            
+        def has_value(field, item, column):
+            if field.type == "html":
+                return not is_html_empty(item[column])
+            else:
+                return item[column]
 
         # get all fields that are not computed or x2many
         values = dict()
@@ -277,7 +283,7 @@ class MergeObject(models.TransientModel):
             field = dst_object._fields[column]
             if field.type not in ("many2many", "one2many") and field.compute is None:
                 for item in itertools.chain(src_objects, [dst_object]):
-                    if item[column]:
+                    if has_value(field, item, column):
                         if column in summable_fields and values.get(column):
                             values[column] += write_serializer(item[column])
                         else:
