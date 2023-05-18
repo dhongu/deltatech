@@ -2,16 +2,12 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-
 {
     "name": "Products Alternative",
-    "version": "15.0.1.0.8",
+    "version": "15.0.2.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Alternative product codes",
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/12.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
     "category": "Sales",
     "depends": ["product", "stock", "sale", "purchase"],
     "license": "OPL-1",
