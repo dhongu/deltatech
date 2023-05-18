@@ -19,7 +19,6 @@ class MonthlyStockReport(models.TransientModel):
         "stock.location", domain="[('usage','=','internal'),('company_id','=',company_id)]", required=True
     )
 
-    # date_range_id = fields.Many2one("date.range", string="Date range", required=True)  #
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
     date_to = fields.Date("End Date", required=True, default=fields.Date.today)
 

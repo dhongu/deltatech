@@ -11,7 +11,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Stock",
     "depends": ["product", "account", "sale"],
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "data": ["views/product_view.xml"],
     "images": ["images/main_screenshot.png"],
     "development_status": "Production/Stable",

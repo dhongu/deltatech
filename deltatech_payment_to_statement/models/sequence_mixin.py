@@ -1,6 +1,6 @@
 # Copyright (C) 2015-2023 Deltatech
 # Copyright (C) 2022 NextERP Romania
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License OPL-1.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import models
 from odoo.tools.safe_eval import safe_eval

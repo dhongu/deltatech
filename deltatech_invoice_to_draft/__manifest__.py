@@ -8,7 +8,7 @@
     "summary": "Restricted access to reset account move to draft",
     "version": "15.0.2.0.1",
     "author": "Terrabit, Dorin Hongu",
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
     "depends": ["account"],
