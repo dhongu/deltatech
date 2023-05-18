@@ -15,7 +15,7 @@
         "analytic",
         "maintenance",
         "stock",
-        "deltatech_download",
+        # "deltatech_download",
     ],
     "external_dependencies": {"python": ["xlwt"]},
     "license": "AGPL-3",
