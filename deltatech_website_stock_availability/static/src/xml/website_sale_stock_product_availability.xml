@@ -36,7 +36,7 @@
             <i class="fa fa-calendar" />
             <t t-set="po" t-value="0" />
             <t t-if="free_qty lte 0">
-                <t t-if="purchase_lead_time">
+                <t t-if="availability_vendor and purchase_lead_time">
                     <t t-set="days" t-value="sale_delay+purchase_lead_time" />
                     <span t-if="days gt 7">
                         Delivery in

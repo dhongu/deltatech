@@ -50,4 +50,7 @@ class ProductTemplate(models.Model):
                 days = (product.seller_ids[0].date_start - fields.Date.today()).days
                 combination_info["purchase_lead_time"] += days
 
+            if not availability_vendor:
+                combination_info["allow_out_of_stock_order"] = False
+
         return combination_info
