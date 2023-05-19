@@ -20,7 +20,7 @@ class StockQuant(models.Model):
             )
             if lot_id and quantity < 0:
                 quants = quants.filtered(lambda q: q.lot_id)
-            lot_qty = sum(quants.mapped('quantity'))
+            lot_qty = sum(quants.mapped("quantity"))
             uom_precision_digits = self.env["decimal.precision"].precision_get("Product Unit of Measure")
             result_qty = float_compare(lot_qty + quantity, 0.0, uom_precision_digits)
             if result_qty < 0:
