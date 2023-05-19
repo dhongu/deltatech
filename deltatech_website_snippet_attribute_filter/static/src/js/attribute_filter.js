@@ -99,6 +99,7 @@ odoo.define("deltatech_website_snippet_attribute_filter.attribute_filter", funct
                 option.textContent = attributeValue.name;
                 $select.append(option);
             }
+            $select.select2();
         },
     });
 
