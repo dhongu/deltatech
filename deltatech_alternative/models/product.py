@@ -21,8 +21,12 @@ class ProductTemplate(models.Model):
 
     @api.depends("name", "default_code", "alternative_ids.name", "seller_ids.product_code")
     def _compute_search_index(self):
+        langs = self.env["res.lang"].search([("active", "=", True)])
+        langs = langs.mapped("code")
         for product in self:
-            product.search_index = " ".join([product.name, product.default_code or ""])
+            names = [product.with_context(lang=lang).name for lang in langs]
+            product.search_index = " ".join(names)
+            product.search_index += " %s " % product.default_code
             if product.seller_ids:
                 product.search_index += " ".join([s.product_code or "" for s in product.seller_ids])
             if product.alternative_ids:
