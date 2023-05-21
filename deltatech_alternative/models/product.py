@@ -25,13 +25,21 @@ class ProductTemplate(models.Model):
         langs = langs.mapped("code")
         for product in self:
             names = [product.with_context(lang=lang).name for lang in langs]
-            product.search_index = " ".join(names)
-            product.search_index += " %s " % product.default_code
+            name_terms = list(set(names))
+            search_index = " ".join(name_terms)
+
+            if product.default_code:
+                search_index = product.default_code + " " + search_index
+
+            terms = []
             if product.seller_ids:
-                product.search_index += " ".join([s.product_code or "" for s in product.seller_ids])
+                terms += [s.product_code for s in product.seller_ids if s.product_code]
             if product.alternative_ids:
-                product.search_index += " ".join([a.name or "" for a in product.alternative_ids])
-            product.search_index = product.search_index[:1000]
+                terms += [a.name for a in product.alternative_ids if a.name]
+
+            terms = list(set(terms))
+            search_index += " " + " ".join(terms)
+            product.search_index = search_index[:1000]
 
     def _inverse_alternative_code(self):
         for product in self:

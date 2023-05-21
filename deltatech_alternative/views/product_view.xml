@@ -71,6 +71,10 @@
                                 <field name="hide" />
                             </tree>
                         </field>
+                        <group>
+                            <field name="search_index" />
+                        </group>
+
                     </page>
                 </notebook>
             </field>
