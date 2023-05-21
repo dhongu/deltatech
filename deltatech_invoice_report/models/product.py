@@ -5,7 +5,7 @@
 from odoo import fields, models
 
 
-class ProductInvoiceHistory(models.TransientModel):
+class ProductInvoiceHistory(models.Model):
     _name = "product.invoice.history"
     _description = "product.invoice.history"
 
@@ -20,8 +20,13 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     invoice_count = fields.Integer(compute="_compute_invoice_count")
-    invoice_history = fields.One2many("product.invoice.history", "template_id", compute="_compute_invoice_history")
+    invoice_history = fields.One2many("product.invoice.history", "template_id")
+    last_invoice_history_computed = fields.Datetime(string="Last Computed Invoice History")
     last_sale_date = fields.Date()
+
+    def refresh_invoice_history(self):
+        self._compute_invoice_history()
+        self.last_invoice_history_computed = fields.Datetime.now()
 
     def _compute_invoice_history(self):
         for template in self:
@@ -42,7 +47,6 @@ class ProductTemplate(models.Model):
                 domain=domain, fields=["quantity", "invoice_date"], groupby=["invoice_date:year"]
             )
 
-            invoice_history = self.env["product.invoice.history"]
             history = {}
             for item in groups_out:
                 history[item["invoice_date:year"]] = {
@@ -67,7 +71,7 @@ class ProductTemplate(models.Model):
             template.invoice_history = invoice_history
 
     def _compute_invoice_count(self):
-        products = self.env["product.product"]
+
         for template in self:
             products = template.product_variant_ids
 
