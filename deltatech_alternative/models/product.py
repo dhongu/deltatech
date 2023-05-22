@@ -26,7 +26,8 @@ class ProductTemplate(models.Model):
         for product in self:
             names = [product.with_context(lang=lang).name for lang in langs]
             name_terms = list(set(names))
-            search_index = " ".join(name_terms)
+            good_terms = [term for term in name_terms if term is not False]
+            search_index = " ".join(good_terms)
 
             if product.default_code:
                 search_index = product.default_code + " " + search_index
