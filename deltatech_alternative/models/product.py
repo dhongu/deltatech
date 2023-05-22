@@ -66,7 +66,7 @@ class ProductTemplate(models.Model):
     def _name_search(self, name, args=None, operator="ilike", limit=100, name_get_uid=None):
         args = args or []
         get_param = self.env["ir.config_parameter"].sudo().get_param
-        if name and safe_eval(get_param("deltatech_alternative_website.search_index", False)):
+        if name and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
             domain = [("search_index", operator, name)]
             return self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
         else:
@@ -82,7 +82,7 @@ class ProductProduct(models.Model):
     def _name_search(self, name, args=None, operator="ilike", limit=100, name_get_uid=None):
         args = args or []
         get_param = self.env["ir.config_parameter"].sudo().get_param
-        if name and safe_eval(get_param("deltatech_alternative_website.search_index", False)):
+        if name and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
             domain = [("search_index", operator, name)]
             return self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
         else:
