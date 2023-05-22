@@ -70,7 +70,7 @@ class ProductTemplate(models.Model):
             domain = [("search_index", operator, name)]
             return self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
         else:
-            return super(ProductProduct, self)._name_search(
+            return super(ProductTemplate, self)._name_search(
                 name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid
             )
 
