@@ -11,7 +11,10 @@ class AccountInvoiceReport(models.Model):
     supplier_id = fields.Many2one("res.partner", string="Default Supplier", readonly=True)
 
     def _select(self):
-        return super(AccountInvoiceReport, self)._select() + ", partner.state_id,   supplier.name as supplier_id"
+        return (
+            super(AccountInvoiceReport, self)._select()
+            + ", partner.state_id,   supplier.name as supplier_id, template.id as product_tmpl_id"
+        )
 
     def _from(self):
         return (

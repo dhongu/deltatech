@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
                 <page string="History">
-                    <group>
+<!--                    <group>
                         <label for="last_invoice_history_computed" string="Last Refresh" />
                         <div class="o_row">
                             <field name="last_invoice_history_computed" />
@@ -20,7 +20,7 @@
                                 icon="fa-refresh"
                             />
                         </div>
-                    </group>
+                    </group>-->
                     <group string="Invoice history">
                         <field name="invoice_history" nolabel="1">
                             <tree>
