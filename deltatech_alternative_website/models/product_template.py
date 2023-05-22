@@ -15,7 +15,7 @@ class ProductTemplate(models.Model):
 
         get_param = self.env["ir.config_parameter"].sudo().get_param
 
-        if safe_eval(get_param("deltatech_alternative_website.search_index", False)):
+        if safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
             values["search_fields"] = ["search_index"]
             values["mapping"]["search_index"] = {"name": "search_index", "type": "text", "match": True}
         else:
