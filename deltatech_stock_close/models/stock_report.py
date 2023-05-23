@@ -162,7 +162,7 @@ class StorageSheet(models.TransientModel):
                 insert into l10n_ro_stock_storage_sheet_line
                   (report_id, product_id, amount_in, quantity_in, unit_price_in,
                    account_id, invoice_id, date_time, date, reference,  location_id,
-                   partner_id, document, valued_type )
+                   partner_id, picking_type_id, document, valued_type, invoice_date )
                 select * from(
 
 
@@ -181,8 +181,10 @@ class StorageSheet(models.TransientModel):
                         sm.reference as reference,
                         %(location)s as location_id,
                         sp.partner_id,
+                        sp.picking_type_id,
                         COALESCE(am.name, sm.reference) as document,
-                        COALESCE(svl_in.l10n_ro_valued_type, 'indefinite') as valued_type
+                        COALESCE(svl_in.l10n_ro_valued_type, 'indefinite') as valued_type,
+                        am.invoice_date
 
                     from stock_move as sm
                         inner join stock_valuation_layer as svl_in
@@ -204,8 +206,8 @@ class StorageSheet(models.TransientModel):
                         (sm.location_dest_id in %(locations)s or sm.location_id in %(locations)s) AND
                         svl_in.active = 't'
                     GROUP BY sm.product_id, sm.date,
-                     sm.reference, sp.partner_id, l10n_ro_account_id,
-                     svl_in.l10n_ro_invoice_id, am.name, svl_in.l10n_ro_valued_type)
+                     sm.reference, sp.partner_id, sp.picking_type_id, l10n_ro_account_id,
+                     svl_in.l10n_ro_invoice_id, am.name, am.invoice_date, svl_in.l10n_ro_valued_type)
                 a --where a.amount_in!=0 and a.quantity_in!=0
                     """
                 self.env.cr.execute(query_in, params=params)
@@ -216,7 +218,7 @@ class StorageSheet(models.TransientModel):
                             insert into l10n_ro_stock_storage_sheet_line
                   (report_id, product_id, amount_out, quantity_out, unit_price_out,
                    account_id, invoice_id, date_time, date, reference,  location_id,
-                   partner_id, document, valued_type )
+                   partner_id, picking_type_id, document, valued_type, invoice_date )
 
                 select * from(
 
@@ -235,8 +237,10 @@ class StorageSheet(models.TransientModel):
                         sm.reference as reference,
                         %(location)s as location_id,
                         sp.partner_id,
+                        sp.picking_type_id,
                         COALESCE(am.name, sm.reference) as document,
-                        COALESCE(svl_out.l10n_ro_valued_type, 'indefinite') as valued_type
+                        COALESCE(svl_out.l10n_ro_valued_type, 'indefinite') as valued_type,
+                        am.invoice_date
 
                     from stock_move as sm
 
@@ -259,11 +263,18 @@ class StorageSheet(models.TransientModel):
                         (sm.location_id in %(locations)s or sm.location_dest_id in %(locations)s) AND
                         svl_out.active = 't'
                     GROUP BY sm.product_id, sm.date,
-                             sm.reference, sp.partner_id, account_id,
-                             svl_out.l10n_ro_invoice_id, am.name, svl_out.l10n_ro_valued_type)
+                             sm.reference, sp.partner_id, sp.picking_type_id, account_id,
+                             svl_out.l10n_ro_invoice_id, am.name, am.invoice_date, svl_out.l10n_ro_valued_type)
                 a --where a.amount_out!=0 and a.quantity_out!=0
                     """
                 self.env.cr.execute(query_out, params=params)
                 # res = self.env.cr.dictfetchall()
                 # self.line_product_ids.create(res)
             _logger.info("end select ")
+
+
+class StorageSheetLine(models.TransientModel):
+    _inherit = "l10n.ro.stock.storage.sheet.line"
+
+    picking_type_id = fields.Many2one("stock.picking.type", index=True)
+    invoice_date = fields.Date(index=True)

@@ -11,7 +11,7 @@ import psycopg2
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import mute_logger, is_html_empty
+from odoo.tools import is_html_empty, mute_logger
 
 _logger = logging.getLogger("merge.object")
 
@@ -270,7 +270,7 @@ class MergeObject(models.TransientModel):
                 return item.id
             else:
                 return item
-            
+
         def has_value(field, item, column):
             if field.type == "html":
                 return not is_html_empty(item[column])
