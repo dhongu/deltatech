@@ -9,7 +9,7 @@
     "support": "odoo@terrabit.ro",
     "category": "Sale",
     "depends": ["sale"],
-    "license": "OPL-1",
+    "license": "LGPL-3",
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["danila12"],
