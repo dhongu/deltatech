@@ -23,7 +23,11 @@ class PurchaseOrder(models.Model):
     def _compute_picking_status(self):
         for order in self:
             if not order.picking_ids:
-                order.picking_status = "in_progress"
+                # if order is confirmed and there are no pickings, it should be a services order and it should be done
+                if order.state in ["purchase", "done"]:
+                    order.picking_status = "done"
+                else:
+                    order.picking_status = "in_progress"
             else:
                 state = "done"
                 for picking in order.picking_ids:
