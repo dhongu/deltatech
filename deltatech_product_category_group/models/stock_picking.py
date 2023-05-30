@@ -9,13 +9,18 @@ from odoo import models
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
+    def action_confirm(self):
+        res = super().action_confirm()
+        self.responsible_determination()
+        return res
+
     def action_assign(self):
         res = super().action_assign()
         self.responsible_determination()
         return res
 
     def responsible_determination(self):
-        pickings = self.filtered(lambda x: x.state == "assigned")
+        pickings = self.filtered(lambda x: x.state == "assigned" and x.user_id is False)
         for picking in pickings:
             categ_ids = picking.move_lines.mapped("product_id.categ_id")
             categ_ids |= categ_ids.mapped("parent_id")
