@@ -226,34 +226,35 @@ class ServiceNotification(models.Model):
         self.write({"state": "new", "date_assign": fields.Datetime.now()})
 
     def action_assign(self):
-        if not self.user_id:
-            raise UserError(_("Please select a responsible."))
-        if self.state != "new":
-            raise UserError(_("Notification is already assigned."))
+        for picking in self:
+            if not picking.user_id:
+                raise UserError(_("Please select a responsible."))
+            if picking.state != "new":
+                raise UserError(_("Notification is already assigned."))
 
-        self.write({"state": "assigned", "date_assign": fields.Datetime.now()})
+            picking.write({"state": "assigned", "date_assign": fields.Datetime.now()})
 
-        new_follower_ids = [self.user_id.partner_id.id]
+            new_follower_ids = [picking.user_id.partner_id.id]
 
-        if self.user_id != self.env.user.id:
-            msg = _("Please solve notification for %s: %s") % (self.partner_id.name, self.description or "")
+            if picking.user_id != self.env.user.id:
+                msg = _("Please solve notification for %s: %s") % (picking.partner_id.name, picking.description or "")
 
-            if msg and not self.env.context.get("no_message", False):
-                document = self
-                message = self.env["mail.message"].with_context({"default_starred": True})
-                message.create(
-                    {
-                        "model": "service.notification",
-                        "res_id": document.id,
-                        "record_name": document.name_get()[0][1],
-                        # "email_from": self.env["mail.message"]._get_default_from_address(),
-                        # "reply_to": self.env["mail.message"]._get_default_from_address(),
-                        "subject": self.subject,
-                        "body": msg,
-                        "message_id": self.env["mail.message"]._get_message_id({"no_auto_thread": True}),
-                        "partner_ids": [(4, id) for id in new_follower_ids],
-                    }
-                )
+                if msg and not self.env.context.get("no_message", False):
+                    document = picking
+                    message = self.env["mail.message"].with_context({"default_starred": True})
+                    message.create(
+                        {
+                            "model": "service.notification",
+                            "res_id": document.id,
+                            "record_name": document.name_get()[0][1],
+                            # "email_from": self.env["mail.message"]._get_default_from_address(),
+                            # "reply_to": self.env["mail.message"]._get_default_from_address(),
+                            "subject": picking.subject,
+                            "body": msg,
+                            "message_id": self.env["mail.message"]._get_message_id({"no_auto_thread": True}),
+                            "partner_ids": [(4, id) for id in new_follower_ids],
+                        }
+                    )
 
     def action_taking(self):
         if self.state != "new":

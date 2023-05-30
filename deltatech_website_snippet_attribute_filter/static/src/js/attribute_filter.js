@@ -16,12 +16,9 @@ odoo.define("deltatech_website_snippet_attribute_filter.attribute_filter", funct
             return Promise.all([
                 def,
                 this._rpc({
-                    model: "product.attribute.value",
-                    method: "search_read",
-                    args: [[["attribute_id", "=", this.$target.data("attribute-id")]]],
-                    kwargs: {
-                        fields: ["id", "name", "attribute_id"],
-                        // Order: 'name',
+                    route: "/shop/get_attribute_values",
+                    params: {
+                        attribute_id: this.$target.data("attribute-id"),
                     },
                 })
                     .then(always)
@@ -72,10 +69,9 @@ odoo.define("deltatech_website_snippet_attribute_filter.attribute_filter", funct
             var attributeValueIds = $item.data("attribute-value-ids");
             const always = this._updateView.bind($item);
             this._rpc({
-                model: "product.attribute",
-                method: "get_attribute_values",
-                args: [attributeId],
-                kwargs: {
+                route: "/shop/get_attribute_values",
+                params: {
+                    attribute_id: attributeId,
                     attribute_value_ids: attributeValueIds,
                 },
             })
@@ -84,8 +80,13 @@ odoo.define("deltatech_website_snippet_attribute_filter.attribute_filter", funct
         },
 
         _updateView(data) {
-            this.attributeValues = data;
+            // Scrie in log data
+            console.log(data);
+            if (!data) {
+                return;
+            }
 
+            this.attributeValues = data;
             const $select = this.find("select");
             $select.select2("destroy");
             $select.empty();

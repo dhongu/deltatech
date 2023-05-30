@@ -10,6 +10,7 @@ class ProductAttribute(models.Model):
 
     def get_attribute_values(self, attribute_value_ids=None):
         self.ensure_one()
+
         values = self.env["product.attribute.value"]
         if not attribute_value_ids:
             domain = [("attribute_id", "=", self.id)]
