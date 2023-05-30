@@ -38,11 +38,15 @@ class StockMove(models.Model):
 
         get_param = self.env["ir.config_parameter"].sudo().get_param
         restrict_date = safe_eval(get_param("restrict_stock_move_date_last_months", "False"))
+        restrict_date_future = safe_eval(get_param("restrict_stock_move_date_future", "False"))
         if restrict_date:
             # se verifica daca data este in intervalul permis
             last_day_of_prev_month = date.today().replace(day=1) - timedelta(days=1)
             start_day_of_prev_month = date.today().replace(day=1) - timedelta(days=last_day_of_prev_month.day)
-            end_day_of_current_month = date.today().replace(day=1) + relativedelta(months=1) - relativedelta(days=1)
+            if restrict_date_future:
+                end_day_of_current_month = date.today()
+            else:
+                end_day_of_current_month = date.today().replace(day=1) + relativedelta(months=1) - relativedelta(days=1)
             use_date = self.env.context.get("force_period_date", False)
             if use_date:
                 if start_day_of_prev_month <= use_date.date() <= end_day_of_current_month:
