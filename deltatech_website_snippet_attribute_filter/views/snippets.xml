@@ -18,7 +18,7 @@
                                 <i class="fa fa-2x fa-font-awesome rounded-circle bg-primary s_attribute_filter_icon" />
                                 <div class="s_attribute_filter_content">
                                     <h4>Change Icons</h4>
-                                    <p>
+                                    <p contenteditable="false">
                                         <select class="custom-select css_attribute_select" name="attrib">
                                         </select>
                                     </p>
@@ -42,7 +42,7 @@
                                 <i class="fa fa-2x fa-magic rounded bg-secondary s_attribute_filter_icon" />
                                 <div class="s_attribute_filter_content">
                                     <h4>Great Value</h4>
-                                    <p>
+                                    <p contenteditable="false">
                                         <select class="custom-select css_attribute_select" name="attrib">
                                         </select>
                                     </p>
