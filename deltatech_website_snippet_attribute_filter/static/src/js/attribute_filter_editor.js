@@ -1,11 +1,22 @@
 odoo.define("deltatech_website_snippet_attribute_filter.attribute_filter_editor", function (require) {
     "use strict";
 
+    var Wysiwyg = require("web_editor.wysiwyg");
+
+    Wysiwyg.include({
+        start: function () {
+            const $items = $(".s_attribute_filter_item").find("select");
+            $items.select2("destroy");
+            return this._super(...arguments);
+        },
+    });
+
     const options = require("web_editor.snippets.options");
 
     options.registry.attribute_filter_editor = options.Class.extend({
-        onBuilt() {
-            this._super(...arguments);
+        cleanForSave: function () {
+            const $items = $(".s_attribute_filter_item").find("select");
+            $items.select2("destroy");
         },
 
         async _renderCustomXML(uiFragment) {

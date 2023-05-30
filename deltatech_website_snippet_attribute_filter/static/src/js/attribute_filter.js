@@ -87,6 +87,7 @@ odoo.define("deltatech_website_snippet_attribute_filter.attribute_filter", funct
             this.attributeValues = data;
 
             const $select = this.find("select");
+            $select.select2("destroy");
             $select.empty();
             let option = document.createElement("option");
             option.dataset.selectDataAttribute = 0;
