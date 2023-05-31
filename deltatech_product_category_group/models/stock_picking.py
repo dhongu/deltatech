@@ -20,9 +20,11 @@ class StockPicking(models.Model):
         return res
 
     def responsible_determination(self):
-        pickings = self.filtered(lambda x: x.state == "assigned" and x.user_id is False)
+        pickings = self.filtered(lambda x: x.state == "assigned" and len(x.user_id) == 0)
         for picking in pickings:
             categ_ids = picking.move_lines.mapped("product_id.categ_id")
+            categ_ids |= categ_ids.mapped("parent_id")
+            categ_ids |= categ_ids.mapped("parent_id")
             categ_ids |= categ_ids.mapped("parent_id")
             user_group_ids = categ_ids.mapped("user_group_id")
             users = user_group_ids.mapped("users")
@@ -38,7 +40,7 @@ class StockPicking(models.Model):
                 """
                 self.env.cr.execute(SQL, (tuple(users.ids),))
                 res = self.env.cr.fetchall()
-                user_id = False
+                # user_id = False
                 if res:
                     user_id = res[0][0]
                     user_ids = [x[0] for x in res]
@@ -46,6 +48,8 @@ class StockPicking(models.Model):
                         if user.id not in user_ids:
                             user_id = user.id
                             break
+                else:
+                    user_id = users[0].id
                 if user_id:
                     picking.write({"user_id": user_id})
                     SQL = """
