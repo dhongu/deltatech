@@ -18,7 +18,7 @@ msgstr ""
 #. module: deltatech_invoice_receipt
 #: view:account.invoice:deltatech_invoice_receipt.invoice_supplier_form
 msgid "Are you sure you want to receive products without purchase order?  If these products exist items in a purchase order they will stay open."
-msgstr "Sunteți sigur că doriți recepța produselor fără comanda de achiziție? Dacă pentru aceste produsele există poziții în comenzi de aprovizionare atunci ele vor râmâne deschise."
+msgstr "Sunteți sigur că doriți recepția produselor fără comanda de achiziție? Dacă pentru aceste produsele există poziții în comenzi de aprovizionare atunci ele vor râmâne deschise."
 
 #. module: deltatech_invoice_receipt
 #: view:account.invoice:deltatech_invoice_receipt.invoice_supplier_form

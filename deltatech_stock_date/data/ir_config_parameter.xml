@@ -5,5 +5,9 @@
             <field name="key">restrict_stock_move_date_last_months</field>
             <field name="value">0</field>
         </record>
+        <record model="ir.config_parameter" id="restrict_date_future" forcecreate="False">
+            <field name="key">restrict_stock_move_date_future</field>
+            <field name="value">1</field>
+        </record>
     </data>
 </odoo>
