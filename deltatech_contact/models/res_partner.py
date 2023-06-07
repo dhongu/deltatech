@@ -96,7 +96,7 @@ class Partner(models.Model):
     id_issued_by = fields.Char(string="ID Issued by", size=20)
     id_issued_at = fields.Date(string="ID Issued at")
     mean_transp = fields.Char(string="Mean Transport", size=12)
-    # is_department = fields.Boolean(string="Is Department")  # backport from v14
+    is_department = fields.Boolean(string="Is Department")  # backport from v14
     birthdate = fields.Date(string="Birthdate")
 
     gender = fields.Selection([("male", "Male"), ("female", "Female"), ("other", "Other")])
