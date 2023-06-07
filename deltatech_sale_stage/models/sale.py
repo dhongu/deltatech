@@ -32,7 +32,7 @@ class SaleOrder(models.Model):
         self.set_stage("confirmed")
 
     def action_quotation_sent(self):
-        super(SaleOrder, self).action_confirm()
+        super(SaleOrder, self).action_quotation_sent()
         self.set_stage("send_email")
 
     def set_stage(self, stage_step):
