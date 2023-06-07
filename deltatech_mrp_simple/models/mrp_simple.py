@@ -132,6 +132,8 @@ class MRPSimple(models.Model):
                 "uom_id": self.final_product_uom_id.id,
             }
             product = self.env["product.product"].create(vals)
+            if hasattr(product, "is_published"):
+                product.write({"is_published": False})
             return product.id
         else:
             return False
