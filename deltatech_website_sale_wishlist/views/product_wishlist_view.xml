@@ -10,6 +10,7 @@
                 </header>
                 <field name="partner_id" />
                 <field name="product_id" />
+                <field name="qty_available" />
                 <field name="price" />
             </tree>
         </field>
@@ -20,11 +21,14 @@
         <field name="model">product.wishlist</field>
         <field name="arch" type="xml">
             <form string="Wishlist">
-                <group>
-                    <field name="partner_id" />
-                    <field name="product_id" />
-                    <field name="price" />
-                </group>
+                <sheet>
+                    <group>
+                        <field name="partner_id" />
+                        <field name="product_id" />
+                        <field name="qty_available" />
+                        <field name="price" />
+                    </group>
+                 </sheet>
             </form>
         </field>
     </record>
