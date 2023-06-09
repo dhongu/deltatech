@@ -3,11 +3,13 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import models
+from odoo import fields, models
 
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
+
+    user_group_id = fields.Many2one("res.groups", string="User Group")
 
     def action_confirm(self):
         res = super().action_confirm()
@@ -27,6 +29,7 @@ class StockPicking(models.Model):
             categ_ids |= categ_ids.mapped("parent_id")
             categ_ids |= categ_ids.mapped("parent_id")
             user_group_ids = categ_ids.mapped("user_group_id")
+            user_group_id = user_group_ids and user_group_ids[0] or False
             users = user_group_ids.mapped("users")
             if users:
                 SQL = """
@@ -54,7 +57,7 @@ class StockPicking(models.Model):
                     picking.write({"user_id": user_id})
                     SQL = """
                     update stock_picking
-                        set user_id = %s
+                        set user_id = %s, user_group_id = %s
                         where id = %s
                     """
-                    self.env.cr.execute(SQL, (user_id, picking.id))
+                    self.env.cr.execute(SQL, (user_id, user_group_id.id, picking.id))
