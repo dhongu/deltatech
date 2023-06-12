@@ -257,3 +257,11 @@ msgstr "Linie a Extrasului de cont"
 #: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_account_journal__statement_sequence_id
 msgid "Statement Sequence"
 msgstr "Secvență pentru extras "
+
+#. module: deltatech_payment_to_statement
+#: code:addons/deltatech_payment_to_statement/models/account_payment.py:0
+#, python-format
+msgid ""
+"You cannot delete this entry, as it has already consumed a sequence number"
+msgstr ""
+"Nu se poate șterge această înregistrare deoarece are deja un număr"
