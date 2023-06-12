@@ -11,17 +11,12 @@ class StockPicking(models.Model):
 
     user_group_id = fields.Many2one("res.groups", string="User Group")
 
-    def action_confirm(self):
-        res = super().action_confirm()
-        self.responsible_determination()
-        return res
-
-    def action_assign(self):
-        res = super().action_assign()
-        self.responsible_determination()
-        return res
-
     def responsible_determination(self):
+        """
+        Balances user_id in pickings, depending on the products category's group(s)
+        Can be called from button or from another custom function (e.g. action_assign)
+        :return: nothing
+        """
         pickings = self.filtered(lambda x: x.state == "assigned" and len(x.user_id) == 0)
         for picking in pickings:
             categ_ids = picking.move_lines.mapped("product_id.categ_id")
