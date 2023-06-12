@@ -18,11 +18,11 @@ class AccountMove(models.Model):
                     else:
                         new_number = move.journal_id.journal_sequence_id.next_by_id()
                         super(AccountMove, move).write({"name": new_number})
-        if "payment_id" in vals and vals.get("payment_id"):
-            payment_id = self.env["account.payment"].browse(vals.get("payment_id"))
-            for move in self:
-                if (not move.name or move.name == "/") and payment_id:
-                    payment_id.force_cash_sequence()
+            if "payment_id" in vals and vals.get("payment_id"):
+                payment_id = self.env["account.payment"].browse(vals.get("payment_id"))
+                for move in self:
+                    if (not move.name or move.name == "/" or move.name == _("New")) and payment_id:
+                        payment_id.force_cash_sequence()
         return super(AccountMove, self).write(vals)
 
     @api.depends("posted_before", "state", "journal_id", "date")
