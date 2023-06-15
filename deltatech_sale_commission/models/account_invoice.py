@@ -71,6 +71,7 @@ class AccountInvoiceLine(models.Model):
         pickings = self.env["stock.picking"]
         for sale_line in self.sale_line_ids:
             pickings |= sale_line.order_id.picking_ids
+        pickings = pickings.filtered(lambda p: p.state == "done")
 
         domain = [("picking_id", "in", pickings.ids), ("sale_line_id", "in", self.sale_line_ids.ids)]
         moves = self.env["stock.move"].search(domain)
