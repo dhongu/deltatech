@@ -99,7 +99,7 @@
             <field name="name">Picking Report</field>
             <field name="res_model">stock.picking.report</field>
 
-            <field name="view_mode">pivot,tree</field>
+            <field name="view_mode">pivot,graph,tree</field>
             <field name="view_id" ref="view_stock_picking_report_tree" />
             <!--            <field name="search_view_id" ref="view_stock_picking_report_filter"/>-->
             <field name="help">This reporting allows you to analysis stock pickings.</field>
