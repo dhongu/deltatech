@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="11" />
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='companies_setting_container']" position="inside">
+
+                <div class="col-12 col-lg-6 o_setting_box" id="is_productive_system">
+                    <div class="o_setting_left_pane">
+                        <field name="is_productive_system" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="is_productive_system" />
+                        <div class="text-muted">
+                            It is a productive system
+                        </div>
+                         <field name="database_uuid" invisible="1" />
+                         <field name="database_uuid_productive" invisible="1" />
+                    </div>
+
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
