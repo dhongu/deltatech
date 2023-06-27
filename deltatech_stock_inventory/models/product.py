@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class ProductWarehouseLocation(models.Model):
@@ -32,6 +32,7 @@ class ProductTemplate(models.Model):
 
     warehouse_loc_ids = fields.One2many("product.warehouse.location", "product_id")
 
+    @api.depends_context("warehouse", "location")
     def _compute_loc(self):
         warehouse_id = self.env.context.get("warehouse", False)
         location_id = self.env.context.get("location", False)
