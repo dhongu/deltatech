@@ -41,7 +41,7 @@ class ServiceEquipment(models.Model):
 
     agreement_id = fields.Many2one("service.agreement", string="Contract Service")
     agreement_type_id = fields.Many2one(
-        "service.agreement.type", string="Agreement Type", related="agreement_id.type_id"
+        "service.agreement.type", string="Agreement Type", related="agreement_id.type_id", store=True
     )
     agreement_state = fields.Selection(string="Status contract", store=True, related="agreement_id.state")
 
