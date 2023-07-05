@@ -244,6 +244,23 @@ class MRPSimple(models.Model):
                     price_unit=line.product_id.standard_price,
                 )
 
+    def add_multiple_lines(self):
+        self.ensure_one()
+        view = self.env.ref("deltatech_mrp_simple.multi_add_view_form")
+        wiz = self.env["add.multi.mrp.lines"].create({"simple_mrp_id": self.id})
+        return {
+            "name": _("Add lines"),
+            "type": "ir.actions.act_window",
+            "view_type": "form",
+            "view_mode": "form",
+            "res_model": "add.multi.mrp.lines",
+            "views": [(view.id, "form")],
+            "view_id": view.id,
+            "target": "new",
+            "res_id": wiz.id,
+            "context": self.env.context,
+        }
+
 
 class MRPSimpleLineIn(models.Model):
     _name = "mrp.simple.line.in"

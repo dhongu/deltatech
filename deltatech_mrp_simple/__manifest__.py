@@ -15,6 +15,7 @@
         "data/ir_config_parameter.xml",
         "views/mrp_simple_view.xml",
         "views/sale_order.xml",
+        "wizard/add_multi_lines.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
