@@ -44,11 +44,17 @@
                         weeks
                     </span>
                     <span t-else="">
-                        Delivery in
-                        <t t-esc="sale_delay+purchase_lead_time" />
-                        -
-                        <t t-esc="sale_delay+sale_delay_safety+purchase_lead_time" />
-                        days
+                        <t t-if="purchase_lead_time lt 1 and purchase_lead_time gt 0">
+                            <t t-set="purchase_lead_time" t-value="0" />
+                            <span>Immediate delivery</span>
+                        </t>
+                        <t t-else="">
+                            Delivery in
+                            <t t-esc="sale_delay+purchase_lead_time" />
+                            -
+                            <t t-esc="sale_delay+sale_delay_safety+purchase_lead_time" />
+                            days
+                        </t>
                     </span>
                 </t>
                 <t t-else="">
