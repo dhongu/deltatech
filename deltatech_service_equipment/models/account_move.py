@@ -21,6 +21,7 @@ class AccountInvoice(models.Model):
                     equipments |= line.agreement_line_id.equipment_id
                 if equipments:
                     equipments.compute_revenues()
+                    equipments.compute_total_percent()
         return res
 
     def get_counter_lines(self):
