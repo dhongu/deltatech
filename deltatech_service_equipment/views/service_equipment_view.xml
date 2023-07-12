@@ -23,6 +23,7 @@
                 <field name="activity_ids" widget="list_activity" optional="show" />
                 <field name="total_revenues" sum="total" />
                 <field name="total_costs" sum="total" />
+                <field name="total_percent" />
                 <field name="analytic_account_id" optional="hide" />
                 <field name="message_unread" invisible="1" />
                 <field

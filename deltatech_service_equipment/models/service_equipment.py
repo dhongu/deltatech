@@ -82,6 +82,8 @@ class ServiceEquipment(models.Model):
     total_revenues = fields.Float(string="Total Revenues", readonly=True)
     # se va calcula din suma avizelor
     total_costs = fields.Float(string="Total cost", readonly=True)
+    # se va calcula (costs/revenues)*100
+    total_percent = fields.Float(string="Total percent equipment", readonly=True)
 
     note = fields.Text(string="Notes")
     start_date = fields.Date(string="Start Date")
@@ -196,6 +198,7 @@ class ServiceEquipment(models.Model):
             for row in res:
                 equipment = self.env["service.equipment"].browse(row[0])
                 equipment.write({"total_revenues": round(row[1], 2)})
+                equipment.compute_total_percent()
 
     def compute_costs(self):
         """
@@ -227,6 +230,7 @@ class ServiceEquipment(models.Model):
             for row in res:
                 equipment = self.env["service.equipment"].browse(row[0])
                 equipment.write({"total_costs": round(row[1], 2)})
+                equipment.compute_total_percent()
 
     def costs_and_revenues(self):
         self.compute_totals()
@@ -375,6 +379,15 @@ class ServiceEquipment(models.Model):
                 name += "/" + equipment.emplacement
             res.append((equipment.id, name))
         return res
+
+    def compute_total_percent(self):
+        for equipment in self:
+            if equipment.total_revenues:
+                equipment.write(
+                    {"total_percent": round(((-1 * equipment.total_costs) / equipment.total_revenues) * 100, 2)}
+                )
+            else:
+                equipment.write({"total_percent": 0.0})
 
 
 # se va utiliza maintenance.equipment.category
