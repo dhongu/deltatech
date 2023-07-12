@@ -28,6 +28,8 @@ class StockPicking(models.Model):
                     value += svl.value
                 cons_value = picking.agreement_id.total_costs + value
                 picking.agreement_id.sudo().write({"total_costs": cons_value})
+            if picking.equipment_id:
+                picking.equipment_id.compute_totals()
         return res
 
     def check_consumable(self):
