@@ -5,15 +5,7 @@
         <field name="model">service.agreement</field>
         <field name="inherit_id" ref="deltatech_service.view_service_agreement_form" />
         <field name="arch" type="xml">
-            <div name="button_box" position="inside">
-                <button class="oe_stat_button" id="totals_button" icon="fa-percent" name="totals_button">
-                    <div class="o_form_field o_stat_info">
-                        <span class="o_stat_value">
-                            <field string="Total percent" name="total_percent" />
-                        </span>
-                        <span class="o_stat_text">Total percent</span>
-                    </div>
-                </button>
+            <button name="show_invoices" position="before">
                 <button
                     type="object"
                     class="oe_stat_button"
@@ -33,7 +25,17 @@
                         <span class="o_stat_text">Costs</span>
                     </div>
                 </button>
-            </div>
+            </button>
+            <button name="show_invoices" position="after">
+                <button class="oe_stat_button" id="totals_button" icon="fa-percent" name="totals_button">
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                            <field string="Total percent" name="total_percent" />
+                        </span>
+                        <span class="o_stat_text">Total percent</span>
+                    </div>
+                </button>
+            </button>
         </field>
     </record>
 

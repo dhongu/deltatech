@@ -1517,3 +1517,18 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_tree
 msgid "total"
 msgstr ""
+
+#. module: deltatech_service_equipment
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
+msgid "<span class=\"o_stat_text\">Total percent</span>"
+msgstr "<span class=\"o_stat_text\">Procent costuri din venit</span>"
+
+#. module: deltatech_service_equipment
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
+msgid "Total percent"
+msgstr "Procent costuri din venit"
+
+#. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__total_percent
+msgid "Total percent equipment"
+msgstr "Procent costuri din venit"

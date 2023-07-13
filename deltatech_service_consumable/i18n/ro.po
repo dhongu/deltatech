@@ -295,3 +295,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__usage
 msgid "Usage"
 msgstr "Utilizare"
+
+#. module: deltatech_service_consumable
+#: model_terms:ir.ui.view,arch_db:deltatech_service_consumable.view_service_agreement_form
+msgid "<span class=\"o_stat_text\">Total percent</span>"
+msgstr "<span class=\"o_stat_text\">Procent costuri din facturat</span>"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_agreement__total_percent
+#: model_terms:ir.ui.view,arch_db:deltatech_service_consumable.view_service_agreement_form
+msgid "Total percent"
+msgstr "Procent costuri din facturat"
