@@ -51,3 +51,4 @@ class PickingServiceLine(models.Model):
     def _onchange_product_id(self):
         for line in self:
             line.product_uom = line.product_id.uom_id
+            line.description_picking = line.product_id.name
