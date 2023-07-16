@@ -6,6 +6,7 @@ from odoo import api, fields, models
 
 class AddMultiMrpLines(models.TransientModel):
     _name = "add.multi.mrp.lines"
+    _description = "Add multiple lines to mrp"
 
     simple_mrp_id = fields.Many2one("mrp.simple")
     qty = fields.Float(digits="Product Unit of Measure", default=1)
@@ -38,6 +39,7 @@ class AddMultiMrpLines(models.TransientModel):
 
 class AddMultiSaleLinesProduct(models.TransientModel):
     _name = "add.multi.mrp.lines.product"
+    _description = "Add multiple lines to mrp"
 
     multi_id = fields.Many2one("add.multi.mrp.lines")
     product_ids = fields.Many2many("product.product", string="Product")
