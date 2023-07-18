@@ -108,6 +108,7 @@ class ServiceEquipment(models.Model):
     product_id = fields.Many2one(
         "product.product", string="Product", ondelete="restrict", domain=[("type", "=", "product")]
     )
+    product_category_id = fields.Many2one("product.category", related="product_id.categ_id", store=True)
     serial_id = fields.Many2one("stock.production.lot", string="Serial Number", ondelete="restrict", copy=False)
     # quant_id = fields.Many2one('stock.quant', string='Quant', copy=False)  #  ondelete="restrict",
     location_id = fields.Many2one(
