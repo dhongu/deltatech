@@ -209,6 +209,7 @@
                         </group>
                         <group string="Stock">
                             <field name="product_id" />
+                            <field name="product_category_id" readonly="1" />
                             <field
                                 name="serial_id"
                                 domain="[('product_id','=',product_id)]"
@@ -325,6 +326,7 @@
                 <field name="serial_id" />
                 <field name="ean_code" />
                 <field name="product_id" />
+                <field name="product_category_id" />
                 <separator />
                 <filter name="last_reading" date="last_reading" default_period="this_month" />
                 <separator />
@@ -333,6 +335,11 @@
                     <filter string="Location" name="location" context="{'group_by':'location_id'}" />
                     <filter string="Region" name="state_id" context="{'group_by':'location_state_id'}" />
                     <filter string="Status agreement" name="agreement_state" context="{'group_by':'agreement_state'}" />
+                    <filter
+                        string="Product category"
+                        name="product_category"
+                        context="{'group_by':'product_category_id'}"
+                    />
                 </group>
             </search>
         </field>
