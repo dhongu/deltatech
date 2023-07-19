@@ -72,36 +72,36 @@ class ProductTemplate(models.Model):
             else:
                 self.env["product.warehouse.location"].sudo().create(values)
 
-    def confirm_actual_inventory(self):
-        products = self.env["product.product"]
-        for template in self:
-            products |= template.product_variant_ids
+    # def confirm_actual_inventory(self):
+    #     products = self.env["product.product"]
+    #     for template in self:
+    #         products |= template.product_variant_ids
+    #
+    #     products.confirm_actual_inventory()
 
-        products.confirm_actual_inventory()
 
-
-class ProductProduct(models.Model):
-    _inherit = "product.product"
-
-    def confirm_actual_inventory(self):
-        products = self
-        inventory_values = {"state": "confirm", "line_ids": []}
-        quants = self.env["stock.quant"].search([("product_id", "in", products.ids)])
-        for quant in quants:
-            if quant.location_id.usage == "internal" and (
-                not quant.product_id.last_inventory_date
-                or (quant.product_id.last_inventory_date and quant.product_id.last_inventory_date < fields.Date.today())
-            ):
-                values = {
-                    "product_id": quant.product_id.id,
-                    "product_uom_id": quant.product_id.uom_id.id,
-                    "location_id": quant.location_id.id,
-                    "theoretical_qty": quant.quantity,
-                    "product_qty": quant.quantity,
-                    "standard_price": quant.product_id.product_tmpl_id.standard_price,
-                    "is_ok": True,
-                }
-                inventory_values["line_ids"].append((0, 0, values))
-        if inventory_values["line_ids"]:
-            inventory = self.env["stock.inventory"].create(inventory_values)
-            inventory.action_validate()
+# class ProductProduct(models.Model):
+#     _inherit = "product.product"
+#
+#     def confirm_actual_inventory(self):
+#         products = self
+#         inventory_values = {"state": "confirm", "line_ids": []}
+#         quants = self.env["stock.quant"].search([("product_id", "in", products.ids)])
+#         for quant in quants:
+#             if quant.location_id.usage == "internal" and (
+#                 not quant.product_id.last_inventory_date
+#                 or (quant.product_id.last_inventory_date and quant.product_id.last_inventory_date < fields.Date.today())
+#             ):
+#                 values = {
+#                     "product_id": quant.product_id.id,
+#                     "product_uom_id": quant.product_id.uom_id.id,
+#                     "location_id": quant.location_id.id,
+#                     "theoretical_qty": quant.quantity,
+#                     "product_qty": quant.quantity,
+#                     "standard_price": quant.product_id.product_tmpl_id.standard_price,
+#                     "is_ok": True,
+#                 }
+#                 inventory_values["line_ids"].append((0, 0, values))
+#         if inventory_values["line_ids"]:
+#             inventory = self.env["stock.inventory"].create(inventory_values)
+#             inventory.action_validate()
