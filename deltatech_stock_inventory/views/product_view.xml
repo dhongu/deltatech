@@ -51,8 +51,8 @@
                         <button
                             icon="fa-check-circle-o"
                             string="Confirm Stock"
-                            name="confirm_actual_inventory"
-                            type="object"
+                            name="%(deltatech_stock_inventory.action_stock_confirm_inventory)d"
+                            type="action"
                         />
                        <button string="Update Stock" name="action_update_quantity_on_hand" type="object" />
 
