@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-21 04:15+0000\n"
-"PO-Revision-Date: 2023-04-21 04:15+0000\n"
+"POT-Creation-Date: 2023-07-21 06:28+0000\n"
+"PO-Revision-Date: 2023-07-21 06:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,11 +17,13 @@ msgstr ""
 
 #. module: deltatech_website_stock_availability
 #: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_summary_website_sale_stock_product_lead_time
+#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.products_qty_available
 msgid "<span class=\"badge badge-success\">Immediate delivery</span>"
 msgstr "<span class=\"badge badge-success\">Livrare imediată</span>"
 
 #. module: deltatech_website_stock_availability
 #: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_summary_website_sale_stock_product_lead_time
+#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.products_qty_available
 msgid "<span class=\"badge badge-warning\">Subsequent delivery</span>"
 msgstr "<span class=\"badge badge-warning\">Livrare ulterioară</span>"
 
@@ -42,6 +44,11 @@ msgstr "<span class=\"badge-pill badge-warning\">Livrare ulterioară</span>"
 #: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_template__sale_delay_safety
 msgid "Customer Safety Lead Time"
 msgstr "Timp de sigurantă "
+
+#. module: deltatech_website_stock_availability
+#: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_supplierinfo__delay
+msgid "Delay"
+msgstr "Întârziere"
 
 #. module: deltatech_website_stock_availability
 #. openerp-web
@@ -75,6 +82,7 @@ msgstr "Rutare HTTP"
 #. module: deltatech_website_stock_availability
 #. openerp-web
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
 #, python-format
 msgid "Immediate delivery"
 msgstr "Livrare imediată"
@@ -82,6 +90,7 @@ msgstr "Livrare imediată"
 #. module: deltatech_website_stock_availability
 #. openerp-web
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.website_sale_stock_product_lead_time
 #, python-format
 msgid "In stock"
 msgstr "În stoc"
@@ -104,6 +113,11 @@ msgstr "Nu este în stoc"
 #: model:ir.model,name:deltatech_website_stock_availability.model_product_template
 msgid "Product Template"
 msgstr "Șablon produs"
+
+#. module: deltatech_website_stock_availability
+#: model:ir.model,name:deltatech_website_stock_availability.model_product_supplierinfo
+msgid "Supplier Pricelist"
+msgstr "Lista de preturi Furnizor"
 
 #. module: deltatech_website_stock_availability
 #. openerp-web

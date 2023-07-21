@@ -13,6 +13,27 @@
     </template>
 
     <template
+        id="products_qty_available"
+        inherit_id="website_sale.products_item"
+        active="False"
+        customize_show="True"
+        name="Product Available"
+    >
+        <xpath expr="//div[@itemprop='offers']" position="after">
+            <div>
+                <t t-if="product.sudo().qty_available  &gt;   0">
+                    <span class="badge badge-success">Immediate delivery</span>
+                </t>
+                <t t-else="">
+                    <span class="badge badge-warning">Subsequent delivery</span>
+                </t>
+            </div>
+        </xpath>
+    </template>
+
+
+
+    <template
         id="cart_summary_website_sale_stock_product_lead_time"
         inherit_id="website_sale.cart_summary"
         name="Lead_time"
