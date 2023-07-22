@@ -11,7 +11,7 @@
             <div
                     id="discount"
                     class="alert alert-danger"
-                    role="discount"
+                    role="alert"
                     attrs="{'invisible': ['|', ('partner_discount','==',0.0), ('state','!=', 'draft')]}"
                 >
                 Recommended discount: <field name="partner_discount" /> %
