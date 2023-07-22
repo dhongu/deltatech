@@ -19,7 +19,7 @@ class ProductProduct(models.Model):
                 "quantity": -1 * quantity,
             }
             lots = self.env.context["lot_ids"].filtered(lambda l: l.product_id.id == self.id)
-            move_lines = self.env.context["move_lines"].filtered(lambda l: l.product_id.id == self.id)
+            move_lines = self.env.context["move_line_ids"].filtered(lambda l: l.product_id.id == self.id)
             if lots:
                 qty = 0
                 amount = 0

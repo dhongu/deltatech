@@ -13,5 +13,5 @@ class StockPicking(models.Model):
 
     def _compute_categ_ids(self):
         for picking in self:
-            categ_ids = picking.move_lines.mapped("product_id.categ_id")
+            categ_ids = picking.move_line_ids.mapped("product_id.categ_id")
             picking.categ_ids = categ_ids

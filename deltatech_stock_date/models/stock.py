@@ -60,5 +60,5 @@ class StockPicking(models.Model):
         use_date = self.env.context.get("force_period_date", False)
         if use_date:
             self.write({"date": use_date, "date_done": use_date})
-            self.move_lines.write({"date": use_date})  # 'date_expected': use_date,
+            self.move_ids.write({"date": use_date})  # 'date_expected': use_date,
             self.move_line_ids.write({"date": use_date})

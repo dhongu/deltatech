@@ -19,7 +19,7 @@ class StockPicking(models.Model):
         """
         pickings = self.filtered(lambda x: x.state == "assigned" and len(x.user_id) == 0)
         for picking in pickings:
-            categ_ids = picking.move_lines.mapped("product_id.categ_id")
+            categ_ids = picking.move_line_ids.mapped("product_id.categ_id")
             categ_ids |= categ_ids.mapped("parent_id")
             categ_ids |= categ_ids.mapped("parent_id")
             categ_ids |= categ_ids.mapped("parent_id")
