@@ -7,7 +7,7 @@
     "version": "16.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "category": "Generic Modules",
     "depends": ["purchase_stock", "sale_stock"],
     "data": [
@@ -15,6 +15,7 @@
         "views/sale_order_view.xml",
         "views/purchase_order_view.xml",
         "views/account_invoice_view.xml",
+        "views/ir_attachment_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",

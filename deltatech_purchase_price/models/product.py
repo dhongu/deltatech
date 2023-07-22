@@ -19,6 +19,7 @@ class ProductProduct(models.Model):
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
+    standard_price = fields.Float(tracking=True)
     list_price = fields.Float(tracking=True)
     last_purchase_price = fields.Float(digits="Product Price", tracking=True)
 
@@ -74,7 +75,12 @@ class SupplierInfo(models.Model):
     def update_last_purchase_price(self):
         date = self._context.get("date") or fields.Date.today()
         for item in self:
-            price = item.product_uom._compute_price(item.price, item.product_tmpl_id.uom_id)
+            from_uom = item.product_uom or item.product_tmpl_id.uom_id
+            to_uom = item.product_tmpl_id.uom_id
+            if from_uom and to_uom:
+                price = from_uom._compute_price(item.price, to_uom)
+            else:
+                price = item.price
             if item.currency_id:
                 to_currency = self.env.user.company_id.currency_id
                 company = self.env.user.company_id

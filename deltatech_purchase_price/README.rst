@@ -10,14 +10,11 @@ Purchase Price
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
-    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
-    :alt: License: LGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/16.0/deltatech_purchase_price
     :alt: dhongu/deltatech
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| 
 
 Features:
  - Update purchase price after receipt
@@ -30,6 +27,7 @@ Features:
     - *purchase.update_list_price* - if set to True, the list price will be updated according to trade markup value.
       If set to False, the list price will not be updated
     - *sale.list_price_round* - decimal number to which the list price is rounded
+    - *purchase.update_standard_price* - if set to True, product standard price will be modified with price from purchase order
  - New fields added in product template:
     - last_purchase_price - last purchase price. It's updated at receipt validation
     - trade_markup - trade parkup for the product. It can be updated with a wizard (Action->Set trade markup)

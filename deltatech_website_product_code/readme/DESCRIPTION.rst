@@ -1,4 +1,8 @@
 Features:
- - Afiseaza pagina unui produs folosind codul intern
+ - Display product page using internal code
+ - Display product code in product page
+ - Display product code in search results
 
-Se utilizeaza linkul: /shop/product-code/<code>
+
+Usage:
+ - Use link: /shop/product-code/<code>

@@ -78,6 +78,11 @@ msgid "Manager"
 msgstr ""
 
 #. module: deltatech_service_base
+#: model:ir.ui.menu,name:deltatech_service_base.menu_service_master_data
+msgid "Master data"
+msgstr "Date de bază"
+
+#. module: deltatech_service_base
 #: model:ir.model.fields.selection,name:deltatech_service_base.selection__service_cycle__unit__month
 msgid "Month"
 msgstr "Luna"
