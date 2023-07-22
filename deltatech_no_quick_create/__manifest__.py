@@ -4,20 +4,21 @@
 
 {
     "name": "No quick_create",
-    "summary": "disable quick_create",
-    "version": "16.0.1.0.0",
+    "summary": "Disable quick_create",
+    "version": "16.0.2.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Tools",
     "depends": ["base", "web"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
     "assets": {
         "web.assets_backend": [
             "deltatech_no_quick_create/static/src/js/fields.js",
+            "deltatech_no_quick_create/static/src/js/fields.esm.js",
         ]
     },
 }

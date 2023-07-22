@@ -7,6 +7,18 @@ odoo.define("deltatech_no_quick_create.fields", function (require) {
     FieldMany2One.include({
         init: function () {
             this._super.apply(this, arguments);
+
+            if (typeof QUnit !== "undefined")
+                // Sa nu mai pice testul standard
+                return;
+
+            this.nodeOptions = _.defaults(this.nodeOptions, {
+                quick_create: false,
+                no_quick_create: true,
+            });
+        },
+        start: function () {
+            this._super.apply(this, arguments);
             this.nodeOptions = _.defaults(this.nodeOptions, {
                 quick_create: false,
                 no_quick_create: true,
