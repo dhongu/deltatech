@@ -11,7 +11,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Other",
     "depends": ["sale", "deltatech_select_journal"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": ["views/sale.xml", "security/ir.model.access.csv"],
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],
