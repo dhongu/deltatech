@@ -1,0 +1,21 @@
+<odoo>
+    <record id="account_journal_dashboard_kanban_view" model="ir.ui.view">
+        <field name="name">account.journal.dashboard.kanban</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-name='JournalBodyBankCash']/div[hasclass('o_kanban_primary_right')]" position="inside">
+                <div class="row">
+                    <div class="col overflow-hidden text-left">
+                        <span title="Transfer">Transfer</span>
+                    </div>
+                    <div class="col-auto text-right">
+                        <span>
+                            <t t-esc="dashboard.account_transfer_balance" />
+                        </span>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

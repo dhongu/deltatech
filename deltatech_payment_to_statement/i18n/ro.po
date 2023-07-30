@@ -1,0 +1,267 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_payment_to_statement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-02-11 05:36+0000\n"
+"PO-Revision-Date: 2023-02-11 05:36+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_to_statement.account_journal_dashboard_kanban_view
+msgid "<span title=\"Transfer\">Transfer</span>"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_to_statement.view_account_payment_form
+msgid "Add to statement"
+msgstr "Adaugă în extras"
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_account_journal__auto_statement
+msgid "Auto Statement"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model,name:deltatech_payment_to_statement.model_sequence_mixin
+msgid "Automatic sequence"
+msgstr "Secvență Automată"
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model,name:deltatech_payment_to_statement.model_account_bank_statement
+msgid "Bank Statement"
+msgstr "Extras bancă"
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model,name:deltatech_payment_to_statement.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Linie extras bacă"
+
+#. module: deltatech_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_to_statement.merge_statement_wizard_form
+msgid "Cancel"
+msgstr "Renunță"
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model,name:deltatech_payment_to_statement.model_cash_box_out
+msgid "Cash Box Out"
+msgstr "Retrage"
+
+#. module: deltatech_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_to_statement.merge_statement_wizard_form
+msgid "Close"
+msgstr "Închide"
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_merge_statement_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_merge_statement_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_merge_statement_wizard__current_line_id
+msgid "Current Line"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_merge_statement_wizard__dst_object_id
+msgid "Destination Statement"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_merge_statement_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_to_statement.view_account_payment_form
+msgid "Get statement"
+msgstr "O"
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_merge_statement_wizard__number_group
+msgid "Group of Objects"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_merge_statement_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model,name:deltatech_payment_to_statement.model_account_journal
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model,name:deltatech_payment_to_statement.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_merge_statement_wizard____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_merge_statement_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_merge_statement_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_merge_statement_wizard__line_ids
+msgid "Lines"
+msgstr "Linii"
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_merge_statement_wizard__maximum_group
+msgid "Maximum of Group of Objects"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model:ir.actions.act_window,name:deltatech_payment_to_statement.action_statement_merge
+msgid "Merge"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model,name:deltatech_payment_to_statement.model_merge_statement_wizard
+msgid "Merge Statement Wizard"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_to_statement.merge_statement_wizard_form
+msgid "Merge Statements"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_to_statement.merge_statement_wizard_form
+msgid "Merge Wizard"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_to_statement.merge_statement_wizard_form
+msgid "Merge the following statements"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_merge_statement_wizard__group_by_name
+msgid "Name"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: code:addons/deltatech_payment_to_statement/models/account_move.py:0
+#: code:addons/deltatech_payment_to_statement/models/account_move.py:0
+#: code:addons/deltatech_payment_to_statement/models/account_move.py:0
+#: code:addons/deltatech_payment_to_statement/models/account_payment.py:0
+#, python-format
+msgid "New"
+msgstr "Nou"
+
+#. module: deltatech_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_to_statement.merge_statement_wizard_form
+msgid "Options"
+msgstr "Opțiuni"
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_account_bank_statement_line__payment_id
+msgid "Payment"
+msgstr "Plată"
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model,name:deltatech_payment_to_statement.model_account_payment
+msgid "Payments"
+msgstr "Plăți"
+
+#. module: deltatech_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_to_statement.merge_statement_wizard_form
+msgid "Search duplicates based on duplicated data in"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_to_statement.merge_statement_wizard_form
+msgid ""
+"Select the list of fields used to search for\n"
+"                            duplicated records. If you select several fields,\n"
+"                            Odoo will propose you to merge only those having\n"
+"                            all these fields in common. (not one of the fields)."
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_to_statement.merge_statement_wizard_form
+msgid ""
+"Selected statements will be merged together.\n"
+"                                All documents linked to one of these statements\n"
+"                                will be redirected to the destination statement.\n"
+"                                You can remove statements from this list to avoid merging them."
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_account_journal__journal_sequence_id
+msgid "Sequence"
+msgstr "Secvență"
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_account_journal__cash_in_sequence_id
+msgid "Sequence for cash in"
+msgstr "Secvență pentru intrare numerar"
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_account_journal__cash_out_sequence_id
+msgid "Sequence for cash out"
+msgstr "Secvență pentru ieșire numerar"
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_account_journal__supplier_cash_out_sequence_id
+msgid "Sequence for supplier cash out"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_to_statement.merge_statement_wizard_form
+msgid "Skip these statements"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_merge_statement_wizard__state
+msgid "State"
+msgstr ""
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_account_payment__statement_id
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_merge_statement_wizard__object_ids
+msgid "Statement"
+msgstr "Extras"
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_account_payment__statement_line_id
+msgid "Statement Line"
+msgstr "Linie a Extrasului de cont"
+
+#. module: deltatech_payment_to_statement
+#: model:ir.model.fields,field_description:deltatech_payment_to_statement.field_account_journal__statement_sequence_id
+msgid "Statement Sequence"
+msgstr "Secvență pentru extras "
+
+#. module: deltatech_payment_to_statement
+#: code:addons/deltatech_payment_to_statement/models/account_payment.py:0
+#, python-format
+msgid ""
+"You cannot delete this entry, as it has already consumed a sequence number"
+msgstr ""
+"Nu se poate șterge această înregistrare deoarece are deja un număr"
