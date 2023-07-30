@@ -8,4 +8,4 @@ from odoo import fields, models
 class AccountJournal(models.Model):
     _inherit = "account.journal"
 
-    journal_sequence_id = fields.Many2one("ir.sequence", string="Sequence", copy=False)
+    journal_sequence_id = fields.Many2one("ir.sequence", string="Journal Sequence", copy=False)
