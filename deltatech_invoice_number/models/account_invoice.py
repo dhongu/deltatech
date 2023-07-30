@@ -102,13 +102,15 @@ class AccountInvoice(models.Model):
                            WHERE move_id=%s AND (ref IS NULL OR ref = '')""",
                 (ref, inv.id),
             )
-            self._cr.execute(
-                """ UPDATE account_analytic_line SET ref = %s
-                           FROM account_move_line
-                           WHERE account_move_line.move_id = %s AND
-                                 account_analytic_line.move_id = account_move_line.id""",
-                (ref, inv.id),
-            )
-            self.invalidate_cache()
+            # de rulat doar daca este instalat modulul analytic
+            # analytic_module = self.env["ir.module.module"].search([("name", "=", "analytic")])
+            # if analytic_module.state == "installed":
+            #     self._cr.execute(
+            #         """ UPDATE account_analytic_line SET ref = %s
+            #                    FROM account_move_line
+            #                    WHERE account_move_line.move_id = %s AND
+            #                          account_analytic_line.move_id = account_move_line.id""",
+            #         (ref, inv.id),
+            #     )
 
         return True
