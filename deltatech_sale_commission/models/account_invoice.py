@@ -90,6 +90,7 @@ class AccountInvoiceLine(models.Model):
 
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
     def _compute_purchase_price(self):
+        deposit_product = self.env["ir.config_parameter"].sudo().get_param("sale.default_deposit_product_id")
         for invoice_line in self:
             if invoice_line.display_type != "product":
                 invoice_line.purchase_price = 0.0
@@ -99,6 +100,9 @@ class AccountInvoiceLine(models.Model):
                 continue
             if invoice_line.move_id.move_type not in ["out_invoice", "out_refund"]:
                 invoice_line.purchase_price = 0.0
+                continue
+            if invoice_line.product_id.id == int(deposit_product):
+                invoice_line.purchase_price = invoice_line.price_unit
                 continue
 
             to_cur = self.env.user.company_id.currency_id
@@ -142,9 +146,14 @@ class AccountInvoiceLine(models.Model):
                         and invoice_line.move_id.currency_id.id != self.env.user.company_id.currency_id.id
                     ):
                         from_currency = invoice_line.move_id.currency_id.with_context(date=date_eval)
-                        to_currency = invoice_line.env.user.company_id
-                        company = invoice_line.env.user.company_id.currency_id
-                        price_unit = from_currency._convert(invoice_line.price_unit, to_currency, company, date_eval)
+                        to_currency = invoice_line.env.user.company_id.currency_id
+                        company = invoice_line.env.user.company_id
+                        price_unit = from_currency._convert(
+                            from_amount=invoice_line.price_unit,
+                            to_currency=to_currency,
+                            company=company,
+                            date=date_eval,
+                        )
                     else:
                         price_unit = invoice_line.price_unit
                     if 0 < price_unit < invoice_line.purchase_price and invoice_line.move_id.state in ["draft"]:

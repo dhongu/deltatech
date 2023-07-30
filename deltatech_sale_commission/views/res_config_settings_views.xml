@@ -13,11 +13,11 @@
                     <div class="o_setting_left_pane" />
                     <div class="o_setting_right_pane">
 
-                        <span class="o_form_label">Salesperson commision compute</span>
+                        <span class="o_form_label">Salesperson commission compute</span>
                         <div class="text-muted">
                             Salesperson compute on:<br />
-                            - Invoice: the salesperson from the invoice will get the commision<br />
-                            - Sale order: the salesperson from the Sale Order will get the commision
+                            - Invoice: the salesperson from the invoice will get the commission<br />
+                            - Sale order: the salesperson from the Sale Order will get the commission
 
                         </div>
                         <div class="content-group">
