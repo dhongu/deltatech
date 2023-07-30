@@ -9,7 +9,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Base",
     "depends": ["account"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": ["views/account_payment_term.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
