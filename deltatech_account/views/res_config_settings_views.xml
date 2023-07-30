@@ -27,25 +27,7 @@
                     </div>
                 </div>
             </xpath>
-            <xpath expr="//div[@id='bank_cash']" position="inside">
-                <field name="module_account_accountant" invisible="1" />
-                <div
-                    class="col-xs-12 col-md-6 o_setting_box"
-                    attrs="{'invisible': [('chart_template_id','=',False), ('module_account_accountant','=',False)]}"
-                >
-                    <div class="o_setting_left_pane" />
-                    <div class="o_setting_right_pane">
-                        <span class="o_form_label">Inter-Banks Transfers</span>
-                        <div class="text-muted">Account used when transferring between banks</div>
-                        <div class="content-group">
-                            <div class="row mt16">
-                                <label for="transfer_account_id" class="col-lg-3 o_light_label" />
-                                <field name="transfer_account_id" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </xpath>
+
         </field>
     </record>
     <menuitem name="Accounting" id="account.menu_finance" />
