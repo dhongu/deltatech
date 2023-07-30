@@ -115,7 +115,7 @@ class AccountPayment(models.Model):
     def unlink(self):
         # deleting a payment with number should be forbidden, as the name is not computed anymore
         for payment in self:
-            if payment.name != _("New") and payment.name != "/":
+            if payment.name != _("New") and payment.name != "/" and not self._context.get("force_delete"):
                 raise UserError(_("You cannot delete this entry, as it has already consumed a sequence number"))
         statement_line_ids = self.env["account.bank.statement.line"]
         for payment in self:
