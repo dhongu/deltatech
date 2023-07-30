@@ -1,0 +1,82 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_stock_location
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-11-14 08:02+0000\n"
+"PO-Revision-Date: 2022-11-14 08:02+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_stock_location
+#: model:ir.model.fields,field_description:deltatech_stock_location.field_stock_location__delivery_picking_type_id
+msgid "Delivery Operation"
+msgstr "Operație livrare"
+
+#. module: deltatech_stock_location
+#: code:addons/deltatech_stock_location/models/stock_location.py:0
+#: code:addons/deltatech_stock_location/models/stock_location.py:0
+#, python-format
+msgid "Delivery from %s"
+msgstr "Livrare din %s"
+
+#. module: deltatech_stock_location
+#: model:ir.actions.server,name:deltatech_stock_location.action_server_generate_route
+msgid "Generate Route"
+msgstr "Generare rute"
+
+#. module: deltatech_stock_location
+#: model:ir.model,name:deltatech_stock_location.model_stock_location
+msgid "Inventory Locations"
+msgstr "Locații inventar"
+
+#. module: deltatech_stock_location
+#: model:ir.model.fields,field_description:deltatech_stock_location.field_stock_location__receipt_picking_type_id
+msgid "Receipt Operation"
+msgstr "Operație"
+
+#. module: deltatech_stock_location
+#: code:addons/deltatech_stock_location/models/stock_location.py:0
+#, python-format
+msgid "Receipt to %s"
+msgstr "Recepție în %s"
+
+#. module: deltatech_stock_location
+#: model:ir.model.fields,field_description:deltatech_stock_location.field_stock_location__route_delivery_id
+msgid "Route Delivery"
+msgstr "Rută livrare"
+
+#. module: deltatech_stock_location
+#: model:ir.model.fields,field_description:deltatech_stock_location.field_stock_location__route_transfer_id
+msgid "Route Transfer"
+msgstr "Rută transfer"
+
+#. module: deltatech_stock_location
+#: model:ir.model.fields,field_description:deltatech_stock_location.field_stock_location__source_location_id
+msgid "Source Location"
+msgstr "Locație sursă"
+
+#. module: deltatech_stock_location
+#: model:ir.model.fields,field_description:deltatech_stock_location.field_stock_location__transfer_picking_type_id
+msgid "Transfer Operation"
+msgstr "Operații transfer"
+
+#. module: deltatech_stock_location
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_location.view_location_form
+msgid "Transfer Options"
+msgstr "Opțiuni transfer"
+
+#. module: deltatech_stock_location
+#: code:addons/deltatech_stock_location/models/stock_location.py:0
+#: code:addons/deltatech_stock_location/models/stock_location.py:0
+#, python-format
+msgid "Transfer to %s"
+msgstr "Transfer către %s"
+

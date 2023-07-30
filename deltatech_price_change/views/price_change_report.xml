@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+<!--        <report
+            string="Price Change"
+            id="action_report_product_price_change"
+            model="product.price.change"
+            report_type="qweb-pdf"
+            name="deltatech_price_change.report_pricechange"
+            file="deltatech_price_chance.report_pricechange"
+        />-->
+        <record id="action_report_product_price_change" model="ir.actions.report">
+            <field name="name">Price Change</field>
+            <field name="model">product.price.change</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">deltatech_price_change.report_pricechange</field>
+            <field name="report_file">deltatech_price_change.report_pricechange</field>
+            <field name="binding_type">report</field>
+
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_server_generate_route" model="ir.actions.server">
+        <field name="name">Generate Route</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="stock.model_stock_location" />
+        <field name="binding_model_id" ref="stock.model_stock_location" />
+        <field name="state">code</field>
+        <field name="groups_id" eval="[(4, ref('base.group_no_one'))]" />
+        <field name="code">records.generate_route()
+        </field>
+        <field name="binding_view_types">list,form</field>
+    </record>
+
+    <record id="view_location_form" model="ir.ui.view">
+        <field name="name">stock.location.form</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form" />
+        <field name="groups_id" eval="[(4, ref('base.group_no_one'))]" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='additional_info']" position="after">
+                <group string="Transfer Options">
+                    <field name="source_location_id" />
+                    <field name="transfer_picking_type_id" />
+                    <field name="route_transfer_id" />
+                    <field name="delivery_picking_type_id" />
+                    <field name="route_delivery_id" />
+                    <field name="receipt_picking_type_id" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

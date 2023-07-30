@@ -10,7 +10,7 @@
     "summary": "Deltatech Payment Method Card",
     "category": "Generic Modules",
     "depends": ["account"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "data/account_data.xml",
     ],

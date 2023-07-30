@@ -27,6 +27,6 @@ class StockPicking(models.Model):
                         move.write({"quantity_done": move.product_uom_qty})
                 else:
                     move.unlink()
-            picking.action_done()
+            picking._action_done()
             message = _("Automatically validated transfer upon order confirmation")
             picking.message_post(body=message)

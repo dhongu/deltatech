@@ -10,6 +10,11 @@ class WebsiteSale(main.WebsiteSale):
         response = super(WebsiteSale, self).shop(page, category, search, ppg, **post)
         availability_all = request.httprequest.args.get("availability_all", True)
         availability_in_stock = request.httprequest.args.get("availability_in_stock", False)
-        response.qcontext.update(availability_all=availability_all, availability_in_stock=availability_in_stock)
+        availability_vendor = request.httprequest.args.get("availability_vendor", False)
+        response.qcontext.update(
+            availability_all=availability_all,
+            availability_in_stock=availability_in_stock,
+            availability_vendor=availability_vendor,
+        )
 
         return response

@@ -26,6 +26,6 @@ class StockPicking(models.Model):
                     "state": "draft",
                 }
                 move = self.move_ids_without_package.new(vals)
-                move.onchange_product_id()
+                move._onchange_product_id()
                 self.move_ids_without_package |= move
             return True

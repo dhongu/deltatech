@@ -22,7 +22,7 @@
     "images": ["static/description/main_screenshot.png"],
     "price": 10.00,
     "currency": "EUR",
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

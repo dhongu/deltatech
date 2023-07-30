@@ -4,3 +4,4 @@
 
 from . import product
 from . import ir_http
+from . import product_supplierinfo
