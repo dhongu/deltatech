@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
+<!--
     <record id="view_payment_term_line_tree" model="ir.ui.view">
         <field name="name">account.payment.term.line.tree</field>
         <field name="model">account.payment.term.line</field>
@@ -25,5 +25,5 @@
                 />
             </xpath>
         </field>
-    </record>
+    </record>-->
 </odoo>
