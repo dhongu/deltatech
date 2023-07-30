@@ -7,7 +7,7 @@
     "summary": "Update cash balance",
     "version": "16.0.3.0.0",
     "author": "Terrabit,Dorin Hongu",
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
     "depends": ["account"],

@@ -18,7 +18,7 @@ class SetProductTradeMarkup(models.TransientModel):
             active_ids = self.env.context.get("active_ids")
             products = self.env["product.template"].browse(active_ids)
         else:
-            domain = [("name", "=", self.partner_id.id)]
+            domain = [("partner_id", "=", self.partner_id.id)]
             supplierinfo = self.env["product.supplierinfo"].search(domain)
             products = self.env["product.template"]
             for item in supplierinfo:

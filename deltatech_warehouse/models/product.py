@@ -27,7 +27,7 @@ class ProductProduct(models.Model):
                         # 'product_id': self.id,
                         "product_tmpl_id": self.product_tmpl_id.id,
                         "company_id": self.env.user.company_id.id,
-                        "name": self.env.user.company_id.supplier_id.id,
+                        "partner_id": self.env.user.company_id.supplier_id.id,
                     }
                 )
 
