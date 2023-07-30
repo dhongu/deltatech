@@ -11,14 +11,4 @@ class ResConfigSettings(models.TransientModel):
         string="Anglo-Saxon Accounting", related="company_id.anglo_saxon_accounting", readonly=False
     )
 
-    transfer_account_id = fields.Many2one(
-        "account.account",
-        string="Transfer Account",
-        related="company_id.transfer_account_id",
-        readonly=False,
-        domain=lambda self: [
-            ("reconcile", "=", True),
-            ("user_type_id.id", "=", self.env.ref("account.data_account_type_current_assets").id),
-        ],
-        help="Intermediary account used when moving money from a liquidity account to another",
-    )
+    # campl pt transfer_account_id exsta
