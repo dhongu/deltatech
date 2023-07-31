@@ -15,7 +15,7 @@ class TestInvoiceReceipt(TransactionCase):
 
         self.uom_unit = self.env.ref("uom.product_uom_unit")
 
-        seller_ids = [(0, 0, {"name": self.partner_a.id})]
+        seller_ids = [(0, 0, {"partner_id": self.partner_a.id})]
 
         self.product_a = self.env["product.product"].create(
             {

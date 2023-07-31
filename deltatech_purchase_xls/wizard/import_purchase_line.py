@@ -147,7 +147,7 @@ class ImportPurchaseLine(models.TransientModel):
         :return: product record
         """
         seller_values = {
-            "name": self.purchase_id.partner_id.id,
+            "partner_id": self.purchase_id.partner_id.id,
             "product_code": product_code,
             "price": price,
             "currency_id": self.purchase_id.currency_id.id,

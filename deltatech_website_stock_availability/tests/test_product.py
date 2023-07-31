@@ -11,7 +11,7 @@ class TestProduct(TransactionCase):
         super(TestProduct, self).setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
 
-        seller_ids = [(0, 0, {"name": self.partner_a.id, "date_start": "2099-01-01", "delay": 5})]
+        seller_ids = [(0, 0, {"partner_id": self.partner_a.id, "date_start": "2099-01-01", "delay": 5})]
         self.product_a = self.env["product.product"].create(
             {
                 "name": "Test A",
@@ -31,7 +31,7 @@ class TestProduct(TransactionCase):
                 "seller_ids": seller_ids,
             }
         )
-        seller_ids = [(0, 0, {"name": self.partner_a.id, "delay": 5})]
+        seller_ids = [(0, 0, {"partner_id": self.partner_a.id, "delay": 5})]
         self.product_c = self.env["product.product"].create(
             {
                 "name": "Test C",

@@ -10,7 +10,7 @@ from werkzeug.urls import url_decode
 from odoo.http import content_disposition, request, route
 from odoo.tools.safe_eval import safe_eval
 
-from odoo.addons.web.controllers import main as report
+import odoo.addons.web.controllers.report as report
 
 
 class ReportController(report.ReportController):

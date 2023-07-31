@@ -25,7 +25,7 @@ class PurchaseOrderXlsx(models.AbstractModel):
                 code = ""
                 name = product.name
                 if product.seller_ids:
-                    product_sellers = product.seller_ids.filtered(lambda s: s.name == order.partner_id)
+                    product_sellers = product.seller_ids.filtered(lambda s: s.partner_id == order.partner_id)
                     if product_sellers:
                         product_seller = product_sellers[0]
                         if product_seller.product_code:

@@ -11,7 +11,7 @@ class TestPurchase(TransactionCase):
         super(TestPurchase, self).setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
 
-        seller_ids = [(0, 0, {"name": self.partner_a.id})]
+        seller_ids = [(0, 0, {"partner_id": self.partner_a.id})]
         self.product_a = self.env["product.product"].create(
             {"name": "Test A", "type": "product", "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
         )
