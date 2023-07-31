@@ -13,7 +13,6 @@
     "data": [
         "wizard/payment_term_view.xml",
         "views/sale_view.xml",
-        "views/account_view.xml",
         "views/account_invoice_view.xml",
         "views/res_partner_view.xml",
         "security/ir.model.access.csv",
