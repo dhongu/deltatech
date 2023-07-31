@@ -63,7 +63,7 @@ class ProductCatalog(models.Model):
                             0,
                             0,
                             {
-                                "name": prod_cat.supplier_id.id,
+                                "partner_id": prod_cat.supplier_id.id,
                                 "price": prod_cat.purchase_price,
                                 "currency_id": currency.id,
                                 "delay": prod_cat.purchase_delay,
