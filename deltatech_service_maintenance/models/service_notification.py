@@ -474,7 +474,7 @@ class ServiceNotification(models.Model):
                     "order_id": sale_order.id,
                 }
                 line = self.env["sale.order.line"].new(value)
-                line.product_id_change()
+                line._onchange_product_id_warning()
                 for field in ["price_unit", "product_uom", "tax_id"]:
                     value[field] = line._fields[field].convert_to_write(line[field], line)
 

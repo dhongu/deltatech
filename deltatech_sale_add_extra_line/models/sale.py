@@ -28,7 +28,7 @@ class SaleOrder(models.Model):
                         "line_uuid": new_uuid,
                     }
                     extra_line_id = line.order_id.order_line.new(values)
-                    extra_line_id.product_id_change()
+                    extra_line_id._onchange_product_id_warning()
                     extra_line_id.product_uom_change()
                     line.line_uuid = new_uuid
 
