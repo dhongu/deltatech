@@ -15,17 +15,8 @@ class ProductProduct(models.Model):
                     {"product_id": record.id, "product_min_qty": 0, "product_max_qty": 0, "qty_multiple": 0}
                 )
 
-    @api.model
-    def create(self, vals):
-        prod_id = super(ProductProduct, self).create(vals)
-        if prod_id.type == "product":
-            self.env["stock.warehouse.orderpoint"].create(
-                {
-                    "product_id": prod_id.id,
-                    "product_min_qty": 0,
-                    "product_max_qty": 0,
-                    "qty_multiple": 0,
-                    # 'supplier_id': False
-                }
-            )
-        return prod_id
+    @api.model_create_multi
+    def create(self, vals_list):
+        products = super(ProductProduct, self).create(vals_list)
+        products.create_rule()
+        return products
