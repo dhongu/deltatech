@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="category_group_form" model="ir.ui.view">
+        <field name="name">category.group.form</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group name="category_group">
+                    <field name="category_group_type" />
+                    <field name="category_group_class" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

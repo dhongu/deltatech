@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_category_type_tree" model="ir.ui.view">
+        <field name="name">Category types</field>
+        <field name="model">category.group.type</field>
+        <field name="arch" type="xml">
+            <tree string="Category types">
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_category_type_form" model="ir.ui.view">
+        <field name="name">Category type</field>
+        <field name="model">category.group.type</field>
+        <field name="arch" type="xml">
+            <form string="Category type">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_category_type" model="ir.actions.act_window">
+        <field name="name">Category types</field>
+        <field name="res_model">category.group.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        name="Category options"
+        id="menu_category_type_options"
+        parent="stock.menu_product_in_config_stock"
+        sequence="90"
+    />
+    <menuitem
+        name="Category types"
+        id="menu_category_type"
+        parent="menu_category_type_options"
+        action="action_category_type"
+        sequence="10"
+    />
+
+    <record id="view_category_class_tree" model="ir.ui.view">
+        <field name="name">Category classes</field>
+        <field name="model">category.group.class</field>
+        <field name="arch" type="xml">
+            <tree string="Category classes">
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_category_class_form" model="ir.ui.view">
+        <field name="name">Category class</field>
+        <field name="model">category.group.class</field>
+        <field name="arch" type="xml">
+            <form string="Category class">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_category_class" model="ir.actions.act_window">
+        <field name="name">Category classes</field>
+        <field name="res_model">category.group.class</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        name="Category classes"
+        id="menu_category_class"
+        parent="menu_category_type_options"
+        action="action_category_class"
+        sequence="20"
+    />
+
+</odoo>

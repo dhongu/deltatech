@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="equipment_category_group_tree" model="ir.ui.view">
+        <field name="name">equipment.group.tree</field>
+        <field name="model">service.equipment</field>
+        <field name="inherit_id" ref="deltatech_service_equipment.view_service_equipment_tree" />
+        <field name="arch" type="xml">
+            <field name="emplacement" position="after">
+                <field name="category_group_type" optional="hide" />
+                <field name="category_group_class" optional="hide" />
+            </field>
+        </field>
+    </record>
+</odoo>
