@@ -29,7 +29,6 @@
                 />
                 <field
                     name="location_id"
-                    groups="stock.group_stock_multi_locations"
                     options="{'no_create': True}"
                     invisible="context.get('readonly_location_id', False)"
                     readonly="context.get('readonly_location_id', False)"
@@ -40,7 +39,6 @@
                 <field name="inventory_date" optional="hide" width="0.8" />
                 <field
                     name="prod_lot_id"
-                    groups="stock.group_production_lot"
                     width="0.8"
                     attrs="{'readonly': ['|', '|',
                             ('product_tracking', '=', 'none'),
