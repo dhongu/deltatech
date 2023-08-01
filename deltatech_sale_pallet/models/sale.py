@@ -22,7 +22,7 @@ class SaleOrder(models.Model):
             if pallets and pallets[product_id]["product_uom_qty"]:
                 order_line = self.order_line.new(pallets[product_id])
                 order_line._onchange_product_id_warning()
-                order_line.product_uom_change()
+                # order_line.product_uom_change()
 
     def recompute_pallet_lines(self, delete_if_under=False):
         pallets = {}
