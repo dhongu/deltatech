@@ -12,7 +12,7 @@
     "depends": [
         "deltatech_sale_commission",
     ],
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "data": [
         "security/security.xml",
         "views/product_category.xml",

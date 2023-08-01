@@ -13,7 +13,7 @@
         "deltatech_category_group",
         "deltatech_service_equipment",
     ],
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "data": [
         "views/service_equipment.xml",
     ],
