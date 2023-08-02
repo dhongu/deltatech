@@ -5,7 +5,7 @@
 {
     "name": "Deltatech Equipment Category Group",
     "summary": "Groups for equipments, related to internal categories groups",
-    "version": "14.0.0.0.1",
+    "version": "14.0.0.0.2",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Other",
