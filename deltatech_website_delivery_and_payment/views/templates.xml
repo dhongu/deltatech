@@ -11,4 +11,28 @@
             </span>
         </xpath>
     </template>
+
+    <template id="payment_checkout_hide" inherit_id="payment.checkout" priority="200">
+        <xpath expr="//div[@name='o_payment_option_card']" position="before">
+            <t t-set="is_restricted" t-value="acquirer.is_restricted(user_id.partner_id)" />
+        </xpath>
+        <xpath expr="//div[@name='o_payment_option_card']" position="attributes">
+            <attribute name="t-if">not is_restricted</attribute>
+        </xpath>
+    </template>
+
+    <template id="delivery_hide" inherit_id="website_sale_delivery.payment_delivery" priority="200">
+        <xpath expr="//li" position="before">
+            <t t-set="delivery_is_restricted" t-value="delivery.is_restricted(user_id.partner_id)" />
+        </xpath>
+        <xpath expr="//li" position="attributes">
+            <attribute name="t-if">not delivery_is_restricted</attribute>
+        </xpath>
+    </template>
+
+    <template id="checkout" inherit_id="payment.checkout" name="Payment Checkout">
+        <xpath expr="//t[@t-set='default_payment_option_id']" position="after">
+            <t t-set="default_payment_option_id" t-value="default_payment_option_id or acquirer_id" />
+        </xpath>
+    </template>
 </odoo>

@@ -13,3 +13,11 @@ class DeliveryCarrier(models.Model):
     weight_min = fields.Float()
     weight_max = fields.Float()
     logo = fields.Image()
+    restrict_label_ids = fields.Many2many("res.partner.category", string="Restrict for partners with label")
+
+    def is_restricted(self, partner_id):
+        self.ensure_one()
+        for label in self.sudo().restrict_label_ids:
+            if label in partner_id.sudo().category_id:
+                return True
+        return False

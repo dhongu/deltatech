@@ -15,3 +15,10 @@ class PaymentAcquirer(models.Model):
     value_limit = fields.Float(string="Value Limit")
     restrict_label_ids = fields.Many2many("res.partner.category")
     submit_txt = fields.Char(string="Submit text", default="Finalize order", translate=True)
+
+    def is_restricted(self, partner_id):
+        self.ensure_one()
+        for label in self.sudo().restrict_label_ids:
+            if label in partner_id.sudo().category_id:
+                return True
+        return False

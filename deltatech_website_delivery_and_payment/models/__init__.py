@@ -5,3 +5,5 @@
 from . import delivery
 from . import payment
 from . import sale
+from . import res_partner
+from . import website
