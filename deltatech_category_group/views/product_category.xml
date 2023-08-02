@@ -13,4 +13,22 @@
             </xpath>
         </field>
     </record>
+
+    <record id="category_group_search" model="ir.ui.view">
+        <field name="name">category.group.search</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_search_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="category_group_type" />
+                <field name="category_group_class" />
+                <group expand="1" string="Group By...">
+                    <filter name="group_by_type" context="{'group_by' : 'category_group_type'}" />
+                    <filter name="group_by_class" context="{'group_by' : 'category_group_class'}" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+
 </odoo>

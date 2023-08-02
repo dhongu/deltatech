@@ -10,8 +10,12 @@ class StockQuant(models.Model):
     _inherit = "stock.quant"
 
     category_group_type = fields.Many2one(
-        "category.group.type", related="product_id.categ_id.category_group_type", store=True, readonly=True
+        "category.group.type", related="product_id.categ_id.category_group_type", store=True, readonly=True, index=True
     )
     category_group_class = fields.Many2one(
-        "category.group.class", related="product_id.categ_id.category_group_class", store=True, readonly=True
+        "category.group.class",
+        related="product_id.categ_id.category_group_class",
+        store=True,
+        readonly=True,
+        index=True,
     )
