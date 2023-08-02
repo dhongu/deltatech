@@ -5,9 +5,9 @@
         <field name="model">website</field>
         <field name="inherit_id" ref="website.view_website_form" />
         <field name="arch" type="xml">
-            <group name="other" position="inside">
+            <field name="default_lang_id" position="after">
                 <field name="location_id" />
-            </group>
+            </field>
         </field>
     </record>
 </odoo>
