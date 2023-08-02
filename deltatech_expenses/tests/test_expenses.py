@@ -17,7 +17,7 @@ class TestExpenses(TransactionCase):
             {
                 "name": "Account Diem",
                 "code": "625xxx",
-                "user_type_id": self.env.ref("account.data_account_type_liquidity").id,
+                "account_type": "expense",
                 "company_id": self.env.user.company_id.id,
             }
         )
@@ -26,7 +26,7 @@ class TestExpenses(TransactionCase):
             {
                 "name": "account_cash_advances",
                 "code": "542xxx",
-                "user_type_id": self.env.ref("account.data_account_type_liquidity").id,
+                "account_type": "asset_cash",
                 "company_id": self.env.user.company_id.id,
             }
         )

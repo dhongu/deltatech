@@ -37,9 +37,7 @@ class DeltatechExpensesDeduction(models.Model):
             account_id = account_pool.search([("code", "=ilike", "625%")], limit=1)  # Cheltuieli cu deplasari
         except Exception:
             try:
-                account_id = account_pool.search(
-                    [("user_type_id.name", "=", "expense"), ("account_type", "!=", "view")], limit=1
-                )
+                account_id = account_pool.search([("account_type", "=", "expense")], limit=1)
             except Exception:
                 account_id = False
         return account_id
@@ -450,9 +448,7 @@ class DeltatechExpensesDeductionLine(models.Model):
         account_pool = self.env["account.account"]
         account = account_pool.search([("code", "=ilike", "623%")], limit=1)  # cheltuieli de protocol
         if not account:
-            account = account_pool.search(
-                [("user_type_id.name", "=", "expense"), ("account_type", "!=", "view")], limit=1
-            )
+            account = account_pool.search([("account_type", "=", "expense")], limit=1)
         return account
 
     expenses_deduction_id = fields.Many2one("deltatech.expenses.deduction", string="Expenses Deduction", required=False)
