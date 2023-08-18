@@ -19,6 +19,9 @@ class TestPurchase(TransactionCase):
         self.product_b = self.env["product.product"].create(
             {"name": "Test B", "type": "product", "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
         )
+        self.system_parameter1 = self.env["ir.config_parameter"].create(
+            {"key": "purchase.update_product_price", "value": "True"}
+        )
 
     def test_purchase(self):
         # se creeaza o comanda de achizitie

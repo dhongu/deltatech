@@ -82,9 +82,10 @@ class StockMove(models.Model):
             # Write the standard price, as SUPERUSER_ID because a warehouse manager may not have the right to write on products
             # move.product_id.with_company(move.company_id).sudo().write({"standard_price": new_std_price})
             std_price_update[move.company_id.id, move.product_id.id] = new_std_price
-        # update prices for average cost products
+        # update prices for average/standard cost products
         for move in self.filtered(
-            lambda move: move._is_in() and move.with_company(move.company_id).product_id.cost_method == "average"
+            lambda move: move._is_in()
+            and move.with_company(move.company_id).product_id.cost_method in ["average", "standard"]
         ):
             move.update_prices()
 
