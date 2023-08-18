@@ -44,4 +44,4 @@ class TestPurchase(TransactionCase):
         self.picking.button_validate()
 
         # se verifica ultimul pret de achizitie
-        self.assertEqual(self.product_a.last_purchase_price, 10)
+        self.assertEqual(self.product_a.last_purchase_price, 10.0)
