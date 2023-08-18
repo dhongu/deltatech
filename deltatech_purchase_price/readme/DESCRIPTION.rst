@@ -1,9 +1,9 @@
 Features:
  - Update purchase price after receipt
- - If the product has FIFO cost, the product standard_price will be overwritten
  - Depends on system parameters:
-    - *purchase.update_product_price* - if set to False, the product supplier price will not be modified, if set to True, the
-      product supplier price will be allways overwritten
+    - *purchase.update_standard_price* - If set to True, the product's standard_price will be overwritten
+    - *purchase.update_product_price* - if set to False, the product supplier's price will not be modified, if set to True, the
+      product's supplier price will be allways overwritten
     - *purchase.add_supplier_to_product* - if set to True, the supplier and the price will be automatically added to the
       supplier info of the product, if set to False, no modifications will be made in the supplier info of the product
     - *purchase.update_list_price* - if set to True, the list price will be updated according to trade markup value.
