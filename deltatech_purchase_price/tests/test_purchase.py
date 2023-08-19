@@ -9,6 +9,7 @@ from odoo.tests.common import TransactionCase
 class TestPurchase(TransactionCase):
     def setUp(self):
         super(TestPurchase, self).setUp()
+        # se creeaza un furnizor
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
 
         seller_ids = [(0, 0, {"name": self.partner_a.id})]
@@ -18,8 +19,12 @@ class TestPurchase(TransactionCase):
         self.product_b = self.env["product.product"].create(
             {"name": "Test B", "type": "product", "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
         )
+        self.system_parameter1 = self.env["ir.config_parameter"].create(
+            {"key": "purchase.update_product_price", "value": "True"}
+        )
 
     def test_purchase(self):
+        # se creeaza o comanda de achizitie
         form_purchase = Form(self.env["purchase.order"])
         form_purchase.partner_id = self.partner_a
         with form_purchase.order_line.new() as po_line:
@@ -29,11 +34,17 @@ class TestPurchase(TransactionCase):
 
         po = form_purchase.save()
 
+        # se valideaza comanda de achizitie
         po.button_confirm()
         self.picking = po.picking_ids[0]
 
+        # se confirma primirea produselor
         for move_line in self.picking.move_line_ids:
             if move_line.product_id == self.product_a:
                 move_line.write({"qty_done": 10})
 
+        # se valideaza primirea
         self.picking.button_validate()
+
+        # se verifica ultimul pret de achizitie
+        self.assertEqual(self.product_a.last_purchase_price, 10.0)
