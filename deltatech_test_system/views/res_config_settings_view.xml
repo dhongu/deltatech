@@ -10,15 +10,13 @@
 
                 <div class="col-12 col-lg-6 o_setting_box" id="is_productive_system">
                     <div class="o_setting_left_pane">
-                        <field name="is_productive_system" />
+                        <field name="database_is_neutralized" />
                     </div>
                     <div class="o_setting_right_pane">
-                        <label for="is_productive_system" />
+                        <label for="database_is_neutralized" />
                         <div class="text-muted">
-                            It is a productive system
+                            It is a test system
                         </div>
-                         <field name="database_uuid" invisible="1" />
-                         <field name="database_uuid_productive" invisible="1" />
                     </div>
 
                 </div>
