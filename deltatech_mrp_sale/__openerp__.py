@@ -71,6 +71,7 @@ Functionalitati:
                 'views/report_saleorder_sia.xml',
                 'views/report_saleorder_v5.xml',
                 'views/report_saleorder_v6.xml',
+                'views/report_saleorder_v7.xml',
                 'resource_convert_view.xml'
              ],
     
