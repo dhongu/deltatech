@@ -28,7 +28,12 @@ class BusinessProject(models.Model):
     date_start = fields.Date(string="Start date")
     date_go_live = fields.Date(string="Go live date")
     process_ids = fields.One2many(string="Processes", comodel_name="business.process", inverse_name="project_id")
+    open_issue_ids = fields.One2many(
+        string="Open Issues", comodel_name="business.open.issue", inverse_name="project_id"
+    )
+
     count_processes = fields.Integer(string="Processes", compute="_compute_count_processes")
+    count_open_issues = fields.Integer(string="Open Issues", compute="_compute_count_open_issues")
 
     team_member_ids = fields.Many2many(string="Team members", comodel_name="res.partner")
 
@@ -42,6 +47,10 @@ class BusinessProject(models.Model):
         for project in self:
             project.count_processes = len(project.process_ids)
 
+    def _compute_count_open_issues(self):
+        for project in self:
+            project.count_open_issues = len(project.open_issue_ids)
+
     def action_open_processes(self):
         domain = [("project_id", "=", self.id)]
         context = {
@@ -52,6 +61,22 @@ class BusinessProject(models.Model):
             "name": _("Project Processes"),
             "domain": domain,
             "res_model": "business.process",
+            "type": "ir.actions.act_window",
+            "views": [(False, "list"), (False, "form")],
+            "view_mode": "tree,form",
+            "context": context,
+        }
+
+    def action_open_open_issue(self):
+        domain = [("project_id", "=", self.id)]
+        context = {
+            "default_project_id": self.id,
+            "default_customer_id": self.customer_id.id,
+        }
+        return {
+            "name": _("Open Issues"),
+            "domain": domain,
+            "res_model": "business.open.issue",
             "type": "ir.actions.act_window",
             "views": [(False, "list"), (False, "form")],
             "view_mode": "tree,form",

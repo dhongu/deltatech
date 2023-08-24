@@ -23,6 +23,7 @@
         "views/business_process_step_view.xml",
         "views/business_development_view.xml",
         "views/business_process_test_view.xml",
+        "views/business_open_issue_view.xml",
     ],
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],

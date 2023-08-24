@@ -1,8 +1,6 @@
 <?xml version="1.0" ?>
 <odoo>
 
-
-
     <record id="view_business_project_tree" model="ir.ui.view">
         <field name="name">Business project</field>
         <field name="model">business.project</field>
@@ -32,6 +30,14 @@
                     <div class="oe_button_box" name="button_box">
                       <button class="oe_stat_button" type="object" name="action_open_processes" icon="fa-cogs">
                             <field name="count_processes" widget="statinfo" string="Processes" />
+                        </button>
+                        <button
+                            class="oe_stat_button"
+                            type="object"
+                            name="action_open_open_issue"
+                            icon="fa-exclamation-triangle"
+                        >
+                            <field name="count_open_issues" widget="statinfo" string="Open Issues" />
                         </button>
                     </div>
                     <field name="logo" widget="image" class="oe_avatar" />

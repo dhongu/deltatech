@@ -35,6 +35,9 @@
                         <button class="oe_stat_button" type="object" name="action_open_step" icon="fa-cog">
                             <field name="count_steps" widget="statinfo" string="Steps" />
                         </button>
+                        <button class="oe_stat_button" type="object" name="action_open_test" icon="fa-stethoscope">
+                            <field name="count_tests" widget="statinfo" string="Tests" />
+                        </button>
                         <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-file-text-o">
                             <field string="Documents" name="doc_count" widget="statinfo" />
                         </button>
@@ -73,6 +76,7 @@
                                 <field name="transaction_id" />
                                 <field name="transaction_type" />
                                 <field name="responsible_id" />
+                                    <field name="development_ids" widget="many2many_tags" optional="hide" />
                                 </tree>
                             </field>
                         </page>

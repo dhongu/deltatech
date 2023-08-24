@@ -10,8 +10,13 @@
                 <field name="tester_id" />
                 <field name="date_start" optional="show" />
                 <field name="date_end" optional="show" />
-                <field name="state" widget="badge" decoration-success="state == 'production'  " />
-                <field name="scope" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-success="state == 'done'   "
+                    decoration-info="state == 'run'"
+                />
+                <field name="scope" widget="badge" />
             </tree>
         </field>
     </record>
@@ -47,6 +52,9 @@
                         <group string="Process">
                             <field name="process_id" />
                             <field name="tester_id" />
+                        </group>
+                        <group string="Scope">
+                            <field name="scope" />
                         </group>
                         <group string="Date">
                             <field name="date_start" />
@@ -87,12 +95,12 @@
         </field>
     </record>
     <record id="action_business_process_test" model="ir.actions.act_window">
-        <field name="name">Process test</field>
+        <field name="name">Process Tests</field>
         <field name="res_model">business.process.test</field>
         <field name="view_mode">tree,form</field>
     </record>
     <menuitem
-        name="Process test"
+        name="Process Tests"
         id="menu_business_process_test"
         action="action_business_process_test"
         sequence="50"
@@ -131,8 +139,7 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
-                    </div>
+                    <div class="oe_button_box" name="button_box" />
                     <div class="oe_title">
                         <h1>
                             <field name="name" default_focus="1" placeholder="Name" class="oe_inline" />
@@ -143,7 +150,12 @@
                         <group string="Identification">
                             <field name="process_test_id" />
                             <field name="step_id" />
-                             <field name="result" widget="badge" />
+                            <field
+                                name="result"
+                                widget="badge"
+                                decoration-danger="result == 'failed'"
+                                decoration-success="result == 'passed'"
+                            />
                         </group>
                         <group string="Responsible">
                             <field name="responsible_id" />
@@ -170,7 +182,7 @@
     <record id="action_business_process_step_test" model="ir.actions.act_window">
         <field name="name">Process step test</field>
         <field name="res_model">business.process.step.test</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,pivot</field>
     </record>
     <menuitem
         name="Process step test"

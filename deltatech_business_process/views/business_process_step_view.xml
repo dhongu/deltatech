@@ -13,6 +13,8 @@
                 <field name="transaction_id" />
                 <field name="transaction_type" />
                 <field name="responsible_id" />
+                 <field name="development_ids" widget="many2many_tags" optional="hide" />
+
             </tree>
         </field>
     </record>

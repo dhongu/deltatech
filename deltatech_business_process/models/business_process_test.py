@@ -3,8 +3,6 @@
 
 from odoo import _, api, fields, models
 
-from . import TEST_SCOPE
-
 
 class BusinessProcessTest(models.Model):
     _name = "business.process.test"
@@ -22,7 +20,18 @@ class BusinessProcessTest(models.Model):
         tracking=True,
         default="draft",
     )
-    scope = fields.Selection(TEST_SCOPE, string="Scope", required=True, default="other")
+    scope = fields.Selection(
+        [
+            ("internal", "Internal"),
+            ("integration", "Integration"),
+            ("user_acceptance", "User Acceptance"),
+            ("regression", "Regression"),
+            ("other", "Other"),
+        ],
+        string="Scope",
+        required=True,
+        default="other",
+    )
 
     doc_count = fields.Integer(string="Number of documents attached", compute="_compute_attached_docs_count")
 
