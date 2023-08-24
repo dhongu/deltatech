@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_business_process_test_tree" model="ir.ui.view">
+        <field name="name">Process test</field>
+        <field name="model">business.process.test</field>
+        <field name="arch" type="xml">
+            <tree string="Business development type">
+
+                <field name="name" />
+
+            </tree>
+        </field>
+    </record>
+    <record id="view_business_process_test_form" model="ir.ui.view">
+        <field name="name">Process test</field>
+        <field name="model">business.process.test</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="name" />
+                    </group>
+                    <group />
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="action_business_process_test" model="ir.actions.act_window">
+        <field name="name">Process test</field>
+        <field name="res_model">business.process.test</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Process test"
+        id="menu_business_process_test"
+        action="action_business_process_test"
+        sequence="50"
+        parent="menu_business_process_main"
+    />
+
+</odoo>

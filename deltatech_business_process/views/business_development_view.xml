@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+    <record id="view_business_development_tree" model="ir.ui.view">
+        <field name="name">Business development</field>
+        <field name="model">business.development</field>
+        <field name="arch" type="xml">
+            <tree string="Business process">
+                <field name="code" />
+                <field name="name" />
+
+            </tree>
+        </field>
+    </record>
+    <record id="view_business_development_form" model="ir.ui.view">
+        <field name="name">Business development</field>
+        <field name="model">business.development</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="name" />
+                    </group>
+                    <group />
+                </group>
+                      <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="action_business_development" model="ir.actions.act_window">
+        <field name="name">Business development</field>
+        <field name="res_model">business.development</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            name="Developments"
+            id="menu_business_development"
+            action="action_business_development"
+            parent="menu_business_process_main"
+            sequence="30"
+        />
+    </data>
+
+</odoo>

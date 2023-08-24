@@ -1,0 +1,81 @@
+<?xml version="1.0" ?>
+<odoo>
+
+        <record id="view_business_process_tree" model="ir.ui.view">
+            <field name="name">Business process</field>
+            <field name="model">business.process</field>
+            <field name="arch" type="xml">
+                <tree string="Business process" sample="1">
+                    <field name="code" />
+                    <field name="name" />
+                    <field name="project_id" />
+                    <field name="responsible_id" optional="show" />
+                    <field name="area_id" optional="show" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_business_process_form" model="ir.ui.view">
+            <field name="name">Business process</field>
+            <field name="model">business.process</field>
+            <field name="arch" type="xml">
+                <form>
+                <header>
+
+
+                   <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="preparation,exploitation,realization,deployment,running"
+                    />
+                </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code" />
+                                <field name="name" />
+                                <field name="project_id" />
+                            </group>
+                            <group>
+                                <field name="responsible_id" />
+                                <field name="area_id" />
+                            </group>
+                        </group>
+                    </sheet>
+      <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_business_process_filter" model="ir.ui.view">
+            <field name="name">Business process</field>
+            <field name="model">business.process</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="code" />
+                    <field name="name" />
+
+                </search>
+            </field>
+        </record>
+
+        <record id="action_business_process" model="ir.actions.act_window">
+            <field name="name">Business process</field>
+            <field name="res_model">business.process</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+        name="Business Process"
+        id="menu_business_process"
+        action="action_business_process"
+        parent="menu_business_process_main"
+        sequence="20"
+    />
+
+
+</odoo>
