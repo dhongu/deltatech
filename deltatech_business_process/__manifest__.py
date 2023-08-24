@@ -27,4 +27,5 @@
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],
     "maintainers": ["dhongu"],
+    "application": True,
 }

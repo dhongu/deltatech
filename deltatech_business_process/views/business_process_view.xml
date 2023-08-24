@@ -11,6 +11,8 @@
                 <field name="project_id" optional="hide" />
                 <field name="responsible_id" optional="show" />
                 <field name="area_id" optional="show" />
+                <field name="process_group_id" optional="show" />
+                <field name="state" widget="badge" decoration-success="state == 'production'  " />
             </tree>
         </field>
     </record>
@@ -23,20 +25,17 @@
                     <field
                         name="state"
                         widget="statusbar"
-                        statusbar_visible="draft,specification,development,test,production"
+                        options="{'clickable': '1'}"
+                        statusbar_visible="draft,design,test,ready,production"
                     />
+
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" type="object" name="action_open_step" icon="fa-cog">
                             <field name="count_steps" widget="statinfo" string="Steps" />
                         </button>
-                          <button
-                            class="oe_stat_button"
-                            name="attachment_tree_view"
-                            type="object"
-                            icon="fa-file-text-o"
-                        >
+                        <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-file-text-o">
                             <field string="Documents" name="doc_count" widget="statinfo" />
                         </button>
                     </div>
@@ -65,7 +64,17 @@
                     </group>
                     <notebook>
                         <page string="Process steps" name="steps">
-                            <field name="step_ids" widget="section_and_note_one2many" mode="tree,kanban" />
+                            <field name="step_ids" widget="section_and_note_one2many" mode="tree,kanban">
+                                <tree editable="bottom">
+                                <field name="sequence" widget="handle" />
+                                <field name="code" />
+                                <field name="process_id" invisible="1" />
+                                <field name="name" />
+                                <field name="transaction_id" />
+                                <field name="transaction_type" />
+                                <field name="responsible_id" />
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </sheet>

@@ -79,7 +79,7 @@
         name="Business Process Step"
         id="menu_business_process_step"
         action="action_business_process_step"
-        parent="menu_business_process_main"
+        parent="menu_report"
         sequence="25"
     />
 

@@ -21,13 +21,17 @@ class BusinessProcess(models.Model):
     responsible_id = fields.Many2one(string="Responsible", comodel_name="res.partner")
     customer_id = fields.Many2one(string="Customer Responsible", comodel_name="res.partner")
     state = fields.Selection(
-        [("draft", "Draft"), ("test", "Test"), ("approved", "Approved")], string="State", default="draft"
+        [("draft", "Draft"), ("design", "Design"), ("test", "Test"), ("ready", "Ready"), ("production", "Production")],
+        string="State",
+        default="draft",
+        tracking=True,
     )
     approved_id = fields.Many2one(string="Approved by", comodel_name="res.partner")
-    tests_ids = fields.One2many(string="Tests", comodel_name="business.process.test", inverse_name="process_id")
+    test_ids = fields.One2many(string="Tests", comodel_name="business.process.test", inverse_name="process_id")
     project_id = fields.Many2one(string="Project", comodel_name="business.project", required=True)
 
     count_steps = fields.Integer(string="Steps", compute="_compute_count_steps")
+    count_tests = fields.Integer(string="Tests", compute="_compute_count_tests")
 
     doc_count = fields.Integer(string="Number of documents attached", compute="_compute_attached_docs_count")
 
@@ -41,6 +45,10 @@ class BusinessProcess(models.Model):
         for process in self:
             process.count_steps = len(process.step_ids)
 
+    def _compute_count_tests(self):
+        for process in self:
+            process.count_tests = len(process.test_ids)
+
     def action_open_step(self):
         domain = [("process_id", "=", self.id)]
         context = {
@@ -52,6 +60,21 @@ class BusinessProcess(models.Model):
             "name": _("Process Steps"),
             "domain": domain,
             "res_model": "business.process.step",
+            "type": "ir.actions.act_window",
+            "views": [(False, "list"), (False, "form")],
+            "view_mode": "tree,form",
+            "context": context,
+        }
+
+    def action_open_test(self):
+        domain = [("process_id", "=", self.id)]
+        context = {
+            "default_process_id": self.id,
+        }
+        return {
+            "name": _("Process Tests"),
+            "domain": domain,
+            "res_model": "business.process.test",
             "type": "ir.actions.act_window",
             "views": [(False, "list"), (False, "form")],
             "view_mode": "tree,form",

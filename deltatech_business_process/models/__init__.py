@@ -11,3 +11,12 @@ from . import business_development
 from . import business_project
 from . import business_role
 from . import business_open_issue
+
+
+TEST_SCOPE = [
+    ("internal", "Internal"),
+    ("integration", "Integration"),
+    ("user_acceptance", "User Acceptance"),
+    ("regression", "Regression"),
+    ("other", "Other"),
+]

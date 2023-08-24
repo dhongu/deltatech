@@ -15,6 +15,6 @@
         sequence="200"
     />
 
-    <menuitem name="Reports" id="business_process_report" parent="menu_business_process_app" sequence="300" />
+    <menuitem name="Reports" id="menu_report" parent="menu_business_process_app" sequence="300" />
     <menuitem name="Configuration" id="menu_config" parent="menu_business_process_app" sequence="900" />
 </odoo>

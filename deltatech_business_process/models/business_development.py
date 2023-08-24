@@ -19,6 +19,7 @@ class BusinessDevelopment(models.Model):
         [("draft", "Draft"), ("approved", "Approved"), ("rejected", "Rejected"), ("pending", "Pending")],
         string="Approved",
         default="draft",
+        tracking=True,
     )
     state = fields.Selection(
         [
@@ -30,6 +31,7 @@ class BusinessDevelopment(models.Model):
         ],
         string="State",
         default="draft",
+        tracking=True,
     )
 
     date_start_fp = fields.Date(help="Start date functional specification")
