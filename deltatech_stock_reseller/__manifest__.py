@@ -5,12 +5,12 @@
 {
     "name": "Stock Report Reseller",
     "summary": "Report report reseller",
-    "version": "14.0.1.0.1",
+    "version": "15.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
     "depends": ["sale_stock"],
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "data": [
         "security/ir.model.access.csv",
         "wizard/stock_quant_report_view.xml",
