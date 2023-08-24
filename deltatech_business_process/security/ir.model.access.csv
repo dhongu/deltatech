@@ -8,3 +8,5 @@ access_business_process_step_test,access_business_process_step_test,model_busine
 access_business_transaction,access_business_transaction,model_business_transaction,base.group_user,1,1,1,1
 access_business_development,access_business_development,model_business_development,base.group_user,1,1,1,1
 access_business_project,access_business_project,model_business_project,base.group_user,1,1,1,1
+access_business_process_group,access_business_process_group,model_business_process_group,base.group_user,1,1,1,1
+access_business_role,access_business_role,model_business_role,base.group_user,1,1,1,1

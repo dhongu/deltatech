@@ -1,13 +1,26 @@
 <?xml version="1.0" ?>
 <odoo>
-    <data>
+
     <record id="view_business_development_tree" model="ir.ui.view">
         <field name="name">Business development</field>
         <field name="model">business.development</field>
         <field name="arch" type="xml">
-            <tree string="Business process">
+            <tree string="Development" sample="1">
                 <field name="code" />
                 <field name="name" />
+                <field name="state" />
+                <field name="responsible_id" optional="show" />
+                <field name="date_start_fp" optional="show" />
+                <field name="date_end_fp" optional="show" />
+
+                <field name="developer_id" optional="show" />
+                <field name="date_start_dev" optional="show" />
+                <field name="date_end_dev" optional="show" />
+
+                <field name="tester_id" optional="show" />
+                <field name="date_start_test" optional="show" />
+                <field name="date_end_test" optional="show" />
+
 
             </tree>
         </field>
@@ -17,13 +30,47 @@
         <field name="model">business.development</field>
         <field name="arch" type="xml">
             <form>
-                <group>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved,rejected,pending" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name" class="oe_inline" />
+                        </h1>
+                    </div>
                     <group>
-                        <field name="name" />
+                        <group>
+                            <field name="code" />
+                        </group>
+                        <group>
+                            <field name="area_id" />
+                            <field name="type_id" />
+                            <field name="area_id" />
+                            <field name="approved" />
+                        </group>
+
+                        <group string="Specification">
+                            <field name="responsible_id" />
+                            <field name="date_start_fp" string="Date start" />
+                            <field name="date_end_fp" string="Date end" />
+                        </group>
+                        <group string="Development">
+                            <field name="developer_id" />
+                            <field name="date_start_dev" string="Date start" />
+                            <field name="date_end_dev" string="Date end" />
+                        </group>
+                        <group string="Test ">
+                            <field name="tester_id" />
+                            <field name="date_start_test" string="Date start" />
+                            <field name="date_end_test" string="Date end" />
+                        </group>
+
                     </group>
-                    <group />
-                </group>
-                      <div class="oe_chatter">
+                </sheet>
+                <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" />
                     <field name="activity_ids" widget="mail_activity" />
                     <field name="message_ids" widget="mail_thread" />
@@ -31,19 +78,40 @@
             </form>
         </field>
     </record>
+
+
+    <record id="view_business_development_filter" model="ir.ui.view">
+        <field name="name">Business development</field>
+        <field name="model">business.development</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code" />
+                <field name="name" />
+                <field name="state" />
+                <field name="area_id" />
+                <field name="type_id" />
+                <field name="approved" />
+                <field name="responsible_id" />
+                <field name="developer_id" />
+            </search>
+        </field>
+
+    </record>
+
+
     <record id="action_business_development" model="ir.actions.act_window">
         <field name="name">Business development</field>
         <field name="res_model">business.development</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,pivot</field>
     </record>
 
     <menuitem
-            name="Developments"
-            id="menu_business_development"
-            action="action_business_development"
-            parent="menu_business_process_main"
-            sequence="30"
-        />
-    </data>
+        name="Developments"
+        id="menu_business_development"
+        action="action_business_development"
+        parent="menu_business_process_main"
+        sequence="30"
+    />
+
 
 </odoo>

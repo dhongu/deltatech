@@ -9,5 +9,16 @@ class BusinessTransaction(models.Model):
     _description = "Business transaction"
 
     name = fields.Char(string="Name", required=True)
-    code = fields.Char(string="Code", required=True)
+    code = fields.Char(string="Code")
     area_id = fields.Many2one("business.area", string="Business Area")
+    transaction_type = fields.Selection(
+        [("md", "Master Data"), ("tr", "Transaction"), ("rp", "Report"), ("ex", "Extern")],
+        string="Transaction Type",
+        required=True,
+    )
+
+    def name_get(self):
+        self.browse(self.ids).read(["name", "code"])
+        return [
+            (process.id, "{}{}".format(process.code and "[%s] " % process.code or "", process.name)) for process in self
+        ]

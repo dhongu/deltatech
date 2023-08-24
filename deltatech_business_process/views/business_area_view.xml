@@ -5,9 +5,7 @@
         <field name="model">business.area</field>
         <field name="arch" type="xml">
             <tree string="Business area">
-
                 <field name="name" />
-
             </tree>
         </field>
     </record>
@@ -20,7 +18,9 @@
                     <group>
                         <field name="name" />
                     </group>
-                    <group />
+                    <group>
+                        <field name="process_group_ids" widget="many2many_tags" />
+                    </group>
                 </group>
             </form>
         </field>

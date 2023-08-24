@@ -1,75 +1,105 @@
 <?xml version="1.0" ?>
 <odoo>
 
-        <record id="view_business_process_tree" model="ir.ui.view">
-            <field name="name">Business process</field>
-            <field name="model">business.process</field>
-            <field name="arch" type="xml">
-                <tree string="Business process" sample="1">
-                    <field name="code" />
-                    <field name="name" />
-                    <field name="project_id" />
-                    <field name="responsible_id" optional="show" />
-                    <field name="area_id" optional="show" />
-                </tree>
-            </field>
-        </record>
-        <record id="view_business_process_form" model="ir.ui.view">
-            <field name="name">Business process</field>
-            <field name="model">business.process</field>
-            <field name="arch" type="xml">
-                <form>
+    <record id="view_business_process_tree" model="ir.ui.view">
+        <field name="name">Business process</field>
+        <field name="model">business.process</field>
+        <field name="arch" type="xml">
+            <tree string="Business process" sample="1">
+                <field name="code" />
+                <field name="name" />
+                <field name="project_id" optional="hide" />
+                <field name="responsible_id" optional="show" />
+                <field name="area_id" optional="show" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_business_process_form" model="ir.ui.view">
+        <field name="name">Business process</field>
+        <field name="model">business.process</field>
+        <field name="arch" type="xml">
+            <form>
                 <header>
-
-
-                   <field
+                    <field
                         name="state"
                         widget="statusbar"
-                        statusbar_visible="preparation,exploitation,realization,deployment,running"
+                        statusbar_visible="draft,specification,development,test,production"
                     />
                 </header>
-                    <sheet>
-                        <group>
-                            <group>
-                                <field name="code" />
-                                <field name="name" />
-                                <field name="project_id" />
-                            </group>
-                            <group>
-                                <field name="responsible_id" />
-                                <field name="area_id" />
-                            </group>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_open_step" icon="fa-cog">
+                            <field name="count_steps" widget="statinfo" string="Steps" />
+                        </button>
+                          <button
+                            class="oe_stat_button"
+                            name="attachment_tree_view"
+                            type="object"
+                            icon="fa-file-text-o"
+                        >
+                            <field string="Documents" name="doc_count" widget="statinfo" />
+                        </button>
+                    </div>
+
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name" class="oe_inline" />
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Identification">
+                            <field name="code" />
+                            <field name="project_id" />
                         </group>
-                    </sheet>
-      <div class="oe_chatter">
+                        <group string="Responsible">
+                            <field name="responsible_id" />
+                            <field name="customer_id" />
+                        </group>
+                        <group string="Business process">
+                            <field name="area_id" />
+                            <field name="process_group_id" />
+                        </group>
+
+                    </group>
+                    <notebook>
+                        <page string="Process steps" name="steps">
+                            <field name="step_ids" widget="section_and_note_one2many" mode="tree,kanban" />
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" />
                     <field name="activity_ids" widget="mail_activity" />
                     <field name="message_ids" widget="mail_thread" />
                 </div>
-                </form>
-            </field>
-        </record>
+            </form>
+        </field>
+    </record>
 
 
-        <record id="view_business_process_filter" model="ir.ui.view">
-            <field name="name">Business process</field>
-            <field name="model">business.process</field>
-            <field name="arch" type="xml">
-                <search>
-                    <field name="code" />
-                    <field name="name" />
+    <record id="view_business_process_filter" model="ir.ui.view">
+        <field name="name">Business process</field>
+        <field name="model">business.process</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code" />
+                <field name="name" />
+                <field name="project_id" />
+                <field name="area_id" />
+                <field name="responsible_id" />
+            </search>
+        </field>
+    </record>
 
-                </search>
-            </field>
-        </record>
+    <record id="action_business_process" model="ir.actions.act_window">
+        <field name="name">Business process</field>
+        <field name="res_model">business.process</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 
-        <record id="action_business_process" model="ir.actions.act_window">
-            <field name="name">Business process</field>
-            <field name="res_model">business.process</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-
-        <menuitem
+    <menuitem
         name="Business Process"
         id="menu_business_process"
         action="action_business_process"

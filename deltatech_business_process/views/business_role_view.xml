@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_business_role_tree" model="ir.ui.view">
+        <field name="name">Business role</field>
+        <field name="model">business.role</field>
+        <field name="arch" type="xml">
+            <tree string="Business role">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_business_role_form" model="ir.ui.view">
+        <field name="name">Business role</field>
+        <field name="model">business.role</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="action_business_role" model="ir.actions.act_window">
+        <field name="name">Business role</field>
+        <field name="res_model">business.role</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem name="Business Role" id="menu_business_role" action="action_business_role" parent="menu_config" />
+
+</odoo>
