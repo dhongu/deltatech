@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Services/Equipment",
     "depends": [
-        "deltatech_service",
+        "deltatech_service_agreement",
         "deltatech_service_equipment",
         "deltatech_product_extension",
         "deltatech_stock_report",
@@ -24,6 +24,6 @@
         "views/service_agreement.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Mature",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
