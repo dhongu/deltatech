@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Services/Equipment",
     "depends": [
-        "deltatech_service_base",
+        "deltatech_service_agreement",
         "deltatech_service_equipment",
         "deltatech_product_extension",
         "deltatech_stock_report",
