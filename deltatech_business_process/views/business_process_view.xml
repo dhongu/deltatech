@@ -58,6 +58,12 @@
                         <group string="Responsible">
                             <field name="responsible_id" />
                             <field name="customer_id" />
+                            <field name="approved_id" />
+                        </group>
+                        <group string="Business Blueprint">
+                            <field name="date_start_bbp" />
+                            <field name="date_end_bbp" />
+                            <field name="completion_bbp" widget="progressbar" options="{'editable': true}" />
                         </group>
                         <group string="Business process">
                             <field name="area_id" />
@@ -102,6 +108,15 @@
                 <field name="project_id" />
                 <field name="area_id" />
                 <field name="responsible_id" />
+                <group>
+                    <filter name="group_area" string="Area" domain="[]" context="{'group_by':'area_id'}" />
+                    <filter
+                        name="group_responsible"
+                        string="Responsible"
+                        domain="[]"
+                        context="{'group_by':'responsible_id'}"
+                    />
+                </group>
             </search>
         </field>
     </record>

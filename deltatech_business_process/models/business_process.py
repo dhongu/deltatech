@@ -9,7 +9,7 @@ class BusinessProcess(models.Model):
     _description = "Business process"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(string="Name", required=True)
+    name = fields.Char(string="Name", required=True, tracking=True)
     code = fields.Char(string="Code", required=True)
     description = fields.Text(string="Description")
     area_id = fields.Many2one(string="Area", comodel_name="business.area", required=True)
@@ -17,7 +17,14 @@ class BusinessProcess(models.Model):
         string="Process Group", comodel_name="business.process.group", domain="[('area_id', '=', area_id)]"
     )
 
-    step_ids = fields.One2many(string="Steps", comodel_name="business.process.step", inverse_name="process_id")
+    step_ids = fields.One2many(
+        string="Steps",
+        comodel_name="business.process.step",
+        inverse_name="process_id",
+        copy=True,
+        readonly=True,
+        states={"draft": [("readonly", False)], "design": [("readonly", False)]},
+    )
     responsible_id = fields.Many2one(string="Responsible", comodel_name="res.partner")
     customer_id = fields.Many2one(string="Customer Responsible", comodel_name="res.partner")
     state = fields.Selection(
@@ -26,14 +33,41 @@ class BusinessProcess(models.Model):
         default="draft",
         tracking=True,
     )
-    approved_id = fields.Many2one(string="Approved by", comodel_name="res.partner")
+
     test_ids = fields.One2many(string="Tests", comodel_name="business.process.test", inverse_name="process_id")
-    project_id = fields.Many2one(string="Project", comodel_name="business.project", required=True)
+    project_id = fields.Many2one(
+        string="Project",
+        comodel_name="business.project",
+        required=True,
+        readoly=True,
+        states={"draft": [("readonly", False)]},
+    )
 
     count_steps = fields.Integer(string="Steps", compute="_compute_count_steps")
     count_tests = fields.Integer(string="Tests", compute="_compute_count_tests")
 
     doc_count = fields.Integer(string="Number of documents attached", compute="_compute_attached_docs_count")
+
+    date_start_bbp = fields.Date(
+        string="Start BBP",
+        help="Start date business blueprint",
+        readonly=True,
+        states={"draft": [("readonly", False)], "design": [("readonly", False)]},
+    )
+
+    date_end_bbp = fields.Date(
+        string="End BBP",
+        help="End date business blueprint",
+        readonly=True,
+        states={"draft": [("readonly", False)], "design": [("readonly", False)]},
+    )
+    completion_bbp = fields.Float(
+        string="Completion",
+        help="Completion business blueprint",
+        readonly=True,
+        states={"draft": [("readonly", False)], "design": [("readonly", False)]},
+    )
+    approved_id = fields.Many2one(string="Approved by", comodel_name="res.partner")
 
     def name_get(self):
         self.browse(self.ids).read(["name", "code"])
@@ -101,33 +135,3 @@ class BusinessProcess(models.Model):
             "view_mode": "kanban,tree,form",
             "context": "{{'default_res_model': '{}','default_res_id': {}}}".format(self._name, self.id),
         }
-
-
-class BusinessProcessStep(models.Model):
-    _name = "business.process.step"
-    _description = "Business process step"
-    _order = "sequence"
-
-    name = fields.Char(string="Name", required=True)
-    code = fields.Char(string="Code", required=True)
-    description = fields.Text(string="Description")
-    process_id = fields.Many2one(string="Process", comodel_name="business.process", required=True)
-    sequence = fields.Integer(string="Sequence", required=True, default=10)
-
-    responsible_id = fields.Many2one(string="Responsible Step", comodel_name="res.partner")
-
-    development_ids = fields.Many2many(
-        string="Developments",
-        comodel_name="business.development",
-        relation="business_development_step_rel",
-        column1="step_id",
-        column2="development_id",
-    )
-
-    transaction_id = fields.Many2one(string="Transaction", comodel_name="business.transaction")
-    transaction_type = fields.Selection(related="transaction_id.transaction_type")
-    role_id = fields.Many2one(string="Role", comodel_name="business.role")
-
-    def name_get(self):
-        self.browse(self.ids).read(["name", "code"])
-        return [(step.id, "{}{}".format(step.code and "[%s] " % step.code or "", step.name)) for step in self]

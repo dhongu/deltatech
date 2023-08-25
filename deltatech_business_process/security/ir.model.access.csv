@@ -11,3 +11,4 @@ access_business_project,access_business_project,model_business_project,base.grou
 access_business_process_group,access_business_process_group,model_business_process_group,base.group_user,1,1,1,1
 access_business_role,access_business_role,model_business_role,base.group_user,1,1,1,1
 access_business_open_issue,access_business_open_issue,model_business_open_issue,base.group_user,1,1,1,1
+access_business_process_report,access_business_process_report,model_business_process_report,base.group_user,1,1,1,1

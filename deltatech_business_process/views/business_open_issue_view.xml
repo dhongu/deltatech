@@ -48,7 +48,7 @@
                             <field name="deadline" />
                             <field name="closed_date" />
                         </group>
-                        <group string="Actors">
+                        <group string="Responsible">
                             <field name="responsible_id" />
                             <field name="customer_id" />
                         </group>
