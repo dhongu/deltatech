@@ -60,6 +60,7 @@
     </record>
 
 
+
     <record id="view_business_process_step_filter" model="ir.ui.view">
         <field name="name">Business process step</field>
         <field name="model">business.process.step</field>
@@ -67,9 +68,7 @@
             <search>
                 <field name="code" />
                 <field name="name" />
-
                 <group>
-                    <filter name="group_area" string="Area" domain="[]" context="{'group_by':'area_id'}" />
                     <filter name="group_process" string="Process" domain="[]" context="{'group_by':'process_id'}" />
                 </group>
             </search>

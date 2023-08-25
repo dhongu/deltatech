@@ -39,7 +39,7 @@ class BusinessProcess(models.Model):
         string="Project",
         comodel_name="business.project",
         required=True,
-        readoly=True,
+        readonly=True,
         states={"draft": [("readonly", False)]},
     )
 

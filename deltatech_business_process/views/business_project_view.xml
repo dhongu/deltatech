@@ -112,11 +112,22 @@
         </field>
     </record>
 
+    <record id="view_business_project_calendar" model="ir.ui.view">
+        <field name="name">Business project</field>
+        <field name="model">business.project</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date_start" date_stop="date_go_live" mode="week" color="customer_id" string="Project">
+                <field name="name" />
+                <field name="customer_id" filters="1" />
+            </calendar>
+        </field>
+    </record>
+
 
     <record id="action_business_project" model="ir.actions.act_window">
         <field name="name">Business project</field>
         <field name="res_model">business.project</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,tree,form,calendar</field>
     </record>
 
     <menuitem

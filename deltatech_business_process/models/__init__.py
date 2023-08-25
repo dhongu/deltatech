@@ -7,6 +7,7 @@ from . import business_development_type
 from . import business_process
 from . import business_process_step
 from . import business_process_test
+from . import business_process_step_test
 from . import business_transaction
 from . import business_development
 from . import business_project
