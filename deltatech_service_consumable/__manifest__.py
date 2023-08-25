@@ -24,6 +24,6 @@
         "views/service_agreement.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Mature",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
