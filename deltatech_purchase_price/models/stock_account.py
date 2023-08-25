@@ -43,10 +43,10 @@ class StockMove(models.Model):
                         if update_product_price:
                             seller.write({"price": seller_price_unit})
 
-            # pretul standard se actualizeaza prin rutinele standard. Aici este o fortare pe ultimul pret
             if update_list_price:
                 self.product_id.product_tmpl_id.onchange_last_purchase_price()
 
+            # pretul standard se actualizeaza prin rutinele standard. Aici este o fortare pe ultimul pret
             if update_standard_price:
                 self.product_id.with_context(disable_auto_svl=True).write({"standard_price": price_unit})
 

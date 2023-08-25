@@ -25,7 +25,7 @@ Features:
     - *purchase.add_supplier_to_product* - if set to True, the supplier and the price will be automatically added to the
       supplier info of the product, if set to False, no modifications will be made in the supplier info of the product
     - *purchase.update_list_price* - if set to True, the list price will be updated according to trade markup value.
-      If set to False, the list price will not be updated
+      If set to False, the list price will not be updated. **Warning**: if parameter is missing, it defaults to True
     - *sale.list_price_round* - decimal number to which the list price is rounded
  - New fields added in product template:
     - last_purchase_price - last purchase price. It's updated at receipt validation
