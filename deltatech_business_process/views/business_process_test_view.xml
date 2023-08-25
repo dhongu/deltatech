@@ -29,7 +29,6 @@
                     <field
                         name="state"
                         widget="statusbar"
-                        class="oe_edit_only"
                         options="{'clickable': '1'}"
                         statusbar_visible="draft,run,done"
                     />

@@ -13,6 +13,10 @@
                 <field name="area_id" optional="show" />
                 <field name="process_group_id" optional="show" />
                 <field name="state" widget="badge" decoration-success="state == 'production'  " />
+
+                <field name="date_start_bbp" optional="hide" />
+                <field name="date_end_bbp" optional="hide" />
+                <field name="completion_bbp" widget="progressbar" optional="hide" />
             </tree>
         </field>
     </record>
@@ -75,13 +79,13 @@
                         <page string="Process steps" name="steps">
                             <field name="step_ids" widget="section_and_note_one2many" mode="tree,kanban">
                                 <tree editable="bottom">
-                                <field name="sequence" widget="handle" />
-                                <field name="code" />
-                                <field name="process_id" invisible="1" />
-                                <field name="name" />
-                                <field name="transaction_id" />
-                                <field name="transaction_type" />
-                                <field name="responsible_id" />
+                                    <field name="sequence" widget="handle" />
+                                    <field name="code" />
+                                    <field name="process_id" invisible="1" />
+                                    <field name="name" />
+                                    <field name="transaction_id" />
+                                    <field name="transaction_type" />
+                                    <field name="responsible_id" />
                                     <field name="development_ids" widget="many2many_tags" optional="hide" />
                                 </tree>
                             </field>
@@ -97,6 +101,16 @@
         </field>
     </record>
 
+    <record id="view_business_process_calendar" model="ir.ui.view">
+        <field name="name">Process test</field>
+        <field name="model">business.process</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date_start_bbp" date_stop="date_end_bbp" mode="week" color="area_id" string="Process">
+                <field name="name" />
+                <field name="area_id" filters="1" />
+            </calendar>
+        </field>
+    </record>
 
     <record id="view_business_process_filter" model="ir.ui.view">
         <field name="name">Business process</field>
@@ -124,7 +138,7 @@
     <record id="action_business_process" model="ir.actions.act_window">
         <field name="name">Business process</field>
         <field name="res_model">business.process</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,pivot,calendar</field>
     </record>
 
     <menuitem
