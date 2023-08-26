@@ -12,6 +12,7 @@
     "category": "Generic Modules/Other",
     "depends": ["account"],
     "data": [
+        "security/security.xml",
         "security/ir.model.access.csv",
         "views/menu.xml",
         "views/business_area_view.xml",
@@ -26,6 +27,7 @@
         "views/business_process_step_test_view.xml",
         "views/business_open_issue_view.xml",
         "report/business_process_report_view.xml",
+        "report/business_process_test_report_view.xml",
     ],
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],

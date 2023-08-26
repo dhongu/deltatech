@@ -19,4 +19,4 @@ class BusinessProcessGroup(models.Model):
     _description = "Business Process Group"
 
     name = fields.Char(string="Name", required=True)
-    area_id = fields.Many2one(string="Business area", comodel_name="business.area", required=True)
+    area_id = fields.Many2one(string="Business area", comodel_name="business.area")

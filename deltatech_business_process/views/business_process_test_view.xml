@@ -4,7 +4,7 @@
         <field name="name">Process test</field>
         <field name="model">business.process.test</field>
         <field name="arch" type="xml">
-            <tree string="Business Process Test" sample="1">
+            <tree string="Business Process Test" multi_edit="1" sample="1">
                 <field name="name" />
                 <field name="process_id" />
                 <field name="tester_id" />
@@ -26,6 +26,11 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+
+                    <button name="action_run" class="oe_highlight" type="object" string="Run" states="draft" />
+                    <button name="action_done" class="oe_highlight" type="object" string="Done" states="run" />
+                    <button name="action_wait" type="object" string="Wait" states="run" />
+                    <button name="action_draft" type="object" string="Draft" states="done" />
                     <field
                         name="state"
                         widget="statusbar"
@@ -64,8 +69,10 @@
                         <page string="Process steps" name="steps">
                             <field name="test_step_ids" widget="section_and_note_one2many" mode="tree,kanban">
                                 <tree
+                                    create="false"
                                     string="Process steps"
                                     editable="bottom"
+                                    delete="false"
                                     decoration-danger="result == 'failed'"
                                     decoration-success="result == 'passed'"
                                 >
@@ -80,6 +87,7 @@
                                     <field name="date_start" optional="show" />
                                     <field name="date_end" optional="show" />
                                     <field name="result" />
+                                    <field name="observation" optional="hide" />
                                 </tree>
                             </field>
                         </page>

@@ -15,6 +15,7 @@ class BusinessTransaction(models.Model):
         [("md", "Master Data"), ("tr", "Transaction"), ("rp", "Report"), ("ex", "Extern")],
         string="Transaction Type",
         required=True,
+        default="tr",
     )
 
     def name_get(self):

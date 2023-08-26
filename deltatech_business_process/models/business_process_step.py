@@ -12,10 +12,12 @@ class BusinessProcessStep(models.Model):
     name = fields.Char(string="Name", required=True)
     code = fields.Char(string="Code", required=True)
     description = fields.Text(string="Description")
-    process_id = fields.Many2one(string="Process", comodel_name="business.process", required=True)
+    process_id = fields.Many2one(string="Process", comodel_name="business.process", required=True, ondelete="cascade")
     sequence = fields.Integer(string="Sequence", required=True, default=10)
 
-    responsible_id = fields.Many2one(string="Responsible Step", comodel_name="res.partner")
+    responsible_id = fields.Many2one(
+        string="Responsible Step", domain="[('is_company', '=', False)]", comodel_name="res.partner"
+    )
 
     development_ids = fields.Many2many(
         string="Developments",

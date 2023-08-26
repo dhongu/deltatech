@@ -17,6 +17,27 @@
                 <field name="date_start_bbp" optional="hide" />
                 <field name="date_end_bbp" optional="hide" />
                 <field name="completion_bbp" widget="progressbar" optional="hide" />
+
+                <field
+                    name="status_internal_test"
+                    widget="badge"
+                    optional="hide"
+                    decoration-success="state == 'done'"
+                />
+                <field
+                    name="status_integration_test"
+                    widget="badge"
+                    optional="hide"
+                    decoration-success="state == 'done'"
+                />
+                <field
+                    name="status_user_acceptance_test"
+                    widget="badge"
+                    optional="hide"
+                    decoration-success="state == 'done'"
+                />
+
+
             </tree>
         </field>
     </record>
@@ -73,6 +94,11 @@
                             <field name="area_id" />
                             <field name="process_group_id" />
                         </group>
+<!--                        <group string="Tests Status">
+                            <field name="status_internal_test" />
+                            <field name="status_integration_test" />
+                            <field name="status_user_acceptance_test" />
+                        </group>-->
 
                     </group>
                     <notebook>
@@ -149,5 +175,30 @@
         sequence="20"
     />
 
+
+     <record id="action_start_internal_test" model="ir.actions.server">
+        <field name="name">Start Internal Test</field>
+        <field name="model_id" ref="model_business_process" />
+        <field name="state">code</field>
+        <field name="code">action = records.start_internal_test()</field>
+        <field name="binding_model_id" ref="model_business_process" />
+    </record>
+
+
+    <record id="action_start_integration_test" model="ir.actions.server">
+        <field name="name">Start Integration Test</field>
+        <field name="model_id" ref="model_business_process" />
+        <field name="state">code</field>
+        <field name="code">action = records.start_integration_test()</field>
+        <field name="binding_model_id" ref="model_business_process" />
+    </record>
+
+    <record id="action_start_user_acceptance_test" model="ir.actions.server">
+        <field name="name">Start User Acceptance Test</field>
+        <field name="model_id" ref="model_business_process" />
+        <field name="state">code</field>
+        <field name="code">action = records.start_user_acceptance_test()</field>
+        <field name="binding_model_id" ref="model_business_process" />
+    </record>
 
 </odoo>

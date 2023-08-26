@@ -3,3 +3,4 @@
 
 
 from . import business_process_report
+from . import business_process_test_report

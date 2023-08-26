@@ -8,7 +8,9 @@ class BusinessProcessStepTest(models.Model):
     _name = "business.process.step.test"
     _description = "Business Process Step Test"
 
-    process_test_id = fields.Many2one(string="Process Test", comodel_name="business.process.test", required=True)
+    process_test_id = fields.Many2one(
+        string="Process Test", comodel_name="business.process.test", required=True, ondelete="cascade"
+    )
     step_id = fields.Many2one(string="Step", comodel_name="business.process.step", required=True)
     process_id = fields.Many2one(
         string="Process", comodel_name="business.process", related="step_id.process_id", store=True
@@ -20,7 +22,9 @@ class BusinessProcessStepTest(models.Model):
     transaction_id = fields.Many2one(
         string="Transaction", comodel_name="business.transaction", related="step_id.transaction_id", store=True
     )
-    responsible_id = fields.Many2one(string="Responsible", comodel_name="res.partner", store=True)
+    responsible_id = fields.Many2one(
+        string="Responsible", comodel_name="res.partner", domain="[('is_company', '=', False)]", store=True
+    )
 
     result = fields.Selection(
         [
@@ -29,9 +33,11 @@ class BusinessProcessStepTest(models.Model):
             ("failed", "Failed"),
         ],
         string="Result",
+        default="draft",
     )
     data_used = fields.Text(string="Data used")
     data_result = fields.Text(string="Data result")
 
     date_start = fields.Date(string="Date start")
     date_end = fields.Date(string="Date end")
+    observation = fields.Text(string="Observation")

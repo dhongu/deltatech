@@ -1,7 +1,7 @@
 # ©  2023 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 
 
 class BusinessProcess(models.Model):
@@ -25,8 +25,12 @@ class BusinessProcess(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)], "design": [("readonly", False)]},
     )
-    responsible_id = fields.Many2one(string="Responsible", comodel_name="res.partner")
-    customer_id = fields.Many2one(string="Customer Responsible", comodel_name="res.partner")
+    responsible_id = fields.Many2one(
+        string="Responsible", domain="[('is_company', '=', False)]", comodel_name="res.partner"
+    )
+    customer_id = fields.Many2one(
+        string="Customer Responsible", domain="[('is_company', '=', False)]", comodel_name="res.partner"
+    )
     state = fields.Selection(
         [("draft", "Draft"), ("design", "Design"), ("test", "Test"), ("ready", "Ready"), ("production", "Production")],
         string="State",
@@ -68,6 +72,22 @@ class BusinessProcess(models.Model):
         states={"draft": [("readonly", False)], "design": [("readonly", False)]},
     )
     approved_id = fields.Many2one(string="Approved by", comodel_name="res.partner")
+
+    status_internal_test = fields.Selection(
+        [("not_started", "Not started"), ("in_progress", "In progress"), ("done", "Done")],
+        string="Status internal test",
+        default="not_started",
+    )
+    status_integration_test = fields.Selection(
+        [("not_started", "Not started"), ("in_progress", "In progress"), ("done", "Done")],
+        string="Status integration test",
+        default="not_started",
+    )
+    status_user_acceptance_test = fields.Selection(
+        [("not_started", "Not started"), ("in_progress", "In progress"), ("done", "Done")],
+        string="Status user acceptance test",
+        default="not_started",
+    )
 
     def name_get(self):
         self.browse(self.ids).read(["name", "code"])
@@ -135,3 +155,59 @@ class BusinessProcess(models.Model):
             "view_mode": "kanban,tree,form",
             "context": "{{'default_res_model': '{}','default_res_id': {}}}".format(self._name, self.id),
         }
+
+    def _load_records(self, data_list, update=False):
+        project_id = self.env.context.get("default_project_id", False)
+        for data in data_list:
+            code = data["values"].get("code", False)
+            if code:
+                domain = [("project_id", "=", project_id), ("code", "=", code)]
+                record = self.search(domain, limit=1)
+                if record:
+                    data["values"]["id"] = record.id
+                else:
+                    data["values"]["id"] = False
+
+        return super()._load_records(data_list, update)
+
+    @api.model
+    def _name_search(self, name="", args=None, operator="ilike", limit=100, name_get_uid=None):
+
+        if args is None:
+            args = []
+        project_id = self.env.context.get("default_project_id", False)
+        domain = [("code", "=", name)]
+        if project_id:
+            domain.append(("project_id", "=", project_id))
+        ids = list(self._search(domain + args, limit=limit))
+
+        search_domain = [("name", operator, name)]
+        if ids:
+            search_domain.append(("id", "not in", ids))
+        ids += list(self._search(search_domain + args, limit=limit))
+
+        return ids
+
+    def _start_test(self, scope):
+        for process in self:
+            domain = [("process_id", "=", process.id), ("scope", "=", scope)]
+            test = self.env["business.process.test"].search(domain, limit=1)
+            if not test:
+                test = self.env["business.process.test"].create(
+                    {
+                        "name": _("Test %s") % process.code if process.code else process.name,
+                        "process_id": process.id,
+                        "tester_id": process.responsible_id.id,
+                        "scope": scope,
+                    }
+                )
+                test._onchange_process_id()
+
+    def start_internal_test(self):
+        self._start_test("internal")
+
+    def start_integration_test(self):
+        self._start_test("integration")
+
+    def start_user_acceptance_test(self):
+        self._start_test("user_acceptance")

@@ -72,12 +72,12 @@
     </record>
 
     <record id="action_business_process_report" model="ir.actions.act_window">
-        <field name="name">Business process report</field>
+        <field name="name">Business Processes Report</field>
         <field name="res_model">business.process.report</field>
         <field name="view_mode">tree,pivot</field>
     </record>
     <menuitem
-        name="Business process"
+        name="Business Processes"
         id="menu_business_process_report"
         action="action_business_process_report"
         parent="menu_report"

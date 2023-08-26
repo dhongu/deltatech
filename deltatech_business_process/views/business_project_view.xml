@@ -28,6 +28,9 @@
 
                 <sheet>
                     <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_open_step" icon="fa-cog">
+                            <field name="count_steps" widget="statinfo" string="Steps" />
+                        </button>
                       <button class="oe_stat_button" type="object" name="action_open_processes" icon="fa-cogs">
                             <field name="count_processes" widget="statinfo" string="Processes" />
                         </button>
