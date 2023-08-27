@@ -40,9 +40,8 @@
         <field name="arch" type="xml">
             <pivot string="Business Process Report" sample="1">
                 <field name="project_id" type="row" />
-                <field name="process_id" type="row" />
-                <field name="step_id" type="row" />
-
+                <field name="area_id" type="row" />
+                <field name="state" type="col" />
             </pivot>
         </field>
     </record>
