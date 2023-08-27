@@ -41,6 +41,10 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
+                          <button class="oe_stat_button" type="object" name="action_view_test_steps" icon="fa-cog">
+                            <field name="count_steps" widget="statinfo" string="Test Steps" />
+                        </button>
+
                         <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-file-text-o">
                             <field string="Documents" name="doc_count" widget="statinfo" />
                         </button>
@@ -76,7 +80,6 @@
                                     decoration-danger="result == 'failed'"
                                     decoration-success="result == 'passed'"
                                 >
-                                    <field name="sequence" widget="handle" />
                                     <field name="step_id" invisible="1" />
                                     <field name="name" />
                                     <field name="transaction_id" />
@@ -88,6 +91,11 @@
                                     <field name="date_end" optional="show" />
                                     <field name="result" />
                                     <field name="observation" optional="hide" />
+
+                                    <field name="feedback_by_id" optional="hide" />
+                                    <field name="feedback_date" optional="hide" />
+                                    <field name="feedback_state" optional="hide" />
+                                    <field name="feedback_text" optional="hide" />
                                 </tree>
                             </field>
                         </page>
@@ -140,7 +148,6 @@
         sequence="50"
         parent="menu_business_process_main"
     />
-
 
 
 </odoo>

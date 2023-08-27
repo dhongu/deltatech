@@ -33,12 +33,25 @@ class BusinessProcessTest(models.Model):
         required=True,
         default="other",
     )
-
+    count_steps = fields.Integer(string="Steps", compute="_compute_count_steps")
     doc_count = fields.Integer(string="Number of documents attached", compute="_compute_attached_docs_count")
 
     test_step_ids = fields.One2many(
         string="Test steps", comodel_name="business.process.step.test", inverse_name="process_test_id"
     )
+
+    def _compute_count_steps(self):
+        for test in self:
+            test.count_steps = len(test.test_step_ids)
+
+    def action_view_test_steps(self):
+        domain = [("process_test_id", "=", self.id)]
+        context = {"default_process_test_id": self.id}
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            "deltatech_business_process.action_business_process_step_test"
+        )
+        action.update({"domain": domain, "context": context})
+        return action
 
     def get_attachment_domain(self):
         domain = [("res_model", "=", self._name), ("res_id", "=", self.id)]
@@ -108,6 +121,9 @@ class BusinessProcessTest(models.Model):
             date_end = max(date_end, test.date_end or fields.Date.today())
             test_step_ids = test.test_step_ids.filtered(lambda x: not x.date_end)
             test_step_ids.write({"date_end": date_end})
+
+            test_step_ids = test.test_step_ids.filtered(lambda x: not x.result == "draft")
+            test_step_ids.write({"result": "passed"})
             test.write({"date_end": date_end})
             if test.scope == "internal":
                 test.process_id.write({"status_internal_test": "done"})

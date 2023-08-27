@@ -23,6 +23,18 @@
                     decoration-danger="result == 'failed'"
                     decoration-success="result == 'passed'"
                 />
+
+                <field name="feedback_by_id" optional="hide" />
+                <field name="feedback_date" optional="hide" />
+                <field
+                    name="feedback_state"
+                    widget="badge"
+                    decoration-danger="result == 'not_ok'"
+                    decoration-success="result == 'ok'"
+                    optional="hide"
+                />
+                <field name="feedback_text" optional="hide" />
+
             </tree>
         </field>
     </record>
@@ -46,7 +58,6 @@
                             <field name="step_id" />
                             <field
                                 name="result"
-                                widget="badge"
                                 decoration-danger="result == 'failed'"
                                 decoration-success="result == 'passed'"
                             />
@@ -56,6 +67,7 @@
                         </group>
                         <group string="Transaction">
                             <field name="transaction_id" />
+                            <field name="description" />
                         </group>
                         <group string="Date">
                             <field name="date_start" />
@@ -65,6 +77,13 @@
                             <field name="data_used" />
                             <field name="data_result" />
                         </group>
+                        <group string="Verification">
+                            <field name="feedback_by_id" />
+                            <field name="feedback_date" />
+                            <field name="feedback_state" />
+                            <field name="feedback_text" />
+                        </group>
+                        <field name="observation" />
                     </group>
 
                 </sheet>
@@ -87,13 +106,13 @@
     <record id="action_business_process_step_test" model="ir.actions.act_window">
         <field name="name">Process step test</field>
         <field name="res_model">business.process.step.test</field>
-        <field name="view_mode">tree,pivot,calendar</field>
+        <field name="view_mode">tree,form,pivot,calendar</field>
     </record>
-<!--    <menuitem
-        name="Process step test"
-        id="menu_business_process_step_test"
-        action="action_business_process_step_test"
-        sequence="55"
-        parent="menu_report"
-    />-->
+    <!--    <menuitem
+            name="Process step test"
+            id="menu_business_process_step_test"
+            action="action_business_process_step_test"
+            sequence="55"
+            parent="menu_report"
+        />-->
 </odoo>

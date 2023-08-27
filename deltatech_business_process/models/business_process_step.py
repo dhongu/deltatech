@@ -7,7 +7,7 @@ from odoo import fields, models
 class BusinessProcessStep(models.Model):
     _name = "business.process.step"
     _description = "Business process step"
-    _order = "sequence"
+    _order = "sequence, code"
 
     name = fields.Char(string="Name", required=True)
     code = fields.Char(string="Code", required=True)

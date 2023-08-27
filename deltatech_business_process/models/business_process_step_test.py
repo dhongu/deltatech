@@ -41,3 +41,10 @@ class BusinessProcessStepTest(models.Model):
     date_start = fields.Date(string="Date start")
     date_end = fields.Date(string="Date end")
     observation = fields.Text(string="Observation")
+
+    feedback_by_id = fields.Many2one("res.partner", string="", domain="[('is_company', '=', False)]")
+    feedback_text = fields.Text(string="Feedback")
+    feedback_date = fields.Date(string="Feedback date")
+    feedback_state = fields.Selection(
+        [("draft", "Draft"), ("ok", "Ok"), ("not_ok", "Not ok")], string="Feedback state", default="draft"
+    )

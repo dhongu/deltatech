@@ -47,8 +47,11 @@ class BusinessProcess(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
+    development_ids = fields.Many2many("business.development", string="Developments", compute="_compute_developments")
+
     count_steps = fields.Integer(string="Steps", compute="_compute_count_steps")
     count_tests = fields.Integer(string="Tests", compute="_compute_count_tests")
+    count_developments = fields.Integer(string="Developments", compute="_compute_count_developments")
 
     doc_count = fields.Integer(string="Number of documents attached", compute="_compute_attached_docs_count")
 
@@ -95,6 +98,14 @@ class BusinessProcess(models.Model):
             (process.id, "{}{}".format(process.code and "[%s] " % process.code or "", process.name)) for process in self
         ]
 
+    def _compute_developments(self):
+        for process in self:
+            process.development_ids = process.step_ids.mapped("development_ids")
+
+    def _compute_count_developments(self):
+        for process in self:
+            process.count_developments = len(process.development_ids)
+
     def _compute_count_steps(self):
         for process in self:
             process.count_steps = len(process.step_ids)
@@ -103,37 +114,34 @@ class BusinessProcess(models.Model):
         for process in self:
             process.count_tests = len(process.test_ids)
 
-    def action_open_step(self):
+    def action_view_steps(self):
         domain = [("process_id", "=", self.id)]
         context = {
             "default_process_id": self.id,
             "default_sequence": len(self.step_ids) + 10,
             "default_responsible_id": self.responsible_id.id,
         }
-        return {
-            "name": _("Process Steps"),
-            "domain": domain,
-            "res_model": "business.process.step",
-            "type": "ir.actions.act_window",
-            "views": [(False, "list"), (False, "form")],
-            "view_mode": "tree,form",
-            "context": context,
-        }
+        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_business_process.action_business_process_step")
+        action.update({"domain": domain, "context": context})
+        return action
 
-    def action_open_test(self):
+    def action_view_tests(self):
         domain = [("process_id", "=", self.id)]
         context = {
             "default_process_id": self.id,
         }
-        return {
-            "name": _("Process Tests"),
-            "domain": domain,
-            "res_model": "business.process.test",
-            "type": "ir.actions.act_window",
-            "views": [(False, "list"), (False, "form")],
-            "view_mode": "tree,form",
-            "context": context,
+        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_business_process.action_business_process_test")
+        action.update({"domain": domain, "context": context})
+        return action
+
+    def action_view_developments(self):
+        domain = [("id", "=", self.developments.ids)]
+        context = {
+            "default_project_id": self.id,
         }
+        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_business_process.action_business_development")
+        action.update({"domain": domain, "context": context})
+        return action
 
     def get_attachment_domain(self):
         domain = [("res_model", "=", "business.process"), ("res_id", "=", self.id)]
