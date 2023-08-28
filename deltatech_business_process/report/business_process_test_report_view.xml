@@ -24,6 +24,7 @@
                     decoration-danger="result == 'failed'"
                     decoration-success="result == 'passed'"
                 />
+                <field name="severity" optional="hide" />
             </tree>
         </field>
     </record>
@@ -52,6 +53,7 @@
             <pivot string="Business process test report" sample="1">
                 <field name="area_id" type="row" />
                 <field name="result" type="col" />
+                 <field name="severity" type="col" />
             </pivot>
         </field>
     </record>
@@ -71,6 +73,8 @@
                 <field name="customer_id" />
                 <field name="transaction_id" />
                 <field name="scope" />
+                <field name="result" />
+                <field name="severity" />
 
             </search>
 
@@ -80,7 +84,7 @@
     <record id="action_business_process_test_report" model="ir.actions.act_window">
         <field name="name">Business process test report</field>
         <field name="res_model">business.process.test.report</field>
-        <field name="view_mode">pivot,tree,form</field>
+        <field name="view_mode">pivot,graph,tree,form</field>
     </record>
     <menuitem
         name="Business Tests"

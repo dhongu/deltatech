@@ -17,6 +17,7 @@
                     decoration-info="state == 'run'"
                 />
                 <field name="scope" widget="badge" />
+                <field name="completion_test" widget="progressbar" optional="show" />
             </tree>
         </field>
     </record>
@@ -41,7 +42,7 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                          <button class="oe_stat_button" type="object" name="action_view_test_steps" icon="fa-cog">
+                        <button class="oe_stat_button" type="object" name="action_view_test_steps" icon="fa-cog">
                             <field name="count_steps" widget="statinfo" string="Test Steps" />
                         </button>
 
@@ -67,6 +68,7 @@
                         <group string="Date">
                             <field name="date_start" />
                             <field name="date_end" />
+                            <field name="completion_test" widget="progressbar" />
                         </group>
                     </group>
                     <notebook>
@@ -90,6 +92,7 @@
                                     <field name="date_start" optional="show" />
                                     <field name="date_end" optional="show" />
                                     <field name="result" />
+                                    <field name="severity" optional="hide" />
                                     <field name="observation" optional="hide" />
 
                                     <field name="feedback_by_id" optional="hide" />
@@ -121,6 +124,30 @@
         </field>
     </record>
 
+
+    <record id="view_business_process_test_pivot" model="ir.ui.view">
+        <field name="name">Process test</field>
+        <field name="model">business.process.test</field>
+        <field name="arch" type="xml">
+            <pivot string="Process test" sample="1">
+                <field name="process_id" type="row" />
+                <field name="completion_test" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_business_process_test_graph" model="ir.ui.view">
+        <field name="name">Process test</field>
+        <field name="model">business.process.test</field>
+        <field name="arch" type="xml">
+            <graph string="Process test" sample="1">
+                <field name="process_id" type="row" />
+                <field name="completion_test" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+
     <record id="view_business_process_test_filter" model="ir.ui.view">
         <field name="name">Process test</field>
         <field name="model">business.process.test</field>
@@ -139,7 +166,7 @@
     <record id="action_business_process_test" model="ir.actions.act_window">
         <field name="name">Process Tests</field>
         <field name="res_model">business.process.test</field>
-        <field name="view_mode">tree,form,calendar,pivot</field>
+        <field name="view_mode">tree,form,calendar,pivot,graph</field>
     </record>
     <menuitem
         name="Process Tests"

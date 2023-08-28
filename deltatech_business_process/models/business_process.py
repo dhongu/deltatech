@@ -73,6 +73,7 @@ class BusinessProcess(models.Model):
         help="Completion business blueprint",
         readonly=True,
         states={"draft": [("readonly", False)], "design": [("readonly", False)]},
+        group_operator="avg",
     )
     approved_id = fields.Many2one(string="Approved by", comodel_name="res.partner")
 
