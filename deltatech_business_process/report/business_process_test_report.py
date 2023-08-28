@@ -106,7 +106,7 @@ class BusinessProcessTestReport(models.Model):
 
 
                 bps.transaction_id AS transaction_id,
-                bt.transaction_type okAS transaction_type,
+                bt.transaction_type AS transaction_type,
                 bpst.responsible_id AS responsible_step_id,
                 bps.role_id AS role_id,
 
