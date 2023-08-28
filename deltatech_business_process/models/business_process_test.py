@@ -34,11 +34,23 @@ class BusinessProcessTest(models.Model):
         default="other",
     )
     count_steps = fields.Integer(string="Steps", compute="_compute_count_steps")
+    completion_test = fields.Float(
+        help="Completion test", group_operator="avg", compute="_compute_completion_test", store=True, digits=(16, 2)
+    )
     doc_count = fields.Integer(string="Number of documents attached", compute="_compute_attached_docs_count")
 
     test_step_ids = fields.One2many(
         string="Test steps", comodel_name="business.process.step.test", inverse_name="process_test_id"
     )
+
+    @api.depends("test_step_ids.result")
+    def _compute_completion_test(self):
+        for test in self:
+            if test.test_step_ids:
+                completion_test_steps = test.test_step_ids.filtered(lambda x: x.result == "passed")
+                test.completion_test = round(len(completion_test_steps) / len(test.test_step_ids) * 100, 2)
+            else:
+                test.completion_test = 0.0
 
     def _compute_count_steps(self):
         for test in self:

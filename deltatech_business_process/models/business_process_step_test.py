@@ -1,12 +1,13 @@
 # ©  2023 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class BusinessProcessStepTest(models.Model):
     _name = "business.process.step.test"
     _description = "Business Process Step Test"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     process_test_id = fields.Many2one(
         string="Process Test", comodel_name="business.process.test", required=True, ondelete="cascade"
@@ -33,8 +34,11 @@ class BusinessProcessStepTest(models.Model):
             ("failed", "Failed"),
         ],
         string="Result",
+        tracking=True,
         default="draft",
     )
+    severity = fields.Selection([("low", "Low"), ("medium", "Medium"), ("high", "High")], string="Severity")
+
     data_used = fields.Text(string="Data used")
     data_result = fields.Text(string="Data result")
 
@@ -44,7 +48,19 @@ class BusinessProcessStepTest(models.Model):
 
     feedback_by_id = fields.Many2one("res.partner", string="", domain="[('is_company', '=', False)]")
     feedback_text = fields.Text(string="Feedback")
-    feedback_date = fields.Date(string="Feedback date")
-    feedback_state = fields.Selection(
-        [("draft", "Draft"), ("ok", "Ok"), ("not_ok", "Not ok")], string="Feedback state", default="draft"
+    feedback_date = fields.Date(
+        string="Feedback date",
+        tracking=True,
     )
+    feedback_state = fields.Selection(
+        [("draft", "Draft"), ("ok", "Ok"), ("not_ok", "Not ok")],
+        string="Feedback state",
+        default="draft",
+        tracking=True,
+    )
+
+    @api.onchange("result")
+    def _onchange_result(self):
+        for record in self:
+            if record.result == "passed":
+                record.severity = False
