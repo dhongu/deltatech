@@ -1,0 +1,126 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_business_issue_tree" model="ir.ui.view">
+        <field name="name">Business Issue</field>
+        <field name="model">business.issue</field>
+        <field name="arch" type="xml">
+            <tree string="Issues" sample="1">
+                <field name="code" />
+                <field name="name" />
+                <field name="open_date" />
+                <field name="project_id" />
+                <field name="process_id" />
+                <field name="area_id" />
+                <field name="responsible_id" />
+                <field name='state' widget="badge" decoration-success="state == 'running'  " />
+                <field name='severity' widget="badge" />
+                <field name='category' widget="badge" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_business_issue_form" model="ir.ui.view">
+        <field name="name">Business Issue</field>
+        <field name="model">business.issue</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        options="{'clickable': '1'}"
+                        statusbar_visible="draft,open,allocated,solved,in_test,closed"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name" class="oe_inline" />
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Identification">
+                            <field name="code" />
+                            <field name="project_id" />
+                            <field name="area_id" />
+                            <field name="process_id" />
+                            <field name="step_test_id" />
+                        </group>
+                        <group string="Type">
+                            <field name="category" />
+                            <field name="severity" />
+                        </group>
+                        <group string="Date">
+                            <field name="open_date" />
+                            <field name="date_estimated" />
+                            <field name="closed_date" />
+                        </group>
+                        <group string="Responsible">
+                            <field name="responsible_id" />
+                            <field name="customer_id" />
+                            <field name="closed_by_id" />
+                        </group>
+                        <group string="Description">
+                            <field name="description" nolabel="1" placeholder="Description" />
+                        </group>
+                        <group string="Solution">
+                            <field name="solution" nolabel="1" placeholder="Solution" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+     <record id="view_business_issue_filter" model="ir.ui.view">
+        <field name="name">Business Issue</field>
+        <field name="model">business.issue</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code" />
+                <field name="name" />
+                <field name="project_id" />
+                <field name="process_id" />
+                <field name="area_id" />
+                <field name="responsible_id" />
+                <field name='state' />
+                <field name='severity' />
+                <field name='category' />
+            </search>
+        </field>
+    </record>
+
+    <record id="view_business_issue_pivot" model="ir.ui.view">
+        <field name="name">Business Issue</field>
+        <field name="model">business.issue</field>
+        <field name="arch" type="xml">
+            <pivot string="Issues" sample="1">
+                <field name="area_id" type="row" />
+                <field name='severity' type="col" />
+                <field name='category' type="row" />
+            </pivot>
+        </field>
+    </record>
+
+
+    <record id="action_business_issue" model="ir.actions.act_window">
+        <field name="name">Issues</field>
+        <field name="res_model">business.issue</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+    </record>
+
+    <menuitem
+        name="Issues"
+        id="menu_business_issue"
+        action="action_business_issue"
+        parent="menu_business_process_main"
+        sequence="90"
+    />
+
+
+</odoo>

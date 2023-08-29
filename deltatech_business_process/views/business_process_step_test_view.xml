@@ -23,7 +23,7 @@
                     decoration-danger="result == 'failed'"
                     decoration-success="result == 'passed'"
                 />
-                <field name="severity" optional="hide" />
+
                 <field name="feedback_by_id" optional="hide" />
                 <field name="feedback_date" optional="hide" />
                 <field
@@ -62,7 +62,7 @@
                                 decoration-danger="result == 'failed'"
                                 decoration-success="result == 'passed'"
                             />
-                            <field name="severity" attrs="{'invisible': [('result', '=', 'passed')]}" />
+
                         </group>
                         <group string="Responsible">
                             <field name="responsible_id" />

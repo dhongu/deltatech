@@ -10,7 +10,9 @@ class BusinessProcessStep(models.Model):
     _order = "sequence, code"
 
     name = fields.Char(string="Name", required=True)
-    code = fields.Char(string="Code", required=True)
+    code = fields.Char(
+        string="Code", required=True, default=lambda self: self.env["ir.sequence"].next_by_code("business.process.step")
+    )
     description = fields.Text(string="Description")
     process_id = fields.Many2one(string="Process", comodel_name="business.process", required=True, ondelete="cascade")
     sequence = fields.Integer(string="Sequence", required=True, default=10)
