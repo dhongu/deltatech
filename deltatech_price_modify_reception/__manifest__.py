@@ -7,7 +7,7 @@
     "category": "Generic Modules/Stock",
     "depends": ["stock", "product"],
     "data": ["views/stock_picking_views.xml", "views/res_config_settings_views.xml"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["cojocariudaniel1"],

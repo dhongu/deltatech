@@ -5,7 +5,7 @@
     "summary": " Generic Partner restriction",
     "version": "15.0.2.0.0",
     "author": "Terrabit, cojocariudaniel1",
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "depends": ["account", "deltatech_partner_generic"],
     "data": ["views/account_view_jurnal.xml"],

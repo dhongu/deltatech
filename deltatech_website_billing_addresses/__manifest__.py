@@ -7,7 +7,7 @@
     "summary": "Website Billing Addresses",
     "version": "15.0.1.2.4",
     "author": "Terrabit, Dorin Hongu",
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale"],
     "data": [

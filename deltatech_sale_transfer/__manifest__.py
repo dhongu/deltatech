@@ -5,12 +5,12 @@
 {
     "name": "Sale Prepare Transfer",
     "summary": "Sale Prepare Transfer",
-    "version": "15.0.1.0.1",
+    "version": "15.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
     "depends": ["sale_stock"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "views/stock_warehouse_view.xml",
     ],

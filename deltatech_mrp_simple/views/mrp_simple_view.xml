@@ -94,6 +94,7 @@
                     </group>
                     <group>
                         <group string="Consumption">
+                            <button type="object" name="add_multiple_lines" string="Add lines" />
                             <field name="product_out_ids" nolabel="1" attrs="{'readonly':[('state', '!=', 'draft')]}">
                                 <tree editable="bottom">
                                     <field name="product_id" />

@@ -82,8 +82,8 @@ msgstr "Vânzare sub prețul de achiziție"
 
 #. module: deltatech_sale_margin
 #: model:res.groups,name:deltatech_sale_margin.group_sale_margin
-msgid "Show purchase price on sale order lines and customer invoice"
-msgstr "Afișare preț de achiziție în comanda de vânzare și facură client"
+msgid "Hide purchase price on sale order lines and customer invoice"
+msgstr "Ascunde preț de achiziție în comanda de vânzare și facură client"
 
 #. module: deltatech_sale_margin
 #: code:addons/deltatech_sale_margin/models/sale.py:0
@@ -94,11 +94,18 @@ msgstr "Nu puteți vinde sub marjă: %s"
 #. module: deltatech_sale_margin
 #: code:addons/deltatech_sale_margin/models/sale.py:0
 #, python-format
-msgid "You can not sell below the purchase price."
-msgstr "Nu puteți vinde sub prețul de achiziție."
+msgid "You can not sell below the purchase price: %s."
+msgstr "Nu puteți vinde sub prețul de achiziție: %s."
 
 #. module: deltatech_sale_margin
 #: code:addons/deltatech_sale_margin/models/sale.py:0
 #, python-format
 msgid "You can not sell %s without price."
 msgstr "Nu puteți vinde %s fără preț."
+
+#. module: deltatech_sale_margin
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+#, python-format
+msgid "The unit price of product %s is lower than the purchase price. The margin is negative."
+msgstr "Prețul unitar al produsului %s este mai mic decât prețul de achiziție. Marja este negativă."
+

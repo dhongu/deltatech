@@ -8,7 +8,7 @@
     "summary": "Create delivery form invoice",
     "version": "15.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
     "depends": ["sale_stock"],

@@ -10,19 +10,17 @@ Deltatech Select Journal
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
-    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
-    :alt: License: LGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/15.0/deltatech_select_journal
     :alt: dhongu/deltatech
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| 
 
 Features:
  - Selectie jurnal si termen de plata in momentul generarii facturii din comanda de vanzare
  - la stergerea unui produs din lista unei comenzi de vanzare se sterge si produsul 'avans' daca  nu a fost facturat
  - cursul valutar se poate seta in wizard-ul de selectie jurnal
+ - configurare jurnal de stornare (in jurnal)
 
 **Table of contents**
 

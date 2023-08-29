@@ -28,6 +28,7 @@ class ImportPurchaseLine(models.TransientModel):
     is_amount = fields.Boolean("Is amount")
     purchase_id = fields.Many2one("purchase.order")
     product_code_is_barcode = fields.Boolean(string="Product code is barcode")
+    search_by_default_code = fields.Boolean("Search by internal code")
 
     @api.model
     def default_get(self, fields_list):
@@ -192,6 +193,61 @@ class ImportPurchaseLine(models.TransientModel):
                     "date_planned": self.purchase_id.date_order,
                 }
             ]
-
         purchase_lines = self.env["purchase.order.line"].create(lines)
         purchase_lines._compute_tax_id()
+
+    def search_product(self, code=False):
+        """
+        Search for product by code. If supplier code not found internal code is searched,
+        :param code: code to search
+        :return: product record or False if not found
+        """
+        domain = [("product_code", "=", code)]
+        supplier_info = self.env["product.supplierinfo"].sudo().search(domain, limit=1)
+        if not supplier_info:
+            if self.search_by_default_code:
+                domain = [("default_code", "=", code)]
+                product = self.env["product.product"].sudo().search(domain, limit=1)
+                if product:
+                    return product
+                else:
+                    return False
+            else:
+                return False
+        else:
+            if supplier_info.product_id:
+                product = supplier_info.product_id
+            else:
+                product = supplier_info.product_tmpl_id.product_variant_id
+            return product
+
+    def create_product(self, product_code, product_name, quantity, price, uom_name=False):
+        """
+        :param product_code: code
+        :param product_name: name
+        :param quantity: qty to order
+        :param price: price
+        :param uom_name: optional, default uom(1) is set if not present
+        :return: product record
+        """
+        seller_values = {
+            "name": self.purchase_id.partner_id.id,
+            "product_code": product_code,
+            "price": price,
+            "currency_id": self.purchase_id.currency_id.id,
+        }
+        uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
+        if uom:
+            uom_id = uom.id
+        else:
+            uom_id = 1
+        values = {
+            "type": "product",
+            "name": product_name,
+            "seller_ids": [(0, 0, seller_values)],
+            "uom_po_id": uom_id,
+            "uom_id": uom_id,
+        }
+        product_tmpl_id = self.env["product.template"].create(values)
+        product_id = product_tmpl_id.product_variant_id
+        return product_id

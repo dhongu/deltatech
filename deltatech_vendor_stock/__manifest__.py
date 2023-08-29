@@ -6,16 +6,20 @@
 {
     "name": "Vendor Stock",
     "summary": "Vendor stock availability",
-    "version": "15.0.1.0.1",
+    "version": "15.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
-    "depends": ["product", "sale_stock", "deltatech_stock_inventory"],
-    "license": "LGPL-3",
+    "depends": [
+        "product",
+        "sale_stock",
+        # "deltatech_stock_inventory"
+    ],
+    "license": "OPL-1",
     "data": ["views/product_supplierinfo_view.xml", "views/sale_view.xml"],
     "qweb": ["static/src/xml/qty.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
-    "development_status": "Beta",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

@@ -20,12 +20,12 @@ class AccountCashUpdateBalances(models.TransientModel):
         statement = False
         if active_ids:
             statement = self.env["account.bank.statement"].search(
-                [("id", "in", active_ids), ("state", "=", "open")], order="date", limit=1
+                [("id", "in", active_ids), ("state", "in", ["open", "posted"])], order="date", limit=1
             )
             if statement:
                 defaults["balance_start"] = statement.balance_start
         if not statement:
-            raise UserError(_("Please select cash statement"))
+            raise UserError(_("Please select only Open or Posted statements"))
         return defaults
 
     def do_update_balance(self):
@@ -33,7 +33,7 @@ class AccountCashUpdateBalances(models.TransientModel):
 
         if active_ids:
             statements = self.env["account.bank.statement"].search(
-                [("id", "in", active_ids), ("state", "=", "open")], order="date"
+                [("id", "in", active_ids), ("state", "in", ["open", "posted"])], order="date"
             )
             balance_start = self.balance_start
             for statement in statements:

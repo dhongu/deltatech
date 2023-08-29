@@ -16,17 +16,27 @@
 
             <div
                 id="in_of_stock_message"
-                t-if="free_qty lte 0"
+                t-if="free_qty lte 0 and availability_vendor == 0"
                 style="font-size: medium;"
                 t-attf-class="availability_message_#{product_template} badge badge-danger mt16"
             >
                 Out of stock
             </div>
 
+            <div
+                id="in_of_stock_message"
+                t-if="free_qty lte 0 and availability_vendor gt 0"
+                style="font-size: medium;"
+                t-attf-class="availability_message_#{product_template} badge badge-warning mt16"
+            >
+                In stock at vendor
+            </div>
+
+
             <i class="fa fa-calendar" />
             <t t-set="po" t-value="0" />
             <t t-if="free_qty lte 0">
-                <t t-if="purchase_lead_time">
+                <t t-if="availability_vendor and purchase_lead_time">
                     <t t-set="days" t-value="sale_delay+purchase_lead_time" />
                     <span t-if="days gt 7">
                         Delivery in
@@ -34,11 +44,17 @@
                         weeks
                     </span>
                     <span t-else="">
-                        Delivery in
-                        <t t-esc="sale_delay+purchase_lead_time" />
-                        -
-                        <t t-esc="sale_delay+sale_delay_safety+purchase_lead_time" />
-                        days
+                        <t t-if="purchase_lead_time lt 1 and purchase_lead_time gt 0">
+                            <t t-set="purchase_lead_time" t-value="0" />
+                            <span>Immediate delivery</span>
+                        </t>
+                        <t t-else="">
+                            Delivery in
+                            <t t-esc="sale_delay+purchase_lead_time" />
+                            -
+                            <t t-esc="sale_delay+sale_delay_safety+purchase_lead_time" />
+                            days
+                        </t>
                     </span>
                 </t>
                 <t t-else="">
@@ -52,13 +68,21 @@
                     weeks
                 </span>
                 <span t-else="">
-                    Delivery in
-                    <span t-if="sale_delay gt 0">
-                        <t t-esc="sale_delay" />
-                        -
-                    </span>
-                        <t t-esc="sale_delay+sale_delay_safety" />
-                        days
+                    <t t-if="sale_delay gt 1">
+                        Delivery in
+                        <span t-if="sale_delay gt 0">
+                            <t t-esc="sale_delay" />
+                            -
+                        </span>
+                            <t t-esc="sale_delay+sale_delay_safety" />
+                            days
+                    </t>
+                    <t t-if="sale_delay == 1">
+                        <span>Delivery tomorrow</span>
+                    </t>
+                    <t t-if="sale_delay == 0">
+                        <span>Immediate delivery</span>
+                    </t>
                 </span>
             </t>
             <!--            <i class="fa fa-info-circle"/>-->

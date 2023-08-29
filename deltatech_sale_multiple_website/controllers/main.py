@@ -13,7 +13,10 @@ class WebsiteSaleQty(WebsiteSale):
     def cart_update_json(self, product_id, line_id=None, add_qty=None, set_qty=None, display=True):
 
         product = request.env["product.product"].sudo().browse(product_id)
-        if add_qty or set_qty:
+        if add_qty:
+            line = request.env["sale.order.line"].sudo()
+            add_qty = line.fix_qty_multiple(product, product.uom_id, add_qty)
+        if set_qty:
             line = request.env["sale.order.line"].sudo()
             set_qty = line.fix_qty_multiple(product, product.uom_id, set_qty)
 

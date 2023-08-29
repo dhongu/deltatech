@@ -5,12 +5,12 @@
 {
     "name": "Payment to Statement",
     "summary": "Add payment to cash statement",
-    "version": "15.0.1.0.7",
+    "version": "15.0.1.1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
     "depends": ["account", "deltatech_merge"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "security/ir.model.access.csv",
         "data/ir_config_param.xml",

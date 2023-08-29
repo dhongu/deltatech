@@ -1,41 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <!--
-       <record id="product_form_view_invoice_button" model="ir.ui.view">
-           <field name="name">product.product.invoice</field>
-           <field name="model">product.product</field>
-           <field name="inherit_id" ref="product.product_normal_form_view"/>
-           <field name="groups_id" eval="[(4, ref('base.group_sale_salesman'))]"/>
-           <field name="arch" type="xml">
 
-               <xpath expr="//div[@name='buttons']" position="inside">
-                   <button class="oe_inline oe_stat_button" name="action_view_invoice"
-                           type="object" icon="fa-pencil-square-o">
-                       <field string="Invoice" name="invoice_count" widget="statinfo"/>
-                   </button>
-               </xpath>
-
-           </field>
-       </record>
-       -->
-    <!--
-        <record id="product_template_form_view_invoice_button" model="ir.ui.view">
-            <field name="name">product.template.invoice.button</field>
-            <field name="model">product.template</field>
-            <field name="inherit_id" ref="product.product_template_only_form_view"/>
-            <field name="groups_id" eval="[(4, ref('base.group_sale_salesman'))]"/>
-            <field name="arch" type="xml">
-
-                <xpath expr="//div[@name='buttons']" position="inside">
-                    <button class="oe_inline oe_stat_button" name="action_view_invoice"
-                            type="object" icon="fa-pencil-square-o">
-                        <field string="Invoice" name="invoice_count" widget="statinfo"/>
-                    </button>
-                </xpath>
-
-            </field>
-        </record>
-         -->
     <record id="product_template_form_view" model="ir.ui.view">
         <field name="name">product.template.invoice</field>
         <field name="model">product.template</field>
@@ -43,7 +8,20 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
                 <page string="History">
-                    <group string="Sale Invoice">
+<!--                    <group>
+                        <label for="last_invoice_history_computed" string="Last Refresh" />
+                        <div class="o_row">
+                            <field name="last_invoice_history_computed" />
+                            <button
+                                name="refresh_invoice_history"
+                                string="Refresh"
+                                type="object"
+                                class="btn-link mb-1 px-0"
+                                icon="fa-refresh"
+                            />
+                        </div>
+                    </group>-->
+                    <group string="Invoice history">
                         <field name="invoice_history" nolabel="1">
                             <tree>
                                 <field name="year" />
@@ -56,21 +34,5 @@
             </xpath>
         </field>
     </record>
-    <record id="product_template_form_view_invoice_button" model="ir.ui.view">
-        <field name="name">product.template.invoice.button</field>
-        <field name="model">product.template</field>
-        <field name="inherit_id" ref="product.product_template_only_form_view" />
-        <field name="groups_id" eval="[(4, ref('account.group_account_manager'))]" />
-        <field name="arch" type="xml">
-            <div name="button_box" position="inside">
-                <button
-                    class="oe_stat_button"
-                    name="action_view_invoice"
-                    type="object"
-                    icon="fa-pencil-square-o"
-                    string="Sale Invoice"
-                />
-            </div>
-        </field>
-    </record>
+
 </odoo>

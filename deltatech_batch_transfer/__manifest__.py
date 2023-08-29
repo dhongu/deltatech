@@ -15,7 +15,7 @@
         "security/ir.model.access.csv",
         "views/stock_picking_batch.xml",
     ],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],
     "maintainers": ["danila12"],

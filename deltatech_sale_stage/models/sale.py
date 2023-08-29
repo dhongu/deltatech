@@ -32,7 +32,7 @@ class SaleOrder(models.Model):
         self.set_stage("confirmed")
 
     def action_quotation_sent(self):
-        super(SaleOrder, self).action_confirm()
+        super(SaleOrder, self).action_quotation_sent()
         self.set_stage("send_email")
 
     def set_stage(self, stage_step):
@@ -41,3 +41,10 @@ class SaleOrder(models.Model):
         for order in self:
             if not order.stage_id or not order.stage_id[stage_step]:
                 order.stage_id = stage
+
+    def write(self, vals):
+        res = super(SaleOrder, self).write(vals)
+        if "stage_id" in vals:
+            if self.stage_id.action_id:
+                self.stage_id.action_id.run()
+        return res

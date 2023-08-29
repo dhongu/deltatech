@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="module_category_business_process" model="ir.module.category">
+            <field name="name">Business process</field>
+        </record>
+        <record id="group_business_process_client" model="res.groups">
+            <field name="name">Client</field>
+            <field name="category_id" ref="module_category_business_process" />
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+            <field name="users" eval="[(4, ref('base.user_root'))]" />
+        </record>
+
+        <record id="group_business_process_consultant" model="res.groups">
+            <field name="name">Consultant</field>
+            <field name="category_id" ref="module_category_business_process" />
+            <field name="implied_ids" eval="[(4, ref('group_business_process_client'))]" />
+            <field name="users" eval="[(4, ref('base.user_root'))]" />
+        </record>
+
+<!--        <record id="group_business_process_developer" model="res.groups">-->
+<!--            <field name="name">Developer</field>-->
+<!--            <field name="category_id" ref="module_category_business_process" />-->
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />-->
+<!--            <field name="users" eval="[(4, ref('base.user_root'))]" />-->
+<!--        </record>-->
+
+
+        <record id="group_business_process_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_category_business_process" />
+            <field
+                name="implied_ids"
+                eval="[(4, ref('group_business_process_client')), (4, ref('group_business_process_consultant'))]"
+            />
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
+        </record>
+    </data>
+
+
+</odoo>

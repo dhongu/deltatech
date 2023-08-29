@@ -25,7 +25,7 @@ class SaleOrder(models.Model):
                 continue
 
             pick_type = warehouse.pick_type_auto_transfer_id or warehouse.int_type_id
-
+            auto_confirm_transfer = self.env.context.get("confirm_transfer", warehouse.auto_confirm_transfer)
             location_source = warehouse.int_type_id.default_location_src_id
             location_dest = order.warehouse_id.int_type_id.default_location_dest_id
             if order.warehouse_id.group_transfer_with_delivery:
@@ -41,8 +41,12 @@ class SaleOrder(models.Model):
                 product = line.product_id.with_context(warehouse=order.warehouse_id.id)
                 product_qty = line.product_uom._compute_quantity(line.product_uom_qty, line.product_id.uom_id)
 
+                qty_available = product.qty_available
+                if qty_available < 0:
+                    qty_available = 0
+
                 if float_compare(product.virtual_available, product_qty, precision_digits=precision) == -1:
-                    demand = line.product_uom_qty - product.qty_available
+                    demand = line.product_uom_qty - qty_available
                     if demand <= 0:
                         continue
                     qty_available = line.product_id.with_context(warehouse=warehouse.id).qty_available
@@ -91,5 +95,5 @@ class SaleOrder(models.Model):
                 order.message_post(body=message)
 
                 # order.picking_ids.message_post(body=message)
-                if "confirm_transfer" in self.env.context:
+                if auto_confirm_transfer:
                     picking.auto_transfer()

@@ -10,22 +10,20 @@ Products Alternative
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
-    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
-    :alt: License: LGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/15.0/deltatech_alternative
     :alt: dhongu/deltatech
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| 
 
 
 Features:
- * New model: product_catelog for big master data of products
-    - generate new product from catalog: If the search for a product by code does not return results, an additional search is made in the product catalog and a product is automatically generated if it has been found
  * A module that add alternative on the product form
  * Search product by alternative code
  * A new product field (used for) to indicate what the product may be used for
+
+
+Camp adaugat in produs search_index in care se face cautarea daca este setat paramentrul deltatech_alternative_website.search_index
 
 **Table of contents**
 

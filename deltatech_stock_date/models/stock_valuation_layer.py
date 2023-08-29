@@ -9,4 +9,11 @@ class StockValuationLayer(models.Model):
     _inherit = "stock.valuation.layer"
     _order = "date, id"
 
-    date = fields.Datetime(related="stock_move_id.date", store=True, string="Move Date")
+    date = fields.Datetime(compute="_compute_date", string="Move/Valuation Date", store=True)
+
+    def _compute_date(self):
+        for valuation in self:
+            if valuation.stock_move_id:
+                valuation.date = valuation.stock_move_id.date
+            else:
+                valuation.date = valuation.create_date

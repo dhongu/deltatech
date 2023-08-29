@@ -7,7 +7,7 @@
     "summary": "Default delivery address",
     "version": "15.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale"],
     "data": ["views/res_users_view.xml"],

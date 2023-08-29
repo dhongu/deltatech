@@ -5,36 +5,10 @@
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
 
 
 class ServiceAgreement(models.Model):
-    _name = "service.agreement"
-    _description = "Service Agreement"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
-
-    name = fields.Char(
-        string="Reference", index=True, default="/", readonly=True, states={"draft": [("readonly", False)]}, copy=False
-    )
-
-    description = fields.Char(string="Description", readonly=True, states={"draft": [("readonly", False)]}, copy=False)
-
-    date_agreement = fields.Date(
-        string="Agreement Date",
-        default=fields.Date.today,
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-        copy=False,
-    )
-
-    final_date = fields.Date(string="Final Date", readonly=True, states={"draft": [("readonly", False)]}, copy=False)
-
-    partner_id = fields.Many2one(
-        "res.partner", string="Partner", required=True, readonly=True, states={"draft": [("readonly", False)]}
-    )
-
-    company_id = fields.Many2one("res.company", string="Company", default=lambda self: self.env.company, required=True)
-    company_currency_id = fields.Many2one("res.currency", string="Company Currency", related="company_id.currency_id")
+    _inherit = "service.agreement"
 
     agreement_line = fields.One2many(
         "service.agreement.line",
@@ -43,15 +17,6 @@ class ServiceAgreement(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
         copy=True,
-    )
-
-    state = fields.Selection(
-        [("draft", "Draft"), ("open", "In Progress"), ("closed", "Terminated")],
-        string="Status",
-        index=True,
-        readonly=True,
-        default="draft",
-        copy=False,
     )
 
     type_id = fields.Many2one(
@@ -70,15 +35,6 @@ class ServiceAgreement(models.Model):
         [("none", "Not defined"), ("service", "Group by service"), ("detail", "Detail")],
         string="Invoice Mode",
         default="none",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-    )
-
-    currency_id = fields.Many2one(
-        "res.currency",
-        string="Currency",
-        required=True,
-        default=lambda self: self.env.company.currency_id,
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -260,21 +216,6 @@ class ServiceAgreement(models.Model):
                     vals["name"] = sequence_agreement.next_by_id()
         return super(ServiceAgreement, self).create(vals_list)
 
-    def contract_close(self):
-        return self.write({"state": "closed"})
-
-    def contract_open(self):
-        return self.write({"state": "open"})
-
-    def contract_draft(self):
-        return self.write({"state": "draft"})
-
-    def unlink(self):
-        for item in self:
-            if item.state != "draft":
-                raise UserError(_("You cannot delete a service agreement which is not draft."))
-        return super(ServiceAgreement, self).unlink()
-
     def get_agreements_auto_billing(self):
         agreements = self.search([("billing_automation", "=", "auto"), ("state", "=", "open")])
         for agreement in agreements:
@@ -305,9 +246,7 @@ class ServiceAgreement(models.Model):
 
 
 class ServiceAgreementType(models.Model):
-    _name = "service.agreement.type"
-    _description = "Service Agreement Type"
-    name = fields.Char(string="Type", translate=True)
+    _inherit = "service.agreement.type"
     journal_id = fields.Many2one("account.journal", "Journal", required=True)
 
 

@@ -10,19 +10,18 @@ Stock Inventory
 .. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
-    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
-    :alt: License: LGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/15.0/deltatech_stock_inventory
     :alt: dhongu/deltatech
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| 
 
 Features:
+ - Adds the old stock.inventory model, with its functionalities
  - Display stock price column at inventory
+ - Security group "Can update quantities" is added. Only users in this group can update product quantities
 
-Parametrul stock.use_inventory_price setat pe True permite actualizarea pretului pentru produsele cu metoda de cost FIFO
+If system parameter "stock.use_inventory_price" is set to True, the cost price of the product is updated with the price on the inventory line (only if product has FIFO evaluation), so the stock valuation that is generated from the inventory has the line's unit price
 
 **Table of contents**
 

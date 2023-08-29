@@ -10,12 +10,37 @@ from odoo.tools.safe_eval import safe_eval
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
+    search_index = fields.Char(compute="_compute_search_index", store=True, index=True, compute_sudo=True)
+
     alternative_code = fields.Char(
         string="Alternative Code", index=True, inverse="_inverse_alternative_code", compute="_compute_alternative_code"
     )
     alternative_ids = fields.One2many("product.alternative", "product_tmpl_id", string="Alternatives")
 
     used_for = fields.Char(string="Used For")
+
+    @api.depends("name", "default_code", "alternative_ids.name", "seller_ids.product_code")
+    def _compute_search_index(self):
+        langs = self.env["res.lang"].search([("active", "=", True)])
+        langs = langs.mapped("code")
+        for product in self:
+            names = [product.with_context(lang=lang).name for lang in langs]
+            name_terms = list(set(names))
+            good_terms = [term for term in name_terms if term is not False]
+            search_index = " ".join(good_terms)
+
+            if product.default_code:
+                search_index = product.default_code + " " + search_index
+
+            terms = []
+            if product.seller_ids:
+                terms += [s.product_code for s in product.seller_ids if s.product_code]
+            if product.alternative_ids:
+                terms += [a.name for a in product.alternative_ids if a.name]
+
+            terms = list(set(terms))
+            search_index += " " + " ".join(terms)
+            product.search_index = search_index[:1000]
 
     def _inverse_alternative_code(self):
         for product in self:
@@ -38,70 +63,32 @@ class ProductTemplate(models.Model):
             product.alternative_code = code
 
     @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100):
-        if "not" in operator:
-            return super(ProductTemplate, self).name_search(name, args, operator=operator, limit=limit)
-
+    def _name_search(self, name, args=None, operator="ilike", limit=100, name_get_uid=None):
         args = args or []
-        res_alt = []
         get_param = self.env["ir.config_parameter"].sudo().get_param
-        alternative_search = safe_eval(get_param("alternative.search_name", "False"))
-        catalog_search = safe_eval(get_param("alternative.search_catalog", "False"))
-        alternative_limit = safe_eval(get_param("alternative.alternative_limit", "10")) or limit
-
-        if alternative_search and name and len(name) > 3:
-            domain = [("name", operator, name)]
-            alternative_ids = self.env["product.alternative"].search(domain, limit=alternative_limit)
-            products = alternative_ids.mapped("product_tmpl_id")
-            if products:
-                res_alt = models.lazy_name_get(products)
-                args = expression.AND([args, [("id", "not in", products.ids)]])
-
-        self = self.with_context(no_catalog=True)
-        res = super(ProductTemplate, self).name_search(name, args, operator=operator, limit=limit) + res_alt
-
-        if not res and catalog_search and name and len(name) > 3:
-            prod = self.env["product.catalog"].search_in_catalog(name)
-            if prod:
-                res = prod.product_tmpl_id.name_get()
-
-        return res
+        if name and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
+            domain = [("search_index", operator, name)]
+            return self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+        else:
+            return super(ProductTemplate, self)._name_search(
+                name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid
+            )
 
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
     @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100):
-        if "not" in operator:
-            return super(ProductProduct, self).name_search(name, args, operator=operator, limit=limit)
-
+    def _name_search(self, name, args=None, operator="ilike", limit=100, name_get_uid=None):
         args = args or []
-        res_alt = []
-
         get_param = self.env["ir.config_parameter"].sudo().get_param
-        alternative_search = safe_eval(get_param("alternative.search_name", "False"))
-        catalog_search = safe_eval(get_param("alternative.search_catalog", "False"))
-        alternative_limit = safe_eval(get_param("alternative.alternative_limit", "10")) or limit
-        length_min = safe_eval(get_param("alternative.length_min", "3"))
-
-        if alternative_search and name and len(name) >= length_min:
-            domain = [("name", operator, name)]
-            alternative_ids = self.env["product.alternative"].search(domain, limit=alternative_limit)
-            products = alternative_ids.mapped("product_tmpl_id").mapped("product_variant_ids")
-            if products:
-                res_alt = models.lazy_name_get(products)
-                args = expression.AND([args, [("id", "not in", products.ids)]])
-
-        self = self.with_context(no_catalog=True)
-        res = super(ProductProduct, self).name_search(name, args, operator=operator, limit=limit) + res_alt
-
-        if not res and catalog_search and name and len(name) > 3:
-            prod = self.env["product.catalog"].search_in_catalog(name)
-            if prod:
-                res = prod.name_get()
-
-        return res
+        if name and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
+            domain = [("search_index", operator, name)]
+            return self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+        else:
+            return super(ProductProduct, self)._name_search(
+                name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid
+            )
 
 
 class ProductAlternative(models.Model):

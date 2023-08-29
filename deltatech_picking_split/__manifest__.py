@@ -8,7 +8,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
     "depends": ["stock"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "wizard/stock_picking_manual_backorder_view.xml",
         "security/ir.model.access.csv",

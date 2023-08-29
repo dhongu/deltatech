@@ -12,7 +12,7 @@
     "depends": ["base", "purchase_stock", "stock"],
     "price": 5.00,
     "currency": "EUR",
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": ["views/account_invoice_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,

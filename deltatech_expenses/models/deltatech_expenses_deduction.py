@@ -215,7 +215,7 @@ class DeltatechExpensesDeduction(models.Model):
             # if statement_lines:
             #     statement_lines.unlink()
             # expenses.payment_ids.write({"move_name": False, "state": "draft"})
-            expenses.payment_ids.unlink()
+            expenses.payment_ids.with_context(force_delete=True).unlink()
             expenses.voucher_ids.with_context(force_delete=True).unlink()
 
             # anulare postare chitante.
@@ -285,7 +285,6 @@ class DeltatechExpensesDeduction(models.Model):
                 partner_id = line.partner_id or partner_generic
 
                 if line.type == "expenses":
-
                     voucher_value = {
                         "partner_id": partner_id.id,
                         "move_type": "in_receipt",
@@ -299,6 +298,7 @@ class DeltatechExpensesDeduction(models.Model):
                         # 'account_id': expenses.journal_payment_id.default_debit_account_id.id,  # 542
                         # "account_id": partner_id.property_account_receivable_id.id,
                         # aici trebuie sa fie contul din care se face plata furnizorului
+                        "company_id": expenses.company_id.id,
                         "invoice_line_ids": [
                             (
                                 0,
@@ -447,12 +447,15 @@ class DeltatechExpensesDeductionLine(models.Model):
 
     @api.model
     def _default_expense_account(self):
-        account_pool = self.env["account.account"]
-        account = account_pool.search([("code", "=ilike", "623%")], limit=1)  # cheltuieli de protocol
+        domain = [("code", "=ilike", "623%"), ("company_id", "=", self.env.user.company_id.id)]
+        account = self.env["account.account"].search(domain, limit=1)  # cheltuieli de protocol
         if not account:
-            account = account_pool.search(
-                [("user_type_id.name", "=", "expense"), ("internal_type", "!=", "view")], limit=1
-            )
+            domain = [
+                ("user_type_id.name", "=", "expense"),
+                ("internal_type", "!=", "view"),
+                ("company_id", "=", self.env.user.company_id.id),
+            ]
+            account = self.env["account.account"].search(domain, limit=1)
         return account
 
     expenses_deduction_id = fields.Many2one("deltatech.expenses.deduction", string="Expenses Deduction", required=False)

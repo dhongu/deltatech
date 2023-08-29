@@ -6,7 +6,7 @@
     "category": "Website",
     "summary": "Pricelist extension",
     "version": "15.0.2.0.1",
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "depends": ["sale", "website_sale"],

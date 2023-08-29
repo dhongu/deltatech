@@ -9,8 +9,8 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
-    "depends": ["stock_account", "date_range"],
-    "license": "AGPL-3",
+    "depends": ["stock_account"],
+    "license": "OPL-1",
     "data": [
         "security/ir.model.access.csv",
         "report/stock_picking_report.xml",

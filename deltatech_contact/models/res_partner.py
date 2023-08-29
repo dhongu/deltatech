@@ -7,6 +7,7 @@ import time
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.tools.safe_eval import safe_eval
 
 
 class Partner(models.Model):
@@ -95,14 +96,16 @@ class Partner(models.Model):
     id_issued_by = fields.Char(string="ID Issued by", size=20)
     id_issued_at = fields.Date(string="ID Issued at")
     mean_transp = fields.Char(string="Mean Transport", size=12)
-
+    is_department = fields.Boolean(string="Is Department")  # backport from v14
     birthdate = fields.Date(string="Birthdate")
 
     gender = fields.Selection([("male", "Male"), ("female", "Female"), ("other", "Other")])
 
     # nu se mai afiseaza compania la contacte
     def _get_contact_name(self, partner, name):
-        if partner.type == "contact":
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        contact_get_name = safe_eval(get_param("contact.get_name_only", "False"))
+        if partner.type == "contact" and contact_get_name:
             return name
         else:
             return super(Partner, self)._get_contact_name(partner, name)

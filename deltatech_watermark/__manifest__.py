@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Tools",
     "depends": ["base_setup", "web"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         # "views/company_view.xml",
         "views/res_config_settings_view.xml"

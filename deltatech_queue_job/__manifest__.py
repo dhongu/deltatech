@@ -18,7 +18,7 @@
         "wizards/queue_jobs_to_done_views.xml",
         "wizards/queue_requeue_job_views.xml",
     ],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["dhongu"],

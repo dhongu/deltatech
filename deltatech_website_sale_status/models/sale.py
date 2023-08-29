@@ -63,3 +63,16 @@ class SaleOrder(models.Model):
                 for picking in order.picking_ids:
                     if picking.state in ["waiting", "confirmed"]:
                         order.stage = "waiting"
+
+                # if all pickings are delivered, sale order must be delivered
+                # without backorder, not all quantities are delivered but all pickings are done
+                if len(order.picking_ids.mapped("state")) == 1 and order.picking_ids.mapped("state")[0] == "done":
+                    order.stage = "delivered"
+
+                # if all pickings are delivered or canceled, sale order must be delivered
+                all_delivered = True
+                for picking in order.picking_ids:
+                    if picking.state not in ["done", "cancel"]:
+                        all_delivered = False
+                if all_delivered:
+                    order.stage = "delivered"

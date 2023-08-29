@@ -10,19 +10,19 @@ Stock Date
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
-    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
-    :alt: License: LGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/15.0/deltatech_stock_date
     :alt: dhongu/deltatech
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| 
 
 Features:
- - The picking effective date can be changed when the picking is validated.
+ - A force date required setting can be configured in the picking type. The effective date will be required for pickings
+ - The picking effective date must be set by the user
+ - Due to date restrictions, only one picking can be validated at a time
  - All the stock moves will have the picking's effective date.
- - Can restrict stock move dates to current and previous month by setting the system parameter "deltatech_stock_date.restrict_date" to a non-zero value
+ - Can restrict stock move dates to current and previous month by setting the system parameter "restrict_stock_move_date_last_months" to a non-zero value. The account lock date is also taken into consideration
+ - Can restrict future stock move date by setting the system parameter "restrict_stock_move_date_future" to a non-zero value (default). Date restrictions must be active (restrict_stock_move_date_last_months)
 
 **Table of contents**
 

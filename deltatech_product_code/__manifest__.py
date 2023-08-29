@@ -8,7 +8,7 @@
     "summary": "Product codification internal",
     "version": "15.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
     "depends": ["product", "barcodes"],

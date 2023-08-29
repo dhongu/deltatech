@@ -5,10 +5,15 @@
     "name": "eCommerce Stock Availability",
     "category": "Website",
     "summary": "eCommerce Stock Availability",
-    "version": "15.0.1.0.2",
+    "version": "15.0.1.0.8",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "depends": ["website", "website_sale_stock", "purchase"],
+    "depends": [
+        "website",
+        "website_sale_stock",
+        "purchase",
+        "deltatech_vendor_stock",
+    ],
     "data": [
         "views/product_view.xml",
         "views/website_sale_stock_templates.xml",
@@ -21,7 +26,7 @@
     "images": ["static/description/main_screenshot.png"],
     "price": 10.00,
     "currency": "EUR",
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

@@ -9,4 +9,4 @@ from odoo import fields, models
 class SupplierInfo(models.Model):
     _inherit = "product.supplierinfo"
 
-    qty_available = fields.Float("Quantity Available", digits="Product Unit of Measure")
+    qty_available = fields.Float("Quantity Available", digits="Product Unit of Measure", default=999)

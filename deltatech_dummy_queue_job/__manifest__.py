@@ -10,7 +10,7 @@
     "category": "Warehouse",
     "depends": ["base"],
     "data": [],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["dhongu"],

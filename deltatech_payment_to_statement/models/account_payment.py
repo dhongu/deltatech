@@ -2,22 +2,25 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models
+from odoo import _, api, models
+from odoo.exceptions import UserError
 
 
 class AccountPayment(models.Model):
     _inherit = "account.payment"
 
-    statement_id = fields.Many2one(
-        "account.bank.statement", string="Statement", domain="[('journal_id','=',journal_id)]"
-    )
+    # in v15 exista aceste campuri
 
-    statement_line_id = fields.Many2one(
-        "account.bank.statement.line",
-        string="Statement Line",
-        readonly=True,
-        domain="[('statement_id','=',statement_id)]",
-    )
+    # statement_id = fields.Many2one(
+    #     "account.bank.statement", string="Statement", domain="[('journal_id','=',journal_id)]"
+    # )
+    #
+    # statement_line_id = fields.Many2one(
+    #     "account.bank.statement.line",
+    #     string="Statement Line",
+    #     readonly=True,
+    #     domain="[('statement_id','=',statement_id)]",
+    # )
 
     @api.onchange("date", "journal_id")
     def onchange_date_journal(self):
@@ -30,6 +33,8 @@ class AccountPayment(models.Model):
             if self.journal_id.auto_statement:
                 values = {"journal_id": self.journal_id.id, "date": self.date, "name": "/"}
                 self.statement_id = self.env["account.bank.statement"].sudo().create(values)
+            else:
+                self.statement_id = False
 
     def action_post(self):
         res = super(AccountPayment, self).action_post()
@@ -43,7 +48,7 @@ class AccountPayment(models.Model):
         # force cash in/out sequence
         for payment in self:
             if (
-                (not payment.name or payment.name == "/" or payment.name == "_New")
+                (not payment.name or payment.name == "/" or payment.name == _("New"))
                 and payment.partner_type == "customer"
                 and payment.journal_id.type == "cash"
             ):
@@ -108,6 +113,10 @@ class AccountPayment(models.Model):
                 payment.write({"statement_line_id": line.id})
 
     def unlink(self):
+        # deleting a payment with number should be forbidden, as the name is not computed anymore
+        for payment in self:
+            if payment.name != _("New") and payment.name != "/" and not self._context.get("force_delete"):
+                raise UserError(_("You cannot delete this entry, as it has already consumed a sequence number"))
         statement_line_ids = self.env["account.bank.statement.line"]
         for payment in self:
             statement_line_ids |= payment.statement_line_id

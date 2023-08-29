@@ -40,8 +40,8 @@
                             </div>
                             <br />
                             <div>
-                                Avans primit in data <span t-field="o.date_advance" />
-                                :<span t-field="o.advance" />
+                                Avans primit in data <span t-field="o.date_advance" />:
+                                <span t-field="o.advance" />
                             </div>
                             <br />
                             <div>
@@ -72,14 +72,23 @@
                                             <strong>Date</strong>
                                         </th>
                                         <th class="text-right">
-                                            <strong>Suma</strong>
+                                            <strong>Amount</strong>
                                         </th>
                                         <th class="text-right">
-                                            <strong>TVA</strong>
+                                            <strong>Taxes</strong>
+                                        </th>
+                                        <th class="text-right">
+                                            <strong>Tax Amount</strong>
+                                        </th>
+                                        <th class="text-right">
+                                            <strong>Total</strong>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <t t-set="total_untaxed" t-value="0" />
+                                    <t t-set="total_taxes" t-value="0" />
+                                    <t t-set="total_with_taxes" t-value="0" />
                                     <tr t-foreach="o.expenses_line_ids" t-as="l">
                                         <td>
                                             <span t-field="l.name" />
@@ -90,9 +99,58 @@
                                         </td>
                                         <td class="text-right">
                                             <span t-field="l.amount" />
+                                            <t t-set="total_untaxed" t-value="total_untaxed + l.amount" />
                                         </td>
                                         <td class="text-right">
+                                             <span
+                                                t-esc="', '.join(map(lambda x: (x.description or x.name), l.tax_ids))"
+                                                id="line_tax_ids"
+                                            />
+                                        </td>
+
+                                        <td class="text-right">
                                             <span t-field="l.tax_amount" />
+                                            <t t-set="total_taxes" t-value="total_taxes + l.tax_amount" />
+                                        </td>
+
+                                        <td class="text-right">
+                                            <span
+                                                t-esc="l.price_subtotal + l.tax_amount"
+                                                t-options="{'widget': 'monetary', 'display_currency': l.currency_id}"
+                                            />
+                                            <t
+                                                t-set="total_with_taxes"
+                                                t-value="total_with_taxes + l.price_subtotal + l.tax_amount"
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td />
+                                        <td />
+                                        <td class="text-right">
+                                            <strong>
+                                                <span
+                                                    t-esc="total_untaxed"
+                                                    t-options="{'widget': 'monetary', 'display_currency': l.currency_id}"
+                                                />
+                                            </strong>
+                                        </td>
+                                        <td />
+                                        <td>
+                                            <strong>
+                                                <span
+                                                    t-esc="total_taxes"
+                                                    t-options="{'widget': 'monetary', 'display_currency': l.currency_id}"
+                                                />
+                                            </strong>
+                                        </td>
+                                        <td>
+                                            <strong>
+                                                <span
+                                                    t-esc="total_with_taxes"
+                                                    t-options="{'widget': 'monetary', 'display_currency': l.currency_id}"
+                                                />
+                                            </strong>
                                         </td>
                                     </tr>
                                     <tr t-if="o.days">
@@ -104,6 +162,23 @@
                                         </td>
                                         <td class="text-right">
                                             <span t-field="o.total_diem" />
+<!--                                            <t t-set="total_untaxed" t-value="total_untaxed + o.total_diem" />-->
+                                        </td>
+                                    </tr>
+                                    <tr t-if="o.days">
+                                        <td />
+                                        <td />
+                                        <td />
+                                        <td colspan="2" class="text-right">
+                                            <strong>Total general: </strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span
+                                                    t-esc="total_with_taxes + o.total_diem"
+                                                    t-options="{'widget': 'monetary', 'display_currency': l.currency_id}"
+                                                />
+                                            </strong>
                                         </td>
                                     </tr>
                                 </tbody>

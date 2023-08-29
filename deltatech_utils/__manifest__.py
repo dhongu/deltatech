@@ -11,7 +11,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
     "depends": ["base", "website"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",

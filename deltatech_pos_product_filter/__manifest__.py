@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
     "depends": ["point_of_sale"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": ["views/pos_order_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",

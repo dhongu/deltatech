@@ -10,6 +10,7 @@
                 <form string="Sale Order Stage">
                     <group>
                         <field name="name" />
+                        <field name="sequence" />
                     </group>
                     <group>
                         <field name="send_email" />
@@ -17,6 +18,9 @@
                         <field name="delivered" />
                         <field name="invoiced" />
                         <field name="paid" />
+                    </group>
+                    <group>
+                        <field name="action_id" />
                     </group>
                 </form>
             </field>

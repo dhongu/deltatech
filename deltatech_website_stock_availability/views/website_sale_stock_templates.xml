@@ -5,57 +5,115 @@
     <template id="website_sale_stock_product_lead_time" inherit_id="website_sale.product" priority="99">
         <xpath expr="//form" position="before">
             <div class="lead_time_messages o_not_editable">
-
+                <div style="font-size: medium;" class="badge badge-secondary mt16">
+                    In stock
+                </div>
             </div>
         </xpath>
     </template>
-<!--
-    <template id="availability_filter" inherit_id="website_sale.products_attributes">
-        <xpath expr="//div[@id='product_attributes_simple']" position="before">
-            <li class="nav-item tp-sidebar-attribute tp-filter-search py-3">
-                <div
-                    t-attf-class="d-flex justify-content-between align-items-center tp-attribute-title #{tp_is_product_collapse_filters_enabled and 'collapsible' or None} #{tp_is_brand_filtered and 'expand' or None}"
-                >
-                    <h6>Availability</h6>
-                    <span t-if="tp_is_product_collapse_filters_enabled" class="accordion-indicator">
-                        <i class="lnr lnr-chevron-right"/>
-                    </span>
-                </div>
-                <div
-                    t-attf-class="tp-filter-collapse-area pt-3 #{tp_is_product_collapse_filters_enabled and 'collapsible' or None}"
-                    t-attf-style="display: #{(tp_is_brand_filtered or not tp_is_product_collapse_filters_enabled) and 'block' or 'none'}"
-                >
-                    <ul class="nav nav-pills flex-column ml-0  flex-nowrap">
-                        <li class="nav-item">
-                            <div class="custom-control custom-radio mb-2 ml-1">
-                                <input
-                                    type="radio"
-                                    name="stock_all"
-                                    class="custom-control-input"
-                                    t-att-checked="'checked' if brand.id in attrib_brand_set else None"
-                                />
-                                <label class="custom-control-label">
-                                    <span>All product</span>
-                                </label>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <div class="custom-control custom-radio mb-2 ml-1">
-                                <input type="radio" name="stock_in_stock" class="custom-control-input"/>
-                                <label class="custom-control-label">
-                                    <span>In stock</span>
-                                </label>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div>
 
-
-                </div>
-            </li>
+    <template
+        id="products_qty_available"
+        inherit_id="website_sale.products_item"
+        active="False"
+        customize_show="True"
+        name="Product Available"
+    >
+        <xpath expr="//div[@itemprop='offers']" position="after">
+            <div>
+                <t t-if="product.sudo().qty_available  &gt;   0">
+                    <span class="badge badge-success">Immediate delivery</span>
+                </t>
+                <t t-else="">
+                    <span class="badge badge-warning">Subsequent delivery</span>
+                </t>
+            </div>
         </xpath>
-    </template>-->
+    </template>
+
+
+
+    <template
+        id="cart_summary_website_sale_stock_product_lead_time"
+        inherit_id="website_sale.cart_summary"
+        name="Lead_time"
+    >
+        <xpath expr="//td[hasclass('td-product_name')]/div/strong" position="after">
+            <xpath expr="//div" position="after">
+                <t t-if="line.product_id.qty_available  &gt;=   line.product_uom_qty">
+
+                    <span class="badge badge-success">Immediate delivery</span>
+                </t>
+                <t t-else="">
+                    <span class="badge badge-warning">Subsequent delivery</span>
+                </t>
+            </xpath>
+        </xpath>
+    </template>
+
+
+    <template
+        id="cart_line_description_following_lines"
+        inherit_id="website_sale.cart_line_description_following_lines"
+        customize_show="True"
+        name="Lead Time"
+    >
+        <xpath expr="//div" position="after">
+            <t t-if="line.product_id.free_qty  &gt;= line.product_uom_qty">
+                <span class="badge-pill badge-success">Immediate delivery</span>
+            </t>
+            <t t-else="">
+                <span class="badge-pill badge-warning">Subsequent delivery</span>
+            </t>
+        </xpath>
+    </template>
+    <!--
+        <template id="availability_filter" inherit_id="website_sale.products_attributes">
+            <xpath expr="//div[@id='product_attributes_simple']" position="before">
+                <li class="nav-item tp-sidebar-attribute tp-filter-search py-3">
+                    <div
+                        t-attf-class="d-flex justify-content-between align-items-center tp-attribute-title #{tp_is_product_collapse_filters_enabled and 'collapsible' or None} #{tp_is_brand_filtered and 'expand' or None}"
+                    >
+                        <h6>Availability</h6>
+                        <span t-if="tp_is_product_collapse_filters_enabled" class="accordion-indicator">
+                            <i class="lnr lnr-chevron-right"/>
+                        </span>
+                    </div>
+                    <div
+                        t-attf-class="tp-filter-collapse-area pt-3 #{tp_is_product_collapse_filters_enabled and 'collapsible' or None}"
+                        t-attf-style="display: #{(tp_is_brand_filtered or not tp_is_product_collapse_filters_enabled) and 'block' or 'none'}"
+                    >
+                        <ul class="nav nav-pills flex-column ml-0  flex-nowrap">
+                            <li class="nav-item">
+                                <div class="custom-control custom-radio mb-2 ml-1">
+                                    <input
+                                        type="radio"
+                                        name="stock_all"
+                                        class="custom-control-input"
+                                        t-att-checked="'checked' if brand.id in attrib_brand_set else None"
+                                    />
+                                    <label class="custom-control-label">
+                                        <span>All product</span>
+                                    </label>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <div class="custom-control custom-radio mb-2 ml-1">
+                                    <input type="radio" name="stock_in_stock" class="custom-control-input"/>
+                                    <label class="custom-control-label">
+                                        <span>In stock</span>
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+
+
+                    </div>
+                </li>
+            </xpath>
+        </template>-->
     <!--    <template id="availability_filter_theme_prime">
             <li class="nav-item tp-sidebar-attribute tp-filter-search py-3">
                 <div

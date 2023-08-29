@@ -7,7 +7,7 @@
     "summary": "Update vendor price after reception",
     "version": "15.0.1.0.9",
     "author": "Terrabit, Dorin Hongu",
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Purchase",
     "depends": ["stock", "stock_account", "purchase_stock", "deltatech_product_trade_markup"],

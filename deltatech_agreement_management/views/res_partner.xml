@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_partner_form_agreement" model="ir.ui.view">
+        <field name="name">Partner Agreements</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    class="oe_stat_button"
+                    type="object"
+                    name="view_agreements"
+                    groups="deltatech_service_base.group_service_user"
+                    icon="fa-file"
+                >
+                    <field string="Agreements" name="agreement_count" widget="statinfo" />
+                </button>
+            </div>
+        </field>
+    </record>
+
+    <record id="view_partner_search_agreement" model="ir.ui.view">
+        <field name="name">Partner Agreement search</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter" />
+        <field name="arch" type="xml">
+            <filter name="type_company" position="after">
+                <separator />
+                <filter string="With agreement" name="agreement_count" domain="[('agreement_count', '!=', False)]" />
+            </filter>
+        </field>
+    </record>
+</odoo>

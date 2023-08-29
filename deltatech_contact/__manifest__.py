@@ -5,12 +5,12 @@
 {
     "name": "Deltatech Contacts",
     "summary": "New fields in partner",
-    "version": "15.0.1.4.3",
+    "version": "15.0.1.4.6",
     "author": "Terrabit,Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Administration",
     "depends": ["base"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "views/res_partner_view.xml",
         # 'security/partner_security.xml',

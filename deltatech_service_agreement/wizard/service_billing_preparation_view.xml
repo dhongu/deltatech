@@ -39,7 +39,7 @@
             name="Billing Preparation"
             id="menu_service_billing_preparation"
             action="action_service_billing_preparation"
-            parent="deltatech_service_agreement.menu_service_agr"
+            parent="deltatech_agreement_management.menu_service_agr"
             sequence="101"
         />
 

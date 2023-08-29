@@ -9,7 +9,7 @@
     "summary": "eCommerce extension",
     "version": "15.0.2.0.3",
     "author": "Terrabit, Dorin Hongu",
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale_stock"],
     "data": [
