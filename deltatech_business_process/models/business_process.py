@@ -214,6 +214,37 @@ class BusinessProcess(models.Model):
                 )
                 test._onchange_process_id()
 
+    def _add_followers(self):
+        for process in self:
+            followers = self.env["res.partner"]
+            if process.responsible_id not in process.message_partner_ids:
+                followers |= process.responsible_id
+            if process.customer_id not in process.message_partner_ids:
+                followers |= process.customer_id
+            for step in process.step_ids:
+                if step.responsible_id not in process.message_partner_ids:
+                    followers |= step.responsible_id
+            process.message_subscribe(followers.ids)
+
+    def button_start_design(self):
+        self._add_followers()
+        for process in self:
+            values = {"state": "design"}
+            if not process.date_start_bbp:
+                values["date_start_bbp"] = fields.Date.today()
+            process.write(values)
+
+    def button_start_test(self):
+        self._add_followers()
+        for process in self:
+            values = {"state": "test"}
+            if not process.date_end_bbp:
+                values["date_start_bbp"] = fields.Date.today()
+            process.write(values)
+
+    def button_draft(self):
+        self.write({"state": "draft"})
+
     def start_internal_test(self):
         self._start_test("internal")
 

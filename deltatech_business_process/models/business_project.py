@@ -11,7 +11,7 @@ class BusinessProject(models.Model):
 
     code = fields.Char(string="Code", default=lambda self: self.env["ir.sequence"].next_by_code("business.project"))
     name = fields.Char(string="Name", required=True)
-    customer_id = fields.Many2one(string="Customer Responsible", comodel_name="res.partner")
+    customer_id = fields.Many2one(string="Customer", comodel_name="res.partner")
     logo = fields.Image()
     state = fields.Selection(
         [

@@ -1,7 +1,7 @@
 # ©  2023 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class BusinessIssue(models.Model):
@@ -67,6 +67,30 @@ class BusinessIssue(models.Model):
     def name_get(self):
         self.browse(self.ids).read(["name", "code"])
         return [(item.id, "{}{}".format(item.code and "[%s] " % item.code or "", item.name)) for item in self]
+
+    def _add_followers(self):
+        for process in self:
+            followers = self.env["res.partner"]
+            if process.responsible_id not in process.message_partner_ids:
+                followers |= process.responsible_id
+            if process.customer_id not in process.message_partner_ids:
+                followers |= process.customer_id
+            process.message_subscribe(followers.ids)
+
+    @api.onchange("process_id")
+    def _onchange_process_id(self):
+        for issue in self:
+            if issue.process_id:
+                issue.project_id = issue.process_id.project_id
+                issue.customer_id = issue.process_id.customer_id
+                issue.responsible_id = issue.process_id.responsible_id
+                issue.area_id = issue.process_id.area_id
+
+    @api.onchange("step_test_id")
+    def _onchange_step_test_id(self):
+        for issue in self:
+            if issue.step_test_id:
+                issue.process_id = issue.step_test_id.process_id
 
 
 class BusinessOpenIssue(models.Model):

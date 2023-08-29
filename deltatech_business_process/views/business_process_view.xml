@@ -47,6 +47,21 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button
+                        name="button_start_design"
+                        type="object"
+                        string="Start Design"
+                        class="oe_highlight"
+                        states="draft"
+                    />
+                    <button
+                        name="button_start_test"
+                        type="object"
+                        string="Start Test"
+                        class="oe_highlight"
+                        states="design"
+                    />
+                    <button name="button_draft" type="object" string="Reset to Draft" states="design,test,ready" />
                     <field
                         name="state"
                         widget="statusbar"
