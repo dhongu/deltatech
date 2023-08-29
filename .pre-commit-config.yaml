@@ -17,7 +17,7 @@ exclude: |
   __unported__
 default_language_version:
   python: python3
-  node: "14.13.0"
+  node: "16.19.0"
 repos:
   - repo: https://github.com/OCA/maintainer-tools
     rev: a17a3431379fc2affed9b0b99cdfbe232db6db4c # This is just an example; you must use a tag/commit instead!
