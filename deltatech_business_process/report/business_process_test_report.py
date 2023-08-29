@@ -73,14 +73,14 @@ class BusinessProcessTestReport(models.Model):
         string="Result",
         readonly=True,
     )
-    severity = fields.Selection(
-        [("low", "Low"), ("medium", "Medium"), ("high", "High")], string="Severity", readonly=True
-    )
+
     data_used = fields.Text(string="Data used", readonly=True)
     data_result = fields.Text(string="Data result", readonly=True)
 
     date_start = fields.Date(string="Date start test", readonly=True)
     date_end = fields.Date(string="Date end test", readonly=True)
+
+    count_issues = fields.Integer(string="Issues", readonly=True)
 
     @property
     def _table_query(self):
@@ -114,11 +114,12 @@ class BusinessProcessTestReport(models.Model):
                 bpt.scope AS scope,
                 bpt.completion_test AS completion_test,
                 bpst.result AS result,
-                bpst.severity AS severity,
+
                 bpst.data_used AS data_used,
                 bpst.data_result AS data_result,
                 bpst.date_start AS date_start,
-                bpst.date_end AS date_end
+                bpst.date_end AS date_end,
+                bpst.count_issues AS count_issues
 
 
         """

@@ -7,7 +7,6 @@ from odoo import api, fields, models
 class BusinessProcessStepTest(models.Model):
     _name = "business.process.step.test"
     _description = "Business Process Step Test"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     process_test_id = fields.Many2one(
         string="Process Test", comodel_name="business.process.test", required=True, ondelete="cascade"
@@ -34,10 +33,8 @@ class BusinessProcessStepTest(models.Model):
             ("failed", "Failed"),
         ],
         string="Result",
-        tracking=True,
         default="draft",
     )
-    severity = fields.Selection([("low", "Low"), ("medium", "Medium"), ("high", "High")], string="Severity")
 
     data_used = fields.Text(string="Data used")
     data_result = fields.Text(string="Data result")
@@ -48,19 +45,31 @@ class BusinessProcessStepTest(models.Model):
 
     feedback_by_id = fields.Many2one("res.partner", string="", domain="[('is_company', '=', False)]")
     feedback_text = fields.Text(string="Feedback")
-    feedback_date = fields.Date(
-        string="Feedback date",
-        tracking=True,
-    )
+    feedback_date = fields.Date(string="Feedback date")
     feedback_state = fields.Selection(
-        [("draft", "Draft"), ("ok", "Ok"), ("not_ok", "Not ok")],
-        string="Feedback state",
-        default="draft",
-        tracking=True,
+        [("draft", "Draft"), ("ok", "Ok"), ("not_ok", "Not ok")], string="Feedback state", default="draft"
     )
+    count_issues = fields.Integer(string="Issues", compute="_compute_count_issues", store=True)
 
-    @api.onchange("result")
-    def _onchange_result(self):
+    issue_ids = fields.One2many("business.issue", "step_test_id", string="Issues")
+
+    @api.depends("issue_ids")
+    def _compute_count_issues(self):
         for record in self:
-            if record.result == "passed":
-                record.severity = False
+            record.count_issues = len(record.issue_ids.filtered(lambda x: x.state != "closed"))
+
+    def action_view_issue(self):
+        self.ensure_one()
+        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_business_process.action_business_issue")
+        domain = [("step_test_id", "=", self.id)]
+        context = {
+            "default_name": "Issue {}".format(self.name),
+            "default_step_test_id": self.id,
+            "default_project_id": self.process_id.project_id.id,
+            "default_process_id": self.process_id.id,
+            "default_responsible_id": self.responsible_id.id,
+            "defulat_step_id": self.step_id.id,
+            "default_area_id": self.process_id.area_id.id,
+        }
+        action.update({"domain": domain, "context": context})
+        return action

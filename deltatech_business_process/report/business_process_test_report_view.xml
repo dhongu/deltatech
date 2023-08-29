@@ -24,7 +24,7 @@
                     decoration-danger="result == 'failed'"
                     decoration-success="result == 'passed'"
                 />
-                <field name="severity" optional="hide" />
+
             </tree>
         </field>
     </record>
@@ -53,7 +53,6 @@
             <pivot string="Business process test report" sample="1">
                 <field name="area_id" type="row" />
                 <field name="result" type="col" />
-                 <field name="severity" type="col" />
             </pivot>
         </field>
     </record>
@@ -74,8 +73,6 @@
                 <field name="transaction_id" />
                 <field name="scope" />
                 <field name="result" />
-                <field name="severity" />
-
             </search>
 
         </field>

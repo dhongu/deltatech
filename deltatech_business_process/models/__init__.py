@@ -12,4 +12,4 @@ from . import business_transaction
 from . import business_development
 from . import business_project
 from . import business_role
-from . import business_open_issue
+from . import business_issue

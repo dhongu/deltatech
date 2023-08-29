@@ -44,10 +44,10 @@
                         <button
                             class="oe_stat_button"
                             type="object"
-                            name="action_view_open_issue"
+                            name="action_view_issue"
                             icon="fa-exclamation-triangle"
                         >
-                            <field name="count_open_issues" widget="statinfo" string="Open Issues" />
+                            <field name="count_issues" widget="statinfo" string="Issues" />
                         </button>
                     </div>
                     <field name="logo" widget="image" class="oe_avatar" />

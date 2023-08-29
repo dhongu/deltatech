@@ -92,7 +92,17 @@
                                     <field name="date_start" optional="show" />
                                     <field name="date_end" optional="show" />
                                     <field name="result" />
-                                    <field name="severity" optional="hide" />
+
+                                     <button
+                                        name="action_view_issue"
+                                        aria-label="Issue"
+                                        attrs="{'invisible': [('result', '!=', 'failed')]}"
+                                        context="{'default_step_id': step_id}"
+                                        title="Issue"
+                                        type="object"
+                                        icon="fa-exclamation-triangle"
+                                    />
+
                                     <field name="observation" optional="hide" />
 
                                     <field name="feedback_by_id" optional="hide" />

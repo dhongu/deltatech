@@ -10,7 +10,9 @@ class BusinessProcess(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(string="Name", required=True, tracking=True)
-    code = fields.Char(string="Code", required=True)
+    code = fields.Char(
+        string="Code", required=True, default=lambda self: self.env["ir.sequence"].next_by_code("business.process")
+    )
     description = fields.Text(string="Description")
     area_id = fields.Many2one(string="Area", comodel_name="business.area", required=True)
     process_group_id = fields.Many2one(
