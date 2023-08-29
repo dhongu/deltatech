@@ -107,7 +107,7 @@ class BusinessProcessTest(models.Model):
     def action_run(self):
         self.ensure_one()
         self.write({"state": "run"})
-
+        self._add_followers()
         for test in self:
             date_start = min(test.test_step_ids.mapped("date_start")) or fields.Date.today()
             date_start = min(date_start, test.date_start or fields.Date.today())
@@ -147,3 +147,13 @@ class BusinessProcessTest(models.Model):
     def action_draft(self):
         self.ensure_one()
         self.write({"state": "draft"})
+
+    def _add_followers(self):
+        for process in self:
+            followers = self.env["res.partner"]
+            if process.tester_id not in process.message_partner_ids:
+                followers |= process.tester_id
+            for step in process.test_step_ids:
+                if step.responsible_id not in process.message_partner_ids:
+                    followers |= step.responsible_id
+            process.message_subscribe(followers.ids)
