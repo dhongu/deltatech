@@ -11,6 +11,7 @@ class BusinessProcessStepTest(models.Model):
     process_test_id = fields.Many2one(
         string="Process Test", comodel_name="business.process.test", required=True, ondelete="cascade"
     )
+    state = fields.Selection(related="process_test_id.state", copy=False, store=True)
     step_id = fields.Many2one(string="Step", comodel_name="business.process.step", required=True)
     process_id = fields.Many2one(
         string="Process", comodel_name="business.process", related="step_id.process_id", store=True

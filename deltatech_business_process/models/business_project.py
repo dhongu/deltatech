@@ -102,7 +102,6 @@ class BusinessProject(models.Model):
         return action
 
     def action_view_developments(self):
-
         developments = self.env["business.development"]
         for process in self.process_ids:
             developments |= process.development_ids

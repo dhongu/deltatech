@@ -9,12 +9,19 @@ class BusinessProcessTest(models.Model):
     _description = "Business process Test"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(string="Name", required=True)
-    process_id = fields.Many2one(string="Process", comodel_name="business.process", required=True)
+    name = fields.Char(string="Name", required=True, readonly=False, states={"done": [("readonly", True)]})
+    process_id = fields.Many2one(
+        string="Process", comodel_name="business.process", required=True, states={"done": [("readonly", True)]}
+    )
     area_id = fields.Many2one(string="Area", comodel_name="business.area", related="process_id.area_id", store=True)
-    tester_id = fields.Many2one(string="Tester", comodel_name="res.partner", domain="[('is_company', '=', False)]")
-    date_start = fields.Date(string="Date start")
-    date_end = fields.Date(string="Date end")
+    tester_id = fields.Many2one(
+        string="Tester",
+        comodel_name="res.partner",
+        domain="[('is_company', '=', False)]",
+        states={"done": [("readonly", True)]},
+    )
+    date_start = fields.Date(string="Date start", states={"done": [("readonly", True)]})
+    date_end = fields.Date(string="Date end", states={"done": [("readonly", True)]})
     state = fields.Selection(
         [("draft", "Draft"), ("run", "Run"), ("wait", "Waiting"), ("done", "Done")],
         string="State",

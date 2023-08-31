@@ -30,7 +30,7 @@
                         type="object"
                         string="In progress"
                         class="oe_highlight"
-                        states="open"
+                        states="open,reopened"
                         groups="deltatech_business_process.group_business_process_responsible"
                     />
                     <button
@@ -43,11 +43,12 @@
                     />
                     <button name="button_in_test" type="object" string="In test" class="oe_highlight" states="solved" />
                     <button name="button_done" type="object" string="Done" class="oe_highlight" states="in_test" />
+                    <button name="button_reopened" type="object" string="Reopen" states="in_test" />
                     <button
                         name="button_draft"
                         type="object"
                         string="Set Draft"
-                        groups="deltatech_business_process.group_business_process_responsible"
+                        groups="deltatech_business_process.group_business_process_manager"
                         states="open,allocated,solved,in_test,closed"
                     />
                     <field
@@ -77,10 +78,12 @@
                         </group>
                         <group string="Date">
                             <field name="open_date" />
-                            <field name="date_estimated" />
+                            <field name="date_estimated" attrs="{'required': [('state', '=', 'allocated')]}" />
+                            <field name="solution_date" />
                             <field name="closed_date" />
                         </group>
                         <group string="Responsible">
+                            <field name="raise_by_id" />
                             <field name="responsible_id" />
                             <field name="customer_id" />
                             <field name="closed_by_id" />

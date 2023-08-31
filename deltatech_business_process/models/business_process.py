@@ -47,6 +47,7 @@ class BusinessProcess(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)], "design": [("readonly", False)]},
     )
+
     responsible_id = fields.Many2one(
         string="Responsible",
         domain="[('is_company', '=', False)]",
