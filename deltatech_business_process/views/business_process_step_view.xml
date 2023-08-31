@@ -14,7 +14,7 @@
                 <field name="transaction_type" />
                 <field name="responsible_id" />
                 <field name="development_ids" widget="many2many_tags" optional="hide" />
-
+                <field name="state" widget="badge" decoration-success="state == 'production'  " />
             </tree>
         </field>
     </record>
@@ -23,7 +23,9 @@
         <field name="model">business.process.step</field>
         <field name="arch" type="xml">
             <form>
-
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,design,test,ready,production" />
+                </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                     </div>

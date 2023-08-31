@@ -11,6 +11,7 @@ class BusinessProcessStepTest(models.Model):
     process_test_id = fields.Many2one(
         string="Process Test", comodel_name="business.process.test", required=True, ondelete="cascade"
     )
+    state = fields.Selection(related="process_test_id.state", copy=False, store=True)
     step_id = fields.Many2one(string="Step", comodel_name="business.process.step", required=True)
     process_id = fields.Many2one(
         string="Process", comodel_name="business.process", related="step_id.process_id", store=True
@@ -34,6 +35,8 @@ class BusinessProcessStepTest(models.Model):
         ],
         string="Result",
         default="draft",
+        copy=False,
+        index=True,
     )
 
     data_used = fields.Text(string="Data used")
@@ -49,7 +52,7 @@ class BusinessProcessStepTest(models.Model):
     feedback_state = fields.Selection(
         [("draft", "Draft"), ("ok", "Ok"), ("not_ok", "Not ok")], string="Feedback state", default="draft"
     )
-    count_issues = fields.Integer(string="Issues", compute="_compute_count_issues", store=True)
+    count_issues = fields.Integer(string="Count Issues", compute="_compute_count_issues", store=True)
 
     issue_ids = fields.One2many("business.issue", "step_test_id", string="Issues")
 

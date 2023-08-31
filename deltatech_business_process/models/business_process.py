@@ -9,14 +9,34 @@ class BusinessProcess(models.Model):
     _description = "Business process"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(string="Name", required=True, tracking=True)
-    code = fields.Char(
-        string="Code", required=True, default=lambda self: self.env["ir.sequence"].next_by_code("business.process")
+    name = fields.Char(
+        string="Name",
+        required=True,
+        tracking=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
+    code = fields.Char(
+        string="Code",
+        tracking=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
     description = fields.Text(string="Description")
-    area_id = fields.Many2one(string="Area", comodel_name="business.area", required=True)
+    area_id = fields.Many2one(
+        string="Area",
+        comodel_name="business.area",
+        required=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
     process_group_id = fields.Many2one(
-        string="Process Group", comodel_name="business.process.group", domain="[('area_id', '=', area_id)]"
+        string="Process Group",
+        comodel_name="business.process.group",
+        domain="[('area_id', '=', area_id)]",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
     )
 
     step_ids = fields.One2many(
@@ -27,17 +47,28 @@ class BusinessProcess(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)], "design": [("readonly", False)]},
     )
+
     responsible_id = fields.Many2one(
-        string="Responsible", domain="[('is_company', '=', False)]", comodel_name="res.partner"
+        string="Responsible",
+        domain="[('is_company', '=', False)]",
+        comodel_name="res.partner",
+        readonly=True,
+        states={"draft": [("readonly", False)], "design": [("readonly", False)]},
     )
     customer_id = fields.Many2one(
-        string="Customer Responsible", domain="[('is_company', '=', False)]", comodel_name="res.partner"
+        string="Customer Responsible",
+        domain="[('is_company', '=', False)]",
+        comodel_name="res.partner",
+        readonly=True,
+        states={"draft": [("readonly", False)], "design": [("readonly", False)]},
     )
     state = fields.Selection(
         [("draft", "Draft"), ("design", "Design"), ("test", "Test"), ("ready", "Ready"), ("production", "Production")],
         string="State",
         default="draft",
         tracking=True,
+        copy=False,
+        index=True,
     )
 
     test_ids = fields.One2many(string="Tests", comodel_name="business.process.test", inverse_name="process_id")
@@ -51,11 +82,13 @@ class BusinessProcess(models.Model):
 
     development_ids = fields.Many2many("business.development", string="Developments", compute="_compute_developments")
 
-    count_steps = fields.Integer(string="Steps", compute="_compute_count_steps")
-    count_tests = fields.Integer(string="Tests", compute="_compute_count_tests")
-    count_developments = fields.Integer(string="Developments", compute="_compute_count_developments")
+    count_steps = fields.Integer(string="Count Steps", compute="_compute_count_steps")
+    count_tests = fields.Integer(string="Count Tests", compute="_compute_count_tests")
+    count_developments = fields.Integer(string="Count Developments", compute="_compute_count_developments")
 
-    doc_count = fields.Integer(string="Number of documents attached", compute="_compute_attached_docs_count")
+    doc_count = fields.Integer(
+        string="Count Documents", help="Number of documents attached", compute="_compute_attached_docs_count"
+    )
 
     date_start_bbp = fields.Date(
         string="Start BBP",
@@ -77,7 +110,12 @@ class BusinessProcess(models.Model):
         states={"draft": [("readonly", False)], "design": [("readonly", False)]},
         group_operator="avg",
     )
-    approved_id = fields.Many2one(string="Approved by", comodel_name="res.partner")
+    approved_id = fields.Many2one(
+        string="Approved by",
+        comodel_name="res.partner",
+        readonly=True,
+        states={"draft": [("readonly", False)], "design": [("readonly", False)]},
+    )
 
     status_internal_test = fields.Selection(
         [("not_started", "Not started"), ("in_progress", "In progress"), ("done", "Done")],
@@ -94,6 +132,13 @@ class BusinessProcess(models.Model):
         string="Status user acceptance test",
         default="not_started",
     )
+
+    @api.model
+    def create(self, vals):
+        if not vals.get("code", False):
+            vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
+        result = super().create(vals)
+        return result
 
     def name_get(self):
         self.browse(self.ids).read(["name", "code"])
@@ -138,7 +183,7 @@ class BusinessProcess(models.Model):
         return action
 
     def action_view_developments(self):
-        domain = [("id", "=", self.developments.ids)]
+        domain = [("id", "=", self.development_ids.ids)]
         context = {
             "default_project_id": self.id,
         }
@@ -239,8 +284,17 @@ class BusinessProcess(models.Model):
         for process in self:
             values = {"state": "test"}
             if not process.date_end_bbp:
-                values["date_start_bbp"] = fields.Date.today()
+                values["date_end_bbp"] = fields.Date.today()
+            if not process.completion_bbp:
+                values["completion_bbp"] = 100.0
             process.write(values)
+
+    def button_end_test(self):
+        # se verifica daca toate testele sunt finalizate
+        self.write({"state": "ready"})
+
+    def button_go_live(self):
+        self.write({"state": "production"})
 
     def button_draft(self):
         self.write({"state": "draft"})
