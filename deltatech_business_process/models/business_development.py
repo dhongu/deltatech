@@ -1,7 +1,7 @@
 # ©  2023 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class BusinessDevelopment(models.Model):
@@ -10,7 +10,7 @@ class BusinessDevelopment(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(string="Name", required=True)
-    code = fields.Char(string="Code", required=True)
+    code = fields.Char(string="Code")
     description = fields.Text(string="Description")
     area_id = fields.Many2one(string="Business area", comodel_name="business.area", required=True)
     type_id = fields.Many2one(string="Type", comodel_name="business.development.type", required=True)
@@ -68,6 +68,13 @@ class BusinessDevelopment(models.Model):
     effort_test = fields.Float(string="Effort Test", help="Effort for test")
 
     customer_id = fields.Many2one(string="Customer", comodel_name="res.partner")
+
+    @api.model
+    def create(self, vals):
+        if not vals.get("code", False):
+            vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
+        result = super().create(vals)
+        return result
 
     def name_get(self):
         self.browse(self.ids).read(["name", "code"])

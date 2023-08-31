@@ -10,7 +10,7 @@ class BusinessIssue(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(string="Name", required=True)
-    code = fields.Char(string="Code", default=lambda self: self.env["ir.sequence"].next_by_code("business.issue"))
+    code = fields.Char(string="Code")
     description = fields.Text(string="Description")
     area_id = fields.Many2one(string="Business area", comodel_name="business.area")
     responsible_id = fields.Many2one(string="Responsible", comodel_name="res.partner")
@@ -28,6 +28,7 @@ class BusinessIssue(models.Model):
         ],
         string="State",
         default="draft",
+        tracking=True,
     )
 
     # critical, major, minor, cosmetic
@@ -64,6 +65,13 @@ class BusinessIssue(models.Model):
     closed_date = fields.Date(string="Closed Date")
     closed_by_id = fields.Many2one(string="Closed by", comodel_name="res.partner")
 
+    @api.model
+    def create(self, vals):
+        if not vals.get("code", False):
+            vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
+        result = super().create(vals)
+        return result
+
     def name_get(self):
         self.browse(self.ids).read(["name", "code"])
         return [(item.id, "{}{}".format(item.code and "[%s] " % item.code or "", item.name)) for item in self]
@@ -91,6 +99,25 @@ class BusinessIssue(models.Model):
         for issue in self:
             if issue.step_test_id:
                 issue.process_id = issue.step_test_id.process_id
+
+    def button_send(self):
+        self.write({"state": "open"})
+        # trimite email la responsible
+
+    def button_in_progress(self):
+        self.write({"state": "allocated"})
+
+    def button_solved(self):
+        self.write({"state": "solved"})
+
+    def button_in_test(self):
+        self.write({"state": "in_test"})
+
+    def button_done(self):
+        self.write({"state": "closed"})
+
+    def button_draft(self):
+        self.write({"state": "draft"})
 
 
 class BusinessOpenIssue(models.Model):

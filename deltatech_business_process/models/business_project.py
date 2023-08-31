@@ -1,7 +1,7 @@
 # ©  2023 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class BusinessProject(models.Model):
@@ -9,7 +9,7 @@ class BusinessProject(models.Model):
     _description = "Business project"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    code = fields.Char(string="Code", default=lambda self: self.env["ir.sequence"].next_by_code("business.project"))
+    code = fields.Char(string="Code")
     name = fields.Char(string="Name", required=True)
     customer_id = fields.Many2one(string="Customer", comodel_name="res.partner")
     logo = fields.Image()
@@ -40,6 +40,13 @@ class BusinessProject(models.Model):
         string="Responsible", domain="[('is_company', '=', False)]", comodel_name="res.partner"
     )
     team_member_ids = fields.Many2many(string="Team members", comodel_name="res.partner")
+
+    @api.model
+    def create(self, vals):
+        if not vals.get("code", False):
+            vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
+        result = super().create(vals)
+        return result
 
     def name_get(self):
         self.browse(self.ids).read(["name", "code"])
@@ -89,9 +96,7 @@ class BusinessProject(models.Model):
 
     def action_view_step(self):
         domain = [("process_id", "=", self.process_ids.ids)]
-        context = {
-            "default_project_id": self.id,
-        }
+        context = {"default_project_id": self.id}
         action = self.env["ir.actions.actions"]._for_xml_id("deltatech_business_process.action_business_process_step")
         action.update({"domain": domain, "context": context})
         return action
@@ -103,9 +108,7 @@ class BusinessProject(models.Model):
             developments |= process.development_ids
 
         domain = [("id", "=", developments.ids)]
-        context = {
-            "default_project_id": self.id,
-        }
+        context = {"default_project_id": self.id}
         action = self.env["ir.actions.actions"]._for_xml_id("deltatech_business_process.action_business_development")
         action.update({"domain": domain, "context": context})
         return action

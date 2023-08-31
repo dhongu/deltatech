@@ -53,6 +53,7 @@
                         string="Start Design"
                         class="oe_highlight"
                         states="draft"
+                        groups="deltatech_business_process.group_business_process_responsible"
                     />
                     <button
                         name="button_start_test"
@@ -60,14 +61,19 @@
                         string="Start Test"
                         class="oe_highlight"
                         states="design"
+                        groups="deltatech_business_process.group_business_process_responsible"
                     />
+                     <button
+                        name="button_end_test"
+                        type="object"
+                        string="End Test"
+                        class="oe_highlight"
+                        states="test"
+                        groups="deltatech_business_process.group_business_process_responsible"
+                    />
+                    <button name="button_go_live" type="object" string="Go live" class="oe_highlight" states="ready" />
                     <button name="button_draft" type="object" string="Reset to Draft" states="design,test,ready" />
-                    <field
-                        name="state"
-                        widget="statusbar"
-                        options="{'clickable': '1'}"
-                        statusbar_visible="draft,design,test,ready,production"
-                    />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,design,test,ready,production" />
 
                 </header>
                 <sheet>
@@ -127,11 +133,13 @@
                                     <field name="sequence" widget="handle" />
                                     <field name="code" />
                                     <field name="process_id" invisible="1" />
+                                     <field name="state" invisible="1" />
                                     <field name="name" />
                                     <field name="transaction_id" />
                                     <field name="transaction_type" />
                                     <field name="responsible_id" />
                                     <field name="development_ids" widget="many2many_tags" optional="hide" />
+
                                 </tree>
                             </field>
                         </page>

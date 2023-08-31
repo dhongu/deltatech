@@ -20,6 +20,8 @@ class BusinessProcessTest(models.Model):
         string="State",
         tracking=True,
         default="draft",
+        copy=False,
+        index=True,
     )
     scope = fields.Selection(
         [
@@ -40,7 +42,10 @@ class BusinessProcessTest(models.Model):
     doc_count = fields.Integer(string="Number of documents attached", compute="_compute_attached_docs_count")
 
     test_step_ids = fields.One2many(
-        string="Test steps", comodel_name="business.process.step.test", inverse_name="process_test_id"
+        string="Test steps",
+        comodel_name="business.process.step.test",
+        inverse_name="process_test_id",
+        copy=True,
     )
 
     @api.depends("test_step_ids.result")

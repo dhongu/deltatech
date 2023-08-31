@@ -62,7 +62,6 @@
                         <group>
                             <field name="area_id" />
                             <field name="type_id" />
-                            <field name="area_id" />
                             <field name="approved" />
                         </group>
 

@@ -34,6 +34,8 @@ class BusinessProcessStepTest(models.Model):
         ],
         string="Result",
         default="draft",
+        copy=False,
+        index=True,
     )
 
     data_used = fields.Text(string="Data used")
@@ -49,7 +51,7 @@ class BusinessProcessStepTest(models.Model):
     feedback_state = fields.Selection(
         [("draft", "Draft"), ("ok", "Ok"), ("not_ok", "Not ok")], string="Feedback state", default="draft"
     )
-    count_issues = fields.Integer(string="Issues", compute="_compute_count_issues", store=True)
+    count_issues = fields.Integer(string="Count Issues", compute="_compute_count_issues", store=True)
 
     issue_ids = fields.One2many("business.issue", "step_test_id", string="Issues")
 
