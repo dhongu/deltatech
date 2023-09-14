@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0+ec\n"
+"Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-11 07:46+0000\n"
-"PO-Revision-Date: 2021-12-11 07:46+0000\n"
+"POT-Creation-Date: 2023-09-14 08:27+0000\n"
+"PO-Revision-Date: 2023-09-14 08:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -35,6 +35,11 @@ msgstr "<span class=\"o_stat_text\">Facturat</span>"
 #: model_terms:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
 msgid "<span class=\"o_stat_text\">Revenues</span>"
 msgstr "<span class=\"o_stat_text\">Venituri</span>"
+
+#. module: deltatech_service
+#: model_terms:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
+msgid "<span class=\"o_stat_text\">Unpaid invoices</span>"
+msgstr "<span class=\"o_stat_text\">Facturi neplătite</span>"
 
 #. module: deltatech_service
 #: code:addons/deltatech_service/wizard/service_billing.py:0
@@ -186,7 +191,7 @@ msgstr "Modifică dată facturare"
 #. module: deltatech_service
 #: model:res.groups,name:deltatech_service.group_service_client
 msgid "Client"
-msgstr "Client"
+msgstr ""
 
 #. module: deltatech_service
 #: model_terms:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
@@ -260,6 +265,11 @@ msgid "Created with free cycle"
 msgstr ""
 
 #. module: deltatech_service
+#: model_terms:ir.actions.act_window,help:deltatech_service.action_service_agreement
+msgid "Creați un documentnou"
+msgstr ""
+
+#. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement__currency_id
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line__currency_id
 #: model:ir.model.fields,field_description:deltatech_service.field_service_consumption__currency_id
@@ -273,6 +283,17 @@ msgstr "Moneda"
 #: model:ir.ui.menu,name:deltatech_service.menu_service_cycle
 msgid "Cycle"
 msgstr "Ciclu"
+
+#. module: deltatech_service
+#: model:ir.model.fields,help:deltatech_service.field_service_billing__force_invoice_date
+msgid ""
+"Date for resulting invoices. Leave blank to get the date from agreement"
+msgstr ""
+
+#. module: deltatech_service
+#: model_terms:ir.ui.view,arch_db:deltatech_service.view_service_consumption_filter
+msgid "Date invoice"
+msgstr ""
 
 #. module: deltatech_service
 #: model:ir.model.fields.selection,name:deltatech_service.selection__service_cycle__unit__day
@@ -404,6 +425,11 @@ msgid "Free invoice cycles remaining"
 msgstr ""
 
 #. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption__from_uninstall
+msgid "From Uninstall"
+msgstr ""
+
+#. module: deltatech_service
 #: model:ir.model.fields,help:deltatech_service.field_service_agreement_line__sequence
 msgid "Gives the sequence of this line when displaying the agreement."
 msgstr ""
@@ -522,6 +548,11 @@ msgid "Invoice Reference"
 msgstr "Referință factură"
 
 #. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing__force_invoice_date
+msgid "Invoice(s) date"
+msgstr ""
+
+#. module: deltatech_service
 #: model_terms:ir.ui.view,arch_db:deltatech_service.view_service_consumption_filter
 msgid "Invoiced"
 msgstr "Facturat"
@@ -556,12 +587,12 @@ msgstr "Registru"
 #. module: deltatech_service
 #: model:ir.model,name:deltatech_service.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Notă contabilă"
 
 #. module: deltatech_service
 #: model:ir.model,name:deltatech_service.model_account_move_line
 msgid "Journal Item"
-msgstr ""
+msgstr "Element jurnal"
 
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement__last_invoice_id
@@ -1102,6 +1133,16 @@ msgid "Unmade"
 msgstr "Nefacută"
 
 #. module: deltatech_service
+#: model_terms:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
+msgid "Unpaid Invoices"
+msgstr "Facturi neplătite"
+
+#. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement__unpaid_invoices
+msgid "Unpaid invoices"
+msgstr "Facturi neplătite"
+
+#. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement__message_unread
 msgid "Unread Messages"
 msgstr "Mesaje necitite"
@@ -1167,6 +1208,14 @@ msgstr "Anual"
 #, python-format
 msgid "You cannot delete a service agreement which is not draft."
 msgstr "Nu puteți șterge un contract de servicii care în starea de ciornă."
+
+#. module: deltatech_service
+#: code:addons/deltatech_service/models/service_consumption.py:0
+#, python-format
+msgid ""
+"You cannot delete a service consumption generated from an uninstall "
+"operation (%s / %s)."
+msgstr ""
 
 #. module: deltatech_service
 #: code:addons/deltatech_service/models/service_consumption.py:0
