@@ -77,6 +77,8 @@ class ServiceAgreement(models.Model):
         store=True,
     )
 
+    unpaid_invoices = fields.Integer(string="Unpaid invoices", compute="_compute_unpaid_invoices")
+
     billing_automation = fields.Selection(
         [("auto", "Auto"), ("manual", "Manual")], string="Billing automation", default="manual"
     )
@@ -130,6 +132,18 @@ class ServiceAgreement(models.Model):
             ("invoice_line_ids.agreement_id", "=", self.id),
             ("state", "=", "posted"),
             ("move_type", "=", "out_invoice"),
+        ]
+        invoices = self.env["account.move"].search(domain)
+        action["domain"] = [("id", "=", invoices.ids)]
+        return action
+
+    def show_unpaid_invoices(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("account.action_move_out_invoice_type")
+        domain = [
+            ("partner_id", "=", self.partner_id.commercial_partner_id.id),
+            ("state", "=", "posted"),
+            ("move_type", "=", "out_invoice"),
+            ("payment_state", "in", ["not_paid", "partial"]),
         ]
         invoices = self.env["account.move"].search(domain)
         action["domain"] = [("id", "=", invoices.ids)]
@@ -206,6 +220,19 @@ class ServiceAgreement(models.Model):
                 agreement.display_name = agreement.name + " / " + agreement.date_agreement.strftime(date_format)
             else:
                 agreement.display_name = agreement.name
+
+    def _compute_unpaid_invoices(self):
+        for agreement in self:
+            partner_id = agreement.partner_id.commercial_partner_id
+            invoice_count = self.env["account.move"].search_count(
+                [
+                    ("partner_id", "=", partner_id.id),
+                    ("move_type", "=", "out_invoice"),
+                    ("payment_state", "in", ["not_paid", "partial"]),
+                    ("state", "=", "posted"),
+                ]
+            )
+            agreement.unpaid_invoices = invoice_count
 
     @api.model_create_multi
     def create(self, vals_list):
