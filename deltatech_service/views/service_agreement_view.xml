@@ -19,6 +19,7 @@
                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
                 <field name="last_date_invoice" />
                 <field name="next_date_invoice" optional="hide" widget="remaining_days" />
+                <field name="unpaid_invoices" optional="hide" />
             </tree>
         </field>
     </record>
@@ -71,6 +72,21 @@
                                     />
                                 </span>
                                 <span class="o_stat_text">Invoiced</span>
+                            </div>
+                        </button>
+                        <button
+                            type="object"
+                            class="oe_stat_button"
+                            name="show_unpaid_invoices"
+                            id="unpaid_invoice_button"
+                            icon="fa-pencil-square-o"
+                            groups="account.group_account_invoice"
+                        >
+                            <div class="o_form_field o_stat_info">
+                                <span class="o_stat_value">
+                                    <field string="Unpaid Invoices" name="unpaid_invoices" />
+                                </span>
+                                <span class="o_stat_text">Unpaid invoices</span>
                             </div>
                         </button>
                         <button
