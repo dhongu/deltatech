@@ -10,7 +10,7 @@ from odoo.exceptions import UserError
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    stage_id = fields.Many2one("sale.order.stage", string="Stage", copy=False)
+    stage_id = fields.Many2one("sale.order.stage", string="Stage", copy=False, tracking=True)
     stage_ids = fields.Many2many("sale.order.stage", string="Stage", compute="_compute_stage_ids")
 
     @api.depends("stage_id")
@@ -33,7 +33,7 @@ class SaleOrder(models.Model):
         self.set_stage("confirmed")
 
     def action_quotation_sent(self):
-        super(SaleOrder, self).action_confirm()
+        super(SaleOrder, self).action_quotation_sent()
         self.set_stage("send_email")
 
     def set_stage(self, stage_step):
