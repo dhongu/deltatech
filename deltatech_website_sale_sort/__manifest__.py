@@ -4,9 +4,15 @@
 {
     "name": "eCommerce Product sort",
     "category": "Website",
+<<<<<<< HEAD:deltatech_website_sale_sort/__manifest__.py
     "summary": "Additional sorting criteria ",
     "version": "16.0.1.0.1",
     "license": "LGPL-3",
+=======
+    "summary": "Attribute with image for texture",
+    "version": "15.0.1.0.0",
+    "license": "OPL-1",
+>>>>>>> modificare licenta in OPL:deltatech_website_texture_attributes/__manifest__.py
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale"],
