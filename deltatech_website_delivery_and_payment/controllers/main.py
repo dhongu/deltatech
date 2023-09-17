@@ -55,7 +55,7 @@ class WebsiteSale(Base):
             context.setdefault("acquirer_id", acquirer_id)
             request.context = context
         # if acquirer_id:
-        #     acquirer = request.env["payment.acquirer"].sudo().browse(int(acquirer_id))
+        #     acquirer = request.env["payment.provider"].sudo().browse(int(acquirer_id))
         #     if acquirer and order.acquirer_id != acquirer:
         #         order.write({"acquirer_id": acquirer.id})
 

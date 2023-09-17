@@ -17,7 +17,7 @@ Deltatech Drop Shipping
     :target: https://github.com/dhongu/deltatech/tree/16.0/deltatech_dropshipping
     :alt: dhongu/deltatech
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2| |badge3| 
 
 Features:
  -  Afisare adresa livrare in picking
@@ -55,7 +55,7 @@ Maintainers
 
 Current maintainer:
 
-|maintainer-dhongu|
+|maintainer-dhongu| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/16.0/deltatech_dropshipping>`_ project on GitHub.
 

@@ -7,4 +7,4 @@ from odoo import fields, models
 class Partner(models.Model):
     _inherit = "res.partner"
 
-    acquirer_id = fields.Many2one("payment.acquirer")
+    acquirer_id = fields.Many2one("payment.provider")
