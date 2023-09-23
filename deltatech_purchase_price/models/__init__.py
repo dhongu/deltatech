@@ -6,3 +6,4 @@ from . import stock_account
 from . import purchase
 from . import product
 from . import pricelist
+from . import res_config_settings
