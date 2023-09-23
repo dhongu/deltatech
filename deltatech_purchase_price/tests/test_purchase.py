@@ -29,25 +29,37 @@ class TestPurchase(TransactionCase):
                 "name": "Test B",
                 "type": "product",
                 "standard_price": 100,
-                "last_purchase_price": 100,
-                "trade_markup": 10,
                 "list_price": 150,
                 "seller_ids": seller_ids,
             }
         )
-        self.system_parameter1 = self.env["ir.config_parameter"].create(
-            {"key": "purchase.update_product_price", "value": "True"}
-        )
+        set_param = self.env["ir.config_parameter"].sudo().set_param
+        set_param("purchase.update_product_price", "True")
+        set_param("purchase.update_list_price", "True")
 
     def test_product_change_last_purchase_price(self):
-        product = Form(self.product_a)
-        product.last_purchase_price = 10
-        product.save()
+        product = Form(self.product_a.product_tmpl_id)
+        product.last_purchase_price = 200
+        product = product.save()
+        product = Form(self.product_b.product_tmpl_id)
+        product.last_purchase_price = 200
+        product = product.save()
+
+    def test_product_change_trade_markup(self):
+        product = Form(self.product_a.product_tmpl_id)
+        product.trade_markup = 10
+        product = product.save()
+        product = Form(self.product_b.product_tmpl_id)
+        product.trade_markup = 10
+        product = product.save()
 
     def test_product_change_list_price(self):
-        product = Form(self.product_a)
-        product.list_price = 200
-        product.save()
+        product = Form(self.product_a.product_tmpl_id)
+        product.list_price = 250
+        product = product.save()
+        product = Form(self.product_b.product_tmpl_id)
+        product.list_price = 250
+        product = product.save()
 
     def test_purchase(self):
         # se creeaza o comanda de achizitie
@@ -74,3 +86,17 @@ class TestPurchase(TransactionCase):
 
         # se verifica ultimul pret de achizitie
         self.assertEqual(self.product_a.last_purchase_price, 10.0)
+
+    def test_wizard_trade_markup(self):
+        wizard = Form(self.env["product.markup.wizard"])
+        wizard.trade_markup = 10
+        wizard.selected_line = True
+        wizard = wizard.save()
+        active_ids = [self.product_a.product_tmpl_id.id, self.product_b.product_tmpl_id.id]
+        wizard.with_context(active_ids=active_ids).do_set_trade_markup()
+
+        wizard = Form(self.env["product.markup.wizard"])
+        wizard.trade_markup = 10
+        wizard.partner_id = self.partner_a
+        wizard = wizard.save()
+        wizard.do_set_trade_markup()
