@@ -33,7 +33,13 @@ class ProductTemplate(models.Model):
     list_price = fields.Float(tracking=True)
 
     list_price_base = fields.Selection(
-        [("list_price", "List price"), ("standard_price", "Cost Price")], string="Base Price", default="standard_price"
+        [
+            ("list_price", "List price"),
+            ("standard_price", "Cost Price"),
+            ("last_purchase_price", "Last Purchase Price"),
+        ],
+        string="Base Price",
+        default="last_purchase_price",
     )
 
     percent_bronze = fields.Float(string="Bronze Percent")
@@ -96,6 +102,7 @@ class ProductTemplate(models.Model):
     @api.depends(
         "list_price_base",
         "standard_price",
+        "last_purchase_price",
         "list_price",
         "percent_copper",
         "percent_bronze",
@@ -114,13 +121,14 @@ class ProductTemplate(models.Model):
                 if tax.price_include:
                     tax_inc = True
 
-            # se presupune ca pretul de achizitie este cu taxa inclusa
             if product.list_price_base == "standard_price":
                 try:
                     price = product.standard_price
                 except Exception:
                     price = product.sudo().standard_price
                 # taxe = taxe.with_context(base_values=price)
+            elif product.list_price_base == "last_purchase_price":
+                price = product.last_purchase_price or product.standard_price
             else:
                 price = product.list_price
                 if tax_inc:
