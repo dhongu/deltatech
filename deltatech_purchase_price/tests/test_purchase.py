@@ -14,14 +14,40 @@ class TestPurchase(TransactionCase):
 
         seller_ids = [(0, 0, {"name": self.partner_a.id})]
         self.product_a = self.env["product.product"].create(
-            {"name": "Test A", "type": "product", "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
+            {
+                "name": "Test A",
+                "type": "product",
+                "standard_price": 100,
+                "last_purchase_price": 100,
+                "trade_markup": 10,
+                "list_price": 150,
+                "seller_ids": seller_ids,
+            }
         )
         self.product_b = self.env["product.product"].create(
-            {"name": "Test B", "type": "product", "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
+            {
+                "name": "Test B",
+                "type": "product",
+                "standard_price": 100,
+                "last_purchase_price": 100,
+                "trade_markup": 10,
+                "list_price": 150,
+                "seller_ids": seller_ids,
+            }
         )
         self.system_parameter1 = self.env["ir.config_parameter"].create(
             {"key": "purchase.update_product_price", "value": "True"}
         )
+
+    def test_product_change_last_purchase_price(self):
+        product = Form(self.product_a)
+        product.last_purchase_price = 10
+        product.save()
+
+    def test_product_change_list_price(self):
+        product = Form(self.product_a)
+        product.list_price = 200
+        product.save()
 
     def test_purchase(self):
         # se creeaza o comanda de achizitie
