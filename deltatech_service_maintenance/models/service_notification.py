@@ -58,7 +58,7 @@ class ServiceNotification(models.Model):
         "res.partner",
         string="Reported by",
         help="The person who reported the notification",
-        default=lambda self: self.env.user.partner_id,
+        default=lambda self: self.env.user.partner_id.id,
         readonly=True,
         states={"new": [("readonly", False)]},
     )

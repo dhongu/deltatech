@@ -26,6 +26,7 @@
                         string="Recompute prices"
                         attrs="{'invisible':[('state', '!=', 'draft')]}"
                     />
+                    <button type="object" name="add_multiple_lines" string="Add lines" />
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
@@ -92,9 +93,9 @@
                             />
                         </group>
                     </group>
-                    <group>
+
                         <group string="Consumption">
-                            <button type="object" name="add_multiple_lines" string="Add lines" />
+
                             <field name="product_out_ids" nolabel="1" attrs="{'readonly':[('state', '!=', 'draft')]}">
                                 <tree editable="bottom">
                                     <field name="product_id" />
@@ -117,7 +118,7 @@
                                 </tree>
                             </field>
                         </group>
-                    </group>
+
                 </sheet>
             </form>
         </field>

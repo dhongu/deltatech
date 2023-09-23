@@ -14,7 +14,7 @@
         "deltatech_service_maintenance",
         "deltatech_service_equipment_base",
     ],
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "data": [
         "security/service_security.xml",
         "security/ir.model.access.csv",
