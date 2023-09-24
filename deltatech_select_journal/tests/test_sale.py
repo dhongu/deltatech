@@ -20,7 +20,6 @@ class TestSale(TransactionCase):
                 "standard_price": 100,
                 "list_price": 150,
                 "seller_ids": seller_ids,
-                "company_id": self.env.company.id,
             }
         )
         self.product_b = self.env["product.product"].create(
@@ -30,7 +29,6 @@ class TestSale(TransactionCase):
                 "standard_price": 70,
                 "list_price": 150,
                 "seller_ids": seller_ids,
-                "company_id": self.env.company.id,
             }
         )
         self.stock_location = self.env.ref("stock.stock_location_stock")
