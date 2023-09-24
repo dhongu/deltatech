@@ -18,7 +18,7 @@ class ServiceEquipmentType(models.Model):
     _description = "Service Equipment Type"
 
     name = fields.Char(string="Type", translate=True)
-    template_meter_ids = fields.One2many("service.template.meter")
+    template_meter_ids = fields.One2many("service.template.meter", "type_id", string="Meters")
 
 
 class ServiceEquipmentModel(models.Model):
