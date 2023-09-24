@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <tree string="Services Consumption" create="false">
                 <field name="name" />
-                <field name="period_id" />
+                <field name="service_period_id" />
                 <field name="date_invoice" />
                 <field name="partner_id" />
                 <field name="group_id" optional="hide" />
@@ -36,7 +36,7 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="period_id" />
+                            <field name="service_period_id" />
                             <field name="partner_id" />
                             <field name="group_id" />
                             <field name="product_id" />
@@ -83,7 +83,7 @@
                 <field name="group_id" />
                 <field name="product_id" />
                 <field name="partner_id" />
-                <field name="period_id" options="{'no_create': True}" />
+                <field name="service_period_id" options="{'no_create': True}" />
                 <field name="agreement_id" />
                 <field name="invoice_id" />
                 <separator />
@@ -95,7 +95,7 @@
                 <filter name="done" string="Invoiced" domain="[('state','=','done')]" />
                 <newline />
                 <group expand="1" string="Group By...">
-                    <filter string="Period" name="period" context="{'group_by':'period_id'}" />
+                    <filter string="Period" name="period" context="{'group_by':'service_period_id'}" />
                     <filter string="Product" name="product" context="{'group_by':'product_id'}" />
                     <filter string="Service Group" name="group" context="{'group_by':'group_id'}" />
                 </group>
