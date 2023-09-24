@@ -18,6 +18,7 @@
         "views/service_location_view.xml",
         "views/service_equipment_view.xml",
         "views/service_meter_view.xml",
+        "views/service_config_view.xml",
         "wizard/enter_readings_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],

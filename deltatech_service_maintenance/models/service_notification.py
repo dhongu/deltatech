@@ -226,21 +226,24 @@ class ServiceNotification(models.Model):
         self.write({"state": "new", "date_assign": fields.Datetime.now()})
 
     def action_assign(self):
-        for picking in self:
-            if not picking.user_id:
+        for notification in self:
+            if not notification.user_id:
                 raise UserError(_("Please select a responsible."))
-            if picking.state != "new":
+            if notification.state != "new":
                 raise UserError(_("Notification is already assigned."))
 
-            picking.write({"state": "assigned", "date_assign": fields.Datetime.now()})
+            notification.write({"state": "assigned", "date_assign": fields.Datetime.now()})
 
-            new_follower_ids = [picking.user_id.partner_id.id]
+            new_follower_ids = [notification.user_id.partner_id.id]
 
-            if picking.user_id != self.env.user.id:
-                msg = _("Please solve notification for %s: %s") % (picking.partner_id.name, picking.description or "")
+            if notification.user_id != self.env.user.id:
+                msg = _("Please solve notification for %s: %s") % (
+                    notification.partner_id.name,
+                    notification.description or "",
+                )
 
                 if msg and not self.env.context.get("no_message", False):
-                    document = picking
+                    document = notification
                     message = self.env["mail.message"].with_context({"default_starred": True})
                     message.create(
                         {
@@ -249,7 +252,7 @@ class ServiceNotification(models.Model):
                             "record_name": document.name_get()[0][1],
                             # "email_from": self.env["mail.message"]._get_default_from_address(),
                             # "reply_to": self.env["mail.message"]._get_default_from_address(),
-                            "subject": picking.subject,
+                            "subject": notification.subject,
                             "body": msg,
                             "message_id": self.env["mail.message"]._get_message_id({"no_auto_thread": True}),
                             "partner_ids": [(4, id) for id in new_follower_ids],

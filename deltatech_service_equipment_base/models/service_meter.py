@@ -12,16 +12,6 @@ _logger = logging.getLogger(__name__)
 READING_TYPE_SELECTION = [("inc", "Increase"), ("dec", "Decrease"), ("cng", "Change"), ("src", "Meter")]
 
 
-# face legatura dintre categorie si unitatea de masura
-class ServiceMeterCategory(models.Model):
-    _name = "service.meter.category"
-    _description = "Service Meter Category"
-
-    name = fields.Char(string="Category")
-    uom_id = fields.Many2one("uom.uom", string="Unit of Measure", required=True)
-    type = fields.Selection([("counter", "Counter"), ("collector", "Collector")], string="Type", default="counter")
-
-
 class ServiceMeter(models.Model):
     _name = "service.meter"
     _description = "Meter"

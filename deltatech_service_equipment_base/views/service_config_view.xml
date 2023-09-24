@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_service_equipment_type_form" model="ir.ui.view">
+        <field name="name">Services Equipment Type</field>
+        <field name="model">service.equipment.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name" />
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="action_service_equipment_type" model="ir.actions.act_window">
+        <field name="name">Services Equipment Type</field>
+        <field name="res_model">service.equipment.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem
+        name="Equipment Type"
+        id="menu_service_equipment_type"
+        action="action_service_equipment_type"
+        parent="deltatech_service_base.menu_service_config"
+        sequence="200"
+    />
+
+
+    <record id="view_service_equipment_model_form" model="ir.ui.view">
+        <field name="name">Services Equipment Model</field>
+        <field name="model">service.equipment.model</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name" />
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="action_service_equipment_model" model="ir.actions.act_window">
+        <field name="name">Services Equipment Model</field>
+        <field name="res_model">service.equipment.model</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem
+        name="Equipment Model"
+        id="menu_service_equipment_model"
+        action="action_service_equipment_model"
+        parent="deltatech_service_base.menu_service_config"
+        sequence="200"
+    />
+
+
+            <record id="view_service_meter_category_form" model="ir.ui.view">
+            <field name="name">Service meter category</field>
+            <field name="model">service.meter.category</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="uom_id" />
+                            <field name="type" />
+                        </group>
+                        <group>
+
+                        </group>
+
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="action_service_meter_category" model="ir.actions.act_window">
+            <field name="name">Services Meter Category</field>
+            <field name="res_model">service.meter.category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+        name="Meter Category"
+        id="menu_service_meter_category"
+        action="action_service_meter_category"
+        parent="deltatech_service_base.menu_service_config"
+        sequence="201"
+    />
+
+</odoo>

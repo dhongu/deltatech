@@ -20,7 +20,7 @@ class ServiceEquiOperation(models.TransientModel):
         default="ins",
         readonly=True,
     )
-    period_id = fields.Many2one("date.range", string="Period")
+    service_period_id = fields.Many2one("service.date.range", string="Period")
 
     equipment_id = fields.Many2one("service.equipment", string="Equipment", readonly=True)
 

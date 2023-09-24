@@ -70,17 +70,3 @@ class ServiceEquipment(models.Model):
 
     def update_meter_status(self):
         pass
-
-
-class ServiceEquipmentType(models.Model):
-    _name = "service.equipment.type"
-    _description = "Service Equipment Type"
-
-    name = fields.Char(string="Type", translate=True)
-
-
-class ServiceEquipmentModel(models.Model):
-    _name = "service.equipment.model"
-    _description = "Service Equipment Model"
-
-    name = fields.Char(string="Model", translate=True)
