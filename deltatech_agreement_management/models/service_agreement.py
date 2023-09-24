@@ -86,4 +86,4 @@ class ServiceAgreementType(models.Model):
 
     name = fields.Char(string="Type", translate=True)
     sequence_id = fields.Many2one("ir.sequence", string="Sequence")
-    print_template_id = fields.Many2one("ir.actions.report", string="Layout", required=True)
+    print_template_id = fields.Many2one("ir.actions.report", string="Layout", required=False)

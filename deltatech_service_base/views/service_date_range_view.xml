@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_service_date_range_tree" model="ir.ui.view">
+        <field name="name">service.date.range.tree</field>
+        <field name="model">service.date.range</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name" />
+                <field name="date_start" />
+                <field name="date_end" />
+                <field name="active" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_service_date_range_form_view" model="ir.ui.view">
+        <field name="name">service.date.range.form</field>
+        <field name="model">service.date.range</field>
+        <field name="arch" type="xml">
+            <form>
+                <group col="4">
+                    <field name="name" />
+
+                    <field name="date_start" />
+                    <field name="date_end" />
+                    <field name="active" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_generate_date_range" model="ir.actions.server">
+        <field name="name">Generate Date Range</field>
+        <field name="model_id" ref="model_service_date_range" />
+        <field name="state">code</field>
+        <field name="code">model.generate_date_range()</field>
+        <field name="binding_model_id" ref="model_service_date_range" />
+    </record>
+
+
+    <record id="action_service_data_range" model="ir.actions.act_window">
+        <field name="name">Date Ranges</field>
+        <field name="res_model">service.date.range</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Date Ranges"
+        id="menu_service_data_range"
+        groups="deltatech_service_base.group_service_manager"
+        action="action_service_data_range"
+        parent="deltatech_service_base.menu_service_config"
+    />
+</odoo>
