@@ -164,7 +164,8 @@ class ServiceBilling(models.TransientModel):
         if not pre_invoice:
             raise UserError(_("No condition for create a new invoice"))
 
-        res = []
+        service_invoices = self.env["account.move"]
+
         for date_invoice in pre_invoice:
             for key in pre_invoice[date_invoice]:
                 comment = _("According to agreement ")
@@ -210,9 +211,9 @@ class ServiceBilling(models.TransientModel):
                 # todo: de determinat care e butonul de calcul tva
                 # invoice_id.button_compute(True)
                 pre_invoice[date_invoice][key]["cons"].write({"invoice_id": invoice_id.id})
-                res.append(invoice_id.id)
+                service_invoices |= invoice_id
 
         agreements.compute_totals()
         action = self.env["ir.actions.actions"]._for_xml_id("deltatech_service_agreement.action_service_invoice")
-        action["domain"] = "[('id','in', [" + ",".join(map(str, res)) + "])]"
+        action["domain"] = [("id", "in", service_invoices.ids)]
         return action
