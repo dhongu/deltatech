@@ -34,3 +34,10 @@ class TestServiceBase(TransactionCase):
                 "work_center_id": self.work_center.id,
             }
         )
+
+        self.product = self.env["product.product"].create(
+            {
+                "name": "Test Product",
+                "type": "product",
+            }
+        )

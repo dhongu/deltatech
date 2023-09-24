@@ -24,4 +24,6 @@ class TestServiceOrder(TestServiceBase):
         service_order.service_location_id = self.location
         service_order.type_id = self.order_type
         service_order = service_order.save()
+
         service_order.new_sale_order_button()
+        service_order.new_delivery_button()

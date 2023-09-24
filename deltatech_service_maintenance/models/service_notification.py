@@ -236,7 +236,7 @@ class ServiceNotification(models.Model):
 
             new_follower_ids = [notification.user_id.partner_id.id]
 
-            if notification.user_id != self.env.user.id:
+            if notification.user_id != self.env.user:
                 msg = _("Please solve notification for %s: %s") % (
                     notification.partner_id.name,
                     notification.description or "",
@@ -336,7 +336,7 @@ class ServiceNotification(models.Model):
 
         new_follower_ids = [self.contact_id.id]
 
-        if self.user_id != self.env.user.id:
+        if self.user_id != self.env.user:
             msg = _("Notification %s for %s was done") % (self.description or "", self.partner_id.name)
 
             if msg and not self.env.context.get("no_message", False):
