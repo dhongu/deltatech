@@ -59,6 +59,16 @@ class TestAgreement(TransactionCase):
 
         consumptions = self.env["service.consumption"].search(action["domain"])
 
+        wizard = Form(self.env["service.distribution"].with_context(active_ids=consumptions.ids))
+        wizard.quantity = 10
+        wizard = wizard.save()
+        wizard.do_distribution()
+
+        wizard = Form(self.env["service.price.change"].with_context(active_ids=consumptions.ids))
+        wizard.price_unit = 5
+        wizard = wizard.save()
+        wizard.do_price_change()
+
         wizard = Form(self.env["service.billing"].with_context(active_ids=consumptions.ids))
         wizard = wizard.save()
         action = wizard.do_billing()
