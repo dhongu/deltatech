@@ -10,11 +10,14 @@ class ServiceBillingPreparation(models.TransientModel):
     _name = "service.billing.preparation"
     _description = "Service Billing Preparation"
 
-    period_id = fields.Many2one(
-        "date.range",
-        string="Period",
-        required=True,
-    )
+    # period_id = fields.Many2one(
+    #     "date.range",
+    #     string="Period",
+    #     required=True
+    # )
+
+    service_period_id = fields.Many2one("service.date.range", string="Period", required=True)
+
     agreement_ids = fields.Many2many(
         "service.agreement",
         "service_billing_agreement",
@@ -51,7 +54,7 @@ class ServiceBillingPreparation(models.TransientModel):
 
         consumptions = self.env["service.consumption"]
         for agreement in self.agreement_ids:
-            consumptions = agreement.agreement_line.do_billing_preparation(self.period_id)
+            consumptions = agreement.agreement_line.do_billing_preparation(self.service_period_id)
         self.agreement_ids.compute_totals()
         domain = [
             "|",

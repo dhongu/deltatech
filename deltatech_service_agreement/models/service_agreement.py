@@ -230,8 +230,8 @@ class ServiceAgreement(models.Model):
         from_date = fields.Date.context_today(self) + relativedelta(day=1, months=0, days=0)
         to_date = fields.Date.context_today(self) + relativedelta(day=1, months=1, days=-1)
         domain = [("date_start", "=", from_date), ("date_end", "=", to_date)]
-        period = self.env["date.range"].search(domain)
-        domain = [("period_id", "in", period.ids), ("agreement_id", "in", agreements.ids)]
+        service_period = self.env["service.date.range"].search(domain)
+        domain = [("service_period_id", "in", service_period.ids), ("agreement_id", "in", agreements.ids)]
         consumptions = self.env["service.consumption"].search(domain)
         for consumption in consumptions:  # check if has consumptions in current period
             agreements = agreements - consumption.agreement_id
@@ -321,7 +321,7 @@ class ServiceAgreementLine(models.Model):
     def after_create_consumption(self, consumption):
         pass
 
-    def do_billing_preparation(self, period_id):
+    def do_billing_preparation(self, service_period_id):
         consumptions = self.env["service.consumption"]
         for line in self:
             agreement = line.agreement_id
@@ -333,7 +333,7 @@ class ServiceAgreementLine(models.Model):
                 cons_value.update(
                     {
                         "partner_id": agreement.partner_id.id,
-                        "period_id": period_id.id,
+                        "service_period_id": service_period_id.id,
                         "agreement_id": agreement.id,
                         "agreement_line_id": line.id,
                         "date_invoice": agreement.next_date_invoice,

@@ -4,7 +4,7 @@
 {
     "name": "Services Base",
     "summary": "Manage Services Base",
-    "version": "15.0.2.0.5",
+    "version": "15.0.2.0.6",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Services/Agreement",
@@ -15,6 +15,7 @@
         "security/ir.model.access.csv",
         "data/data.xml",
         "views/service_cycle_view.xml",
+        "views/service_date_range_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "application": True,
