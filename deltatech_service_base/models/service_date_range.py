@@ -36,7 +36,7 @@ class ServiceDateRange(models.Model):
             if not self.search([("name", "=", name)]):
                 self.create(
                     {
-                        "name": date_start.strftime("%%Y/%%m"),
+                        "name": name,
                         "date_start": date_start,
                         "date_end": date_end,
                     }
