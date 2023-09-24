@@ -34,6 +34,8 @@ class TestAgreement(TransactionCase):
                 "unit": "month",
             }
         )
+        self.env["service.date.range"].generate_date_range()
+        self.date_range = self.env["service.date.range"].search([], limit=1)
 
     def test_agreement(self):
         agreement = Form(self.env["service.agreement"])
@@ -42,14 +44,24 @@ class TestAgreement(TransactionCase):
         agreement.type_id = self.agreement_type
         agreement.cycle_id = self.cycle
 
-        agreement_line = agreement.agreement_line.new()
-        agreement_line.product_id = self.product_1
-        agreement_line.quantity = 1
-        agreement_line.price_unit = 100
+        with agreement.agreement_line.new() as agreement_line:
+            agreement_line.product_id = self.product_1
+            agreement_line.quantity = 1
+            agreement_line.price_unit = 100
 
         agreement = agreement.save()
+        agreement.contract_open()
 
-        # consumption = Form(self.env["service.consumption"])
-        # consumption.agreement_id = agreement
-        # consumption.agreement_line_id = agreement.agreement_line
-        # consumption.quantity = 1
+        wizard = Form(self.env["service.billing.preparation"].with_context(active_ids=[agreement.id]))
+        wizard.service_period_id = self.date_range
+        wizard = wizard.save()
+        action = wizard.do_billing_preparation()
+
+        consumptions = self.env["service.consumption"].search(action["domain"])
+
+        wizard = Form(self.env["service.billing"].with_context(active_ids=consumptions.ids))
+        wizard = wizard.save()
+        action = wizard.do_billing()
+
+        invoices = self.env["account.move"].search(action["domain"])
+        invoices.action_post()
