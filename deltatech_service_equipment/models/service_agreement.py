@@ -115,7 +115,8 @@ class ServiceAgreementLine(models.Model):
     @api.onchange("equipment_id")
     def onchange_equipment_id(self):
         if self.equipment_id:
-            self.meter_id = self.equipment_id.meter_ids[0]
+            if self.equipment_id.meter_ids:
+                self.meter_id = self.equipment_id.meter_ids[0]
 
     @api.onchange("meter_id")
     def onchange_meter_id(self):
@@ -146,7 +147,7 @@ class ServiceAgreementLine(models.Model):
                 # sa fie dupa data de instalare si dupa ultima citire facturata
 
                 readings = meter.meter_reading_ids.filtered(
-                    lambda r: not r.consumption_id and consumption.period_id.date_end >= r.date >= de_la_data
+                    lambda r: not r.consumption_id and consumption.service_period_id.date_end >= r.date >= de_la_data
                 )
 
                 quantity = 0
@@ -187,7 +188,7 @@ class ServiceConsumption(models.Model):
     _sql_constraints = [
         (
             "agreement_line_period_uniq",
-            "unique(period_id,agreement_line_id,equipment_id)",
+            "unique(service_period_id,agreement_line_id,equipment_id)",
             "Agreement line in period already exist!",
         ),
     ]

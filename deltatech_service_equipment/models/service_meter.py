@@ -9,7 +9,7 @@ from odoo.exceptions import UserError
 class ServiceMeterCategory(models.Model):
     _inherit = "service.meter.category"
 
-    bill_uom_id = fields.Many2one("uom.uom", string="Billing Unit of Measure", required=True)
+    bill_uom_id = fields.Many2one("uom.uom", string="Billing Unit of Measure")
 
 
 class ServiceMeterReading(models.Model):
