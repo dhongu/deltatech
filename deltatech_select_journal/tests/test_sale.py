@@ -49,6 +49,36 @@ class TestSale(TransactionCase):
             }
         ).action_apply_inventory()
 
+        self.journal_eur = self.env["account.journal"].create(
+            {
+                "name": "Test Journal EUR",
+                "type": "sale",
+                "code": "SJ1",
+                "currency_id": self.env.ref("base.EUR").id,
+            }
+        )
+
+        self.journal_usd = self.env["account.journal"].create(
+            {
+                "name": "Test Journal USD",
+                "type": "sale",
+                "code": "SJ2",
+                "currency_id": self.env.ref("base.USD").id,
+            }
+        )
+        self.team_eur = self.env["crm.team"].create(
+            {
+                "name": "Test Team EUR",
+                "journal_id": self.journal_eur.id,
+            }
+        )
+        self.team_usd = self.env["crm.team"].create(
+            {
+                "name": "Test Team USD",
+                "journal_id": self.journal_usd.id,
+            }
+        )
+
     def test_sale_wizard_invoice(self):
         so = Form(self.env["sale.order"])
         so.partner_id = self.partner_a
@@ -97,6 +127,7 @@ class TestSale(TransactionCase):
     def test_sale_eur_percentage(self):
         so = Form(self.env["sale.order"])
         so.partner_id = self.partner_a
+        so.team_id = self.team_eur
         # so.price_list_id.write({'currency_id': self.ref('base.EUR').id})
         with so.order_line.new() as so_line:
             so_line.product_id = self.product_a
@@ -119,6 +150,7 @@ class TestSale(TransactionCase):
     def test_sale_eur_fix(self):
         so = Form(self.env["sale.order"])
         so.partner_id = self.partner_a
+        so.team_id = self.team_usd
         # so.price_list_id.write({'currency_id': self.ref('base.EUR').id})
         with so.order_line.new() as so_line:
             so_line.product_id = self.product_a
@@ -135,7 +167,7 @@ class TestSale(TransactionCase):
         wizard.advance_payment_method = "fixed"
         wizard.fixed_amount = "50"
         wizard = wizard.save()
-        wizard.journal_id.write({"currency_id": self.env.ref("base.EUR").id})
+        wizard.journal_id.write({"currency_id": self.env.ref("base.USD").id})
         wizard.create_invoices()
 
         self.so.invoice_ids.action_post()
