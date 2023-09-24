@@ -76,7 +76,7 @@ class TestAgreementEquipment(TestAgreement, TestService):
 
         self.equipment.compute_totals()
         self.equipment.invoice_button()
-        self.create_meters_button()
+        self.equipment.create_meters_button()
 
     def test_equipment_operation(self):
         agreement = Form(self.env["service.agreement"])
