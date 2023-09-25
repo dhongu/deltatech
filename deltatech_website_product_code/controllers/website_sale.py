@@ -66,7 +66,7 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
             for product in products:
                 ok = True
                 for supplier in product.seller_ids:
-                    if supplier.name.vat == vat:
+                    if supplier.partner_id.vat == vat:
                         ok = False
                 if ok:
                     filtred_products |= product
