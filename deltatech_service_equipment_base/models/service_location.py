@@ -24,8 +24,9 @@ class ServiceLocation(models.Model):
     children_ids = fields.One2many("service.location", "parent_id", string="Children")
     address_id = fields.Many2one("res.partner", string="Address")
 
-    @api.model
-    def create(self, vals):
-        if vals.get("name", _("New")) == _("New") or vals.get("name") == "/":
-            vals["name"] = self.env["ir.sequence"].next_by_code("service.location") or _("New")
-        return super(ServiceLocation, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("name", _("New")) == _("New") or vals.get("name") == "/":
+                vals["name"] = self.env["ir.sequence"].next_by_code("service.location") or _("New")
+        return super(ServiceLocation, self).create(vals_list)

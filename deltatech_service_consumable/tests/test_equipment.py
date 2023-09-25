@@ -91,7 +91,7 @@ class TestAgreementEquipment(TestAgreement, TestService):
         with picking.move_ids_without_package.new() as move:
             move.product_id = self.product_1
             move.product_uom_qty = 1
-            move.product_uom = self.product_1.uom_id
+            # move.product_uom_id = self.product_1.uom_id
 
         picking = picking.save()
         picking.check_consumable()

@@ -71,13 +71,14 @@ class ServiceMeter(models.Model):
         )
     ]
 
-    @api.model
-    def create(self, vals):
-        if ("name" not in vals) or (vals.get("name") in ("/", False)):
-            sequence = self.env.ref("deltatech_service_equipment.sequence_meter")
-            if sequence:
-                vals["name"] = sequence.next_by_id()
-        return super(ServiceMeter, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if ("name" not in vals) or (vals.get("name") in ("/", False)):
+                sequence = self.env.ref("deltatech_service_equipment.sequence_meter")
+                if sequence:
+                    vals["name"] = sequence.next_by_id()
+        return super(ServiceMeter, self).create(vals_list)
 
     # rutina pentru actualizare date curente
     def update_name(self):

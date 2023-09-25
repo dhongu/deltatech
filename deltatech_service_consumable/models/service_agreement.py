@@ -59,7 +59,7 @@ class ServiceAgreement(models.Model):
                     ("partner_id", "in", partners.ids),
                 ]
             )
-            svls = pickings.move_lines.stock_valuation_layer_ids
+            svls = pickings.move_ids.stock_valuation_layer_ids
             value = 0.0
             for svl in svls:
                 value += svl.value

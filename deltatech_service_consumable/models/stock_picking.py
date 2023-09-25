@@ -22,7 +22,7 @@ class StockPicking(models.Model):
         res = super(StockPicking, self).button_validate()
         for picking in self:
             if picking.agreement_id:
-                svls = picking.move_lines.stock_valuation_layer_ids
+                svls = picking.move_ids.stock_valuation_layer_ids
                 value = 0.0
                 for svl in svls:
                     value += svl.value
@@ -44,7 +44,7 @@ class StockPicking(models.Model):
             if self.picking_type_id.id != picking_type_id:
                 return ""
             error = ""
-            for line in self.move_lines:
+            for line in self.move_ids:
                 consumable_ids = []
                 for cons_item in self.equipment_id.consumable_item_ids:
                     consumable_ids.append(cons_item.product_id)
