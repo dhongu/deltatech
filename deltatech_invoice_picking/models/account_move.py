@@ -150,8 +150,7 @@ class AccountMoveLine(models.Model):
             if (
                 line.move_id.from_pickings
                 and line.product_id.type == "product"
-                and not line.exclude_from_invoice_tab
-                and not line.display_type
+                and line.display_type == "product"
                 and line.move_id.move_type in ["out_invoice", "out_refund", "in_invoice", "in_refund"]
             ):
                 raise UserError(_("You cannot change this line, the move was generated from pickings"))
@@ -161,8 +160,7 @@ class AccountMoveLine(models.Model):
             if (
                 line.move_id.from_pickings
                 and line.product_id.type == "product"
-                and not line.exclude_from_invoice_tab
-                and not line.display_type
+                and line.display_type == "product"
                 and line.move_id.move_type in ["out_invoice", "out_refund", "in_invoice", "in_refund"]
                 and line.quantity > 0.0
             ):
