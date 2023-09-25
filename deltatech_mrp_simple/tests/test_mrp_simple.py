@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
+from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
 
@@ -61,6 +62,8 @@ class TestMRPSimple(TransactionCase):
         self.env["stock.quant"]._update_available_quantity(self.product_a, self.stock_location, 1000)
         self.env["stock.quant"]._update_available_quantity(self.product_b, self.stock_location, 1000)
 
+        self.partner = self.env["res.partner"].create({"name": "Test"})
+
         # inventory = self.env["stock.inventory"].create(
         #     {
         #         "name": "Inv. product",
@@ -74,26 +77,30 @@ class TestMRPSimple(TransactionCase):
         # inventory.action_validate()
 
     def test_sale_mrp_simple(self):
-        product_in = {
-            "product_id": self.product_a.id,
-            "quantity": 2,
-            "price_unit": self.product_a.standard_price,
-            "uom_id": self.product_a.uom_id.id,
-        }
-        product_out = {
-            "product_id": self.product_b.id,
-            "quantity": 1,
-            "price_unit": self.product_b.standard_price,
-            "uom_id": self.product_b.uom_id.id,
-        }
-        mrp = self.env["mrp.simple"].create(
-            {
-                "picking_type_consume": self.picking_type_consume.id,
-                "picking_type_receipt_production": self.picking_type_receipt_production.id,
-                "product_in_ids": [(0, 0, product_in)],
-                "product_out_ids": [(0, 0, product_out)],
-                "validation_consume": True,
-            }
-        )
 
+        mrp = Form(self.env["mrp.simple"])
+        mrp.picking_type_consume = self.picking_type_consume
+        mrp.picking_type_receipt_production = self.picking_type_receipt_production
+        with mrp.product_in_ids.new() as line:
+            line.product_id = self.product_a
+            line.quantity = 2
+            line.price_unit = self.product_a.standard_price
+            line.uom_id = self.product_a.uom_id
+        with mrp.product_out_ids.new() as line:
+            line.product_id = self.product_b
+            line.quantity = 1
+
+        mrp.validation_consume = True
+        mrp.final_product_name = "Test Finish Product"
+        mrp.final_product_category = self.env.ref("product.product_category_all")
+        mrp.final_product_uom_id = self.env.ref("uom.product_uom_unit")
+        mrp.partner_id = self.partner
+        mrp.auto_create_sale = True
+        mrp = mrp.save()
+
+        mrp.create_final_product()
         mrp.do_transfer()
+
+        mrp.create_sale()
+        mrp.sale_order_id.action_confirm()
+        mrp.sale_order_id.action_view_mrp()
