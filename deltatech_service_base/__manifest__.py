@@ -9,7 +9,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Services/Agreement",
     "depends": ["product", "account"],
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "data": [
         "security/service_security.xml",
         "security/ir.model.access.csv",

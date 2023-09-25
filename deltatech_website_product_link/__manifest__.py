@@ -7,7 +7,7 @@
     "summary": "Alternative product url",
     "version": "16.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale", "deltatech_website_product_url_image", "deltatech_website_category"],
     "data": ["views/product_template_view.xml", "views/product_view.xml"],

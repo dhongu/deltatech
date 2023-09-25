@@ -18,21 +18,18 @@ class ServiceEquipment(models.Model):
         tracking=True,
         domain=[("type", "=", "contact"), ("is_company", "=", False)],
     )
+    service_location_id = fields.Many2one("service.location", string="Functional Location")
 
     note = fields.Text(string="Notes")
     type_id = fields.Many2one("service.equipment.type", required=False, string="Type")
+    model_id = fields.Many2one("service.equipment.model", required=False, string="Model")
+
     internal_type = fields.Selection([("equipment", "Equipment")], default="equipment")
     product_id = fields.Many2one(
         "product.product", string="Product", ondelete="restrict", domain=[("type", "=", "product")]
     )
 
-    serial_id = fields.Many2one(
-        "stock.lot",
-        string="Product Serial Number",
-        ondelete="restrict",
-        copy=False,
-        domain="[('product_id','=',product_id)]",
-    )
+    serial_id = fields.Many2one("stock.production.lot", string="Product Serial Number", ondelete="restrict", copy=False)
     serial_no = fields.Char("Serial Number", copy=False)
 
     vendor_id = fields.Many2one("res.partner", string="Vendor")
@@ -40,6 +37,8 @@ class ServiceEquipment(models.Model):
     company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)
 
     technician_user_id = fields.Many2one("res.users", string="Responsible", tracking=True)
+
+    meter_ids = fields.One2many("service.meter", "equipment_id", string="Meters", copy=True)
 
     @api.model
     def create(self, vals):
@@ -69,16 +68,5 @@ class ServiceEquipment(models.Model):
             res.append((equipment.id, name))
         return res
 
-
-class ServiceEquipmentType(models.Model):
-    _name = "service.equipment.type"
-    _description = "Service Equipment Type"
-
-    name = fields.Char(string="Type", translate=True)
-
-
-# class ServiceEquipmentCategory(models.Model):
-#     _name = "service.equipment.category"
-#     _description = "Service Equipment Category"
-#
-#     name = fields.Char(string="Category", translate=True)
+    def update_meter_status(self):
+        pass

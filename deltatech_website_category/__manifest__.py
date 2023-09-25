@@ -7,7 +7,7 @@
     "summary": "Public category",
     "version": "16.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale"],
     "data": ["views/shop_template.xml"],

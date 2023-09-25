@@ -4,5 +4,6 @@
 
 from . import service_plan
 from . import service_equipment
+from . import service_location
 from . import service_cycle
 from . import service_order

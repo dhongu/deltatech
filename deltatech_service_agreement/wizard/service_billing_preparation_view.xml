@@ -10,7 +10,7 @@
                         <div class="oe_grey">For the selected agreement will generate estimate consumptions</div>
                     </group>
                     <group>
-                        <field name="period_id" options="{'no_create': True}" />
+                        <field name="service_period_id" options="{'no_create': True}" />
                         <field name="company_id" invisible="1" />
                     </group>
                     <group>

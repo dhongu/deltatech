@@ -7,10 +7,15 @@
         <field name="arch" type="xml">
             <tree string="Services Equipment" sample="1">
                 <field name="name" />
+                <field name="service_location_id" optional="show" />
                 <field name="partner_id" />
+                <field name="type_id" optional="show" />
+                <field name="model_id" optional="show" />
+                <field name="manufacturer_id" optional="show" />
+                <field name="serial_no" optional="show" />
                 <field name="serial_id" optional="show" />
-                <field name="activity_ids" widget="list_activity" optional="show" />
-<!--                <field name="message_unread" invisible="1" />-->
+                <field name="activity_ids" widget="list_activity" optional="hide" />
+                <field name="message_unread" invisible="1" />
             </tree>
         </field>
     </record>
@@ -20,8 +25,7 @@
         <field name="model">service.equipment</field>
         <field name="arch" type="xml">
             <form string="Service Equipment">
-                <header>
-                </header>
+                <header />
                 <sheet>
                     <div class="oe_button_box" name="button_box" />
                     <div class="oe_title">
@@ -30,8 +34,9 @@
                         </h1>
                     </div>
                     <group>
-                         <group string="Technical Details" name="technical_details">
+                        <group string="Technical Details" name="technical_details">
                             <field name="type_id" required="1" />
+                            <field name="model_id" required="1" />
                             <field name="manufacturer_id" />
                             <field name="serial_no" />
                         </group>
@@ -39,6 +44,7 @@
                             <field name="product_id" />
                             <field
                                 name="serial_id"
+                                domain="[('product_id','=',product_id)]"
                                 context="{'default_product_id':product_id, 'product_id':product_id }"
                             />
                             <field name="vendor_id" />
@@ -48,10 +54,53 @@
                             <field name="contact_id" />
                         </group>
                         <group string="Technician" name="technician">
-                             <field name="technician_user_id" />
+                            <field name="technician_user_id" />
+                            <field name="service_location_id" />
                         </group>
                     </group>
+                    <notebook>
+                        <page id='meters' string="Meters">
 
+                            <field name="meter_ids" mode="kanban,tree">
+                                <tree string="Meters" editable="bottom">
+                                    <field name="name" />
+                                    <field name="meter_categ_id" />
+                                    <field name="uom_id" />
+                                    <field name="total_counter_value" />
+                                    <field name="estimated_value" optional="show" />
+                                </tree>
+                                <kanban class="o_kanban">
+                                    <field name="name" />
+                                    <field name="meter_categ_id" />
+                                    <field name="uom_id" />
+                                    <field name="total_counter_value" />
+                                    <field name="estimated_value" />
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                                <div class="row">
+                                                    <div class="col-xs-8">
+                                                        <strong>
+                                                            <span>
+                                                                <t t-esc="record.meter_categ_id.value" />
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <strong>
+                                                            <span class="pull-right text-right">
+                                                                <t t-esc="record.total_counter_value.value" />
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                    </notebook>
                     <field name="note" />
                 </sheet>
                 <div class="oe_chatter">
@@ -99,6 +148,8 @@
                 <field name="product_id" />
                 <separator />
                 <group expand="1" string="Group By...">
+                    <filter string="Type" name="type" context="{'group_by':'type_id'}" />
+                     <filter string="Model" name="model" context="{'group_by':'model_id'}" />
                     <filter string="Partner" name="partner" context="{'group_by':'partner_id'}" />
                 </group>
             </search>
@@ -116,37 +167,11 @@
         name="Equipment"
         id="menu_service_equipment"
         action="action_service_equipment"
-        parent="deltatech_service_base.menu_service"
+        parent="deltatech_service_base.menu_service_master_data"
         sequence="500"
     />
 
 
-
-    <record id="view_service_equipment_type_form" model="ir.ui.view">
-        <field name="name">Services Equipment Type</field>
-        <field name="model">service.equipment.type</field>
-        <field name="arch" type="xml">
-            <form>
-                <group>
-                    <field name="name" />
-                </group>
-            </form>
-        </field>
-    </record>
-    <record id="action_service_equipment_type" model="ir.actions.act_window">
-        <field name="name">Services Equipment Type</field>
-        <field name="res_model">service.equipment.type</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-
-    <menuitem
-        name="Equipment Type"
-        id="menu_service_equipment_type"
-        action="action_service_equipment_type"
-        parent="deltatech_service_base.menu_service_config"
-        sequence="200"
-    />
 
 
 </odoo>

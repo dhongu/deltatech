@@ -7,7 +7,7 @@
     "summary": "eCommerce extension Category Snipped",
     "version": "16.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale", "deltatech_website_category"],
     "data": ["views/templates.xml", "views/snippets.xml"],

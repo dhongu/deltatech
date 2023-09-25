@@ -8,7 +8,7 @@
     "author": "Dorin Hongu, Terrabit",
     "website": "https://www.terrabit.ro",
     "category": "Human Resources/Fleet",
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "depends": [
         "deltatech_fleet",
         # 'web_map'

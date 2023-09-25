@@ -13,7 +13,8 @@ class ServiceConsumption(models.Model):
     name = fields.Char(string="Reference", index=True, readonly=True)
 
     partner_id = fields.Many2one("res.partner", string="Partner", required=True, readonly=True)
-    period_id = fields.Many2one("date.range", string="Period", required=True, copy=False, readonly=True)
+    # period_id = fields.Many2one("date.range", string="Period", required=True, copy=False, readonly=True)
+    service_period_id = fields.Many2one("service.date.range", string="Period", required=True, copy=False, readonly=True)
 
     product_id = fields.Many2one(
         "product.product",

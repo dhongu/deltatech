@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <tree string="Services Consumption" create="false">
                 <field name="name" />
-                <field name="period_id" />
+                <field name="service_period_id" />
                 <field name="date_invoice" />
                 <field name="partner_id" />
                 <field name="group_id" optional="hide" />
