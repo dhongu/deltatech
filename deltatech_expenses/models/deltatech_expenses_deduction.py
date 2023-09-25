@@ -419,19 +419,19 @@ class DeltatechExpensesDeduction(models.Model):
         if not statement:
             vals = {
                 "journal_id": self.journal_id.id,
-                "state": "open",
+                # "state": "open",
                 "date": date,
             }
             statement = self.env["account.bank.statement"].create(vals)
 
-        if statement.state != "open":
-            raise UserError(
-                _(
-                    "The cash statement of journal %s from date is not in open state, please open it \n"
-                    'to create the line in  it "%s".'
-                )
-                % (self.journal_id.name, date)
-            )
+        # if statement.state != "open":
+        #     raise UserError(
+        #         _(
+        #             "The cash statement of journal %s from date is not in open state, please open it \n"
+        #             'to create the line in  it "%s".'
+        #         )
+        #         % (self.journal_id.name, date)
+        #     )
         return statement
 
     def cancel_expenses(self):

@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import _, api, models
 from odoo.exceptions import UserError
 
 
@@ -11,16 +11,16 @@ class AccountPayment(models.Model):
 
     # in v15 exista aceste campuri
 
-    statement_id = fields.Many2one(
-        "account.bank.statement", string="Statement", domain="[('journal_id','=',journal_id)]"
-    )
-
-    statement_line_id = fields.Many2one(
-        "account.bank.statement.line",
-        string="Statement Line",
-        readonly=True,
-        domain="[('statement_id','=',statement_id)]",
-    )
+    # statement_id = fields.Many2one(
+    #     "account.bank.statement", string="Statement", domain="[('journal_id','=',journal_id)]"
+    # )
+    #
+    # statement_line_id = fields.Many2one(
+    #     "account.bank.statement.line",
+    #     string="Statement Line",
+    #     readonly=True,
+    #     domain="[('statement_id','=',statement_id)]",
+    # )
 
     @api.onchange("date", "journal_id")
     def onchange_date_journal(self):
