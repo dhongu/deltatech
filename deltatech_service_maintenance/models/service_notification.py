@@ -40,22 +40,29 @@ class ServiceNotification(models.Model):
         string="Status",
         tracking=True,
     )
+    service_location_id = fields.Many2one(
+        "service.location",
+        string="Functional Location",
+        index=True,
+        readonly=True,
+        states={"new": [("readonly", False)]},
+    )
 
     equipment_id = fields.Many2one(
         "service.equipment", string="Equipment", index=True, readonly=True, states={"new": [("readonly", False)]}
     )
 
-    partner_id = fields.Many2one("res.partner", string="Partner", readonly=True, states={"new": [("readonly", False)]})
+    partner_id = fields.Many2one("res.partner", string="Customer", readonly=True, states={"new": [("readonly", False)]})
 
     contact_id = fields.Many2one(
         "res.partner",
         string="Reported by",
         help="The person who reported the notification",
-        default=lambda self: self.env.user.partner_id,
+        default=lambda self: self.env.user.partner_id.id,
         readonly=True,
         states={"new": [("readonly", False)]},
     )
-    address_id = fields.Many2one("res.partner", string="Location", readonly=True, states={"new": [("readonly", False)]})
+    address_id = fields.Many2one("res.partner", string="Address", readonly=True, states={"new": [("readonly", False)]})
     user_id = fields.Many2one("res.users", string="Responsible", readonly=True, states={"new": [("readonly", False)]})
 
     work_center_id = fields.Many2one(
@@ -104,6 +111,22 @@ class ServiceNotification(models.Model):
         copy=True,
     )
 
+    operation_ids = fields.One2many(
+        "service.notification.operation",
+        "notification_id",
+        string="Notification Operations",
+        readonly=False,
+        states={"done": [("readonly", True)]},
+        copy=True,
+    )
+    location_id = fields.Many2one("stock.location", string="Stock Location", compute="_compute_location_id")
+
+    def _compute_location_id(self):
+        for notification in self:
+            notification.location_id = notification.service_location_id.location_id
+            if not notification.location_id:
+                notification.location_id = notification.work_center_id.location_id
+
     def _compute_related_doc(self):
         for item in self:
             item.related_doc = False
@@ -128,12 +151,21 @@ class ServiceNotification(models.Model):
                 [("notification_id", "=", notification.id)], limit=1
             )
 
-    @api.onchange("equipment_id", "date")
+    @api.onchange("equipment_id")
     def onchange_equipment_id(self):
         if self.equipment_id:
             self.user_id = self.equipment_id.technician_user_id or self.user_id
-            self.partner_id = self.equipment_id.partner_id
-            # self.address_id = self.equipment_id.address_id
+            self.partner_id = self.equipment_id.partner_id or self.partner_id
+            self.service_location_id = self.equipment_id.service_location_id
+            self.work_center_id = self.equipment_id.work_center_id or self.work_center_id
+
+    @api.onchange("service_location_id")
+    def onchange_location_id(self):
+        if self.service_location_id:
+            self.user_id = self.service_location_id.technician_user_id or self.user_id
+            self.partner_id = self.service_location_id.partner_id or self.partner_id
+            self.work_center_id = self.service_location_id.work_center_id or self.work_center_id
+            self.onchange_equipment_id()
 
     @api.model
     def create(self, vals):
@@ -194,34 +226,38 @@ class ServiceNotification(models.Model):
         self.write({"state": "new", "date_assign": fields.Datetime.now()})
 
     def action_assign(self):
-        if not self.user_id:
-            raise UserError(_("Please select a responsible."))
-        if self.state != "new":
-            raise UserError(_("Notification is already assigned."))
+        for notification in self:
+            if not notification.user_id:
+                raise UserError(_("Please select a responsible."))
+            if notification.state != "new":
+                raise UserError(_("Notification is already assigned."))
 
-        self.write({"state": "assigned", "date_assign": fields.Datetime.now()})
+            notification.write({"state": "assigned", "date_assign": fields.Datetime.now()})
 
-        new_follower_ids = [self.user_id.partner_id.id]
+            new_follower_ids = [notification.user_id.partner_id.id]
 
-        if self.user_id != self.env.user.id:
-            msg = _("Please solve notification for %s: %s") % (self.partner_id.name, self.description or "")
-
-            if msg and not self.env.context.get("no_message", False):
-                document = self
-                message = self.env["mail.message"].with_context({"default_starred": True})
-                message.create(
-                    {
-                        "model": "service.notification",
-                        "res_id": document.id,
-                        "record_name": document.name_get()[0][1],
-                        # "email_from": self.env["mail.message"]._get_default_from_address(),
-                        # "reply_to": self.env["mail.message"]._get_default_from_address(),
-                        "subject": self.subject,
-                        "body": msg,
-                        "message_id": self.env["mail.message"]._get_message_id({"no_auto_thread": True}),
-                        "partner_ids": [(4, id) for id in new_follower_ids],
-                    }
+            if notification.user_id != self.env.user:
+                msg = _("Please solve notification for %s: %s") % (
+                    notification.partner_id.name,
+                    notification.description or "",
                 )
+
+                if msg and not self.env.context.get("no_message", False):
+                    document = notification
+                    message = self.env["mail.message"].with_context({"default_starred": True})
+                    message.create(
+                        {
+                            "model": "service.notification",
+                            "res_id": document.id,
+                            "record_name": document.name_get()[0][1],
+                            # "email_from": self.env["mail.message"]._get_default_from_address(),
+                            # "reply_to": self.env["mail.message"]._get_default_from_address(),
+                            "subject": notification.subject,
+                            "body": msg,
+                            "message_id": self.env["mail.message"]._get_message_id({"no_auto_thread": True}),
+                            "partner_ids": [(4, id) for id in new_follower_ids],
+                        }
+                    )
 
     def action_taking(self):
         if self.state != "new":
@@ -239,6 +275,7 @@ class ServiceNotification(models.Model):
     def get_context_default(self):
         context = {
             "default_notification_id": self.id,
+            "default_service_location_id": self.service_location_id.id,
             "default_equipment_id": self.equipment_id.id,
             "default_partner_id": self.partner_id.id,
             "default_client_order_ref": self.name,
@@ -250,6 +287,8 @@ class ServiceNotification(models.Model):
 
     def action_order(self):
         context = self.get_context_default()
+
+        context["default_init_description"] = self.description
 
         if self.order_id:
             domain = "[('id','=', " + str(self.order_id.id) + ")]"
@@ -265,8 +304,18 @@ class ServiceNotification(models.Model):
                     "product_id": item.product_id.id,
                     "product_uom": item.product_id.uom_id.id,
                     "quantity": item.quantity,
+                    "note": item.note,
                 }
                 context["default_component_ids"] += [(0, 0, value)]
+
+            context["default_operation_ids"] = []
+
+            for item in self.operation_ids:
+                value = {
+                    "operation_id": item.operation_id.id,
+                    "duration": item.duration,
+                }
+                context["default_operation_ids"] += [(0, 0, value)]
 
         if self.partner_id.sale_warn and self.partner_id.sale_warn == "block":
             raise UserError(_("This partner is blocked"))
@@ -287,7 +336,7 @@ class ServiceNotification(models.Model):
 
         new_follower_ids = [self.contact_id.id]
 
-        if self.user_id != self.env.user.id:
+        if self.user_id != self.env.user:
             msg = _("Notification %s for %s was done") % (self.description or "", self.partner_id.name)
 
             if msg and not self.env.context.get("no_message", False):
@@ -324,18 +373,16 @@ class ServiceNotification(models.Model):
 
         picking_type = self.env["stock.picking.type"].browse(picking_type_id)
 
-        # check if agreement permits
-        if not self.agreement_id:
-            raise UserError(_("You must have an agreement."))
-        else:
-            if not self.agreement_id.type_id.permits_pickings:
-                raise UserError(_("This agreement type does not allow pickings."))
+        # # check if agreement permits
+        # if not self.agreement_id:
+        #     raise UserError(_("You must have an agreement."))
+        # else:
+        #     if not self.agreement_id.type_id.permits_pickings:
+        #         raise UserError(_("This agreement type does not allow pickings."))
 
         context = self.get_context_default()
         context.update(
             {
-                "default_equipment_id": self.equipment_id.id,
-                "default_agreement_id": self.agreement_id.id,
                 "default_origin": self.name,
                 "default_picking_type_code": "outgoing",
                 "default_picking_type_id": picking_type_id,
@@ -393,7 +440,7 @@ class ServiceNotification(models.Model):
         )
 
         if self.item_ids:
-            context["default_move_ids"] = []
+            context["default_move_lines"] = []
             for item in self.item_ids:
                 value = {
                     "name": item.product_id.name,
@@ -405,7 +452,7 @@ class ServiceNotification(models.Model):
                     "price_unit": item.product_id.standard_price,
                 }
 
-                context["default_move_ids"] += [(0, 0, value)]
+                context["default_move_lines"] += [(0, 0, value)]
                 context["notification_id"] = self.id
         return {
             "name": _("Transfer for service"),
@@ -474,7 +521,21 @@ class ServiceNotification(models.Model):
                     "order_id": sale_order.id,
                 }
                 line = self.env["sale.order.line"].new(value)
-                line._onchange_product_id_warning()
+                line.product_id_change()
+                for field in ["price_unit", "product_uom", "tax_id"]:
+                    value[field] = line._fields[field].convert_to_write(line[field], line)
+
+                context["default_order_line"] += [(0, 0, value)]
+            for item in self.operation_ids:
+                value = {
+                    "product_id": item.operation_id.product_id.id,
+                    "name": item.operation_id.name,
+                    "product_uom_qty": item.duration,
+                    "state": "draft",
+                    "order_id": sale_order.id,
+                }
+                line = self.env["sale.order.line"].new(value)
+                line.product_id_change()
                 for field in ["price_unit", "product_uom", "tax_id"]:
                     value[field] = line._fields[field].convert_to_write(line[field], line)
 
@@ -546,14 +607,64 @@ class ServiceNotificationItem(models.Model):
         "service.notification", string="Notification", readonly=True, index=True, required=True, ondelete="cascade"
     )
     product_id = fields.Many2one("product.product", string="Product")
+    alternative_code = fields.Char(related="product_id.alternative_code")
     quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
     product_uom = fields.Many2one("uom.uom", string="Unit of Measure ")
     note = fields.Char(string="Note")
+    stock_location_issue = fields.Boolean(compute="_compute_stock_issue")
+    stock_issue = fields.Boolean(compute="_compute_stock_issue")
+
+    def action_product_forecast_report(self):
+        self.ensure_one()
+        action = self.product_id.action_product_forecast_report()
+        action["context"] = {
+            "active_id": self.product_id.id,
+            "active_model": "product.product",
+        }
+        warehouse = self.notification_id.location_id.warehouse_id
+        location = self.notification_id.location_id
+        if location:
+            action["context"]["location"] = location.id
+        if warehouse:
+            action["context"]["warehouse"] = warehouse.id
+        return action
+
+    @api.depends("product_id", "quantity")
+    def _compute_stock_issue(self):
+        for line in self:
+            location = line.notification_id.location_id
+            line.stock_location_issue = False
+            line.stock_issue = False
+            if line.product_id:
+                qty_available = line.product_id.with_context(location=location.id).qty_available
+                if qty_available < line.quantity:
+                    line.stock_location_issue = True
+                qty_available = line.product_id.qty_available
+                if qty_available < line.quantity:
+                    line.stock_issue = True
 
     @api.onchange("product_id")
     def onchange_product_id(self):
         self.product_uom = self.product_id.uom_id
         self.name = self.product_id.name
+
+
+class ServiceNotificationOperation(models.Model):
+    _name = "service.notification.operation"
+    _description = "Service Notification Operation"
+    _order = "notification_id, sequence, id"
+
+    sequence = fields.Integer(string="Sequence", default=10)
+
+    notification_id = fields.Many2one(
+        "service.notification", string="Notification", readonly=True, index=True, required=True, ondelete="cascade"
+    )
+    operation_id = fields.Many2one("service.operation", string="Operation")
+    duration = fields.Float(string="Duration")
+
+    @api.onchange("operation_id")
+    def onchange_operation_id(self):
+        self.duration = self.operation_id.duration
 
 
 class ServiceNotificationType(models.Model):

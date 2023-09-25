@@ -2,11 +2,11 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-
 import uuid
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval
 
 # raport de activitate
 # nota de constatare
@@ -45,31 +45,43 @@ class ServiceOrder(models.Model):
     date_done = fields.Datetime("Done Date", readonly=True, copy=False, states={"work_done": [("readonly", False)]})
 
     # equipment_history_id = fields.Many2one("service.equipment.history", string="Equipment history")
+
+    service_location_id = fields.Many2one(
+        "service.location",
+        string="Functional Location",
+        index=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
     equipment_id = fields.Many2one(
         "service.equipment",
         string="Equipment",
         index=True,
-        required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
 
     partner_id = fields.Many2one(
-        "res.partner", string="Partner", readonly=True, states={"draft": [("readonly", False)]}
+        "res.partner", string="Customer", readonly=True, states={"draft": [("readonly", False)]}
     )
 
     contact_id = fields.Many2one(
         "res.partner", string="Contact person", tracking=True, readonly=True, states={"draft": [("readonly", False)]}
     )
     address_id = fields.Many2one(
-        "res.partner", string="Location", readonly=True, states={"draft": [("readonly", False)]}
+        "res.partner", string="Address", readonly=True, states={"draft": [("readonly", False)]}
     )
     city = fields.Char(string="City", related="address_id.city")
 
     user_id = fields.Many2one("res.users", string="Responsible", readonly=True, states={"draft": [("readonly", False)]})
 
     work_center_id = fields.Many2one(
-        "service.work.center", string="Work Center", readonly=True, states={"draft": [("readonly", False)]}
+        "service.work.center",
+        string="Work Center",
+        readonly=True,
+        required=True,
+        states={"draft": [("readonly", False)]},
     )
 
     # raportul poate sa fie legat de o sesizre
@@ -122,7 +134,39 @@ class ServiceOrder(models.Model):
     # semantura client !!
     signature = fields.Binary(string="Signature", readonly=True)
 
+    init_description = fields.Text("Initial description", readonly=False, states={"done": [("readonly", True)]})
     description = fields.Text("Notes", readonly=False, states={"done": [("readonly", True)]})
+
+    available_state = fields.Selection(
+        [("unavailable", "Unavailable"), ("partially", "Partially available"), ("available", "Available")],
+        default=False,
+        compute="_compute_available_state",
+    )
+
+    location_id = fields.Many2one("stock.location", string="Stock Location", compute="_compute_location_id")
+
+    def _compute_location_id(self):
+        for notification in self:
+            notification.location_id = notification.service_location_id.location_id
+            if not notification.location_id:
+                notification.location_id = notification.work_center_id.location_id
+
+    def _compute_available_state(self):
+        for order in self:
+            available_state = "available"
+            location = order.work_center_id.location_id
+            qty = 0
+            for component in order.component_ids:
+                qty_available = component.product_id.with_context(location=location.id).qty_available
+                qty += qty_available
+                if qty_available < component.quantity:
+                    available_state = "partially"
+            if not qty:
+                available_state = "unavailable"
+            order.available_state = available_state
+
+    def action_check_available(self):
+        self._compute_available_state()
 
     @api.model
     def create(self, vals):
@@ -137,8 +181,17 @@ class ServiceOrder(models.Model):
     def onchange_equipment_id(self):
         if self.equipment_id:
             self.user_id = self.equipment_id.technician_user_id or self.user_id
-            self.partner_id = self.equipment_id.partner_id
-            # self.address_id = self.equipment_id.address_id
+            self.partner_id = self.equipment_id.partner_id or self.partner_id
+            self.service_location_id = self.equipment_id.service_location_id
+            self.work_center_id = self.equipment_id.work_center_id or self.work_center_id
+
+    @api.onchange("service_location_id")
+    def onchange_location_id(self):
+        if self.service_location_id:
+            self.user_id = self.service_location_id.technician_user_id or self.user_id
+            self.partner_id = self.service_location_id.partner_id or self.partner_id
+            self.work_center_id = self.service_location_id.work_center_id or self.work_center_id
+            self.onchange_equipment_id()
 
     @api.onchange("notification_id")
     def onchange_notification_id(self):
@@ -177,16 +230,85 @@ class ServiceOrder(models.Model):
             self.write({"state": "work_done", "date_done": fields.Datetime.now()})
 
     def action_done(self):
-        if not self.parameter_ids and not self.signature:
-            raise UserError(_("Please select a parameter."))
+        # if not self.parameter_ids and not self.signature:
+        #     raise UserError(_("Please select a parameter."))
         self.write({"state": "done"})
 
         if self.notification_id:
             self.notification_id.action_done()
 
+    def get_context_default(self):
+        context = {
+            "default_notification_id": self.notification_id.id,
+            "default_service_location_id": self.service_location_id.id,
+            "default_equipment_id": self.equipment_id.id,
+            "default_partner_id": self.partner_id.id,
+            "default_client_order_ref": self.name,
+            "default_contact_id": self.contact_id.id,
+            "default_user_id": self.user_id.id,
+            "default_work_center_id": self.work_center_id.id,
+        }
+        return context
+
     def new_piking_button(self):
-        if self.equipment_id:
-            return self.equipment_id.new_piking_button()
+        return self.new_delivery_button()
+
+    def new_delivery_button(self):
+
+        if self.partner_id:
+            if self.partner_id.picking_warn == "block":
+                raise UserError(self.partner_id.picking_warn_msg)
+            if self.partner_id.commercial_partner_id:
+                if self.partner_id.commercial_partner_id.picking_warn == "block":
+                    raise UserError(self.partner_id.commercial_partner_id.picking_warn_msg)
+
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
+
+        picking_type = self.env["stock.picking.type"].browse(picking_type_id)
+
+        # # check if agreement permits
+        # if not self.agreement_id:
+        #     raise UserError(_("You must have an agreement."))
+        # else:
+        #     if not self.agreement_id.type_id.permits_pickings:
+        #         raise UserError(_("This agreement type does not allow pickings."))
+
+        context = self.get_context_default()
+        context.update(
+            {
+                "default_origin": self.name,
+                "default_picking_type_code": "outgoing",
+                "default_picking_type_id": picking_type_id,
+                "default_partner_id": self.address_id.id or self.partner_id.id,
+            }
+        )
+
+        if self.component_ids:
+            context["default_move_ids_without_package"] = []
+
+            for item in self.component_ids:
+                value = {
+                    "name": item.product_id.name,
+                    "product_id": item.product_id.id,
+                    "product_uom": item.product_id.uom_id.id,
+                    "product_uom_qty": item.quantity,
+                    "location_id": picking_type.default_location_src_id.id,
+                    "location_dest_id": picking_type.default_location_dest_id.id,
+                    "price_unit": item.product_id.standard_price,
+                }
+                context["default_move_ids_without_package"] += [(0, 0, value)]
+
+        return {
+            "name": _("Delivery for service"),
+            "view_type": "form",
+            "view_mode": "form",
+            "res_model": "stock.picking",
+            "view_id": False,
+            "views": [[False, "form"]],
+            "context": context,
+            "type": "ir.actions.act_window",
+        }
 
     def sale_order_button(self):
         action = self.get_action_sale_order()
@@ -242,6 +364,23 @@ class ServiceOrder(models.Model):
                     self.env["sale.order.line"].create(value)
                 else:
                     sale_line.write({"product_uom_qty": item.quantity})
+
+            for item in self.operation_ids:
+                sale_line = sale_order.order_line.filtered(
+                    lambda l: l.product_id == item.operation_id.product_id and l.name == item.operation_id.name
+                )
+                if not sale_line:
+                    value = {
+                        "product_id": item.operation_id.product_id.id,
+                        "name": item.operation_id.name,
+                        "product_uom_qty": item.duration,
+                        "state": "draft",
+                        "order_id": sale_order.id,
+                    }
+                    self.env["sale.order.line"].create(value)
+                else:
+                    sale_line.write({"product_uom_qty": item.duration})
+
         else:
 
             context["pricelist_id"] = self.partner_id.property_product_pricelist.id
@@ -257,8 +396,23 @@ class ServiceOrder(models.Model):
                     "order_id": sale_order.id,
                 }
                 line = self.env["sale.order.line"].new(value)
-                line._onchange_product_id_warning()
+                line.product_id_change()
                 for field in ["name", "price_unit", "product_uom", "tax_id"]:
+                    value[field] = line._fields[field].convert_to_write(line[field], line)
+
+                context["default_order_line"] += [(0, 0, value)]
+
+            for item in self.operation_ids:
+                value = {
+                    "product_id": item.operation_id.product_id.id,
+                    "name": item.operation_id.name,
+                    "product_uom_qty": item.duration,
+                    "state": "draft",
+                    "order_id": sale_order.id,
+                }
+                line = self.env["sale.order.line"].new(value)
+                line.product_id_change()
+                for field in ["price_unit", "product_uom", "tax_id"]:
                     value[field] = line._fields[field].convert_to_write(line[field], line)
 
                 context["default_order_line"] += [(0, 0, value)]
@@ -292,9 +446,43 @@ class ServiceOrderComponent(models.Model):
         "service.order", string="Order", readonly=True, index=True, required=True, ondelete="cascade"
     )
     product_id = fields.Many2one("product.product", string="Product", domain=[("type", "!=", "service")])
+    alternative_code = fields.Char(related="product_id.alternative_code")
     quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
     product_uom = fields.Many2one("uom.uom", string="Unit of Measure ")
     note = fields.Char(string="Note")
+
+    stock_location_issue = fields.Boolean(compute="_compute_stock_issue")
+    stock_issue = fields.Boolean(compute="_compute_stock_issue")
+
+    def action_product_forecast_report(self):
+        self.ensure_one()
+        action = self.product_id.action_product_forecast_report()
+        action["context"] = {
+            "active_id": self.product_id.id,
+            "active_model": "product.product",
+        }
+        warehouse = self.order_id.location_id.warehouse_id
+        location = self.order_id.location_id
+        if location:
+            action["context"]["location"] = location.id
+        if warehouse:
+            action["context"]["warehouse"] = warehouse.id
+
+        return action
+
+    @api.depends("product_id", "quantity")
+    def _compute_stock_issue(self):
+        for line in self:
+            location = line.order_id.location_id
+            line.stock_location_issue = False
+            line.stock_issue = False
+            if line.product_id:
+                qty_available = line.product_id.with_context(location=location.id).qty_available
+                if qty_available < line.quantity:
+                    line.stock_location_issue = True
+                qty_available = line.product_id.qty_available
+                if qty_available < line.quantity:
+                    line.stock_issue = True
 
     @api.onchange("product_id")
     def onchange_product_id(self):
