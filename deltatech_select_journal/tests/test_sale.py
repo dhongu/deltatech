@@ -103,7 +103,7 @@ class TestSale(TransactionCase):
     def test_sale(self):
         so = Form(self.env["sale.order"])
         so.partner_id = self.partner_a
-
+        so.team_id = self.team_eur
         with so.order_line.new() as so_line:
             so_line.product_id = self.product_a
             so_line.product_uom_qty = 100

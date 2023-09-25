@@ -11,7 +11,7 @@ class SaleOrder(models.Model):
 
     def _prepare_invoice(self):
         res = super(SaleOrder, self)._prepare_invoice()
-        journal_id = res.get("journal_id", self.team_id.journal_id)
+        journal_id = res.get("journal_id", self.team_id.journal_id.id)
         if journal_id:
             journal = self.env["account.journal"].browse(journal_id)
             to_currency = journal.currency_id

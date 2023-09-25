@@ -69,8 +69,8 @@
                                 attrs="{'readonly':[('state', '!=', 'draft')]}"
                             />
                         </group>
-                        <group>
-                            <field name="auto_create_sale" groups="deltatech_mrp_simple.group_sale_simple_production" />
+                        <group groups="deltatech_mrp_simple.group_sale_simple_production">
+                            <field name="auto_create_sale"  />
                             <field
                                 name="partner_id"
                                 attrs="{'invisible': [('auto_create_sale', '=', False)], 'required': [('auto_create_sale', '=', True)]}"
