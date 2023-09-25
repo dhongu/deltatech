@@ -116,7 +116,7 @@ class MergeObject(models.TransientModel):
         Object = self.env[self._model_merge]
         relations = self._get_fk_on(self._table_merge)
 
-        self.flush_all()
+        self.env.flush_all()
 
         for table, column in relations:
             if "merge_object_" in table:  # ignore two tables
@@ -210,7 +210,7 @@ class MergeObject(models.TransientModel):
             try:
                 with mute_logger("odoo.sql_db"), self.env.clear_upon_failure():
                     records.sudo().write({field_id: dst_object.id})
-                    records.flush_all()
+                    self.env.flush_all()
             except psycopg2.Error:
                 # updating fails, most likely due to a violated unique constraint
                 # keeping record with nonexistent object_id is useless, better delete it
@@ -248,7 +248,7 @@ class MergeObject(models.TransientModel):
                 }
                 records_ref.sudo().write(values)
 
-        self.flush_all()
+        self.env.flush_all()
 
     def _get_summable_fields(self):
         """Returns the list of fields that should be summed when merging objects"""
