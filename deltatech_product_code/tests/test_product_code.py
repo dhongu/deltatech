@@ -8,6 +8,9 @@ from odoo.tests.common import TransactionCase
 class TestProductCode(TransactionCase):
     def setUp(self):
         super(TestProductCode, self).setUp()
+
+        self.partner_a = self.env["res.partner"].create({"name": "Test"})
+
         # pregatire categorie noua pentru test in care se sa fie definita secventa de coduri
 
         # creare secventa de coduri
@@ -26,6 +29,7 @@ class TestProductCode(TransactionCase):
             {
                 "name": "Test",
                 "sequence_id": sequence.id,
+                "generate_barcode": True,
             }
         )
 
