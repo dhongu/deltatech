@@ -1,0 +1,190 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_invoice_picking
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-24 05:55+0000\n"
+"PO-Revision-Date: 2022-08-24 05:55+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_invoice_picking
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_stock_picking__account_move_id
+msgid "Account Move"
+msgstr "Factura"
+
+#. module: deltatech_invoice_picking
+#: model:ir.model,name:deltatech_invoice_picking.model_stock_picking_batch
+msgid "Batch Transfer"
+msgstr "Transfer lot"
+
+#. module: deltatech_invoice_picking
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_picking.view_picking_form
+msgid "Bill"
+msgstr "Creează factură furnizor"
+
+#. module: deltatech_invoice_picking
+#: model:ir.actions.server,name:deltatech_invoice_picking.action_picking_supplier_invoice
+msgid "Create Purchase Invoices"
+msgstr ""
+
+#. module: deltatech_invoice_picking
+#: model:ir.actions.server,name:deltatech_invoice_picking.action_picking_invoice
+msgid "Create Sale Invoices"
+msgstr ""
+
+#. module: deltatech_invoice_picking
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_account_bank_statement_line__from_pickings
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_account_move__from_pickings
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_account_payment__from_pickings
+msgid "Created from pickings"
+msgstr ""
+
+#. module: deltatech_invoice_picking
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_purchase_order_line__display_name
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_sale_advance_payment_inv__display_name
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_sale_order__display_name
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_stock_picking_batch__display_name
+msgid "Display Name"
+msgstr "Afiseaza nume"
+
+#. module: deltatech_invoice_picking
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_sale_order__force_invoice_order
+msgid "Force Invoice Order"
+msgstr ""
+
+#. module: deltatech_invoice_picking
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_account_move_line__id
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_purchase_order_line__id
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_sale_advance_payment_inv__id
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_sale_order__id
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_sale_order_line__id
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_stock_picking__id
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_stock_picking_batch__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_invoice_picking
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_picking.view_batch_form_invoice
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_picking.view_picking_form
+msgid "Invoice"
+msgstr "Facturează"
+
+#. module: deltatech_invoice_picking
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_stock_picking_batch__invoiced
+msgid "Invoiced"
+msgstr ""
+
+#. module: deltatech_invoice_picking
+#: model:ir.model,name:deltatech_invoice_picking.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_invoice_picking
+#: model:ir.model,name:deltatech_invoice_picking.model_account_move_line
+msgid "Journal Item"
+msgstr "Element jurnal"
+
+#. module: deltatech_invoice_picking
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_account_move____last_update
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_account_move_line____last_update
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_purchase_order_line____last_update
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_sale_advance_payment_inv____last_update
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_sale_order____last_update
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_sale_order_line____last_update
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_stock_picking____last_update
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_stock_picking_batch____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_invoice_picking
+#: code:addons/deltatech_invoice_picking/models/stock_picking.py:0
+#, python-format
+msgid "Please enter supplier invoice number"
+msgstr "Completați nr. factură furnizor"
+
+#. module: deltatech_invoice_picking
+#: model:ir.model,name:deltatech_invoice_picking.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Linie comandă de achiziție"
+
+#. module: deltatech_invoice_picking
+#: model:ir.model,name:deltatech_invoice_picking.model_sale_advance_payment_inv
+msgid "Sales Advance Payment Invoice"
+msgstr "Factura Vânzare cu Plată în Avans"
+
+#. module: deltatech_invoice_picking
+#: model:ir.model,name:deltatech_invoice_picking.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_invoice_picking
+#: model:ir.model,name:deltatech_invoice_picking.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linie comandă vânzare"
+
+#. module: deltatech_invoice_picking
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_stock_picking__supplier_invoice_number
+msgid "Supplier Invoice No"
+msgstr "Nr. factură furnizor"
+
+#. module: deltatech_invoice_picking
+#: model:ir.model.fields,field_description:deltatech_invoice_picking.field_stock_picking__to_invoice
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_picking.view_picking_internal_search_inherit_invoice_picking
+msgid "To invoice"
+msgstr ""
+
+#. module: deltatech_invoice_picking
+#: model:ir.model,name:deltatech_invoice_picking.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: deltatech_invoice_picking
+#: code:addons/deltatech_invoice_picking/models/account_move.py:0
+#, python-format
+msgid "You cannot change this line, the move was generated from pickings"
+msgstr ""
+
+#. module: deltatech_invoice_picking
+#: code:addons/deltatech_invoice_picking/models/account_move.py:0
+#, python-format
+msgid "You cannot delete lines, the move was generated from pickings"
+msgstr ""
+
+#. module: deltatech_invoice_picking
+#: code:addons/deltatech_invoice_picking/models/stock_picking_batch.py:0
+#, python-format
+msgid "You cannot invoice this type of batches: (%s)"
+msgstr ""
+
+#. module: deltatech_invoice_picking
+#: code:addons/deltatech_invoice_picking/models/purchase.py:0
+#: code:addons/deltatech_invoice_picking/models/sale.py:0
+#, python-format
+msgid "You cannot invoice this type of transfer: %s"
+msgstr ""
+
+#. module: deltatech_invoice_picking
+#: code:addons/deltatech_invoice_picking/models/stock_picking_batch.py:0
+#, python-format
+msgid "You cannot invoice unconfirmed batches (%s)"
+msgstr ""
+
+#. module: deltatech_invoice_picking
+#: code:addons/deltatech_invoice_picking/models/stock_picking.py:0
+#: code:addons/deltatech_invoice_picking/models/stock_picking.py:0
+#, python-format
+msgid "You cannot invoice unconfirmed pickings (%s)"
+msgstr ""
