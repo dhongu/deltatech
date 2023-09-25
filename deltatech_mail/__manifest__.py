@@ -9,7 +9,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Productivity/Discuss",
     "depends": ["mail"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": ["security/ir.model.access.csv", "views/mail_substitution_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",

@@ -9,7 +9,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Administration",
     "depends": ["product"],
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "data": ["views/product_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,

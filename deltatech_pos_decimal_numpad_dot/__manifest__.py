@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Sales/Point of Sale",
     "depends": ["point_of_sale"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         # "views/assets.xml",
     ],

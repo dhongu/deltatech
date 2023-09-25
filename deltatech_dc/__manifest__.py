@@ -8,7 +8,7 @@
     "version": "16.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "category": "Generic Modules/Other",
     "depends": [
         "base",

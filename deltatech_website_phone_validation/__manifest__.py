@@ -9,7 +9,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "external_dependencies": {"python": ["phonenumbers"]},
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "category": "Generic Modules",
     "depends": ["website_sale", "phone_validation"],
     "images": ["static/description/main_screenshot.png"],
