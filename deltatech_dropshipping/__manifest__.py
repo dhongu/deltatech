@@ -10,7 +10,7 @@
     "category": "Warehouse",
     "depends": ["stock_dropshipping"],
     "data": ["views/stock_picking_view.xml"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["dhongu"],
