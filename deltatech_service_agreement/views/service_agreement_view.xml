@@ -116,7 +116,6 @@
                         <group>
                             <field name="cycle_id" />
                             <field name="invoice_mode" />
-
                             <field name="invoice_day" />
                             <field name="last_invoice_id" />
                             <field name="last_date_invoice" />
