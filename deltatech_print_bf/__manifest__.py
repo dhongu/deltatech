@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Print Invoice to ECR",
+    "name": "Deltatech Print Invoice to ECR - Obsolete",
     "summary": "Deltatech Print Invoice to ECR",
     "version": "16.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
