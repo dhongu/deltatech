@@ -65,5 +65,11 @@ msgstr "Poziții de stoc"
 #. module: deltatech_stock_negative
 #: code:addons/deltatech_stock_negative/models/stock.py:22
 #, python-format
-msgid "You have chosen to avoid negative stock.                         %s pieces of %s are remaining in location %s  but you want to transfer                          %s pieces. Please adjust your quantities or                         correct your stock with an inventory adjustment."
+msgid "You have chosen to avoid negative stock. %s pieces of %s are remaining in location %s, but you want to transfer %s pieces. Please adjust your quantities or correct your stock with an inventory adjustment."
 msgstr "Ați ales să evitați stocurile negative.   %s din %s există în locația %s dar dvs vreți să transferați %s. Ajustați cantitățile sau corectați stocul cu o ajustare de inventar."
+
+#. module: deltatech_stock_negative
+#: code:addons/deltatech_stock_negative/models/stock.py:0
+#, python-format
+msgid "You have chosen to avoid negative stock. %s pieces of %s are remaining in location %s, lot %s, but you want to transfer %s pieces. Please adjust your quantities or correct your stock with an inventory adjustment."
+msgstr ""
