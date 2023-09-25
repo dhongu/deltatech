@@ -8,9 +8,10 @@
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Services/Agreement",
-    "depends": ["base", "mail", "deltatech_service_base"],
+    "depends": ["base", "mail"],
     "license": "OPL-1",
     "data": [
+        "security/security.xml",
         "security/ir.model.access.csv",
         "views/agreement.xml",
         "views/res_partner.xml",

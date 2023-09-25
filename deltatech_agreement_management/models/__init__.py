@@ -2,5 +2,5 @@
 # See README.rst file on addons root folder for license details
 
 
-from . import service_agreement
+from . import general_agreement
 from . import res_partner
