@@ -7,109 +7,49 @@ from odoo.osv import expression
 from odoo.tools.safe_eval import safe_eval
 
 
-class ProductCatalog(models.Model):
-    _name = "product.catalog"
-    _description = "Extensive Product Catalog"
-
-    name = fields.Char(string="Name", required=True, index=True)
-    code = fields.Char(string="Code", required=True, index=True)
-    code_new = fields.Char(string="Code New", index=True)
-    list_price = fields.Float(string="Sale Price", required=True, digits="Product Price")
-    purchase_price = fields.Float(string="Purchase Price", digits="Product Price")
-    categ_id = fields.Many2one(
-        "product.category", string="Internal Category", required=True, help="Select category for the current product"
-    )
-    supplier_id = fields.Many2one("res.partner", string="Supplier")
-    product_id = fields.Many2one("product.product", string="Product", ondelete="set null")
-    purchase_delay = fields.Integer(string="Purchase delay")
-    sale_delay = fields.Integer(string="Sale delay")
-    list_price_currency_id = fields.Many2one(
-        "res.currency", string="Currency List Price", help="Currency for list price."
-    )
-
-    def create_product(self):
-        prod = self.env["product.product"]
-        for prod_cat in self:
-            if (not prod_cat.code_new or len(prod_cat.code_new) < 2) and not prod_cat.product_id:
-
-                # route_ids = []
-                # mto = self.env.ref("stock.route_warehouse0_mto", raise_if_not_found=False)
-                #
-                # if mto:
-                #     route_ids += [mto.id]
-                # buy = self.env.ref("purchase_stock.route_warehouse0_buy", raise_if_not_found=False)
-                # if buy:
-                #     route_ids += [buy.id]
-
-                currency = self.list_price_currency_id or self.env.user.company_id.currency_id
-                list_price = currency._convert(
-                    prod_cat.list_price,
-                    self.env.user.company_id.currency_id,
-                    self.env.user.company_id,
-                    fields.Date.today(),
-                )
-
-                values = {
-                    "name": prod_cat.name,
-                    "default_code": prod_cat.code,
-                    "lst_price": list_price,
-                    "categ_id": prod_cat.categ_id.id,
-                    # "route_ids": [(6, 0, route_ids)],
-                    "sale_delay": prod_cat.sale_delay,
-                }
-                if prod_cat.supplier_id:
-                    values["seller_ids"] = [
-                        (
-                            0,
-                            0,
-                            {
-                                "partner_id": prod_cat.supplier_id.id,
-                                "price": prod_cat.purchase_price,
-                                "currency_id": currency.id,
-                                "delay": prod_cat.purchase_delay,
-                            },
-                        )
-                    ]
-                old_code = prod_cat.get_echiv()
-                if old_code:
-                    alt = []
-                    for old in old_code:
-                        alt.append((0, 0, {"name": old.code}))
-                    values["alternative_ids"] = alt
-
-                prod_new = prod.with_context({"no_catalog": True}).search([("default_code", "=ilike", prod_cat.code)])
-                if not prod_new:
-                    prod_new = prod.sudo().create(values)
-
-                prod_cat.sudo().write({"product_id": prod_new.id})
-
-                prod += prod_new
-
-        return prod
-
-    def get_echiv(self):
-        res = self.env["product.catalog"]
-        for prod_cat in self:
-            ids_old = self.search([("code_new", "=ilike", prod_cat.code)])
-            if ids_old:
-                ids_very_old = ids_old.get_echiv()
-                res = ids_old | ids_very_old
-            else:
-                res = ids_old
-        return res
-
-    _sql_constraints = [
-        ("code_uniq", "unique(code)", "Code must be unique !"),
-    ]
-
-
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    alternative_code = fields.Char(string="Alternative Code", index=True, compute="_compute_alternative_code")
+    search_index = fields.Char(compute="_compute_search_index", store=True, index=True, compute_sudo=True)
+
+    alternative_code = fields.Char(
+        string="Alternative Code", index=True, inverse="_inverse_alternative_code", compute="_compute_alternative_code"
+    )
     alternative_ids = fields.One2many("product.alternative", "product_tmpl_id", string="Alternatives")
 
     used_for = fields.Char(string="Used For")
+
+    @api.depends("name", "default_code", "alternative_ids.name", "seller_ids.product_code")
+    def _compute_search_index(self):
+        langs = self.env["res.lang"].search([("active", "=", True)])
+        langs = langs.mapped("code")
+        for product in self:
+            names = [product.with_context(lang=lang).name for lang in langs]
+            name_terms = list(set(names))
+            good_terms = [term for term in name_terms if term is not False]
+            search_index = " ".join(good_terms)
+
+            if product.default_code:
+                search_index = product.default_code + " " + search_index
+
+            terms = []
+            if product.seller_ids:
+                terms += [s.product_code for s in product.seller_ids if s.product_code]
+            if product.alternative_ids:
+                terms += [a.name for a in product.alternative_ids if a.name]
+
+            terms = list(set(terms))
+            search_index += " " + " ".join(terms)
+            product.search_index = search_index[:1000]
+
+    def _inverse_alternative_code(self):
+        for product in self:
+            if any(a.hide for a in product.alternative_ids):
+                continue
+            if len(product.alternative_ids) == 1:
+                product.alternative_ids.name = product.alternative_code
+            if not product.alternative_ids:
+                product.alternative_ids = self.env["product.alternative"].create({"name": product.alternative_code})
 
     @api.depends("alternative_ids")
     def _compute_alternative_code(self):
@@ -122,60 +62,33 @@ class ProductTemplate(models.Model):
             code = "; ".join(codes)
             product.alternative_code = code
 
+    @api.model
+    def _name_search(self, name, args=None, operator="ilike", limit=100, name_get_uid=None):
+        args = args or []
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        if name and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
+            domain = [("search_index", operator, name)]
+            return self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+        else:
+            return super(ProductTemplate, self)._name_search(
+                name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid
+            )
+
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
     @api.model
-    def search_in_catalog(self, name):
-        alt = []
-        prod_cat = self.env["product.catalog"]
-        res = None
-        while name and len(name) > 2:
-            prod_cat = self.env["product.catalog"].search([("code", "=ilike", name)], limit=1)
-            if prod_cat:
-                alt.append(name)
-                name = prod_cat.code_new  # codul cu care a fost inlocuit
-            else:
-                name = ""
-        if prod_cat:
-            if not prod_cat.product_id:
-                prod_new = prod_cat.create_product()
-                res = prod_new
-            else:
-                res = prod_cat.product_id
-        return res
-
-    @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100):
-        if "not" in operator:
-            return super(ProductProduct, self).name_search(name, args, operator=operator, limit=limit)
-
+    def _name_search(self, name, args=None, operator="ilike", limit=100, name_get_uid=None):
         args = args or []
-        res_alt = []
-
         get_param = self.env["ir.config_parameter"].sudo().get_param
-        alternative_search = safe_eval(get_param("alternative.search_name", "True"))
-        catalog_search = safe_eval(get_param("alternative.search_catalog", "True"))
-
-        if alternative_search and name and len(name) > 2:
-
-            if alternative_search:
-                alternative_ids = self.env["product.alternative"].search([("name", operator, name)], limit=10)
-                products = alternative_ids.mapped("product_tmpl_id").mapped("product_variant_ids")
-                if products:
-                    res_alt = products.name_get()
-                    args = expression.AND([args, [("id", "not in", products.ids)]])
-
-        this = self.with_context({"no_catalog": True})
-        res = super(ProductProduct, this).name_search(name, args, operator=operator, limit=limit) + res_alt
-
-        if not res and catalog_search:
-            prod = self.search_in_catalog(name)
-            if prod:
-                res = prod.name_get()
-
-        return res
+        if name and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
+            domain = [("search_index", operator, name)]
+            return self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+        else:
+            return super(ProductProduct, self)._name_search(
+                name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid
+            )
 
 
 class ProductAlternative(models.Model):

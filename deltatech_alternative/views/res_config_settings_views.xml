@@ -9,7 +9,7 @@
 
             <xpath expr="//div[@id='sell_purchase_uom']" position="after">
 
-                <div class="col-12 col-lg-6 o_setting_box" groups="base.group_no_one">
+                <div class="col-12 col-lg-6 o_setting_box">
                     <div class="o_setting_left_pane">
                         <field name="alternative_search" />
                     </div>
@@ -19,9 +19,19 @@
                             Search for alternative products by searching in product name.
                         </div>
                     </div>
-                </div>
+                    <div class="o_setting_left_pane">
 
-                <div class="col-12 col-lg-6 o_setting_box" groups="base.group_no_one">
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="alternative_limit" />
+                        <field name="alternative_limit" />
+                        <div class="text-muted">Search limit for alternative products.</div>
+                        <label for="alternative_length_min" />
+                        <field name="alternative_length_min" />
+                        <div class="text-muted">Search minim length code  .</div>
+                    </div>
+                </div>
+<!--                <div class="col-12 col-lg-6 o_setting_box">
                     <div class="o_setting_left_pane">
                         <field name="catalog_search" />
                     </div>
@@ -31,8 +41,7 @@
                             Search for products in the extensive product catalog.
                         </div>
                     </div>
-                </div>
-
+                </div>-->
             </xpath>
         </field>
     </record>
