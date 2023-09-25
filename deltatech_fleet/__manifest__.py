@@ -7,7 +7,7 @@
     "author": "Dorin Hongu, Terrabit",
     "website": "https://www.terrabit.ro",
     "category": "Human Resources/Fleet",
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "summary": "Vehicle, route, map sheet",
     "depends": ["fleet"],
     "data": [
