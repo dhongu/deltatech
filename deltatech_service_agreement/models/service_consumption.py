@@ -103,7 +103,11 @@ class ServiceConsumption(models.Model):
     from_uninstall = fields.Boolean(default=False)  # used to mark consumptions made in the uninstall process
 
     _sql_constraints = [
-        ("agreement_line_period_uniq", "unique(period_id,agreement_line_id)", "Agreement line in period already exist!")
+        (
+            "agreement_line_period_uniq",
+            "unique(service_period_id,agreement_line_id)",
+            "Agreement line in period already exist!",
+        )
     ]
 
     @api.depends("price_unit", "invoiced_qty", "date_invoice")

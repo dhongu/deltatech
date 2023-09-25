@@ -15,6 +15,7 @@
         "security/ir.model.access.csv",
         "data/data.xml",
         "views/service_cycle_view.xml",
+        "views/service_date_range_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "application": True,
