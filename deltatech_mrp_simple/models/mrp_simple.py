@@ -132,6 +132,8 @@ class MRPSimple(models.Model):
                 "uom_id": self.final_product_uom_id.id,
             }
             product = self.env["product.product"].create(vals)
+            if hasattr(product, "is_published"):
+                product.write({"is_published": False})
             return product.id
         else:
             return False
@@ -242,6 +244,23 @@ class MRPSimple(models.Model):
                     price_unit=line.product_id.standard_price,
                 )
 
+    def add_multiple_lines(self):
+        self.ensure_one()
+        view = self.env.ref("deltatech_mrp_simple.multi_add_view_form")
+        wiz = self.env["add.multi.mrp.lines"].create({"simple_mrp_id": self.id})
+        return {
+            "name": _("Add lines"),
+            "type": "ir.actions.act_window",
+            "view_type": "form",
+            "view_mode": "form",
+            "res_model": "add.multi.mrp.lines",
+            "views": [(view.id, "form")],
+            "view_id": view.id,
+            "target": "new",
+            "res_id": wiz.id,
+            "context": self.env.context,
+        }
+
 
 class MRPSimpleLineIn(models.Model):
     _name = "mrp.simple.line.in"
@@ -273,7 +292,7 @@ class MRPSimpleLineIn(models.Model):
             line.value = line.quantity * line.price_unit
 
 
-class MRPSimpleLineOut(models.TransientModel):
+class MRPSimpleLineOut(models.Model):
     _name = "mrp.simple.line.out"
     _description = "MRP Simple Line OUT"
 

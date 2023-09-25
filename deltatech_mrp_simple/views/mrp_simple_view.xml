@@ -26,6 +26,7 @@
                         string="Recompute prices"
                         attrs="{'invisible':[('state', '!=', 'draft')]}"
                     />
+                    <button type="object" name="add_multiple_lines" string="Add lines" />
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
