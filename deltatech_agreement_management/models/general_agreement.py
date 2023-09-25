@@ -6,9 +6,9 @@ from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
-class ServiceAgreement(models.Model):
-    _name = "service.agreement"
-    _description = "Service Agreement"
+class GeneralAgreement(models.Model):
+    _name = "general.agreement"
+    _description = "General Agreement"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(
@@ -41,7 +41,7 @@ class ServiceAgreement(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
-    type_id = fields.Many2one("service.agreement.type", string="Type", required=True)
+    type_id = fields.Many2one("general.agreement.type", string="Type", required=True)
     state = fields.Selection(
         [("draft", "Draft"), ("open", "In Progress"), ("closed", "Terminated")],
         string="Status",
@@ -64,7 +64,7 @@ class ServiceAgreement(models.Model):
         for item in self:
             if item.state != "draft":
                 raise UserError(_("You cannot delete a service agreement which is not draft."))
-        return super(ServiceAgreement, self).unlink()
+        return super(GeneralAgreement, self).unlink()
 
     def get_name(self):
         self.ensure_one()
@@ -81,8 +81,8 @@ class ServiceAgreement(models.Model):
 
 
 class ServiceAgreementType(models.Model):
-    _name = "service.agreement.type"
-    _description = "Service Agreement Type"
+    _name = "general.agreement.type"
+    _description = "General Agreement Type"
 
     name = fields.Char(string="Type", translate=True)
     sequence_id = fields.Many2one("ir.sequence", string="Sequence")
