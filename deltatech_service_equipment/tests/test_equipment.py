@@ -105,7 +105,7 @@ class TestAgreementEquipment(TestAgreement, TestService):
         product.equi_type_id = self.equipment_type
         product = product.save()
 
-        self.env["stock.production.lot"].create(
+        self.env["stock.lot"].create(
             {
                 "name": "Test Serial",
                 "product_id": product.id,

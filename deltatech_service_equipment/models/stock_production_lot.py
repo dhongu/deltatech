@@ -5,12 +5,12 @@
 from odoo import api, fields, models
 
 
-class ProductionLot(models.Model):
-    _inherit = "stock.production.lot"
+class StockLot(models.Model):
+    _inherit = "stock.lot"
 
     @api.model_create_multi
     def create(self, vals_list):
-        lots = super(ProductionLot, self).create(vals_list)
+        lots = super(StockLot, self).create(vals_list)
         equipment_vals_list = []
         for lot in lots:
             if lot.product_id.equi_type_required:
