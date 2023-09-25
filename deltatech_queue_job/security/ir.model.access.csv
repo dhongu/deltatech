@@ -1,6 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_queue_job,access_queue_job,model_queue_job,base.group_user,1,0,0,0
-access_queue_job_manager,queue job manager,model_queue_job,group_queue_job_manager,1,1,1,1
-
-access_queue_requeue_job,access_queue_requeue_job,model_queue_requeue_job,group_queue_job_manager,1,1,1,1
-access_queue_jobs_to_done,access_queue_jobs_to_done,model_queue_jobs_to_done,group_queue_job_manager,1,1,1,1
