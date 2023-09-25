@@ -13,7 +13,7 @@ class AccountInvoiceReport(models.Model):
     def _select(self):
         return (
             super(AccountInvoiceReport, self)._select()
-            + ", partner.state_id,   supplier.partner_id as supplier_id, template.id as product_tmpl_id"
+            + ", partner.state_id,   supplier.name as supplier_id, template.id as product_tmpl_id"
         )
 
     def _from(self):
@@ -26,4 +26,4 @@ class AccountInvoiceReport(models.Model):
         )
 
     def _group_by(self):
-        return super(AccountInvoiceReport, self)._group_by() + ", partner.state_id,     supplier.partner_id "
+        return super(AccountInvoiceReport, self)._group_by() + ", partner.state_id,     supplier.name "
