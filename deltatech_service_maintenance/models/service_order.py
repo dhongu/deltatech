@@ -230,8 +230,8 @@ class ServiceOrder(models.Model):
             self.write({"state": "work_done", "date_done": fields.Datetime.now()})
 
     def action_done(self):
-        if not self.parameter_ids and not self.signature:
-            raise UserError(_("Please select a parameter."))
+        # if not self.parameter_ids and not self.signature:
+        #     raise UserError(_("Please select a parameter."))
         self.write({"state": "done"})
 
         if self.notification_id:

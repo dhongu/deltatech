@@ -3,32 +3,31 @@
 
 from odoo import api, fields, models
 
-
-# se va utiliza maintenance.equipment.category
-class ServiceEquipmentCategory(models.Model):
-    _inherit = "maintenance.equipment.category"
-
-    template_meter_ids = fields.One2many("service.template.meter", "categ_id")
+# # se va utiliza maintenance.equipment.category
+# class ServiceEquipmentCategory(models.Model):
+#     _inherit = "maintenance.equipment.category"
+#
+#     template_meter_ids = fields.One2many("service.template.meter", "categ_id")
 
 
 class ServiceEquipmentType(models.Model):
     _inherit = "service.equipment.type"
 
-    categ_id = fields.Many2one("maintenance.equipment.category", string="Category")
+    # categ_id = fields.Many2one("maintenance.equipment.category", string="Category")
 
-    template_meter_ids = fields.One2many("service.template.meter", related="categ_id.template_meter_ids")
+    template_meter_ids = fields.One2many("service.template.meter")
 
-    @api.depends("categ_id")
-    def _compute_template_meter_ids(self):
-        for equipment_type in self:
-            equipment_type.template_meter_ids = equipment_type.categ_id.template_meter_ids
+    # @api.depends("categ_id")
+    # def _compute_template_meter_ids(self):
+    #     for equipment_type in self:
+    #         equipment_type.template_meter_ids = equipment_type.categ_id.template_meter_ids
 
 
 # este utilizat pentru generare de pozitii noi in contract si pentru adugare contori noi
 class ServiceTemplateMeter(models.Model):
     _inherit = "service.template.meter"
 
-    categ_id = fields.Many2one("maintenance.equipment.category", string="Category")
+    # categ_id = fields.Many2one("maintenance.equipment.category", string="Category")
 
     bill_uom_id = fields.Many2one("uom.uom", string="Billing Unit of Measure")
     currency_id = fields.Many2one(

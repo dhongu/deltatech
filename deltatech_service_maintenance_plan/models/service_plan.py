@@ -119,8 +119,8 @@ class ServicePlan(models.Model):
         return True
 
     def action_restart(self):
-        self.rescheduling()
         self.write({"state": "active"})
+        self.rescheduling()
         return True
 
     def action_rescheduling(self):

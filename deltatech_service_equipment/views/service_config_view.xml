@@ -5,9 +5,7 @@
         <field name="model">service.equipment.type</field>
         <field name="inherit_id" ref="deltatech_service_equipment_base.view_service_equipment_type_form" />
         <field name="arch" type="xml">
-            <field name="name" position="after">
-                <field name="categ_id" />
-            </field>
+
             <group position="after">
                 <field name="template_meter_ids">
                     <tree editable="bottom">
@@ -21,6 +19,7 @@
         </field>
     </record>
 
+<!--
 
     <record id="view_service_equipment_category_tree" model="ir.ui.view">
         <field name="name">Services Equipment Category</field>
@@ -83,5 +82,6 @@
         parent="deltatech_service_base.menu_service_config"
         sequence="201"
     />
+-->
 
 </odoo>
