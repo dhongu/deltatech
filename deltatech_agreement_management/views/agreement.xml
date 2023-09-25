@@ -2,17 +2,16 @@
 <odoo>
     <menuitem
         name="Agreement"
-        id="menu_service_agr"
-        groups="deltatech_service_base.group_service_user"
+        id="menu_general_agr"
         sequence="200"
         web_icon="deltatech_agreement_management,static/description/icon.png"
     />
 
-    <record id="view_service_agreement_tree" model="ir.ui.view">
-        <field name="name">Services Agreements</field>
-        <field name="model">service.agreement</field>
+    <record id="view_general_agreement_tree" model="ir.ui.view">
+        <field name="name">generals Agreements</field>
+        <field name="model">general.agreement</field>
         <field name="arch" type="xml">
-            <tree string="Services Agreements" sample="1">
+            <tree string="generals Agreements" sample="1">
                 <field name="name" decoration-bf="1" />
                 <field name="date_agreement" />
                 <field name="partner_id" />
@@ -24,10 +23,10 @@
     </record>
 
     <record id="view_agreement_form" model="ir.ui.view">
-        <field name="name">Service Agreement</field>
-        <field name="model">service.agreement</field>
+        <field name="name">general Agreement</field>
+        <field name="model">general.agreement</field>
         <field name="arch" type="xml">
-            <form string="Service Agreement">
+            <form string="general Agreement">
                 <header>
                     <button
                         name="contract_close"
@@ -92,38 +91,38 @@
         </field>
     </record>
 
-    <record id="action_service_agreement" model="ir.actions.act_window">
-        <field name="name">Services Agreements</field>
-        <field name="res_model">service.agreement</field>
+    <record id="action_general_agreement" model="ir.actions.act_window">
+        <field name="name">generals Agreements</field>
+        <field name="res_model">general.agreement</field>
         <field name="view_mode">tree,form,pivot,activity</field>
-        <field name="view_id" ref="deltatech_agreement_management.view_service_agreement_tree" />
+        <field name="view_id" ref="deltatech_agreement_management.view_general_agreement_tree" />
     </record>
     <menuitem
-        name="Services Agreements"
-        id="menu_service_agreement"
-        groups="deltatech_service_base.group_service_user"
-        action="action_service_agreement"
-        parent="menu_service_agr"
+        name="generals Agreements"
+        id="menu_general_agreement"
+        groups="group_agreement_user"
+        action="action_general_agreement"
+        parent="menu_general_agr"
         sequence="100"
     />
     <menuitem
         name="Configuration"
-        id="menu_service_agreement_config"
-        groups="deltatech_service_base.group_service_manager"
-        parent="menu_service_agr"
+        id="menu_general_agreement_config"
+        groups="group_agreement_manager"
+        parent="menu_general_agr"
         sequence="500"
     />
-    <record id="action_service_agreement_type" model="ir.actions.act_window">
-        <field name="name">Services Agreement Types</field>
-        <field name="res_model">service.agreement.type</field>
+    <record id="action_general_agreement_type" model="ir.actions.act_window">
+        <field name="name">generals Agreement Types</field>
+        <field name="res_model">general.agreement.type</field>
         <field name="view_mode">tree,form</field>
     </record>
     <menuitem
         name="Agreement types"
-        id="menu_service_agreement_config_type"
-        groups="deltatech_service_base.group_service_manager"
-        parent="menu_service_agreement_config"
+        id="menu_general_agreement_config_type"
+        groups="group_agreement_manager"
+        parent="menu_general_agreement_config"
         sequence="100"
-        action="action_service_agreement_type"
+        action="action_general_agreement_type"
     />
 </odoo>

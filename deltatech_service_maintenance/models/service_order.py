@@ -519,7 +519,7 @@ class ServiceOrderReason(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            result.append((record.id, self.display_name))
+            result.append((record.id, record.display_name))
         return result
 
     @api.depends("name", "code")  # this definition is recursive
