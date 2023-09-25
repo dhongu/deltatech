@@ -11,7 +11,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Accounting & Finance",
     "depends": ["account"],
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "data": ["views/account_view.xml", "report/account_average_payment_view.xml", "security/ir.model.access.csv"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
