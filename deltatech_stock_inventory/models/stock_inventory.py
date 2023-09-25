@@ -682,7 +682,7 @@ class InventoryLine(models.Model):
                     {
                         "product_id": self.product_id.id,
                         "lot_id": self.prod_lot_id.id,
-                        "product_uom_qty": 0,  # bypass reservation here
+                        # "product_uom_qty": 0,  # bypass reservation here
                         "product_uom_id": self.product_uom_id.id,
                         "qty_done": qty,
                         "package_id": out and self.package_id.id or False,

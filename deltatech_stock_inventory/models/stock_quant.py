@@ -63,6 +63,8 @@ class StockQuant(models.Model):
         super(StockQuant, self).action_set_inventory_quantity_to_zero()
 
     def action_apply_inventory(self):
+        if not self.env.user.has_group("deltatech_stock_inventory.group_view_inventory_button"):
+            raise UserError(_("Your user cannot update product quantities"))
         for quant in self:
             quant.last_inventory_date = fields.Date.today()
 
@@ -85,6 +87,10 @@ class StockQuant(models.Model):
         self.write({"inventory_id": False, "inventory_line_id": False})
 
     def write(self, vals):
+        if "inventory_quantity" in vals and not self.env.user.has_group(
+            "deltatech_stock_inventory.group_view_inventory_button"
+        ):
+            raise UserError(_("Your user cannot update product quantities"))
         res = super(StockQuant, self).write(vals)
         if "inventory_quantity" in vals and not self.env.context.get("apply_inventory", False):
             for quant in self:
@@ -94,6 +100,15 @@ class StockQuant(models.Model):
                 # else:
                 #     quant.create_inventory_lines()
         return res
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for values in vals_list:
+            if "inventory_quantity" in values and not self.env.user.has_group(
+                "deltatech_stock_inventory.group_view_inventory_button"
+            ):
+                raise UserError(_("Your user cannot update product quantities"))
+        return super().create(vals_list)
 
     def _get_inventory_move_values(self, qty, location_id, location_dest_id, out=False):
         values = super(StockQuant, self)._get_inventory_move_values(qty, location_id, location_dest_id, out)

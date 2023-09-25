@@ -72,36 +72,29 @@ class ProductTemplate(models.Model):
             else:
                 self.env["product.warehouse.location"].sudo().create(values)
 
-    # def confirm_actual_inventory(self):
-    #     products = self.env["product.product"]
-    #     for template in self:
-    #         products |= template.product_variant_ids
-    #
-    #     products.confirm_actual_inventory()
 
+class ProductProduct(models.Model):
+    _inherit = "product.product"
 
-# class ProductProduct(models.Model):
-#     _inherit = "product.product"
-#
-#     def confirm_actual_inventory(self):
-#         products = self
-#         inventory_values = {"state": "confirm", "line_ids": []}
-#         quants = self.env["stock.quant"].search([("product_id", "in", products.ids)])
-#         for quant in quants:
-#             if quant.location_id.usage == "internal" and (
-#                 not quant.product_id.last_inventory_date
-#                 or (quant.product_id.last_inventory_date and quant.product_id.last_inventory_date < fields.Date.today())
-#             ):
-#                 values = {
-#                     "product_id": quant.product_id.id,
-#                     "product_uom_id": quant.product_id.uom_id.id,
-#                     "location_id": quant.location_id.id,
-#                     "theoretical_qty": quant.quantity,
-#                     "product_qty": quant.quantity,
-#                     "standard_price": quant.product_id.product_tmpl_id.standard_price,
-#                     "is_ok": True,
-#                 }
-#                 inventory_values["line_ids"].append((0, 0, values))
-#         if inventory_values["line_ids"]:
-#             inventory = self.env["stock.inventory"].create(inventory_values)
-#             inventory.action_validate()
+    @api.model
+    def get_theoretical_quantity(
+        self, product_id, location_id, lot_id=None, package_id=None, owner_id=None, to_uom=None
+    ):
+        product_id = self.env["product.product"].browse(product_id)
+        product_id.check_access_rights("read")
+        product_id.check_access_rule("read")
+
+        location_id = self.env["stock.location"].browse(location_id)
+        lot_id = self.env["stock.lot"].browse(lot_id)
+        package_id = self.env["stock.quant.package"].browse(package_id)
+        owner_id = self.env["res.partner"].browse(owner_id)
+        to_uom = self.env["uom.uom"].browse(to_uom)
+        quants = self.env["stock.quant"]._gather(
+            product_id, location_id, lot_id=lot_id, package_id=package_id, owner_id=owner_id, strict=True
+        )
+        if lot_id:
+            quants = quants.filtered(lambda q: q.lot_id == lot_id)
+        theoretical_quantity = sum(quant.quantity for quant in quants)
+        if to_uom and product_id.uom_id != to_uom:
+            theoretical_quantity = product_id.uom_id._compute_quantity(theoretical_quantity, to_uom)
+        return theoretical_quantity
