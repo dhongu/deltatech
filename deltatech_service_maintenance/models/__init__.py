@@ -7,7 +7,6 @@ from . import product
 from . import service_notification
 from . import service_order
 
-# from . import required_product
 from . import sale
 from . import service_location
 from . import service_equipment
