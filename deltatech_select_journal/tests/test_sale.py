@@ -116,7 +116,7 @@ class TestSale(TransactionCase):
         self.so.action_confirm()
 
         pick = self.so.picking_ids
-        pick.move_lines.write({"quantity_done": 1})
+        pick.move_ids.write({"quantity_done": 1})
         pick.button_validate()
 
         self.so.with_context(default_journal_id=self.so.team_id.journal_id.id)._create_invoices()

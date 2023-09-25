@@ -65,7 +65,7 @@ class AccountMove(models.Model):
 
     def update_pickings(self):
         for move in self:
-            for account_move_line in move.line_ids.filtered(lambda l: l.exclude_from_invoice_tab is False):
+            for account_move_line in move.line_ids.filtered(lambda l: l.display_type == "product"):
                 if account_move_line.sale_line_ids:
                     sale_line_ids = account_move_line.sale_line_ids
                     for stock_move in sale_line_ids.move_ids.filtered(lambda m: m.state == "done"):
