@@ -35,4 +35,3 @@ class StockProductionLot(models.Model):
     def onchange_production_date(self):
         if not self.production_date:
             self.production_date = self.create_date
-        self._onchange_product()

@@ -18,6 +18,7 @@
                 </group>
                 <group string="Location" states="ins,add">
                     <group>
+                        <field name="service_period_id" />
                         <field name="partner_id" attrs="{'required':[('state', '=', 'ins')]}" />
                         <field
                             name="agreement_id"
