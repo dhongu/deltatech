@@ -79,7 +79,7 @@ class ServiceBilling(models.TransientModel):
             "account_id": account_id.id,
             "tax_ids": [(6, 0, ([rec.id for rec in cons.product_id.taxes_id]))],
             "agreement_line_id": cons.agreement_line_id.id,
-            "analytic_account_id": cons.analytic_account_id.id,
+            # "analytic_account_id": cons.analytic_account_id.id,  # nu mai e in 16.0
         }
 
         # este pt situatia in care se doreste stornarea unei pozitii
