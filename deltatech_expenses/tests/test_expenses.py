@@ -10,7 +10,7 @@ from odoo.tests.common import TransactionCase
 
 class TestExpenses(TransactionCase):
     def setUp(self):
-        super(TestExpenses, self).setUp()
+        super().setUp()
         self.employee = self.env["res.partner"].create({"name": "Test"})
 
         self.account_diem = self.env["account.account"].create(

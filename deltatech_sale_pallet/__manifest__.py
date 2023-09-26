@@ -12,6 +12,6 @@
     "license": "OPL-1",
     "data": ["views/product_view.xml", "views/invoice_view.xml"],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }

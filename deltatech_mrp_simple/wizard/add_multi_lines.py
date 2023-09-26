@@ -30,7 +30,7 @@ class AddMultiMrpLines(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(AddMultiMrpLines, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         active_ids = self.env.context.get("active_ids", [])
         if active_ids:
             res["simple_mrp_id"] = active_ids

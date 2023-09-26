@@ -10,7 +10,7 @@ from odoo.tests.common import TransactionCase
 @tagged("post_install", "-at_install")
 class TestInvoiceReceipt(TransactionCase):
     def setUp(self):
-        super(TestInvoiceReceipt, self).setUp()
+        super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
 
         self.uom_unit = self.env.ref("uom.product_uom_unit")

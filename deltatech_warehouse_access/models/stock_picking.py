@@ -20,4 +20,4 @@ class StockPicking(models.Model):
             if warehouse.user_ids and self.env.user not in warehouse.user_ids:
                 msg = _("The %s user don’t have access to the %s warehouse") % (self.env.user.name, warehouse.name)
                 raise AccessError(msg)
-        return super(StockPicking, self).button_validate()
+        return super().button_validate()

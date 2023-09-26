@@ -15,7 +15,7 @@ class Website(models.Model):
             self = self.with_context(all_warehouses=True)
         if not self.location_id:
             self = self.with_context(all_locations=True)
-        return super(Website, self)._get_warehouse_available()
+        return super()._get_warehouse_available()
 
     def sale_get_order(self, force_create=False, code=None, update_pricelist=False, force_pricelist=False):
         so = super().sale_get_order(

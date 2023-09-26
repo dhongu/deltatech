@@ -9,7 +9,7 @@ from odoo.tests.common import TransactionCase
 
 class TestPriceCateg(TransactionCase):
     def setUp(self):
-        super(TestPriceCateg, self).setUp()
+        super().setUp()
         self.product = self.env["product.template"].create(
             {
                 "name": "test",

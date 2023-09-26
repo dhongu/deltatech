@@ -12,6 +12,6 @@ class AccountBankStatementLine(models.Model):
     def _prepare_counterpart_move_line_vals(self, counterpart_vals, move_line=None):
         if self.backup_counterpart_account_id:
             counterpart_vals["account_id"] = self.backup_counterpart_account_id.id
-        res = super(AccountBankStatementLine, self)._prepare_counterpart_move_line_vals(counterpart_vals, move_line)
+        res = super()._prepare_counterpart_move_line_vals(counterpart_vals, move_line)
 
         return res

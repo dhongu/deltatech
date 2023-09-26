@@ -12,7 +12,7 @@ class SaleOrderLine(models.Model):
     @api.depends("product_id", "company_id", "currency_id", "product_uom")
     def _compute_purchase_price(self):
         product_id = self.env["ir.config_parameter"].sudo().get_param("sale.default_deposit_product_id")
-        super(SaleOrderLine, self)._compute_purchase_price()
+        super()._compute_purchase_price()
         for line in self:
             if line.product_id.id == int(product_id):
                 line.purchase_price = line.price_unit

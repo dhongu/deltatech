@@ -28,7 +28,7 @@ class SaleOrder(models.Model):
 
     # la validare se verifica pretul de vanzare
     def action_confirm(self):
-        res = super(SaleOrder, self).action_confirm()
+        res = super().action_confirm()
         if self.env.context.get("ignore_price_check", False):
             return res
         # daca comanda se face in website se ignora verificarea pretului de cost pentru a face unele promotii
@@ -81,7 +81,7 @@ class SaleOrderLine(models.Model):
 
     @api.onchange("product_id")
     def product_id_change(self):
-        res = super(SaleOrderLine, self).product_id_change() or {}
+        res = super().product_id_change() or {}
         res = self.change_price_or_product(res)
         return res
 
@@ -92,7 +92,7 @@ class SaleOrderLine(models.Model):
         return res
 
     def write(self, vals):
-        res = super(SaleOrderLine, self).write(vals)
+        res = super().write(vals)
         get_param = self.env["ir.config_parameter"].sudo().get_param
         check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
         if not check_on_validate:

@@ -154,7 +154,6 @@ class ServiceEquipment(models.Model):
     @api.depends("location_id")
     def _compute_location_type(self):
         for equipment in self:
-
             if equipment.location_id.usage == "customer":
                 equipment.location_type = "customer"
             elif equipment.location_id.usage == "internal":
@@ -234,7 +233,7 @@ class ServiceEquipment(models.Model):
                 equi.meter_ids.create({"equipment_id": equi.id, "meter_categ_id": categ.id, "uom_id": categ.uom_id.id})
 
     def update_meter_status(self):
-        super(ServiceEquipment, self).update_meter_status()
+        super().update_meter_status()
         self._compute_readings_status()
 
     # o fi ok sa elimin echipmanetul din contract
@@ -273,7 +272,7 @@ class ServiceEquipment(models.Model):
             equipment_ids = self.search(["|", ("serial_id", "ilike", name), ("ean_code", "ilike", name)], limit=10)
             if equipment_ids:
                 res_serial = equipment_ids.name_get()
-        res = super(ServiceEquipment, self).name_search(name, args, operator=operator, limit=limit) + res_serial
+        res = super().name_search(name, args, operator=operator, limit=limit) + res_serial
         return res
 
     def name_get(self):

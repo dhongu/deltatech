@@ -21,7 +21,6 @@ class MrpProduction(models.Model):
     salary_contributions = fields.Float(string="Salary Contributions")
 
     def _compute_amount(self):
-
         for production in self:
             amount = 0.0
             if not production.qty_produced:
@@ -46,7 +45,6 @@ class MrpProduction(models.Model):
                 production.amount = amount
 
     def _cal_price(self, consumed_moves):
-
         if self.product_qty:
             costs = (
                 self.overhead_amount
@@ -57,4 +55,4 @@ class MrpProduction(models.Model):
             if costs:
                 self.extra_cost = costs / self.product_qty
 
-        return super(MrpProduction, self)._cal_price(consumed_moves)
+        return super()._cal_price(consumed_moves)

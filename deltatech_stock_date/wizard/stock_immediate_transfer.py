@@ -12,7 +12,7 @@ class StockImmediateTransfer(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(StockImmediateTransfer, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         # res["date"] = self.env.context.get("force_period_date", fields.Datetime.now())
         if "pick_ids" in res and res.get("pick_ids"):
             pick_ids = res["pick_ids"][0][2]

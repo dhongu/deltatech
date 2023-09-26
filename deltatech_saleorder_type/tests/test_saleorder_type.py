@@ -8,7 +8,7 @@ from odoo.tests.common import TransactionCase
 
 class TestSOType(TransactionCase):
     def setUp(self):
-        super(TestSOType, self).setUp()
+        super().setUp()
         values = {
             "name": "Type 1",
         }

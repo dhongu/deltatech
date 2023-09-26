@@ -14,5 +14,5 @@ class SaleOrder(models.Model):
                 self = self.with_context(all_warehouses=True)
             if not self.website_id.location_id:
                 self = self.with_context(all_locations=True)
-        values = super(SaleOrder, self)._cart_update(product_id, line_id, add_qty, set_qty, **kwargs)
+        values = super()._cart_update(product_id, line_id, add_qty, set_qty, **kwargs)
         return values

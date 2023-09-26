@@ -52,15 +52,17 @@ class SaleOrderLine(models.Model):
 
     def compute_pallet_number(self, delete_if_under=False):
         self.ensure_one()
+        res = 0
         if self.product_id.pallet_product_id and self.product_id.pallet_qty_min:
             if self.product_id.pallet_qty_min > self.product_uom_qty:
                 if delete_if_under:
-                    return 0
+                    res = 0
                 else:
-                    return 1
+                    res = 1
             else:
                 pallets = self.product_uom_qty / self.product_id.pallet_qty_min
                 if delete_if_under:
-                    return round(pallets - 0.49)  # round down
+                    res = round(pallets - 0.49)  # round down
                 else:
-                    return round(pallets + 0.49)  # round up
+                    res = round(pallets + 0.49)  # round up
+        return res

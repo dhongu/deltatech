@@ -13,7 +13,7 @@ class StockPicking(models.Model):
     def _action_done(self):
         if self.env.context.get("from_pos_order_confirm", False):
             return
-        return super(StockPicking, self)._action_done()
+        return super()._action_done()
 
     def _create_move_from_pos_order_lines(self, lines):
         if self.env.context.get("from_pos_order_confirm", False):
@@ -27,4 +27,4 @@ class StockPicking(models.Model):
                 for move in confirmed_moves:
                     move._action_assign()
         else:
-            super(StockPicking, self)._create_move_from_pos_order_lines(lines)
+            super()._create_move_from_pos_order_lines(lines)

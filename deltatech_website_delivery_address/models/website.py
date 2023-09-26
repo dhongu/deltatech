@@ -9,7 +9,7 @@ class Website(models.Model):
     _inherit = "website"
 
     def _prepare_sale_order_values(self, partner, pricelist):
-        values = super(Website, self)._prepare_sale_order_values(partner, pricelist)
+        values = super()._prepare_sale_order_values(partner, pricelist)
         web_user_id = self.env.context.get("uid", False)
         web_user = self.env["res.users"].sudo().search([("id", "=", web_user_id)])
         if web_user and web_user.delivery_address_id:

@@ -13,9 +13,9 @@ class StockMoveLine(models.Model):
     def create(self, vals):
         if vals.get("lot_name", False) == "/":
             vals["lot_name"] = self.env["ir.sequence"].next_by_code("stock.lot.serial")
-        return super(StockMoveLine, self).create(vals)
+        return super().create(vals)
 
     def write(self, vals):
         if vals.get("lot_name", False) == "/":
             vals["lot_name"] = self.env["ir.sequence"].next_by_code("stock.lot.serial")
-        return super(StockMoveLine, self).write(vals)
+        return super().write(vals)

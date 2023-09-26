@@ -32,7 +32,6 @@ class ProductWishlist(models.Model):
         return [("product_id", "in", products)]
 
     def action_launch_replenishment(self):
-
         warehouse = self.env.user._get_default_warehouse_id()
         for line in self:
             uom_reference = line.product_id.uom_id

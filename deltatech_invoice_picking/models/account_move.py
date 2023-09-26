@@ -16,7 +16,7 @@ class AccountMove(models.Model):
     def create(self, vals_list):
         if ("picking_ids" in self.env.context) or ("receipt_picking_ids" in self.env.context):
             self.check_block_invoice(vals_list)
-        res = super(AccountMove, self).create(vals_list)
+        res = super().create(vals_list)
         if "picking_ids" in self.env.context:
             res.write({"from_pickings": True})
             pickings = self.env["stock.picking"].browse(self.env.context["picking_ids"])
@@ -114,7 +114,7 @@ class AccountMove(models.Model):
     def unlink(self):
         pickings_to_update = self.env["stock.picking"].search([("account_move_id", "in", self.ids)])
         self = self.with_context(unlink_all=True)
-        res = super(AccountMove, self).unlink()
+        res = super().unlink()
         if res:
             # update linked pickings
             pickings_to_update.write(
@@ -125,7 +125,7 @@ class AccountMove(models.Model):
         return res
 
     def button_cancel(self):
-        res = super(AccountMove, self).button_cancel()
+        res = super().button_cancel()
         # update linked pickings
         pickings_to_update = self.env["stock.picking"].search([("account_move_id", "in", self.ids)])
         pickings_to_update.write(
@@ -138,7 +138,7 @@ class AccountMove(models.Model):
 
     def button_draft(self):
         self.update_pickings()
-        return super(AccountMove, self).button_draft()
+        return super().button_draft()
 
 
 class AccountMoveLine(models.Model):
@@ -168,4 +168,4 @@ class AccountMoveLine(models.Model):
             ):
                 if "unlink_all" not in self.env.context:
                     raise UserError(_("You cannot delete lines, the move was generated from pickings"))
-        return super(AccountMoveLine, self).unlink()
+        return super().unlink()

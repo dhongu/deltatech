@@ -42,7 +42,6 @@ class AccountInvoice(models.Model):
             invoice.write({"name": new_name})
 
     def check_data(self, journal_id=None, invoice_date=None):
-
         for obj_inv in self:
             inv_type = obj_inv.move_type
 
@@ -77,7 +76,6 @@ class AccountInvoice(models.Model):
         self.write({})
 
         for inv in self:
-
             if inv.move_type in ("in_invoice", "in_refund"):
                 if not inv.reference:
                     ref = inv.name

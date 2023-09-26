@@ -10,7 +10,7 @@ class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
 
     def _prepare_account_move_line(self, move=False):
-        res = super(PurchaseOrderLine, self)._prepare_account_move_line(move)
+        res = super()._prepare_account_move_line(move)
         if "receipt_picking_ids" in self.env.context:
             domain = [("purchase_line_id", "=", self.id), ("picking_id", "in", self.env.context["receipt_picking_ids"])]
             moves = self.env["stock.move"].search(domain)

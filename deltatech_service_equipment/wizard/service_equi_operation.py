@@ -33,7 +33,7 @@ class ServiceEquiOperation(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(ServiceEquiOperation, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
 
         active_id = self.env.context.get("active_id", False)
         if active_id:
@@ -154,7 +154,6 @@ class ServiceEquiOperation(models.TransientModel):
         return action
 
     def do_agreement(self):
-
         counters = ""
         if self.equipment_id.meter_ids:
             for meter in self.equipment_id.meter_ids:

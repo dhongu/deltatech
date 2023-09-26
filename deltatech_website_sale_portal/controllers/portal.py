@@ -11,7 +11,7 @@ from odoo.addons.sale.controllers import portal
 
 class CustomerPortal(portal.CustomerPortal):
     def _get_sale_searchbar_sortings(self):
-        sortings = super(CustomerPortal, self)._get_sale_searchbar_sortings()
+        sortings = super()._get_sale_searchbar_sortings()
         sortings.update(
             {
                 "name": {"label": _("Order Name"), "order": "name"},
@@ -21,12 +21,12 @@ class CustomerPortal(portal.CustomerPortal):
         return sortings
 
     def _prepare_quotations_domain(self, partner):
-        domain = super(CustomerPortal, self)._prepare_quotations_domain(partner)
+        domain = super()._prepare_quotations_domain(partner)
         domain = self._prepare_domain_search(domain)
         return domain
 
     def _prepare_orders_domain(self, partner):
-        domain = super(CustomerPortal, self)._prepare_orders_domain(partner)
+        domain = super()._prepare_orders_domain(partner)
         domain = self._prepare_domain_search(domain)
         return domain
 
@@ -48,9 +48,7 @@ class CustomerPortal(portal.CustomerPortal):
 
     @http.route()
     def portal_my_quotes(self, page=1, date_begin=None, date_end=None, sortby=None, **kw):
-        result = super(CustomerPortal, self).portal_my_quotes(
-            page=page, date_begin=date_begin, date_end=date_end, sortby=sortby, **kw
-        )
+        result = super().portal_my_quotes(page=page, date_begin=date_begin, date_end=date_end, sortby=sortby, **kw)
 
         searchbar_inputs = {
             "client_order_ref": {"label": _("Search in Client Reference"), "input": "client_order_ref"},
@@ -64,9 +62,7 @@ class CustomerPortal(portal.CustomerPortal):
 
     @http.route()
     def portal_my_orders(self, page=1, date_begin=None, date_end=None, sortby=None, **kw):
-        result = super(CustomerPortal, self).portal_my_orders(
-            page=page, date_begin=date_begin, date_end=date_end, sortby=sortby, **kw
-        )
+        result = super().portal_my_orders(page=page, date_begin=date_begin, date_end=date_end, sortby=sortby, **kw)
 
         searchbar_inputs = {
             "client_order_ref": {"label": _("Search in Client Reference"), "input": "client_order_ref"},

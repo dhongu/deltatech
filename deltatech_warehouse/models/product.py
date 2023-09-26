@@ -15,8 +15,7 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     def _select_seller(self, partner_id=False, quantity=0.0, date=None, uom_id=False, params=False):
-
-        res = super(ProductProduct, self)._select_seller(partner_id, quantity, date, uom_id, params)
+        res = super()._select_seller(partner_id, quantity, date, uom_id, params)
 
         if not res:
             if self.env.user.company_id.supplier_id and (

@@ -33,4 +33,4 @@ class StockMove(models.Model):
                 cancel_backorder
             )
         else:
-            return super(StockMove, self)._action_done(cancel_backorder)
+            return super()._action_done(cancel_backorder)

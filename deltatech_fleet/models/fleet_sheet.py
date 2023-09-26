@@ -17,7 +17,6 @@ class FleetMapSheet(models.Model):
 
     @api.depends("vehicle_id", "date_start", "distance_total")
     def _compute_odometer_start(self):
-
         for record in self:
             if record.odometer_start_id:
                 record.odometer_start = record.odometer_start_id.value
@@ -39,7 +38,6 @@ class FleetMapSheet(models.Model):
 
     @api.depends("vehicle_id", "date_end", "distance_total")
     def _compute_odometer_end(self):
-
         for record in self:
             if record.odometer_end_id:
                 record.odometer_end = record.odometer_end_id.value
@@ -303,7 +301,7 @@ class FleetMapSheet(models.Model):
                 "date_end": date_end,
             }
         )
-        new_id = super(FleetMapSheet, self).copy(default)
+        new_id = super().copy(default)
         return new_id
 
     @api.onchange("vehicle_id")
@@ -340,7 +338,6 @@ class FleetMapSheet(models.Model):
         new_date_end = self.date_end
 
         for route_log in self.route_log_ids:
-
             if route_log.date_end > new_date_end:
                 new_date_end = route_log.date_end
 
@@ -351,7 +348,6 @@ class FleetMapSheet(models.Model):
         self.date_end = new_date_end
 
     def write(self, vals):
-
         for map_sheet in self:
             map_sheet.log_fuel_ids.write({"vehicle_id": map_sheet.vehicle_id.id})
             map_sheet.route_log_ids.write({"vehicle_id": map_sheet.vehicle_id.id})
@@ -360,7 +356,7 @@ class FleetMapSheet(models.Model):
             if map_sheet.odometer_end_id:
                 map_sheet.odometer_end_id.write({"vehicle_id": map_sheet.vehicle_id.id})
 
-        res = super(FleetMapSheet, self).write(vals)
+        res = super().write(vals)
         return res
 
     # def unlink(self):
@@ -374,7 +370,6 @@ class FleetMapSheet(models.Model):
         return True
 
     def action_get_log_fuel(self):
-
         for record in self:
             fuel_log_ids = self.env["fleet.vehicle.log.fuel"].search(
                 [
@@ -389,7 +384,6 @@ class FleetMapSheet(models.Model):
         return True
 
     def action_get_route_log(self):
-
         for record in self:
             domain = [
                 ("vehicle_id", "=", record.vehicle_id.id),
@@ -543,7 +537,6 @@ class FleetRouteLog(models.Model):
 
     @api.onchange("route_id", "date_begin")
     def on_change_route(self):
-
         domain = []
         if self.map_sheet_id:
             prev_route_log = None

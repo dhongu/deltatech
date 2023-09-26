@@ -19,7 +19,7 @@ class StockValuationLayer(models.Model):
             moves = self.env["stock.move"].search(domain)
             if moves:
                 args += [("stock_move_id", "in", moves.ids)]
-        return super(StockValuationLayer, self)._search(args, offset, limit, order, count, access_rights_uid)
+        return super()._search(args, offset, limit, order, count, access_rights_uid)
 
     # def search(self, args, offset=0, limit=None, order=None, count=False):
     #     if self.env.context.get("lot_ids", False):
@@ -38,4 +38,4 @@ class StockValuationLayer(models.Model):
             moves = self.env["stock.move"].search(local_domain)
             if moves:
                 domain += [("stock_move_id", "in", moves.ids)]
-        return super(StockValuationLayer, self).read_group(domain, fields, groupby, offset, limit, orderby, lazy)
+        return super().read_group(domain, fields, groupby, offset, limit, orderby, lazy)

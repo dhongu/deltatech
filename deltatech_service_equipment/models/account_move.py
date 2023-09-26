@@ -13,7 +13,6 @@ class AccountInvoice(models.Model):
     _inherit = "account.move"
 
     def get_counter_lines(self):
-
         consumptions = self.env["service.consumption"].search([("invoice_id", "in", self.ids)])
 
         readings = self.env["service.meter.reading"].search([("consumption_id", "in", consumptions.ids)])
