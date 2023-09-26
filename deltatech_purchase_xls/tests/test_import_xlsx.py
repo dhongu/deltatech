@@ -12,10 +12,9 @@ from odoo.tests.common import TransactionCase
 
 class TestImportXLS(TransactionCase):
     def setUp(self):
-        super(TestImportXLS, self).setUp()
+        super().setUp()
 
     def test_xlsx_file_import(self):
-
         order_file_path = get_module_resource(
             "deltatech_purchase_xls",
             "tests",

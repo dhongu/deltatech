@@ -104,7 +104,7 @@ class Inventory(models.Model):
     def copy_data(self, default=None):
         name = _("%s (copy)") % (self.name)
         default = dict(default or {}, name=name)
-        return super(Inventory, self).copy_data(default)
+        return super().copy_data(default)
 
     def unlink(self):
         for inventory in self:
@@ -119,7 +119,7 @@ class Inventory(models.Model):
                         "If the inventory adjustment is not done, you can cancel it."
                     )
                 )
-        return super(Inventory, self).unlink()
+        return super().unlink()
 
     def action_validate(self):
         if not self.exists():
@@ -594,12 +594,12 @@ class InventoryLine(models.Model):
                 values["theoretical_qty"] = theoretical_qty
             if "product_id" in values and "product_uom_id" not in values:
                 values["product_uom_id"] = product.product_tmpl_id.uom_id.id
-        res = super(InventoryLine, self).create(vals_list)
+        res = super().create(vals_list)
         res._check_no_duplicate_line()
         return res
 
     def write(self, vals):
-        res = super(InventoryLine, self).write(vals)
+        res = super().write(vals)
         if "product_qty" in vals:
             for line in self:
                 quants = line.get_quants()
@@ -740,7 +740,6 @@ class InventoryLine(models.Model):
         filtered_lines = self.filtered(lambda l: l.state != "done")
         for line in filtered_lines:
             if line.outdated:
-
                 quants = line.get_quants()
                 if quants.exists():
                     quantity = sum(quants.mapped("quantity"))

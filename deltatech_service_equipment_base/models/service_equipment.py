@@ -45,7 +45,7 @@ class ServiceEquipment(models.Model):
         for vals in vals_list:
             if vals.get("name", _("New")) == _("New") or vals.get("name") == "/":
                 vals["name"] = self.env["ir.sequence"].next_by_code("service.equipment") or _("New")
-        return super(ServiceEquipment, self).create(vals_list)
+        return super().create(vals_list)
 
     @api.onchange("product_id")
     def onchange_product_id(self):

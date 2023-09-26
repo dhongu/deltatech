@@ -10,7 +10,7 @@ from odoo.addons.deltatech_service_equipment_base.tests.test_service import Test
 
 class TestAgreementEquipment(TestAgreement, TestService):
     def setUp(self):
-        super(TestAgreementEquipment, self).setUp()
+        super().setUp()
         self.equipment = self.env["service.equipment"].create(
             {
                 "name": "Test Equipment",

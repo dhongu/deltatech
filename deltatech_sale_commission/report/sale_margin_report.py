@@ -79,7 +79,6 @@ class SaleMarginReport(models.Model):
     )
 
     def _select(self):
-
         select_str = """
             SELECT
                 id, date, invoice_id, categ_id, product_id,  account_id, product_uom, product_uom_qty ,
@@ -208,7 +207,6 @@ class SaleMarginReport(models.Model):
         return group_by_str
 
     def init(self):
-
         tools.drop_view_if_exists(self.env.cr, self._table)
         # pylint: disable=E8103
         self.env.cr.execute(
@@ -246,5 +244,5 @@ class SaleMarginReport(models.Model):
             invoice = self.env["account.move"].browse(self.invoice_id.id)
             invoice.write({"invoice_user_id": vals["user_id"]})
         if 1 == 2:
-            super(SaleMarginReport, self).write(vals)
+            super().write(vals)
         return True

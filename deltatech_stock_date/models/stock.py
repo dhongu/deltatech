@@ -32,10 +32,9 @@ class StockMove(models.Model):
                 if "date" in vals:
                     vals["date"] = use_date
 
-        return super(StockMove, self).write(vals)
+        return super().write(vals)
 
     def _action_done(self, cancel_backorder=False):
-
         get_param = self.env["ir.config_parameter"].sudo().get_param
         restrict_date = safe_eval(get_param("restrict_stock_move_date_last_months", "False"))
         restrict_date_future = safe_eval(get_param("restrict_stock_move_date_future", "False"))
@@ -61,7 +60,7 @@ class StockMove(models.Model):
                     else:
                         raise UserError(_("Cannot validate stock move due to date restriction."))
                     move.check_lock_date(move.date)
-        return super(StockMove, self)._action_done(cancel_backorder)
+        return super()._action_done(cancel_backorder)
 
     def check_lock_date(self, move_date):
         lock_date = self.env.user.company_id._get_user_fiscal_lock_date()
@@ -105,12 +104,12 @@ class StockPicking(models.Model):
                     else:
                         raise UserError(_("You must provide an effective date for the transfers."))
                 else:
-                    return super(StockPicking, self).button_validate()
+                    return super().button_validate()
         else:
-            return super(StockPicking, self).button_validate()
+            return super().button_validate()
 
     def _action_done(self):
-        super(StockPicking, self)._action_done()
+        super()._action_done()
         use_date = self.env.context.get("force_period_date", False)
         if use_date:
             self.write({"date": use_date, "date_done": use_date})

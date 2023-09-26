@@ -10,7 +10,6 @@ from odoo.addons.website_sale.controllers import main
 
 
 class WebsiteSale(main.WebsiteSale):
-
     # todo: de generat o eroare mai ok - asa zice ca a expirat sesiunea
     # @http.route(auth="user")
     # def cart_update_json(self, product_id, line_id=None, add_qty=None, set_qty=None, display=True):
@@ -30,10 +29,10 @@ class WebsiteSale(main.WebsiteSale):
                 "warning": _("Please login to add products to cart."),
             }
             return response
-        return super(WebsiteSale, self).cart_update_json(
+        return super().cart_update_json(
             product_id, line_id=line_id, add_qty=add_qty, set_qty=set_qty, display=display, **kw
         )
 
     @http.route(auth="user")
     def checkout(self, **post):
-        return super(WebsiteSale, self).checkout(**post)
+        return super().checkout(**post)

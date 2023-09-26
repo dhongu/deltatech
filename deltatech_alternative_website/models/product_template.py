@@ -11,7 +11,7 @@ class ProductTemplate(models.Model):
 
     @api.model
     def _search_get_detail(self, website, order, options):
-        values = super(ProductTemplate, self)._search_get_detail(website, order, options)
+        values = super()._search_get_detail(website, order, options)
 
         get_param = self.env["ir.config_parameter"].sudo().get_param
 

@@ -19,7 +19,7 @@ class StockPicking(models.Model):
             picking.agreement_id = picking.equipment_id.agreement_id
 
     def button_validate(self):
-        res = super(StockPicking, self).button_validate()
+        res = super().button_validate()
         for picking in self:
             if picking.agreement_id:
                 svls = picking.move_ids.stock_valuation_layer_ids

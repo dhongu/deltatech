@@ -10,7 +10,7 @@ from odoo.tests.common import TransactionCase
 
 class TestCNP(TransactionCase):
     def setUp(self):
-        super(TestCNP, self).setUp()
+        super().setUp()
 
     def test_create_partner(self):
         form_partner = Form(self.env["res.partner"])

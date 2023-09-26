@@ -32,21 +32,17 @@ class AccountAveragePaymentReport(models.Model):
 
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-
         new_fields = []
         new_fields += fields
 
         if "payment_days" in fields:
-
             # new_fields.remove('payment_days')
             if "pondere" not in new_fields:
                 new_fields.append("pondere")
             if "amount" not in new_fields:
                 new_fields.append("amount")
 
-        res = super(AccountAveragePaymentReport, self).read_group(
-            domain, new_fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy
-        )
+        res = super().read_group(domain, new_fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
 
         # new_res = self.read_group(cr, uid, domain, new_fields, groupby, offset, limit, context, orderby, lazy)
         if "payment_days" in fields:
@@ -54,7 +50,6 @@ class AccountAveragePaymentReport(models.Model):
                 pondere = line.get("pondere", 0.0)
                 amount = line.get("amount", 0.0)
                 if line["amount"] != 0.0 and pondere and amount:
-
                     line["payment_days"] = pondere / amount
                 else:
                     line["payment_days"] = 0.0

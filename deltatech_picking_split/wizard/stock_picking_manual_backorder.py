@@ -13,7 +13,7 @@ class ManualBackOrder(models.TransientModel):
     line_ids = fields.One2many("stock.picking.manual.backorder.line", "manual_backorder_id")
 
     def default_get(self, fields_list):
-        defaults = super(ManualBackOrder, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         active_id = self.env.context.get("active_id")
         picking = self.env["stock.picking"].browse(active_id)
         if picking.state in ["done", "cancel"]:

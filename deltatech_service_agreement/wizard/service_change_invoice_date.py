@@ -14,7 +14,7 @@ class ServiceChangeInvoiceDate(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(ServiceChangeInvoiceDate, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         active_ids = self.env.context.get("active_ids", False)
         if active_ids:
             cons = self.env["service.consumption"].browse(active_ids[0])

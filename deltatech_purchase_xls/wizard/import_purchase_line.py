@@ -31,7 +31,7 @@ class ImportPurchaseLine(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(ImportPurchaseLine, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         active_id = self.env.context.get("active_id", [])
         model = self.env.context.get("active_model", False)
         purchase = self.env[model].browse(active_id)
@@ -62,7 +62,6 @@ class ImportPurchaseLine(models.TransientModel):
         return table_values
 
     def do_import(self):
-
         table_values = self.get_rows()
         lines = []
         for row in table_values:

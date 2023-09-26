@@ -17,4 +17,4 @@ class StockPicking(models.Model):
                         if line.product_id.tracking == "lot" and not line.lot_name:
                             line.lot_name = self.env["ir.sequence"].next_by_code("stock.lot.serial")
 
-        return super(StockPicking, self).button_validate()
+        return super().button_validate()

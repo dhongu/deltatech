@@ -11,7 +11,7 @@ class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
     def action_view_invoice(self):
-        action = super(PurchaseOrder, self).action_view_invoice()
+        action = super().action_view_invoice()
         invoice_type = "in_invoice"
         for line in self.order_line:
             if line.product_id.purchase_method == "purchase":
@@ -36,7 +36,7 @@ class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
 
     def _prepare_account_move_line(self, move):
-        res = super(PurchaseOrderLine, self)._prepare_account_move_line(move)
+        res = super()._prepare_account_move_line(move)
         if move.type == "in_refund":
             if self.product_id.purchase_method == "purchase":
                 qty = self.qty_invoiced - self.product_qty

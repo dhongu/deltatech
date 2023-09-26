@@ -24,4 +24,4 @@ class AccountBankStatementLine(models.Model):
                             "You cannot perform this operation on this line (date restriction). Please contact your support team."
                         )
                     )
-        return super(AccountBankStatementLine, self).button_undo_reconciliation()
+        return super().button_undo_reconciliation()

@@ -16,7 +16,7 @@ class ResConfigSettings(models.TransientModel):
 
     @api.model
     def get_values(self):
-        res = super(ResConfigSettings, self).get_values()
+        res = super().get_values()
         category_rule = self.env.ref("deltatech_product_category.product_category_comp_rule")
         res.update(
             company_share_product_category=not bool(category_rule.active),
@@ -25,7 +25,7 @@ class ResConfigSettings(models.TransientModel):
         return res
 
     def set_values(self):
-        super(ResConfigSettings, self).set_values()
+        super().set_values()
         category_rule = self.env.ref("deltatech_product_category.product_category_comp_rule")
         category_rule.write({"active": not bool(self.company_share_product_category)})
         product_category_all = self.env.ref("product.product_category_all", raise_if_not_found=False)

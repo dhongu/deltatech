@@ -22,7 +22,7 @@ class StockPicking(models.Model):
         for picking in self:
             if picking.request_number:
                 raise UserError(_("The document %s has been numbered") % picking.request_number)
-        return super(StockPicking, self).unlink()
+        return super().unlink()
 
 
 class StockPickingType(models.Model):

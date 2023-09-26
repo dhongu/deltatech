@@ -29,4 +29,4 @@ class ServiceLocation(models.Model):
         for vals in vals_list:
             if vals.get("name", _("New")) == _("New") or vals.get("name") == "/":
                 vals["name"] = self.env["ir.sequence"].next_by_code("service.location") or _("New")
-        return super(ServiceLocation, self).create(vals_list)
+        return super().create(vals_list)

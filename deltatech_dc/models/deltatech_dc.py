@@ -39,5 +39,5 @@ class DeltatechDC(models.Model):
         if vals.get("name", _("New")) == _("New"):
             vals["name"] = self.env["ir.sequence"].next_by_code("declaration.conformity") or _("New")
 
-        result = super(DeltatechDC, self).create(vals)
+        result = super().create(vals)
         return result

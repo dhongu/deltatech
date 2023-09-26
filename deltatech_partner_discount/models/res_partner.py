@@ -22,4 +22,4 @@ class ResPartner(models.Model):
             for vals in vals_list:
                 if "discount" in vals and vals["discount"] > 0.0:
                     raise UserError(_("Your user cannot create a partner with discount."))
-        return super(ResPartner, self).create(vals_list)
+        return super().create(vals_list)

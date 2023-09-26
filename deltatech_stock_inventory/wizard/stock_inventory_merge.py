@@ -22,7 +22,7 @@ class StockInventoryMerge(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(StockInventoryMerge, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         if "company_id" in defaults and defaults["company_id"]:
             warehouse_id = self.env["stock.warehouse"].search([("company_id", "=", defaults["company_id"])], limit=1)
         else:

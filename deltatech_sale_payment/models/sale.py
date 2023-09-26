@@ -45,7 +45,6 @@ class SaleOrder(models.Model):
     @api.depends("transaction_ids", "invoice_ids.payment_state")
     def _compute_payment(self):
         for order in self:
-
             amount = 0
             transactions = order.sudo().transaction_ids.filtered(lambda a: a.state == "done")
 

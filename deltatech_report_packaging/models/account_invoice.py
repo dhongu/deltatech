@@ -37,7 +37,7 @@ class AccountInvoice(models.Model):
                 self.env["packaging.invoice.material"].create(lines)
 
     def action_invoice_open(self):
-        res = super(AccountInvoice, self).action_invoice_open()
+        res = super().action_invoice_open()
         for invoice in self:
             invoice.refresh_packaging_material()
         return res

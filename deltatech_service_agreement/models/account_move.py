@@ -9,7 +9,7 @@ class AccountInvoice(models.Model):
     _inherit = "account.move"
 
     def action_cancel(self):
-        res = super(AccountInvoice, self).action_cancel()
+        res = super().action_cancel()
         consumptions = self.env["service.consumption"].search([("invoice_id", "in", self.ids)])
         if consumptions:
             consumptions.write({"state": "draft", "invoice_id": False})
@@ -23,10 +23,10 @@ class AccountInvoice(models.Model):
             consumptions.write({"state": "draft"})
             for consumption in consumptions:
                 consumption.agreement_id.compute_totals()
-        return super(AccountInvoice, self).unlink()
+        return super().unlink()
 
     def action_post(self):
-        res = super(AccountInvoice, self).action_post()
+        res = super().action_post()
         agreements = self.env["service.agreement"]
         for invoice in self:
             if invoice.move_type == "out_invoice":

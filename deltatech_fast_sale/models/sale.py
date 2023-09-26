@@ -18,7 +18,6 @@ class SaleOrder(models.Model):
                     raise UserError(_("Not all products are available."))
 
     def action_button_confirm_to_invoice(self):
-
         if self.state in ["draft", "sent"]:
             self.action_confirm()  # confirma comanda
 
@@ -38,7 +37,7 @@ class SaleOrder(models.Model):
         return action
 
     def _prepare_invoice(self):
-        invoice_vals = super(SaleOrder, self)._prepare_invoice()
+        invoice_vals = super()._prepare_invoice()
         invoice_vals["invoice_date"] = self.date_order.date()
         return invoice_vals
 

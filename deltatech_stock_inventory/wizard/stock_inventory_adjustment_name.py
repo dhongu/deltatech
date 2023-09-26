@@ -10,7 +10,7 @@ class StockInventoryAdjustmentName(models.TransientModel):
     _inherit = "stock.inventory.adjustment.name"
 
     def _default_inventory_adjustment_name(self):
-        inventory_name = super(StockInventoryAdjustmentName, self)._default_inventory_adjustment_name()
+        inventory_name = super()._default_inventory_adjustment_name()
         if self.env.context.get("default_quant_ids"):
             quant = self.env["stock.quant"].browse(self.env.context["default_quant_ids"][0])
             if quant.inventory_id:

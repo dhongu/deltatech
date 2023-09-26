@@ -7,7 +7,7 @@ from odoo.tests.common import TransactionCase
 
 class TestCreateRule(TransactionCase):
     def setUp(self):
-        super(TestCreateRule, self).setUp()
+        super().setUp()
         self.product = self.env["product.product"].create({"name": "Test product", "type": "product"})
 
     def test_create_rule(self):

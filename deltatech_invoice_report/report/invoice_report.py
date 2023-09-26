@@ -12,13 +12,13 @@ class AccountInvoiceReport(models.Model):
 
     def _select(self):
         return (
-            super(AccountInvoiceReport, self)._select()
+            super()._select()
             + ", partner.state_id,   supplier.partner_id as supplier_id, template.id as product_tmpl_id"
         )
 
     def _from(self):
         return (
-            super(AccountInvoiceReport, self)._from()
+            super()._from()
             + """
          LEFT JOIN ( select product_tmpl_id, min(partner_id) as partner_id
          from product_supplierinfo group by product_tmpl_id ) supplier ON template.id = supplier.product_tmpl_id
@@ -26,4 +26,4 @@ class AccountInvoiceReport(models.Model):
         )
 
     def _group_by(self):
-        return super(AccountInvoiceReport, self)._group_by() + ", partner.state_id,     supplier.partner_id "
+        return super()._group_by() + ", partner.state_id,     supplier.partner_id "

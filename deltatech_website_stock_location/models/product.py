@@ -17,11 +17,10 @@ class ProductTemplate(models.Model):
         parent_combination=False,
         only_template=False,
     ):
-
         website = self.env["website"].get_current_website()
         location = website.sudo().location_id
 
-        combination_info = super(ProductTemplate, self)._get_combination_info(
+        combination_info = super()._get_combination_info(
             combination=combination,
             product_id=product_id,
             add_qty=add_qty,

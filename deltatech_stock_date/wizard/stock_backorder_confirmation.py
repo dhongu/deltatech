@@ -12,7 +12,7 @@ class StockBackorderConfirmation(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(StockBackorderConfirmation, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         if "pick_ids" in res and res.get("pick_ids"):
             pick_ids = res["pick_ids"][0][2]
             picking = self.env["stock.picking"].browse(pick_ids)[0]

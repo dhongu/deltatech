@@ -25,7 +25,7 @@ class StockConfirmInventory(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(StockConfirmInventory, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         defaults["product_tmpl_id"] = self.env.context.get("active_id", False)
         return defaults
 

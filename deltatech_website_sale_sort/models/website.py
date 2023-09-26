@@ -13,7 +13,7 @@ class Website(models.Model):
     _inherit = "website"
 
     def _get_product_sort_mapping(self):
-        sort_mapping = super(Website, self)._get_product_sort_mapping()
+        sort_mapping = super()._get_product_sort_mapping()
 
         sort_mapping += [
             ("sales_count2 desc", _("Best sellers")),

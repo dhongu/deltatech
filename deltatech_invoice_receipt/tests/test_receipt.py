@@ -10,7 +10,7 @@ from odoo.tests.common import TransactionCase
 
 class TestInvoiceReceipt(TransactionCase):
     def setUp(self):
-        super(TestInvoiceReceipt, self).setUp()
+        super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
 
         seller_ids = [(0, 0, {"partner_id": self.partner_a.id})]
@@ -41,7 +41,6 @@ class TestInvoiceReceipt(TransactionCase):
         invoice.action_post()
 
     def test_create_invoice_with_negative_qty(self):
-
         invoice = self.env["account.move"].create(
             {
                 "move_type": "in_invoice",

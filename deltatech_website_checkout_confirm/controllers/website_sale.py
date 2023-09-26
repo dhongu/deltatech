@@ -11,7 +11,7 @@ class WebsiteSaleCheckout(WebsiteSale):
         if sale_order_id:
             order = request.env["sale.order"].sudo().browse(sale_order_id)
             order.action_confirm()
-        return super(WebsiteSaleCheckout, self).payment_confirmation(**post)
+        return super().payment_confirmation(**post)
 
     # @http.route('/shop/payment/validate', type='http', auth="public", website=True, sitemap=False)
     # def payment_validate(self, transaction_id=None, sale_order_id=None, **post):

@@ -12,7 +12,7 @@ class StockPicking(models.Model):
     def button_validate(self):
         from_batch = self.env.context.get("from_batch")
         if not from_batch:
-            return super(StockPicking, self).button_validate()
+            return super().button_validate()
         else:
             all_pickings = self
             for picking in self:

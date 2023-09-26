@@ -12,7 +12,7 @@ class StockPicking(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        pickings = super(StockPicking, self).create(vals_list)
+        pickings = super().create(vals_list)
         for picking in pickings:
             if picking.request_id:
                 picking.request_id.write({"piking_id": picking.id})

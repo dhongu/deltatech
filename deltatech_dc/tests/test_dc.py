@@ -8,7 +8,7 @@ from odoo.tests.common import TransactionCase
 
 class TestDC(TransactionCase):
     def setUp(self):
-        super(TestDC, self).setUp()
+        super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
         self.product_a = self.env["product.product"].create(
             {

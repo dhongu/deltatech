@@ -14,7 +14,7 @@ class Message(models.Model):
     def _get_default_from(self):
         use_company_email = self.env["ir.config_parameter"].sudo().get_param("mail.use_company_email")
         if not use_company_email:
-            return super(Message, self)._get_default_from()
+            return super()._get_default_from()
         if self.env.user.company_id.email:
             return formataddr((self.env.user.company_id.name, self.env.user.company_id.email))
         raise UserError(_("Unable to post message, please configure the company's email address."))

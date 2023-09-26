@@ -175,7 +175,7 @@ class ServiceOrder(models.Model):
             if "date" in vals:
                 seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals["date"]))
             vals["name"] = self.env["ir.sequence"].next_by_code("service.order", sequence_date=seq_date) or _("New")
-        return super(ServiceOrder, self).create(vals)
+        return super().create(vals)
 
     @api.onchange("equipment_id", "date")
     def onchange_equipment_id(self):
@@ -254,7 +254,6 @@ class ServiceOrder(models.Model):
         return self.new_delivery_button()
 
     def new_delivery_button(self):
-
         if self.partner_id:
             if self.partner_id.picking_warn == "block":
                 raise UserError(self.partner_id.picking_warn_msg)
@@ -382,7 +381,6 @@ class ServiceOrder(models.Model):
                     sale_line.write({"product_uom_qty": item.duration})
 
         else:
-
             context["pricelist_id"] = self.partner_id.property_product_pricelist.id
             sale_order = self.env["sale.order"].with_context(context).new()
 
@@ -424,7 +422,7 @@ class ServiceOrder(models.Model):
         for order in self:
             if order.state not in ["draft", "cancel"]:
                 raise UserError(_("Can not delete order in status %s") % order.state)
-        return super(ServiceOrder, self).unlink()
+        return super().unlink()
 
     def open_order_on_website(self):
         url = "/service/order/" + str(self.id)

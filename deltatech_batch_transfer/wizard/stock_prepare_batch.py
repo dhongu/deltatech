@@ -18,7 +18,7 @@ class StockPrepareBatch(models.TransientModel):
     line_ids = fields.One2many("stock.prepare.batch.line", "wizard_id")
 
     def default_get(self, fields_list):
-        defaults = super(StockPrepareBatch, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         model = self.env.context.get("active_model", False)
         active_ids = self.env.context.get("active_ids", [])
         partner = False

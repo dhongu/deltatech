@@ -14,7 +14,7 @@ class Partner(models.Model):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(Partner, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         if "parent_partner_id" in self.env.context:
             defaults["parent_id"] = self.env.context["parent_partner_id"]
         return defaults
@@ -105,12 +105,12 @@ class Partner(models.Model):
         if partner.type == "contact":
             return name
         else:
-            return super(Partner, self)._get_contact_name(partner, name)
+            return super()._get_contact_name(partner, name)
 
     def _get_name(self):
         partner = self
         context = self.env.context
-        name = super(Partner, self)._get_name()
+        name = super()._get_name()
 
         if context.get("show_phone", False):
             if partner.phone or partner.mobile:
@@ -131,7 +131,7 @@ class Partner(models.Model):
             partner_ids = self.search([("vat", "ilike", name), ("is_company", "=", True)], limit=10)
             if partner_ids:
                 res_vat = partner_ids.name_get()
-        res = super(Partner, self).name_search(name, args, operator=operator, limit=limit) + res_vat
+        res = super().name_search(name, args, operator=operator, limit=limit) + res_vat
         return res
 
     @api.model_create_multi
@@ -140,4 +140,4 @@ class Partner(models.Model):
             if "cnp" in values:
                 if not self.check_single_cnp(values["cnp"]):
                     values["cnp"] = ""
-        return super(Partner, self).create(vals_list)
+        return super().create(vals_list)
