@@ -29,7 +29,7 @@ class ProductChangeUoM(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(ProductChangeUoM, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         active_id = self.env.context.get("active_id", False)
         if active_id:
             product = self.env["product.template"].browse(active_id)
@@ -39,7 +39,6 @@ class ProductChangeUoM(models.TransientModel):
         return defaults
 
     def do_change(self):
-
         active_id = self.env.context.get("active_id", False)
         if active_id:
             product = self.env["product.template"].browse(active_id)
