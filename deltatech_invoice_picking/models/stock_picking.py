@@ -42,10 +42,13 @@ class StockPicking(models.Model):
         return action
 
     def action_create_supplier_invoice(self):
+        action = False
         for picking in self:
             if picking.state != "done":
                 raise UserError(_("You cannot invoice unconfirmed pickings (%s)") % picking.name)
             if not picking.supplier_invoice_number:
                 raise UserError(_("Please enter supplier invoice number"))
             picking.purchase_id.write({"partner_ref": picking.supplier_invoice_number})
-        return self.purchase_id.with_context(receipt_picking_ids=self.ids).action_create_invoice()
+            action = picking.purchase_id.with_context(receipt_picking_ids=self.ids).action_create_invoice()
+
+        return action
