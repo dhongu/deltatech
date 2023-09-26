@@ -18,7 +18,7 @@ class AccountInvoice(models.Model):
         if purchase_invoices:
             purchase_invoices.add_to_purchase()
             purchase_invoices.receipt_to_stock()
-        return super(AccountInvoice, self).action_post()
+        return super().action_post()
 
     def add_to_purchase(self):
         """
@@ -43,7 +43,6 @@ class AccountInvoice(models.Model):
                 # trebuie sa verific daca sunt produse stocabile ?
 
                 if len(purchase_order) != 1:
-
                     purchase_order = self.env["purchase.order"].create(
                         {
                             "partner_id": invoice.partner_id.id,
