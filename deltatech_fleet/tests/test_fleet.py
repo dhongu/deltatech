@@ -9,7 +9,7 @@ from odoo.tests.common import TransactionCase
 
 class TestFleet(TransactionCase):
     def setUp(self):
-        super(TestFleet, self).setUp()
+        super().setUp()
 
         self.vehicle_brand = self.env["fleet.vehicle.model.brand"].create({"name": "Test Brand"})
         self.vehicle_model = self.env["fleet.vehicle.model"].create(
