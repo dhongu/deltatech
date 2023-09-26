@@ -16,7 +16,7 @@ class SaleOrder(models.Model):
                         if move.created_purchase_line_id.order_id.state == "draft":
                             move.created_purchase_line_id.unlink()
 
-        return super(SaleOrder, self)._action_cancel()
+        return super()._action_cancel()
 
     def _log_decrease_ordered_quantity(self, filtered_documents, cancel=True):
         documents_remove = []
@@ -34,4 +34,4 @@ class SaleOrder(models.Model):
 
         for item in documents_remove:
             filtered_documents.pop(item)
-        return super(SaleOrder, self)._log_decrease_ordered_quantity(filtered_documents, cancel)
+        return super()._log_decrease_ordered_quantity(filtered_documents, cancel)

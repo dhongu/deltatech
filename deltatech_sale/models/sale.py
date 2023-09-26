@@ -11,10 +11,9 @@ class SaleOrderLine(models.Model):
 
     @api.onchange("product_id")
     def product_id_change(self):
-
         if not self.order_id.partner_id:
             raise UserError(_("Before choosing a product,\n select a customer in the sales form."))
 
-        result = super(SaleOrderLine, self).product_id_change()
+        result = super().product_id_change()
 
         return result

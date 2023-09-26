@@ -19,7 +19,7 @@ class StockRequestCount(models.TransientModel):
     inventory_name = fields.Char(default=_default_inventory_name)
 
     def action_request_count(self):
-        super(StockRequestCount, self).action_request_count()
+        super().action_request_count()
         for count_request in self.with_context(inventory_name=self.inventory_name):
             inventory = count_request.quant_ids.create_inventory_lines()
             inventory.write(

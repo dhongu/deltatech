@@ -13,7 +13,7 @@ class ProductTemplate(models.Model):
     legacy_id = fields.Integer(string="Legacy ID")
 
     def _compute_website_url(self):
-        record = super(ProductTemplate, self)._compute_website_url()
+        record = super()._compute_website_url()
         origin = self.env.context.get("origin", False)
         if not origin:
             for product in self:

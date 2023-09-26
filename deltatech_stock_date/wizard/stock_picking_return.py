@@ -12,16 +12,16 @@ class ReturnPicking(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(ReturnPicking, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         res["date"] = self.env.context.get("force_period_date", fields.Datetime.now())
         return res
 
     def _prepare_move_default_values(self, return_line, new_picking):
-        vals = super(ReturnPicking, self)._prepare_move_default_values(return_line, new_picking)
+        vals = super()._prepare_move_default_values(return_line, new_picking)
         vals["date"] = self.date
         return vals
 
     def _prepare_picking_default_values(self):
-        vals = super(ReturnPicking, self)._prepare_picking_default_values()
+        vals = super()._prepare_picking_default_values()
         vals["date"] = self.date
         return vals

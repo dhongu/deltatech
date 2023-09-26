@@ -9,7 +9,7 @@ from odoo.tests.common import TransactionCase
 
 class TestPayment(TransactionCase):
     def setUp(self):
-        super(TestPayment, self).setUp()
+        super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "test"})
         cash_journal = self.env["account.journal"].search([("type", "=", "cash")], limit=1)
         if not cash_journal:
@@ -17,7 +17,6 @@ class TestPayment(TransactionCase):
         self.cash_journal = cash_journal
 
     def test_payment(self):
-
         payment_1 = self.env["account.payment"].create(
             {
                 "amount": 150.0,

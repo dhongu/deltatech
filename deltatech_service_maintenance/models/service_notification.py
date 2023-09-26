@@ -211,13 +211,13 @@ class ServiceNotification(models.Model):
                 "New"
             )
 
-        return super(ServiceNotification, self).create(vals)
+        return super().create(vals)
 
     def write(self, vals):
         if "user_id" in vals:
             if self.state != "new":
                 raise UserError(_("Notification is assigned."))
-        result = super(ServiceNotification, self).write(vals)
+        result = super().write(vals)
         return result
 
     def action_cancel_assign(self):
@@ -359,7 +359,6 @@ class ServiceNotification(models.Model):
                 # TODO: De anuntat utilizatorul ca are o sesizare
 
     def new_delivery_button(self):
-
         # block picking if partner blocked
         if self.partner_id:
             if self.partner_id.picking_warn == "block":
@@ -479,7 +478,6 @@ class ServiceNotification(models.Model):
             }
 
     def new_sale_order_button(self):
-
         if self.partner_id.sale_warn and self.partner_id.sale_warn == "block":
             raise UserError(_("This partner is blocked"))
 

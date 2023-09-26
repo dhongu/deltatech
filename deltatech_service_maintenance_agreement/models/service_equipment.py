@@ -10,7 +10,7 @@ class ServiceEquipment(models.Model):
     _inherit = "service.equipment"
 
     def get_context_default(self):
-        context = super(ServiceEquipment, self).get_context_default()
+        context = super().get_context_default()
         context.update(
             {
                 "default_agreement_id": self.agreement_id.id,

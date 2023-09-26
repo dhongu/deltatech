@@ -20,7 +20,6 @@ class MaintenanceRequest(models.Model):
     operation_ids = fields.One2many("maintenance.request.operation", "request_id", string="Operations", copy=True)
 
     def new_transfer_button(self):
-
         picking_type = self.maintenance_team_id.picking_type_id
 
         context = {
@@ -32,7 +31,6 @@ class MaintenanceRequest(models.Model):
         }
 
         if self.component_ids:
-
             # picking = self.env["stock.picking"].with_context(context)
 
             context["default_move_ids_without_package"] = []

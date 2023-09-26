@@ -7,7 +7,7 @@ from odoo.addons.website_sale.controllers import main
 class WebsiteSale(main.WebsiteSale):
     @http.route()
     def shop(self, page=0, category=None, search="", ppg=False, **post):
-        response = super(WebsiteSale, self).shop(page, category, search, ppg, **post)
+        response = super().shop(page, category, search, ppg, **post)
         availability_all = request.httprequest.args.get("availability_all", True)
         availability_in_stock = request.httprequest.args.get("availability_in_stock", False)
         availability_vendor = request.httprequest.args.get("availability_vendor", False)

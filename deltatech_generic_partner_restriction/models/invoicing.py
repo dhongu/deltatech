@@ -7,7 +7,7 @@ class AccountPayment(models.Model):
 
     @api.onchange("journal_id")
     def _onchange_journal(self):
-        res = super(AccountPayment, self)._onchange_journal()
+        res = super()._onchange_journal()
         customer_id = self.partner_id.id
 
         get_param = self.env["ir.config_parameter"].sudo().get_param

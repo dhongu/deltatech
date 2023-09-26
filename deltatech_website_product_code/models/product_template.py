@@ -11,7 +11,7 @@ class ProductTemplate(models.Model):
     def _search_render_results(self, fetch_fields, mapping, icon, limit):
         fetch_fields += ["default_code", "display_name"]
 
-        results_data = super(ProductTemplate, self)._search_render_results(fetch_fields, mapping, icon, limit)
+        results_data = super()._search_render_results(fetch_fields, mapping, icon, limit)
 
         for _product, data in zip(self, results_data):
             if data.get("default_code"):

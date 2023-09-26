@@ -12,7 +12,7 @@ class ProductPublicCategory(models.Model):
     alternative_link = fields.Char()
 
     def _compute_website_url(self):
-        super(ProductPublicCategory, self)._compute_website_url()
+        super()._compute_website_url()
         origin = self.env.context.get("origin", False)
         if not origin:
             for category in self:

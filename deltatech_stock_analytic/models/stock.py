@@ -9,7 +9,7 @@ class StockMove(models.Model):
     _inherit = "stock.move"
 
     def write(self, values):
-        res = super(StockMove, self).write(values)
+        res = super().write(values)
         if self and "state" in values and values["state"] == "done" and self.can_create_analytics():
             for move in self:
                 if not move.price_unit:

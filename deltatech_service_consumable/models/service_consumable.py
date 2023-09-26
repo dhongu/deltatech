@@ -29,7 +29,6 @@ class ServiceConsumableItem(models.Model):
     max_qty = fields.Float(string="Quantity Max", digits="Product Unit of Measure", help="Maximum Quantity allowed")
 
     def _compute_quantity(self):
-
         get_param = self.env["ir.config_parameter"].sudo().get_param
         picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
 

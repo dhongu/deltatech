@@ -38,7 +38,6 @@ class StockProductionLot(models.Model):
 
     @api.depends("quant_ids.quantity", "quant_ids.location_id")
     def _compute_stock_available(self):
-
         for lot in self:
             available = 0.0
             show_lots = 0.0

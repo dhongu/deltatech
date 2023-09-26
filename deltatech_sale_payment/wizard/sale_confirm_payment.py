@@ -19,7 +19,7 @@ class SaleConfirmPayment(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(SaleConfirmPayment, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         active_id = self.env.context.get("active_id", False)
         if not active_id:
             raise UserError(_("Please select a sale order"))
@@ -36,7 +36,6 @@ class SaleConfirmPayment(models.TransientModel):
         return defaults
 
     def do_confirm(self):
-
         active_id = self.env.context.get("active_id", False)
         order = self.env["sale.order"].browse(active_id)
 

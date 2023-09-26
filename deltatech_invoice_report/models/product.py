@@ -87,7 +87,6 @@ class ProductTemplate(models.Model):
             template.invoice_count = price_average
 
     def action_view_invoice(self):
-
         action = self.env["ir.actions.actions"]._for_xml_id("account.action_account_invoice_report_all")
         products = self.env["product.product"]
         for template in self:

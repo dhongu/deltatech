@@ -9,7 +9,7 @@ from odoo.tests.common import TransactionCase
 
 class TestInvoice(TransactionCase):
     def setUp(self):
-        super(TestInvoice, self).setUp()
+        super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
 
         sequence = self.env["ir.sequence"].create(
@@ -31,7 +31,6 @@ class TestInvoice(TransactionCase):
         )
 
     def test_create_product(self):
-
         seller_ids = [(0, 0, {"name": self.partner_a.id})]
         self.product_a = self.env["product.product"].create(
             {
@@ -55,7 +54,6 @@ class TestInvoice(TransactionCase):
         self.assertEqual(self.product_b.default_code, "TEST0002")
 
     def test_create_product_template(self):
-
         seller_ids = [(0, 0, {"name": self.partner_a.id})]
         self.product_a = self.env["product.template"].create(
             {

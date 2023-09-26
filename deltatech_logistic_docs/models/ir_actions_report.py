@@ -16,4 +16,4 @@ class IrActionsReport(models.Model):
             attachment = self.env["ir.attachment"].search(domain, limit=1)
             if attachment:
                 return attachment
-        return super(IrActionsReport, self).retrieve_attachment(record)
+        return super().retrieve_attachment(record)

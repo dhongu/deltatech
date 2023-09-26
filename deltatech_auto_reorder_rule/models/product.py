@@ -17,6 +17,6 @@ class ProductProduct(models.Model):
 
     @api.model
     def create(self, vals):
-        product = super(ProductProduct, self).create(vals)
+        product = super().create(vals)
         product.create_rule()
         return product

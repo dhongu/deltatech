@@ -17,7 +17,6 @@ class ServiceNotification(models.Model):
 
     @api.model
     def create(self, vals):
-
         equipment_id = vals.get("equipment_id", False)
 
         if equipment_id:
@@ -25,10 +24,10 @@ class ServiceNotification(models.Model):
             if not vals.get("agreement_id", False):
                 vals["agreement_id"] = equipment.agreement_id.id
 
-        return super(ServiceNotification, self).create(vals)
+        return super().create(vals)
 
     def get_context_default(self):
-        context = super(ServiceNotification, self).get_context_default()
+        context = super().get_context_default()
         context.update(
             {
                 "default_agreement_id": self.agreement_id.id,

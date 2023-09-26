@@ -16,4 +16,4 @@ class ServiceCycle(models.Model):
         if self.unit == "counter":
             return self.value
         else:
-            return super(ServiceCycle, self).get_cycle()
+            return super().get_cycle()

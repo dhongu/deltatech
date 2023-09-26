@@ -8,7 +8,7 @@ from odoo.tests.common import TransactionCase
 
 class TestPurchase(TransactionCase):
     def setUp(self):
-        super(TestPurchase, self).setUp()
+        super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
 
         seller_ids = [(0, 0, {"name": self.partner_a.id})]
@@ -29,7 +29,6 @@ class TestPurchase(TransactionCase):
         set_param("purchase.update_list_price", "True")
 
     def test_purchase(self):
-
         form_purchase = Form(self.env["purchase.order"])
         form_purchase.partner_id = self.partner_a
         with form_purchase.order_line.new() as po_line:

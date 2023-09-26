@@ -19,7 +19,7 @@ class WebsiteSale(main.WebsiteSale):
     def _get_search_options(
         self, category=None, attrib_values=None, pricelist=None, min_price=0.0, max_price=0.0, conversion_rate=1, **post
     ):
-        options = super(WebsiteSale, self)._get_search_options(
+        options = super()._get_search_options(
             category, attrib_values, pricelist, min_price, max_price, conversion_rate, **post
         )
         options["allowFuzzy"] = False
