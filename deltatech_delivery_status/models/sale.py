@@ -34,7 +34,7 @@ class SaleOrder(models.Model):
             order.postponed_delivery = any([p.postponed for p in order.picking_ids])
 
     def _action_confirm(self):
-        res = super(SaleOrder, self)._action_confirm()
+        res = super()._action_confirm()
         for order in self:
             if order.team_id.postpone_payment_transfer:
                 tx = self.sudo().transaction_ids._get_last()
