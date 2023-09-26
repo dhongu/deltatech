@@ -17,7 +17,7 @@ class StockPicking(models.Model):
     supplier_invoice_number = fields.Char("Supplier Invoice No")
 
     def button_validate(self):
-        res = super(StockPicking, self).button_validate()
+        res = super().button_validate()
         for picking in self:
             if picking.sale_id or picking.purchase_id:
                 picking.write({"to_invoice": True})

@@ -38,7 +38,7 @@ class AccountInvoice(models.Model):
 
     # nu mai exista
     def action_invoice_open(self):
-        res = super(AccountInvoice, self).action_invoice_open()
+        res = super().action_invoice_open()
         for invoice in self:
             invoice.refresh_packaging_material()
         return res

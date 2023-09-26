@@ -16,7 +16,7 @@ class ProductTemplate(models.Model):
         parent_combination=False,
         only_template=False,
     ):
-        combination_info = super(ProductTemplate, self)._get_combination_info(
+        combination_info = super()._get_combination_info(
             combination=combination,
             product_id=product_id,
             add_qty=add_qty,
@@ -30,7 +30,6 @@ class ProductTemplate(models.Model):
         else:
             product = self
         if pricelist:
-
             public_pricelist = self.env["product.pricelist"].search([("selectable", "=", True)])
             if len(public_pricelist) > 1:
                 public_pricelist = public_pricelist[0]

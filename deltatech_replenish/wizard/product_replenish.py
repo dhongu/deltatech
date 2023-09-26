@@ -12,6 +12,6 @@ class ProductReplenish(models.TransientModel):
     supplier_id = fields.Many2one("product.supplierinfo")
 
     def _prepare_run_values(self):
-        values = super(ProductReplenish, self)._prepare_run_values()
+        values = super()._prepare_run_values()
         values["supplierinfo_id"] = self.supplier_id
         return values

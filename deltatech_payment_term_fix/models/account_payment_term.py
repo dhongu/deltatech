@@ -11,7 +11,7 @@ class AccountPaymentTerm(models.Model):
     _inherit = "account.payment.term"
 
     def compute(self, value, date_ref=False, currency=None):
-        result = super(AccountPaymentTerm, self).compute(value, date_ref, currency)
+        result = super().compute(value, date_ref, currency)
         pos = 0
         for line in self.line_ids:
             if line.month_of_the_year:

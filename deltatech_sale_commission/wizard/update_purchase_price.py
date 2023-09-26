@@ -22,7 +22,7 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(CommissionUpdatePurchasePrice, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
 
         active_ids = self.env.context.get("active_ids", False)
 
@@ -35,7 +35,6 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
         return defaults
 
     def do_compute(self):
-
         if self.for_all:
             lines = self.env["sale.margin.report"].search([])
         else:
@@ -46,7 +45,6 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
             purchase_price = 0.0
 
             if self.price_from_doc:
-
                 purchase_price = invoice_line.get_purchase_price()
 
                 if not purchase_price:

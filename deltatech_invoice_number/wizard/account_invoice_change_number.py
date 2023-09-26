@@ -14,7 +14,7 @@ class AccountInvoiceChangeNumber(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(AccountInvoiceChangeNumber, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         active_id = self.env.context.get("active_id", False)
         if active_id:
             invoice = self.env["account.move"].browse(active_id)

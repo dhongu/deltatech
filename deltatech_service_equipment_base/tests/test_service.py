@@ -8,7 +8,7 @@ from odoo.tests.common import TransactionCase
 
 class TestService(TransactionCase):
     def setUp(self):
-        super(TestService, self).setUp()
+        super().setUp()
         self.meter_category = self.env["service.meter.category"].create(
             {
                 "name": "Test Meter Category",

@@ -63,7 +63,6 @@ class ProductPriceChange(models.Model):
     @api.depends("line_ids.old_price", "line_ids.new_price", "line_ids.quantity")
     def _compute_amount_all(self):
         for change in self:
-
             old_amount = 0
             new_amount = 0
 
@@ -87,7 +86,6 @@ class ProductPriceChange(models.Model):
                     new_lines = []
                     warehouse = location.warehouse_id
                     for line in change.line_ids:
-
                         available = 0
                         quant_ids = self.env["stock.quant"].search(
                             [("product_id", "=", line.product_id.id), ("location_id", "=", location.id)]
@@ -136,7 +134,7 @@ class ProductPriceChange(models.Model):
         for change in self:
             if change.state not in ["draft"]:
                 raise UserError(_("Change Price document with status 'Done' cant't by deleted"))
-        return super(ProductPriceChange, self).unlink()
+        return super().unlink()
 
     @api.onchange("warehouse_id")
     def onchange_warehouse_id(self):

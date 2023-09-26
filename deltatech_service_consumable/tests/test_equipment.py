@@ -11,7 +11,7 @@ from odoo.addons.deltatech_service_equipment_base.tests.test_service import Test
 
 class TestAgreementEquipment(TestAgreement, TestService):
     def setUp(self):
-        super(TestAgreementEquipment, self).setUp()
+        super().setUp()
         self.get_param = self.env["ir.config_parameter"].sudo().get_param
         picking_type_for_service = self.get_param("service.picking_type_for_service")
         if not picking_type_for_service:

@@ -9,7 +9,7 @@ from odoo.tests.common import TransactionCase
 
 class TestCash(TransactionCase):
     def setUp(self):
-        super(TestCash, self).setUp()
+        super().setUp()
         journal_id = self.env["account.journal"].search([("type", "=", "cash")], limit=1)
         if not journal_id:
             journal_id = self.env["account.journal"].create({"name": "test", "type": "cash"})

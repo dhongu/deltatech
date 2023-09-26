@@ -14,7 +14,7 @@ class SaleReport(models.Model):
         fields["margin"] = (
             ", SUM(l.margin / CASE COALESCE(s.currency_rate, 0) " "WHEN 0 THEN 1.0 ELSE s.currency_rate END) AS margin"
         )
-        sql = super(SaleReport, self)._query(with_clause, fields, groupby, from_clause)
+        sql = super()._query(with_clause, fields, groupby, from_clause)
         margin_field = (
             ", SUM(l.margin / CASE COALESCE(pos.currency_rate, 0) "
             "WHEN 0 THEN 1.0 ELSE pos.currency_rate END) AS margin"

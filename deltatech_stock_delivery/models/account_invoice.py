@@ -10,7 +10,6 @@ class AccountInvoice(models.Model):
     _inherit = "account.move"
 
     def invoice_print_delivery(self):
-
         # result = self.env.ref("stock.action_picking_tree_all")[0]
 
         # compute the number of delivery orders to display

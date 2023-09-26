@@ -48,4 +48,4 @@ class SaleOrderLine(models.Model):
                 product_uom = self.product_uom
             vals["product_uom_qty"] = self.fix_qty_multiple(product, product_uom, vals["product_uom_qty"])
 
-        super(SaleOrderLine, self).write(vals)
+        super().write(vals)

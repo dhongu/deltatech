@@ -24,7 +24,7 @@ class StockPickingBatch(models.Model):
     note = fields.Text("Note")
 
     def _compute_move_ids(self):
-        super(StockPickingBatch, self)._compute_move_ids()
+        super()._compute_move_ids()
         for batch in self:
             batch.received_move_line_ids = False
             if batch.move_line_ids:
@@ -43,10 +43,10 @@ class StockPickingBatch(models.Model):
                 move_lines = picking.move_line_ids.filtered(lambda r: r.qty_done)
                 if not move_lines:  # picking has no qty done lines
                     self.write({"picking_ids": [(3, picking.id)]})  # remove picking from batch
-            return super(StockPickingBatch, self).action_done()
+            return super().action_done()
 
     def action_cancel(self):
-        res = super(StockPickingBatch, self).action_cancel()
+        res = super().action_cancel()
         if res:
             batch_pickings = self.env["stock.picking"].search([("batch_id", "=", self.id)])
             batch_pickings.write({"batch_id": False})

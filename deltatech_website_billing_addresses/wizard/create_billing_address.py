@@ -17,7 +17,7 @@ class CreateBillingAddress(models.TransientModel):
     vat = fields.Char("VAT")
 
     def default_get(self, fields_list):
-        defaults = super(CreateBillingAddress, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         active_id = self.env.context.get("active_id", [])
         partner_id = self.env["res.partner"].browse(active_id)
         if not partner_id.is_company:

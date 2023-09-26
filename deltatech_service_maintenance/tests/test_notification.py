@@ -9,7 +9,7 @@ from .common import TestServiceBase
 
 class TestServiceNotification(TestServiceBase):
     def setUp(self):
-        super(TestServiceNotification, self).setUp()
+        super().setUp()
         self.user_demo = self.env.user.copy()
 
     def test_create_notification(self):

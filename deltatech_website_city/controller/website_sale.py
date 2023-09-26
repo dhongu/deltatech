@@ -8,7 +8,6 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class WebsiteSaleCity(WebsiteSale):
-
     # pentru tarile in care nu avem nomencator de localitati nu se poate face acest camp obligatori
 
     # def _get_mandatory_billing_fields(self):
@@ -24,9 +23,7 @@ class WebsiteSaleCity(WebsiteSale):
     #     return res
 
     def values_postprocess(self, order, mode, values, errors, error_msg):
-        new_values, errors, error_msg = super(WebsiteSaleCity, self).values_postprocess(
-            order, mode, values, errors, error_msg
-        )
+        new_values, errors, error_msg = super().values_postprocess(order, mode, values, errors, error_msg)
         new_values["city_id"] = values.get("city_id")
         if new_values["city_id"]:
             city = request.env["res.city"].browse(int(values.get("city_id")))
@@ -35,7 +32,7 @@ class WebsiteSaleCity(WebsiteSale):
         return new_values, errors, error_msg
 
     def checkout_form_validate(self, mode, all_form_values, data):
-        error, error_message = super(WebsiteSaleCity, self).checkout_form_validate(mode, all_form_values, data)
+        error, error_message = super().checkout_form_validate(mode, all_form_values, data)
 
         # Check if city_id required
         country = request.env["res.country"]

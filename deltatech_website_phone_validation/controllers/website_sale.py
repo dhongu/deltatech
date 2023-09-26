@@ -10,16 +10,13 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 class WebsiteSalePhoneValidation(WebsiteSale):
     def checkout_form_validate(self, mode, all_form_values, data):
-
         error = dict()
         error_message = []
 
         if data.get("phone"):
             data["phone"] = data.get("phone").strip()
 
-        standard_error, standard_error_message = super(WebsiteSalePhoneValidation, self).checkout_form_validate(
-            mode, all_form_values, data
-        )
+        standard_error, standard_error_message = super().checkout_form_validate(mode, all_form_values, data)
 
         error.update(standard_error)
         error_message += standard_error_message

@@ -7,7 +7,6 @@ from odoo.tests.common import TransactionCase
 
 
 class TestInvoice(TransactionCase):
-
     product_b = None
     stock_location = None
     product_a = None

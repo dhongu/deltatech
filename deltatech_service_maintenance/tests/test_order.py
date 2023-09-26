@@ -9,7 +9,7 @@ from .common import TestServiceBase
 
 class TestServiceOrder(TestServiceBase):
     def setUp(self):
-        super(TestServiceOrder, self).setUp()
+        super().setUp()
         self.order_type = self.env["service.order.type"].create(
             {
                 "name": "Test Order Type",

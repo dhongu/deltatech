@@ -23,7 +23,7 @@ class AccountMove(models.Model):
                 for move in self:
                     if (not move.name or move.name == "/" or move.name == _("New")) and payment_id:
                         payment_id.force_cash_sequence()
-        return super(AccountMove, self).write(vals)
+        return super().write(vals)
 
     @api.depends("posted_before", "state", "journal_id", "date")
     def _compute_name(self):

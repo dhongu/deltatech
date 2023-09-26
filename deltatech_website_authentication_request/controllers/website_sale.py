@@ -14,8 +14,8 @@ class WebsiteSale(WebsiteSaleBase):
 
     @http.route(auth="user")
     def cart_update(self, product_id, add_qty=1, set_qty=0, **kw):
-        return super(WebsiteSale, self).cart_update(product_id, add_qty, set_qty, **kw)
+        return super().cart_update(product_id, add_qty, set_qty, **kw)
 
     @http.route(auth="user")
     def checkout(self, **post):
-        return super(WebsiteSale, self).checkout(**post)
+        return super().checkout(**post)

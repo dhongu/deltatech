@@ -14,7 +14,7 @@ from odoo.addons.portal.controllers.portal import pager as portal_pager
 
 class CustomerPortal(portal.CustomerPortal):
     def _prepare_home_portal_values(self, counters):
-        values = super(CustomerPortal, self)._prepare_home_portal_values(counters)
+        values = super()._prepare_home_portal_values(counters)
         if "billing_addresses_count" in counters:
             domain = self._get_portal_billing_addresses_domain()
             values["billing_addresses_count"] = request.env["res.partner"].sudo().search_count(domain)

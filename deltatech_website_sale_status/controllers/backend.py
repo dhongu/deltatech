@@ -16,6 +16,6 @@ class WebsiteSaleBackendInherit(WebsiteSaleBackend):
         # Website = request.env["website"]
         # current_website = website_id and Website.browse(website_id) or Website.get_current_website()
 
-        results = super(WebsiteSaleBackendInherit, self).fetch_dashboard_data(website_id, date_from, date_to)
+        results = super().fetch_dashboard_data(website_id, date_from, date_to)
 
         return results

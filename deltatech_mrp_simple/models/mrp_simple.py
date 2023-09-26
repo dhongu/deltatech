@@ -42,7 +42,6 @@ class MRPSimple(models.Model):
     final_product_uom_id = fields.Many2one("uom.uom", "Unit of Measure", copy=False)
 
     def do_transfer(self):
-
         picking_type_consume = self.picking_type_consume
         picking_type_receipt_production = self.picking_type_receipt_production
 

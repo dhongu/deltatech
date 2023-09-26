@@ -13,7 +13,7 @@ class CustomerPortalCity(CustomerPortal):
     OPTIONAL_BILLING_FIELDS = ["zipcode", "state_id", "vat", "company_name", "city_id"]
 
     def _prepare_portal_layout_values(self):
-        values = super(CustomerPortalCity, self)._prepare_portal_layout_values()
+        values = super()._prepare_portal_layout_values()
         values["city_id"] = request.env.user.partner_id.city_id.id
         return values
 
