@@ -169,6 +169,10 @@ class MRPSimple(models.Model):
             vals = {
                 "partner_id": self.partner_id.id,
             }
+            if self.partner_id.property_payment_term_id:
+                vals["payment_term_id"] = self.partner_id.property_payment_term_id.id
+            if self.partner_id.property_product_pricelist:
+                vals["pricelist_id"] = self.partner_id.property_product_pricelist.id
             sale_order = self.env["sale.order"].create(vals)
             vals = {
                 "order_id": sale_order.id,
