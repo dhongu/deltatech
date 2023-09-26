@@ -13,7 +13,7 @@ eCommerce Wishlist
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/licence-OPL--1-magenta.png
+.. |badge2| image:: https://img.shields.io/badge/licence-OPL--1-blue.png
     :target: https://www.odoo.com/documentation/master/legal/licenses.html
     :alt: License: OPL-1
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
