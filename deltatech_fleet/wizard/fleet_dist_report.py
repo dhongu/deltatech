@@ -18,7 +18,7 @@ class FleetDistanceReport(models.Model):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(FleetDistanceReport, self).default_get(fields_list)
+        res = super().default_get(fields_list)
 
         today = fields.Date.context_today(self)
         today = fields.Date.from_string(today)
