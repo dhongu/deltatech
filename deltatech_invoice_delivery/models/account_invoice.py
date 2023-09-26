@@ -19,12 +19,10 @@ class AccountInvoice(models.Model):
         if sale_invoices:
             sale_invoices.add_to_sale()
             sale_invoices.delivery_form_stock()
-        return super(AccountInvoice, self).action_post()
+        return super().action_post()
 
     def add_to_sale(self):
-
         for invoice in self:
-
             # exista o comanda de achizitie legata de aceasta factura ?
             sale_order = self.env["sale.order"]
             for line in invoice.invoice_line_ids:
@@ -36,7 +34,6 @@ class AccountInvoice(models.Model):
             # doar pentru prousele stocabile
             lines_without_sale = lines_without_sale.filtered(lambda line: line.product_id.type == "product")
             if lines_without_sale:
-
                 if len(sale_order) != 1:
                     sale_order = (
                         self.env["sale.order"]
