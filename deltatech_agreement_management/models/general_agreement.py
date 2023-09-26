@@ -64,7 +64,7 @@ class GeneralAgreement(models.Model):
         for item in self:
             if item.state != "draft":
                 raise UserError(_("You cannot delete a service agreement which is not draft."))
-        return super(GeneralAgreement, self).unlink()
+        return super().unlink()
 
     def get_name(self):
         self.ensure_one()
