@@ -15,7 +15,7 @@ class AccountCashUpdateBalances(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(AccountCashUpdateBalances, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         active_ids = self.env.context.get("active_ids", False)
         statement = False
         if active_ids:
