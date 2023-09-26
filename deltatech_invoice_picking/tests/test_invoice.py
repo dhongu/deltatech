@@ -6,7 +6,7 @@ from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
 
-class TestPurchase(TransactionCase):
+class TestInvoice(TransactionCase):
 
     product_b = None
     stock_location = None
@@ -15,7 +15,7 @@ class TestPurchase(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
-        super(TestPurchase, cls).setUpClass()
+        super().setUpClass()
 
         cls.partner_a = cls.env["res.partner"].create({"name": "Test"})
         seller_ids = [(0, 0, {"name": cls.partner_a.id})]
