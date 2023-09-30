@@ -10,7 +10,8 @@ class WebsiteSaleAttribute(WebsiteSale):
         domain = super()._get_search_domain(
             search, category, attrib_values, search_in_description=search_in_description
         )
-        request.context_update(shop_search_domain=domain)
+        new_context = dict(request.env.context, shop_search_domain=domain)
+        request.context = new_context
         return domain
 
     @http.route()
