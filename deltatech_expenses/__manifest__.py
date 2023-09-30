@@ -9,7 +9,13 @@
     "category": "Accounting & Finance",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "depends": ["account", "product", "deltatech_partner_generic", "deltatech_payment_to_statement"],
+    "depends": [
+        "l10n_ro",
+        "account",
+        "product",
+        "deltatech_partner_generic",
+        # "deltatech_payment_to_statement",
+    ],
     "license": "OPL-1",
     "data": [
         "views/deltatech_expenses_deduction_view.xml",

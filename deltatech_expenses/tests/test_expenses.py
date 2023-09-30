@@ -4,30 +4,36 @@
 
 
 from odoo import fields
-from odoo.tests import Form
-from odoo.tests.common import TransactionCase
+from odoo.tests import Form, tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestExpenses(TransactionCase):
-    def setUp(self):
-        super(TestExpenses, self).setUp()
-        self.employee = self.env["res.partner"].create({"name": "Test"})
+@tagged("post_install", "-at_install")
+class TestExpenses(AccountTestInvoicingCommon):
+    @classmethod
+    def setUpClass(cls, chart_template_ref=None):
+        ro_template_ref = "l10n_ro.ro_chart_template"
+        super().setUpClass(chart_template_ref=ro_template_ref)
+        cls.env.company.l10n_ro_accounting = True
 
-        self.account_diem = self.env["account.account"].create(
+        cls.employee = cls.env["res.partner"].create({"name": "Test"})
+
+        cls.account_diem = cls.env["account.account"].create(
             {
                 "name": "Account Diem",
                 "code": "625xxx",
                 "account_type": "expense",
-                "company_id": self.env.user.company_id.id,
+                "company_id": cls.env.user.company_id.id,
             }
         )
 
-        self.account_cash_advances = self.env["account.account"].create(
+        cls.account_cash_advances = cls.env["account.account"].create(
             {
                 "name": "account_cash_advances",
                 "code": "542xxx",
                 "account_type": "asset_cash",
-                "company_id": self.env.user.company_id.id,
+                "company_id": cls.env.user.company_id.id,
             }
         )
 
