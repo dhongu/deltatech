@@ -165,6 +165,8 @@ class TestSale(TransactionCase):
 
         wizard = Form(self.env["sale.advance.payment.inv"].with_context(active_ids=self.so.ids))
         wizard.advance_payment_method = "fixed"
+        wizard.is_currency_rate_custom = True
+        wizard.currency_rate = 1
         wizard.fixed_amount = "50"
         wizard = wizard.save()
         wizard.journal_id.write({"currency_id": self.env.ref("base.USD").id})
