@@ -10,7 +10,7 @@
                     class="oe_stat_button"
                     type="object"
                     name="view_agreements"
-                    groups="deltatech_service_base.group_service_user"
+                    groups="deltatech_agreement_management.access_general_agreement_user"
                     icon="fa-file"
                 >
                     <field string="Agreements" name="agreement_count" widget="statinfo" />
