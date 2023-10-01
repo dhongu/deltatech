@@ -49,7 +49,7 @@
                                     name="action_read_odometer_start"
                                     type="object"
                                     class="oe_inline oe_edit_only"
-                                    string=""
+                                    string="Read odometer start"
                                     states="draft"
                                     icon="fa-calculator"
                                 />
@@ -69,7 +69,7 @@
                                     name="action_read_odometer_end"
                                     type="object"
                                     class="oe_inline oe_edit_only"
-                                    string=""
+                                    string="Read odometer end"
                                     states="draft"
                                     icon="fa-calculator"
                                 />
