@@ -13,7 +13,7 @@ class SaleOrder(models.Model):
             ("in_progress", "In Progress"),  # order in progress
         ],
         default="in_progress",
-        string="Delivery Status",
+        string="Picking Status",
         copy=False,
         tracking=True,
         store=True,

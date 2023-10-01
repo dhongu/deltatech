@@ -37,7 +37,7 @@ class PurchaseOrderLine(models.Model):
 
     def _prepare_account_move_line(self, move=False):
         res = super()._prepare_account_move_line(move)
-        if move.type == "in_refund":
+        if move.move_type == "in_refund":
             if self.product_id.purchase_method == "purchase":
                 qty = self.qty_invoiced - self.product_qty
             else:
