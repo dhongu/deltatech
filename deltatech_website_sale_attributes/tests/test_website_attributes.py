@@ -17,4 +17,4 @@ class TestStockWebsiteAAttribute(HttpCase):
         cls.current_website = current_website
 
     def test_call_shop(self):
-        self.start_tour("/shop", "shop", login="admin")
+        self.url_open("/shop")

@@ -35,7 +35,7 @@ class PurchaseOrder(models.Model):
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
 
-    def _prepare_account_move_line(self, move):
+    def _prepare_account_move_line(self, move=False):
         res = super()._prepare_account_move_line(move)
         if move.type == "in_refund":
             if self.product_id.purchase_method == "purchase":
