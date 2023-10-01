@@ -153,18 +153,21 @@
                                     <button
                                         type="object"
                                         name="action_product_forecast_report"
+                                        title="Forecast"
                                         icon="fa-area-chart text-success"
                                         attrs="{'invisible': [('stock_location_issue', '=', True)]}"
                                     />
                                     <button
                                         type="object"
                                         name="action_product_forecast_report"
+                                        title="Forecast"
                                         icon="fa-area-chart text-warning"
                                         attrs="{'invisible': ['|',('stock_location_issue', '=', False),('stock_issue', '=', True)]}"
                                     />
                                     <button
                                         type="object"
                                         name="action_product_forecast_report"
+                                        title="Forecast"
                                         icon="fa-area-chart text-danger"
                                         attrs="{'invisible': ['|', ('stock_location_issue', '=', False), ('stock_issue', '=', False)]}"
                                     />
