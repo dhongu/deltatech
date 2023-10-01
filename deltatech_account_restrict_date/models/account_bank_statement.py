@@ -12,7 +12,7 @@ from odoo.exceptions import UserError
 class AccountBankStatementLine(models.Model):
     _inherit = "account.bank.statement.line"
 
-    def button_undo_reconciliation(self):
+    def action_undo_reconciliation(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         date_limit = get_param("sequence.mixin.constraint_start_date", "2000-01-01")
         if date_limit:
@@ -24,4 +24,4 @@ class AccountBankStatementLine(models.Model):
                             "You cannot perform this operation on this line (date restriction). Please contact your support team."
                         )
                     )
-        return super().button_undo_reconciliation()
+        return super().action_undo_reconciliation()
