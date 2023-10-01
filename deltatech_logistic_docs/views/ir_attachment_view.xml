@@ -9,7 +9,12 @@
                 <field name="datas" />
             </xpath>
             <xpath expr="//templates//field[@name='create_date']" position="after">
-                <button name="button_download" class="btn btn-primary fa fa-cloud-download" type="object" />
+                <button
+                    name="button_download"
+                    class="btn btn-primary fa fa-cloud-download"
+                    type="object"
+                    title="Download"
+                />
             </xpath>
         </field>
     </record>
