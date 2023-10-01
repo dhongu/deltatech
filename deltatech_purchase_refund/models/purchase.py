@@ -5,6 +5,7 @@
 
 from odoo import models
 from odoo.tools.float_utils import float_compare
+from odoo.tools.safe_eval import safe_eval
 
 
 class PurchaseOrder(models.Model):
@@ -20,6 +21,8 @@ class PurchaseOrder(models.Model):
                 qty = line.qty_received - line.qty_invoiced
             if qty < 0:
                 invoice_type = "in_refund"
+        if isinstance(action["context"], str):
+            action["context"] = safe_eval(action["context"])
         action["context"]["default_type"] = invoice_type
         action["context"]["default_invoice_date"] = self.date_planned
 
