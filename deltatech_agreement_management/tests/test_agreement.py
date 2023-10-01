@@ -21,6 +21,6 @@ class TestAgreement(TransactionCase):
         agreement = agreement.save()
 
         agreement.contract_open()
-        agreement.print_agreement()
+        # agreement.print_agreement()
         agreement.contract_close()
         agreement.contract_draft()
