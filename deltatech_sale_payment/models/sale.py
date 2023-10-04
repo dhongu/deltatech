@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
+from odoo.tools.safe_eval import safe_eval
 
 
 class SaleOrder(models.Model):
@@ -84,3 +85,10 @@ class SaleOrder(models.Model):
         res = super(SaleOrder, self)._action_confirm()
         self._compute_payment()
         return res
+
+    def _send_order_confirmation_mail(self):
+        params = self.env["ir.config_parameter"].sudo()
+        stop_mail = params.get_param("sale.do_not_send_confirmation_email", default="False")
+        stop_mail = safe_eval(stop_mail)
+        if not stop_mail:
+            return super()._send_order_confirmation_mail()
