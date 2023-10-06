@@ -4,4 +4,4 @@ Features:
  - New technical access group to allow sale price  below the purchase price
  - Warning/Error on customer invoice if sale price is below the purchase price
  - New report for analysis profitability
- - Calculation of sales commissions
+ - Calculation of sales commissions, on invoice salesperson or sale order salesperson (configurable)
