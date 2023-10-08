@@ -121,6 +121,12 @@ repos:
     rev: 3.1.8
     hooks:
       - id: setuptools-odoo-make-default
+        args:
+          - --addons-dir
+          - .
+          - --force
+          - --odoo-version-override
+          - "15.0"
       - id: setuptools-odoo-get-requirements
         args:
           - --output
