@@ -3,8 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models, tools
-from odoo.modules import get_module_resource
+from odoo import api, fields, models
 
 
 class PropertyBuilding(models.Model):
@@ -142,37 +141,6 @@ class PropertyBuilding(models.Model):
     furniture_at_occupation = fields.Selection([("Full", "Full"), ("Semi", "Semi"), ("None", "None")])
     martket_similar_value = fields.Monetary("Market value for similar property")
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        if self.env.context.get("import_file"):
-            self._check_import_consistency(vals_list)
-        for vals in vals_list:
-            if not vals.get("image"):
-                vals["image"] = self._get_default_image()
-            # tools.image_process(vals, size=(1024, None))
-
-        buildings = super().create(vals_list)
-
-        return buildings
-
-    @api.model
-    def _get_default_image(self):
-        if self._context.get("install_mode"):
-            return False
-
-        colorize, img_path, image = False, False, False
-
-        img_path = get_module_resource("deltatech_property", "static/src/img", "building.png")
-        colorize = True
-
-        if img_path:
-            with open(img_path, "rb") as f:
-                image = f.read()
-        if image and colorize:
-            image = tools.image_process(image, colorize=True)
-
-        return tools.image_process(image, size=(1024, None))
-
     @api.onchange("purpose_parent_id")
     def onchange_purpose_parent_id(self):
         if self.purpose_id.parent_id != self.purpose_parent_id:
@@ -225,89 +193,6 @@ class PropertyBuilding(models.Model):
         for room in self.room_ids:
             surface_disinsection += room.surface_disinsection
         self.surface_disinsection = surface_disinsection
-
-    @api.depends("room_ids.surface", "surface_terraces", "surface_cleaned_ext", "surface_derating_ext")
-    def _compute_all_surface(self):
-        # TODO: de refacut calculele dinamic, in functie de room.usage
-        pass
-
-        # for building in self:
-        #     surface = {
-        #         "office": 0.0,
-        #         "living": 0.0,
-        #         "bedroom": 0.0,
-        #         "meeting": 0.0,
-        #         "lobby": 0.0,
-        #         "staircase": 0.0,
-        #         "kitchen": 0.0,
-        #         "sanitary": 0.0,
-        #         "laboratory": 0.0,
-        #         "it_endowments": 0.0,
-        #         "garage": 0.0,
-        #         "warehouse": 0.0,
-        #         "log_warehouse": 0.0,
-        #         "archive": 0.0,
-        #         "cloakroom": 0.0,
-        #         "premises": 0.0,
-        #         "access": 0.0,
-        #     }
-        #     # for room in building.room_ids:
-        #     #     surface[room.usage] += room.surface
-        #
-        #     building.surface_office = surface["office"]
-        #     building.surface_living = surface["living"]
-        #     building.surface_bedroom = surface["bedroom"]
-        #
-        #     building.surface_meeting = surface["meeting"]
-        #     building.surface_lobby = surface["lobby"]
-        #     building.surface_staircase = surface["staircase"]
-        #     building.surface_kitchen = surface["kitchen"]
-        #     building.surface_sanitary = surface["sanitary"]
-        #     building.surface_laboratory = surface["laboratory"]
-        #     building.surface_it_endowments = surface["it_endowments"]
-        #     building.surface_garage = surface["garage"]
-        #     building.surface_warehouse = surface["warehouse"]
-        #     building.surface_log_warehouse = surface["log_warehouse"]
-        #     building.surface_archive = surface["archive"]
-        #     building.surface_cloakroom = surface["cloakroom"]
-        #     building.surface_premises = surface["premises"]
-        #     building.surface_access = surface["access"]
-        #
-        #     building.surface_common = (
-        #         surface["meeting"]
-        #         + surface["lobby"]
-        #         + surface["staircase"]
-        #         + surface["kitchen"]
-        #         + surface["sanitary"]
-        #         + surface["access"]
-        #     )
-        #
-        #     building.surface_useful = (
-        #         surface["office"]
-        #         + surface["living"]
-        #         + surface["bedroom"]
-        #         + building.surface_common
-        #         + surface["laboratory"]
-        #         + surface["it_endowments"]
-        #         + surface["garage"]
-        #         + surface["warehouse"]
-        #         + surface["log_warehouse"]
-        #         + surface["archive"]
-        #         + surface["cloakroom"]
-        #         + surface["premises"]
-        #     )
-        #
-        #     building.surface_cleaned_adm = (
-        #         building.surface_common + surface["office"] + surface["living"] + surface["bedroom"]
-        #     )
-        #     building.surface_cleaned_ind = surface["garage"] + surface["cloakroom"] + building.surface_terraces
-        #
-        #     building.surface_cleaned_tot = (
-        #         building.surface_cleaned_adm + building.surface_cleaned_ind + building.surface_cleaned_ext
-        #     )
-        #
-        #     building.surface_derating_int = building.surface_useful
-        #     building.surface_derating = building.surface_derating_ext + building.surface_derating_int
 
 
 class PropertyFeatures(models.Model):

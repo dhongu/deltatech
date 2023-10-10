@@ -11,6 +11,6 @@ access_property_building_purpose,access_property_building_purpose,model_property
 access_property_region,access_property_region,model_property_region,,1,1,1,1
 
 access_property_features,access_property_features,model_property_features,,1,1,1,1
-access_property_history,access_property_history,deltatech_property.model_building_history,,1,1,1,1
+access_property_history,access_property_history,model_building_history,,1,1,1,1
 
 access_room_usage,access_room_usage,model_room_usage,base.group_user,1,1,1,1
