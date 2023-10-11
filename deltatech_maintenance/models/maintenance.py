@@ -54,7 +54,6 @@ class MaintenanceRequest(models.Model):
 
         return {
             "name": picking_type.name,
-            "view_type": "form",
             "view_mode": "form",
             "res_model": "stock.picking",
             "view_id": False,

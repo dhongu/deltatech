@@ -118,7 +118,7 @@
       <record id="action_service_efficiency_report" model="ir.actions.act_window">
          <field name="name">Service Efficiency Report</field>
          <field name="res_model">service.efficiency.report</field>
-         <field name="view_type">form</field>
+
          <field name="view_mode">graph,tree</field>
          <field name="view_id" ref="view_service_efficiency_report_tree" />
          <field name="search_view_id" ref="view_service_efficiency_report_filter" />

@@ -162,7 +162,6 @@ class ServiceAgreement(models.Model):
             "type": "ir.actions.act_window",
             "view_id": False,
             "view_mode": "kanban,tree,form",
-            "view_type": "form",
             "limit": 80,
             "context": "{{'default_res_model': '{}','default_res_id': {}}}".format(self._name, self.id),
         }
