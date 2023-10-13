@@ -130,7 +130,6 @@ class SaleOrderLine(models.Model):
             if line.display_type or line.product_type == "service" or line.product_uom_qty < 0 or line.is_delivery:
                 continue
 
-            #
             if line.product_id and line.price_unit == 0:
                 if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
                     raise UserError(_("You can not sell %s without price.") % line.product_id.name)
