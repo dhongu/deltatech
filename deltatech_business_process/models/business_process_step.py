@@ -77,9 +77,8 @@ class BusinessProcessStep(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)], "design": [("readonly", False)]},
     )
-    
+
     details = fields.Html()
-    
 
     @api.model
     def create(self, vals):

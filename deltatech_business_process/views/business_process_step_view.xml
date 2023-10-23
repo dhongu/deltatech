@@ -58,7 +58,7 @@
                     </group>
                     <notebook>
                     	<page string="Details">
-                    		<field name="details"/>
+                    		<field name="details" />
                     	</page>
                     </notebook>
                 </sheet>
