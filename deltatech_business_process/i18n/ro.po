@@ -763,9 +763,9 @@ msgid "Estimated Date"
 msgstr "Data estimată"
 
 #. module: deltatech_business_process
-#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_project__state__exploitation
-msgid "Exploitation"
-msgstr "Exploatare"
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_project__state__exploration
+msgid "Exploration"
+msgstr "Analiză"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_report__transaction_type__ex

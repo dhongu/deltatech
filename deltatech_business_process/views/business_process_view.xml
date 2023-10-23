@@ -135,13 +135,23 @@
                                     <field name="process_id" invisible="1" />
                                      <field name="state" invisible="1" />
                                     <field name="name" />
-                                    <field name="transaction_id" />
-                                    <field name="transaction_type" />
+                                    <field name="transaction_id" optional="show" />
+                                    <field name="transaction_type" optional="hide" />
                                     <field name="responsible_id" />
                                     <field name="development_ids" widget="many2many_tags" optional="hide" />
 
                                 </tree>
                             </field>
+                        </page>
+                        <page string="Description" name="description">
+                            <label for="description" string="Description" />
+                            <field name="description" />
+                        </page>
+                        <page string="Sources  &amp; Destinations">
+							<separator string="Source process" />
+							<field name="source_process_ids" />
+							<separator string="Destination process" />
+							<field name="destination_process_ids" />
                         </page>
                     </notebook>
                 </sheet>

@@ -16,7 +16,7 @@ class BusinessProject(models.Model):
     state = fields.Selection(
         [
             ("preparation", "Preparation"),
-            ("exploitation", "Exploitation"),
+            ("exploration", "Exploration"),
             ("realization", "Realization"),
             ("deployment", "Deployment"),
             ("running", "Running"),
