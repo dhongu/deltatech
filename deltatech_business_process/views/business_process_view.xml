@@ -105,6 +105,8 @@
                         </group>
                         <group string="Responsible">
                             <field name="responsible_id" />
+                            <field name="developer_id" />
+                            <field name="tester_id" />
                             <field name="customer_id" />
                             <field name="approved_id" />
                         </group>
@@ -129,7 +131,7 @@
                         	<label for="description" string="Descriotion"/>
                         	<field name="description"/>
                             <field name="step_ids" widget="section_and_note_one2many" mode="tree,kanban">
-                                <tree editable="bottom">
+                                <tree>
                                     <field name="sequence" widget="handle" />
                                     <field name="code" />
 					                <field name="project_id" invisible="1" />
@@ -144,7 +146,7 @@
                                 </tree>
                             </field>
                         </page>
-                        <page string="Relations">
+                        <page string="Sources  &amp; Destinations">
 							<separator string="Source process"/>
 							<field name="source_process_ids"/>
 							<separator string="Destination process"/>

@@ -55,6 +55,20 @@ class BusinessProcess(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)], "design": [("readonly", False)]},
     )
+    developer_id = fields.Many2one(
+        string="Developer",
+        domain="[('is_company', '=', False)]",
+        comodel_name="res.partner",
+        readonly=True,
+        states={"draft": [("readonly", False)], "design": [("readonly", False)]},
+    )
+    tester_id = fields.Many2one(
+        string="Tester",
+        domain="[('is_company', '=', False)]",
+        comodel_name="res.partner",
+        readonly=True,
+        states={"draft": [("readonly", False)], "design": [("readonly", False)]},
+    )
     customer_id = fields.Many2one(
         string="Customer Responsible",
         domain="[('is_company', '=', False)]",
