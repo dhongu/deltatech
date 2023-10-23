@@ -148,10 +148,10 @@
                             <field name="description" />
                         </page>
                         <page string="Sources  &amp; Destinations">
-							<separator string="Source process" />
-							<field name="source_process_ids" />
-							<separator string="Destination process" />
-							<field name="destination_process_ids" />
+                            <separator string="Source process" />
+                            <field name="source_process_ids" />
+                            <separator string="Destination process" />
+                            <field name="destination_process_ids" />
                         </page>
                     </notebook>
                 </sheet>
