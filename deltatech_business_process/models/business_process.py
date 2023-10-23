@@ -132,6 +132,9 @@ class BusinessProcess(models.Model):
         string="Status user acceptance test",
         default="not_started",
     )
+    
+    source_process_ids = fields.Many2many("business.process", relation="business_process_up_dep")
+    destination_process_ids = fields.many2many("business.process", relation="business_process_down_dep")
 
     @api.model
     def create(self, vals):

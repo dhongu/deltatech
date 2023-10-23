@@ -36,8 +36,6 @@
                     optional="hide"
                     decoration-success="state == 'done'"
                 />
-
-
             </tree>
         </field>
     </record>
@@ -138,7 +136,6 @@
                                     <field name="process_id" invisible="1" />
                                     <field name="state" invisible="1" />
                                     <field name="name" />
-					                <field name="source_step_id" domain="[('project_id','=', project_id)]" />
                                     <field name="transaction_id" optional="hide" />
                                     <field name="transaction_type" optional="hide" />
                                     <field name="responsible_id" />
@@ -146,6 +143,12 @@
 
                                 </tree>
                             </field>
+                        </page>
+                        <page string="Relations">
+							<separator string="Source process"/>
+							<field name="source_process_ids"/>
+							<separator string="Destination process"/>
+							<field name="destination_process_ids"/>
                         </page>
                     </notebook>
                 </sheet>
