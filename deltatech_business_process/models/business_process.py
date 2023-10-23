@@ -23,7 +23,7 @@ class BusinessProcess(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
-    description = fields.Text(string="Description")
+    description = fields.Html(string="Description")
     area_id = fields.Many2one(
         string="Area",
         comodel_name="business.area",
