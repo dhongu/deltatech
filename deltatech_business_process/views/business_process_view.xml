@@ -128,9 +128,10 @@
                     </group>
                     <notebook>
                         <page string="Process steps" name="steps">
-                        	<label for="description" string="Descriotion"/>
+                        	<label for="description" string="Description"/>
                         	<field name="description"/>
-                            <field name="step_ids" widget="section_and_note_one2many" mode="tree,kanban">
+                        	<field name="id" invisible="1"/>
+                            <field name="step_ids" widget="section_and_note_one2many" mode="tree,kanban" context="{'default_process_id':id}">
                                 <tree>
                                     <field name="sequence" widget="handle" />
                                     <field name="code" />

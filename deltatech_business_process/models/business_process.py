@@ -147,8 +147,8 @@ class BusinessProcess(models.Model):
         default="not_started",
     )
     
-    source_process_ids = fields.Many2many("business.process", relation="business_process_up_dep")
-    destination_process_ids = fields.many2many("business.process", relation="business_process_down_dep")
+    source_process_ids = fields.Many2many("business.process", relation="business_process_up_dep", column1="process_id", column2="source_process_id")
+    destination_process_ids = fields.Many2many("business.process", relation="business_process_down_dep", column1="process_id", column2="destination_process_id")
 
     @api.model
     def create(self, vals):
