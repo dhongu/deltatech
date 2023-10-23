@@ -8,10 +8,12 @@
             <tree string="Business process step" sample="1">
 
                 <field name="code" />
+                <field name="project_id" invisible="1" />
                 <field name="process_id" optional="hide" />
                 <field name="name" />
-                <field name="transaction_id" />
-                <field name="transaction_type" />
+                <field name="source_step_id" domain="[('project_id','=', project_id)]" />
+                <field name="transaction_id" optional="hide" />
+                <field name="transaction_type" optional="hide" />
                 <field name="responsible_id" />
                 <field name="development_ids" widget="many2many_tags" optional="hide" />
                 <field name="state" widget="badge" decoration-success="state == 'production'  " />
@@ -38,12 +40,14 @@
                     <group>
                         <group string="Identification">
                             <field name="code" />
+                            <field name="project_id" />
                             <field name="process_id" />
                         </group>
                         <group string="Responsible">
                             <field name="responsible_id" />
                         </group>
                         <group string="Transaction">
+                            <field name="source_step_id" />
                             <field name="transaction_id" />
                             <field name="transaction_type" />
                         </group>
@@ -54,7 +58,24 @@
                             <field name="development_ids" widget="many2many_tags" />
                         </group>
                     </group>
-
+                    <notebook>
+                    	<page string="Details">
+                    		<field name="details"/>
+                    	</page>
+                    	<page string="Destination Steps">
+                    		<field name="destination_step_ids" readonly="1">
+                    			<tree>
+					                <field name="code" />
+					                <field name="project_id" invisible="1" />
+					                <field name="process_id" optional="hide" />
+					                <field name="name" />
+					                <field name="responsible_id" />
+					                <field name="development_ids" widget="many2many_tags" optional="hide" />
+					                <field name="state" widget="badge" decoration-success="state == 'production'  " />
+                    			</tree>
+                    		</field>
+                    	</page>
+                    </notebook>
                 </sheet>
 
             </form>

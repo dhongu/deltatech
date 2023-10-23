@@ -37,6 +37,7 @@ class BusinessProcessStep(models.Model):
         states={"draft": [("readonly", False)], "design": [("readonly", False)]},
     )
     area_id = fields.Many2one(related="process_id.area_id", store=True)
+    project_id = fields.Many2one(related="process_id.project_id", store=True)
     sequence = fields.Integer(
         string="Sequence",
         required=True,
@@ -76,6 +77,11 @@ class BusinessProcessStep(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)], "design": [("readonly", False)]},
     )
+    
+    source_step_id = fields.Many2one("business.process.step")
+    destination_step_ids = fields.One2many("business.process.step", "source_step_id")
+    details = fields.Html()
+    
 
     @api.model
     def create(self, vals):
