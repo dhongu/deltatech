@@ -1202,3 +1202,7 @@ msgstr ""
 msgid "or"
 msgstr "sau"
 
+#. module: deltatech_service_agreement
+#: model_terms:ir.ui.view,arch_db:deltatech_service_agreement.view_service_agreement_form
+msgid "<span class=\"o_stat_text\">Unpaid invoices</span>"
+msgstr "<span class=\"o_stat_text\">Facturi neplatite</span>"
