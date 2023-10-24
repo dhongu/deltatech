@@ -26,7 +26,7 @@ class AccountPaymentTermRateWizard(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(AccountPaymentTermRateWizard, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         active_model = self.env.context.get("active_model", False)
         active_id = self.env.context.get("active_id", False)
         if active_model == "account.payment.term":
@@ -51,7 +51,6 @@ class AccountPaymentTermRateWizard(models.TransientModel):
         line_ids = []
 
         if self.value == "percent":
-
             first_rate = {
                 "value": "percent",
                 "value_amount": self.advance,
@@ -74,7 +73,6 @@ class AccountPaymentTermRateWizard(models.TransientModel):
                 }
                 line_ids.append((0, 0, norm_rate))
         else:
-
             first_rate = {
                 "value": "fixed",
                 "value_amount": self.advance,

@@ -11,9 +11,9 @@ class AccountInvoiceReport(models.Model):
     manufacturer = fields.Many2one("res.partner", string="Manufacturer", readonly=True)
 
     def _select(self):
-        select_str = super(AccountInvoiceReport, self)._select() + ", template.manufacturer"
+        select_str = super()._select() + ", template.manufacturer"
         return select_str
 
     def _group_by(self):
-        group_by_str = super(AccountInvoiceReport, self)._group_by() + ", template.manufacturer"
+        group_by_str = super()._group_by() + ", template.manufacturer"
         return group_by_str

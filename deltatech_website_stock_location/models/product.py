@@ -13,7 +13,7 @@ class ProductProduct(models.Model):
             self = self.with_context(warehouse=False)
         if self.env.context.get("all_locations"):
             self = self.with_context(location=False)
-        return super(ProductProduct, self)._get_domain_locations()
+        return super()._get_domain_locations()
 
 
 class ProductTemplate(models.Model):
@@ -28,7 +28,6 @@ class ProductTemplate(models.Model):
         parent_combination=False,
         only_template=False,
     ):
-
         website = self.env["website"].get_current_website()
         location = website.sudo().location_id
         warehouse = website.sudo().warehouse_id
@@ -38,7 +37,7 @@ class ProductTemplate(models.Model):
         if not location:
             self = self.with_context(all_locations=True)
 
-        combination_info = super(ProductTemplate, self)._get_combination_info(
+        combination_info = super()._get_combination_info(
             combination=combination,
             product_id=product_id,
             add_qty=add_qty,

@@ -52,7 +52,6 @@ class ProductTemplate(models.Model):
             product.loc_case = loc.loc_case
 
     def _inverse_loc(self):
-
         warehouse_id = self.env.context.get("warehouse", False)
         if not warehouse_id:
             warehouse_id = self.env.ref("stock.warehouse0").id

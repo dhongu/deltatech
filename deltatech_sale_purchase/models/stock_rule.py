@@ -11,5 +11,5 @@ class StockRule(models.Model):
     def _make_po_get_domain(self, company_id, values, partner):
         new_values = dict(values)
         new_values["group_id"] = False
-        domain = super(StockRule, self)._make_po_get_domain(company_id, new_values, partner)
+        domain = super()._make_po_get_domain(company_id, new_values, partner)
         return domain

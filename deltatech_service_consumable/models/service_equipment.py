@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import RedirectWarning
 from odoo.tools.safe_eval import safe_eval
 
@@ -16,6 +16,7 @@ class ServiceEquipment(models.Model):
     )
     permits_pickings = fields.Boolean(related="agreement_id.type_id.permits_pickings")
 
+    @api.depends("type_id")
     def _compute_consumable_item_ids(self):
         for equipment in self:
             domain = [("type_id", "=", equipment.type_id.id)]
@@ -84,7 +85,6 @@ class ServiceEquipment(models.Model):
         }
 
     def picking_button(self):
-
         get_param = self.env["ir.config_parameter"].sudo().get_param
         picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
 

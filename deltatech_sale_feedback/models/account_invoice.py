@@ -36,7 +36,6 @@ class AccountInvoiceLine(models.Model):
     _inherit = "account.move.line"
 
     def rating_get_access_token(self):
-
         model_product_template = self.env["ir.model"].search([("model", "=", "product.template")], limit=1)
         rating = self.env["rating.rating"].create(
             {

@@ -11,7 +11,7 @@ class PurchaseOrderLine(models.Model):
 
     @api.onchange("product_id")
     def onchange_product_id(self):
-        res = super(PurchaseOrderLine, self).onchange_product_id()
+        res = super().onchange_product_id()
         self.price_without_discount = self.price_unit
         return res
 

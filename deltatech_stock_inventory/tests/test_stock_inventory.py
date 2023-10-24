@@ -8,7 +8,7 @@ from odoo.tests.common import TransactionCase
 
 class TestStockInventory(TransactionCase):
     def setUp(self):
-        super(TestStockInventory, self).setUp()
+        super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
 
         seller_ids = [(0, 0, {"name": self.partner_a.id})]
@@ -81,14 +81,60 @@ class TestStockInventory(TransactionCase):
         )
         inventory.with_user(self.inventory_user).action_start()
 
-    def test_stock_change_product_qty(self):
-        wizard = Form(
-            self.env["stock.change.product.qty"]
+    def test_stock_inventory_merge(self):
+        inv_line_a = {
+            "product_id": self.product_a.id,
+            "product_qty": 10000,
+            "location_id": self.stock_location.id,
+        }
+        inv_line_b = {
+            "product_id": self.product_b.id,
+            "product_qty": 10000,
+            "location_id": self.stock_location.id,
+        }
+        inventory_a = (
+            self.env["stock.inventory"]
             .with_user(self.inventory_user)
-            .with_context(active_ids=self.product_a.ids)
+            .create(
+                {
+                    "name": "Inv. productserial1",
+                    "line_ids": [
+                        (0, 0, inv_line_a),
+                    ],
+                }
+            )
         )
-        wizard.product_id = self.product_a
-        wizard.product_tmpl_id = self.product_a.product_tmpl_id
-        wizard.new_quantity = 50
+        inventory_a.with_user(self.inventory_user).action_start()
+        inventory_b = (
+            self.env["stock.inventory"]
+            .with_user(self.inventory_user)
+            .create(
+                {
+                    "name": "Inv. productserial1",
+                    "line_ids": [
+                        (0, 0, inv_line_b),
+                    ],
+                }
+            )
+        )
+        inventory_b.with_user(self.inventory_user).action_start()
+        active_ids = [inventory_a.id, inventory_b.id]
+        wizard = Form(self.env["stock.inventory.merge"])
         wizard = wizard.save()
-        wizard.with_user(self.inventory_user).change_product_qty()
+        wizard.with_context(active_ids=active_ids).merge_inventory
+
+    def test_stock_quant_inventory(self):
+        quant = self.env["stock.quant"].create(
+            {
+                "product_id": self.product_a.id,
+                "location_id": self.stock_location.id,
+                "quantity": 100,
+                "inventory_quantity": 100,
+            }
+        )
+        quant.create_inventory_lines()
+        quant.inventory_quantity = 100
+        quant.action_apply_inventory()
+
+    def test_product_loc(self):
+        self.product_a.product_tmpl_id.loc_row = "A"

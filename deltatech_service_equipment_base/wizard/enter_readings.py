@@ -33,7 +33,7 @@ class ServiceEnterReading(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(ServiceEnterReading, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
 
         active_ids = self.env.context.get("active_ids", False)
         domain = [("equipment_id", "in", active_ids)]
@@ -59,7 +59,6 @@ class ServiceEnterReading(models.TransientModel):
 
     @api.onchange("date")
     def onchange_date(self):
-
         for item in self.items:
             meter = item.meter_id
 

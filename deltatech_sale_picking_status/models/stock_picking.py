@@ -14,21 +14,21 @@ class StockPicking(models.Model):
                 picking.sale_id._compute_picking_status()
 
     def action_assign(self):
-        res = super(StockPicking, self).action_assign()
+        res = super().action_assign()
         self.update_sale_order_status()
         return res
 
     def action_cancel(self):
-        res = super(StockPicking, self).action_cancel()
+        res = super().action_cancel()
         self.update_sale_order_status()
         return res
 
     def action_confirm(self):
-        res = super(StockPicking, self).action_confirm()
+        res = super().action_confirm()
         self.update_sale_order_status()
         return res
 
     def _action_done(self):
-        res = super(StockPicking, self)._action_done()
+        res = super()._action_done()
         self.update_sale_order_status()
         return res

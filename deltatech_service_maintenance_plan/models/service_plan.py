@@ -102,7 +102,7 @@ class ServicePlan(models.Model):
             sequence_plan = self.env.ref("deltatech_service_maintenance_plan.sequence_plan")
             if sequence_plan:
                 vals["name"] = sequence_plan.next_by_id()
-        return super(ServicePlan, self).create(vals)
+        return super().create(vals)
 
     def action_start(self):
         self.write({"state": "active"})
@@ -119,8 +119,8 @@ class ServicePlan(models.Model):
         return True
 
     def action_restart(self):
-        self.rescheduling()
         self.write({"state": "active"})
+        self.rescheduling()
         return True
 
     def action_rescheduling(self):

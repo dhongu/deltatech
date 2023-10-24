@@ -249,7 +249,6 @@ class BusinessProcess(models.Model):
 
     @api.model
     def _name_search(self, name="", args=None, operator="ilike", limit=100, name_get_uid=None):
-
         if args is None:
             args = []
         project_id = self.env.context.get("default_project_id", False)

@@ -12,16 +12,6 @@ _logger = logging.getLogger(__name__)
 READING_TYPE_SELECTION = [("inc", "Increase"), ("dec", "Decrease"), ("cng", "Change"), ("src", "Meter")]
 
 
-# face legatura dintre categorie si unitatea de masura
-class ServiceMeterCategory(models.Model):
-    _name = "service.meter.category"
-    _description = "Service Meter Category"
-
-    name = fields.Char(string="Category")
-    uom_id = fields.Many2one("uom.uom", string="Unit of Measure", required=True)
-    type = fields.Selection([("counter", "Counter"), ("collector", "Collector")], string="Type", default="counter")
-
-
 class ServiceMeter(models.Model):
     _name = "service.meter"
     _description = "Meter"
@@ -87,7 +77,7 @@ class ServiceMeter(models.Model):
             sequence = self.env.ref("deltatech_service_equipment.sequence_meter")
             if sequence:
                 vals["name"] = sequence.next_by_id()
-        return super(ServiceMeter, self).create(vals)
+        return super().create(vals)
 
     # rutina pentru actualizare date curente
     def update_name(self):
@@ -303,7 +293,7 @@ class ServiceMeterReading(models.Model):
             self.equipment_id = self.meter_id.equipment_id
 
     def write(self, vals):
-        res = super(ServiceMeterReading, self).write(vals)
+        res = super().write(vals)
         if vals.get("date", False):
             for reading in self:
                 reading.meter_id.recheck_value()

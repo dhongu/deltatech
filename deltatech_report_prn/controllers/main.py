@@ -17,8 +17,8 @@ class ReportController(report.ReportController):
     @route()
     def report_routes(self, reportname, docids=None, converter=None, **data):
         if converter == "prn":
-            return super(ReportController, self).report_routes(reportname, docids, "text", **data)
-        return super(ReportController, self).report_routes(reportname, docids, converter, **data)
+            return super().report_routes(reportname, docids, "text", **data)
+        return super().report_routes(reportname, docids, converter, **data)
 
     @route()
     def report_download(self, data, context=None):
@@ -66,4 +66,4 @@ class ReportController(report.ReportController):
             response.headers.add("Content-Disposition", content_disposition(filename))
             return response
 
-        return super(ReportController, self).report_download(data, context)
+        return super().report_download(data, context)

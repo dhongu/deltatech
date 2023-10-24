@@ -33,7 +33,7 @@ class ServiceAgreement(models.Model):
             agreement.equipment_count = len(equipments)
 
     def get_agreements_auto_billing(self):
-        agreements = super(ServiceAgreement, self).get_agreements_auto_billing()
+        agreements = super().get_agreements_auto_billing()
         for agreement in agreements:
             # check if readings done
             if not agreement.meter_reading_status:
@@ -115,7 +115,8 @@ class ServiceAgreementLine(models.Model):
     @api.onchange("equipment_id")
     def onchange_equipment_id(self):
         if self.equipment_id:
-            self.meter_id = self.equipment_id.meter_ids[0]
+            if self.equipment_id.meter_ids:
+                self.meter_id = self.equipment_id.meter_ids[0]
 
     @api.onchange("meter_id")
     def onchange_meter_id(self):
@@ -126,14 +127,12 @@ class ServiceAgreementLine(models.Model):
     @api.model
     def after_create_consumption(self, consumption):
         self.ensure_one()
-        super(ServiceAgreementLine, self).after_create_consumption(consumption)
+        super().after_create_consumption(consumption)
         if self.equipment_id:
-
             meter = self.meter_id
             equipment = self.equipment_id
             de_la_data = consumption.agreement_id.date_agreement  # si eventual de pus data de instalare
             if meter:
-
                 # se citesc inregistrarile la care a fost generat cosnumul
                 readings = meter.meter_reading_ids.filtered(lambda r: r.consumption_id)
                 if readings:
@@ -146,7 +145,7 @@ class ServiceAgreementLine(models.Model):
                 # sa fie dupa data de instalare si dupa ultima citire facturata
 
                 readings = meter.meter_reading_ids.filtered(
-                    lambda r: not r.consumption_id and consumption.period_id.date_end >= r.date >= de_la_data
+                    lambda r: not r.consumption_id and consumption.service_period_id.date_end >= r.date >= de_la_data
                 )
 
                 quantity = 0
@@ -187,7 +186,7 @@ class ServiceConsumption(models.Model):
     _sql_constraints = [
         (
             "agreement_line_period_uniq",
-            "unique(period_id,agreement_line_id,equipment_id)",
+            "unique(service_period_id,agreement_line_id,equipment_id)",
             "Agreement line in period already exist!",
         ),
     ]

@@ -11,7 +11,7 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     def _prepare_invoice_line(self, **optional_values):
-        invoice_line = super(SaleOrderLine, self)._prepare_invoice_line(**optional_values)
+        invoice_line = super()._prepare_invoice_line(**optional_values)
         invoice_original_qty = invoice_line["quantity"]
         if "picking_ids" in self.env.context:
             # search moves from current pickings and current sale order line
@@ -47,12 +47,11 @@ class SaleOrder(models.Model):
     force_invoice_order = fields.Boolean()
 
     def _create_invoices(self, grouped=False, final=False, date=None):
-
         for order in self:
             if order.force_invoice_order:
                 order._force_lines_to_invoice_policy_order()
 
-        moves = super(SaleOrder, self)._create_invoices(grouped, final, date)
+        moves = super()._create_invoices(grouped, final, date)
         # delete qty=0 lines
         if "picking_ids" in self.env.context:
             for line in moves.line_ids.filtered(lambda l: l.exclude_from_invoice_tab is False):

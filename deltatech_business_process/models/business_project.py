@@ -16,7 +16,7 @@ class BusinessProject(models.Model):
     state = fields.Selection(
         [
             ("preparation", "Preparation"),
-            ("exploitation", "Exploitation"),
+            ("exploration", "Exploration"),
             ("realization", "Realization"),
             ("deployment", "Deployment"),
             ("running", "Running"),
@@ -32,7 +32,7 @@ class BusinessProject(models.Model):
     issue_ids = fields.One2many(string="Issues", comodel_name="business.issue", inverse_name="project_id")
 
     count_processes = fields.Integer(string="Count Processes", compute="_compute_count_processes")
-    count_issues = fields.Integer(string="Issues", compute="_compute_count_issues")
+    count_issues = fields.Integer(string="Count Issues", compute="_compute_count_issues")
     count_steps = fields.Integer(string="Steps", compute="_compute_count_steps")
     count_developments = fields.Integer(string="Developments", compute="_compute_count_developments")
 

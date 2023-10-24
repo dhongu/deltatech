@@ -10,7 +10,7 @@
                         <div class="oe_grey">For the selected agreement will generate estimate consumptions</div>
                     </group>
                     <group>
-                        <field name="period_id" options="{'no_create': True}" />
+                        <field name="service_period_id" options="{'no_create': True}" />
                         <field name="company_id" invisible="1" />
                     </group>
                     <group>
@@ -39,7 +39,7 @@
             name="Billing Preparation"
             id="menu_service_billing_preparation"
             action="action_service_billing_preparation"
-            parent="deltatech_agreement_management.menu_service_agr"
+            parent="deltatech_service_agreement.menu_service_agr"
             sequence="101"
         />
 

@@ -12,7 +12,6 @@ class ProductList(models.Model):
     _inherit = "product.list"
 
     def get_domain_json(self):
-
         self.ensure_one()
         domain = safe_eval(self.products_domain)
         return json.dumps(domain)

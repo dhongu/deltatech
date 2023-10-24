@@ -131,7 +131,7 @@
                                             <strong>
                                                 <span
                                                     t-esc="total_untaxed"
-                                                    t-options="{'widget': 'monetary', 'display_currency': l.currency_id}"
+                                                    t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"
                                                 />
                                             </strong>
                                         </td>
@@ -140,7 +140,7 @@
                                             <strong>
                                                 <span
                                                     t-esc="total_taxes"
-                                                    t-options="{'widget': 'monetary', 'display_currency': l.currency_id}"
+                                                    t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"
                                                 />
                                             </strong>
                                         </td>
@@ -148,7 +148,7 @@
                                             <strong>
                                                 <span
                                                     t-esc="total_with_taxes"
-                                                    t-options="{'widget': 'monetary', 'display_currency': l.currency_id}"
+                                                    t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"
                                                 />
                                             </strong>
                                         </td>
@@ -176,7 +176,7 @@
                                             <strong>
                                                 <span
                                                     t-esc="total_with_taxes + o.total_diem"
-                                                    t-options="{'widget': 'monetary', 'display_currency': l.currency_id}"
+                                                    t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"
                                                 />
                                             </strong>
                                         </td>

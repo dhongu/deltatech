@@ -12,7 +12,7 @@ class AccountMove(models.Model):
     currency_rate_custom = fields.Float(digits=(6, 4))
 
     def action_post(self):
-        res = super(AccountMove, self).action_post()
+        res = super().action_post()
         line_ids = self.mapped("line_ids").filtered(lambda line: line.sale_line_ids.is_downpayment)
         for line in line_ids:
             line.sale_line_ids.tax_id = line.tax_ids

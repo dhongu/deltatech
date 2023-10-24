@@ -95,4 +95,4 @@ class SaleOrderLine(models.Model):
 
     def _compute_qty_at_date(self):
         self = self.with_context(all_warehouses=True)
-        return super(SaleOrderLine, self)._compute_qty_at_date()
+        return super()._compute_qty_at_date()

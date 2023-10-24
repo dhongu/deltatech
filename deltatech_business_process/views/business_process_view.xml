@@ -148,15 +148,14 @@
                                     <field name="transaction_type" optional="hide" />
                                     <field name="responsible_id" />
                                     <field name="development_ids" widget="many2many_tags" optional="hide" />
-
                                 </tree>
                             </field>
                         </page>
                         <page string="Sources  &amp; Destinations">
-							<separator string="Source process" />
-							<field name="source_process_ids" />
-							<separator string="Destination process" />
-							<field name="destination_process_ids" />
+                            <separator string="Source process" />
+                            <field name="source_process_ids" />
+                            <separator string="Destination process" />
+                            <field name="destination_process_ids" />
                         </page>
                     </notebook>
                 </sheet>

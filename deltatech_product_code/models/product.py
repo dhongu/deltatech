@@ -64,7 +64,7 @@ class ProductTemplate(models.Model):
                         values = self.env["product.template"].get_new_code(categ, default_code, barcode)
                         vals.update(values)
 
-        return super(ProductTemplate, self).create(vals_list)
+        return super().create(vals_list)
 
     def force_new_code(self):
         self.with_context(force_code=True).button_new_code()
@@ -108,7 +108,7 @@ class ProductProduct(models.Model):
                     values = self.env["product.template"].get_new_code(categ, default_code, barcode)
                     vals.update(values)
 
-        return super(ProductProduct, self).create(vals_list)
+        return super().create(vals_list)
 
     def button_new_code(self):
         for product in self:

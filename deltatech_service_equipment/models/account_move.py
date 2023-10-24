@@ -13,7 +13,6 @@ class AccountInvoice(models.Model):
     _inherit = "account.move"
 
     def get_counter_lines(self):
-
         consumptions = self.env["service.consumption"].search([("invoice_id", "in", self.ids)])
 
         readings = self.env["service.meter.reading"].search([("consumption_id", "in", consumptions.ids)])
@@ -46,6 +45,7 @@ class AccountInvoice(models.Model):
         return sorted(lines, key=lambda k: k["address_id"] or "")
 
     def generate_excel_meters_report(self):
+        self.ensure_one()
         # filename = 'filename.xls'
         temp_file = BytesIO()
         workbook = xlsxwriter.Workbook(temp_file, {"in_memory": True})
@@ -98,6 +98,21 @@ class AccountInvoice(models.Model):
 
         workbook.close()
         data_file = base64.b64encode(temp_file.getvalue())
-        file_name = "export_contori_" + self.name + ".xls"
-        wizard = self.env["wizard.download.file"].create({"data_file": data_file, "file_name": file_name})
-        return wizard.do_download_file()
+        file_name = "export_contori_%s.xls" % self.name or self.invoice_date
+        # wizard = self.env["wizard.download.file"].create({"data_file": data_file, "file_name": file_name})
+        # return wizard.do_download_file()
+        attachment = self.env["ir.attachment"].create(
+            {
+                "name": file_name,
+                "raw": data_file,
+                "mimetype": "application/xlsx",
+                "res_model": "account.move",
+                "res_id": self.id,
+            }
+        )
+        return {
+            "type": "ir.actions.act_url",
+            "url": "/web/content?model=%s&download=True&field=datas&id=%s&filename=%s"
+            % ("ir.attachment", attachment.id, file_name),
+            "target": "new",
+        }

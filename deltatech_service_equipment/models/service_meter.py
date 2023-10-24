@@ -9,7 +9,7 @@ from odoo.exceptions import UserError
 class ServiceMeterCategory(models.Model):
     _inherit = "service.meter.category"
 
-    bill_uom_id = fields.Many2one("uom.uom", string="Billing Unit of Measure", required=True)
+    bill_uom_id = fields.Many2one("uom.uom", string="Billing Unit of Measure")
 
 
 class ServiceMeterReading(models.Model):
@@ -26,14 +26,13 @@ class ServiceMeterReading(models.Model):
     consumption_id = fields.Many2one("service.consumption", string="Consumption", readonly=True)
 
     def unlink(self):
-
         meters = self.env["service.meter"]
         for reading in self:
             if reading.consumption_id:
                 raise UserError(_("Meter reading recorder in consumption prepared for billing."))
             meters |= reading.meter_id
 
-        res = super(ServiceMeterReading, self).unlink()
+        res = super().unlink()
 
         meters.recheck_value()
 

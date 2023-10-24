@@ -11,7 +11,7 @@ class SaleOrder(models.Model):
 
     @api.model
     def _default_warehouse_id(self):
-        warehouse_id = super(SaleOrder, self)._default_warehouse_id()
+        warehouse_id = super()._default_warehouse_id()
         default_team_id = self.env.context.get("default_team_id")
         if default_team_id:
             team_id = self.env["crm.team"].browse(default_team_id)

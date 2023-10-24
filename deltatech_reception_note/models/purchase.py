@@ -18,7 +18,7 @@ class PurchaseOrder(models.Model):
 
     def action_rfq_send(self):
         if self.reception_type != "note":
-            return super(PurchaseOrder, self).action_rfq_send()
+            return super().action_rfq_send()
 
     def set_sent(self):
         self.ensure_one()

@@ -13,6 +13,7 @@
         "deltatech_service_equipment_base",
         "sale",
         "sales_team",
+        "sale_stock",
         "stock",
         # "deltatech_procurement",
     ],

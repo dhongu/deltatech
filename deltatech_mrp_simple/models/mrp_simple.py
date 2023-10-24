@@ -42,7 +42,6 @@ class MRPSimple(models.Model):
     final_product_uom_id = fields.Many2one("uom.uom", "Unit of Measure", copy=False)
 
     def do_transfer(self):
-
         picking_type_consume = self.picking_type_consume
         picking_type_receipt_production = self.picking_type_receipt_production
 
@@ -170,6 +169,10 @@ class MRPSimple(models.Model):
             vals = {
                 "partner_id": self.partner_id.id,
             }
+            if self.partner_id.property_payment_term_id:
+                vals["payment_term_id"] = self.partner_id.property_payment_term_id.id
+            if self.partner_id.property_product_pricelist:
+                vals["pricelist_id"] = self.partner_id.property_product_pricelist.id
             sale_order = self.env["sale.order"].create(vals)
             vals = {
                 "order_id": sale_order.id,

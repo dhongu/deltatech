@@ -16,4 +16,4 @@ class WebsiteSearchableMixin(models.AbstractModel):
             search = search.strip().split(" ")
             search = " ".join(s.strip() for s in search if s.strip())
 
-        return super(WebsiteSearchableMixin, self)._search_build_domain(domain_list, search, fields, extra)
+        return super()._search_build_domain(domain_list, search, fields, extra)

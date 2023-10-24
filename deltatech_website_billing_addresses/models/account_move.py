@@ -11,7 +11,7 @@ class AccountMove(models.Model):
 
     def action_post(self):
         # Add partner to followers
-        res = super(AccountMove, self).action_post()
+        res = super().action_post()
         for move in self:
             if move.move_type in ["out_invoice", "out_refund"]:
                 # partner of the user who has the invoice address

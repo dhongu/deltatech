@@ -44,7 +44,7 @@ class ServiceEquipment(models.Model):
     def create(self, vals):
         if vals.get("name", _("New")) == _("New") or vals.get("name") == "/":
             vals["name"] = self.env["ir.sequence"].next_by_code("service.equipment") or _("New")
-        return super(ServiceEquipment, self).create(vals)
+        return super().create(vals)
 
     @api.onchange("product_id")
     def onchange_product_id(self):
@@ -70,17 +70,3 @@ class ServiceEquipment(models.Model):
 
     def update_meter_status(self):
         pass
-
-
-class ServiceEquipmentType(models.Model):
-    _name = "service.equipment.type"
-    _description = "Service Equipment Type"
-
-    name = fields.Char(string="Type", translate=True)
-
-
-class ServiceEquipmentModel(models.Model):
-    _name = "service.equipment.model"
-    _description = "Service Equipment Model"
-
-    name = fields.Char(string="Model", translate=True)

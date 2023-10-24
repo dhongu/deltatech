@@ -14,6 +14,6 @@ class StockRule(models.Model):
         return res
 
     def _make_po_get_domain(self, company_id, values, partner):
-        domain = super(StockRule, self)._make_po_get_domain(company_id, values, partner)
+        domain = super()._make_po_get_domain(company_id, values, partner)
         domain += (("from_replenishment", "=", True),)
         return domain

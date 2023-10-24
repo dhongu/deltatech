@@ -11,7 +11,7 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale as Base
 class WebsiteSale(Base):
     @route()
     def address(self, **kw):
-        result = super(WebsiteSale, self).address(**kw)
+        result = super().address(**kw)
         result.qcontext["country"] = result.qcontext.get("country") or request.website.company_id.country_id
         return result
 
@@ -29,4 +29,4 @@ class WebsiteSale(Base):
     def shop(self, page=0, category=None, search="", ppg=False, **post):
         if isinstance(category, str):
             category = False
-        return super(WebsiteSale, self).shop(page=page, category=category, search=search, ppg=ppg, **post)
+        return super().shop(page=page, category=category, search=search, ppg=ppg, **post)

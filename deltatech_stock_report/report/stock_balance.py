@@ -40,7 +40,6 @@ class StockBalance(models.Model):
     company_id = fields.Many2one("res.company", "Company", readonly=True)
 
     def init(self):
-
         tools.drop_view_if_exists(self.env.cr, self._table)
         self.env.cr.execute(
             """

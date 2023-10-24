@@ -18,7 +18,7 @@ class PaymentReport(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(PaymentReport, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         journals = self.env["account.journal"].search([("type", "in", ["cash", "bank"])])
         res["journal_payment_ids"] = [(6, 0, journals.ids)]
         return res

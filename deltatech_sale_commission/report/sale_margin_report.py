@@ -79,7 +79,6 @@ class SaleMarginReport(models.Model):
     )
 
     def _select(self):
-
         select_str = """
             SELECT
                 id, date, invoice_id, categ_id, product_id,  account_id, product_uom, product_uom_qty ,
@@ -149,11 +148,17 @@ class SaleMarginReport(models.Model):
 
                     s.partner_id as partner_id,
                     s.commercial_partner_id as commercial_partner_id, res_partner.state_id,
-                    s.invoice_user_id as user_id,
 
                     s.company_id as company_id,
                     s.move_type, s.state , s.payment_state , s.journal_id, s.currency_id
         """
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        sale_user_detail = get_param("sale_commission.sale_user_detail", "invoice")
+
+        if sale_user_detail == "invoice":
+            select_str += ", s.invoice_user_id as user_id"
+        else:
+            select_str += ", l.sale_user_id as user_id"
 
         return select_str
 
@@ -166,9 +171,19 @@ class SaleMarginReport(models.Model):
                     left join res_partner on (res_partner.id=s.partner_id)
                     left join uom_uom u on (u.id=l.product_uom_id)
                     left join uom_uom u2 on (u2.id=t.uom_id)
-                    left join commission_users cu on (s.invoice_user_id = cu.user_id and cu.journal_id = s.journal_id)
 
         """
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        sale_user_detail = get_param("sale_commission.sale_user_detail", "invoice")
+
+        if sale_user_detail == "invoice":
+            from_str += (
+                " left join commission_users cu on (s.invoice_user_id = cu.user_id and cu.journal_id = s.journal_id)"
+            )
+        else:
+            from_str += (
+                " left join commission_users cu on (l.sale_user_id = cu.user_id and cu.journal_id = s.journal_id)"
+            )
         return from_str
 
     def _where(self):
@@ -190,7 +205,6 @@ class SaleMarginReport(models.Model):
                     s.partner_id,
                     res_partner.state_id,
                     s.commercial_partner_id,
-                    s.invoice_user_id,
                     cu.rate,
                     cu.manager_rate,
                     cu.director_rate,
@@ -205,10 +219,16 @@ class SaleMarginReport(models.Model):
                     s.currency_id
 
         """
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        sale_user_detail = get_param("sale_commission.sale_user_detail", "invoice")
+
+        if sale_user_detail == "invoice":
+            group_by_str += "  , s.invoice_user_id"
+        else:
+            group_by_str += " , l.sale_user_id"
         return group_by_str
 
     def init(self):
-
         tools.drop_view_if_exists(self.env.cr, self._table)
         # pylint: disable=E8103
         self.env.cr.execute(
@@ -246,5 +266,5 @@ class SaleMarginReport(models.Model):
             invoice = self.env["account.move"].browse(self.invoice_id.id)
             invoice.write({"invoice_user_id": vals["user_id"]})
         if 1 == 2:
-            super(SaleMarginReport, self).write(vals)
+            super().write(vals)
         return True

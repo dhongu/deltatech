@@ -12,9 +12,9 @@ class PurchaseOrder(models.Model):
     def _add_supplier_to_product(self):
         # todo: de adaugat parametru in configurare
         get_param = self.env["ir.config_parameter"].sudo().get_param
-        add_supplier_to_product = safe_eval(get_param("purchase.add_supplier_to_product", "True"))
+        add_supplier_to_product = safe_eval(get_param("purchase.add_supplier_to_product", "False"))
         if add_supplier_to_product:
-            super(PurchaseOrder, self)._add_supplier_to_product()
+            super()._add_supplier_to_product()
 
 
 class PurchaseOrderLine(models.Model):
