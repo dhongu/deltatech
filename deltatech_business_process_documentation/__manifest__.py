@@ -13,6 +13,7 @@
     "depends": ["deltatech_business_process", "website_slides"],
     "data": [
         "views/business_project_view.xml",
+        "views/templates.xml",
     ],
     "development_status": "Beta",
     "maintainers": ["dhongu"],
