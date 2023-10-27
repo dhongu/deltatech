@@ -9,6 +9,7 @@
                     <field name="partner_id" type="row" />
                     <field name="balance" type="measure" />
                     <field name="payment_days" type="measure" />
+                    <field name="payment_days_simple" type="measure" />
                 </pivot>
             </field>
         </record>
