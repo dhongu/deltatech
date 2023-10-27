@@ -1,20 +1,20 @@
 # ©  2023 Deltatech
 # See README.rst file on addons root folder for license details
 
-import lxml.html
+from odoo import fields, models
 
-from odoo import api, fields, models
 
 class BusinessProcess(models.Model):
     _inherit = "business.process"
 
     slide_id = fields.Many2one(string="Slide", comodel_name="slide.slide")
+    website_published = fields.Boolean(related="slide_id.website_published", store=True)
 
     def write(self, vals):
         result = super().write(vals)
         self.generate_documentation()
         return result
-    
+
     def generate_documentation(self):
         for process in self:
             if not process.slide_id:
@@ -46,26 +46,38 @@ class BusinessProcess(models.Model):
             steps_content = process.generate_steps_content()
 
             html_content = """
-    <section class="s_table_of_content pt24 pb24 o_cc o_cc1 o_colored_level" data-snippet="s_table_of_content" data-name="Table of Content" style="background-image: none;">
+    <section class="s_table_of_content pt24 pb24 o_cc o_cc1 o_colored_level"
+            data-snippet="s_table_of_content" data-name="Table of Content"
+            style="background-image: none;">
         <div class="container">
             <div class="row s_nb_column_fixed">
-                %s
-                %s
+                {}
+                {}
             </div>
         </div>
     </section>
-        """ % (table_of_content, steps_content)
+        """.format(
+                table_of_content,
+                steps_content,
+            )
             process.slide_id.html_content = html_content
-    
+
     def generate_table_of_content(self):
         table_of_content = """
-    <div class="col-lg-3 s_table_of_content_navbar_wrap s_table_of_content_navbar_sticky s_table_of_content_vertical_navbar d-print-none d-none d-lg-block o_not_editable o_cc o_cc1 o_colored_level" data-name="Navbar">
+    <div class="col-lg-3 s_table_of_content_navbar_wrap s_table_of_content_navbar_sticky
+            s_table_of_content_vertical_navbar d-print-none d-none d-lg-block o_not_editable
+            o_cc o_cc1 o_colored_level" data-name="Navbar">
         <div class="s_table_of_content_navbar list-group o_no_link_popover" style="">
         """
         for step in self.step_ids:
             table_of_content += """
-                <a href="#table_of_content_heading_%s" class="table_of_content_link list-group-item list-group-item-action py-2 border-0 rounded-0 active">%s</a>
-            """ % (step.id, step.name)
+                <a href="#table_of_content_heading_{}"
+                    class="table_of_content_link list-group-item list-group-item-action
+                    py-2 border-0 rounded-0 active">{}</a>
+            """.format(
+                step.id,
+                step.name,
+            )
         table_of_content += """
         </div>
     </div>
@@ -77,20 +89,27 @@ class BusinessProcess(models.Model):
     <div class="col-lg-9 s_table_of_content_main oe_structure oe_empty o_colored_level" data-name="Content">
         """
         if self.description:
-            steps_content += """
+            steps_content += (
+                """
             <section class="pb16 o_colored_level" style="background-image: none;">
                 <h1 data-anchor="true" class="o_default_snippet_text">Description</h1>
                 %s
                 <h1 data-anchor="true" class="o_default_snippet_text">Steps</h1>
             </section>
-            """ % self.description
+            """
+                % self.description
+            )
         for step in self.step_ids:
             steps_content += """
             <section class="pb16 o_colored_level" style="background-image: none;">
-                <h1 data-anchor="true" class="o_default_snippet_text" id="table_of_content_heading_%s">%s</h1>
-                %s
+                <h1 data-anchor="true" class="o_default_snippet_text" id="table_of_content_heading_{}">{}</h1>
+                {}
             </section>
-            """ % (step.id, step.name, step.details)
+            """.format(
+                step.id,
+                step.name,
+                step.details,
+            )
         steps_content += """
     </div>
         """
