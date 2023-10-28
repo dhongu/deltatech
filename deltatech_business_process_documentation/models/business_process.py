@@ -17,12 +17,13 @@ class BusinessProcess(models.Model):
 
     def generate_documentation(self):
         for process in self:
-            if not process.slide_id:
-                values = process._prepare_slide_values()
-                slide = self.env["slide.slide"].create(values)
-                process.slide_id = slide.id
-            if process.slide_id:
-                process.generate_documentation_from_steps()
+            if process.project_id.auto_generate_doc: 
+                if not process.slide_id:
+                    values = process._prepare_slide_values()
+                    slide = self.env["slide.slide"].create(values)
+                    process.slide_id = slide.id
+                if process.slide_id:
+                    process.generate_documentation_from_steps()
 
     def _prepare_slide_values(self):
         tags = self.env["slide.tag"]
@@ -46,78 +47,3 @@ class BusinessProcess(models.Model):
             template = "deltatech_business_process_documentation.business_process_documentation"
             html_content = self.env["ir.ui.view"]._render_template(template, values={"doc": process})
             process.slide_id.html_content = html_content
-
-    # def generate_documentation_from_steps_old(self):
-    #     for process in self:
-    #         table_of_content = process.generate_table_of_content()
-    #         steps_content = process.generate_steps_content()
-    #
-    #         html_content = """
-    # <section class="s_table_of_content pt24 pb24 o_cc o_cc1 o_colored_level"
-    #         data-snippet="s_table_of_content" data-name="Table of Content"
-    #         style="background-image: none;">
-    #     <div class="container">
-    #         <div class="row s_nb_column_fixed">
-    #             {}
-    #             {}
-    #         </div>
-    #     </div>
-    # </section>
-    #     """.format(
-    #             table_of_content,
-    #             steps_content,
-    #         )
-    #         process.slide_id.html_content = html_content
-    #
-    # def generate_table_of_content(self):
-    #     table_of_content = """
-    # <div class="col-lg-3 s_table_of_content_navbar_wrap s_table_of_content_navbar_sticky
-    #         s_table_of_content_vertical_navbar d-print-none d-none d-lg-block o_not_editable
-    #         o_cc o_cc1 o_colored_level" data-name="Navbar">
-    #     <div class="s_table_of_content_navbar list-group o_no_link_popover" style="">
-    #     """
-    #     for step in self.step_ids:
-    #         table_of_content += """
-    #             <a href="#table_of_content_heading_{}"
-    #                 class="table_of_content_link list-group-item list-group-item-action
-    #                 py-2 border-0 rounded-0 active">{}</a>
-    #         """.format(
-    #             step.id,
-    #             step.name,
-    #         )
-    #     table_of_content += """
-    #     </div>
-    # </div>
-    #     """
-    #     return table_of_content
-    #
-    # def generate_steps_content(self):
-    #     steps_content = """
-    # <div class="col-lg-9 s_table_of_content_main oe_structure oe_empty o_colored_level" data-name="Content">
-    #     """
-    #     if self.description:
-    #         steps_content += (
-    #             """
-    #         <section class="pb16 o_colored_level" style="background-image: none;">
-    #             <h1 data-anchor="true" class="o_default_snippet_text">Description</h1>
-    #             %s
-    #             <h1 data-anchor="true" class="o_default_snippet_text">Steps</h1>
-    #         </section>
-    #         """
-    #             % self.description
-    #         )
-    #     for step in self.step_ids:
-    #         steps_content += """
-    #         <section class="pb16 o_colored_level" style="background-image: none;">
-    #             <h1 data-anchor="true" class="o_default_snippet_text" id="table_of_content_heading_{}">{}</h1>
-    #             {}
-    #         </section>
-    #         """.format(
-    #             step.id,
-    #             step.name,
-    #             step.details,
-    #         )
-    #     steps_content += """
-    # </div>
-    #     """
-    #     return steps_content
