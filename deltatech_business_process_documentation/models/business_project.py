@@ -35,6 +35,7 @@ class BusinessProject(models.Model):
     def _remove_documentation_for_project(self):
         for project in self:
             if project.channel_id:
+                project.channel_id.slides_ids.unlink()
                 project.channel_id.unlink()
 
     def _prepare_channel_values(self):
