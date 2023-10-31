@@ -40,7 +40,7 @@ class ProductTemplate(models.Model):
 
             terms = list(set(terms))
             search_index += " " + " ".join(terms)
-            product.search_index = search_index[:1000]
+            product.search_index = search_index
 
     def _inverse_alternative_code(self):
         for product in self:
