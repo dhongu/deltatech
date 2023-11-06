@@ -17,7 +17,20 @@
         </xpath>
         <xpath expr="//t[@t-foreach='orders']/tr/td[3]" position="after">
             <td class="text-center">
-                <span class="badge badge-pill badge-info"><span t-field="order.stage" /></span>
+                <span
+                    t-if="order.stage in ['placed','in_delivery','to_be_delivery']"
+                    class="badge badge-pill badge-info"
+                ><span t-field="order.stage" /></span>
+                <span t-if="order.stage in ['in_process']" class="badge badge-pill badge-warning"><span
+                        t-field="order.stage"
+                    /></span>
+                <span
+                    t-if="order.stage in ['canceled','waiting','postponed','returned']"
+                    class="badge badge-pill badge-danger"
+                ><span t-field="order.stage" /></span>
+                <span t-if="order.stage in ['delivered']" class="badge badge-pill badge-success"><span
+                        t-field="order.stage"
+                    /></span>
             </td>
         </xpath>
     </template>
