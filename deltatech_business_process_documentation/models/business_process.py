@@ -17,7 +17,7 @@ class BusinessProcess(models.Model):
 
     def generate_documentation(self):
         for process in self:
-            if process.project_id.auto_generate_doc: 
+            if process.project_id.auto_generate_doc:
                 if not process.slide_id:
                     values = process._prepare_slide_values()
                     slide = self.env["slide.slide"].create(values)
