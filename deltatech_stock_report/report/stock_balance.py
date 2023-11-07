@@ -74,7 +74,7 @@ class StockBalance(models.Model):
               WHERE ( sm.state  = 'done' )
               GROUP BY pt.categ_id, sm.product_id, pu.id, sm.location_id, sm.date,
                   sm.company_id
-                UNION
+                UNION ALL
                 SELECT min(- sm.id) AS id,
                     sm.date AS date,
                     sm.location_dest_id AS location_id, pt.categ_id, sm.product_id,

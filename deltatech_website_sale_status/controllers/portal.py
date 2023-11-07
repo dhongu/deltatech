@@ -8,6 +8,8 @@ from odoo.addons.sale.controllers import portal
 
 
 class CustomerPortal(portal.CustomerPortal):
+    # de adaugat si searchbar_filters
+
     def _get_sale_searchbar_sortings(self):
         sortings = super()._get_sale_searchbar_sortings()
         if "stage" in sortings:
