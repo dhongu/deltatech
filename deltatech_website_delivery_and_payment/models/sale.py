@@ -16,10 +16,10 @@ class SaleOrder(models.Model):
         carriers = carriers.filtered(lambda c: not c.weight_max or c.weight_max >= weight)
         return carriers
 
-    def _check_carrier_quotation(self, force_carrier_id=None):
+    def _check_carrier_quotation(self, force_carrier_id=None, keep_carrier=False):
         if force_carrier_id and force_carrier_id == self.carrier_id.id == int(force_carrier_id):
             return True
-        return super()._check_carrier_quotation(force_carrier_id)
+        return super()._check_carrier_quotation(force_carrier_id, keep_carrier)
 
     def _action_confirm(self):
         for order in self:
