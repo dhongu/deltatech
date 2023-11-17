@@ -29,7 +29,7 @@ class StockMove(models.Model):
             company = self.env.user.company_id
             seller_ids = self.product_id.seller_ids or self.product_id.product_tmpl_id.seller_ids
             for seller in seller_ids:
-                if seller.partner_id == self.purchase_line_id.order_id.partner_id:
+                if seller.partner_id == self.purchase_line_id.order_id.partner_id.commercial_partner_id:
                     if seller.min_qty == 0.0 and seller.date_start is False and seller.date_end is False:
                         # conversia ar trebui deja sa fie facuta de _get_stock_move_price_unit()
                         to_currency = seller.currency_id or self.env.user.company_id.currency_id

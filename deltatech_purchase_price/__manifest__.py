@@ -5,7 +5,7 @@
 {
     "name": "Purchase Price",
     "summary": "Update vendor price after reception",
-    "version": "16.0.1.1.1",
+    "version": "16.0.1.1.2",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
