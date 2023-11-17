@@ -1,5 +1,2 @@
-# ©  2008-2021 Deltatech
+# ©  2018 Deltatech
 # See README.rst file on addons root folder for license details
-
-
-from . import merge_statement
