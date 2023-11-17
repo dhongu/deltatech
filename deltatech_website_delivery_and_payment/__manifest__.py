@@ -5,7 +5,7 @@
     "name": "Delivery and Payment",
     "category": "Website",
     "summary": "eCommerce Delivery and Payment constrains",
-    "version": "15.0.2.1.0",
+    "version": "15.0.2.1.1",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
