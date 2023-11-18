@@ -77,6 +77,8 @@ class BusinessProcessStep(models.Model):
         states={"draft": [("readonly", False)], "design": [("readonly", False)]},
     )
 
+    details = fields.Html()
+
     @api.model
     def create(self, vals):
         if not vals.get("code", False):
