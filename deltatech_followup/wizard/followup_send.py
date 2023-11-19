@@ -1,14 +1,15 @@
 # ©  2015-now Terrabit
 # See README.rst file on addons root folder for license details
 
+import html
 from string import Template
 
 from odoo import api, models
 
 
-class FollowupSend(models.TransientModel):
-    _name = "followup.send"
-    _description = "Followup Send"
+class FollowupSendWizard(models.TransientModel):
+    _name = "followup.send.wizard"
+    _description = "Followup Send Wizard"
 
     @api.model
     def run_followup(self, codes=False):
@@ -94,6 +95,7 @@ class FollowupSend(models.TransientModel):
                             body = new_body.replace("[invoices]", invoices_content)
                             body = body.replace("${object.name}", partner.name)
                             body = body.replace("$total_debit", "{:,.2f}".format(partner_debit))
+                            body = html.unescape(body)
                             email_values = {
                                 "body_html": body,
                                 "recipient_ids": [(4, partner_id)],
