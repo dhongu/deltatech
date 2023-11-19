@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="mrp_production_form_view" model="ir.ui.view">
+            <field name="name">deltatech.mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view" />
+            <field name="arch" type="xml">
+
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="Costs">
+                        <group>
+                            <group>
+                                <field name="overhead_amount" />
+                                <field name="utility_consumption" />
+                                <field name="net_salary_rate" />
+                                <field name="salary_contributions" />
+                            </group>
+                            <group>
+                                <label for="duration" />
+                                <div>
+                                    <field name="duration" widget="float_time" class="oe_inline" />
+                                    hours
+                                </div>
+                            </group>
+                            <group>
+                                <field name="amount" />
+                                <field name="calculate_price" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+
+</odoo>

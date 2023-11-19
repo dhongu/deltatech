@@ -1,0 +1,122 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_mrp_cost
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-11-15 07:16+0000\n"
+"PO-Revision-Date: 2022-11-15 07:16+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid "<strong>Amount</strong>"
+msgstr "<strong>Valoare</strong>"
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid "<strong>Effective Quantity</strong>"
+msgstr "<strong>Cantitate efectivă</strong>"
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid "<strong>Net Salary Rate:</strong><br/>"
+msgstr  "<strong>Cotă salariu net:</strong><br/>"
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid "<strong>Overhead Amount:</strong><br/>"
+msgstr "<strong>Valoare indirecte:</strong><br/"
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid "<strong>Price</strong>"
+msgstr "<strong>Preț</strong>"
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid "<strong>Product</strong>"
+msgstr "<strong>Produs</strong>"
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid "<strong>Quantity</strong>"
+msgstr "<strong>Cantitate</strong>"
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid "<strong>Salary Contributions:</strong><br/>"
+msgstr "<strong>Contribuții salariale:</strong><br/>"
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid "<strong>Utility Consumption:</strong><br/>"
+msgstr "<strong>Consum utilităși:</strong><br/>"
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__calculate_price
+msgid "Calculate Price"
+msgstr "Preț calculat"
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.mrp_production_form_view
+msgid "Costs"
+msgstr "Costuri"
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__duration
+msgid "Duration"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid "Finished Products"
+msgstr "Produse finite"
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__net_salary_rate
+msgid "Net Salary Rate"
+msgstr "Cotă calariu net"
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__overhead_amount
+msgid "Overhead"
+msgstr "Indirecte"
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__amount
+msgid "Production Amount"
+msgstr "Valoare producție"
+
+#. module: deltatech_mrp_cost
+#: model:ir.model,name:deltatech_mrp_cost.model_mrp_production
+msgid "Production Order"
+msgstr "Comanda de Producție"
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__salary_contributions
+msgid "Salary Contributions"
+msgstr "Contribuții salariale"
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,help:deltatech_mrp_cost.field_mrp_production__utility_consumption
+msgid "Utilities consumption per hour"
+msgstr "Utilități consumate pe oră"
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__utility_consumption
+msgid "Utility consumption"
+msgstr "Consum utilități"
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.mrp_production_form_view
+msgid "hours"
+msgstr "ore"
+
