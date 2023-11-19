@@ -14,7 +14,7 @@ class IrHttp(models.AbstractModel):
     _inherit = "ir.http"
 
     @classmethod
-    def _dispatch(cls):
+    def _dispatch(cls, endpoint):
         """Handle SEO-redirected URLs."""
         # Only handle redirections for HTTP requests
         path = request.httprequest.path
@@ -39,7 +39,7 @@ class IrHttp(models.AbstractModel):
                 except NoOriginError:
                     pass
 
-        return super()._dispatch()
+        return super()._dispatch(endpoint)
 
     @api.model
     def redirect_auto(self, path=None, code=301, website=None, rerouting=None):
