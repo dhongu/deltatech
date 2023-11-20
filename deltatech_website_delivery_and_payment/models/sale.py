@@ -7,7 +7,7 @@ from odoo import fields, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    acquirer_id = fields.Many2one("payment.provider")
+    provider_id = fields.Many2one("payment.provider")
 
     def _get_delivery_methods(self):
         carriers = super()._get_delivery_methods()
@@ -25,5 +25,5 @@ class SaleOrder(models.Model):
         for order in self:
             tx = order.sudo().transaction_ids._get_last()
             if tx:
-                order.write({"acquirer_id": tx.acquirer_id.id})
+                order.write({"provider_id": tx.provider_id.id})
         return super()._action_confirm()

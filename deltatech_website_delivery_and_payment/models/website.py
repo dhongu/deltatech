@@ -11,7 +11,7 @@ class Website(models.Model):
 
     def sale_get_order(self, *args, **kwargs):
         so = super().sale_get_order(*args, **kwargs)
-        acquirer_id = request.context.get("acquirer_id")
-        if acquirer_id:
-            so = so.with_context(force_acquirer_id=acquirer_id)
+        provider_id = request.context.get("provider_id")
+        if provider_id:
+            so = so.with_context(force_provider_id=provider_id)
         return so

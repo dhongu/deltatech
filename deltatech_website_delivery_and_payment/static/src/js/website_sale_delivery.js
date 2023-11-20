@@ -32,8 +32,8 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
             var $acquirers = $('input[name="o_payment_radio"]');
             if (result.all_acquirer === false) {
                 $acquirers.each(function (index, acquirer) {
-                    var acquirer_id = $(acquirer).data("payment-option-id");
-                    if (result.acquirer_allowed_ids.includes(acquirer_id)) {
+                    var provider_id = $(acquirer).data("payment-option-id");
+                    if (result.acquirer_allowed_ids.includes(provider_id)) {
                         $(acquirer).parent().parent().show();
                         $(acquirer).parent().show();
                         $(acquirer).show();
@@ -63,7 +63,7 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
             // Var $radio = $(ev.currentTarget).find('input[type="radio"]');
             // var carrier_id =  $radio.val();
             var $acquirer = $('#payment_method input[name="o_payment_radio"]').filter(":checked");
-            var acquirer_id = $acquirer.data("payment-option-id");
+            var provider_id = $acquirer.data("payment-option-id");
 
             // Var $payButton = $("#o_payment_form_pay");
             var $payButton = this.$('button[name="o_payment_submit_button"]');
@@ -82,7 +82,7 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
                 route: "/shop/carrier_acquirer_check",
                 params: {
                     carrier_id: carrier_id,
-                    acquirer_id: acquirer_id,
+                    provider_id: provider_id,
                 },
             }).then(self._handleCarrierCheckResult.bind(self));
         },
@@ -98,7 +98,7 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
         _onAcquirerClickCheck: function () {
             this._doCheckSelection();
             var $acquirer = $('#payment_method input[name="o_payment_radio"]').filter(":checked");
-            var acquirer_id = $acquirer.data("payment-option-id");
+            var provider_id = $acquirer.data("payment-option-id");
             var $carrier = $('#delivery_carrier input[name="delivery_type"]').filter(":checked");
             var carrier_id = $carrier.val();
             if (!carrier_id) {
@@ -109,7 +109,7 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
                     route: "/shop/carrier_rate_shipment",
                     params: {
                         carrier_id: carrier_id,
-                        acquirer_id: acquirer_id,
+                        provider_id: provider_id,
                     },
                 })
             ).then(this._handleCarrierUpdateResult.bind(this));
