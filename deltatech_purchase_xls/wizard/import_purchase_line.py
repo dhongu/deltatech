@@ -28,6 +28,11 @@ class ImportPurchaseLine(models.TransientModel):
     is_amount = fields.Boolean("Is amount")
     purchase_id = fields.Many2one("purchase.order")
     search_by_default_code = fields.Boolean("Search by internal code")
+    fields_list = fields.Char(
+        string="Fields",
+        default="product_code,product_name,quantity,price,uom_name",
+        help='Fields and order in the file. Example: "product_code,product_name,quantity,price,uom_name"',
+    )
 
     @api.model
     def default_get(self, fields_list):
@@ -65,13 +70,28 @@ class ImportPurchaseLine(models.TransientModel):
         table_values = self.get_rows()
         lines = []
         for row in table_values:
-            if len(row) == 5:
-                product_code, product_name, quantity, price, uom_name = row
-            elif len(row) == 4:
-                product_code, product_name, quantity, price = row
-                uom_name = False
-            else:
+            try:
+                fields_list = self.fields_list.split(",")
+                values = dict(zip(fields_list, row))
+            except Exception:
+                raise UserError(_("Invalid file format"))
+
+            product_code = values.get("product_code", False)
+            if not product_code:
                 continue
+
+            product_name = values.get("product_name", False)
+            quantity = values.get("quantity", False)
+            price = values.get("price", False)
+            uom_name = values.get("uom_name", False)
+
+            # if len(row) == 5:
+            #     product_code, product_name, quantity, price, uom_name = row
+            # elif len(row) == 4:
+            #     product_code, product_name, quantity, price = row
+            #     uom_name = False
+            # else:
+            #     continue
             quantity = float(quantity)
             if self.is_amount and quantity:
                 price = float(price) / quantity
@@ -97,6 +117,7 @@ class ImportPurchaseLine(models.TransientModel):
                     product_uom = product_id.uom_po_id or product_id.uom_id
                 else:
                     raise UserError(_("Product %s not found") % product_code)
+
             lines += [
                 {
                     "order_id": self.purchase_id.id,
@@ -110,6 +131,8 @@ class ImportPurchaseLine(models.TransientModel):
             ]
         purchase_lines = self.env["purchase.order.line"].create(lines)
         purchase_lines._compute_tax_id()
+        if "price" not in self.fields_list:
+            purchase_lines._onchange_quantity()
 
     def search_product(self, code=False):
         """
