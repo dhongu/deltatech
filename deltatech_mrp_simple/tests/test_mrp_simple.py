@@ -9,7 +9,7 @@ from odoo.tests.common import TransactionCase
 
 class TestMRPSimple(TransactionCase):
     def setUp(self):
-        super(TestMRPSimple, self).setUp()
+        super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
 
         seller_ids = [(0, 0, {"partner_id": self.partner_a.id})]
@@ -31,7 +31,7 @@ class TestMRPSimple(TransactionCase):
         #     "location_id": self.stock_location.id,
         # }
 
-        warehouse_id = self.stock_location.get_warehouse()
+        warehouse_id = self.stock_location.warehouse_id
         company_id = warehouse_id.company_id
         domain = [("usage", "=", "production"), ("company_id", "=", company_id.id)]
         self.location_production = self.env["stock.location"].search(domain, limit=1)
@@ -77,7 +77,6 @@ class TestMRPSimple(TransactionCase):
         # inventory.action_validate()
 
     def test_sale_mrp_simple(self):
-
         mrp = Form(self.env["mrp.simple"])
         mrp.picking_type_consume = self.picking_type_consume
         mrp.picking_type_receipt_production = self.picking_type_receipt_production
