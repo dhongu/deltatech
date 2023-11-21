@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0+e\n"
+"Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-27 12:31+0000\n"
-"PO-Revision-Date: 2023-02-27 12:31+0000\n"
+"POT-Creation-Date: 2023-11-21 13:21+0000\n"
+"PO-Revision-Date: 2023-11-21 13:21+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -24,6 +24,11 @@ msgstr "Sunteți sigur că doriți crearea unui RFQ?"
 #: model_terms:ir.ui.view,arch_db:deltatech_reception_note.view_reception_note_create_form
 msgid "Cancel"
 msgstr ""
+
+#. module: deltatech_reception_note
+#: model_terms:ir.ui.view,arch_db:deltatech_reception_note.purchase_order_form_discount
+msgid "Confirm Order"
+msgstr "Confirmă comanda"
 
 #. module: deltatech_reception_note
 #: model_terms:ir.actions.act_window,help:deltatech_reception_note.prepare_reception_note_action
@@ -59,7 +64,6 @@ msgid "Delivery Note No"
 msgstr "Nr. Delivery Note"
 
 #. module: deltatech_reception_note
-#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order__display_name
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
@@ -70,7 +74,6 @@ msgid "Empty"
 msgstr ""
 
 #. module: deltatech_reception_note
-#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order__id
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__id
 msgid "ID"
 msgstr ""
@@ -81,7 +84,6 @@ msgid "Is empty"
 msgstr ""
 
 #. module: deltatech_reception_note
-#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order____last_update
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create____last_update
 msgid "Last Modified on"
 msgstr "Ultima modificare la"

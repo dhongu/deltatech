@@ -10,8 +10,8 @@ from odoo import api, fields, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    @api.onchange("order_line")
-    def onchange_order_line(self):
+    @api.onchange("pricelist_id", "order_line")
+    def _onchange_pricelist_id(self):
         for line in self.order_line:
             if line.product_id.extra_product_id:
                 extra_line_id = self.order_line.filtered(
@@ -37,6 +37,7 @@ class SaleOrder(models.Model):
                     extra_line_id.price_unit = line.price_unit * (line.product_id.extra_percent or 0.0) / 100.0
                 else:
                     extra_line_id.price_unit = line.product_id.extra_product_id.lst_price
+        return super()._onchange_pricelist_id()
 
 
 class SaleOrderLine(models.Model):
