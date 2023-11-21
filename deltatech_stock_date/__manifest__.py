@@ -16,7 +16,7 @@
         "wizard/stock_backorder_confirmation_view.xml",
         "wizard/stock_picking_return_view.xml",
         "data/ir_config_parameter.xml",
-        "views/stock_picking.xml",
+        # "views/stock_picking.xml",
     ],
     "application": False,
     "images": ["images/main_screenshot.png"],
