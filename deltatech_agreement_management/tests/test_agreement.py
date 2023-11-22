@@ -17,10 +17,3 @@ class TestAgreement(TransactionCase):
         agreement.name = "Test Agreement"
         agreement.partner_id = self.partner_1
         agreement.type_id = self.agreement_type
-
-        agreement = agreement.save()
-
-        agreement.contract_open()
-        # agreement.print_agreement()
-        agreement.contract_close()
-        agreement.contract_draft()

@@ -31,5 +31,5 @@ class Partner(models.Model):
 
     def _compute_agreements_no(self):
         for partner in self:
-            agreement_count = self.env["general.agreement"].search_count([("partner_id", "=", partner.id)])
+            agreement_count = self.env["general.agreement"].sudo().search_count([("partner_id", "=", partner.id)])
             partner.agreement_count = agreement_count
