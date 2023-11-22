@@ -12,7 +12,7 @@ class AccountMove(models.Model):
         if "state" in vals and vals.get("state") == "posted":
             for move in self:
                 if (not move.name or move.name == "/" or move.name == _("New")) and move.journal_id.journal_sequence_id:
-                    if move.payment_id:
+                    if move.payment_id and move.payment_id.journal_id.type == "cash":
                         payment_id = self.env["account.payment"].browse(move.payment_id.id)
                         payment_id.force_cash_sequence()
                     else:
