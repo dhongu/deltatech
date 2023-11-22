@@ -74,6 +74,21 @@
                             </div>
                         </button>
                         <button
+                            type="object"
+                            class="oe_stat_button"
+                            name="show_unpaid_invoices"
+                            id="unpaid_invoice_button"
+                            icon="fa-pencil-square-o"
+                            groups="account.group_account_invoice"
+                        >
+                            <div class="o_form_field o_stat_info">
+                                <span class="o_stat_value">
+                                    <field string="Unpaid Invoices" name="unpaid_invoices" />
+                                </span>
+                                <span class="o_stat_text">Unpaid invoices</span>
+                            </div>
+                        </button>
+                        <button
                             type="action"
                             class="oe_stat_button"
                             id="consumption_button"

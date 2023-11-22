@@ -113,6 +113,7 @@ class ServiceAgreement(models.Model):
 
     total_invoiced = fields.Float(string="Total invoiced", readonly=True)
     total_consumption = fields.Float(string="Total consumption", readonly=True)
+    unpaid_invoices = fields.Integer(string="Unpaid invoices", compute="_compute_unpaid_invoices")
 
     invoicing_status = fields.Selection(
         [("", "N/A"), ("unmade", "Unmade"), ("progress", "In progress"), ("done", "Done")],
@@ -176,6 +177,31 @@ class ServiceAgreement(models.Model):
         invoices = self.env["account.move"].search(domain)
         action["domain"] = [("id", "=", invoices.ids)]
         return action
+
+    def show_unpaid_invoices(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("account.action_move_out_invoice_type")
+        domain = [
+            ("partner_id", "=", self.partner_id.commercial_partner_id.id),
+            ("state", "=", "posted"),
+            ("move_type", "=", "out_invoice"),
+            ("payment_state", "in", ["not_paid", "partial"]),
+        ]
+        invoices = self.env["account.move"].search(domain)
+        action["domain"] = [("id", "=", invoices.ids)]
+        return action
+
+    def _compute_unpaid_invoices(self):
+        for agreement in self:
+            partner_id = agreement.partner_id.commercial_partner_id
+            invoice_count = self.env["account.move"].search_count(
+                [
+                    ("partner_id", "=", partner_id.id),
+                    ("move_type", "=", "out_invoice"),
+                    ("payment_state", "in", ["not_paid", "partial"]),
+                    ("state", "=", "posted"),
+                ]
+            )
+            agreement.unpaid_invoices = invoice_count
 
     def compute_totals(self):
         for agreement in self:
