@@ -64,6 +64,12 @@ class AccountPayment(models.Model):
             ):
                 if payment.journal_id.supplier_cash_out_sequence_id:
                     payment.name = payment.journal_id.supplier_cash_out_sequence_id.next_by_id()
+            if (
+                (not payment.name or payment.name == "/" or payment.name == _("New"))
+                and payment.journal_id.type != "cash"
+                and payment.journal_id.journal_sequence_id
+            ):
+                payment.name = payment.journal_id.journal_sequence_id.next_by_id()
 
     def get_reconciled_statement_line(self):
         for payment in self:
