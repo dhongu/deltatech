@@ -28,7 +28,7 @@ repos:
           - --addons-dir=.
           - --org-name=dhongu
           - --repo-name=deltatech
-          - --branch=16.0
+          - --branch=17.0
           - --no-gen-html
 
       # This job could easily produce conflicts when it runs on every commit,

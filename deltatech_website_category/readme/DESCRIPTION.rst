@@ -1,2 +1,0 @@
-Features:
- - Arhivarea categorii publice

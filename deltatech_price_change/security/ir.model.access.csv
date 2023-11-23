@@ -1,5 +1,0 @@
-id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
-access_product_price_change_user,prices.change sale user,deltatech_price_change.model_product_price_change,sales_team.group_sale_manager,1,0,0,0
-access_product_price_change_manager,prices.change sale manager,deltatech_price_change.model_product_price_change,sales_team.group_sale_manager,1,1,1,1
-access_product_price_change_line_user,prices.change line sale user,deltatech_price_change.model_product_price_change_line,sales_team.group_sale_manager,1,0,0,0
-access_product_price_change__line_manager,prices.change line sale manager,deltatech_price_change.model_product_price_change_line,sales_team.group_sale_manager,1,1,1,1

@@ -1,6 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_sale_margin_report_manager,Sale margin report,model_sale_margin_report,sales_team.group_sale_manager,1,1,1,1
-access_sale_margin_report_user,Sale margin report,model_sale_margin_report,base.group_user,1,0,0,0
-access_commission_users,access_commission_users,model_commission_users,sales_team.group_sale_manager,1,1,1,1
-access_commission_compute,access_commission_compute,model_commission_compute,base.group_user,1,1,1,1
-access_commission_update_purchase_price,access_commission_update_purchase_price,model_commission_update_purchase_price,base.group_user,1,1,1,1
