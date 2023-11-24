@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates id="template">
 
+
+    <t t-extend="sale_stock.qtyAtDate">
+        <t t-jquery="a" t-operation="replace">
+            <t t-set="text_color" t-value="widget.data.forecasted_issue ? 'text-danger' : 'text-primary'" />
+            <t t-if="!widget.data.free_qty_today and !widget.data.forecasted_issue ">
+                <t t-set="text_color" t-value="'text-warning'" />
+            </t>
+            <a tabindex="0" t-attf-class="fa fa-area-chart {{ text_color }}" />
+        </t>
+    </t>
+
+
     <t t-extend="sale_stock.QtyDetailPopOver">
         <t t-jquery="table" t-operation="append">
             <table class="table table-borderless table-sm">
