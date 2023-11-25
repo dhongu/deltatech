@@ -27,12 +27,12 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale_margin.sale_margin_sale_order" />
             <field name="arch" type="xml">
-                <label for="margin" position="attributes">
+<!--                <label for="margin" position="attributes">
                      <attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
                 </label>
                 <field name="margin" position="attributes">
                     <attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
-                </field>
+                </field>-->
             </field>
         </record>
 
