@@ -10,9 +10,10 @@ from odoo.exceptions import UserError
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    stage_id = fields.Many2one("sale.order.stage", string="Stage", copy=False)
+    stage_id = fields.Many2one("sale.order.stage", string="Stage", copy=False, tracking=True)
     stage_ids = fields.Many2many("sale.order.stage", string="Stage", compute="_compute_stage_ids")
 
+    @api.depends("stage_id")
     def _compute_stage_ids(self):
         for order in self:
             order.stage_ids = order.stage_id
@@ -38,9 +39,10 @@ class SaleOrder(models.Model):
     def set_stage(self, stage_step):
         domain = [(stage_step, "=", True)]
         stage = self.env["sale.order.stage"].search(domain, limit=1)
-        for order in self:
-            if not order.stage_id or not order.stage_id[stage_step]:
-                order.stage_id = stage
+        if stage:
+            for order in self:
+                if not order.stage_id or not order.stage_id[stage_step]:
+                    order.stage_id = stage
 
     def write(self, vals):
         res = super().write(vals)
