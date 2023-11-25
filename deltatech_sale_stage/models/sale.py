@@ -10,7 +10,7 @@ from odoo.exceptions import UserError
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    stage_id = fields.Many2one("sale.order.stage", string="Stage", copy=False)
+    stage_id = fields.Many2one("sale.order.stage", string="Stage", copy=False, tracking=True)
 
     def _get_invoice_status(self):
         super()._get_invoice_status()
@@ -27,12 +27,20 @@ class SaleOrder(models.Model):
         self.set_stage("confirmed")
 
     def action_quotation_sent(self):
-        super().action_confirm()
+        super().action_quotation_sent()
         self.set_stage("send_email")
 
     def set_stage(self, stage_step):
         domain = [(stage_step, "=", True)]
         stage = self.env["sale.order.stage"].search(domain, limit=1)
-        for order in self:
-            if not order.stage_id or not order.stage_id[stage_step]:
-                order.stage_id = stage
+        if stage:
+            for order in self:
+                if not order.stage_id or not order.stage_id[stage_step]:
+                    order.stage_id = stage
+
+    def write(self, vals):
+        res = super().write(vals)
+        if "stage_id" in vals:
+            if self.stage_id.action_id:
+                self.stage_id.action_id.run()
+        return res

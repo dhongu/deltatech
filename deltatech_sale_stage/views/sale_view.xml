@@ -10,6 +10,7 @@
                 <form string="Sale Order Stage">
                     <group>
                         <field name="name" />
+                        <field name="sequence" />
                     </group>
                     <group>
                         <field name="send_email" />
@@ -17,6 +18,9 @@
                         <field name="delivered" />
                         <field name="invoiced" />
                         <field name="paid" />
+                    </group>
+                    <group>
+                        <field name="action_id" />
                     </group>
                 </form>
             </field>
@@ -53,7 +57,6 @@
         <record id="view_order_tree" model="ir.ui.view">
             <field name="name">sale.order.form</field>
             <field name="model">sale.order</field>
-
             <field name="inherit_id" ref="sale.view_order_tree" />
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">

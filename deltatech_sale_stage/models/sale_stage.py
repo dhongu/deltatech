@@ -15,8 +15,10 @@ class SaleOrderStage(models.Model):
     color = fields.Integer()
 
     sequence = fields.Integer()
-    send_email = fields.Boolean()  # comanda a fost transmita catre client
+    send_email = fields.Boolean()  # comanda a fost transmisa catre client
     confirmed = fields.Boolean()  # comanda a fost confirmata
     delivered = fields.Boolean()  # comanda a fost livrata
     invoiced = fields.Boolean()  # comanda a fost facturata
     paid = fields.Boolean()  # comanda a fost platita
+
+    action_id = fields.Many2one("ir.actions.server", string="Action")
