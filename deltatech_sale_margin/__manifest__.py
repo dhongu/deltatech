@@ -12,7 +12,7 @@
     "license": "OPL-1",
     "data": [
         "security/sale_security.xml",
-        # "views/sale_margin_view.xml"
+        "views/sale_margin_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
