@@ -54,7 +54,8 @@
         <field name='groups_id' eval="[(4, ref('deltatech_sale_margin.group_sale_margin'))]" />
         <field name="priority">140</field>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='margin']" position="replace">
+            <xpath expr="//field[@name='margin']" position="attributes">
+                <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='margin_percent']" position="replace">
             </xpath>
