@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="view_account_average_payment_report_pivot" model="ir.ui.view">
+            <field name="name">account.average.payment.report.graph</field>
+            <field name="model">account.average.payment.report</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <field name="partner_id" type="row" />
+                    <field name="balance" type="measure" />
+                    <field name="payment_days" type="measure" />
+                </pivot>
+            </field>
+        </record>
+        <record id="view_account_average_payment_report_search" model="ir.ui.view">
+            <field name="name">account.average.payment.report.search</field>
+            <field name="model">account.average.payment.report</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="partner_id" />
+                    <field name="ref" />
+                    <field name="date" />
+                    <group expand="1" string="Group By">
+                        <filter string="Partner" context="{'group_by':'partner_id'}" name='group_by_partner' />
+                        <filter string="Date" context="{'group_by':'date'}" name='group_by_date' />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_account_average_payment_report" model="ir.actions.act_window">
+            <field name="name">Average Payment Period</field>
+            <field name="res_model">account.average.payment.report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="domain">[]</field>
+
+            <field name="view_mode">pivot</field>
+            <field name="context">{'search_default_group_by_partner': True}</field>
+        </record>
+        <menuitem
+            action="action_account_average_payment_report"
+            id="menu_account_average_payment_report"
+            parent="account.menu_finance_reports"
+            sequence="90"
+        />
+    </data>
+</odoo>
