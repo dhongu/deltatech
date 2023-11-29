@@ -1,0 +1,31 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_saleorder_search
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-02-10 08:30+0000\n"
+"PO-Revision-Date: 2023-02-10 08:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_saleorder_search
+#: model_terms:ir.ui.view,arch_db:deltatech_saleorder_search.view_sales_order_filter
+msgid "E-mail"
+msgstr ""
+
+#. module: deltatech_saleorder_search
+#: model_terms:ir.ui.view,arch_db:deltatech_saleorder_search.view_sales_order_filter
+msgid "Mobile"
+msgstr "Mobil"
+
+#. module: deltatech_saleorder_search
+#: model_terms:ir.ui.view,arch_db:deltatech_saleorder_search.view_sales_order_filter
+msgid "Phone"
+msgstr "Telefon"
