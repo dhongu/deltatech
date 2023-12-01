@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="action_service_cycle" model="ir.actions.act_window">
+        <field name="name">Service Cycle</field>
+        <field name="res_model">service.cycle</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Cycle"
+        id="menu_service_cycle"
+        groups="deltatech_service_base.group_service_manager"
+        action="action_service_cycle"
+        parent="deltatech_service_base.menu_service_config"
+    />
+</odoo>
