@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 
 class StockConfirmInventory(models.TransientModel):
@@ -27,6 +27,10 @@ class StockConfirmInventory(models.TransientModel):
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
         defaults["product_tmpl_id"] = self.env.context.get("active_id", False)
+        active_model = self.env.context.get("active_model", False)
+        if active_model and active_model == "product.product":
+            product = self.env["product.product"].browse(defaults["product_tmpl_id"])
+            defaults["product_tmpl_id"] = product.product_tmpl_id.id
         return defaults
 
     @api.depends("product_tmpl_id")
@@ -59,3 +63,5 @@ class StockConfirmInventory(models.TransientModel):
         if inventory_values["line_ids"]:
             inventory = self.env["stock.inventory"].create(inventory_values)
             inventory.action_validate()
+        self.product_tmpl_id.write({"is_inventory_ok": True})
+        self.product_tmpl_id.message_post(body=_("Product quantity {} confirmed.".format(self.qty_available)))

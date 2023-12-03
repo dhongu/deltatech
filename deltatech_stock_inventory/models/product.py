@@ -31,6 +31,7 @@ class ProductTemplate(models.Model):
     loc_case = fields.Char("Case", size=16, compute="_compute_loc", inverse="_inverse_loc")
 
     warehouse_loc_ids = fields.One2many("product.warehouse.location", "product_id")
+    is_inventory_ok = fields.Boolean("Inventory OK", tracking=True)
 
     @api.depends_context("warehouse", "location")
     def _compute_loc(self):
@@ -70,3 +71,25 @@ class ProductTemplate(models.Model):
                 loc.write(values)
             else:
                 self.env["product.warehouse.location"].sudo().create(values)
+
+    def write(self, vals):
+        res = super().write(vals)
+        if "is_inventory_ok" in vals:
+            self.with_context(active_test=False).mapped("product_variant_ids").write(
+                {"is_inventory_ok": vals.get("is_inventory_ok")}
+            )
+        return res
+
+    def variants_is_ok(self):
+        self.ensure_one()
+        is_inventory_ok = True
+        for product in self.product_variant_ids:
+            if not product.is_inventory_ok:
+                is_inventory_ok = False
+        return is_inventory_ok
+
+
+class ProductProduct(models.Model):
+    _inherit = "product.product"
+
+    is_inventory_ok = fields.Boolean("Inventory OK")
