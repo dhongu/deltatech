@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="request_login" inherit_id="website_sale.product" name="Request Login">
+        <xpath expr="//form" position="before">
+            <div t-if="user_id._is_public()">
+                <span class="text-danger">Please login to add products to cart.</span>
+            </div>
+        </xpath>
+    </template>
+</odoo>
