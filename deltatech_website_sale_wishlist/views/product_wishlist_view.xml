@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="product_wishlist_tree" model="ir.ui.view">
+        <field name="name">product.wishlist.tree</field>
+        <field name="model">product.wishlist</field>
+        <field name="arch" type="xml">
+            <tree string="Wishlists">
+                <header>
+                    <button name="action_launch_replenishment" string="Replenish" type="object" />
+                </header>
+                <field name="partner_id" />
+                <field name="product_id" />
+                <field name="qty_available" />
+                <field name="price" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_wishlist_form" model="ir.ui.view">
+        <field name="name">product.wishlist.form</field>
+        <field name="model">product.wishlist</field>
+        <field name="arch" type="xml">
+            <form string="Wishlist">
+                <sheet>
+                    <group>
+                        <field name="partner_id" />
+                        <field name="product_id" />
+                        <field name="qty_available" />
+                        <field name="price" />
+                    </group>
+                 </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_wishlist_action" model="ir.actions.act_window">
+        <field name="name">Wishlists</field>
+        <field name="res_model">product.wishlist</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="menu_product_wishlist" model="ir.ui.menu">
+        <field name="name">Wishlists</field>
+        <field name="action" ref="product_wishlist_action" />
+        <field name="parent_id" ref="website_sale.menu_catalog" />
+    </record>
+
+</odoo>
