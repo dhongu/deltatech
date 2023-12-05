@@ -210,11 +210,11 @@ class Inventory(models.Model):
         # archive old SVL's and write new svl if checked
         # TODO: test and correct with storage stock sheet
         if self.archive_svl:
+            # archive old svls
+            products = self.line_ids.product_id.ids
+            svls = self.env["stock.valuation.layer"].search([("product_id", "in", products)])
+            svls.write({"active": False})
             for line in self.line_ids:
-                # archive old svls
-                svls = self.env["stock.valuation.layer"].search([("product_id", "=", line.product_id.id)])
-                svls.write({"active": False})
-
                 # create move for new svl, from location to same location
                 values = {
                     "company_id": self.company_id.id,
@@ -234,6 +234,7 @@ class Inventory(models.Model):
 
                 # create new svl, with theoretical qty
                 svl_vals = {
+                    "active": True,
                     "company_id": self.company_id.id,
                     "currency_id": self.company_id.currency_id.id,
                     "product_id": line.product_id.id,
