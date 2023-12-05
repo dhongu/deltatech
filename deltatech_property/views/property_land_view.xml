@@ -94,7 +94,7 @@
                                 <field name="asset_number" />
                             </group>
                             <group string="Address">
-                                <div class="o_address_format">
+                                <div class="o_address_format" style="width:700%">
                                     <field name="street" placeholder="Street..." class="o_address_street" />
                                     <field name="city" placeholder="City" class="o_address_city" />
                                     <field

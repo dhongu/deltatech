@@ -36,16 +36,16 @@
                                 <field name="level" />
                             </group>
                             <group string="Dimension">
-                                <div class="o_row">
-                                    <field name="surface" />
+                                <div style="width:200%">
+                                    <field name="surface" style="width:50%" />
                                     <span>m²</span>
-                                </div>
-                                <div class="o_row">
-                                    <field name="height" />
+
+
+                                    <field name="height" style="width:50%" />
                                     <span>m</span>
-                                </div>
-                                <div class="o_row">
-                                    <field name="perimeter" />
+
+
+                                    <field name="perimeter" style="width:50%" />
                                     <span>m</span>
                                 </div>
                             </group>
