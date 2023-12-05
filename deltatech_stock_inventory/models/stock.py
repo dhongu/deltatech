@@ -116,7 +116,10 @@ class StockInventoryLine(models.Model):
         for inventory_line in self:
             if (
                 not inventory_line.theoretical_qty
-                or inventory_line.product_id.cost_method == "fifo"
+                or (
+                    inventory_line.product_id.cost_method == "fifo"
+                    or inventory_line.product_id.cost_method == "average"
+                )
                 and use_inventory_price
             ):
                 inventory_line.product_id.with_context(disable_auto_svl=True).write(
