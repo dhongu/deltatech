@@ -1,0 +1,8 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_service_cycle_user,access_service_cycle,model_service_cycle,group_service_user,1,0,0,0
+access_service_cycle_manager,access_service_cycle,model_service_cycle,group_service_manager,1,1,1,1
+access_service_cycle_public,access_service_cycle,model_service_cycle,,1,0,0,0
+access_service_cycle_client,access_service_cycle,model_service_cycle,group_service_client,1,0,0,0
+
+access_service_date_range_user,access_service_cycle,model_service_date_range,group_service_user,1,0,0,0
+access_service_date_range_manager,access_service_cycle,model_service_date_range,group_service_manager,1,1,1,1
