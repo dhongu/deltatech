@@ -352,6 +352,11 @@
                                 widget="radio"
                                 attrs="{'invisible': [('state', '!=', 'draft')]}"
                             />
+                            <field name="can_archive_svl" />
+                            <field
+                                name="archive_svl"
+                                attrs="{'readonly': ['|', ('state', '!=', 'draft'), ('can_archive_svl', '=', False)]}"
+                            />
                         </group>
                     </group>
                     <field name="line_ids" />

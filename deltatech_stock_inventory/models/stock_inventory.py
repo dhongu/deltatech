@@ -91,6 +91,18 @@ class Inventory(models.Model):
         states={"draft": [("readonly", False)]},
         help="Include also products with quantity of 0",
     )
+    can_archive_svl = fields.Boolean(compute="_compute_archive_svl")
+    archive_svl = fields.Boolean(string="Clear old valuation")
+
+    def _compute_archive_svl(self):
+        valuation_installed = self.env["ir.module.module"].search(
+            [("name", "=", "l10n_ro_parallel_valuation"), ("state", "=", "installed")]
+        )
+        for inventory in self:
+            if valuation_installed:
+                inventory.can_archive_svl = True
+            else:
+                inventory.can_archive_svl = False
 
     @api.onchange("company_id")
     def _onchange_company_id(self):
@@ -194,6 +206,58 @@ class Inventory(models.Model):
         # This is a normal behavior
         # as quants cannot be reuse from inventory location (users can still manually move the products before/after
         # the inventory if they want).
+
+        # archive old SVL's and write new svl if checked
+        # TODO: test and correct with storage stock sheet
+        if self.archive_svl:
+            for line in self.line_ids:
+                # archive old svls
+                svls = self.env["stock.valuation.layer"].search([("product_id", "=", line.product_id.id)])
+                svls.write({"active": False})
+
+                # create move for new svl, from location to same location
+                values = {
+                    "company_id": self.company_id.id,
+                    "date": self.date,
+                    "location_dest_id": line.location_id.id,
+                    # "location_dest_id": line.product_id.property_stock_inventory.id,
+                    "location_id": line.location_id.id,
+                    # "location_id": line.product_id.property_stock_inventory.id,
+                    "name": "dummy_move_" + line.product_id.name,
+                    "procure_method": "make_to_stock",
+                    "product_id": line.product_id.id,
+                    "product_uom": line.product_id.uom_id.id,
+                    "product_uom_qty": 0.0,
+                    "state": "done",
+                }
+                move = self.env["stock.move"].create(values)
+
+                # create new svl, with theoretical qty
+                svl_vals = {
+                    "company_id": self.company_id.id,
+                    "currency_id": self.company_id.currency_id.id,
+                    "product_id": line.product_id.id,
+                    "stock_move_id": move.id,
+                    "quantity": line.theoretical_qty,
+                    "unit_cost": line.standard_price,
+                    "value": line.theoretical_qty * line.standard_price,
+                    "remaining_value": line.theoretical_qty * line.standard_price,
+                    # "l10n_ro_account_id": 196,
+                    # "l10n_ro_valued_type": "plus_inventory_regl",
+                    # "l10n_ro_location_dest_id": location.id,
+                    "remaining_qty": line.theoretical_qty,
+                    # "l10n_ro_lot_ids": [(4, quant["lot_id"].id)],
+                    "description": line.product_id.name + " -fix value",
+                }
+                svl_model = self.env["stock.valuation.layer"]
+                if hasattr(svl_model, "l10n_ro_account_id"):
+                    accounts = line.product_id.product_tmpl_id._get_product_accounts()
+                    svl_vals["l10n_ro_account_id"] = accounts["stock_valuation"].id
+                    if line.prod_lot_id:
+                        svl_vals["l10n_ro_lot_ids"] = [(4, line.prod_lot_id.id)]
+
+                self.env["stock.valuation.layer"].create(svl_vals)
+
         self.mapped("move_ids").filtered(lambda move: move.state != "done")._action_done()
         return True
 
