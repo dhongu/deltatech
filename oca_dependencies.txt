@@ -1,2 +1,2 @@
 # See https://github.com/OCA/odoo-community.org/blob/master/website/Contribution/CONTRIBUTING.rst#oca_dependencies-txt
-l10n_ro_payment_to_statement https://github.com/OCA/l10n-romania 16.0
+l10n_ro_payment_to_statement https://github.com/OCA/l10n-romania.git
