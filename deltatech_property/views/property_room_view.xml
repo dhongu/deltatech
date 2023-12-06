@@ -36,18 +36,29 @@
                                 <field name="level" />
                             </group>
                             <group string="Dimension">
-                                <div class="o_row">
-                                    <field name="surface" />
+
+
+                                <label for="surface" />
+                                <div class="o_row" name="height">
+                                    <field name="surface" string="Surface Area" class="oe_inline" />
                                     <span>m²</span>
                                 </div>
-                                <div class="o_row">
-                                    <field name="height" />
+
+
+                                <label for="height" />
+                                <div class="o_row" name="height">
+                                    <field name="height" string="Height" class="oe_inline" />
                                     <span>m</span>
                                 </div>
-                                <div class="o_row">
-                                    <field name="perimeter" />
+
+
+                                <label for="perimeter" />
+                                <div class="o_row" name="perimeter">
+                                    <field name="perimeter" string="Perimeter" class="oe_inline" />
                                     <span>m</span>
                                 </div>
+
+
                             </group>
                         </group>
                         <notebook>

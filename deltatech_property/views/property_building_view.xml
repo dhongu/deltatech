@@ -92,7 +92,8 @@
                                 <field name="owner_id" />
                                 <field name="asset_number" />
                             </group>
-                            <group string="Adress">
+                            <group string="">
+                                <label for="street" string="Address" />
                                 <div class="o_address_format">
                                     <field name="street" placeholder="Street..." class="o_address_street" />
                                     <field name="city" placeholder="City" class="o_address_city" />

@@ -82,10 +82,12 @@
                             bg_color="bg-danger"
                             attrs="{'invisible': [('active', '=', True)]}"
                         />
-                            <div class="oe_title">
-                                <label for="name" string="Name" />
-                                <h1><field name="name" placeholder="e.g. the land between the hills" /></h1>
-                            </div>
+                        <div class="oe_title">
+                            <label for="name" string="Name" />
+                            <h1>
+                                <field name="name" placeholder="e.g. the land between the hills" />
+                            </h1>
+                        </div>
                         <group>
                             <group string="Identification">
                                 <field name="region_id" />
@@ -93,7 +95,8 @@
                                 <field name="responsible_id" />
                                 <field name="asset_number" />
                             </group>
-                            <group string="Address">
+                            <group string="">
+                                <label for="street" string="Address" />
                                 <div class="o_address_format">
                                     <field name="street" placeholder="Street..." class="o_address_street" />
                                     <field name="city" placeholder="City" class="o_address_city" />
@@ -102,6 +105,7 @@
                                         class="o_address_state"
                                         placeholder="State"
                                         options='{"no_open": True}'
+                                        domain="[('country_id','=',country_id)]"
                                         context="{'country_id': country_id, 'zip': zip}"
                                     />
                                     <field name="zip" placeholder="ZIP" class="o_address_zip" />
