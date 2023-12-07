@@ -1,2 +1,2 @@
 Features:
- - Add color in product category
+ - Adds color in product category
