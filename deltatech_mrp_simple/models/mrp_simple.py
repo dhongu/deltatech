@@ -78,7 +78,7 @@ class MRPSimple(models.Model):
                 if picking_out.state == "assigned":
                     for move in picking_out.move_ids:
                         for move_line in move.move_line_ids:
-                            move_line.qty_done = move_line.product_uom_qty
+                            move_line.qty_done = move_line.reserved_uom_qty
                 picking_out.button_validate()
 
         # se face receptia
@@ -88,7 +88,7 @@ class MRPSimple(models.Model):
                 if picking_in.state == "assigned":
                     for move in picking_in.move_ids:
                         for move_line in move.move_line_ids:
-                            move_line.qty_done = move_line.product_uom_qty
+                            move_line.qty_done = move_line.reserved_uom_qty
                 picking_in.button_validate()
 
         self.write({"state": "done"})
