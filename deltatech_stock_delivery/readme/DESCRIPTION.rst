@@ -1,2 +1,2 @@
 Features:
- - Adding button in invoice for display reception or delivery
+ - Adding a button in invoice for displaying reception or delivery

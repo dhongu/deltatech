@@ -1,2 +1,2 @@
 Features:
- - Price modify at the reception
+ - Price modify at reception

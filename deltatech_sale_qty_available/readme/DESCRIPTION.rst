@@ -1,3 +1,3 @@
 Features:
 
- - In the order list are displayed the orders ready for delivery in green color.
+ - In the order list the orders ready for delivery are displayed  in green color.

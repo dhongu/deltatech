@@ -1,2 +1,2 @@
 Features:
-  - add phone number in sales order
+  - add phone number in sale order
