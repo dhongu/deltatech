@@ -5,7 +5,7 @@
     <t t-extend="sale_stock.qtyAtDate">
         <t t-jquery="a" t-operation="replace">
             <t t-set="text_color" t-value="widget.data.forecasted_issue ? 'text-danger' : 'text-primary'" />
-            <t t-if="!widget.data.free_qty_today and !widget.data.forecasted_issue ">
+            <t t-if="!widget.data.qty_available_today and !widget.data.forecasted_issue ">
                 <t t-set="text_color" t-value="'text-warning'" />
             </t>
             <a tabindex="0" t-attf-class="fa fa-area-chart {{ text_color }}" />
@@ -21,7 +21,7 @@
                         <td>
                             <strong>Vendor Stock</strong>
                         </td>
-                        <td>
+                        <td style="min-width: 50px; text-align: right;">
                             <b t-esc="data.vendor_qty_available" />
                             <t t-esc='data.product_uom.data.display_name' />
                         </td>
@@ -30,7 +30,7 @@
                         <td>
                             <strong>Other Stock</strong>
                         </td>
-                        <td>
+                        <td style="min-width: 50px; text-align: right;">
                             <b t-esc="data.other_qty_available" />
                             <t t-esc='data.product_uom.data.display_name' />
                         </td>
