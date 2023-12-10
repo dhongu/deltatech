@@ -3,7 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class ProductWarehouseLocation(models.Model):
@@ -87,6 +88,131 @@ class ProductTemplate(models.Model):
             if not product.is_inventory_ok:
                 is_inventory_ok = False
         return is_inventory_ok
+
+    def get_location(self):
+        """
+        Get the location (first location from product, other are ignored)
+        :return: stock location if found, else False
+        """
+        self.ensure_one()
+        if self.warehouse_loc_ids:
+            warehouse_loc = self.warehouse_loc_ids[0]
+            if warehouse_loc.loc_row and warehouse_loc.loc_rack:
+                if "/" in warehouse_loc.loc_row:
+                    # multiple locations pe warehouse
+                    rows = warehouse_loc.loc_row.split("/")
+                    racks = warehouse_loc.loc_rack.split("/")
+                    rack = racks[0]
+                    row = rows[0]
+                else:
+                    rack = warehouse_loc.loc_rack
+                    row = warehouse_loc.loc_row
+
+                # search for location
+                location_dest = (
+                    warehouse_loc.warehouse_id.code
+                    + "/"
+                    + warehouse_loc.warehouse_id.lot_stock_id.name
+                    + "/"
+                    + row
+                    + "/"
+                    + rack
+                )
+                locations = self.env["stock.location"].search([("complete_name", "=", location_dest)])
+                if not locations:
+                    # try without leading zeros
+                    if rack[0] == "0":
+                        rack = rack[1:]
+                        location_dest = (
+                            warehouse_loc.warehouse_id.code
+                            + "/"
+                            + warehouse_loc.warehouse_id.lot_stock_id.name
+                            + "/"
+                            + row
+                            + "/"
+                            + rack
+                        )
+                        locations = self.env["stock.location"].search([("complete_name", "=", location_dest)])
+                if not locations:
+                    return False
+                else:
+                    return locations[0]
+            else:
+                return False
+        else:
+            return False
+
+    def create_putaway_rule(self):
+        """
+        Create a putaway rule, if it doesn't exist
+        :return: None
+        """
+        vals = []
+        for product in self:
+            location_dest = product.get_location()
+            if location_dest:
+                location_source = location_dest.warehouse_id.lot_stock_id
+                for product_variant in product.product_variant_ids:
+                    if not product_variant.putaway_rule_ids.filtered(
+                        lambda loc_in: loc_in.location_in_id == location_source
+                    ):
+                        value = {
+                            "company_id": product.company_id or self.env.user.company_id.id,
+                            "product_id": product_variant.id,
+                            "location_in_id": location_source.id,
+                            "location_out_id": location_dest.id,
+                        }
+                        vals.append(value)
+            else:
+                raise UserError(
+                    _("No location can be fount for product {}. Check product stock configuration".format(product.name))
+                )
+        if vals:
+            self.env["stock.putaway.rule"].create(vals)
+
+    def move_to_putaway_location(self):
+        """
+        Creates a picking to move all product variants in location found in variant's putaway rules
+        No tracking (lots or serials) is used
+        :return: created picking
+        """
+        self.ensure_one()
+        location_id = False
+        location_dest_id = False
+        values = []
+        for product in self.product_variant_ids:
+            if product.putaway_rule_ids:
+                rule_id = product.putaway_rule_ids[0]
+                location_id = rule_id.location_in_id
+                location_dest_id = rule_id.location_out_id
+                quants = self.env["stock.quant"]._gather(product, location_id)
+                qty = sum(quants.mapped("quantity"))
+                value = {
+                    "company_id": self.company_id or self.env.user.company_id.id,
+                    "date": fields.Datetime.now(),
+                    "product_id": product.id,
+                    "name": product.display_name,
+                    "location_id": location_id.id,
+                    "location_dest_id": location_dest_id.id,
+                    "product_uom": product.uom_id.id,
+                    "product_uom_qty": qty,
+                    "quantity_done": qty,
+                }
+                values.append(value)
+            else:
+                raise UserError(_("No putaway rule found for {}".format(product.name)))
+        if values:
+            picking_type = self.env.ref("stock.picking_type_internal")
+            picking_values = {
+                "picking_type_id": picking_type.id,
+                "location_id": location_id.id,
+                "location_dest_id": location_dest_id.id,
+                "move_ids_without_package": [(0, 0, line_vals) for line_vals in values],
+            }
+            picking = self.env["stock.picking"].create(picking_values)
+            picking.action_confirm()
+            picking.button_validate()
+            return picking
 
 
 class ProductProduct(models.Model):
