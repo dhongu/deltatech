@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-03 07:48+0000\n"
-"PO-Revision-Date: 2023-12-03 07:48+0000\n"
+"POT-Creation-Date: 2023-12-10 10:32+0000\n"
+"PO-Revision-Date: 2023-12-10 10:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 #, python-format
 msgid "%s (copy)"
-msgstr "%s (copie)"
+msgstr ""
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
@@ -171,6 +171,11 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__can_archive_svl
+msgid "Can Archive Svl"
+msgstr ""
+
+#. module: deltatech_stock_inventory
 #: model:res.groups,name:deltatech_stock_inventory.group_merge_inventory
 msgid "Can merge inventory documents"
 msgstr "Unire documente inventar"
@@ -212,6 +217,11 @@ msgid "Change"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__archive_svl
+msgid "Clear old valuation"
+msgstr ""
+
+#. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__company_id
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__company_id
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__company_id
@@ -221,7 +231,7 @@ msgstr "Companie"
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_confirm_inventory_form
 msgid "Confirm"
-msgstr "Confirmă"
+msgstr "Unește"
 
 #. module: deltatech_stock_inventory
 #: model:ir.actions.act_window,name:deltatech_stock_inventory.action_stock_confirm_inventory
@@ -285,7 +295,7 @@ msgstr "Data"
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_inventory__prefill_counted_quantity__counted
 msgid "Default to stock on hand"
-msgstr ""
+msgstr "Implicit la stoc"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_inventory__prefill_counted_quantity__zero
@@ -641,6 +651,11 @@ msgid "Messages"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model:ir.actions.server,name:deltatech_stock_inventory.move_product_to_location
+msgid "Move product to location"
+msgstr "Transfera in locatia definita"
+
+#. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr ""
@@ -665,6 +680,11 @@ msgid "New inventory for Not Ok"
 msgstr "Inventar nou pentru Not ok"
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
@@ -678,6 +698,20 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_type_id
 msgid "Next Activity Type"
 msgstr ""
+
+#. module: deltatech_stock_inventory
+#: code:addons/deltatech_stock_inventory/models/product.py:0
+#, python-format
+msgid ""
+"No location can be fount for product {}. Check product stock configuration"
+msgstr ""
+"O locatie nu a putut fi gasita pentru produsul {}. Verificati configuratia produsului (Rand, raft)"
+
+#. module: deltatech_stock_inventory
+#: code:addons/deltatech_stock_inventory/models/product.py:0
+#, python-format
+msgid "No putaway rule found for {}"
+msgstr "Nu a fost gasita o regula de plasare pentru {}"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__note
@@ -846,7 +880,7 @@ msgstr "Raft"
 #. module: deltatech_stock_inventory
 #: model:ir.actions.server,name:deltatech_stock_inventory.model_stock_inventory_line_action_recompute_quantity
 msgid "Recompute On Hand Quantity"
-msgstr ""
+msgstr "Recalculează cantitatea disponibilă"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_filter
@@ -866,7 +900,7 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "Utilizator responsabil"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_row
@@ -901,7 +935,7 @@ msgstr "Selectați categoria pentru produsul curent"
 #. module: deltatech_stock_inventory
 #: model:ir.actions.server,name:deltatech_stock_inventory.model_stock_inventory_line_action_reset_product_qty
 msgid "Set counted quantities to 0"
-msgstr ""
+msgstr "Setează cantitățile faptice la 0"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
@@ -926,6 +960,8 @@ msgstr ""
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__product_ids
 msgid "Specify Products to focus your inventory on particular Products."
 msgstr ""
+"Specifică produse pentru a face inventarul doar pe acele produse. Lasă gol "
+"pentru a face inventarul pe orice produs"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
@@ -937,7 +973,7 @@ msgstr "Pornire inventar"
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__state
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_filter
 msgid "Status"
-msgstr ""
+msgstr "Stare"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__activity_state
@@ -1020,6 +1056,11 @@ msgid "Tracking"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr ""
@@ -1081,13 +1122,13 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__warehouse_id
 msgid "Warehouse"
-msgstr ""
+msgstr "Depozit"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__warehouse_loc_ids
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__warehouse_loc_ids
 msgid "Warehouse Loc"
-msgstr ""
+msgstr "Locație"
 
 #. module: deltatech_stock_inventory
 #: model:ir.ui.menu,name:deltatech_stock_inventory.menu_product_template_warehouse

@@ -411,6 +411,25 @@
         </field>
     </record>
 
+    <record id="move_product_to_location" model="ir.actions.server">
+        <field name="name">Move product to location</field>
+        <field name="model_id" ref="product.model_product_template" />
+        <field name="binding_model_id" ref="product.model_product_template" />
+        <field name="state">code</field>
+        <field name="code">
+records.create_putaway_rule()
+picking = records.move_to_putaway_location()
+if picking:
+    action = {
+        'type': 'ir.actions.act_window',
+        'res_id': picking.id,
+        'res_model': 'stock.picking',
+        'target': 'self',
+        "view_mode": "form",
+    }
+        </field>
+    </record>
+
     <menuitem
         action="action_inventory_form"
         id="menu_action_inventory_form"
