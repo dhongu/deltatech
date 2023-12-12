@@ -1,0 +1,452 @@
+<?xml version="1.0" ?>
+<odoo>
+
+
+    <!-- inherit view -->
+    <!-- Vehicle -->
+    <record id="adeltatech_fleet_form_view" model="ir.ui.view">
+        <field name="name">alfa.fleet.form</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form" />
+        <field name="arch" type="xml">
+            <!--
+            <label for="tag_ids" position="before">
+                <label for="indicative" class="oe_edit_only"/>
+                <h3>
+                    <field name="indicative" class="oe_inline"/>
+                </h3>
+            </label>
+            -->
+            <button name="open_assignation_logs" position="after">
+                <button
+                    name="act_show_map_sheet"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-random"
+                    string="Map Sheets"
+                    help="Show map sheet for this vehicle"
+                    groups="fleet.fleet_group_manager"
+                />
+            </button>
+            <field name="driver_id" position="before">
+                <field name="category_id" />
+            </field>
+            <!--
+            <field name="driver_id" position="after">
+                <field name="driver2_id"/>
+            </field>
+            -->
+            <field name="vin_sn" position="after">
+                <field name="engine_sn" />
+            </field>
+
+            <field name="color" position="after">
+                <field name="mass_cap" />
+                <field name="weight" />
+                <!--
+                <field name="tachometer"/>
+                -->
+                <field name="loading_level" />
+
+            </field>
+            <xpath expr="//sheet" position="inside">
+                <notebook>
+                    <page string="Consumption">
+                        <group>
+                            <group>
+                                <field name="reservoir_level" />
+                                <field name="reservoir" />
+                                <field name="avg_speed" />
+                            </group>
+                            <group>
+                                <field name="avg_cons_ex" />
+                                <field name="avg_cons_in" />
+                                <field name="avg_cons" />
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Allocation">
+                        <group>
+                            <group>
+                                <field name="ownership_partner_id" />
+                                <field name="contract_partner_id" />
+                                <field name="utilized_partner_id" />
+                            </group>
+                            <group>
+                                <field name="allocation_mode" />
+                                <field name="division" />
+                                <field name="scope_id" />
+                            </group>
+                        </group>
+                    </page>
+
+                    <page string="Cards">
+                        <field name="card_ids" />
+                    </page>
+                </notebook>
+
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <!-- Route Log -->
+    <record id='fleet_route_log_form' model='ir.ui.view'>
+        <field name="name">fleet.route.log.form</field>
+        <field name="model">fleet.route.log</field>
+        <field name="arch" type="xml">
+            <form string="Route Logs">
+                <header>
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <field name="vehicle_id" />
+                        <field name="date_begin" />
+                        <field name="date_end" />
+                        <field name="route_id" />
+                        <field name="distance" sum="Total Distance" />
+                        <field name="norm_cons" sum="Total Normal Consumption" />
+                        <field name="map_sheet_id" context="{'vehicle_id':vehicle_id, 'date':date_begin}" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id='fleet_route_log_tree' model='ir.ui.view'>
+        <field name="name">fleet.route.log.tree</field>
+        <field name="model">fleet.route.log</field>
+        <field name="arch" type="xml">
+            <tree string="Route Logs">
+                <field name="vehicle_id" />
+                <field name="state" />
+                <field name="date_begin" />
+                <field name="date_end" />
+                <field name="route_id" />
+                <field name="distance" sum="Total Distance" />
+                <field name="norm_cons" sum="Total Normal Consumption" />
+                <field name="map_sheet_id" context="{'vehicle_id':vehicle_id, 'date':date_begin}" />
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="fleet_route_log_calendar" model="ir.ui.view">
+        <field name="name">fleet.map.sheet.reoute.calendar</field>
+        <field name="model">fleet.route.log</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date_begin" date_stop="date_end" mode="week" string="Route Log">
+                <field name="vehicle_id" />
+                <field name="distance" />
+            </calendar>
+        </field>
+    </record>
+    <record id='fleet_route_log_search' model='ir.ui.view'>
+        <field name="name">fleet.route.log.search</field>
+        <field name="model">fleet.route.log</field>
+        <field name="arch" type="xml">
+            <search string="Route Log">
+                <field name="vehicle_id" />
+                <group expand="1" string="Group By...">
+                    <filter name="groupby_vehicle_id" context="{'group_by' : 'vehicle_id'}" string="Vehicle" />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id='fleet_route_log_act' model='ir.actions.act_window'>
+        <field name="name">Route Log</field>
+        <field name="res_model">fleet.route.log</field>
+        <field name="view_mode">tree,form,calendar</field>
+        <field name="context">{ "search_default_groupby_vehicle_id" : True,}</field>
+    </record>
+
+
+    <menuitem
+        action="fleet_route_log_act"
+        parent="fleet.fleet_vehicles"
+        id="fleet_route_log_menu"
+        groups="fleet.fleet_group_user"
+    />
+
+
+    <!-- Route Log -->
+    <record id='fleet_vehicle_location_form' model='ir.ui.view'>
+        <field name="name">fleet.vehicle.location.form</field>
+        <field name="model">fleet.vehicle.location</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="vehicle_id" />
+                        <field name="name" />
+                        <field name="date" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id='fleet_vehicle_location_tree' model='ir.ui.view'>
+        <field name="name">fleet.vehicle.location.tree</field>
+        <field name="model">fleet.vehicle.location</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="vehicle_id" />
+                <field name="name" />
+                <field name="date" />
+            </tree>
+        </field>
+    </record>
+
+
+    <record id='fleet_vehicle_location_search' model='ir.ui.view'>
+        <field name="name">fleet.vehicle.location.tree</field>
+        <field name="model">fleet.vehicle.location</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="vehicle_id" />
+                <group expand="1" string="Group By...">
+                    <filter name="groupby_vehicle_id" context="{'group_by' : 'vehicle_id'}" string="Vehicle" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id='fleet_vehicle_location_act' model='ir.actions.act_window'>
+        <field name="name">Vehicle Location</field>
+        <field name="res_model">fleet.vehicle.location</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{ "search_default_groupby_vehicle_id" : True,}</field>
+    </record>
+
+
+    <menuitem
+        action="fleet_vehicle_location_act"
+        parent="fleet.fleet_vehicles"
+        id="fleet_vehicle_location_menu"
+        groups="fleet.fleet_group_user"
+    />
+
+
+    <menuitem
+        name="Master data"
+        parent="fleet.fleet_vehicles"
+        id="fleet_masterdata_menu"
+        groups="fleet.fleet_group_user"
+        sequence="99"
+    />
+
+    <!-- Route -->
+    <record id='fleet_route_tree' model='ir.ui.view'>
+        <field name="name">fleet.route.tree</field>
+        <field name="model">fleet.route</field>
+        <field name="arch" type="xml">
+            <tree string="Route">
+                <field name="name" />
+                <field name="from_loc_id" />
+                <field name="to_loc_id" />
+                <field name="distance" />
+                <field name="duration" widget="float_time" />
+            </tree>
+        </field>
+    </record>
+    <record id='fleet_route_form' model='ir.ui.view'>
+        <field name="name">fleet.route.form</field>
+        <field name="model">fleet.route</field>
+        <field name="arch" type="xml">
+            <form string="Route">
+                <group col="4">
+                    <field name="from_loc_id" />
+                    <field name="to_loc_id" />
+                </group>
+                <group col="6">
+                    <field name="dist_c1" />
+                    <field name="dist_c2" />
+                    <field name="dist_c3" />
+                    <field name="distance" />
+                    <field name="duration" widget="float_time" />
+                </group>
+                <group col="4">
+                    <field name="reverse" />
+                    <button name="button_create_reverse" string="(create)" class="oe_link oe_edit_only" type="object" />
+                </group>
+                <div id="map" />
+            </form>
+        </field>
+    </record>
+    <record id='fleet_route_act' model='ir.actions.act_window'>
+        <field name="name">Routes</field>
+        <field name="res_model">fleet.route</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Click to create a new route.</p>
+        </field>
+    </record>
+    <menuitem
+        action="fleet_route_act"
+        parent="fleet_masterdata_menu"
+        id="fleet_route_menu"
+        groups="fleet.fleet_group_user"
+    />
+
+    <!-- Location -->
+    <record id='fleet_location_tree' model='ir.ui.view'>
+        <field name="name">fleet.location.tree</field>
+        <field name="model">fleet.location</field>
+        <field name="arch" type="xml">
+            <tree string="Location" editable="bottom">
+                <field name="name" />
+                <field name="type" />
+            </tree>
+        </field>
+    </record>
+    <record id='fleet_location_form' model='ir.ui.view'>
+        <field name="name">fleet.location.form</field>
+        <field name="model">fleet.location</field>
+        <field name="arch" type="xml">
+            <form string="Location">
+                <group>
+                    <field name="name" />
+                    <field name="type" />
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id='fleet_location_act' model='ir.actions.act_window'>
+        <field name="name">Locations</field>
+        <field name="res_model">fleet.location</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Click to create a new location.</p>
+        </field>
+    </record>
+    <menuitem
+        action="fleet_location_act"
+        parent="fleet_masterdata_menu"
+        id="fleet_locations_menu"
+        groups="fleet.fleet_group_user"
+    />
+
+    <!-- Fuel -->
+    <record id='fleet_fuel_tree' model='ir.ui.view'>
+        <field name="name">fleet.fuel.tree</field>
+        <field name="model">fleet.fuel</field>
+        <field name="arch" type="xml">
+            <tree string="Fuel" editable="bottom">
+                <field name="name" />
+                <field name="fuel_type" />
+            </tree>
+        </field>
+    </record>
+    <record model='ir.actions.act_window' id='fleet_fuel_act'>
+        <field name="name">Fuels</field>
+        <field name="res_model">fleet.fuel</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="fleet_fuel_act"
+        parent="fleet_masterdata_menu"
+        id="fleet_fuel_menu"
+        groups="fleet.fleet_group_user"
+    />
+
+    <!-- Scope -->
+    <record id='fleet_scope_tree' model='ir.ui.view'>
+        <field name="name">fleet.scope.tree</field>
+        <field name="model">fleet.scope</field>
+        <field name="arch" type="xml">
+            <tree string="Scope" editable="bottom">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+    <record id='fleet_scope_act' model='ir.actions.act_window'>
+        <field name="name">Scope</field>
+        <field name="res_model">fleet.scope</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="fleet_scope_act"
+        parent="fleet_masterdata_menu"
+        id="fleet_scope_menu"
+        groups="fleet.fleet_group_user"
+    />
+
+    <!-- Category -->
+    <record id='fleet_vehicle_category_tree' model='ir.ui.view'>
+        <field name="name">fleet.vehicle.category.tree</field>
+        <field name="model">fleet.vehicle.category</field>
+        <field name="arch" type="xml">
+            <tree string="Category" editable="bottom">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+    <record id='fleet_vehicle_category_act' model='ir.actions.act_window'>
+        <field name="name">Vehicle Category</field>
+        <field name="res_model">fleet.vehicle.category</field>
+
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="fleet_vehicle_category_act"
+        parent="fleet.fleet_configuration"
+        id="fleet_vehicle_category_menu"
+        groups="fleet.fleet_group_user"
+    />
+
+    <!-- Cards -->
+    <record id='fleet_card_tree' model='ir.ui.view'>
+        <field name="name">fleet.card.tree</field>
+        <field name="model">fleet.card</field>
+        <field name="arch" type="xml">
+            <tree string="Cards" editable="bottom">
+                <field name="name" />
+                <field name="type_card" />
+                <field name="vehicle_ids" widget="many2many_tags" />
+            </tree>
+        </field>
+    </record>
+    <record id='fleet_card_form' model='ir.ui.view'>
+        <field name="name">fleet.card.form</field>
+        <field name="model">fleet.card</field>
+        <field name="arch" type="xml">
+            <form string="Cards">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="type_card" />
+                        <field name="active" />
+                        <newline />
+                        <field name="vehicle_ids" widget="many2many_list" mode="tree">
+                            <tree string="Vehicles">
+                                <field name="name" />
+                            </tree>
+                        </field>
+                        <field name="log_fuel_ids" widget="many2many_list" mode="tree">
+                            <tree string="Fuel log">
+                                <field name="name" />
+                                <field name="liter" sum="Total liters" />
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id='fleet_card_act' model='ir.actions.act_window'>
+        <field name="name">Card</field>
+        <field name="res_model">fleet.card</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        action="fleet_card_act"
+        parent="fleet_masterdata_menu"
+        id="fleet_card_menu"
+        groups="fleet.fleet_group_user"
+    />
+
+
+</odoo>
