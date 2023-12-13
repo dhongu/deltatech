@@ -12,7 +12,6 @@
     "depends": ["account"],
     "license": "OPL-1",
     "data": [
-        "security/ir.model.access.csv",
         "data/ir_config_param.xml",
         "views/account_payment_view.xml",
         "views/account_view.xml",
