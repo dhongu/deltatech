@@ -35,7 +35,7 @@ repos:
       # See https://pre-commit.com/#confining-hooks-to-run-at-certain-stages
       # pre-commit run --hook-stage manual oca-gen-addons-table
       - id: oca-gen-addons-table
-        stages: [manual]
+  #        stages: [manual]
 
   - repo: local
     hooks:
