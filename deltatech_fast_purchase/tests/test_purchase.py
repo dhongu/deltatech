@@ -13,10 +13,24 @@ class TestPurchase(TransactionCase):
 
         seller_ids = [(0, 0, {"partner_id": self.partner_a.id})]
         self.product_a = self.env["product.product"].create(
-            {"name": "Test A", "type": "product", "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
+            {
+                "name": "Test A",
+                "type": "product",
+                "standard_price": 100,
+                "list_price": 150,
+                "seller_ids": seller_ids,
+                "purchase_method": "purchase",
+            }
         )
         self.product_b = self.env["product.product"].create(
-            {"name": "Test B", "type": "product", "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
+            {
+                "name": "Test B",
+                "type": "product",
+                "standard_price": 100,
+                "list_price": 150,
+                "seller_ids": seller_ids,
+                "purchase_method": "purchase",
+            }
         )
 
     def test_purchase_confirm_to_invoice(self):
