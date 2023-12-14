@@ -14,8 +14,10 @@ class ProductTemplate(models.Model):
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
-    def _select_seller(self, partner_id=False, quantity=0.0, date=None, uom_id=False, params=False):
-        res = super()._select_seller(partner_id, quantity, date, uom_id, params)
+    def _select_seller(
+        self, partner_id=False, quantity=0.0, date=None, uom_id=False, ordered_by="price_discounted", params=False
+    ):
+        res = super()._select_seller(partner_id, quantity, date, uom_id, ordered_by, params)
 
         if not res:
             if self.env.user.company_id.supplier_id and (
