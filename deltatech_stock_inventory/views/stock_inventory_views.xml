@@ -16,7 +16,8 @@
             >
                 <field name="company_id" invisible="1" />
                 <field name="product_tracking" invisible="1" />
-                <field name="is_editable" invisible="1" />
+                <field name="is_editable" invisible="0" />
+                <field name="is_price_editable" invisible="0" />
                 <field name="outdated" invisible="1" />
                 <field
                     name="product_id"
@@ -90,9 +91,7 @@
                 <field name="state" invisible="1" />
                 <field
                     name="standard_price"
-                    attrs="{'readonly': ['|',
-                            ('is_editable', '=', False),
-                            ('state', '!=', 'confirm')]}"
+                    attrs="{'readonly': ['|', ('is_editable', '=', False), ('is_price_editable', '=', False)]}"
                 />
                 <field
                     name="is_ok"

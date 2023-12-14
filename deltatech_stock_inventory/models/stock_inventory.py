@@ -319,12 +319,12 @@ class Inventory(models.Model):
             "res_model": "stock.inventory.line",
         }
         context = {
-            "default_is_editable": True,
+            # "default_is_editable": True,
             "default_inventory_id": self.id,
             "default_company_id": self.company_id.id,
         }
-        if self.state == "done":
-            context["default_is_editable"] = False
+        # if self.state == "done":
+        #     context["default_is_editable"] = False
         # Define domains and context
         domain = [("inventory_id", "=", self.id), ("location_id.usage", "in", ["internal", "transit"])]
         if self.location_ids:
@@ -505,7 +505,10 @@ class InventoryLine(models.Model):
                 )
         return "[('type', '=', 'product'), '|', ('company_id', '=', False), ('company_id', '=', company_id)]"
 
-    is_editable = fields.Boolean(help="Technical field to restrict editing.")
+    is_editable = fields.Boolean(compute="_compute_is_editable", help="Technical field to restrict editing.")
+    is_price_editable = fields.Boolean(
+        compute="_compute_is_price_editable", help="Technical field to restrict price editing."
+    )
     inventory_id = fields.Many2one("stock.inventory", "Inventory", check_company=True, index=True, ondelete="cascade")
     partner_id = fields.Many2one("res.partner", "Owner", check_company=True)
     product_id = fields.Many2one(
@@ -590,6 +593,23 @@ class InventoryLine(models.Model):
                 line.outdated = True
             else:
                 line.outdated = False
+
+    def _compute_is_editable(self):
+        for line in self:
+            if line.inventory_id.state != "confirm":
+                line.is_editable = False
+            else:
+                line.is_editable = True
+
+    def _compute_is_price_editable(self):
+        config_parameter = self.env["ir.config_parameter"].sudo()
+        use_inventory_price = config_parameter.get_param(key="stock.use_inventory_price", default="True")
+        use_inventory_price = safe_eval(use_inventory_price)
+        for line in self:
+            if not use_inventory_price:
+                line.is_price_editable = False
+            else:
+                line.is_price_editable = True
 
     @api.onchange("product_id", "location_id", "product_uom_id", "prod_lot_id", "partner_id", "package_id")
     def _onchange_quantity_context(self):
