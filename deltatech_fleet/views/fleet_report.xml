@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+<!--        <report
+            string="Map Sheet"
+            id="fleet_map_sheet_list_report"
+            model="fleet.map.sheet"
+            report_type="qweb-pdf"
+            name="deltatech_fleet.report_map_sheet"
+            file="deltatech_fleet.report_map_sheet"
+        />
+        -->
+    <record id="fleet_map_sheet_list_report" model="ir.actions.report">
+            <field name="name">Map Sheet</field>
+            <field name="model">fleet.map.sheet</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">deltatech_fleet.report_map_sheet</field>
+            <field name="report_file">deltatech_fleet.report_map_sheet</field>
+        <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>

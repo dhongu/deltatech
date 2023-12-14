@@ -1,0 +1,112 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_delivery_status
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-13 13:32+0000\n"
+"PO-Revision-Date: 2022-10-13 13:32+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__available_state__available
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_internal_search
+msgid "Available"
+msgstr "Disponibil"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__available_state
+msgid "Available State"
+msgstr "Stare disponibilitate"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__delivered
+msgid "Delivered"
+msgstr "Livrat"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__draft
+msgid "Draft"
+msgstr "Ciornă"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__in_transit
+msgid "In Transit"
+msgstr "În tranzit"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__in_warehouse
+msgid "In Warehouse"
+msgstr "În depozit"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__in_delivery
+msgid "In delivery"
+msgstr "În livrare"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__available_state__partially
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_internal_search
+msgid "Partially available"
+msgstr "Disponibil parțial"
+
+#. module: deltatech_delivery_status
+#: model:ir.model,name:deltatech_delivery_status.model_stock_picking_type
+msgid "Picking Type"
+msgstr "Tip ridicare"
+
+#. module: deltatech_delivery_status
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_order_form
+msgid "Postpone delivery"
+msgstr "Amână livrarea"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__postponed
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking_type__postponed
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_form
+msgid "Postponed"
+msgstr "Amânată"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_sale_order__postponed_delivery
+msgid "Postponed delivery"
+msgstr "Livrare amânată"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__pre_advice
+msgid "Pre advice"
+msgstr "Avizat"
+
+#. module: deltatech_delivery_status
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_order_form
+msgid "Release delivery"
+msgstr "Eliberează livrarea"
+
+#. module: deltatech_delivery_status
+#: model:ir.model,name:deltatech_delivery_status.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__delivery_state
+msgid "State"
+msgstr "Stare"
+
+#. module: deltatech_delivery_status
+#: model:ir.model,name:deltatech_delivery_status.model_stock_picking
+msgid "Transfer"
+msgstr "Transfer"
+
+#. module: deltatech_delivery_status
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_internal_search
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__available_state__unavailable
+msgid "Unavailable"
+msgstr "Indisponibil"
+
