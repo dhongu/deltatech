@@ -1,0 +1,1013 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_fleet
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-03 06:26+0000\n"
+"PO-Revision-Date: 2017-11-03 06:26+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_route_form
+msgid "(create)"
+msgstr "(creare)"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<span>Map Sheet:</span>"
+msgstr "<span>Foaie Parcurs:</span>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Amount</strong>"
+msgstr "<strong>Valoare</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Average consumption:</strong>"
+msgstr "<strong>Consum mediu:</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Category:</strong>"
+msgstr "<strong>Categorie:</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Company:</strong>"
+msgstr "<strong>Compania:</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Cons.</strong>"
+msgstr "<strong>Cons.</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Data begin</strong>"
+msgstr "<strong>Dată început</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Data end</strong>"
+msgstr "<strong>Dată final</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Data:</strong>"
+msgstr "<strong>Dată:</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Data</strong>"
+msgstr "<strong>Data</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Distance</strong>"
+msgstr "<strong>Distanța</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Driver:</strong>"
+msgstr "<strong>Șofer:</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Fuel log:</strong>"
+msgstr "<strong>Consum combustibil:</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Invoice ref</strong>"
+msgstr "<strong>Ref Factură</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Liter</strong>"
+msgstr "<strong>Liter</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Normal consumption:</strong>"
+msgstr "<strong>Normal consumption:</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Odometer start:</strong>"
+msgstr "<strong>Odometer start:</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Price</strong>"
+msgstr "<strong>Price</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Reservoir lever start:</strong>"
+msgstr "<strong>Reservoir lever start:</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Route log:</strong>"
+msgstr "<strong>Route log:</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Route</strong>"
+msgstr "<strong>Route</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Scope</strong>"
+msgstr "<strong>Scope</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Start date:</strong>"
+msgstr "<strong>Start date:</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Start end:</strong>"
+msgstr "<strong>Start end:</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Total amount:</strong>"
+msgstr "<strong>Total amount:</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Total distance:</strong>"
+msgstr "<strong>Total distance:</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Total</strong>"
+msgstr "<strong>Total</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
+msgid "<strong>Vehicle:</strong>"
+msgstr "<strong>Vehicle:</strong>"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_card_active
+msgid "Active"
+msgstr "Activ(a)"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_avg_cons
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_avg_cons
+msgid "Average Consumption"
+msgstr "Consum mediu"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_form
+msgid "Average Price"
+msgstr "Preț mediu"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_avg_speed
+msgid "Average Speed"
+msgstr "Viteza medie"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_driver2_id
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_driver2_id
+msgid "Backup Driver"
+msgstr "Șofer rezervă"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_driver2_id
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_vehicle_driver2_id
+msgid "Backup driver of the vehicle"
+msgstr "Șofer de rezervă"
+
+#. module: deltatech_fleet
+#: selection:fleet.map.sheet,state:0
+msgid "Cancelled"
+msgstr "Anulat"
+
+#. module: deltatech_fleet
+#: code:addons/deltatech_fleet/models/.tmp.py:348
+#: code:addons/deltatech_fleet/models/fleet_sheet.py:382
+#, python-format
+msgid "Cannot delete a map sheet which is in state '%s'."
+msgstr "Nu se poate șterge o foaie de parcurs în starea '%s'."
+
+#. module: deltatech_fleet
+#: code:addons/deltatech_fleet/models/fleet_sheet.py:597
+#, python-format
+msgid "Cannot delete a route log which is in state '%s'."
+msgstr "Nu se poate șterge un traseu parcurs în starea '%s'."
+
+#. module: deltatech_fleet
+#: code:addons/deltatech_fleet/models/.tmp.py:387
+#: code:addons/deltatech_fleet/models/fleet_sheet.py:420
+#, python-format
+msgid "Cannot set done a map sheet which distance equal with zero."
+msgstr "Cannot set done a map sheet which distance equal with zero."
+
+#. module: deltatech_fleet
+#: model:ir.actions.act_window,name:deltatech_fleet.fleet_card_act
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_log_fuel_card_id
+#: model:ir.ui.menu,name:deltatech_fleet.fleet_card_menu
+msgid "Card"
+msgstr "Card"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_card_ids
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_card_form
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_card_tree
+msgid "Cards"
+msgstr "Carduri"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_category_name
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_vehicle_category_tree
+msgid "Category"
+msgstr "Categorie"
+
+#. module: deltatech_fleet
+#: model:ir.actions.act_window,help:deltatech_fleet.fleet_location_act
+msgid "Click to create a new location."
+msgstr "Clic pentru a creea o nouă locație."
+
+#. module: deltatech_fleet
+#: model:ir.actions.act_window,help:deltatech_fleet.fleet_map_sheet_act
+msgid "Click to create a new map sheet."
+msgstr "Click to create a new map sheet."
+
+#. module: deltatech_fleet
+#: model:ir.actions.act_window,help:deltatech_fleet.fleet_route_act
+msgid "Click to create a new route."
+msgstr "Click to create a new route."
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_category_code
+msgid "Cod"
+msgstr "Cod"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_form
+msgid "Confirm"
+msgstr "Confirmă"
+
+#. module: deltatech_fleet
+#: model:ir.model,name:deltatech_fleet.model_fleet_vehicle_cost
+msgid "Cost related to a vehicle"
+msgstr "Costul asociat unui vehicul"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_card_create_uid
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_fuel_create_uid
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_location_create_uid
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_create_uid
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_reservoir_level_create_uid
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_create_uid
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_create_uid
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_scope_create_uid
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_category_create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_card_create_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_fuel_create_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_location_create_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_create_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_reservoir_level_create_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_create_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_create_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_scope_create_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_category_create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_reservoir_level_date
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_search
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_vehicle_log_fuel_view_search
+msgid "Date"
+msgstr "Data"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_date_begin
+msgid "Date Begin"
+msgstr "Dată început"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_date_end
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_date_end
+msgid "Date End"
+msgstr "Dată sfârșit"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_date_start
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_date_start_old
+msgid "Date Start"
+msgstr "Dată început"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_cost_date_time
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_log_contract_date_time
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_log_fuel_date_time
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_log_services_date_time
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_odometer_date_time
+msgid "Date Time"
+msgstr "Date oră"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_vehicle_cost_date_time
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_vehicle_log_contract_date_time
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_vehicle_log_fuel_date_time
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_vehicle_log_services_date_time
+msgid "Date and time when the cost has been executed"
+msgstr "Data și ora când costul a fost efectuat"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_date_end
+msgid "Date time at the end of this map sheet"
+msgstr "Data și ora de sfârșit a foii de parcurs"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_date_start
+msgid "Date time at the start of this map sheet"
+msgstr "Data și ora de început a foii de parcurs"
+
+#. module: deltatech_fleet
+#: selection:fleet.fuel,fuel_type:0
+msgid "Diesel"
+msgstr "Motorină"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_card_display_name
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_fuel_display_name
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_location_display_name
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_display_name
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_reservoir_level_display_name
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_display_name
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_display_name
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_scope_display_name
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_category_display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_dist_c1
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_dist_c1
+msgid "Dist C1"
+msgstr "Dist C1"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_dist_c2
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_dist_c2
+msgid "Dist C2"
+msgstr "Dist C2"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_dist_c3
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_dist_c3
+msgid "Dist C3"
+msgstr "Dist C3"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_distance
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_distance
+msgid "Distance"
+msgstr "Distanța"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_dist_echiv
+msgid "Distance "
+msgstr "Distanța "
+
+#. module: deltatech_fleet
+#: selection:fleet.map.sheet,state:0
+#: selection:fleet.route.log,state:0
+#: selection:fleet.vehicle.log.fuel,state:0
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_form
+msgid "Done"
+msgstr "Gata"
+
+#. module: deltatech_fleet
+#: selection:fleet.map.sheet,state:0
+#: selection:fleet.route.log,state:0
+#: selection:fleet.vehicle.log.fuel,state:0
+msgid "Draft"
+msgstr "Ciornă"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_driver_id
+msgid "Driver"
+msgstr "Șofer"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_driver_id
+msgid "Driver of the vehicle"
+msgstr "Șeferul acestui vehicul"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_duration
+msgid "Duration"
+msgstr "Durata"
+
+#. module: deltatech_fleet
+#: model:ir.model,name:deltatech_fleet.model_fleet_map_sheet
+msgid "Fleet Map Sheet"
+msgstr "Foaie Parcurs"
+
+#. module: deltatech_fleet
+#: model:ir.model,name:deltatech_fleet.model_fleet_reservoir_level
+msgid "Fleet Reservoir Level"
+msgstr "Nivel carburant"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_from_loc_id
+msgid "From"
+msgstr "De la"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_route_from_loc_id
+msgid "From location"
+msgstr "Din locația"
+
+#. module: deltatech_fleet
+#: model:ir.model,name:deltatech_fleet.model_fleet_fuel
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_fuel_name
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_log_fuel_fuel_id
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_fuel_tree
+msgid "Fuel"
+msgstr "Carburant"
+
+#. module: deltatech_fleet
+#: model:ir.model,name:deltatech_fleet.model_fleet_card
+msgid "Fuel Card"
+msgstr "Card combustibil"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_form
+msgid "Fuel Logs"
+msgstr "Alimentări carburant"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_fuel_fuel_type
+msgid "Fuel Type"
+msgstr "Tip Carburant"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_reservoir_level_end
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_reservoir_level_start
+msgid "Fuel level in the reservoir at the beginning of road map"
+msgstr "Fuel level in the reservoir at the beginning of road map"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_card_log_fuel_ids
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_log_fuel_ids
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_card_form
+msgid "Fuel log"
+msgstr "Alimentări carburant"
+
+#. module: deltatech_fleet
+#: model:ir.model,name:deltatech_fleet.model_fleet_vehicle_log_fuel
+msgid "Fuel log for vehicles"
+msgstr "Registru de combustibil pentru vehicule"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_vehicle_log_fuel_full
+msgid "Fuel supply was made up to full"
+msgstr "Alimentarea a fost făcută până la plin."
+
+#. module: deltatech_fleet
+#: model:ir.actions.act_window,name:deltatech_fleet.fleet_fuel_act
+#: model:ir.ui.menu,name:deltatech_fleet.fleet_fuel_menu
+msgid "Fuels"
+msgstr "Carburanți"
+
+#. module: deltatech_fleet
+#: selection:fleet.fuel,fuel_type:0
+msgid "Gasoline"
+msgstr "Benzină"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_form
+msgid "Get fuel log"
+msgstr "Obține alimentări"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_form
+msgid "Get route log"
+msgstr "Obține traseele parcurse"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_search
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_route_log_search
+msgid "Group By..."
+msgstr "Grupați după..."
+
+#. module: deltatech_fleet
+#: model:ir.actions.act_window,help:deltatech_fleet.fleet_map_sheet_act
+msgid "Here you can add map sheet for all vehicles."
+msgstr "Here you can add map sheet for all vehicles."
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_card_id
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_fuel_id
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_location_id
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_id
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_reservoir_level_id
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_id
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_id
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_scope_id
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_category_id_2347
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_odometer_end_id
+msgid "ID Odometer end"
+msgstr "ID Kilometraj sfârșit"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_odometer_start_id
+msgid "ID Odometer start"
+msgstr "ID Kilometraj start"
+
+#. module: deltatech_fleet
+#: selection:fleet.map.sheet,state:0
+msgid "In Progress"
+msgstr "În progres"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_indicative
+msgid "Indicative"
+msgstr "Indicativ"
+
+#. module: deltatech_fleet
+#: model:ir.model,name:deltatech_fleet.model_fleet_vehicle
+msgid "Information on a vehicle"
+msgstr "Informații despre un vehicul"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_odometer_real
+msgid "Is real"
+msgstr "Este real"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_card___last_update
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_fuel___last_update
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_location___last_update
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet___last_update
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_reservoir_level___last_update
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route___last_update
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log___last_update
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_scope___last_update
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_category___last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_card_write_uid
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_fuel_write_uid
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_location_write_uid
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_write_uid
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_reservoir_level_write_uid
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_write_uid
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_write_uid
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_scope_write_uid
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_category_write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_card_write_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_fuel_write_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_location_write_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_write_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_reservoir_level_write_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_write_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_write_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_scope_write_date
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_category_write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_log_fuel_reservoir_level
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_reservoir_level
+msgid "Level Reservoir"
+msgstr "Nivel rezervor"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_reservoir_level_end
+msgid "Level Reservoir End"
+msgstr "Nivel rezervor la sfărșit"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_reservoir_level_start
+msgid "Level Reservoir Start"
+msgstr "Nivel rezervor la început"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_loading_level
+msgid "Level of loading"
+msgstr "Nivelul de încărcare"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_reservoir_level_liter
+msgid "Liter"
+msgstr "Litri"
+
+#. module: deltatech_fleet
+#: model:ir.model,name:deltatech_fleet.model_fleet_location
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_location_name
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_location_form
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_location_tree
+msgid "Location"
+msgstr "Locația"
+
+#. module: deltatech_fleet
+#: model:ir.actions.act_window,name:deltatech_fleet.fleet_location_act
+#: model:ir.ui.menu,name:deltatech_fleet.fleet_locations_menu
+msgid "Locations"
+msgstr "Locații"
+
+#. module: deltatech_fleet
+#: selection:fleet.card,type_card:0
+msgid "Lukoil"
+msgstr "Lukoil"
+
+#. module: deltatech_fleet
+#: model:ir.actions.report.xml,name:deltatech_fleet.fleet_map_sheet_list_report
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_map_sheet_id
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_log_fuel_map_sheet_id
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_calendar
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_form
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_gantt
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_search
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_tree
+msgid "Map Sheet"
+msgstr "Foaie Parcurs"
+
+#. module: deltatech_fleet
+#: code:addons/deltatech_fleet/models/fleet_sheet.py:234
+#, python-format
+msgid "Map Sheet end-date (%s) must be greater then start-date (%s)"
+msgstr "Map Sheet end-date (%s) must be greater then start-date (%s)"
+
+#. module: deltatech_fleet
+#: model:ir.actions.act_window,name:deltatech_fleet.fleet_map_sheet_act
+#: model:ir.ui.menu,name:deltatech_fleet.fleet_map_sheet_menu
+#: model:ir.ui.view,arch_db:deltatech_fleet.deltatech_fleet_form_view
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_graph
+msgid "Map Sheets"
+msgstr "Foi parcurs"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_mass_cap
+msgid "Mass capacity"
+msgstr "Capacitate masică"
+
+#. module: deltatech_fleet
+#: model:ir.ui.menu,name:deltatech_fleet.fleet_masterdata_menu
+msgid "Master data"
+msgstr "Date de bază"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_name
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_week_day
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_norm_cons
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_norm_cons
+msgid "Normal Consumption"
+msgstr "Consum normat"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_name
+msgid "Number"
+msgstr "Număr"
+
+#. module: deltatech_fleet
+#: selection:fleet.card,type_card:0
+msgid "OMV"
+msgstr "OMV"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_odometer_end
+msgid "Odometer End"
+msgstr "Kilometraj sfârșit"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_odometer_start
+msgid "Odometer Start"
+msgstr "Kilometraj start"
+
+#. module: deltatech_fleet
+#: model:ir.model,name:deltatech_fleet.model_fleet_vehicle_odometer
+msgid "Odometer log for a vehicle"
+msgstr "Registrul Controrului de kilometraj pentru un vehicul"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_odometer_end
+msgid "Odometer measure of the vehicle at the end of this map sheet"
+msgstr "Odometer measure of the vehicle at the end of this map sheet"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_odometer_start
+msgid "Odometer measure of the vehicle at the start of this map sheet"
+msgstr "Odometer measure of the vehicle at the start of this map sheet"
+
+#. module: deltatech_fleet
+#: selection:fleet.location,type:0
+msgid "Other"
+msgstr "Altul"
+
+#. module: deltatech_fleet
+#: selection:fleet.card,type_card:0
+msgid "Own pomp"
+msgstr "Pompă propie"
+
+#. module: deltatech_fleet
+#: selection:fleet.location,type:0
+#: model:ir.model,name:deltatech_fleet.model_res_partner
+msgid "Partner"
+msgstr "Partener"
+
+#. module: deltatech_fleet
+#: selection:fleet.card,type_card:0
+msgid "Petrom"
+msgstr "Petrom"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_reservoir
+msgid "Reservoir capacity"
+msgstr "Capacitate rezervor"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_reverse
+msgid "Reverse route"
+msgstr "Reverse route"
+
+#. module: deltatech_fleet
+#: selection:fleet.card,type_card:0
+msgid "Rompetrol"
+msgstr "Rompetrol"
+
+#. module: deltatech_fleet
+#: model:ir.model,name:deltatech_fleet.model_fleet_route
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_route_id
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_route_form
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_route_tree
+msgid "Route"
+msgstr "Traseu"
+
+#. module: deltatech_fleet
+#: model:ir.actions.act_window,name:deltatech_fleet.fleet_route_log_act
+#: model:ir.model,name:deltatech_fleet.model_fleet_route_log
+#: model:ir.ui.menu,name:deltatech_fleet.fleet_route_log_menu
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_form
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_route_log_calendar
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_route_log_form
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_route_log_search
+msgid "Route Log"
+msgstr "Traseu parcurs"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_route_log_ids
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_route_log_form
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_route_log_gantt
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_route_log_tree
+msgid "Route Logs"
+msgstr "Trasee parcurse"
+
+#. module: deltatech_fleet
+#: model:ir.actions.act_window,name:deltatech_fleet.fleet_route_act
+#: model:ir.ui.menu,name:deltatech_fleet.fleet_route_menu
+msgid "Routes"
+msgstr "Trasee"
+
+#. module: deltatech_fleet
+#: model:ir.actions.act_window,name:deltatech_fleet.fleet_scope_act
+#: model:ir.model,name:deltatech_fleet.model_fleet_scope
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_scope_id
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_scope_name
+#: model:ir.ui.menu,name:deltatech_fleet.fleet_scope_menu
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_scope_tree
+msgid "Scope"
+msgstr "Scopul"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_card_name
+msgid "Series card"
+msgstr "Serie card"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.deltatech_fleet_form_view
+msgid "Show map sheet for this vehicle"
+msgstr "afișează foile de parcurs pentru acest vehicul"
+
+#. module: deltatech_fleet
+#: selection:fleet.location,type:0
+msgid "Station"
+msgstr "Stație"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_state
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_state
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_log_fuel_state
+msgid "Status"
+msgstr "Stare"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_vehicle_tachometer
+msgid "Status of tachometer"
+msgstr "Stare tahometru"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_tachometer
+msgid "Tachometer"
+msgstr "Tahometru"
+
+#. module: deltatech_fleet
+#: sql_constraint:fleet.vehicle:0
+msgid "The Indicative must be unique !"
+msgstr "Indicativul trebuie să fie unic."
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_norm_cons
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_route_log_norm_cons
+msgid "The Normal Consumption"
+msgstr "Consumul normat"
+
+#. module: deltatech_fleet
+#: sql_constraint:fleet.card:0
+msgid "The series must be unique !"
+msgstr "Seria trebuie să fie unică !"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_amount_total
+msgid "The total amount for fuel"
+msgstr "Valoare totală a combustibilului"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_distance_total
+msgid "The total distance"
+msgstr "Distanța totală"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_liter_total
+msgid "The total liters"
+msgstr "Total litri"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_to_loc_id
+msgid "To"
+msgstr "La"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_log_fuel_full
+msgid "To full"
+msgstr "Plin"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_route_to_loc_id
+msgid "To location"
+msgstr "La locația"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_amount_total
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_form
+msgid "Total Amount"
+msgstr "Valoare totală"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_form
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_route_log_form
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_route_log_tree
+msgid "Total Distance"
+msgstr "Distanța totală"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_liter_total
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_form
+msgid "Total Liter"
+msgstr "Total litri"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_tree
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_route_log_form
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_route_log_tree
+msgid "Total Normal Consumption"
+msgstr "Consumul normat"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_tree
+msgid "Total Odometer"
+msgstr "Kilometraj total"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_distance_total
+msgid "Total distance"
+msgstr "Distanța totală"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_tree
+msgid "Total liter"
+msgstr "Total litri"
+
+#. module: deltatech_fleet
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_card_form
+msgid "Total liters"
+msgstr "Total litri"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_location_type
+msgid "Type"
+msgstr "Tip"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_card_type_card
+msgid "Type Card"
+msgstr "Tip Card"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_vehicle_id
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_reservoir_level_vehicle_id
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_vehicle_id
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_vehicle_id
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_search
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_route_log_search
+msgid "Vehicle"
+msgstr "Vehicul"
+
+#. module: deltatech_fleet
+#: model:ir.actions.act_window,name:deltatech_fleet.fleet_vehicle_category_act
+#: model:ir.model,name:deltatech_fleet.model_fleet_vehicle_category
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_category_id
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_category_id
+#: model:ir.ui.menu,name:deltatech_fleet.fleet_vehicle_category_menu
+msgid "Vehicle Category"
+msgstr "Categorie vehicul"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_card_vehicle_ids
+#: model:ir.ui.view,arch_db:deltatech_fleet.fleet_card_form
+msgid "Vehicles"
+msgstr "Vehicule"
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_vehicle_log_fuel_state
+msgid "When the Log Fuel is created the status is set to 'Draft'.\n"
+"                                      When the Log Fuel is closed, the status is set to 'Done'."
+msgstr "Când o Alimentare este creată aceasta este în starea 'Ciornă'.\n"
+"                                      Când o alimentare este închisă, starea este setata cu 'Gata'."
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_state
+msgid "When the Map Sheet is created the status is set to 'Draft'.\n"
+"                                      When the Map Sheet is in progress the status is set to 'In Progress' .\n"
+"                                      When the Map Sheet is closed, the status is set to 'Done'."
+msgstr "When the Map Sheet is created the status is set to 'Draft'.\n"
+"                                      When the Map Sheet is in progress the status is set to 'In Progress' .\n"
+"                                      When the Map Sheet is closed, the status is set to 'Done'."
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,help:deltatech_fleet.field_fleet_route_log_state
+msgid "When the Route Log is created the status is set to 'Draft'.\n"
+"                                      When the Route Log is closed, the status is set to 'Done'."
+msgstr "Când un 'Traseu parcurs' este creat starea este setată cu 'Ciornă'.\n"
+"                                      Când un 'Traseu parcurs' este alocat la o foaie de parcurs închisă, starea este setată cu 'Gata'."
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_cost_year
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_log_contract_year
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_log_fuel_year
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_log_services_year
+msgid "Year"
+msgstr "An"
+
+#. module: deltatech_fleet
+#: model:ir.model,name:deltatech_fleet.model_report_deltatech_fleet_report_map_sheet
+msgid "report.deltatech_fleet.report_map_sheet"
+msgstr "report.deltatech_fleet.report_map_sheet"
+

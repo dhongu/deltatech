@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <menuitem
+            name="Service"
+            id="menu_service_app"
+            web_icon="deltatech_service_base,static/description/icon.png"
+            sequence="25"
+        />
+        <menuitem name="Master data" id="menu_service_master_data" parent="menu_service_app" sequence="50" />
+        <menuitem name="Service" id="menu_service" parent="menu_service_app" sequence="100" />
+
+        <menuitem name="Reports" id="menu_service_report" parent="menu_service_app" sequence="300" />
+        <menuitem
+            name="Configuration"
+            id="menu_service_config"
+            parent="menu_service_app"
+            groups="group_service_manager"
+            sequence="900"
+        />
+    </data>
+
+
+</odoo>
