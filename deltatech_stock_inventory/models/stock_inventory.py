@@ -5,6 +5,7 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.tools import float_compare, float_is_zero
 from odoo.tools.misc import OrderedSet
+from odoo.tools.safe_eval import safe_eval
 
 from odoo.addons.base.models.ir_model import MODULE_UNINSTALL_FLAG
 
@@ -95,14 +96,8 @@ class Inventory(models.Model):
     archive_svl = fields.Boolean(string="Clear old valuation")
 
     def _compute_archive_svl(self):
-        valuation_installed = self.env["ir.module.module"].search(
-            [("name", "=", "l10n_ro_parallel_valuation"), ("state", "=", "installed")]
-        )
-        for inventory in self:
-            if valuation_installed:
-                inventory.can_archive_svl = True
-            else:
-                inventory.can_archive_svl = False
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        self.can_archive_svl = bool(safe_eval(get_param("inventory.can_archive_svl", "False")))
 
     @api.onchange("company_id")
     def _onchange_company_id(self):
