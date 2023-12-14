@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+
+      <record id="type_service_service_fuel" model="fleet.service.type">
+          <field name="name">Fuel</field>
+          <field name="category">fuel</field>
+      </record>
+
+
+        <!--
+        <record id="sequence_fleet_road_map_type" model="ir.sequence.type">
+            <field name="name">Map Sheet</field>
+            <field name="code">fleet.map.sheet</field>
+        </record>
+        -->
+
+        <record id="sequence_fleet_road_map" model="ir.sequence">
+            <field name="name">Map Sheet</field>
+            <field name="prefix">MS/</field>
+            <field name="padding">5</field>
+            <field name="number_next">10</field>
+            <field name="number_increment">10</field>
+        </record>
+
+        <record id="id_category_M1" model="fleet.vehicle.category">
+            <field name="name">Autoturism</field>
+            <field name="code">M1</field>
+        </record>
+        <record id="id_category_M2" model="fleet.vehicle.category">
+            <field name="name">Microbuz</field>
+            <field name="code">M2</field>
+        </record>
+        <record id="id_category_M3" model="fleet.vehicle.category">
+            <field name="name">Autobuz</field>
+            <field name="code">M3</field>
+        </record>
+        <record id="id_category_N1" model="fleet.vehicle.category">
+            <field name="name">Autoutilitară până 3,5 t</field>
+            <field name="code">N1</field>
+        </record>
+        <record id="id_category_N2" model="fleet.vehicle.category">
+            <field name="name">Autoutilitară  (3,5 - 12 t)</field>
+            <field name="code">N2</field>
+        </record>
+        <record id="id_category_N3" model="fleet.vehicle.category">
+            <field name="name">Autoutilitară peste 12t</field>
+            <field name="code">N3</field>
+        </record>
+
+
+        <record id="id_category_O1" model="fleet.vehicle.category">
+            <field name="name">Remorcă până 0,75t</field>
+            <field name="code">O1</field>
+        </record>
+        <record id="id_category_O2" model="fleet.vehicle.category">
+            <field name="name">Remorcă 0,75-3,5t</field>
+            <field name="code">O2</field>
+        </record>
+                <record id="id_category_O3" model="fleet.vehicle.category">
+            <field name="name">Remorcă 3,5-10t</field>
+            <field name="code">O3</field>
+        </record>
+        <record id="id_category_O4" model="fleet.vehicle.category">
+            <field name="name">Remorcă  peste 10t</field>
+            <field name="code">O4</field>
+        </record>
+
+         <record id="id_location_home" model="fleet.location">
+            <field name="name">Home</field>
+        </record>
+
+    </data>
+</odoo>
