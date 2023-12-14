@@ -17,7 +17,7 @@ exclude: |
   __unported__
 default_language_version:
   python: python3
-  node: "14.13.0"
+  node: "16.19.0"
 repos:
   - repo: https://github.com/dhongu/maintainer-tools
     rev: debf28fcec51028cf464af284ab339b751d669f6
@@ -35,7 +35,11 @@ repos:
       # See https://pre-commit.com/#confining-hooks-to-run-at-certain-stages
       # pre-commit run --hook-stage manual oca-gen-addons-table
       - id: oca-gen-addons-table
-  #        stages: [manual]
+      #        stages: [manual]
+
+      - id: oca-update-pre-commit-excluded-addons
+      - id: oca-fix-manifest-website
+        args: ["https://www.terrabit.ro"]
 
   - repo: local
     hooks:
@@ -46,13 +50,7 @@ repos:
         entry: found forbidden files; remove them
         language: fail
         files: "\\.rej$"
-  - repo: https://github.com/oca/maintainer-tools
-    rev: 9a170331575a265c092ee6b24b845ec508e8ef75
-    hooks:
-      # update the NOT INSTALLABLE ADDONS section above
-      - id: oca-update-pre-commit-excluded-addons
-      - id: oca-fix-manifest-website
-        args: ["https://www.terrabit.ro"]
+
   - repo: https://github.com/myint/autoflake
     rev: v2.2.1
     hooks:
@@ -141,7 +139,7 @@ repos:
         additional_dependencies: ["flake8-bugbear==21.9.2"]
 
   - repo: https://github.com/OCA/pylint-odoo
-    rev: v9.0.4
+    rev: 7.0.2
     hooks:
       - id: pylint_odoo
         name: pylint with optional checks
