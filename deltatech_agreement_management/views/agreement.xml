@@ -1,0 +1,128 @@
+<?xml version="1.0" ?>
+<odoo>
+    <menuitem
+        name="Agreement"
+        id="menu_general_agr"
+        sequence="200"
+        web_icon="deltatech_agreement_management,static/description/icon.png"
+    />
+
+    <record id="view_general_agreement_tree" model="ir.ui.view">
+        <field name="name">generals Agreements</field>
+        <field name="model">general.agreement</field>
+        <field name="arch" type="xml">
+            <tree string="generals Agreements" sample="1">
+                <field name="name" decoration-bf="1" />
+                <field name="date_agreement" />
+                <field name="partner_id" />
+                <field name="description" />
+                <field name='state' widget="badge" decoration-success="state == 'open'  " />
+                <field name="type_id" optional="show" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_agreement_form" model="ir.ui.view">
+        <field name="name">general Agreement</field>
+        <field name="model">general.agreement</field>
+        <field name="arch" type="xml">
+            <form string="general Agreement">
+                <header>
+                    <button
+                        name="contract_close"
+                        state="open"
+                        type="object"
+                        class="oe_highlight"
+                        string="Close Contract"
+                    />
+                    <button
+                        name="contract_open"
+                        state="draft"
+                        type="object"
+                        class="oe_highlight"
+                        string="Set In Progress"
+                    />
+                    <button
+                        name="contract_draft"
+                        state="closed"
+                        type="object"
+                        class="oe_highlight"
+                        string="Set Draft"
+                    />
+                    <button
+                        name="get_name"
+                        type="object"
+                        class="oe_highlight"
+                        string="Get number"
+                        invisible="name!='/'"
+                    />
+                    <button name="print_agreement" type="object" class="oe_highlight" string="Print" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,quote" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <div name="title" class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Agreement" class="oe_inline" readonly="state!='draft'" />
+                        </h1>
+                    </div>
+                    <group name="agreement_info">
+                        <group name="general_data">
+                            <field name="date_agreement" readonly="state!='draft'" />
+                            <field name="final_date" readonly="state!='draft'" />
+                            <field name="type_id" />
+                            <field name="partner_id" />
+                            <field name="description" readonly="state!='draft'" />
+                        </group>
+                        <group name="company_data">
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company" />
+                            <field name="currency_id" options="{'no_create': True}" readonly="state!='draft'" />
+                            <field name="company_currency_id" invisible="1" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_general_agreement" model="ir.actions.act_window">
+        <field name="name">generals Agreements</field>
+        <field name="res_model">general.agreement</field>
+        <field name="view_mode">tree,form,pivot,activity</field>
+        <field name="view_id" ref="deltatech_agreement_management.view_general_agreement_tree" />
+    </record>
+    <menuitem
+        name="generals Agreements"
+        id="menu_general_agreement"
+        groups="group_agreement_user"
+        action="action_general_agreement"
+        parent="menu_general_agr"
+        sequence="100"
+    />
+    <menuitem
+        name="Configuration"
+        id="menu_general_agreement_config"
+        groups="group_agreement_manager"
+        parent="menu_general_agr"
+        sequence="500"
+    />
+    <record id="action_general_agreement_type" model="ir.actions.act_window">
+        <field name="name">generals Agreement Types</field>
+        <field name="res_model">general.agreement.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Agreement types"
+        id="menu_general_agreement_config_type"
+        groups="group_agreement_manager"
+        parent="menu_general_agreement_config"
+        sequence="100"
+        action="action_general_agreement_type"
+    />
+</odoo>
