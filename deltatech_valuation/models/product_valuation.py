@@ -17,6 +17,8 @@ class ProductValuation(models.Model):
 
     quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", required=True, default=1.0)
     amount = fields.Monetary(string="Amount")
+    debit = fields.Monetary(string="Debit")
+    credit = fields.Monetary(string="Credit")
 
     account_id = fields.Many2one("account.account", string="Account", required=True, index=True)
 
@@ -93,6 +95,8 @@ class ProductValuation(models.Model):
 
         for valuation in self:
             valuation.amount = 0
+            valuation.debit = 0
+            valuation.credit = 0
             valuation.quantity = 0
             for line in res:
                 if not line["valuation_area_id"]:
@@ -105,6 +109,8 @@ class ProductValuation(models.Model):
                 ):
                     valuation.quantity += line["quantity"]
                     valuation.amount += line["debit"] - line["credit"]
+                    valuation.debit += line["debit"]
+                    valuation.credit += line["credit"]
 
     def recompute_all_amount(self):
         params = {
@@ -114,8 +120,8 @@ class ProductValuation(models.Model):
         self.env.cr.execute(
             """
             INSERT INTO product_valuation
-              (product_id, valuation_area_id, account_id, company_id, quantity, amount)
-            select product_id, valuation_area_id, account_id, company_id, quantity, debit-credit as amount
+              (product_id, valuation_area_id, account_id, company_id, quantity, debit, credit, amount)
+            select product_id, valuation_area_id, account_id, company_id, quantity, debit, credit, debit-credit as amount
             from (
             SELECT product_id, valuation_area_id, account_id, m.company_id,
                 sum(l.debit) as debit, sum(l.credit) as credit, sum(
@@ -228,6 +234,8 @@ class ProductValuationHistory(models.Model):
         for valuation in self:
             valuation.amount = 0
             valuation.quantity = 0
+            valuation.debit = 0
+            valuation.credit = 0
             for line in res:
                 if not line["valuation_area_id"]:
                     line["valuation_area_id"] = False
@@ -241,6 +249,8 @@ class ProductValuationHistory(models.Model):
                 ):
                     valuation.quantity += line["quantity"]
                     valuation.amount += line["debit"] - line["credit"]
+                    valuation.debit += line["debit"]
+                    valuation.credit += line["credit"]
 
     def recompute_all_amount(self):
         params = {
@@ -250,8 +260,9 @@ class ProductValuationHistory(models.Model):
         self.env.cr.execute(
             """
             INSERT INTO product_valuation_history
-              (product_id, valuation_area_id, account_id, company_id, year, month, quantity, amount)
-            select product_id, valuation_area_id, account_id, company_id, year, month, quantity, debit-credit as amount
+              (product_id, valuation_area_id, account_id, company_id, year, month, quantity, debit, credit, amount)
+            select product_id, valuation_area_id, account_id, company_id, year, month,
+                   quantity, debit, credit, debit-credit as amount
             from (
             SELECT product_id, valuation_area_id, account_id, m.company_id,
                 EXTRACT(YEAR FROM m.date) as year, EXTRACT(MONTH FROM m.date) as month,

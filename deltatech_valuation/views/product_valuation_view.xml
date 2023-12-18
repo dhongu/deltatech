@@ -9,6 +9,8 @@
                 <field name="valuation_area_id" />
                 <field name="account_id" />
                 <field name="quantity" sum="sum_qty" />
+                <field name="debit" sum="sum_debit" />
+                <field name="credit" sum="sum_credit" />
                 <field name="amount" sum="sum_amount" />
                 <field name="currency_id" invisible="1" />
                 <field name="company_id" groups="base.group_multi_company" />
@@ -28,6 +30,8 @@
                     </group>
                     <group>
                         <field name="quantity" />
+                        <field name="debit" />
+                        <field name="credit" />
                         <field name="amount" />
                         <field name="currency_id" invisible="1" />
                     </group>
@@ -46,6 +50,8 @@
             <pivot string="Product Valuation">
                 <field name="valuation_area_id" type="row" />
                 <field name="quantity" type="measure" />
+                <field name="debit" type="measure" />
+                <field name="credit" type="measure" />
                 <field name="amount" type="measure" />
             </pivot>
         </field>
@@ -124,10 +130,25 @@
         </field>
     </record>
 
+
+    <record id="product_valuation_history_view_pivot" model="ir.ui.view">
+        <field name="name">product.valuation.history.view.pivot</field>
+        <field name="model">product.valuation.history</field>
+        <field name="arch" type="xml">
+            <pivot string="Product Valuation History">
+                <field name="valuation_area_id" type="row" />
+                <field name="quantity" type="measure" />
+                <field name="debit" type="measure" />
+                <field name="credit" type="measure" />
+                <field name="amount" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
     <record id="product_valuation_history_action" model="ir.actions.act_window">
         <field name="name">Product Valuation History</field>
         <field name="res_model">product.valuation.history</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,pivot</field>
     </record>
 
 
