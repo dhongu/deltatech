@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_business_development_type_tree" model="ir.ui.view">
+        <field name="name">Business development type</field>
+        <field name="model">business.development.type</field>
+        <field name="arch" type="xml">
+            <tree string="Business development type">
+
+                <field name="name" />
+
+            </tree>
+        </field>
+    </record>
+    <record id="view_business_development_type_form" model="ir.ui.view">
+        <field name="name">Business development.type</field>
+        <field name="model">business.development.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="name" />
+                    </group>
+                    <group />
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="action_business_development_type" model="ir.actions.act_window">
+        <field name="name">Business development type</field>
+        <field name="res_model">business.development.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Development Type"
+        id="menu_business_development_type"
+        action="action_business_development_type"
+        parent="menu_config"
+    />
+
+</odoo>
