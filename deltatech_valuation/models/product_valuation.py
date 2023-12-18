@@ -114,6 +114,7 @@ class ProductValuation(models.Model):
                     valuation.amount += line["debit"] - line["credit"]
                     valuation.debit += line["debit"]
                     valuation.credit += line["credit"]
+                    res.remove(line)
 
     def recompute_all_amount(self):
         params = {
@@ -186,6 +187,7 @@ class ProductValuationHistory(models.Model):
 
     year = fields.Char(string="Year", required=True, index=True)
     month = fields.Char(string="Month", required=True, index=True)
+    date = fields.Date()
 
     def get_valuation(self, product_id, valuation_area_id, account_id, date, company_id=False):
         if not company_id:
@@ -240,6 +242,7 @@ class ProductValuationHistory(models.Model):
             """
             SELECT product_id, valuation_area_id, account_id, m.company_id,
              EXTRACT(YEAR FROM m.date) as year, EXTRACT(MONTH FROM m.date) as month,
+                 (date_trunc('month', m.date) + interval '1 month - 1 day')::date as date,
                 sum(l.debit) as debit, sum(l.credit) as credit, sum(
                     l.quantity / NULLIF(COALESCE(uom_line.factor, 1) / COALESCE(uom_template.factor, 1), 0.0) * (
                     CASE WHEN m.move_type IN ('out_invoice','in_refund') THEN -1 ELSE 1 END
@@ -259,7 +262,8 @@ class ProductValuationHistory(models.Model):
                     AND (valuation_area_id in %(valuation_area_ids)s or valuation_area_id is null)
                     AND m.state = 'posted'
                 GROUP BY  product_id, valuation_area_id, account_id, m.company_id,
-                EXTRACT(YEAR FROM m.date), EXTRACT(MONTH FROM m.date)
+                EXTRACT(YEAR FROM m.date), EXTRACT(MONTH FROM m.date),
+                (date_trunc('month', m.date) + interval '1 month - 1 day')::date
            """,
             params,
         )
@@ -286,6 +290,8 @@ class ProductValuationHistory(models.Model):
                     valuation.amount += line["debit"] - line["credit"]
                     valuation.debit += line["debit"]
                     valuation.credit += line["credit"]
+                    valuation.date = line["date"]
+                    res.remove(line)
 
     def recompute_all_amount(self):
         params = {
@@ -295,28 +301,59 @@ class ProductValuationHistory(models.Model):
         self.env.cr.execute(
             """
             INSERT INTO product_valuation_history
-              (product_id, valuation_area_id, account_id, company_id, year, month, quantity, debit, credit, amount)
-            select product_id, valuation_area_id, account_id, company_id, year, month,
-                   quantity, debit, credit, debit-credit as amount
-            from (
-            SELECT product_id, valuation_area_id, account_id, m.company_id,
-                EXTRACT(YEAR FROM m.date) as year, EXTRACT(MONTH FROM m.date) as month,
-                sum(l.debit) as debit, sum(l.credit) as credit, sum(
-                    l.quantity / NULLIF(COALESCE(uom_line.factor, 1) / COALESCE(uom_template.factor, 1), 0.0) * (
-                    CASE WHEN m.move_type IN ('out_invoice','in_refund') THEN -1 ELSE 1 END
+                (product_id, valuation_area_id, account_id, company_id, year, month, date,
+                quantity, quantity_in, quantity_out, debit, credit, amount)
+            SELECT product_id, valuation_area_id, account_id, company_id,  year, month, date,
+                        quantity, quantity_in, quantity_out, debit, credit, debit-credit as amount
+            FROM (
+            SELECT product_id, valuation_area_id, account_id, company_id,  year, month, date,
+                sum(debit) as debit, sum(credit) as credit,
+                sum(
+                    quantity * (
+                    CASE
+                        WHEN move_type ='in_invoice' THEN 1
+                        WHEN move_type ='in_refund' THEN -1
+                        WHEN move_type IN ('out_invoice','out_refund') THEN 0
+                        ELSE
+                            CASE WHEN debit > 0 THEN 1 ELSE 0 END
+                    END
+                    )
+                ) as quantity_in,
+
+                sum(
+                    quantity * (
+                    CASE
+                        WHEN move_type ='out_invoice' THEN 1
+                        WHEN move_type ='out_refund' THEN -1
+                        WHEN move_type IN ('in_invoice','in_refund') THEN 0
+                        ELSE CASE WHEN credit > 0 THEN -1 ELSE 0 END
+                    END
+                    )
+                ) as quantity_out,
+
+                sum(
+                    quantity * (
+                    CASE WHEN move_type IN ('out_invoice','in_refund') THEN -1 ELSE 1 END
                     )
                 ) as quantity
+
+            FROM (
+                SELECT product_id, valuation_area_id, account_id, m.company_id,
+                    debit, credit, move_type,
+                    EXTRACT(YEAR FROM m.date) as year, EXTRACT(MONTH FROM m.date) as month,
+                    (date_trunc('month', m.date) + interval '1 month - 1 day')::date as date,
+                    l.quantity / NULLIF(COALESCE(uom_line.factor, 1) / COALESCE(uom_template.factor, 1), 0.0) as quantity
                 FROM account_move_line as l
-                LEFT JOIN account_move as m ON l.move_id=m.id
-                LEFT JOIN product_product product ON product.id = l.product_id
-                LEFT JOIN product_template template ON template.id = product.product_tmpl_id
-                LEFT JOIN uom_uom uom_line ON uom_line.id = l.product_uom_id
-                LEFT JOIN uom_uom uom_template ON uom_template.id = template.uom_id
+                    LEFT JOIN account_move as m ON l.move_id=m.id
+                    LEFT JOIN product_product product ON product.id = l.product_id
+                    LEFT JOIN product_template template ON template.id = product.product_tmpl_id
+                    LEFT JOIN uom_uom uom_line ON uom_line.id = l.product_uom_id
+                    LEFT JOIN uom_uom uom_template ON uom_template.id = template.uom_id
                 WHERE
                     account_id in %(account_ids)s
                     AND m.state = 'posted'
-                GROUP BY  product_id, valuation_area_id, account_id, m.company_id,
-                EXTRACT(YEAR FROM m.date), EXTRACT(MONTH FROM m.date)
+                ) as sub
+             GROUP BY  product_id, valuation_area_id, account_id, company_id, year, month, date
            ) as a """,
             params,
         )
