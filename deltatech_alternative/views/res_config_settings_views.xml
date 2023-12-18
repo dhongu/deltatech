@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="stock.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+
+
+            <xpath expr="//setting[@id='sell_purchase_uom']" position="after">
+
+                <div class="col-12 col-lg-6 o_setting_box">
+                    <div class="o_setting_left_pane">
+                        <field name="alternative_search" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="alternative_search" />
+                        <div class="text-muted">
+                            Search for alternative products by searching in product name.
+                        </div>
+                    </div>
+                    <div class="o_setting_left_pane">
+
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="alternative_limit" />
+                        <field name="alternative_limit" />
+                        <div class="text-muted">Search limit for alternative products.</div>
+                        <label for="alternative_length_min" />
+                        <field name="alternative_length_min" />
+                        <div class="text-muted">Search minim length code  .</div>
+                    </div>
+                </div>
+<!--                <div class="col-12 col-lg-6 o_setting_box">
+                    <div class="o_setting_left_pane">
+                        <field name="catalog_search" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="catalog_search" />
+                        <div class="text-muted">
+                            Search for products in the extensive product catalog.
+                        </div>
+                    </div>
+                </div>-->
+            </xpath>
+        </field>
+    </record>
+</odoo>
