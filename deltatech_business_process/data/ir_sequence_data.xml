@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="sequence_project" model="ir.sequence">
+            <field name="name">Business project</field>
+            <field name="code">business.project</field>
+            <field name="prefix">P</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="sequence_process" model="ir.sequence">
+            <field name="name">Business process</field>
+            <field name="code">business.process</field>
+            <field name="prefix">PR</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="sequence_process_step" model="ir.sequence">
+            <field name="name">Business process step</field>
+            <field name="code">business.process.step</field>
+            <field name="prefix">ST</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="sequence_issue" model="ir.sequence">
+            <field name="name">Business issue</field>
+            <field name="code">business.issue</field>
+            <field name="prefix">I</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="sequence_development" model="ir.sequence">
+            <field name="name">Business development</field>
+            <field name="code">business.development</field>
+            <field name="prefix">D</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+    </data>
+</odoo>
