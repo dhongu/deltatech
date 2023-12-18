@@ -10,13 +10,32 @@ class TestStockInventory(TransactionCase):
     def setUp(self):
         super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
-
+        self.category_average = self.env["product.category"].create(
+            {"name": "category1", "property_cost_method": "average", "property_valuation": "real_time"}
+        )
+        self.category_fifo = self.env["product.category"].create(
+            {"name": "category2", "property_cost_method": "fifo", "property_valuation": "real_time"}
+        )
         seller_ids = [(0, 0, {"name": self.partner_a.id})]
         self.product_a = self.env["product.product"].create(
-            {"name": "Test A", "type": "product", "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
+            {
+                "name": "Test A",
+                "type": "product",
+                "standard_price": 100,
+                "list_price": 150,
+                "seller_ids": seller_ids,
+                "categ_id": self.category_average.id,
+            }
         )
         self.product_b = self.env["product.product"].create(
-            {"name": "Test B", "type": "product", "standard_price": 70, "list_price": 150, "seller_ids": seller_ids}
+            {
+                "name": "Test B",
+                "type": "product",
+                "standard_price": 70,
+                "list_price": 150,
+                "seller_ids": seller_ids,
+                "categ_id": self.category_fifo.id,
+            }
         )
         # self.stock_location = self.env.ref("stock.stock_location_stock")
         self.stock_location = self.env["stock.location"].create({"name": "Test location", "usage": "internal"})
@@ -63,6 +82,50 @@ class TestStockInventory(TransactionCase):
         )
         inventory.with_user(self.inventory_user).action_start()
         inventory.with_user(self.inventory_user).action_validate()
+
+    def test_stock_inventory_svl(self):
+        self.test_stock_inventory()
+        # second inventory, with price and archive svl
+        self.env["ir.config_parameter"].create(
+            {
+                "key": "stock.use_inventory_price",
+                "value": True,
+            }
+        )
+        inv_line_c = {
+            "product_id": self.product_a.id,
+            "product_qty": 1,
+            "standard_price": 33,
+            "location_id": self.stock_location.id,
+        }
+        inv_line_d = {
+            "product_id": self.product_b.id,
+            "product_qty": 1,
+            "standard_price": 20,
+            "location_id": self.stock_location.id,
+        }
+        inventory = (
+            self.env["stock.inventory"]
+            .with_user(self.inventory_user)
+            .create(
+                {
+                    "name": "Inv. 2",
+                    "archive_svl": True,
+                    "line_ids": [
+                        (0, 0, inv_line_c),
+                        (0, 0, inv_line_d),
+                    ],
+                }
+            )
+        )
+        inventory.with_user(self.inventory_user).action_start()
+        inventory.with_user(self.inventory_user).action_validate()
+        domain = [("product_id", "in", [self.product_a.id, self.product_b.id])]
+        svls = self.env["stock.valuation.layer"].with_context(active_test=True).search(domain)
+        svls_value = 0.0
+        for svl in svls:
+            svls_value += svl.value
+        self.assertEqual(svls_value, 53)
 
     # def test_action_update_quantity_on_hand(self):
     #     self.product_b.product_tmpl_id.action_update_quantity_on_hand()
@@ -138,3 +201,61 @@ class TestStockInventory(TransactionCase):
 
     def test_product_loc(self):
         self.product_a.product_tmpl_id.loc_row = "A"
+
+    # @tagged("post_install")
+    # def test_inventory_svl(self):
+    #     inv_line_a = {
+    #         "product_id": self.product_a.id,
+    #         "product_qty": 2,
+    #         "location_id": self.stock_location.id,
+    #     }
+    #     inv_line_b = {
+    #         "product_id": self.product_b.id,
+    #         "product_qty": 2,
+    #         "location_id": self.stock_location.id,
+    #     }
+    #     inventory = (
+    #         self.env["stock.inventory"]
+    #         .with_user(self.inventory_user)
+    #         .create(
+    #             {
+    #                 "name": "Inv. productserial1",
+    #                 "line_ids": [
+    #                     (0, 0, inv_line_a),
+    #                     (0, 0, inv_line_b),
+    #                 ],
+    #             }
+    #         )
+    #     )
+    #     inventory.with_user(self.inventory_user).action_start()
+    #     inventory.with_user(self.inventory_user).action_validate()
+    #     domain = [("product_id", "in", [self.product_a.id, self.product_b.id,])]
+    #     svls = self.env["stock.valuation.layer"].search(domain)
+    #     svls_value = 0.0
+    #     for svl in svls:
+    #         svls_value += svl.value
+    #     inv_line_a = {
+    #         "product_id": self.product_a.id,
+    #         "product_qty": 2,
+    #         "location_id": self.stock_location.id,
+    #     }
+    #     inv_line_b = {
+    #         "product_id": self.product_b.id,
+    #         "product_qty": 2,
+    #         "location_id": self.stock_location.id,
+    #     }
+    #     inventory = (
+    #         self.env["stock.inventory"]
+    #         .with_user(self.inventory_user)
+    #         .create(
+    #             {
+    #                 "name": "Inv. productserial1",
+    #                 "line_ids": [
+    #                     (0, 0, inv_line_a),
+    #                     (0, 0, inv_line_b),
+    #                 ],
+    #             }
+    #         )
+    #     )
+    #     inventory.with_user(self.inventory_user).action_start()
+    #     inventory.with_user(self.inventory_user).action_validate()
