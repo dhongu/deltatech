@@ -9,6 +9,8 @@
                 <field name="valuation_area_id" />
                 <field name="account_id" />
                 <field name="quantity" sum="sum_qty" />
+                <field name="quantity_in" sum="sum_qty_in" />
+                <field name="quantity_out" sum="sum_qty_out" />
                 <field name="debit" sum="sum_debit" />
                 <field name="credit" sum="sum_credit" />
                 <field name="amount" sum="sum_amount" />
@@ -30,6 +32,10 @@
                     </group>
                     <group>
                         <field name="quantity" />
+                        <field name="quantity_in" sum="sum_qty_in" />
+                        <field name="quantity_out" sum="sum_qty_out" />
+                    </group>
+                    <group>
                         <field name="debit" />
                         <field name="credit" />
                         <field name="amount" />
@@ -50,6 +56,8 @@
             <pivot string="Product Valuation">
                 <field name="valuation_area_id" type="row" />
                 <field name="quantity" type="measure" />
+                <field name="quantity_in" type="measure" />
+                <field name="quantity_out" type="measure" />
                 <field name="debit" type="measure" />
                 <field name="credit" type="measure" />
                 <field name="amount" type="measure" />
