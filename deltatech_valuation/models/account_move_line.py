@@ -33,8 +33,3 @@ class AccountMoveLine(models.Model):
                     valuation_area = False
 
                 line.write({"valuation_area_id": valuation_area.id})
-
-                valuation = self.env["product.valuation"].get_valuation(
-                    line.product_id.id, valuation_area.id, line.account_id.id, line.company_id.id
-                )
-                valuation.recompute_amount()

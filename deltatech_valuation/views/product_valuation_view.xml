@@ -39,16 +39,28 @@
         </field>
     </record>
 
+    <record id="product_valuation_view_pivot" model="ir.ui.view">
+        <field name="name">product.valuation.view.pivot</field>
+        <field name="model">product.valuation</field>
+        <field name="arch" type="xml">
+            <pivot string="Product Valuation">
+                <field name="valuation_area_id" type="row" />
+                <field name="quantity" type="measure" />
+                <field name="amount" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
     <record id="product_valuation_action" model="ir.actions.act_window">
         <field name="name">Product Valuation</field>
         <field name="res_model">product.valuation</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,pivot</field>
     </record>
 
 
     <!-- actiune server -->
     <record id="product_valuation_recompute_amount_action" model="ir.actions.server">
-        <field name="name">Recompute Ammount</field>
+        <field name="name">Recompute Amount</field>
         <field name="model_id" ref="model_product_valuation" />
         <field name="binding_model_id" ref="model_product_valuation" />
         <field name="binding_view_types">list,form</field>
@@ -66,4 +78,90 @@
         parent="stock.menu_stock_inventory_control"
         action="product_valuation_action"
     />
+
+        <record id="product_valuation_history_view_tree" model="ir.ui.view">
+        <field name="name">product.valuation.history.view.tree</field>
+        <field name="model">product.valuation.history</field>
+        <field name="arch" type="xml">
+            <tree string="Product Valuation History" create="0" delete="0">
+                <field name="product_id" />
+                <field name="valuation_area_id" />
+                <field name="account_id" />
+                <field name="year" />
+                <field name="month" />
+                <field name="quantity" sum="sum_qty" />
+                <field name="amount" sum="sum_amount" />
+                <field name="currency_id" invisible="1" />
+                <field name="company_id" groups="base.group_multi_company" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_valuation_history_view_form" model="ir.ui.view">
+        <field name="name">product.valuation.history.view.form</field>
+        <field name="model">product.valuation.history</field>
+        <field name="arch" type="xml">
+            <form string="Product Valuation History" create="0" delete="0">
+                <sheet>
+                    <group>
+                        <field name="product_id" />
+                        <field name="valuation_area_id" />
+                    </group>
+                    <group>
+                        <field name="year" />
+                        <field name="month" />
+                    </group>
+                    <group>
+                        <field name="quantity" />
+                        <field name="amount" />
+                        <field name="currency_id" invisible="1" />
+                    </group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_valuation_history_action" model="ir.actions.act_window">
+        <field name="name">Product Valuation History</field>
+        <field name="res_model">product.valuation.history</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- server action -->
+    <record id="product_valuation_history_recompute_amount_action" model="ir.actions.server">
+        <field name="name">Recompute Amount</field>
+        <field name="model_id" ref="model_product_valuation_history" />
+        <field name="binding_model_id" ref="model_product_valuation_history" />
+        <field name="binding_view_types">list,form</field>
+        <field name="groups_id" eval="[(4, ref('base.group_no_one'))]" />
+        <field name="state">code</field>
+        <field name="code">
+            records.recompute_amount()
+        </field>
+    </record>
+
+
+    <record id="product_template_recompute_amount_action" model="ir.actions.server">
+        <field name="name">Recompute Valuation</field>
+        <field name="model_id" ref="model_product_template" />
+        <field name="binding_model_id" ref="model_product_template" />
+        <field name="binding_view_types">list,form</field>
+        <field name="groups_id" eval="[(4, ref('base.group_no_one'))]" />
+        <field name="state">code</field>
+        <field name="code">
+            records.recompute_valuation_amount()
+        </field>
+    </record>
+
+    <menuitem
+        id="product_valuation_history_menu"
+        name="Product Valuation History"
+        parent="stock.menu_stock_inventory_control"
+        action="product_valuation_history_action"
+    />
+
 </odoo>

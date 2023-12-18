@@ -11,3 +11,4 @@ from . import account_move_line
 from . import res_company
 from . import warehouse
 from . import stock_location
+from . import product_template
