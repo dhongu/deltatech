@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="purchase.view_move_form_inherit_purchase" />
         <field name="arch" type="xml">
              <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='company_id']" position="after">
-                <field name="purchase_line_id"  invisible="1"/>
+                <field name="purchase_line_id" invisible="1" />
              </xpath>
             <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
 
