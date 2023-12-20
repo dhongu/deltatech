@@ -200,7 +200,7 @@ class ProductValuationHistory(models.Model):
 
     year = fields.Char(string="Year", required=True, index=True)
     month = fields.Char(string="Month", required=True, index=True)
-    date = fields.Date()
+    date = fields.Date(required=True, index=True)
 
     amount_initial = fields.Monetary("Initial Amount", default=0.0)
     quantity_initial = fields.Float("Initial Quantity", digits="Product Unit of Measure", default=0.0)
