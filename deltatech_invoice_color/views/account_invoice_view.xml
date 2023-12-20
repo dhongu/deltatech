@@ -5,7 +5,9 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="purchase.view_move_form_inherit_purchase" />
         <field name="arch" type="xml">
-            <field name="purchase_line_id" group="!purchase.group_purchase_user" invisible="1" />
+             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='company_id']" position="after">
+                <field name="purchase_line_id" groups="!purchase.group_purchase_user" invisible="1"/>
+             </xpath>
             <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
 
                 <attribute name="attrs">{'decoration-danger': [('purchase_line_id', '=', False)]}</attribute>
