@@ -7,7 +7,7 @@
     "author": "Terrabit, Voicu Stefan",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
-    "depends": ["account"],
+    "depends": ["account", "purchase"],
     "data": ["views/account_invoice_view.xml"],
     # "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
