@@ -11,5 +11,5 @@
     "data": ["views/account_invoice_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
-    "maintainers": ["VoicuStefan2001 "],
+    "maintainers": ["VoicuStefan2001"],
 }
