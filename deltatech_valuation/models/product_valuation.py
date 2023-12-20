@@ -3,7 +3,11 @@
 # See README.rst file on addons root folder for license details
 
 
+import logging
+
 from odoo import fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 # ca in SAP Material Valuation - MBEW & MBEWH
@@ -189,6 +193,12 @@ class ProductValuationHistory(models.Model):
     month = fields.Char(string="Month", required=True, index=True)
     date = fields.Date()
 
+    amount_initial = fields.Monetary("Initial Amount", default=0.0)
+    quantity_initial = fields.Float("Initial Quantity", digits="Product Unit of Measure", default=0.0)
+
+    amount_final = fields.Monetary("Final Amount", default=0.0)
+    quantity_final = fields.Float("Final Quantity", digits="Product Unit of Measure", default=0.0)
+
     def get_valuation(self, product_id, valuation_area_id, account_id, date, company_id=False):
         if not company_id:
             company_id = self.env.company.id
@@ -297,7 +307,32 @@ class ProductValuationHistory(models.Model):
         params = {
             "account_ids": tuple(self.env["account.account"].search([("stock_valuation", "=", True)]).ids),
         }
+
+        if self.env.company.valuation_area_level == "company" and not self.env.company.valuation_area_id:
+            _logger.info("Creare zona de evaluare pentru companie.")
+            valuation_area = self.env["valuation.area"].create(
+                {
+                    "name": self.env.company.name,
+                    "company_id": self.env.company.id,
+                }
+            )
+
+            self.env.company.valuation_area_id = valuation_area.id
+            params["valuation_area_id"] = valuation_area.id
+            _logger.info("Actualizre zona de evaluare pentru notele contabile")
+            self.env.cr.execute(
+                """
+                UPDATE account_move_line SET   valuation_area_id = %(valuation_area_id)s
+                where account_id in %(account_ids)s
+                """,
+                params,
+            )
+
+            return
+
+        _logger.info("Stergere linii istoric")
         self.env.cr.execute("DELETE FROM product_valuation_history WHERE account_id in %(account_ids)s", params)
+        _logger.info("Calculare linii istoric miscari lunare")
         self.env.cr.execute(
             """
             INSERT INTO product_valuation_history
@@ -357,3 +392,101 @@ class ProductValuationHistory(models.Model):
            ) as a """,
             params,
         )
+
+        _logger.info("resetare Sold initial si final")
+        self.env.cr.execute(
+            """
+            UPDATE product_valuation_history AS pv
+                SET
+                    quantity_initial = 0,
+                    quantity_final = pv.quantity,
+                    amount_initial = 0,
+                    amount_final = pv.amount
+        """
+        )
+
+        # optinere data minima si maxima
+        self.env.cr.execute(
+            """
+            SELECT min(date) as min_date, max(date) as max_date
+            FROM product_valuation_history
+            """
+        )
+        res = self.env.cr.dictfetchone()
+
+        params["min_date"] = res["min_date"]
+        params["max_date"] = res["max_date"]
+
+        _logger.info("Adaugare linii lipsa")
+        self.env.cr.execute(
+            """
+            drop table if exists calendar_temporal;
+            CREATE TEMP TABLE calendar_temporal AS
+            SELECT generate_series(%(min_date)s::date, %(max_date)s::date, '1 month'::interval) AS date;
+
+            INSERT INTO product_valuation_history (product_id, valuation_area_id, account_id, company_id, date, year, month)
+            SELECT
+                p.product_id,
+                v.valuation_area_id,
+                a.account_id,
+                comp.company_id,
+                c.date,
+                date_part('year', c.date) AS year,
+                date_part('month', c.date) AS month
+            FROM
+                calendar_temporal c
+            CROSS JOIN (SELECT DISTINCT product_id FROM product_valuation_history) p
+            CROSS JOIN (SELECT DISTINCT valuation_area_id FROM product_valuation_history) v
+            CROSS JOIN (SELECT DISTINCT account_id FROM product_valuation_history) a
+            CROSS JOIN (SELECT DISTINCT company_id FROM product_valuation_history) comp
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM product_valuation_history pv
+                WHERE
+                    pv.product_id = p.product_id AND
+                    pv.valuation_area_id = v.valuation_area_id AND
+                    pv.account_id = a.account_id AND
+                    pv.company_id = comp.company_id AND
+                    pv.date = c.date
+            )
+
+            """,
+            params,
+        )
+
+        _logger.info("Calculare sold initial si final")
+        self.env.cr.execute(
+            """
+                UPDATE product_valuation_history AS pv
+                SET
+                    quantity_initial = cv.quantity_final - pv.quantity,
+                    quantity_final = cv.quantity_final,
+                    amount_initial = cv.amount_final - pv.amount,
+                    amount_final =  cv.amount_final
+                FROM (
+                    SELECT
+                        product_id,
+                        valuation_area_id,
+                        account_id,
+                        company_id,
+                        date,
+                        SUM(quantity) OVER (
+                            PARTITION BY product_id, valuation_area_id, account_id, company_id
+                             ORDER BY date) AS quantity_final,
+                        SUM(amount) OVER (
+                            PARTITION BY product_id, valuation_area_id, account_id, company_id
+                            ORDER BY date) AS amount_final
+                    FROM
+                        product_valuation_history
+                ) AS cv
+                WHERE
+                    pv.product_id = cv.product_id AND
+                    pv.account_id = cv.account_id AND
+                    pv.valuation_area_id = cv.valuation_area_id AND
+                    pv.company_id = cv.company_id AND
+                    pv.date = cv.date
+
+            """
+        )
+
+        _logger.info("FINALIZARE CALCULARE ISTORIC VALORI")

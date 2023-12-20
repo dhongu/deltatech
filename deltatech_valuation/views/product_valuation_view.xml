@@ -101,9 +101,11 @@
                 <field name="product_id" />
                 <field name="valuation_area_id" />
                 <field name="account_id" />
-                <field name="year" />
-                <field name="month" />
+                <field name="date" />
+                <field name="quantity_initial" />
                 <field name="quantity" sum="sum_qty" />
+                <field name="quantity_final" />
+
                 <field name="quantity_in" sum="sum_qty_in" />
                 <field name="quantity_out" sum="sum_qty_out" />
                 <field name="debit" sum="sum_debit" />
