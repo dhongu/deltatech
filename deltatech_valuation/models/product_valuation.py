@@ -5,6 +5,8 @@
 
 import logging
 
+from dateutil.relativedelta import relativedelta
+
 from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
@@ -239,6 +241,8 @@ class ProductValuationHistory(models.Model):
                     "account_id": account_id,
                     "year": year,
                     "month": month,
+                    # ultima zi din luna
+                    "date": date.replace(day=1) + relativedelta(months=1, days=-1),
                     "company_id": company_id,
                 }
             )
