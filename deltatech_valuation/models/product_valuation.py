@@ -34,6 +34,14 @@ class ProductValuation(models.Model):
         "res.company", string="Company", required=True, index=True, default=lambda self: self.env.company
     )
 
+    _sql_constraints = [
+        (
+            "product_valuation_uniq",
+            "unique (product_id, valuation_area_id, account_id, company_id)",
+            "Product valuation must be unique",
+        )
+    ]
+
     def get_valuation(self, product_id, valuation_area_id, account_id, company_id=False):
         if not company_id:
             company_id = self.env.company.id
@@ -188,6 +196,7 @@ class ProductValuationHistory(models.Model):
     _name = "product.valuation.history"
     _description = "Product Valuation History"
     _inherit = ["product.valuation"]
+    _order = "product_id, date desc"
 
     year = fields.Char(string="Year", required=True, index=True)
     month = fields.Char(string="Month", required=True, index=True)
@@ -198,6 +207,14 @@ class ProductValuationHistory(models.Model):
 
     amount_final = fields.Monetary("Final Amount", default=0.0)
     quantity_final = fields.Float("Final Quantity", digits="Product Unit of Measure", default=0.0)
+
+    _sql_constraints = [
+        (
+            "product_valuation_history_uniq",
+            "unique (product_id, valuation_area_id, account_id, company_id, year, month)",
+            "Product valuation history must be unique",
+        )
+    ]
 
     def get_valuation(self, product_id, valuation_area_id, account_id, date, company_id=False):
         if not company_id:
@@ -422,7 +439,10 @@ class ProductValuationHistory(models.Model):
             """
             drop table if exists calendar_temporal;
             CREATE TEMP TABLE calendar_temporal AS
-            SELECT generate_series(%(min_date)s::date, %(max_date)s::date, '1 month'::interval) AS date;
+            SELECT
+                (date_trunc('MONTH', generate_series) + INTERVAL '1 MONTH' - INTERVAL '1 day')::DATE AS date
+            FROM
+                generate_series(%(min_date)s::date, %(max_date)s::date, '1 month'::interval) ;
 
             INSERT INTO product_valuation_history (product_id, valuation_area_id, account_id, company_id, date, year, month)
             SELECT
@@ -459,7 +479,7 @@ class ProductValuationHistory(models.Model):
             """
                 UPDATE product_valuation_history AS pv
                 SET
-                    quantity_initial = cv.quantity_final - pv.quantity,
+                    quantity_initial =  cv.quantity_final - pv.quantity,
                     quantity_final = cv.quantity_final,
                     amount_initial = cv.amount_final - pv.amount,
                     amount_final =  cv.amount_final
@@ -470,6 +490,12 @@ class ProductValuationHistory(models.Model):
                         account_id,
                         company_id,
                         date,
+--                        COALESCE(LAG(quantity_final) OVER (
+--                            PARTITION BY product_id, valuation_area_id, account_id, company_id
+--                             ORDER BY date), 0) AS quantity_initial,
+--                        COALESCE(LAG(amount_final) OVER (
+--                            PARTITION BY product_id, valuation_area_id, account_id, company_id
+--                            ORDER BY date), 0)  AS amount_initial,
                         SUM(quantity) OVER (
                             PARTITION BY product_id, valuation_area_id, account_id, company_id
                              ORDER BY date) AS quantity_final,
