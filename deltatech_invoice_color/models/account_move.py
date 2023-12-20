@@ -1,11 +1,11 @@
-from odoo import api, fields, models, Command, _
+from odoo import Command, _, api, fields, models
 
 
 class AccountMoveLine(models.Model):
-    _name = 'account.line.purchase.exist'
-    _inherit = 'account.move.line'
+    _name = "account.line.purchase.exist"
+    _inherit = "account.move.line"
 
-    purchase_exist = fields.Boolean(string='Purchase Exist', compute='_compute_purchase_exist', store=True)
+    purchase_exist = fields.Boolean(string="Purchase Exist", compute="_compute_purchase_exist")
 
     def _compute_purchase_exist(self):
         for move in self:
@@ -13,12 +13,3 @@ class AccountMoveLine(models.Model):
                 move.purchase_exist = True
             else:
                 move.purchase_exist = False
-
-    def action_post(self):
-        return
-
-    def action_invoice_sent(self):
-        return
-
-    def action_register_payment(self):
-        return

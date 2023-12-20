@@ -9,7 +9,7 @@
     "website": "https://www.terrabit.ro",
     "depends": ["account", "purchase"],
     "data": ["views/account_invoice_view.xml"],
-    # "images": ["static/description/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["VoicuStefan2001 "],
 }
