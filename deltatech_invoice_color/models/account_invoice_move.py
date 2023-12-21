@@ -11,7 +11,12 @@ class AccountMoveLine(models.Model):
     @api.depends("purchase_line_id", "sale_line_ids")
     def _compute_color_trigger(self):
         for line in self:
-            if line.purchase_line_id or line.sale_line_ids:
+            if (
+                line.purchase_line_id
+                and line.move_id.move_type == "in_invoice"
+                or line.sale_line_ids
+                and line.move_id.move_type == "out_invoice"
+            ):
                 line.color_trigger = True
             else:
                 line.color_trigger = False
