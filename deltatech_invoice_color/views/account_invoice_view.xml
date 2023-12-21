@@ -3,18 +3,13 @@
     <record id="view_invoice_form_inherit" model="ir.ui.view">
         <field name="name">account.line.color</field>
         <field name="model">account.move</field>
-        <field name="inherit_id" ref="purchase.view_move_form_inherit_purchase" />
+        <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
              <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='company_id']" position="after">
-                <field name="purchase_line_id" invisible="1" />
+                 <field name="color_trigger" invisible="1" />
              </xpath>
             <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
-
-                <attribute name="attrs">{'decoration-danger': [('purchase_line_id', '=', False)]}</attribute>
-            </xpath>
-            <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
-
-                <attribute name="decoration-danger">not purchase_line_id</attribute>
+                <attribute name="decoration-danger">not color_trigger</attribute>
                 <attribute name="decoration-warning">not product_id</attribute>
             </xpath>
         </field>
