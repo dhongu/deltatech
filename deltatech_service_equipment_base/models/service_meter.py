@@ -75,7 +75,7 @@ class ServiceMeter(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if ("name" not in vals) or (vals.get("name") in ("/", False)):
-                sequence = self.env.ref("deltatech_service_equipment.sequence_meter")
+                sequence = self.env.ref("deltatech_service_equipment_base.sequence_meter")
                 if sequence:
                     vals["name"] = sequence.next_by_id()
         return super().create(vals_list)
