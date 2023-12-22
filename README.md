@@ -47,6 +47,7 @@ addon | version | maintainers | summary | price
 [deltatech_fleet_geo](deltatech_fleet_geo/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Fleet Geographical Information | Free 
 [deltatech_followup](deltatech_followup/) | 15.0.0.0.4 |  | Simple invoice followup, with automatic e-mails | Free 
 [deltatech_generic_partner_restriction](deltatech_generic_partner_restriction/) | 15.0.2.0.0 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) | Generic Partner restriction | Free 
+[deltatech_invoice_color](deltatech_invoice_color/) | 15.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Colors Invoice Lines | Free 
 [deltatech_invoice_delivery](deltatech_invoice_delivery/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Create delivery form invoice | Free 
 [deltatech_invoice_number](deltatech_invoice_number/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Renumbering invoice | Free 
 [deltatech_invoice_payment](deltatech_invoice_payment/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show payments from invoice | Free 

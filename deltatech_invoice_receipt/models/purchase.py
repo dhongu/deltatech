@@ -9,12 +9,6 @@ from odoo.tools.float_utils import float_compare
 from odoo.tools.translate import _
 
 
-class StockPicking(models.Model):
-    _inherit = "stock.picking"
-
-    notice = fields.Boolean()
-
-
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
@@ -31,7 +25,7 @@ class PurchaseOrder(models.Model):
                     if picking.state != "assigned":
                         raise UserError(_("The stock transfer cannot be validated!"))
                 if picking.state == "assigned":
-                    picking.write({"notice": False, "origin": purchase_order.partner_ref})
+                    picking.write({"origin": purchase_order.partner_ref})
                     for move_line in picking.move_lines:
                         if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
                             move_line.write({"quantity_done": move_line.product_uom_qty})
