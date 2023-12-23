@@ -271,7 +271,7 @@ class ServiceMeterReading(models.Model):
                 if previous:
                     reading.previous_counter_value = previous.counter_value
                     reading.difference = reading.counter_value - reading.previous_counter_value
-                    # self.invalidate_cache() # asta e solutia ?
+                    # self.invalidate_recordset() # asta e solutia ?
 
     @api.depends("counter_value", "previous_counter_value")
     def _compute_difference(self):
