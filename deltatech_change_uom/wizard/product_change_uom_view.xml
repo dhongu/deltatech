@@ -11,7 +11,7 @@
                     <field name="uom_po_id" />
                 </group>
                 <footer>
-                    <button name="do_change" string="_Apply" type="object" class="oe_highlight" />
+                    <button name="do_change" string="Apply" type="object" class="oe_highlight" />
                     or
                     <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>
