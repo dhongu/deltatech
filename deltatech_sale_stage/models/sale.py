@@ -11,7 +11,7 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     stage_id = fields.Many2one("sale.order.stage", string="Stage", copy=False, tracking=True)
-    stage_ids = fields.Many2many("sale.order.stage", string="Stage", compute="_compute_stage_ids")
+    stage_ids = fields.Many2many("sale.order.stage", string="Stages", compute="_compute_stage_ids")
 
     @api.depends("stage_id")
     def _compute_stage_ids(self):
