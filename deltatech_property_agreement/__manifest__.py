@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Property",
     "depends": ["deltatech_property", "deltatech_service_agreement", "deltatech_service_equipment"],
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "data": ["views/property_building_view.xml", "security/ir.model.access.csv"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
