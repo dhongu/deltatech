@@ -5,7 +5,7 @@
 {
     "name": "Property Management",
     "summary": "Property Management",
-    "version": "16.0.1.0.1",
+    "version": "16.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Property",

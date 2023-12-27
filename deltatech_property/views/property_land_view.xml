@@ -60,9 +60,7 @@
 
                     </header>
                     <sheet>
-                        <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_128"}' />
                         <div class="oe_button_box" name="button_box">
-
                             <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-files-o">
                                 <field string="Documente" name="doc_count" widget="statinfo" />
                             </button>
@@ -75,14 +73,21 @@
                             >
                             </button>
                         </div>
-                        <field name="active" invisible="1" />
                         <widget
                             name="web_ribbon"
                             title="Archived"
                             bg_color="bg-danger"
                             attrs="{'invisible': [('active', '=', True)]}"
                         />
-                        <div class="oe_title">
+
+
+                        <field name="id" invisible="1" />
+
+                        <field name="image" widget='image' class="oe_avatar" />
+
+                        <field name="active" invisible="1" />
+
+                        <div class="oe_title mb24">
                             <label for="name" string="Name" />
                             <h1>
                                 <field name="name" placeholder="e.g. the land between the hills" />
@@ -95,7 +100,7 @@
                                 <field name="responsible_id" />
                                 <field name="asset_number" />
                             </group>
-                            <group string="">
+                            <group string="Address">
                                 <label for="street" string="Address" />
                                 <div class="o_address_format">
                                     <field name="street" placeholder="Street..." class="o_address_street" />
@@ -119,7 +124,7 @@
                             </group>
                             <group>
                                 <label for="latitude" string="Coord" class="oe_inline" />
-                                <div>
+                                <div class="o_row">
                                     <field name="latitude" placeholder="latitude" class="oe_inline" />
                                     <span string="-" class="oe_inline" />
                                     <field name="longitude" placeholder="longitude" class="oe_inline" />
