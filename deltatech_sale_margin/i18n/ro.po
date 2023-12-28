@@ -1,0 +1,111 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_margin
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-27 12:40+0000\n"
+"PO-Revision-Date: 2021-04-27 12:40+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_order_line__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_sale_margin
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+#, python-format
+msgid "Do not sell below the purchase price."
+msgstr "Nu puteți vinde sub prețul de achiziție."
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_order_line__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_order_line____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_sale_margin
+#: model:res.groups,name:deltatech_sale_margin.group_sale_no_change_price
+msgid "No change price on sale order"
+msgstr "Nu permite modificarea prețului în comanda de vânzare"
+
+#. module: deltatech_sale_margin
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+#, python-format
+msgid "Price Error!"
+msgstr "Eroare preț!"
+
+#. module: deltatech_sale_margin
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+#, python-format
+msgid "Sale %s below margin."
+msgstr "Vânzare %s sub marjă."
+
+#. module: deltatech_sale_margin
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+#, python-format
+msgid "Sale %s under the purchase price."
+msgstr "Vânzare %s sub prețul de achiziție."
+
+#. module: deltatech_sale_margin
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+#, python-format
+msgid "Sale %s without price."
+msgstr "Vânzare %s fără preț."
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linie comandă vânzare"
+
+#. module: deltatech_sale_margin
+#: model:res.groups,name:deltatech_sale_margin.group_sale_below_margin
+msgid "Sell below margin limit"
+msgstr "Poate vinde sub limita de marjă"
+
+#. module: deltatech_sale_margin
+#: model:res.groups,name:deltatech_sale_margin.group_sale_below_purchase_price
+msgid "Sell below the purchase price"
+msgstr "Vânzare sub prețul de achiziție"
+
+#. module: deltatech_sale_margin
+#: model:res.groups,name:deltatech_sale_margin.group_sale_margin
+msgid "Hide purchase price on sale order lines and customer invoice"
+msgstr "Ascunde preț de achiziție în comanda de vânzare și facură client"
+
+#. module: deltatech_sale_margin
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+#, python-format
+msgid "You can not sell below margin: %s"
+msgstr "Nu puteți vinde sub marjă: %s"
+
+#. module: deltatech_sale_margin
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+#, python-format
+msgid "You can not sell below the purchase price: %s."
+msgstr "Nu puteți vinde sub prețul de achiziție: %s."
+
+#. module: deltatech_sale_margin
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+#, python-format
+msgid "You can not sell %s without price."
+msgstr "Nu puteți vinde %s fără preț."
+
+#. module: deltatech_sale_margin
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+#, python-format
+msgid "The unit price of product %s is lower than the purchase price. The margin is negative."
+msgstr "Prețul unitar al produsului %s este mai mic decât prețul de achiziție. Marja este negativă."
+
