@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+  <record id="view_commission_update_purchase_price_form" model="ir.ui.view">
+   <field name="name">commission.update.purchase.price.form</field>
+   <field name="model">commission.update.purchase.price</field>
+   <field name="arch" type="xml">
+    <form string="Update Purchase Price">
+
+
+     <group string="Update Purchase Price" invisible="for_all==True">
+      <div class="oe_grey">
+       For the selected invoice line will update purchase price
+      </div>
+     </group>
+     <group string="Update Purchase Price" invisible="for_all==False">
+      <div class="oe_grey">
+       For the ALL invoice line will update purchase price
+      </div>
+     </group>
+     <group>
+      <group>
+       <field name="for_all" />
+       <field name="price_from_doc" />
+      </group>
+     </group>
+     <group>
+
+      <field name="invoice_line_ids" nolabel="1" />
+     </group>
+     <footer>
+      <button name="do_compute" string="_Apply" type="object" class="oe_highlight" />
+      or
+      <button string="Cancel" class="oe_link" special="cancel" />
+     </footer>
+    </form>
+   </field>
+  </record>
+
+
+<!--  <act_window
+            id="action_commission_update_purchase_price"
+            name="Update Purchase Price"
+            res_model="commission.update.purchase.price"
+            binding_model="sale.margin.report"
+            binding_views="list"
+            view_mode="form"
+            target="new"
+        />
+        -->
+        <record id="action_commission_update_purchase_price" model="ir.actions.act_window">
+        <field name="name">Update Purchase Price</field>
+        <field name="res_model">commission.update.purchase.price</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_sale_margin_report" />
+        <field name="binding_view_types">list</field>
+    </record>
+
+
+
+
+    </data>
+</odoo>
