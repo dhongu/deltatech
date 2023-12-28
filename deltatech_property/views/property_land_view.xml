@@ -1,0 +1,217 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="view_property_land_kanban" model="ir.ui.view">
+            <field name="name">property.land.kanban</field>
+            <field name="model">property.land</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="id" />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <!--                                <div class="o_kanban_image">-->
+                                <div class="pull-left">
+                                    <img
+                                        t-att-src="kanban_image('property.land', 'image', record.id.raw_value)"
+                                        alt="Logo"
+                                        style="max-width:200px;margin:3px;"
+                                    />
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name" />
+                                    </strong>
+                                    <div>
+                                        <field name="owner_id" />
+                                        <field name="city" />
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record id="view_property_land_tree" model="ir.ui.view">
+            <field name="name">Lands</field>
+            <field name="model">property.land</field>
+            <field name="priority" eval="1" />
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="owner_id" />
+                    <field name="location_type" />
+                    <field name="tarla" />
+                    <field name="parcela" />
+                    <field name="city" />
+                    <field name="categ_id" />
+                    <field name="surface" sum="surface" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_property_land_form" model="ir.ui.view">
+            <field name="name">Land</field>
+            <field name="model">property.land</field>
+            <field name="priority" eval="1" />
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+
+                    </header>
+                    <sheet>
+                        <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_128"}' />
+                        <div class="oe_button_box" name="button_box">
+
+                            <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-files-o">
+                                <field string="Documente" name="doc_count" widget="statinfo" />
+                            </button>
+                            <button
+                                class="oe_stat_button"
+                                name="show_map"
+                                type="object"
+                                icon="fa-location-arrow"
+                                string="Location"
+                            >
+                            </button>
+                        </div>
+                        <field name="active" invisible="1" />
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active==True" />
+                        <div class="oe_title">
+                            <label for="name" string="Name" />
+                            <h1>
+                                <field name="name" placeholder="e.g. the land between the hills" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Identification">
+                                <field name="region_id" />
+                                <field name="owner_id" />
+                                <field name="responsible_id" />
+                                <field name="asset_number" />
+                            </group>
+                            <group string="">
+                                <label for="street" string="Address" />
+                                <div class="o_address_format">
+                                    <field name="street" placeholder="Street..." class="o_address_street" />
+                                    <field name="city" placeholder="City" class="o_address_city" />
+                                    <field
+                                        name="state_id"
+                                        class="o_address_state"
+                                        placeholder="State"
+                                        options='{"no_open": True}'
+                                        domain="[('country_id','=',country_id)]"
+                                        context="{'country_id': country_id, 'zip': zip}"
+                                    />
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip" />
+                                    <field
+                                        name="country_id"
+                                        placeholder="Country"
+                                        class="o_address_country"
+                                        options='{"no_open": True, "no_create": True}'
+                                    />
+                                </div>
+                            </group>
+                            <group>
+                                <label for="latitude" string="Coord" class="oe_inline" />
+                                <div>
+                                    <field name="latitude" placeholder="latitude" class="oe_inline" />
+                                    <span string="-" class="oe_inline" />
+                                    <field name="longitude" placeholder="longitude" class="oe_inline" />
+                                </div>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="General">
+                                <group>
+                                    <group>
+                                        <field name="location_type" widget="radio" />
+                                        <field name="tarla" />
+                                        <field name="parcela" />
+                                        <field name="sector" />
+                                        <field name="bloc_fizic" />
+                                        <field name="carte" />
+                                    </group>
+                                    <group>
+                                        <field name="type_prop" />
+                                    </group>
+                                </group>
+                                <field name="note" class="oe_inline" placeholder="Note" />
+                                <div class="oe_clear" />
+                            </page>
+                            <page string="Acquisition">
+                                <group>
+                                    <group>
+                                        <field name="acquisition_mode_id" />
+                                        <field name="date_acquisition" />
+                                        <field name="doc_acquisition" />
+                                        <field name="property_value_at_purchase" />
+                                    </group>
+                                    <group>
+                                        <field name="categ_id" />
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Organization">
+                                <group>
+                                    <group>
+                                        <field name="class_number" />
+                                        <field name="class_code" />
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Surfaces">
+                                <group>
+                                    <group>
+                                        <field name="surface" />
+                                        <label for="price" />
+                                        <div class="o_row" name="price">
+                                            <field name="price" />
+                                            <span>/ m²</span>
+                                        </div>
+                                        <field name="total_price" />
+                                        <field name="currency_id" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
+                        <field name="message_ids" widget="mail_thread" placeholder="Share a message..." />
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="view_property_land_filter" model="ir.ui.view">
+            <field name="name">Lands</field>
+            <field name="model">property.land</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="tarla" />
+                    <field name="parcela" />
+                    <field name="owner_id" />
+                    <field name="city" />
+                    <separator />
+                    <filter string="Intravilan" domain="[('location_type','=','in')]" name="grup_in" />
+                    <filter string="Extravilan" domain="[('location_type','=','ex')]" name="grup_ex" />
+                    <separator />
+                    <filter string="Archived" name="inactive" domain="[('active','=',False)]" />
+                </search>
+            </field>
+        </record>
+        <record id="action_property_land" model="ir.actions.act_window">
+            <field name="name">Lands</field>
+            <field name="res_model">property.land</field>
+            <field name="view_mode">kanban,tree,form,pivot</field>
+        </record>
+        <menuitem
+            name="Lands"
+            id="menu_property_land"
+            action="action_property_land"
+            parent="base.menu_property_info"
+            sequence="10"
+        />
+    </data>
+</odoo>

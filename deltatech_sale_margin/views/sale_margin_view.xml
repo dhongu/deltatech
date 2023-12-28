@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="after">
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    invisible="price_warning_message==False"
+                >
+                    <span>
+                        <field nolabel="1" name="price_warning_message" />
+                    </span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+
+
+        <record id="sale_margin_sale_order" model="ir.ui.view">
+            <field name="name">sale.order.margin.view.form</field>
+            <field name="model">sale.order</field>
+            <field name="priority">150</field>
+            <field name="inherit_id" ref="sale_margin.sale_margin_sale_order" />
+            <field name="arch" type="xml">
+                <label for="margin" position="attributes">
+                     <attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
+                </label>
+                <xpath expr="//field[@name='margin']/parent::div" position="attributes">
+                    <attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+
+        <record id="sale_margin_sale_order_line" model="ir.ui.view">
+            <field name="name">sale.order.line.margin.view.form</field>
+            <field name="model">sale.order</field>
+            <field name="priority">150</field>
+            <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line" />
+
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/form//field[@name='purchase_price']" position="attributes">
+                    <t groups="deltatech_sale_margin.group_sale_margin">
+                      <attribute name="readonly">1</attribute>
+                  </t>
+                </xpath>
+            </field>
+        </record>
+
+
+
+      <record model="ir.ui.view" id="sale_margin_sale_order_line_form">
+          <field name="name">sale.order.line.tree.margin.view.form</field>
+          <field name="model">sale.order</field>
+          <field name="priority">150</field>
+          <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line_form" />
+          <field name="arch" type="xml">
+
+              <xpath expr="//field[@name='purchase_price']" position="attributes">
+                  <attribute name="force_save">1</attribute>
+                  <t groups="deltatech_sale_margin.group_sale_margin">
+                      <attribute name="readonly">1</attribute>
+                  </t>
+              </xpath>
+
+              <xpath expr="//field[@name='margin']" position="attributes">
+                  <t groups="deltatech_sale_margin.group_sale_margin">
+                    <attribute name="readonly">1</attribute>
+                  </t>
+              </xpath>
+
+          </field>
+      </record>
+
+
+    <record model="ir.ui.view" id="view_order_form_no_change_price">
+        <field name="name">sale.order.no.change.price</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="attributes">
+                <t groups="deltatech_sale_margin.group_sale_no_change_price">
+                    <attribute name="readonly">1</attribute>
+                </t>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="attributes">
+                <t groups="deltatech_sale_margin.group_sale_no_change_price">
+                    <attribute name="readonly">1</attribute>
+                </t>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='discount']" position="attributes">
+                <t groups="deltatech_sale_margin.group_sale_no_change_price">
+                    <attribute name="readonly">1</attribute>
+                </t>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='discount']" position="attributes">
+                <t groups="deltatech_sale_margin.group_sale_no_change_price">
+                    <attribute name="readonly">1</attribute>
+                </t>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
