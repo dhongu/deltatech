@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!--    Saleorder type views and actions    -->
+        <record model="ir.ui.view" id="view_saleorder_type_form">
+            <field name="name">saleorder.type.form</field>
+            <field name="model">sale.order.type</field>
+            <field eval="50" name="priority" />
+            <field name="arch" type="xml">
+                <form string="Sale Order Type">
+                    <group>
+                        <field name="name" />
+                        <field name="journal_id" options="{'no_create':True}" />
+                        <field name="is_default" />
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_saleorder_type_tree">
+            <field name="name">saleorder.type.tree</field>
+            <field name="model">sale.order.type</field>
+            <field eval="50" name="priority" />
+            <field name="arch" type="xml">
+                <tree string="Sale Order Type">
+                    <field name="name" />
+                    <field name="journal_id" />
+                    <field name="is_default" />
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_saleorder_type">
+            <field name="name">Sale Order Types</field>
+            <field name="res_model">sale.order.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+            id="menu_saleorder_type"
+            name="Sale Order Types"
+            parent="sale.menu_sale_config"
+            sequence="200"
+            action="action_saleorder_type"
+        />
+        <!--        Sale order form view-->
+        <record model="ir.ui.view" id="view_saleorder_type_saleorder_form">
+            <field name="name">saleorder.type.saleorder.form</field>
+            <field name="model">sale.order</field>
+            <field eval="500" name="priority" />
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group/group" position="inside">
+                    <field name="so_type" options="{'no_create':True}" />
+                </xpath>
+            </field>
+        </record>
+        <!--        Sale order search view-->
+        <record model="ir.ui.view" id="view_saleorder_type_saleorder_filter">
+            <field name="name">saleorder.type.saleorder.filter</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter" />
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="so_type" />
+                </field>
+                <xpath expr="//group" position="inside">
+                    <filter name='group_by_type' string="Type" domain="[]" context="{'group_by':'so_type'}" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
