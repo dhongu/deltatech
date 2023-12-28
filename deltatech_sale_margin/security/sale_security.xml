@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+
+
+        <record id="group_sale_margin" model="res.groups">
+            <field name="name">Hide purchase price on sale order lines and customer invoice</field>
+            <field name="category_id" ref="base.module_category_hidden" />
+        </record>
+
+        <record id="group_sale_no_change_price" model="res.groups">
+            <field name="name">No change price on sale order</field>
+            <field name="category_id" ref="base.module_category_hidden" />
+        </record>
+
+
+        <record id="group_sale_below_purchase_price" model="res.groups">
+            <field name="name">Sell below the purchase price</field>
+            <field name="category_id" ref="base.module_category_hidden" />
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
+        </record>
+
+        <record id="group_sale_below_margin" model="res.groups">
+            <field name="name">Sell below margin limit</field>
+            <field name="category_id" ref="base.module_category_hidden" />
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
+        </record>
+
+
+
+    </data>
+</odoo>
