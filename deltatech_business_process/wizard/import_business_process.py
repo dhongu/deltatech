@@ -47,7 +47,9 @@ class BusinessProcessImport(models.TransientModel):
                 if not process_group:
                     process_group = self.env["business.process.group"].create({"name": process_data["process_group"]})
 
-            process = self.env["business.process"].search([("code", "=", process_data["code"])])
+            domain = [("code", "=", process_data["code"]), ("project_id", "=", project.id)]
+
+            process = self.env["business.process"].search(domain, limit=1)
             if not process:
                 process = self.env["business.process"].create(
                     {
@@ -82,7 +84,8 @@ class BusinessProcessImport(models.TransientModel):
                     if not transaction:
                         transaction = self.env["business.transaction"].create({"name": step_data["transaction"]})
 
-                step = self.env["business.process.step"].search([("code", "=", step_data["code"])])
+                domain = [("code", "=", step_data["code"]), ("process_id", "=", process.id)]
+                step = self.env["business.process.step"].search(domain, limit=1)
                 if not step:
                     self.env["business.process.step"].create(
                         {
