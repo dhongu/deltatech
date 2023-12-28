@@ -84,7 +84,7 @@ class BusinessProcessImport(models.TransientModel):
 
                 step = self.env["business.process.step"].search([("code", "=", step_data["code"])])
                 if not step:
-                    self.env["business.step"].create(
+                    self.env["business.process.step"].create(
                         {
                             "name": step_data["name"],
                             "code": step_data["code"],

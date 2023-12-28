@@ -25,7 +25,7 @@
                     <footer states="get">
                         <button name="do_back" string="Back" type="object" />
                         or
-                        <button string="_Cancel" class="oe_link" special="cancel" />
+                        <button string="Cancel" class="oe_link" special="cancel" />
                     </footer>
 
                 </form>
