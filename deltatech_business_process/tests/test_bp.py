@@ -62,6 +62,17 @@ class TestBusinessProcess(TransactionCase):
         business_process.button_start_test()
         business_process.button_end_test()
 
+        export_form = Form(self.env["business.process.export"].with_context(active_ids=[business_process.id]))
+        export_form = export_form.save()
+        export_form.do_export()
+        export_form.do_back()
+
+        import_form = Form(self.env["business.process.import"].with_context(active_ids=[self.project.id]))
+        import_form.data_file = export_form.data_file
+        import_form = import_form.save()
+        import_form.do_import()
+        import_form.do_back()
+
     def test_create_business_process_test(self):
         business_process_test = Form(self.env["business.process.test"])
         business_process_test.process_id = self.process
