@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_sale_margin_report_tree" model="ir.ui.view">
+        <field name="name">sale.margin.report.tree</field>
+        <field name="model">sale.margin.report</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Sale margin report" create="false">
+                <field name="date" invisible="1" />
+                <field name="categ_id" invisible="1" />
+                <field name="product_id" invisible="1" />
+                <field name="product_uom" invisible="not context.get('set_visible',False)" groups="uom.group_uom" />
+                <field name="user_id" invisible="1" />
+                <field name="partner_id" invisible="1" />
+                <field name="commercial_partner_id" invisible="1" />
+                <field name="product_uom_qty" sum="Qty" />
+                <field name="sale_val" sum="Sale value" />
+                <field name="stock_val" sum="Stock value" />
+                <field name="profit_val" sum="Profit" />
+                <field name="company_id" invisible="1" groups="base.group_multi_company" />
+                <field name="move_type" invisible="1" />
+                <field name="state" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_sale_margin_report_commission_form" model="ir.ui.view">
+        <field name="name">sale.margin.report.commission.form</field>
+        <field name="model">sale.margin.report</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="product_id" />
+                            <field name="partner_id" invisible="1" />
+                            <field name="commercial_partner_id" />
+                        </group>
+                        <group>
+                            <field name="purchase_price" />
+                            <field name="user_id" />
+                        </group>
+                        <group>
+                            <field name="product_uom_qty" />
+                            <field name="sale_val" />
+                            <field name="stock_val" />
+                            <field name="profit_val" />
+                            <field name="currency_id" />
+                        </group>
+                        <group>
+                            <field name="commission_computed" />
+                            <field name="commission" />
+                        </group>
+                        <group name="managers">
+                            <field name="manager_user_id" />
+                            <field name="commission_manager_computed" />
+                            <field name="director_user_id" />
+                            <field name="commission_director_computed" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_sale_margin_report_commission_tree" model="ir.ui.view">
+        <field name="name">sale.margin.report.commission.tree</field>
+        <field name="model">sale.margin.report</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Sale margin report" delete="false" create="false">
+                <field name="date" invisible="1" />
+                <field name="categ_id" invisible="1" />
+                <field name="product_id" />
+                <field name="user_id" />
+                <field name="partner_id" invisible="1" />
+                <field name="commercial_partner_id" />
+                <field name="invoice_id" />
+                <field name="product_uom_qty" sum="Qty" />
+                <field name="purchase_price" optional="hide" />
+                <field name="sale_val" sum="Sale value" />
+                <field name="stock_val" sum="Stock value" />
+                <field name="profit_val" sum="Profit" />
+                <field name="commission_computed" sum="Commission Computed" />
+                <field name="commission" sum="Commission" />
+                <field name="indicator_supplement" avg="Supplement Indicator" optional="hide" />
+                <field name="payment_state" optional="hide" />
+                <field name="indicator_profit" avg="Profit Indicator" optional="hide" />
+                <field name="manager_user_id" optional="hide" />
+                <field name="commission_manager_computed" optional="hide" />
+                <field name="director_user_id" optional="hide" />
+                <field name="commission_director_computed" optional="hide" />
+                <field name="company_id" invisible="1" groups="base.group_multi_company" />
+                <field name="move_type" invisible="1" />
+                <field name="state" invisible="1" />
+                <field name="currency_id" optional="hide" />
+                <field name="journal_id" optional="hide" />
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_sale_margin_report_pivot" model="ir.ui.view">
+        <field name="name">sale.margin.report.pivot</field>
+        <field name="model">sale.margin.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Sale margin report">
+                <field name="categ_id" type="row" />
+                <field name="date" type="row" />
+                <field name="product_uom_qty" type="measure" />
+                <field name="sale_val" type="measure" />
+                <field name="stock_val" type="measure" />
+                <field name="profit_val" type="measure" />
+                <field name="indicator_supplement" avg="Supplement Indicator" type="measure" />
+                <field name="indicator_profit" avg="Profit Indicator" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+
+    <record id="view_sale_margin_report_filter" model="ir.ui.view">
+        <field name="name">sale.margin.report.select</field>
+        <field name="model">sale.margin.report</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+
+                <filter name="date" date="date" default_period="last_month" />
+
+                <separator />
+                <filter string="My Sales" name="mysale" domain="[('user_id','=',uid)]" />
+                <filter string="Paid" name="paid" domain="[('payment_state','=','paid')]" />
+                <filter string="Open" name="open" domain="[('payment_state','!=','paid')]" />
+                <field name="partner_id" />
+                <field name="commercial_partner_id" />
+                <field name="product_id" />
+                <field name="user_id" />
+                <field name="invoice_id" />
+
+
+                <group expand="0" string="Extended Filters...">
+                    <field name="categ_id" />
+                    <field name="company_id" groups="base.group_multi_company" />
+                </group>
+                <group expand="1" string="Group By...">
+                    <filter string="Salesperson" name="user" context="{'group_by':'user_id'}" />
+                    <filter string="Partner" name="customer" context="{'group_by':'partner_id'}" />
+                    <filter
+                        string="Commercial Partner"
+                        name="commercial_partner"
+                        context="{'group_by':'commercial_partner_id'}"
+                    />
+                    <filter string="Product" name="product" context="{'group_by':'product_id','set_visible':True}" />
+                    <filter string="Invoice" name="invoice" context="{'group_by':'invoice_id'}" />
+                    <filter string="Category of Product" name="category" context="{'group_by':'categ_id'}" />
+                    <filter string="Status" name="status" context="{'group_by':'state'}" />
+                    <!--
+                    <filter string="Period"   context="{'group_by':'period_id'}"/>
+                    -->
+                    <filter
+                        string="Company"
+                        name='company'
+                        groups="base.group_multi_company"
+                        context="{'group_by':'company_id'}"
+                    />
+                    <filter string="Date" name='group_by_date' context="{'group_by':'date:month'}" />
+                    <filter string="Journal" name='group_by_journal' context="{'group_by':'journal_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_sale_margin_report" model="ir.actions.act_window">
+        <field name="name">Sale margin report</field>
+        <field name="res_model">sale.margin.report</field>
+
+        <field name="view_mode">tree,pivot</field>
+        <field name="view_id" ref="view_sale_margin_report_tree" />
+        <field name="search_view_id" ref="view_sale_margin_report_filter" />
+        <field name="help">This report performs analysis on your invoices.</field>
+        <field name="context">{"search_default_date":1,
+            'search_default_product':1,'group_by_no_leaf':1,'group_by':['user_id']}
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_sale_margin_report_pivot">
+        <field name="sequence" eval="1" />
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_sale_margin_report_pivot" />
+        <field name="act_window_id" ref="action_sale_margin_report" />
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_sale_margin_report_tree">
+        <field name="sequence" eval="2" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_sale_margin_report_tree" />
+        <field name="act_window_id" ref="action_sale_margin_report" />
+    </record>
+
+    <menuitem action="action_sale_margin_report" id="menu_sale_margin_report_tree" parent="sale.menu_sale_report" />
+
+    <record id="action_sale_margin_commission_report" model="ir.actions.act_window">
+        <field name="name">Commission</field>
+        <field name="res_model">sale.margin.report</field>
+
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_sale_margin_report_commission_tree" />
+        <field name="search_view_id" ref="view_sale_margin_report_filter" />
+        <field name="context">{"search_default_date":1, 'search_default_paid':1}</field>
+        <field name="domain">[('move_type','in',['out_invoice','out_refund'])]</field>
+    </record>
+
+
+    <menuitem
+        name="Commission"
+        id="menu_commission"
+        parent="sale.sale_order_menu"
+        sequence="700"
+        groups="sales_team.group_sale_manager"
+    />
+    <menuitem
+        action="action_sale_margin_commission_report"
+        id="menu_sale_margin_commission_report_tree"
+        parent="menu_commission"
+    />
+
+</odoo>
