@@ -157,12 +157,12 @@ msgstr "Admin procese"
 #: model:ir.model,name:deltatech_business_process.model_business_area
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_transaction__area_id
 msgid "Business Area"
-msgstr "Arie de afaceri"
+msgstr "Arie afaceri"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
 msgid "Business Blueprint"
-msgstr "Planul de afaceri"
+msgstr "Planul afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.model,name:deltatech_business_process.model_business_development
@@ -182,59 +182,59 @@ msgstr "Problema afacerii"
 #. module: deltatech_business_process
 #: model:ir.model,name:deltatech_business_process.model_business_open_issue
 msgid "Business Open Issue"
-msgstr "Problemă deschisă de afaceri"
+msgstr "Problemă deschisă afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.ui.menu,name:deltatech_business_process.menu_business_process
 msgid "Business Process"
-msgstr "Procesul de afaceri"
+msgstr "Proces afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.model,name:deltatech_business_process.model_business_process_export
 msgid "Business Process Export"
-msgstr "Exportare procese de afaceri"
+msgstr "Exportare procese afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.model,name:deltatech_business_process.model_business_process_group
 msgid "Business Process Group"
-msgstr "Grupul proceselor de afaceri"
+msgstr "Grup procese afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.model,name:deltatech_business_process.model_business_process_import
 msgid "Business Process Import"
-msgstr "Importare procese de afaceri"
+msgstr "Import procese afaceri"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business__process_report_pivot
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_report_tree
 msgid "Business Process Report"
-msgstr "Raportul procesului de afaceri"
+msgstr "Rapor procese afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.model,name:deltatech_business_process.model_business_process_step_test
 msgid "Business Process Step Test"
-msgstr "Testul pe pași al procesului de afaeri"
+msgstr "Testul pe pași proces afaeri"
 
 #. module: deltatech_business_process
 #: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_step
 #: model:ir.ui.menu,name:deltatech_business_process.menu_business_process_step
 msgid "Business Process Steps"
-msgstr "Pași procese de afaceri"
+msgstr "Pași proces afaceri"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_tree
 msgid "Business Process Test"
-msgstr "Test proces de afaceri"
+msgstr "Test proces afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.ui.menu,name:deltatech_business_process.menu_business_process_report
 msgid "Business Processes"
-msgstr "Procese de afaceri"
+msgstr "Procese afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_report
 msgid "Business Processes Report"
-msgstr "Raportul procesului de afaceri"
+msgstr "Raport proces afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.model,name:deltatech_business_process.model_business_role
@@ -245,7 +245,7 @@ msgstr "Rol"
 #. module: deltatech_business_process
 #: model:ir.ui.menu,name:deltatech_business_process.menu_business_process_test_report
 msgid "Business Tests"
-msgstr "Teste de afaceri"
+msgstr "Teste afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.actions.act_window,name:deltatech_business_process.action_business_area
@@ -255,18 +255,18 @@ msgstr "Teste de afaceri"
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_group__area_id
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_area_tree
 msgid "Business area"
-msgstr "Aonă de afaceri"
+msgstr "Arie afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.actions.act_window,name:deltatech_business_process.action_business_development
 msgid "Business development"
-msgstr "Dezvoltarea afacerii"
+msgstr "Dezvoltare afacere"
 
 #. module: deltatech_business_process
 #: model:ir.actions.act_window,name:deltatech_business_process.action_business_development_type
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_type_tree
 msgid "Business development type"
-msgstr "Tipul dezvoltării de afaceri"
+msgstr "Tip dezvoltare afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.actions.act_window,name:deltatech_business_process.action_business_process
@@ -281,28 +281,28 @@ msgstr "Tipul dezvoltării de afaceri"
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_tree
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_transaction_tree
 msgid "Business process"
-msgstr "Proces de afaceri"
+msgstr "Proces afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.model,name:deltatech_business_process.model_business_process_test
 msgid "Business process Test"
-msgstr "Testare proces de afaceri"
+msgstr "Teste proces afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_area__process_group_ids
 msgid "Business process groups"
-msgstr "Grupuri procese de afaceri"
+msgstr "Grupuri procese afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.model,name:deltatech_business_process.model_business_process_report
 msgid "Business process report"
-msgstr "Raportul procesului de afaceri"
+msgstr "Raport procese afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.model,name:deltatech_business_process.model_business_process_step
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_tree
 msgid "Business process step"
-msgstr "Pasul procesului de afaceri"
+msgstr "Pas proces afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_test_report
@@ -310,13 +310,13 @@ msgstr "Pasul procesului de afaceri"
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business__process_test_report_pivot
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_report_tree
 msgid "Business process test report"
-msgstr "Pașii procesului de afaceri"
+msgstr "Pași proces afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.actions.act_window,name:deltatech_business_process.action_business_project
 #: model:ir.model,name:deltatech_business_process.model_business_project
 msgid "Business project"
-msgstr "Proiect de afaceri"
+msgstr "Proiect afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.actions.act_window,name:deltatech_business_process.action_business_role
@@ -346,7 +346,7 @@ msgstr "Categorie"
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__category__change_request
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__category__change_request
 msgid "Change Request"
-msgstr "Cerere de schimbare"
+msgstr "Cerere schimbare"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__state__closed
@@ -392,7 +392,7 @@ msgstr "Completare dev"
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__completion_fs
 msgid "Completion FS"
-msgstr "Completare fs"
+msgstr "Completare FS"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__completion_test
@@ -405,7 +405,7 @@ msgstr "Testare completare"
 #: model:ir.model.fields,help:deltatech_business_process.field_business_process__completion_bbp
 #: model:ir.model.fields,help:deltatech_business_process.field_business_process_report__completion_bbp
 msgid "Completion business blueprint"
-msgstr "Schița completării de afaceri"
+msgstr "Schița completare afacere"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,help:deltatech_business_process.field_business_development__completion_dev
@@ -443,23 +443,23 @@ msgstr "Cosmetic"
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__count_developments
 msgid "Count Developments"
-msgstr "Numărul dezvoltărilor"
+msgstr "Număr dezvoltări"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__doc_count
 msgid "Count Documents"
-msgstr "Numărul documentelor"
+msgstr "Număr documente"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__count_issues
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__count_issues
 msgid "Count Issues"
-msgstr "Număr problemelor"
+msgstr "Număr probleme"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__count_processes
 msgid "Count Processes"
-msgstr "Procese"
+msgstr "Număr procese"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__count_steps
@@ -528,7 +528,7 @@ msgstr "Client"
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__customer_id
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__customer_id
 msgid "Customer Responsible"
-msgstr "Responsabilul clientului"
+msgstr "Responsabil client"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_from
@@ -562,17 +562,17 @@ msgstr "Data sfârșit dezvoltare"
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__date_end_test
 msgid "Date End Test"
-msgstr "Data sfârșitului testării"
+msgstr "Data sfârșit testare"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__date_start_dev
 msgid "Date Start Dev"
-msgstr "Data începerii dezvoltării"
+msgstr "Data începere dezvoltare"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__date_start_test
 msgid "Date Start Test"
-msgstr "Data începerii testării"
+msgstr "Data începere testare"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__date_end
@@ -584,19 +584,19 @@ msgstr "Data sfârșit"
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__date_end
 msgid "Date end test"
-msgstr "Data sfârșitului testării"
+msgstr "Data sfârșit testare"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__date_start
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__date_start
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_form
 msgid "Date start"
-msgstr "Data de început"
+msgstr "Data început"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__date_start
 msgid "Date start test"
-msgstr "Data începerii testării"
+msgstr "Data începere testare"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_form
@@ -636,12 +636,12 @@ msgstr "Proiectare"
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__destination_process_ids
 msgid "Destination Process"
-msgstr "Destinația procesului"
+msgstr "Destinațe proces"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
 msgid "Destination process"
-msgstr "Destinația procesului"
+msgstr "Destinație proces"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__details
@@ -752,17 +752,17 @@ msgstr "Efort testare"
 #. module: deltatech_business_process
 #: model:ir.model.fields,help:deltatech_business_process.field_business_development__effort_dev
 msgid "Effort for development"
-msgstr "Efort pentru realizare dezvoltare"
+msgstr "Efort pentru dezvoltare"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,help:deltatech_business_process.field_business_development__effort_fs
 msgid "Effort for functional specification"
-msgstr "Efort pentru realizarea specificației funcționale"
+msgstr "Efort pentru specificația funcțională"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,help:deltatech_business_process.field_business_development__effort_test
 msgid "Effort for test"
-msgstr "Efort pentru realizare testare"
+msgstr "Efort pentru testare"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__date_end_bbp
@@ -789,22 +789,22 @@ msgstr "Utilizator final"
 #: model:ir.model.fields,help:deltatech_business_process.field_business_process__date_end_bbp
 #: model:ir.model.fields,help:deltatech_business_process.field_business_process_report__date_end_bbp
 msgid "End date business blueprint"
-msgstr "Data de încheiere a planului de afaceri"
+msgstr "Data încheiere plan afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,help:deltatech_business_process.field_business_development__date_end_dev
 msgid "End date development"
-msgstr "Data de încheiere a dezvoltării"
+msgstr "Data încheiere dezvoltare"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,help:deltatech_business_process.field_business_development__date_end_fs
 msgid "End date functional specification"
-msgstr "Data de încheiere a specificație funcționale"
+msgstr "Data încheiere specificație funcțională"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,help:deltatech_business_process.field_business_development__date_end_test
 msgid "End date test"
-msgstr "Data de testare"
+msgstr "Data testare"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__date_estimated
@@ -820,7 +820,7 @@ msgstr "Explorare"
 #. module: deltatech_business_process
 #: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_export
 msgid "Export Business Process"
-msgstr "Exportare procese de afaceri"
+msgstr "Export proces afaceri"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
@@ -830,12 +830,12 @@ msgstr "Exportare completă"
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
 msgid "Export business process"
-msgstr "Exportare procese de afaceri"
+msgstr "Export proces afaceri"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
 msgid "Export selected business processes"
-msgstr "Exportare procese de afaceri selectate"
+msgstr "Export proces afaceri selectate"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_report__transaction_type__ex
@@ -880,7 +880,7 @@ msgstr "Fişier"
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__name
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_import__name
 msgid "File Name"
-msgstr "Nume de fișier"
+msgstr "Nume fișier"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__message_follower_ids
@@ -1017,17 +1017,17 @@ msgstr "Dacă este bifat, unele mesaje au erori de livrare."
 #: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_from_process_import
 #: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_from_project_import
 msgid "Import Business Process"
-msgstr "Importare procese de afaceri"
+msgstr "Import proces afaceri"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
 msgid "Import business process"
-msgstr "Importare procese de afaceri"
+msgstr "Import proces afaceri"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
 msgid "Import business processes from file"
-msgstr "Importare procese de afacerri din fișier"
+msgstr "Import procese afaceri din fișier"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__category__improvement
@@ -1039,7 +1039,7 @@ msgstr "Îmbunătățire"
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__state__in_test
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__state__in_test
 msgid "In Test Business"
-msgstr "În testare"
+msgstr "În afacere test"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__status_integration_test__in_progress
@@ -1222,7 +1222,7 @@ msgstr "Mai multe"
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__my_activity_date_deadline
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Termenul limită al activității mele"
+msgstr "Termen limită activității mele"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_area__name
@@ -1256,7 +1256,7 @@ msgstr "Nume"
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__activity_date_deadline
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Termenul limită al următoarei activități"
+msgstr "Termen limită următoarea activitate"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__activity_summary
@@ -1288,7 +1288,7 @@ msgstr "Nu este bun"
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__status_internal_test__not_started
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__status_user_acceptance_test__not_started
 msgid "Not started"
-msgstr "Nu e început"
+msgstr "Neînceput"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__message_needaction_counter
@@ -1324,7 +1324,7 @@ msgstr "Număr erori"
 #: model:ir.model.fields,help:deltatech_business_process.field_business_process_test__message_needaction_counter
 #: model:ir.model.fields,help:deltatech_business_process.field_business_project__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr "Numărul mesajelor care au nevoie de o acțiune"
+msgstr "Număr mesaje necesită acțiune"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,help:deltatech_business_process.field_business_development__message_has_error_counter
@@ -1356,7 +1356,7 @@ msgstr "Deschis"
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__open_date
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__open_date
 msgid "Open Date"
-msgstr "Data deschiderii"
+msgstr "Data deschidere"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__category__open_issue
@@ -1381,7 +1381,7 @@ msgstr "Altele"
 #. module: deltatech_business_process
 #: model:ir.ui.menu,name:deltatech_business_process.menu_overview
 msgid "Overview"
-msgstr "Prezentare generala"
+msgstr "Prezentare generală"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_step_test__result__passed
@@ -1417,41 +1417,41 @@ msgstr "Proces"
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__process_group_id
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__process_group_id
 msgid "Process Group"
-msgstr "Grup de procese"
+msgstr "Grup procese"
 
 #. module: deltatech_business_process
 #: model:res.groups,name:deltatech_business_process.group_business_process_responsible
 msgid "Process Responsible"
-msgstr "Responsabil de proces"
+msgstr "Responsabil proces"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__process_step_test_id
 msgid "Process Step Test"
-msgstr "Testare pas de proces"
+msgstr "Testare pas proces"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__process_test_id
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__process_test_id
 msgid "Process Test"
-msgstr "Test de proces"
+msgstr "Test proces"
 
 #. module: deltatech_business_process
 #: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_test
 #: model:ir.ui.menu,name:deltatech_business_process.menu_business_process_test
 msgid "Process Tests"
-msgstr "Teste de proces"
+msgstr "Teste proces"
 
 #. module: deltatech_business_process
 #: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_step_test
 msgid "Process step test"
-msgstr "Pas testare de proces"
+msgstr "Pas testare proces"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_tree
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
 msgid "Process steps"
-msgstr "Pași de proces"
+msgstr "Pași proces"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_calendar
@@ -1459,7 +1459,7 @@ msgstr "Pași de proces"
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_graph
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_pivot
 msgid "Process test"
-msgstr "Test de proces"
+msgstr "Test proces"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__process_ids
@@ -1569,7 +1569,7 @@ msgstr "Responsabil"
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__responsible_id
 msgid "Responsible Process"
-msgstr "Responsabil de proces"
+msgstr "Responsabil proces"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__responsible_step_id
@@ -1736,28 +1736,28 @@ msgstr "Pornire test acceptanței utilizatorului"
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__date_start
 msgid "Start date"
-msgstr "Data de început"
+msgstr "Data început"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,help:deltatech_business_process.field_business_process__date_start_bbp
 #: model:ir.model.fields,help:deltatech_business_process.field_business_process_report__date_start_bbp
 msgid "Start date business blueprint"
-msgstr "Data de început pentru planul de afaceri"
+msgstr "Data început plan afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,help:deltatech_business_process.field_business_development__date_start_dev
 msgid "Start date development"
-msgstr "Data de început a dezvoltării"
+msgstr "Data început dezvoltare"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,help:deltatech_business_process.field_business_development__date_start_fs
 msgid "Start date functional specification"
-msgstr "Data de început a specificațiilor funcționale"
+msgstr "Data început specificație funcțională"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,help:deltatech_business_process.field_business_development__date_start_test
 msgid "Start date test"
-msgstr "Data de început a testelor"
+msgstr "Data început testare"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__state
@@ -1801,17 +1801,17 @@ msgstr ""
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__status_integration_test
 msgid "Status integration test"
-msgstr "Stadiul testului de integrare"
+msgstr "Stadiu test integrare"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__status_internal_test
 msgid "Status internal test"
-msgstr "Stadiul testului intern"
+msgstr "Stadiu test intern"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__status_user_acceptance_test
 msgid "Status user acceptance test"
-msgstr "Stadiul testului acceptanțeii utilizatorului"
+msgstr "Stadiu test acceptanțeii utilizatorului"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__step_id
@@ -1857,7 +1857,7 @@ msgstr "Pași de Test"
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__test_step_ids
 msgid "Test steps"
-msgstr "Pași de Test"
+msgstr "Pași Test"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__tester_id
@@ -1948,7 +1948,7 @@ msgstr "Așteptare"
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__website_message_ids
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__website_message_ids
 msgid "Website Messages"
-msgstr "Mesaj pe website"
+msgstr "Mesaj website"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,help:deltatech_business_process.field_business_development__website_message_ids
@@ -1958,7 +1958,7 @@ msgstr "Mesaj pe website"
 #: model:ir.model.fields,help:deltatech_business_process.field_business_process_test__website_message_ids
 #: model:ir.model.fields,help:deltatech_business_process.field_business_project__website_message_ids
 msgid "Website communication history"
-msgstr "Istoric comunicări pe website"
+msgstr "Istoric comunicări website"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_export__state__choose
