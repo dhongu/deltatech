@@ -2,6 +2,5 @@
 # See README.rst file on addons root folder for license details
 
 
-from . import models
-from . import report
-from . import wizard
+from . import export_business_process
+from . import import_business_process

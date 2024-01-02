@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="view_business_process_import_form" model="ir.ui.view">
+            <field name="name">business.process.import</field>
+            <field name="model">business.process.import</field>
+            <field name="arch" type="xml">
+                <form string="Import business process">
+                    <field name="state" invisible="1" />
+                    <field name="name" invisible="1" />
+                    <div states="choose">
+                        <p>Import business processes from file</p>
+                    </div>
+                    <div states="get">
+                        <p>The imported file: <field name="data_file" filename="name" /></p>
+
+                    </div>
+
+                    <footer states="get">
+                        <button name="do_import" string="Apply" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                    <footer states="choose">
+                        <button name="do_back" string="Back" type="object" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+     </record>
+
+
+    <record id="action_business_process_from_project_import" model="ir.actions.act_window">
+        <field name="name">Import Business Process</field>
+        <field name="res_model">business.process.import</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_business_project" />
+        <field name="binding_view_types">form</field>
+    </record>
+
+    <record id="action_business_process_from_process_import" model="ir.actions.act_window">
+        <field name="name">Import Business Process</field>
+        <field name="res_model">business.process.import</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_business_process" />
+        <field name="binding_view_types">form</field>
+    </record>
+
+
+</odoo>
