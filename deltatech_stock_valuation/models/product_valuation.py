@@ -318,7 +318,7 @@ class ProductValuationHistory(models.Model):
         :return:
         """
         sql = """
-                    SELECT product_id, valuation_area_id, account_id, company_id,  year, month, date,
+                    SELECT product_id, valuation_area_id, account_id, company_id, currency_id,  year, month, date,
                 sum(debit) as debit, sum(credit) as credit,
                 sum(
                     quantity * (
@@ -352,7 +352,7 @@ class ProductValuationHistory(models.Model):
             FROM (
                  %s
                 ) as sub
-             GROUP BY  product_id, valuation_area_id, account_id, company_id, year, month, date
+             GROUP BY  product_id, valuation_area_id, account_id, company_id, currency_id, year, month, date
         """ % self._get_sql_sub_select(
             all
         )
@@ -363,7 +363,7 @@ class ProductValuationHistory(models.Model):
         Determinare miscari lunare
         """
         sql = """
-            SELECT product_id, valuation_area_id, account_id, m.company_id,
+            SELECT product_id, valuation_area_id, account_id, m.company_id, l.company_currency_id as currency_id,
                     debit, credit, move_type,
                     EXTRACT(YEAR FROM m.date) as year, EXTRACT(MONTH FROM m.date) as month,
                     (date_trunc('month', m.date) + interval '1 month - 1 day')::date as date,
@@ -436,22 +436,32 @@ class ProductValuationHistory(models.Model):
         :return:
         """
 
-        self.set_company_valuation_area()
+        self.env.company.set_stock_valuation_at_company_level()
+
+        valuation_area = self.env.company.valuation_area_id
 
         params = {
             "account_ids": tuple(self.env["account.account"].search([("stock_valuation", "=", True)]).ids),
+            "valuation_area_id": valuation_area.id,
+            "company_id": self.env.company.id,
+            "currency_id": self.env.company.currency_id.id,
         }
 
         _logger.info("Stergere linii istoric")
-        self.env.cr.execute("DELETE FROM product_valuation_history WHERE account_id in %(account_ids)s", params)
+        self.env.cr.execute(
+            """
+            DELETE FROM product_valuation_history WHERE valuation_area_id = %(valuation_area_id)s;
+        """,
+            params,
+        )
         _logger.info("Calculare linii istoric miscari lunare")
 
         sql = (
             """
             INSERT INTO product_valuation_history
-                (product_id, valuation_area_id, account_id, company_id, year, month, date,
+                (product_id, valuation_area_id, account_id, company_id, currency_id, year, month, date,
                 quantity, quantity_in, quantity_out, debit, credit, amount)
-            SELECT product_id, valuation_area_id, account_id, company_id,  year, month, date,
+            SELECT product_id, valuation_area_id, account_id, company_id, currency_id, year, month, date,
                         quantity, quantity_in, quantity_out, debit, credit, debit-credit as amount
             FROM ( %s ) as a
         """
@@ -477,7 +487,9 @@ class ProductValuationHistory(models.Model):
             """
             SELECT min(date) as min_date, max(date) as max_date
             FROM product_valuation_history
-            """
+            WHERE valuation_area_id = %(valuation_area_id)s
+            """,
+            params,
         )
         res = self.env.cr.dictfetchone()
 
@@ -487,36 +499,47 @@ class ProductValuationHistory(models.Model):
         _logger.info("Adaugare linii lipsa")
         self.env.cr.execute(
             """
-            drop table if exists calendar_temporal;
+            DROP TABLE IF EXISTS calendar_temporal;
             CREATE TEMP TABLE calendar_temporal AS
             SELECT
                 (date_trunc('MONTH', generate_series) + INTERVAL '1 MONTH' - INTERVAL '1 day')::DATE AS date
             FROM
                 generate_series(%(min_date)s::date, %(max_date)s::date, '1 month'::interval) ;
 
-            INSERT INTO product_valuation_history (product_id, valuation_area_id, account_id, company_id, date, year, month)
+            INSERT INTO product_valuation_history
+            (
+                product_id, valuation_area_id, account_id, company_id, currency_id, date, year, month,
+                quantity, amount, quantity_initial, amount_initial, quantity_final, amount_final
+            )
             SELECT
                 p.product_id,
-                v.valuation_area_id,
+                %(valuation_area_id)s as valuation_area_id,
                 a.account_id,
-                comp.company_id,
+                %(company_id)s as company_id,
+                %(currency_id)s as currency_id,
                 c.date,
                 date_part('year', c.date) AS year,
-                date_part('month', c.date) AS month
+                date_part('month', c.date) AS month,
+                0 as quantity,
+                0 as amount,
+                0 as quantity_initial,
+                0 as amount_initial,
+                0 as quantity_final,
+                0 as amount_final
+
             FROM
                 calendar_temporal c
             CROSS JOIN (SELECT DISTINCT product_id FROM product_valuation_history) p
-            CROSS JOIN (SELECT DISTINCT valuation_area_id FROM product_valuation_history) v
             CROSS JOIN (SELECT DISTINCT account_id FROM product_valuation_history) a
-            CROSS JOIN (SELECT DISTINCT company_id FROM product_valuation_history) comp
+
             WHERE NOT EXISTS (
                 SELECT 1
                 FROM product_valuation_history pv
                 WHERE
                     pv.product_id = p.product_id AND
-                    pv.valuation_area_id = v.valuation_area_id AND
+                    pv.valuation_area_id =  %(valuation_area_id)s AND
                     pv.account_id = a.account_id AND
-                    pv.company_id = comp.company_id AND
+                    pv.company_id = %(company_id)s AND
                     pv.date = c.date
             )
 
@@ -529,9 +552,9 @@ class ProductValuationHistory(models.Model):
             """
                 UPDATE product_valuation_history AS pv
                 SET
-                    quantity_initial =  cv.quantity_final - pv.quantity,
+                    quantity_initial = cv.quantity_initial,
+                    amount_initial = cv.amount_initial,
                     quantity_final = cv.quantity_final,
-                    amount_initial = cv.amount_final - pv.amount,
                     amount_final =  cv.amount_final
                 FROM (
                     SELECT
@@ -540,12 +563,12 @@ class ProductValuationHistory(models.Model):
                         account_id,
                         company_id,
                         date,
---                        COALESCE(LAG(quantity_final) OVER (
---                            PARTITION BY product_id, valuation_area_id, account_id, company_id
---                             ORDER BY date), 0) AS quantity_initial,
---                        COALESCE(LAG(amount_final) OVER (
---                            PARTITION BY product_id, valuation_area_id, account_id, company_id
---                            ORDER BY date), 0)  AS amount_initial,
+                        COALESCE(LAG(quantity_final) OVER (
+                            PARTITION BY product_id, valuation_area_id, account_id, company_id
+                             ORDER BY date), 0) AS quantity_initial,
+                        COALESCE(LAG(amount_final) OVER (
+                            PARTITION BY product_id, valuation_area_id, account_id, company_id
+                            ORDER BY date), 0)  AS amount_initial,
                         SUM(quantity) OVER (
                             PARTITION BY product_id, valuation_area_id, account_id, company_id
                              ORDER BY date) AS quantity_final,
@@ -559,10 +582,41 @@ class ProductValuationHistory(models.Model):
                     pv.product_id = cv.product_id AND
                     pv.account_id = cv.account_id AND
                     pv.valuation_area_id = cv.valuation_area_id AND
+                    pv.valuation_area_id = %(valuation_area_id)s AND
                     pv.company_id = cv.company_id AND
-                    pv.date = cv.date
+                    pv.company_id = %(company_id)s AND
+                    pv.date = cv.date;
 
+            """,
+            params,
+        )
+
+        _logger.info("Calculare sold initial ")
+        self.env.cr.execute(
             """
+            UPDATE product_valuation_history
+                SET
+                    quantity_initial =  quantity_final - quantity,
+                    amount_initial = amount_final - amount
+            WHERE  valuation_area_id = %(valuation_area_id)s ;
+
+            """,
+            params,
+        )
+        _logger.info("Sterge linii goale ")
+        self.env.cr.execute(
+            """
+            DELETE FROM product_valuation_history
+            WHERE  valuation_area_id = %(valuation_area_id)s
+                and (quantity_initial is null or quantity_initial = 0)
+                and (quantity_final is null or quantity_final = 0)
+                and (quantity is null or quantity = 0)
+                and (amount_initial is null or amount_initial = 0)
+                and (amount is null or amount = 0)
+                and (amount_final is null or amount_final = 0)
+
+            """,
+            params,
         )
 
         _logger.info("FINALIZARE CALCULARE ISTORIC VALORI")

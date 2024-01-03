@@ -9,7 +9,7 @@
     "version": "15.0.0.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "category": "Warehouse",
+    "category": "Inventory/Inventory",
     "depends": ["stock_account"],
     "license": "OPL-1",
     "data": [
