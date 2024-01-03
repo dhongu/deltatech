@@ -14,11 +14,7 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 class TestStockValuation(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
-        if not chart_template_ref:
-            chart_template_ref = "l10n_ro.ro_chart_template"
         super().setUpClass(chart_template_ref=chart_template_ref)
-
-        cls.company = cls.env.company
 
         cls.account = cls.env["account.account"].create(
             {

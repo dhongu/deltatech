@@ -11,6 +11,10 @@ class TestSale(TransactionCase):
     def setUp(self):
         super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
+        currency_eur = self.env.ref("base.EUR")
+        currency_eur.write({"active": True})
+        currency_usd = self.env.ref("base.USD")
+        currency_usd.write({"active": True})
 
         seller_ids = [(0, 0, {"name": self.partner_a.id})]
         self.product_a = self.env["product.product"].create(

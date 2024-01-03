@@ -10,7 +10,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Inventory/Inventory",
-    "depends": ["stock_account", "l10n_ro"],
+    "depends": ["stock_account"],
     "license": "OPL-1",
     "data": [
         "security/ir.model.access.csv",
