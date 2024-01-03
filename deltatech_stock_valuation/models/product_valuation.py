@@ -4,8 +4,7 @@
 
 
 import logging
-
-from dateutil.relativedelta import relativedelta
+from datetime import datetime
 
 from odoo import api, fields, models
 
@@ -73,7 +72,7 @@ class ProductValuation(models.Model):
                 ("account_id", "=", item.account_id.id),
                 ("company_id", "=", item.company_id.id),
             ]
-            valuation = self.env["product.valuation.history"].search(domain, order="date desc", limit=1)
+            valuation = self.env["product.valuation.history"].search(domain, order="month desc", limit=1)
             if valuation:
                 item.write({"quantity": valuation.quantity_final, "amount": valuation.amount_final})
 
@@ -210,11 +209,9 @@ class ProductValuationHistory(models.Model):
     _name = "product.valuation.history"
     _description = "Product Valuation History"
     _inherit = ["product.valuation"]
-    _order = "product_id, date desc"
+    _order = "product_id, month desc"
 
-    year = fields.Char(string="Year", required=True, index=True)
     month = fields.Char(string="Month", required=True, index=True)
-    date = fields.Date(required=True, index=True)
 
     amount_initial = fields.Monetary("Initial Amount", default=0.0)
     quantity_initial = fields.Float("Initial Quantity", digits="Product Unit of Measure", default=0.0)
@@ -227,7 +224,7 @@ class ProductValuationHistory(models.Model):
     _sql_constraints = [
         (
             "product_valuation_history_uniq",
-            "unique (product_id, valuation_area_id, account_id, company_id, date)",
+            "unique (product_id, valuation_area_id, account_id, company_id, month)",
             "Product valuation history must be unique",
         )
     ]
@@ -245,15 +242,14 @@ class ProductValuationHistory(models.Model):
         if not company_id:
             company_id = self.env.company.id
 
-        year = date.year
-        month = date.month
-        date_key = date.replace(day=1) + relativedelta(months=1, days=-1)
+        month = date.strftime("%Y%m")
+
         domain = [
             ("product_id", "=", product_id),
             ("valuation_area_id", "=", valuation_area_id),
             ("account_id", "=", account_id),
             ("company_id", "=", company_id),
-            ("date", "=", date_key),
+            ("month", "=", month),
         ]
         valuation = self.search(domain, limit=1)
         if not valuation:
@@ -263,9 +259,9 @@ class ProductValuationHistory(models.Model):
                     ("valuation_area_id", "=", valuation_area_id),
                     ("account_id", "=", account_id),
                     ("company_id", "=", company_id),
-                    ("date", "<", date_key),
+                    ("month", "<", month),
                 ],
-                order="date desc",
+                order="month desc",
                 limit=1,
             )
             if last_valuation:
@@ -280,9 +276,7 @@ class ProductValuationHistory(models.Model):
                     "product_id": product_id,
                     "valuation_area_id": valuation_area_id,
                     "account_id": account_id,
-                    "year": year,
                     "month": month,
-                    "date": date_key,
                     "company_id": company_id,
                     "quantity_initial": quantity_initial,
                     "amount_initial": amount_initial,
@@ -300,9 +294,9 @@ class ProductValuationHistory(models.Model):
                 ("valuation_area_id", "=", s.valuation_area_id.id),
                 ("account_id", "=", s.account_id.id),
                 ("company_id", "=", s.company_id.id),
-                ("date", ">", s.date),
+                ("month", ">", s.month),
             ]
-            next_valuation = self.search(domain, order="date asc", limit=1)
+            next_valuation = self.search(domain, order="month asc", limit=1)
             if next_valuation:
                 next_valuation.write(
                     {
@@ -318,7 +312,7 @@ class ProductValuationHistory(models.Model):
         :return:
         """
         sql = """
-                    SELECT product_id, valuation_area_id, account_id, company_id, currency_id,  year, month, date,
+                    SELECT product_id, valuation_area_id, account_id, company_id, currency_id,   month,
                 sum(debit) as debit, sum(credit) as credit,
                 sum(
                     quantity * (
@@ -352,7 +346,7 @@ class ProductValuationHistory(models.Model):
             FROM (
                  %s
                 ) as sub
-             GROUP BY  product_id, valuation_area_id, account_id, company_id, currency_id, year, month, date
+             GROUP BY  product_id, valuation_area_id, account_id, company_id, currency_id,  month
         """ % self._get_sql_sub_select(
             all
         )
@@ -365,8 +359,8 @@ class ProductValuationHistory(models.Model):
         sql = """
             SELECT product_id, valuation_area_id, account_id, m.company_id, l.company_currency_id as currency_id,
                     debit, credit, move_type,
-                    EXTRACT(YEAR FROM m.date) as year, EXTRACT(MONTH FROM m.date) as month,
-                    (date_trunc('month', m.date) + interval '1 month - 1 day')::date as date,
+                    to_char(m.date, 'YYYYMM')  as month,
+
                     l.quantity / NULLIF(COALESCE(uom_line.factor, 1) / COALESCE(uom_template.factor, 1), 0.0) as quantity
                 FROM account_move_line as l
                     LEFT JOIN account_move as m ON l.move_id=m.id
@@ -383,8 +377,7 @@ class ProductValuationHistory(models.Model):
                     AND product_id in %(product_ids)s
                     AND account_id in %(account_ids)s
                     AND valuation_area_id in %(valuation_area_ids)s
-                    AND EXTRACT(YEAR FROM m.date)  in %(year)s
-                    AND EXTRACT(MONTH FROM m.date) in %(month)s
+                    AND to_char(m.date, 'YYYYMM') in %(month)s
             """
 
         return sql
@@ -398,9 +391,7 @@ class ProductValuationHistory(models.Model):
         params = {
             "product_ids": tuple(products.ids),
             "account_ids": tuple(accounts.ids),
-            "year": tuple(self.mapped("year")),
             "month": tuple(self.mapped("month")),
-            "date": tuple(self.mapped("date")),
             "company_ids": tuple(companies.ids),
             "valuation_area_ids": tuple(valuation_areas.ids) or (None,),
         }
@@ -421,7 +412,7 @@ class ProductValuationHistory(models.Model):
                 pv.valuation_area_id = sub.valuation_area_id AND
                 pv.company_id = sub.company_id AND
 
-                pv.date = sub.date
+                pv.month = sub.month
         """ % self._get_sql_select(
             all=False
         )
@@ -459,9 +450,9 @@ class ProductValuationHistory(models.Model):
         sql = (
             """
             INSERT INTO product_valuation_history
-                (product_id, valuation_area_id, account_id, company_id, currency_id, year, month, date,
+                (product_id, valuation_area_id, account_id, company_id, currency_id,  month,
                 quantity, quantity_in, quantity_out, debit, credit, amount)
-            SELECT product_id, valuation_area_id, account_id, company_id, currency_id, year, month, date,
+            SELECT product_id, valuation_area_id, account_id, company_id, currency_id,  month,
                         quantity, quantity_in, quantity_out, debit, credit, debit-credit as amount
             FROM ( %s ) as a
         """
@@ -485,7 +476,7 @@ class ProductValuationHistory(models.Model):
         # optinere data minima si maxima
         self.env.cr.execute(
             """
-            SELECT min(date) as min_date, max(date) as max_date
+            SELECT min(month) as min_month, max(month) as max_month
             FROM product_valuation_history
             WHERE valuation_area_id = %(valuation_area_id)s
             """,
@@ -493,8 +484,8 @@ class ProductValuationHistory(models.Model):
         )
         res = self.env.cr.dictfetchone()
 
-        params["min_date"] = res["min_date"]
-        params["max_date"] = res["max_date"]
+        params["min_date"] = datetime.strptime(res["min_month"], "%Y%m")
+        params["max_date"] = datetime.strptime(res["max_month"], "%Y%m")
 
         _logger.info("Adaugare linii lipsa")
         self.env.cr.execute(
@@ -502,13 +493,13 @@ class ProductValuationHistory(models.Model):
             DROP TABLE IF EXISTS calendar_temporal;
             CREATE TEMP TABLE calendar_temporal AS
             SELECT
-                (date_trunc('MONTH', generate_series) + INTERVAL '1 MONTH' - INTERVAL '1 day')::DATE AS date
+                 to_char(generate_series, 'YYYYMM') AS month
             FROM
                 generate_series(%(min_date)s::date, %(max_date)s::date, '1 month'::interval) ;
 
             INSERT INTO product_valuation_history
             (
-                product_id, valuation_area_id, account_id, company_id, currency_id, date, year, month,
+                product_id, valuation_area_id, account_id, company_id, currency_id,  month,
                 quantity, amount, quantity_initial, amount_initial, quantity_final, amount_final,
                 quantity_in, quantity_out, debit, credit
             )
@@ -518,9 +509,8 @@ class ProductValuationHistory(models.Model):
                 a.account_id,
                 %(company_id)s as company_id,
                 %(currency_id)s as currency_id,
-                c.date,
-                date_part('year', c.date) AS year,
-                date_part('month', c.date) AS month,
+
+                c.month AS month,
                 0 as quantity,
                 0 as amount,
                 0 as quantity_initial,
@@ -546,7 +536,7 @@ class ProductValuationHistory(models.Model):
                     pv.valuation_area_id =  %(valuation_area_id)s AND
                     pv.account_id = a.account_id AND
                     pv.company_id = %(company_id)s AND
-                    pv.date = c.date
+                    pv.month = c.month
             )
 
             """,
@@ -568,19 +558,19 @@ class ProductValuationHistory(models.Model):
                         valuation_area_id,
                         account_id,
                         company_id,
-                        date,
+                        month,
                         COALESCE(LAG(quantity_final) OVER (
                             PARTITION BY product_id, valuation_area_id, account_id, company_id
-                             ORDER BY date), 0) AS quantity_initial,
+                             ORDER BY month), 0) AS quantity_initial,
                         COALESCE(LAG(amount_final) OVER (
                             PARTITION BY product_id, valuation_area_id, account_id, company_id
-                            ORDER BY date), 0)  AS amount_initial,
+                            ORDER BY month), 0)  AS amount_initial,
                         SUM(quantity) OVER (
                             PARTITION BY product_id, valuation_area_id, account_id, company_id
-                             ORDER BY date) AS quantity_final,
+                             ORDER BY month) AS quantity_final,
                         SUM(amount) OVER (
                             PARTITION BY product_id, valuation_area_id, account_id, company_id
-                            ORDER BY date) AS amount_final
+                            ORDER BY month) AS amount_final
                     FROM
                         product_valuation_history
                 ) AS cv
@@ -591,41 +581,41 @@ class ProductValuationHistory(models.Model):
                     pv.valuation_area_id = %(valuation_area_id)s AND
                     pv.company_id = cv.company_id AND
                     pv.company_id = %(company_id)s AND
-                    pv.date = cv.date;
+                    pv.month = cv.month;
 
             """,
             params,
         )
 
-        _logger.info("Calculare sold initial ")
-        self.env.cr.execute(
-            """
-            UPDATE product_valuation_history
-                SET
-                    amount_final  = 0
-            WHERE  valuation_area_id = %(valuation_area_id)s  and quantity_final = 0;
+        # _logger.info("Calculare sold initial ")
+        # self.env.cr.execute(
+        #     """
+        #     UPDATE product_valuation_history
+        #         SET
+        #             amount_final  = 0
+        #     WHERE  valuation_area_id = %(valuation_area_id)s  and quantity_final = 0;
+        #
+        #     UPDATE product_valuation_history
+        #         SET
+        #             amount_initial  = 0
+        #     WHERE  valuation_area_id = %(valuation_area_id)s  and quantity_initial = 0;
+        #
+        #     """,
+        #     params,
+        # )
 
-            UPDATE product_valuation_history
-                SET
-                    amount_initial  = 0
-            WHERE  valuation_area_id = %(valuation_area_id)s  and quantity_initial = 0;
-
-            """,
-            params,
-        )
-
-        _logger.info("Eliminare solruri fara cantitate")
-        self.env.cr.execute(
-            """
-            UPDATE product_valuation_history
-                SET
-                    quantity_initial =  quantity_final - quantity,
-                    amount_initial = amount_final - amount
-            WHERE  valuation_area_id = %(valuation_area_id)s ;
-
-            """,
-            params,
-        )
+        # _logger.info("Eliminare solruri fara cantitate")
+        # self.env.cr.execute(
+        #     """
+        #     UPDATE product_valuation_history
+        #         SET
+        #             quantity_initial =  quantity_final - quantity,
+        #             amount_initial = amount_final - amount
+        #     WHERE  valuation_area_id = %(valuation_area_id)s ;
+        #
+        #     """,
+        #     params,
+        # )
         _logger.info("Sterge linii goale ")
         self.env.cr.execute(
             """

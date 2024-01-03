@@ -101,16 +101,18 @@
                 <field name="product_id" />
                 <field name="valuation_area_id" />
                 <field name="account_id" />
-                <field name="date" />
-                <field name="quantity_initial" />
+                <field name="month" />
+                <field name="quantity_initial" optional="show" />
+                <field name="quantity_in" sum="sum_qty_in" optional="hide" />
+                <field name="quantity_out" sum="sum_qty_out" optional="hide" />
                 <field name="quantity" sum="sum_qty" />
-                <field name="quantity_final" />
+                <field name="quantity_final" optional="show" />
 
-                <field name="quantity_in" sum="sum_qty_in" />
-                <field name="quantity_out" sum="sum_qty_out" />
-                <field name="debit" sum="sum_debit" />
-                <field name="credit" sum="sum_credit" />
+                <field name="amount_initial" optional="show" />
+                <field name="debit" sum="sum_debit" optional="hide" />
+                <field name="credit" sum="sum_credit" optional="hide" />
                 <field name="amount" sum="sum_amount" />
+                <field name="amount_final" optional="show" />
                 <field name="currency_id" invisible="1" />
                 <field name="company_id" groups="base.group_multi_company" />
             </tree>
@@ -128,21 +130,27 @@
                         <field name="valuation_area_id" />
                     </group>
                     <group>
-                        <field name="year" />
                         <field name="month" />
                     </group>
                     <group>
-                        <field name="quantity" />
+                        <field name="quantity_initial" />
                         <field name="quantity_in" />
                         <field name="quantity_out" />
+                        <field name="quantity" />
+                        <field name="quantity_final" />
                     </group>
                     <group>
+                        <field name="amount_initial" />
                         <field name="debit" />
                         <field name="credit" />
                         <field name="amount" />
+                        <field name="amount_final" />
                         <field name="currency_id" invisible="1" />
                     </group>
+                    <group>
 
+
+                    </group>
                     <group>
                         <field name="company_id" groups="base.group_multi_company" />
                     </group>
@@ -157,13 +165,14 @@
         <field name="model">product.valuation.history</field>
         <field name="arch" type="xml">
             <pivot string="Product Valuation History">
-                <field name="valuation_area_id" type="row" />
+                <field name="valuation_area_id" type="col" />
+                <field name="month" type="row" />
+                <field name="quantity_initial" type="measure" />
                 <field name="quantity" type="measure" />
-                <field name="quantity_in" type="measure" />
-                <field name="quantity_out" type="measure" />
-                <field name="debit" type="measure" />
-                <field name="credit" type="measure" />
+                <field name="quantity_final" type="measure" />
+                <field name="amount_initial" type="measure" />
                 <field name="amount" type="measure" />
+                <field name="amount_final" type="measure" />
             </pivot>
         </field>
     </record>
