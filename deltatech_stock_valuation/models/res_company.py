@@ -18,14 +18,15 @@ class ResCompany(models.Model):
     valuation_area_id = fields.Many2one("valuation.area", string="Valuation Area")
 
     def set_stock_valuation_at_company_level(self):
+        self.ensure_one()
         if self.valuation_area_level != "company":
             return
 
         if not self.valuation_area_id:
             valuation_area = self.env["valuation.area"].create(
                 {
-                    "name": self.company_id.name,
-                    "company_id": self.company_id.id,
+                    "name": self.name,
+                    "company_id": self.id,
                 }
             )
             self.valuation_area_id = valuation_area.id
