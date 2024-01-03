@@ -6,15 +6,11 @@
 {
     "name": "Product Valuation",
     "summary": "Product Valuation",
-    "version": "15.0.0.0.0",
+    "version": "15.0.0.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
-    "depends": [
-        "product",
-        "stock",
-        "stock_account",
-    ],
+    "depends": ["stock_account"],
     "license": "OPL-1",
     "data": [
         "security/ir.model.access.csv",
@@ -22,6 +18,8 @@
         "views/valuation_area_view.xml",
         "views/product_valuation_view.xml",
         "views/account_account_view.xml",
+        "data/data.xml",
+        "views/res_config_settings_views.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Alpha",

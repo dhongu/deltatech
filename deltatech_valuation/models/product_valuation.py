@@ -7,7 +7,7 @@ import logging
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -36,13 +36,13 @@ class ProductValuation(models.Model):
         "res.company", string="Company", required=True, index=True, default=lambda self: self.env.company
     )
 
-    _sql_constraints = [
-        (
-            "product_valuation_uniq",
-            "unique (product_id, valuation_area_id, account_id, company_id)",
-            "Product valuation must be unique",
-        )
-    ]
+    # _sql_constraints = [
+    #     (
+    #         "product_valuation_uniq",
+    #         "unique (product_id, valuation_area_id, account_id, company_id)",
+    #         "Product valuation must be unique",
+    #     )
+    # ]
 
     def get_valuation(self, product_id, valuation_area_id, account_id, company_id=False):
         if not company_id:
@@ -66,6 +66,18 @@ class ProductValuation(models.Model):
         return valuation
 
     def recompute_amount(self):
+        for item in self:
+            domain = [
+                ("product_id", "=", item.product_id.id),
+                ("valuation_area_id", "=", item.valuation_area_id.id),
+                ("account_id", "=", item.account_id.id),
+                ("company_id", "=", item.company_id.id),
+            ]
+            valuation = self.env["product.valuation.history"].search(domain, order="date desc", limit=1)
+            if valuation:
+                item.write({"quantity": valuation.quantity_final, "amount": valuation.amount_final})
+
+    def recompute_amount_sql(self):
         valuation_areas = self.mapped("valuation_area_id")
         products = self.mapped("product_id")
         accounts = self.mapped("account_id")
@@ -193,64 +205,6 @@ class ProductValuation(models.Model):
 
         self.env.cr.execute(sql, params)
 
-        # self.env.cr.execute(
-        #     """
-        #     INSERT INTO product_valuation
-        #         (product_id, valuation_area_id, account_id, company_id,
-        #         quantity, quantity_in, quantity_out, debit, credit, amount)
-        #     select product_id, valuation_area_id, account_id, company_id,
-        #                 quantity, quantity_in, quantity_out, debit, credit, debit-credit as amount
-        #     FROM (
-        #     SELECT product_id, valuation_area_id, account_id, company_id,
-        #         sum(debit) as debit, sum(credit) as credit,
-        #         sum(
-        #             quantity * (
-        #             CASE
-        #                 WHEN move_type ='in_invoice' THEN 1
-        #                 WHEN move_type ='in_refund' THEN -1
-        #                 WHEN move_type IN ('out_invoice','out_refund') THEN 0
-        #                 ELSE
-        #                     CASE WHEN debit > 0 THEN 1 ELSE 0 END
-        #             END
-        #             )
-        #         ) as quantity_in,
-        #
-        #         sum(
-        #             quantity * (
-        #             CASE
-        #                 WHEN move_type ='out_invoice' THEN 1
-        #                 WHEN move_type ='out_refund' THEN -1
-        #                 WHEN move_type IN ('in_invoice','in_refund') THEN 0
-        #                 ELSE CASE WHEN credit > 0 THEN -1 ELSE 0 END
-        #             END
-        #             )
-        #         ) as quantity_out,
-        #
-        #         sum(
-        #             quantity * (
-        #             CASE WHEN move_type IN ('out_invoice','in_refund') THEN -1 ELSE 1 END
-        #             )
-        #         ) as quantity
-        #
-        #     FROM (
-        #         SELECT product_id, valuation_area_id, account_id, m.company_id,
-        #             debit, credit, move_type,
-        #             l.quantity / NULLIF(COALESCE(uom_line.factor, 1) / COALESCE(uom_template.factor, 1), 0.0) as quantity
-        #         FROM account_move_line as l
-        #             LEFT JOIN account_move as m ON l.move_id=m.id
-        #             LEFT JOIN product_product product ON product.id = l.product_id
-        #             LEFT JOIN product_template template ON template.id = product.product_tmpl_id
-        #             LEFT JOIN uom_uom uom_line ON uom_line.id = l.product_uom_id
-        #             LEFT JOIN uom_uom uom_template ON uom_template.id = template.uom_id
-        #         WHERE
-        #             account_id in %(account_ids)s
-        #             AND m.state = 'posted'
-        #         ) as sub
-        #      GROUP BY  product_id, valuation_area_id, account_id, company_id
-        #    ) as a """,
-        #     params,
-        # )
-
 
 class ProductValuationHistory(models.Model):
     _name = "product.valuation.history"
@@ -265,33 +219,62 @@ class ProductValuationHistory(models.Model):
     amount_initial = fields.Monetary("Initial Amount", default=0.0)
     quantity_initial = fields.Float("Initial Quantity", digits="Product Unit of Measure", default=0.0)
 
-    amount_final = fields.Monetary("Final Amount", default=0.0)
-    quantity_final = fields.Float("Final Quantity", digits="Product Unit of Measure", default=0.0)
+    amount_final = fields.Monetary("Final Amount", compute="_compute_final", store=True)
+    quantity_final = fields.Float(
+        "Final Quantity", digits="Product Unit of Measure", compute="_compute_final", store=True
+    )
 
     _sql_constraints = [
         (
             "product_valuation_history_uniq",
-            "unique (product_id, valuation_area_id, account_id, company_id, year, month)",
+            "unique (product_id, valuation_area_id, account_id, company_id, date)",
             "Product valuation history must be unique",
         )
     ]
 
     def get_valuation(self, product_id, valuation_area_id, account_id, date, company_id=False):
+        """
+            Obtinere valoare istorica pentru un produs intr-o zona de evaluare
+        :param product_id:
+        :param valuation_area_id:
+        :param account_id:
+        :param date:
+        :param company_id:
+        :return:
+        """
         if not company_id:
             company_id = self.env.company.id
 
         year = date.year
         month = date.month
+        date_key = date.replace(day=1) + relativedelta(months=1, days=-1)
         domain = [
             ("product_id", "=", product_id),
             ("valuation_area_id", "=", valuation_area_id),
             ("account_id", "=", account_id),
             ("company_id", "=", company_id),
-            ("year", "=", year),
-            ("month", "=", month),
+            ("date", "=", date_key),
         ]
         valuation = self.search(domain, limit=1)
         if not valuation:
+            last_valuation = self.search(
+                [
+                    ("product_id", "=", product_id),
+                    ("valuation_area_id", "=", valuation_area_id),
+                    ("account_id", "=", account_id),
+                    ("company_id", "=", company_id),
+                    ("date", "<", date_key),
+                ],
+                order="date desc",
+                limit=1,
+            )
+            if last_valuation:
+                quantity_initial = last_valuation.quantity_final
+                amount_initial = last_valuation.amount_final
+            else:
+                quantity_initial = 0
+                amount_initial = 0
+
             valuation = self.create(
                 {
                     "product_id": product_id,
@@ -299,14 +282,41 @@ class ProductValuationHistory(models.Model):
                     "account_id": account_id,
                     "year": year,
                     "month": month,
-                    # ultima zi din luna
-                    "date": date.replace(day=1) + relativedelta(months=1, days=-1),
+                    "date": date_key,
                     "company_id": company_id,
+                    "quantity_initial": quantity_initial,
+                    "amount_initial": amount_initial,
                 }
             )
         return valuation
 
+    @api.depends("quantity", "amount", "quantity_initial", "amount_initial")
+    def _compute_final(self):
+        for s in self:
+            s.quantity_final = s.quantity_initial + s.quantity
+            s.amount_final = s.amount_initial + s.amount
+            domain = [
+                ("product_id", "=", s.product_id.id),
+                ("valuation_area_id", "=", s.valuation_area_id.id),
+                ("account_id", "=", s.account_id.id),
+                ("company_id", "=", s.company_id.id),
+                ("date", ">", s.date),
+            ]
+            next_valuation = self.search(domain, order="date asc", limit=1)
+            if next_valuation:
+                next_valuation.write(
+                    {
+                        "quantity_initial": s.quantity_final,
+                        "amount_initial": s.amount_final,
+                    }
+                )
+
     def _get_sql_select(self, all=True):
+        """
+            Determinare miscari lunare insumate
+        :param all:
+        :return:
+        """
         sql = """
                     SELECT product_id, valuation_area_id, account_id, company_id,  year, month, date,
                 sum(debit) as debit, sum(credit) as credit,
@@ -349,6 +359,9 @@ class ProductValuationHistory(models.Model):
         return sql
 
     def _get_sql_sub_select(self, all=True):
+        """
+        Determinare miscari lunare
+        """
         sql = """
             SELECT product_id, valuation_area_id, account_id, m.company_id,
                     debit, credit, move_type,
@@ -381,24 +394,19 @@ class ProductValuationHistory(models.Model):
         products = self.mapped("product_id")
         accounts = self.mapped("account_id")
         companies = self.mapped("company_id")
-        domain = [
-            ("product_id", "in", products.ids),
-            ("account_id", "in", accounts.ids),
-            ("company_id", "in", companies.ids),
-            ("valuation_area_id", "in", valuation_areas.ids),
-        ]
-        if valuation_areas:
-            domain.append(("valuation_area_id", "in", valuation_areas.ids))
 
         params = {
             "product_ids": tuple(products.ids),
             "account_ids": tuple(accounts.ids),
             "year": tuple(self.mapped("year")),
             "month": tuple(self.mapped("month")),
+            "date": tuple(self.mapped("date")),
             "company_ids": tuple(companies.ids),
             "valuation_area_ids": tuple(valuation_areas.ids) or (None,),
         }
         sql = """
+
+
            UPDATE product_valuation_history AS pv
             SET quantity = sub.quantity,
                 quantity_in = sub.quantity_in,
@@ -412,40 +420,27 @@ class ProductValuationHistory(models.Model):
                 pv.account_id = sub.account_id AND
                 pv.valuation_area_id = sub.valuation_area_id AND
                 pv.company_id = sub.company_id AND
-                pv.year = sub.year AND
-                pv.month = sub.month AND
+
                 pv.date = sub.date
         """ % self._get_sql_select(
             all=False
         )
         self.env.cr.execute(sql, params)
+        # invalidate chashed fields
+        self.invalidate_cache()
+        self._compute_final()
 
     def recompute_all_amount(self):
+        """
+         Recalculare istoric valorilor
+        :return:
+        """
+
+        self.set_company_valuation_area()
+
         params = {
             "account_ids": tuple(self.env["account.account"].search([("stock_valuation", "=", True)]).ids),
         }
-
-        if self.env.company.valuation_area_level == "company" and not self.env.company.valuation_area_id:
-            _logger.info("Creare zona de evaluare pentru companie.")
-            valuation_area = self.env["valuation.area"].create(
-                {
-                    "name": self.env.company.name,
-                    "company_id": self.env.company.id,
-                }
-            )
-
-            self.env.company.valuation_area_id = valuation_area.id
-            params["valuation_area_id"] = valuation_area.id
-            _logger.info("Actualizre zona de evaluare pentru notele contabile")
-            self.env.cr.execute(
-                """
-                UPDATE account_move_line SET valuation_area_id = %(valuation_area_id)s
-                where account_id in %(account_ids)s
-                """,
-                params,
-            )
-
-            return
 
         _logger.info("Stergere linii istoric")
         self.env.cr.execute("DELETE FROM product_valuation_history WHERE account_id in %(account_ids)s", params)
