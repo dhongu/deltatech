@@ -28,6 +28,11 @@ class AccountInvoice(models.Model):
         """
 
         for invoice in self:
+            if invoice.state != "draft":
+                continue
+            if invoice.move_type not in ["in_invoice", "in_refund"]:
+                continue
+
             if not invoice.invoice_date:
                 raise UserError(_("Please enter invoice date"))
             # exista o comanda de achizitie legata de aceasta factura ?
