@@ -21,13 +21,13 @@ class ProductValuation(models.Model):
     product_id = fields.Many2one("product.product", string="Product", required=True, index=True)
     valuation_area_id = fields.Many2one("valuation.area", string="Valuation Area", index=True)
 
-    quantity = fields.Float(string="Quantity", digits="Product Unit of Measure")
-    quantity_in = fields.Float(string="Quantity In", digits="Product Unit of Measure")
-    quantity_out = fields.Float(string="Quantity Out", digits="Product Unit of Measure")
+    quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=0.0)
+    quantity_in = fields.Float(string="Quantity In", digits="Product Unit of Measure", default=0.0)
+    quantity_out = fields.Float(string="Quantity Out", digits="Product Unit of Measure", default=0.0)
 
-    amount = fields.Monetary(string="Amount")
-    debit = fields.Monetary(string="Debit")
-    credit = fields.Monetary(string="Credit")
+    amount = fields.Monetary(string="Amount", default=0.0)
+    debit = fields.Monetary(string="Debit", default=0.0)
+    credit = fields.Monetary(string="Credit", default=0.0)
 
     account_id = fields.Many2one("account.account", string="Account", required=True, index=True)
 
@@ -219,9 +219,9 @@ class ProductValuationHistory(models.Model):
     amount_initial = fields.Monetary("Initial Amount", default=0.0)
     quantity_initial = fields.Float("Initial Quantity", digits="Product Unit of Measure", default=0.0)
 
-    amount_final = fields.Monetary("Final Amount", compute="_compute_final", store=True)
+    amount_final = fields.Monetary("Final Amount", compute="_compute_final", store=True, default=0.0)
     quantity_final = fields.Float(
-        "Final Quantity", digits="Product Unit of Measure", compute="_compute_final", store=True
+        "Final Quantity", digits="Product Unit of Measure", compute="_compute_final", store=True, default=0.0
     )
 
     _sql_constraints = [
@@ -509,7 +509,8 @@ class ProductValuationHistory(models.Model):
             INSERT INTO product_valuation_history
             (
                 product_id, valuation_area_id, account_id, company_id, currency_id, date, year, month,
-                quantity, amount, quantity_initial, amount_initial, quantity_final, amount_final
+                quantity, amount, quantity_initial, amount_initial, quantity_final, amount_final,
+                quantity_in, quantity_out, debit, credit
             )
             SELECT
                 p.product_id,
@@ -525,7 +526,12 @@ class ProductValuationHistory(models.Model):
                 0 as quantity_initial,
                 0 as amount_initial,
                 0 as quantity_final,
-                0 as amount_final
+                0 as amount_final,
+                0 as quantity_in,
+                0 as quantity_out,
+                0 as debit,
+                0 as credit
+
 
             FROM
                 calendar_temporal c
@@ -596,6 +602,23 @@ class ProductValuationHistory(models.Model):
             """
             UPDATE product_valuation_history
                 SET
+                    amount_final  = 0
+            WHERE  valuation_area_id = %(valuation_area_id)s  and quantity_final = 0;
+
+            UPDATE product_valuation_history
+                SET
+                    amount_initial  = 0
+            WHERE  valuation_area_id = %(valuation_area_id)s  and quantity_initial = 0;
+
+            """,
+            params,
+        )
+
+        _logger.info("Eliminare solruri fara cantitate")
+        self.env.cr.execute(
+            """
+            UPDATE product_valuation_history
+                SET
                     quantity_initial =  quantity_final - quantity,
                     amount_initial = amount_final - amount
             WHERE  valuation_area_id = %(valuation_area_id)s ;
@@ -613,8 +636,7 @@ class ProductValuationHistory(models.Model):
                 and (quantity is null or quantity = 0)
                 and (amount_initial is null or amount_initial = 0)
                 and (amount is null or amount = 0)
-                and (amount_final is null or amount_final = 0)
-
+                and (amount_final is null or amount_final = 0) ;
             """,
             params,
         )
