@@ -3,7 +3,7 @@
 {
     "name": "Deltatech Invoice Color",
     "summary": "Colors Invoice Lines",
-    "version": "15.0.0.0.0",
+    "version": "15.0.0.0.1",
     "author": "Terrabit, Voicu Stefan",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
