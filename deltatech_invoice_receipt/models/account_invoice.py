@@ -17,7 +17,21 @@ class AccountInvoice(models.Model):
         purchase_invoices = self.filtered(lambda inv: inv.move_type == "in_invoice")
         if purchase_invoices:
             purchase_invoices.add_to_purchase()
-            purchase_invoices.receipt_to_stock()
+            purchase_orders = self.get_purchase_from_invoice()
+            # verific daca comanda de achizitie este confirmata
+            if purchase_orders.filtered(lambda order: order.state not in ["purchase", "done"]):
+                return {
+                    "type": "ir.actions.client",
+                    "tag": "display_notification",
+                    "params": {
+                        "title": "Confirm purchase order",
+                        "message": "Please confirm purchase order before posting invoice",
+                        "sticky": True,
+                        "next": {"type": "ir.actions.act_window_close"},
+                    },
+                }
+
+            purchase_orders.receipt_to_stock()
         return super().action_post()
 
     def add_to_purchase(self):
@@ -83,7 +97,7 @@ class AccountInvoice(models.Model):
                     )
                 if purchase_order.from_invoice_id:
                     # am eliminat contextul pentru ca se timitea move_type in  procurement.group
-                    purchase_order.with_context({}).button_confirm()  # confirma comanda de achizitie
+                    # purchase_order.with_context({}).button_confirm()  # confirma comanda de achizitie
                     purchase_order.message_post_with_view(
                         "mail.message_origin_link",
                         values={"self": purchase_order, "origin": invoice},
@@ -99,11 +113,10 @@ class AccountInvoice(models.Model):
                     message = _("The purchase order %s was generated.") % link
                     invoice.message_post(body=message)
 
-    def receipt_to_stock(self):
+    def get_purchase_from_invoice(self):
         purchase_orders = self.env["purchase.order"]
         for invoice in self:
-            # trebuie sa determin care este cantitatea care trebuie sa fie receptionata
             for line in invoice.invoice_line_ids:
                 purchase_orders |= line.purchase_line_id.order_id
-        # doar pentru comenzile generate din factura se face receptia
-        purchase_orders.filtered(lambda order: order.from_invoice_id).receipt_to_stock()
+
+        return purchase_orders.filtered(lambda order: order.from_invoice_id)
