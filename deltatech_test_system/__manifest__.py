@@ -6,7 +6,7 @@
 {
     "name": "Deltatech Test System",
     "summary": "Utils",
-    "version": "15.0.0.0.2",
+    "version": "15.0.0.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Tools",
@@ -16,4 +16,5 @@
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
+    "auto_install": False,
 }
