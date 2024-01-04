@@ -24,7 +24,7 @@ class ServiceEquiOperation(models.TransientModel):
 
     equipment_id = fields.Many2one("service.equipment", string="Equipment", readonly=True)
 
-    partner_id = fields.Many2one("res.partner", string="Customer", domain=[("is_company", "=", True)])
+    partner_id = fields.Many2one("res.partner", string="Customer")
     address_id = fields.Many2one("res.partner", string="Location")  # sa fac un nou tip de partener? locatie ?
     emplacement = fields.Char(string="Emplacement")
     agreement_id = fields.Many2one("service.agreement", string="Contract Service")
