@@ -9,8 +9,8 @@
                  <field name="color_trigger" invisible="1" />
              </xpath>
             <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
-                <attribute name="decoration-danger">not color_trigger</attribute>
-                <attribute name="decoration-warning">not product_id</attribute>
+                <attribute name="decoration-danger">color_trigger == 'danger'</attribute>
+                <attribute name="decoration-warning">color_trigger == 'warning'</attribute>
             </xpath>
         </field>
     </record>
