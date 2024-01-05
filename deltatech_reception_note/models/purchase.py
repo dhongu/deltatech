@@ -46,7 +46,7 @@ class PurchaseOrder(models.Model):
         for line in self.order_line:
             quality = line.product_qty
             domain = [("order_id", "in", rfq_orders.ids), ("product_id", "=", line.product_id.id)]
-            rfq_lines = self.env["purchase.order.line"].search(domain)
+            rfq_lines = self.env["purchase.order.line"].search(domain, order="date_order")
             if not rfq_lines:
                 raise UserError(
                     _("The %s product (%s) is not found in a rfq")
