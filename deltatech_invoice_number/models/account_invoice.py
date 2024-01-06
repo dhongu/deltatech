@@ -42,7 +42,6 @@ class AccountInvoice(models.Model):
             invoice.write({"name": new_name})
 
     def check_data(self, journal_id=None, invoice_date=None):
-
         for obj_inv in self:
             journal_id = journal_id or obj_inv.journal_id.id
             journal = self.env["account.journal"].browse(journal_id)
@@ -69,7 +68,7 @@ class AccountInvoice(models.Model):
         message = self.check_data()
         if message:
             raise UserError(message)
-        return super(AccountInvoice, self).action_post()
+        return super().action_post()
 
     # def action_move_create(self):
     #     msg = self.check_data()
@@ -83,7 +82,6 @@ class AccountInvoice(models.Model):
         self.write({})
 
         for inv in self:
-
             if inv.move_type in ("in_invoice", "in_refund"):
                 if not inv.ref:
                     ref = inv.name

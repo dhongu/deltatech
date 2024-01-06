@@ -22,7 +22,6 @@ class SaleOrder(models.Model):
                     raise UserError(_("Not all products are available: %s" % ", ".join(products_unavailable)))
 
     def action_button_confirm_to_invoice(self):
-
         if self.state in ["draft", "sent"]:
             self.action_confirm()  # confirma comanda
 

@@ -15,7 +15,7 @@ class ProductCatalog(models.Model):
     )
 
     def create_product(self):
-        products = super(ProductCatalog, self).create_product()
+        products = super().create_product()
         for prod_cat in self:
             if prod_cat.public_categ_ids and prod_cat.product_id:
                 prod_cat.product_id.public_categ_ids = prod_cat.public_categ_ids

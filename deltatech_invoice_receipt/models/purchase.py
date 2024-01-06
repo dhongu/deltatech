@@ -48,7 +48,7 @@ class PurchaseOrder(models.Model):
 
     def _create_picking(self):
         StockPicking = self.env["stock.picking"]
-        super(PurchaseOrder, self)._create_picking()
+        super()._create_picking()
         for order in self:
             if any(
                 [line.product_id.type in ["product", "consu"] and line.product_qty < 0 for line in order.order_line]
@@ -79,7 +79,7 @@ class PurchaseOrderLine(models.Model):
 
     def _prepare_stock_moves(self, picking):
         if self.product_qty > 0:
-            return super(PurchaseOrderLine, self)._prepare_stock_moves(picking)
+            return super()._prepare_stock_moves(picking)
         if not self.env.context.get("return_picking", False):
             return []
 

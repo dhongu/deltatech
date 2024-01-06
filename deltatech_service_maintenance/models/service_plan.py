@@ -20,7 +20,7 @@ class ServiceCycle(models.Model):
         if self.unit == "counter":
             return self.value
         else:
-            return super(ServiceCycle, self).get_cyle()
+            return super().get_cyle()
 
 
 class ServicePlan(models.Model):
@@ -111,7 +111,7 @@ class ServicePlan(models.Model):
             sequence_plan = self.env.ref("deltatech_service_maintenance.sequence_plan")
             if sequence_plan:
                 vals["name"] = sequence_plan.next_by_id()
-        return super(ServicePlan, self).create(vals)
+        return super().create(vals)
 
     def action_start(self):
         self.write({"state": "active"})

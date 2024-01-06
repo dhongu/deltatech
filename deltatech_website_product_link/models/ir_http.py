@@ -39,7 +39,7 @@ class IrHttp(models.AbstractModel):
                 except NoOriginError:
                     pass
 
-        return super(IrHttp, cls)._dispatch()
+        return super()._dispatch()
 
     @api.model
     def redirect_auto(self, path=None, code=301, website=None, rerouting=None):

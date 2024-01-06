@@ -33,7 +33,7 @@ class ServiceAgreement(models.Model):
             agreement.equipment_count = len(equipments)
 
     def get_agreements_auto_billing(self):
-        agreements = super(ServiceAgreement, self).get_agreements_auto_billing()
+        agreements = super().get_agreements_auto_billing()
         for agreement in agreements:
             # check if readings done
             if not agreement.meter_reading_status:
@@ -126,14 +126,12 @@ class ServiceAgreementLine(models.Model):
     @api.model
     def after_create_consumption(self, consumption):
         self.ensure_one()
-        super(ServiceAgreementLine, self).after_create_consumption(consumption)
+        super().after_create_consumption(consumption)
         if self.equipment_id:
-
             meter = self.meter_id
             equipment = self.equipment_id
             de_la_data = consumption.agreement_id.date_agreement  # si eventual de pus data de instalare
             if meter:
-
                 # se citesc inregistrarile la care a fost generat cosnumul
                 readings = meter.meter_reading_ids.filtered(lambda r: r.consumption_id)
                 if readings:

@@ -10,7 +10,7 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     def action_post(self):
-        res = super(AccountMove, self).action_post()
+        res = super().action_post()
         line_ids = self.mapped("line_ids").filtered(lambda line: line.sale_line_ids.is_downpayment)
         for line in line_ids:
             try:

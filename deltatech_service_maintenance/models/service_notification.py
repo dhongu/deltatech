@@ -145,7 +145,6 @@ class ServiceNotification(models.Model):
 
     @api.model
     def create(self, vals):
-
         equipment_id = vals.get("equipment_id", False)
 
         if not equipment_id:
@@ -182,13 +181,13 @@ class ServiceNotification(models.Model):
             sequence_notification = self.env.ref("deltatech_service_maintenance.sequence_notification")
             if sequence_notification:
                 vals["name"] = sequence_notification.next_by_id()
-        return super(ServiceNotification, self).create(vals)
+        return super().create(vals)
 
     def write(self, vals):
         if "user_id" in vals:
             if self.state != "new":
                 raise UserError(_("Notification is assigned."))
-        result = super(ServiceNotification, self).write(vals)
+        result = super().write(vals)
         return result
 
     def action_cancel_assign(self):
@@ -299,7 +298,6 @@ class ServiceNotification(models.Model):
                 # TODO: De anuntat utilizatorul ca are o sesizare
 
     def new_delivery_button(self):
-
         # block picking if partner blocked
         if self.partner_id:
             if self.partner_id.picking_warn == "block":
@@ -333,7 +331,6 @@ class ServiceNotification(models.Model):
             context["default_move_ids_without_package"] = []
 
             for item in self.item_ids:
-
                 value = {
                     "name": item.product_id.name,
                     "product_id": item.product_id.id,
@@ -381,7 +378,6 @@ class ServiceNotification(models.Model):
         if self.item_ids:
             context["default_move_lines"] = []
             for item in self.item_ids:
-
                 value = {
                     "name": item.product_id.name,
                     "product_id": item.product_id.id,
@@ -423,7 +419,6 @@ class ServiceNotification(models.Model):
         context = {"default_partner_id": self.partner_id.id, "default_partner_shipping_id": self.address_id.id}
 
         if self.item_ids:
-
             sale_order = self.env["sale.order"].with_context(context)
             pricelist = (
                 self.partner_id.property_product_pricelist and self.partner_id.property_product_pricelist.id or False

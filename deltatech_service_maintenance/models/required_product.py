@@ -10,7 +10,7 @@ class RequiredOrder(models.Model):
 
     @api.model
     def create(self, vals):
-        res = super(RequiredOrder, self).create(vals)
+        res = super().create(vals)
         notification_id = self.env.context.get("notification_id", False)
         if notification_id:
             notification = self.env["service.notification"].browse(notification_id)

@@ -8,7 +8,7 @@ from odoo.tests.common import TransactionCase
 
 class TestProductTemplate(TransactionCase):
     def setUp(self):
-        super(TestProductTemplate, self).setUp()
+        super().setUp()
         self.product_a = self.env["product.template"].create(
             {"name": "Test A", "type": "product", "standard_price": 100, "list_price": 150}
         )

@@ -10,7 +10,7 @@ from odoo.tests.common import TransactionCase
 
 class TestExpenses(TransactionCase):
     def setUp(self):
-        super(TestExpenses, self).setUp()
+        super().setUp()
 
         # se creaza un angajat ca sa se poata crea o nota de cheltuieli
         self.employee = self.env["res.partner"].create({"name": "Test"})

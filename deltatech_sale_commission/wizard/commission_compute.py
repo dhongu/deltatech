@@ -19,7 +19,7 @@ class CommissionCompute(models.TransientModel):
 
     @api.model
     def default_get(self, fields):
-        defaults = super(CommissionCompute, self).default_get(fields)
+        defaults = super().default_get(fields)
 
         active_ids = self.env.context.get("active_ids", False)
 

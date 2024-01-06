@@ -43,4 +43,4 @@ class ProductTemplate(models.Model):
                 if data:
                     vals["image_file_name"] = image_file_name.split("/")[-1]
                     vals["image_1920"] = data
-        return super(ProductTemplate, self).write(vals)
+        return super().write(vals)

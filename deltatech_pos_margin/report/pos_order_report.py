@@ -11,7 +11,7 @@ class PosOrderReport(models.Model):
     margin = fields.Float(string="Margin")
 
     def _select(self):
-        sql_select = super(PosOrderReport, self)._select()
+        sql_select = super()._select()
         return (
             sql_select
             + ",SUM(l.margin / CASE COALESCE(s.currency_rate, 0) "

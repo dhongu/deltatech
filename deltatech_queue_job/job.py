@@ -34,7 +34,7 @@ RETRY_INTERVAL = 10 * 60  # seconds
 _logger = logging.getLogger(__name__)
 
 
-class DelayableRecordset(object):
+class DelayableRecordset:
     """Allow to delay a method for a recordset
 
     Usage::
@@ -138,7 +138,7 @@ def identity_exact(job_):
     return hasher.hexdigest()
 
 
-class Job(object):
+class Job:
     """A Job is a task to execute. It is the in-memory representation of a job.
 
     Jobs are stored in the ``queue.job`` Odoo Model, but they are handled

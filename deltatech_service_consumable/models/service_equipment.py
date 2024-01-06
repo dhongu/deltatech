@@ -84,7 +84,6 @@ class ServiceEquipment(models.Model):
         }
 
     def picking_button(self):
-
         get_param = self.env["ir.config_parameter"].sudo().get_param
         picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
 

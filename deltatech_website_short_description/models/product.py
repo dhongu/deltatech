@@ -7,7 +7,6 @@ from odoo.tools.translate import html_translate
 
 
 class ProductTemplate(models.Model):
-
     _inherit = "product.template"
 
     website_short_description = fields.Html(

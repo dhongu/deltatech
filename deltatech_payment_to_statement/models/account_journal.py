@@ -36,7 +36,7 @@ class AccountJournal(models.Model):
             if query_results and query_results[0].get(amount_field) is not None:
                 account_transfer_sum = query_results[0].get(amount_field)
 
-        datas = super(AccountJournal, self).get_journal_dashboard_datas()
+        datas = super().get_journal_dashboard_datas()
         datas["account_transfer_balance"] = formatLang(
             self.env, currency.round(account_transfer_sum) + 0.0, currency_obj=currency
         )

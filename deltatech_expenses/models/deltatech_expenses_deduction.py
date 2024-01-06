@@ -182,10 +182,9 @@ class DeltatechExpensesDeduction(models.Model):
         for t in self:
             if t.state not in ("draft", "cancel"):
                 raise UserError(_("Cannot delete Expenses Deduction(s) which are already done."))
-        return super(DeltatechExpensesDeduction, self).unlink()
+        return super().unlink()
 
     def invalidate_expenses(self):
-
         moves = self.env["account.move"]
         for expenses in self:
             if expenses.move_id:
@@ -260,7 +259,6 @@ class DeltatechExpensesDeduction(models.Model):
             expenses.write({"state": "advance", "number": name})
 
     def validate_expenses(self):
-
         # poate ar fi bine daca  bonurile fiscale de la acelasi furnizor sa fie unuite intr-o singura chitanta.
 
         domain = [
@@ -273,7 +271,6 @@ class DeltatechExpensesDeduction(models.Model):
             partner_generic = self.env.ref("deltatech_partner_generic.partner_generic")
 
         for expenses in self:
-
             name = expenses.number
             expenses_vals = {"state": "done", "number": name}
             vouchers = self.env["account.move"]
@@ -285,7 +282,6 @@ class DeltatechExpensesDeduction(models.Model):
                 partner_id = line.partner_id or partner_generic
 
                 if line.type == "expenses":
-
                     voucher_value = {
                         "partner_id": partner_id.id,
                         "move_type": "in_receipt",

@@ -17,8 +17,8 @@ class ReportController(report.ReportController):
     @route()
     def report_routes(self, reportname, docids=None, converter=None, **data):
         if converter == "prn":
-            return super(ReportController, self).report_routes(reportname, docids, "text", **data)
-        return super(ReportController, self).report_routes(reportname, docids, converter, **data)
+            return super().report_routes(reportname, docids, "text", **data)
+        return super().report_routes(reportname, docids, converter, **data)
 
     @route()
     def report_download(self, data, token, context=None):
@@ -67,4 +67,4 @@ class ReportController(report.ReportController):
             response.set_cookie("fileToken", token)
             return response
 
-        return super(ReportController, self).report_download(data, token, context)
+        return super().report_download(data, token, context)

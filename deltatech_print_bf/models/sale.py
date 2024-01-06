@@ -11,7 +11,7 @@ class SaleOrder(models.Model):
 
     @api.model
     def default_get(self, fields):
-        defaults = super(SaleOrder, self).default_get(fields)
+        defaults = super().default_get(fields)
         is_bf = self.env.context.get("is_bf", False)
         if is_bf:
             partner_generic = self.company_id.generic_partner_id
@@ -21,7 +21,7 @@ class SaleOrder(models.Model):
         return defaults
 
     def _prepare_invoice(self):
-        invoice_vals = super(SaleOrder, self)._prepare_invoice()
+        invoice_vals = super()._prepare_invoice()
         is_bf = self.env.context.get("is_bf", False)
         partner_generic = self.company_id.generic_partner_id
         if not partner_generic:
@@ -32,7 +32,7 @@ class SaleOrder(models.Model):
 
     @api.depends("order_line.invoice_lines")
     def _get_invoiced(self):
-        super(SaleOrder, self)._get_invoiced()
+        super()._get_invoiced()
         partner_generic = self.company_id.generic_partner_id
         if not partner_generic:
             partner_generic = self.env.ref("deltatech_partner_generic.partner_generic")
@@ -45,7 +45,7 @@ class SaleOrder(models.Model):
                 order.invoice_count += len(invoices)
 
     def action_view_invoice(self):
-        action = super(SaleOrder, self).action_view_invoice()
+        action = super().action_view_invoice()
         partner_generic = self.company_id.generic_partner_id
         if not partner_generic:
             partner_generic = self.env.ref("deltatech_partner_generic.partner_generic")
@@ -59,8 +59,7 @@ class SaleOrderLine(models.Model):
 
     @api.depends("invoice_lines.move_id.state", "invoice_lines.quantity", "untaxed_amount_to_invoice")
     def _get_invoice_qty(self):
-
-        super(SaleOrderLine, self)._get_invoice_qty()
+        super()._get_invoice_qty()
 
         for line in self:
             qty_invoiced = 0.0

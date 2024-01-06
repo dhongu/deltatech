@@ -7,7 +7,7 @@ from odoo.tests.common import TransactionCase
 
 class TestUpdateProductStatistics(TransactionCase):
     def setUp(self):
-        super(TestUpdateProductStatistics, self).setUp()
+        super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
 
         seller_ids = [(0, 0, {"name": self.partner_a.id})]

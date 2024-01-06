@@ -19,7 +19,7 @@ class StockInventory(models.Model):
     filterbyrack = fields.Char("Rack")
 
     def _get_inventory_lines_values(self):
-        lines = super(StockInventory, self)._get_inventory_lines_values()
+        lines = super()._get_inventory_lines_values()
         for line in lines:
             product = self.env["product.product"].browse(line["product_id"])
             price = product.standard_price
@@ -41,11 +41,11 @@ class StockInventory(models.Model):
             inventory.write(values)
             # for line in inventory.line_ids:
             #     line.write({'standard_price': line.get_price()})
-        res = super(StockInventory, self).action_check()
+        res = super().action_check()
         return res
 
     def _action_done(self):
-        super(StockInventory, self)._action_done()
+        super()._action_done()
         for inv in self:
             for move in inv.move_ids:
                 if move.date != inv.date:
@@ -81,11 +81,11 @@ class StockInventoryLine(models.Model):
             if "standard_price" not in values:
                 product = self.env["product.product"].browse(values["product_id"])
                 values["standard_price"] = product.standard_price
-        return super(StockInventoryLine, self).create(vals_list)
+        return super().create(vals_list)
 
     @api.onchange("product_id", "location_id", "product_uom_id", "prod_lot_id", "partner_id", "package_id")
     def _onchange_quantity_context(self):
-        res = super(StockInventoryLine, self)._onchange_quantity_context()
+        res = super()._onchange_quantity_context()
         self.standard_price = self.get_price()
         return res
 
@@ -109,7 +109,7 @@ class StockInventoryLine(models.Model):
                 inventory_line.product_id.write(
                     {"standard_price": inventory_line.standard_price}
                 )  # actualizare pret in produs
-        moves = super(StockInventoryLine, self)._generate_moves()
+        moves = super()._generate_moves()
         self.set_last_last_inventory()
         return moves
 

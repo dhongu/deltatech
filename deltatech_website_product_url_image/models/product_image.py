@@ -29,4 +29,4 @@ class ProductImage(models.Model):
                 if data:
                     vals["name"] = image_file_name.split("/")[-1]
                     vals["image_1920"] = data
-        return super(ProductImage, self).write(vals)
+        return super().write(vals)

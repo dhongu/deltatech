@@ -30,7 +30,6 @@ class WebsiteSale(Base):
                 result = {"status": True, "all_acquirer": True}
 
         if acquirer_id:
-
             context = dict(request.context)
             context.setdefault("acquirer_id", acquirer_id)
             request.context = context

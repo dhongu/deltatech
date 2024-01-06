@@ -18,4 +18,4 @@ class StockPicking(models.Model):
             if not picking.company_id.no_negative_stock and picking.company_id.force_effective_qty:
                 picking.set_effective_qty()
 
-        return super(StockPicking, self).button_validate()
+        return super().button_validate()

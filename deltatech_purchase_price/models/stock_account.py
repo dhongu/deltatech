@@ -48,14 +48,13 @@ class StockMove(models.Model):
                 self.product_id.write({"standard_price": price_unit})
 
     def product_price_update_before_done(self, forced_qty=None):
-        super(StockMove, self).product_price_update_before_done(forced_qty)
-        tmpl_dict = defaultdict(lambda: 0.0)
+        super().product_price_update_before_done(forced_qty)
+        tmpl_dict = defaultdict(float)
         # adapt standard price on incomming moves if the product cost_method is 'average'
         std_price_update = {}
         for move in self.filtered(
             lambda move: move._is_in() and move.with_company(move.company_id).product_id.cost_method == "fifo"
         ):
-
             product_tot_qty_available = move.product_id.sudo().with_company(move.company_id).quantity_svl
             product_tot_val = move.product_id.sudo().with_company(move.company_id).value_svl
 

@@ -23,10 +23,10 @@ class StockPicking(models.Model):
         for picking in self:
             if picking.request_number:
                 raise UserError(_("The document %s has been numbered") % picking.request_number)
-        return super(StockPicking, self).unlink()
+        return super().unlink()
 
     def button_validate(self):
-        result = super(StockPicking, self).button_validate()
+        result = super().button_validate()
         for picking in self:
             if picking.force_number:
                 number = picking.picking_type_id.request_sequence_id.next_by_id()

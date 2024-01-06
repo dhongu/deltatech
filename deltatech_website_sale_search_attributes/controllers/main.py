@@ -11,7 +11,6 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 class WebsiteSaleAttribute(WebsiteSale):
     def _get_search_domain(self, search, category, attrib_values, search_in_description=True):
-
         domain = super()._get_search_domain(
             search, category, attrib_values, search_in_description=search_in_description
         )

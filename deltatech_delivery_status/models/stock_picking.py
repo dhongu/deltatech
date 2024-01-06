@@ -35,7 +35,7 @@ class StockPicking(models.Model):
     )
 
     def _action_done(self):
-        res = super(StockPicking, self)._action_done()
+        res = super()._action_done()
         for picking in self:
             if picking.state == "done" and not picking.carrier_id:
                 picking.write({"delivery_state": "delivered"})
@@ -43,7 +43,7 @@ class StockPicking(models.Model):
 
     @api.depends("move_type", "immediate_transfer", "move_lines.state", "move_lines.picking_id", "postponed")
     def _compute_state(self):
-        super(StockPicking, self)._compute_state()
+        super()._compute_state()
 
         for picking in self.filtered(lambda p: p.state == "assigned"):
             if picking.postponed:
@@ -63,10 +63,10 @@ class StockPicking(models.Model):
             if picking.postponed:
                 raise UserError(_("The transfer %s is postponed") % picking.name)
 
-        return super(StockPicking, self).button_validate()
+        return super().button_validate()
 
     def _create_backorder(self):
-        backorders = super(StockPicking, self)._create_backorder()
+        backorders = super()._create_backorder()
         get_param = self.env["ir.config_parameter"].sudo().get_param
         postponed = get_param("backorders.postponed", default="False")
         postponed = safe_eval(postponed)

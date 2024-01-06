@@ -47,7 +47,7 @@ class ServiceBilling(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(ServiceBilling, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
 
         active_ids = self.env.context.get("active_ids", False)
         if "company_id" not in defaults:
@@ -64,7 +64,6 @@ class ServiceBilling(models.TransientModel):
         return defaults
 
     def add_invoice_line(self, cons, pre_invoice, price_unit, name, key):
-
         # nu mai exista get_invoice_line_account  in V14
         # account_id = self.env["account.move.line"].get_invoice_line_account(
         #     "out_invoice", cons.product_id, "", self.env.user.company_id

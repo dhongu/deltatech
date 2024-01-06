@@ -22,10 +22,10 @@ class SaleOrder(models.Model):
                 sale.with_context(mail_notify_author=True)._message_sms_with_template(
                     template=template, partner_ids=sale.partner_id.ids, put_in_queue=False
                 )
-        return super(SaleOrder, self)._send_order_confirmation_mail()
+        return super()._send_order_confirmation_mail()
 
     def action_confirm(self):
-        res = super(SaleOrder, self).action_confirm()
+        res = super().action_confirm()
         if not getattr(threading.currentThread(), "testing", False) and not self.env.registry.in_test_mode():
             sales = self.filtered(
                 lambda p: p.company_id.sale_order_sms_confirm and (p.partner_id.mobile or p.partner_id.phone)

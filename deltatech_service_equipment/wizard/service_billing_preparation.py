@@ -11,7 +11,7 @@ class ServiceBillingPreparation(models.TransientModel):
 
     def do_billing_preparation(self):
         if self.env.user.has_group("deltatech_service_equipment.force_agreement_invoice"):
-            return super(ServiceBillingPreparation, self).do_billing_preparation()
+            return super().do_billing_preparation()
         else:
             readings_message = ""
             for agreement in self.agreement_ids:
@@ -20,6 +20,6 @@ class ServiceBillingPreparation(models.TransientModel):
                         _("The %s agreement does not have the meter readings made.\r\n") % agreement.name
                     )
             if not readings_message:
-                return super(ServiceBillingPreparation, self).do_billing_preparation()
+                return super().do_billing_preparation()
             else:
                 raise UserError(_(readings_message))

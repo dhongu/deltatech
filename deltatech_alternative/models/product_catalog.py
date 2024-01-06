@@ -33,7 +33,6 @@ class ProductCatalog(models.Model):
         prod = self.env["product.product"]
         for prod_cat in self:
             if (not prod_cat.code_new or len(prod_cat.code_new) < 2) and not prod_cat.product_id:
-
                 # route_ids = []
                 # mto = self.env.ref("stock.route_warehouse0_mto", raise_if_not_found=False)
                 #

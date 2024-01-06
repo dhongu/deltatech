@@ -10,7 +10,7 @@ from odoo.tests.common import TransactionCase
 
 class TestInvoiceDelivery(TransactionCase):
     def setUp(self):
-        super(TestInvoiceDelivery, self).setUp()
+        super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
         seller_ids = [(0, 0, {"name": self.partner_a.id})]
         self.product_a = self.env["product.product"].create(

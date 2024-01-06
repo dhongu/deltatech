@@ -152,7 +152,7 @@ class ServiceOrder(models.Model):
             sequence_order = self.env.ref("deltatech_service_maintenance.sequence_order")
             if sequence_order:
                 vals["name"] = sequence_order.next_by_id()
-        return super(ServiceOrder, self).create(vals)
+        return super().create(vals)
 
     @api.onchange("equipment_id", "date")
     def onchange_equipment_id(self):
@@ -215,7 +215,7 @@ class ServiceOrder(models.Model):
         for order in self:
             if order.state not in ["draft", "cancel"]:
                 raise UserError(_("Can not delete order in status %s") % order.state)
-        return super(ServiceOrder, self).unlink()
+        return super().unlink()
 
     def open_order_on_website(self):
         url = "/service/order/" + str(self.id)

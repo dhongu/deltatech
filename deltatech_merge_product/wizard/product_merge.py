@@ -28,7 +28,7 @@ class MergeProduct(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(MergeProduct, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         active_ids = self.env.context.get("active_ids")
         if self.env.context.get("active_model") == "product.product" and active_ids:
             res["state"] = "selection"

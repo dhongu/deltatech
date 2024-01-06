@@ -11,7 +11,7 @@ class Website(models.Model):
     _inherit = "website"
 
     def sale_product_domain(self):
-        domain = super(Website, self).sale_product_domain()
+        domain = super().sale_product_domain()
         search = request.params.get("search", False)
         if search:
             product_ids = []

@@ -31,7 +31,7 @@ class MonthlyStockReport(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(MonthlyStockReport, self).default_get(fields_list)
+        res = super().default_get(fields_list)
 
         today = fields.Date.context_today(self)
         today = fields.Date.from_string(today)
@@ -71,7 +71,6 @@ class MonthlyStockReport(models.TransientModel):
         return report
 
     def compute_data_for_report(self):
-
         stock_init = {}
 
         stock_in = {}

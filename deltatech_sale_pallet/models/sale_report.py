@@ -33,7 +33,7 @@ class SaleReport(models.Model):
 
 
             """
-        sql = super(SaleReport, self)._query(with_clause, fields, groupby, from_clause)
+        sql = super()._query(with_clause, fields, groupby, from_clause)
         return sql
 
     @api.model
@@ -49,16 +49,13 @@ class SaleReport(models.Model):
         price_coef = safe_eval(get_param("sale_pallet.price_coef", "1"))
 
         if price_unit_field:
-
             # new_fields.remove('payment_days')
             if not amount_field:
                 new_fields.append("untaxed_amount_invoiced")
             if not qty_field:
                 new_fields.append("qty_invoiced")
 
-        res = super(SaleReport, self).read_group(
-            domain, new_fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy
-        )
+        res = super().read_group(domain, new_fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
 
         if price_unit_field:
             for line in res:

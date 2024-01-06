@@ -14,4 +14,4 @@ class IrConfigParameter(models.Model):
     def _get_param(self, key):
         if key == "web.base.url" and self.env.context.get("web_base_url", False):
             return self.env.context.get("web.base.url")
-        return super(IrConfigParameter, self)._get_param(key)
+        return super()._get_param(key)

@@ -10,7 +10,7 @@ class AccountInvoice(models.Model):
 
     def action_post(self):
         # recompute total_percent field for agreements, if any
-        res = super(AccountInvoice, self).action_post()
+        res = super().action_post()
         invoice_agreements = self.env["service.agreement"]
         for invoice in self:
             if invoice.move_type == "out_invoice":

@@ -8,7 +8,7 @@ from odoo.tests.common import TransactionCase
 
 class TestCatalog(TransactionCase):
     def setUp(self):
-        super(TestCatalog, self).setUp()
+        super().setUp()
 
         test_category = self.env["product.category"].create(
             {

@@ -10,7 +10,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(SaleAdvancePaymentInv, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         if self._context.get("active_ids"):
             # company_id = self._context.get("company_id", self.env.user.company_id.id)
             sale_obj = self.env["sale.order"]

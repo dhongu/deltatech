@@ -17,7 +17,7 @@ class PosOrder(models.Model):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(PosOrder, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         active_model = self.env.context.get("active_model", False)
         active_id = self.env.context.get("active_id", False)
         if active_model == "pos.config":
@@ -45,15 +45,13 @@ class PosOrder(models.Model):
     def unlink(self):
         for order in self:
             order.picking_ids.unlink()
-        super(PosOrder, self).unlink()
+        super().unlink()
 
     def _create_payment(self):
-
         pos_session = self.session_id
 
         amount = self.amount_total - self.amount_paid
         if not float_is_zero(amount, precision_rounding=self.currency_id.rounding):
-
             if not self.default_payment_method_id:
                 cash_payment_method = pos_session.payment_method_ids.filtered("is_cash_count")[:1]
                 payment_method = cash_payment_method
@@ -76,6 +74,6 @@ class PosOrderLine(models.Model):
 
     @api.onchange("product_id")
     def _onchange_product_id(self):
-        super(PosOrderLine, self)._onchange_product_id()
+        super()._onchange_product_id()
         if self.product_id:
             self.full_product_name = self.product_id.display_name

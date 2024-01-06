@@ -184,7 +184,6 @@ class ServiceAgreement(models.Model):
             )
 
     def attachment_tree_view(self):
-
         domain = ["&", ("res_model", "=", "service.agreement"), ("res_id", "in", self.ids)]
 
         return {
@@ -242,7 +241,6 @@ class ServiceAgreement(models.Model):
     # TODO: de legat acest contract la un cont analitic ...
     @api.depends("last_invoice_id")
     def _compute_next_date_invoice(self):
-
         # query = """
         #     select distinct *
         #         from  (
@@ -314,7 +312,7 @@ class ServiceAgreement(models.Model):
                 sequence_agreement = self.env.ref("deltatech_service.sequence_agreement")
                 if sequence_agreement:
                     vals["name"] = sequence_agreement.next_by_id()
-        return super(ServiceAgreement, self).create(vals_list)
+        return super().create(vals_list)
 
     def contract_close(self):
         return self.write({"state": "closed"})
@@ -329,7 +327,7 @@ class ServiceAgreement(models.Model):
         for item in self:
             if item.state != "draft":
                 raise UserError(_("You cannot delete a service agreement which is not draft."))
-        return super(ServiceAgreement, self).unlink()
+        return super().unlink()
 
     def get_agreements_auto_billing(self):
         agreements = self.search([("billing_automation", "=", "auto"), ("state", "=", "open")])

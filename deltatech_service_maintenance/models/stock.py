@@ -16,7 +16,7 @@ class StockPicking(models.Model):
         notification_id = self.env.context.get("notification_id", False)
         if notification_id:
             vals["notification_id"] = notification_id
-        picking = super(StockPicking, self).create(vals)
+        picking = super().create(vals)
 
         if notification_id:
             notification = self.env["service.notification"].browse(notification_id)
@@ -28,7 +28,6 @@ class StockPicking(models.Model):
         context = {"default_partner_id": self.partner_id.id}
 
         if self.move_lines:
-
             context["default_item_ids"] = []
 
             for item in self.move_lines:

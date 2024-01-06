@@ -15,9 +15,8 @@ class SaleAdvancePaymentInv(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(SaleAdvancePaymentInv, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         if self._context.get("active_ids"):
-
             order = self.env["sale.order"].browse(self._context.get("active_ids"))[0]
             defaults["order_id"] = order.id
             defaults["payment_term_id"] = order.payment_term_id.id
@@ -47,7 +46,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
         return super(SaleAdvancePaymentInv, new_self).create_invoices()
 
     def _get_advance_details(self, order):
-        amount, name = super(SaleAdvancePaymentInv, self)._get_advance_details(order)
+        amount, name = super()._get_advance_details(order)
 
         line_tax_type = self.env["ir.config_parameter"].sudo().get_param("account.show_line_subtotals_tax_selection")
         # de determinat tipul de tva

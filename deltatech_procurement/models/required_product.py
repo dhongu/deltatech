@@ -73,7 +73,7 @@ class RequiredOrder(models.Model):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(RequiredOrder, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         central_location = self.env.ref("stock.stock_location_stock")
         defaults["location_id"] = central_location.id
 
@@ -90,7 +90,7 @@ class RequiredOrder(models.Model):
         if vals.get("name", _("New")) == _("New"):
             vals["name"] = self.env["ir.sequence"].next_by_code("required.order") or _("New")
 
-        result = super(RequiredOrder, self).create(vals)
+        result = super().create(vals)
         return result
 
     def order_done(self):
@@ -128,7 +128,7 @@ class RequiredOrder(models.Model):
         for order in self:
             if order.state not in ("draft", "cancel"):
                 raise UserError(_("You cannot delete a order which is not draft or cancelled. "))
-        return super(RequiredOrder, self).unlink()
+        return super().unlink()
 
     def check_order_done(self):
         pass
