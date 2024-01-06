@@ -3,14 +3,13 @@ from odoo.tests.common import TransactionCase
 
 
 class TestAccountBankStatement(TransactionCase):
-
     # se definesc 2 partenerii
     # pentru acesit parteneri se va adauga cate o nota confabila
     # se va indroduce un extras bancar pentru acesti partneri
     # se va face reconcilierea
 
     def setUp(self):
-        super(TestAccountBankStatement, self).setUp()
+        super().setUp()
         # se definesc 2 parteneri
         self.partner1 = self.env["res.partner"].create({"name": "Partner 1"})
         self.partner2 = self.env["res.partner"].create({"name": "Partner 2"})

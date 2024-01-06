@@ -12,8 +12,7 @@ class MailMail(models.Model):
     _inherit = "mail.mail"
 
     def _send_prepare_values(self, partner=None):
-
-        res = super(MailMail, self)._send_prepare_values(partner)
+        res = super()._send_prepare_values(partner)
 
         use_company_email = self.env["ir.config_parameter"].sudo().get_param("mail.use_company_email", "False")
         if safe_eval(use_company_email):

@@ -10,7 +10,7 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     def _prepare_invoice(self):
-        res = super(SaleOrder, self)._prepare_invoice()
+        res = super()._prepare_invoice()
         journal_id = res.get("journal_id", False)
         if journal_id:
             journal = self.env["account.journal"].browse(journal_id)
@@ -32,10 +32,10 @@ class SaleOrderLine(models.Model):
             if product_id and line.product_id.id == int(product_id) and line.qty_invoiced == 0:
                 self -= line
                 super(models.Model, line).unlink()
-        return super(SaleOrderLine, self).unlink()
+        return super().unlink()
 
     def _prepare_invoice_line(self, **optional_values):
-        res = super(SaleOrderLine, self)._prepare_invoice_line(**optional_values)
+        res = super()._prepare_invoice_line(**optional_values)
         company = self.order_id.company_id
         journal_id = self.env.context.get("default_journal_id", False)
         if journal_id:

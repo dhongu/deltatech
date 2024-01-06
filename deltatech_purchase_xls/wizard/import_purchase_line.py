@@ -30,7 +30,7 @@ class ImportPurchaseLine(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(ImportPurchaseLine, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         active_id = self.env.context.get("active_id", [])
         model = self.env.context.get("active_model", False)
         purchase = self.env[model].browse(active_id)

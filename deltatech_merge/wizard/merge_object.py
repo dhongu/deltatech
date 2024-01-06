@@ -24,7 +24,6 @@ class MergeDummy(models.TransientModel):
 
 
 class MergeObjectLine(models.TransientModel):
-
     _name = "merge.object.line"
     _description = "Merge Object Line"
     _order = "min_id asc"
@@ -66,7 +65,7 @@ class MergeObject(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(MergeObject, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         active_ids = self.env.context.get("active_ids")
         if self.env.context.get("active_model") == self._model_merge and active_ids:
             res["state"] = "selection"

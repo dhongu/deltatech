@@ -11,9 +11,7 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 class WebsiteSaleBillingAddresses(WebsiteSale):
     def checkout_form_validate(self, mode, all_form_values, data):
-        error, error_message = super(WebsiteSaleBillingAddresses, self).checkout_form_validate(
-            mode, all_form_values, data
-        )
+        error, error_message = super().checkout_form_validate(mode, all_form_values, data)
         is_company = data.get("is_company", False) == "yes"
         if is_company and not data.get("vat", False):
             error["vat"] = "missing"
@@ -31,10 +29,10 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         post.pop("express", False)
         new_context = dict(request.env.context, ignore_check_address=True)
         request.context = new_context
-        return super(WebsiteSaleBillingAddresses, self).checkout(**post)
+        return super().checkout(**post)
 
     def checkout_values(self, **kw):
-        values = super(WebsiteSaleBillingAddresses, self).checkout_values(**kw)
+        values = super().checkout_values(**kw)
         order = request.website.sale_get_order(force_create=1)
         billings_addresses = []
         if order.partner_id != request.website.user_id.sudo().partner_id:
@@ -64,9 +62,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         return values
 
     def values_postprocess(self, order, mode, values, errors, error_msg):
-        new_values, errors, error_msg = super(WebsiteSaleBillingAddresses, self).values_postprocess(
-            order, mode, values, errors, error_msg
-        )
+        new_values, errors, error_msg = super().values_postprocess(order, mode, values, errors, error_msg)
         errors.pop("vat", "")  # sa scrie fiecare ce vrea
         is_company = values.get("is_company", False) == "yes"
 
@@ -115,7 +111,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         request.website.sale_get_order(force_create=True)
         if kw.get("type") == "invoice" and "submitted" in kw and request.httprequest.method == "POST":
             return self.billing_address(**kw)
-        return super(WebsiteSaleBillingAddresses, self).address(**kw)
+        return super().address(**kw)
 
     @http.route(
         ["/shop/billing_address"], type="http", methods=["GET", "POST"], auth="public", website=True, sitemap=False

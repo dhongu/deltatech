@@ -155,7 +155,7 @@ class ServiceEquipment(models.Model):
             if sequence:
                 vals["name"] = sequence.next_by_id()
 
-        return super(ServiceEquipment, self).create(vals)
+        return super().create(vals)
 
     def write(self, vals):
         if ("name" in vals) and (vals.get("name") in ("/", False)):
@@ -163,7 +163,7 @@ class ServiceEquipment(models.Model):
             sequence = self.env.ref("deltatech_service_equipment.sequence_equipment")
             if sequence:
                 vals["name"] = sequence.next_by_id()
-        return super(ServiceEquipment, self).write(vals)
+        return super().write(vals)
 
     @api.depends("serial_id.quant_ids")
     def _compute_location(self):
@@ -239,7 +239,6 @@ class ServiceEquipment(models.Model):
     @api.depends("location_id")
     def _compute_location_type(self):
         for equipment in self:
-
             if equipment.location_id.usage == "customer":
                 equipment.location_type = "customer"
             elif equipment.location_id.usage == "internal":
@@ -365,7 +364,7 @@ class ServiceEquipment(models.Model):
             equipment_ids = self.search(["|", ("serial_id", "ilike", name), ("ean_code", "ilike", name)], limit=10)
             if equipment_ids:
                 res_serial = equipment_ids.name_get()
-        res = super(ServiceEquipment, self).name_search(name, args, operator=operator, limit=limit) + res_serial
+        res = super().name_search(name, args, operator=operator, limit=limit) + res_serial
         return res
 
     def name_get(self):

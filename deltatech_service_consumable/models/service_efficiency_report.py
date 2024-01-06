@@ -18,7 +18,7 @@ class ServiceEfficiencyReport(models.Model):
 
     def _select(self):
         select_str = (
-            super(ServiceEfficiencyReport, self)._select()
+            super()._select()
             + """,
                   sp.equipment_id,
                   equi.agreement_id,
@@ -31,7 +31,7 @@ class ServiceEfficiencyReport(models.Model):
 
     def _from(self):
         from_str = (
-            super(ServiceEfficiencyReport, self)._from()
+            super()._from()
             + """
 
                        INNER JOIN service_equipment as equi ON  sp.equipment_id = equi.id
@@ -40,9 +40,7 @@ class ServiceEfficiencyReport(models.Model):
         return from_str
 
     def _group_by(self):
-        group_by_str = (
-            super(ServiceEfficiencyReport, self)._group_by() + ", sp.equipment_id, equi.agreement_id, pt.uom_shelf_life"
-        )
+        group_by_str = super()._group_by() + ", sp.equipment_id, equi.agreement_id, pt.uom_shelf_life"
         return group_by_str
 
     def _compute_usage(self):
@@ -50,10 +48,7 @@ class ServiceEfficiencyReport(models.Model):
 
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-
-        res = super(ServiceEfficiencyReport, self).read_group(
-            domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy
-        )
+        res = super().read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
 
         if "usage" in fields:
             for line in res:
@@ -84,7 +79,6 @@ class ServiceEfficiencyReport(models.Model):
 
     @api.model
     def get_usage(self, begin_date, end_date, equipment_id, uom_usage, product_id):
-
         usage = 0
         if not uom_usage and product_id:
             product = self.env["product.product"].browse(product_id)

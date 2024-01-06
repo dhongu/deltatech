@@ -5,7 +5,7 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 class WebsiteSaleAttribute(WebsiteSale):
     def _checkout_form_save(self, mode, checkout, all_values):
-        partner_id = super(WebsiteSaleAttribute, self)._checkout_form_save(mode, checkout, all_values)
+        partner_id = super()._checkout_form_save(mode, checkout, all_values)
 
         Partner = request.env["res.partner"]
         partner_id = Partner.browse(partner_id)

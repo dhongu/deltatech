@@ -142,7 +142,6 @@ class AccountInvoiceLine(models.Model):
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
     def _compute_purchase_price(self):
         for invoice_line in self:
-
             # nu se calculeaza pretul de achizitie pentru liniile care nu sunt afisate in factura
             if invoice_line.exclude_from_invoice_tab or invoice_line.display_type:
                 invoice_line.purchase_price = 0.0
@@ -193,7 +192,7 @@ class AccountInvoiceLine(models.Model):
     def write(self, vals):
         if "purchase_price" in vals:
             self._check_sale_price()
-        return super(AccountInvoiceLine, self).write(vals)
+        return super().write(vals)
 
     def _check_sale_price(self):
         for invoice_line in self:

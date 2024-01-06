@@ -131,4 +131,4 @@ class ServiceConsumption(models.Model):
                 cycles_free = item.agreement_line_id.cycles_free + 1
                 item.agreement_line_id.write({"cycles_free": cycles_free})
 
-        return super(ServiceConsumption, self).unlink()
+        return super().unlink()

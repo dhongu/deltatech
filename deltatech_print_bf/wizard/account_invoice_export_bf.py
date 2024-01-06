@@ -75,7 +75,7 @@ class AccountInvoiceExportBf(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(AccountInvoiceExportBf, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         invoice_id = False
         active_id = defaults.get("invoice_id", self.env.context.get("active_id", False))
 
@@ -91,7 +91,6 @@ class AccountInvoiceExportBf(models.TransientModel):
         ecr_comm = ecr_commands[ecr]
 
         with contextlib.closing(StringIO()) as buf:
-
             # printing reference
 
             buf.write(ecr_comm["print"].format(text=_("Ref:" + invoice_id.name)))
@@ -99,7 +98,6 @@ class AccountInvoiceExportBf(models.TransientModel):
             negative_price = 0.0
             total_price = 0.0
             for line in invoice_id.invoice_line_ids.filtered(lambda l: not l.display_type):
-
                 price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
                 tax = ecr_comm["cod_tva"][0]
                 if line.tax_ids:

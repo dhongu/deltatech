@@ -36,8 +36,7 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     def _action_launch_stock_rule(self, previous_product_uom_qty=False):
-
-        super(SaleOrderLine, self)._action_launch_stock_rule(previous_product_uom_qty)
+        super()._action_launch_stock_rule(previous_product_uom_qty)
         precision = self.env["decimal.precision"].precision_get("Product Unit of Measure")
 
         for line in self:

@@ -18,7 +18,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(SaleAdvancePaymentInv, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         active_ids = self._context["active_ids"]
         if active_ids:
             order = self.env["sale.order"].browse(self._context.get("active_ids"))[0]
@@ -42,7 +42,7 @@ class SaleOrderType(models.Model):
             other_types = self.env["sale.order.type"].search([("is_default", "=", True), ("id", "!=", self.id)])
             if other_types:
                 raise UserError(_("You cannot have more than one default type."))
-        return super(SaleOrderType, self).write(vals)
+        return super().write(vals)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -51,4 +51,4 @@ class SaleOrderType(models.Model):
                 other_types = self.env["sale.order.type"].search([("is_default", "=", True), ("id", "!=", self.id)])
                 if other_types:
                     raise UserError(_("You cannot have more than one default type."))
-        return super(SaleOrderType, self).create(vals_list)
+        return super().create(vals_list)

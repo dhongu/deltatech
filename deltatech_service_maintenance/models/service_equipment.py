@@ -15,7 +15,6 @@ class ServiceEquipment(models.Model):
     last_call_done = fields.Date(string="Last call done", compute="_compute_last_call_done")
 
     def _compute_last_call_done(self):
-
         plans = self.env["service.plan"].search([("equipment_id", "=", self.id), ("state", "=", "active")])
         if plans:
             calls = self.env["service.plan.call"].search(

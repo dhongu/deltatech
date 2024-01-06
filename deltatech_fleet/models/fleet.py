@@ -40,7 +40,7 @@ class FleetVehicleOdometer(models.Model):
             vals["date"] = vals["date_time"]
         if "date" in vals and "date_time" not in vals:
             vals["date_time"] = vals["date"]
-        res = super(FleetVehicleOdometer, self).write(vals)
+        res = super().write(vals)
         return res
 
 

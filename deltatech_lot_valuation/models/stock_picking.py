@@ -9,7 +9,7 @@ class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     def button_validate(self):
-        res = super(StockPicking, self).button_validate()
+        res = super().button_validate()
         # update lot info for reception
         for picking in self:
             for move_line in picking.move_line_ids_without_package:

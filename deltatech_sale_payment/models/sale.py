@@ -46,7 +46,6 @@ class SaleOrder(models.Model):
     @api.depends("transaction_ids", "invoice_ids.payment_state")
     def _compute_payment(self):
         for order in self:
-
             amount = 0
             transactions = order.sudo().transaction_ids.filtered(lambda a: a.state == "done")
 
@@ -82,7 +81,7 @@ class SaleOrder(models.Model):
             order.acquirer_id = acquirer
 
     def _action_confirm(self):
-        res = super(SaleOrder, self)._action_confirm()
+        res = super()._action_confirm()
         self._compute_payment()
         return res
 

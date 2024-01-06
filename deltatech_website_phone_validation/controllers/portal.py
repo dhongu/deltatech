@@ -10,11 +10,10 @@ from odoo.addons.portal.controllers.portal import CustomerPortal
 
 class CustomerPortalPhoneValidation(CustomerPortal):
     def details_form_validate(self, data):
-
         if data.get("phone"):
             data["phone"] = data.get("phone").strip()
 
-        error, error_message = super(CustomerPortalPhoneValidation, self).details_form_validate(data)
+        error, error_message = super().details_form_validate(data)
 
         if data.get("phone"):
             try:

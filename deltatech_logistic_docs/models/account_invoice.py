@@ -12,7 +12,6 @@ class AccountInvoice(models.Model):
     doc_count = fields.Integer(string="Number of documents attached", compute="_compute_attached_docs_count")
 
     def get_attachment_domain(self):
-
         domain = [("res_model", "=", "account.move"), ("res_id", "=", self.id)]
         if self.is_invoice():
             sale_orders = self.env["sale.order"]

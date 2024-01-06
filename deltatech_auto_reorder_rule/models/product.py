@@ -46,6 +46,6 @@ class ProductProduct(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        products = super(ProductProduct, self).create(vals_list)
+        products = super().create(vals_list)
         products.create_rule()
         return products

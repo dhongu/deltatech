@@ -16,7 +16,7 @@ class WebsiteSaleAttribute(WebsiteSale):
 
     @http.route()
     def shop(self, page=0, category=None, search="", ppg=False, **post):
-        response = super(WebsiteSaleAttribute, self).shop(page, category, search, ppg, **post)
+        response = super().shop(page, category, search, ppg, **post)
 
         if category and search:
             # attrib_values = response.qcontext.get("attrib_values")

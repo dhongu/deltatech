@@ -14,7 +14,7 @@ class ProductChangeQuantity(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(ProductChangeQuantity, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
         warehouse = self.env["stock.warehouse"].search([("company_id", "=", self.env.company.id)], limit=1)
         defaults["location_id"] = warehouse.lot_stock_id.id
         return defaults

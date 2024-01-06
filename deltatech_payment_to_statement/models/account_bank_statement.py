@@ -17,10 +17,10 @@ class AccountBankStatement(models.Model):
                     vals["name"] = journal.statement_sequence_id.next_by_id()
                 else:
                     vals["name"] = fields.Date.to_string(fields.Date.today())
-        return super(AccountBankStatement, self).create(vals_list)
+        return super().create(vals_list)
 
     def name_get(self):
-        result = super(AccountBankStatement, self).name_get()
+        result = super().name_get()
         for res in result:
             if res[1] == "/":
                 statement = self.filtered(lambda p: p.id == res[0])

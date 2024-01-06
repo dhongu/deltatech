@@ -3,7 +3,7 @@ from odoo.tests.common import TransactionCase
 
 class TestProduct(TransactionCase):
     def setUp(self):
-        super(TestProduct, self).setUp()
+        super().setUp()
 
         test_category = self.env["product.category"].create({"name": "test category"})
         values = {
@@ -44,7 +44,7 @@ class TestProduct(TransactionCase):
 
 class TestProductTemplate(TransactionCase):
     def setUp(self):
-        super(TestProductTemplate, self).setUp()
+        super().setUp()
 
         test_category = self.env["product.category"].create({"name": "test category"})
         values = {

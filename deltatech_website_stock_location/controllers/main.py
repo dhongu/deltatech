@@ -12,9 +12,8 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale as WebsiteSale
 class WebsiteSale(WebsiteSaleBase):
     @http.route()
     def shop(self, page=0, category=None, search="", ppg=False, **post):
-
         current_website = request.env["website"].get_current_website()
         request.context = dict(request.context, location=current_website.location_id.id)
-        response = super(WebsiteSale, self).shop(page, category, search, ppg, **post)
+        response = super().shop(page, category, search, ppg, **post)
 
         return response

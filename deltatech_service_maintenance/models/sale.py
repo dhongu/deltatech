@@ -18,7 +18,7 @@ class SaleOrder(models.Model):
         if notification_id:
             vals["notification_id"] = notification_id
 
-        order = super(SaleOrder, self).create(vals)
+        order = super().create(vals)
         notification_id = self.env.context.get("notification_id", False)
         if notification_id:
             notification = self.env["service.notification"].browse(notification_id)
@@ -34,7 +34,6 @@ class SaleOrder(models.Model):
         }
 
         if self.order_line:
-
             context["default_item_ids"] = []
 
             for item in self.order_line:

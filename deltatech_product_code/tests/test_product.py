@@ -9,7 +9,7 @@ from odoo.tests.common import TransactionCase
 class TestProductCode(TransactionCase):
     # se defineste o secventa pentru codificare  si categorie de produs
     def setUp(self):
-        super(TestProductCode, self).setUp()
+        super().setUp()
         self.sequence = self.env["ir.sequence"].create(
             {"name": "Test sequence", "implementation": "no_gap", "prefix": "TEST", "padding": 4}
         )

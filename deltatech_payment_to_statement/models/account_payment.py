@@ -32,7 +32,7 @@ class AccountPayment(models.Model):
                 self.statement_id = self.env["account.bank.statement"].sudo().create(values)
 
     def action_post(self):
-        res = super(AccountPayment, self).action_post()
+        res = super().action_post()
         if self.env.context.get("add_statement_line", True):
             self.add_statement_line()
         self.force_cash_sequence()
@@ -107,7 +107,7 @@ class PosBoxOut(models.TransientModel):
     _inherit = "cash.box.out"
 
     def _calculate_values_for_statement_line(self, record):
-        values = super(PosBoxOut, self)._calculate_values_for_statement_line(record=record)
+        values = super()._calculate_values_for_statement_line(record=record)
         if values["amount"] > 0:
             if record.journal_id.cash_in_sequence_id:
                 values["name"] = record.journal_id.cash_in_sequence_id.next_by_id()

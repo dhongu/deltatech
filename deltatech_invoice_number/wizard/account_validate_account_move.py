@@ -14,4 +14,4 @@ class ValidateAccountMove(models.TransientModel):
                 message = moves.check_data()
                 if message:
                     raise UserError(message)
-        return super(ValidateAccountMove, self).validate_move()
+        return super().validate_move()

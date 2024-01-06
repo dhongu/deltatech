@@ -10,9 +10,7 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 class WebsiteSaleAlternative(WebsiteSale):
     def _get_search_domain(self, search, category, attrib_values, search_in_description=True):
-        domain = super(WebsiteSaleAlternative, self)._get_search_domain(
-            search, category, attrib_values, search_in_description
-        )
+        domain = super()._get_search_domain(search, category, attrib_values, search_in_description)
         if search:
             product_ids = []
             alt_domain = [("name", "ilike", search)]

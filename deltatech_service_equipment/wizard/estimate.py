@@ -22,7 +22,7 @@ class ServiceMeterReadingEstimate(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
-        defaults = super(ServiceMeterReadingEstimate, self).default_get(fields_list)
+        defaults = super().default_get(fields_list)
 
         active_ids = self.env.context.get("active_ids", False)
 
@@ -50,7 +50,6 @@ class ServiceMeterReadingEstimate(models.TransientModel):
         return {}
 
     def _calc_estimation(self):
-
         domain_date = [("date", ">=", self.period_id.date_start), ("date", "<=", self.period_id.date_end)]
         for meter in self.meter_ids:
             domain = domain_date + [("meter_id", "=", meter.id)]

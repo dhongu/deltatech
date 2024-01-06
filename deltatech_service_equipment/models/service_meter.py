@@ -91,7 +91,7 @@ class ServiceMeter(models.Model):
             sequence = self.env.ref("deltatech_service_equipment.sequence_meter")
             if sequence:
                 vals["name"] = sequence.next_by_id()
-        return super(ServiceMeter, self).create(vals)
+        return super().create(vals)
 
     # rutina pentru actualizare date curente
     def update_name(self):
@@ -313,7 +313,7 @@ class ServiceMeterReading(models.Model):
             self.equipment_id = self.meter_id.equipment_id
 
     def write(self, vals):
-        res = super(ServiceMeterReading, self).write(vals)
+        res = super().write(vals)
         if vals.get("date", False):
             for reading in self:
                 reading.meter_id.recheck_value()
@@ -321,14 +321,13 @@ class ServiceMeterReading(models.Model):
         return res
 
     def unlink(self):
-
         meters = self.env["service.meter"]
         for reading in self:
             if reading.consumption_id:
                 raise UserError(_("Meter reading recorder in consumption prepared for billing."))
             meters |= reading.meter_id
 
-        res = super(ServiceMeterReading, self).unlink()
+        res = super().unlink()
 
         meters.recheck_value()
 

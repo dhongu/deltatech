@@ -38,7 +38,7 @@ class ProductTemplate(models.Model):
             template.last_inventory_id = last_inventory_id
 
     def action_update_quantity_on_hand(self):
-        action = super(ProductTemplate, self).action_update_quantity_on_hand()
+        action = super().action_update_quantity_on_hand()
         action_inventory_form = self.env.ref("stock.action_inventory_form").read()[0]
         action["name"] = action_inventory_form["name"]
         action["res_model"] = action_inventory_form["res_model"]

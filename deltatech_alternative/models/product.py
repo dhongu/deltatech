@@ -29,7 +29,7 @@ class ProductTemplate(models.Model):
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
         if "not" in operator:
-            return super(ProductTemplate, self).name_search(name, args, operator=operator, limit=limit)
+            return super().name_search(name, args, operator=operator, limit=limit)
 
         args = args or []
         res_alt = []
@@ -46,7 +46,7 @@ class ProductTemplate(models.Model):
                 args = expression.AND([args, [("id", "not in", products.ids)]])
 
         self = self.with_context(no_catalog=True)
-        res = super(ProductTemplate, self).name_search(name, args, operator=operator, limit=limit) + res_alt
+        res = super().name_search(name, args, operator=operator, limit=limit) + res_alt
 
         if not res and catalog_search and name and len(name) > 3:
             prod = self.env["product.catalog"].search_in_catalog(name)
@@ -62,7 +62,7 @@ class ProductProduct(models.Model):
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
         if "not" in operator:
-            return super(ProductProduct, self).name_search(name, args, operator=operator, limit=limit)
+            return super().name_search(name, args, operator=operator, limit=limit)
 
         args = args or []
         res_alt = []
@@ -79,7 +79,7 @@ class ProductProduct(models.Model):
                 args = expression.AND([args, [("id", "not in", products.ids)]])
 
         self = self.with_context(no_catalog=True)
-        res = super(ProductProduct, self).name_search(name, args, operator=operator, limit=limit) + res_alt
+        res = super().name_search(name, args, operator=operator, limit=limit) + res_alt
 
         if not res and catalog_search and name and len(name) > 3:
             prod = self.env["product.catalog"].search_in_catalog(name)
