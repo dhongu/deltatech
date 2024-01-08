@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_picking_form_services" model="ir.ui.view">
+        <field name="name">view.picking.form.services</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='operations']" position="after">
+                <page string="Services" name="services">
+                    <field name="picking_service_lines" mode="tree" add-label="Add a Service">
+                        <tree string="Services" editable="bottom">
+                            <field name="sequence" widget="handle" />
+                            <field name="product_uom_category_id" invisible="1" />
+                            <field name="product_id" required="1" context="{'default_detailed_type': 'service'}" />
+                            <field name="description_picking" string="Description" optional="hide" />
+                            <field name="product_uom_qty" string="Quantity" />
+                            <field name="product_uom" string="Unit of Measure" groups="uom.group_uom" />
+                            <field name="price_unit" />
+                            <field name="price_subtotal" readonly="1" sum="Total" />
+                        </tree>
+                    </field>
+                    <field name="id" invisible="1" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
