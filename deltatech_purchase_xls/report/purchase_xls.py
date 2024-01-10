@@ -18,6 +18,7 @@ class PurchaseOrderXlsx(models.AbstractModel):
         sheet.write(0, 2, "Name")
         sheet.write(0, 3, "Qty")
         sheet.write(0, 4, "Price")
+        sheet.write(0, 5, "Unit of Measure")
         lin = 1
         for order in objs:
             for line in order.order_line:
@@ -37,4 +38,5 @@ class PurchaseOrderXlsx(models.AbstractModel):
                 sheet.write(lin, 2, name or "")
                 sheet.write(lin, 3, line.product_qty)
                 sheet.write(lin, 4, line.price_unit)
+                sheet.write(lin, 5, line.product_uom.name)
                 lin += 1
