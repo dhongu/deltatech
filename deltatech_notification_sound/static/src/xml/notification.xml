@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template">
+
+    <t t-name="NotificationWowl" t-inherit="web.NotificationWowl" t-inherit-mode="extension" owl="1">
+        <xpath expr="." position="inside">
+
+            <t t-if="props.type == 'success'">
+                    <t t-set="sound" t-value="'/deltatech_notification_sound/static/src/sounds/notify.wav'" />
+            </t>
+            <t t-if="props.type == 'warning'">
+                    <t t-set="sound" t-value="'/deltatech_notification_sound/static/src/sounds/exclamation.wav'" />
+            </t>
+            <t t-if="props.type == 'danger'">
+                    <t t-set="sound" t-value="'/deltatech_notification_sound/static/src/sounds/error.wav'" />
+            </t>
+            <t t-if="props.type == 'info'">
+                    <t t-set="sound" t-value="'/deltatech_notification_sound/static/src/sounds/bell.wav'" />
+            </t>
+
+            <audio id="audio" t-att-src="sound" preload="auto" autoplay="true" />
+
+        </xpath>
+    </t>
+
+</templates>
