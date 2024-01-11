@@ -16,8 +16,8 @@
             >
                 <field name="company_id" invisible="1" />
                 <field name="product_tracking" invisible="1" />
-                <field name="is_editable" invisible="0" />
-                <field name="is_price_editable" invisible="0" />
+                <field name="is_editable" invisible="1" />
+                <field name="is_price_editable" invisible="1" />
                 <field name="outdated" invisible="1" />
                 <field
                     name="product_id"

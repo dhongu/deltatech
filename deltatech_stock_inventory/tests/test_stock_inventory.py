@@ -37,7 +37,6 @@ class TestStockInventory(TransactionCase):
                 "categ_id": self.category_fifo.id,
             }
         )
-        # self.stock_location = self.env.ref("stock.stock_location_stock")
         self.stock_location = self.env["stock.location"].create({"name": "Test location", "usage": "internal"})
         # Create a user with rights
         group_inventory_user = self.env.ref("deltatech_stock_inventory.group_view_inventory_button")
@@ -125,7 +124,7 @@ class TestStockInventory(TransactionCase):
         svls_value = 0.0
         for svl in svls:
             svls_value += svl.value
-        self.assertEqual(svls_value, 53)
+        self.assertEqual(svls_value, 200013.0)
 
     # def test_action_update_quantity_on_hand(self):
     #     self.product_b.product_tmpl_id.action_update_quantity_on_hand()
