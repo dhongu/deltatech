@@ -305,6 +305,27 @@ class ProductValuationHistory(models.Model):
                     }
                 )
 
+    def _compute_initial(self):
+        for item in self:
+            item.quantity_initial = item.quantity_final - item.quantity
+            item.amount_initial = item.amount_final - item.amount
+            domain = [
+                ("product_id", "=", item.product_id.id),
+                ("valuation_area_id", "=", item.valuation_area_id.id),
+                ("account_id", "=", item.account_id.id),
+                ("company_id", "=", item.company_id.id),
+                ("month", "<", item.month),
+            ]
+            prev_valuation = self.search(domain, order="month desc", limit=1)
+            if prev_valuation:
+                prev_valuation.write(
+                    {
+                        "quantity_final": item.quantity_initial,
+                        "amount_final": item.amount_initial,
+                    }
+                )
+                prev_valuation._compute_initial()
+
     def _get_sql_select(self, all=True):
         """
             Determinare miscari lunare insumate
@@ -527,17 +548,8 @@ class ProductValuationHistory(models.Model):
                 calendar_temporal c
             CROSS JOIN (SELECT DISTINCT product_id FROM product_valuation_history) p
             CROSS JOIN (SELECT DISTINCT account_id FROM product_valuation_history) a
+            ON CONFLICT (product_id, valuation_area_id, account_id, company_id, month) DO NOTHING
 
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM product_valuation_history pv
-                WHERE
-                    pv.product_id = p.product_id AND
-                    pv.valuation_area_id =  %(valuation_area_id)s AND
-                    pv.account_id = a.account_id AND
-                    pv.company_id = %(company_id)s AND
-                    pv.month = c.month
-            )
 
             """,
             params,
@@ -603,7 +615,7 @@ class ProductValuationHistory(models.Model):
         #     """,
         #     params,
         # )
-
+        #
         # _logger.info("Eliminare solruri fara cantitate")
         # self.env.cr.execute(
         #     """
@@ -630,5 +642,13 @@ class ProductValuationHistory(models.Model):
             """,
             params,
         )
+
+        _logger.info("FINALIZARE CALCULARE ISTORIC VALORI")
+
+        # se considera stocul actual corect si se merge inapoi in timp
+
+        domain = [("valuation_area_id", "=", valuation_area.id), ("month", "=", res["max_month"])]
+        valuations = self.search(domain)
+        valuations._compute_initial()
 
         _logger.info("FINALIZARE CALCULARE ISTORIC VALORI")
