@@ -19,6 +19,9 @@ class TestInvoiceDelivery(TransactionCase):
         self.product_b = self.env["product.product"].create(
             {"name": "Test B", "type": "product", "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
         )
+        self.stock_location = self.env.ref("stock.stock_location_stock")
+        self.env["stock.quant"]._update_available_quantity(self.product_a, self.stock_location, 1000)
+        self.env["stock.quant"]._update_available_quantity(self.product_b, self.stock_location, 1000)
 
     def create_in_invoice(self):
         invoice = self.env["account.move"].create(
