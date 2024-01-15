@@ -8,16 +8,11 @@ class SaleReport(models.Model):
 
     margin = fields.Float(string="Margin")
 
-    def _query(self, with_clause="", fields=None, groupby="", from_clause=""):
-        if fields is None:
-            fields = {}
-        fields["margin"] = (
-            ", SUM(l.margin / CASE COALESCE(s.currency_rate, 0) " "WHEN 0 THEN 1.0 ELSE s.currency_rate END) AS margin"
-        )
-        sql = super()._query(with_clause, fields, groupby, from_clause)
-        margin_field = (
-            ", SUM(l.margin / CASE COALESCE(pos.currency_rate, 0) "
-            "WHEN 0 THEN 1.0 ELSE pos.currency_rate END) AS margin"
-        )
-        sql = sql.replace(", NULL AS margin", margin_field)
-        return sql
+    def _select_additional_fields(self):
+        additional_fields_info = super()._select_additional_fields()
+        additional_fields_info[
+            "margin"
+        ] = """
+            SUM(l.margin / CASE COALESCE(s.currency_rate, 0) " "WHEN 0 THEN 1.0 ELSE s.currency_rate END)
+        """
+        return additional_fields_info
