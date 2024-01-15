@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="action_purchase_order_xls" model="ir.actions.report">
+            <field name="name">Export Excel Purchase Order</field>
+            <field name="model">purchase.order</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">report_xlsx.purchase_order_xlsx</field>
+            <field name="report_file">PurchaseOrder.xlsx</field>
+            <field name="binding_model_id" ref="purchase.model_purchase_order" />
+            <field name="binding_type">report</field>
+        </record>
+
+
+</odoo>
