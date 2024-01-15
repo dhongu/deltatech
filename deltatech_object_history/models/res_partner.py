@@ -17,5 +17,6 @@ class Partner(models.Model):
             "view_mode": "tree,form",
             "name": _("History"),
             "domain": [["res_id", "=", self.id], ["res_model", "=", "res.partner"]],
+            "context": {"default_res_id": self.id, "default_res_model": "res.partner"},
         }
         return res
