@@ -5,7 +5,7 @@
     <template id="website_sale_stock_product_lead_time" inherit_id="website_sale.product" priority="99">
         <xpath expr="//form" position="before">
             <div class="lead_time_messages o_not_editable">
-                <div style="font-size: medium;" class="badge badge-secondary mt16">
+                <div style="font-size: medium;" class="badge rounded-pill">
                     In stock
                 </div>
             </div>
