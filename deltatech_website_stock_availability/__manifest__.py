@@ -23,6 +23,6 @@
     "price": 10.00,
     "currency": "EUR",
     "license": "OPL-1",
-    "development_status": "Mature",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
