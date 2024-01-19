@@ -8,7 +8,7 @@
     "version": "16.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "depends": ["website", "website_sale_stock", "purchase"],
+    "depends": ["website", "website_sale_stock", "purchase", "deltatech_vendor_stock"],
     "data": [
         "views/product_view.xml",
         "views/website_sale_stock_templates.xml",
@@ -23,6 +23,6 @@
     "price": 10.00,
     "currency": "EUR",
     "license": "OPL-1",
-    "development_status": "Mature",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
