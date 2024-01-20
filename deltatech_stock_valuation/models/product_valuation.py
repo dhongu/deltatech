@@ -459,7 +459,7 @@ class ProductValuationHistory(models.Model):
 
                 pv.month = sub.month
         """ % self._get_sql_select(
-            all=False
+            all_records=False
         )
         self.env.cr.execute(sql, params)
         # invalidate chashed fields

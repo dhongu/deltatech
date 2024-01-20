@@ -34,6 +34,13 @@ class TestStockValuation(AccountTestInvoicingCommon):
         )
 
         cls.env.company.set_stock_valuation_at_company_level()
+        config = cls.env["res.config.settings"].create(
+            {
+                "valuation_area_level": "company",
+                "valuation_area_id": cls.env.company.valuation_area_id.id,
+            }
+        )
+        config.refresh_stock_valuation()
 
     def test_account_move(self):
         today = fields.Date.today()
