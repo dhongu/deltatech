@@ -111,12 +111,12 @@ class ProductValuation(models.Model):
                 pv.valuation_area_id = sub.valuation_area_id AND
                 pv.company_id = sub.company_id
         """ % self._get_sql_select(
-            all=False
+            all_records=False
         )
 
         self.env.cr.execute(sql, params)
 
-    def _get_sql_select(self, all=True):
+    def _get_sql_select(self, all_records=True):
         sql = """
         SELECT product_id, valuation_area_id, account_id, company_id,
                 sum(debit) as debit, sum(credit) as credit,
@@ -155,11 +155,11 @@ class ProductValuation(models.Model):
              GROUP BY  product_id, valuation_area_id, account_id, company_id
 
         """ % self._get_sql_sub_select(
-            all
+            all_records
         )
         return sql
 
-    def _get_sql_sub_select(self, all=True):
+    def _get_sql_sub_select(self, all_records=True):
         sql = """
                 SELECT product_id, valuation_area_id, account_id, m.company_id,
                     debit, credit, move_type,
@@ -175,7 +175,7 @@ class ProductValuation(models.Model):
                     AND m.state = 'posted'
 
         """
-        if not all:
+        if not all_records:
             sql += """
                     AND product_id in %(product_ids)s
                     AND account_id in %(account_ids)s
@@ -190,18 +190,42 @@ class ProductValuation(models.Model):
         }
         self.env.cr.execute("DELETE FROM product_valuation WHERE account_id in %(account_ids)s", params)
 
-        sql = (
-            """
-            INSERT INTO product_valuation
-                (product_id, valuation_area_id, account_id, company_id,
-                quantity, quantity_in, quantity_out, debit, credit, amount)
-            select product_id, valuation_area_id, account_id, company_id,
-                         quantity, quantity_in, quantity_out, debit, credit, debit-credit as amount
-            FROM ( %s ) as a
-            """
-            % self._get_sql_select()
-        )
+        # sql = (
+        #     """
+        #     INSERT INTO product_valuation
+        #         (product_id, valuation_area_id, account_id, company_id,
+        #         quantity, quantity_in, quantity_out, debit, credit, amount)
+        #     select product_id, valuation_area_id, account_id, company_id,
+        #                  quantity, quantity_in, quantity_out, debit, credit, debit-credit as amount
+        #     FROM ( %s ) as a
+        #     """
+        #     % self._get_sql_select()
+        # )
+        #
 
+        self.env.cr.execute(
+            """
+            SELECT min(month) as min_month, max(month) as max_month
+            FROM product_valuation_history
+            """,
+            params,
+        )
+        res = self.env.cr.dictfetchone()
+
+        params["max_month"] = res["max_month"]
+        params["min_date"] = datetime.strptime(res["min_month"], "%Y%m")
+        params["max_date"] = datetime.strptime(res["max_month"], "%Y%m")
+
+        sql = """
+        INSERT INTO product_valuation
+                (product_id, valuation_area_id, account_id, company_id,
+                quantity,  amount)
+           SELECT product_id, valuation_area_id, account_id, company_id,
+                         quantity_final as quantity, amount_final as amount
+            FROM product_valuation_history as pv
+
+            WHERE month = %(max_month)s
+        """
         self.env.cr.execute(sql, params)
 
 
@@ -326,10 +350,10 @@ class ProductValuationHistory(models.Model):
                 )
                 prev_valuation._compute_initial()
 
-    def _get_sql_select(self, all=True):
+    def _get_sql_select(self, all_records=True):
         """
             Determinare miscari lunare insumate
-        :param all:
+        :param all_records:
         :return:
         """
         sql = """
@@ -369,11 +393,11 @@ class ProductValuationHistory(models.Model):
                 ) as sub
              GROUP BY  product_id, valuation_area_id, account_id, company_id, currency_id,  month
         """ % self._get_sql_sub_select(
-            all
+            all_records
         )
         return sql
 
-    def _get_sql_sub_select(self, all=True):
+    def _get_sql_sub_select(self, all_records=True):
         """
         Determinare miscari lunare
         """
@@ -393,7 +417,7 @@ class ProductValuationHistory(models.Model):
                     account_id in %(account_ids)s
                     AND m.state = 'posted'
         """
-        if not all:
+        if not all_records:
             sql += """
                     AND product_id in %(product_ids)s
                     AND account_id in %(account_ids)s
@@ -482,18 +506,6 @@ class ProductValuationHistory(models.Model):
 
         self.env.cr.execute(sql, params)
 
-        _logger.info("resetare Sold initial si final")
-        self.env.cr.execute(
-            """
-            UPDATE product_valuation_history AS pv
-                SET
-                    quantity_initial = 0,
-                    quantity_final = pv.quantity,
-                    amount_initial = 0,
-                    amount_final = pv.amount
-        """
-        )
-
         # optinere data minima si maxima
         self.env.cr.execute(
             """
@@ -505,129 +517,131 @@ class ProductValuationHistory(models.Model):
         )
         res = self.env.cr.dictfetchone()
 
+        params["max_month"] = res["max_month"]
         params["min_date"] = datetime.strptime(res["min_month"], "%Y%m")
         params["max_date"] = datetime.strptime(res["max_month"], "%Y%m")
 
-        _logger.info("Adaugare linii lipsa")
-        self.env.cr.execute(
-            """
-            DROP TABLE IF EXISTS calendar_temporal;
-            CREATE TEMP TABLE calendar_temporal AS
-            SELECT
-                 to_char(generate_series, 'YYYYMM') AS month
-            FROM
-                generate_series(%(min_date)s::date, %(max_date)s::date, '1 month'::interval) ;
+        compute_all = False
 
-            INSERT INTO product_valuation_history
-            (
-                product_id, valuation_area_id, account_id, company_id, currency_id,  month,
-                quantity, amount, quantity_initial, amount_initial, quantity_final, amount_final,
-                quantity_in, quantity_out, debit, credit
+        if compute_all:
+            _logger.info("Adaugare linii lipsa")
+            self.env.cr.execute(
+                """
+                DROP TABLE IF EXISTS calendar_temporal;
+                CREATE TEMP TABLE calendar_temporal AS
+                SELECT
+                     to_char(generate_series, 'YYYYMM') AS month
+                FROM
+                    generate_series(%(min_date)s::date, %(max_date)s::date, '1 month'::interval) ;
+
+                INSERT INTO product_valuation_history
+                (
+                    product_id, valuation_area_id, account_id, company_id, currency_id,  month,
+                    quantity, amount, quantity_initial, amount_initial, quantity_final, amount_final,
+                    quantity_in, quantity_out, debit, credit
+                )
+                SELECT
+                    p.product_id,
+                    %(valuation_area_id)s as valuation_area_id,
+                    a.account_id,
+                    %(company_id)s as company_id,
+                    %(currency_id)s as currency_id,
+
+                    c.month AS month,
+                    0 as quantity,
+                    0 as amount,
+                    0 as quantity_initial,
+                    0 as amount_initial,
+                    0 as quantity_final,
+                    0 as amount_final,
+                    0 as quantity_in,
+                    0 as quantity_out,
+                    0 as debit,
+                    0 as credit
+
+
+                FROM
+                    calendar_temporal c
+                CROSS JOIN (SELECT DISTINCT product_id FROM product_valuation_history) p
+                CROSS JOIN (SELECT DISTINCT account_id FROM product_valuation_history) a
+                ON CONFLICT (product_id, valuation_area_id, account_id, company_id, month) DO NOTHING
+
+
+                """,
+                params,
             )
-            SELECT
-                p.product_id,
-                %(valuation_area_id)s as valuation_area_id,
-                a.account_id,
-                %(company_id)s as company_id,
-                %(currency_id)s as currency_id,
+            _logger.info("Liniile lipsa au fost adaugate")
 
-                c.month AS month,
-                0 as quantity,
-                0 as amount,
-                0 as quantity_initial,
-                0 as amount_initial,
-                0 as quantity_final,
-                0 as amount_final,
-                0 as quantity_in,
-                0 as quantity_out,
-                0 as debit,
-                0 as credit
-
-
-            FROM
-                calendar_temporal c
-            CROSS JOIN (SELECT DISTINCT product_id FROM product_valuation_history) p
-            CROSS JOIN (SELECT DISTINCT account_id FROM product_valuation_history) a
-            ON CONFLICT (product_id, valuation_area_id, account_id, company_id, month) DO NOTHING
-
-
-            """,
-            params,
-        )
-
-        _logger.info("Calculare sold initial si final")
+        _logger.info("Calculare sold initial si final pentru ultima luna")
         self.env.cr.execute(
             """
-                UPDATE product_valuation_history AS pv
+                UPDATE product_valuation_history pv
                 SET
-                    quantity_initial = cv.quantity_initial,
-                    amount_initial = cv.amount_initial,
-                    quantity_final = cv.quantity_final,
-                    amount_final =  cv.amount_final
+                    amount_initial = svl.total_amount - pv.amount,
+                    quantity_initial = svl.total_quantity - pv.quantity,
+                    amount_final = svl.total_amount,
+                    quantity_final = svl.total_quantity
                 FROM (
-                    SELECT
-                        product_id,
-                        valuation_area_id,
-                        account_id,
-                        company_id,
-                        month,
-                        COALESCE(LAG(quantity_final) OVER (
-                            PARTITION BY product_id, valuation_area_id, account_id, company_id
-                             ORDER BY month), 0) AS quantity_initial,
-                        COALESCE(LAG(amount_final) OVER (
-                            PARTITION BY product_id, valuation_area_id, account_id, company_id
-                            ORDER BY month), 0)  AS amount_initial,
-                        SUM(quantity) OVER (
-                            PARTITION BY product_id, valuation_area_id, account_id, company_id
-                             ORDER BY month) AS quantity_final,
-                        SUM(amount) OVER (
-                            PARTITION BY product_id, valuation_area_id, account_id, company_id
-                            ORDER BY month) AS amount_final
-                    FROM
-                        product_valuation_history
-                ) AS cv
-                WHERE
-                    pv.product_id = cv.product_id AND
-                    pv.account_id = cv.account_id AND
-                    pv.valuation_area_id = cv.valuation_area_id AND
-                    pv.valuation_area_id = %(valuation_area_id)s AND
-                    pv.company_id = cv.company_id AND
-                    pv.company_id = %(company_id)s AND
-                    pv.month = cv.month;
-
+                    SELECT svl.product_id,
+                           SUM(svl.value) AS total_amount,
+                           SUM(svl.quantity) AS total_quantity
+                    FROM stock_valuation_layer svl
+                    GROUP BY svl.product_id
+                ) AS svl
+                WHERE pv.product_id = svl.product_id AND
+                      pv.month = %(max_month)s;
             """,
             params,
         )
 
-        # _logger.info("Calculare sold initial ")
-        # self.env.cr.execute(
-        #     """
-        #     UPDATE product_valuation_history
-        #         SET
-        #             amount_final  = 0
-        #     WHERE  valuation_area_id = %(valuation_area_id)s  and quantity_final = 0;
+        if compute_all:
+            _logger.info("Calculare sold initial si final")
+            self.env.cr.execute(
+                """
+                WITH final_values AS (
+                SELECT
+                        pvh.product_id,
+                        pvh.valuation_area_id,
+                        pvh.account_id,
+                        pvh.company_id,
+                        pvh.month,
+                        pvh_last.amount_final - SUM(pvh.amount)
+                            OVER (  PARTITION BY  pvh.product_id, pvh.valuation_area_id, pvh.account_id, pvh.company_id
+                            ORDER BY pvh.month desc) AS cumulative_amount,
+                        pvh_last.quantity_final - SUM(pvh.quantity)
+                            OVER (PARTITION BY pvh.product_id, pvh.valuation_area_id, pvh.account_id, pvh.company_id
+                            ORDER BY pvh.month desc) AS cumulative_quantity
+
+                    FROM
+                        product_valuation_history as pvh
+                        JOIN product_valuation_history as pvh_last on
+                            pvh.product_id = pvh_last.product_id and
+                            pvh.valuation_area_id = pvh_last.valuation_area_id AND
+                            pvh.account_id = pvh_last.account_id AND
+                            pvh.company_id = pvh_last.company_id AND
+                            pvh_last.month = %(max_month)s
+                )
+                UPDATE product_valuation_history pv
+                SET
+                    amount_initial = fv.cumulative_amount - fv.amount,
+                    quantity_initial = fv.cumulative_quantity - fv.quantity,
+                    amount_final = fv.cumulative_amount,
+                    quantity_final = fv.cumulative_quantity
+                FROM final_values fv
+                WHERE
+                    pv.product_id = fv.product_id AND
+                    pv.valuation_area_id = fv.valuation_area_id AND
+                    pv.account_id = fv.account_id AND
+                    pv.company_id = fv.company_id AND
+                    pv.month = fv.month AND
+                    pv.month < %(max_month)s
+
+                """
+            )
+
+        _logger.info("FINALIZARE CALCULARE ISTORIC VALORI")
         #
-        #     UPDATE product_valuation_history
-        #         SET
-        #             amount_initial  = 0
-        #     WHERE  valuation_area_id = %(valuation_area_id)s  and quantity_initial = 0;
         #
-        #     """,
-        #     params,
-        # )
-        #
-        # _logger.info("Eliminare solruri fara cantitate")
-        # self.env.cr.execute(
-        #     """
-        #     UPDATE product_valuation_history
-        #         SET
-        #             quantity_initial =  quantity_final - quantity,
-        #             amount_initial = amount_final - amount
-        #     WHERE  valuation_area_id = %(valuation_area_id)s ;
-        #
-        #     """,
-        #     params,
-        # )
         _logger.info("Sterge linii goale ")
         self.env.cr.execute(
             """
@@ -643,12 +657,7 @@ class ProductValuationHistory(models.Model):
             params,
         )
 
-        _logger.info("FINALIZARE CALCULARE ISTORIC VALORI")
-
-        # se considera stocul actual corect si se merge inapoi in timp
-
-        domain = [("valuation_area_id", "=", valuation_area.id), ("month", "=", res["max_month"])]
-        valuations = self.search(domain)
-        valuations._compute_initial()
-
-        _logger.info("FINALIZARE CALCULARE ISTORIC VALORI")
+        _logger.info("Calculare sold initial si final varianta Python")
+        # # domain = [("valuation_area_id", "=", valuation_area.id), ("month", "=", res["max_month"])]
+        # # valuations = self.search(domain)
+        # # valuations._compute_initial()
