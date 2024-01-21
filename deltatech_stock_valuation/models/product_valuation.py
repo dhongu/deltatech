@@ -212,9 +212,11 @@ class ProductValuation(models.Model):
         )
         res = self.env.cr.dictfetchone()
 
-        params["max_month"] = res["max_month"]
-        params["min_date"] = datetime.strptime(res["min_month"], "%Y%m")
-        params["max_date"] = datetime.strptime(res["max_month"], "%Y%m")
+        params["min_month"] = res.get("min_month", "202401")
+        params["max_month"] = res.get("max_month", "202401")
+
+        params["min_date"] = datetime.strptime(params["min_month"], "%Y%m")
+        params["max_date"] = datetime.strptime(params["max_month"], "%Y%m")
 
         sql = """
         INSERT INTO product_valuation
