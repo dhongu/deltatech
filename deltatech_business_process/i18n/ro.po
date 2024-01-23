@@ -615,8 +615,8 @@ msgstr "Date"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
-msgid "Days for process"
-msgstr ""
+msgid "Duration of process"
+msgstr "Durata proces"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__category__defect

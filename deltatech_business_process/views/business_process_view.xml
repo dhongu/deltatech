@@ -127,7 +127,7 @@
                                                     <field name="status_integration_test" />
                                                     <field name="status_user_acceptance_test" />
                                                 </group>-->
-                        <group string="Days for process">
+                        <group string="Duration of process">
                             <field name="configuration_duration" widget="float_time" />
                             <field name="instructing_duration" widget="float_time" />
                             <field name="data_migration_duration" widget="float_time" />
