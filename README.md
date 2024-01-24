@@ -153,7 +153,7 @@ addon | version | maintainers | summary | price
 [deltatech_website_sale_company](deltatech_website_sale_company/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce sale to company | Free 
 [deltatech_website_sale_search_attributes](deltatech_website_sale_search_attributes/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Search in attribute values | Free 
 [deltatech_website_sale_sort](deltatech_website_sale_sort/) | 14.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Additional sorting criteria | Free 
-[deltatech_website_sale_status](deltatech_website_sale_status/) | 14.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Additional filters sales orders by status | Free 
+[deltatech_website_sale_status](deltatech_website_sale_status/) | 14.0.2.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Additional filters sales orders by status | Free 
 [deltatech_website_share](deltatech_website_share/) | 14.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce share product, category | Free 
 [deltatech_website_short_description](deltatech_website_short_description/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce short description | Free 
 [deltatech_website_stock_availability](deltatech_website_stock_availability/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Stock Availability | 5.0 EUR
