@@ -13,6 +13,7 @@ class SaleOrderStage(models.Model):
 
     name = fields.Char()
     color = fields.Integer()
+    code = fields.Char()
 
     sequence = fields.Integer()
     send_email = fields.Boolean()  # comanda a fost transmisa catre client
