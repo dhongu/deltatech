@@ -11,6 +11,7 @@
                     <group>
                         <field name="name" />
                         <field name="sequence" />
+                        <field name="code" />
                     </group>
                     <group>
                         <field name="send_email" />
@@ -32,6 +33,7 @@
                 <tree string="Sale Order Stage">
                     <field name="sequence" widget="handle" />
                     <field name="name" />
+                    <field name="code" optional="show" />
                     <field name="send_email" />
                     <field name="confirmed" />
                     <field name="delivered" />
