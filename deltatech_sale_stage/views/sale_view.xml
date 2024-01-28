@@ -85,7 +85,7 @@
                     <field name="date_order" widget="date" optional="show" />
                 </field>
                 <field name="state" position="after">
-                     <field name="stage_id" options="{'color_field': 'color'}" />
+<!--                     <field name="stage_id" options="{'color_field': 'color'}" />-->
                     <field name="stage_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
                 </field>
 
@@ -102,8 +102,7 @@
             <field name="inherit_id" ref="sale.view_order_form" />
             <field name="arch" type="xml">
                 <xpath expr="//sheet/group/group" position="inside">
-                    <field name="stage_id" options="{'color_field': 'color'}" />
-                    />
+<!--                    <field name="stage_id" options="{'color_field': 'color'}" />-->
                     <field name="stage_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
                 </xpath>
             </field>
