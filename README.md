@@ -78,7 +78,7 @@ addon | version | maintainers | summary | price
 [deltatech_payment_term_fix](deltatech_payment_term_fix/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Payment Term Fix | Free 
 [deltatech_payment_to_statement](deltatech_payment_to_statement/) | 15.0.1.1.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Add payment to cash statement | Free 
 [deltatech_picking_number](deltatech_picking_number/) | 15.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Picking Number | Free 
-[deltatech_picking_restrict](deltatech_picking_restrict/) | 15.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict picking validation to a certain security group | Free 
+[deltatech_picking_restrict](deltatech_picking_restrict/) | 15.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict picking validation to a certain security group | Free 
 [deltatech_picking_services](deltatech_picking_services/) | 15.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Service lines in pickings | Free 
 [deltatech_picking_split](deltatech_picking_split/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Picking Manual Backorder | Free 
 [deltatech_portal_invoice](deltatech_portal_invoice/) | 15.0.1.0.1 |  | Portal invoice | Free 
