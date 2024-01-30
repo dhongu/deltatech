@@ -41,7 +41,12 @@ class PurchaseOrder(models.Model):
         return res
 
     def reduce_from_rfq(self):
-        domain = [("partner_id", "=", self.partner_id.id), ("reception_type", "=", "rfq_only"), ("state", "=", "sent")]
+        domain = [
+            ("partner_id", "=", self.partner_id.id),
+            ("reception_type", "=", "rfq_only"),
+            ("state", "=", "sent"),
+            ("is_empty", "=", False),
+        ]
         rfq_orders = self.env["purchase.order"].search(domain, order="id")
         for line in self.order_line:
             quality = line.product_qty
