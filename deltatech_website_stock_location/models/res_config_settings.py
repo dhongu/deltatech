@@ -11,6 +11,5 @@ class ResConfigSettings(models.TransientModel):
     website_location_id = fields.Many2one(
         "stock.location",
         related="website_id.location_id",
-        domain="[('company_id', '=', website_company_id)]",
         readonly=False,
     )
