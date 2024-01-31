@@ -184,7 +184,7 @@ addon | version | maintainers | summary | price
 [deltatech_website_short_description](deltatech_website_short_description/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce short description | Free 
 [deltatech_website_snippet_attribute_filter](deltatech_website_snippet_attribute_filter/) | 16.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Attribute Values Filter Snippet | Free 
 [deltatech_website_stock_availability](deltatech_website_stock_availability/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Stock Availability and lead time | 10.0 EUR
-[deltatech_website_stock_location](deltatech_website_stock_location/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Stock Availability From Location | Free 
+[deltatech_website_stock_location](deltatech_website_stock_location/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Stock Availability From Location | 10.0 EUR
 [deltatech_website_texture_attributes](deltatech_website_texture_attributes/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Attribute with image for texture | Free 
 [deltatech_widget_fontawesome](deltatech_widget_fontawesome/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Font Awesome Widget | Free 
 [terrabit_website_pricelist](terrabit_website_pricelist/) | 16.0.2.0.1 |  | Pricelist extension | Free 
