@@ -15,6 +15,22 @@ class MrpProduction(models.Model):
         domain=[("default_code", "like", "RAL%")],
     )
 
+    @api.onchange("product_id")
+    def _onchange_product_id(self):
+        res = super()._onchange_product_id()
+        # determinare produs RAL in functie de atributul culoare pe care il are produsul selectat
+
+        attribute_values_ids = self.product_id.product_template_variant_value_ids.mapped("product_attribute_value_id")
+
+        if attribute_values_ids:
+            color = attribute_values_ids.filtered(lambda x: x.attribute_id.display_type == "color")
+            if color:
+                color = color[0]
+                ral = self.env["product.product"].search([("default_code", "like", "RAL %s" % color.name)], limit=1)
+                if ral:
+                    self.ral_id = ral
+        return res
+
     def action_generate_serial(self):
         super().action_generate_serial()
         if self.lot_producing_id and self.ral_id:
