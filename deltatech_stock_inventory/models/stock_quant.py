@@ -63,7 +63,10 @@ class StockQuant(models.Model):
         super().action_set_inventory_quantity_to_zero()
 
     def action_apply_inventory(self):
-        if not self.env.user.has_group("deltatech_stock_inventory.group_view_inventory_button"):
+        if (
+            not self.env.user.has_group("deltatech_stock_inventory.group_view_inventory_button")
+            and self.inventory_diff_quantity
+        ):
             raise UserError(_("Your user cannot update product quantities"))
         for quant in self:
             quant.last_inventory_date = fields.Date.today()
@@ -87,8 +90,12 @@ class StockQuant(models.Model):
         self.write({"inventory_id": False, "inventory_line_id": False})
 
     def write(self, vals):
-        if "inventory_quantity" in vals and not self.env.user.has_group(
-            "deltatech_stock_inventory.group_view_inventory_button"
+        if (
+            "inventory_quantity" in vals
+            and "inventory_quantity_set" in vals
+            and ["inventory_quantity_set"]
+            and not self.env.user.has_group("deltatech_stock_inventory.group_view_inventory_button")
+            and self.quantity != vals["inventory_quantity"]
         ):
             raise UserError(_("Your user cannot update product quantities"))
         res = super().write(vals)
