@@ -229,4 +229,12 @@ msgstr "Actualizează prețul standard"
 msgid "product.markup.wizard"
 msgstr ""
 
-
+#. module: deltatech_purchase_price
+#: code:addons/deltatech_purchase_price/models/product.py:0
+#, python-format
+msgid ""
+"You cannot update the supplier price here. Please edit the supplier info "
+"separately"
+msgstr ""
+"Pretul se achizitie nu se poate modifica in acest ecran. Completeaza pretul in linia comenzii de achizitie, "
+"editeaza produsul sau lista de preturi furnizor"
