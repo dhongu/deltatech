@@ -46,14 +46,17 @@ class BusinessProcessImport(models.TransientModel):
                 )
                 if not process_group:
                     process_group = self.env["business.process.group"].create({"name": process_data["process_group"]})
+            responsible = self.env["res.partner"]
             if process_data["responsible_id"]:
                 responsible = self.env["res.partner"].search([("name", "=", process_data["responsible_id"])])
                 if not responsible:
                     responsible = self.env["res.partner"].create({"name": process_data["responsible_id"]})
+            customer = self.env["res.partner"]
             if process_data["customer_id"]:
                 customer = self.env["res.partner"].search([("name", "=", process_data["customer_id"])])
                 if not customer:
                     customer = self.env["res.partner"].create({"name": process_data["customer_id"]})
+            approves = self.env["res.partner"]
             if process_data["approved_id"]:
                 approves = self.env["res.partner"].search([("name", "=", process_data["approved_id"])])
                 if not approves:
@@ -107,6 +110,7 @@ class BusinessProcessImport(models.TransientModel):
                     transaction = self.env["business.transaction"].search([("name", "=", step_data["transaction"])])
                     if not transaction:
                         transaction = self.env["business.transaction"].create({"name": step_data["transaction"]})
+                step_responsible = self.env["res.partner"]
                 if step_data["responsible"]:
                     step_responsible = self.env["res.partner"].search([("name", "=", step_data["responsible"])])
                     if not step_responsible:
