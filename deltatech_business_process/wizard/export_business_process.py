@@ -30,6 +30,12 @@ class BusinessProcessExport(models.TransientModel):
                 "area": process.area_id.name,
                 "process_group": process.process_group_id.name,
                 "steps": [],
+                "responsible_id": process.responsible_id.name,
+                "customer_id": process.customer_id.name,
+                "approved_id": process.approved_id.name,
+                "date_start_bbp": process.date_start_bbp,
+                "date_end_bbp": process.date_end_bbp,
+                "state": process.state,
             }
 
             for step in process.step_ids:
@@ -41,6 +47,7 @@ class BusinessProcessExport(models.TransientModel):
                     "sequence": step.sequence,
                     "transaction": step.transaction_id.name,
                     "details": step.details,
+                    "responsible": step.responsible_id.name,
                 }
                 process_data["steps"].append(step_data)
             data.append(process_data)
