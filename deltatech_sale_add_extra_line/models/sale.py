@@ -31,6 +31,7 @@ class SaleOrder(models.Model):
                     extra_line_id._onchange_product_id_warning()
                     # extra_line_id.product_uom_change()
                     line.line_uuid = new_uuid
+                    line.write({"line_uuid": new_uuid})
 
                 extra_line_id.product_uom_qty = line.product_uom_qty
                 if line.product_id.extra_percent:
@@ -43,3 +44,13 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     line_uuid = fields.Char()
+
+    def unlink(self):
+        for line in self:
+            if line.product_id.extra_product_id:
+                extra_line_id = self.order_id.order_line.filtered(
+                    lambda l: line.line_uuid is not False and l.line_uuid == line.line_uuid and l.id != line.id
+                )
+                if extra_line_id:
+                    extra_line_id.unlink()
+        return super().unlink()
