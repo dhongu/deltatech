@@ -93,7 +93,7 @@ class StockQuant(models.Model):
         if (
             "inventory_quantity" in vals
             and "inventory_quantity_set" in vals
-            and ["inventory_quantity_set"]
+            and not self.env.context.get("inventory_mode", False)
             and not self.env.user.has_group("deltatech_stock_inventory.group_view_inventory_button")
             and self.quantity != vals["inventory_quantity"]
         ):
