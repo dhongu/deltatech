@@ -8,7 +8,7 @@
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "depends": ["sale"],
+    "depends": ["sale", "website_sale"],
     "license": "LGPL-3",
     "data": ["views/product_view.xml", "views/sale.xml"],
     "images": ["static/description/main_screenshot.png"],
