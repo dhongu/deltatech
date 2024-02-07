@@ -167,7 +167,7 @@ addon | version | maintainers | summary | price
 [deltatech_watermark_report](deltatech_watermark_report/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Watermark in report | Free 
 [deltatech_website_access_design](deltatech_website_access_design/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Access for web designer | Free 
 [deltatech_website_authentication_request](deltatech_website_authentication_request/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Authentication request | Free 
-[deltatech_website_billing_addresses](deltatech_website_billing_addresses/) | 15.0.1.2.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Website Billing Addresses | 10.0 EUR
+[deltatech_website_billing_addresses](deltatech_website_billing_addresses/) | 15.0.1.2.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Website Billing Addresses | 10.0 EUR
 [deltatech_website_blog](deltatech_website_blog/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Blog Extension | Free 
 [deltatech_website_breadcrumb](deltatech_website_breadcrumb/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce extension Category Breadcrumb | Free 
 [deltatech_website_category](deltatech_website_category/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Public category | Free 

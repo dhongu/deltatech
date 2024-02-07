@@ -107,6 +107,8 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         request.website.sale_get_order(force_create=True)
         if kw.get("type") == "invoice" and "submitted" in kw and request.httprequest.method == "POST":
             return self.billing_address(**kw)
+        elif kw.get("company_name") and not kw.get("name", False):
+            kw["name"] = kw.get("company_name")
         return super().address(**kw)
 
     @http.route(
