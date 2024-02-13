@@ -5,8 +5,8 @@ from odoo import _, models
 from odoo.exceptions import UserError
 
 
-class StockLocation(models.Model):
-    _inherit = "stock.location"
+class UoM(models.Model):
+    _inherit = "uom.uom"
 
     def write(self, vals):
         disallowed_fields = ["name"]
