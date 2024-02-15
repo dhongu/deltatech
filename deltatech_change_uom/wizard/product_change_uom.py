@@ -100,5 +100,5 @@ class ProductChangeUoM(models.TransientModel):
                 self._cr.execute(query, query_dic)
 
             query_dic = {"id": product.id, "uom_id": self.uom_id.id, "uom_po_id": self.uom_po_id.id}
-            query = "UPDATE product_template SET uom_id = %(uom_id)s, uom_po_id=%(uom_po_id)s  WHERE id = %(id)s"
+            query = "UPDATE product_template SET uom_id = %(uom_id)s, uom_po_id = %(uom_po_id)s  WHERE id = %(id)s"
             self._cr.execute(query, query_dic)
