@@ -3,7 +3,7 @@
 
 import time
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class ReportDCPrint(models.AbstractModel):
@@ -60,7 +60,6 @@ class ReportDCInvoicePrint(models.AbstractModel):
     @api.model
     def _get_report_values(self, docids, data=None):
         report = self.env["ir.actions.report"]._get_report_from_name(self._template)
-        # care sunt livrarile aferente acestie facturi ?????
 
         invoices = self.env[report.model].browse(docids)
 
@@ -91,6 +90,49 @@ class ReportDCInvoicePrint(models.AbstractModel):
                 if not dc:
                     dc = self.env["deltatech.dc"].create({"product_id": line.product_id.id, "date": invoice.date})
                 declarations |= dc
+
+        return {
+            "doc_ids": declarations.ids,
+            "doc_model": "deltatech.dc",
+            "data": data,
+            "time": time,
+            "docs": declarations,
+            "lot": False,
+        }
+
+
+class ReportDCPickingPrint(models.AbstractModel):
+    _name = "report.deltatech_dc.report_dc_picking"
+    _description = "ReportDCPrint"
+    _template = "deltatech_dc.report_dc_picking"
+
+    @api.model
+    def _get_report_values(self, docids, data=None):
+        report = self.env["ir.actions.report"]._get_report_from_name(self._template)
+
+        pickings = self.env[report.model].browse(docids)
+
+        declarations = self.env["deltatech.dc"]
+
+        product_with_lots = self.env["product.product"]
+        for picking in pickings:
+            for move in picking.move_lines:
+                for move_line in move.move_line_ids:
+                    lot = move_line.lot_id
+                    if not lot:
+                        continue
+                    domain = [("lot_id", "=", lot.id)]
+                    dc = self.env["deltatech.dc"].search(domain)
+                    if not dc:
+                        dc = self.env["deltatech.dc"].create(
+                            {
+                                "product_id": lot.product_id.id,
+                                "date": lot.production_date or fields.Date.today(),
+                                "lot_id": lot.id,
+                            }
+                        )
+                    product_with_lots |= lot.product_id
+                    declarations |= dc
 
         return {
             "doc_ids": declarations.ids,
