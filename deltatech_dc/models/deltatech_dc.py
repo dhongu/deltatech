@@ -11,7 +11,7 @@ class DeltatechDC(models.Model):
     _order = "date desc"
 
     name = fields.Char("Number", size=32, required=True)
-    date = fields.Date("Date of Declaration", required=True, index=True)
+    date = fields.Date("Date of Declaration", default=fields.Date.context_today, required=True, index=True)
     product_id = fields.Many2one(
         "product.product", "Product", required=True, index=True, domain=[("sale_ok", "=", "True")]
     )
