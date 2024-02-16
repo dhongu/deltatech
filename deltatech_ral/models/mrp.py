@@ -31,6 +31,13 @@ class MrpProduction(models.Model):
                     self.ral_id = ral
         return res
 
+    def create(self, vals_list):
+        res = super().create(vals_list)
+        for mrp in res:
+            mrp._onchange_product_id()
+            mrp.onchange_ral_id()
+        return res
+
     def action_generate_serial(self):
         super().action_generate_serial()
         if self.lot_producing_id and self.ral_id:

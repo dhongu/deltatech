@@ -2,29 +2,45 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+import logging
 
-from odoo import api, fields, models
+import odoo
+from odoo import fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
-    database_uuid = fields.Char(config_parameter="database.uuid")
-    database_uuid_productive = fields.Char(config_parameter="database.uuid_productive")
+    database_is_neutralized = fields.Boolean(config_parameter="database.is_neutralized")
 
-    is_productive_system = fields.Boolean(
-        string="Is Productive System",
-        help="It is a productive system",
-        compute="_compute_is_productive_system",
-        inverse="_inverse_is_productive_system",
-    )
+    def get_installed_modules(self):
+        self.env.cr.execute(
+            """
+            SELECT name
+              FROM ir_module_module
+             WHERE state IN ('installed', 'to upgrade', 'to remove');
+        """
+        )
+        return [result[0] for result in self.env.cr.fetchall()]
 
-    @api.depends("database_uuid", "database_uuid_productive")
-    def _compute_is_productive_system(self):
-        self.is_productive_system = self.database_uuid == self.database_uuid_productive
+    def get_neutralization_queries(self, modules):
+        # neutralization for each module
+        for module in modules:
+            filename = odoo.modules.get_module_resource(module, "data/neutralize.sql")
+            if filename:
+                with odoo.tools.misc.file_open(filename) as file:
+                    yield file.read().strip()
 
-    def _inverse_is_productive_system(self):
-        if self.is_productive_system:
-            self.database_uuid_productive = self.database_uuid
-        else:
-            self.database_uuid_productive = False
+    def neutralize_database(self):
+        installed_modules = self.get_installed_modules()
+        queries = self.get_neutralization_queries(installed_modules)
+        for query in queries:
+            self.env.cr.execute(query)
+        _logger.info("Neutralization finished")
+
+    def set_values(self):
+        super().set_values()
+        if self.database_is_neutralized:
+            self.neutralize_database()

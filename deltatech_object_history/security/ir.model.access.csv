@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_history_manager,access_history_manager,model_object_history,group_history_manager,1,1,1,0
+access_history_user,access_history_user,model_object_history,base.group_user,1,0,1,0
+access_history_wizard_user,access_history_user,model_history_add_wizard,base.group_user,1,1,1,1
