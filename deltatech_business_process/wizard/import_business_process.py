@@ -47,20 +47,20 @@ class BusinessProcessImport(models.TransientModel):
                 if not process_group:
                     process_group = self.env["business.process.group"].create({"name": process_data["process_group"]})
             responsible = self.env["res.partner"]
-            if process_data["responsible_id"]:
-                responsible = self.env["res.partner"].search([("name", "=", process_data["responsible_id"])])
+            if process_data["responsible"]:
+                responsible = self.env["res.partner"].search([("name", "=", process_data["responsible"])])
                 if not responsible:
-                    responsible = self.env["res.partner"].create({"name": process_data["responsible_id"]})
+                    responsible = self.env["res.partner"].create({"name": process_data["responsible"]})
             customer = self.env["res.partner"]
-            if process_data["customer_id"]:
-                customer = self.env["res.partner"].search([("name", "=", process_data["customer_id"])])
+            if process_data["customer"]:
+                customer = self.env["res.partner"].search([("name", "=", process_data["customer"])])
                 if not customer:
-                    customer = self.env["res.partner"].create({"name": process_data["customer_id"]})
+                    customer = self.env["res.partner"].create({"name": process_data["customer"]})
             approves = self.env["res.partner"]
-            if process_data["approved_id"]:
-                approves = self.env["res.partner"].search([("name", "=", process_data["approved_id"])])
+            if process_data["approved"]:
+                approves = self.env["res.partner"].search([("name", "=", process_data["approved"])])
                 if not approves:
-                    approves = self.env["res.partner"].create({"name": process_data["approved_id"]})
+                    approves = self.env["res.partner"].create({"name": process_data["approved"]})
 
             domain = [("code", "=", process_data["code"]), ("project_id", "=", project.id)]
 
@@ -110,11 +110,6 @@ class BusinessProcessImport(models.TransientModel):
                     transaction = self.env["business.transaction"].search([("name", "=", step_data["transaction"])])
                     if not transaction:
                         transaction = self.env["business.transaction"].create({"name": step_data["transaction"]})
-                step_responsible = self.env["res.partner"]
-                if step_data["responsible"]:
-                    step_responsible = self.env["res.partner"].search([("name", "=", step_data["responsible"])])
-                    if not step_responsible:
-                        step_responsible = self.env["res.partner"].create({"name": step_data["responsible"]})
 
                 domain = [("code", "=", step_data["code"]), ("process_id", "=", process.id)]
                 step = self.env["business.process.step"].search(domain, limit=1)
@@ -129,7 +124,6 @@ class BusinessProcessImport(models.TransientModel):
                             "details": step_data["details"],
                             "sequence": step_data["sequence"],
                             "process_id": process.id,
-                            "responsible_id": step_responsible.id,
                         }
                     )
                 else:
@@ -143,7 +137,6 @@ class BusinessProcessImport(models.TransientModel):
                             "details": step_data["details"],
                             "sequence": step_data["sequence"],
                             "process_id": process.id,
-                            "responsible_id": step_responsible.id,
                         }
                     )
         self.write({"state": "choose"})
