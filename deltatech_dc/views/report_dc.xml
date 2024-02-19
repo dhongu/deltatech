@@ -98,5 +98,9 @@
         <template id="report_dc_invoice">
             <t t-call="deltatech_dc.report_dc" />
         </template>
+        <template id="report_dc_picking">
+            <t t-call="deltatech_dc.report_dc" />
+        </template>
+
     </data>
 </odoo>

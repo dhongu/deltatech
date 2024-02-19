@@ -5,12 +5,11 @@
 
         <xpath expr="//body" position="inside">
             <t
-                t-set="is_productive_system"
-                t-value="request.env['ir.config_parameter'].sudo().get_param('database.uuid_productive',False)"
+                t-set="database_is_neutralized"
+                t-value="request.env['ir.config_parameter'].sudo().get_param('database.is_neutralized',False)"
             />
-
             <div
-                t-if="not is_productive_system"
+                t-if="database_is_neutralized"
                 style="text-align: center;  color: #FFFFFF; background-color: #D0442C;   position: relative;
                       display: block;      font-size: 16px;"
             >
@@ -22,7 +21,7 @@
 
 
             <div
-                t-if="not is_productive_system"
+                t-if="database_is_neutralized"
                 style="width: 400px;
                             bottom: 55px;
                             right: -100px;
