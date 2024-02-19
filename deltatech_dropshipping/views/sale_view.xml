@@ -10,13 +10,13 @@
                      <button
                     name="postpone_delivery"
                     type="object"
-                    attrs="{'invisible': ['|',('delivery_count', '=', 0),('postponed_delivery', '=', True)]}"
+                    invisible="delivery_count==0 or postponed_delivery==True"
                     string="Postpone delivery"
                 />
                      <button
                     name="release_delivery"
                     type="object"
-                    attrs="{'invisible': [('postponed_delivery', '=', False)]}"
+                    invisible="postponed_delivery=False"
                     string="Release delivery"
                 />
                 </xpath>
