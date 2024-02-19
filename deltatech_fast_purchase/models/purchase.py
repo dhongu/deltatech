@@ -5,7 +5,6 @@
 
 from odoo import _, models
 from odoo.exceptions import UserError
-from odoo.tools.safe_eval import safe_eval
 
 
 class PurchaseOrder(models.Model):
@@ -31,11 +30,6 @@ class PurchaseOrder(models.Model):
     def action_button_confirm_to_invoice(self):
         if self.state == "draft":
             self.button_confirm()  # confirma comanda
-
-        params = self.env["ir.config_parameter"].sudo()
-
-        validate_invoice = params.get_param("fast_purchase.validate_invoice", default="True")
-        validate_invoice = safe_eval(validate_invoice)
 
         self.receipt_to_stock()
 
