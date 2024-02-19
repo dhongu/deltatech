@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="history_add_wizard_form" model="ir.ui.view">
+        <field name="name">history.add.wizard.form</field>
+        <field name="model">history.add.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group id="common">
+                        <group id="left">
+                            <field name="name" required="1" />
+                        </group>
+                        <group id="right">
+                            <field name="res_model" readonly="0" />
+                            <field name="res_id" readonly="0" />
+                        </group>
+                        <group colspan="2" id="description">
+                            <field
+                                name="description"
+                                widget="html"
+                                class="oe-bordered-editor"
+                                options="{'style-inline': true, 'codeview': true }"
+                            />
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="add_history" string="_Add" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_history_add_wizard_partner" model="ir.actions.act_window">
+        <field name="name">Add history</field>
+        <field name="res_model">history.add.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="base.model_res_partner" />
+        <field name="binding_view_types">form</field>
+    </record>
+</odoo>
