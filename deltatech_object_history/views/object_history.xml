@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="object_history_tree" model="ir.ui.view">
+        <field name="name">object.history.tree</field>
+        <field name="model">object.history</field>
+        <field name="arch" type="xml">
+            <tree string="History">
+                <field name="create_date" />
+                <field name="create_uid" />
+                <field name="name" />
+                <field name="description" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="object_history_form" model="ir.ui.view">
+        <field name="name">object.history.form</field>
+        <field name="model">object.history</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                </header>
+                <sheet>
+                     <div class="oe_button_box" name="button_box">
+                        <button
+                            name="action_open_document"
+                            string="Open Document"
+                            type="object"
+                            class="oe_link"
+                            icon="fa-file-text-o"
+                            invisible="res_model==False or res_id==0"
+                        />
+                     </div>
+                    <group id="common">
+                        <group id="left">
+                            <field name="name" required="1" />
+                        </group>
+                        <group id="right">
+                            <field name="res_model" readonly="0" />
+                            <field name="res_id" readonly="0" />
+                        </group>
+                        <group colspan="2" id="description">
+                            <field
+                                name="description"
+                                widget="html"
+                                class="oe-bordered-editor"
+                                options="{'style-inline': true, 'codeview': true }"
+                            />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="action_object_history" model="ir.actions.act_window">
+        <field name="name">History</field>
+        <field name="res_model">object.history</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        id="menu_object_history_root"
+        name="History"
+        groups="group_history_manager"
+        parent="contacts.menu_contacts"
+    />
+    <menuitem
+        id="menu_object_history_line"
+        name="History lines"
+        groups="group_history_manager"
+        parent="menu_object_history_root"
+        action="action_object_history"
+        sequence="10"
+    />
+
+</odoo>
