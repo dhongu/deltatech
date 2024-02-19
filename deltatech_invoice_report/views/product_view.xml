@@ -21,7 +21,7 @@
                             />
                         </div>
                     </group>-->
-                    <group string="Invoice history">
+                        <label for="invoice_history" />
                         <field name="invoice_history" nolabel="1">
                             <tree>
                                 <field name="year" />
@@ -29,7 +29,6 @@
                                 <field name="qty_out" />
                             </tree>
                         </field>
-                    </group>
                 </page>
             </xpath>
         </field>
