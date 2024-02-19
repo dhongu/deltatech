@@ -46,6 +46,21 @@ class BusinessProcessImport(models.TransientModel):
                 )
                 if not process_group:
                     process_group = self.env["business.process.group"].create({"name": process_data["process_group"]})
+            responsible = self.env["res.partner"]
+            if process_data["responsible"]:
+                responsible = self.env["res.partner"].search([("name", "=", process_data["responsible"])])
+                if not responsible:
+                    responsible = self.env["res.partner"].create({"name": process_data["responsible"]})
+            customer = self.env["res.partner"]
+            if process_data["customer"]:
+                customer = self.env["res.partner"].search([("name", "=", process_data["customer"])])
+                if not customer:
+                    customer = self.env["res.partner"].create({"name": process_data["customer"]})
+            approves = self.env["res.partner"]
+            if process_data["approved"]:
+                approves = self.env["res.partner"].search([("name", "=", process_data["approved"])])
+                if not approves:
+                    approves = self.env["res.partner"].create({"name": process_data["approved"]})
 
             domain = [("code", "=", process_data["code"]), ("project_id", "=", project.id)]
 
@@ -59,6 +74,12 @@ class BusinessProcessImport(models.TransientModel):
                         "area_id": area.id,
                         "process_group_id": process_group.id,
                         "project_id": project.id,
+                        "responsible_id": responsible.id,
+                        "customer_id": customer.id,
+                        "approved_id": approves.id,
+                        "date_start_bbp": process_data["date_start_bbp"],
+                        "date_end_bbp": process_data["date_end_bbp"],
+                        "state": process_data["state"],
                     }
                 )
             else:
@@ -69,6 +90,12 @@ class BusinessProcessImport(models.TransientModel):
                         "description": process_data["description"],
                         "area_id": area.id,
                         "process_group_id": process_group.id,
+                        "responsible_id": responsible.id,
+                        "customer_id": customer.id,
+                        "approved_id": approves.id,
+                        "date_start_bbp": process_data["date_start_bbp"],
+                        "date_end_bbp": process_data["date_end_bbp"],
+                        "state": process_data["state"],
                     }
                 )
 
