@@ -27,3 +27,19 @@ class AccountMoveLine(models.Model):
                             color_trigger = "danger"
 
             line.color_trigger = color_trigger
+
+
+class AccountMove(models.Model):
+    _inherit = "account.move"
+
+    color_triggered = fields.Boolean(string="Trigger", compute="_compute_color_trigger")
+
+    @api.depends("invoice_line_ids")
+    def _compute_color_trigger(self):
+        for move in self:
+            color_triggered = False
+            for line in move.invoice_line_ids:
+                if line.color_trigger or not line.product_uom_id:
+                    color_triggered = True
+                    continue
+            move.color_triggered = color_triggered
