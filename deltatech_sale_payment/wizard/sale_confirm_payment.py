@@ -30,7 +30,7 @@ class SaleConfirmPayment(models.TransientModel):
         tx = order.sudo().transaction_ids._get_last()
         if tx and tx.state in ["pending", "authorized"]:
             defaults["transaction_id"] = tx.id
-            defaults["acquirer_id"] = tx.acquirer_id.id
+            defaults["acquirer_id"] = tx.provider_id.id
             defaults["amount"] = tx.amount
 
         return defaults
@@ -48,7 +48,7 @@ class SaleConfirmPayment(models.TransientModel):
             transaction = self.env["payment.transaction"].create(
                 {
                     "amount": self.amount,
-                    "acquirer_id": self.acquirer_id.id,
+                    "provider_id": self.acquirer_id.id,
                     "acquirer_reference": order.name,
                     "partner_id": order.partner_id.id,
                     "sale_order_ids": [(4, order.id, False)],
