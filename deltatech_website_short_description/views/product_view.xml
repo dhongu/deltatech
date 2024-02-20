@@ -8,10 +8,10 @@
             <field name="arch" type="xml">
                 <group name="shop" position="after">
                     <group string="Website short description">
-                        <field name='website_short_description' nolabel="1" />
+                        <field name='website_short_description' colspan="2" nolabel="1" />
                     </group>
                     <group string="Website description">
-                        <field name='website_description' nolabel="1" />
+                        <field name='website_description' colspan="2" nolabel="1" />
                     </group>
                 </group>
             </field>
