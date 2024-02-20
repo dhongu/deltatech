@@ -16,6 +16,5 @@ class ProductTemplate(models.Model):
     def _compute_pallet_price(self):
         main_pricelist = self.env.ref("product.list0", False)
         for template in self:
-            template = template.with_context(quantity=template.pallet_qty_min, pricelist=main_pricelist.id)
-            prices = template._compute_template_price_no_inverse()
-            template.pallet_price = prices.get(template.id, 0.0)
+            price = main_pricelist._get_product_price(template, template.pallet_qty_min)
+            template.pallet_price = price
