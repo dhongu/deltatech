@@ -13,12 +13,11 @@ class SaleReport(models.Model):
 
     price_unit = fields.Float(string="Price Unit", digits="Product Price", group_operator="avg")
 
-    def _query(self, with_clause="", fields=None, groupby="", from_clause=""):
-        if fields is None:
-            fields = {}
-        fields[
+    def _select_additional_fields(self):
+        additional_fields_info = super()._select_additional_fields()
+        additional_fields_info[
             "price_unit"
-        ] = """,
+        ] = """
             CASE WHEN l.product_id IS NOT NULL
                 THEN sum(l.untaxed_amount_invoiced / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END) /
                     CASE COALESCE(sum(l.qty_invoiced / u.factor * u2.factor), 0)
@@ -27,14 +26,9 @@ class SaleReport(models.Model):
                      ELSE sum(l.qty_invoiced / u.factor * u2.factor)
                      END
                 ELSE 0
-            END as price_unit
-
-
-
-
-            """
-        sql = super()._query(with_clause, fields, groupby, from_clause)
-        return sql
+            END
+        """
+        return additional_fields_info
 
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
