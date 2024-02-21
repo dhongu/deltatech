@@ -15,6 +15,7 @@ class TestCNP(TransactionCase):
     def test_create_partner(self):
         form_partner = Form(self.env["res.partner"])
         form_partner.name = "Test"
+        form_partner.is_company = False
         form_partner.birthdate = fields.Date.today()
         form_partner.cnp = "5000101015977"
         form_partner.save()
