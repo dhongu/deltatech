@@ -28,6 +28,11 @@ class ImportPurchaseLine(models.TransientModel):
     is_amount = fields.Boolean("Is amount")
     purchase_id = fields.Many2one("purchase.order")
     search_by_default_code = fields.Boolean("Search by internal code")
+    fields_list = fields.Char(
+        string="Fields",
+        default="product_code,product_name,quantity,price,uom_name",
+        help='Fields and order in the file. Example: "product_code,product_name,quantity,price,uom_name"',
+    )
 
     @api.model
     def default_get(self, fields_list):
