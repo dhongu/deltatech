@@ -107,7 +107,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
                     #     order_line_downpayment.write({"price_unit": price_unit_saleorder})
 
                 invoice.with_context(check_move_validity=False)._recompute_dynamic_lines()
-                invoice._compute_tax_totals_json()
+                # invoice._compute_tax_totals_json() #Todo: mai exista metoda aceasta in 16 ?
 
         if self.advance_payment_method == "percentage":
             invoice.write({"invoice_payment_term_id": False})
