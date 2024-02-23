@@ -4,7 +4,7 @@
 import html
 from string import Template
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class FollowupSendWizard(models.TransientModel):
@@ -24,6 +24,8 @@ class FollowupSendWizard(models.TransientModel):
             for followup in followups:
                 for partner in partners:
                     partner_debit = 0.0
+                    partner_all_debit = 0.0
+                    partner_due_debit = 0.0
                     lang_id = self.env["res.lang"].search([("code", "=", partner.lang)])[0]
                     domain = [
                         ("partner_id", "=", partner.id),
@@ -47,6 +49,10 @@ class FollowupSendWizard(models.TransientModel):
                         if followup.is_match(date_process):
                             # add invoice
                             invoices_to_process.append(invoice)
+                        if invoice.payment_state in ["not_paid", "partial"]:
+                            partner_all_debit += invoice.amount_residual
+                            if invoice.invoice_date_due < fields.Date.today():
+                                partner_due_debit += invoice.amount_residual
                     if invoices_to_process:
                         invoices_content = ""
                         for invoice in invoices_to_process:
@@ -95,6 +101,8 @@ class FollowupSendWizard(models.TransientModel):
                             body = new_body.replace("[invoices]", invoices_content)
                             body = body.replace("${object.name}", partner.name)
                             body = body.replace("$total_debit", "{:,.2f}".format(partner_debit))
+                            body = body.replace("$total_all_debit", "{:,.2f}".format(partner_all_debit))
+                            body = body.replace("$total_due_debit", "{:,.2f}".format(partner_due_debit))
                             body = html.unescape(body)
                             email_values = {
                                 "body_html": body,
