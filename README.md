@@ -31,7 +31,7 @@ addon | version | maintainers | summary | price
 [deltatech_cash](deltatech_cash/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Cash In / Out | Free 
 [deltatech_cash_statement](deltatech_cash_statement/) | 16.0.3.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Update cash balance | Free 
 [deltatech_change_uom](deltatech_change_uom/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Change unit of measure in product | Free 
-[deltatech_contact](deltatech_contact/) | 16.0.1.4.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | New fields in partner | Free 
+[deltatech_contact](deltatech_contact/) | 16.0.1.4.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | New fields in partner | Free 
 [deltatech_credentials](deltatech_credentials/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage credentials for external services | Free 
 [deltatech_data_sheet](deltatech_data_sheet/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Data Sheet | Free 
 [deltatech_data_sheet_website](deltatech_data_sheet_website/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Data Sheet | Free 
