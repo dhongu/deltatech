@@ -6,8 +6,6 @@ Features:
       - Active - if the followup items will be processed or not
       - Date field - invoice date or due date
       - relative days from configured date field (i.e. -5 means 5 days before, 3 means 3 days after)
-      - mail subject
-      - mail from
       - mail body (with pre-configured blocks - please see field help)
  - Configure Partners
       - will receive followups - check if the partner will be processed for followups

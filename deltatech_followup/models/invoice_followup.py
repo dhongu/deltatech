@@ -49,7 +49,9 @@ class InvoiceFollowup(models.Model):
         "$amount_tax=invoice.amount_tax,\n"
         "$amount_total=invoice.amount_total,\n"
         "$amount_due=invoice.residual,\n"
-        "$total_debit=total amount to pay",
+        "$total_debit=total amount to pay\n"
+        "$total_all_debit=total amount to pay for the partner, from all unpaid invoiced, due or not\n"
+        "$total_due_debit=total due amount to pay for the partner",
     )
     mail_template = fields.Many2one(
         "mail.template",

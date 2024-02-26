@@ -3,7 +3,7 @@
 {
     "name": "Invoice Followup",
     "summary": "Simple invoice followup, with automatic e-mails",
-    "version": "15.0.0.0.4",
+    "version": "15.0.0.0.5",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
