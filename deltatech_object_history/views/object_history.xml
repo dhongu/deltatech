@@ -7,6 +7,7 @@
             <tree string="History">
                 <field name="create_date" />
                 <field name="create_uid" />
+                <field name="object_name" />
                 <field name="name" />
                 <field name="description" />
             </tree>
@@ -36,8 +37,10 @@
                             <field name="name" required="1" />
                         </group>
                         <group id="right">
-                            <field name="res_model" readonly="0" />
-                            <field name="res_id" readonly="0" />
+                            <field name="res_model" readonly="1" force_save="1" />
+                            <field name="res_id" readonly="1" force_save="1" />
+                            <field name="object_name" readonly="1" force_save="1" />
+                            <button name="action_open_document" string="Open" type="object" class="oe_highlight" />
                         </group>
                         <group colspan="2" id="description">
                             <field
@@ -55,6 +58,25 @@
             </form>
         </field>
     </record>
+
+    <record id="object_history_filter" model="ir.ui.view">
+        <field name="name">object.history.filter</field>
+        <field name="model">object.history</field>
+        <field name="arch" type="xml">
+            <search string="History">
+                <field name="object_name" string="Parent name" />
+                <field name="name" />
+                <filter name="partners" domain="[('res_model','=','res.partner')]" string="Partners" />
+                <filter name="moves" domain="[('res_model','=','account.move')]" string="Moves" />
+                <filter name="pickings" domain="[('res_model','=','stock.picking')]" string="Transfers" />
+                <separator />
+                <group expand="0" string="Group By...">
+                    <filter name="model" string="Employee" domain="[]" context="{'group_by':'res_model'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="action_object_history" model="ir.actions.act_window">
         <field name="name">History</field>
         <field name="res_model">object.history</field>

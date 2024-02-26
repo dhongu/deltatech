@@ -2,7 +2,6 @@
 # See README.rst file on addons root folder for license details
 
 
+from . import service_agreement
+from . import service_equipment
 from . import object_history
-from . import res_partner
-from . import account_move
-from . import stock_picking
