@@ -5,8 +5,8 @@
 from odoo import _, fields, models
 
 
-class Partner(models.Model):
-    _inherit = "res.partner"
+class AccountMove(models.Model):
+    _inherit = "account.move"
 
     history_count = fields.Integer(compute="_compute_history_number")
 
@@ -18,17 +18,17 @@ class Partner(models.Model):
             "type": "ir.actions.act_window",
             "view_mode": "tree,form",
             "name": _("History"),
-            "domain": [["res_id", "=", self.id], ["res_model", "=", "res.partner"]],
-            "context": {"default_res_id": self.id, "default_res_model": "res.partner"},
+            "domain": [["res_id", "=", self.id], ["res_model", "=", "account.move"]],
+            "context": {"default_res_id": self.id, "default_res_model": "account.move"},
         }
         return res
 
     def _compute_history_number(self):
-        for partner in self:
+        for move in self:
             histories = self.env["object.history"].search(
-                [("res_id", "=", partner.id), ("res_model", "=", "res.partner")]
+                [("res_id", "=", move.id), ("res_model", "=", "account.move")]
             )
             if histories:
-                partner.history_count = len(histories)
+                move.history_count = len(histories)
             else:
-                partner.history_count = False
+                move.history_count = False

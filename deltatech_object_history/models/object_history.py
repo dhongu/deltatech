@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class ObjectHistory(models.Model):
@@ -17,6 +17,7 @@ class ObjectHistory(models.Model):
 
     active = fields.Boolean(default=True)
     name = fields.Char("Name", required=True)
+    object_name = fields.Char(string="Parent name", compute="_compute_parent_name", store=True)
     description = fields.Html("Description")
     res_model = fields.Char(
         "Resource Model", readonly=True, index=True, help="The database model this history will be attached to."
@@ -38,3 +39,22 @@ class ObjectHistory(models.Model):
             "type": "ir.actions.act_window",
             "view_mode": "form",
         }
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+
+        if (
+            "res_model" in res
+            and res["res_model"]
+            and "res_id" in res
+            and res["res_id"]
+            and (
+                res["res_model"] == "res.partner"
+                or res["res_model"] == "account.move"
+                or res["res_model"] == "stock.picking"
+            )
+        ):
+            parent = self.env[res["res_model"]].browse(res["res_id"])
+            res["object_name"] = parent.name
+        return res
