@@ -3,7 +3,7 @@
 {
     "name": "Deltatech Object History",
     "summary": "Object history - a parallel history of Odoo documents, separated from standard Odoo messages",
-    "version": "14.0.0.0.2",
+    "version": "14.0.0.0.3",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Other",
