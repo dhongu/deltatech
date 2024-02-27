@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="view_working_days_export_form" model="ir.ui.view">
+            <field name="name">working.days.export</field>
+            <field name="model">working.days.export</field>
+            <field name="arch" type="xml">
+                <form string="Export Working Days">
+                    <field name="state" invisible="1" />
+                    <div states="choose">
+                        <p>Export selected employees working days</p>
+                        <label for="starting_report_date" />
+                        <field name="starting_report_date" />
+                        <label for="ending_report_date" />
+                        <field name="ending_report_date" />
+                    </div>
+                    <div states="get">
+                        <h2>Export Complete</h2>
+                    </div>
+
+                    <footer states="choose">
+                        <button name="do_export" string="Apply" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                    <footer states="get">
+                        <button string="Exit" class="oe_link" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+     </record>
+
+
+    <record id="action_working_days_export" model="ir.actions.act_window">
+        <field name="name">Export Working Days</field>
+        <field name="res_model">working.days.export</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee" />
+        <field name="binding_view_types">list</field>
+    </record>
+
+</odoo>
