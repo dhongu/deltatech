@@ -18,6 +18,7 @@ class ObjectHistory(models.Model):
     active = fields.Boolean(default=True)
     name = fields.Char("Name", required=True)
     object_name = fields.Char(string="Parent name")
+    partner_id = fields.Many2one("res.partner", string="Related partner")
     description = fields.Html("Description")
     res_model = fields.Char(
         "Resource Model", readonly=True, index=True, help="The database model this history will be attached to."
@@ -56,5 +57,9 @@ class ObjectHistory(models.Model):
             )
         ):
             parent = self.env[res["res_model"]].browse(res["res_id"])
+            if res["res_model"] == "res.partner":
+                partner = self.env["res.partner"].browse(res["res_id"])
+                res["partner_id"] = partner.id
             res["object_name"] = parent.name
+
         return res
