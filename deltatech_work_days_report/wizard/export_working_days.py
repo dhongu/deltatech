@@ -2,7 +2,7 @@ import base64
 from datetime import timedelta
 from io import BytesIO
 
-import xlwt
+import xlsxwriter
 
 from odoo import _, fields, models
 from odoo.exceptions import UserError
@@ -66,18 +66,17 @@ class WorkingDaysExport(models.TransientModel):
             row.append(meal_vouchers_number)
             matrix.append(row)
 
-        workbook = xlwt.Workbook()
-        sheet = workbook.add_sheet("Working Days Report")
+        output_buffer = BytesIO()
+        workbook = xlsxwriter.Workbook(output_buffer)
+        worksheet = workbook.add_worksheet("Working Days Report")
 
         # Write matrix data to the Excel sheet
         for i, row in enumerate(matrix):
             for j, value in enumerate(row):
-                sheet.write(i, j, value)
+                worksheet.write(i, j, value)
 
-        # Save the Excel file to a BytesIO buffer
-        output_buffer = BytesIO()
-        workbook.save(output_buffer)
-        output_buffer.seek(0)
+        # Close the workbook
+        workbook.close()
 
         # Set the data_file field with the content of the file
         self.write(
