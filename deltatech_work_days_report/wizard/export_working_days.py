@@ -1,5 +1,7 @@
 from datetime import timedelta
-
+import xlwt
+from io import BytesIO
+import base64
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
@@ -11,6 +13,8 @@ class WorkingDaysExport(models.TransientModel):
     starting_report_date = fields.Date("From", required=True)
     ending_report_date = fields.Date("To", required=True)
     state = fields.Selection([("choose", "choose"), ("get", "get")], default="choose")
+    data_file = fields.Binary(string="File", readonly=True)
+    name = fields.Char(string="File Name", readonly=True)
 
     def do_export(self):
         active_ids = self.env.context.get("active_ids", [])
@@ -56,3 +60,31 @@ class WorkingDaysExport(models.TransientModel):
             row.append(total_hours)
             row.append(meal_vouchers_number)
             matrix.append(row)
+
+        workbook = xlwt.Workbook()
+        sheet = workbook.add_sheet('Working Days Report')
+
+        # Write matrix data to the Excel sheet
+        for i, row in enumerate(matrix):
+            for j, value in enumerate(row):
+                sheet.write(i, j, value)
+
+        # Save the Excel file to a BytesIO buffer
+        output_buffer = BytesIO()
+        workbook.save(output_buffer)
+        output_buffer.seek(0)
+
+        # Set the data_file field with the content of the file
+        self.write({"state": "get", "name":"prezenta_template_PTC.xlsx", "data_file":output_buffer.getvalue()})
+        self.data_file = base64.b64encode(output_buffer.getvalue())
+        output_buffer.close()
+
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": self._name,
+            "view_mode": "form",
+            "view_type": "form",
+            "res_id": self.id,
+            "views": [(False, "form")],
+            "target": "new",
+        }

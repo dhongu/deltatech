@@ -15,6 +15,7 @@
                     </div>
                     <div states="get">
                         <h2>Export Complete</h2>
+                        <p>Here is the exported file: <field name="data_file" readonly="1" filename="name" /></p>
                     </div>
 
                     <footer states="choose">
