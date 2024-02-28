@@ -329,6 +329,7 @@ class DeltatechExpensesDeduction(models.Model):
 
             for payment in payments:
                 for payment_line in payment.move_id.line_ids:
+                    payment_line = payment_line.with_context(skip_account_move_synchronization=True)
                     if payment_line.account_id == self.company_id.account_journal_payment_credit_account_id:
                         # (
                         #     payment.journal_id.default_account_id,
@@ -349,7 +350,7 @@ class DeltatechExpensesDeduction(models.Model):
                     if aml.account_id.internal_type == "payable":
                         move_lines |= aml
 
-            move_lines.reconcile()
+            move_lines.with_context(skip_account_move_synchronization=True).reconcile()
 
             # change state for vouchers without residual. If not in statement, remains "in_payment"
             vouchers.set_paid()
