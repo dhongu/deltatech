@@ -7,3 +7,9 @@ class HREmployee(models.Model):
     hours_per_day = fields.Selection(
         [("4", "4 Hours"), ("6", "6 Hours"), ("8", "8 Hours")], string="Hours per Day", default="8"
     )
+
+
+class HRLeaveType(models.Model):
+    _inherit = "hr.leave.type"
+
+    type_code = fields.Char(string="Code")
