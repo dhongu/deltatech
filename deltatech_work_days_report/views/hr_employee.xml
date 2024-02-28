@@ -9,4 +9,14 @@
             </xpath>
         </field>
     </record>
+
+    <record id="leave_type_form" model="ir.ui.view">
+        <field name="model">hr.leave.type</field>
+        <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='leave_validation_type']" position="after">
+                <field name="type_code" />
+            </xpath>
+        </field>
+    </record>
 </odoo>

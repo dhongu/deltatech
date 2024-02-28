@@ -54,7 +54,10 @@ class WorkingDaysExport(models.TransientModel):
                         ]
                     )
                     if holiday:
-                        row.append("ABS")  # Employee was on vacation
+                        if holiday.holiday_status_id.type_code:
+                            row.append(holiday.holiday_status_id.type_code)
+                        else:
+                            row.append("ABS")  # Employee was on vacation
                     else:
                         row.append(employee.hours_per_day)
                         total_hours = total_hours + int(employee.hours_per_day)
@@ -77,8 +80,9 @@ class WorkingDaysExport(models.TransientModel):
         output_buffer.seek(0)
 
         # Set the data_file field with the content of the file
-        self.write({"state": "get", "name": "prezenta_template_PTC.xlsx", "data_file": output_buffer.getvalue()})
-        self.data_file = base64.b64encode(output_buffer.getvalue())
+        self.write(
+            {"state": "get", "name": "work_day_report.xlsx", "data_file": base64.b64encode(output_buffer.getvalue())}
+        )
         output_buffer.close()
 
         return {
