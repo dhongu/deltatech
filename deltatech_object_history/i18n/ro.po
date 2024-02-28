@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-28 07:27+0000\n"
-"PO-Revision-Date: 2024-02-28 07:27+0000\n"
+"POT-Creation-Date: 2024-02-28 10:21+0000\n"
+"PO-Revision-Date: 2024-02-28 10:21+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -82,11 +82,6 @@ msgstr "Descriere"
 #: model:ir.model.fields,field_description:deltatech_object_history.field_stock_picking__display_name
 msgid "Display Name"
 msgstr "Afiseaza nume"
-
-#. module: deltatech_object_history
-#: model_terms:ir.ui.view,arch_db:deltatech_object_history.object_history_filter
-msgid "Employee"
-msgstr ""
 
 #. module: deltatech_object_history
 #: model:ir.model.fields,field_description:deltatech_object_history.field_object_history__message_follower_ids
@@ -244,12 +239,12 @@ msgstr ""
 #. module: deltatech_object_history
 #: model:ir.model,name:deltatech_object_history.model_object_history
 msgid "Object history"
-msgstr "Notite RG"
+msgstr "Mesaje"
 
 #. module: deltatech_object_history
 #: model:res.groups,name:deltatech_object_history.group_history_manager
 msgid "Object history admin"
-msgstr "Admin Notite RG (history)"
+msgstr "Admin mesaje (history)"
 
 #. module: deltatech_object_history
 #: code:addons/deltatech_object_history/wizard/add_history_wizard.py:0
@@ -268,10 +263,20 @@ msgid "Open Document"
 msgstr "Deschide document"
 
 #. module: deltatech_object_history
+#: model_terms:ir.ui.view,arch_db:deltatech_object_history.object_history_filter
+msgid "Parent"
+msgstr ""
+
+#. module: deltatech_object_history
 #: model:ir.model.fields,field_description:deltatech_object_history.field_object_history__object_name
 #: model_terms:ir.ui.view,arch_db:deltatech_object_history.object_history_filter
 msgid "Parent name"
 msgstr "Nume document"
+
+#. module: deltatech_object_history
+#: model_terms:ir.ui.view,arch_db:deltatech_object_history.object_history_filter
+msgid "Partner"
+msgstr "Partener"
 
 #. module: deltatech_object_history
 #: model_terms:ir.ui.view,arch_db:deltatech_object_history.object_history_filter

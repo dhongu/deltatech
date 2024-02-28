@@ -8,6 +8,7 @@
                 <field name="create_date" />
                 <field name="create_uid" />
                 <field name="object_name" />
+                <field name="partner_id" />
                 <field name="name" />
                 <field name="description" />
             </tree>
@@ -65,6 +66,7 @@
         <field name="model">object.history</field>
         <field name="arch" type="xml">
             <search string="History">
+                <field name="partner_id" />
                 <field name="object_name" string="Parent name" />
                 <field name="name" />
                 <filter name="partners" domain="[('res_model','=','res.partner')]" string="Partners" />
@@ -72,7 +74,8 @@
                 <filter name="pickings" domain="[('res_model','=','stock.picking')]" string="Transfers" />
                 <separator />
                 <group expand="0" string="Group By...">
-                    <filter name="model" string="Employee" domain="[]" context="{'group_by':'res_model'}" />
+                    <filter name="partner_id" string="Partner" domain="[]" context="{'group_by':'partner_id'}" />
+                    <filter name="model" string="Parent" domain="[]" context="{'group_by':'res_model'}" />
                 </group>
             </search>
         </field>
