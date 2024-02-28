@@ -1,7 +1,9 @@
-from datetime import timedelta
-import xlwt
-from io import BytesIO
 import base64
+from datetime import timedelta
+from io import BytesIO
+
+import xlwt
+
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
@@ -62,7 +64,7 @@ class WorkingDaysExport(models.TransientModel):
             matrix.append(row)
 
         workbook = xlwt.Workbook()
-        sheet = workbook.add_sheet('Working Days Report')
+        sheet = workbook.add_sheet("Working Days Report")
 
         # Write matrix data to the Excel sheet
         for i, row in enumerate(matrix):
@@ -75,7 +77,7 @@ class WorkingDaysExport(models.TransientModel):
         output_buffer.seek(0)
 
         # Set the data_file field with the content of the file
-        self.write({"state": "get", "name":"prezenta_template_PTC.xlsx", "data_file":output_buffer.getvalue()})
+        self.write({"state": "get", "name": "prezenta_template_PTC.xlsx", "data_file": output_buffer.getvalue()})
         self.data_file = base64.b64encode(output_buffer.getvalue())
         output_buffer.close()
 
