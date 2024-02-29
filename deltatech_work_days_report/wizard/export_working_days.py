@@ -1,4 +1,5 @@
 import base64
+import calendar
 from datetime import timedelta
 from io import BytesIO
 
@@ -36,7 +37,11 @@ class WorkingDaysExport(models.TransientModel):
             dates_between_days.append(current_date.day)
             current_date += timedelta(days=1)
 
-        matrix = [headers + dates_between_days + footer]
+        code_types = []
+        time_off_types = self.env["hr.leave.type"].search([])
+        for time_type in time_off_types:
+            code_types.append(time_type.type_code)
+        matrix = [headers + dates_between_days + code_types + footer]
         for employee in employees:
             total_hours = 0
             meal_vouchers_number = 0
@@ -54,14 +59,18 @@ class WorkingDaysExport(models.TransientModel):
                         ]
                     )
                     if holiday:
-                        if holiday.holiday_status_id.type_code:
-                            row.append(holiday.holiday_status_id.type_code)
-                        else:
-                            row.append("ABS")  # Employee was on vacation
+                        row.append(holiday.holiday_status_id.type_code)
                     else:
                         row.append(employee.hours_per_day)
                         total_hours = total_hours + int(employee.hours_per_day)
                         meal_vouchers_number += 1
+            for code in code_types:
+                count = 0
+                for cell in row:
+                    if cell == code:
+                        count += 1
+                row.append(count)
+
             row.append(total_hours)
             row.append(meal_vouchers_number)
             matrix.append(row)
@@ -69,11 +78,45 @@ class WorkingDaysExport(models.TransientModel):
         output_buffer = BytesIO()
         workbook = xlsxwriter.Workbook(output_buffer)
         worksheet = workbook.add_worksheet("Working Days Report")
+        bold = workbook.add_format({"bold": True, "align": "center", "valign": "vcenter"})
+        row_length = len(matrix[1])
+        result = ""
 
+        while row_length > 0:
+            row_length, remainder = divmod(row_length - 1, 26)
+            result = chr(65 + remainder) + result
+        worksheet.merge_range("A1:" + result + "2", "Attendance Sheet", bold)
+        worksheet.merge_range(
+            "A3:" + result + "3",
+            "Month:" + calendar.month_name[self.starting_report_date.month] + "-" + str(self.starting_report_date.year),
+            bold,
+        )
+        bold = workbook.add_format({"align": "center", "valign": "vcenter"})
+        worksheet.merge_range("A4:C4", "Employee", bold)
+        dates_length = len(dates_between_days) + 3
+        result = ""
+        while dates_length > 0:
+            dates_length, remainder = divmod(dates_length - 1, 26)
+            result = chr(65 + remainder) + result
+        worksheet.merge_range("D4:" + result + "4", "Days", bold)
+        if result[1] != "Z":
+            letter = chr(ord(result[1]) + 1)
+            new_letter = result[0] + letter
+            result = new_letter
+        else:
+            letter = chr(ord(result[0]) + 1)
+            result = letter + "A"
+        start_point = result
+        result = ""
+        codes_length = len(dates_between_days) + 3 + len(code_types)
+        while codes_length > 0:
+            codes_length, remainder = divmod(codes_length - 1, 26)
+            result = chr(65 + remainder) + result
+        worksheet.merge_range(start_point + "4:" + result + "4", "Time Off Codes", bold)
         # Write matrix data to the Excel sheet
         for i, row in enumerate(matrix):
             for j, value in enumerate(row):
-                worksheet.write(i, j, value)
+                worksheet.write(i + 4, j, value)
 
         # Close the workbook
         workbook.close()
