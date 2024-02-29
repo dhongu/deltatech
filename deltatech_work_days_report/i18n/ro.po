@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-29 09:06+0000\n"
-"PO-Revision-Date: 2024-02-29 09:06+0000\n"
+"POT-Creation-Date: 2024-02-29 14:09+0000\n"
+"PO-Revision-Date: 2024-02-29 14:09+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -58,6 +58,12 @@ msgid "Apply"
 msgstr "Aplică"
 
 #. module: deltatech_work_days_report
+#: code:addons/deltatech_work_days_report/wizard/export_working_days.py:0
+#, python-format
+msgid "Attendance Sheet"
+msgstr "Fișă Prezență"
+
+#. module: deltatech_work_days_report
 #: model_terms:ir.ui.view,arch_db:deltatech_work_days_report.view_working_days_export_form
 msgid "Cancel"
 msgstr "Anulează"
@@ -78,12 +84,20 @@ msgid "Created on"
 msgstr "Creat pe"
 
 #. module: deltatech_work_days_report
+#: code:addons/deltatech_work_days_report/wizard/export_working_days.py:0
+#, python-format
+msgid "Days"
+msgstr "Zile"
+
+#. module: deltatech_work_days_report
 #: model:ir.model.fields,field_description:deltatech_work_days_report.field_working_days_export__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: deltatech_work_days_report
+#: code:addons/deltatech_work_days_report/wizard/export_working_days.py:0
 #: model:ir.model,name:deltatech_work_days_report.model_hr_employee
+#, python-format
 msgid "Employee"
 msgstr "Angajat"
 
@@ -156,6 +170,36 @@ msgstr ""
 #. module: deltatech_work_days_report
 #: code:addons/deltatech_work_days_report/wizard/export_working_days.py:0
 #, python-format
+msgid "Meal Vouchers"
+msgstr "Bonuri de masa"
+
+#. module: deltatech_work_days_report
+#: code:addons/deltatech_work_days_report/wizard/export_working_days.py:0
+#, python-format
+msgid "Month:"
+msgstr "Luna:"
+
+#. module: deltatech_work_days_report
+#: code:addons/deltatech_work_days_report/wizard/export_working_days.py:0
+#, python-format
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_work_days_report
+#: code:addons/deltatech_work_days_report/wizard/export_working_days.py:0
+#, python-format
+msgid "Norma"
+msgstr "Norma"
+
+#. module: deltatech_work_days_report
+#: code:addons/deltatech_work_days_report/wizard/export_working_days.py:0
+#, python-format
+msgid "Nr."
+msgstr ""
+
+#. module: deltatech_work_days_report
+#: code:addons/deltatech_work_days_report/wizard/export_working_days.py:0
+#, python-format
 msgid "Please make sure the second date is after the first"
 msgstr "Vă rugăm să vă asigurați că a doua dată este după prima"
 
@@ -163,6 +207,12 @@ msgstr "Vă rugăm să vă asigurați că a doua dată este după prima"
 #: model:ir.model.fields,field_description:deltatech_work_days_report.field_working_days_export__state
 msgid "State"
 msgstr "Stare"
+
+#. module: deltatech_work_days_report
+#: code:addons/deltatech_work_days_report/wizard/export_working_days.py:0
+#, python-format
+msgid "Time Off Codes"
+msgstr "Coduri concediu"
 
 #. module: deltatech_work_days_report
 #: model:ir.model,name:deltatech_work_days_report.model_hr_leave_type
@@ -175,9 +225,15 @@ msgid "To"
 msgstr "Pana la"
 
 #. module: deltatech_work_days_report
+#: code:addons/deltatech_work_days_report/wizard/export_working_days.py:0
+#, python-format
+msgid "Total number of hours"
+msgstr "Număr total de ore"
+
+#. module: deltatech_work_days_report
 #: model:ir.model,name:deltatech_work_days_report.model_working_days_export
 msgid "Working Days Export"
-msgstr ""
+msgstr "Export zile lucrate"
 
 #. module: deltatech_work_days_report
 #: model:ir.model.fields.selection,name:deltatech_work_days_report.selection__working_days_export__state__choose

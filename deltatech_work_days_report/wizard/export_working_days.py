@@ -27,8 +27,8 @@ class WorkingDaysExport(models.TransientModel):
         if self.starting_report_date > self.ending_report_date:
             raise UserError(_("Please make sure the second date is after the first"))
 
-        headers = ["Nr.", "Name", "Norma"]
-        footer = ["Total number of hours", "Meal Vouchers"]
+        headers = [_("Nr."), _("Name"), _("Norma")]
+        footer = [_("Total number of hours"), _("Meal Vouchers")]
         dates_between = []
         dates_between_days = []
         current_date = self.starting_report_date
@@ -85,20 +85,23 @@ class WorkingDaysExport(models.TransientModel):
         while row_length > 0:
             row_length, remainder = divmod(row_length - 1, 26)
             result = chr(65 + remainder) + result
-        worksheet.merge_range("A1:" + result + "2", "Attendance Sheet", bold)
+        worksheet.merge_range("A1:" + result + "2", _("Attendance Sheet"), bold)
         worksheet.merge_range(
             "A3:" + result + "3",
-            "Month:" + calendar.month_name[self.starting_report_date.month] + "-" + str(self.starting_report_date.year),
+            _("Month:")
+            + calendar.month_name[self.starting_report_date.month]
+            + "-"
+            + str(self.starting_report_date.year),
             bold,
         )
         bold = workbook.add_format({"align": "center", "valign": "vcenter"})
-        worksheet.merge_range("A4:C4", "Employee", bold)
+        worksheet.merge_range("A4:C4", _("Employee"), bold)
         dates_length = len(dates_between_days) + 3
         result = ""
         while dates_length > 0:
             dates_length, remainder = divmod(dates_length - 1, 26)
             result = chr(65 + remainder) + result
-        worksheet.merge_range("D4:" + result + "4", "Days", bold)
+        worksheet.merge_range("D4:" + result + "4", _("Days"), bold)
         if result[1] != "Z":
             letter = chr(ord(result[1]) + 1)
             new_letter = result[0] + letter
@@ -112,7 +115,7 @@ class WorkingDaysExport(models.TransientModel):
         while codes_length > 0:
             codes_length, remainder = divmod(codes_length - 1, 26)
             result = chr(65 + remainder) + result
-        worksheet.merge_range(start_point + "4:" + result + "4", "Time Off Codes", bold)
+        worksheet.merge_range(start_point + "4:" + result + "4", _("Time Off Codes"), bold)
         # Write matrix data to the Excel sheet
         for i, row in enumerate(matrix):
             for j, value in enumerate(row):
