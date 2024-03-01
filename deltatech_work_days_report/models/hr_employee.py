@@ -12,4 +12,4 @@ class HREmployee(models.Model):
 class HRLeaveType(models.Model):
     _inherit = "hr.leave.type"
 
-    type_code = fields.Char(string="Code")
+    type_code = fields.Char(string="Code", default="L")
