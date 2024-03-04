@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="group_manage_followups" model="res.groups">
+            <field name="name">Followup manager</field>
+            <field name="category_id" ref="base.module_category_usability" />
+        </record>
+    </data>
+</odoo>
