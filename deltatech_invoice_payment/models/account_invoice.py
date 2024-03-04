@@ -2,8 +2,6 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-import json
-
 from odoo import models
 from odoo.tools.safe_eval import safe_eval
 
@@ -13,7 +11,7 @@ class AccountInvoice(models.Model):
 
     def open_payments(self):
         self.ensure_one()
-        invoice_payments_widget = json.loads(self.invoice_payments_widget)
+        invoice_payments_widget = self.invoice_payments_widget
         payment_ids = []
         for item in invoice_payments_widget["content"]:
             payment_ids.append(item["account_payment_id"])
