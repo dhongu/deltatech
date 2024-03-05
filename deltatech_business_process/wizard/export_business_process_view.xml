@@ -9,6 +9,8 @@
                     <field name="name" invisible="1" />
                     <div states="choose">
                         <p>Export selected business processes</p>
+                        <label for="include_tests" />
+                        <field name="include_tests" />
                     </div>
                     <div states="get">
 
