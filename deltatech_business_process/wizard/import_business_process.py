@@ -118,8 +118,8 @@ class BusinessProcessImport(models.TransientModel):
                         {
                             "name": step_data["name"],
                             "code": step_data["code"],
-                            "description": step_data["description"],
                             "area_id": area.id,
+                            "description": step_data["description"],
                             "transaction_id": transaction.id,
                             "details": step_data["details"],
                             "sequence": step_data["sequence"],
@@ -139,6 +139,82 @@ class BusinessProcessImport(models.TransientModel):
                             "process_id": process.id,
                         }
                     )
+            if process_data["include_tests"]:
+                for test_data in process_data["tests"]:
+                    tester = self.env["res.partner"]
+                    if process_data["responsible"]:
+                        tester = self.env["res.partner"].search([("name", "=", test_data["tester"])])
+                        if not tester:
+                            tester = self.env["res.partner"].create({"name": process_data["responsible"]})
+                    domain = [("name", "=", test_data["name"]), ("process_id", "=", process.id)]
+                    test = self.env["business.process.test"].search(domain, limit=1)
+                    if not test:
+                        self.env["business.process.test"].create(
+                            {
+                                "name": test_data["name"],
+                                "process_id": process.id,
+                                "tester_id": tester.id,
+                                "scope": test_data["scope"],
+                                "date_start": test_data["date_start"],
+                                "date_end": test_data["date_end"],
+                                "state": test_data["state"],
+                            }
+                        )
+                    else:
+                        test.write(
+                            {
+                                "name": test_data["name"],
+                                "process_id": process.id,
+                                "tester_id": tester,
+                                "scope": test_data["scope"],
+                                "date_start": test_data["date_start"],
+                                "date_end": test_data["date_end"],
+                                "state": test_data["state"],
+                            }
+                        )
+                    for step_test_data in test_data["test_steps"]:
+                        transaction = self.env["business.transaction"]
+                        if step_test_data["transaction"]:
+                            transaction = self.env["business.transaction"].search(
+                                [("name", "=", step_test_data["transaction"])]
+                            )
+                            if not transaction:
+                                transaction = self.env["business.transaction"].create(
+                                    {"name": step_test_data["transaction"]}
+                                )
+                        step_in_test = self.env["business.transaction"]
+                        if step_test_data["step"]:
+                            step_in_test = self.env["business.process.step"].search(
+                                [("name", "=", step_test_data["step"]), ("process_id", "=", process.id)]
+                            )
+                        test_of_step = self.env["business.process.test"]
+                        if step_test_data["test"]:
+                            test_of_step = self.env["business.process.test"].search(
+                                [("name", "=", step_test_data["test"]), ("process_id", "=", process.id)]
+                            )
+                        domain = [("name", "=", step_test_data["name"]), ("process_test_id", "=", test_of_step.id)]
+                        step_test = self.env["business.process.step.test"].search(domain, limit=1)
+                        if not step_test:
+                            self.env["business.process.step.test"].create(
+                                {
+                                    "name": step_test_data["name"],
+                                    "process_id": process.id,
+                                    "transaction_id": transaction.id,
+                                    "step_id": step_in_test.id,
+                                    "process_test_id": test_of_step.id,
+                                }
+                            )
+                        else:
+                            step_test.write(
+                                {
+                                    "name": step_test_data["name"],
+                                    "process_id": process.id,
+                                    "transaction_id": transaction.id,
+                                    "step_id": step_in_test.id,
+                                    "process_test_id": test_of_step.id,
+                                }
+                            )
+
         self.write({"state": "choose"})
         return {
             "type": "ir.actions.act_window",
