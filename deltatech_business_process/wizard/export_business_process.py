@@ -45,6 +45,7 @@ class BusinessProcessExport(models.TransientModel):
                 step_data = {
                     "name": step.name,
                     "code": step.code,
+                    "area": step.area_id.name,
                     "description": step.description,
                     "sequence": step.sequence,
                     "transaction": step.transaction_id.name,

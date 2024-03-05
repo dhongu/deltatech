@@ -100,6 +100,11 @@ class BusinessProcessImport(models.TransientModel):
                 )
 
             for step_data in process_data["steps"]:
+                area = self.env["business.area"]
+                if step_data["area"]:
+                    area = self.env["business.area"].search([("name", "=", step_data["area"])])
+                    if not area:
+                        area = self.env["business.area"].create({"name": step_data["area"]})
                 transaction = self.env["business.transaction"]
                 if step_data["transaction"]:
                     transaction = self.env["business.transaction"].search([("name", "=", step_data["transaction"])])
@@ -113,6 +118,7 @@ class BusinessProcessImport(models.TransientModel):
                         {
                             "name": step_data["name"],
                             "code": step_data["code"],
+                            "area_id": area.id,
                             "description": step_data["description"],
                             "transaction_id": transaction.id,
                             "details": step_data["details"],
