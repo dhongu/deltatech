@@ -24,13 +24,19 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="button_send" type="object" string="Send" class="oe_highlight" state="draft" />
+                    <button
+                        name="button_send"
+                        type="object"
+                        string="Send"
+                        class="oe_highlight"
+                        invisible="state!='draft'"
+                    />
                     <button
                         name="button_in_progress"
                         type="object"
                         string="In progress"
                         class="oe_highlight"
-                        state="open,reopened"
+                        invisible="state not in ['open','reopened']"
                         groups="deltatech_business_process.group_business_process_responsible"
                     />
                     <button
@@ -38,18 +44,30 @@
                         type="object"
                         string="Solved"
                         class="oe_highlight"
-                        state="allocated"
+                        invisible="state!='allocated'"
                         groups="deltatech_business_process.group_business_process_responsible"
                     />
-                    <button name="button_in_test" type="object" string="In test" class="oe_highlight" state="solved" />
-                    <button name="button_done" type="object" string="Done" class="oe_highlight" state="in_test" />
-                    <button name="button_reopened" type="object" string="Reopen" state="in_test" />
+                    <button
+                        name="button_in_test"
+                        type="object"
+                        string="In test"
+                        class="oe_highlight"
+                        invisible="state!='solved'"
+                    />
+                    <button
+                        name="button_done"
+                        type="object"
+                        string="Done"
+                        class="oe_highlight"
+                        invisible="state!='in_test'"
+                    />
+                    <button name="button_reopened" type="object" string="Reopen" invisible="state!='in_test'" />
                     <button
                         name="button_draft"
                         type="object"
                         string="Set Draft"
                         groups="deltatech_business_process.group_business_process_manager"
-                        state="open,allocated,solved,in_test,closed"
+                        invisible="state not in ['open','allocated','solved','in_test','closed']"
                     />
                     <field
                         name="state"
