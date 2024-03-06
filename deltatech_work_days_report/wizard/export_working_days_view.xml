@@ -8,10 +8,27 @@
                     <field name="state" invisible="1" />
                     <div states="choose">
                         <p>Export selected employees working days</p>
-                        <label for="starting_report_date" />
-                        <field name="starting_report_date" />
-                        <label for="ending_report_date" />
-                        <field name="ending_report_date" />
+                        <div class="o_row o_row_readonly">
+                                <span class="oe_inline">
+                                    From
+                                </span>
+                                <field
+                            name="starting_report_date"
+                            class="oe_inline"
+                            nolabel="1"
+                            widget="daterange"
+                            options="{'related_end_date': 'ending_report_date'}"
+                        />
+                                <span class="oe_inline">
+                                    To
+                                </span>
+                                <field
+                            name="ending_report_date"
+                            class="oe_inline"
+                            widget="daterange"
+                            options="{'related_start_date': 'starting_report_date'}"
+                        />
+                            </div>
                     </div>
                     <div states="get">
                         <h2>Export Complete</h2>
