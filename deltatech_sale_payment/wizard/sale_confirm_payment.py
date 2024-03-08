@@ -49,7 +49,7 @@ class SaleConfirmPayment(models.TransientModel):
                 {
                     "amount": self.amount,
                     "provider_id": self.acquirer_id.id,
-                    "acquirer_reference": order.name,
+                    "provider_reference": order.name,
                     "partner_id": order.partner_id.id,
                     "sale_order_ids": [(4, order.id, False)],
                     "currency_id": self.currency_id.id,
