@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
     "category": "Generic Modules/Other",
-    "depends": ["base", "mail"],
+    "depends": ["base", "mail", "deltatech_contact"],
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",
