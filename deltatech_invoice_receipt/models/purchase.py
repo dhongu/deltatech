@@ -61,9 +61,9 @@ class PurchaseOrder(models.Model):
                 moves = moves.filtered(lambda x: x.state not in ("done", "cancel"))._action_confirm()
 
                 moves._action_assign()
-                picking.message_post_with_view(
+                picking.message_post_with_source(
                     "mail.message_origin_link",
-                    values={"self": picking, "origin": order},
+                    render_values={"self": picking, "origin": order},
                     subtype_id=self.env.ref("mail.mt_note").id,
                 )
 
