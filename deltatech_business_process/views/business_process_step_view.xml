@@ -44,7 +44,7 @@
                     <group>
                         <group string="Identification">
                             <field name="code" readonly="state!='draft' and state!='design'" />
-                            <field name="process_id" readonly="state!='draft' and state!='design'" />
+                            <field name="process_id" invisible="True" />
                         </group>
                         <group string="Responsible">
                             <field name="responsible_id" readonly="state!='draft' and state!='design'" />

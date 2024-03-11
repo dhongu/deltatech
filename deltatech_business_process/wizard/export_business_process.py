@@ -14,6 +14,7 @@ class BusinessProcessExport(models.TransientModel):
 
     name = fields.Char(string="File Name", readonly=True)
     data_file = fields.Binary(string="File", readonly=True)
+    include_tests = fields.Boolean(string="Include Tests in Export?")
     state = fields.Selection([("choose", "choose"), ("get", "get")], default="choose")  # choose period  # get the file
 
     def do_export(self):
@@ -30,19 +31,50 @@ class BusinessProcessExport(models.TransientModel):
                 "area": process.area_id.name,
                 "process_group": process.process_group_id.name,
                 "steps": [],
+                "include_tests": self.include_tests,
+                "tests": [],
+                "responsible": process.responsible_id.name,
+                "customer": process.customer_id.name,
+                "approved": process.approved_id.name,
+                "date_start_bbp": process.date_start_bbp,
+                "date_end_bbp": process.date_end_bbp,
+                "state": process.state,
             }
 
             for step in process.step_ids:
                 step_data = {
                     "name": step.name,
                     "code": step.code,
-                    "description": step.description,
                     "area": step.area_id.name,
+                    "description": step.description,
                     "sequence": step.sequence,
                     "transaction": step.transaction_id.name,
                     "details": step.details,
                 }
                 process_data["steps"].append(step_data)
+            if self.include_tests:
+                for test in process.test_ids:
+                    test_data = {
+                        "name": test.name,
+                        "process_id": test.process_id.name,
+                        "scope": test.scope,
+                        "tester": test.tester_id.name,
+                        "date_start": test.date_start,
+                        "date_end": test.date_end,
+                        "state": test.state,
+                        "test_steps": [],
+                    }
+
+                    for test_step in test.test_step_ids:
+                        test_step_data = {
+                            "name": test_step.name,
+                            "transaction": test_step.transaction_id.name,
+                            "step": test_step.step_id.name,
+                            "test": test_step.process_test_id.name,
+                        }
+                        test_data["test_steps"].append(test_step_data)
+
+                    process_data["tests"].append(test_data)
             data.append(process_data)
 
         json_data = json.dumps(data, indent=4, sort_keys=True, default=str)

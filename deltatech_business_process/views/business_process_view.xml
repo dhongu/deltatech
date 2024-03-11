@@ -52,7 +52,7 @@
                         type="object"
                         string="Start Design"
                         class="oe_highlight"
-                        state="draft"
+                        invisible="state!='draft'"
                         groups="deltatech_business_process.group_business_process_responsible"
                     />
                     <button
@@ -60,7 +60,7 @@
                         type="object"
                         string="Start Test"
                         class="oe_highlight"
-                        state="design"
+                        invisible="state!='design'"
                         groups="deltatech_business_process.group_business_process_responsible"
                     />
                      <button
@@ -68,11 +68,22 @@
                         type="object"
                         string="End Test"
                         class="oe_highlight"
-                        state="test"
+                        invisible="state!='test'"
                         groups="deltatech_business_process.group_business_process_responsible"
                     />
-                    <button name="button_go_live" type="object" string="Go live" class="oe_highlight" state="ready" />
-                    <button name="button_draft" type="object" string="Reset to Draft" state="design,test,ready" />
+                    <button
+                        name="button_go_live"
+                        type="object"
+                        string="Go live"
+                        class="oe_highlight"
+                        invisible="state!='ready'"
+                    />
+                    <button
+                        name="button_draft"
+                        type="object"
+                        string="Reset to Draft"
+                        invisible="state not in ['design','test','ready']"
+                    />
                     <field name="state" widget="statusbar" statusbar_visible="draft,design,test,ready,production" />
 
                 </header>
