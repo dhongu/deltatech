@@ -5,12 +5,12 @@
 {
     "name": "Business process",
     "summary": "Business process",
-    "version": "16.0.1.0.5",
+    "version": "16.0.1.0.7",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
     "category": "Generic Modules/Other",
-    "depends": ["base", "mail"],
+    "depends": ["base", "mail", "deltatech_contact"],
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",

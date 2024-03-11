@@ -5,14 +5,20 @@
         <field name="name">Business process</field>
         <field name="model">business.process</field>
         <field name="arch" type="xml">
-            <tree string="Business process" sample="1">
+            <tree string="Business process" sample="1" default_order="code">
                 <field name="code" />
                 <field name="name" />
                 <field name="project_id" optional="hide" />
                 <field name="responsible_id" optional="show" />
                 <field name="area_id" optional="show" />
                 <field name="process_group_id" optional="show" />
-                <field name="state" widget="badge" decoration-success="state == 'production'  " />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-success="state == 'production'"
+                    decoration-info="state == 'design'"
+                    decoration-warning="state == 'test'"
+                />
 
                 <field name="date_start_bbp" optional="hide" />
                 <field name="date_end_bbp" optional="hide" />
