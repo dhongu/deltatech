@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="view_working_days_export_form" model="ir.ui.view">
+            <field name="name">working.days.export</field>
+            <field name="model">working.days.export</field>
+            <field name="arch" type="xml">
+                <form string="Export Working Days">
+                    <field name="state" invisible="1" />
+                    <div invisible="state!='choose'">
+                        <p>Export selected employees working days</p>
+                        <div class="o_row o_row_readonly">
+                                <span class="oe_inline">
+                                    From
+                                </span>
+                                <field
+                            name="starting_report_date"
+                            class="oe_inline"
+                            nolabel="1"
+                            widget="daterange"
+                            options="{'related_end_date': 'ending_report_date'}"
+                        />
+                                <span class="oe_inline">
+                                    To
+                                </span>
+                                <field
+                            name="ending_report_date"
+                            class="oe_inline"
+                            widget="daterange"
+                            options="{'related_start_date': 'starting_report_date'}"
+                        />
+                            </div>
+                    </div>
+                    <div invisible="state!='get'">
+                        <h2>Export Complete</h2>
+                        <p>Here is the exported file: <field name="data_file" readonly="1" filename="name" /></p>
+                    </div>
+
+                    <footer invisible="state!='choose'">
+                        <button name="do_export" string="Apply" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                    <footer invisible="state!='get'">
+                        <button string="Exit" class="oe_link" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+     </record>
+
+
+    <record id="action_working_days_export" model="ir.actions.act_window">
+        <field name="name">Export Working Days</field>
+        <field name="res_model">working.days.export</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee" />
+        <field name="binding_view_types">list</field>
+    </record>
+
+</odoo>

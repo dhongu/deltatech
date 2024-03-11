@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+deltatech_work_days_report.access_working_days_export,access_working_days_export,deltatech_work_days_report.model_working_days_export,base.group_user,1,1,1,1
