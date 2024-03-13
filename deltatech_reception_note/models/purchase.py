@@ -48,33 +48,48 @@ class PurchaseOrder(models.Model):
             ("is_empty", "=", False),
         ]
         rfq_orders = self.env["purchase.order"].search(domain, order="id")
+        found_errors = []
+        quantity_errors = []
         for line in self.order_line:
-            quality = line.product_qty
-            domain = [("order_id", "in", rfq_orders.ids), ("product_id", "=", line.product_id.id)]
+            quantity = line.product_qty
+            domain = [
+                ("order_id", "in", rfq_orders.ids),
+                ("product_id", "=", line.product_id.id),
+                ("product_qty", ">", 0.0),
+            ]
             rfq_lines = self.env["purchase.order.line"].search(domain, order="date_order")
             if not rfq_lines:
-                raise UserError(
-                    _("The %s product (%s) is not found in a rfq")
-                    % (line.product_id.name, line.product_id.default_code)
-                )
-            for rfq_line in rfq_lines:
-                if quality < rfq_line.product_qty:
-                    product_qty = rfq_line.product_qty - quality
-                    rfq_line.write({"product_qty": product_qty})
-                    quality = 0
-                else:
-                    quality -= rfq_line.product_qty
-                    rfq_line.write({"product_qty": 0})
-            if quality != 0:
-                raise UserError(
-                    _("The quantity of %s of the [%s] %s product is not found in a rfq")
-                    % (
-                        quality,
-                        line.product_id.default_code,
-                        line.product_id.name,
+                found_errors.append(
+                    _("The product [{}]{} is not found in a rfq").format(
+                        line.product_id.default_code, line.product_id.name
                     )
                 )
-            rfq_lines.order_id.check_if_empty()
+            if not found_errors:
+                # check for quantities without writing the rfq lines
+                for rfq_line in rfq_lines:
+                    if quantity < rfq_line.product_qty:
+                        quantity = 0
+                    else:
+                        quantity -= rfq_line.product_qty
+                if quantity != 0:
+                    quantity_errors.append(
+                        _("The quantity {} of the [{}] {} product is not found in a rfq").format(
+                            quantity, line.product_id.default_code, line.product_id.name
+                        )
+                    )
+                if not quantity_errors:
+                    for rfq_line in rfq_lines:
+                        if quantity < rfq_line.product_qty:
+                            product_qty = rfq_line.product_qty - quantity
+                            rfq_line.write({"product_qty": product_qty})
+                            quantity = 0
+                        else:
+                            quantity -= rfq_line.product_qty
+                            rfq_line.write({"product_qty": 0})
+                rfq_lines.order_id.check_if_empty()
+        errors = found_errors + quantity_errors
+        if errors:
+            raise UserError("\n".join(errors))
 
     def check_if_empty(self):
         for order in self:
