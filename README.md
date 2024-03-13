@@ -106,9 +106,9 @@ addon | version | maintainers | summary | price
 [deltatech_purchase_price](deltatech_purchase_price/) | 15.0.1.1.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Update vendor price after reception | Free 
 [deltatech_purchase_refund](deltatech_purchase_refund/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generare factura storno pentru retururi | 5.0 EUR
 [deltatech_purchase_stock](deltatech_purchase_stock/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Purchase Stock | Free 
-[deltatech_purchase_xls](deltatech_purchase_xls/) | 15.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Import/export purchase line from/to Excel | Free 
+[deltatech_purchase_xls](deltatech_purchase_xls/) | 15.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Import/export purchase line from/to Excel | Free 
 [deltatech_ral](deltatech_ral/) | 15.0.1.0.0 |  | RAL | Free 
-[deltatech_reception_note](deltatech_reception_note/) | 15.0.0.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Batch reception note | Free 
+[deltatech_reception_note](deltatech_reception_note/) | 15.0.0.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Batch reception note | Free 
 [deltatech_replenish](deltatech_replenish/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Replenish | Free 
 [deltatech_report_packaging](deltatech_report_packaging/) | 15.0.1.0.1 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report Packaging | Free 
 [deltatech_report_prn](deltatech_report_prn/) | 15.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Raport PRN | Free 

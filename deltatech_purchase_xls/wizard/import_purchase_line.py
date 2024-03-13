@@ -69,6 +69,7 @@ class ImportPurchaseLine(models.TransientModel):
     def do_import(self):
         table_values = self.get_rows()
         lines = []
+        errors = []
         for row in table_values:
             try:
                 fields_list = self.fields_list.split(",")
@@ -107,28 +108,43 @@ class ImportPurchaseLine(models.TransientModel):
                 product_uom = product_id.uom_po_id or product_id.uom_id
                 if uom_name and uom_name != product_uom.name:
                     uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
+
                     if uom:
-                        if uom != product_id.uom_po_id and uom != product_id.uom_id:
-                            raise UserError(_("Product %s does not have UOM %s") % (product_id.name, uom.name))
+                        if (
+                            uom.category_id != product_id.uom_po_id.category_id
+                            and uom.category_id != product_id.uom_id.category_id
+                        ):
+                            errors.append(
+                                _("Product %s does not have UOM category %s") % (product_id.name, uom.category_id.name)
+                            )
                         product_uom = uom
+                    else:
+                        errors.append(
+                            _("UOM {} not found for product [{}] {}").format(
+                                uom_name, product_id.default_code, product_id.name
+                            )
+                        )
             else:
                 if self.new_product:
                     product_id = self.create_product(product_code, product_name, quantity, price, uom_name)
                     product_uom = product_id.uom_po_id or product_id.uom_id
                 else:
-                    raise UserError(_("Product %s not found") % product_code)
-
-            lines += [
-                {
-                    "order_id": self.purchase_id.id,
-                    "product_id": product_id.id,
-                    "name": product_name or product_id.display_name,
-                    "product_qty": quantity,
-                    "price_unit": price,
-                    "product_uom": product_uom.id,
-                    "date_planned": self.purchase_id.date_order,
-                }
-            ]
+                    errors.append(_("Product %s not found") % product_code)
+                    # raise UserError(_("Product %s not found") % product_code)
+            if product_id:
+                lines += [
+                    {
+                        "order_id": self.purchase_id.id,
+                        "product_id": product_id.id,
+                        "name": product_name or product_id.display_name,
+                        "product_qty": quantity,
+                        "price_unit": price,
+                        "product_uom": product_uom.id,
+                        "date_planned": self.purchase_id.date_order,
+                    }
+                ]
+        if errors:
+            raise UserError("\n".join(errors))
         purchase_lines = self.env["purchase.order.line"].create(lines)
         purchase_lines._compute_tax_id()
         if "price" not in self.fields_list:
