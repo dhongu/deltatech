@@ -140,6 +140,11 @@ class BusinessProcess(models.Model):
         "business.process", relation="business_process_down_dep", column1="process_id", column2="destination_process_id"
     )
 
+    configuration_duration = fields.Float(string="Configuration duration", default=0.0)
+    instructing_duration = fields.Float(string="Instructing duration", default=0.0)
+    data_migration_duration = fields.Float(string="Data migration duration", default=0.0)
+    duration_for_completion = fields.Float(string="Total duration", compute="_compute_duration_for_completion")
+
     @api.model
     def create(self, vals):
         if not vals.get("code", False):
@@ -168,6 +173,12 @@ class BusinessProcess(models.Model):
     def _compute_count_tests(self):
         for process in self:
             process.count_tests = len(process.test_ids)
+
+    def _compute_duration_for_completion(self):
+        for process in self:
+            process.duration_for_completion = (
+                process.configuration_duration + process.instructing_duration + process.data_migration_duration
+            )
 
     def action_view_steps(self):
         domain = [("process_id", "=", self.id)]
