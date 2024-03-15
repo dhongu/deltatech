@@ -34,20 +34,20 @@
                         data-name="Content"
                     >
                         <section t-if="doc.description" class="pb16 o_colored_level" style="background-image: none;">
-                            <h1 data-anchor="true" class="o_default_snippet_text">Description</h1>
+                            <h2 data-anchor="true" class="o_default_snippet_text">Description</h2>
                             <t t-row="doc.description" />
-                            <h1 data-anchor="true" class="o_default_snippet_text">Steps</h1>
+                            <h2 data-anchor="true" class="o_default_snippet_text">Steps</h2>
                         </section>
                         <t t-foreach="doc.step_ids" t-as="step">
                             <section class="pb16 o_colored_level" style="background-image: none;">
-                                <h1
+                                <h4
                                     data-anchor="true"
                                     class="o_default_snippet_text"
                                     t-attf-id="table_of_content_heading_{{step.id}}"
                                 >
                                     <t t-esc="step.name" />
-                                </h1>
-                                <t t-row="step.details" />
+                                </h4>
+                                <t t-esc="step.details" />
                             </section>
                         </t>
                     </div>
