@@ -32,6 +32,7 @@
                                 <field name="match" required="1" />
                                 <field name="relative_days" />
                                 <field name="only_open" />
+                                <field name="with_refunds" />
                             </group>
                             <group>
                                 <field name="mail_template" />

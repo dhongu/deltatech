@@ -36,6 +36,7 @@ class InvoiceFollowup(models.Model):
     only_open = fields.Boolean(
         "Only open invoices", default=True, help="Only open (unpaid) invoices will be " "processed"
     )
+    with_refunds = fields.Boolean(string="Parse refund invoices", default=False, help="Also get refund invoices")
     invoice_html = fields.Html(
         "Invoices placeholder",
         help="This code will be inserted into the mail, replacing the"
@@ -49,7 +50,9 @@ class InvoiceFollowup(models.Model):
         "$amount_tax=invoice.amount_tax,\n"
         "$amount_total=invoice.amount_total,\n"
         "$amount_due=invoice.residual,\n"
-        "$total_debit=total amount to pay",
+        "$total_debit=total amount to pay\n"
+        "$total_all_debit=total amount to pay for the partner, from all unpaid invoiced, due or not\n"
+        "$total_due_debit=total due amount to pay for the partner",
     )
     mail_template = fields.Many2one(
         "mail.template",
