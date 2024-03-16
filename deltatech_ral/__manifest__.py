@@ -12,6 +12,7 @@
     "depends": ["base", "stock", "mrp"],
     "data": ["views/stock_view.xml", "views/mrp_view.xml"],
     "images": ["static/description/main_screenshot.png"],
+    "maintainers": ["dhongu"],
     "development_status": "Mature",
     "installable": True,
 }

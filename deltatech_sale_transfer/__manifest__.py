@@ -15,5 +15,6 @@
         "views/stock_warehouse_view.xml",
     ],
     "development_status": "Production/Stable",
+    "maintainers": ["danila12"],
     "images": ["static/description/main_screenshot.png"],
 }

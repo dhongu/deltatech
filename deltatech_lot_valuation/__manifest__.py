@@ -15,5 +15,6 @@
         "views/stock_quant_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
+    "maintainers": ["dhongu"],
     "development_status": "Beta",
 }

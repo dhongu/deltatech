@@ -12,5 +12,6 @@
     "data": ["views/stock_move_line_view.xml", "views/stock_production_lot.xml"],
     "license": "OPL-1",
     "images": ["static/description/main_screenshot.png"],
+    "maintainers": ["dhongu"],
     "development_status": "Beta",
 }
