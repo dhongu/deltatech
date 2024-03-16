@@ -13,6 +13,7 @@
     "depends": ["account", "portal"],
     "license": "OPL-1",
     "data": ["views/portal_templates.xml"],
+    "maintainers": ["dhongu"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "installable": True,

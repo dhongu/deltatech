@@ -11,6 +11,8 @@
     "license": "OPL-1",
     "depends": ["stock"],
     "data": ["data/ir_server_action.xml"],
+    "maintainers": ["danila12"],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "installable": True,
 }

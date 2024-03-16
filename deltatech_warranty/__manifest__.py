@@ -18,4 +18,5 @@
     "images": ["images/main_screenshot.png"],
     "installable": True,
     "development_status": "Beta",
+    "maintainers": ["danila12"],
 }

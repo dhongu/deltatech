@@ -14,5 +14,6 @@
     "license": "OPL-1",
     "data": ["views/sale.xml", "security/ir.model.access.csv"],
     "development_status": "Beta",
+    "maintainers": ["danila12"],
     "images": ["static/description/main_screenshot.png"],
 }

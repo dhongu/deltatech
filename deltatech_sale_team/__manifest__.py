@@ -14,5 +14,6 @@
     "data": ["views/sale_team_view.xml", "security/sales_team_security.xml"],
     "development_status": "Production/Stable",
     "images": ["static/description/main_screenshot.png"],
+    "maintainers": ["danila12"],
     "installable": True,
 }

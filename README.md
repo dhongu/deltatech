@@ -21,7 +21,7 @@ addon | version | maintainers | summary | price
 [deltatech_agreement_management](deltatech_agreement_management/) | 15.0.0.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage agreements numbers, date, state | Free 
 [deltatech_alternative](deltatech_alternative/) | 15.0.2.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes | Free 
 [deltatech_alternative_website](deltatech_alternative_website/) | 15.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show alternative code in website | Free 
-[deltatech_auto_reorder_rule](deltatech_auto_reorder_rule/) | 15.0.0.0.1 |  | Auto create reorder rule | Free 
+[deltatech_auto_reorder_rule](deltatech_auto_reorder_rule/) | 15.0.0.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Auto create reorder rule | Free 
 [deltatech_average_payment_period](deltatech_average_payment_period/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Computes average duration of cash accounting | Free 
 [deltatech_backup_attachment](deltatech_backup_attachment/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Backup attachments for selected file type | Free 
 [deltatech_batch_transfer](deltatech_batch_transfer/) | 15.0.0.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Batch transfer improvements | Free 
@@ -45,7 +45,7 @@ addon | version | maintainers | summary | price
 [deltatech_fast_sale](deltatech_fast_sale/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vanzare rapida | 5.0 EUR
 [deltatech_fleet](deltatech_fleet/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vehicle, route, map sheet | Free 
 [deltatech_fleet_geo](deltatech_fleet_geo/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Fleet Geographical Information | Free 
-[deltatech_followup](deltatech_followup/) | 15.0.0.0.6 |  | Simple invoice followup, with automatic e-mails | Free 
+[deltatech_followup](deltatech_followup/) | 15.0.0.0.6 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Simple invoice followup, with automatic e-mails | Free 
 [deltatech_generic_partner_restriction](deltatech_generic_partner_restriction/) | 15.0.2.0.0 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) | Generic Partner restriction | Free 
 [deltatech_invoice_color](deltatech_invoice_color/) | 15.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Colors Invoice Lines | Free 
 [deltatech_invoice_delivery](deltatech_invoice_delivery/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Create delivery form invoice | Free 
@@ -57,10 +57,10 @@ addon | version | maintainers | summary | price
 [deltatech_invoice_report](deltatech_invoice_report/) | 15.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Invoice Report | Free 
 [deltatech_invoice_to_draft](deltatech_invoice_to_draft/) | 15.0.2.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Restricted access to reset account move to draft | Free 
 [deltatech_invoice_weight](deltatech_invoice_weight/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Invoice Weight | Free 
-[deltatech_list_view](deltatech_list_view/) | 15.0.1.0.0 |  | List View Select Text | Free 
+[deltatech_list_view](deltatech_list_view/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | List View Select Text | Free 
 [deltatech_logistic_docs](deltatech_logistic_docs/) | 15.0.1.0.3 |  | Logistic Documents | Free 
-[deltatech_lot](deltatech_lot/) | 15.0.1.0.2 |  | Generate/Select lot | Free 
-[deltatech_lot_valuation](deltatech_lot_valuation/) | 15.0.1.1.0 |  | Lot valuation | Free 
+[deltatech_lot](deltatech_lot/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generate/Select lot | Free 
+[deltatech_lot_valuation](deltatech_lot_valuation/) | 15.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Lot valuation | Free 
 [deltatech_mail](deltatech_mail/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Substitution | Free 
 [deltatech_maintenance](deltatech_maintenance/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Maintenance Extension | Free 
 [deltatech_move_negative_stock](deltatech_move_negative_stock/) | 15.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Replenish negative stock from other location | Free 
@@ -81,7 +81,7 @@ addon | version | maintainers | summary | price
 [deltatech_picking_restrict](deltatech_picking_restrict/) | 15.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict picking validation to a certain security group | Free 
 [deltatech_picking_services](deltatech_picking_services/) | 15.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Service lines in pickings | Free 
 [deltatech_picking_split](deltatech_picking_split/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Picking Manual Backorder | Free 
-[deltatech_portal_invoice](deltatech_portal_invoice/) | 15.0.1.0.1 |  | Portal invoice | Free 
+[deltatech_portal_invoice](deltatech_portal_invoice/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Portal invoice | Free 
 [deltatech_pos_backend](deltatech_pos_backend/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Point of sale create/edit order form backend | Free 
 [deltatech_pos_decimal_numpad_dot](deltatech_pos_decimal_numpad_dot/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Numpad Dot as decimal separator | Free 
 [deltatech_pos_margin](deltatech_pos_margin/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Point of sale margin | Free 
@@ -107,7 +107,7 @@ addon | version | maintainers | summary | price
 [deltatech_purchase_refund](deltatech_purchase_refund/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generare factura storno pentru retururi | 5.0 EUR
 [deltatech_purchase_stock](deltatech_purchase_stock/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Purchase Stock | Free 
 [deltatech_purchase_xls](deltatech_purchase_xls/) | 15.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Import/export purchase line from/to Excel | Free 
-[deltatech_ral](deltatech_ral/) | 15.0.1.0.0 |  | RAL | Free 
+[deltatech_ral](deltatech_ral/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | RAL | Free 
 [deltatech_reception_note](deltatech_reception_note/) | 15.0.0.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Batch reception note | Free 
 [deltatech_replenish](deltatech_replenish/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Replenish | Free 
 [deltatech_report_packaging](deltatech_report_packaging/) | 15.0.1.0.1 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report Packaging | Free 
@@ -129,11 +129,11 @@ addon | version | maintainers | summary | price
 [deltatech_sale_purchase](deltatech_sale_purchase/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Purchase | Free 
 [deltatech_sale_qty_available](deltatech_sale_qty_available/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Quantity Available | Free 
 [deltatech_sale_stage](deltatech_sale_stage/) | 15.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Order Stage | Free 
-[deltatech_sale_team](deltatech_sale_team/) | 15.0.1.0.2 |  | Sale Team Access | Free 
-[deltatech_sale_transfer](deltatech_sale_transfer/) | 15.0.1.0.2 |  | Sale Prepare Transfer | Free 
+[deltatech_sale_team](deltatech_sale_team/) | 15.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Sale Team Access | Free 
+[deltatech_sale_transfer](deltatech_sale_transfer/) | 15.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Sale Prepare Transfer | Free 
 [deltatech_saleorder_pickup_list](deltatech_saleorder_pickup_list/) | 15.0.1.0.0 |  | Pickup list report from sale order | Free 
 [deltatech_saleorder_search](deltatech_saleorder_search/) | 15.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Search sale order by partner e-mail, phone, mobile | Free 
-[deltatech_saleorder_type](deltatech_saleorder_type/) | 15.0.1.0.1 |  | Manage multiple sale order types | Free 
+[deltatech_saleorder_type](deltatech_saleorder_type/) | 15.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage multiple sale order types | Free 
 [deltatech_select_journal](deltatech_select_journal/) | 15.0.1.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Selectie jurnal | Free 
 [deltatech_service](deltatech_service/) | 15.0.2.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage Services Agreement | Free 
 [deltatech_service_agreement](deltatech_service_agreement/) | 15.0.2.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage Services Agreement | Free 
@@ -155,14 +155,14 @@ addon | version | maintainers | summary | price
 [deltatech_stock_negative](deltatech_stock_negative/) | 15.0.2.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Negative stocks are not allowed | Free 
 [deltatech_stock_report](deltatech_stock_report/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report with positions from picking lists | Free 
 [deltatech_stock_reseller](deltatech_stock_reseller/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report report reseller | Free 
-[deltatech_stock_sn](deltatech_stock_sn/) | 15.0.1.0.0 |  | Stock Serial Number | Free 
+[deltatech_stock_sn](deltatech_stock_sn/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Stock Serial Number | Free 
 [deltatech_test_system](deltatech_test_system/) | 15.0.0.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Utils | Free 
 [deltatech_tracking_2performant](deltatech_tracking_2performant/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | 2Performant tracking | Free 
 [deltatech_utils](deltatech_utils/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Utils | Free 
 [deltatech_vendor_stock](deltatech_vendor_stock/) | 15.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vendor stock availability | Free 
 [deltatech_warehouse](deltatech_warehouse/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Warehouse | Free 
 [deltatech_warehouse_access](deltatech_warehouse_access/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Warehouse Access | Free 
-[deltatech_warranty](deltatech_warranty/) | 15.0.1.0.0 |  | Warranty field in product, report for sale order | Free 
+[deltatech_warranty](deltatech_warranty/) | 15.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Warranty field in product, report for sale order | Free 
 [deltatech_watermark](deltatech_watermark/) | 15.0.3.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Watermark field | Free 
 [deltatech_watermark_report](deltatech_watermark_report/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Watermark in report | Free 
 [deltatech_website_access_design](deltatech_website_access_design/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Access for web designer | Free 
@@ -197,13 +197,13 @@ addon | version | maintainers | summary | price
 [deltatech_website_texture_attributes](deltatech_website_texture_attributes/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Attribute with image for texture | Free 
 [deltatech_widget_fontawesome](deltatech_widget_fontawesome/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Font Awesome Widget | Free 
 [deltatech_work_days_report](deltatech_work_days_report/) | 15.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | A report for every day of the month for each employee | Free 
-[terrabit_website_pricelist](terrabit_website_pricelist/) | 15.0.2.0.1 |  | Pricelist extension | Free 
+[terrabit_website_pricelist](terrabit_website_pricelist/) | 15.0.2.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Pricelist extension | Free 
 
 [//]: # (end addons)
 
 
 Maintainer
 ----------
-[![terrabit](https://www.terrabit.ro/web/image/website/1/logo/TERRABIT%20Solutions?unique=b61ca1c)](https://terrabit.ro)
+[![terrabit](https://github.com/terrabit-ro.png?size=64px)](https://terrabit.ro)
 
 This modules is maintained by the Terrabit.

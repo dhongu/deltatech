@@ -12,5 +12,6 @@
     "depends": ["sale", "website_sale"],
     "data": [],
     "images": ["static/description/main_screenshot.png"],
+    "maintainers": ["danila12"],
     "development_status": "Production/Stable",
 }

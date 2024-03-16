@@ -21,6 +21,7 @@
         "security/ir.model.access.csv",
     ],
     "license": "OPL-1",
+    "maintainers": ["danila12"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Alpha",
 }

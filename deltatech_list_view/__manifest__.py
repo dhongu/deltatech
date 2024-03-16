@@ -13,6 +13,7 @@
     "data": [],
     "qweb": ["static/src/xml/*.xml"],
     "images": ["static/description/main_screenshot.png"],
+    "maintainers": ["dhongu"],
     "assets": {
         "web.assets_backend": ["deltatech_list_view/static/src/js/list_renderer.js"],
     },
