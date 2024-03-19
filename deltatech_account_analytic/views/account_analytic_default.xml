@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_analytic_default_form" model="ir.ui.view">
+        <field name="name">account.analytic.default.form</field>
+        <field name="model">account.analytic.default</field>
+        <field name="inherit_id" ref="account.view_account_analytic_default_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='analytic_id']" position="after">
+                <field name="can_split_analytic" invisible="0" readonly="1" string="Can split" />
+                <field name="is_split_analytic_rule" attrs="{'invisible': [('can_split_analytic', '=', False)]}" />
+                <field name="stock_analytic_id" attrs="{'invisible': [('is_split_analytic_rule', '=', False)]}" />
+                <field name="margin_analytic_id" attrs="{'invisible': [('is_split_analytic_rule', '=', False)]}" />
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="sale_team" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
