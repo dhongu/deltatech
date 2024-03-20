@@ -1,0 +1,342 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#    * deltatech_mrp
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0+ec\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-23 14:00+0000\n"
+"PO-Revision-Date: 2020-04-23 14:00+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__nbr
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_tree
+msgid "# of Orders"
+msgstr "Comand producție"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__actually_price
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_tree
+msgid "Actually Price"
+msgstr "Preț actual"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_cost_detail__amount
+msgid "Amount"
+msgstr "Valoare"
+
+#. module: deltatech_mrp
+#: selection:deltatech.mrp.report,state:0
+msgid "Cancelled"
+msgstr "Anulate"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__categ_id
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Category"
+msgstr "Categorie"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__company_id
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_cost_detail__cost_categ
+#: model:ir.model.fields,field_description:deltatech_mrp.field_product_category__cost_categ
+msgid "Cost Category"
+msgstr "Categorie cost"
+
+#. module: deltatech_mrp
+#: model:ir.model,name:deltatech_mrp.model_deltatech_cost_detail
+#: model:ir.model.fields,field_description:deltatech_mrp.field_mrp_production__cost_detail_ids
+msgid "Cost Detail"
+msgstr "Detaliere cost"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.deltatech_mrp_production_form_view
+msgid "Costs"
+msgstr "Costuri"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Current"
+msgstr "Curent"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Current - 3 Month"
+msgstr "Curent - 3 luni"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Current - 4 Month"
+msgstr "Curent - 4 luni"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__date
+msgid "Date"
+msgstr "Dată"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_cost_detail__display_name
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_mrp
+#: selection:deltatech.mrp.report,state:0
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Done"
+msgstr "Gata"
+
+#. module: deltatech_mrp
+#: selection:deltatech.mrp.report,state:0
+msgid "Draft"
+msgstr "Ciornă"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Extended Filters..."
+msgstr "Filtre extinse..."
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Group By..."
+msgstr "Grupează după..."
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_cost_detail__id
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_mrp
+#: selection:deltatech.mrp.report,state:0
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "In Production"
+msgstr "În Producție"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_cost_detail____last_update
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Order Month"
+msgstr "Luna comenzii"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Ordered date of the production order"
+msgstr ""
+
+#. module: deltatech_mrp
+#: selection:deltatech.cost.detail,cost_categ:0
+#: selection:product.category,cost_categ:0
+msgid "Packing Material"
+msgstr "Ambalaje"
+
+#. module: deltatech_mrp
+#: selection:deltatech.mrp.report,state:0
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Picking Exception"
+msgstr "Excepție la preluare"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Previous Month"
+msgstr "Luna anterioară"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__standard_price
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_tree
+msgid "Price Standard"
+msgstr "Preț standard"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__product_id
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_mrp
+#: model:ir.model,name:deltatech_mrp.model_product_category
+msgid "Product Category"
+msgstr "Categorie produs"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_tree
+msgid "Production"
+msgstr "Producție"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_graph
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_pivot
+msgid "Production Analysis"
+msgstr "Analiză producție"
+
+#. module: deltatech_mrp
+#: model:ir.actions.act_window,name:deltatech_mrp.action_deltatech_mrp_report
+#: model:ir.model,name:deltatech_mrp.model_deltatech_mrp_report
+#: model:ir.ui.menu,name:deltatech_mrp.menu_deltatech_mrp_report_tree
+msgid "Production Cost Analysis"
+msgstr "Analiză costuri producție"
+
+#. module: deltatech_mrp
+#: model:ir.model,name:deltatech_mrp.model_mrp_production
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_cost_detail__production_id
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__production_id
+msgid "Production Order"
+msgstr "Comanda producție"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Production order"
+msgstr "Comandă producție"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Production performed during 3 months ago"
+msgstr "Producția realizată acum 3 luni"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Production performed during 4 months ago"
+msgstr "Producția realizată acum 4 luni"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Production performed during current month"
+msgstr "Producția realizată în luna curentă"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Production performed during current year"
+msgstr "Producția realizată în anul curent"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Production performed during previous month"
+msgstr "Producția realizată luna anterioară"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__product_qty_ef
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_tree
+msgid "Qty Efective"
+msgstr "Cant efectivă"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__product_qty
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_tree
+msgid "Qty Plan"
+msgstr "cant planificată"
+
+#. module: deltatech_mrp
+#: selection:deltatech.cost.detail,cost_categ:0
+#: selection:product.category,cost_categ:0
+msgid "Raw materials"
+msgstr "Materii prime"
+
+#. module: deltatech_mrp
+#: selection:deltatech.mrp.report,state:0
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Ready to Produce"
+msgstr "Gata de produs"
+
+#. module: deltatech_mrp
+#: selection:deltatech.cost.detail,cost_categ:0
+#: selection:product.category,cost_categ:0
+msgid "Semi-products"
+msgstr "Semifabricate"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__state
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "State"
+msgstr "Stare"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "This Month"
+msgstr "Această lună"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "This Year"
+msgstr "Acest an"
+
+#. module: deltatech_mrp
+#: model_terms:ir.actions.act_window,help:deltatech_mrp.action_deltatech_mrp_report
+msgid "This reporting allows you to analysis your manufacturing cost."
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__product_uom
+msgid "Unit of Measure"
+msgstr "Unitatea de măsură"
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.deltatech_mrp_production_form_view
+msgid "Update"
+msgstr "Actualizează"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__consumed_val
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_tree
+msgid "Val Consumed"
+msgstr "Val consumuri"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__consumed_pak_val
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_tree
+msgid "Val Consumed Packing"
+msgstr "Val ambalaje"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__consumed_raw_val
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_tree
+msgid "Val Consumed Raw"
+msgstr "Val materii prime"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__consumed_sem_val
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_tree
+msgid "Val Consumed Semifinish"
+msgstr "Val semifabricate"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__product_val_ef
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_tree
+msgid "Val Efective"
+msgstr "Val efectivă"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__product_val
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_tree
+msgid "Val Plan"
+msgstr "Val planificată"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__val_prod
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_tree
+msgid "Value production"
+msgstr "Valoare producție"
+
+#. module: deltatech_mrp
+#: selection:deltatech.mrp.report,state:0
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Waiting Goods"
+msgstr "Așteaptă bunuri"
+
