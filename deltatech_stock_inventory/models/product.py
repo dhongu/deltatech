@@ -40,12 +40,12 @@ class ProductTemplate(models.Model):
             return location.name
         return self._get_warehouse_name(location.location_id)
 
-    @api.depends('product_variant_ids.stock_quant_ids')
+    @api.depends("product_variant_ids.stock_quant_ids")
     def _compute_warehouse_stocks(self):
         for product in self:
             warehouse_stock_lines = []
             for variant in product.product_variant_ids:
-                stock_quant_ids = variant.stock_quant_ids.filtered(lambda q: q.location_id.usage == 'internal')
+                stock_quant_ids = variant.stock_quant_ids.filtered(lambda q: q.location_id.usage == "internal")
                 warehouse_quantities = {}
                 for quant in stock_quant_ids:
                     warehouse_name = self._get_warehouse_name(quant.location_id)
@@ -57,7 +57,7 @@ class ProductTemplate(models.Model):
                     line = f"{warehouse_name}: {quantity_in_warehouse}"
                     warehouse_stock_lines.append(line)
 
-            product.warehouse_stock = '\n'.join(warehouse_stock_lines)
+            product.warehouse_stock = "\n".join(warehouse_stock_lines)
 
     @api.depends_context("warehouse", "location")
     def _compute_loc(self):
