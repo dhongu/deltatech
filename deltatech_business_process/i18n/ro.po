@@ -1725,7 +1725,7 @@ msgstr "Pornire test de integrare"
 #. module: deltatech_business_process
 #: model:ir.actions.server,name:deltatech_business_process.action_start_internal_test
 msgid "Start Internal Test"
-msgstr "Pornire test intern"
+msgstr "Pornire test implementator"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
@@ -1810,7 +1810,7 @@ msgstr "Stadiu test integrare"
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__status_internal_test
 msgid "Status internal test"
-msgstr "Stadiu test intern"
+msgstr "Stadiu test implementator"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__status_user_acceptance_test
