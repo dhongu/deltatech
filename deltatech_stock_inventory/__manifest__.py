@@ -22,6 +22,7 @@
         "views/report_stockinventory.xml",
         # "views/stock_requests_count_view.xml",
         # "wizard/stock_change_product_qty_view.xml",
+        "views/product_kanban_view.xml",
         "wizard/stock_inventory_merge.xml",
     ],
     "images": ["images/main_screenshot.png"],
