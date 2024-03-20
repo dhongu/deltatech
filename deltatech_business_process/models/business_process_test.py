@@ -1,8 +1,9 @@
 # ©  2023 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import _, api, fields, models
 from datetime import datetime
+
+from odoo import _, api, fields, models
 
 
 class BusinessProcessTest(models.Model):
