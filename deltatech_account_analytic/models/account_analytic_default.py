@@ -4,8 +4,8 @@
 from odoo import fields, models
 
 
-class AccountAnalyticDefault(models.Model):
-    _inherit = "account.analytic.default"
+class AccountAnalyticDistributionModel(models.Model):
+    _inherit = "account.analytic.distribution.model"
 
     # can_split_analytic = fields.Boolean(related="company_id.split_sale_analytic")
     can_split_analytic = fields.Boolean(compute="_compute_can_split")
