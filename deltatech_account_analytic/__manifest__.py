@@ -3,12 +3,12 @@
 {
     "name": "Deltatech Account Analytic",
     "summary": "Analytic lines enhancements",
-    "version": "15.0.0.0.1",
+    "version": "15.0.0.0.2",
     "author": "Terrabit, Dan Stoica",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Accounting & Finance",
-    "depends": ["account"],
+    "depends": ["account", "sale"],
     "data": [
         "views/res_config_settings.xml",
         "views/account_analytic_default.xml",

@@ -6,3 +6,4 @@ from . import res_config_settings
 from . import account_analytic_default
 from . import account_analytic
 from . import account_move
+from . import sale_order
