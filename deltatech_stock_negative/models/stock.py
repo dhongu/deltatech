@@ -11,8 +11,17 @@ class StockQuant(models.Model):
     _inherit = "stock.quant"
 
     @api.model
-    def _update_available_quantity(self, product_id, location_id, quantity=False, reserved_quantity=False, lot_id=None,
-                                   package_id=None, owner_id=None, in_date=None):
+    def _update_available_quantity(
+        self,
+        product_id,
+        location_id,
+        quantity=False,
+        reserved_quantity=False,
+        lot_id=None,
+        package_id=None,
+        owner_id=None,
+        in_date=None,
+    ):
         if not location_id.allow_negative_stock and location_id.usage == "internal":
             quants = self._gather(
                 product_id, location_id, lot_id=lot_id, package_id=package_id, owner_id=owner_id, strict=True
@@ -39,6 +48,12 @@ class StockQuant(models.Model):
                     raise UserError(err)
 
         return super()._update_available_quantity(
-            product_id=product_id, location_id=location_id, quantity=quantity, reserved_quantity=reserved_quantity,
-            lot_id=lot_id, package_id=package_id, owner_id=owner_id, in_date=in_date
+            product_id=product_id,
+            location_id=location_id,
+            quantity=quantity,
+            reserved_quantity=reserved_quantity,
+            lot_id=lot_id,
+            package_id=package_id,
+            owner_id=owner_id,
+            in_date=in_date,
         )
