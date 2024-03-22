@@ -17,7 +17,9 @@ class SaleOrder(models.Model):
             else:
                 super(SaleOrder, order)._compute_analytic_account_id()
 
+
     def action_confirm(self):
         res = super().action_confirm()
         self._compute_analytic_account_id()
         return res
+      
