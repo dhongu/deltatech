@@ -199,3 +199,29 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_reception_note.view_reception_note_create_form
 msgid "or"
 msgstr ""
+
+#. module: deltatech_reception_note
+#: code:addons/deltatech_reception_note/models/purchase.py:0
+#, python-format
+msgid "Product [{}]{}: quantity: {} {}<br />"
+msgstr "Produs [{}]{}: cantitate: {} {}<br />"
+
+#. module: deltatech_reception_note
+#: code:addons/deltatech_reception_note/models/purchase.py:0
+#, python-format
+msgid "Quantities forced on this reception note:<br />"
+msgstr "Cantități forțate (fără RFQ) pe nota recepție:<br />"
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,help:deltatech_reception_note.field_purchase_order__ignore_quantities
+msgid ""
+"If checked, quantities bigger than those found on rfq's are forced for "
+"reception"
+msgstr ""
+"Dacă este bifat, cantitățile si produsele care nu sunt gasite in RFQ+uri vor fi forțate în"
+"recepție"
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order__ignore_quantities
+msgid "Ignore quantities"
+msgstr "Ignoră cantitățile negăsite"
