@@ -105,6 +105,7 @@ class PurchaseOrder(models.Model):
                         }
                         lines_to_add.append(vals)
                 if not quantity_errors:
+                    quantity = line.product_qty
                     for rfq_line in rfq_lines:
                         if quantity < rfq_line.product_qty:
                             product_qty = rfq_line.product_qty - quantity
