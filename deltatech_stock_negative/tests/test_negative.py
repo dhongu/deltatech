@@ -66,8 +66,9 @@ class TestNegative(TransactionCase):
         )
         move._action_confirm()
         move_line = self.env["stock.move.line"].create(move._prepare_move_line_vals())
-        move_line.quantity = 10.0
+
         with self.assertRaises(UserError) as cm:
+            move_line.quantity = 10.0
             move._action_done()
         self.assertRegex(cm.exception.args[0], "avoid negative stock")
 
@@ -108,8 +109,9 @@ class TestNegative(TransactionCase):
         move._action_confirm()
         move_line = self.env["stock.move.line"].create(move._prepare_move_line_vals())
         move_line.lot_id = self.lot
-        move_line.quantity = 10.0
+
         with self.assertRaises(UserError) as cm:
+            move_line.quantity = 10.0
             move._action_done()
         self.assertRegex(cm.exception.args[0], "avoid negative stock")
 
@@ -149,7 +151,8 @@ class TestNegative(TransactionCase):
             }
         )
         move_line = self.env["stock.move.line"].create(move._prepare_move_line_vals())
-        move_line.quantity = 10.0
+
         with self.assertRaises(UserError) as cm:
+            move_line.quantity = 10.0
             move._action_done()
         self.assertRegex(cm.exception.args[0], "avoid negative stock")
