@@ -15,6 +15,11 @@ class PurchaseOrder(models.Model):
     delivery_note_no = fields.Char(string="Delivery Note No")
     is_empty = fields.Boolean(string="Is empty", default=False)
     date_sent = fields.Datetime(string="Date sent")
+    ignore_quantities = fields.Boolean(
+        string="Ignore quantities",
+        default=False,
+        help="If checked, quantities bigger than those found on rfq's are forced for reception",
+    )
 
     def action_rfq_send(self):
         if self.reception_type != "note":
@@ -36,8 +41,20 @@ class PurchaseOrder(models.Model):
 
         for order in self:
             if order.reception_type == "note":
-                order.reduce_from_rfq()
-
+                if order.ignore_quantities:
+                    lines = order.reduce_from_rfq()
+                    if lines:
+                        message = _("Quantities forced on this reception note:<br />")
+                        for line in lines:
+                            message += _("Product [{}]{}: quantity: {} {}<br />").format(
+                                line["product_id"].default_code,
+                                line["product_id"].name,
+                                line["product_qty"],
+                                line["uom"].name,
+                            )
+                        order.message_post(body=message)
+                else:
+                    order.reduce_from_rfq()
         return res
 
     def reduce_from_rfq(self):
@@ -50,6 +67,7 @@ class PurchaseOrder(models.Model):
         rfq_orders = self.env["purchase.order"].search(domain, order="id")
         found_errors = []
         quantity_errors = []
+        lines_to_add = []
         for line in self.order_line:
             quantity = line.product_qty
             domain = [
@@ -59,11 +77,12 @@ class PurchaseOrder(models.Model):
             ]
             rfq_lines = self.env["purchase.order.line"].search(domain, order="date_order")
             if not rfq_lines:
-                found_errors.append(
-                    _("The product [{}]{} is not found in a rfq").format(
-                        line.product_id.default_code, line.product_id.name
+                if not self.ignore_quantities:
+                    found_errors.append(
+                        _("The product [{}]{} is not found in a rfq").format(
+                            line.product_id.default_code, line.product_id.name
+                        )
                     )
-                )
             if not found_errors:
                 # check for quantities without writing the rfq lines
                 for rfq_line in rfq_lines:
@@ -72,11 +91,19 @@ class PurchaseOrder(models.Model):
                     else:
                         quantity -= rfq_line.product_qty
                 if quantity != 0:
-                    quantity_errors.append(
-                        _("The quantity {} of the [{}] {} product is not found in a rfq").format(
-                            quantity, line.product_id.default_code, line.product_id.name
+                    if not self.ignore_quantities:
+                        quantity_errors.append(
+                            _("The quantity {} of the [{}] {} product is not found in a rfq").format(
+                                quantity, line.product_id.default_code, line.product_id.name
+                            )
                         )
-                    )
+                    else:
+                        vals = {
+                            "product_id": line.product_id,
+                            "product_qty": quantity,
+                            "uom": line.product_uom,
+                        }
+                        lines_to_add.append(vals)
                 if not quantity_errors:
                     for rfq_line in rfq_lines:
                         if quantity < rfq_line.product_qty:
@@ -90,6 +117,7 @@ class PurchaseOrder(models.Model):
         errors = found_errors + quantity_errors
         if errors:
             raise UserError("\n".join(errors))
+        return lines_to_add
 
     def check_if_empty(self):
         for order in self:
