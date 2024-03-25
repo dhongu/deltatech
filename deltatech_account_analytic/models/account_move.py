@@ -57,7 +57,10 @@ class AccountMoveLine(models.Model):
         if self.move_id.is_sale_document():
             category = "invoice"
             stock_name = default_name + " --stock"
-            amount = self.purchase_price
+            if self.product_id and self.product_id.detailed_type == "product":
+                amount = self.purchase_price
+            else:
+                amount = 0.0
             split_result.append(
                 {
                     "name": stock_name,
@@ -79,7 +82,10 @@ class AccountMoveLine(models.Model):
                 }
             )
             margin_name = default_name + " --margin"
-            amount = ((self.credit or 0.0) - (self.debit or 0.0)) - self.purchase_price
+            if self.product_id and self.product_id.detailed_type == "product":
+                amount = ((self.credit or 0.0) - (self.debit or 0.0)) - self.purchase_price
+            else:
+                amount = (self.credit or 0.0) - (self.debit or 0.0)
             split_result.append(
                 {
                     "name": margin_name,
