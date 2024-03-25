@@ -137,6 +137,6 @@ addon | version | maintainers | summary | price
 
 Maintainer
 ----------
-[![terrabit](https://www.terrabit.ro/web/image/website/1/logo/TERRABIT%20Solutions?unique=b61ca1c)](https://terrabit.ro)
+[![terrabit](https://github.com/terrabit-ro.png?size=64px)](https://terrabit.ro)
 
 This modules is maintained by the Terrabit.
