@@ -7,7 +7,7 @@
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
-    "version": "14.0.0.0.1",
+    "version": "14.0.0.0.2",
     "depends": ["account", "deltatech_average_payment_period"],
     "data": [
         "security/groups.xml",
