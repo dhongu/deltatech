@@ -99,6 +99,7 @@ addon | version | maintainers | summary | price
 [deltatech_sale_commission](deltatech_sale_commission/) | 17.0.1.1.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Compute sale commission | Free 
 [deltatech_sale_margin](deltatech_sale_margin/) | 17.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Check price in sale order | Free 
 [deltatech_sale_multiple](deltatech_sale_multiple/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale quantity multiple | Free 
+[deltatech_sale_multiple_website](deltatech_sale_multiple_website/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Quantity multiple on website | Free 
 [deltatech_sale_pallet](deltatech_sale_pallet/) | 17.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale pallet | Free 
 [deltatech_sale_payment](deltatech_sale_payment/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Payment button in sale order | Free 
 [deltatech_sale_phone](deltatech_sale_phone/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show partner phone in sale order | Free 
