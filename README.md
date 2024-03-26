@@ -37,6 +37,7 @@ addon | version | maintainers | summary | price
 [deltatech_data_sheet_website](deltatech_data_sheet_website/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Data Sheet | Free 
 [deltatech_dc](deltatech_dc/) | 17.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Print Declaration of Conformity | Free 
 [deltatech_delivery_status](deltatech_delivery_status/) | 17.0.2.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Carrier status on picking | Free 
+[deltatech_download](deltatech_download/) | 17.0.0.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generare fisier | Free 
 [deltatech_dropshipping](deltatech_dropshipping/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Delivery address in picking | Free 
 [deltatech_dummy_queue_job](deltatech_dummy_queue_job/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Dummy Queue Job | Free 
 [deltatech_fast_purchase](deltatech_fast_purchase/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Achizitie rapida | 5.0 EUR
@@ -73,8 +74,10 @@ addon | version | maintainers | summary | price
 [deltatech_picking_services](deltatech_picking_services/) | 17.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Service lines in pickings | Free 
 [deltatech_picking_split](deltatech_picking_split/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Picking Manual Backorder | Free 
 [deltatech_pos_decimal_numpad_dot](deltatech_pos_decimal_numpad_dot/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Numpad Dot as decimal separator | Free 
+[deltatech_pos_product_filter](deltatech_pos_product_filter/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Searching pos order using product | Free 
 [deltatech_price_categ](deltatech_price_categ/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Price List: Bronze Silver and Gold in product | Free 
 [deltatech_price_change](deltatech_price_change/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Price Change | Free 
+[deltatech_price_modify_reception](deltatech_price_modify_reception/) | 17.0.1.0.2 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) | Editarea pretului de lista la receptie | Free 
 [deltatech_product_category](deltatech_product_category/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Products Category | Free 
 [deltatech_product_category_color](deltatech_product_category_color/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Products Category Color | Free 
 [deltatech_product_category_group](deltatech_product_category_group/) | 17.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Products Category User Group | Free 
