@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_service_billing_preparation_form" model="ir.ui.view">
+            <field name="name">Service Billing Preparation</field>
+            <field name="model">service.billing.preparation</field>
+            <field name="arch" type="xml">
+                <form string="Service Billing Preparation">
+                    <group string="Service Billing Preparation">
+                        <div class="oe_grey">For the selected agreement will generate estimate consumptions</div>
+                    </group>
+                    <group>
+                        <field name="service_period_id" options="{'no_create': True}" />
+                        <field name="company_id" invisible="1" />
+                    </group>
+                    <group>
+                        <field name="agreement_ids" nolabel="1" />
+                    </group>
+                    <footer>
+                        <button name="do_billing_preparation" string="_Apply" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+    <record id="action_service_billing_preparation" model="ir.actions.act_window">
+        <field name="name">Billing Preparation</field>
+        <field name="res_model">service.billing.preparation</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_service_agreement" />
+        <field name="binding_view_types">list,form</field>
+    </record>
+
+        <menuitem
+            name="Billing Preparation"
+            id="menu_service_billing_preparation"
+            action="action_service_billing_preparation"
+            parent="deltatech_service_agreement.menu_service_agr"
+            sequence="101"
+        />
+
+    </data>
+</odoo>

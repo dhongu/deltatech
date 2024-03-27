@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_service_change_invoice_date_form" model="ir.ui.view">
+            <field name="name">Service Change Invoice Date</field>
+            <field name="model">service.change.invoice.date</field>
+            <field name="arch" type="xml">
+                <form string="Change">
+                    <group>
+                        <div class="oe_red">Mass change invoice date!</div>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="date_invoice" />
+                        </group>
+                        <group>
+
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="do_change" string="_Apply" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    <record id="action_service_change_invoice_date" model="ir.actions.act_window">
+        <field name="name">Change Invoice Date</field>
+        <field name="res_model">service.change.invoice.date</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_service_consumption" />
+        <field name="binding_view_types">list</field>
+    </record>
+
+
+    </data>
+</odoo>
