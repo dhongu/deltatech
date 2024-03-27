@@ -28,7 +28,6 @@ class SaleOrder(models.Model):
             {
                 "res_id": self.id,
                 "res_model": "sale.order",
-                "description": self.name,
                 "amount": self.amount_total - sum(self.invoice_ids.mapped("amount_total")),
                 "currency_id": self.currency_id.id,
                 "partner_id": self.partner_id.id,
@@ -55,7 +54,7 @@ class SaleOrder(models.Model):
                 transactions = transactions - invoice.transaction_ids
             for transaction in transactions:
                 amount += transaction.amount
-                acquirer = transaction.acquirer_id
+                acquirer = transaction.provider_id
 
             order.payment_amount = amount
             if amount:
@@ -69,12 +68,12 @@ class SaleOrder(models.Model):
                 if order.transaction_ids:
                     order.payment_status = "initiated"
                     for transaction in order.sudo().transaction_ids:
-                        acquirer = transaction.acquirer_id
+                        acquirer = transaction.provider_id
 
                     authorized_transaction_ids = order.transaction_ids.filtered(lambda t: t.state == "authorized")
                     if authorized_transaction_ids:
                         order.payment_status = "authorized"
                         for transaction in authorized_transaction_ids:
-                            acquirer = transaction.acquirer_id
+                            acquirer = transaction.provider_id
 
             order.acquirer_id = acquirer
