@@ -1,0 +1,265 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="view_service_equipment_tree" model="ir.ui.view">
+        <field name="name">Services equipment</field>
+        <field name="model">service.equipment</field>
+        <field name="inherit_id" ref="deltatech_service_equipment_base.view_service_equipment_tree" />
+        <field name="arch" type="xml">
+            <tree position="attributes">
+                <attribute name="decoration-bf">agreement_id!=False</attribute>
+            </tree>
+
+            <field name="partner_id" position="after">
+
+                <field name="address_id" optional="show" />
+                <field name="emplacement" optional="show" />
+                <field name="group_id" optional="hide" />
+                <field name="agreement_id" optional="show" />
+                <field name="agreement_type_id" optional="hide" />
+                <field name="serial_id" optional="show" />
+                <field name="readings_status" widget="badge" decoration-success="readings_status == 'done'" />
+
+                <field name="total_revenues" sum="total" />
+                <field name="total_costs" sum="total" />
+                <field name="analytic_account_id" optional="hide" />
+
+                <field
+                    name="location_type"
+                    widget="badge"
+                    decoration-success="location_type == 'rental'"
+                    decoration-info="location_type == 'customer'"
+                    decoration-danger="location_type == 'unavailable'"
+                />
+                <field name="last_reading" optional="show" />
+                <field name="next_reading" optional="show" widget="remaining_days" />
+                <field name="installation_date" optional="show" />
+
+                <field name="location_id" optional="hide" />
+            </field>
+        </field>
+    </record>
+
+    <record id="mt_equipment_change_status" model="mail.message.subtype">
+        <field name="name">Change status</field>
+        <field name="res_model">service.equipment</field>
+        <field name="default" eval="False" />
+        <field name="description">Equipment change status</field>
+    </record>
+
+    <record id="view_service_equipment_form" model="ir.ui.view">
+        <field name="name">Service equipment</field>
+        <field name="model">service.equipment</field>
+        <field name="inherit_id" ref="deltatech_service_equipment_base.view_service_equipment_form" />
+        <field name="arch" type="xml">
+            <header position="inside">
+
+                <button
+                    name="%(deltatech_service_equipment_base.action_service_enter_reading)d"
+                    type="action"
+                    string="Add Readings"
+                    class="oe_highlight"
+                    groups="deltatech_service_base.group_service_user"
+                    invisible="meter_ids==[]"
+                />
+
+
+                <button
+                    name="%(action_service_equi_add)d"
+                    type="action"
+                    string="Add to Agreement"
+                    class="oe_highlight"
+                    invisible="agreement_id!=False"
+                    groups="deltatech_service_base.group_service_manager"
+                />
+
+                <button
+                    name="%(action_service_equi_ins)d"
+                    type="action"
+                    string="Install"
+                    class="oe_highlight"
+                    invisible="partner_id!=False"
+                    groups="deltatech_service_base.group_service_manager"
+                />
+
+
+                <button
+                    name="%(action_service_equi_rem)d"
+                    type="action"
+                    string="Remove from Agreement"
+                    invisible="agreement_id==False"
+                    groups="deltatech_service_base.group_service_manager"
+                />
+
+
+                <button
+                    name="create_meters_button"
+                    type="object"
+                    string="Create Meters"
+                    invisible="meter_ids!=[]"
+                    groups="deltatech_service_base.group_service_manager"
+                />
+
+                <field
+                    name="state"
+                    widget="statusbar"
+                    statusbar_visible="available,installed"
+                    statusbar_colors='{"backuped":"red"}'
+                />
+            </header>
+
+
+            <div name="button_box" position="inside">
+
+                <button
+                    type="action"
+                    class="oe_stat_button"
+                    id="meter_button"
+                    icon="fa-slack"
+                    name="%(deltatech_service_equipment_base.action_service_meter)d"
+                    context="{'search_default_equipment_id': id,'default_equipment_id': id}"
+                    groups="deltatech_service_base.group_service_user"
+                >
+                    <span class="o_stat_text">Meters</span>
+                </button>
+
+                <button
+                    type="object"
+                    class="oe_stat_button"
+                    id="invoice_button"
+                    icon="fa-pencil-square-o"
+                    name="invoice_button"
+                    groups="account.group_account_invoice"
+                >
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                            <field string="Invoiced" name="total_invoiced" widget="monetary" />
+                        </span>
+                        <span class="o_stat_text">Invoiced</span>
+                    </div>
+                </button>
+                <button
+                    type="action"
+                    class="oe_stat_button"
+                    id="consumption_button"
+                    icon="fa-line-chart"
+                    name="%(deltatech_service_agreement.action_service_consumption)d"
+                    context="{'search_default_equipment_id': id,  'search_default_done': 1,  'default_partner_id': partner_id }"
+                    groups="account.group_account_invoice"
+                >
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                            <field string="Revenues" name="total_revenues" widget="monetary" />
+                        </span>
+                        <span class="o_stat_text">Revenues</span>
+                    </div>
+                </button>
+
+                <button
+                    type="object"
+                    class="oe_stat_button"
+                    id="common_history_button"
+                    icon="fa-book"
+                    name="common_history_button"
+                    groups="deltatech_service_base.group_service_user"
+                >
+                    <span class="o_stat_text">History</span>
+                </button>
+
+            </div>
+
+
+            <group name="customer" position="inside">
+                <field name="agreement_id" />
+                <field name="agreement_type_id" />
+                <field name="technician_user_id" />
+                <field name="address_id" />
+                <field name="emplacement" />
+            </group>
+
+            <group name="technical_details" position="inside">
+                <field name="group_id" />
+
+                <field name="start_date" />
+                <field name="installation_date" />
+
+                <field name="ean_code" />
+            </group>
+            <group name="identification" position="inside">
+                <field name="analytic_account_id" />
+            </group>
+
+            <field name="meter_ids" position="before">
+                <group>
+                    <group>
+                        <field name="reading_day" />
+                        <field name="last_reading" />
+                    </group>
+                    <group>
+                        <field name="next_reading" widget="remaining_days" />
+                        <field name="readings_status" widget="badge" decoration-success="readings_status == 'done'" />
+
+                    </group>
+
+                </group>
+            </field>
+
+
+        </field>
+    </record>
+
+
+    <record id="view_service_equipment_filter" model="ir.ui.view">
+        <field name="name">service.equipment.select</field>
+        <field name="model">service.equipment</field>
+        <field name="inherit_id" ref="deltatech_service_equipment_base.view_service_equipment_filter" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="group_id" />
+                <field name="agreement_type_id" />
+                <field name="ean_code" />
+                <separator />
+                <filter name="last_reading" date="last_reading" default_period="this_month" />
+
+            </field>
+            <group position="inside">
+                <filter string="Location" name="location" context="{'group_by':'location_id'}" />
+                <filter string="Region" name="state_id" context="{'group_by':'location_state_id'}" />
+                <filter string="Status agreement" name="agreement_state" context="{'group_by':'agreement_state'}" />
+            </group>
+
+        </field>
+    </record>
+    <record id="view_service_equipment_pivot" model="ir.ui.view">
+        <field name="name">service.equipment.pivot</field>
+        <field name="model">service.equipment</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="partner_id" type="row" />
+                <field name="total_revenues" type="measure" />
+                <field name="total_costs" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+
+    <record id="action_update_meter_status" model="ir.actions.server">
+        <field name="name">Update Meter Status</field>
+        <field name="model_id" ref="model_service_equipment" />
+        <field name="state">code</field>
+        <field name="code">action = records._compute_readings_status()</field>
+        <field name="binding_model_id" ref="model_service_equipment" />
+    </record>
+
+
+    <record id="action_update_totals" model="ir.actions.server">
+        <field name="name">Update Revenues</field>
+        <field name="model_id" ref="model_service_equipment" />
+        <field name="state">code</field>
+        <field name="code">action = records.compute_totals()</field>
+        <field name="binding_model_id" ref="model_service_equipment" />
+    </record>
+
+
+
+</odoo>
