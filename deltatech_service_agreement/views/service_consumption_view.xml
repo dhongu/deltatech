@@ -31,18 +31,23 @@
         <field name="arch" type="xml">
             <form string="Service consumption" create="false">
                 <header>
-                    <field name="state" widget="statusbar"  readonly="state!='draft'" />
+                    <field name="state" widget="statusbar" readonly="state!='draft'" />
                 </header>
                 <sheet>
                     <group>
                         <group>
                             <field name="service_period_id" />
-                            <field name="partner_id" readonly="state!='draft'"/>
-                            <field name="group_id" readonly="state!='draft'"/>
+                            <field name="partner_id" readonly="state!='draft'" />
+                            <field name="group_id" readonly="state!='draft'" />
                             <field name="product_id" />
-                            <field name="quantity" sum="Total Quantity" readonly="state!='draft'"/>
-                            <field name="price_unit" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="state!='draft'"/>
-                            <field name="currency_id" invisible="1" readonly="state!='draft'"/>
+                            <field name="quantity" sum="Total Quantity" readonly="state!='draft'" />
+                            <field
+                                name="price_unit"
+                                widget="monetary"
+                                options="{'currency_field': 'currency_id'}"
+                                readonly="state!='draft'"
+                            />
+                            <field name="currency_id" invisible="1" readonly="state!='draft'" />
                             <field name="company_id" invisible="1" />
                         </group>
                         <group>

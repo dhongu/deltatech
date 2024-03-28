@@ -5,10 +5,10 @@
         <field name="model">service.agreement</field>
         <field name="arch" type="xml">
             <tree string="Services Agreements" sample="1">
-                <field name="name" decoration-bf="1"/>
-                <field name="date_agreement"/>
+                <field name="name" decoration-bf="1" />
+                <field name="date_agreement" />
                 <field name="partner_id" />
-                <field name="description"/>
+                <field name="description" />
                 <field name='state' widget="badge" decoration-success="state == 'open'  " />
                 <field name="type_id" optional="show" />
                 <field name="user_id" widget="many2one_avatar_user" />
@@ -49,7 +49,7 @@
                         class="oe_highlight"
                         string="Set Draft"
                     />
-                    <field name="state" widget="statusbar" statusbar_visible="draft,quote" readonly="state!='draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,quote" readonly="state!='draft'" />
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -119,30 +119,35 @@
                     </div>
                     <group>
                         <group>
-                            <field name="date_agreement" readonly="state!='draft'"/>
-                            <field name="final_date" readonly="state!='draft'"/>
-                            <field name="type_id" readonly="state!='draft'"/>
-                            <field name="group_id" string="Service Group"   readonly="state!='draft'" />
-                            <field name="partner_id" readonly="state!='draft'"/>
-                            <field name="description" readonly="state!='draft'"/>
-                            <field name="currency_id" options="{'no_create': True}" readonly="state!='draft'"/>
+                            <field name="date_agreement" readonly="state!='draft'" />
+                            <field name="final_date" readonly="state!='draft'" />
+                            <field name="type_id" readonly="state!='draft'" />
+                            <field name="group_id" string="Service Group" readonly="state!='draft'" />
+                            <field name="partner_id" readonly="state!='draft'" />
+                            <field name="description" readonly="state!='draft'" />
+                            <field name="currency_id" options="{'no_create': True}" readonly="state!='draft'" />
                             <field name="company_currency_id" invisible="1" />
                         </group>
                         <group>
-                            <field name="cycle_id" readonly="state!='draft'"/>
-                            <field name="invoice_mode" readonly="state!='draft'"/>
-                            <field name="invoice_day" readonly="state!='draft'"/>
+                            <field name="cycle_id" readonly="state!='draft'" />
+                            <field name="invoice_mode" readonly="state!='draft'" />
+                            <field name="invoice_day" readonly="state!='draft'" />
                             <field name="last_invoice_id" />
                             <field name="last_date_invoice" />
                             <field name="next_date_invoice" widget="remaining_days" />
                             <field name="payment_term_id" />
-                            <field name="user_id" widget="many2one_avatar_user" readonly="state!='draft'"/>
+                            <field name="user_id" widget="many2one_avatar_user" readonly="state!='draft'" />
                         </group>
                         <group>
                             <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company" />
                         </group>
                     </group>
-                    <field name="agreement_line" mode="tree,kanban" context="{'default_currency_id':currency_id}" readonly="state!='draft'">
+                    <field
+                        name="agreement_line"
+                        mode="tree,kanban"
+                        context="{'default_currency_id':currency_id}"
+                        readonly="state!='draft'"
+                    >
                         <tree string="Agreement Lines" editable="bottom">
                             <field name="sequence" widget="handle" />
                             <field name="product_id" context="{'default_type':'service'}" />
@@ -151,16 +156,9 @@
                             <field name="uom_id" groups="uom.group_uom" />
                             <field name="price_unit" />
                             <field name="currency_id" options="{'no_create': True}" />
-                            <field
-                                name="quantity_free"
-                                readonly="has_free_cycles==True or cycles_free &gt; 0"
-                            />
+                            <field name="quantity_free" readonly="has_free_cycles==True or cycles_free &gt; 0" />
                             <field name="company_id" invisible="1" />
-                            <field
-                                name="has_free_cycles"
-                                readonly="quantity_free &gt; 0"
-                                optional="hide"
-                            />
+                            <field name="has_free_cycles" readonly="quantity_free &gt; 0" optional="hide" />
                             <field name="cycles_free" readonly="quantity_free &gt; 0" optional="hide" />
                             <field name="analytic_account_id" optional="hide" />
                         </tree>

@@ -13,9 +13,7 @@ class ServiceAgreement(models.Model):
     _description = "Service Agreement"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(
-        string="Reference", index=True, default="/", copy=False
-    )
+    name = fields.Char(string="Reference", index=True, default="/", copy=False)
 
     description = fields.Char(string="Description", copy=False)
 
@@ -27,9 +25,7 @@ class ServiceAgreement(models.Model):
 
     final_date = fields.Date(string="Final Date", copy=False)
 
-    partner_id = fields.Many2one(
-        "res.partner", string="Partner", required=True
-    )
+    partner_id = fields.Many2one("res.partner", string="Partner", required=True)
 
     company_id = fields.Many2one("res.company", string="Company", default=lambda self: self.env.company, required=True)
     company_currency_id = fields.Many2one("res.currency", string="Company Currency", related="company_id.currency_id")
@@ -51,7 +47,8 @@ class ServiceAgreement(models.Model):
     )
 
     type_id = fields.Many2one(
-        "service.agreement.type", string="Type",
+        "service.agreement.type",
+        string="Type",
     )
 
     # interval de facturare
@@ -76,7 +73,9 @@ class ServiceAgreement(models.Model):
     )
 
     cycle_id = fields.Many2one(
-        "service.cycle", string="Billing Cycle", required=True,
+        "service.cycle",
+        string="Billing Cycle",
+        required=True,
     )
 
     invoice_day = fields.Integer(
@@ -124,7 +123,8 @@ class ServiceAgreement(models.Model):
     )
 
     group_id = fields.Many2one(
-        "service.agreement.group", string="Service Group",
+        "service.agreement.group",
+        string="Service Group",
     )
 
     doc_count = fields.Integer(string="Number of documents attached", compute="_compute_attached_docs")

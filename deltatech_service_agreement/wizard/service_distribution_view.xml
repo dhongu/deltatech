@@ -13,12 +13,12 @@
                         <group>
                             <field name="type" />
                             <field name="mode" invisible="type=='val'" />
-                            <field name="add_values" invisible="type=='qty'"/>
+                            <field name="add_values" invisible="type=='qty'" />
                         </group>
                         <group>
                             <field name="product_id" />
                             <field name="quantity" invisible="type=='val'" />
-                            <field name="amount" invisible="type=='qty'"/>
+                            <field name="amount" invisible="type=='qty'" />
                         </group>
                         <group>
                             <field name="reference" />

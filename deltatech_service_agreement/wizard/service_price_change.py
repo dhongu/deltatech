@@ -53,7 +53,7 @@ class ServicePriceChange(models.TransientModel):
         consumptions = self.env["service.consumption"].search(domain)
 
         if not consumptions:
-            raise UserError(_("No consumptions!"))#, _("There were no service consumption !")
+            raise UserError(_("No consumptions!"))  # , _("There were no service consumption !")
 
         consumptions.write({"price_unit": self.price_unit, "currency_id": self.currency_id.id, "name": self.reference})
 
