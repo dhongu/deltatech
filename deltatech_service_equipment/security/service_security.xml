@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+    <!--Definire grup pentru fortare facturare contract fara citiri-->
+    <record id="force_agreement_invoice" model="res.groups">
+        <field name="name">Can bill without meter readings</field>
+        <field name="category_id" ref="base.module_category_hidden" />
+    </record>
+
+
+
+
+</odoo>
