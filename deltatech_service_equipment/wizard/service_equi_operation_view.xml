@@ -19,7 +19,7 @@
                 <group string="Location" invisible="state not in ('ins', 'add')">
                     <group>
                         <field name="service_period_id" />
-                        <field name="partner_id" required="state=='ins'"/>
+                        <field name="partner_id" required="state=='ins'" />
                         <field
                             name="agreement_id"
                             domain="[('partner_id','=',partner_id)]"
@@ -58,11 +58,7 @@
                         <field name="read_by" />
                     </group>
 
-                    <div
-                        invisible="error==''"
-                        class="alert alert-danger  alert-dismissible text-left"
-                        role="alert"
-                    >
+                    <div invisible="error==''" class="alert alert-danger  alert-dismissible text-left" role="alert">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
                         <field name="error" widget="html" />
                     </div>
