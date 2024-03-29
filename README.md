@@ -20,7 +20,7 @@ addon | version | maintainers | summary | price
 [deltatech_alternative](deltatech_alternative/) | 14.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes | Free 
 [deltatech_alternative_website](deltatech_alternative_website/) | 14.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show alternative code in website | Free 
 [deltatech_auto_reorder_rule](deltatech_auto_reorder_rule/) | 14.0.0.0.3 |  | Auto create reorder rule | Free 
-[deltatech_average_payment_period](deltatech_average_payment_period/) | 14.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Computes average duration of cash accounting | Free 
+[deltatech_average_payment_period](deltatech_average_payment_period/) | 14.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Computes average duration of cash accounting | Free 
 [deltatech_batch_transfer](deltatech_batch_transfer/) | 14.0.0.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Batch transfer improvements | Free 
 [deltatech_cash](deltatech_cash/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Cash In / Out | Free 
 [deltatech_cash_statement](deltatech_cash_statement/) | 14.0.3.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Update cash balance | Free 
