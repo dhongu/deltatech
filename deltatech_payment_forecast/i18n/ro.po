@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-25 07:57+0000\n"
-"PO-Revision-Date: 2024-03-25 07:57+0000\n"
+"POT-Creation-Date: 2024-03-29 07:36+0000\n"
+"PO-Revision-Date: 2024-03-29 07:36+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -48,6 +48,12 @@ msgid "Currency"
 msgstr "Moneda"
 
 #. module: deltatech_payment_forecast
+#: model:ir.model.fields,field_description:deltatech_payment_forecast.field_payment_forecast__days
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_forecast.view_payment_forecast_report_search
+msgid "Days"
+msgstr "Nr. zile"
+
+#. module: deltatech_payment_forecast
 #: model:ir.model.fields,field_description:deltatech_payment_forecast.field_payment_forecast__display_name
 #: model:ir.model.fields,field_description:deltatech_payment_forecast.field_payment_forecast_wizard__display_name
 msgid "Display Name"
@@ -59,9 +65,19 @@ msgid "End Date"
 msgstr "Data sfarsit"
 
 #. module: deltatech_payment_forecast
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_forecast.view_payment_forecast_report_search
+msgid "Forecast"
+msgstr ""
+
+#. module: deltatech_payment_forecast
 #: model:ir.ui.menu,name:deltatech_payment_forecast.menu_payment_forecast_report_wizard
 msgid "Generate payment forecast"
 msgstr "Generaza forecast nou"
+
+#. module: deltatech_payment_forecast
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_forecast.view_payment_forecast_report_search
+msgid "Group By"
+msgstr "Grupeaza dupa"
 
 #. module: deltatech_payment_forecast
 #: model:ir.model.fields,field_description:deltatech_payment_forecast.field_payment_forecast__id
@@ -71,6 +87,7 @@ msgstr ""
 
 #. module: deltatech_payment_forecast
 #: model:ir.model.fields.selection,name:deltatech_payment_forecast.selection__payment_forecast__move_type__incoming
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_forecast.view_payment_forecast_report_search
 msgid "Incoming"
 msgstr "Plati furnizori"
 
@@ -128,8 +145,18 @@ msgid "Move Type"
 msgstr "Tip miscare financiara"
 
 #. module: deltatech_payment_forecast
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_forecast.view_payment_forecast_report_search
+msgid "Move type"
+msgstr "Tip miscare financiara"
+
+#. module: deltatech_payment_forecast
 #: model:ir.model.fields.selection,name:deltatech_payment_forecast.selection__payment_forecast__move_type__outgoing
 msgid "Outgoing"
+msgstr "Incasari clienti"
+
+#. module: deltatech_payment_forecast
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_forecast.view_payment_forecast_report_search
+msgid "Outgoinig"
 msgstr "Incasari clienti"
 
 #. module: deltatech_payment_forecast

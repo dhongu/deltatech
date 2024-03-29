@@ -3,7 +3,7 @@
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class PaymentForecastWizard(models.TransientModel):
@@ -12,10 +12,6 @@ class PaymentForecastWizard(models.TransientModel):
 
     date_to = fields.Date(string="End Date", required=True, default=fields.Date.today)
     company_id = fields.Many2one("res.company", "Company", required=True, default=lambda self: self.env.user.company_id)
-
-    def empty_forecast(self):
-        query = "delete from payment_forecast"
-        self.env.cr.execute(query)
 
     def get_estimated_payment_date(self, invoice):
         """
@@ -45,11 +41,22 @@ class PaymentForecastWizard(models.TransientModel):
             return invoice.date + relativedelta(days=partner_payment_days)
 
     def get_forecast_lines(self):
-        self.empty_forecast()
+        if self.date_to:
+            date_to = self.date_to
+        else:
+            date_to = fields.Date.today()
+        is_cron = self.env.context.get("days_string", False)
+        if is_cron:
+            days = is_cron
+        else:
+            days = "Custom"
+            params = {"days": days}
+            query = "DELETE FROM payment_forecast WHERE days=%(days)s;"
+            self.env.cr.execute(query, params)
         domain = [
             ("state", "=", "posted"),
             ("move_type", "in", ["out_invoice", "out_refund", "in_invoice", "in_refund"]),
-            ("invoice_date_due", "<=", self.date_to),
+            ("invoice_date_due", "<=", date_to),
             ("payment_state", "in", ["not_paid", "partial"]),
         ]
         invoices = self.env["account.move"].search(domain)
@@ -78,6 +85,18 @@ class PaymentForecastWizard(models.TransientModel):
                 "move_type": move_type,
                 "move_amount_residual": invoice.amount_residual_signed,
                 "payment_amount_forecasted": payment_amount_forecasted,
+                "days": days,
             }
             lines.append(vals)
         self.env["payment.forecast"].sudo().create(lines)
+
+    @api.model
+    def get_forecast_cron(self, days=0):
+        if days:
+            date_to = fields.Date.today() + relativedelta(days=days)
+            wizard = self.create({"date_to": date_to})
+            days_string = str(days)
+            params = {"days": days_string}
+            query = "DELETE FROM payment_forecast WHERE days=%(days)s;"
+            self.env.cr.execute(query, params)
+            wizard.with_context(days_string=days_string).get_forecast_lines()
