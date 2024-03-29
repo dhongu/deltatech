@@ -35,28 +35,19 @@ class ProductTemplate(models.Model):
     is_inventory_ok = fields.Boolean("Inventory OK", tracking=True)
     warehouse_stock = fields.Text(string="Stock/WH", compute="_compute_warehouse_stocks")
 
-    def _get_warehouse_name(self, location):
-        if not location.location_id.location_id:
-            return location.name
-        return self._get_warehouse_name(location.location_id)
-
-    @api.depends("product_variant_ids.stock_quant_ids")
     def _compute_warehouse_stocks(self):
+        warehouses = self.env["stock.warehouse"].search([])
+        if len(warehouses) == 1:
+            self.warehouse_stock = False
+            return
+
         for product in self:
             warehouse_stock_lines = []
-            for variant in product.product_variant_ids:
-                stock_quant_ids = variant.stock_quant_ids.filtered(lambda q: q.location_id.usage == "internal")
-                warehouse_quantities = {}
-                for quant in stock_quant_ids:
-                    warehouse_name = self._get_warehouse_name(quant.location_id)
-                    if warehouse_name not in warehouse_quantities:
-                        warehouse_quantities[warehouse_name] = 0
-                    warehouse_quantities[warehouse_name] += quant.quantity
-
-                for warehouse_name, quantity_in_warehouse in warehouse_quantities.items():
-                    line = f"{warehouse_name}: {quantity_in_warehouse}"
+            for warehouse in warehouses:
+                if warehouse.lot_stock_id.usage == "internal":
+                    quantity_in_warehouse = product.with_context(location=warehouse.lot_stock_id.id).qty_available
+                    line = f"{warehouse.code}: {quantity_in_warehouse}"
                     warehouse_stock_lines.append(line)
-
             product.warehouse_stock = "\n".join(warehouse_stock_lines)
 
     @api.depends_context("warehouse", "location")
