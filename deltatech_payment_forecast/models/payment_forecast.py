@@ -9,6 +9,7 @@ class PaymentForecast(models.Model):
     _description = "Payment forecast"
     _order = "id desc"
 
+    days = fields.Char(string="Days")
     partner_id = fields.Many2one("res.partner", string="Partner")
     move_id = fields.Many2one("account.move", string="Invoice")
 

@@ -14,6 +14,21 @@
             </tree>
         </field>
     </record>
+    <record id="view_payment_forecast_report_search" model="ir.ui.view">
+        <field name="name">payment.forecast.search</field>
+        <field name="model">payment.forecast</field>
+        <field name="arch" type="xml">
+            <search string="Forecast">
+                <field name="days" string="Days" />
+                <filter name="move_type_out" string="Outgoinig" domain="[('move_type', '=', 'outgoing')]" />
+                <filter name="move_type_in" string="Incoming" domain="[('move_type', '=', 'incoming')]" />
+                <group expand="0" string="Group By">
+                    <filter string="Days" name="days" context="{'group_by':'days'}" />
+                    <filter string="Move type" name="days" context="{'group_by':'move_type'}" />
+                </group>
+            </search>
+        </field>
+    </record>
     <record id="action_payment_forecats_report" model="ir.actions.act_window">
         <field name="name">Payment Forecast Report</field>
         <field name="res_model">payment.forecast</field>
