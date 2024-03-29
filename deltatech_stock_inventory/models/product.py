@@ -45,9 +45,11 @@ class ProductTemplate(models.Model):
             warehouse_stock_lines = []
             for warehouse in warehouses:
                 if warehouse.lot_stock_id.usage == "internal":
-                    quantity_in_warehouse = product.with_context(location=warehouse.lot_stock_id.id).qty_available
-                    line = f"{warehouse.code}: {quantity_in_warehouse}"
-                    warehouse_stock_lines.append(line)
+                    qty = product.with_context(warehouse=warehouse.id)._compute_quantities_dict()
+                    quantity_in_warehouse = qty[product.id]["qty_available"]
+                    if quantity_in_warehouse:
+                        line = f"{warehouse.code}: {quantity_in_warehouse}"
+                        warehouse_stock_lines.append(line)
             product.warehouse_stock = "\n".join(warehouse_stock_lines)
 
     @api.depends_context("warehouse", "location")
