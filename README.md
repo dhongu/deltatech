@@ -65,7 +65,7 @@ addon | version | maintainers | summary | price
 [deltatech_object_history](deltatech_object_history/) | 14.0.0.0.5 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Object history - a parallel history of Odoo documents, separated from standard Odoo messages | Free 
 [deltatech_object_history_service](deltatech_object_history_service/) | 14.0.0.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Extends Object History for Agreement an Equipment models | Free 
 [deltatech_partner_generic](deltatech_partner_generic/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Gneric partner | Free 
-[deltatech_payment_forecast](deltatech_payment_forecast/) | 14.0.0.0.3 |  | Generates a report to estimate payments at a certain date | Free 
+[deltatech_payment_forecast](deltatech_payment_forecast/) | 14.0.0.0.4 |  | Generates a report to estimate payments at a certain date | Free 
 [deltatech_payment_report](deltatech_payment_report/) | 14.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Payment Report | Free 
 [deltatech_payment_term](deltatech_payment_term/) | 14.0.2.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Term Rate Wizard | Free 
 [deltatech_payment_to_statement](deltatech_payment_to_statement/) | 14.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Add payment to cash statement | Free 

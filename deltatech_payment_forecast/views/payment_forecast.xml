@@ -32,7 +32,7 @@
     <record id="action_payment_forecats_report" model="ir.actions.act_window">
         <field name="name">Payment Forecast Report</field>
         <field name="res_model">payment.forecast</field>
-        <field name="view_mode">tree,form,pivot</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
 <!--        <field name="view_id" ref="deltatech_payment_forecast.view_payment_forecast_report_pivot" />-->
         <field name="target">current</field>
     </record>
