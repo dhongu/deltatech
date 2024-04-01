@@ -1,0 +1,433 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_service_maintenance_plan
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-12-06 06:33+0000\n"
+"PO-Revision-Date: 2022-12-06 06:33+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_service_maintenance_plan
+#: model:res.groups,name:deltatech_service_maintenance_plan.group_use_service_plan
+msgid "Access to maintenance plans"
+msgstr "Acces la planuri de întreținere"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields.selection,name:deltatech_service_maintenance_plan.selection__service_plan__state__active
+msgid "Active"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_call_form
+msgid "Call"
+msgstr "Apel"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__call_date
+msgid "Call Date"
+msgstr "Dată apel"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__horizon
+msgid "Call horizon"
+msgstr "Orizont apel"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields.selection,name:deltatech_service_maintenance_plan.selection__service_plan_call__state__called
+msgid "Called"
+msgstr "Apelat"
+
+#. module: deltatech_service_maintenance_plan
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_call_form
+msgid "Complete"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields.selection,name:deltatech_service_maintenance_plan.selection__service_plan_call__state__completion
+msgid "Completion"
+msgstr "Finalizat"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__completion_counter
+msgid "Completion Counter"
+msgstr "Contor la finalizare"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__completion_date
+msgid "Completion Date"
+msgstr "Data finalizării"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__create_uid
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__create_date
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model,name:deltatech_service_maintenance_plan.model_service_cycle
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__cycle_id
+msgid "Cycle"
+msgstr "Ciclu"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__last_call_done_date
+msgid "Date Last Call Done"
+msgstr "Data ultimului apel efectuat"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,help:deltatech_service_maintenance_plan.field_service_plan__last_call_done_date
+#: model:ir.model.fields,help:deltatech_service_maintenance_plan.field_service_plan_call__completion_date
+msgid "Date on which the maintenance date was completed"
+msgstr "Data finalizării mentenanței"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,help:deltatech_service_maintenance_plan.field_service_plan_call__call_date
+msgid "Date on which the system creates an order"
+msgstr "Data pentru ofertă"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__display_name
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields.selection,name:deltatech_service_maintenance_plan.selection__service_plan__state__draft
+#: model:ir.model.fields.selection,name:deltatech_service_maintenance_plan.selection__service_plan_call__state__draft
+msgid "Draft"
+msgstr "Ciornă"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__equipment_id
+msgid "Equipment"
+msgstr "Echipament"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields.selection,name:deltatech_service_maintenance_plan.selection__service_cycle__unit__counter
+msgid "From counter"
+msgstr "De la contor"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__service_location_id
+msgid "Functional Location"
+msgstr "Loc funcțional"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,help:deltatech_service_maintenance_plan.field_service_plan_call__sequence
+msgid "Gives the sequence order when displaying a list of plan call."
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_call_filter
+msgid "Group By..."
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__id
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__last_call_id
+msgid "Last Call"
+msgstr "Ultimul apel"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__last_call_done_id
+msgid "Last Call Done"
+msgstr "Ultimul apel efectuat"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan____last_update
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__write_uid
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__write_date
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_equipment__last_call_done
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_location__last_call_done
+msgid "Last call done"
+msgstr "Ultimul apel efectuat"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,help:deltatech_service_maintenance_plan.field_service_plan__period
+msgid ""
+"Length of time in days for which the system creates  calls during plan "
+"scheduling"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__meter_id
+msgid "Meter"
+msgstr "Contor"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__order_id
+msgid "Order"
+msgstr "Comanda"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__order_type_id
+msgid "Order Type"
+msgstr "Tip comandă"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__plan_id
+#: model:ir.ui.menu,name:deltatech_service_maintenance_plan.menu_service_plan
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_call_filter
+msgid "Plan"
+msgstr "Plan"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_order__plan_call_id
+msgid "Plan Call"
+msgstr "Apel plan"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__call_ids
+#: model:ir.ui.menu,name:deltatech_service_maintenance_plan.menu_service_plan_call
+msgid "Plan Calls"
+msgstr "Apeluir plan"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.ui.menu,name:deltatech_service_maintenance_plan.menu_service_planing
+msgid "Planing"
+msgstr "Planificare"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__plan_counter
+msgid "Planned Counter"
+msgstr "Contori planificați"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__plan_date
+msgid "Planned Date"
+msgstr "Dată planificată"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,help:deltatech_service_maintenance_plan.field_service_plan_call__plan_counter
+msgid ""
+"Planned counter describes the value of counter at which an order is to be "
+"executed."
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,help:deltatech_service_maintenance_plan.field_service_plan_call__plan_date
+msgid "Planned date describes the time at which an order is to be executed."
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_form
+msgid "Planning Parameters"
+msgstr "Parametri planificare"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_equipment__plan_ids
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_location__plan_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_equipment_form
+msgid "Plans"
+msgstr "Planuri"
+
+#. module: deltatech_service_maintenance_plan
+#: code:addons/deltatech_service_maintenance_plan/models/service_plan.py:0
+#, python-format
+msgid "Please select close order %s."
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__reason_id
+msgid "Reason"
+msgstr "Motiv"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__name
+msgid "Reference"
+msgstr "Referină"
+
+#. module: deltatech_service_maintenance_plan
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_form
+msgid "Rescheduling"
+msgstr "Replanificare"
+
+#. module: deltatech_service_maintenance_plan
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_form
+msgid "Restart"
+msgstr "Repornire"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__period
+msgid "Scheduling Period"
+msgstr "Perioadă programare"
+
+#. module: deltatech_service_maintenance_plan
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_call_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_filter
+msgid "Search"
+msgstr "Caută"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__sequence
+msgid "Sequence"
+msgstr "Secvență"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model,name:deltatech_service_maintenance_plan.model_service_equipment
+msgid "Service Equipment"
+msgstr "Echipament"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model,name:deltatech_service_maintenance_plan.model_service_location
+msgid "Service Location"
+msgstr "Loc Funcțional"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model,name:deltatech_service_maintenance_plan.model_service_order
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_form
+msgid "Service Order"
+msgstr "Comandă Service"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model,name:deltatech_service_maintenance_plan.model_service_plan
+msgid "Service Plan"
+msgstr "Plan service"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model,name:deltatech_service_maintenance_plan.model_service_plan_call
+msgid "Service Plan Call"
+msgstr "Apel plan de întreținere"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.actions.act_window,name:deltatech_service_maintenance_plan.action_service_plan
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_form
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_tree
+msgid "Services Plan"
+msgstr "Planuri service"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.actions.act_window,name:deltatech_service_maintenance_plan.action_service_plan_call
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_call_form
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_call_tree
+msgid "Services Plan Call"
+msgstr "Planuri apel service"
+
+#. module: deltatech_service_maintenance_plan
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_form
+msgid "Set to draft"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_call_form
+msgid "Skip"
+msgstr "Sari"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields.selection,name:deltatech_service_maintenance_plan.selection__service_plan_call__state__skipped
+msgid "Skipped"
+msgstr "Sărit"
+
+#. module: deltatech_service_maintenance_plan
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_form
+msgid "Start"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__start_date
+msgid "Start Date"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__start_counter
+msgid "Start counter"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan_call__state
+msgid "State"
+msgstr "Stare"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__state
+msgid "Status"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_form
+msgid "Stop"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields.selection,name:deltatech_service_maintenance_plan.selection__service_plan__state__stopped
+msgid "Stopped"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_form
+msgid "Technical Object"
+msgstr "Obiectiv tehnic"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,help:deltatech_service_maintenance_plan.field_service_plan__horizon
+msgid ""
+"The call horizon determines when a service order should be generated for a "
+"service call"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,help:deltatech_service_maintenance_plan.field_service_plan__start_counter
+msgid "The counter reading which the schedule should be started."
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_cycle__unit
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__unit
+msgid "Unit Of Measure"
+msgstr "Unitate de măsură"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,help:deltatech_service_maintenance_plan.field_service_cycle__unit
+#: model:ir.model.fields,help:deltatech_service_maintenance_plan.field_service_plan__unit
+msgid "Unit of Measure for Cycle."
+msgstr "UM pentru ciclu"
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,help:deltatech_service_maintenance_plan.field_service_plan_call__completion_counter
+msgid "Value of counter which the maintenance date was completed"
+msgstr ""
+
+#. module: deltatech_service_maintenance_plan
+#: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__work_center_id
+msgid "Work Center"
+msgstr "Formație de lucru"
+

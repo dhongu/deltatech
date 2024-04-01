@@ -1,0 +1,14 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+
+
+access_service_plan_public,access_service_plan,model_service_plan,,1,0,0,0
+access_service_plan_call_public,access_service_plan_call,model_service_plan_call,,1,0,0,0
+
+
+
+access_service_plan_user,access_service_plan,model_service_plan,deltatech_service_base.group_service_user,1,1,1,1
+access_service_plan_call_user,access_service_plan_call,model_service_plan_call,deltatech_service_base.group_service_user,1,1,1,1
+
+
+access_service_plan_manager,access_service_plan,model_service_plan,deltatech_service_base.group_service_manager,1,1,1,1
+access_service_plan_call_manager,access_service_plan_call,model_service_plan_call,deltatech_service_base.group_service_manager,1,1,1,1
