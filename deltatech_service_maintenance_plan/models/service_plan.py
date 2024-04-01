@@ -21,11 +21,11 @@ class ServicePlan(models.Model):
     )
 
     equipment_id = fields.Many2one(
-        "service.equipment", string="Equipment", index=True,
+        "service.equipment",
+        string="Equipment",
+        index=True,
     )
-    cycle_id = fields.Many2one(
-        "service.cycle", string="Cycle", required=True
-    )
+    cycle_id = fields.Many2one("service.cycle", string="Cycle", required=True)
     unit = fields.Selection(related="cycle_id.unit")
     start_date = fields.Date(
         string="Start Date",
@@ -58,14 +58,17 @@ class ServicePlan(models.Model):
     )
 
     reason_id = fields.Many2one(
-        "service.order.reason", string="Reason",
+        "service.order.reason",
+        string="Reason",
     )
     order_type_id = fields.Many2one(
-        "service.order.type", string="Order Type",
+        "service.order.type",
+        string="Order Type",
     )
 
     work_center_id = fields.Many2one(
-        "service.work.center", string="Work Center",
+        "service.work.center",
+        string="Work Center",
     )
 
     call_ids = fields.One2many("service.plan.call", "plan_id", string="Plan Calls", readonly=True)

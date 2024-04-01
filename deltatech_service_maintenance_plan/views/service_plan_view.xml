@@ -19,11 +19,21 @@
         <field name="arch" type="xml">
             <form string="Services Plan">
                 <header>
-                    <button name="action_start" invisible="state not in ('draft','stopped')" string="Start" type="object" />
+                    <button
+                        name="action_start"
+                        invisible="state not in ('draft','stopped')"
+                        string="Start"
+                        type="object"
+                    />
                     <button name="action_stop" invisible="state!='active'" string="Stop" type="object" />
                     <button name="action_restart" invisible="state!='stopped'" string="Restart" type="object" />
                     <button name="action_draft" invisible="state!='stopped'" string="Set to draft" type="object" />
-                    <button name="action_rescheduling" invisible="state!='active'" string="Rescheduling" type="object" />
+                    <button
+                        name="action_rescheduling"
+                        invisible="state!='active'"
+                        string="Rescheduling"
+                        type="object"
+                    />
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
@@ -32,21 +42,25 @@
                     </h1>
                     <group>
                         <group string="Technical Object">
-                           <field name="service_location_id" readonly="state!='draft'" required="equipment_id==False"/>
-                            <field name="equipment_id" required="service_location_id==False" readonly="state!='draft'"/>
+                           <field name="service_location_id" readonly="state!='draft'" required="equipment_id==False" />
+                            <field
+                                name="equipment_id"
+                                required="service_location_id==False"
+                                readonly="state!='draft'"
+                            />
                             <field name="unit" invisible="1" />
-                            <field name="meter_id" required="unit=='counter'" readonly="state!='draft'"/>
+                            <field name="meter_id" required="unit=='counter'" readonly="state!='draft'" />
                         </group>
                         <group string="Service Order">
                             <field name="reason_id" readonly="state!='draft'" />
-                            <field name="order_type_id" readonly="state!='draft'"/>
-                            <field name="work_center_id" readonly="state!='draft'"/>
+                            <field name="order_type_id" readonly="state!='draft'" />
+                            <field name="work_center_id" readonly="state!='draft'" />
                         </group>
                         <group string="Planning Parameters">
-                            <field name="cycle_id" readonly="state!='draft'"/>
-                            <field name="start_date" required="unit!='counter'" readonly="state!='draft'"/>
-                            <field name="start_counter" required="unit=='counter'" readonly="state!='draft'"/>
-                            <field name="horizon" readonly="state!='draft'"/>
+                            <field name="cycle_id" readonly="state!='draft'" />
+                            <field name="start_date" required="unit!='counter'" readonly="state!='draft'" />
+                            <field name="start_counter" required="unit=='counter'" readonly="state!='draft'" />
+                            <field name="horizon" readonly="state!='draft'" />
                             <field name="period" readonly="state!='draft'" />
                         </group>
                     </group>
@@ -91,9 +105,14 @@
         <field name="arch" type="xml">
             <form string="Services Plan Call" create="0" edit="0">
                 <header>
-                    <button name="action_call" invisible="state!='draft'"/>
+                    <button name="action_call" invisible="state!='draft'" />
                     <button name="action_complete" invisible="state!='called'" string="Complete" type="object" />
-                    <button name="action_skip" invisible="state not in ('draft','called')" string="Skip" type="object" />
+                    <button
+                        name="action_skip"
+                        invisible="state not in ('draft','called')"
+                        string="Skip"
+                        type="object"
+                    />
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
@@ -107,8 +126,8 @@
                             <field name="order_id" />
                         </group>
                         <group>
-                            <field name="completion_date" readonly="state!='called'"/>
-                            <field name="completion_counter" readonly="state!='called'"/>
+                            <field name="completion_date" readonly="state!='called'" />
+                            <field name="completion_counter" readonly="state!='called'" />
                         </group>
                     </group>
                 </sheet>
