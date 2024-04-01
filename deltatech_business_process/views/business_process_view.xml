@@ -23,10 +23,10 @@
                 <field name="date_start_bbp" optional="hide" />
                 <field name="date_end_bbp" optional="hide" />
                 <field name="completion_bbp" widget="progressbar" optional="hide" />
-                <field name="duration_for_completion" optional="hide" widget="float_time"/>
-                <field name="configuration_duration" optional="hide" widget="float_time"/>
-                <field name="instructing_duration" optional="hide" widget="float_time"/>
-                <field name="data_migration_duration" optional="hide" widget="float_time"/>
+                <field name="duration_for_completion" optional="hide" widget="float_time" />
+                <field name="configuration_duration" optional="hide" widget="float_time" />
+                <field name="instructing_duration" optional="hide" widget="float_time" />
+                <field name="data_migration_duration" optional="hide" widget="float_time" />
                 <field
                     name="status_internal_test"
                     widget="badge"
