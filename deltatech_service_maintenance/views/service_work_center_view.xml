@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_service_work_center_tree" model="ir.ui.view">
+        <field name="name">Work Center</field>
+        <field name="model">service.work.center</field>
+        <field name="arch" type="xml">
+            <tree string="Service Work Center" sample="1">
+                <field name="name" />
+            </tree>
+
+        </field>
+    </record>
+
+    <record id="view_service_work_center_form" model="ir.ui.view">
+        <field name="name">Work Center</field>
+        <field name="model">service.work.center</field>
+        <field name="arch" type="xml">
+            <form string="Service Work Center">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="location_id" />
+                        </group>
+                        <group string="Sale">
+                            <field name="sale_route_id" />
+                        </group>
+                        <group string="Transfer">
+                            <field name="picking_type_id" />
+                            <field name="transfer_route_id" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+     <record id="action_service_work_center" model="ir.actions.act_window">
+        <field name="name">Services Work Center</field>
+        <field name="res_model">service.work.center</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Work Center"
+        id="menu_service_work_center"
+        action="action_service_work_center"
+        parent="deltatech_service_base.menu_service_config"
+    />
+</odoo>
