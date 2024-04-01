@@ -81,7 +81,7 @@ class AccountInvoiceLine(models.Model):
 
         mrp_mod = self.env["ir.module.module"].search([("name", "=", "mrp"), ("state", "=", "installed")])
         if mrp_mod and self.product_id.bom_count:
-            bom = self.product_id.bom_ids.filtered(lambda b: b.type == "phantom")
+            bom = self.product_id.variant_bom_ids.filtered(lambda b: b.type == "phantom")
             purchase_price = 0
             for move in moves:
                 bom_line = bom.bom_line_ids.filtered(lambda b: b.product_id == move.product_id)
