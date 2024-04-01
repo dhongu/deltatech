@@ -20,7 +20,8 @@ class ServiceOrder(models.Model):
 
     name = fields.Char(string="Reference", readonly=True, index=True, default=lambda self: _("New"))
     date = fields.Date(
-        string="Date", default=fields.Date.context_today,
+        string="Date",
+        default=fields.Date.context_today,
     )
 
     access_token = fields.Char(string="Security Token", required=True, copy=False, default=str(uuid.uuid4()))
@@ -58,16 +59,10 @@ class ServiceOrder(models.Model):
         index=True,
     )
 
-    partner_id = fields.Many2one(
-        "res.partner", string="Customer"
-    )
+    partner_id = fields.Many2one("res.partner", string="Customer")
 
-    contact_id = fields.Many2one(
-        "res.partner", string="Contact person", tracking=True
-    )
-    address_id = fields.Many2one(
-        "res.partner", string="Address"
-    )
+    contact_id = fields.Many2one("res.partner", string="Contact person", tracking=True)
+    address_id = fields.Many2one("res.partner", string="Address")
     city = fields.Char(string="City", related="address_id.city")
 
     user_id = fields.Many2one("res.users", string="Responsible")
@@ -85,12 +80,8 @@ class ServiceOrder(models.Model):
         domain=[("order_id", "=", False)],
     )
 
-    reason_id = fields.Many2one(
-        "service.order.reason", string="Reason"
-    )
-    type_id = fields.Many2one(
-        "service.order.type", string="Type", required=True
-    )
+    reason_id = fields.Many2one("service.order.reason", string="Reason")
+    type_id = fields.Many2one("service.order.type", string="Type", required=True)
     with_travel = fields.Boolean(related="type_id.with_travel")
     can_delivered = fields.Boolean(related="type_id.can_delivered")
     can_ordered = fields.Boolean(related="type_id.can_ordered")
@@ -120,7 +111,9 @@ class ServiceOrder(models.Model):
     # semantura client !!
     signature = fields.Binary(string="Signature", readonly=True)
 
-    init_description = fields.Text("Initial description",)
+    init_description = fields.Text(
+        "Initial description",
+    )
     description = fields.Text("Notes", readonly=False, states={"done": [("readonly", True)]})
 
     available_state = fields.Selection(

@@ -30,9 +30,7 @@ class ServiceNotification(models.Model):
         return self.env.user.id
 
     name = fields.Char(string="Reference", readonly=True, index=True, default=lambda self: _("New"))
-    date = fields.Datetime(
-        string="Date", default=fields.Date.context_today
-    )
+    date = fields.Datetime(string="Date", default=fields.Date.context_today)
 
     state = fields.Selection(
         [("new", "New"), ("assigned", "Assigned"), ("progress", "In Progress"), ("done", "Done")],
@@ -46,9 +44,7 @@ class ServiceNotification(models.Model):
         index=True,
     )
 
-    equipment_id = fields.Many2one(
-        "service.equipment", string="Equipment", index=True
-    )
+    equipment_id = fields.Many2one("service.equipment", string="Equipment", index=True)
 
     partner_id = fields.Many2one("res.partner", string="Customer")
 
@@ -62,7 +58,9 @@ class ServiceNotification(models.Model):
     user_id = fields.Many2one("res.users", string="Responsible")
 
     work_center_id = fields.Many2one(
-        "service.work.center", string="Work Center", required=True,
+        "service.work.center",
+        string="Work Center",
+        required=True,
     )
 
     type = fields.Selection(
@@ -79,7 +77,9 @@ class ServiceNotification(models.Model):
     date_done = fields.Datetime("Done Date", readonly=True, copy=False)
 
     priority = fields.Selection(
-        AVAILABLE_PRIORITIES, string="Priority", index=True,
+        AVAILABLE_PRIORITIES,
+        string="Priority",
+        index=True,
     )
     color = fields.Integer(string="Color Index", default=0)
     order_id = fields.Many2one("service.order", string="Order", readonly=True, copy=False, compute="_compute_order_id")

@@ -41,7 +41,12 @@
                         string="Start Traveling"
                         invisible="state!='acknowledge' or with_travel==False"
                     />
-                    <button name="action_start" type="object" string="Start Work" invisible="state not in ('draft','acknowledge','on_way')" />
+                    <button
+                        name="action_start"
+                        type="object"
+                        string="Start Work"
+                        invisible="state not in ('draft','acknowledge','on_way')"
+                    />
                     <button name="action_work_done" type="object" string="Work Done" invisible="state!='progress'" />
                     <button name="action_work_again" type="object" string="Work Again" invisible="state!='rejected'" />
 
@@ -60,7 +65,12 @@
                         groups="sales_team.group_sale_salesman"
                         invisible="state!='work_done'"
                     />
-                    <button name="action_cancel" type="object" string="Cancel Order" invisible="state not in ('progress','rejected')"/>
+                    <button
+                        name="action_cancel"
+                        type="object"
+                        string="Cancel Order"
+                        invisible="state not in ('progress','rejected')"
+                    />
 
                     <button
                         name="new_delivery_button"
@@ -116,8 +126,8 @@
 
                     <group>
                         <group>
-                            <field name="date" readonly="state!='draft'"/>
-                            <field name="reason_id" readonly="state=='done'"/>
+                            <field name="date" readonly="state!='draft'" />
+                            <field name="reason_id" readonly="state=='done'" />
                             <field
                                 name="available_state"
                                 widget="badge"
@@ -128,20 +138,28 @@
                             />
                         </group>
                         <group>
-                            <field name="type_id" readonly="state!='draft'"/>
-                            <field name="notification_id" readonly="state!='draft'"/>
+                            <field name="type_id" readonly="state!='draft'" />
+                            <field name="notification_id" readonly="state!='draft'" />
                         </group>
 
                         <group string="Responsible">
-                            <field name="work_center_id" readonly="state!='draft'"/>
-                            <field name="user_id" readonly="state!='draft'"/>
+                            <field name="work_center_id" readonly="state!='draft'" />
+                            <field name="user_id" readonly="state!='draft'" />
                         </group>
 
 
                         <group string="Technical Object">
-                            <field name="service_location_id" required="equipment_id==False" readonly="state!='draft'"/>
-                            <field name="equipment_id" required="service_location_id==False" readonly="state!='draft'" />
-                            <field name="partner_id" readonly="state!='draft'"/>
+                            <field
+                                name="service_location_id"
+                                required="equipment_id==False"
+                                readonly="state!='draft'"
+                            />
+                            <field
+                                name="equipment_id"
+                                required="service_location_id==False"
+                                readonly="state!='draft'"
+                            />
+                            <field name="partner_id" readonly="state!='draft'" />
                             <field
                                 name="address_id"
                                 readonly="state!='draft'"
@@ -213,7 +231,12 @@
 
                         <page string="Parameters">
                             <group>
-                                <field name="parameter_ids" widget="many2many_checkboxes" nolabel="1" readonly="state in ('done','cancel')"/>
+                                <field
+                                    name="parameter_ids"
+                                    widget="many2many_checkboxes"
+                                    nolabel="1"
+                                    readonly="state in ('done','cancel')"
+                                />
                             </group>
                         </page>
                         <page string="Other Info" name="other_information">
@@ -227,12 +250,9 @@
                                     />
                                 </group>
                                 <group>
-                                    <field
-                                        name="date_start_travel"
-                                        invisible="with_travel==False"
-                                    />
-                                    <field name="date_start" readonly="state!='progress'"/>
-                                    <field name="date_done" readonly="state!='work_done'"/>
+                                    <field name="date_start_travel" invisible="with_travel==False" />
+                                    <field name="date_start" readonly="state!='progress'" />
+                                    <field name="date_done" readonly="state!='work_done'" />
                                 </group>
                             </group>
                         </page>
