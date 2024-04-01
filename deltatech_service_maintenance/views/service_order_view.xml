@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_service_order_tree" model="ir.ui.view">
+        <field name="name">Order</field>
+        <field name="model">service.order</field>
+        <field name="arch" type="xml">
+            <tree string="Services Order" sample="1">
+                <field name="name" />
+                <field name="date" />
+                <field name="service_location_id" />
+                <field name="equipment_id" />
+                <field name="notification_id" />
+                <field
+                    name='state'
+                    widget="badge"
+                    decoration-danger="state == 'draft'  "
+                    decoration-success="state == 'acknowledge'  "
+                    decoration-primary="state == 'progress'  "
+                />
+                <field name='city' />
+                <field name='user_id' />
+<!--                <field name="message_unread" invisible="1" />-->
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_service_order_form" model="ir.ui.view">
+        <field name="name">Order</field>
+        <field name="model">service.order</field>
+        <field name="arch" type="xml">
+            <form string="Services Order">
+                <header>
+                    <field name="with_travel" invisible="1" />
+                    <field name="can_delivered" invisible="1" />
+                    <field name="can_ordered" invisible="1" />
+                    <button name="action_acknowledge" type="object" string="Acknowledge" invisible="state!='draft'" />
+                    <button
+                        name="action_start_on_way"
+                        type="object"
+                        string="Start Traveling"
+                        invisible="state!='acknowledge' or with_travel==False"
+                    />
+                    <button name="action_start" type="object" string="Start Work" invisible="state not in ('draft','acknowledge','on_way')" />
+                    <button name="action_work_done" type="object" string="Work Done" invisible="state!='progress'" />
+                    <button name="action_work_again" type="object" string="Work Again" invisible="state!='rejected'" />
+
+                    <button
+                        name="action_check_available"
+                        type="object"
+                        string="Check Available"
+                        invisible="state not in ('acknowledge','progress')"
+                    />
+
+
+                    <button
+                        name="action_done"
+                        type="object"
+                        string="Done"
+                        groups="sales_team.group_sale_salesman"
+                        invisible="state!='work_done'"
+                    />
+                    <button name="action_cancel" type="object" string="Cancel Order" invisible="state not in ('progress','rejected')"/>
+
+                    <button
+                        name="new_delivery_button"
+                        type="object"
+                        invisible="state!='progress' or can_delivered==False"
+                        string="Delivery for service"
+                    />
+
+
+                    <button
+                        name="new_sale_order_button"
+                        type="object"
+                        invisible="state!='acknowledge' or can_ordered==False"
+                        string="Quotation"
+                        groups="sales_team.group_sale_salesman"
+                    />
+                    <button
+                        name="new_sale_order_button"
+                        type="object"
+                        invisible="state!='progress' or can_ordered==False"
+                        string="Sale Order"
+                        groups="sales_team.group_sale_salesman"
+                    />
+
+
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,acknowledge,progress,work_done,done"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            class="oe_stat_button"
+                            name="sale_order_button"
+                            groups="sales_team.group_sale_salesman"
+                            invisible="can_ordered==False"
+                            type="object"
+                            icon="fa-shopping-cart"
+                        >
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Sale Order</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" invisible="name=='/'" readonly="1" />
+                        </h1>
+                    </div>
+
+
+                    <group>
+                        <group>
+                            <field name="date" readonly="state!='draft'"/>
+                            <field name="reason_id" readonly="state=='done'"/>
+                            <field
+                                name="available_state"
+                                widget="badge"
+                                decoration-success="available_state == 'available'"
+                                decoration-info="available_state == 'partially'"
+                                decoration-danger="available_state == 'unavailable'"
+                                invisible="state not in ('acknowledge','progress')"
+                            />
+                        </group>
+                        <group>
+                            <field name="type_id" readonly="state!='draft'"/>
+                            <field name="notification_id" readonly="state!='draft'"/>
+                        </group>
+
+                        <group string="Responsible">
+                            <field name="work_center_id" readonly="state!='draft'"/>
+                            <field name="user_id" readonly="state!='draft'"/>
+                        </group>
+
+
+                        <group string="Technical Object">
+                            <field name="service_location_id" required="equipment_id==False" readonly="state!='draft'"/>
+                            <field name="equipment_id" required="service_location_id==False" readonly="state!='draft'" />
+                            <field name="partner_id" readonly="state!='draft'"/>
+                            <field
+                                name="address_id"
+                                readonly="state!='draft'"
+                                domain="['|',('parent_id','child_of',partner_id),('id','=',partner_id)]"
+                                context="{'search_default_customer':1, 'show_address': 1 }"
+                                options="{'always_reload': True}"
+                            />
+                        </group>
+
+                        <group>
+
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Operations">
+                            <field name="operation_ids" readonly="state=='done'">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="operation_id" />
+                                    <field name="duration" widget="float_time" />
+                                </tree>
+                            </field>
+                            <field
+                                name="description"
+                                class="oe-bordered-editor"
+                                readonly="state=='done'"
+                                nolabel="1"
+                                placeholder="Description..."
+                            />
+                        </page>
+
+                        <page string="Components">
+                            <field name="component_ids" readonly="state=='done'">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="product_id" />
+                                    <field name="alternative_code" />
+                                    <field name="name" />
+                                    <field name="quantity" />
+                                    <field name="stock_location_issue" invisible="1" />
+                                    <field name="stock_issue" invisible="1" />
+                                    <button
+                                        type="object"
+                                        name="action_product_forecast_report"
+                                        icon="fa-area-chart text-success"
+                                        title="Forecast"
+                                        invisible="stock_location_issue==True"
+                                    />
+                                    <button
+                                        type="object"
+                                        name="action_product_forecast_report"
+                                        icon="fa-area-chart text-warning"
+                                        title="Forecast"
+                                        invisible="stock_location_issue==False or stock_issue==True"
+                                    />
+                                    <button
+                                        type="object"
+                                        name="action_product_forecast_report"
+                                        icon="fa-area-chart text-danger"
+                                        title="Forecast"
+                                        invisible="stock_location_issue==False or stock_issue==False"
+                                    />
+
+                                    <field name="product_uom" />
+                                    <field name="note" />
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Parameters">
+                            <group>
+                                <field name="parameter_ids" widget="many2many_checkboxes" nolabel="1" readonly="state in ('done','cancel')"/>
+                            </group>
+                        </page>
+                        <page string="Other Info" name="other_information">
+                            <group>
+                                <group>
+                                    <field
+                                        name="contact_id"
+                                        readonly="state!='draft'"
+                                        context="{'search_default_customer':1,   'show_phone':1}"
+                                        options="{'always_reload': True}"
+                                    />
+                                </group>
+                                <group>
+                                    <field
+                                        name="date_start_travel"
+                                        invisible="with_travel==False"
+                                    />
+                                    <field name="date_start" readonly="state!='progress'"/>
+                                    <field name="date_done" readonly="state!='work_done'"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Description">
+                            <label for="init_description" />
+                            <field
+                                name="init_description"
+                                readonly="state=='done'"
+                                class="oe-bordered-editor"
+                                nolabel="1"
+                                placeholder="Initial status description..."
+                            />
+                            <label for="description" />
+                            <field
+                                name="description"
+                                readonly="state=='done'"
+                                class="oe-bordered-editor"
+                                nolabel="1"
+                                placeholder="Description..."
+                            />
+                        </page>
+                    </notebook>
+                    <div class="oe_clear" />
+
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="action_service_order" model="ir.actions.act_window">
+        <field name="name">Services Order</field>
+        <field name="res_model">service.order</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Order"
+        id="menu_service_order"
+        action="action_service_order"
+        parent="deltatech_service_base.menu_service"
+    />
+    <record id="action_service_order_type" model="ir.actions.act_window">
+        <field name="name">Services Order Type</field>
+        <field name="res_model">service.order.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem name="Order" id="menu_service_config_order" parent="deltatech_service_base.menu_service_config" />
+    <menuitem
+        name="Order Type"
+        id="menu_service_order_type"
+        action="action_service_order_type"
+        parent="menu_service_config_order"
+    />
+    <record id="action_service_order_reason" model="ir.actions.act_window">
+        <field name="name">Services Order Reason</field>
+        <field name="res_model">service.order.reason</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Reasons"
+        id="menu_service_order_reason"
+        action="action_service_order_reason"
+        parent="menu_service_config_order"
+    />
+    <record id="view_service_operation_tree" model="ir.ui.view">
+        <field name="name">Order</field>
+        <field name="model">service.operation</field>
+        <field name="arch" type="xml">
+            <tree string="Services Operation">
+                <field name="code" />
+                <field name="name" />
+                <field name="duration" widget="float_time" />
+                <field name="product_id" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_service_operation_form" model="ir.ui.view">
+        <field name="name">Order</field>
+        <field name="model">service.operation</field>
+        <field name="arch" type="xml">
+            <form string="Services Operation">
+                <group>
+                    <field name="code" />
+                    <field name="name" />
+                    <field name="duration" widget="float_time" />
+                </group>
+                <group>
+                    <field name="product_id" />
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="action_service_operation" model="ir.actions.act_window">
+        <field name="name">Services Operation</field>
+        <field name="res_model">service.operation</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Operation"
+        id="menu_service_operation"
+        action="action_service_operation"
+        parent="menu_service_config_order"
+    />
+    <record id="action_service_operating_parameter" model="ir.actions.act_window">
+        <field name="name">Service Operating Parameter</field>
+        <field name="res_model">service.operating.parameter</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Operating Parameter"
+        id="menu_service_operating_parameter"
+        action="action_service_operating_parameter"
+        parent="menu_service_config_order"
+    />
+
+</odoo>

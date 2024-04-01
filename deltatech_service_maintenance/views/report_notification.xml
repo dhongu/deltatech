@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_report_service_notification" model="ir.actions.report">
+        <field name="name">Notification</field>
+        <field name="model">service.notification</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">deltatech_service_maintenance.report_service_notification</field>
+        <field name="report_file">deltatech_service_maintenance.report_service_notification</field>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">form</field>
+        <field name="binding_model_id" ref="model_service_notification" />
+    </record>
+
+
+    <template id="report_service_notification">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
+
+                    <div class="page">
+
+                        <h2 class="mt16">
+                            <t t-if="doc.category=='defect_finding'">
+                                <span>Defect Finding</span>
+                            </t>
+                            <t t-else="">
+                                <span>Notification</span>
+                            </t>
+                            <span t-field="doc.name" />
+                        </h2>
+                        <br />
+                        <div class="row mt32 mb32" id="information">
+                            <div t-if="doc.date" class="col-auto col-3 mw-100 mb-2">
+                                <strong>Date:</strong>
+                                <p class="m-0" t-field="doc.date" />
+                            </div>
+                            <div t-if="doc.partner_id.name" class="col-auto col-3 mw-100 mb-2">
+                                <strong>Partner:</strong>
+                                <p class="m-0" t-field="doc.partner_id" />
+                            </div>
+                            <div t-if="doc.contact_id.name" class="col-auto col-3 mw-100 mb-2">
+                                <strong>Reported by:</strong>
+                                <p class="m-0" t-field="doc.contact_id" />
+                            </div>
+                            <div t-if="doc.address_id.name" class="col-auto col-3 mw-100 mb-2">
+                                <strong>Address:</strong>
+                                <p class="m-0" t-field="doc.address_id" />
+                            </div>
+                            <div t-if="doc.user_id.name" class="col-auto col-3 mw-100 mb-2">
+                                <strong>Responsible:</strong>
+                                <p class="m-0" t-field="doc.user_id" />
+                            </div>
+
+                        </div>
+                        <br />
+                        <div class="row mt32 mb32" id="equipment">
+                            <div t-if="doc.equipment_id.name" class="col-auto col-3 mw-100 mb-2">
+                                <strong>Equipment:</strong>
+                                <p class="m-0" t-field="doc.equipment_id" />
+                            </div>
+                            <div t-if="doc.equipment_id.serial_no" class="col-auto col-3 mw-100 mb-2">
+                                <strong>Serial Number:</strong>
+                                <p class="m-0" t-field="doc.equipment_id.serial_no" />
+                            </div>
+                            <div t-if="doc.equipment_id.model_id" class="col-auto col-3 mw-100 mb-2">
+                                <strong>Model:</strong>
+                                <p class="m-0" t-field="doc.equipment_id.model_id" />
+                            </div>
+                        </div>
+                        <br />
+                        <t t-if="doc.item_ids">
+                            <div class="row mt32 mb32">
+                                <div t-if="doc.date" class="col-auto col-3 mw-100 mb-2">
+                                    <strong>Components:</strong>
+                                </div>
+                            </div>
+
+                            <table class="table table-sm o_main_table">
+                                <thead style="display: table-row-group">
+                                    <tr>
+                                        <th name="th_product" class="text-left">Product</th>
+                                        <th name="th_quantity" class="text-right">Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="doc.item_ids" t-as="line">
+                                        <tr>
+                                            <td name="td_name">
+                                                <t t-if="line.product_id">
+                                                    <span t-field="line.product_id" />
+                                                </t>
+                                                <t t-else="">
+                                                    <span t-field="line.note" />
+                                                </t>
+
+                                            </td>
+                                            <td name="td_quantity" class="text-right">
+                                                <span t-field="line.quantity" />
+                                                <span t-field="line.product_uom" />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                        <br />
+                        <div class="oe_structure" />
+                        <p t-field="doc.description" />
+
+                        <div class="row mt32 mb32" id="signatures">
+                            <div class="col-auto col-3 mw-100 mb-2">
+                                <strong>Partner:</strong>
+                            </div>
+                            <div class="col-auto col-3 mw-100 mb-2">
+                                <strong>Responsible:</strong>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

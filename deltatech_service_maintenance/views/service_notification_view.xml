@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_service_notification_tree" model="ir.ui.view">
+        <field name="name">notification</field>
+        <field name="model">service.notification</field>
+        <field name="arch" type="xml">
+            <tree string="Services notification" default_order='date desc' sample="1">
+                <field name="name" decoration-bf="1" />
+                <field name="date" />
+                <field name="type" optional="hide" />
+                <field
+                    name="category"
+                    widget="badge"
+                    decoration-success="category == 'required'"
+                    decoration-info="category in ['transfer','delivery']"
+                    decoration-primary="category in ['sale_support','sale']"
+                />
+                <field name="service_location_id" />
+                <field name="equipment_id" />
+                <field name="order_id" />
+                <field name="partner_id" />
+                <field name="subject" />
+                <field name="user_id" widget="many2one_avatar_user" />
+                <field name="contact_id" />
+                <field
+                    name='state'
+                    widget="badge"
+                    decoration-danger="state == 'new'  "
+                    decoration-success="state == 'assigned'  "
+                    decoration-primary="state == 'progress'  "
+                />
+<!--                <field name="message_unread" invisible="1" />-->
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_service_notification_form" model="ir.ui.view">
+        <field name="name">notification</field>
+        <field name="model">service.notification</field>
+        <field name="arch" type="xml">
+            <form string="Services Notification">
+                <header>
+
+                    <button
+                        name="new_transfer_button"
+                        type="object"
+                        class="oe_highlight"
+                        string="New transfer"
+                        invisible="category!='transfer' or piking_id!=False"
+                    />
+
+                    <button
+                        name="new_sale_order_button"
+                        type="object"
+                        class="oe_highlight"
+                        string="Quotation"
+                        groups="sales_team.group_sale_salesman"
+                        invisible="category!='defect_finding'"
+                    />
+
+                    <button name="action_assign" type="object" string="Assign" class="oe_highlight" invisible="state!='new'"/>
+                    <button name="action_taking" type="object" string="Taking " invisible="state!='new'"/>
+                    <button name="action_start" type="object" string="Start" class="oe_highlight" invisible="state!='assigned'"/>
+                    <button
+                        name="action_cancel_assign"
+                        type="object"
+                        string="Assign Cancel"
+                        invisible="state not in ('assigned','progress')"
+                    />
+                    <button
+                        name="action_order"
+                        type="object"
+                        string="Service Order"
+                        invisible="order_id!=False or state!='progress'"
+                    />
+                    <button name="action_done" type="object" class="oe_highlight" string="Done" invisible="state!='progress'" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1" invisible="name=='/'"/>
+                        </h1>
+                    </div>
+
+
+                    <group>
+                        <group>
+                            <field name="date" readonly="state!='new'"/>
+                            <field name="priority" widget="priority" readonly="state!='new'"/>
+                        </group>
+                        <group>
+                            <field name="category" />
+                            <field name="order_id" />
+                        </group>
+                        <group string="Responsible">
+                            <field name="work_center_id" readonly="state!='new'"/>
+                            <field name="user_id" reeadonly="state!='new'" domain="[('share', '=', False)]" widget="many2one_avatar_user" />
+                        </group>
+                        <group string="Technical Object">
+                            <field name="service_location_id" required="equipment_id==False" readonly="state!='new'"/>
+                            <field name="equipment_id" required="service_location_id==False" readonly="state!='new'" />
+                            <field name="partner_id" required="category in ('delivery','sale')" readonly="state!='new'" />
+                            <field
+                                name="address_id"
+                                readonly="state!='new'"
+                                domain="['|',('parent_id','child_of',partner_id),('id','=',partner_id)]"
+                                context="{'search_default_customer':1, 'show_address': 1 }"
+                                options="{'always_reload': True}"
+                            />
+
+
+
+                        </group>
+                        <group>
+                            <field
+                                name="piking_id"
+                                invisible="category!='delivery'"
+                                readonly="1"
+                            />
+                        </group>
+
+                    </group>
+                    <notebook>
+                        <page string="Operations">
+                            <field name="operation_ids" readonly="state=='done'">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="operation_id" />
+                                    <field name="duration" widget="float_time" />
+                                </tree>
+                            </field>
+                            <field
+                                name="description"
+                                class="oe-bordered-editor"
+                                readonly="state=='done'"
+                                nolabel="1"
+                                placeholder="Description..."
+                            />
+                        </page>
+
+                        <page string="Components" name="lines">
+                            <field name="item_ids" mode="tree,kanban">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="product_id" />
+                                    <field name="alternative_code" />
+                                    <field name="name" />
+                                    <field name="quantity" />
+                                    <field name="stock_location_issue" invisible="1" />
+                                    <field name="stock_issue" invisible="1" />
+                                    <button
+                                        type="object"
+                                        name="action_product_forecast_report"
+                                        title="Forecast"
+                                        icon="fa-area-chart text-success"
+                                        invisible="stock_location_issue==True"
+                                    />
+                                    <button
+                                        type="object"
+                                        name="action_product_forecast_report"
+                                        title="Forecast"
+                                        icon="fa-area-chart text-warning"
+                                        invisible="stock_location_issue==False or stock_issue==True"
+                                    />
+                                    <button
+                                        type="object"
+                                        name="action_product_forecast_report"
+                                        title="Forecast"
+                                        icon="fa-area-chart text-danger"
+                                        invisible="stock_location_issue==False or stock_issue==False"
+                                    />
+
+                                    <field name="product_uom" />
+                                    <field name="note" />
+                                </tree>
+
+                                <kanban class="o_kanban_mobile">
+                                    <field name="product_id" />
+                                    <field name="quantity" />
+                                    <field name="product_uom" />
+
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <strong>
+                                                            <span>
+                                                                <t t-esc="record.product_id.value" />
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 text-muted">
+                                                        <span>
+                                                            Quantity:
+                                                            <t t-esc="record.quantity.value" />
+                                                            <t t-esc="record.product_uom.value" />
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+
+
+                            </field>
+
+                        </page>
+                        <page string="Other Info" name="other_information">
+                            <group>
+                                <group>
+                                    <field name="type" readonly="state!='new'"/>
+                                    <field
+                                        name="contact_id"
+                                        readonly="state!='new'"
+                                        context="{'search_default_customer':1,   'show_phone':1}"
+                                        options="{'always_reload': True}"
+                                    />
+                                    <field name="subject" readonly="state=='done'"/>
+                                    <field name="description" readonly="state=='done'" />
+                                </group>
+                                <group>
+                                    <field name="date_assign" />
+                                    <field name="date_start" />
+                                    <field name="date_done" />
+                                </group>
+                                <group>
+                                    <field name="piking_id" invisible="piking_id==False"/>
+                                    <field name="sale_order_id" invisible="sale_order_id==False"/>
+                                    <!--                                    <field-->
+                                    <!--                                        name="required_order_id"-->
+                                    <!--                                        attrs="{'invisible': [('required_order_id','=',False)]}"-->
+                                    <!--                                    />-->
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_service_notification_kanban" model="ir.ui.view">
+        <field name="name">notification</field>
+        <field name="model">service.notification</field>
+        <field name="arch" type="xml">
+
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="name" />
+                <field name="service_location_id" />
+                <field name="partner_id" />
+                <field name="state" />
+                <field name="date" />
+                <field name="activity_state" />
+                <!--                <progressbar field="activity_state"-->
+                <!--                             colors="{'planned': 'success', 'today': 'warning', 'overdue': 'danger'}" />-->
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_record_top mb16">
+                                <div class="o_kanban_record_headings mt4">
+                                    <strong class="o_kanban_record_title">
+                                        <span>
+                                            <t t-esc="record.service_location_id.value" />
+                                            <t t-esc="record.partner_id.value" />
+                                        </span>
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left text-muted">
+                                    <span>
+                                        <t t-esc="record.name.value" />
+                                        <t t-esc="record.date.value and record.date.value.split(' ')[0] or False" />
+                                    </span>
+                                    <field name="activity_ids" widget="kanban_activity" />
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <field
+                                        name="state"
+                                        widget="label_selection"
+                                        options="{'classes': {'new': 'default', 'progress': 'primary', 'assigned': 'success'}}"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+
+
+        </field>
+    </record>
+
+    <!-- Search note -->
+    <record id="view_service_notification_filter" model="ir.ui.view">
+        <field name="name">notification.search</field>
+        <field name="model">service.notification</field>
+        <field name="arch" type="xml">
+            <search string="Notification">
+                <field name="subject" />
+                <field name="user_id" />
+                <field name="partner_id" />
+                <field name="equipment_id" />
+                <field name="service_location_id" />
+                <separator />
+                <filter name="new" string="New" domain="[('state', '=', 'new')]" />
+                <filter name='assigned' string="Assigned" domain="[('state', '=', 'assigned')]" />
+                <filter name='progress' string="In Progress" domain="[('state', '=', 'progress')]" />
+                <filter name='done' string="Done" domain="[('state', '=', 'done')]" />
+                <separator />
+                <filter
+                    name='my'
+                    string="My"
+                    domain="[('user_id','=',uid)]"
+                    help="Notifications that are assigned to me"
+                />
+                <filter name="unassigned" string="Unassigned" domain="[('user_id','=', False)]" />
+                <group expand="0" string="Group By">
+                    <filter name="group_by_user_id" string="Responsible" context="{'group_by':'user_id'}" />
+                    <filter name="group_by_state" string="State" context="{'group_by':'state'}" />
+                    <filter name="group_by_equipment_id" string="Equipment" context="{'group_by':'equipment_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_service_notification" model="ir.actions.act_window">
+        <field name="name">Services Notification</field>
+        <field name="res_model">service.notification</field>
+        <field name="view_mode">tree,form,kanban,activity</field>
+    </record>
+    <menuitem
+        name="Notification"
+        id="menu_service_notification"
+        action="action_service_notification"
+        parent="deltatech_service_base.menu_service"
+    />
+    <record id="action_service_notification_type" model="ir.actions.act_window">
+        <field name="name">Services Notification Type</field>
+        <field name="res_model">service.notification.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Notification Type"
+        id="menu_service_notification_type"
+        action="action_service_notification_type"
+        parent="deltatech_service_base.menu_service_config"
+    />
+
+        <record id="action_notification_set_draft" model="ir.actions.server">
+            <field name="name">Reset status</field>
+            <field name="type">ir.actions.server</field>
+            <field name="binding_view_types">form</field>
+            <field name="model_id" ref="model_service_notification" />
+            <field name="binding_model_id" ref="model_service_notification" />
+            <field name="state">code</field>
+            <field name="code">
+if records:
+    records.write({'state':'new'})
+            </field>
+        </record>
+
+</odoo>
