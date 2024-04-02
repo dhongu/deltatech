@@ -178,7 +178,10 @@ class BusinessProcess(models.Model):
     def _compute_duration_for_completion(self):
         for process in self:
             process.duration_for_completion = (
-                process.configuration_duration + process.instructing_duration + process.data_migration_duration + process.testing_duration
+                process.configuration_duration
+                + process.instructing_duration
+                + process.data_migration_duration
+                + process.testing_duration
             )
 
     def action_view_steps(self):
