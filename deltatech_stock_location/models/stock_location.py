@@ -13,10 +13,10 @@ class StockLocation(models.Model):
 
     source_location_id = fields.Many2one("stock.location", domain=[("usage", "=", "internal")])
 
-    route_delivery_id = fields.Many2one("stock.location.route")
+    route_delivery_id = fields.Many2one("stock.route")
     delivery_picking_type_id = fields.Many2one("stock.picking.type", string="Delivery Operation")
 
-    route_transfer_id = fields.Many2one("stock.location.route")
+    route_transfer_id = fields.Many2one("stock.route")
     transfer_picking_type_id = fields.Many2one("stock.picking.type", string="Transfer Operation")
 
     receipt_picking_type_id = fields.Many2one("stock.picking.type", string="Receipt Operation")
