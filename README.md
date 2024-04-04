@@ -130,6 +130,7 @@ addon | version | maintainers | summary | price
 [deltatech_stock_sn](deltatech_stock_sn/) | 17.0.1.0.0 |  | Stock Serial Number | Free 
 [deltatech_test_system](deltatech_test_system/) | 17.0.0.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Utils | Free 
 [deltatech_utils](deltatech_utils/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Utils | Free 
+[deltatech_vendor_stock](deltatech_vendor_stock/) | 17.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vendor stock availability | Free 
 [deltatech_warehouse](deltatech_warehouse/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Warehouse | Free 
 [deltatech_warehouse_access](deltatech_warehouse_access/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Warehouse Access | Free 
 [deltatech_warranty](deltatech_warranty/) | 17.0.1.0.0 |  | Warranty field in product, report for sale order | Free 
