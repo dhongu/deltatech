@@ -11,7 +11,11 @@ class SaleOrder(models.Model):
 
     def _prepare_invoice(self):
         res = super()._prepare_invoice()
-        journal_id = self.team_id.journal_id.id or res.get("journal_id", False)
+        journal_id = (
+            self.env.context.get("default_journal_id", False)
+            or self.team_id.journal_id.id
+            or res.get("journal_id", False)
+        )
         res.update({"journal_id": journal_id})
         if journal_id:
             journal = self.env["account.journal"].browse(journal_id)
