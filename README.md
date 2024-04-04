@@ -134,6 +134,7 @@ addon | version | maintainers | summary | price
 [deltatech_warehouse_access](deltatech_warehouse_access/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Warehouse Access | Free 
 [deltatech_warranty](deltatech_warranty/) | 17.0.1.0.0 |  | Warranty field in product, report for sale order | Free 
 [deltatech_watermark](deltatech_watermark/) | 17.0.3.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Watermark field | Free 
+[deltatech_watermark_report](deltatech_watermark_report/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Watermark in report | Free 
 [deltatech_website_access_design](deltatech_website_access_design/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Access for web designer | Free 
 [deltatech_website_blog](deltatech_website_blog/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Blog Extension | Free 
 [deltatech_website_category](deltatech_website_category/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Public category | Free 
