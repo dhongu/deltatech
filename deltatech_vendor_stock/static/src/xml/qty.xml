@@ -16,7 +16,7 @@
     </t>
 
 
-    <t t-name="QtyDetailPopOver" t-inherit="sale_stock.QtyDetailPopOver" t-inherit-mode="extension" owl="1">
+    <t t-name="QtyDetailPopOver" t-inherit="sale_stock.QtyAtDatePopover" t-inherit-mode="extension" owl="1">
         <xpath expr="//tbody" position="inside">
             <tr>
                 <td><strong>Vendor Stock</strong></td>
