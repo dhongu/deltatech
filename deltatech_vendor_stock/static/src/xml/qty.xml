@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates id="template">
 
-    <t t-name="qtyAtDate" t-inherit="sale_stock.qtyAtDate" t-inherit-mode="extension" owl="1">
+    <t t-name="qtyAtDate" t-inherit="sale_stock.QtyAtDate" t-inherit-mode="extension" owl="1">
          <xpath expr="//a" position="replace">
                <t t-set="text_color" t-value="props.record.data.forecasted_issue ? 'text-danger' : 'text-primary'" />
             <t t-if="!props.record.data.qty_available_today and !props.record.data.forecasted_issue ">
