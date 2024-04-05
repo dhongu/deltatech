@@ -86,25 +86,32 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="attributes">
-                <t groups="deltatech_sale_margin.group_sale_no_change_price">
-                    <attribute name="readonly">1</attribute>
-                </t>
-            </xpath>
             <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="attributes">
-                <t groups="deltatech_sale_margin.group_sale_no_change_price">
-                    <attribute name="readonly">1</attribute>
-                </t>
+                <attribute name="groups">!deltatech_sale_margin.group_sale_no_change_price</attribute>
             </xpath>
-            <xpath expr="//field[@name='order_line']/form//field[@name='discount']" position="attributes">
-                <t groups="deltatech_sale_margin.group_sale_no_change_price">
-                    <attribute name="readonly">1</attribute>
-                </t>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="before">
+                <field name="price_unit" readonly="1" groups="deltatech_sale_margin.group_sale_no_change_price" />
             </xpath>
+
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="attributes">
+                <attribute name="groups">!deltatech_sale_margin.group_sale_no_change_price</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="before">
+                <field name="price_unit" readonly="1" groups="deltatech_sale_margin.group_sale_no_change_price" />
+            </xpath>
+
             <xpath expr="//field[@name='order_line']/tree//field[@name='discount']" position="attributes">
-                <t groups="deltatech_sale_margin.group_sale_no_change_price">
-                    <attribute name="readonly">1</attribute>
-                </t>
+                <attribute name="groups">!deltatech_sale_margin.group_sale_no_change_price</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='discount']" position="before">
+                <field name="discount" readonly="1" groups="deltatech_sale_margin.group_sale_no_change_price" />
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/form//field[@name='discount']" position="attributes">
+                <attribute name="groups">!deltatech_sale_margin.group_sale_no_change_price</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='discount']" position="before">
+                <field name="discount" readonly="1" groups="deltatech_sale_margin.group_sale_no_change_price" />
             </xpath>
         </field>
     </record>

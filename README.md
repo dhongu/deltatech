@@ -18,6 +18,7 @@ addon | version | maintainers | summary | price
 --- | --- | --- | --- | ---
 [deltatech](deltatech/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generic module | Free 
 [deltatech_account](deltatech_account/) | 16.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account | Free 
+[deltatech_account_analytic](deltatech_account_analytic/) | 16.0.0.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Analytic lines enhancements | Free 
 [deltatech_account_restrict_date](deltatech_account_restrict_date/) | 16.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict certain operations depending on date | Free 
 [deltatech_agreement_management](deltatech_agreement_management/) | 16.0.0.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage agreements numbers, date, state | Free 
 [deltatech_alternative](deltatech_alternative/) | 16.0.2.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes | Free 
@@ -26,7 +27,7 @@ addon | version | maintainers | summary | price
 [deltatech_average_payment_period](deltatech_average_payment_period/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Computes average duration of cash accounting | Free 
 [deltatech_backup_attachment](deltatech_backup_attachment/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Backup attachments for selected file type | Free 
 [deltatech_batch_transfer](deltatech_batch_transfer/) | 16.0.0.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Batch transfer improvements | Free 
-[deltatech_business_process](deltatech_business_process/) | 16.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Business process | Free 
+[deltatech_business_process](deltatech_business_process/) | 16.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Business process | Free 
 [deltatech_card_payment](deltatech_card_payment/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Payment Method Card | Free 
 [deltatech_cash](deltatech_cash/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Cash In / Out | Free 
 [deltatech_cash_statement](deltatech_cash_statement/) | 16.0.3.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Update cash balance | Free 
@@ -45,7 +46,7 @@ addon | version | maintainers | summary | price
 [deltatech_fast_sale](deltatech_fast_sale/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vanzare rapida | 5.0 EUR
 [deltatech_fleet](deltatech_fleet/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vehicle, route, map sheet | Free 
 [deltatech_fleet_geo](deltatech_fleet_geo/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Fleet Geographical Information | Free 
-[deltatech_followup](deltatech_followup/) | 16.0.0.0.4 |  | Simple invoice followup, with automatic e-mails | Free 
+[deltatech_followup](deltatech_followup/) | 16.0.0.0.5 |  | Simple invoice followup, with automatic e-mails | Free 
 [deltatech_generic_partner_restriction](deltatech_generic_partner_restriction/) | 16.0.2.0.0 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) | Generic Partner restriction | Free 
 [deltatech_invoice_color](deltatech_invoice_color/) | 16.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Colors Invoice Lines | Free 
 [deltatech_invoice_delivery](deltatech_invoice_delivery/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Create delivery form invoice | Free 
@@ -95,7 +96,7 @@ addon | version | maintainers | summary | price
 [deltatech_product_code](deltatech_product_code/) | 16.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product codification internal | Free 
 [deltatech_product_dimension](deltatech_product_dimension/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product dimension | Free 
 [deltatech_product_extension](deltatech_product_extension/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | New fields in product: Manufacturer Dimensions, Shelf Life and Unit of Measure for Shelf Life | Free 
-[deltatech_product_list](deltatech_product_list/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Define products lists | Free 
+[deltatech_product_list](deltatech_product_list/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Define products lists | Free 
 [deltatech_product_margin](deltatech_product_margin/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product margin and trade markup | Free 
 [deltatech_product_trade_markup](deltatech_product_trade_markup/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product trade markup | Free 
 [deltatech_property](deltatech_property/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Property Management | Free 
@@ -114,9 +115,10 @@ addon | version | maintainers | summary | price
 [deltatech_restricted_access](deltatech_restricted_access/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Restricted Access | Free 
 [deltatech_sale](deltatech_sale/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Extension Obsolete | Free 
 [deltatech_sale_add_extra_line](deltatech_sale_add_extra_line/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Add Extra Line | Free 
-[deltatech_sale_commission](deltatech_sale_commission/) | 16.0.1.1.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Compute sale commission | Free 
+[deltatech_sale_commission](deltatech_sale_commission/) | 16.0.1.1.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Compute sale commission | Free 
 [deltatech_sale_feedback](deltatech_sale_feedback/) | 16.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Feedback | Free 
-[deltatech_sale_margin](deltatech_sale_margin/) | 16.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Check price in sale order | Free 
+[deltatech_sale_fix_followers](deltatech_sale_fix_followers/) | 16.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Fix for mail_followers_mail_followers_res_partner_res_model_id_uniq error | Free 
+[deltatech_sale_margin](deltatech_sale_margin/) | 16.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Check price in sale order | Free 
 [deltatech_sale_multiple](deltatech_sale_multiple/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale quantity multiple | Free 
 [deltatech_sale_multiple_website](deltatech_sale_multiple_website/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Quantity multiple on website | Free 
 [deltatech_sale_pallet](deltatech_sale_pallet/) | 16.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale pallet | Free 
@@ -143,13 +145,13 @@ addon | version | maintainers | summary | price
 [deltatech_service_maintenance_agreement](deltatech_service_maintenance_agreement/) | 16.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance | Free 
 [deltatech_service_maintenance_plan](deltatech_service_maintenance_plan/) | 16.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance Plan | Free 
 [deltatech_sms](deltatech_sms/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Send SMS to custom endpoint | Free 
-[deltatech_sms_sale](deltatech_sms_sale/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | send SMS at sale order confirmation | Free 
+[deltatech_sms_sale](deltatech_sms_sale/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | send SMS at sale order confirmation | Free 
 [deltatech_stock_account](deltatech_stock_account/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Stock Account Extension | Free 
 [deltatech_stock_analytic](deltatech_stock_analytic/) | 16.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Create analytic lines from stock moves | Free 
 [deltatech_stock_date](deltatech_stock_date/) | 16.0.1.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Set posting date for stock move | Free 
 [deltatech_stock_delivery](deltatech_stock_delivery/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Adding button in invoice for display reception or delivery | Free 
 [deltatech_stock_inventory](deltatech_stock_inventory/) | 16.0.2.2.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Inventory Old Method | Free 
-[deltatech_stock_location](deltatech_stock_location/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generate route, picking operation for location | Free 
+[deltatech_stock_location](deltatech_stock_location/) | 16.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generate route, picking operation for location | Free 
 [deltatech_stock_negative](deltatech_stock_negative/) | 16.0.2.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Negative stocks are not allowed | Free 
 [deltatech_stock_report](deltatech_stock_report/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report with positions from picking lists | Free 
 [deltatech_stock_sn](deltatech_stock_sn/) | 16.0.1.0.0 |  | Stock Serial Number | Free 

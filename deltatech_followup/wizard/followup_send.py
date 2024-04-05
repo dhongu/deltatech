@@ -4,7 +4,7 @@
 import html
 from string import Template
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class FollowupSendWizard(models.TransientModel):
@@ -24,19 +24,23 @@ class FollowupSendWizard(models.TransientModel):
             for followup in followups:
                 for partner in partners:
                     partner_debit = 0.0
+                    partner_all_debit = 0.0
+                    partner_due_debit = 0.0
                     lang_id = self.env["res.lang"].search([("code", "=", partner.lang)])[0]
                     domain = [
                         ("partner_id", "=", partner.id),
-                        ("type", "=", "out_invoice"),
                         ("state", "in", ["posted"]),
                     ]
                     if followup.only_open:
                         domain = [
                             ("partner_id", "=", partner.id),
-                            ("move_type", "=", "out_invoice"),
                             ("state", "in", ["posted"]),
                             ("payment_state", "in", ["not_paid", "partial"]),
                         ]
+                    if followup.with_refunds:
+                        domain.append(("move_type", "in", ["out_invoice", "out_refund"]))
+                    else:
+                        domain.append(("move_type", "=", "out_invoice"))
                     invoices = self.env["account.move"].search(domain)
                     invoices_to_process = []
                     for invoice in invoices:
@@ -47,6 +51,10 @@ class FollowupSendWizard(models.TransientModel):
                         if followup.is_match(date_process):
                             # add invoice
                             invoices_to_process.append(invoice)
+                        if invoice.payment_state in ["not_paid", "partial"]:
+                            partner_all_debit += invoice.amount_residual_signed
+                            if invoice.invoice_date_due < fields.Date.today():
+                                partner_due_debit += invoice.amount_residual_signed
                     if invoices_to_process:
                         invoices_content = ""
                         for invoice in invoices_to_process:
@@ -58,10 +66,10 @@ class FollowupSendWizard(models.TransientModel):
                                 amount_untaxed=invoice.amount_untaxed,
                                 amount_tax=invoice.amount_tax,
                                 amount_total=invoice.amount_total,
-                                amount_due=invoice.amount_residual,
+                                amount_due=invoice.amount_residual_signed,
                             )
                             invoices_content += crt_row
-                            partner_debit += invoice.amount_residual
+                            partner_debit += invoice.amount_residual_signed
                         email_values = {}
                         if "[invoices]" in followup.mail_template.body_html:
                             mail_values = followup.mail_template.with_context(
@@ -95,6 +103,8 @@ class FollowupSendWizard(models.TransientModel):
                             body = new_body.replace("[invoices]", invoices_content)
                             body = body.replace("${object.name}", partner.name)
                             body = body.replace("$total_debit", "{:,.2f}".format(partner_debit))
+                            body = body.replace("$total_all_debit", "{:,.2f}".format(partner_all_debit))
+                            body = body.replace("$total_due_debit", "{:,.2f}".format(partner_due_debit))
                             body = html.unescape(body)
                             email_values = {
                                 "body_html": body,

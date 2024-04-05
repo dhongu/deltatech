@@ -1,6 +1,8 @@
 # ©  2023 Deltatech
 # See README.rst file on addons root folder for license details
 
+from datetime import datetime
+
 from odoo import _, api, fields, models
 
 
@@ -115,6 +117,14 @@ class BusinessProcessTest(models.Model):
                         },
                     )
                 ]
+
+    @api.onchange("state")
+    def _onchange_state(self):
+        today_date = datetime.now().date()
+        if self.state == "run":
+            self.date_start = today_date
+        if self.state == "done":
+            self.date_end = today_date
 
     def action_run(self):
         self.ensure_one()

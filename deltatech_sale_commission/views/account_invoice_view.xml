@@ -27,8 +27,10 @@
             <field name="inherit_id" ref="account.view_move_form" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']" position="attributes">
-                    <attribute name="readonly">1</attribute>
-                      <attribute name="groups">deltatech_sale_margin.group_sale_no_change_price</attribute>
+                    <attribute name="groups">!deltatech_sale_margin.group_sale_no_change_price</attribute>
+                </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']" position="before">
+                    <field name="price_unit" readonly="1" groups="deltatech_sale_margin.group_sale_no_change_price" />
                 </xpath>
             </field>
         </record>

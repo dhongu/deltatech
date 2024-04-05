@@ -13,10 +13,10 @@ class StockLocation(models.Model):
 
     source_location_id = fields.Many2one("stock.location", domain=[("usage", "=", "internal")])
 
-    route_delivery_id = fields.Many2one("stock.location.route")
+    route_delivery_id = fields.Many2one("stock.route")
     delivery_picking_type_id = fields.Many2one("stock.picking.type", string="Delivery Operation")
 
-    route_transfer_id = fields.Many2one("stock.location.route")
+    route_transfer_id = fields.Many2one("stock.route")
     transfer_picking_type_id = fields.Many2one("stock.picking.type", string="Transfer Operation")
 
     receipt_picking_type_id = fields.Many2one("stock.picking.type", string="Receipt Operation")
@@ -69,7 +69,7 @@ class StockLocation(models.Model):
             if not location.route_delivery_id:
                 route_name = _("Delivery from %s") % location.name
 
-                route_delivery = self.env["stock.location.route"].create(
+                route_delivery = self.env["stock.route"].create(
                     {
                         "name": route_name,
                         "sale_selectable": True,
@@ -83,7 +83,7 @@ class StockLocation(models.Model):
                                     "action": "pull",
                                     "picking_type_id": location.delivery_picking_type_id.id,
                                     "location_src_id": location.id,
-                                    "location_id": self.env.ref("stock.stock_location_suppliers").id,
+                                    "location_dest_id": self.env.ref("stock.stock_location_suppliers").id,
                                     "procure_method": "mts_else_mto",
                                 },
                             )
@@ -96,7 +96,7 @@ class StockLocation(models.Model):
             if not location.route_transfer_id:
                 route_name = _("Transfer to %s") % location.name
 
-                route_delivery = self.env["stock.location.route"].create(
+                route_delivery = self.env["stock.route"].create(
                     {
                         "name": route_name,
                         "warehouse_selectable": True,
@@ -111,7 +111,7 @@ class StockLocation(models.Model):
                                     "action": "pull",
                                     "picking_type_id": location.transfer_picking_type_id.id,
                                     "location_src_id": primary_location.id,
-                                    "location_id": location.id,
+                                    "location_dest_id": location.id,
                                     "procure_method": "make_to_stock",
                                 },
                             )
