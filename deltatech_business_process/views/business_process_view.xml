@@ -209,6 +209,9 @@
                         context="{'group_by':'responsible_id'}"
                     />
                 </group>
+                <searchpanel>
+                        <field name="area_id" select="one" enable_counters="1"/>
+                </searchpanel>
             </search>
         </field>
     </record>
