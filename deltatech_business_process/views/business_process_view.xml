@@ -81,8 +81,19 @@
                         invisible="state!='test'"
                         groups="deltatech_business_process.group_business_process_responsible"
                     />
-                    <button name="button_go_live" type="object" string="Go live" class="oe_highlight" invisible="state!='ready'" />
-                    <button name="button_draft" type="object" string="Reset to Draft" invisible="state not in ('design','test','ready')" />
+                    <button
+                        name="button_go_live"
+                        type="object"
+                        string="Go live"
+                        class="oe_highlight"
+                        invisible="state!='ready'"
+                    />
+                    <button
+                        name="button_draft"
+                        type="object"
+                        string="Reset to Draft"
+                        invisible="state not in ('design','test','ready')"
+                    />
                     <field name="state" widget="statusbar" statusbar_visible="draft,design,test,ready,production" />
 
                 </header>
@@ -106,28 +117,39 @@
 
                     <div class="oe_title">
                         <h1>
-                            <field name="name" default_focus="1" placeholder="Name" class="oe_inline" readonly="state!='draft'"/>
+                            <field
+                                name="name"
+                                default_focus="1"
+                                placeholder="Name"
+                                class="oe_inline"
+                                readonly="state!='draft'"
+                            />
                         </h1>
                     </div>
 
                     <group>
                         <group string="Identification">
-                            <field name="code" readonly="state!='draft'"/>
-                            <field name="project_id" readonly="state!='draft'"/>
+                            <field name="code" readonly="state!='draft'" />
+                            <field name="project_id" readonly="state!='draft'" />
                         </group>
                         <group string="Responsible">
-                            <field name="responsible_id" readonly="state not in ('draft','design')"/>
-                            <field name="customer_id" readonly="state not in ('draft','design')"/>
-                            <field name="approved_id" readonly="state not in ('draft','design')"/>
+                            <field name="responsible_id" readonly="state not in ('draft','design')" />
+                            <field name="customer_id" readonly="state not in ('draft','design')" />
+                            <field name="approved_id" readonly="state not in ('draft','design')" />
                         </group>
                         <group string="Business Blueprint">
-                            <field name="date_start_bbp" readonly="state not in ('draft','design')"/>
-                            <field name="date_end_bbp" readonly="state not in ('draft','design')"/>
-                            <field name="completion_bbp" widget="progressbar" options="{'editable': true}" readonly="state not in ('draft','design')"/>
+                            <field name="date_start_bbp" readonly="state not in ('draft','design')" />
+                            <field name="date_end_bbp" readonly="state not in ('draft','design')" />
+                            <field
+                                name="completion_bbp"
+                                widget="progressbar"
+                                options="{'editable': true}"
+                                readonly="state not in ('draft','design')"
+                            />
                         </group>
                         <group string="Business process">
-                            <field name="area_id" readonly="state!='draft'"/>
-                            <field name="process_group_id" readonly="state!='draft'"/>
+                            <field name="area_id" readonly="state!='draft'" />
+                            <field name="process_group_id" readonly="state!='draft'" />
                         </group>
                         <!--                        <group string="Tests Status">
                                                     <field name="status_internal_test" />
@@ -143,7 +165,12 @@
                     </group>
                     <notebook>
                         <page string="Process steps" name="steps">
-                            <field name="step_ids" widget="section_and_note_one2many" mode="tree,kanban" readonly="state not in ('draft','design')">
+                            <field
+                                name="step_ids"
+                                widget="section_and_note_one2many"
+                                mode="tree,kanban"
+                                readonly="state not in ('draft','design')"
+                            >
                                 <tree editable="bottom">
                                     <field name="sequence" widget="handle" />
                                     <field name="code" />
@@ -210,7 +237,7 @@
                     />
                 </group>
                 <searchpanel>
-                        <field name="area_id" select="one" enable_counters="1"/>
+                        <field name="area_id" select="one" enable_counters="1" />
                 </searchpanel>
             </search>
         </field>

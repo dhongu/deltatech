@@ -7,14 +7,14 @@
         <field name="arch" type="xml">
             <tree string="Business process step" sample="1">
 
-                <field name="code"/>
-                <field name="process_id" optional="hide"/>
-                <field name="name"/>
-                <field name="transaction_id" optional="show"/>
-                <field name="transaction_type" optional="hide"/>
-                <field name="responsible_id"/>
-                <field name="development_ids" widget="many2many_tags" optional="hide"/>
-                <field name="state" widget="badge" decoration-success="state == 'production'  "/>
+                <field name="code" />
+                <field name="process_id" optional="hide" />
+                <field name="name" />
+                <field name="transaction_id" optional="show" />
+                <field name="transaction_type" optional="hide" />
+                <field name="responsible_id" />
+                <field name="development_ids" widget="many2many_tags" optional="hide" />
+                <field name="state" widget="badge" decoration-success="state == 'production'  " />
             </tree>
         </field>
     </record>
@@ -24,39 +24,49 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,design,test,ready,production"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,design,test,ready,production" />
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                     </div>
                     <div class="oe_title">
                         <h1>
-                            <field name="name" default_focus="1" placeholder="Name" class="oe_inline" readonly="state not in ('draft','design')"/>
+                            <field
+                                name="name"
+                                default_focus="1"
+                                placeholder="Name"
+                                class="oe_inline"
+                                readonly="state not in ('draft','design')"
+                            />
                         </h1>
                     </div>
 
                     <group>
                         <group string="Identification">
-                            <field name="code" readonly="state not in ('draft','design')"/>
-                            <field name="process_id" readonly="state not in ('draft','design')"/>
+                            <field name="code" readonly="state not in ('draft','design')" />
+                            <field name="process_id" readonly="state not in ('draft','design')" />
                         </group>
                         <group string="Responsible">
-                            <field name="responsible_id" readonly="state not in ('draft','design')"/>
+                            <field name="responsible_id" readonly="state not in ('draft','design')" />
                         </group>
                         <group string="Transaction">
-                            <field name="transaction_id" readonly="state not in ('draft','design')"/>
-                            <field name="transaction_type"/>
+                            <field name="transaction_id" readonly="state not in ('draft','design')" />
+                            <field name="transaction_type" />
                         </group>
                         <group string="Role">
-                            <field name="role_id" readonly="state not in ('draft','design')"/>
+                            <field name="role_id" readonly="state not in ('draft','design')" />
                         </group>
                         <group string="Developments">
-                            <field name="development_ids" widget="many2many_tags" readonly="state not in ('draft','design')"/>
+                            <field
+                                name="development_ids"
+                                widget="many2many_tags"
+                                readonly="state not in ('draft','design')"
+                            />
                         </group>
                     </group>
                     <notebook>
                         <page string="Details">
-                            <field name="details"/>
+                            <field name="details" />
                         </page>
                     </notebook>
                 </sheet>
@@ -71,11 +81,11 @@
         <field name="model">business.process.step</field>
         <field name="arch" type="xml">
             <search>
-                <field name="code"/>
-                <field name="name"/>
-                <field name="process_id"/>
-                <field name="responsible_id"/>
-                <field name="transaction_id"/>
+                <field name="code" />
+                <field name="name" />
+                <field name="process_id" />
+                <field name="responsible_id" />
+                <field name="transaction_id" />
                 <group>
                     <filter
                         name="group_responsible"
@@ -83,10 +93,10 @@
                         domain="[]"
                         context="{'group_by':'responsible_id'}"
                     />
-                    <filter name="group_process" string="Process" domain="[]" context="{'group_by':'process_id'}"/>
+                    <filter name="group_process" string="Process" domain="[]" context="{'group_by':'process_id'}" />
                 </group>
                 <searchpanel>
-                    <field name="process_id" select="one" string="Process" enable_counters="1"/>
+                    <field name="process_id" select="one" string="Process" enable_counters="1" />
                 </searchpanel>
             </search>
         </field>

@@ -13,7 +13,9 @@ class BusinessProcessTest(models.Model):
 
     name = fields.Char(string="Name", required=True)
     process_id = fields.Many2one(
-        string="Process", comodel_name="business.process", required=True,
+        string="Process",
+        comodel_name="business.process",
+        required=True,
     )
     area_id = fields.Many2one(string="Area", comodel_name="business.area", related="process_id.area_id", store=True)
     tester_id = fields.Many2one(
@@ -21,7 +23,9 @@ class BusinessProcessTest(models.Model):
         comodel_name="res.partner",
         domain="[('is_company', '=', False)]",
     )
-    date_start = fields.Date(string="Date start",)
+    date_start = fields.Date(
+        string="Date start",
+    )
     date_end = fields.Date(string="Date end")
     state = fields.Selection(
         [("draft", "Draft"), ("run", "Run"), ("wait", "Waiting"), ("done", "Done")],
