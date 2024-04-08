@@ -210,7 +210,7 @@
                     />
                 </group>
                 <searchpanel>
-                        <field name="area_id" select="one" enable_counters="1"/>
+                        <field name="area_id" select="one" enable_counters="1" />
                 </searchpanel>
             </search>
         </field>
