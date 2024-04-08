@@ -15,6 +15,9 @@ class BusinessProcessExport(models.TransientModel):
     name = fields.Char(string="File Name", readonly=True)
     data_file = fields.Binary(string="File", readonly=True)
     include_tests = fields.Boolean(string="Include Tests in Export?")
+    include_responsible = fields.Boolean(string="Include Responsible?")
+    include_customer_responsible = fields.Boolean(string="Include Customer Responsible?")
+    include_approved_by = fields.Boolean(string="Include Approved By?")
     state = fields.Selection([("choose", "choose"), ("get", "get")], default="choose")  # choose period  # get the file
 
     def do_export(self):
@@ -33,14 +36,19 @@ class BusinessProcessExport(models.TransientModel):
                 "steps": [],
                 "include_tests": self.include_tests,
                 "tests": [],
-                "responsible": process.responsible_id.name,
-                "customer": process.customer_id.name,
-                "approved": process.approved_id.name,
+                "responsible": "",
+                "customer": "",
+                "approved": "",
                 "date_start_bbp": process.date_start_bbp,
                 "date_end_bbp": process.date_end_bbp,
                 "state": process.state,
             }
-
+            if self.include_responsible:
+                process_data["responsible"] = process.responsible_id.name
+            if self.include_customer_responsible:
+                process_data["customer"] = process.customer_id.name
+            if self.include_approved_by:
+                process_data["approved"] = process.approved_id.name
             for step in process.step_ids:
                 step_data = {
                     "name": step.name,

@@ -24,19 +24,13 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button
-                        name="button_send"
-                        type="object"
-                        string="Send"
-                        class="oe_highlight"
-                        invisible="state!='draft'"
-                    />
+                    <button name="button_send" type="object" string="Send" class="oe_highlight" invisible="state!='draft'" />
                     <button
                         name="button_in_progress"
                         type="object"
                         string="In progress"
                         class="oe_highlight"
-                        invisible="state not in ['open','reopened']"
+                        invisible="state not in ('open','reopened')"
                         groups="deltatech_business_process.group_business_process_responsible"
                     />
                     <button
@@ -47,27 +41,15 @@
                         invisible="state!='allocated'"
                         groups="deltatech_business_process.group_business_process_responsible"
                     />
-                    <button
-                        name="button_in_test"
-                        type="object"
-                        string="In test"
-                        class="oe_highlight"
-                        invisible="state!='solved'"
-                    />
-                    <button
-                        name="button_done"
-                        type="object"
-                        string="Done"
-                        class="oe_highlight"
-                        invisible="state!='in_test'"
-                    />
+                    <button name="button_in_test" type="object" string="In test" class="oe_highlight" invisible="state!='solved'" />
+                    <button name="button_done" type="object" string="Done" class="oe_highlight" invisible="state!='in_test'" />
                     <button name="button_reopened" type="object" string="Reopen" invisible="state!='in_test'" />
                     <button
                         name="button_draft"
                         type="object"
                         string="Set Draft"
                         groups="deltatech_business_process.group_business_process_manager"
-                        invisible="state not in ['open','allocated','solved','in_test','closed']"
+                        invisible="state not in ('open','allocated','solved','in_test','closed')"
                     />
                     <field
                         name="state"
@@ -78,45 +60,39 @@
                 <sheet>
                     <div class="oe_title">
                         <h1>
-                            <field
-                                name="name"
-                                default_focus="1"
-                                placeholder="Name"
-                                class="oe_inline"
-                                readonly="state!='draft'"
-                            />
+                            <field name="name" default_focus="1" placeholder="Name" class="oe_inline" readonly="state!='draft'"/>
                         </h1>
                     </div>
 
                     <group>
                         <group string="Identification">
-                            <field name="code" />
-                            <field name="project_id" readonly="state!='draft'" />
-                            <field name="area_id" readonly="state!='draft'" />
-                            <field name="process_id" readonly="state!='draft'" />
-                            <field name="step_test_id" readonly="state!='draft'" />
+                            <field name="code" readonly="state!='draft'"/>
+                            <field name="project_id" readonly="state!='draft'"/>
+                            <field name="area_id" readonly="state!='draft'"/>
+                            <field name="process_id" readonly="state!='draft'"/>
+                            <field name="step_test_id" readonly="state!='draft'"/>
                         </group>
                         <group string="Type">
                             <field name="category" />
                             <field name="severity" />
                         </group>
                         <group string="Date">
-                            <field name="open_date" readonly="state!='draft'" />
-                            <field name="date_estimated" required="state=='allocated'" readonly="state!='allocated'" />
-                            <field name="solution_date" readonly="state!='allocated'" />
-                            <field name="closed_date" readonly="state!='in_test'" />
+                            <field name="open_date" readonly="state!='draft'"/>
+                            <field name="date_estimated" required="state=='allocated'" readonly="state!='allocated'"/>
+                            <field name="solution_date" readonly="state!='allocated'"/>
+                            <field name="closed_date" readonly="state!='in_test'"/>
                         </group>
                         <group string="Responsible">
-                            <field name="raise_by_id" readonly="state!='draft'" />
+                            <field name="raise_by_id" readonly="state!='draft'"/>
                             <field name="responsible_id" />
                             <field name="customer_id" />
-                            <field name="closed_by_id" readonly="state!='in_test'" />
+                            <field name="closed_by_id" readonly="state!='in_test'"/>
                         </group>
                         <group string="Description">
-                            <field name="description" nolabel="1" placeholder="Description" readonly="state!='draft'" />
+                            <field name="description" nolabel="1" placeholder="Description" readonly="state!='draft'"/>
                         </group>
                         <group string="Solution">
-                            <field name="solution" nolabel="1" placeholder="Solution" readonly="state!='allocated'" />
+                            <field name="solution" nolabel="1" placeholder="Solution" readonly="state!='allocated'"/>
                         </group>
                     </group>
                 </sheet>

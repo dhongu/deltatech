@@ -1,6 +1,8 @@
 # ©  2023 Deltatech
 # See README.rst file on addons root folder for license details
 
+from datetime import datetime
+
 from odoo import _, api, fields, models
 
 
@@ -9,19 +11,18 @@ class BusinessProcessTest(models.Model):
     _description = "Business process Test"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(string="Name", required=True, readonly=False, states={"done": [("readonly", True)]})
+    name = fields.Char(string="Name", required=True)
     process_id = fields.Many2one(
-        string="Process", comodel_name="business.process", required=True, states={"done": [("readonly", True)]}
+        string="Process", comodel_name="business.process", required=True,
     )
     area_id = fields.Many2one(string="Area", comodel_name="business.area", related="process_id.area_id", store=True)
     tester_id = fields.Many2one(
         string="Tester",
         comodel_name="res.partner",
         domain="[('is_company', '=', False)]",
-        states={"done": [("readonly", True)]},
     )
-    date_start = fields.Date(string="Date start", states={"done": [("readonly", True)]})
-    date_end = fields.Date(string="Date end", states={"done": [("readonly", True)]})
+    date_start = fields.Date(string="Date start",)
+    date_end = fields.Date(string="Date end")
     state = fields.Selection(
         [("draft", "Draft"), ("run", "Run"), ("wait", "Waiting"), ("done", "Done")],
         string="State",
@@ -115,6 +116,14 @@ class BusinessProcessTest(models.Model):
                         },
                     )
                 ]
+
+    @api.onchange("state")
+    def _onchange_state(self):
+        today_date = datetime.now().date()
+        if self.state == "run":
+            self.date_start = today_date
+        if self.state == "done":
+            self.date_end = today_date
 
     def action_run(self):
         self.ensure_one()

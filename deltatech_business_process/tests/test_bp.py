@@ -56,7 +56,7 @@ class TestBusinessProcess(TransactionCase):
 
         business_process = business_process.save()
 
-        self.env["business.process"]._name_search("CODE1")
+        self.env["business.process"].name_search("CODE1")
 
         business_process.button_start_design()
         business_process.button_start_test()
