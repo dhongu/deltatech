@@ -73,7 +73,7 @@ msgstr "Activitate excepție decorare"
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__activity_state
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "Stadiul activității"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__activity_type_icon
@@ -152,32 +152,32 @@ msgstr "Admin procese"
 #: model:ir.model,name:deltatech_business_process.model_business_area
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_transaction__area_id
 msgid "Business Area"
-msgstr "Arie de afaceri"
+msgstr "Arie afaceri"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
 msgid "Business Blueprint"
-msgstr "Business Blueprint"
+msgstr "Planul afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.model,name:deltatech_business_process.model_business_development
 msgid "Business Development"
-msgstr ""
+msgstr "Dezvoltarea afacerii"
 
 #. module: deltatech_business_process
 #: model:ir.model,name:deltatech_business_process.model_business_development_type
 msgid "Business Development Type"
-msgstr ""
+msgstr "Tipul dezvoltării afacerii"
 
 #. module: deltatech_business_process
 #: model:ir.model,name:deltatech_business_process.model_business_issue
 msgid "Business Issue"
-msgstr "Problemă"
+msgstr "Problema afacerii"
 
 #. module: deltatech_business_process
 #: model:ir.model,name:deltatech_business_process.model_business_open_issue
 msgid "Business Open Issue"
-msgstr ""
+msgstr "Problemă deschisă afaceri"
 
 #. module: deltatech_business_process
 #: model:ir.ui.menu,name:deltatech_business_process.menu_business_process
