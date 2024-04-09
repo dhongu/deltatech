@@ -17,8 +17,7 @@ class Website(main.Website):
 
 class WebsiteSale(main.WebsiteSale):
     def _get_search_options(
-        self, category=None, attrib_values=None, tags=None, min_price=0.0, max_price=0.0,
-        conversion_rate=1, **post
+        self, category=None, attrib_values=None, tags=None, min_price=0.0, max_price=0.0, conversion_rate=1, **post
     ):
         options = super()._get_search_options(
             category, attrib_values, tags, min_price, max_price, conversion_rate, **post
