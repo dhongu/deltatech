@@ -28,10 +28,22 @@
             <form>
                 <header>
 
-                    <button name="action_run" class="oe_highlight" type="object" string="Run" state="draft" />
-                    <button name="action_done" class="oe_highlight" type="object" string="Done" state="run" />
-                    <button name="action_wait" type="object" string="Wait" state="run" />
-                    <button name="action_draft" type="object" string="Draft" state="done" />
+                    <button
+                        name="action_run"
+                        class="oe_highlight"
+                        type="object"
+                        string="Run"
+                        invisible="state!='draft'"
+                    />
+                    <button
+                        name="action_done"
+                        class="oe_highlight"
+                        type="object"
+                        string="Done"
+                        invisible="state!='run'"
+                    />
+                    <button name="action_wait" type="object" string="Wait" invisible="state!='run'" />
+                    <button name="action_draft" type="object" string="Draft" invisible="state!='done'" />
                     <field
                         name="state"
                         widget="statusbar"
@@ -54,20 +66,26 @@
 
                     <div class="oe_title">
                         <h1>
-                            <field name="name" default_focus="1" placeholder="Name" class="oe_inline" />
+                            <field
+                                name="name"
+                                default_focus="1"
+                                placeholder="Name"
+                                class="oe_inline"
+                                readonly="state=='done'"
+                            />
                         </h1>
                     </div>
                     <group>
                         <group string="Process">
-                            <field name="process_id" />
-                            <field name="tester_id" />
+                            <field name="process_id" readonly="state=='done'" />
+                            <field name="tester_id" readonly="state=='done'" />
                         </group>
                         <group string="Scope">
                             <field name="scope" />
                         </group>
                         <group string="Date">
-                            <field name="date_start" />
-                            <field name="date_end" />
+                            <field name="date_start" readonly="state=='done'" />
+                            <field name="date_end" readonly="state=='done'" />
                             <field name="completion_test" widget="progressbar" />
                         </group>
                     </group>

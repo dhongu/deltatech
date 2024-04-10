@@ -36,7 +36,7 @@
                         type="object"
                         string="In progress"
                         class="oe_highlight"
-                        invisible="state not in ['open','reopened']"
+                        invisible="state not in ('open','reopened')"
                         groups="deltatech_business_process.group_business_process_responsible"
                     />
                     <button
@@ -67,7 +67,7 @@
                         type="object"
                         string="Set Draft"
                         groups="deltatech_business_process.group_business_process_manager"
-                        invisible="state not in ['open','allocated','solved','in_test','closed']"
+                        invisible="state not in ('open','allocated','solved','in_test','closed')"
                     />
                     <field
                         name="state"
@@ -90,7 +90,7 @@
 
                     <group>
                         <group string="Identification">
-                            <field name="code" />
+                            <field name="code" readonly="state!='draft'" />
                             <field name="project_id" readonly="state!='draft'" />
                             <field name="area_id" readonly="state!='draft'" />
                             <field name="process_id" readonly="state!='draft'" />
