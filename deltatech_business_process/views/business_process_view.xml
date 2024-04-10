@@ -23,10 +23,11 @@
                 <field name="date_start_bbp" optional="hide" />
                 <field name="date_end_bbp" optional="hide" />
                 <field name="completion_bbp" widget="progressbar" optional="hide" />
-                <field name="duration_for_completion" optional="hide" />
-                <field name="configuration_duration" optional="hide" />
-                <field name="instructing_duration" optional="hide" />
-                <field name="data_migration_duration" optional="hide" />
+                <field name="duration_for_completion" optional="hide" widget="float_time" />
+                <field name="configuration_duration" optional="hide" widget="float_time" />
+                <field name="instructing_duration" optional="hide" widget="float_time" />
+                <field name="testing_duration" optional="hide" widget="float_time" />
+                <field name="data_migration_duration" optional="hide" widget="float_time" />
                 <field
                     name="status_internal_test"
                     widget="badge"
@@ -72,7 +73,7 @@
                         states="design"
                         groups="deltatech_business_process.group_business_process_responsible"
                     />
-                     <button
+                    <button
                         name="button_end_test"
                         type="object"
                         string="End Test"
@@ -137,6 +138,7 @@
                             <field name="configuration_duration" widget="float_time" />
                             <field name="instructing_duration" widget="float_time" />
                             <field name="data_migration_duration" widget="float_time" />
+                            <field name="testing_duration" widget="float_time" />
                         </group>
                     </group>
                     <notebook>
@@ -146,7 +148,7 @@
                                     <field name="sequence" widget="handle" />
                                     <field name="code" />
                                     <field name="process_id" invisible="1" />
-                                     <field name="state" invisible="1" />
+                                    <field name="state" invisible="1" />
                                     <field name="name" />
                                     <field name="transaction_id" optional="show" />
                                     <field name="transaction_type" optional="hide" />
@@ -207,6 +209,9 @@
                         context="{'group_by':'responsible_id'}"
                     />
                 </group>
+                <searchpanel>
+                        <field name="area_id" select="one" enable_counters="1" />
+                </searchpanel>
             </search>
         </field>
     </record>

@@ -143,6 +143,7 @@ class BusinessProcess(models.Model):
     configuration_duration = fields.Float(string="Configuration duration", default=0.0)
     instructing_duration = fields.Float(string="Instructing duration", default=0.0)
     data_migration_duration = fields.Float(string="Data migration duration", default=0.0)
+    testing_duration = fields.Float(string="Testing duration", default=0.0)
     duration_for_completion = fields.Float(string="Total duration", compute="_compute_duration_for_completion")
 
     @api.model
@@ -177,7 +178,10 @@ class BusinessProcess(models.Model):
     def _compute_duration_for_completion(self):
         for process in self:
             process.duration_for_completion = (
-                process.configuration_duration + process.instructing_duration + process.data_migration_duration
+                process.configuration_duration
+                + process.instructing_duration
+                + process.data_migration_duration
+                + process.testing_duration
             )
 
     def action_view_steps(self):
