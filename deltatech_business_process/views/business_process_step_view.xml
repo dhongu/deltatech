@@ -36,31 +36,31 @@
                                 default_focus="1"
                                 placeholder="Name"
                                 class="oe_inline"
-                                readonly="state!='draft' and state!='design'"
+                                readonly="state not in ('draft','design')"
                             />
                         </h1>
                     </div>
 
                     <group>
                         <group string="Identification">
-                            <field name="code" readonly="state!='draft' and state!='design'" />
-                            <field name="process_id" invisible="True" />
+                            <field name="code" readonly="state not in ('draft','design')" />
+                            <field name="process_id" readonly="state not in ('draft','design')" />
                         </group>
                         <group string="Responsible">
-                            <field name="responsible_id" readonly="state!='draft' and state!='design'" />
+                            <field name="responsible_id" readonly="state not in ('draft','design')" />
                         </group>
                         <group string="Transaction">
-                            <field name="transaction_id" readonly="state!='draft' and state!='design'" />
+                            <field name="transaction_id" readonly="state not in ('draft','design')" />
                             <field name="transaction_type" />
                         </group>
                         <group string="Role">
-                            <field name="role_id" readonly="state!='draft' and state!='design'" />
+                            <field name="role_id" readonly="state not in ('draft','design')" />
                         </group>
                         <group string="Developments">
                             <field
                                 name="development_ids"
                                 widget="many2many_tags"
-                                readonly="state!='draft' and state!='design'"
+                                readonly="state not in ('draft','design')"
                             />
                         </group>
                     </group>
@@ -76,7 +76,6 @@
     </record>
 
 
-
     <record id="view_business_process_step_filter" model="ir.ui.view">
         <field name="name">Business process step</field>
         <field name="model">business.process.step</field>
@@ -85,7 +84,7 @@
                 <field name="code" />
                 <field name="name" />
                 <field name="process_id" />
-                 <field name="responsible_id" />
+                <field name="responsible_id" />
                 <field name="transaction_id" />
                 <group>
                     <filter
@@ -96,8 +95,12 @@
                     />
                     <filter name="group_process" string="Process" domain="[]" context="{'group_by':'process_id'}" />
                 </group>
+                <searchpanel>
+                    <field name="process_id" select="one" string="Process" enable_counters="1" />
+                </searchpanel>
             </search>
         </field>
+
     </record>
 
     <record id="action_business_process_step" model="ir.actions.act_window">
@@ -113,9 +116,6 @@
         parent="menu_business_process_main"
         sequence="25"
     />
-
-
-
 
 
 </odoo>

@@ -1,0 +1,133 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sms_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0+ec\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-09-09 13:49+0000\n"
+"PO-Revision-Date: 2020-09-09 13:49+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_sms_sale
+#: model:sms.template,body:deltatech_sms_sale.sms_template_data_sale_order_confirm
+msgid ""
+"\n"
+"                    ${object.company_id.name}: We are glad to inform you that your order  ${object.name} has been confirmed.\n"
+"            "
+msgstr ""
+"\n"
+"                    ${object.company_id.name}: Ne bucuram sa va informam ca a fost confirmata comanda order  ${object.name}.\n"
+"            "
+
+#. module: deltatech_sms_sale
+#: model:sms.template,body:deltatech_sms_sale.sms_template_data_sale_order_post
+msgid ""
+"\n"
+"                    ${object.company_id.name}: We are glad to inform you that your order ${object.name} has been posted.\n"
+"            "
+msgstr ""
+"\n"
+"                    ${object.company_id.name}: Ne bucuram sa va informam ca a fost plasata comanda  order ${object.name}.\n"
+"            "
+
+#. module: deltatech_sms_sale
+#: model_terms:ir.ui.view,arch_db:deltatech_sms_sale.res_config_settings_view_form_sale
+msgid ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
+"specific.\" groups=\"base.group_multi_company\"/>"
+msgstr ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Valoarea este specifică companiei"
+".\" groups=\"base.group_multi_company\"/>"
+
+#. module: deltatech_sms_sale
+#: model:ir.model,name:deltatech_sms_sale.model_res_company
+msgid "Companies"
+msgstr "Companii"
+
+#. module: deltatech_sms_sale
+#: model:ir.model,name:deltatech_sms_sale.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_sms_sale
+#: model:ir.model.fields,field_description:deltatech_sms_sale.field_res_company__sale_order_sms_confirm
+msgid "SMS Confirm"
+msgstr "SMS Confirmare"
+
+#. module: deltatech_sms_sale
+#: model:ir.model.fields,field_description:deltatech_sms_sale.field_res_company__sale_order_sms_post
+msgid "SMS Post"
+msgstr "SMS Plasare"
+
+#. module: deltatech_sms_sale
+#: model:ir.model.fields,field_description:deltatech_sms_sale.field_res_config_settings__sale_order_sms_confirm
+#: model_terms:ir.ui.view,arch_db:deltatech_sms_sale.res_config_settings_view_form_sale
+msgid "SMS Sale Order Confirm"
+msgstr "SMS Confirmare comandă vânzare"
+
+#. module: deltatech_sms_sale
+#: model:ir.model.fields,field_description:deltatech_sms_sale.field_res_config_settings__sale_order_sms_post
+#: model_terms:ir.ui.view,arch_db:deltatech_sms_sale.res_config_settings_view_form_sale
+msgid "SMS Sale Order Post"
+msgstr "SMS plasare comandă vânzare"
+
+#. module: deltatech_sms_sale
+#: model_terms:ir.ui.view,arch_db:deltatech_sms_sale.res_config_settings_view_form_sale
+msgid "SMS Template"
+msgstr "Șablon SMS"
+
+#. module: deltatech_sms_sale
+#: model:ir.model.fields,field_description:deltatech_sms_sale.field_res_company__sale_order_sms_confirm_template_id
+#: model:ir.model.fields,field_description:deltatech_sms_sale.field_res_config_settings__sale_order_sms_confirm_template_id
+msgid "SMS Template Order Confirmed"
+msgstr "Șablon SMS Confirmare comandă"
+
+#. module: deltatech_sms_sale
+#: model:ir.model.fields,field_description:deltatech_sms_sale.field_res_company__sale_order_sms_post_template_id
+#: model:ir.model.fields,field_description:deltatech_sms_sale.field_res_config_settings__sale_order_sms_post_template_id
+msgid "SMS Template Order Post"
+msgstr "Șablon SMS plasare comandă"
+
+#. module: deltatech_sms_sale
+#: model:ir.model.fields,help:deltatech_sms_sale.field_res_company__sale_order_sms_confirm_template_id
+#: model:ir.model.fields,help:deltatech_sms_sale.field_res_config_settings__sale_order_sms_confirm_template_id
+msgid "SMS sent to the customer once the sale order is confirmed."
+msgstr ""
+
+#. module: deltatech_sms_sale
+#: model:ir.model.fields,help:deltatech_sms_sale.field_res_company__sale_order_sms_post_template_id
+#: model:ir.model.fields,help:deltatech_sms_sale.field_res_config_settings__sale_order_sms_post_template_id
+msgid "SMS sent to the customer once the sale order is posted from website."
+msgstr ""
+
+#. module: deltatech_sms_sale
+#: model:sms.template,name:deltatech_sms_sale.sms_template_data_sale_order_post
+msgid "Sale Order Post: Send by SMS Text Message"
+msgstr "Plasare comandă vânzare: Trimite SMS"
+
+#. module: deltatech_sms_sale
+#: model:sms.template,name:deltatech_sms_sale.sms_template_data_sale_order_confirm
+msgid "Sale Order confirm: Send by SMS Text Message"
+msgstr "Comfirmare comandă vanzare: Trimite SMS "
+
+#. module: deltatech_sms_sale
+#: model:ir.model,name:deltatech_sms_sale.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_sms_sale
+#: model_terms:ir.ui.view,arch_db:deltatech_sms_sale.res_config_settings_view_form_sale
+msgid "Send an automatic SMS Text Message when the Sale Order is confirmed."
+msgstr "Trimite automat un SMS când comanda de vânzare este confirmată"
+
+#. module: deltatech_sms_sale
+#: model_terms:ir.ui.view,arch_db:deltatech_sms_sale.res_config_settings_view_form_sale
+msgid "Send an automatic SMS Text Message when the Sale Order is posted."
+msgstr "Trimite automat un SMS când comanda de vânzare este plasată"

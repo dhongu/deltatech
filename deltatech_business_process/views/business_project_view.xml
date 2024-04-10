@@ -118,7 +118,7 @@
 
                                 <div t-if="record.date_start.raw_value" class="text-muted o_row">
                                     <span class="fa fa-clock-o mr-2" title="Dates" />
-                                    <field name="date_start" />
+                                    <field class="ms-1" name="date_start" />
                                     <i
                                         t-if="record.date_go_live.raw_value and record.date_start.raw_value"
                                         class="fa fa-long-arrow-right mx-2 oe_read_only"
@@ -136,7 +136,7 @@
                                                     <span class="o_value"><t
                                                         t-esc="record.count_processes.value"
                                                     /></span>
-                                                    <span class="o_label">Processes</span>
+                                                    <span class="o_label ms-1">Processes</span>
                                                 </div>
                                             </a>
                                         </div>
