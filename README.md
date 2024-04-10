@@ -78,6 +78,7 @@ addon | version | maintainers | summary | price
 [deltatech_price_categ](deltatech_price_categ/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Price List: Bronze Silver and Gold in product | Free 
 [deltatech_price_change](deltatech_price_change/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Price Change | Free 
 [deltatech_price_modify_reception](deltatech_price_modify_reception/) | 17.0.1.0.2 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) | Editarea pretului de lista la receptie | Free 
+[deltatech_print_bf](deltatech_print_bf/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Print Invoice to ECR | Free 
 [deltatech_product_category](deltatech_product_category/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Products Category | Free 
 [deltatech_product_category_color](deltatech_product_category_color/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Products Category Color | Free 
 [deltatech_product_category_group](deltatech_product_category_group/) | 17.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Products Category User Group | Free 
@@ -144,6 +145,8 @@ addon | version | maintainers | summary | price
 [deltatech_website_breadcrumb](deltatech_website_breadcrumb/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce extension Category Breadcrumb | Free 
 [deltatech_website_category](deltatech_website_category/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Public category | Free 
 [deltatech_website_country](deltatech_website_country/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce extension | Free 
+[deltatech_website_delivery_address](deltatech_website_delivery_address/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Default delivery address | Free 
+[deltatech_website_disable_fuzzy_search](deltatech_website_disable_fuzzy_search/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Disable Fuzzy Search | Free 
 [deltatech_website_phone_validation](deltatech_website_phone_validation/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Phone Validation | Free 
 [deltatech_website_product_code](deltatech_website_product_code/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Display product by code in eCommerce | Free 
 [deltatech_website_product_url_image](deltatech_website_product_url_image/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Load image for product from URL | Free 
