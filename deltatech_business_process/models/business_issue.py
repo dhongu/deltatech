@@ -102,7 +102,9 @@ class BusinessIssue(models.Model):
         string="Solution Date",
     )
 
-    closed_date = fields.Date(string="Closed Date")
+    closed_date = fields.Date(
+        string="Closed Date",
+    )
     closed_by_id = fields.Many2one(string="Closed by", comodel_name="res.partner")
 
     @api.model

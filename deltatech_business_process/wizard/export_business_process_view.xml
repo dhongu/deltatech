@@ -11,6 +11,12 @@
                         <p>Export selected business processes</p>
                         <label for="include_tests" />
                         <field name="include_tests" />
+                        <label for="include_responsible" />
+                        <field name="include_responsible" />
+                        <label for="include_customer_responsible" />
+                        <field name="include_customer_responsible" />
+                        <label for="include_approved_by" />
+                        <field name="include_approved_by" />
                     </div>
                     <div invisible="state!='get'">
 
