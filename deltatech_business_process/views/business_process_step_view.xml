@@ -66,7 +66,6 @@
     </record>
 
 
-
     <record id="view_business_process_step_filter" model="ir.ui.view">
         <field name="name">Business process step</field>
         <field name="model">business.process.step</field>
@@ -75,7 +74,7 @@
                 <field name="code" />
                 <field name="name" />
                 <field name="process_id" />
-                 <field name="responsible_id" />
+                <field name="responsible_id" />
                 <field name="transaction_id" />
                 <group>
                     <filter
@@ -86,8 +85,12 @@
                     />
                     <filter name="group_process" string="Process" domain="[]" context="{'group_by':'process_id'}" />
                 </group>
+                <searchpanel>
+                    <field name="process_id" select="one" string="Process" enable_counters="1" />
+                </searchpanel>
             </search>
         </field>
+
     </record>
 
     <record id="action_business_process_step" model="ir.actions.act_window">
@@ -103,9 +106,6 @@
         parent="menu_business_process_main"
         sequence="25"
     />
-
-
-
 
 
 </odoo>
