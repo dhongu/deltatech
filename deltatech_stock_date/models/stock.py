@@ -77,6 +77,7 @@ class StockPicking(models.Model):
         help="This date will override the effective date of the stock moves",
         copy=False,
     )
+    force_current_date = fields.Boolean(related="picking_type_id.force_current_date")
 
     @api.onchange("forced_effective_date")
     def _onchange_force_effective_date(self):
@@ -102,7 +103,12 @@ class StockPicking(models.Model):
                             StockPicking, self.with_context(force_period_date=self.forced_effective_date)
                         ).button_validate()
                     else:
-                        raise UserError(_("You must provide an effective date for the transfers."))
+                        if self.force_current_date:
+                            return super(
+                                StockPicking, self.with_context(force_period_date=date.today())
+                            ).button_validate()
+                        else:
+                            raise UserError(_("You must provide an effective date for the transfers."))
                 else:
                     return super().button_validate()
         else:
@@ -123,5 +129,10 @@ class StockPickingType(models.Model):
     request_effective_date = fields.Boolean(
         string="Request effective date",
         help="If checked, a required effective date field will be added to the picking form."
+        "All stock moves related to the picking will be forced to this date",
+    )
+    force_current_date = fields.Boolean(
+        string="Force current date",
+        help="If checked, the effective date will be forced as the current date"
         "All stock moves related to the picking will be forced to this date",
     )
