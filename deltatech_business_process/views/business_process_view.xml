@@ -5,19 +5,29 @@
         <field name="name">Business process</field>
         <field name="model">business.process</field>
         <field name="arch" type="xml">
-            <tree string="Business process" sample="1">
+            <tree string="Business process" sample="1" default_order="code">
                 <field name="code" />
                 <field name="name" />
                 <field name="project_id" optional="hide" />
                 <field name="responsible_id" optional="show" />
                 <field name="area_id" optional="show" />
                 <field name="process_group_id" optional="show" />
-                <field name="state" widget="badge" decoration-success="state == 'production'  " />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-success="state == 'production'"
+                    decoration-info="state == 'design'"
+                    decoration-warning="state == 'test'"
+                />
 
                 <field name="date_start_bbp" optional="hide" />
                 <field name="date_end_bbp" optional="hide" />
                 <field name="completion_bbp" widget="progressbar" optional="hide" />
-
+                <field name="duration_for_completion" optional="hide" widget="float_time" />
+                <field name="configuration_duration" optional="hide" widget="float_time" />
+                <field name="instructing_duration" optional="hide" widget="float_time" />
+                <field name="testing_duration" optional="hide" widget="float_time" />
+                <field name="data_migration_duration" optional="hide" widget="float_time" />
                 <field
                     name="status_internal_test"
                     widget="badge"
@@ -63,7 +73,7 @@
                         invisible="state!='design'"
                         groups="deltatech_business_process.group_business_process_responsible"
                     />
-                     <button
+                    <button
                         name="button_end_test"
                         type="object"
                         string="End Test"
@@ -82,7 +92,7 @@
                         name="button_draft"
                         type="object"
                         string="Reset to Draft"
-                        invisible="state not in ['design','test','ready']"
+                        invisible="state not in ('design','test','ready')"
                     />
                     <field name="state" widget="statusbar" statusbar_visible="draft,design,test,ready,production" />
 
@@ -123,18 +133,18 @@
                             <field name="project_id" readonly="state!='draft'" />
                         </group>
                         <group string="Responsible">
-                            <field name="responsible_id" readonly="state!='draft' and state!='design'" />
-                            <field name="customer_id" />
-                            <field name="approved_id" readonly="state!='draft' and state!='design'" />
+                            <field name="responsible_id" readonly="state not in ('draft','design')" />
+                            <field name="customer_id" readonly="state not in ('draft','design')" />
+                            <field name="approved_id" readonly="state not in ('draft','design')" />
                         </group>
                         <group string="Business Blueprint">
-                            <field name="date_start_bbp" readonly="state!='draft' and state!='design'" />
-                            <field name="date_end_bbp" />
+                            <field name="date_start_bbp" readonly="state not in ('draft','design')" />
+                            <field name="date_end_bbp" readonly="state not in ('draft','design')" />
                             <field
                                 name="completion_bbp"
                                 widget="progressbar"
                                 options="{'editable': true}"
-                                readonly="state!='draft' and state!='design'"
+                                readonly="state not in ('draft','design')"
                             />
                         </group>
                         <group string="Business process">
@@ -146,7 +156,12 @@
                                                     <field name="status_integration_test" />
                                                     <field name="status_user_acceptance_test" />
                                                 </group>-->
-
+                        <group string="Duration of process">
+                            <field name="configuration_duration" widget="float_time" />
+                            <field name="instructing_duration" widget="float_time" />
+                            <field name="data_migration_duration" widget="float_time" />
+                            <field name="testing_duration" widget="float_time" />
+                        </group>
                     </group>
                     <notebook>
                         <page string="Process steps" name="steps">
@@ -154,17 +169,17 @@
                                 name="step_ids"
                                 widget="section_and_note_one2many"
                                 mode="tree,kanban"
-                                readonly="state!='draft' and state!='design'"
+                                readonly="state not in ('draft','design')"
                             >
                                 <tree editable="bottom">
                                     <field name="sequence" widget="handle" />
-                                    <field name="code" readonly="state!='draft'" />
-                                    <field name="process_id" invisible="1" readonly="state!='draft'" />
-                                     <field name="state" invisible="1" />
+                                    <field name="code" />
+                                    <field name="process_id" invisible="1" />
+                                    <field name="state" invisible="1" />
                                     <field name="name" />
                                     <field name="transaction_id" optional="show" />
                                     <field name="transaction_type" optional="hide" />
-                                    <field name="responsible_id" readonly="state!='draft' and state!='design'" />
+                                    <field name="responsible_id" />
                                     <field name="development_ids" widget="many2many_tags" optional="hide" />
 
                                 </tree>
@@ -221,6 +236,9 @@
                         context="{'group_by':'responsible_id'}"
                     />
                 </group>
+                <searchpanel>
+                        <field name="area_id" select="one" enable_counters="1" />
+                </searchpanel>
             </search>
         </field>
     </record>
