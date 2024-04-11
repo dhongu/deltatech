@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+    <template id="s_attribute_filter" name="Attribute Value Filter">
+        <section class="s_attribute_filter pt48 pb24">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 s_col_no_bgcolor pb24">
+                        <div class="row">
+
+                            <div
+                                class="col-lg-12 pt16 pb16 s_attribute_filter_item"
+                                data-js='attribute_filter_item'
+                                data-attribute-id="0"
+                                data-name="Box"
+                            >
+                                <i class="fa fa-2x fa-font-awesome rounded-circle bg-primary s_attribute_filter_icon" />
+                                <div class="s_attribute_filter_content">
+                                    <h4>Change Icons</h4>
+                                    <p contenteditable="false">
+                                        <select class="custom-select css_attribute_select" name="attrib">
+                                        </select>
+                                    </p>
+                                </div>
+                                <div class="s_attribute_filter_result">
+                                    <p> <a href="/shop">Show results</a> </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6 s_col_no_bgcolor pb24">
+                        <div class="row">
+
+                            <div
+                                class="col-lg-12 pt16 pb16 s_attribute_filter_item"
+                                data-js='attribute_filter_item'
+                                data-attribute-id="0"
+                                data-name="Box"
+                            >
+                                <i class="fa fa-2x fa-magic rounded bg-secondary s_attribute_filter_icon" />
+                                <div class="s_attribute_filter_content">
+                                    <h4>Great Value</h4>
+                                    <p contenteditable="false">
+                                        <select class="custom-select css_attribute_select" name="attrib">
+                                        </select>
+                                    </p>
+                                </div>
+                                <div class="s_attribute_filter_result">
+                                    <p> <a href="/shop"> Show results</a></p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+
+    <template id="snippets" inherit_id="website.snippets">
+        <xpath expr="//div[@id='snippet_effect']//t[@t-snippet][last()]" position="after">
+            <t
+                t-snippet="deltatech_website_snippet_attribute_filter.s_attribute_filter"
+                t-thumbnail="/deltatech_website_snippet_attribute_filter/static/src/img/s_attribute_filter.svg"
+            />
+        </xpath>
+    </template>
+
+
+    <template id="snippet_options" inherit_id="website.snippet_options" name="e-commerce snippet options">
+        <xpath expr="." position="inside">
+            <div data-js='attribute_filter_editor' data-selector=".s_attribute_filter_item">
+                 <we-select string="Attribute" data-attribute-name="attributeId" />
+            </div>
+        </xpath>
+    </template>
+
+
+    <record id="s_attribute_filter_000_scss" model="ir.asset">
+        <field name="name">Attribute Value Filter 000 SCSS</field>
+        <field name="bundle">web.assets_frontend</field>
+        <field name="path">deltatech_website_snippet_attribute_filter/static/src/scss/000.scss</field>
+    </record>
+
+</odoo>
