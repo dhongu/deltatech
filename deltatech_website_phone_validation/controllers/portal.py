@@ -29,6 +29,6 @@ class CustomerPortalPhoneValidation(CustomerPortal):
                 )
             except Exception as e:
                 error["phone"] = "error"
-                error_message.append(e.name)
+                error_message.append(e)
 
         return error, error_message
