@@ -9,7 +9,7 @@
     "license": "LGPL-3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "depends": ["website_sale","stock"],
+    "depends": ["website_sale", "stock"],
     "data": [
         # "views/templates.xml",
         "data/ir_cron_data.xml"
