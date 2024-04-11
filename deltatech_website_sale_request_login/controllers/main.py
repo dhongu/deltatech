@@ -4,8 +4,9 @@
 
 
 from odoo import _, http
-from odoo.http import request
 from odoo.exceptions import UserError
+from odoo.http import request
+
 from odoo.addons.website_sale.controllers import main
 
 
