@@ -20,7 +20,7 @@ odoo.define("deltatech_website_stock_availability.VariantMixin", function (requi
         const isMainProduct =
             combination.product_id &&
             ($parent.is(".js_main_product") || $parent.is(".main_product")) &&
-            combination.product_id === parseInt(product_id);
+            combination.product_id === parseInt(product_id, 10);
 
         if (!this.isWebsite || !isMainProduct) {
             return;
