@@ -81,6 +81,7 @@ addon | version | maintainers | summary | price
 [deltatech_print_bf](deltatech_print_bf/) | 14.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generare fisier pentu casa de marcat | Free 
 [deltatech_procurement](deltatech_procurement/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Required Order | Free 
 [deltatech_product_catalog](deltatech_product_catalog/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | This module helps to print the catalog of the multi products | Free 
+[deltatech_product_category](deltatech_product_category/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Products Category | Free 
 [deltatech_product_code](deltatech_product_code/) | 14.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product codification internal | Free 
 [deltatech_product_dimension](deltatech_product_dimension/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product dimension | Free 
 [deltatech_product_extension](deltatech_product_extension/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | New fields in product: Manufacturer Dimensions, Shelf Life and Unit of Measure for Shelf Life | Free 
