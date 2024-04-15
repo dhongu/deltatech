@@ -5,7 +5,7 @@
     "name": "eCommerce Sale Order status",
     "category": "Website",
     "summary": "Additional filters sales orders by status ",
-    "version": "15.0.2.0.4",
+    "version": "15.0.2.0.5",
     "license": "OPL-1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
