@@ -1,8 +1,7 @@
 /** @odoo-module **/
-
+import config from "web.config";
 import {download} from "@web/core/network/download";
 import {registry} from "@web/core/registry";
-import config from "web.config";
 
 async function prnReportHandler(action, options, env) {
     if (config.device.isMobile) {

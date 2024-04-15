@@ -1,7 +1,7 @@
 /** @odoo-module **/
 
-import {registry} from "@web/core/registry";
 import config from "web.config";
+import {registry} from "@web/core/registry";
 
 async function pdfReportHandler(action, options, env) {
     if (config.device.isMobile) {

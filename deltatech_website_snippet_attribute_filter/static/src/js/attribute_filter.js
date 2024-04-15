@@ -47,11 +47,11 @@ odoo.define("deltatech_website_snippet_attribute_filter.attribute_filter", funct
             var link = "/shop?";
             // Pentru fiecare element adauga in data-attribute-value-ids id-urile selectate
             $items.each(function (index, element) {
-                var $item = $(element);
-                var attributeId = $item.data("attribute-id");
+                $item = $(element);
+                attributeId = $item.data("attribute-id");
                 $item.data("attribute-value-ids", attributeValueIds);
                 $item.attr("data-attribute-value-ids", attributeValueIds);
-                var attributeValueId = $(element).data("attribute-value-id");
+                attributeValueId = $(element).data("attribute-value-id");
                 if (attributeValueId > 0) {
                     attributeValueIds.push(attributeValueId);
                     link += "&attrib=" + attributeId + "-" + attributeValueId;
