@@ -23,12 +23,12 @@ msgstr "<span>, declaram că produsul:</span>"
 #. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
 msgid "<span>, with dates the tax identification</span>"
-msgstr "<span>, cu datele de identificare fiscală</span>"
+msgstr "<span>, cu datele de identificare fiscală</span>"
 
 #. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
 msgid "<span>, with its headquarters in</span>"
-msgstr "<span>, cu sediul în localitatea</span>"
+msgstr "<span>, cu sediul în localitatea</span>"
 
 #. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
