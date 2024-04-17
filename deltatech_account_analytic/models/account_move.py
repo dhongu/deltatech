@@ -27,7 +27,7 @@ class AccountMoveLine(models.Model):
                         self.split_analytic_by_stock(default.stock_analytic_id, default.margin_analytic_id)[1]
                     )
                 else:
-                    result.append(move_line._prepare_analytic_distribution_line())
+                    return super()._prepare_analytic_lines()
             else:
                 return super()._prepare_analytic_lines()
         return result
