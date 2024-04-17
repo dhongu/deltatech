@@ -30,10 +30,10 @@
             <field name="inherit_id" ref="sale_margin.sale_margin_sale_order" />
             <field name="arch" type="xml">
                 <label for="margin" position="attributes">
-                     <attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
+                     <attribute name="groups">!deltatech_sale_margin.group_sale_margin</attribute>
                 </label>
                 <xpath expr="//field[@name='margin']/parent::div" position="attributes">
-                    <attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
+                    <attribute name="groups">!deltatech_sale_margin.group_sale_margin</attribute>
                 </xpath>
             </field>
         </record>
@@ -44,13 +44,17 @@
             <field name="name">sale.order.line.margin.view.form</field>
             <field name="model">sale.order</field>
             <field name="priority">150</field>
-            <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line" />
+            <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line_form" />
 
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='order_line']/form//field[@name='purchase_price']" position="attributes">
-                    <t groups="deltatech_sale_margin.group_sale_margin">
-                      <attribute name="readonly">1</attribute>
-                  </t>
+                <xpath expr="//field[@name='order_line']/tree//field[@name='purchase_price']" position="attributes">
+                    <attribute name="groups">!deltatech_sale_margin.group_sale_margin</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree//field[@name='margin']" position="attributes">
+                    <attribute name="groups">!deltatech_sale_margin.group_sale_margin</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree//field[@name='margin_percent']" position="attributes">
+                    <attribute name="groups">!deltatech_sale_margin.group_sale_margin</attribute>
                 </xpath>
             </field>
         </record>
