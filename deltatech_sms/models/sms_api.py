@@ -7,15 +7,12 @@ import logging
 
 import requests
 
-from odoo import api
-
 from odoo.addons.sms.tools.sms_api import SmsApi as BaseSmsApi
 
 _logger = logging.getLogger(__name__)
 
 
 class SmsApi(BaseSmsApi):
-
 
     def _contact_iap(self, local_endpoint, params, timeout=15):
         account = self.env["iap.account"].get("sms")
