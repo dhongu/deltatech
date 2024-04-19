@@ -780,7 +780,10 @@
         <!-- Begin Specification article 7 -->
         <template id="report_specification_article7">
             <t t-if="a.product_uom_qty != 0.0 and a.product_uom.name != '%' and a.product_uom.name != '%%'">
-
+                <t t-set="crt_amount" t-value="0.0" />
+                <t t-foreach="a.resource_ids" t-as="resource">
+                    <t t-set="crt_amount" t-value="crt_amount + resource.amount" />
+                </t>
                 <t t-if="a.amount&gt;0.0">
                     <tr style="background-color:#A9E2F3;border-top: 16px solid white;border-bottom: 16px solid white;">
                         <td colspan="4" style="white-space: nowrap;">
@@ -797,7 +800,8 @@
                             </td>
                             <td class="text-right" style="white-space: nowrap;">
                                 <t t-if="a.item_categ == 'optional'">
-                                    <span t-field="a.amount" />
+<!--                                    <span t-field="a.amount" />-->
+                                    <span t-esc="crt_amount" />
                                     <span t-field="o.pricelist_id.currency_id.symbol"/>
                                 </t>
                                 <!--                                <t t-if="with_price and (a.amount&gt;0 or a.item_categ=='opt_serv')">-->
@@ -819,7 +823,8 @@
                             </td>
                             <td class="text-right" style="white-space: nowrap;">
                                 <t t-if="a.item_categ == 'optional'">
-                                    <span t-field="a.amount" />
+<!--                                    <span t-field="a.amount" />-->
+                                    <span t-esc="crt_amount" />
                                     <span t-field="o.pricelist_id.currency_id.symbol"/>
                                 </t>
                                 <!--                                <t t-if="with_price and a.amount&gt;0">-->
