@@ -22,7 +22,7 @@
                         <field name="process_group_ids" widget="many2many_tags" />
                     </group>
                     <group>
-                        <field name="responsible_id"/>
+                        <field name="responsible_id" />
                     </group>
                 </group>
 
