@@ -3,13 +3,14 @@
 {
     "name": "Deltatch Discount in purchase order line",
     "summary": "Discount in purchase order line",
-    "version": "15.0.1.0.1",
+    "version": "15.0.1.0.2",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
     "category": "Purchase",
     "depends": ["purchase"],
     "data": [
+        "views/res_config_settings_views.xml",
         "views/purchase.xml",
     ],
     "license": "OPL-1",
