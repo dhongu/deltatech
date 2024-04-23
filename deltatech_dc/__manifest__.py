@@ -15,7 +15,7 @@
         "product",
         "sale",
         "mrp",
-        "product_expiry"
+        "product_expiry",
         # "stock_picking_invoice_link"
     ],
     "data": [
