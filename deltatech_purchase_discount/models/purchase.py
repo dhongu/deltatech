@@ -19,3 +19,15 @@ class PurchaseOrderLine(models.Model):
     def onchange_discount(self):
         if self.discount_received and self.price_without_discount:
             self.price_unit = self.price_without_discount * (1.0 - self.discount_received / 100.0)
+
+    def _prepare_account_move_line(self, move=False):
+        keep_discount = self.order_id.company_id.purchase_keep_discount
+        res = super()._prepare_account_move_line(move=move)
+        if keep_discount:
+            res.update(
+                {
+                    "discount": self.discount_received,
+                    "price_unit": self.price_without_discount,
+                }
+            )
+        return res
