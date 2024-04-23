@@ -1966,3 +1966,28 @@ msgstr "obține"
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
 msgid "or"
 msgstr "sau"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__implementation_stage__first_stage
+msgid "First stage"
+msgstr "Etapa 1"
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Implementation"
+msgstr "Implementare"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__implementation_stage
+msgid "Implementation stage"
+msgstr "Etapa implementare"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__module_type
+msgid "Module type"
+msgstr "Tip modul"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__implementation_stage__second_stage
+msgid "Second stage"
+msgstr "Etapa 2"
