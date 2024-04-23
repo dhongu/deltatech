@@ -21,8 +21,6 @@ class PurchaseOrderLine(models.Model):
             self.price_unit = self.price_without_discount * (1.0 - self.discount_received / 100.0)
 
     def _prepare_account_move_line(self, move=False):
-        # get_param = self.env["ir.config_parameter"].sudo().get_param
-        # keep_discount = safe_eval(get_param("deltatech_purchase_discount.purchase_get_discount", "False"))
         keep_discount = self.order_id.company_id.purchase_keep_discount
         res = super()._prepare_account_move_line(move=move)
         if keep_discount:
