@@ -46,7 +46,7 @@
                     optional="hide"
                     decoration-success="state == 'done'"
                 />
-                <field name="implementation_stage" optional="hide"/>
+                <field name="implementation_stage" optional="hide" />
 
             </tree>
         </field>
@@ -141,8 +141,8 @@
                             <field name="testing_duration" widget="float_time" />
                         </group>
                         <group string="Implementation">
-                            <field name="implementation_stage"/>
-                            <field name="module_type"/>
+                            <field name="implementation_stage" />
+                            <field name="module_type" />
                         </group>
                     </group>
                     <notebook>
@@ -203,8 +203,8 @@
                 <field name="project_id" />
                 <field name="area_id" />
                 <field name="responsible_id" />
-                <field name="implementation_stage"/>
-                <field name="module_type"/>
+                <field name="implementation_stage" />
+                <field name="module_type" />
                 <group>
                     <filter name="group_area" string="Area" domain="[]" context="{'group_by':'area_id'}" />
                     <filter
