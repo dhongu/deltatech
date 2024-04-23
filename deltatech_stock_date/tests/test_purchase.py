@@ -50,3 +50,28 @@ class TestPurchase(TransactionCase):
 
         # se valideaza primirea
         self.picking.with_context(force_period_date="2020-01-03").button_validate()
+
+        form_purchase = Form(self.env["purchase.order"])
+        form_purchase.partner_id = self.partner_a
+        with form_purchase.order_line.new() as po_line:
+            po_line.product_id = self.product_a
+            po_line.product_qty = 10
+            po_line.price_unit = 10
+
+        po = form_purchase.save()
+
+        # se valideaza comanda de achizitie
+        po.button_confirm()
+        self.picking = po.picking_ids[0]
+        self.picking.action_assign()
+
+        # se confirma primirea produselor
+        for move_line in self.picking.move_line_ids:
+            if move_line.product_id == self.product_a:
+                move_line.write({"qty_done": 10})
+
+        # validare cu fortare data curenta
+        self.picking.picking_type_id.write({"force_current_date": True})
+        self.picking.picking_type_id.write({"request_effective_date": True})
+        self.picking.write({"forced_effective_date": False})
+        self.picking.button_validate()
