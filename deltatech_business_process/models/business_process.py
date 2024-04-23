@@ -55,6 +55,14 @@ class BusinessProcess(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)], "design": [("readonly", False)]},
     )
+
+    support_id = fields.Many2one(
+        string="Support",
+        domain="[('is_company', '=', False)]",
+        comodel_name="res.partner",
+        readonly=True,
+        states={"draft": [("readonly", False)], "design": [("readonly", False)]},
+    )
     customer_id = fields.Many2one(
         string="Customer Responsible",
         domain="[('is_company', '=', False)]",
@@ -156,6 +164,8 @@ class BusinessProcess(models.Model):
         if not vals.get("code", False):
             vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
         result = super().create(vals)
+        if result.area_id.responsible_id and not result.responsible_id:
+            result.responsible_id = result.area_id.responsible_id
         return result
 
     def name_get(self):

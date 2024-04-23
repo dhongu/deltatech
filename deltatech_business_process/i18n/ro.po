@@ -1577,8 +1577,8 @@ msgstr "Resetează la ciornă"
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_filter
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_form
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_from
-msgid "Responsible"
-msgstr "Responsabil"
+msgid "Responsibles"
+msgstr "Responsabili"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__responsible_id
@@ -1991,3 +1991,8 @@ msgstr "Tip modul"
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__implementation_stage__second_stage
 msgid "Second stage"
 msgstr "Etapa 2"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__support_id
+msgid "Support"
+msgstr "Suport"
