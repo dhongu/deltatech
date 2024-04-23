@@ -115,8 +115,9 @@
                             <field name="code" />
                             <field name="project_id" />
                         </group>
-                        <group string="Responsible">
+                        <group string="Responsibles">
                             <field name="responsible_id" />
+                            <field name="support_id" />
                             <field name="customer_id" />
                             <field name="approved_id" />
                         </group>
