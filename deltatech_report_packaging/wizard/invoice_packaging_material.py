@@ -13,6 +13,12 @@ class InvoicePackaging(models.TransientModel):
         qty_packaging = {}
         invoices = self.env["account.move"].browse(active_ids)
         for invoice in invoices:
+            if invoice.move_type == "entry":
+                continue
+
+            if not invoice.packaging_material_ids:
+                invoice.refresh_packaging_material()
+
             for material in invoice.packaging_material_ids:
                 if material.material_type not in qty_packaging:
                     qty_packaging[material.material_type] = material.qty

@@ -1,25 +1,27 @@
 <odoo>
 
         <record id="invoice_packaging_material_form" model="ir.ui.view">
-            <field name="name">Raport packaging wizard</field>
+            <field name="name">Report packaging wizard</field>
             <field name="model">packaging.report.material</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <field name="state" invisible="1" />
-                        <group states="choose">
-                            <div>Report packing materials used for products invoiced</div>
-                        </group>
-                        <group states="get">
-                            <field name="line_ids" nolabel="1" readonly="1">
-                                <tree>
-                                    <field name="material_type" />
-                                    <field name="qty" />
-                                </tree>
-                            </field>
+                        <group>
+                            <field name="state" invisible="1" />
+                            <group states="choose">
+                                <div colspan="2">Report packing materials used for products invoiced</div>
+                            </group>
+                            <group states="get">
+                                <field name="line_ids" nolabel="1" readonly="1" colspan="2">
+                                    <tree>
+                                        <field name="material_type" />
+                                        <field name="qty" />
+                                    </tree>
+                                </field>
+                            </group>
                         </group>
                         <footer states="choose">
-                            <button name="do_report" string="_Apply" type="object" class="oe_highlight" />
+                            <button name="do_report" string="Apply" type="object" class="oe_highlight" />
                             or
                             <button string="Cancel" class="oe_link" special="cancel" />
                         </footer>
@@ -35,8 +37,11 @@
         <field name="name">Report packaging list</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">packaging.report.material</field>
-         <field name="binding_model_id" ref="account.model_account_move" />
+        <field name="view_id" ref="invoice_packaging_material_form" />
+        <field name="binding_model_id" ref="account.model_account_move" />
         <field name="binding_view_types">list</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
     </record>
 
 
