@@ -110,7 +110,7 @@ addon | version | maintainers | summary | price
 [deltatech_ral](deltatech_ral/) | 16.0.1.0.3 |  | RAL | Free 
 [deltatech_reception_note](deltatech_reception_note/) | 16.0.0.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Batch reception note | Free 
 [deltatech_replenish](deltatech_replenish/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Replenish | Free 
-[deltatech_report_packaging](deltatech_report_packaging/) | 16.0.1.0.1 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report Packaging | Free 
+[deltatech_report_packaging](deltatech_report_packaging/) | 16.0.1.0.2 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report Packaging | Free 
 [deltatech_report_prn](deltatech_report_prn/) | 16.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Raport PRN | Free 
 [deltatech_restricted_access](deltatech_restricted_access/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Restricted Access | Free 
 [deltatech_sale](deltatech_sale/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Extension Obsolete | Free 
