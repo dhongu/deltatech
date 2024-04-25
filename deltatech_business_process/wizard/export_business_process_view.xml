@@ -5,28 +5,28 @@
         <field name="model">business.process.export</field>
         <field name="arch" type="xml">
             <form string="Export business process">
-                <field name="state" invisible="1"/>
-                <field name="name" invisible="1"/>
+                <field name="state" invisible="1" />
+                <field name="name" invisible="1" />
                 <div states="choose">
                     <div>
                     <p>Export selected business processes</p>
 
                         <group string="Tests" expand="0" colspan="4" col="4">
-                            <field name="include_tests"/>
+                            <field name="include_tests" />
 
                         </group>
                     </div>
                     <div>
                         <group string="Contacts">
-                            <field name="include_responsible"/>
+                            <field name="include_responsible" />
 
 
-                            <field name="include_customer_responsible"/>
+                            <field name="include_customer_responsible" />
 
 
-                            <field name="include_approved_by"/>
+                            <field name="include_approved_by" />
 
-                            <field name="include_support"/>
+                            <field name="include_support" />
                         </group>
                     </div>
                 </div>
@@ -34,20 +34,20 @@
 
                     <h2>Export Complete</h2>
                     <p>Here is the exported file:
-                        <field name="data_file" readonly="1" filename="name"/>
+                        <field name="data_file" readonly="1" filename="name" />
                     </p>
 
                 </div>
 
                 <footer states="choose">
-                    <button name="do_export" string="Apply" type="object" class="oe_highlight"/>
+                    <button name="do_export" string="Apply" type="object" class="oe_highlight" />
                     or
-                    <button string="Cancel" class="oe_link" special="cancel"/>
+                    <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>
                 <footer states="get">
-                    <button name="do_back" string="Back" type="object"/>
+                    <button name="do_back" string="Back" type="object" />
                     or
-                    <button string="Cancel" class="oe_link" special="cancel"/>
+                    <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>
 
             </form>
@@ -60,7 +60,7 @@
         <field name="res_model">business.process.export</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
-        <field name="binding_model_id" ref="model_business_process"/>
+        <field name="binding_model_id" ref="model_business_process" />
         <field name="binding_view_types">list</field>
     </record>
 
