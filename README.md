@@ -168,7 +168,7 @@ addon | version | maintainers | summary | price
 [deltatech_website_blog](deltatech_website_blog/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Blog Extension | Free 
 [deltatech_website_breadcrumb](deltatech_website_breadcrumb/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce extension Category Breadcrumb | Free 
 [deltatech_website_category](deltatech_website_category/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Public category | Free 
-[deltatech_website_checkout_confirm](deltatech_website_checkout_confirm/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce extension | Free 
+[deltatech_website_checkout_confirm](deltatech_website_checkout_confirm/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce extension | Free 
 [deltatech_website_city](deltatech_website_city/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | City extension | 5.0 EUR
 [deltatech_website_country](deltatech_website_country/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce extension | Free 
 [deltatech_website_delivery_address](deltatech_website_delivery_address/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Default delivery address | Free 
