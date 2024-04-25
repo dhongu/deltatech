@@ -119,6 +119,7 @@ addon | version | maintainers | summary | price
 [deltatech_service](deltatech_service/) | 17.0.2.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage Services Agreement | Free 
 [deltatech_service_agreement](deltatech_service_agreement/) | 17.0.2.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage Services Agreement | Free 
 [deltatech_service_base](deltatech_service_base/) | 17.0.2.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage Services Base | Free 
+[deltatech_service_consumable](deltatech_service_consumable/) | 17.0.1.1.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Service Consumable | Free 
 [deltatech_service_equipment](deltatech_service_equipment/) | 17.0.1.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Service Equipment Management | Free 
 [deltatech_service_equipment_base](deltatech_service_equipment_base/) | 17.0.1.1.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Service Equipment Management | Free 
 [deltatech_service_maintenance](deltatech_service_maintenance/) | 17.0.1.1.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance | Free 
@@ -154,6 +155,8 @@ addon | version | maintainers | summary | price
 [deltatech_website_sale_sort](deltatech_website_sale_sort/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Additional sorting criteria | Free 
 [deltatech_website_sale_status](deltatech_website_sale_status/) | 17.0.2.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Additional filters sales orders by status | Free 
 [deltatech_website_sale_wishlist](deltatech_website_sale_wishlist/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce wishlist | Free 
+[deltatech_website_short_description](deltatech_website_short_description/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce short description | Free 
+[deltatech_website_snippet_attribute_filter](deltatech_website_snippet_attribute_filter/) | 17.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Attribute Values Filter Snippet | Free 
 [deltatech_work_days_report](deltatech_work_days_report/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | A report for every day of the month for each employee | Free 
 
 [//]: # (end addons)
