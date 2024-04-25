@@ -61,7 +61,11 @@ class BusinessProcessImport(models.TransientModel):
                 approves = self.env["res.partner"].search([("name", "=", process_data["approved"])], limit=1)
                 if not approves:
                     approves = self.env["res.partner"].create({"name": process_data["approved"]})
-
+            support = self.env["res.partner"]
+            if process_data["support"]:
+                support = self.env["res.partner"].search([("name", "=", process_data["support"])], limit=1)
+                if not approves:
+                    approves = self.env["res.partner"].create({"name": process_data["support"]})
             domain = [("code", "=", process_data["code"]), ("project_id", "=", project.id)]
 
             process = self.env["business.process"].search(domain, limit=1)
@@ -75,11 +79,14 @@ class BusinessProcessImport(models.TransientModel):
                         "process_group_id": process_group.id,
                         "project_id": project.id,
                         "responsible_id": responsible.id,
+                        "support_id": support.id,
                         "customer_id": customer.id,
                         "approved_id": approves.id,
                         "date_start_bbp": process_data["date_start_bbp"],
                         "date_end_bbp": process_data["date_end_bbp"],
                         "state": process_data["state"],
+                        "implementation_stage": process_data["implementation_stage"],
+                        "module_type": process_data["module_type"],
                     }
                 )
             else:
@@ -91,11 +98,14 @@ class BusinessProcessImport(models.TransientModel):
                         "area_id": area.id,
                         "process_group_id": process_group.id,
                         "responsible_id": responsible.id,
+                        "support_id": support.id,
                         "customer_id": customer.id,
                         "approved_id": approves.id,
                         "date_start_bbp": process_data["date_start_bbp"],
                         "date_end_bbp": process_data["date_end_bbp"],
                         "state": process_data["state"],
+                        "implementation_stage": process_data["implementation_stage"],
+                        "module_type": process_data["module_type"],
                     }
                 )
 
