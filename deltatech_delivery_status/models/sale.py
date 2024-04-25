@@ -38,7 +38,7 @@ class SaleOrder(models.Model):
         for order in self:
             if order.team_id.postpone_payment_transfer:
                 tx = self.sudo().transaction_ids._get_last()
-                if not tx or tx.provider_code == "wire_transfer":
+                if tx and tx.provider_id.custom_mode == "wire_transfer":
                     order.postpone_delivery()
 
         return res
