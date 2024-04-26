@@ -43,6 +43,13 @@ class BusinessProcess(models.Model):
         domain="[('is_company', '=', False)]",
         comodel_name="res.partner",
     )
+
+    support_id = fields.Many2one(
+        string="Support",
+        domain="[('is_company', '=', False)]",
+        comodel_name="res.partner",
+    )
+
     customer_id = fields.Many2one(
         string="Customer Responsible",
         domain="[('is_company', '=', False)]",
@@ -122,11 +129,18 @@ class BusinessProcess(models.Model):
     testing_duration = fields.Float(string="Testing duration", default=0.0)
     duration_for_completion = fields.Float(string="Total duration", compute="_compute_duration_for_completion")
 
+    implementation_stage = fields.Selection(
+        [("first_stage", "First stage"), ("second_stage", "Second stage")], string="Implementation stage"
+    )
+    module_type = fields.Selection([("standard", "Standard"), ("custom", "Custom")], string="Module type")
+
     @api.model
     def create(self, vals):
         if not vals.get("code", False):
             vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
         result = super().create(vals)
+        if result.area_id.responsible_id and not result.responsible_id:
+            result.responsible_id = result.area_id.responsible_id
         return result
 
     def name_get(self):
