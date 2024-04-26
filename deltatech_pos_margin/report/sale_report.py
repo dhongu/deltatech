@@ -13,6 +13,6 @@ class SaleReport(models.Model):
         additional_fields_info[
             "margin"
         ] = """
-            SUM(l.margin / CASE COALESCE(s.currency_rate, 0) " "WHEN 0 THEN 1.0 ELSE s.currency_rate END)
+            SUM(l.margin / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END)
         """
         return additional_fields_info

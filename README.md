@@ -84,7 +84,7 @@ addon | version | maintainers | summary | price
 [deltatech_portal_invoice](deltatech_portal_invoice/) | 16.0.1.0.1 |  | Portal invoice | Free 
 [deltatech_pos_backend](deltatech_pos_backend/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Point of sale create/edit order form backend | Free 
 [deltatech_pos_decimal_numpad_dot](deltatech_pos_decimal_numpad_dot/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Numpad Dot as decimal separator | Free 
-[deltatech_pos_margin](deltatech_pos_margin/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Point of sale margin | Free 
+[deltatech_pos_margin](deltatech_pos_margin/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Point of sale margin | Free 
 [deltatech_pos_product_filter](deltatech_pos_product_filter/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Searching pos order using product | Free 
 [deltatech_price_categ](deltatech_price_categ/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Price List: Bronze Silver and Gold in product | Free 
 [deltatech_price_change](deltatech_price_change/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Price Change | Free 
