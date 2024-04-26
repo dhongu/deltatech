@@ -8,15 +8,27 @@
                     <field name="state" invisible="1" />
                     <field name="name" invisible="1" />
                     <div invisible="state!='choose'">
-                        <p>Export selected business processes</p>
-                        <label for="include_tests" />
-                        <field name="include_tests" />
-                        <label for="include_responsible" />
-                        <field name="include_responsible" />
-                        <label for="include_customer_responsible" />
-                        <field name="include_customer_responsible" />
-                        <label for="include_approved_by" />
-                        <field name="include_approved_by" />
+                        <div>
+                    <p>Export selected business processes</p>
+
+                        <group string="Tests" expand="0" colspan="4" col="4">
+                            <field name="include_tests" />
+
+                        </group>
+                    </div>
+                    <div>
+                        <group string="Contacts">
+                            <field name="include_responsible" />
+
+
+                            <field name="include_customer_responsible" />
+
+
+                            <field name="include_approved_by" />
+
+                            <field name="include_support" />
+                        </group>
+                    </div>
                     </div>
                     <div invisible="state!='get'">
 

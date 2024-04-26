@@ -12,6 +12,11 @@ class BusinessArea(models.Model):
     process_group_ids = fields.One2many(
         string="Business process groups", comodel_name="business.process.group", inverse_name="area_id"
     )
+    responsible_id = fields.Many2one(
+        string="Responsible",
+        domain="[('is_company', '=', False)]",
+        comodel_name="res.partner",
+    )
 
 
 class BusinessProcessGroup(models.Model):
