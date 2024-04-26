@@ -134,7 +134,7 @@
                         </group>
                         <group string="Responsible">
                             <field name="responsible_id" readonly="state not in ('draft','design')" />
-                            <field name="support_id" readonly="state not in ('draft','design')"/>
+                            <field name="support_id" readonly="state not in ('draft','design')" />
                             <field name="customer_id" readonly="state not in ('draft','design')" />
                             <field name="approved_id" readonly="state not in ('draft','design')" />
                         </group>
