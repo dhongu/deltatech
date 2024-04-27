@@ -48,5 +48,15 @@ class InvoicePackagingMaterial(models.Model):
     _description = "Packaging materials in invoice"
 
     invoice_id = fields.Many2one("account.move")
-    material_type = fields.Selection([("plastic", "Plastic"), ("wood", "Wood"), ("paper", "Paper"), ("pet", "Pet")])
+    material_type = fields.Selection(
+        [
+            ("plastic", "Plastic"),
+            ("wood", "Wood"),
+            ("paper", "Paper"),
+            ("pet", "Pet"),
+            ("glass", "Glass"),
+            ("metal", "Metal"),
+            ("aluminium", "Aluminium"),
+        ]
+    )
     qty = fields.Float(string="Quantity")
