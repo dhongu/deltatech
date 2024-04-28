@@ -9,11 +9,11 @@
     "website": "https://www.terrabit.ro",
     "category": "Sales",
     "depends": ["deltatech_sale_pallet", "website_sale"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         # "views/templates.xml"
     ],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
