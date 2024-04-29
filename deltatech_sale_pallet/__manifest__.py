@@ -4,7 +4,7 @@
 {
     "name": "Sale Pallet",
     "summary": "Sale pallet",
-    "version": "16.0.1.0.7",
+    "version": "16.0.1.0.8",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
