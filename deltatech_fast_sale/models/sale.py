@@ -32,7 +32,7 @@ class SaleOrder(models.Model):
                 picking.with_context(force_period_date=self.date_order)._action_done()
 
         action_obj = self.env.ref("sale.action_view_sale_advance_payment_inv")
-        action = action_obj.read()[0]
+        action = action_obj.sudo().read()[0]
         action["context"] = {"force_period_date": self.date_order}
         return action
 
