@@ -35,7 +35,7 @@ class BusinessProcess(models.Model):
             "name": self.name,
             "channel_id": self.project_id.channel_id.id,
             "active": True,
-            "slide_type": "webpage",
+            "slide_type": "article",
             "website_published": True,
             "tag_ids": [(6, 0, tags.ids)],
         }
