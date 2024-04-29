@@ -10,9 +10,11 @@ Sale Pallet Website
    !! source digest: sha256:35df4a2db43cd56ca51248a9fd48c0f1e68f2a4cc1e156a344803f07d13b3969
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+
+    :alt: Production/Stable
+
 .. |badge2| image:: https://img.shields.io/badge/licence-OPL--1-blue.png
     :target: https://www.odoo.com/documentation/master/legal/licenses.html
     :alt: License: OPL-1

@@ -14,6 +14,6 @@
         # "views/templates.xml"
     ],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
