@@ -53,7 +53,7 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
             .sudo()
             .search([("name", "=", "deltatech_alternative"), ("state", "=", "installed")])
         )
-        pricelist = request.website.get_current_pricelist()
+        pricelist = request.website._get_current_pricelist()
         base_url = request.env["ir.config_parameter"].sudo().get_param("web.base.url")
 
         # filtrare dupa furnizor
