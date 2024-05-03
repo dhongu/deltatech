@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_fleet
+# * deltatech_fleet
 #
 msgid ""
 msgstr ""
@@ -48,7 +48,7 @@ msgstr "<strong>Compania:</strong>"
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
 msgid "<strong>Cons.</strong>"
-msgstr "<strong>Cons.</strong>"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
@@ -68,7 +68,7 @@ msgstr "<strong>Dată:</strong>"
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
 msgid "<strong>Data</strong>"
-msgstr "<strong>Data</strong>"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
@@ -93,72 +93,72 @@ msgstr "<strong>Ref Factură</strong>"
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
 msgid "<strong>Liter</strong>"
-msgstr "<strong>Liter</strong>"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
 msgid "<strong>Normal consumption:</strong>"
-msgstr "<strong>Normal consumption:</strong>"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
 msgid "<strong>Odometer start:</strong>"
-msgstr "<strong>Odometer start:</strong>"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
 msgid "<strong>Price</strong>"
-msgstr "<strong>Price</strong>"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
 msgid "<strong>Reservoir lever start:</strong>"
-msgstr "<strong>Reservoir lever start:</strong>"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
 msgid "<strong>Route log:</strong>"
-msgstr "<strong>Route log:</strong>"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
 msgid "<strong>Route</strong>"
-msgstr "<strong>Route</strong>"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
 msgid "<strong>Scope</strong>"
-msgstr "<strong>Scope</strong>"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
 msgid "<strong>Start date:</strong>"
-msgstr "<strong>Start date:</strong>"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
 msgid "<strong>Start end:</strong>"
-msgstr "<strong>Start end:</strong>"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
 msgid "<strong>Total amount:</strong>"
-msgstr "<strong>Total amount:</strong>"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
 msgid "<strong>Total distance:</strong>"
-msgstr "<strong>Total distance:</strong>"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
 msgid "<strong>Total</strong>"
-msgstr "<strong>Total</strong>"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.ui.view,arch_db:deltatech_fleet.report_map_sheet
 msgid "<strong>Vehicle:</strong>"
-msgstr "<strong>Vehicle:</strong>"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_card_active
@@ -216,14 +216,14 @@ msgstr "Nu se poate șterge un traseu parcurs în starea '%s'."
 #: code:addons/deltatech_fleet/models/fleet_sheet.py:420
 #, python-format
 msgid "Cannot set done a map sheet which distance equal with zero."
-msgstr "Cannot set done a map sheet which distance equal with zero."
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.actions.act_window,name:deltatech_fleet.fleet_card_act
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_log_fuel_card_id
 #: model:ir.ui.menu,name:deltatech_fleet.fleet_card_menu
 msgid "Card"
-msgstr "Card"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_card_ids
@@ -246,17 +246,17 @@ msgstr "Clic pentru a creea o nouă locație."
 #. module: deltatech_fleet
 #: model:ir.actions.act_window,help:deltatech_fleet.fleet_map_sheet_act
 msgid "Click to create a new map sheet."
-msgstr "Click to create a new map sheet."
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.actions.act_window,help:deltatech_fleet.fleet_route_act
 msgid "Click to create a new route."
-msgstr "Click to create a new route."
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_category_code
 msgid "Cod"
-msgstr "Cod"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_company_id
@@ -373,19 +373,19 @@ msgstr "Nume afișat"
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_dist_c1
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_dist_c1
 msgid "Dist C1"
-msgstr "Dist C1"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_dist_c2
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_dist_c2
 msgid "Dist C2"
-msgstr "Dist C2"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_dist_c3
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log_dist_c3
 msgid "Dist C3"
-msgstr "Dist C3"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_distance
@@ -399,16 +399,14 @@ msgid "Distance "
 msgstr "Distanța "
 
 #. module: deltatech_fleet
-#: selection:fleet.map.sheet,state:0
-#: selection:fleet.route.log,state:0
+#: selection:fleet.map.sheet,state:0 selection:fleet.route.log,state:0
 #: selection:fleet.vehicle.log.fuel,state:0
 #: model:ir.ui.view,arch_db:deltatech_fleet.fleet_map_sheet_form
 msgid "Done"
 msgstr "Gata"
 
 #. module: deltatech_fleet
-#: selection:fleet.map.sheet,state:0
-#: selection:fleet.route.log,state:0
+#: selection:fleet.map.sheet,state:0 selection:fleet.route.log,state:0
 #: selection:fleet.vehicle.log.fuel,state:0
 msgid "Draft"
 msgstr "Ciornă"
@@ -475,7 +473,7 @@ msgstr "Tip Carburant"
 #: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_reservoir_level_end
 #: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_reservoir_level_start
 msgid "Fuel level in the reservoir at the beginning of road map"
-msgstr "Fuel level in the reservoir at the beginning of road map"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_card_log_fuel_ids
@@ -524,7 +522,7 @@ msgstr "Grupați după..."
 #. module: deltatech_fleet
 #: model:ir.actions.act_window,help:deltatech_fleet.fleet_map_sheet_act
 msgid "Here you can add map sheet for all vehicles."
-msgstr "Here you can add map sheet for all vehicles."
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_card_id
@@ -537,7 +535,7 @@ msgstr "Here you can add map sheet for all vehicles."
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_scope_id
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_category_id_2347
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_odometer_end_id
@@ -651,7 +649,7 @@ msgstr "Locații"
 #. module: deltatech_fleet
 #: selection:fleet.card,type_card:0
 msgid "Lukoil"
-msgstr "Lukoil"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.actions.report.xml,name:deltatech_fleet.fleet_map_sheet_list_report
@@ -669,7 +667,7 @@ msgstr "Foaie Parcurs"
 #: code:addons/deltatech_fleet/models/fleet_sheet.py:234
 #, python-format
 msgid "Map Sheet end-date (%s) must be greater then start-date (%s)"
-msgstr "Map Sheet end-date (%s) must be greater then start-date (%s)"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.actions.act_window,name:deltatech_fleet.fleet_map_sheet_act
@@ -710,7 +708,7 @@ msgstr "Număr"
 #. module: deltatech_fleet
 #: selection:fleet.card,type_card:0
 msgid "OMV"
-msgstr "OMV"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet_odometer_end
@@ -730,12 +728,12 @@ msgstr "Registrul Controrului de kilometraj pentru un vehicul"
 #. module: deltatech_fleet
 #: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_odometer_end
 msgid "Odometer measure of the vehicle at the end of this map sheet"
-msgstr "Odometer measure of the vehicle at the end of this map sheet"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_odometer_start
 msgid "Odometer measure of the vehicle at the start of this map sheet"
-msgstr "Odometer measure of the vehicle at the start of this map sheet"
+msgstr ""
 
 #. module: deltatech_fleet
 #: selection:fleet.location,type:0
@@ -756,7 +754,7 @@ msgstr "Partener"
 #. module: deltatech_fleet
 #: selection:fleet.card,type_card:0
 msgid "Petrom"
-msgstr "Petrom"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_reservoir
@@ -766,12 +764,12 @@ msgstr "Capacitate rezervor"
 #. module: deltatech_fleet
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_reverse
 msgid "Reverse route"
-msgstr "Reverse route"
+msgstr ""
 
 #. module: deltatech_fleet
 #: selection:fleet.card,type_card:0
 msgid "Rompetrol"
-msgstr "Rompetrol"
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.model,name:deltatech_fleet.model_fleet_route
@@ -977,25 +975,28 @@ msgstr "Vehicule"
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,help:deltatech_fleet.field_fleet_vehicle_log_fuel_state
-msgid "When the Log Fuel is created the status is set to 'Draft'.\n"
+msgid ""
+"When the Log Fuel is created the status is set to 'Draft'.\n"
 "                                      When the Log Fuel is closed, the status is set to 'Done'."
-msgstr "Când o Alimentare este creată aceasta este în starea 'Ciornă'.\n"
+msgstr ""
+"Când o Alimentare este creată aceasta este în starea 'Ciornă'.\n"
 "                                      Când o alimentare este închisă, starea este setata cu 'Gata'."
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet_state
-msgid "When the Map Sheet is created the status is set to 'Draft'.\n"
+msgid ""
+"When the Map Sheet is created the status is set to 'Draft'.\n"
 "                                      When the Map Sheet is in progress the status is set to 'In Progress' .\n"
 "                                      When the Map Sheet is closed, the status is set to 'Done'."
-msgstr "When the Map Sheet is created the status is set to 'Draft'.\n"
-"                                      When the Map Sheet is in progress the status is set to 'In Progress' .\n"
-"                                      When the Map Sheet is closed, the status is set to 'Done'."
+msgstr ""
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,help:deltatech_fleet.field_fleet_route_log_state
-msgid "When the Route Log is created the status is set to 'Draft'.\n"
+msgid ""
+"When the Route Log is created the status is set to 'Draft'.\n"
 "                                      When the Route Log is closed, the status is set to 'Done'."
-msgstr "Când un 'Traseu parcurs' este creat starea este setată cu 'Ciornă'.\n"
+msgstr ""
+"Când un 'Traseu parcurs' este creat starea este setată cu 'Ciornă'.\n"
 "                                      Când un 'Traseu parcurs' este alocat la o foaie de parcurs închisă, starea este setată cu 'Gata'."
 
 #. module: deltatech_fleet
@@ -1009,5 +1010,4 @@ msgstr "An"
 #. module: deltatech_fleet
 #: model:ir.model,name:deltatech_fleet.model_report_deltatech_fleet_report_map_sheet
 msgid "report.deltatech_fleet.report_map_sheet"
-msgstr "report.deltatech_fleet.report_map_sheet"
-
+msgstr ""

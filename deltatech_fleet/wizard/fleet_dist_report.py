@@ -38,7 +38,10 @@ class FleetDistanceReport(models.Model):
             ("company_id", "=", self.company_id.id),
         ]
         costs = self.env["fleet.vehicle.cost.report"].read_group(
-            domain=domain, fields=["company_id", "vehicle_id", "cost"], groupby=["company_id", "vehicle_id"], lazy=False
+            domain=domain,
+            fields=["company_id", "vehicle_id", "cost"],
+            groupby=["company_id", "vehicle_id"],
+            lazy=False,
         )
         lines = []
         for line in costs:
