@@ -19,9 +19,15 @@ class StockMoveLine(models.Model):
 
     @api.onchange("location_id", "lot_id")
     def onchange_location_id(self):
-        domain = [("product_id", "=", self.product_id.id), ("company_id", "=", self.company_id.id)]
+        domain = [
+            ("product_id", "=", self.product_id.id),
+            ("company_id", "=", self.company_id.id),
+        ]
         if self.location_id and self.product_id.tracking != "none":
-            quant_domain = [("product_id", "=", self.product_id.id), ("location_id", "=", self.location_id.id)]
+            quant_domain = [
+                ("product_id", "=", self.product_id.id),
+                ("location_id", "=", self.location_id.id),
+            ]
             quants = self.env["stock.quant"].search(quant_domain)
             domain += [("quant_ids", "in", quants.ids)]
 
