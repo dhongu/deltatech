@@ -131,7 +131,7 @@
         <field name="name">mrp.simple.tree</field>
         <field name="model">mrp.simple</field>
         <field name="arch" type="xml">
-            <tree string="Simple production">
+            <tree>
                 <field name="name" />
                 <field name="date" />
             </tree>
