@@ -50,9 +50,9 @@ repos:
           - --org-name=dhongu
           - --repo-name=deltatech
           - --branch=17.0
-          - --if-source-changed
-          - --keep-source-digest
-          - --convert-fragments-to-markdown
+      #          - --if-source-changed
+      #          - --keep-source-digest
+      #          - --convert-fragments-to-markdown
 
       # This job could easily produce conflicts when it runs on every commit,
       # so it's added as a manual job. If you automate it, beware.
