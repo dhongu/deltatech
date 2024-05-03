@@ -21,11 +21,13 @@ WebsiteSale.include({
         if (!selectCheck) {
             return;
         }
+
         return this.rpc(rpcRoute, {}).then((data) => {
-            if (data[place]?.length) {
+            const data_place = data[place];
+            if (data_place && data_place.length !== 0) {
                 selectElement.innerHTML = "";
                 data[place].forEach((item) => {
-                    let opt = document.createElement("option");
+                    const opt = document.createElement("option");
                     opt.textContent = item[1];
                     opt.value = item[0];
                     opt.setAttribute("data-code", item[2]);
@@ -49,14 +51,14 @@ WebsiteSale.include({
             : undefined;
     },
 
-    _onChangeCity: function (ev) {
-        // todo: de completat codul postal in functie de oras
+    _onChangeCity: function () {
+        // Todo: de completat codul postal in functie de oras
     },
 
-    _onChangeCountry: function (ev) {
+    _onChangeCountry: function () {
         return this._super.apply(this, arguments).then(() => {
-            let selectedCountry = ev.currentTarget.options[ev.currentTarget.selectedIndex].getAttribute("code");
-            let cityInput = document.querySelector(".form-control[name='city']");
+            // Const selectedCountry = ev.currentTarget.options[ev.currentTarget.selectedIndex].getAttribute("code");
+            const cityInput = document.querySelector(".form-control[name='city']");
 
             if (cityInput.value) {
                 cityInput.value = "";

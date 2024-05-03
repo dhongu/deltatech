@@ -752,7 +752,7 @@ class InventoryLine(models.Model):
                         "lot_id": self.prod_lot_id.id,
                         # "product_uom_qty": 0,  # bypass reservation here
                         "product_uom_id": self.product_uom_id.id,
-                        "qty_done": qty,
+                        "quantity": qty,
                         "package_id": out and self.package_id.id or False,
                         "result_package_id": (not out) and self.package_id.id or False,
                         "location_id": location_id,

@@ -22,7 +22,7 @@ class StockPicking(models.Model):
                     move_line_ids = move._get_move_lines()
                     if len(move_line_ids) > 1:
                         for stock_move_line in move_line_ids:
-                            stock_move_line.write({"qty_done": stock_move_line.product_uom_qty})
+                            stock_move_line.write({"quantity": stock_move_line.product_uom_qty})
                     else:
                         move.write({"quantity_done": move.product_uom_qty})
                 else:

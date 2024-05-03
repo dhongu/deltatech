@@ -42,7 +42,7 @@ class StockPicking(models.Model):
                         and move_line.reserved_uom_qty
                         and float_compare(
                             move_line.reserved_uom_qty,
-                            move_line.qty_done,
+                            move_line.quantity,
                             precision_digits=precision,
                         )
                         != 0
@@ -56,7 +56,7 @@ class StockPicking(models.Model):
                     if (
                         picking.picking_type_id.restrict_new_products
                         and float_compare(move_line.reserved_uom_qty, 0.0, precision_digits=precision) == 0
-                        and float_compare(move_line.qty_done, 0.0, precision_digits=precision) != 0
+                        and float_compare(move_line.quantity, 0.0, precision_digits=precision) != 0
                     ):
                         raise UserError(
                             _("Unrecognized product: [{}] {}").format(
