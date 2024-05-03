@@ -165,7 +165,7 @@
         <field name="name">fleet.map.sheet.tree</field>
         <field name="model">fleet.map.sheet</field>
         <field name="arch" type="xml">
-            <tree string="Map Sheet">
+            <tree>
                 <!--                colors="blue:state in ('draft');black:state in ('open');gray:state in ('done') ">-->
                 <field name="name" />
                 <field name="state" />
