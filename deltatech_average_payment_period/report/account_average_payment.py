@@ -42,7 +42,15 @@ class AccountAveragePaymentReport(models.Model):
             if "amount" not in new_fields:
                 new_fields.append("amount")
 
-        res = super().read_group(domain, new_fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
+        res = super().read_group(
+            domain,
+            new_fields,
+            groupby,
+            offset=offset,
+            limit=limit,
+            orderby=orderby,
+            lazy=lazy,
+        )
 
         # new_res = self.read_group(cr, uid, domain, new_fields, groupby, offset, limit, context, orderby, lazy)
         if "payment_days" in fields:
