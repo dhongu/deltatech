@@ -1,3 +1,3 @@
-  - Features:
-    
-      - searching product using the equivalent code
+- Features:
+
+  - searching product using the equivalent code

@@ -1,3 +1,3 @@
-  - Features:
-    
-      - Report with positions from picking lists
+- Features:
+
+  - Report with positions from picking lists

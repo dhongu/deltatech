@@ -1,3 +1,3 @@
-  - Features:
-    
-      - Searching pos order using product
+- Features:
+
+  - Searching pos order using product

@@ -1,3 +1,3 @@
-  - Features:
-    
-      - Price modify at reception
+- Features:
+
+  - Price modify at reception

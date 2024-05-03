@@ -1,4 +1,4 @@
-  - Features:
-    
-      - remove unused files from filestore
-      - delete view in cascade
+- Features:
+
+  - remove unused files from filestore
+  - delete view in cascade

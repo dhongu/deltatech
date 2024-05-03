@@ -1,3 +1,3 @@
-  - Features:
-    
-      - Disable fuzzy search for the search bar
+- Features:
+
+  - Disable fuzzy search for the search bar

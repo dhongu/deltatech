@@ -1,3 +1,3 @@
-  - Features:
-    
-      - Generare manual de comanda restanta
+- Features:
+
+  - Generare manual de comanda restanta

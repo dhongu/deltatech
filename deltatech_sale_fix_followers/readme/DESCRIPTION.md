@@ -1,5 +1,3 @@
-  - Features:
-    
-      - Fix
-        mail\_followers\_mail\_followers\_res\_partner\_res\_model\_id\_uniq
-        error
+- Features:
+
+  - Fix mail_followers_mail_followers_res_partner_res_model_id_uniq error

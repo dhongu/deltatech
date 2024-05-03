@@ -1,3 +1,3 @@
-  - Features:
-    
-      - add phone number in sales order
+- Features:
+
+  - add phone number in sales order

@@ -1,3 +1,3 @@
-  - Features:
-    
-      - Restricting access to sales team
+- Features:
+
+  - Restricting access to sales team

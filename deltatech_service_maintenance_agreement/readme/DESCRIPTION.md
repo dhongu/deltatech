@@ -1,3 +1,3 @@
-  - Features:
-    
-      - face lagatura intre contracte si sesizari/comenzi
+- Features:
+
+  - face lagatura intre contracte si sesizari/comenzi

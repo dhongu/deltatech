@@ -1,4 +1,4 @@
-  - Features:
-    
-      - Validation of phone number from frontend
-      - Validare telefon in frontend
+- Features:
+
+  - Validation of phone number from frontend
+  - Validare telefon in frontend

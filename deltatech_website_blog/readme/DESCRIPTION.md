@@ -1,3 +1,3 @@
-  - Features:
-    
-      - sort blogs by posting date
+- Features:
+
+  - sort blogs by posting date

@@ -372,11 +372,8 @@ ul.auto-toc {
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Production/Stable" src="https://img.shields.io/badge/maturity-Production%2FStable-green.png" /></a> <a class="reference external image-reference" href="https://www.odoo.com/documentation/master/legal/licenses.html"><img alt="License: OPL-1" src="https://img.shields.io/badge/licence-OPL--1-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/17.0/deltatech_backup_attachment"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
 <p>Backup attachments using domain filter</p>
 <ul>
-<li><div class="first line-block">
-<div class="line">Ex.</div>
-<div class="line">[(“mimetype”,”not in”,[“image/png”,
-“image/jpeg”,”application/pdf”])]</div>
-</div>
+<li><p class="first">Ex. [(“mimetype”,”not in”,[“image/png”,
+“image/jpeg”,”application/pdf”])]</p>
 <p>[(‘res_model’,’not
 ilike’,’product’),(‘res_model’,’!=’,’export.attachment’),(‘res_field’,’like’,’%’)]</p>
 </li>

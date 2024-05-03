@@ -1,3 +1,3 @@
-  - Features:
-    
-      - Sale of multiple quantity
+- Features:
+
+  - Sale of multiple quantity

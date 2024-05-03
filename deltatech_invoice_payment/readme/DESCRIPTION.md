@@ -1,3 +1,3 @@
-  - Features:
-    
-      - Show payments from invoice
+- Features:
+
+  - Show payments from invoice

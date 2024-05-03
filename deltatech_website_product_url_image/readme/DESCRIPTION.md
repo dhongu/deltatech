@@ -1,3 +1,3 @@
-  - Features:
-    
-      - Incarcare poza din url
+- Features:
+
+  - Incarcare poza din url

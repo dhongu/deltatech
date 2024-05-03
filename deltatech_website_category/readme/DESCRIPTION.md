@@ -1,3 +1,3 @@
-  - Features:
-    
-      - Arhivarea categorii publice
+- Features:
+
+  - Arhivarea categorii publice

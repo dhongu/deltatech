@@ -1,3 +1,3 @@
-  - Features:
-    
-      - Restricted access to reset account move to draft
+- Features:
+
+  - Restricted access to reset account move to draft

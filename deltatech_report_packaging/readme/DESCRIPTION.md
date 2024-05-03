@@ -1,3 +1,3 @@
-  - Features:
-    
-      - Report packing materials used for products invoiced
+- Features:
+
+  - Report packing materials used for products invoiced

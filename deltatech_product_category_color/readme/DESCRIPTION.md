@@ -1,3 +1,3 @@
-  - Features:
-    
-      - Add color in product category
+- Features:
+
+  - Add color in product category

@@ -1,3 +1,3 @@
-  - Features:
-    
-      - Add payment button in sale order
+- Features:
+
+  - Add payment button in sale order

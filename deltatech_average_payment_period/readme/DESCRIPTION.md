@@ -1,3 +1,3 @@
-  - Features:
-    
-      - it computes average duration of cash accounting
+- Features:
+
+  - it computes average duration of cash accounting

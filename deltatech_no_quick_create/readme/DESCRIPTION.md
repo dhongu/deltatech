@@ -1,3 +1,3 @@
-  - Features:
-    
-      - disable quick\_create
+- Features:
+
+  - disable quick_create

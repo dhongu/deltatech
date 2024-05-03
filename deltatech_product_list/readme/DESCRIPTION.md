@@ -1,3 +1,3 @@
-  - Features:
-    
-      - defining product lists
+- Features:
+
+  - defining product lists
