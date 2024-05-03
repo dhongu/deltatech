@@ -21,7 +21,8 @@ class AccountBankStatementLine(models.Model):
                 if st_line.date < date_limit_obj:
                     raise UserError(
                         _(
-                            "You cannot perform this operation on this line (date restriction). Please contact your support team."
+                            "You cannot perform this operation on this line (date restriction). "
+                            "Please contact your support team."
                         )
                     )
         return super().action_undo_reconciliation()
