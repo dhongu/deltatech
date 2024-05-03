@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="product_template_kanban_stock_view">
+        <field name="name">Product Template Kanban Stock</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_kanban_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='product_lst_price']" position="after">
+                <div class="oe_kanban_footer">
+                    <field name="warehouse_stock" widget="text" style="white-space: pre-line;" />
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
