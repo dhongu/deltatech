@@ -67,7 +67,11 @@ class FleetRoute(models.Model):
         for route in self:
             if not route.reverse:
                 new_route = route.copy(
-                    {"from_loc_id": route.to_loc_id.id, "to_loc_id": route.from_loc_id.id, "reverse": route.id}
+                    {
+                        "from_loc_id": route.to_loc_id.id,
+                        "to_loc_id": route.from_loc_id.id,
+                        "reverse": route.id,
+                    }
                 )
                 route.reverse = new_route
 
@@ -78,10 +82,21 @@ class FleetCard(models.Model):
 
     name = fields.Char(string="Series card", size=20, required=True)
     type_card = fields.Selection(
-        [("2", "Own pomp"), ("3", "Rompetrol"), ("4", "Petrom"), ("5", "Lukoil"), ("6", "OMV")], string="Type Card"
+        [
+            ("2", "Own pomp"),
+            ("3", "Rompetrol"),
+            ("4", "Petrom"),
+            ("5", "Lukoil"),
+            ("6", "OMV"),
+        ],
+        string="Type Card",
     )
     vehicle_ids = fields.Many2many(
-        "fleet.vehicle", "fleet_card_vehicle_rel", "card_id", "vehicle_id", string="Vehicles"
+        "fleet.vehicle",
+        "fleet_card_vehicle_rel",
+        "card_id",
+        "vehicle_id",
+        string="Vehicles",
     )
     log_fuel_ids = fields.One2many("fleet.vehicle.log.fuel", "card_id", string="Fuel log")
     active = fields.Boolean(string="Active", default=1)
@@ -121,6 +136,7 @@ class FleetDivision(models.Model):
 
 class FleetLocation(models.Model):
     "Pozitia unei locatii si afisare pozitie pe Google Maps"
+
     _name = "fleet.location"
     _description = "Location"
 
