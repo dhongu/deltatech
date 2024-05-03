@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
 <odoo>
-    <data>
+
         <record id="view_product_catalog_tree" model="ir.ui.view">
             <field name="name">Product Catalog</field>
             <field name="model">product.catalog</field>
             <field name="arch" type="xml">
-                <tree string="Product Catalog">
+                <tree>
                     <field name="code" />
                     <field name="code_new" />
                     <field name="name" />
@@ -38,19 +38,19 @@
                             </group>
                             <group>
                                 <field
-                                    name="purchase_price"
-                                    widget="monetary"
-                                    options="{'currency_field': 'list_price_currency_id'}"
-                                />
+                                name="purchase_price"
+                                widget="monetary"
+                                options="{'currency_field': 'list_price_currency_id'}"
+                            />
                                 <field name="purchase_delay" />
                                 <field name="supplier_id" />
                             </group>
                             <group>
                                 <field
-                                    name="list_price"
-                                    widget="monetary"
-                                    options="{'currency_field': 'list_price_currency_id'}"
-                                />
+                                name="list_price"
+                                widget="monetary"
+                                options="{'currency_field': 'list_price_currency_id'}"
+                            />
                                 <field name="sale_delay" />
                                 <field name="list_price_currency_id" />
                             </group>
@@ -81,13 +81,13 @@
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem
-            name="Product Catalog"
-            id="menu_product_catalog"
-            action="action_product_catalog"
-            parent="stock.menu_stock_inventory_control"
-            sequence="102"
-        />
+        name="Product Catalog"
+        id="menu_product_catalog"
+        action="action_product_catalog"
+        parent="stock.menu_stock_inventory_control"
+        sequence="102"
+    />
 
 
-    </data>
+
 </odoo>
