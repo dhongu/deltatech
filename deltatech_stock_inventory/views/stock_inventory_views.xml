@@ -157,7 +157,7 @@
         <field name="name">stock.inventory.tree</field>
         <field name="model">stock.inventory</field>
         <field name="arch" type="xml">
-            <tree string="Lot/Serial Number Inventory" sample="1">
+            <tree sample="1">
                 <field name="date" />
                 <field name="name" />
                 <field

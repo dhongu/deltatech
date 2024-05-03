@@ -18,7 +18,7 @@
         <field name="model">crm.team</field>
         <field name="inherit_id" ref="sales_team.crm_team_view_kanban_dashboard" />
         <field name="arch" type="xml">
-            <data>
+
                  <xpath expr="//button[@name='action_primary_channel_button']" position="after">
                     <button type="object" class="btn btn-primary" name="action_sale_order_button">
                         Sale orders
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </xpath>
-            </data>
+
         </field>
     </record>
 </odoo>

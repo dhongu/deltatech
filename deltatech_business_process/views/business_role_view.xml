@@ -4,7 +4,7 @@
         <field name="name">Business role</field>
         <field name="model">business.role</field>
         <field name="arch" type="xml">
-            <tree string="Business role">
+            <tree>
                 <field name="name" />
             </tree>
         </field>

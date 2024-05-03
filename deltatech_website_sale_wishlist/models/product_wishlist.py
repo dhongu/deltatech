@@ -51,7 +51,7 @@ class ProductWishlist(models.Model):
                     ]
                 )
             except UserError as error:
-                raise UserError(error)
+                raise UserError(error) from error
 
     def _prepare_run_values(self):
         replenishment = self.env["procurement.group"].create(

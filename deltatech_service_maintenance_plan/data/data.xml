@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
         <menuitem
-            name="Planing"
-            id="menu_service_planing"
-            groups="group_use_service_plan"
-            parent="deltatech_service_base.menu_service_app"
-            sequence="200"
-        />
-    </data>
+        name="Planing"
+        id="menu_service_planing"
+        groups="group_use_service_plan"
+        parent="deltatech_service_base.menu_service_app"
+        sequence="200"
+    />
+
     <data noupdate="1">
 
         <record id="sequence_plan" model="ir.sequence">

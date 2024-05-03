@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="portal_my_quotations_status" inherit_id="sale.portal_my_quotations">
+    <template id="portal_my_quotations_status" inherit_id="sale.portal_my_quotations" priority="100">
         <xpath expr="//thead/tr/th[4]" position="replace">
             <th class="text-center">Status</th>
         </xpath>

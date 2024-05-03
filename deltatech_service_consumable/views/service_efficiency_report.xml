@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-   <data>
+
 
       <record id="view_service_efficiency_report_tree" model="ir.ui.view">
          <field name="name">service.efficiency.report.tree</field>
@@ -8,7 +8,7 @@
          <field name="type">tree</field>
          <field name="arch" type="xml">
 
-            <tree string="Service Efficiency Report" create="0" delete="0">
+            <tree create="0" delete="0">
                <field name="date" invisible="1" />
                <field name="equipment_id" invisible="1" />
 
@@ -62,24 +62,24 @@
                <field name="date" />
 
                <filter
-                        string="This Year"
-                        name="year"
-                        domain="[('date','&lt;=', time.strftime('%%Y-12-31')),('date','&gt;=',time.strftime('%%Y-01-01'))]"
-                    />
+                    string="This Year"
+                    name="year"
+                    domain="[('date','&lt;=', time.strftime('%%Y-12-31')),('date','&gt;=',time.strftime('%%Y-01-01'))]"
+                />
 
                <filter
-                        string="This Month"
-                        name="month"
-                        domain="[('date','&gt;=', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
+                    string="This Month"
+                    name="month"
+                    domain="[('date','&gt;=', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
                          ('date','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-                    />
+                />
 
                <filter
-                        string="Previous Month"
-                        name="prev_month"
-                        domain="[('date','&gt;=', (context_today() + relativedelta(day=01, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
+                    string="Previous Month"
+                    name="prev_month"
+                    domain="[('date','&gt;=', (context_today() + relativedelta(day=01, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
                          ('date','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-                    />
+                />
 
 
                <group expand="0" string="Extended Filters...">
@@ -94,10 +94,10 @@
                   <filter string="Invoice Control" name="invoice_state" context="{'group_by':'invoice_state'}" />
                   <filter string="Partner" name="partner" context="{'group_by':'partner_id'}" />
                   <filter
-                            string="Commercial Entity"
-                            name="commercial_partner_id"
-                            context="{'group_by':'commercial_partner_id'}"
-                        />
+                        string="Commercial Entity"
+                        name="commercial_partner_id"
+                        context="{'group_by':'commercial_partner_id'}"
+                    />
                   <filter string="Category" context="{'group_by':'categ_id'}" />
                   <filter string="Product" name="product" context="{'group_by':'product_id'}" />
 
@@ -141,10 +141,10 @@
       </record>
 
       <menuitem
-            name="Service Efficiency Analysis"
-            action="action_service_efficiency_report"
-            id="menu_service_efficiency_report_tree"
-            parent="stock.next_id_61"
-        />
-   </data>
+        name="Service Efficiency Analysis"
+        action="action_service_efficiency_report"
+        id="menu_service_efficiency_report_tree"
+        parent="stock.next_id_61"
+    />
+
 </odoo>

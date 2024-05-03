@@ -4,7 +4,7 @@
         <field name="name">Business transaction</field>
         <field name="model">business.transaction</field>
         <field name="arch" type="xml">
-            <tree string="Business process">
+            <tree>
                 <field name="code" />
                 <field name="name" />
                 <field name="transaction_type" />

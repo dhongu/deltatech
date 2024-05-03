@@ -263,11 +263,6 @@ msgstr "Total costuri"
 
 #. module: deltatech_service_consumable
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_agreement__total_percent
-msgid "Total percent"
-msgstr ""
-
-#. module: deltatech_service_consumable
-#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_agreement__total_percent
 #: model_terms:ir.ui.view,arch_db:deltatech_service_consumable.view_service_agreement_form
 msgid "Total percent"
 msgstr "Procent costuri din facturat"

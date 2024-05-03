@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
         <record id="view_service_billing_preparation_form" model="ir.ui.view">
             <field name="name">Service Billing Preparation</field>
             <field name="model">service.billing.preparation</field>
@@ -36,12 +36,12 @@
     </record>
 
         <menuitem
-            name="Billing Preparation"
-            id="menu_service_billing_preparation"
-            action="action_service_billing_preparation"
-            parent="deltatech_service_agreement.menu_service_agr"
-            sequence="101"
-        />
+        name="Billing Preparation"
+        id="menu_service_billing_preparation"
+        action="action_service_billing_preparation"
+        parent="deltatech_service_agreement.menu_service_agr"
+        sequence="101"
+    />
 
-    </data>
+
 </odoo>

@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <odoo>
-    <data>
+
         <record id="deltatech_ral_mrp_production_form_view" model="ir.ui.view">
             <field name="name">deltatech.ral.mrp.production.form</field>
             <field name="model">mrp.production</field>
@@ -13,5 +13,5 @@
                 </field>
             </field>
         </record>
-    </data>
+
 </odoo>

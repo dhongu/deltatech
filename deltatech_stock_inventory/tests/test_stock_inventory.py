@@ -133,7 +133,7 @@ class TestStockInventory(TransactionCase):
         active_ids = [inventory_a.id, inventory_b.id]
         wizard = Form(self.env["stock.inventory.merge"])
         wizard = wizard.save()
-        wizard.with_context(active_ids=active_ids).merge_inventory
+        wizard.with_context(active_ids=active_ids).merge_inventory()
 
     def test_stock_quant_inventory(self):
         quant = self.env["stock.quant"].create(

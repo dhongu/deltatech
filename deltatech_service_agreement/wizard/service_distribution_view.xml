@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
         <record id="view_service_distribution_form" model="ir.ui.view">
             <field name="name">Service Distribution</field>
             <field name="model">service.distribution</field>
@@ -50,5 +50,5 @@
         <field name="binding_view_types">list</field>
     </record>
 
-    </data>
+
 </odoo>

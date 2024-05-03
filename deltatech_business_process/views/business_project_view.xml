@@ -5,7 +5,7 @@
         <field name="name">Business project</field>
         <field name="model">business.project</field>
         <field name="arch" type="xml">
-            <tree string="Business process" sample="1">
+            <tree sample="1">
                 <field name="code" />
                 <field name="name" />
                 <field name='state' widget="badge" decoration-success="state == 'running'  " />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
 <!--        <record id="view_deltatech_sale_report_tree" model="ir.ui.view">
             <field name="name">deltatech.sale.report.tree</field>
             <field name="model">deltatech.sale.report</field>
@@ -75,25 +75,25 @@
                         <filter string="Salesperson" name="user" context="{'group_by':'user_id'}" />
                         <filter string="Partner" name="customer" context="{'group_by':'partner_id'}" />
                         <filter
-                            string="Product"
-                            name="product"
-                            context="{'group_by':'product_id','set_visible':True}"
-                        />
+                        string="Product"
+                        name="product"
+                        context="{'group_by':'product_id','set_visible':True}"
+                    />
                         <filter string="Category of Product" name="category" context="{'group_by':'categ_id'}" />
                         <filter string="Status" name="status" context="{'group_by':'state'}" />
                         <filter string="Warehouse" name='warehouse' context="{'group_by':'warehouse_id'}" />
                         <filter
-                            string="Company"
-                            name='company'
-                            groups="base.group_multi_company"
-                            context="{'group_by':'company_id'}"
-                        />
+                        string="Company"
+                        name='company'
+                        groups="base.group_multi_company"
+                        context="{'group_by':'company_id'}"
+                    />
                         <filter
-                            string="Date"
-                            name='date'
-                            context="{'group_by':'date:month'}"
-                            help="Ordered date of the sales order"
-                        />
+                        string="Date"
+                        name='date'
+                        context="{'group_by':'date:month'}"
+                        help="Ordered date of the sales order"
+                    />
                     </group>
                 </search>
             </field>
@@ -108,9 +108,9 @@
             <field name="context">{'search_default_product':1,'group_by_no_leaf':1,'group_by':[]}</field>
         </record>
         <menuitem
-            action="action_deltatech_sale_report"
-            id="menu_deltatech_sale_report_tree"
-            parent="sale.menu_sale_report"
-        />
-    </data>
+        action="action_deltatech_sale_report"
+        id="menu_deltatech_sale_report_tree"
+        parent="sale.menu_sale_report"
+    />
+
 </odoo>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
         <template
-            id="product_item_code"
-            inherit_id="website_sale.products_item"
-            name="Internal code"
-            customize_show="True"
-            priority="100"
-        >
+        id="product_item_code"
+        inherit_id="website_sale.products_item"
+        name="Internal code"
+        customize_show="True"
+        priority="100"
+    >
             <xpath expr="//div[@itemprop='offers']" position="before">
                 <div t-if="product.default_code">
                     <span itemprop="productID" t-field="product.default_code" class="text-muted" />
@@ -25,5 +25,5 @@
         </template>
 
 
-    </data>
+
 </odoo>

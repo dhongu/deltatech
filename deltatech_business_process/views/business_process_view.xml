@@ -5,7 +5,7 @@
         <field name="name">Business process</field>
         <field name="model">business.process</field>
         <field name="arch" type="xml">
-            <tree string="Business process" sample="1" default_order="code">
+            <tree sample="1" default_order="code">
                 <field name="code" />
                 <field name="name" />
                 <field name="project_id" optional="hide" />

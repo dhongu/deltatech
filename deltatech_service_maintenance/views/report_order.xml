@@ -68,7 +68,7 @@
         <t t-call="web.external_layout">
             <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
             <div class="page">
-                <div class="oe_structure" />
+
 
                 <h2 class="mt16">
                     <span>Service Order</span>
@@ -177,7 +177,7 @@
                         </tbody>
                     </table>
                 </t>
-                <div class="oe_structure" />
+
                 <p t-field="doc.description" />
 
             </div>
@@ -189,7 +189,7 @@
         <t t-call="web.external_layout">
             <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
             <div class="page">
-                <div class="oe_structure" />
+
 
                 <h2 class="mt16">
                     <span>Handover report</span>
@@ -242,7 +242,7 @@
                     </div>
                     <br />
 
-                <div class="oe_structure" />
+
                 <div class="row mt32 mb32" id="signatures">
                     <div class="col-auto col-3 mw-100 mb-2">
                         <strong>I taught:</strong>
@@ -261,7 +261,7 @@
         <t t-call="web.external_layout">
             <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
             <div class="page">
-                <div class="oe_structure" />
+
 
                 <h2 class="mt16">
                     <span>Minutes of receipt</span>
@@ -306,7 +306,7 @@
                 <br />
                 <p t-field="doc.init_description" />
 
-                <div class="oe_structure" />
+
                 <div class="row mt32 mb32" id="signatures">
                     <div class="col-auto col-3 mw-100 mb-2">
                         <strong>I taught:</strong>

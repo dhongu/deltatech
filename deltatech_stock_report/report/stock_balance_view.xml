@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<openerp>
-    <data>
+<odoo>
+
         <record id="view_stock_balance_tree" model="ir.ui.view">
             <field name="name">stock.balance.tree</field>
             <field name="model">stock.balance</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree
-                    colors="red:product_qty&lt;0;blue:product_qty&gt;=0 ;black:product_qty&gt;=0 "
-                    string="Balance"
-                    create="0"
-                    delete="0"
-                >
+                colors="red:product_qty&lt;0;blue:product_qty&gt;=0 ;black:product_qty&gt;=0 "
+                string="Balance"
+                create="0"
+                delete="0"
+            >
                     <field name="date" invisible="1" />
                     <field name="location_id" invisible="1" />
                     <field name="categ_id" invisible="1" />
@@ -68,17 +68,17 @@
                     <field name="categ_id" />
                     <field name="product_id" />
                     <filter
-                        string="This Month"
-                        name="month"
-                        domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=0, days=0)).strftime('%%Y-%%m-%%d')),
+                    string="This Month"
+                    name="month"
+                    domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=0, days=0)).strftime('%%Y-%%m-%%d')),
                                      ('date','&lt;=', (context_today() + relativedelta(day=1, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-                    />
+                />
                     <filter
-                        string="Previous Month"
-                        name="prev_month"
-                        domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
+                    string="Previous Month"
+                    name="prev_month"
+                    domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
                                      ('date','&lt;=', (context_today() + relativedelta(day=1, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-                    />
+                />
                     <group expand="0" string="Extended Filters...">
                         <field name="company_id" groups="base.group_multi_company" />
                         <field name="date" />
@@ -86,30 +86,30 @@
                     <newline />
                     <group expand="1" string="Group By...">
                         <filter
-                            name='location'
-                            string="Location"
-                            icon="terp-gtk-jump-to-rtl"
-                            context="{'group_by':'location_id'}"
-                        />
+                        name='location'
+                        string="Location"
+                        icon="terp-gtk-jump-to-rtl"
+                        context="{'group_by':'location_id'}"
+                    />
                         <filter
-                            name='category'
-                            string="Category"
-                            icon="terp-accessories-archiver"
-                            context="{'group_by':'categ_id'}"
-                        />
+                        name='category'
+                        string="Category"
+                        icon="terp-accessories-archiver"
+                        context="{'group_by':'categ_id'}"
+                    />
                         <filter
-                            name="product"
-                            string="Product"
-                            icon="terp-accessories-archiver"
-                            context="{'group_by':'product_id'}"
-                        />
+                        name="product"
+                        string="Product"
+                        icon="terp-accessories-archiver"
+                        context="{'group_by':'product_id'}"
+                    />
                         <filter name='date' string="Date" icon="terp-go-month" context="{'group_by':'date'}" />
                         <filter
-                            name='company'
-                            string="Company"
-                            context="{'group_by':'company_id'}"
-                            groups="base.group_multi_company"
-                        />
+                        name='company'
+                        string="Company"
+                        context="{'group_by':'company_id'}"
+                        groups="base.group_multi_company"
+                    />
                     </group>
                 </search>
             </field>
@@ -123,8 +123,8 @@
             <field name="search_view_id" ref="view_stock_balance_filter" />
             <field name="help">This reporting allows you to analyse stock movements.</field>
             <field
-                name="context"
-            >{'search_default_location': 1,'search_default_category': 1, 'group_by':['location_id']}</field>
+            name="context"
+        >{'search_default_location': 1,'search_default_category': 1, 'group_by':['location_id']}</field>
         </record>
         <record model="ir.actions.act_window.view" id="action_stock_balance_graph">
             <field name="sequence" eval="1" />
@@ -139,10 +139,10 @@
             <field name="act_window_id" ref="action_stock_balance" />
         </record>
         <menuitem
-            name="Balance for stock"
-            action="action_stock_balance"
-            id="menu_stock_balance_tree"
-            parent="stock.menu_warehouse_report"
-        />
-    </data>
-</openerp>
+        name="Balance for stock"
+        action="action_stock_balance"
+        id="menu_stock_balance_tree"
+        parent="stock.menu_warehouse_report"
+    />
+ >
+</odoo>

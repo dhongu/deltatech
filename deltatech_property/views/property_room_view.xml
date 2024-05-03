@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <odoo>
-    <data>
+
         <record id="view_property_room_tree" model="ir.ui.view">
             <field name="name">Rooms</field>
             <field name="model">property.room</field>
@@ -111,5 +111,5 @@
             <field name="view_mode">tree,form,pivot</field>
         </record>
         <menuitem name="Rooms" id="menu_property_room" action="action_property_room" parent="base.menu_property_info" />
-    </data>
+
 </odoo>

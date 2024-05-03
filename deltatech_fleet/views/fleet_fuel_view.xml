@@ -46,7 +46,7 @@
         <field name="name">fleet.vehicle.log.fuel.tree</field>
         <field name="model">fleet.vehicle.log.fuel</field>
         <field name="arch" type="xml">
-            <tree string="Fuel Logs">
+            <tree>
                 <field name="name" />
                 <field name="date_time" />
                 <field name="vehicle_id" />

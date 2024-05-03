@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
         <record id="view_service_change_invoice_date_form" model="ir.ui.view">
             <field name="name">Service Change Invoice Date</field>
             <field name="model">service.change.invoice.date</field>
@@ -36,5 +36,5 @@
     </record>
 
 
-    </data>
+
 </odoo>

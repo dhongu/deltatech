@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <odoo>
-    <data>
+
         <record id="view_users_form_forum" model="ir.ui.view">
             <field name="name">res.users.form.forum</field>
             <field name="model">res.users</field>
@@ -11,5 +11,5 @@
                 </field>
             </field>
         </record>
-    </data>
+
 </odoo>

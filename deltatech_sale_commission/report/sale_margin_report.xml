@@ -6,7 +6,7 @@
         <field name="model">sale.margin.report</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree string="Sale margin report" create="false">
+            <tree create="false">
                 <field name="date" invisible="1" />
                 <field name="categ_id" invisible="1" />
                 <field name="product_id" invisible="1" />
@@ -71,7 +71,7 @@
         <field name="model">sale.margin.report</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree string="Sale margin report" delete="false" create="false">
+            <tree delete="false" create="false">
                 <field name="date" invisible="1" />
                 <field name="categ_id" invisible="1" />
                 <field name="product_id" />

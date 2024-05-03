@@ -65,7 +65,7 @@
                             </page>
                             <page string="Warehouses">
                                 <field name="child_ids">
-                                    <tree string="Change Product Price">
+                                    <tree>
                                         <field name="name" />
                                         <field name="date" />
                                         <field name="warehouse_id" />
@@ -90,7 +90,7 @@
             <field name="name">View Product Change Price</field>
             <field name="model">product.price.change</field>
             <field name="arch" type="xml">
-                <tree string="Change Product Price">
+                <tree>
                     <field name="name" />
                     <field name="date" />
                     <field name="warehouse_id" />

@@ -5,7 +5,7 @@
         <field name="name">Services consumption</field>
         <field name="model">service.consumption</field>
         <field name="arch" type="xml">
-            <tree string="Services Consumption" create="false">
+            <tree create="false">
                 <field name="name" />
                 <field name="service_period_id" />
                 <field name="date_invoice" />

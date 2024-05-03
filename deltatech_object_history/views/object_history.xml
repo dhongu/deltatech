@@ -4,7 +4,7 @@
         <field name="name">object.history.tree</field>
         <field name="model">object.history</field>
         <field name="arch" type="xml">
-            <tree string="History">
+            <tree>
                 <field name="create_date" />
                 <field name="create_uid" />
                 <field name="name" />

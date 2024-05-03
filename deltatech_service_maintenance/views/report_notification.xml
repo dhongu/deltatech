@@ -105,7 +105,7 @@
                             </table>
                         </t>
                         <br />
-                        <div class="oe_structure" />
+
                         <p t-field="doc.description" />
 
                         <div class="row mt32 mb32" id="signatures">

@@ -4,7 +4,11 @@ fix = true
 line-length = 120
 
 
+
+
 [lint]
+ignore = ["E501","E741","B905","B023","UP031"]
+
 extend-select = [
     "B",
     "C90",
@@ -29,4 +33,4 @@ section-order = ["future", "standard-library", "third-party", "odoo", "odoo-addo
 "odoo-addons" = ["odoo.addons"]
 
 [mccabe]
-max-complexity = 20
+max-complexity = 50

@@ -17,7 +17,7 @@
             <field name="name">Meter</field>
             <field name="model">service.meter</field>
             <field name="arch" type="xml">
-                <tree string="Meter">
+                <tree>
                     <field name="name" />
                     <field name="equipment_id" />
                     <field name="meter_categ_id" />
@@ -112,7 +112,7 @@
             <field name="name">Meter Reading</field>
             <field name="model">service.meter.reading</field>
             <field name="arch" type="xml">
-                <tree string="Services equipment">
+                <tree>
                     <field name="equipment_id" invisible="context.get('default_equipment_id', False)" />
                     <field name="meter_id" />
                     <field name="date" />

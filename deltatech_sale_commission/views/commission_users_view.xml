@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
 
         <record id="view_commission_users_tree" model="ir.ui.view">
             <field name="name">Users Commission</field>
@@ -26,13 +26,13 @@
         </record>
 
         <menuitem
-            name="Users Commission"
-            id="menu_commission_users"
-            action="action_commission_users"
-            parent="sale.menu_sale_config"
-            groups="sales_team.group_sale_manager"
-        />
+        name="Users Commission"
+        id="menu_commission_users"
+        action="action_commission_users"
+        parent="sale.menu_sale_config"
+        groups="sales_team.group_sale_manager"
+    />
 
 
-    </data>
+
 </odoo>

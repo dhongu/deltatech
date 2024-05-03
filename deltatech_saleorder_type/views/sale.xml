@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
         <!--    Saleorder type views and actions    -->
         <record model="ir.ui.view" id="view_saleorder_type_form">
             <field name="name">saleorder.type.form</field>
@@ -34,12 +34,12 @@
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem
-            id="menu_saleorder_type"
-            name="Sale Order Types"
-            parent="sale.menu_sale_config"
-            sequence="200"
-            action="action_saleorder_type"
-        />
+        id="menu_saleorder_type"
+        name="Sale Order Types"
+        parent="sale.menu_sale_config"
+        sequence="200"
+        action="action_saleorder_type"
+    />
         <!--        Sale order form view-->
         <record model="ir.ui.view" id="view_saleorder_type_saleorder_form">
             <field name="name">saleorder.type.saleorder.form</field>
@@ -66,5 +66,5 @@
                 </xpath>
             </field>
         </record>
-    </data>
+
 </odoo>

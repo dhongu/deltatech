@@ -73,8 +73,8 @@ class ImportPurchaseLine(models.TransientModel):
             try:
                 fields_list = self.fields_list.split(",")
                 values = dict(zip(fields_list, row))
-            except Exception:
-                raise UserError(_("Invalid file format"))
+            except Exception as e:
+                raise UserError(_("Invalid file format")) from e
 
             product_code = values.get("product_code", False)
             if not product_code:
