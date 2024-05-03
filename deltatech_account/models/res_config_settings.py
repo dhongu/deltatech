@@ -8,7 +8,9 @@ class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
     use_anglo_saxon = fields.Boolean(
-        string="Anglo-Saxon Accounting", related="company_id.anglo_saxon_accounting", readonly=False
+        string="Anglo-Saxon Accounting",
+        related="company_id.anglo_saxon_accounting",
+        readonly=False,
     )
 
     # campl pt transfer_account_id exsta
