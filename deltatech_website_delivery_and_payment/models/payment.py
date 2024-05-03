@@ -29,12 +29,10 @@ class PaymentAcquirer(models.Model):
             *args, sale_order_id=sale_order_id, website_id=website_id, **kwargs
         )
 
-
         order = self.env["sale.order"].browse(sale_order_id).exists()
         if order:
             partner = order.partner_id
             compatible_providers = compatible_providers.filtered(lambda p: not p.is_restricted(partner))
-
 
         carrier = order.carrier_id
         if carrier:
