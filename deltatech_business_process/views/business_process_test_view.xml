@@ -94,7 +94,6 @@
                             <field name="test_step_ids" widget="section_and_note_one2many" mode="tree,kanban">
                                 <tree
                                     create="false"
-                                    string="Process steps"
                                     editable="bottom"
                                     delete="false"
                                     decoration-danger="result == 'failed'"

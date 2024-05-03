@@ -8,7 +8,6 @@
             <tree
                 default_order="location_id,product_id"
                 editable="top"
-                string="Inventory Details"
                 js_class="inventory_validate_button"
                 decoration-danger="product_qty != theoretical_qty"
                 decoration-muted="product_qty == theoretical_qty"

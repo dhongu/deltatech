@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data noupdate="0">
+
         <record id="uom_categ_page" model="product.uom.categ">
             <field name="name">Page</field>
         </record>
@@ -33,5 +33,5 @@
         <record id="equi_type_printer" model="service.equipment.type">
             <field name="name">Printer</field>
         </record>
-    </data>
+
 </odoo>

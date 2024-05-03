@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-<data noupdate="0">
+
 
     <record id="base.module_category_inventory_inventory" model="ir.module.category">
         <field
-                name="description"
-            >Helps you manage your inventory and main stock operations: delivery orders, receptions, etc.</field>
+            name="description"
+        >Helps you manage your inventory and main stock operations: delivery orders, receptions, etc.</field>
         <field name="sequence">4</field>
     </record>
 
@@ -65,7 +65,7 @@
         <field name="name">Require a signature on your delivery orders</field>
         <field name="category_id" ref="base.module_category_hidden" />
     </record>
-</data>
+
 <data noupdate="1">
     <record id="base.default_user" model="res.users">
         <field name="groups_id" eval="[(4,ref('stock.group_stock_manager'))]" />
