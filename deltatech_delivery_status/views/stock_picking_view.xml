@@ -24,7 +24,8 @@
 
             <xpath expr="//field[@name='origin']" position="after">
                 <field name="delivery_state" invisible="state!='done'" />
-                <field name="postponed" />
+                <field name="postponed" readonly="state in ('done', 'cancel')" />
+                />
                 <field
                     name="available_state"
                     widget="badge"
