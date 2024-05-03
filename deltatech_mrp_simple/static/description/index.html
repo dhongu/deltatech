@@ -370,16 +370,26 @@ ul.auto-toc {
 !! source digest: sha256:9d1d07a0dea965da710dd70b189657a90ae3e3abe71542ba491f015b90464076
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="https://www.odoo.com/documentation/master/legal/licenses.html"><img alt="License: OPL-1" src="https://img.shields.io/badge/licence-OPL--1-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/17.0/deltatech_mrp_simple"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<dl class="docutils">
-<dt>Features:</dt>
-<dd><ul class="first last simple">
-<li>Can create simple production, with configurable components and resulting products, without having to create a list of materials</li>
-<li>Creates two stock pickings, with configurable picking type. The pickings can be accessed from the simple production screen, and can be validated automatically or manually</li>
-<li>The stock price for the resulting product(s) is computed from the stock price of the components. If multiple products are in the result, the price must be entered manually. If price of the result product is 0, an error is thrown (can be overrided by setting the “simple_production_allow_zero_cost” system parameter to a no-zero value).</li>
-<li>A new product and a new sale order can be created automatically for the resulting product (the user must be in the “ Sale simple production” group). The sale price of the resulting product is computed from the sale price of the components</li>
+<ul class="simple">
+<li>Features:<ul>
+<li>Can create simple production, with configurable components and
+resulting products, without having to create a list of materials</li>
+<li>Creates two stock pickings, with configurable picking type. The
+pickings can be accessed from the simple production screen, and
+can be validated automatically or manually</li>
+<li>The stock price for the resulting product(s) is computed from the
+stock price of the components. If multiple products are in the
+result, the price must be entered manually. If price of the result
+product is 0, an error is thrown (can be overrided by setting the
+“simple_production_allow_zero_cost” system parameter to a no-zero
+value).</li>
+<li>A new product and a new sale order can be created automatically
+for the resulting product (the user must be in the “ Sale simple
+production” group). The sale price of the resulting product is
+computed from the sale price of the components</li>
 </ul>
-</dd>
-</dl>
+</li>
+</ul>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">

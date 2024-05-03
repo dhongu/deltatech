@@ -49,7 +49,12 @@ class MRPSimple(models.Model):
         picking_in = (
             self.env["stock.picking"]
             .with_context(context)
-            .create({"picking_type_id": picking_type_receipt_production.id, "date": self.date})
+            .create(
+                {
+                    "picking_type_id": picking_type_receipt_production.id,
+                    "date": self.date,
+                }
+            )
         )
 
         context = {"default_picking_type_id": picking_type_consume.id}
@@ -96,7 +101,11 @@ class MRPSimple(models.Model):
 
     def add_picking_line(self, picking, product, quantity, uom, price_unit):
         move = self.env["stock.move"].search(
-            [("picking_id", "=", picking.id), ("product_id", "=", product.id), ("product_uom", "=", uom.id)]
+            [
+                ("picking_id", "=", picking.id),
+                ("product_id", "=", product.id),
+                ("product_uom", "=", uom.id),
+            ]
         )
         if move:
             qty = move.product_uom_qty + quantity
