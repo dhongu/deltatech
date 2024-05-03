@@ -24,7 +24,7 @@ class StockPicking(models.Model):
     postponed = fields.Boolean(
         string="Postponed",
         tracking=True,
-        states={"done": [("readonly", True)], "cancel": [("readonly", True)]},
+
         default=_default_postponed,
     )
     delivery_state = fields.Selection(
