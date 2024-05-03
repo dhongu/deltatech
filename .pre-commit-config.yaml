@@ -126,7 +126,7 @@ repos:
     rev: v0.1.3
     hooks:
       - id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
+        args: [--fix, --exit-non-zero-on-fix, --unsafe-fixes]
       - id: ruff-format
 
   - repo: https://github.com/OCA/pylint-odoo

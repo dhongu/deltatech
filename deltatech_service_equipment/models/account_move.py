@@ -54,7 +54,7 @@ class AccountInvoice(models.Model):
         agreements = self.invoice_line_ids.mapped("agreement_id")
         list_agreements = []
         for agreement in agreements:
-            list_agreements += [("%s / %s") % (agreement.name, agreement.date_agreement)]
+            list_agreements += [(f"{agreement.name} / {agreement.date_agreement}")]
         agreements_string = ", ".join(agreements.mapped("name"))
         # write cells
         # style = xlwt.easyxf('font: bold True, name Arial;')
@@ -112,7 +112,8 @@ class AccountInvoice(models.Model):
         )
         return {
             "type": "ir.actions.act_url",
-            "url": "/web/content?model=%s&download=True&field=datas&id=%s&filename=%s"
-            % ("ir.attachment", attachment.id, file_name),
+            "url": "/web/content?model={}&download=True&field=datas&id={}&filename={}".format(
+                "ir.attachment", attachment.id, file_name
+            ),
             "target": "new",
         }

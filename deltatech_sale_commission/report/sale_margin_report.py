@@ -240,17 +240,16 @@ class SaleMarginReport(models.Model):
         tools.drop_view_if_exists(self.env.cr, self._table)
         # pylint: disable=E8103
         self.env.cr.execute(
-            """CREATE or REPLACE VIEW %s as (
-            WITH currency_rate AS (%s)
-            %s
+            """CREATE or REPLACE VIEW {} as (
+            WITH currency_rate AS ({})
+            {}
             FROM (
-                %s
-                FROM %s
-                WHERE %s
-                GROUP BY %s
+                {}
+                FROM {}
+                WHERE {}
+                GROUP BY {}
             ) AS sub
-        )"""
-            % (
+        )""".format(
                 self._table,
                 self.env["res.currency"]._select_companies_rates(),
                 self._select(),

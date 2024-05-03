@@ -91,19 +91,12 @@ class StockPickingReport(models.Model):
         tools.drop_view_if_exists(self.env.cr, self._table)
         # pylint: disable=E8103
         self.env.cr.execute(
-            """
-        CREATE or REPLACE VIEW %s as (
-            %s
-            %s
-            %s
-            %s
+            f"""
+        CREATE or REPLACE VIEW {self._table} as (
+            {self._select()}
+            {self._from()}
+            {self._where()}
+            {self._group_by()}
         )
         """
-            % (
-                self._table,
-                self._select(),
-                self._from(),
-                self._where(),
-                self._group_by(),
-            )
         )

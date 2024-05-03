@@ -25,7 +25,5 @@
           - for selected followups: model.run_followup(\["12D", "20D"\]) - 12D and 20D are the codes of the followups to
             run
 
-<!-- end list -->
-
 - An override partner id can be configured for testing purposes. In system parameters, parameter name -\>
   "followup.override_partner_id", value -\> id of the partner

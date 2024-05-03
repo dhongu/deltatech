@@ -12,7 +12,6 @@ class IrAttachment(models.Model):
     def button_download(self):
         return {
             "type": "ir.actions.act_url",
-            "url": "/web/content?model=%s&download=True&field=datas&id=%s&filename=%s"
-            % (self._name, self.id, self.name),
+            "url": f"/web/content?model={self._name}&download=True&field=datas&id={self.id}&filename={self.name}",
             "target": "new",
         }
