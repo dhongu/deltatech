@@ -1,12 +1,10 @@
-from odoo.tests.common import TransactionCase
-from odoo.exceptions import UserError
 from odoo.tests import Form
+from odoo.tests.common import TransactionCase
 
 
 class TestStockPicking(TransactionCase):
-
     def setUp(self):
-        super(TestStockPicking, self).setUp()
+        super().setUp()
 
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
 
@@ -40,11 +38,9 @@ class TestStockPicking(TransactionCase):
         self.sale_order = form_sale_order.save()
         self.sale_order.action_confirm()
 
-
     def test_create_invoice_from_picking(self):
         for move in self.sale_order.picking_ids.move_ids:
             move._set_quantity_done(move.product_uom_qty)
         self.sale_order.picking_ids.button_validate()
 
         self.sale_order.picking_ids.action_create_invoice()
-

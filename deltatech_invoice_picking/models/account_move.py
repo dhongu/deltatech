@@ -70,8 +70,7 @@ class AccountMove(models.Model):
                     sale_line_ids = account_move_line.sale_line_ids
                     for stock_move in sale_line_ids.move_ids.filtered(lambda m: m.state == "done"):
                         if not stock_move.picking_id.account_move_id or (
-                            stock_move.picking_id.account_move_id
-                            and stock_move.picking_id.to_invoice
+                            stock_move.picking_id.account_move_id and stock_move.picking_id.to_invoice
                             # picking seems to be partially invoiced
                         ):
                             # Check if qty in invoice is not all the qty in stock move.
@@ -94,8 +93,7 @@ class AccountMove(models.Model):
                     purchase_line_ids = account_move_line.purchase_line_id
                     for stock_move in purchase_line_ids.move_ids.filtered(lambda m: m.state == "done"):
                         if not stock_move.picking_id.account_move_id or (
-                            stock_move.picking_id.account_move_id
-                            and stock_move.picking_id.to_invoice
+                            stock_move.picking_id.account_move_id and stock_move.picking_id.to_invoice
                             # picking seems to be partially invoiced
                         ):
                             # Check if qty in invoice is not all the qty in stock move.
