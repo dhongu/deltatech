@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
         <record id="view_picking_form" model="ir.ui.view">
             <field name="name">stock.picking.form</field>
             <field name="model">stock.picking</field>
@@ -8,12 +8,12 @@
             <field name="arch" type="xml">
                 <button name="action_confirm" position="before">
                     <button
-                        name="action_get_number"
-                        string="Allocate number"
-                        type="object"
-                        class="oe_highlight"
-                        groups="base.group_user"
-                    />
+                    name="action_get_number"
+                    string="Allocate number"
+                    type="object"
+                    class="oe_highlight"
+                    groups="base.group_user"
+                />
                 </button>
             </field>
         </record>
@@ -27,5 +27,5 @@
                 </field>
             </field>
         </record>
-    </data>
+
 </odoo>
