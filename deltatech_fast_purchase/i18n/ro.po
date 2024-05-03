@@ -1,5 +1,5 @@
 # This file contains the translation of the following modules:
-#	* deltatech_fast_purchase
+# * deltatech_fast_purchase
 #
 msgid ""
 msgstr ""
@@ -13,6 +13,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: deltatech_fast_purchase
+#: model_terms:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
+msgid ""
+"Are you sure you want to make the automatic receipt with the quantities and "
+"price from the purchase order?"
+msgstr ""
+"Sigur doriți să faceți recepția automată cu cantitățile și prețurile din "
+"comanda de achiziție?"
 
 #. module: deltatech_fast_purchase
 #: model_terms:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
@@ -45,11 +54,6 @@ msgid "Receipt and Bill"
 msgstr "Recepție și Factură"
 
 #. module: deltatech_fast_purchase
-#: model_terms:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
-msgid "Are you sure you want to make the automatic receipt with the quantities and price from the purchase order?"
-msgstr "Sigur doriți să faceți recepția automată cu cantitățile și prețurile din comanda de achiziție?"
-
-#. module: deltatech_fast_purchase
 #: model:ir.model,name:deltatech_fast_purchase.model_stock_picking
 msgid "Transfer"
-msgstr "Transfer"
+msgstr ""
