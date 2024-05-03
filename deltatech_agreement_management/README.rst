@@ -22,9 +22,11 @@ Agreement Management
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Manage agreements
- - Agreement types can be configured, with sequence and report template
+-  Features:
+
+   -  Manage agreements
+   -  Agreement types can be configured, with sequence and report
+      template
 
 **Table of contents**
 
@@ -43,13 +45,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dan Stoica
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-danila12| image:: https://github.com/danila12.png?size=40px
     :target: https://github.com/danila12

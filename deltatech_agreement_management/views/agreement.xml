@@ -11,7 +11,7 @@
         <field name="name">generals Agreements</field>
         <field name="model">general.agreement</field>
         <field name="arch" type="xml">
-            <tree string="generals Agreements" sample="1">
+            <tree sample="1">
                 <field name="name" decoration-bf="1" />
                 <field name="date_agreement" />
                 <field name="partner_id" />

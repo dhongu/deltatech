@@ -25,7 +25,12 @@ class GeneralAgreement(models.Model):
 
     partner_id = fields.Many2one("res.partner", string="Partner", readonly=False)
 
-    company_id = fields.Many2one("res.company", string="Company", default=lambda self: self.env.company, required=True)
+    company_id = fields.Many2one(
+        "res.company",
+        string="Company",
+        default=lambda self: self.env.company,
+        required=True,
+    )
     company_currency_id = fields.Many2one("res.currency", string="Company Currency", related="company_id.currency_id")
     currency_id = fields.Many2one(
         "res.currency",
