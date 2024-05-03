@@ -18,7 +18,9 @@ msgstr ""
 #. module: deltatech_invoice_color
 #: model_terms:ir.ui.view,arch_db:deltatech_invoice_color.view_invoice_form_inherit
 msgid "<span>Careful! Invoice integration requires user intervention!</span>"
-msgstr "<span>Atenție! Integrarea facturii necesită intervenția utilizatorului!</span>"
+msgstr ""
+"<span>Atenție! Integrarea facturii necesită intervenția "
+"utilizatorului!</span>"
 
 #. module: deltatech_invoice_color
 #: model:ir.model.fields.selection,name:deltatech_invoice_color.selection__account_move_line__color_trigger__danger
