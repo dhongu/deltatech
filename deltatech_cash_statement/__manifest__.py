@@ -11,7 +11,10 @@
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
     "depends": ["account"],
-    "data": ["wizard/account_cash_update_balances_view.xml", "security/ir.model.access.csv"],
+    "data": [
+        "wizard/account_cash_update_balances_view.xml",
+        "security/ir.model.access.csv",
+    ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
