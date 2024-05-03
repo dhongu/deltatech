@@ -9,7 +9,11 @@ from odoo import _, api, fields, models
 class Partner(models.Model):
     _inherit = "res.partner"
 
-    agreement_count = fields.Integer(string="Agreements", compute="_compute_agreements_no", search="_search_agreement")
+    agreement_count = fields.Integer(
+        string="Agreements",
+        compute="_compute_agreements_no",
+        search="_search_agreement",
+    )
 
     def view_agreements(self):
         self.ensure_one()
