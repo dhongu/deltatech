@@ -46,7 +46,9 @@ class FleetVehicle(models.Model):
         "res.partner", string="Ownership Company", domain=[("is_company", "=", True)]
     )
     contract_partner_id = fields.Many2one(
-        "res.partner", string="Contract Owner Company", domain=[("is_company", "=", True)]
+        "res.partner",
+        string="Contract Owner Company",
+        domain=[("is_company", "=", True)],
     )
     utilized_partner_id = fields.Many2one(
         "res.partner", string="Utilized by company", domain=[("is_company", "=", True)]
