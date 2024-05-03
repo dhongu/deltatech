@@ -12,7 +12,10 @@ class PurchaseOrderLine(models.Model):
     def _prepare_account_move_line(self, move=False):
         res = super()._prepare_account_move_line(move)
         if "receipt_picking_ids" in self.env.context:
-            domain = [("purchase_line_id", "=", self.id), ("picking_id", "in", self.env.context["receipt_picking_ids"])]
+            domain = [
+                ("purchase_line_id", "=", self.id),
+                ("picking_id", "in", self.env.context["receipt_picking_ids"]),
+            ]
             moves = self.env["stock.move"].search(domain)
             if moves:
                 # update quantity with move quantity

@@ -370,20 +370,27 @@ ul.auto-toc {
 !! source digest: sha256:434701f2b73a860de8873637ec9beb3809f4c645b20788134a48640f1bda435b
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/licence-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/17.0/deltatech_invoice_picking"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<dl class="docutils">
-<dt>Features:</dt>
-<dd><ul class="first last simple">
+<ul class="simple">
+<li>Features:<ul>
 <li>an invoice can be created from one or more pickings</li>
 <li>an invoice can be created from a batch</li>
-<li>only the products in the picking(s) with their respective done quantities will be added to the invoice</li>
-<li>only pickings that come from a sale order or purchase orders can be invoiced</li>
+<li>only the products in the picking(s) with their respective done
+quantities will be added to the invoice</li>
+<li>only pickings that come from a sale order or purchase orders can
+be invoiced</li>
 <li>a picking must be in “done” state to be invoiced</li>
-<li>a “to invoice” field is added to pickings, for filtering purposes. When a sale picking is created, the field is set to True. When an invoice is created, the field is set to False. When an invoice is cancelled or deleted, it’s set to True</li>
-<li>a field with link to the invoice is added to pickings. The field is computed to point to the invoice generated from the picking</li>
-<li><strong>if changes are made to the invoice (lines deleted, qty’s modified), the invoice fields will not be updated in linked pickings.</strong></li>
+<li>a “to invoice” field is added to pickings, for filtering purposes.
+When a sale picking is created, the field is set to True. When an
+invoice is created, the field is set to False. When an invoice is
+cancelled or deleted, it’s set to True</li>
+<li>a field with link to the invoice is added to pickings. The field
+is computed to point to the invoice generated from the picking</li>
+<li><strong>if changes are made to the invoice (lines deleted, qty’s
+modified), the invoice fields will not be updated in linked
+pickings.</strong></li>
 </ul>
-</dd>
-</dl>
+</li>
+</ul>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
