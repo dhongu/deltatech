@@ -15,7 +15,12 @@ class AccountMoveLine(models.Model):
     @api.depends("date", "full_reconcile_id")
     def _compute_payment_days(self):
         for aml in self:
-            if aml.full_reconcile_id and aml.journal_id.type in ["sale", "purchase", "sale_refund", "purchase_refund"]:
+            if aml.full_reconcile_id and aml.journal_id.type in [
+                "sale",
+                "purchase",
+                "sale_refund",
+                "purchase_refund",
+            ]:
                 if aml.debit > 0:
                     for line in aml.full_reconcile_id.reconciled_line_ids:
                         if line.credit > 0:

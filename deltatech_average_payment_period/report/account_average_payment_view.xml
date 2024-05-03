@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <odoo>
-    <data>
+
         <record id="view_account_average_payment_report_pivot" model="ir.ui.view">
             <field name="name">account.average.payment.report.graph</field>
             <field name="model">account.average.payment.report</field>
@@ -37,10 +37,10 @@
             <field name="context">{'search_default_group_by_partner': True}</field>
         </record>
         <menuitem
-            action="action_account_average_payment_report"
-            id="menu_account_average_payment_report"
-            parent="account.menu_finance_reports"
-            sequence="90"
-        />
-    </data>
+        action="action_account_average_payment_report"
+        id="menu_account_average_payment_report"
+        parent="account.menu_finance_reports"
+        sequence="90"
+    />
+
 </odoo>
