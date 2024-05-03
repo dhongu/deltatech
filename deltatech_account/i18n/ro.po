@@ -17,7 +17,10 @@ msgstr ""
 
 #. module: deltatech_account
 #: model_terms:ir.ui.view,arch_db:deltatech_account.res_config_settings_view_form
-msgid "<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" role=\"img\" aria-label=\"Values set here are company-specific.\" groups=\"base.group_multi_company\"/>"
+msgid ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
+"specific.\" role=\"img\" aria-label=\"Values set here are company-"
+"specific.\" groups=\"base.group_multi_company\"/>"
 msgstr ""
 
 #. module: deltatech_account
@@ -46,10 +49,22 @@ msgstr ""
 msgid "Config Settings"
 msgstr "Setări de configurare"
 
+#. module: account
+#: code:addons/account/models/account_payment.py:370
+#: model:ir.actions.act_window,name:account.action_account_payments
+#: model:ir.ui.menu,name:account.menu_action_account_payments_receivable
+#, python-format
+msgid "Incoming Payments"
+msgstr "Încasări"
+
 #. module: deltatech_account
 #: model:ir.model.fields,help:deltatech_account.field_res_config_settings__transfer_account_id
-msgid "Intermediary account used when moving money from a liquidity account to another"
-msgstr "Cont intermediar utilizat când sunt mutați banii dintr-un cont de lichitități în altul"
+msgid ""
+"Intermediary account used when moving money from a liquidity account to "
+"another"
+msgstr ""
+"Cont intermediar utilizat când sunt mutați banii dintr-un cont de "
+"lichitități în altul"
 
 #. module: deltatech_account
 #: model_terms:ir.ui.view,arch_db:deltatech_account.res_config_settings_view_form
@@ -60,13 +75,3 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_account.field_res_config_settings__transfer_account_id
 msgid "Transfer Account"
 msgstr ""
-
-
-#. module: account
-#: code:addons/account/models/account_payment.py:370
-#: model:ir.actions.act_window,name:account.action_account_payments
-#: model:ir.ui.menu,name:account.menu_action_account_payments_receivable
-#, python-format
-msgid "Incoming Payments"
-msgstr "Încasări"
-
