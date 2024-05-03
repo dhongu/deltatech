@@ -22,9 +22,10 @@ Deltatech Drop Shipping
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Displays delivery address in picking
- -  Afisare adresa livrare in picking
+-  Features:
+
+   -  Displays delivery address in picking
+   -  Afisare adresa livrare in picking
 
 **Table of contents**
 
@@ -43,13 +44,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu
