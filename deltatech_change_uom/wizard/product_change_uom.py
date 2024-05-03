@@ -45,7 +45,10 @@ class ProductChangeUoM(models.TransientModel):
             variants = product.product_variant_ids
 
             # inlocuire in comanda de achizitie
-            domain = [("product_id", "in", variants.ids), ("product_uom", "=", product.uom_po_id.id)]
+            domain = [
+                ("product_id", "in", variants.ids),
+                ("product_uom", "=", product.uom_po_id.id),
+            ]
             purchase_lines = self.env["purchase.order.line"].search(domain)
             if purchase_lines:
                 query_dic = {
@@ -56,7 +59,10 @@ class ProductChangeUoM(models.TransientModel):
                 self._cr.execute(query, query_dic)
 
             # inlocuire in comanda de vanzare
-            domain = [("product_id", "in", variants.ids), ("product_uom", "=", product.uom_id.id)]
+            domain = [
+                ("product_id", "in", variants.ids),
+                ("product_uom", "=", product.uom_id.id),
+            ]
             sal_order_lines = self.env["sale.order.line"].search(domain)
             if sal_order_lines:
                 query_dic = {
@@ -67,7 +73,10 @@ class ProductChangeUoM(models.TransientModel):
                 self._cr.execute(query, query_dic)
 
             # inlocuire in facturi
-            domain = [("product_id", "in", variants.ids), ("product_uom_id", "=", product.uom_id.id)]
+            domain = [
+                ("product_id", "in", variants.ids),
+                ("product_uom_id", "=", product.uom_id.id),
+            ]
             account_lines = self.env["account.move.line"].search(domain)
             if account_lines:
                 query_dic = {
@@ -78,7 +87,10 @@ class ProductChangeUoM(models.TransientModel):
                 self._cr.execute(query, query_dic)
 
             # inlocuire in miscari de stoc
-            domain = [("product_id", "in", variants.ids), ("product_uom", "=", product.uom_id.id)]
+            domain = [
+                ("product_id", "in", variants.ids),
+                ("product_uom", "=", product.uom_id.id),
+            ]
             stock_moves = self.env["stock.move"].search(domain)
             if stock_moves:
                 query_dic = {
@@ -89,7 +101,10 @@ class ProductChangeUoM(models.TransientModel):
                 self._cr.execute(query, query_dic)
 
             # inlocuire in miscari de stoc
-            domain = [("product_id", "in", variants.ids), ("product_uom_id", "=", product.uom_id.id)]
+            domain = [
+                ("product_id", "in", variants.ids),
+                ("product_uom_id", "=", product.uom_id.id),
+            ]
             stock_move_lines = self.env["stock.move.line"].search(domain)
             if stock_move_lines:
                 query_dic = {
@@ -99,6 +114,10 @@ class ProductChangeUoM(models.TransientModel):
                 query = "UPDATE stock_move_line SET product_uom_id = %(product_uom_id)s WHERE id in %(ids)s"
                 self._cr.execute(query, query_dic)
 
-            query_dic = {"id": product.id, "uom_id": self.uom_id.id, "uom_po_id": self.uom_po_id.id}
+            query_dic = {
+                "id": product.id,
+                "uom_id": self.uom_id.id,
+                "uom_po_id": self.uom_po_id.id,
+            }
             query = "UPDATE product_template SET uom_id = %(uom_id)s, uom_po_id = %(uom_po_id)s  WHERE id = %(id)s"
             self._cr.execute(query, query_dic)
