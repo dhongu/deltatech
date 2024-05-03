@@ -110,8 +110,10 @@ class StockQuant(models.Model):
                 raise UserError(_("Your user cannot update product quantities"))
         return super().create(vals_list)
 
-    def _get_inventory_move_values(self, qty, location_id, location_dest_id, out=False):
-        values = super()._get_inventory_move_values(qty, location_id, location_dest_id, out)
+    def _get_inventory_move_values(self, qty, location_id, location_dest_id, package_id=False, package_dest_id=False):
+        values = super()._get_inventory_move_values(
+            qty, location_id, location_dest_id, package_id=package_id, package_dest_id=package_dest_id
+        )
         values["inventory_id"] = self.inventory_id.id
         values["name"] = self.inventory_note or values["name"]
         return values

@@ -131,6 +131,8 @@ class TestStockInventory(TransactionCase):
         )
         inventory_b.with_user(self.inventory_user).action_start()
         active_ids = [inventory_a.id, inventory_b.id]
+        inventory_a.action_validate()
+        inventory_b.action_validate()
         wizard = Form(self.env["stock.inventory.merge"])
         wizard = wizard.save()
         wizard.with_context(active_ids=active_ids).merge_inventory()

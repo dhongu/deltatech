@@ -14,7 +14,6 @@ class StockPickingBatch(models.Model):
         compute="_compute_move_ids",
         string="Selected move lines",
         readonly=True,
-        states={"draft": [("readonly", False)], "in_progress": [("readonly", False)]},
     )
 
     direction = fields.Selection([("incoming", "Incoming"), ("outgoing", "Outgoing")])

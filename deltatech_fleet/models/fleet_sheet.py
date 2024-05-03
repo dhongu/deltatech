@@ -149,7 +149,6 @@ class FleetMapSheet(models.Model):
         size=20,
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
         default=lambda self: self.env["ir.sequence"].next_by_code("fleet.map.sheet") or "/",
     )
 
@@ -157,7 +156,6 @@ class FleetMapSheet(models.Model):
         string="Date",
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
         default=_get_default_date,
     )
     vehicle_id = fields.Many2one(
@@ -166,7 +164,6 @@ class FleetMapSheet(models.Model):
         required=True,
         help="Vehicle",
         readonly=False,
-        states={"draft": [("readonly", False)]},
     )
     category_id = fields.Many2one(
         "fleet.vehicle.category",
@@ -178,27 +175,23 @@ class FleetMapSheet(models.Model):
         "res.partner",
         string="Driver",
         help="Driver of the vehicle",
-        states={"done": [("readonly", True)]},
     )
     driver2_id = fields.Many2one(
         "res.partner",
         string="Backup Driver",
         help="Backup driver of the vehicle",
-        states={"done": [("readonly", True)]},
     )
     avg_cons = fields.Float(related="vehicle_id.avg_cons", readonly=True, string="Average Consumption")
 
     date_start = fields.Datetime(
         string="Date Start",
         help="Date time at the start of this map sheet",
-        states={"done": [("readonly", True)]},
         default=_get_default_date_start,
     )
     date_start_old = fields.Datetime(string="Old Date Start")  # Camp tehnic
     date_end = fields.Datetime(
         string="Date End",
         help="Date time at the end of this map sheet",
-        states={"done": [("readonly", True)]},
         default=_get_default_date_end,
     )
 
@@ -213,7 +206,6 @@ class FleetMapSheet(models.Model):
     odometer_start = fields.Float(
         compute="_compute_odometer_start",
         inverse="_inverse_odometer_start",
-        states={"done": [("readonly", True)]},
         string="Odometer Start",
         help="Odometer measure of the vehicle at the start of this map sheet",
     )
@@ -222,14 +214,12 @@ class FleetMapSheet(models.Model):
         "fleet.vehicle.odometer",
         string="ID Odometer start",
         domain="[('vehicle_id','=',vehicle_id)]",
-        states={"done": [("readonly", True)]},
     )
 
     odometer_end_id = fields.Many2one(
         "fleet.vehicle.odometer",
         string="ID Odometer end",
         domain="[('vehicle_id','=',vehicle_id)]",
-        states={"done": [("readonly", True)]},
     )
 
     state = fields.Selection(
@@ -251,14 +241,12 @@ class FleetMapSheet(models.Model):
         "fleet.vehicle.log.fuel",
         "map_sheet_id",
         string="Fuel log",
-        states={"done": [("readonly", True)]},
         copy=False,
     )
     route_log_ids = fields.One2many(
         "fleet.route.log",
         "map_sheet_id",
         string="Route Logs",
-        states={"done": [("readonly", True)]},
     )
 
     liter_total = fields.Float(
@@ -504,41 +492,37 @@ class FleetRouteLog(models.Model):
     # """
 
     name = fields.Char(compute="_compute_route_name", string="Name", store=False)
-    scope_id = fields.Many2one("fleet.scope", string="Scope", states={"done": [("readonly", True)]})
+    scope_id = fields.Many2one("fleet.scope", string="Scope")
     date_begin = fields.Datetime(
         string="Date Begin",
-        states={"done": [("readonly", True)]},
         default=_get_default_date_begin,
     )
     date_end = fields.Datetime(
         string="Date End",
-        states={"done": [("readonly", True)]},
         default=_get_default_date_begin,
     )
     week_day = fields.Integer(compute="_compute_week_day", string="Name", store=False)
-    route_id = fields.Many2one("fleet.route", string="Route", states={"done": [("readonly", True)]})
+    route_id = fields.Many2one("fleet.route", string="Route")
     vehicle_id = fields.Many2one(
         "fleet.vehicle",
         string="Vehicle",
-        states={"done": [("readonly", True)]},
     )  # default=_get_default_vehicle_id )
     map_sheet_id = fields.Many2one(
         "fleet.map.sheet",
         string="Map Sheet",
         domain="['&',('vehicle_id','=',vehicle_id),('date_start','<=',date_begin),('date_end','>=',date_end)]",
     )
-    distance = fields.Float(string="Distance", states={"done": [("readonly", True)]})
+    distance = fields.Float(string="Distance")
     full = fields.Boolean()
-    dist_c1 = fields.Float(string="Dist C1", states={"done": [("readonly", True)]})
-    dist_c2 = fields.Float(string="Dist C2", states={"done": [("readonly", True)]})
-    dist_c3 = fields.Float(string="Dist C3", states={"done": [("readonly", True)]})
+    dist_c1 = fields.Float(string="Dist C1")
+    dist_c2 = fields.Float(string="Dist C2")
+    dist_c3 = fields.Float(string="Dist C3")
     dist_echiv = fields.Float(string="Equivalence Distance", compute="_compute_dist_echiv", store=True)
     norm_cons = fields.Float(
         compute="_compute_dist_echiv",
         string="Normal Consumption",
         store=True,
         help="The Normal Consumption",
-        states={"done": [("readonly", True)]},
     )
     state = fields.Selection(
         [("draft", "Draft"), ("done", "Done")],

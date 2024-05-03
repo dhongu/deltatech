@@ -27,7 +27,6 @@ class ProductPriceChange(models.Model):
         "Date",
         required=True,
         index=True,
-        states={"done": [("readonly", True)]},
         default=fields.Date.today,
     )
 
@@ -39,17 +38,15 @@ class ProductPriceChange(models.Model):
         "product.price.change.line",
         "price_change_id",
         "Price History Lines",
-        states={"done": [("readonly", True)]},
     )
 
-    warehouse_id = fields.Many2one("stock.warehouse", "Warehouse", states={"done": [("readonly", True)]})
-    location_id = fields.Many2one("stock.location", "Location", states={"done": [("readonly", True)]})
+    warehouse_id = fields.Many2one("stock.warehouse", "Warehouse")
+    location_id = fields.Many2one("stock.location", "Location")
     company_id = fields.Many2one(
         "res.company",
         "Company",
         required=True,
         index=True,
-        states={"done": [("readonly", True)]},
         default=lambda self: self.env["res.company"]._company_default_get("product.price.change"),
     )
 

@@ -114,7 +114,7 @@ class ServiceOrder(models.Model):
     init_description = fields.Text(
         "Initial description",
     )
-    description = fields.Text("Notes", readonly=False, states={"done": [("readonly", True)]})
+    description = fields.Text("Notes", readonly=False)
 
     available_state = fields.Selection(
         [
