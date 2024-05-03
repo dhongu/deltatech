@@ -25,13 +25,13 @@ msgstr "Dată naștere"
 #: model:ir.model.fields,field_description:deltatech_contact.field_res_partner__cnp
 #: model:ir.model.fields,field_description:deltatech_contact.field_res_users__cnp
 msgid "CNP"
-msgstr "CNP"
+msgstr ""
 
 #. module: deltatech_contact
 #: code:addons/deltatech_contact/models/res_partner.py:0
 #, python-format
 msgid "CNP invalid"
-msgstr "CNP invalid"
+msgstr ""
 
 #. module: deltatech_contact
 #: model_terms:ir.ui.view,arch_db:deltatech_contact.view_partner_form

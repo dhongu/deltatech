@@ -12,7 +12,11 @@ class StockPrepareBatch(models.TransientModel):
 
     partner_id = fields.Many2one("res.partner")
     mode = fields.Selection([("sale", "Sale"), ("purchase", "Purchase")], default="purchase")
-    user_id = fields.Many2one("res.users", string="Responsible", help="Person responsible for this batch transfer")
+    user_id = fields.Many2one(
+        "res.users",
+        string="Responsible",
+        help="Person responsible for this batch transfer",
+    )
     reference = fields.Char("Reference")
     set_done_qty = fields.Boolean()
     line_ids = fields.One2many("stock.prepare.batch.line", "wizard_id")
@@ -49,7 +53,10 @@ class StockPrepareBatch(models.TransientModel):
             ("picking_ids.state", "in", ["waiting", "confirmed", "assigned"]),
         ]
         if active_ids and self.mode == "sale":
-            domain = [("id", "in", active_ids), ("picking_ids.state", "in", ["waiting", "confirmed", "assigned"])]
+            domain = [
+                ("id", "in", active_ids),
+                ("picking_ids.state", "in", ["waiting", "confirmed", "assigned"]),
+            ]
 
         orders = self.env[order_model].search(domain)
         for order in orders:

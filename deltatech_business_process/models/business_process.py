@@ -56,7 +56,13 @@ class BusinessProcess(models.Model):
         comodel_name="res.partner",
     )
     state = fields.Selection(
-        [("draft", "Draft"), ("design", "Design"), ("test", "Test"), ("ready", "Ready"), ("production", "Production")],
+        [
+            ("draft", "Draft"),
+            ("design", "Design"),
+            ("test", "Test"),
+            ("ready", "Ready"),
+            ("production", "Production"),
+        ],
         string="State",
         default="draft",
         tracking=True,
@@ -78,7 +84,9 @@ class BusinessProcess(models.Model):
     count_developments = fields.Integer(string="Count Developments", compute="_compute_count_developments")
 
     doc_count = fields.Integer(
-        string="Count Documents", help="Number of documents attached", compute="_compute_attached_docs_count"
+        string="Count Documents",
+        help="Number of documents attached",
+        compute="_compute_attached_docs_count",
     )
 
     date_start_bbp = fields.Date(
@@ -101,26 +109,44 @@ class BusinessProcess(models.Model):
     )
 
     status_internal_test = fields.Selection(
-        [("not_started", "Not started"), ("in_progress", "In progress"), ("done", "Done")],
+        [
+            ("not_started", "Not started"),
+            ("in_progress", "In progress"),
+            ("done", "Done"),
+        ],
         string="Status internal test",
         default="not_started",
     )
     status_integration_test = fields.Selection(
-        [("not_started", "Not started"), ("in_progress", "In progress"), ("done", "Done")],
+        [
+            ("not_started", "Not started"),
+            ("in_progress", "In progress"),
+            ("done", "Done"),
+        ],
         string="Status integration test",
         default="not_started",
     )
     status_user_acceptance_test = fields.Selection(
-        [("not_started", "Not started"), ("in_progress", "In progress"), ("done", "Done")],
+        [
+            ("not_started", "Not started"),
+            ("in_progress", "In progress"),
+            ("done", "Done"),
+        ],
         string="Status user acceptance test",
         default="not_started",
     )
 
     source_process_ids = fields.Many2many(
-        "business.process", relation="business_process_up_dep", column1="process_id", column2="source_process_id"
+        "business.process",
+        relation="business_process_up_dep",
+        column1="process_id",
+        column2="source_process_id",
     )
     destination_process_ids = fields.Many2many(
-        "business.process", relation="business_process_down_dep", column1="process_id", column2="destination_process_id"
+        "business.process",
+        relation="business_process_down_dep",
+        column1="process_id",
+        column2="destination_process_id",
     )
 
     configuration_duration = fields.Float(string="Configuration duration", default=0.0)
@@ -130,7 +156,8 @@ class BusinessProcess(models.Model):
     duration_for_completion = fields.Float(string="Total duration", compute="_compute_duration_for_completion")
 
     implementation_stage = fields.Selection(
-        [("first_stage", "First stage"), ("second_stage", "Second stage")], string="Implementation stage"
+        [("first_stage", "First stage"), ("second_stage", "Second stage")],
+        string="Implementation stage",
     )
     module_type = fields.Selection([("standard", "Standard"), ("custom", "Custom")], string="Module type")
 
@@ -146,7 +173,11 @@ class BusinessProcess(models.Model):
     def name_get(self):
         self.browse(self.ids).read(["name", "code"])
         return [
-            (process.id, "{}{}".format(process.code and "[%s] " % process.code or "", process.name)) for process in self
+            (
+                process.id,
+                "{}{}".format(process.code and "[%s] " % process.code or "", process.name),
+            )
+            for process in self
         ]
 
     def _compute_developments(self):
@@ -221,7 +252,7 @@ class BusinessProcess(models.Model):
             "type": "ir.actions.act_window",
             "view_id": False,
             "view_mode": "kanban,tree,form",
-            "context": "{{'default_res_model': '{}','default_res_id': {}}}".format(self._name, self.id),
+            "context": f"{{'default_res_model': '{self._name}','default_res_id': {self.id}}}",
         }
 
     def _load_records(self, data_list, update=False):

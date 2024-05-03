@@ -27,14 +27,23 @@ class AccountInvoice(models.Model):
             pickings |= purchase_orders.mapped("picking_ids")
 
             if sale_orders:
-                subdomains = [("res_model", "=", "sale.order"), ("res_id", "in", sale_orders.ids)]
+                subdomains = [
+                    ("res_model", "=", "sale.order"),
+                    ("res_id", "in", sale_orders.ids),
+                ]
                 domain = expression.OR([subdomains, domain])
             if purchase_orders:
-                subdomains = [("res_model", "=", "purchase.order"), ("res_id", "in", purchase_orders.ids)]
+                subdomains = [
+                    ("res_model", "=", "purchase.order"),
+                    ("res_id", "in", purchase_orders.ids),
+                ]
                 domain = expression.OR([subdomains, domain])
 
             if pickings:
-                subdomains = [("res_model", "=", "stock.picking"), ("res_id", "in", pickings.ids)]
+                subdomains = [
+                    ("res_model", "=", "stock.picking"),
+                    ("res_id", "in", pickings.ids),
+                ]
                 domain = expression.OR([subdomains, domain])
 
         return domain
@@ -53,5 +62,5 @@ class AccountInvoice(models.Model):
             "type": "ir.actions.act_window",
             "view_id": False,
             "view_mode": "kanban,tree,form",
-            "context": "{{'default_res_model': '{}','default_res_id': {}}}".format(self._name, self.id),
+            "context": f"{{'default_res_model': '{self._name}','default_res_id': {self.id}}}",
         }

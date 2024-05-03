@@ -186,7 +186,7 @@ msgstr "Modifică dată facturare"
 #. module: deltatech_service_agreement
 #: model:res.groups,name:deltatech_service_base..group_service_client
 msgid "Client"
-msgstr "Client"
+msgstr ""
 
 #. module: deltatech_service_agreement
 #: model_terms:ir.ui.view,arch_db:deltatech_service_agreement.view_service_agreement_form
@@ -1201,4 +1201,3 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_service_agreement.view_service_price_change_form
 msgid "or"
 msgstr "sau"
-

@@ -51,7 +51,11 @@ class StockPicking(models.Model):
                 if line.product_id in consumable_ids:
                     # find the line in equipment_type
                     agreement_type_consumable = self.env["service.consumable.item"].search(
-                        ["&", ("type_id", "=", self.equipment_id.type_id.id), ("product_id", "=", line.product_id.id)]
+                        [
+                            "&",
+                            ("type_id", "=", self.equipment_id.type_id.id),
+                            ("product_id", "=", line.product_id.id),
+                        ]
                     )
                     if not agreement_type_consumable:
                         error = (

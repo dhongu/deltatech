@@ -31,7 +31,10 @@ class ServiceTemplateMeter(models.Model):
 
     bill_uom_id = fields.Many2one("uom.uom", string="Billing Unit of Measure")
     currency_id = fields.Many2one(
-        "res.currency", string="Currency", required=True, domain=[("name", "in", ["RON", "EUR"])]
+        "res.currency",
+        string="Currency",
+        required=True,
+        domain=[("name", "in", ["RON", "EUR"])],
     )
     company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)
 

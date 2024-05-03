@@ -4,7 +4,7 @@
         <field name="name">Work Center</field>
         <field name="model">service.work.center</field>
         <field name="arch" type="xml">
-            <tree string="Service Work Center" sample="1">
+            <tree sample="1">
                 <field name="name" />
             </tree>
 

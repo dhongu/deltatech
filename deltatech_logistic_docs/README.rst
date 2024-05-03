@@ -22,8 +22,9 @@ Logistic Documents
 
 |badge1| |badge2| |badge3|
 
-Functions:
- - Afisare documente anexate la achizitie, receptie si factura
+-  Functions:
+
+   -  Afisare documente anexate la achizitie, receptie si factura
 
 **Table of contents**
 
@@ -42,13 +43,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_logistic_docs>`_ project on GitHub.
 

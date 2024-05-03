@@ -24,8 +24,8 @@ Deltatech Services Maintenance Plan
 
 Features:
 
-  - gestionare planuri de revizii
-  - generare automat a comenzilor de service in baza planului
+   -  gestionare planuri de revizii
+   -  generare automat a comenzilor de service in baza planului
 
 **Table of contents**
 
@@ -44,13 +44,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

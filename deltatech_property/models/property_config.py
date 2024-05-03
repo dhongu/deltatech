@@ -22,7 +22,7 @@ class PropertyNomenclature(models.AbstractModel):
     def _compute_display_name(self):
         for item in self:
             if self.cod:
-                item.display_name = "{} - {}".format(item.cod, item.name)
+                item.display_name = f"{item.cod} - {item.name}"
             else:
                 item.display_name = item.name
 
@@ -84,7 +84,10 @@ class PropertyRoomUsage(models.Model):
             ("warehouse", "Warehouse"),
             ("log_warehouse", "Logistics warehouse"),
             ("it_endowments", "IT endowments (Ranks, Hall Servers)"),
-            ("premises", "Technical premises (thermal, air conditioning, post-transformer)"),
+            (
+                "premises",
+                "Technical premises (thermal, air conditioning, post-transformer)",
+            ),
             ("cloakroom", "Cloakroom"),
             ("sanitary", "Sanitary group"),
             ("access", "Access ways"),

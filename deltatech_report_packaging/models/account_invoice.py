@@ -31,7 +31,11 @@ class AccountInvoice(models.Model):
 
                 for material_type in qty_packaging:
                     lines += [
-                        {"invoice_id": invoice.id, "material_type": material_type, "qty": qty_packaging[material_type]}
+                        {
+                            "invoice_id": invoice.id,
+                            "material_type": material_type,
+                            "qty": qty_packaging[material_type],
+                        }
                     ]
 
                 self.env["packaging.invoice.material"].create(lines)

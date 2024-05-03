@@ -31,7 +31,12 @@ class SmsSms(models.AbstractModel):
         try:
             results = SmsApi(self.env)._send_sms_batch(messages, delivery_reports_url=delivery_reports_url)
         except Exception as e:
-            _logger.info("Sent batch %s SMS: %s: failed with exception %s", len(self.ids), self.ids, e)
+            _logger.info(
+                "Sent batch %s SMS: %s: failed with exception %s",
+                len(self.ids),
+                self.ids,
+                e,
+            )
             if raise_exception:
                 raise
             results = [{"uuid": sms.uuid, "state": "server_error"} for sms in self]

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
 <!--        <report
             string="Price Change"
             id="action_report_product_price_change"
@@ -18,5 +18,5 @@
             <field name="binding_type">report</field>
 
         </record>
-    </data>
+
 </odoo>

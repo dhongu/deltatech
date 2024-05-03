@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
         <record id="product_template_form_view" model="ir.ui.view">
             <field name="name">product.template.common.form.warranty</field>
             <field name="model">product.template</field>
@@ -12,5 +12,5 @@
                 </group>
             </field>
         </record>
-    </data>
+
 </odoo>

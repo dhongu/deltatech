@@ -4,7 +4,7 @@
         <field name="name">product.wishlist.tree</field>
         <field name="model">product.wishlist</field>
         <field name="arch" type="xml">
-            <tree string="Wishlists">
+            <tree>
                 <header>
                     <button name="action_launch_replenishment" string="Replenish" type="object" />
                 </header>

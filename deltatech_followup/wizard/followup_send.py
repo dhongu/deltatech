@@ -94,7 +94,7 @@ class FollowupSendWizard(models.TransientModel):
                                 partner_id = partner.id
                             body = new_body.replace("[invoices]", invoices_content)
                             body = body.replace("${object.name}", partner.name)
-                            body = body.replace("$total_debit", "{:,.2f}".format(partner_debit))
+                            body = body.replace("$total_debit", f"{partner_debit:,.2f}")
                             body = html.unescape(body)
                             email_values = {
                                 "body_html": body,

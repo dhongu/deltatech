@@ -40,7 +40,13 @@ class ManualBackOrder(models.TransientModel):
             picking = self.env["stock.picking"].browse(active_id)
 
             backorder_picking = picking.copy(
-                {"name": "/", "state": "draft", "move_ids": [], "move_line_ids": [], "backorder_id": picking.id}
+                {
+                    "name": "/",
+                    "state": "draft",
+                    "move_ids": [],
+                    "move_line_ids": [],
+                    "backorder_id": picking.id,
+                }
             )
             picking.message_post(
                 body=_("The backorder <a href=# data-oe-model=stock.picking data-oe-id=%d>%s</a> has been created.")
@@ -57,7 +63,11 @@ class ManualBackOrder(models.TransientModel):
                     if diff:
                         line.move_id.write({"product_uom_qty": line.kept_qty})
                         line.move_id.copy(
-                            {"picking_id": backorder_picking.id, "product_uom_qty": diff, "move_line_ids": []}
+                            {
+                                "picking_id": backorder_picking.id,
+                                "product_uom_qty": diff,
+                                "move_line_ids": [],
+                            }
                         )
             # backorder_picking.action_assign()
 

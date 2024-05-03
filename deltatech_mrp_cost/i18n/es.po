@@ -62,20 +62,25 @@ msgstr "Precio calculado"
 
 #. module: deltatech_mrp_cost
 #: model:ir.model.fields,help:deltatech_mrp_cost.field_stock_move__qty_available
-msgid "Current quantity of products.\n"
+msgid ""
+"Current quantity of products.\n"
 "In a context with a single Stock Location, this includes goods stored at this Location, or any of its children.\n"
 "In a context with a single Warehouse, this includes goods stored in the Stock Location of this Warehouse, or any of its children.\n"
 "stored in the Stock Location of the Warehouse of this Shop, or any of its children.\n"
 "Otherwise, this includes goods stored in any Stock Location with 'internal' type."
-msgstr "Cantidad actual de los productos.\n"
+msgstr ""
+"Cantidad actual de los productos.\n"
 "En un contexto de una sola ubicación de Stock, esto incluye los bienes almacenados en esta ubicación, o cualquiera de sus hijas.\n"
 "En un contexto de un solo almacén, esto incluye los bienes almacenados en la ubicación de Stock de ese almacén, o cualquiera de sus hijas.\n"
 "En cualquier otro caso, esto incluye los bienes almacenados en cualquier ubicación de Stock de tipo 'Interna'."
 
 #. module: deltatech_mrp_cost
 #: model:ir.model.fields,help:deltatech_mrp_cost.field_mrp_workcenter__costs_hour_account_id
-msgid "Fill this only if you want automatic analytic accounting entries on production orders."
-msgstr "Rellena esto sólo si quieres entradas analíticas en las listas de producción"
+msgid ""
+"Fill this only if you want automatic analytic accounting entries on "
+"production orders."
+msgstr ""
+"Rellena esto sólo si quieres entradas analíticas en las listas de producción"
 
 #. module: deltatech_mrp_cost
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
@@ -148,4 +153,3 @@ msgstr "Centro de producción"
 #: model:ir.model,name:deltatech_mrp_cost.model_mrp_routing_workcenter
 msgid "Work Center Usage"
 msgstr "Utilización del centro de producción"
-

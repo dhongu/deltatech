@@ -40,12 +40,17 @@ class StockPicking(models.Model):
                     if (
                         picking.picking_type_id.restrict_quantities
                         and move_line.reserved_uom_qty
-                        and float_compare(move_line.reserved_uom_qty, move_line.qty_done, precision_digits=precision)
+                        and float_compare(
+                            move_line.reserved_uom_qty,
+                            move_line.qty_done,
+                            precision_digits=precision,
+                        )
                         != 0
                     ):
                         raise UserError(
                             _("Done quantities not equal to reserved for [{}] {}").format(
-                                move_line.product_id.default_code, move_line.product_id.name
+                                move_line.product_id.default_code,
+                                move_line.product_id.name,
                             )
                         )
                     if (
@@ -55,7 +60,8 @@ class StockPicking(models.Model):
                     ):
                         raise UserError(
                             _("Unrecognized product: [{}] {}").format(
-                                move_line.product_id.default_code, move_line.product_id.name
+                                move_line.product_id.default_code,
+                                move_line.product_id.name,
                             )
                         )
         return super().button_validate()

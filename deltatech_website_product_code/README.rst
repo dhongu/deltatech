@@ -22,14 +22,15 @@ eCommerce Product Code
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Display product page using internal code
- - Display product code in product page
- - Display product code in search results
+-  Features:
 
+   -  Display product page using internal code
+   -  Display product code in product page
+   -  Display product code in search results
 
-Usage:
- - Use link: /shop/product-code/<code>
+-  Usage:
+
+   -  Use link: /shop/product-code/<code>
 
 **Table of contents**
 
@@ -48,13 +49,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

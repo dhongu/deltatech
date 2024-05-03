@@ -9,7 +9,15 @@ from odoo.addons.website_sale.controllers import main
 
 class Website(main.Website):
     @http.route()
-    def autocomplete(self, search_type=None, term=None, order=None, limit=5, max_nb_chars=999, options=None):
+    def autocomplete(
+        self,
+        search_type=None,
+        term=None,
+        order=None,
+        limit=5,
+        max_nb_chars=999,
+        options=None,
+    ):
         options = options or {}
         options["allowFuzzy"] = False
         return super().autocomplete(search_type, term, order, limit, max_nb_chars, options)
@@ -17,7 +25,14 @@ class Website(main.Website):
 
 class WebsiteSale(main.WebsiteSale):
     def _get_search_options(
-        self, category=None, attrib_values=None, tags=None, min_price=0.0, max_price=0.0, conversion_rate=1, **post
+        self,
+        category=None,
+        attrib_values=None,
+        tags=None,
+        min_price=0.0,
+        max_price=0.0,
+        conversion_rate=1,
+        **post,
     ):
         options = super()._get_search_options(
             category, attrib_values, tags, min_price, max_price, conversion_rate, **post

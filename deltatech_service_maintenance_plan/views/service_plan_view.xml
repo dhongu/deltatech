@@ -4,7 +4,7 @@
         <field name="name">Plan</field>
         <field name="model">service.plan</field>
         <field name="arch" type="xml">
-            <tree string="Services Plan" sample="1">
+            <tree sample="1">
                 <field name="name" />
                 <field name="service_location_id" />
                 <field name="equipment_id" />
@@ -90,7 +90,7 @@
         <field name="name">Plan</field>
         <field name="model">service.plan.call</field>
         <field name="arch" type="xml">
-            <tree string="Services Plan Call" create="0" edit="0">
+            <tree create="0" edit="0">
                 <field name="plan_id" />
                 <field name="plan_date" />
                 <field name="completion_date" />

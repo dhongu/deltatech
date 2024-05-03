@@ -22,8 +22,9 @@ Refund Purchase
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Generara fatura de retur pentru cantitatile negative de facturat.
+-  Features:
+
+   -  Generara fatura de retur pentru cantitatile negative de facturat.
 
 **Table of contents**
 
@@ -42,13 +43,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

@@ -15,7 +15,11 @@ class HistoryAddRecord(models.TransientModel):
     res_model = fields.Char("Resource Model", readonly=False)
     res_id = fields.Many2oneReference("Resource ID", model_field="res_model", readonly=False)
     company_id = fields.Many2one(
-        "res.company", string="Company", index=True, change_default=True, default=lambda self: self.env.company
+        "res.company",
+        string="Company",
+        index=True,
+        change_default=True,
+        default=lambda self: self.env.company,
     )
 
     @api.model

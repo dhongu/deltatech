@@ -12,7 +12,10 @@ class ServiceEquiOperation(models.TransientModel):
     _description = "Service Equipment Operation"
 
     enter_reading_id = fields.Many2one(
-        "service.enter.reading", string="Enter Reading", required=True, ondelete="cascade"
+        "service.enter.reading",
+        string="Enter Reading",
+        required=True,
+        ondelete="cascade",
     )
     state = fields.Selection(
         [("add", "Add to Agreement"), ("ins", "Installation"), ("rem", "Removal")],
@@ -89,7 +92,11 @@ class ServiceEquiOperation(models.TransientModel):
                 counters,
             )
 
-            values = {"name": _("Installation"), "equipment_id": self.equipment_id.id, "description": message}
+            values = {
+                "name": _("Installation"),
+                "equipment_id": self.equipment_id.id,
+                "description": message,
+            }
             self.env["service.history"].create(values)
 
         if self.state in ["ins", "add"]:
@@ -130,7 +137,11 @@ class ServiceEquiOperation(models.TransientModel):
                 emplacement,
                 counters,
             )
-            values = {"name": _("Uninstall"), "equipment_id": self.equipment_id.id, "description": message}
+            values = {
+                "name": _("Uninstall"),
+                "equipment_id": self.equipment_id.id,
+                "description": message,
+            }
             self.env["service.history"].create(values)
 
             self.equipment_id.write(
@@ -177,7 +188,11 @@ class ServiceEquiOperation(models.TransientModel):
 
         if not self.agreement_id:
             cycle = self.env.ref("deltatech_service_agreement.cycle_monthly")
-            values = {"partner_id": self.partner_id.id, "cycle_id": cycle.id, "state": "draft"}
+            values = {
+                "partner_id": self.partner_id.id,
+                "cycle_id": cycle.id,
+                "state": "draft",
+            }
             self.agreement_id = self.env["service.agreement"].create(values)
 
         # self.equipment_id.write({'agreement_id':self.agreement_id.id,

@@ -28,7 +28,7 @@ msgstr "<strong>Cantitate efectivă</strong>"
 #. module: deltatech_mrp_cost
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
 msgid "<strong>Net Salary Rate:</strong><br/>"
-msgstr  "<strong>Cotă salariu net:</strong><br/>"
+msgstr "<strong>Cotă salariu net:</strong><br/>"
 
 #. module: deltatech_mrp_cost
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
@@ -119,4 +119,3 @@ msgstr "Consum utilități"
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.mrp_production_form_view
 msgid "hours"
 msgstr "ore"
-

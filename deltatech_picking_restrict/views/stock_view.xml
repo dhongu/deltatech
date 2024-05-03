@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
         <record id="view_picking_type_form" model="ir.ui.view">
             <field name="name">Picking Types</field>
             <field name="model">stock.picking.type</field>
@@ -13,5 +13,5 @@
                 </field>
             </field>
         </record>
-    </data>
+
 </odoo>

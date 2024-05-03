@@ -22,9 +22,10 @@ Generate/Select lot
 
 |badge1| |badge2| |badge3|
 
-Functions:
- - Generare de lot la receptia produselor de la furnizor
- - Camp locatie in lot
+-  Functions:
+
+   -  Generare de lot la receptia produselor de la furnizor
+   -  Camp locatie in lot
 
 **Table of contents**
 
@@ -43,13 +44,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_lot>`_ project on GitHub.
 

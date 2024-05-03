@@ -17,7 +17,12 @@ class BusinessProcessTest(models.Model):
         comodel_name="business.process",
         required=True,
     )
-    area_id = fields.Many2one(string="Area", comodel_name="business.area", related="process_id.area_id", store=True)
+    area_id = fields.Many2one(
+        string="Area",
+        comodel_name="business.area",
+        related="process_id.area_id",
+        store=True,
+    )
     tester_id = fields.Many2one(
         string="Tester",
         comodel_name="res.partner",
@@ -49,7 +54,11 @@ class BusinessProcessTest(models.Model):
     )
     count_steps = fields.Integer(string="Steps", compute="_compute_count_steps")
     completion_test = fields.Float(
-        help="Completion test", group_operator="avg", compute="_compute_completion_test", store=True, digits=(16, 2)
+        help="Completion test",
+        group_operator="avg",
+        compute="_compute_completion_test",
+        store=True,
+        digits=(16, 2),
     )
     doc_count = fields.Integer(string="Number of documents attached", compute="_compute_attached_docs_count")
 
@@ -100,7 +109,7 @@ class BusinessProcessTest(models.Model):
             "type": "ir.actions.act_window",
             "view_id": False,
             "view_mode": "kanban,tree,form",
-            "context": "{{'default_res_model': '{}','default_res_id': {}}}".format(self._name, self.id),
+            "context": f"{{'default_res_model': '{self._name}','default_res_id': {self.id}}}",
         }
 
     @api.onchange("process_id")

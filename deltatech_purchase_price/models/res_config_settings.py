@@ -16,5 +16,7 @@ class ResConfigSettings(models.TransientModel):
         "Update standard price", config_parameter="purchase.update_standard_price"
     )
     purchase_add_supplier_to_product = fields.Boolean(
-        "Add supplier to product", default=True, config_parameter="purchase.add_supplier_to_product"
+        "Add supplier to product",
+        default=True,
+        config_parameter="purchase.add_supplier_to_product",
     )

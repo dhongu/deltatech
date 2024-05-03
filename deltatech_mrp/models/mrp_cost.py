@@ -12,7 +12,12 @@ class DeltatechCostDetail(models.Model):
 
     production_id = fields.Many2one("mrp.production", string="Production Order")
     cost_categ = fields.Selection(
-        [("raw", "Raw materials"), ("semi", "Semi-products"), ("pak", "Packing Material")], string="Cost Category"
+        [
+            ("raw", "Raw materials"),
+            ("semi", "Semi-products"),
+            ("pak", "Packing Material"),
+        ],
+        string="Cost Category",
     )
     amount = fields.Float(string="Amount", digits="Account")
 

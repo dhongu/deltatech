@@ -4,7 +4,7 @@
         <field name="name">Business process test report</field>
         <field name="model">business.process.test.report</field>
         <field name="arch" type="xml">
-            <tree string="Business process test report">
+            <tree>
                 <field name="project_id" optional="hide" />
                 <field name="process_id" optional="hide" />
                 <field name="step_id" optional="hide" />

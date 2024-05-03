@@ -5,7 +5,7 @@
         <field name="name">Business development</field>
         <field name="model">business.development</field>
         <field name="arch" type="xml">
-            <tree string="Development" sample="1">
+            <tree sample="1">
                 <field name="code" />
                 <field name="project_id" optional="hide" />
                 <field name="name" />

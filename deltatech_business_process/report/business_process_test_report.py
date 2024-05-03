@@ -15,7 +15,9 @@ class BusinessProcessTestReport(models.Model):
     step_id = fields.Many2one(string="Step", comodel_name="business.process.step", readonly=True)
     process_test_id = fields.Many2one(string="Process Test", comodel_name="business.process.test", readonly=True)
     process_step_test_id = fields.Many2one(
-        string="Process Step Test", comodel_name="business.process.step.test", readonly=True
+        string="Process Step Test",
+        comodel_name="business.process.step.test",
+        readonly=True,
     )
 
     sequence = fields.Integer(string="Sequence", readonly=True)
@@ -27,7 +29,13 @@ class BusinessProcessTestReport(models.Model):
 
     customer_id = fields.Many2one(string="Customer Responsible", comodel_name="res.partner", readonly=True)
     state_bp = fields.Selection(
-        [("draft", "Draft"), ("design", "Design"), ("test", "Test"), ("ready", "Ready"), ("production", "Production")],
+        [
+            ("draft", "Draft"),
+            ("design", "Design"),
+            ("test", "Test"),
+            ("ready", "Ready"),
+            ("production", "Production"),
+        ],
         string="State BP",
         default="draft",
         readonly=True,
@@ -35,7 +43,12 @@ class BusinessProcessTestReport(models.Model):
 
     transaction_id = fields.Many2one(string="Transaction", comodel_name="business.transaction", readonly=True)
     transaction_type = fields.Selection(
-        [("md", "Master Data"), ("tr", "Transaction"), ("rp", "Report"), ("ex", "Extern")],
+        [
+            ("md", "Master Data"),
+            ("tr", "Transaction"),
+            ("rp", "Report"),
+            ("ex", "Extern"),
+        ],
         string="Transaction Type",
         readonly=True,
     )
@@ -84,7 +97,7 @@ class BusinessProcessTestReport(models.Model):
 
     @property
     def _table_query(self):
-        return "{} {} {} {}".format(self._select(), self._from(), self._where(), self._order_by())
+        return f"{self._select()} {self._from()} {self._where()} {self._order_by()}"
 
     @api.model
     def _select(self):

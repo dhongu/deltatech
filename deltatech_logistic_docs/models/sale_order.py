@@ -14,10 +14,16 @@ class SaleOrder(models.Model):
     def get_attachment_domain(self):
         domain = [("res_model", "=", "sale.order"), ("res_id", "=", self.id)]
         if self.picking_ids:
-            subdomains = [("res_model", "=", "stock.picking"), ("res_id", "in", self.picking_ids.ids)]
+            subdomains = [
+                ("res_model", "=", "stock.picking"),
+                ("res_id", "in", self.picking_ids.ids),
+            ]
             domain = expression.OR([subdomains, domain])
         if self.invoice_ids:
-            subdomains = [("res_model", "=", "account.move"), ("res_id", "in", self.invoice_ids.ids)]
+            subdomains = [
+                ("res_model", "=", "account.move"),
+                ("res_id", "in", self.invoice_ids.ids),
+            ]
             domain = expression.OR([subdomains, domain])
         return domain
 
@@ -35,5 +41,5 @@ class SaleOrder(models.Model):
             "type": "ir.actions.act_window",
             "view_id": False,
             "view_mode": "kanban,tree,form",
-            "context": "{{'default_res_model': '{}','default_res_id': {}}}".format(self._name, self.id),
+            "context": f"{{'default_res_model': '{self._name}','default_res_id': {self.id}}}",
         }

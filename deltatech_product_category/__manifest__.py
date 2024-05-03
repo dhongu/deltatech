@@ -12,7 +12,11 @@
     "category": "Sales",
     "depends": ["product"],
     "license": "OPL-1",
-    "data": ["views/product_view.xml", "views/res_config_settings_views.xml", "security/product_security.xml"],
+    "data": [
+        "views/product_view.xml",
+        "views/res_config_settings_views.xml",
+        "security/product_security.xml",
+    ],
     "images": ["images/main_screenshot.png"],
     "installable": True,
     "development_status": "Mature",

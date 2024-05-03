@@ -31,7 +31,9 @@ class ProductTemplate(models.Model):
                 ("product_id", "in", products.ids),
             ]
             groups_out = self.env["account.invoice.report"].read_group(
-                domain=domain, fields=["quantity", "invoice_date"], groupby=["invoice_date:year"]
+                domain=domain,
+                fields=["quantity", "invoice_date"],
+                groupby=["invoice_date:year"],
             )
 
             domain = [
@@ -39,7 +41,9 @@ class ProductTemplate(models.Model):
                 ("product_id", "in", products.ids),
             ]
             groups_in = self.env["account.invoice.report"].read_group(
-                domain=domain, fields=["quantity", "invoice_date"], groupby=["invoice_date:year"]
+                domain=domain,
+                fields=["quantity", "invoice_date"],
+                groupby=["invoice_date:year"],
             )
 
             invoice_history = self.env["product.invoice.history"]
@@ -78,7 +82,9 @@ class ProductTemplate(models.Model):
             product_qty = 0
             price_average = 0.0
             groups = self.env["account.invoice.report"].read_group(
-                domain=domain, fields=["product_id", "product_qty", "price_average"], groupby=["product_id"]
+                domain=domain,
+                fields=["product_id", "product_qty", "price_average"],
+                groupby=["product_id"],
             )
             for item in groups:
                 product_qty += item["product_qty"]
@@ -98,7 +104,10 @@ class ProductTemplate(models.Model):
             "group_by_no_leaf": 1,
             "search_disable_custom_filters": True,
         }
-        action["domain"] = [("move_type", "in", ["out_invoice", "out_refund"]), ("product_id", "in", products.ids)]
+        action["domain"] = [
+            ("move_type", "in", ["out_invoice", "out_refund"]),
+            ("product_id", "in", products.ids),
+        ]
         return action
 
 
@@ -107,9 +116,7 @@ class ProductProduct(models.Model):
 
     def action_view_invoice(self):
         action = self.env["ir.actions.actions"]._for_xml_id("account.action_account_invoice_report_all")
-        action[
-            "context"
-        ] = """{
+        action["context"] = """{
              'group_by':['date:year'],
              'measures': ['product_qty', 'price_average'],
              'col_group_by': ['move_type'] ,
@@ -117,5 +124,8 @@ class ProductProduct(models.Model):
               'search_disable_custom_filters': True
              }"""
         #
-        action["domain"] = [("move_type", "in", ["out_invoice", "out_refund"]), ("product_id", "in", self.ids)]
+        action["domain"] = [
+            ("move_type", "in", ["out_invoice", "out_refund"]),
+            ("product_id", "in", self.ids),
+        ]
         return action

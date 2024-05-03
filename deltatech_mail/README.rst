@@ -22,11 +22,13 @@ Mail Extension
 
 |badge1| |badge2| |badge3|
 
+-  Features:
 
-Features:
- - email filtration and redirecting to another address
-Functionalitati:
- - filtrare emailuri si redirectionare la alta adresa
+   -  email filtration and redirecting to another address
+
+-  Functionalitati:
+
+   -  filtrare emailuri si redirectionare la alta adresa
 
 **Table of contents**
 
@@ -45,13 +47,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

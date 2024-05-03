@@ -20,6 +20,26 @@ default_language_version:
   python: python3
   node: "16.19.0"
 repos:
+  - repo: local
+    hooks:
+      # These files are most likely copier diff rejection junks; if found,
+      # review them manually, fix the problem (if needed) and remove them
+      - id: forbidden-files
+        name: forbidden files
+        entry: found forbidden files; remove them
+        language: fail
+        files: "\\.rej$"
+      - id: en-po-files
+        name: en.po files cannot exist
+        entry: found a en.po file
+        language: fail
+        files: '[a-zA-Z0-9_]*/i18n/en\.po$'
+
+  - repo: https://github.com/sbidoul/whool
+    rev: v1.0.1
+    hooks:
+      - id: whool-init
+
   - repo: https://github.com/dhongu/maintainer-tools
     rev: b5424dda004c09d73f5cf62fb2c3c2cc4f5b3501 # This is just an example; you must use a tag/commit instead!
     hooks:
@@ -30,6 +50,9 @@ repos:
           - --org-name=dhongu
           - --repo-name=deltatech
           - --branch=17.0
+          - --if-source-changed
+          - --keep-source-digest
+          - --convert-fragments-to-markdown
 
       # This job could easily produce conflicts when it runs on every commit,
       # so it's added as a manual job. If you automate it, beware.
@@ -37,7 +60,9 @@ repos:
       - id: oca-gen-addons-table
         stages: [manual]
       # update the NOT INSTALLABLE ADDONS section above
+
       - id: oca-update-pre-commit-excluded-addons
+      - id: oca-gen-external-dependencies
       - id: oca-fix-manifest-website
         args: ["https://www.terrabit.ro"]
   #      - id: oca-fix-manifest-images
@@ -46,46 +71,24 @@ repos:
   #        args:
   #          - --addons-dir=.
 
-  - repo: local
-    hooks:
-      # These files are most likely copier diff rejection junks; if found,
-      # review them manually, fix the problem (if needed) and remove them
-      - id: forbidden-files
-        name: forbidden files
-        entry: found forbidden files; remove them
-        language: fail
-        files: "\\.rej$"
+  #  - repo: https://github.com/OCA/odoo-pre-commit-hooks
+  #    rev: v0.0.31
+  #    hooks:
+  #      - id: oca-checks-odoo-module
+  #      - id: oca-checks-po
+  #        args: ["--fix"]
 
-  - repo: https://github.com/myint/autoflake
-    rev: v2.3.1
-    hooks:
-      - id: autoflake
-        args: ["-i", "--ignore-init-module-imports"]
-
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.13.2
-    hooks:
-      - id: isort
-        name: isort except __init__.py
-        args:
-          - --settings=.
-        exclude: /__init__\.py$
-
-  - repo: https://github.com/psf/black
-    rev: 24.4.0
-    hooks:
-      - id: black
-        args: [-l 120]
-  - repo: https://github.com/prettier/pre-commit
-    rev: 57f39166b5a5a504d6808b87ab98d41ebf095b46
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
     hooks:
       - id: prettier
-        name: prettier + plugin-xml
+        name: prettier (with plugin-xml)
         additional_dependencies:
-          - "prettier@2.1.2"
-          - "@prettier/plugin-xml@0.12.0"
+          - "prettier@2.7.1"
+          - "@prettier/plugin-xml@2.2.0"
         args:
           - --plugin=@prettier/plugin-xml
+        files: \.(css|htm|html|js|json|jsx|less|md|scss|toml|ts|xml|yaml|yml)$
 
   - repo: https://github.com/pre-commit/mirrors-eslint
     rev: v8.50.0
@@ -119,29 +122,12 @@ repos:
       - id: mixed-line-ending
         args: ["--fix=lf"]
 
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.15.2
-    hooks:
-      - id: pyupgrade
-
-  #  - repo: https://github.com/acsone/setuptools-odoo
-  #    rev: 3.1.8
-  #    hooks:
-  #      - id: setuptools-odoo-make-default
-  #      - id: setuptools-odoo-get-requirements
-  #        args:
-  #          - --output
-  #          - requirements.txt
-  #          - --header
-  #          - "# generated from manifests external_dependencies"
-  #          - --include-addons
-
-  - repo: https://github.com/PyCQA/flake8
-    rev: 7.0.0
-    hooks:
-      - id: flake8
-        name: flake8
-        additional_dependencies: ["flake8-bugbear==21.9.2"]
+#  - repo: https://github.com/astral-sh/ruff-pre-commit
+#    rev: v0.1.3
+#    hooks:
+#      - id: ruff
+#        args: [--fix, --exit-non-zero-on-fix]
+#      - id: ruff-format
 
   - repo: https://github.com/OCA/pylint-odoo
     rev: 7.0.2

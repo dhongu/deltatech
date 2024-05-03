@@ -34,7 +34,9 @@ class InvoiceFollowup(models.Model):
         "will be processed",
     )
     only_open = fields.Boolean(
-        "Only open invoices", default=True, help="Only open (unpaid) invoices will be " "processed"
+        "Only open invoices",
+        default=True,
+        help="Only open (unpaid) invoices will be " "processed",
     )
     invoice_html = fields.Html(
         "Invoices placeholder",

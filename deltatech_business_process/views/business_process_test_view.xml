@@ -4,7 +4,7 @@
         <field name="name">Process test</field>
         <field name="model">business.process.test</field>
         <field name="arch" type="xml">
-            <tree string="Business Process Test" multi_edit="1" sample="1">
+            <tree multi_edit="1" sample="1">
                 <field name="name" />
                 <field name="process_id" />
                 <field name="tester_id" />

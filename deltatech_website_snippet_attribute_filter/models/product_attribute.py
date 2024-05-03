@@ -21,7 +21,11 @@ class ProductAttribute(models.Model):
             domain = [("product_attribute_value_id", "in", attribute_value_ids)]
             template_values = self.env["product.template.attribute.value"].search(domain)
             domain = [
-                ("product_tmpl_id", "in", template_values.mapped("product_tmpl_id").ids),
+                (
+                    "product_tmpl_id",
+                    "in",
+                    template_values.mapped("product_tmpl_id").ids,
+                ),
                 ("attribute_id", "=", self.id),
             ]
             template_values = self.env["product.template.attribute.value"].search(domain)

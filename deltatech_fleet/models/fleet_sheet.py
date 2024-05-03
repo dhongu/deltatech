@@ -22,7 +22,10 @@ class FleetMapSheet(models.Model):
                 record.odometer_start = record.odometer_start_id.value
             else:
                 odometer = self.env["fleet.vehicle.odometer"].search(
-                    [("vehicle_id", "=", record.vehicle_id.id), ("date", "<=", record.date_start)],
+                    [
+                        ("vehicle_id", "=", record.vehicle_id.id),
+                        ("date", "<=", record.date_start),
+                    ],
                     limit=1,
                     order="date desc",
                 )
@@ -43,7 +46,12 @@ class FleetMapSheet(models.Model):
                 record.odometer_end = record.odometer_end_id.value
             else:
                 odometer = self.env["fleet.vehicle.odometer"].search(
-                    [("vehicle_id", "=", record.vehicle_id.id), ("date", ">=", record.date_end)], limit=1, order="date"
+                    [
+                        ("vehicle_id", "=", record.vehicle_id.id),
+                        ("date", ">=", record.date_end),
+                    ],
+                    limit=1,
+                    order="date",
                 )
                 if odometer:
                     record.odometer_end = odometer.value
@@ -56,7 +64,11 @@ class FleetMapSheet(models.Model):
     def _inverse_odometer_start(self):
         for sheet in self:
             if sheet.odometer_start:
-                data = {"value": sheet.odometer_start, "date": sheet.date_start, "vehicle_id": sheet.vehicle_id.id}
+                data = {
+                    "value": sheet.odometer_start,
+                    "date": sheet.date_start,
+                    "vehicle_id": sheet.vehicle_id.id,
+                }
                 if sheet.odometer_start_id:
                     sheet.odometer_start_id.write(data)
                 else:
@@ -65,7 +77,11 @@ class FleetMapSheet(models.Model):
     def _inverse_odometer_end(self):
         for sheet in self:
             if sheet.odometer_end:
-                data = {"value": sheet.odometer_end, "date": sheet.date_end, "vehicle_id": sheet.vehicle_id.id}
+                data = {
+                    "value": sheet.odometer_end,
+                    "date": sheet.date_end,
+                    "vehicle_id": sheet.vehicle_id.id,
+                }
                 if sheet.odometer_end_id:
                     sheet.odometer_end_id.write(data)
                 else:
@@ -138,7 +154,11 @@ class FleetMapSheet(models.Model):
     )
 
     date = fields.Date(
-        string="Date", required=True, readonly=True, states={"draft": [("readonly", False)]}, default=_get_default_date
+        string="Date",
+        required=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        default=_get_default_date,
     )
     vehicle_id = fields.Many2one(
         "fleet.vehicle",
@@ -149,10 +169,16 @@ class FleetMapSheet(models.Model):
         states={"draft": [("readonly", False)]},
     )
     category_id = fields.Many2one(
-        "fleet.vehicle.category", related="vehicle_id.category_id", readonly=True, string="Vehicle Category"
+        "fleet.vehicle.category",
+        related="vehicle_id.category_id",
+        readonly=True,
+        string="Vehicle Category",
     )
     driver_id = fields.Many2one(
-        "res.partner", string="Driver", help="Driver of the vehicle", states={"done": [("readonly", True)]}
+        "res.partner",
+        string="Driver",
+        help="Driver of the vehicle",
+        states={"done": [("readonly", True)]},
     )
     driver2_id = fields.Many2one(
         "res.partner",
@@ -207,7 +233,12 @@ class FleetMapSheet(models.Model):
     )
 
     state = fields.Selection(
-        [("draft", "Draft"), ("open", "In Progress"), ("done", "Done"), ("cancel", "Cancelled")],
+        [
+            ("draft", "Draft"),
+            ("open", "In Progress"),
+            ("done", "Done"),
+            ("cancel", "Cancelled"),
+        ],
         string="Status",
         readonly=True,
         default="draft",
@@ -217,27 +248,53 @@ class FleetMapSheet(models.Model):
     )
 
     log_fuel_ids = fields.One2many(
-        "fleet.vehicle.log.fuel", "map_sheet_id", string="Fuel log", states={"done": [("readonly", True)]}, copy=False
+        "fleet.vehicle.log.fuel",
+        "map_sheet_id",
+        string="Fuel log",
+        states={"done": [("readonly", True)]},
+        copy=False,
     )
     route_log_ids = fields.One2many(
-        "fleet.route.log", "map_sheet_id", string="Route Logs", states={"done": [("readonly", True)]}
+        "fleet.route.log",
+        "map_sheet_id",
+        string="Route Logs",
+        states={"done": [("readonly", True)]},
     )
 
-    liter_total = fields.Float(compute="_compute_amount_all", string="Total Liter", store=True, help="The total liters")
+    liter_total = fields.Float(
+        compute="_compute_amount_all",
+        string="Total Liter",
+        store=True,
+        help="The total liters",
+    )
 
     amount_total = fields.Float(
-        compute="_compute_amount_all", string="Total Amount", store=True, help="The total amount for fuel"
+        compute="_compute_amount_all",
+        string="Total Amount",
+        store=True,
+        help="The total amount for fuel",
     )
 
     distance_total = fields.Float(
-        compute="_compute_amount_all", string="Total distance", store=True, help="The total distance"
+        compute="_compute_amount_all",
+        string="Total distance",
+        store=True,
+        help="The total distance",
     )
 
     norm_cons = fields.Float(
-        compute="_compute_amount_all", string="Normal Consumption", store=True, help="The Normal Consumption"
+        compute="_compute_amount_all",
+        string="Normal Consumption",
+        store=True,
+        help="The Normal Consumption",
     )
 
-    company_id = fields.Many2one("res.company", string="Company", default=lambda self: self.env.company, required=True)
+    company_id = fields.Many2one(
+        "res.company",
+        string="Company",
+        default=lambda self: self.env.company,
+        required=True,
+    )
 
     reservoir_level_start = fields.Float(
         compute="_compute_reservoir_level_start",
@@ -449,10 +506,14 @@ class FleetRouteLog(models.Model):
     name = fields.Char(compute="_compute_route_name", string="Name", store=False)
     scope_id = fields.Many2one("fleet.scope", string="Scope", states={"done": [("readonly", True)]})
     date_begin = fields.Datetime(
-        string="Date Begin", states={"done": [("readonly", True)]}, default=_get_default_date_begin
+        string="Date Begin",
+        states={"done": [("readonly", True)]},
+        default=_get_default_date_begin,
     )
     date_end = fields.Datetime(
-        string="Date End", states={"done": [("readonly", True)]}, default=_get_default_date_begin
+        string="Date End",
+        states={"done": [("readonly", True)]},
+        default=_get_default_date_begin,
     )
     week_day = fields.Integer(compute="_compute_week_day", string="Name", store=False)
     route_id = fields.Many2one("fleet.route", string="Route", states={"done": [("readonly", True)]})
@@ -551,7 +612,8 @@ class FleetRouteLog(models.Model):
             week_day = int(date_int.strftime("%w"))
             date_end = date_int  # datetime.strptime(date_begin,tools.DEFAULT_SERVER_DATETIME_FORMAT)
             date_end = date_end + timedelta(
-                hours=int(math.floor(self.route_id.duration)), minutes=int((self.route_id.duration % 1) * 60)
+                hours=int(math.floor(self.route_id.duration)),
+                minutes=int((self.route_id.duration % 1) * 60),
             )
             date_end = fields.Datetime.to_string(date_end)
             self.distance = self.route_id.distance

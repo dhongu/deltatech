@@ -20,7 +20,9 @@ class PropertyRoom(models.Model):
     height = fields.Float()
     perimeter = fields.Float()
     surface_disinsection = fields.Float(
-        string="Area of disinsection", compute="_compute_surface_disinsection", store=True
+        string="Area of disinsection",
+        compute="_compute_surface_disinsection",
+        store=True,
     )
 
     surface = fields.Float("Surface area")
@@ -41,7 +43,10 @@ class PropertyRoom(models.Model):
             ("warehouse", "Warehouse"),
             ("log_warehouse", "Logistics warehouse"),
             ("it_endowments", "IT endowments (Ranks, Hall Servers)"),
-            ("premises", "Technical premises (thermal, air conditioning, post-transformer)"),
+            (
+                "premises",
+                "Technical premises (thermal, air conditioning, post-transformer)",
+            ),
             ("cloakroom", "Cloakroom"),
             ("sanitary", "Sanitary group"),
             ("access", "Access ways"),
@@ -62,7 +67,8 @@ class PropertyRoom(models.Model):
 
     last_maintenance = fields.Date()
     technical_condition = fields.Selection(
-        [("0", "Missing"), ("1", "Unsatisfactory"), ("3", "good"), ("5", "very good")], group_operator="avg"
+        [("0", "Missing"), ("1", "Unsatisfactory"), ("3", "good"), ("5", "very good")],
+        group_operator="avg",
     )
 
     @api.depends("surface", "height", "perimeter")

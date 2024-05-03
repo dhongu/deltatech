@@ -4,7 +4,7 @@
         <field name="name">Business process report</field>
         <field name="model">business.process.report</field>
         <field name="arch" type="xml">
-            <tree string="Business Process Report">
+            <tree>
                 <field name="project_id" optional="hide" />
                 <field name="process_id" optional="show" />
                 <field name="step_id" />

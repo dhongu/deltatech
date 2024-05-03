@@ -9,7 +9,12 @@ from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
-READING_TYPE_SELECTION = [("inc", "Increase"), ("dec", "Decrease"), ("cng", "Change"), ("src", "Meter")]
+READING_TYPE_SELECTION = [
+    ("inc", "Increase"),
+    ("dec", "Decrease"),
+    ("cng", "Change"),
+    ("src", "Meter"),
+]
 
 
 class ServiceMeter(models.Model):
@@ -23,7 +28,11 @@ class ServiceMeter(models.Model):
     meter_categ_id = fields.Many2one("service.meter.category", string="Category", required=True)
     type = fields.Selection(string="Type", related="meter_categ_id.type", readonly=True)
     equipment_id = fields.Many2one(
-        "service.equipment", string="Equipment", required=True, ondelete="cascade", index=True
+        "service.equipment",
+        string="Equipment",
+        required=True,
+        ondelete="cascade",
+        index=True,
     )
     meter_reading_ids = fields.One2many("service.meter.reading", "meter_id", string="Meter Reading")
 
@@ -55,7 +64,11 @@ class ServiceMeter(models.Model):
         compute="_compute_last_meter_reading",
         store=True,
     )
-    estimated_value = fields.Float(string="Estimated Value", digits="Meter Value", compute="_compute_estimated_value")
+    estimated_value = fields.Float(
+        string="Estimated Value",
+        digits="Meter Value",
+        compute="_compute_estimated_value",
+    )
 
     uom_id = fields.Many2one("uom.uom", string="Unit of Measure", required=True, index=True)
 
@@ -100,7 +113,7 @@ class ServiceMeter(models.Model):
     def _compute_display_name(self):
         for meter in self:
             if meter.name:
-                meter.display_name = "{} [{}]".format(meter.name, meter.uom_id.name)
+                meter.display_name = f"{meter.name} [{meter.uom_id.name}]"
             else:
                 meter.display_name = meter.uom_id.name
 
@@ -189,7 +202,11 @@ class ServiceMeter(models.Model):
     def get_counter_value(self, begin_date, end_date):
         value = 0
         if self.type == "counter":
-            domain = [("date", ">=", begin_date), ("date", "<", end_date), ("meter_id", "=", self.id)]
+            domain = [
+                ("date", ">=", begin_date),
+                ("date", "<", end_date),
+                ("meter_id", "=", self.id),
+            ]
             res = self.env["service.meter.reading"].read_group(
                 domain, fields=["difference", "meter_id"], groupby=["meter_id"]
             )
@@ -224,7 +241,11 @@ class ServiceMeterReading(models.Model):
     _rec_name = "counter_value"
 
     meter_id = fields.Many2one(
-        "service.meter", string="Meter", required=True, ondelete="cascade", domain=[("type", "=", "counter")]
+        "service.meter",
+        string="Meter",
+        required=True,
+        ondelete="cascade",
+        domain=[("type", "=", "counter")],
     )
 
     equipment_id = fields.Many2one("service.equipment", string="Equipment", required=True, ondelete="restrict")
@@ -248,7 +269,11 @@ class ServiceMeterReading(models.Model):
     counter_value = fields.Float(string="Counter Value", digits="Meter Value", group_operator="max")
     estimated = fields.Boolean(string="Estimated")
     difference = fields.Float(
-        string="Difference", readonly=True, digits="Meter Value", compute="_compute_difference", store=True
+        string="Difference",
+        readonly=True,
+        digits="Meter Value",
+        compute="_compute_difference",
+        store=True,
     )
 
     read_by = fields.Many2one("res.partner", string="Read by", domain=[("is_company", "=", False)])
@@ -264,7 +289,10 @@ class ServiceMeterReading(models.Model):
             reading.previous_counter_value = reading.meter_id.start_value
             if reading.date and reading.meter_id:
                 previous = self.env["service.meter.reading"].search(
-                    [("meter_id", "=", reading.meter_id.id), ("date", "<", reading.date)],
+                    [
+                        ("meter_id", "=", reading.meter_id.id),
+                        ("date", "<", reading.date),
+                    ],
                     limit=1,
                     order="date desc, id desc",
                 )
@@ -278,7 +306,9 @@ class ServiceMeterReading(models.Model):
         for reading in self:
             reading.difference = reading.counter_value - reading.previous_counter_value
             next_reading = self.env["service.meter.reading"].search(
-                [("meter_id", "=", reading.meter_id.id), ("date", ">", reading.date)], limit=1, order="date, id"
+                [("meter_id", "=", reading.meter_id.id), ("date", ">", reading.date)],
+                limit=1,
+                order="date, id",
             )
             if next_reading and next_reading.previous_counter_value != reading.counter_value:
                 next_reading.write(

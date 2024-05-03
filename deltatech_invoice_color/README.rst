@@ -22,9 +22,12 @@ Deltatech Invoice Color
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Colors in red the invoice lines that have storable products but are not associated to a Purchase Order or a Sale Order
- - Colors in yellow the invoice lines that don't have a product or UOM selected
+-  Features:
+
+   -  Colors in red the invoice lines that have storable products but
+      are not associated to a Purchase Order or a Sale Order
+   -  Colors in yellow the invoice lines that don't have a product or
+      UOM selected
 
 **Table of contents**
 
@@ -43,13 +46,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Voicu Stefan
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-VoicuStefan2001| image:: https://github.com/VoicuStefan2001.png?size=40px
     :target: https://github.com/VoicuStefan2001

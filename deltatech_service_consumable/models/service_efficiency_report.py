@@ -12,8 +12,19 @@ class ServiceEfficiencyReport(models.Model):
 
     equipment_id = fields.Many2one("service.equipment", string="Equipment", index=True)
     agreement_id = fields.Many2one("service.agreement", string="Contract Services")
-    usage = fields.Float(string="Usage", digits="Product UoM", readonly=True, compute="_compute_usage", store=True)
-    uom_usage = fields.Many2one("uom.uom", string="Unit of Measure Usage", help="Unit of Measure for Usage", index=True)
+    usage = fields.Float(
+        string="Usage",
+        digits="Product UoM",
+        readonly=True,
+        compute="_compute_usage",
+        store=True,
+    )
+    uom_usage = fields.Many2one(
+        "uom.uom",
+        string="Unit of Measure Usage",
+        help="Unit of Measure for Usage",
+        index=True,
+    )
     shelf_life = fields.Float(string="Shelf Life", digits="Product UoM")
 
     def _select(self):
@@ -48,7 +59,15 @@ class ServiceEfficiencyReport(models.Model):
 
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-        res = super().read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
+        res = super().read_group(
+            domain,
+            fields,
+            groupby,
+            offset=offset,
+            limit=limit,
+            orderby=orderby,
+            lazy=lazy,
+        )
 
         if "usage" in fields:
             for line in res:
@@ -88,7 +107,10 @@ class ServiceEfficiencyReport(models.Model):
         if uom_usage and equipment_id:
             uom = self.env["uom.uom"].browse(uom_usage)
             meters = self.env["service.meter"].search(
-                [("equipment_id", "=", equipment_id), ("uom_id.category_id", "=", uom.category_id.id)]
+                [
+                    ("equipment_id", "=", equipment_id),
+                    ("uom_id.category_id", "=", uom.category_id.id),
+                ]
             )
 
             if meters:

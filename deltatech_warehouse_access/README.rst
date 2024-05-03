@@ -22,10 +22,12 @@ Warehouse Access
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Adds the Users tab in warehouse configurations,
- - Users added to this tab gain access to warehouse operations
- - If the tab remains empty everyone maintains access right to the warehouse
+-  Features:
+
+   -  Adds the Users tab in warehouse configurations,
+   -  Users added to this tab gain access to warehouse operations
+   -  If the tab remains empty everyone maintains access right to the
+      warehouse
 
 **Table of contents**
 
@@ -44,13 +46,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

@@ -29,7 +29,10 @@ class CrmTeam(models.Model):
         self.ensure_one()
         action = self.env["ir.actions.actions"]._for_xml_id("stock.product_template_action_product")
 
-        action["context"] = {"warehouse": self.warehouse_id.id, "search_default_real_stock_available": 1}
+        action["context"] = {
+            "warehouse": self.warehouse_id.id,
+            "search_default_real_stock_available": 1,
+        }
         return action
 
     def show_validated_quotations(self):

@@ -9,13 +9,22 @@ from odoo import api, fields, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    is_ready = fields.Boolean(string="Is ready", compute="_compute_is_ready", store=False, search="_search_is_ready")
+    is_ready = fields.Boolean(
+        string="Is ready",
+        compute="_compute_is_ready",
+        store=False,
+        search="_search_is_ready",
+    )
 
     # @api.depends('state', 'invoice_status', 'order_line.product_id.qty_available', 'order_line.qty_to_deliver',
     #              'picking_ids.move_ids.reserved_availability')
     def _compute_is_ready(self):
         for order in self:
-            is_ready = order.state in ["draft", "sent", "sale"] and order.invoice_status not in ["invoiced"]
+            is_ready = order.state in [
+                "draft",
+                "sent",
+                "sale",
+            ] and order.invoice_status not in ["invoiced"]
             if is_ready and order.state in ("draft", "sent"):
                 if order.picking_policy == "direct":
                     is_ready = False
@@ -46,7 +55,10 @@ class SaleOrder(models.Model):
     def _search_is_ready(self, operator, value):
         # comenzi deschise
         orders = self.env["sale.order"].search(
-            [("state", "in", ["draft", "sent", "sale"]), ("invoice_status", "!=", "invoiced")]
+            [
+                ("state", "in", ["draft", "sent", "sale"]),
+                ("invoice_status", "!=", "invoiced"),
+            ]
         )
         ready_orders = self.env["sale.order"]
         for order in orders:
@@ -79,7 +91,10 @@ class SaleOrderLine(models.Model):
                     product = line.product_id.with_context(location=location.id)
             qty_available_text = "N/A"
 
-            qty_available, virtual_available = product.qty_available, product.virtual_available
+            qty_available, virtual_available = (
+                product.qty_available,
+                product.virtual_available,
+            )
             outgoing_qty, incoming_qty = product.outgoing_qty, product.incoming_qty
 
             if qty_available or virtual_available or outgoing_qty or incoming_qty:

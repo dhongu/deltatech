@@ -13,7 +13,10 @@ class ProductTemplate(models.Model):
     search_index = fields.Char(compute="_compute_search_index", store=True, index=True, compute_sudo=True)
 
     alternative_code = fields.Char(
-        string="Alternative Code", index=True, inverse="_inverse_alternative_code", compute="_compute_alternative_code"
+        string="Alternative Code",
+        index=True,
+        inverse="_inverse_alternative_code",
+        compute="_compute_alternative_code",
     )
     alternative_ids = fields.One2many("product.alternative", "product_tmpl_id", string="Alternatives")
 

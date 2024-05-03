@@ -22,7 +22,13 @@ class BusinessProcessReport(models.Model):
 
     customer_id = fields.Many2one(string="Customer Responsible", comodel_name="res.partner", readonly=True)
     state = fields.Selection(
-        [("draft", "Draft"), ("design", "Design"), ("test", "Test"), ("ready", "Ready"), ("production", "Production")],
+        [
+            ("draft", "Draft"),
+            ("design", "Design"),
+            ("test", "Test"),
+            ("ready", "Ready"),
+            ("production", "Production"),
+        ],
         string="State",
         default="draft",
         readonly=True,
@@ -34,7 +40,12 @@ class BusinessProcessReport(models.Model):
 
     transaction_id = fields.Many2one(string="Transaction", comodel_name="business.transaction", readonly=True)
     transaction_type = fields.Selection(
-        [("md", "Master Data"), ("tr", "Transaction"), ("rp", "Report"), ("ex", "Extern")],
+        [
+            ("md", "Master Data"),
+            ("tr", "Transaction"),
+            ("rp", "Report"),
+            ("ex", "Extern"),
+        ],
         string="Transaction Type",
         readonly=True,
     )
@@ -44,7 +55,7 @@ class BusinessProcessReport(models.Model):
 
     @property
     def _table_query(self):
-        return "{} {} {}".format(self._select(), self._from(), self._where())
+        return f"{self._select()} {self._from()} {self._where()}"
 
     @api.model
     def _select(self):

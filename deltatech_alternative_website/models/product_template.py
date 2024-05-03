@@ -17,8 +17,16 @@ class ProductTemplate(models.Model):
 
         if safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
             values["search_fields"] = ["search_index"]
-            values["mapping"]["search_index"] = {"name": "search_index", "type": "text", "match": True}
+            values["mapping"]["search_index"] = {
+                "name": "search_index",
+                "type": "text",
+                "match": True,
+            }
         else:
             values["search_fields"] += ["alternative_ids.name"]
-            values["mapping"]["alternative_ids.name"] = {"name": "alternative_ids.name", "type": "text", "match": True}
+            values["mapping"]["alternative_ids.name"] = {
+                "name": "alternative_ids.name",
+                "type": "text",
+                "match": True,
+            }
         return values

@@ -58,4 +58,9 @@ class ProductProduct(models.Model):
         default=1,
         help="The sale quantity will be rounded up to this multiple.  If it is 0, the exact quantity will be used.",
     )
-    qty_minim = fields.Float("Qty Minim", digits="Product Unit of Measure", default=1, help="The minim sale quantity. ")
+    qty_minim = fields.Float(
+        "Qty Minim",
+        digits="Product Unit of Measure",
+        default=1,
+        help="The minim sale quantity. ",
+    )

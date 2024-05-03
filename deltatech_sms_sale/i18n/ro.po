@@ -43,8 +43,8 @@ msgid ""
 "<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
 "specific.\" groups=\"base.group_multi_company\"/>"
 msgstr ""
-"<span class=\"fa fa-lg fa-building-o\" title=\"Valoarea este specifică companiei"
-".\" groups=\"base.group_multi_company\"/>"
+"<span class=\"fa fa-lg fa-building-o\" title=\"Valoarea este specifică "
+"companiei.\" groups=\"base.group_multi_company\"/>"
 
 #. module: deltatech_sms_sale
 #: model:ir.model,name:deltatech_sms_sale.model_res_company

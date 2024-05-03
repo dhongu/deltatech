@@ -7,7 +7,11 @@
     "license": "OPL-1",
     "category": "Generic Modules",
     "depends": ["hr", "hr_holidays"],
-    "data": ["security/ir.model.access.csv", "views/hr_employee.xml", "wizard/export_working_days_view.xml"],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/hr_employee.xml",
+        "wizard/export_working_days_view.xml",
+    ],
     "development_status": "Beta",
     "maintainers": ["VoicuStefan2001"],
 }

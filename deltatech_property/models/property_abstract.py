@@ -42,7 +42,12 @@ class PropertyProperty(models.AbstractModel):
     asset_number = fields.Char(string="Asset Number", index=True)
 
     type_prop = fields.Selection(
-        [("patrimony", "Patrimony"), ("rent", "Rent"), ("loan", "Loan"), ("concession", "Concession")],
+        [
+            ("patrimony", "Patrimony"),
+            ("rent", "Rent"),
+            ("loan", "Loan"),
+            ("concession", "Concession"),
+        ],
         string="Property Type",
     )
 
@@ -78,7 +83,7 @@ class PropertyProperty(models.AbstractModel):
     active = fields.Boolean(default=True)
 
     def show_map(self):
-        url = "https://www.google.com/maps/search/?api=1&query={},{}".format(self.latitude, self.longitude)
+        url = f"https://www.google.com/maps/search/?api=1&query={self.latitude},{self.longitude}"
         return {
             "type": "ir.actions.act_url",
             "url": url,

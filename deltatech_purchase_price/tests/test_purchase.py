@@ -92,7 +92,10 @@ class TestPurchase(TransactionCase):
         wizard.trade_markup = 10
         wizard.selected_line = True
         wizard = wizard.save()
-        active_ids = [self.product_a.product_tmpl_id.id, self.product_b.product_tmpl_id.id]
+        active_ids = [
+            self.product_a.product_tmpl_id.id,
+            self.product_b.product_tmpl_id.id,
+        ]
         wizard.with_context(active_ids=active_ids).do_set_trade_markup()
 
         wizard = Form(self.env["product.markup.wizard"])

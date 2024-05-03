@@ -22,10 +22,11 @@ Stock Serial Number
 
 |badge1| |badge2| |badge3|
 
-Features:
-    - ascundere loturi utilizate
-    - generare nr de lot la receptie daca se utilizeaza semnul /
-    - generare certificat de garantie
+-  Features:
+
+   -  ascundere loturi utilizate
+   -  generare nr de lot la receptie daca se utilizeaza semnul /
+   -  generare certificat de garantie
 
 **Table of contents**
 
@@ -44,13 +45,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_stock_sn>`_ project on GitHub.
 

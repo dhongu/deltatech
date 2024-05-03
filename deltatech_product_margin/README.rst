@@ -22,8 +22,9 @@ Deltatech Product Margin
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Calcul  adaos comercial si marja la fiecare produs
+-  Features:
+
+   -  Calcul adaos comercial si marja la fiecare produs
 
 **Table of contents**
 
@@ -42,13 +43,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

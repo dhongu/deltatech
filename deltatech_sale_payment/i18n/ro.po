@@ -151,5 +151,3 @@ msgstr "Abandonează"
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sale_confirm_payment_form
 msgid "or"
 msgstr "sau"
-
-

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
 
   <record id="view_commission_update_purchase_price_form" model="ir.ui.view">
    <field name="name">commission.update.purchase.price.form</field>
@@ -61,5 +61,5 @@
 
 
 
-    </data>
+
 </odoo>

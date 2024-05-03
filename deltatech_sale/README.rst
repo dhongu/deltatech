@@ -22,9 +22,11 @@ Sale Extension
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Error selecting product in order without customer.
- - Sales report presents the profitability analysis using standard price.
+-  Features:
+
+   -  Error selecting product in order without customer.
+   -  Sales report presents the profitability analysis using standard
+      price.
 
 **Table of contents**
 
@@ -43,13 +45,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

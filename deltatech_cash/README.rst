@@ -22,10 +22,10 @@ Cash In / Out
 
 |badge1| |badge2| |badge3|
 
-Features:
- - specify account for cash deposit/withdrawal at the cash registry
+-  Features:
 
- - specificare cont la depunere/retragenere numerar din casa
+   -  specify account for cash deposit/withdrawal at the cash registry
+   -  specificare cont la depunere/retragenere numerar din casa
 
 **Table of contents**
 
@@ -44,13 +44,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

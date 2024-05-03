@@ -53,7 +53,11 @@ class WorkingDaysExport(models.TransientModel):
                     holiday = self.env["hr.leave"].search(
                         [
                             ("employee_id", "=", employee.id),
-                            ("state", "=", "validate"),  # Assuming you want only validated leaves
+                            (
+                                "state",
+                                "=",
+                                "validate",
+                            ),  # Assuming you want only validated leaves
                             ("date_from", "<=", date),
                             ("date_to", ">=", date),
                         ]
@@ -126,7 +130,11 @@ class WorkingDaysExport(models.TransientModel):
 
         # Set the data_file field with the content of the file
         self.write(
-            {"state": "get", "name": "work_day_report.xlsx", "data_file": base64.b64encode(output_buffer.getvalue())}
+            {
+                "state": "get",
+                "name": "work_day_report.xlsx",
+                "data_file": base64.b64encode(output_buffer.getvalue()),
+            }
         )
         output_buffer.close()
 

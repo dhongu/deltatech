@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
         <record id="view_invoice_followup_tree" model="ir.ui.view">
             <field name="name">invoice.followup.tree</field>
             <field name="model">account.invoice.followup</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Followups">
+                <tree>
                     <field name="name" />
                     <field name="code" />
                     <field name="active" />
@@ -51,11 +51,11 @@
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem
-            name="Followups"
-            id="menu_invoice_followup"
-            action="action_invoice_followup"
-            parent="account.account_management_menu"
-        />
+        name="Followups"
+        id="menu_invoice_followup"
+        action="action_invoice_followup"
+        parent="account.account_management_menu"
+    />
          <record id="action_send_followup" model="ir.actions.server">
             <field name="name">Send now</field>
             <field name="type">ir.actions.server</field>
@@ -63,5 +63,5 @@
             <field name="state">code</field>
             <field name="code">record.send_now()</field>
         </record>
-    </data>
+
 </odoo>

@@ -5,7 +5,7 @@
         <field name="name">Business process step</field>
         <field name="model">business.process.step</field>
         <field name="arch" type="xml">
-            <tree string="Business process step" sample="1">
+            <tree sample="1">
 
                 <field name="code" />
                 <field name="process_id" optional="hide" />

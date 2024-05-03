@@ -370,18 +370,15 @@ ul.auto-toc {
 !! source digest: sha256:271b8ac820767c4ae6024ee4716174f9524e8945050e62af7713384a468ecffe
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/licence-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/17.0/deltatech_website_sale_attributes"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<dl class="docutils">
-<dt>Features:</dt>
-<dd><ul class="first last simple">
+<ul class="simple">
+<li>Features:<ul>
 <li>Afisare valori atribute in functie de produsele determinate</li>
 </ul>
-</dd>
-</dl>
-<p>in website_sale.products_attributes
-after:
-&lt;t t-foreach=”attributes” t-as=”a”&gt;
-add
-&lt;t t-set=”a_value_ids” t-value=”a.value_ids.filtered(lambda v: v.id in value_ids.ids)”/&gt;</p>
+</li>
+</ul>
+<p>in website_sale.products_attributes after: &lt;t t-foreach=”attributes”
+t-as=”a”&gt; add &lt;t t-set=”a_value_ids”
+t-value=”a.value_ids.filtered(lambda v: v.id in value_ids.ids)”/&gt;</p>
 <p>replace t-foreach=”a.value_ids. with t-foreach=”a_value_ids.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">

@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_invoice_receipt
+# * deltatech_invoice_receipt
 #
 msgid ""
 msgstr ""
@@ -17,8 +17,13 @@ msgstr ""
 
 #. module: deltatech_invoice_receipt
 #: view:account.invoice:deltatech_invoice_receipt.invoice_supplier_form
-msgid "Are you sure you want to receive products without purchase order?  If these products exist items in a purchase order they will stay open."
-msgstr "Sunteți sigur că doriți recepța produselor fără comanda de achiziție? Dacă pentru aceste produsele există poziții în comenzi de aprovizionare atunci ele vor râmâne deschise."
+msgid ""
+"Are you sure you want to receive products without purchase order?  If these "
+"products exist items in a purchase order they will stay open."
+msgstr ""
+"Sunteți sigur că doriți recepța produselor fără comanda de achiziție? Dacă "
+"pentru aceste produsele există poziții în comenzi de aprovizionare atunci "
+"ele vor râmâne deschise."
 
 #. module: deltatech_invoice_receipt
 #: view:account.invoice:deltatech_invoice_receipt.invoice_supplier_form
@@ -73,7 +78,8 @@ msgstr "Nu există comenzi de achiziție pentru acest furnizor"
 #: code:addons/deltatech_invoice_receipt/account_invoice.py:232
 #, python-format
 msgid "No purchase orders line from product %s in quantity of %s "
-msgstr "Nu există produsul %s cu cantitatea %s în comenzile de achiziție deschise"
+msgstr ""
+"Nu există produsul %s cu cantitatea %s în comenzile de achiziție deschise"
 
 #. module: deltatech_invoice_receipt
 #: field:account.invoice,origin_refund_invoice_id:0
@@ -146,7 +152,3 @@ msgstr "A fost făcută recepția pentru comenzile de achiziție:"
 #, python-format
 msgid "Was entered invoice %s"
 msgstr "A fost introdusă factura %s"
-
-
-
-

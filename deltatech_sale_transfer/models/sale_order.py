@@ -19,7 +19,10 @@ class SaleOrder(models.Model):
         precision = self.env["decimal.precision"].precision_get("Product Unit of Measure")
 
         for order in self:
-            domain = [("id", "!=", order.warehouse_id.id), ("company_id", "=", order.company_id.id)]
+            domain = [
+                ("id", "!=", order.warehouse_id.id),
+                ("company_id", "=", order.company_id.id),
+            ]
             warehouse = self.env["stock.warehouse"].search(domain, limit=1)
             if not warehouse:
                 continue
@@ -45,7 +48,14 @@ class SaleOrder(models.Model):
                 if qty_available < 0:
                     qty_available = 0
 
-                if float_compare(product.virtual_available, product_qty, precision_digits=precision) == -1:
+                if (
+                    float_compare(
+                        product.virtual_available,
+                        product_qty,
+                        precision_digits=precision,
+                    )
+                    == -1
+                ):
                     demand = line.product_uom_qty - qty_available
                     if demand <= 0:
                         continue

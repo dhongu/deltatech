@@ -88,7 +88,13 @@ class ProductTemplate(models.Model):
 
     price_issue = fields.Boolean(compute="_compute_price_issue", store=True)
 
-    @api.depends("list_price", "list_price_copper", "list_price_bronze", "list_price_silver", "list_price_gold")
+    @api.depends(
+        "list_price",
+        "list_price_copper",
+        "list_price_bronze",
+        "list_price_silver",
+        "list_price_gold",
+    )
     def _compute_price_issue(self):
         for product in self:
             product.price_issue = not (

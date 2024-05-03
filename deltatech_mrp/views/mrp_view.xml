@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <odoo>
-    <data>
+
         <!--        <record id="deltatech_mrp_production_search_view" model="ir.ui.view">-->
         <!--            <field name="name">deltatech.mrp.mrp.production.select</field>-->
         <!--            <field name="model">mrp.production</field>-->
@@ -102,5 +102,5 @@
         <!--                </field>-->
         <!--            </field>-->
         <!--        </record>-->
-    </data>
+
 </odoo>

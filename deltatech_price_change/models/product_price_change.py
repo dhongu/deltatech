@@ -24,7 +24,11 @@ class ProductPriceChange(models.Model):
     )
 
     date = fields.Date(
-        "Date", required=True, index=True, states={"done": [("readonly", True)]}, default=fields.Date.today
+        "Date",
+        required=True,
+        index=True,
+        states={"done": [("readonly", True)]},
+        default=fields.Date.today,
     )
 
     partner_id = fields.Many2one(related="warehouse_id.partner_id", string="Owner Address", readonly=True)
@@ -32,7 +36,10 @@ class ProductPriceChange(models.Model):
     state = fields.Selection([("draft", "Draft"), ("done", "Done")], "Status", default="draft")
 
     line_ids = fields.One2many(
-        "product.price.change.line", "price_change_id", "Price History Lines", states={"done": [("readonly", True)]}
+        "product.price.change.line",
+        "price_change_id",
+        "Price History Lines",
+        states={"done": [("readonly", True)]},
     )
 
     warehouse_id = fields.Many2one("stock.warehouse", "Warehouse", states={"done": [("readonly", True)]})
@@ -51,8 +58,18 @@ class ProductPriceChange(models.Model):
     # address_id = fields.related('lot_stock_id', 'partner_id',
     # type="many2one", relation="res.partner", string="Address",readonly=True )
 
-    parent_id = fields.Many2one("product.price.change", "Parent Product Price Change", index=True, ondelete="cascade")
-    child_ids = fields.One2many("product.price.change", "parent_id", string="Child Product Price Change", readonly=True)
+    parent_id = fields.Many2one(
+        "product.price.change",
+        "Parent Product Price Change",
+        index=True,
+        ondelete="cascade",
+    )
+    child_ids = fields.One2many(
+        "product.price.change",
+        "parent_id",
+        string="Child Product Price Change",
+        readonly=True,
+    )
 
     old_amount = fields.Monetary(compute="_compute_amount_all", string="Old Amount")
     new_amount = fields.Monetary(compute="_compute_amount_all", string="New Amount")
@@ -88,7 +105,10 @@ class ProductPriceChange(models.Model):
                     for line in change.line_ids:
                         available = 0
                         quant_ids = self.env["stock.quant"].search(
-                            [("product_id", "=", line.product_id.id), ("location_id", "=", location.id)]
+                            [
+                                ("product_id", "=", line.product_id.id),
+                                ("location_id", "=", location.id),
+                            ]
                         )
 
                         for quant in quant_ids:
@@ -122,7 +142,11 @@ class ProductPriceChange(models.Model):
                         )
                         if warehouse.partner_id:
                             self.message_subscribe([warehouse.partner_id.id])
-                        self.message_post(body=_("New Price Change"), type="comment", subtype="mail.mt_comment")
+                        self.message_post(
+                            body=_("New Price Change"),
+                            type="comment",
+                            subtype="mail.mt_comment",
+                        )
 
             for change in self:
                 for line in change.line_ids:
@@ -149,7 +173,8 @@ class ProductPriceChangeLine(models.Model):
 
     price_change_id = fields.Many2one("product.price.change", "Product Price Change", readonly=True)
     sequence = fields.Integer(
-        "Sequence", help="Gives the sequence order when displaying a list of product with price changed."
+        "Sequence",
+        help="Gives the sequence order when displaying a list of product with price changed.",
     )
     product_id = fields.Many2one("product.product", "Product", required=True)
 
@@ -217,7 +242,8 @@ class ProductPriceChangeLine(models.Model):
     def _compute_quantity(self):
         for line in self:
             line.quantity = line.product_id.with_context(
-                warehouse=line.price_change_id.warehouse_id.id, location=line.price_change_id.location_id.id
+                warehouse=line.price_change_id.warehouse_id.id,
+                location=line.price_change_id.location_id.id,
             ).qty_available
             line.old_price = line.product_id.list_price
 

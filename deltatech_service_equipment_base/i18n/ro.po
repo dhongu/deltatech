@@ -453,7 +453,7 @@ msgstr "Contori"
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment_model__name
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_equipment_filter
 msgid "Model"
-msgstr "Model"
+msgstr ""
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_equipment__my_activity_date_deadline

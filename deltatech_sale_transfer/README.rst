@@ -22,8 +22,10 @@ Sale Prepare Transfer
 
 |badge1| |badge2| |badge3|
 
-Features:
- - At sale order validation, stock is checked in other warehouses and a transfer is generated if  demand quantity  is not available
+-  Features:
+
+   -  At sale order validation, stock is checked in other warehouses and
+      a transfer is generated if demand quantity is not available
 
 **Table of contents**
 
@@ -42,13 +44,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_transfer>`_ project on GitHub.
 

@@ -26,7 +26,10 @@ class ServiceEquipment(models.Model):
 
     internal_type = fields.Selection([("equipment", "Equipment")], default="equipment")
     product_id = fields.Many2one(
-        "product.product", string="Product", ondelete="restrict", domain=[("type", "=", "product")]
+        "product.product",
+        string="Product",
+        ondelete="restrict",
+        domain=[("type", "=", "product")],
     )
 
     serial_id = fields.Many2one("stock.lot", string="Product Serial Number", ondelete="restrict", copy=False)

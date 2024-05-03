@@ -10,7 +10,12 @@
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Purchase",
-    "depends": ["stock", "stock_account", "purchase_stock", "deltatech_product_trade_markup"],
+    "depends": [
+        "stock",
+        "stock_account",
+        "purchase_stock",
+        "deltatech_product_trade_markup",
+    ],
     "data": [
         "views/product_view.xml",
         "wizard/trade_markup_view.xml",

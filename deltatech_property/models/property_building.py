@@ -20,10 +20,14 @@ class PropertyBuilding(models.Model):
     # administrator_id = fields.Many2one('res.partner', string="Administrator", domain=[('is_company', '=', False)])
 
     purpose_parent_id = fields.Many2one(
-        "property.building.purpose", string="Purpose building", domain=[("parent_id", "=", False)]
+        "property.building.purpose",
+        string="Purpose building",
+        domain=[("parent_id", "=", False)],
     )
     purpose_id = fields.Many2one(
-        "property.building.purpose", string="Purpose building for", domain="[('parent_id','=',purpose_parent_id)]"
+        "property.building.purpose",
+        string="Purpose building for",
+        domain="[('parent_id','=',purpose_parent_id)]",
     )
 
     data_pif = fields.Date(string="Data PIF")
@@ -88,7 +92,9 @@ class PropertyBuilding(models.Model):
     surface_access = fields.Float(string="Surface access", compute="_compute_all_surface", store=True)  # Sacc
 
     surface_cleaned_adm = fields.Float(
-        string="Surface cleaned administratively", compute="_compute_all_surface", store=True
+        string="Surface cleaned administratively",
+        compute="_compute_all_surface",
+        store=True,
     )  # Sca
     surface_cleaned_ind = fields.Float(
         string="Surface cleaned industrial", compute="_compute_all_surface", store=True
@@ -101,21 +107,27 @@ class PropertyBuilding(models.Model):
 
     surface_derating_ext = fields.Float(string="Surface derating external")  # Sdze
     surface_derating_int = fields.Float(
-        string="Surface derating internal", compute="_compute_all_surface", store=True  # Sdzi
+        string="Surface derating internal",
+        compute="_compute_all_surface",
+        store=True,  # Sdzi
     )  # Sdzt = ∑ Sdzi+Sdze
     surface_derating = fields.Float(
         string="Total surface derating", compute="_compute_all_surface", store=True
     )  # Sdzt = ∑ Sdzi+Sdze
 
     surface_disinsection = fields.Float(
-        string="Area of disinsection", compute="_compute_surface_disinsection", store=True
+        string="Area of disinsection",
+        compute="_compute_surface_disinsection",
+        store=True,
     )  # Sds
 
     surface_cleaning_carpet = fields.Float(
         string="Surface cleaning Carpet", compute="_compute_cleaning_floor", store=True
     )  # Sctextil
     surface_cleaning_linoleum = fields.Float(
-        string="Surface cleaning Linoleum", compute="_compute_cleaning_floor", store=True
+        string="Surface cleaning Linoleum",
+        compute="_compute_cleaning_floor",
+        store=True,
     )  # Scgresie
     surface_cleaning_wood = fields.Float(
         string="Surface cleaning Wood", compute="_compute_cleaning_floor", store=True
@@ -125,7 +137,9 @@ class PropertyBuilding(models.Model):
         string="Surface cleaning doors", compute="_compute_cleaning_doors", store=True
     )  # Scusi
     surface_cleaning_windows = fields.Float(
-        string="Surface cleaning window", compute="_compute_cleaning_windows", store=True
+        string="Surface cleaning window",
+        compute="_compute_cleaning_windows",
+        store=True,
     )  # Scgeam
 
     maintenance_team_type = fields.Selection([("internal", "Internal"), ("external", "external")])

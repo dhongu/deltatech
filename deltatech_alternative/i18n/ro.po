@@ -18,7 +18,7 @@ msgstr ""
 #. module: deltatech_alternative
 #: model_terms:ir.ui.view,arch_db:deltatech_alternative.product_template_form_view
 msgid "Alternative"
-msgstr "Alternative"
+msgstr ""
 
 #. module: deltatech_alternative
 #: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__alternative_code
@@ -282,4 +282,3 @@ msgstr "Utilizat la"
 #: model_terms:ir.ui.view,arch_db:deltatech_alternative.product_alternative_search_form_view
 msgid "Vendor Code"
 msgstr "Cod furnizor"
-

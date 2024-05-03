@@ -8,5 +8,7 @@ class ResCompany(models.Model):
     _inherit = "res.company"
 
     property_maintenance_picking_type = fields.Many2one(
-        "stock.picking.type", readonly=False, string="Stock Operation Type for Maintenance"
+        "stock.picking.type",
+        readonly=False,
+        string="Stock Operation Type for Maintenance",
     )

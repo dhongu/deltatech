@@ -6,7 +6,7 @@
             <field name="name">Users Commission</field>
             <field name="model">commission.users</field>
             <field name="arch" type="xml">
-                <tree string="Users Commission" editable="top">
+                <tree editable="top">
                     <field name="user_id" />
                     <field name="rate" />
                     <field name="manager_user_id" />

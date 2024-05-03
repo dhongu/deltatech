@@ -15,7 +15,6 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-
 #. module: deltatech_product_margin
 #: model:ir.model.fields,field_description:deltatech_product_trade_markup.field_product_product__trade_markup
 #: model:ir.model.fields,field_description:deltatech_product_trade_markup.field_product_template__trade_markup

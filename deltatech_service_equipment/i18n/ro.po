@@ -234,7 +234,7 @@ msgstr "Contract service"
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__cost
 msgid "Cost"
-msgstr "Cost"
+msgstr ""
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields.selection,name:deltatech_service_equipment.selection__service_meter_category__type__counter
@@ -653,7 +653,7 @@ msgstr "Închirate"
 #. module: deltatech_service_equipment
 #: model:ir.model.fields.selection,name:deltatech_service_equipment.selection__service_equipment__state__inactive
 msgid "Inactive"
-msgstr "Inactive"
+msgstr ""
 
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
@@ -836,7 +836,6 @@ msgstr ""
 #: model:ir.model.fields,help:deltatech_service_equipment.field_service_equipment__maintenance_duration
 msgid "Maintenance Duration in hours."
 msgstr ""
-
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__manufacturer_id
@@ -1153,7 +1152,7 @@ msgstr "Caută"
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__serial_id
 #, python-format
 msgid "Serial"
-msgstr "Serial"
+msgstr ""
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__serial_no
@@ -1512,5 +1511,3 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_tree
 msgid "total"
 msgstr ""
-
-

@@ -44,7 +44,7 @@ class ExportAttachment(models.TransientModel):
         filename = "ExportOdooAttachment"
         extension = "zip"
 
-        name = "{}.{}".format(filename, extension)
+        name = f"{filename}.{extension}"
         self.write({"state": "get", "data_file": out, "name": name})
 
         return {

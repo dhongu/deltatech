@@ -117,7 +117,7 @@ msgstr "Grupează după..."
 #: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_cost_detail__id
 #: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: deltatech_mrp
 #: selection:deltatech.mrp.report,state:0
@@ -339,4 +339,3 @@ msgstr "Valoare producție"
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
 msgid "Waiting Goods"
 msgstr "Așteaptă bunuri"
-

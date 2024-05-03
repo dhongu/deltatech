@@ -22,8 +22,10 @@ Deltatech Sale Order Stage
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Camp suplimentar in comanda de vanzare de pentru a specifica stadiul in care se gaseste o comanda
+-  Features:
+
+   -  Camp suplimentar in comanda de vanzare de pentru a specifica
+      stadiul in care se gaseste o comanda
 
 **Table of contents**
 
@@ -42,13 +44,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

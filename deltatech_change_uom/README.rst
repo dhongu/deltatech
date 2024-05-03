@@ -22,9 +22,12 @@ Change Unit of measure
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Forces modification of unit of measurement purchase orders, sales orders, invoices
- - Fortare modificare unitate de masura in produs, comenzi de achizitie, comenzi de vanzare si facturi.
+-  Features:
+
+   -  Forces modification of unit of measurement purchase orders, sales
+      orders, invoices
+   -  Fortare modificare unitate de masura in produs, comenzi de
+      achizitie, comenzi de vanzare si facturi.
 
 **Table of contents**
 
@@ -43,13 +46,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

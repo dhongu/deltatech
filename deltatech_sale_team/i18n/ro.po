@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_sale_team
+# * deltatech_sale_team
 #
 msgid ""
 msgstr ""
@@ -52,5 +52,7 @@ msgstr "Depozit"
 
 #. module: deltatech_sale_team
 #: model:res.groups,comment:deltatech_sale_team.group_sale_team_manager
-msgid "the user will have an access to the documents of the sales team he/she belongs to."
+msgid ""
+"the user will have an access to the documents of the sales team he/she "
+"belongs to."
 msgstr ""

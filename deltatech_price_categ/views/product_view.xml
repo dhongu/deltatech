@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
         <!-- todo: de adaugat si detaliile de formare a listei de pret -->
         <record id="list_price_bronze" model="product.pricelist">
             <field name="name">Bronze Pricelist</field>
@@ -29,11 +29,11 @@
             <field name="arch" type="xml">
                 <xpath expr="//header" position="after">
                     <div
-                        class="alert alert-warning"
-                        role="alert"
-                        style="margin-bottom:0px;"
-                        invisible="price_issue==False"
-                    >
+                    class="alert alert-warning"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    invisible="price_issue==False"
+                >
                         <span>Please check the sale prices</span>
                     </div>
                     <field name="price_issue" invisible="1" />
@@ -71,5 +71,5 @@
                 </field>
             </field>
         </record>
-    </data>
+
 </odoo>

@@ -32,4 +32,3 @@ msgstr "Șablon produs"
 #: model:ir.model.fields,field_description:deltatech_data_sheet.field_product_template__safety_data_sheet_id
 msgid "Safety Data Sheet"
 msgstr "Fișă securitate"
-

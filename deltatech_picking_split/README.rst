@@ -22,8 +22,9 @@ Picking Split
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Generare manual de comanda restanta
+-  Features:
+
+   -  Generare manual de comanda restanta
 
 **Table of contents**
 
@@ -42,13 +43,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

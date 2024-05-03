@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
         <!-- Production Order Report -->
         <record id="view_deltatech_mrp_report_tree" model="ir.ui.view">
             <field name="name">deltatech.mrp.report.tree</field>
             <field name="model">deltatech.mrp.report</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Production">
+                <tree>
                     <field name="date" invisible="1" />
                     <field name="product_id" invisible="0" />
                     <field name="categ_id" invisible="1" />
@@ -87,10 +87,10 @@
                     <filter string="Done" name="done" domain="[('state','=','done')]" />
                     <group expand="0" string="Extended Filters...">
                         <filter
-                            name="picking_except"
-                            string="Picking Exception"
-                            domain="[('state','=','picking_except')]"
-                        />
+                        name="picking_except"
+                        string="Picking Exception"
+                        domain="[('state','=','picking_except')]"
+                    />
                         <filter name="confirmed" string="Waiting Goods" domain="[('state','=','confirmed')]" />
                         <filter name="ready" string="Ready to Produce" domain="[('state','=','ready')]" />
                         <separator orientation="vertical" />
@@ -100,25 +100,25 @@
                         <filter string="Category" name="group_by_category" context="{'group_by':'categ_id'}" />
                         <filter string="Product" name="group_by_product" context="{'group_by':'product_id'}" />
                         <filter
-                            string="Production order"
-                            name="group_by_production"
-                            context="{'group_by':'production_id'}"
-                        />
+                        string="Production order"
+                        name="group_by_production"
+                        context="{'group_by':'production_id'}"
+                    />
                         <separator />
                         <filter string="State" name="group_by_state" context="{'group_by':'state'}" />
                         <filter
-                            string="Company"
-                            name="group_by_company"
-                            context="{'group_by':'company_id'}"
-                            groups="base.group_multi_company"
-                        />
+                        string="Company"
+                        name="group_by_company"
+                        context="{'group_by':'company_id'}"
+                        groups="base.group_multi_company"
+                    />
                         <separator />
                         <filter
-                            string="Order Month"
-                            name="group_by_date"
-                            context="{'group_by':'date:month'}"
-                            help="Ordered date of the production order"
-                        />
+                        string="Order Month"
+                        name="group_by_date"
+                        context="{'group_by':'date:month'}"
+                        help="Ordered date of the production order"
+                    />
                     </group>
                 </search>
             </field>
@@ -135,10 +135,10 @@
             </field>
         </record>
         <menuitem
-            name="Production Cost Analysis"
-            action="action_deltatech_mrp_report"
-            id="menu_deltatech_mrp_report_tree"
-            parent="mrp.menu_mrp_reporting"
-        />
-    </data>
+        name="Production Cost Analysis"
+        action="action_deltatech_mrp_report"
+        id="menu_deltatech_mrp_report_tree"
+        parent="mrp.menu_mrp_reporting"
+    />
+
 </odoo>

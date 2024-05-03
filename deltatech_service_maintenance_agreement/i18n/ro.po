@@ -1438,4 +1438,3 @@ msgstr "echipamentul nu functioneaza"
 #: model:service.operating.parameter,name:deltatech_service_maintenance_agreement.equi_work
 msgid "the equipment works"
 msgstr "echipamentul functioneaza"
-

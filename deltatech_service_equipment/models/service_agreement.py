@@ -98,7 +98,11 @@ class ServiceAgreement(models.Model):
                         equipment.serial_id.name,
                     )
                     return {
-                        "warning": {"title": "Warning", "message": message, "type": "notification"},
+                        "warning": {
+                            "title": "Warning",
+                            "message": message,
+                            "type": "notification",
+                        },
                     }
                     # self.error += "Echipament %s/%s (serial: %s): nu exista citiri mai noi de 7 zile | " %
                     # (equipment.name, equipment.address_id.name, equipment.serial_id.name)
@@ -175,7 +179,12 @@ class ServiceAgreementLine(models.Model):
                 consumption.write({"quantity": quantity, "name": name, "equipment_id": equipment.id})
 
             else:  # echipament fara contor
-                consumption.write({"name": self.equipment_id.display_name, "equipment_id": equipment.id})
+                consumption.write(
+                    {
+                        "name": self.equipment_id.display_name,
+                        "equipment_id": equipment.id,
+                    }
+                )
 
 
 class ServiceConsumption(models.Model):

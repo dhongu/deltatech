@@ -44,7 +44,10 @@ class DeltatechMrpReport(models.Model):
     val_prod = fields.Float("Value production", digits="Account", readonly=True)
 
     standard_price = fields.Float(
-        related="product_id.standard_price", string="Price Standard", readonly=True, group_operator="avg"
+        related="product_id.standard_price",
+        string="Price Standard",
+        readonly=True,
+        group_operator="avg",
     )
 
     actually_price = fields.Float("Actually Price", digits="Account", readonly=True, group_operator="avg")

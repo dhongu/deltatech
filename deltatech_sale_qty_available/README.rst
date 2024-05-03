@@ -24,7 +24,8 @@ Sale Qty Available
 
 Features:
 
- - In the sales order list the orders that are ready for delivery are displayed  in green color.
+   -  In the sales order list the orders that are ready for delivery are
+      displayed in green color.
 
 **Table of contents**
 
@@ -43,13 +44,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

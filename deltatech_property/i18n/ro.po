@@ -18,106 +18,105 @@ msgstr ""
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "10"
-msgstr "10"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "11"
-msgstr "11"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "12"
-msgstr "12"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "13"
-msgstr "13"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "14"
-msgstr "14"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "15"
-msgstr "15"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "16"
-msgstr "16"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "17"
-msgstr "17"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "18"
-msgstr "18"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "19"
-msgstr "19"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "20"
-msgstr "20"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "21"
-msgstr "21"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "22"
-msgstr "22"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "23"
-msgstr "23"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "24"
-msgstr "24"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "25"
-msgstr "25"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "26"
-msgstr "26"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "27"
-msgstr "27"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "28"
-msgstr "28"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,level:0
 msgid "29"
-msgstr "29"
+msgstr ""
 
 #. module: deltatech_property
-#: selection:property.room,usage:0
-#: selection:property.room.usage,categ:0
+#: selection:property.room,usage:0 selection:property.room.usage,categ:0
 msgid "Access ways"
 msgstr "Căi de acces"
 
@@ -160,7 +159,7 @@ msgstr "Activ(a)"
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_building_administrator_id
 msgid "Administrator"
-msgstr "Administrator"
+msgstr ""
 
 #. module: deltatech_property
 #: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
@@ -174,8 +173,7 @@ msgid "Air conditioning equipment"
 msgstr "Echipament aer condiționat"
 
 #. module: deltatech_property
-#: selection:property.room,usage:0
-#: selection:property.room.usage,categ:0
+#: selection:property.room,usage:0 selection:property.room.usage,categ:0
 msgid "Archive"
 msgstr "Arhivă"
 
@@ -225,12 +223,12 @@ msgstr "Covor, mochetă"
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_land_carte
 msgid "Carte funciară"
-msgstr "Carte funciară"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage_categ
 msgid "Categ"
-msgstr "Categ"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_acquisition_categ
@@ -275,15 +273,14 @@ msgid "Cleaning surface most by lower that surface area"
 msgstr "Suprafața de curățat trebuie să fie mică decât cea a camerei"
 
 #. module: deltatech_property
-#: selection:property.room,usage:0
-#: selection:property.room.usage,categ:0
+#: selection:property.room,usage:0 selection:property.room.usage,categ:0
 msgid "Cloakroom"
 msgstr "Vestiar"
 
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_land_cod
 msgid "Cod"
-msgstr "Cod"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_acquisition_cod
@@ -295,7 +292,7 @@ msgstr "Cod"
 #: model:ir.model.fields,field_description:deltatech_property.field_property_region_cod
 #: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage_cod
 msgid "Cod rand"
-msgstr "Cod rand"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_common
@@ -310,8 +307,7 @@ msgid "Company"
 msgstr "Companie"
 
 #. module: deltatech_property
-#: selection:property.building,type_prop:0
-#: selection:property.land,type_prop:0
+#: selection:property.building,type_prop:0 selection:property.land,type_prop:0
 #: selection:property.property,type_prop:0
 msgid "Concession"
 msgstr "Concesiune"
@@ -365,12 +361,12 @@ msgstr "Creat în"
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_building_data_pif
 msgid "Data PIF"
-msgstr "Data PIF"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.features,categ:0
 msgid "Deflector"
-msgstr "Deflector"
+msgstr ""
 
 #. module: deltatech_property
 #: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_room_form
@@ -390,7 +386,7 @@ msgstr "Nume afișat"
 #: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
 #: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
 msgid "Documente"
-msgstr "Documente"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_cleaned_ext
@@ -406,7 +402,7 @@ msgstr "Stingătoare"
 #: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_filter
 #: selection:property.land,location_type:0
 msgid "Extravilan"
-msgstr "Extravilan"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model,name:deltatech_property.model_property_features
@@ -426,8 +422,7 @@ msgid "Floor type"
 msgstr "Tip podea"
 
 #. module: deltatech_property
-#: selection:property.room,usage:0
-#: selection:property.room.usage,categ:0
+#: selection:property.room,usage:0 selection:property.room.usage,categ:0
 msgid "Garage"
 msgstr "Garaj"
 
@@ -436,7 +431,7 @@ msgstr "Garaj"
 #: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
 #: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_room_form
 msgid "General"
-msgstr "General"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.features,categ:0
@@ -468,11 +463,10 @@ msgstr "Hidranți"
 #: model:ir.model.fields,field_description:deltatech_property.field_property_room_id
 #: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage_id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: deltatech_property
-#: selection:property.room,usage:0
-#: selection:property.room.usage,categ:0
+#: selection:property.room,usage:0 selection:property.room.usage,categ:0
 msgid "IT endowments (Ranks, Hall Servers)"
 msgstr "Dotări IT (Ranck-uri, Sala Servere)"
 
@@ -487,17 +481,15 @@ msgstr "Identificare"
 #: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_filter
 #: selection:property.land,location_type:0
 msgid "Intravilan"
-msgstr "Intravilan"
+msgstr ""
 
 #. module: deltatech_property
-#: selection:property.room,usage:0
-#: selection:property.room.usage,categ:0
+#: selection:property.room,usage:0 selection:property.room.usage,categ:0
 msgid "Kitchens"
 msgstr "Oficii + bucătării"
 
 #. module: deltatech_property
-#: selection:property.room,usage:0
-#: selection:property.room.usage,categ:0
+#: selection:property.room,usage:0 selection:property.room.usage,categ:0
 msgid "Laboratory"
 msgstr "Laborator (Atelier)"
 
@@ -581,15 +573,13 @@ msgid "Linoleum"
 msgstr "Gesie, linoleu"
 
 #. module: deltatech_property
-#: selection:property.building,type_prop:0
-#: selection:property.land,type_prop:0
+#: selection:property.building,type_prop:0 selection:property.land,type_prop:0
 #: selection:property.property,type_prop:0
 msgid "Loan"
 msgstr "Comodat"
 
 #. module: deltatech_property
-#: selection:property.room,usage:0
-#: selection:property.room.usage,categ:0
+#: selection:property.room,usage:0 selection:property.room.usage,categ:0
 msgid "Lobby"
 msgstr "Hol"
 
@@ -599,8 +589,7 @@ msgid "Location type"
 msgstr "Tip locație"
 
 #. module: deltatech_property
-#: selection:property.room,usage:0
-#: selection:property.room.usage,categ:0
+#: selection:property.room,usage:0 selection:property.room.usage,categ:0
 msgid "Logistics warehouse"
 msgstr "Depozit logistic"
 
@@ -610,8 +599,7 @@ msgid "Medical kits"
 msgstr "Truse medicale"
 
 #. module: deltatech_property
-#: selection:property.room,usage:0
-#: selection:property.room.usage,categ:0
+#: selection:property.room,usage:0 selection:property.room.usage,categ:0
 msgid "Meeting room"
 msgstr "Sală ședință"
 
@@ -657,12 +645,12 @@ msgstr "Nomencator"
 #: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
 #: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
 msgid "Note"
-msgstr "Note"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_land_bloc_fizic
 msgid "Nr bloc fizic"
-msgstr "Nr bloc fizic"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_features_number
@@ -705,7 +693,7 @@ msgstr "Proprietar"
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_land_parcela
 msgid "Parcela cadastrală"
-msgstr "Parcela cadastrală"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_acquisition_parent_id
@@ -729,8 +717,7 @@ msgid "Partner"
 msgstr "Partener"
 
 #. module: deltatech_property
-#: selection:property.building,type_prop:0
-#: selection:property.land,type_prop:0
+#: selection:property.building,type_prop:0 selection:property.land,type_prop:0
 #: selection:property.property,type_prop:0
 msgid "Patrimony"
 msgstr "Patrimoniu"
@@ -753,27 +740,27 @@ msgstr "Achiziție proprietate"
 #. module: deltatech_property
 #: model:ir.model,name:deltatech_property.model_property_building_categ
 msgid "Property Building Category"
-msgstr "Property Building Category"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model,name:deltatech_property.model_property_cost_center
 msgid "Property Cost Center"
-msgstr "Property Cost Center"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model,name:deltatech_property.model_property_land_categ
 msgid "Property Land Category"
-msgstr "Property Land Category"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model,name:deltatech_property.model_property_region
 msgid "Property Region"
-msgstr "Property Region"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model,name:deltatech_property.model_property_room_usage
 msgid "Property Room Usage"
-msgstr "Property Room Usage"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_building_type_prop
@@ -803,8 +790,7 @@ msgid "Region"
 msgstr "Reginea"
 
 #. module: deltatech_property
-#: selection:property.building,type_prop:0
-#: selection:property.land,type_prop:0
+#: selection:property.building,type_prop:0 selection:property.land,type_prop:0
 #: selection:property.property,type_prop:0
 msgid "Rent"
 msgstr "Închirat"
@@ -849,8 +835,7 @@ msgid "Rooms"
 msgstr "Camere"
 
 #. module: deltatech_property
-#: selection:property.room,usage:0
-#: selection:property.room.usage,categ:0
+#: selection:property.room,usage:0 selection:property.room.usage,categ:0
 msgid "Sanitary group"
 msgstr "Grup sanitar"
 
@@ -864,13 +849,13 @@ msgstr "Caută"
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_land_sector
 msgid "Sector cadastral"
-msgstr "Sector cadastral"
+msgstr ""
 
 #. module: deltatech_property
 #: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
 #: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
 msgid "Share a message..."
-msgstr "Share a message..."
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.features,categ:0
@@ -878,8 +863,7 @@ msgid "Signage"
 msgstr "Semnalistică"
 
 #. module: deltatech_property
-#: selection:property.room,usage:0
-#: selection:property.room.usage,categ:0
+#: selection:property.room,usage:0 selection:property.room.usage,categ:0
 msgid "Staircase"
 msgstr "Casa scarii"
 
@@ -927,7 +911,7 @@ msgstr "Suprafața"
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_it_endowments
 msgid "Surface IT endowments"
-msgstr "Surface IT endowments"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_access
@@ -1081,7 +1065,7 @@ msgstr "Suprafețe"
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_land_tarla
 msgid "Tarla"
-msgstr "Tarla"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_room_technical_condition
@@ -1089,8 +1073,7 @@ msgid "Technical condition"
 msgstr "Starea tehnică"
 
 #. module: deltatech_property
-#: selection:property.room,usage:0
-#: selection:property.room.usage,categ:0
+#: selection:property.room,usage:0 selection:property.room.usage,categ:0
 msgid "Technical premises (thermal, air conditioning, post-transformer)"
 msgstr "Încăperi tehnice (centrale termice, aer condiționat, post trafo))"
 
@@ -1101,18 +1084,19 @@ msgstr "Chiriaș"
 
 #. module: deltatech_property
 #: model:ir.model.fields,help:deltatech_property.field_property_building_surface_common
-msgid "The common area of the building ∑ Ssed + Shol + Scs + Sof + Sgrs + Sacc"
-msgstr "The common area of the building ∑ Ssed + Shol + Scs + Sof + Sgrs + Sacc"
+msgid ""
+"The common area of the building ∑ Ssed + Shol + Scs + Sof + Sgrs + Sacc"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model.fields,help:deltatech_property.field_property_room_usage
 msgid "The purpose of using the room"
-msgstr "The purpose of using the room"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model,name:deltatech_property.model_property_titlu_prop
 msgid "Titlu Proprietate"
-msgstr "Titlu Proprietate"
+msgstr ""
 
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_cleaned_tot
@@ -1127,7 +1111,7 @@ msgstr "Suprafață totală deratizat"
 #. module: deltatech_property
 #: model:ir.model.fields,field_description:deltatech_property.field_property_land_utr
 msgid "UTR"
-msgstr "UTR"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.room,technical_condition:0
@@ -1145,8 +1129,7 @@ msgid "Useful surface"
 msgstr "Suprafață utilă"
 
 #. module: deltatech_property
-#: selection:property.room,usage:0
-#: selection:property.room.usage,categ:0
+#: selection:property.room,usage:0 selection:property.room.usage,categ:0
 msgid "Warehouse"
 msgstr "Magazie"
 
@@ -1181,7 +1164,7 @@ msgstr "bună"
 #. module: deltatech_property
 #: selection:property.room.usage,categ:0
 msgid "office"
-msgstr "office"
+msgstr ""
 
 #. module: deltatech_property
 #: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
@@ -1189,7 +1172,7 @@ msgstr "office"
 #: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_tree
 #: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_room_tree
 msgid "surface"
-msgstr "surface"
+msgstr ""
 
 #. module: deltatech_property
 #: selection:property.building,roof_structure:0
@@ -1219,5 +1202,4 @@ msgstr "structura sarpanta lemn, invelitoare tabla"
 #. module: deltatech_property
 #: model:ir.model.fields,help:deltatech_property.field_property_building_surface_useful
 msgid "∑ Sbir + Scc +  Slb + Sit + Sgar + Smag + Slog + Sarh + Sves + Steh "
-msgstr "∑ Sbir + Scc +  Slb + Sit + Sgar + Smag + Slog + Sarh + Sves + Steh "
-
+msgstr ""

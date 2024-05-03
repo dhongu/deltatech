@@ -22,10 +22,13 @@ Deltatech Auto Reorder Rule
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Creates a reordering rule with default values when a new product is created
- - Create rule (create_rule()) method for product.product model provided for creating rules for existing products
- - The rules are created only for type='product' products
+-  Features:
+
+   -  Creates a reordering rule with default values when a new product
+      is created
+   -  Create rule (create_rule()) method for product.product model
+      provided for creating rules for existing products
+   -  The rules are created only for type='product' products
 
 **Table of contents**
 
@@ -44,13 +47,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dan Stoica
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_auto_reorder_rule>`_ project on GitHub.
 

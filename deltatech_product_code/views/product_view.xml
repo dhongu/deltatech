@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <odoo>
-    <data>
+
         <record id="product_category_form_view" model="ir.ui.view">
             <field name="name">product.category.form</field>
             <field name="model">product.category</field>
@@ -25,12 +25,12 @@
             <field name="arch" type="xml">
                 <xpath expr="//header" position="inside">
                     <button
-                        name="button_new_code"
-                        string="New internal code"
-                        type="object"
-                        class="oe_edit_only"
-                        invisible="product_variant_count>1"
-                    />
+                    name="button_new_code"
+                    string="New internal code"
+                    type="object"
+                    class="oe_edit_only"
+                    invisible="product_variant_count>1"
+                />
                 </xpath>
             </field>
         </record>
@@ -58,5 +58,5 @@
             <field name="code">action = records.force_new_code()</field>
             <field name="binding_model_id" ref="model_product_template" />
         </record>
-    </data>
+
 </odoo>

@@ -22,8 +22,10 @@ Picking Validation Restrict
 
 |badge1| |badge2| |badge3|
 
-Features:
- - A security group can be attached to a Operation Type. Only users in this group can validate pickings of this type
+-  Features:
+
+   -  A security group can be attached to a Operation Type. Only users
+      in this group can validate pickings of this type
 
 **Table of contents**
 
@@ -42,13 +44,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dan Stoica
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-danila12| image:: https://github.com/danila12.png?size=40px
     :target: https://github.com/danila12

@@ -370,45 +370,53 @@ ul.auto-toc {
 !! source digest: sha256:14521e9630ee51d0700e7f2ff8f27d6e4183c91e4bc4df5a6f4b7c461ef06920
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="https://www.odoo.com/documentation/master/legal/licenses.html"><img alt="License: OPL-1" src="https://img.shields.io/badge/licence-OPL--1-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/17.0/deltatech_purchase_price"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<dl class="docutils">
-<dt>Features:</dt>
-<dd><ul class="first last simple">
+<ul class="simple">
+<li>Features:<ul>
 <li>Update purchase price after receipt</li>
-<li><dl class="first docutils">
-<dt>Depends on system parameters:</dt>
-<dd><ul class="first last">
-<li><em>purchase.update_standard_price</em> - If set to True, the product’s standard_price will be overwritten</li>
-<li><em>purchase.update_product_price</em> - if set to False, the product supplier’s price will not be modified, if set to True, the
-product’s supplier price will be allways overwritten</li>
-<li><em>purchase.add_supplier_to_product</em> - if set to True, the supplier and the price will be automatically added to the
-supplier info of the product, if set to False, no modifications will be made in the supplier info of the product</li>
-<li><em>purchase.update_list_price</em> - if set to True, the list price will be updated according to trade markup value.
-If set to False, the list price will not be updated.</li>
-<li><em>sale.list_price_round</em> - decimal number to which the list price is rounded</li>
+<li><ul class="first">
+<li>Depends on system parameters:<ul>
+<li><em>purchase.update_standard_price</em> - If set to True, the
+product’s standard_price will be overwritten</li>
+<li><em>purchase.update_product_price</em> - if set to False, the
+product supplier’s price will not be modified, if set to
+True, the product’s supplier price will be allways
+overwritten</li>
+<li><em>purchase.add_supplier_to_product</em> - if set to True, the
+supplier and the price will be automatically added to the
+supplier info of the product, if set to False, no
+modifications will be made in the supplier info of the
+product</li>
+<li><em>purchase.update_list_price</em> - if set to True, the list
+price will be updated according to trade markup value. If
+set to False, the list price will not be updated.</li>
+<li><em>sale.list_price_round</em> - decimal number to which the list
+price is rounded</li>
 </ul>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt>New fields added in product template:</dt>
-<dd><ul class="first last">
-<li>last_purchase_price - last purchase price. It’s updated at receipt validation</li>
-<li>trade_markup - trade markup for the product. It can be updated with a wizard (Action-&gt;Set trade markup)</li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt>New feature:</dt>
-<dd><ul class="first last">
-<li>if trade_markup <strong>is set</strong> for a product, at reception the sale price will be computed from last_purchase_price and trade_markup</li>
-</ul>
-</dd>
-</dl>
 </li>
 </ul>
-</dd>
-</dl>
+</li>
+<li><ul class="first">
+<li>New fields added in product template:<ul>
+<li>last_purchase_price - last purchase price. It’s updated at
+receipt validation</li>
+<li>trade_markup - trade markup for the product. It can be
+updated with a wizard (Action-&gt;Set trade markup)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><ul class="first">
+<li>New feature:<ul>
+<li>if trade_markup <strong>is set</strong> for a product, at reception the
+sale price will be computed from last_purchase_price and
+trade_markup</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">

@@ -11,15 +11,26 @@ class DeltatechDC(models.Model):
     _order = "date desc"
 
     name = fields.Char("Number", size=32, required=True)
-    date = fields.Date("Date of Declaration", default=fields.Date.context_today, required=True, index=True)
+    date = fields.Date(
+        "Date of Declaration",
+        default=fields.Date.context_today,
+        required=True,
+        index=True,
+    )
     product_id = fields.Many2one(
-        "product.product", "Product", required=True, index=True, domain=[("sale_ok", "=", "True")]
+        "product.product",
+        "Product",
+        required=True,
+        index=True,
+        domain=[("sale_ok", "=", "True")],
     )
     lot_id = fields.Many2one("stock.lot", index=True, domain="[('product_id', '=', product_id)]")
     company_standard = fields.Char(related="product_id.company_standard", string="Standard of Company", store=False)
     data_sheet = fields.Integer(related="product_id.data_sheet", string="Data Sheet", store=False)
     technical_specification = fields.Integer(
-        related="product_id.technical_specification", string="Technical Specification", store=False
+        related="product_id.technical_specification",
+        string="Technical Specification",
+        store=False,
     )
     standards = fields.Text(related="product_id.standards", string="Standards", store=False)
     company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)

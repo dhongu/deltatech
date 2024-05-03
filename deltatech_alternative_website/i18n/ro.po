@@ -49,4 +49,3 @@ msgstr ""
 #: model:ir.model,name:deltatech_alternative_website.model_website
 msgid "Website"
 msgstr "Pagină web"
-

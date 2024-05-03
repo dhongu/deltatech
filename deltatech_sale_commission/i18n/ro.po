@@ -184,7 +184,7 @@ msgstr "Grupează după..."
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__id
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__payment_state__in_payment
@@ -309,7 +309,7 @@ msgstr "Produs"
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_tree
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_tree
 msgid "Profit"
-msgstr "Profit"
+msgstr ""
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__indicator_profit

@@ -10,7 +10,11 @@ class ServiceMeterCategory(models.Model):
 
     name = fields.Char(string="Category")
     uom_id = fields.Many2one("uom.uom", string="Unit of Measure", required=True)
-    type = fields.Selection([("counter", "Counter"), ("collector", "Collector")], string="Type", default="counter")
+    type = fields.Selection(
+        [("counter", "Counter"), ("collector", "Collector")],
+        string="Type",
+        default="counter",
+    )
 
 
 class ServiceEquipmentType(models.Model):
@@ -34,7 +38,10 @@ class ServiceTemplateMeter(models.Model):
 
     type_id = fields.Many2one("service.equipment.type", string="Type")
     product_id = fields.Many2one(
-        "product.product", string="Service", ondelete="set null", domain=[("type", "=", "service")]
+        "product.product",
+        string="Service",
+        ondelete="set null",
+        domain=[("type", "=", "service")],
     )
     meter_categ_id = fields.Many2one("service.meter.category", string="Meter category")
 

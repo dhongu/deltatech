@@ -52,7 +52,7 @@ msgstr "Setări de configurare"
 #: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_product__standard_price
 #: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_template__standard_price
 msgid "Cost"
-msgstr "Cost"
+msgstr ""
 
 #. module: deltatech_purchase_price
 #: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__create_uid
@@ -183,8 +183,8 @@ msgid ""
 "The list price will be updated according to trade markup value and the last "
 "purchase price."
 msgstr ""
-"Prețul listei va fi actualizat în funcție de valoarea adaosului comercial și "
-"a ultimul preț de achiziție."
+"Prețul listei va fi actualizat în funcție de valoarea adaosului comercial și"
+" a ultimul preț de achiziție."
 
 #. module: deltatech_purchase_price
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_price.res_config_settings_view_form
@@ -225,16 +225,17 @@ msgid "Update standard price"
 msgstr "Actualizează prețul standard"
 
 #. module: deltatech_purchase_price
-#: model:ir.model,name:deltatech_purchase_price.model_product_markup_wizard
-msgid "product.markup.wizard"
-msgstr ""
-
-#. module: deltatech_purchase_price
 #: code:addons/deltatech_purchase_price/models/product.py:0
 #, python-format
 msgid ""
 "You cannot update the supplier price here. Please edit the supplier info "
 "separately"
 msgstr ""
-"Pretul de achizitie nu se poate modifica in acest ecran. Completeaza pretul in linia comenzii de achizitie, "
-"editeaza produsul sau lista de preturi furnizor"
+"Pretul de achizitie nu se poate modifica in acest ecran. Completeaza pretul "
+"in linia comenzii de achizitie, editeaza produsul sau lista de preturi "
+"furnizor"
+
+#. module: deltatech_purchase_price
+#: model:ir.model,name:deltatech_purchase_price.model_product_markup_wizard
+msgid "product.markup.wizard"
+msgstr ""

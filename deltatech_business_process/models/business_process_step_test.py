@@ -9,22 +9,34 @@ class BusinessProcessStepTest(models.Model):
     _description = "Business Process Step Test"
 
     process_test_id = fields.Many2one(
-        string="Process Test", comodel_name="business.process.test", required=True, ondelete="cascade"
+        string="Process Test",
+        comodel_name="business.process.test",
+        required=True,
+        ondelete="cascade",
     )
     state = fields.Selection(related="process_test_id.state", copy=False, store=True)
     step_id = fields.Many2one(string="Step", comodel_name="business.process.step", required=True)
     process_id = fields.Many2one(
-        string="Process", comodel_name="business.process", related="step_id.process_id", store=True
+        string="Process",
+        comodel_name="business.process",
+        related="step_id.process_id",
+        store=True,
     )
 
     sequence = fields.Integer(string="Sequence", related="step_id.sequence", store=True)
     name = fields.Char(string="Name", related="step_id.name", store=True)
     description = fields.Text(string="Description", related="step_id.description", store=True)
     transaction_id = fields.Many2one(
-        string="Transaction", comodel_name="business.transaction", related="step_id.transaction_id", store=True
+        string="Transaction",
+        comodel_name="business.transaction",
+        related="step_id.transaction_id",
+        store=True,
     )
     responsible_id = fields.Many2one(
-        string="Responsible", comodel_name="res.partner", domain="[('is_company', '=', False)]", store=True
+        string="Responsible",
+        comodel_name="res.partner",
+        domain="[('is_company', '=', False)]",
+        store=True,
     )
 
     result = fields.Selection(
@@ -50,7 +62,9 @@ class BusinessProcessStepTest(models.Model):
     feedback_text = fields.Text(string="Feedback")
     feedback_date = fields.Date(string="Feedback date")
     feedback_state = fields.Selection(
-        [("draft", "Draft"), ("ok", "Ok"), ("not_ok", "Not ok")], string="Feedback state", default="draft"
+        [("draft", "Draft"), ("ok", "Ok"), ("not_ok", "Not ok")],
+        string="Feedback state",
+        default="draft",
     )
     count_issues = fields.Integer(string="Count Issues", compute="_compute_count_issues", store=True)
 
@@ -66,7 +80,7 @@ class BusinessProcessStepTest(models.Model):
         action = self.env["ir.actions.actions"]._for_xml_id("deltatech_business_process.action_business_issue")
         domain = [("step_test_id", "=", self.id)]
         context = {
-            "default_name": "Issue {}".format(self.name),
+            "default_name": f"Issue {self.name}",
             "default_step_test_id": self.id,
             "default_project_id": self.process_id.project_id.id,
             "default_process_id": self.process_id.id,

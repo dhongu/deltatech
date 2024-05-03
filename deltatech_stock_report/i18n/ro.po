@@ -60,7 +60,7 @@ msgstr "Grupează După..."
 #: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report__id
 #: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_valuation_layer__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: deltatech_stock_report
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
@@ -190,4 +190,3 @@ msgstr "UM"
 #: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_valuation_layer__l10n_ro_valued_type
 msgid "Valued Type"
 msgstr "Tip evaluare"
-

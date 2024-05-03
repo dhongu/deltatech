@@ -9,5 +9,7 @@ class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
     picking_type_for_service = fields.Many2one(
-        "stock.picking.type", string="Outgoing not to be invoiced", config_parameter="service.picking_type_for_service"
+        "stock.picking.type",
+        string="Outgoing not to be invoiced",
+        config_parameter="service.picking_type_for_service",
     )

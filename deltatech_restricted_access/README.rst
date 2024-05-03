@@ -22,10 +22,12 @@ Restricted Access
 
 |badge1| |badge2| |badge3|
 
-Adds the technical rights "Edit sensible data" , those rights will be required to
- - edit cost methods in product category
- - edit the name of locations
- - edit the name of UOMs
+-  Adds the technical rights "Edit sensible data" , those rights will be
+   required to
+
+   -  edit cost methods in product category
+   -  edit the name of locations
+   -  edit the name of UOMs
 
 **Table of contents**
 
@@ -44,13 +46,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

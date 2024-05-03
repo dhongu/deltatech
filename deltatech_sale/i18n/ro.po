@@ -29,7 +29,8 @@ msgstr "Cant"
 #. module: deltatech_sale
 #: code:addons/deltatech_sale/models/sale.py:20
 #, python-format
-msgid "Before choosing a product,\n"
+msgid ""
+"Before choosing a product,\n"
 " select a customer in the sales form."
 msgstr ""
 

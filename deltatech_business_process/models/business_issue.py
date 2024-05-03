@@ -50,7 +50,12 @@ class BusinessIssue(models.Model):
 
     # critical, major, minor, cosmetic
     severity = fields.Selection(
-        [("critical", "Critical"), ("major", "Major"), ("minor", "Minor"), ("cosmetic", "Cosmetic")],
+        [
+            ("critical", "Critical"),
+            ("major", "Major"),
+            ("minor", "Minor"),
+            ("cosmetic", "Cosmetic"),
+        ],
         string="Severity",
         default="minor",
         required=True,
@@ -183,7 +188,11 @@ class BusinessIssue(models.Model):
 
             # mai sunt alte issue deschise
             if issue.step_test_id:
-                domain = [("id", "!=", issue), ("step_test_id", "=", issue.step_test_id.id), ("state", "!=", "closed")]
+                domain = [
+                    ("id", "!=", issue),
+                    ("step_test_id", "=", issue.step_test_id.id),
+                    ("state", "!=", "closed"),
+                ]
                 other_open_issues = self.search(domain)
                 if not other_open_issues:
                     issue.step_test_id.write({"result": "passed"})

@@ -82,4 +82,3 @@ msgstr "Tipo en recepción de producciones"
 #: model_terms:ir.ui.view,arch_db:deltatech_warehouse.view_company_form
 msgid "Warehouse"
 msgstr "Almacén"
-

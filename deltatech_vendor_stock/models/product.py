@@ -10,7 +10,9 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     vendor_qty_available = fields.Float(
-        "Vendor Quantity Available", digits="Product Unit of Measure", compute="_compute_vendor_qty_available"
+        "Vendor Quantity Available",
+        digits="Product Unit of Measure",
+        compute="_compute_vendor_qty_available",
     )
     other_qty_available = fields.Float("Other Quantity Available", compute="_compute_vendor_qty_available")
 

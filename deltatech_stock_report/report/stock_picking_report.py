@@ -99,5 +99,11 @@ class StockPickingReport(models.Model):
             %s
         )
         """
-            % (self._table, self._select(), self._from(), self._where(), self._group_by())
+            % (
+                self._table,
+                self._select(),
+                self._from(),
+                self._where(),
+                self._group_by(),
+            )
         )

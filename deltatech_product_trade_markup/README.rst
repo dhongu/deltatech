@@ -22,9 +22,13 @@ Product trade markup
 
 |badge1| |badge2| |badge3|
 
-Features:
- - New fields added in product template:
-    - trade_markup - trade markup for the product.
+-  Features:
+
+   -  
+
+      -  New fields added in product template:
+
+         -  trade_markup - trade markup for the product.
 
 **Table of contents**
 
@@ -43,13 +47,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dan Stoica
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

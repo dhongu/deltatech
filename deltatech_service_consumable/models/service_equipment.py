@@ -12,7 +12,10 @@ class ServiceEquipment(models.Model):
     _inherit = "service.equipment"
 
     consumable_item_ids = fields.Many2many(
-        "service.consumable.item", string="Consumables", compute="_compute_consumable_item_ids", readonly=True
+        "service.consumable.item",
+        string="Consumables",
+        compute="_compute_consumable_item_ids",
+        readonly=True,
     )
     permits_pickings = fields.Boolean(related="agreement_id.type_id.permits_pickings")
 
@@ -67,9 +70,16 @@ class ServiceEquipment(models.Model):
 
         if not picking_type_id:
             action = self.env.ref("stock.action_stock_config_settings").sudo()
-            raise RedirectWarning(_("Please define the picking type for service."), action.id, _("Stock Settings"))
+            raise RedirectWarning(
+                _("Please define the picking type for service."),
+                action.id,
+                _("Stock Settings"),
+            )
 
-        domain = [("equipment_id", "in", self.ids), ("picking_type_id", "=", picking_type_id)]
+        domain = [
+            ("equipment_id", "in", self.ids),
+            ("picking_type_id", "=", picking_type_id),
+        ]
         pickings = self.env["stock.picking"].sudo().search(domain)
         move_lines = self.env["stock.move"].sudo().search([("picking_id", "in", pickings.ids)])
         # view_id = self.sudo().env.ref('terrabit_rsy.view_stock_move_tree_rsy').id

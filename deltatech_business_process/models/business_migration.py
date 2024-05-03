@@ -14,12 +14,19 @@ class BusinessMigration(models.Model):
     migration_tool = fields.Char(string="Migration Tool")
     migration_steps = fields.Char(string="Migration Steps")
     status = fields.Selection(
-        [("prepare", "Prepare"), ("migrate", "Migrate"), ("verify", "Verify"), ("done", "Done")],
+        [
+            ("prepare", "Prepare"),
+            ("migrate", "Migrate"),
+            ("verify", "Verify"),
+            ("done", "Done"),
+        ],
         string="Status",
         default="prepare",
     )
     responsible_id = fields.Many2one(
-        string="Responsible", domain="[('is_company', '=', False)]", comodel_name="res.partner"
+        string="Responsible",
+        domain="[('is_company', '=', False)]",
+        comodel_name="res.partner",
     )
 
     project_id = fields.Many2one(string="Project", comodel_name="business.project", required=True)
@@ -29,7 +36,11 @@ class BusinessMigration(models.Model):
     def name_get(self):
         self.browse(self.ids).read(["name", "code"])
         return [
-            (process.id, "{}{}".format(process.code and "[%s] " % process.code or "", process.name)) for process in self
+            (
+                process.id,
+                "{}{}".format(process.code and "[%s] " % process.code or "", process.name),
+            )
+            for process in self
         ]
 
 

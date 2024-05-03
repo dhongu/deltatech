@@ -22,8 +22,9 @@ Stock Account Extension
 
 |badge1| |badge2| |badge3|
 
-Features:
- -Adds the "amount" field in the stock picking tree view that indicates the total cost of the order
+-  Features:
+   -Adds the "amount" field in the stock picking tree view that
+   indicates the total cost of the order
 
 **Table of contents**
 
@@ -42,13 +43,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

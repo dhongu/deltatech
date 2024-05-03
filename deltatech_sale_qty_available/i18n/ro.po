@@ -40,7 +40,8 @@ msgstr "Disponibil"
 
 #. module: deltatech_sale_qty_available
 #: model:ir.model.fields,help:deltatech_sale_qty_available.field_sale_order_line__qty_available
-msgid "Current quantity of products.\n"
+msgid ""
+"Current quantity of products.\n"
 "In a context with a single Stock Location, this includes goods stored at this Location, or any of its children.\n"
 "In a context with a single Warehouse, this includes goods stored in the Stock Location of this Warehouse, or any of its children.\n"
 "stored in the Stock Location of the Warehouse of this Shop, or any of its children.\n"
@@ -59,11 +60,13 @@ msgstr "Cantitate prognozată"
 
 #. module: deltatech_sale_qty_available
 #: model:ir.model.fields,help:deltatech_sale_qty_available.field_sale_order_line__virtual_available
-msgid "Forecast quantity (computed as Quantity On Hand - Outgoing + Incoming)\n"
+msgid ""
+"Forecast quantity (computed as Quantity On Hand - Outgoing + Incoming)\n"
 "In a context with a single Stock Location, this includes goods stored in this location, or any of its children.\n"
 "In a context with a single Warehouse, this includes goods stored in the Stock Location of this Warehouse, or any of its children.\n"
 "Otherwise, this includes goods stored in any Stock Location with 'internal' type."
-msgstr "Cantitate prognozată (calculată din  Cantitatea din stoc - Cantitate de livrat + Cantitate de primit)\n"
+msgstr ""
+"Cantitate prognozată (calculată din  Cantitatea din stoc - Cantitate de livrat + Cantitate de primit)\n"
 "Într-un context cu o singură locație de stoc, aceasta include bunurile stocate în această locație sau pe oricare dintre copiii săi.\n"
 "Într-un context cu o singură depozit, aceasta include bunurile stocate în stocul de depozitare al acestui depozit sau pe oricare dintre copiii săi.\n"
 "În caz contrar, aceasta include bunurile stocate în orice locație de stoc cu tip \"intern\"."

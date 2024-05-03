@@ -22,9 +22,10 @@ Deltatech Warranty
 
 |badge1| |badge2| |badge3|
 
-Features:
-    - a warranty period (months) can be set for products
-    - a warranty page can be printed from the RFQ
+-  Features:
+
+   -  a warranty period (months) can be set for products
+   -  a warranty page can be printed from the RFQ
 
 **Table of contents**
 
@@ -43,14 +44,14 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 * Dan Stoica
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_warranty>`_ project on GitHub.
 

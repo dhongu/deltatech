@@ -78,13 +78,13 @@ msgstr "strada"
 
 #. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
-msgid "<span>with lot number</span>"
-msgstr "cu lot numărul"
+msgid "<span>with expiration date</span>"
+msgstr "cu data de expirare în"
 
 #. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
-msgid "<span>with expiration date</span>"
-msgstr "cu data de expirare în"
+msgid "<span>with lot number</span>"
+msgstr "cu lot numărul"
 
 #. module: deltatech_dc
 #: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__company_id

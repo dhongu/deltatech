@@ -10,7 +10,7 @@
             <field name="company_id" eval="False" />
         </record>
     </data>
-    <data>
+
         <record id="view_change_price_form" model="ir.ui.view">
             <field name="name">Product Change Price</field>
             <field name="model">product.price.change</field>
@@ -18,12 +18,12 @@
                 <form string="Change Product Price">
                     <header>
                         <button
-                            name="action_confirm"
-                            invisible="state!='draft'"
-                            string="Confirm"
-                            type="object"
-                            class="oe_highlight"
-                        />
+                        name="action_confirm"
+                        invisible="state!='draft'"
+                        string="Confirm"
+                        type="object"
+                        class="oe_highlight"
+                    />
                         <field name="state" widget="statusbar" statusbar_visible="draft,done" readonly="1" />
                     </header>
                     <sheet>
@@ -110,10 +110,10 @@
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem
-            name="Product Price Change"
-            id="menu_deltatech_price_change"
-            action="action_deltatech_price_change"
-            parent="sale.product_menu_catalog"
-        />
-    </data>
+        name="Product Price Change"
+        id="menu_deltatech_price_change"
+        action="action_deltatech_price_change"
+        parent="sale.product_menu_catalog"
+    />
+
 </odoo>

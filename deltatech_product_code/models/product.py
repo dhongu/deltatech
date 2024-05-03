@@ -21,7 +21,11 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     _sql_constraints = [
-        ("name_code", "unique (default_code,active,company_id)", "Internal Reference already exists !"),
+        (
+            "name_code",
+            "unique (default_code,active,company_id)",
+            "Internal Reference already exists !",
+        ),
     ]
 
     @api.model
@@ -55,7 +59,11 @@ class ProductTemplate(models.Model):
         create_product_product = self.env.context.get("create_product_product", False)
         if not create_product_product:
             for vals in vals_list:
-                if "default_code" not in vals or vals["default_code"] in ["/", "", False]:
+                if "default_code" not in vals or vals["default_code"] in [
+                    "/",
+                    "",
+                    False,
+                ]:
                     categ_id = vals.get("categ_id")
                     if categ_id:
                         categ = self.env["product.category"].browse(categ_id)

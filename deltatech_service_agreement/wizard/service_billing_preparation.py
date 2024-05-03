@@ -27,7 +27,12 @@ class ServiceBillingPreparation(models.TransientModel):
         domain=[("state", "=", "open")],
     )
 
-    company_id = fields.Many2one("res.company", string="Company", default=lambda self: self.env.company, required=True)
+    company_id = fields.Many2one(
+        "res.company",
+        string="Company",
+        default=lambda self: self.env.company,
+        required=True,
+    )
 
     @api.model
     def default_get(self, fields_list):

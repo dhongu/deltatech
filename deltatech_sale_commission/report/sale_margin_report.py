@@ -18,11 +18,17 @@ class SaleMarginReport(models.Model):
     product_uom_qty = fields.Float("Quantity", readonly=True)
     purchase_price = fields.Float("Purchase price", readonly=False)
     sale_val = fields.Monetary(
-        "Sale value", readonly=True, help="Sale value in company currency", currency_field="company_currency_id"
+        "Sale value",
+        readonly=True,
+        help="Sale value in company currency",
+        currency_field="company_currency_id",
     )
 
     stock_val = fields.Monetary(
-        "Stock value", readonly=True, help="Stock value in company currency", currency_field="company_currency_id"
+        "Stock value",
+        readonly=True,
+        help="Stock value in company currency",
+        currency_field="company_currency_id",
     )
     profit_val = fields.Monetary(
         "Profit",
@@ -63,7 +69,9 @@ class SaleMarginReport(models.Model):
         readonly=True,
     )
     state = fields.Selection(
-        [("draft", "Draft"), ("posted", "Posted"), ("cancel", "Cancelled")], string="Invoice Status", readonly=True
+        [("draft", "Draft"), ("posted", "Posted"), ("cancel", "Cancelled")],
+        string="Invoice Status",
+        readonly=True,
     )
     payment_state = fields.Selection(
         selection=[

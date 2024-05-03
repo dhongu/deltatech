@@ -208,7 +208,7 @@ msgstr "Tip comandă"
 #: model:ir.ui.menu,name:deltatech_service_maintenance_plan.menu_service_plan
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance_plan.view_service_plan_call_filter
 msgid "Plan"
-msgstr "Plan"
+msgstr ""
 
 #. module: deltatech_service_maintenance_plan
 #: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_order__plan_call_id
@@ -430,4 +430,3 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_service_maintenance_plan.field_service_plan__work_center_id
 msgid "Work Center"
 msgstr "Formație de lucru"
-

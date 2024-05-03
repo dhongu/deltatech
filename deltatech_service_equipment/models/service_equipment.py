@@ -32,7 +32,9 @@ class ServiceEquipment(models.Model):
 
     agreement_id = fields.Many2one("service.agreement", string="Contract Service")
     agreement_type_id = fields.Many2one(
-        "service.agreement.type", string="Agreement Type", related="agreement_id.type_id"
+        "service.agreement.type",
+        string="Agreement Type",
+        related="agreement_id.type_id",
     )
     agreement_state = fields.Selection(string="Status contract", store=True, related="agreement_id.state")
 
@@ -230,7 +232,13 @@ class ServiceEquipment(models.Model):
             for template in equi.type_id.template_meter_ids:
                 categs |= template.meter_categ_id
             for categ in categs:
-                equi.meter_ids.create({"equipment_id": equi.id, "meter_categ_id": categ.id, "uom_id": categ.uom_id.id})
+                equi.meter_ids.create(
+                    {
+                        "equipment_id": equi.id,
+                        "meter_categ_id": categ.id,
+                        "uom_id": categ.uom_id.id,
+                    }
+                )
 
     def update_meter_status(self):
         super().update_meter_status()
@@ -241,7 +249,10 @@ class ServiceEquipment(models.Model):
         self.ensure_one()
         if self.agreement_id.state == "draft":
             lines = self.env["service.agreement.line"].search(
-                [("agreement_id", "=", self.agreement_id.id), ("equipment_id", "=", self.id)]
+                [
+                    ("agreement_id", "=", self.agreement_id.id),
+                    ("equipment_id", "=", self.id),
+                ]
             )
             # lines.unlink()
             # if not self.agreement_id.agreement_line:
@@ -269,7 +280,10 @@ class ServiceEquipment(models.Model):
     def name_search(self, name="", args=None, operator="ilike", limit=100):
         res_serial = []
         if name and len(name) > 3:
-            equipment_ids = self.search(["|", ("serial_id", "ilike", name), ("ean_code", "ilike", name)], limit=10)
+            equipment_ids = self.search(
+                ["|", ("serial_id", "ilike", name), ("ean_code", "ilike", name)],
+                limit=10,
+            )
             if equipment_ids:
                 res_serial = equipment_ids.name_get()
         res = super().name_search(name, args, operator=operator, limit=limit) + res_serial

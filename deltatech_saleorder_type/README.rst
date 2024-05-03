@@ -22,9 +22,10 @@ Terrabit - Sale Order Type
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Types can be defined for sale order
- - A journal can be defined for invoicing
+-  Features:
+
+   -  Types can be defined for sale order
+   -  A journal can be defined for invoicing
 
 **Table of contents**
 
@@ -43,13 +44,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dan Stoica
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_saleorder_type>`_ project on GitHub.
 

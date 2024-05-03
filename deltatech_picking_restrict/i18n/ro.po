@@ -28,7 +28,7 @@ msgstr "Tip ridicare"
 #. module: deltatech_picking_restrict
 #: model:ir.model,name:deltatech_picking_restrict.model_stock_picking
 msgid "Transfer"
-msgstr "Transfer"
+msgstr ""
 
 #. module: deltatech_picking_restrict
 #: code:addons/deltatech_picking_restrict/models/stock_picking.py:0

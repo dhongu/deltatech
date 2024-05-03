@@ -22,10 +22,12 @@ Fast Purchase
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Button in purchase order to make the steps of confirmation, reception and billing
- - Button in repetition to introduce the bill directly
- - Button in purchase order to generate the reception based on notice
+-  Features:
+
+   -  Button in purchase order to make the steps of confirmation,
+      reception and billing
+   -  Button in repetition to introduce the bill directly
+   -  Button in purchase order to generate the reception based on notice
 
 **Table of contents**
 
@@ -44,13 +46,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

@@ -189,7 +189,7 @@ msgstr "Nume"
 #: code:addons/deltatech_work_days_report/wizard/export_working_days.py:0
 #, python-format
 msgid "Norma"
-msgstr "Norma"
+msgstr ""
 
 #. module: deltatech_work_days_report
 #: code:addons/deltatech_work_days_report/wizard/export_working_days.py:0

@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_report_packaging
+# * deltatech_report_packaging
 #
 msgid ""
 msgstr ""
@@ -132,14 +132,14 @@ msgstr "Hârtie"
 #: selection:packaging.product.material,material_type:0
 #: selection:packaging.report.material.line,material_type:0
 msgid "Pet"
-msgstr "Pet"
+msgstr ""
 
 #. module: deltatech_report_packaging
 #: selection:packaging.invoice.material,material_type:0
 #: selection:packaging.product.material,material_type:0
 #: selection:packaging.report.material.line,material_type:0
 msgid "Plastic"
-msgstr "Plastic"
+msgstr ""
 
 #. module: deltatech_report_packaging
 #: model:ir.model,name:deltatech_report_packaging.model_product_template
@@ -211,4 +211,3 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.invoice_packaging_material_form
 msgid "or"
 msgstr "sau"
-

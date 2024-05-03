@@ -18,7 +18,9 @@ class ServiceLocation(models.Model):
         plans = self.env["service.plan"].search([("service_location_id", "=", self.id), ("state", "=", "active")])
         if plans:
             calls = self.env["service.plan.call"].search(
-                [("plan_id", "in", plans.ids), ("state", "=", "completion")], order="completion_date DESC", limit=1
+                [("plan_id", "in", plans.ids), ("state", "=", "completion")],
+                order="completion_date DESC",
+                limit=1,
             )
             if calls:
                 self.last_call_done = calls.completion_date

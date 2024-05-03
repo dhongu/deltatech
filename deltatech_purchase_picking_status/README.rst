@@ -22,10 +22,15 @@ Purchase picking status
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Add picking status in purchase order:
-    - if all pickings in state done or cancel status is done
-    - if any pickings not in state done or cancel status is in progress
+-  Features:
+
+   -  
+
+      -  Add picking status in purchase order:
+
+         -  if all pickings in state done or cancel status is done
+         -  if any pickings not in state done or cancel status is in
+            progress
 
 **Table of contents**
 
@@ -44,13 +49,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dan Stoica
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-danila12| image:: https://github.com/danila12.png?size=40px
     :target: https://github.com/danila12

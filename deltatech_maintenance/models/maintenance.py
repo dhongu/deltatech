@@ -8,7 +8,9 @@ class MaintenanceTeam(models.Model):
     _inherit = "maintenance.team"
 
     picking_type_id = fields.Many2one(
-        "stock.picking.type", string="Picking Type", help="Stock Operation Type for Maintenance"
+        "stock.picking.type",
+        string="Picking Type",
+        help="Stock Operation Type for Maintenance",
     )
 
 
@@ -118,6 +120,6 @@ class MaintenanceOperation(models.Model):
     def _compute_display_name(self):
         for operation in self:
             if operation.code:
-                operation.display_name = "[{}] {}".format(operation.code, operation.name)
+                operation.display_name = f"[{operation.code}] {operation.name}"
             else:
                 operation.display_name = operation.name

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
 
         <template
-            id="product_alternative_code"
-            inherit_id="website_sale.product"
-            active="True"
-            customize_show="True"
-            name="Alternative code"
-        >
+        id="product_alternative_code"
+        inherit_id="website_sale.product"
+        active="True"
+        customize_show="True"
+        name="Alternative code"
+    >
 
             <xpath expr="//p[@t-field='product.description_sale']" position="before">
                 <t t-foreach="product.alternative_ids" t-as="alternative">
@@ -28,12 +27,12 @@
             </xpath>
         </template>
         <template
-            id="product_used_for"
-            inherit_id="website_sale.product"
-            active="True"
-            customize_show="True"
-            name="Used For"
-        >
+        id="product_used_for"
+        inherit_id="website_sale.product"
+        active="True"
+        customize_show="True"
+        name="Used For"
+    >
             <xpath expr="//p[@t-field='product.description_sale']" position="after">
                 <t t-if="product.used_for">
                     <div>
@@ -44,5 +43,5 @@
                 </t>
             </xpath>
         </template>
-    </data>
+
 </odoo>

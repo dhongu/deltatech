@@ -14,7 +14,13 @@ _logger = logging.getLogger(__name__)
 
 
 class WebsiteSaleAlternativeLink(WebsiteSale):
-    @http.route(["/shop/product-code/<code>"], type="http", auth="public", website=True, sitemap=False)
+    @http.route(
+        ["/shop/product-code/<code>"],
+        type="http",
+        auth="public",
+        website=True,
+        sitemap=False,
+    )
     def product_by_code(self, code="", **kwargs):
         product = request.env["product.template"].search([("default_code", "=", code)], limit=1)
         if not product:
@@ -26,7 +32,13 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
         res = self._search_products_by_code(search, vat)
         return res
 
-    @http.route(["/shop/products-search"], type="http", auth="public", website=True, sitemap=False)
+    @http.route(
+        ["/shop/products-search"],
+        type="http",
+        auth="public",
+        website=True,
+        sitemap=False,
+    )
     def products_search_by_code(self, search="", vat="", **kwargs):
         res = self._search_products_by_code(search, vat)
         return str(res)

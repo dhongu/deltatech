@@ -10,5 +10,7 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     check_min_website = fields.Boolean(
-        string="Website Check Qty", default=True, help="Check minim & multiple quantity only for website"
+        string="Website Check Qty",
+        default=True,
+        help="Check minim & multiple quantity only for website",
     )

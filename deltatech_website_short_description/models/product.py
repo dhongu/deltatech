@@ -10,7 +10,9 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     website_short_description = fields.Html(
-        "Short description for the website", sanitize_attributes=False, translate=html_translate
+        "Short description for the website",
+        sanitize_attributes=False,
+        translate=html_translate,
     )
 
     # mai este si website_meta_description = fields.Text("Website meta description", translate=True)

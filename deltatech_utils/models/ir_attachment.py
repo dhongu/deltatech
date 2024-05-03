@@ -52,7 +52,10 @@ class IrAttachment(models.Model):
             store_fnames.append(file.split(filestore + "/")[1])
 
         params = {"store_fname": tuple(store_fnames)}
-        self.env.cr.execute("SELECT store_fname FROM ir_attachment WHERE store_fname IN %(store_fname)s", params=params)
+        self.env.cr.execute(
+            "SELECT store_fname FROM ir_attachment WHERE store_fname IN %(store_fname)s",
+            params=params,
+        )
         attachments_file_list = {row[0] for row in self.env.cr.fetchall()}
 
         file_list_to_remove = list(set(store_fnames) - set(attachments_file_list))

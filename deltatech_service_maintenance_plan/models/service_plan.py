@@ -74,15 +74,25 @@ class ServicePlan(models.Model):
     call_ids = fields.One2many("service.plan.call", "plan_id", string="Plan Calls", readonly=True)
 
     last_call_done_date = fields.Date(
-        string="Date Last Call Done", readonly=True, related="last_call_done_id.completion_date"
+        string="Date Last Call Done",
+        readonly=True,
+        related="last_call_done_id.completion_date",
     )
     last_call_done_id = fields.Many2one("service.plan.call", string="Last Call Done", readonly=True)
 
-    last_call_id = fields.Many2one("service.plan.call", string="Last Call", readonly=True, compute="_compute_last_call")
+    last_call_id = fields.Many2one(
+        "service.plan.call",
+        string="Last Call",
+        readonly=True,
+        compute="_compute_last_call",
+    )
 
     def _compute_last_call(self):
         for plan in self:
-            domain = [("plan_id", "=", plan.id), ("state", "in", ["called", "skipped", "completion"])]
+            domain = [
+                ("plan_id", "=", plan.id),
+                ("state", "in", ["called", "skipped", "completion"]),
+            ]
             call = self.env["service.plan.call"].search(domain, order="plan_date DESC", limit=1)
             if call:
                 plan.last_call_id = call
@@ -212,10 +222,22 @@ class ServicePlanCall(models.Model):
     )
     state = fields.Selection(
         [
-            ("draft", "Draft"),  # statusul in care se calculeza data planificata si data de apel
-            ("called", "Called"),  # statusul in care sistemul a generat un apel si asteapata confirmare
-            ("completion", "Completion"),  # statusul in care trece apelul dupa confirmarea executiei.
-            ("skipped", "Skipped"),  # statusul in care trece apelul daca nu se mai executa comanda
+            (
+                "draft",
+                "Draft",
+            ),  # statusul in care se calculeza data planificata si data de apel
+            (
+                "called",
+                "Called",
+            ),  # statusul in care sistemul a generat un apel si asteapata confirmare
+            (
+                "completion",
+                "Completion",
+            ),  # statusul in care trece apelul dupa confirmarea executiei.
+            (
+                "skipped",
+                "Skipped",
+            ),  # statusul in care trece apelul daca nu se mai executa comanda
         ],
         string="State",
         readonly=True,
@@ -236,7 +258,11 @@ class ServicePlanCall(models.Model):
     )
 
     call_date = fields.Date(
-        string="Call Date", required=True, readonly=True, index=True, help="Date on which the system creates an order"
+        string="Call Date",
+        required=True,
+        readonly=True,
+        index=True,
+        help="Date on which the system creates an order",
     )
     plan_date = fields.Date(
         string="Planned Date",

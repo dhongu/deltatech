@@ -4,7 +4,7 @@
         <field name="name">Business Issue</field>
         <field name="model">business.issue</field>
         <field name="arch" type="xml">
-            <tree string="Issues" sample="1">
+            <tree sample="1">
                 <field name="code" />
                 <field name="name" />
                 <field name="open_date" />

@@ -15,9 +15,7 @@ class SaleReport(models.Model):
 
     def _select_additional_fields(self):
         additional_fields_info = super()._select_additional_fields()
-        additional_fields_info[
-            "price_unit"
-        ] = """
+        additional_fields_info["price_unit"] = """
             CASE WHEN l.product_id IS NOT NULL
                 THEN sum(l.untaxed_amount_invoiced / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END) /
                     CASE COALESCE(sum(l.qty_invoiced / u.factor * u2.factor), 0)
@@ -36,7 +34,10 @@ class SaleReport(models.Model):
         new_fields += fields
 
         price_unit_field = next((field for field in fields if re.search(r"\bprice_unit\b", field)), False)
-        amount_field = next((field for field in fields if re.search(r"\buntaxed_amount_invoiced\b", field)), False)
+        amount_field = next(
+            (field for field in fields if re.search(r"\buntaxed_amount_invoiced\b", field)),
+            False,
+        )
         qty_field = next((field for field in fields if re.search(r"\bqty_invoiced\b", field)), False)
 
         get_param = self.env["ir.config_parameter"].sudo().get_param
@@ -49,7 +50,15 @@ class SaleReport(models.Model):
             if not qty_field:
                 new_fields.append("qty_invoiced")
 
-        res = super().read_group(domain, new_fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
+        res = super().read_group(
+            domain,
+            new_fields,
+            groupby,
+            offset=offset,
+            limit=limit,
+            orderby=orderby,
+            lazy=lazy,
+        )
 
         if price_unit_field:
             for line in res:

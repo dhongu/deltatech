@@ -10,4 +10,9 @@ class Picking(models.Model):
 class StockMove(models.Model):
     _inherit = "stock.move"
 
-    price_list = fields.Float(string="Price List", related="product_tmpl_id.list_price", readonly=False, store=False)
+    price_list = fields.Float(
+        string="Price List",
+        related="product_tmpl_id.list_price",
+        readonly=False,
+        store=False,
+    )

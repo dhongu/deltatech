@@ -27,7 +27,12 @@ class ServiceAgreement(models.Model):
 
     partner_id = fields.Many2one("res.partner", string="Partner", required=True)
 
-    company_id = fields.Many2one("res.company", string="Company", default=lambda self: self.env.company, required=True)
+    company_id = fields.Many2one(
+        "res.company",
+        string="Company",
+        default=lambda self: self.env.company,
+        required=True,
+    )
     company_currency_id = fields.Many2one("res.currency", string="Company Currency", related="company_id.currency_id")
 
     agreement_line = fields.One2many(
@@ -60,7 +65,11 @@ class ServiceAgreement(models.Model):
     display_name = fields.Char(compute="_compute_display_name")
 
     invoice_mode = fields.Selection(
-        [("none", "Not defined"), ("service", "Group by service"), ("detail", "Detail")],
+        [
+            ("none", "Not defined"),
+            ("service", "Group by service"),
+            ("detail", "Detail"),
+        ],
         string="Invoice Mode",
         default="none",
     )
@@ -103,14 +112,21 @@ class ServiceAgreement(models.Model):
     unpaid_invoices = fields.Integer(string="Unpaid invoices", compute="_compute_unpaid_invoices")
 
     invoicing_status = fields.Selection(
-        [("", "N/A"), ("unmade", "Unmade"), ("progress", "In progress"), ("done", "Done")],
+        [
+            ("", "N/A"),
+            ("unmade", "Unmade"),
+            ("progress", "In progress"),
+            ("done", "Done"),
+        ],
         string="Invoicing Status",
         # compute="_compute_invoicing_status",
         store=True,
     )
 
     billing_automation = fields.Selection(
-        [("auto", "Auto"), ("manual", "Manual")], string="Billing automation", default="manual"
+        [("auto", "Auto"), ("manual", "Manual")],
+        string="Billing automation",
+        default="manual",
     )
 
     notes = fields.Text(string="Notes")
@@ -130,7 +146,11 @@ class ServiceAgreement(models.Model):
     doc_count = fields.Integer(string="Number of documents attached", compute="_compute_attached_docs")
 
     _sql_constraints = [
-        ("name_uniq", "unique(name, partner_id, company_id)", "Reference must be unique!"),
+        (
+            "name_uniq",
+            "unique(name, partner_id, company_id)",
+            "Reference must be unique!",
+        ),
     ]
 
     def _compute_attached_docs(self):
@@ -140,7 +160,11 @@ class ServiceAgreement(models.Model):
             )
 
     def attachment_tree_view(self):
-        domain = ["&", ("res_model", "=", "service.agreement"), ("res_id", "in", self.ids)]
+        domain = [
+            "&",
+            ("res_model", "=", "service.agreement"),
+            ("res_id", "in", self.ids),
+        ]
 
         return {
             "name": _("Attachments"),
@@ -150,7 +174,7 @@ class ServiceAgreement(models.Model):
             "view_id": False,
             "view_mode": "kanban,tree,form",
             "limit": 80,
-            "context": "{{'default_res_model': '{}','default_res_id': {}}}".format(self._name, self.id),
+            "context": f"{{'default_res_model': '{self._name}','default_res_id': {self.id}}}",
         }
 
     def show_invoices(self):
@@ -204,7 +228,12 @@ class ServiceAgreement(models.Model):
                     for line in invoice.invoice_line_ids:
                         if line.agreement_line_id in agreement.with_context(test_active=False).agreement_line:
                             total_invoiced += line.price_subtotal
-            agreement.write({"total_invoiced": total_invoiced, "total_consumption": total_consumption})
+            agreement.write(
+                {
+                    "total_invoiced": total_invoiced,
+                    "total_consumption": total_consumption,
+                }
+            )
 
     # TODO: de legat acest contract la un cont analitic ...
     @api.depends("last_invoice_id")
@@ -299,7 +328,10 @@ class ServiceAgreement(models.Model):
         to_date = fields.Date.context_today(self) + relativedelta(day=1, months=1, days=-1)
         domain = [("date_start", "=", from_date), ("date_end", "=", to_date)]
         service_period = self.env["service.date.range"].search(domain)
-        domain = [("service_period_id", "in", service_period.ids), ("agreement_id", "in", agreements.ids)]
+        domain = [
+            ("service_period_id", "in", service_period.ids),
+            ("agreement_id", "in", agreements.ids),
+        ]
         consumptions = self.env["service.consumption"].search(domain)
         for consumption in consumptions:  # check if has consumptions in current period
             agreements = agreements - consumption.agreement_id
@@ -332,7 +364,9 @@ class ServiceAgreementLine(models.Model):
     _order = "sequence,id desc,agreement_id"
 
     sequence = fields.Integer(
-        string="Sequence", default=1, help="Gives the sequence of this line when displaying the agreement."
+        string="Sequence",
+        default=1,
+        help="Gives the sequence of this line when displaying the agreement.",
     )
     agreement_id = fields.Many2one("service.agreement", string="Contract Services", ondelete="cascade")
     product_id = fields.Many2one(
@@ -347,7 +381,10 @@ class ServiceAgreementLine(models.Model):
     uom_id = fields.Many2one("uom.uom", string="Unit of Measure", ondelete="set null")
     price_unit = fields.Float(string="Unit Price", required=True, digits="Service Price", default=1)
     currency_id = fields.Many2one(
-        "res.currency", string="Currency", required=True, domain=[("name", "in", ["RON", "EUR"])]
+        "res.currency",
+        string="Currency",
+        required=True,
+        domain=[("name", "in", ["RON", "EUR"])],
     )
 
     active = fields.Boolean(default=True)  # pentru a ascunde liniile din contract care nu

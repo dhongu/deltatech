@@ -22,8 +22,9 @@ Report Packaging
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Report packing materials used for products invoiced
+-  Features:
+
+   -  Report packing materials used for products invoiced
 
 **Table of contents**
 
@@ -42,12 +43,12 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-cojocariudaniel1| image:: https://github.com/cojocariudaniel1.png?size=40px
     :target: https://github.com/cojocariudaniel1

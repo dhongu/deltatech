@@ -52,7 +52,10 @@ class ProductTemplate(models.Model):
                     product.last_purchase_price = product.standard_price
                 if not product.trade_markup:
                     list_price = AccountTax._fix_tax_included_price_company(
-                        product.list_price, product.taxes_id, AccountTax, product.company_id
+                        product.list_price,
+                        product.taxes_id,
+                        AccountTax,
+                        product.company_id,
                     )
                     if product.last_purchase_price:
                         trade_markup = (list_price - product.last_purchase_price) / product.last_purchase_price * 100

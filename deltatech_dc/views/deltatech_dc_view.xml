@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <odoo>
-    <data>
+
         <record model="ir.ui.view" id="view_deltatech_dc_type_form">
             <field name="name">deltatech.declaration.conformity.form</field>
             <field name="model">deltatech.dc</field>
@@ -39,7 +39,7 @@
             <field name="model">deltatech.dc</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Declaration of Conformity">
+                <tree>
                     <field name="name" />
                     <field name="date" />
                     <field name="product_id" />
@@ -56,10 +56,10 @@
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem
-            name="Declaration of Conformity"
-            id="menu_deltatech_dc"
-            action="action_deltatech_dc"
-            parent="sale.product_menu_catalog"
-        />
-    </data>
+        name="Declaration of Conformity"
+        id="menu_deltatech_dc"
+        action="action_deltatech_dc"
+        parent="sale.product_menu_catalog"
+    />
+
 </odoo>

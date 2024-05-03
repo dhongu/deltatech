@@ -37,7 +37,9 @@ class BusinessProject(models.Model):
     count_developments = fields.Integer(string="Developments", compute="_compute_count_developments")
 
     responsible_id = fields.Many2one(
-        string="Responsible", domain="[('is_company', '=', False)]", comodel_name="res.partner"
+        string="Responsible",
+        domain="[('is_company', '=', False)]",
+        comodel_name="res.partner",
     )
     team_member_ids = fields.Many2many(string="Team members", comodel_name="res.partner")
 
@@ -51,7 +53,11 @@ class BusinessProject(models.Model):
     def name_get(self):
         self.browse(self.ids).read(["name", "code"])
         return [
-            (project.id, "{}{}".format(project.code and "[%s] " % project.code or "", project.name)) for project in self
+            (
+                project.id,
+                "{}{}".format(project.code and "[%s] " % project.code or "", project.name),
+            )
+            for project in self
         ]
 
     def _compute_count_processes(self):

@@ -22,8 +22,9 @@ Sale Team Access
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Restricting access to sales team
+-  Features:
+
+   -  Restricting access to sales team
 
 **Table of contents**
 
@@ -42,13 +43,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_team>`_ project on GitHub.
 

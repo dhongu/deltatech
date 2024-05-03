@@ -5,7 +5,7 @@
         <field name="name">Services location</field>
         <field name="model">service.location</field>
         <field name="arch" type="xml">
-            <tree string="Functional Location" sample="1">
+            <tree sample="1">
                 <field name="name" />
                 <field name="partner_id" />
 

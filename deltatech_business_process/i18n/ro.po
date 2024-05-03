@@ -614,11 +614,6 @@ msgid "Dates"
 msgstr "Date"
 
 #. module: deltatech_business_process
-#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
-msgid "Duration of process"
-msgstr "Durata proces"
-
-#. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__category__defect
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__category__defect
 msgid "Defect"
@@ -748,6 +743,11 @@ msgstr "Efectuat"
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
 msgid "Draft"
 msgstr "Ciornă"
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Duration of process"
+msgstr "Durata proces"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__effort_dev

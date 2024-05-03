@@ -5,7 +5,7 @@
         <field name="name">Process step test</field>
         <field name="model">business.process.step.test</field>
         <field name="arch" type="xml">
-            <tree string="Process steps" sample="1" create="false">
+            <tree sample="1" create="false">
                 <field name="process_id" optional="hide" />
                 <field name="process_test_id" optional="hide" />
                 <field name="step_id" optional="hide" />

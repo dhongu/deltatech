@@ -22,12 +22,12 @@ Deltatech Services Maintenance
 
 |badge1| |badge2| |badge3|
 
-Features:
-  - gestionare sesizari
-  - gestionare comenzi de service
-  - gestionare planuri de revizii
-  - generare automat a comenzilor de service in baza planului
+-  Features:
 
+   -  gestionare sesizari
+   -  gestionare comenzi de service
+   -  gestionare planuri de revizii
+   -  generare automat a comenzilor de service in baza planului
 
 ToDo: de utilizat si modulul de maintenance
 
@@ -48,13 +48,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

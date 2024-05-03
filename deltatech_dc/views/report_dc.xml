@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
         <template id="report_dc">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
@@ -102,5 +102,5 @@
             <t t-call="deltatech_dc.report_dc" />
         </template>
 
-    </data>
+
 </odoo>

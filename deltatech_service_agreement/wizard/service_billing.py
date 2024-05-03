@@ -12,10 +12,18 @@ class ServiceBilling(models.TransientModel):
     _description = "Service Billing"
 
     journal_id = fields.Many2one(
-        "account.journal", "Journal", required=True, domain="[('type', '=',  'sale' ), ('company_id', '=', company_id)]"
+        "account.journal",
+        "Journal",
+        required=True,
+        domain="[('type', '=',  'sale' ), ('company_id', '=', company_id)]",
     )
 
-    company_id = fields.Many2one("res.company", string="Company", default=lambda self: self.env.company, required=True)
+    company_id = fields.Many2one(
+        "res.company",
+        string="Company",
+        default=lambda self: self.env.company,
+        required=True,
+    )
 
     # facturile pot fi facute grupat dupa partner sau dupa contract
     group_invoice = fields.Selection(
@@ -93,7 +101,12 @@ class ServiceBilling(models.TransientModel):
                 for line in pre_invoice[cons.date_invoice][key]["lines"]:
                     if (
                         line["product_id"] == cons.product_id.id
-                        and float_compare(line["price_unit"], invoice_line["price_unit"], precision_digits=2) == 0
+                        and float_compare(
+                            line["price_unit"],
+                            invoice_line["price_unit"],
+                            precision_digits=2,
+                        )
+                        == 0
                     ):
                         line["quantity"] += invoice_line["quantity"]
                         is_prod = True
@@ -137,7 +150,12 @@ class ServiceBilling(models.TransientModel):
 
             if cons.quantity > cons.agreement_line_id.quantity_free or cons.quantity < 0 or cons.with_free_cycle:
                 self.add_invoice_line(cons, pre_invoice, price_unit, name, key)
-                cons.write({"state": "done", "invoiced_qty": cons.quantity - cons.agreement_line_id.quantity_free})
+                cons.write(
+                    {
+                        "state": "done",
+                        "invoiced_qty": cons.quantity - cons.agreement_line_id.quantity_free,
+                    }
+                )
             else:  # cons.quantity < cons.agreement_line_id.quantity_free:
                 cons.write({"state": "none"})
 
@@ -170,7 +188,10 @@ class ServiceBilling(models.TransientModel):
                 comment = _("According to agreement ")
                 payment_term_id = False
                 for agreement in pre_invoice[date_invoice][key]["agreement_ids"]:
-                    comment += _("%s from %s \n") % (agreement.name or "____", agreement.date_agreement or "____")
+                    comment += _("%s from %s \n") % (
+                        agreement.name or "____",
+                        agreement.date_agreement or "____",
+                    )
                 if len(pre_invoice[date_invoice][key]["agreement_ids"]) > 1:
                     payment_term_id = False
                     user_id = False

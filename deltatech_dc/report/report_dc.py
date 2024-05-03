@@ -39,7 +39,11 @@ class ReportDCLotPrint(models.AbstractModel):
             dc = self.env["deltatech.dc"].search(domain)
             if not dc:
                 dc = self.env["deltatech.dc"].create(
-                    {"product_id": lot.product_id.id, "date": lot.production_date, "lot_id": lot.id}
+                    {
+                        "product_id": lot.product_id.id,
+                        "date": lot.production_date,
+                        "lot_id": lot.id,
+                    }
                 )
             declarations |= dc
         return {
@@ -74,7 +78,11 @@ class ReportDCInvoicePrint(models.AbstractModel):
                 dc = self.env["deltatech.dc"].search(domain)
                 if not dc:
                     dc = self.env["deltatech.dc"].create(
-                        {"product_id": lot.product_id.id, "date": lot.production_date, "lot_id": lot.id}
+                        {
+                            "product_id": lot.product_id.id,
+                            "date": lot.production_date,
+                            "lot_id": lot.id,
+                        }
                     )
                 product_with_lots |= lot.product_id
                 declarations |= dc
@@ -85,7 +93,10 @@ class ReportDCInvoicePrint(models.AbstractModel):
                     continue
                 if line.product_id.type != "product":
                     continue
-                domain = [("product_id", "=", line.product_id.id), ("date", "=", invoice.date)]
+                domain = [
+                    ("product_id", "=", line.product_id.id),
+                    ("date", "=", invoice.date),
+                ]
                 dc = self.env["deltatech.dc"].search(domain)
                 if not dc:
                     dc = self.env["deltatech.dc"].create({"product_id": line.product_id.id, "date": invoice.date})

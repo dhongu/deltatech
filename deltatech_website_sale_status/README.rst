@@ -22,22 +22,22 @@ eCommerce Sale Order status
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Additional filters sales orders by status
+-  Features:
 
-
+   -  Additional filters sales orders by status
 
 Etape
 
- - **Plasată** - comanda este plasată pe website de client
- - **În procesare** – comanda introdusă de operator
- - **Așteaptă disponibilitate** - nu sunt disponibile toate produsele
- - **Amânată** - livrarea a fost amânată
- - **De livrat** - produsele sunt disponibile și se poate face livrarea
- - **În livrare** – produsele au fost predate la curier
- - **Livrată** - produsele au ajuns la client
- - **Anulată** - comanda de vânzare a fost anulată
- - **Returnată** - comanda a fost returnată de către client
+   -  **Plasată** - comanda este plasată pe website de client
+   -  **În procesare** – comanda introdusă de operator
+   -  **Așteaptă disponibilitate** - nu sunt disponibile toate produsele
+   -  **Amânată** - livrarea a fost amânată
+   -  **De livrat** - produsele sunt disponibile și se poate face
+      livrarea
+   -  **În livrare** – produsele au fost predate la curier
+   -  **Livrată** - produsele au ajuns la client
+   -  **Anulată** - comanda de vânzare a fost anulată
+   -  **Returnată** - comanda a fost returnată de către client
 
 **Table of contents**
 
@@ -56,13 +56,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

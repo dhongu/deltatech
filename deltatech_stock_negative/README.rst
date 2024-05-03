@@ -22,9 +22,10 @@ No Negative Stock
 
 |badge1| |badge2| |badge3|
 
-Features:
- - No negative stock for internal location
- - Allows negative stock at certain locations
+-  Features:
+
+   -  No negative stock for internal location
+   -  Allows negative stock at certain locations
 
 **Table of contents**
 
@@ -34,20 +35,17 @@ Features:
 Usage
 =====
 
+-  Inventory -> Configuration -> Settings
+-  Traceability -> Negative Stock
 
-- Inventory -> Configuration -> Settings
-- Traceability -> Negative Stock
+|image0|
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_stock_negative/static/description/settings.png
-    :align: center
-    :alt: Settings
+-  Inventory -> Configuration -> Location
 
+|image1|
 
-- Inventory -> Configuration -> Location
-
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_stock_negative/static/description/settings_location.png
-    :align: center
-    :alt: Settings Location
+.. |image0| image:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_stock_negative/static/description/settings.png
+.. |image1| image:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_stock_negative/static/description/settings_location.png
 
 Bug Tracker
 ===========
@@ -61,13 +59,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

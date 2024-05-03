@@ -14,7 +14,12 @@ class ServicePriceChange(models.TransientModel):
     def _default_currency(self):
         return self.env.user.company_id.currency_id
 
-    product_id = fields.Many2one("product.product", string="Product", required=True, domain=[("type", "=", "service")])
+    product_id = fields.Many2one(
+        "product.product",
+        string="Product",
+        required=True,
+        domain=[("type", "=", "service")],
+    )
 
     price_unit = fields.Float(string="Unit Price", required=True, digits="Service Price")
 
@@ -46,16 +51,29 @@ class ServicePriceChange(models.TransientModel):
         active_ids = self.env.context.get("active_ids", False)
 
         if active_ids:
-            domain = [("invoice_id", "=", False), ("product_id", "=", self.product_id.id), ("id", "in", active_ids)]
+            domain = [
+                ("invoice_id", "=", False),
+                ("product_id", "=", self.product_id.id),
+                ("id", "in", active_ids),
+            ]
         else:
-            domain = [("invoice_id", "=", False), ("product_id", "=", self.product_id.id)]
+            domain = [
+                ("invoice_id", "=", False),
+                ("product_id", "=", self.product_id.id),
+            ]
 
         consumptions = self.env["service.consumption"].search(domain)
 
         if not consumptions:
             raise UserError(_("No consumptions!"))  # , _("There were no service consumption !")
 
-        consumptions.write({"price_unit": self.price_unit, "currency_id": self.currency_id.id, "name": self.reference})
+        consumptions.write(
+            {
+                "price_unit": self.price_unit,
+                "currency_id": self.currency_id.id,
+                "name": self.reference,
+            }
+        )
 
         company = self.env.user.company_id
         to_currency = self.env.user.company_id.currency_id

@@ -22,8 +22,9 @@ Deltatech Sale Order Search by Partner Fields
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Search sale order by partner fields: e-mail, phone, mobile
+-  Features:
+
+   -  Search sale order by partner fields: e-mail, phone, mobile
 
 **Table of contents**
 
@@ -42,13 +43,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dan Stoica
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-danila12| image:: https://github.com/danila12.png?size=40px
     :target: https://github.com/danila12

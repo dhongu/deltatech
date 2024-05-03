@@ -14,8 +14,12 @@ class Warehouse(models.Model):
     _inherit = "stock.warehouse"
 
     pick_type_prod_consume_id = fields.Many2one(
-        "stock.picking.type", string="Type prod consume", help="Picking type consume in production"
+        "stock.picking.type",
+        string="Type prod consume",
+        help="Picking type consume in production",
     )
     pick_type_prod_receipt_id = fields.Many2one(
-        "stock.picking.type", string="Type prod receipt", help="Picking type receipt from production"
+        "stock.picking.type",
+        string="Type prod receipt",
+        help="Picking type receipt from production",
     )

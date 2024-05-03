@@ -16,15 +16,24 @@ class StockPicking(models.Model):
         domain = [("res_model", "=", "stock.picking"), ("res_id", "=", picking.id)]
         invoice_ids = []
         if picking.sale_id:
-            subdomains = [("res_model", "=", "sale.order"), ("res_id", "=", picking.sale_id.id)]
+            subdomains = [
+                ("res_model", "=", "sale.order"),
+                ("res_id", "=", picking.sale_id.id),
+            ]
             domain = expression.OR([subdomains, domain])
             invoice_ids += picking.sale_id.sudo().invoice_ids.ids
         if picking.purchase_id:
-            subdomains = [("res_model", "=", "purchase.order"), ("res_id", "=", picking.purchase_id.id)]
+            subdomains = [
+                ("res_model", "=", "purchase.order"),
+                ("res_id", "=", picking.purchase_id.id),
+            ]
             domain = expression.OR([subdomains, domain])
             invoice_ids += picking.purchase_id.sudo().invoice_ids.ids
         if invoice_ids:
-            subdomains = [("res_model", "=", "account.move"), ("res_id", "=", invoice_ids)]
+            subdomains = [
+                ("res_model", "=", "account.move"),
+                ("res_id", "=", invoice_ids),
+            ]
             domain = expression.OR([subdomains, domain])
         return domain
 
@@ -42,5 +51,5 @@ class StockPicking(models.Model):
             "type": "ir.actions.act_window",
             "view_id": False,
             "view_mode": "kanban,tree,form",
-            "context": "{{'default_res_model': '{}','default_res_id': {}}}".format(self._name, self.id),
+            "context": f"{{'default_res_model': '{self._name}','default_res_id': {self.id}}}",
         }

@@ -9,7 +9,11 @@ class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     amount = fields.Monetary(string="Amount", compute="_compute_amount")
-    currency_id = fields.Many2one("res.currency", string="Currency", default=lambda self: self.env.company.currency_id)
+    currency_id = fields.Many2one(
+        "res.currency",
+        string="Currency",
+        default=lambda self: self.env.company.currency_id,
+    )
 
     def _compute_amount(self):
         for picking in self:

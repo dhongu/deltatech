@@ -5,7 +5,7 @@
         <field name="name">Order</field>
         <field name="model">service.order</field>
         <field name="arch" type="xml">
-            <tree string="Services Order" sample="1">
+            <tree sample="1">
                 <field name="name" />
                 <field name="date" />
                 <field name="service_location_id" />
@@ -325,7 +325,7 @@
         <field name="name">Order</field>
         <field name="model">service.operation</field>
         <field name="arch" type="xml">
-            <tree string="Services Operation">
+            <tree>
                 <field name="code" />
                 <field name="name" />
                 <field name="duration" widget="float_time" />

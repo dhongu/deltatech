@@ -370,54 +370,55 @@ ul.auto-toc {
 !! source digest: sha256:b3e138309e8a3c854836f322278f4c885d87c2c83df0e13bbb73e4aeacbcde12
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Alpha" src="https://img.shields.io/badge/maturity-Alpha-red.png" /></a> <a class="reference external image-reference" href="https://www.odoo.com/documentation/master/legal/licenses.html"><img alt="License: OPL-1" src="https://img.shields.io/badge/licence-OPL--1-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/17.0/deltatech_followup"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<dl class="docutils">
-<dt>Features:</dt>
-<dd><ul class="first last simple">
-<li><dl class="first docutils">
-<dt>Configure followup items:</dt>
-<dd><ul class="first last">
+<ul class="simple">
+<li>Features:<ul>
+<li><ul class="first">
+<li>Configure followup items:<ul>
 <li>Name - name of the followup</li>
-<li>Code - can be used in cron jobs to run only selected followups</li>
+<li>Code - can be used in cron jobs to run only selected
+followups</li>
 <li>Active - if the followup items will be processed or not</li>
 <li>Date field - invoice date or due date</li>
-<li>relative days from configured date field (i.e. -5 means 5 days before, 3 means 3 days after)</li>
+<li>relative days from configured date field (i.e. -5 means 5
+days before, 3 means 3 days after)</li>
 <li>mail subject</li>
 <li>mail from</li>
-<li>mail body (with pre-configured blocks - please see field help)</li>
+<li>mail body (with pre-configured blocks - please see field
+help)</li>
 </ul>
-</dd>
-</dl>
 </li>
-<li><dl class="first docutils">
-<dt>Configure Partners</dt>
-<dd><ul class="first last">
-<li>will receive followups - check if the partner will be processed for followups</li>
 </ul>
-</dd>
-</dl>
 </li>
-<li><dl class="first docutils">
-<dt>Configure cron job for followup mails:</dt>
-<dd><ul class="first last">
+<li><ul class="first">
+<li>Configure Partners<ul>
+<li>will receive followups - check if the partner will be
+processed for followups</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><ul class="first">
+<li>Configure cron job for followup mails:<ul>
 <li>model: Followup Send (followup.send.wizard)</li>
-<li><dl class="first docutils">
-<dt>Python code:</dt>
-<dd><ul class="first last">
+<li><ul class="first">
+<li>Python code:<ul>
 <li>for all followups: model.run_followup()</li>
-<li>for selected followups: model.run_followup([“12D”, “20D”]) - 12D and 20D are the codes of the followups to run</li>
+<li>for selected followups: model.run_followup([“12D”,
+“20D”]) - 12D and 20D are the codes of the followups
+to run</li>
 </ul>
-</dd>
-</dl>
 </li>
 </ul>
-</dd>
-</dl>
 </li>
 </ul>
-</dd>
-</dl>
-<ul class="simple">
-<li>An override partner id can be configured for testing purposes. In system parameters, parameter name -&gt; “followup.override_partner_id”, value -&gt; id of the partner</li>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>An override partner id can be configured for testing purposes. In
+system parameters, parameter name -&gt; “followup.override_partner_id”,
+value -&gt; id of the partner</li>
 </ul>
 <div class="admonition important">
 <p class="first admonition-title">Important</p>

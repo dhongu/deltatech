@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <odoo>
-    <data>
+
         <record id="view_partner_form" model="ir.ui.view">
             <field name="name">deltatech.res.partner.form</field>
             <field name="model">res.partner</field>
@@ -38,10 +38,10 @@
 
                         </div>
                         <label
-                            for="id_issued_by"
-                            string="Card ID Issued"
-                            invisible="is_company==True or type!='contact'"
-                        />
+                        for="id_issued_by"
+                        string="Card ID Issued"
+                        invisible="is_company==True or type!='contact'"
+                    />
                         <div class="o_row" invisible="is_company==True or type!='contact'">
                             <field name="id_issued_by" placeholder="SPCLEP .." />
                             <field name="id_issued_at" placeholder="Ex: 01.01.2000" />
@@ -74,10 +74,10 @@
 
                         </div>
                         <label
-                            for="id_issued_by"
-                            string="Card ID Issued"
-                            invisible="is_company==True or type!='contact'"
-                        />
+                        for="id_issued_by"
+                        string="Card ID Issued"
+                        invisible="is_company==True or type!='contact'"
+                    />
                         <div class="o_row" invisible="is_company==True or type!='contact'">
                             <field name="id_issued_by" placeholder="SPCLEP .." />
                             <field name="id_issued_at" placeholder="Ex: 01.01.2000" />
@@ -108,5 +108,5 @@
 
             </field>
         </record>
-    </data>
+
 </odoo>

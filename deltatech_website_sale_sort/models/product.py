@@ -26,12 +26,20 @@ class ProductTemplate(models.Model):
     in_stock = fields.Boolean()
 
     def _update_statistics(self):
-        domain = [("res_model", "=", self._name), ("res_id", "in", self.ids), ("consumed", "=", True)]
+        domain = [
+            ("res_model", "=", self._name),
+            ("res_id", "in", self.ids),
+            ("consumed", "=", True),
+        ]
         read_group_res = self.env["rating.rating"].read_group(
             domain, ["rating:avg"], groupby=["res_id"], lazy=False
         )  # force average on rating column
         mapping = {
-            item["res_id"]: {"rating_count": item["__count"], "rating_avg": item["rating"]} for item in read_group_res
+            item["res_id"]: {
+                "rating_count": item["__count"],
+                "rating_avg": item["rating"],
+            }
+            for item in read_group_res
         }
 
         for record in self:
@@ -89,7 +97,10 @@ class ProductProduct(models.Model):
 
         for product in self:
             visit_count = visit_mapping.get(product.id, {}).get("visit_count", 0)
-            sales_count2 = float_round(sale_mapping.get(product.id, 0), precision_rounding=product.uom_id.rounding)
+            sales_count2 = float_round(
+                sale_mapping.get(product.id, 0),
+                precision_rounding=product.uom_id.rounding,
+            )
             product.write({"visit_count": visit_count, "sales_count2": sales_count2})
 
     @api.model

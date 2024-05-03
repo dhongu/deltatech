@@ -11,7 +11,10 @@ class ServiceNotification(models.Model):
 
     emplacement = fields.Char(string="Emplacement", related=False, readonly=True)
     agreement_id = fields.Many2one(
-        "service.agreement", string="Service Agreement", related="equipment_id.agreement_id", readonly=True
+        "service.agreement",
+        string="Service Agreement",
+        related="equipment_id.agreement_id",
+        readonly=True,
     )
     can_create_delivery = fields.Boolean(related="agreement_id.type_id.permits_pickings")
 

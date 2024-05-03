@@ -31,7 +31,10 @@ class ServiceConsumption(models.Model):
         default=1,
     )
     invoiced_qty = fields.Float(
-        string="Invoiced Quantity", digits="Product Unit of Measure", readonly=True, default=0.0
+        string="Invoiced Quantity",
+        digits="Product Unit of Measure",
+        readonly=True,
+        default=0.0,
     )
     price_unit = fields.Float(
         string="Unit Price",
@@ -56,7 +59,11 @@ class ServiceConsumption(models.Model):
     company_currency_id = fields.Many2one("res.currency", string="Company Currency", related="company_id.currency_id")
 
     state = fields.Selection(
-        [("draft", "Without invoice"), ("none", "Not Applicable"), ("done", "With invoice")],
+        [
+            ("draft", "Without invoice"),
+            ("none", "Not Applicable"),
+            ("done", "With invoice"),
+        ],
         string="Status",
         index=True,
         default="draft",
@@ -64,19 +71,37 @@ class ServiceConsumption(models.Model):
     )
 
     agreement_id = fields.Many2one(
-        "service.agreement", string="Agreement", readonly=True, ondelete="restrict", copy=False, index=True
+        "service.agreement",
+        string="Agreement",
+        readonly=True,
+        ondelete="restrict",
+        copy=False,
+        index=True,
     )
     agreement_line_id = fields.Many2one(
-        "service.agreement.line", string="Agreement Line", readonly=True, ondelete="restrict", copy=False
+        "service.agreement.line",
+        string="Agreement Line",
+        readonly=True,
+        ondelete="restrict",
+        copy=False,
     )
     analytic_account_id = fields.Many2one("account.analytic.account", string="Analytic", ondelete="restrict")
 
     invoice_id = fields.Many2one(
-        "account.move", string="Invoice Reference", ondelete="set default", readonly=True, copy=False, index=True
+        "account.move",
+        string="Invoice Reference",
+        ondelete="set default",
+        readonly=True,
+        copy=False,
+        index=True,
     )
 
     uom_id = fields.Many2one(
-        "uom.uom", string="Unit of Measure", related="agreement_line_id.uom_id", readonly=True, copy=False
+        "uom.uom",
+        string="Unit of Measure",
+        related="agreement_line_id.uom_id",
+        readonly=True,
+        copy=False,
     )
 
     date_invoice = fields.Date(string="Invoice Date", readonly=True)
@@ -119,7 +144,10 @@ class ServiceConsumption(models.Model):
                 raise UserError(
                     _(
                         "You cannot delete a service consumption generated from an uninstall operation (%s / %s)."
-                        % (item.agreement_line_id.equipment_id.name, item.agreement_id.name)
+                        % (
+                            item.agreement_line_id.equipment_id.name,
+                            item.agreement_id.name,
+                        )
                     )
                 )
             if item.with_free_cycle:

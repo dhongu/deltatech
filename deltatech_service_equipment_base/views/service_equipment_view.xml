@@ -5,7 +5,7 @@
         <field name="name">Services equipment</field>
         <field name="model">service.equipment</field>
         <field name="arch" type="xml">
-            <tree string="Services Equipment" sample="1">
+            <tree sample="1">
                 <field name="name" />
                 <field name="service_location_id" optional="show" />
                 <field name="partner_id" />
@@ -62,7 +62,7 @@
                         <page id='meters' string="Meters">
 
                             <field name="meter_ids" mode="kanban,tree">
-                                <tree string="Meters" editable="bottom">
+                                <tree editable="bottom">
                                     <field name="name" />
                                     <field name="meter_categ_id" />
                                     <field name="uom_id" />

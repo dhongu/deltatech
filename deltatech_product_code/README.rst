@@ -22,10 +22,11 @@ Products Code
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Generate product code
- - Check consistence of product coding
- - Mass coding of products
+-  Features:
+
+   -  Generate product code
+   -  Check consistence of product coding
+   -  Mass coding of products
 
 **Table of contents**
 
@@ -44,13 +45,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

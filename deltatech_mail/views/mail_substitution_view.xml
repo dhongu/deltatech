@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <data>
+
         <record id="mail_substitution_tree" model="ir.ui.view">
             <field name="name">email.substitution.tree</field>
             <field name="model">mail.substitution</field>
             <field name="arch" type="xml">
-                <tree string="Substitution">
+                <tree>
                     <field name="name" />
                     <field name="email" />
                 </tree>
@@ -19,10 +19,10 @@
             <field name="view_id" ref="mail_substitution_tree" />
         </record>
         <menuitem
-            id="menu_email_substitution"
-            parent="base.menu_email"
-            action="action_mail_substitution"
-            sequence="99"
-        />
-    </data>
+        id="menu_email_substitution"
+        parent="base.menu_email"
+        action="action_mail_substitution"
+        sequence="99"
+    />
+
 </odoo>

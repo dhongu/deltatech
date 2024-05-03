@@ -16,7 +16,9 @@ class MonthlyStockReport(models.TransientModel):
     # Filters fields, used for data computation
 
     location_id = fields.Many2one(
-        "stock.location", domain="[('usage','=','internal'),('company_id','=',company_id)]", required=True
+        "stock.location",
+        domain="[('usage','=','internal'),('company_id','=',company_id)]",
+        required=True,
     )
 
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)

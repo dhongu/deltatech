@@ -9,11 +9,25 @@ class ServiceDistribution(models.TransientModel):
     _name = "service.distribution"
     _description = "Service distribution"
 
-    product_id = fields.Many2one("product.product", string="Product", required=True, domain=[("type", "=", "service")])
+    product_id = fields.Many2one(
+        "product.product",
+        string="Product",
+        required=True,
+        domain=[("type", "=", "service")],
+    )
     quantity = fields.Float(string="Quantity", required=True, digits="Product Unit of Measure")
     amount = fields.Float(string="Amount", required=True)
-    type = fields.Selection([("qty", "Quantity"), ("val", "Value")], default="qty", string="Distribution type")
-    mode = fields.Selection([("divide", "Divide"), ("fix", "Fix")], string="Mode", required=True, default="fix")
+    type = fields.Selection(
+        [("qty", "Quantity"), ("val", "Value")],
+        default="qty",
+        string="Distribution type",
+    )
+    mode = fields.Selection(
+        [("divide", "Divide"), ("fix", "Fix")],
+        string="Mode",
+        required=True,
+        default="fix",
+    )
     reference = fields.Char("Reference")
     add_values = fields.Boolean("Add to existing?", default=True)
 
@@ -35,9 +49,16 @@ class ServiceDistribution(models.TransientModel):
         active_ids = self.env.context.get("active_ids", False)
 
         if active_ids:
-            domain = [("invoice_id", "=", False), ("product_id", "=", self.product_id.id), ("id", "in", active_ids)]
+            domain = [
+                ("invoice_id", "=", False),
+                ("product_id", "=", self.product_id.id),
+                ("id", "in", active_ids),
+            ]
         else:
-            domain = [("invoice_id", "=", False), ("product_id", "=", self.product_id.id)]
+            domain = [
+                ("invoice_id", "=", False),
+                ("product_id", "=", self.product_id.id),
+            ]
 
         consumptions = self.env["service.consumption"].search(domain)
 

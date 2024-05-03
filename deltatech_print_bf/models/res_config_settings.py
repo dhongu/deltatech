@@ -10,5 +10,8 @@ class ResConfigSettings(models.TransientModel):
 
     # cred ca jurnalul trebuie sa depinda de codum de compaien
     journal_bf_id = fields.Many2one(
-        "account.journal", "Journal Receipt", domain="[('type', '=', 'sale')]", config_parameter="sale.journal_bf_id"
+        "account.journal",
+        "Journal Receipt",
+        domain="[('type', '=', 'sale')]",
+        config_parameter="sale.journal_bf_id",
     )

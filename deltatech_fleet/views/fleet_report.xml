@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
 <!--        <report
             string="Map Sheet"
             id="fleet_map_sheet_list_report"
@@ -19,5 +19,5 @@
         <field name="binding_type">report</field>
         </record>
 
-    </data>
+
 </odoo>

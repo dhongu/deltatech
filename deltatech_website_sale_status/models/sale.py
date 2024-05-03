@@ -12,8 +12,14 @@ class SaleOrder(models.Model):
     stage = fields.Selection(
         [
             ("placed", "Placed"),  # comanda plasta pe website
-            ("in_process", "In Process"),  # comanda in procesare de catre agentul de vanzare
-            ("waiting", "Waiting availability"),  # nu sunt in stoc toate produsele din comanda
+            (
+                "in_process",
+                "In Process",
+            ),  # comanda in procesare de catre agentul de vanzare
+            (
+                "waiting",
+                "Waiting availability",
+            ),  # nu sunt in stoc toate produsele din comanda
             ("postponed", "Postponed"),  # livrarea a fost amanata
             ("to_be_delivery", "To Be Delivery"),  # comanda este de livrat
             ("in_delivery", "In Delivery"),  # marfa a fost predata la curier
@@ -30,7 +36,13 @@ class SaleOrder(models.Model):
         store=True,
     )
 
-    @api.depends("state", "website_id", "picking_ids.state", "picking_ids.delivery_state", "postponed_delivery")
+    @api.depends(
+        "state",
+        "website_id",
+        "picking_ids.state",
+        "picking_ids.delivery_state",
+        "postponed_delivery",
+    )
     def _compute_stage(self):
         for order in self:
             order.stage = "in_process"

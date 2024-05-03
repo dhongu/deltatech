@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <odoo>
-    <data>
+
         <record id="product_template_form_view_inherit_website_sale_stock" model="ir.ui.view">
             <field name="name">product.template.form.inherit.website.sale.stock</field>
             <field name="model">product.template</field>
@@ -8,12 +8,12 @@
             <field name="arch" type="xml">
                 <header position="inside">
                     <button
-                        class="oe_stat_button"
-                        name="website_publish_button"
-                        string="Publish"
-                        type="object"
-                        icon="fa-globe"
-                    />
+                    class="oe_stat_button"
+                    name="website_publish_button"
+                    string="Publish"
+                    type="object"
+                    icon="fa-globe"
+                />
                 </header>
                 <group name="shop" position="after">
                     <group string="Website short description">
@@ -25,5 +25,5 @@
                 </group>
             </field>
         </record>
-    </data>
+
 </odoo>

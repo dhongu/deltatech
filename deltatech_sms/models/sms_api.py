@@ -13,7 +13,6 @@ _logger = logging.getLogger(__name__)
 
 
 class SmsApi(BaseSmsApi):
-
     def _contact_iap(self, local_endpoint, params, timeout=15):
         account = self.env["iap.account"].get("sms")
 

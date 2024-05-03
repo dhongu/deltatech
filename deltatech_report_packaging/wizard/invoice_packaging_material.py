@@ -21,7 +21,13 @@ class InvoicePackaging(models.TransientModel):
 
         lines = []
         for material_type in qty_packaging:
-            lines += [{"report_id": self.id, "material_type": material_type, "qty": qty_packaging[material_type]}]
+            lines += [
+                {
+                    "report_id": self.id,
+                    "material_type": material_type,
+                    "qty": qty_packaging[material_type],
+                }
+            ]
 
         self.env["packaging.report.material.line"].create(lines)
 

@@ -22,8 +22,10 @@ Deltatech Sale Fix Followers error
 
 |badge1| |badge2| |badge3|
 
-Features:
- -  Fix mail_followers_mail_followers_res_partner_res_model_id_uniq error
+-  Features:
+
+   -  Fix mail_followers_mail_followers_res_partner_res_model_id_uniq
+      error
 
 **Table of contents**
 
@@ -42,13 +44,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dan Stoica
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-danila12| image:: https://github.com/danila12.png?size=40px
     :target: https://github.com/danila12

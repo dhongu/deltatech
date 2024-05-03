@@ -22,13 +22,19 @@ Sale Commission
 
 |badge1| |badge2| |badge3|
 
-Features:
- - New technical access group for display margin and purchase price in customer invoice
- - Technical access group to prevent changing price in  customer invoice
- - New technical access group to allow sale price  below the purchase price
- - Warning/Error on customer invoice if sale price is below the purchase price
- - New report for analysis profitability
- - Calculation of sales commissions on sale order salesperson or invoice salesperson (configurable)
+-  Features:
+
+   -  New technical access group for display margin and purchase price
+      in customer invoice
+   -  Technical access group to prevent changing price in customer
+      invoice
+   -  New technical access group to allow sale price below the purchase
+      price
+   -  Warning/Error on customer invoice if sale price is below the
+      purchase price
+   -  New report for analysis profitability
+   -  Calculation of sales commissions on sale order salesperson or
+      invoice salesperson (configurable)
 
 **Table of contents**
 
@@ -47,13 +53,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

@@ -22,7 +22,8 @@ Watermark report
 
 |badge1| |badge2| |badge3|
 
-This modify module uses watermark image in reports with external_layout_background layout
+This modify module uses watermark image in reports with
+external_layout_background layout
 
 **Table of contents**
 
@@ -32,13 +33,12 @@ This modify module uses watermark image in reports with external_layout_backgrou
 Usage
 =====
 
-Go to:
- Setting -> General Settings - Business Documents
+-  Go to:
+   Setting -> General Settings - Business Documents
 
+|image0|
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_watermark_report/static/description/settings.png
-    :align: center
-    :alt: Settings
+.. |image0| image:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_watermark_report/static/description/settings.png
 
 Bug Tracker
 ===========
@@ -52,13 +52,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

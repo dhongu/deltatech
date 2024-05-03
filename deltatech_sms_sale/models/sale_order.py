@@ -20,7 +20,9 @@ class SaleOrder(models.Model):
                 # Sudo as the user has not always the right to read this sms template.
                 template = sale.company_id.sudo().sale_order_sms_post_template_id
                 sale.with_context(mail_notify_author=True)._message_sms_with_template(
-                    template=template, partner_ids=sale.partner_id.ids, put_in_queue=False
+                    template=template,
+                    partner_ids=sale.partner_id.ids,
+                    put_in_queue=False,
                 )
         return super()._send_order_confirmation_mail()
 
@@ -34,6 +36,8 @@ class SaleOrder(models.Model):
                 # Sudo as the user has not always the right to read this sms template.
                 template = sale.company_id.sudo().sale_order_sms_confirm_template_id
                 sale.with_context(mail_notify_author=True)._message_sms_with_template(
-                    template=template, partner_ids=sale.partner_id.ids, put_in_queue=False
+                    template=template,
+                    partner_ids=sale.partner_id.ids,
+                    put_in_queue=False,
                 )
         return res

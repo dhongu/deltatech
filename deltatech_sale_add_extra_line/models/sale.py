@@ -19,7 +19,13 @@ class SaleOrder(models.Model):
         self.order_line.with_context(backend=True).check_extra_product()
 
     def _cart_update(self, product_id=None, line_id=None, add_qty=0, set_qty=0, **kwargs):
-        res = super()._cart_update(product_id=product_id, line_id=line_id, add_qty=add_qty, set_qty=set_qty, **kwargs)
+        res = super()._cart_update(
+            product_id=product_id,
+            line_id=line_id,
+            add_qty=add_qty,
+            set_qty=set_qty,
+            **kwargs,
+        )
         if res["line_id"]:
             line_id = self.env["sale.order.line"].browse(res["line_id"])
             if res["quantity"]:

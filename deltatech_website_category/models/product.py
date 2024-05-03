@@ -12,11 +12,15 @@ class ProductPublicCategory(models.Model):
     _inherit = "product.public.category"
 
     active = fields.Boolean(
-        "Active", default=True, help="If unchecked, it will allow you to hide the category without removing it."
+        "Active",
+        default=True,
+        help="If unchecked, it will allow you to hide the category without removing it.",
     )
 
     website_url = fields.Char(
-        "Website URL", compute="_compute_website_url", help="The full URL to access the document through the website."
+        "Website URL",
+        compute="_compute_website_url",
+        help="The full URL to access the document through the website.",
     )
 
     @api.depends_context("lang")

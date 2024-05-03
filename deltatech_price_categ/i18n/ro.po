@@ -83,7 +83,7 @@ msgstr "Listă de prețuri cupru"
 #. module: deltatech_price_categ
 #: model:ir.model.fields,field_description:deltatech_price_categ.field_product_template__standard_price
 msgid "Cost"
-msgstr "Cost"
+msgstr ""
 
 #. module: deltatech_price_categ
 #: model:ir.model.fields.selection,name:deltatech_price_categ.selection__product_template__list_price_base__standard_price
@@ -107,8 +107,6 @@ msgstr "Preț Gold"
 #: model:product.pricelist,name:deltatech_price_categ.list_price_gold
 msgid "Gold Pricelist"
 msgstr "Listă de prețuri aur"
-
-
 
 #. module: deltatech_price_categ
 #: model:ir.model.fields.selection,name:deltatech_price_categ.selection__product_template__list_price_base__last_purchase_price

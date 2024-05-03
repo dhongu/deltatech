@@ -24,7 +24,8 @@ Watermark
 
 This module allows you to define the field watermark in the company
 
-This field is used in other modules (deltatech_watermark_report, deltatech_website_watermark)
+This field is used in other modules (deltatech_watermark_report,
+deltatech_website_watermark)
 
 **Table of contents**
 
@@ -34,13 +35,12 @@ This field is used in other modules (deltatech_watermark_report, deltatech_websi
 Usage
 =====
 
-Go to:
- Setting -> General Settings - Business Documents
+-  Go to:
+   Setting -> General Settings - Business Documents
 
+|image0|
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_watermark/static/description/settings.png
-    :align: center
-    :alt: Settings
+.. |image0| image:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_watermark/static/description/settings.png
 
 Bug Tracker
 ===========
@@ -54,13 +54,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

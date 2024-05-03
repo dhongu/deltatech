@@ -22,8 +22,9 @@ Price modify at the reception
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Price modify at reception
+-  Features:
+
+   -  Price modify at reception
 
 **Table of contents**
 
@@ -42,13 +43,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * cojocariudaniel1
 * Terrabit
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-cojocariudaniel1| image:: https://github.com/cojocariudaniel1.png?size=40px
     :target: https://github.com/cojocariudaniel1

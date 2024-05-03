@@ -117,7 +117,11 @@ class ServiceOrder(models.Model):
     description = fields.Text("Notes", readonly=False, states={"done": [("readonly", True)]})
 
     available_state = fields.Selection(
-        [("unavailable", "Unavailable"), ("partially", "Partially available"), ("available", "Available")],
+        [
+            ("unavailable", "Unavailable"),
+            ("partially", "Partially available"),
+            ("available", "Available"),
+        ],
         default=False,
         compute="_compute_available_state",
     )
@@ -420,7 +424,12 @@ class ServiceOrderComponent(models.Model):
     sequence = fields.Integer(string="Sequence", default=10)
     name = fields.Char()
     order_id = fields.Many2one(
-        "service.order", string="Order", readonly=True, index=True, required=True, ondelete="cascade"
+        "service.order",
+        string="Order",
+        readonly=True,
+        index=True,
+        required=True,
+        ondelete="cascade",
     )
     product_id = fields.Many2one("product.product", string="Product", domain=[("type", "!=", "service")])
     alternative_code = fields.Char(related="product_id.alternative_code")
@@ -475,7 +484,12 @@ class ServiceOrderOperation(models.Model):
     sequence = fields.Integer(string="Sequence", default=10)
 
     order_id = fields.Many2one(
-        "service.order", string="Order", readonly=True, index=True, required=True, ondelete="cascade"
+        "service.order",
+        string="Order",
+        readonly=True,
+        index=True,
+        required=True,
+        ondelete="cascade",
     )
     operation_id = fields.Many2one("service.operation", string="Operation")
     duration = fields.Float(string="Duration")
@@ -503,7 +517,7 @@ class ServiceOrderReason(models.Model):
     def _compute_display_name(self):
         for reason in self:
             if reason.code:
-                reason.display_name = "[{}] {}".format(reason.code, reason.name)
+                reason.display_name = f"[{reason.code}] {reason.name}"
             else:
                 reason.display_name = reason.name
 
@@ -546,6 +560,6 @@ class ServiceOperation(models.Model):
     def _compute_display_name(self):
         for operation in self:
             if operation.code:
-                operation.display_name = "[{}] {}".format(operation.code, operation.name)
+                operation.display_name = f"[{operation.code}] {operation.name}"
             else:
                 operation.display_name = operation.name

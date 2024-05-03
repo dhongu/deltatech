@@ -8,14 +8,23 @@ from odoo import fields, models
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    scrap = fields.Float(string="Scrap", help="A factor of 0.1 means a loss of 10% during the consumption.")
+    scrap = fields.Float(
+        string="Scrap",
+        help="A factor of 0.1 means a loss of 10% during the consumption.",
+    )
 
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
     def _select_seller(
-        self, partner_id=False, quantity=0.0, date=None, uom_id=False, ordered_by="price_discounted", params=False
+        self,
+        partner_id=False,
+        quantity=0.0,
+        date=None,
+        uom_id=False,
+        ordered_by="price_discounted",
+        params=False,
     ):
         res = super()._select_seller(partner_id, quantity, date, uom_id, ordered_by, params)
 

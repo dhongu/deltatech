@@ -44,4 +44,4 @@ msgstr ""
 #. module: deltatech_picking_number
 #: model:ir.model,name:deltatech_picking_number.model_stock_picking
 msgid "Transfer"
-msgstr "Transfer"
+msgstr ""

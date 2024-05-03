@@ -22,13 +22,14 @@ eCommerce Product sort
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Additional criteria for sorting products
+-  Features:
+
+   -  Additional criteria for sorting products
 
 Cautare produse cu cele mai multe canzari
 
-Nota
-- modulul adauga un camp in produs in care se calculeaza periodic numarul de vanzari
+Nota - modulul adauga un camp in produs in care se calculeaza periodic
+numarul de vanzari
 
 **Table of contents**
 
@@ -47,13 +48,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

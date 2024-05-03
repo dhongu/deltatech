@@ -1,2 +1,0 @@
-Features:
- - defining product lists

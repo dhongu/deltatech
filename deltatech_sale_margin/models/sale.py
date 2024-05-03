@@ -75,7 +75,10 @@ class SaleOrderLine(models.Model):
                 return res
             price_unit = self.price_reduce_taxexcl
             if price_unit and price_unit < self.purchase_price and self.purchase_price > 0:
-                warning = {"title": _("Price Error!"), "message": _("Do not sell below the purchase price.")}
+                warning = {
+                    "title": _("Price Error!"),
+                    "message": _("Do not sell below the purchase price."),
+                }
                 res["warning"] = warning
         return res
 

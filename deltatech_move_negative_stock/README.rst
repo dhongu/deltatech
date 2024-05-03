@@ -22,8 +22,10 @@ Replenish negative stock
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Button in picking to populate a transfer with all negative qty's found in destination location
+-  Features:
+
+   -  Button in picking to populate a transfer with all negative qty's
+      found in destination location
 
 **Table of contents**
 
@@ -33,41 +35,42 @@ Features:
 Usage
 =====
 
+-  
 
-- Configure your operation type:
-      - Inventory -> Configuration -> Operation Types
+   -  Configure your operation type:
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_move_negative_stock/static/description/op-type.png
-    :align: center
-    :alt: Operation type
+      -  Inventory -> Configuration -> Operation Types
 
-- Sell some stuff from your location, resulting in negative stock:
+|image0|
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_move_negative_stock/static/description/negative-stock.png
-    :align: center
-    :alt: Products with negative stock
+-  Sell some stuff from your location, resulting in negative stock:
 
-- Create a picking with the previuous Operation type
+|image1|
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_move_negative_stock/static/description/picking1.png
-    :align: center
-    :alt: New picking
+-  Create a picking with the previuous Operation type
 
-- Press the <Get negative products> button:
+|image2|
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_move_negative_stock/static/description/picking2.png
-    :align: center
-    :alt: Button
+-  Press the <Get negative products> button:
 
-- You products will be added to the picking:
+|image3|
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_move_negative_stock/static/description/picking3.png
-    :align: center
-    :alt: Button
+-  You products will be added to the picking:
 
-Other info:
-   - You can manually add, delete or edit the picking after negative values have been added
-   - The negative stock products will be added with each click on the <Get negative products> button.
+|image4|
+
+-  Other info:
+
+   -  You can manually add, delete or edit the picking after negative
+      values have been added
+   -  The negative stock products will be added with each click on the
+      <Get negative products> button.
+
+.. |image0| image:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_move_negative_stock/static/description/op-type.png
+.. |image1| image:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_move_negative_stock/static/description/negative-stock.png
+.. |image2| image:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_move_negative_stock/static/description/picking1.png
+.. |image3| image:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_move_negative_stock/static/description/picking2.png
+.. |image4| image:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_move_negative_stock/static/description/picking3.png
 
 Bug Tracker
 ===========
@@ -81,13 +84,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dan Stoica
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-danila12| image:: https://github.com/danila12.png?size=40px
     :target: https://github.com/danila12

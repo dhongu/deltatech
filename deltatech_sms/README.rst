@@ -22,14 +22,15 @@ Deltatech SMS
 
 |badge1| |badge2| |badge3|
 
-Features:
- - in endpointse folosesc parametrii:
-            {number}:  string: E164 formatted phone number,
-            {content}: string: content to send
+-  Features:
 
+   -  
 
+      -  in endpointse folosesc parametrii:
+         {number}: string: E164 formatted phone number, {content}:
+         string: content to send
 
-https://sms.4pay.ro/smscust/api.send_sms?servID={ID}&msg_dst={number}&msg_text={content}&API&password={password}@&external_messageID=1
+`https://sms.4pay.ro/smscust/api.send_sms?servID={ID}&msg_dst={number}&msg_text={content}&API&password={password}@&external_messageID=1 <https://sms.4pay.ro/smscust/api.send_sms?servID=%7BID%7D&msg_dst=%7Bnumber%7D&msg_text=%7Bcontent%7D&API&password=%7Bpassword%7D@&external_messageID=1>`__
 
 **Table of contents**
 
@@ -48,24 +49,25 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 * Dan Stoica
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Terrabit <https://www.terrabit.ro>`_:
+-  `Terrabit <https://www.terrabit.ro>`__:
 
-  * Dorin Hongu
-  * Dan Stoica
+   -  Dorin Hongu
+   -  Dan Stoica
 
-Do not contact contributors directly about support or help with technical issues.
+Do not contact contributors directly about support or help with
+technical issues.
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

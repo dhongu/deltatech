@@ -17,7 +17,12 @@ class BusinessDevelopment(models.Model):
 
     project_id = fields.Many2one(string="Project", comodel_name="business.project")
     approved = fields.Selection(
-        [("draft", "Draft"), ("approved", "Approved"), ("rejected", "Rejected"), ("pending", "Pending")],
+        [
+            ("draft", "Draft"),
+            ("approved", "Approved"),
+            ("rejected", "Rejected"),
+            ("pending", "Pending"),
+        ],
         string="Approved",
         default="draft",
         tracking=True,
@@ -36,7 +41,9 @@ class BusinessDevelopment(models.Model):
     )
 
     responsible_id = fields.Many2one(
-        string="Consultant", domain="[('is_company', '=', False)]", comodel_name="res.partner"
+        string="Consultant",
+        domain="[('is_company', '=', False)]",
+        comodel_name="res.partner",
     )
     date_start_fs = fields.Date(string="Start FS", help="Start date functional specification")
     date_end_fs = fields.Date(string="End FS", help="End date functional specification")
@@ -48,7 +55,9 @@ class BusinessDevelopment(models.Model):
     effort_fs = fields.Float(string="Effort FS", help="Effort for functional specification")
 
     developer_id = fields.Many2one(
-        string="Developer", domain="[('is_company', '=', False)]", comodel_name="res.partner"
+        string="Developer",
+        domain="[('is_company', '=', False)]",
+        comodel_name="res.partner",
     )
     date_start_dev = fields.Date(help="Start date development")
     date_end_dev = fields.Date(help="End date development")
@@ -58,7 +67,11 @@ class BusinessDevelopment(models.Model):
     )
     effort_dev = fields.Float(string="Effort Dev", help="Effort for development")
 
-    tester_id = fields.Many2one(string="Tester", domain="[('is_company', '=', False)]", comodel_name="res.partner")
+    tester_id = fields.Many2one(
+        string="Tester",
+        domain="[('is_company', '=', False)]",
+        comodel_name="res.partner",
+    )
     date_start_test = fields.Date(help="Start date test")
     date_end_test = fields.Date(help="End date test")
     completion_test = fields.Float(
@@ -79,6 +92,12 @@ class BusinessDevelopment(models.Model):
     def name_get(self):
         self.browse(self.ids).read(["name", "code"])
         return [
-            (development.id, "{}{}".format(development.code and "[%s] " % development.code or "", development.name))
+            (
+                development.id,
+                "{}{}".format(
+                    development.code and "[%s] " % development.code or "",
+                    development.name,
+                ),
+            )
             for development in self
         ]

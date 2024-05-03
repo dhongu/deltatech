@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
         <record id="view_export_attachment_form" model="ir.ui.view">
             <field name="name">Export attachment</field>
             <field name="model">export.attachment</field>
@@ -36,10 +36,10 @@
             <field name="target">new</field>
         </record>
         <menuitem
-            id="menu_export_attachment"
-            action="action_export_attachment"
-            parent="base.next_id_9"
-            sequence="500"
-        />
-    </data>
+        id="menu_export_attachment"
+        action="action_export_attachment"
+        parent="base.next_id_9"
+        sequence="500"
+    />
+
 </odoo>

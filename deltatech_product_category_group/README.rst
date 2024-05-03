@@ -22,9 +22,11 @@ Products Category User Group
 
 |badge1| |badge2| |badge3|
 
-Features:
- - User Group in product category
- - Automatic assign of the responsible in transfer based on the user group from category
+-  Features:
+
+   -  User Group in product category
+   -  Automatic assign of the responsible in transfer based on the user
+      group from category
 
 **Table of contents**
 
@@ -43,13 +45,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

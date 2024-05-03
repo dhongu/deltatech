@@ -10,7 +10,9 @@ class BusinessArea(models.Model):
 
     name = fields.Char(string="Name", required=True)
     process_group_ids = fields.One2many(
-        string="Business process groups", comodel_name="business.process.group", inverse_name="area_id"
+        string="Business process groups",
+        comodel_name="business.process.group",
+        inverse_name="area_id",
     )
     responsible_id = fields.Many2one(
         string="Responsible",

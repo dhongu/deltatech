@@ -26,7 +26,10 @@ class AccountMove(models.Model):
                         raise UserError(_("The exchange rate is not maintained"))
                     currency_rate = 1 / self.currency_rate_custom
                     price_unit = from_currency.with_context(currency_rate=currency_rate)._convert(
-                        from_amount=line.price_unit, to_currency=to_currency, company=invoice.company_id, date=date_eval
+                        from_amount=line.price_unit,
+                        to_currency=to_currency,
+                        company=invoice.company_id,
+                        date=date_eval,
                     )
                     sale_line.write({"price_unit": price_unit})
         return res

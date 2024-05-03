@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+
 
 
         <record id="action_report_dc" model="ir.actions.report">
@@ -56,5 +56,4 @@
 
 
 
-    </data>
 </odoo>

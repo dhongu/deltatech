@@ -33,7 +33,12 @@ class ServiceNotification(models.Model):
     date = fields.Datetime(string="Date", default=fields.Date.context_today)
 
     state = fields.Selection(
-        [("new", "New"), ("assigned", "Assigned"), ("progress", "In Progress"), ("done", "Done")],
+        [
+            ("new", "New"),
+            ("assigned", "Assigned"),
+            ("progress", "In Progress"),
+            ("done", "Done"),
+        ],
         default="new",
         string="Status",
         tracking=True,
@@ -82,10 +87,21 @@ class ServiceNotification(models.Model):
         index=True,
     )
     color = fields.Integer(string="Color Index", default=0)
-    order_id = fields.Many2one("service.order", string="Order", readonly=True, copy=False, compute="_compute_order_id")
+    order_id = fields.Many2one(
+        "service.order",
+        string="Order",
+        readonly=True,
+        copy=False,
+        compute="_compute_order_id",
+    )
 
     category = fields.Selection(
-        [("delivery", "Delivery"), ("transfer", "Transfer"), ("sale", "Sale"), ("defect_finding", "Defect Finding")],
+        [
+            ("delivery", "Delivery"),
+            ("transfer", "Transfer"),
+            ("sale", "Sale"),
+            ("defect_finding", "Defect Finding"),
+        ],
         default="defect_finding",
         string="Category",
     )
@@ -253,7 +269,13 @@ class ServiceNotification(models.Model):
         if self.state != "new":
             raise UserError(_("Notification is already assigned."))
 
-        self.write({"state": "assigned", "date_assign": fields.Datetime.now(), "user_id": self.env.user.id})
+        self.write(
+            {
+                "state": "assigned",
+                "date_assign": fields.Datetime.now(),
+                "user_id": self.env.user.id,
+            }
+        )
 
     def action_start(self):
         # for notification in self:
@@ -327,7 +349,10 @@ class ServiceNotification(models.Model):
         new_follower_ids = [self.contact_id.id]
 
         if self.user_id != self.env.user:
-            msg = _("Notification %s for %s was done") % (self.description or "", self.partner_id.name)
+            msg = _("Notification %s for %s was done") % (
+                self.description or "",
+                self.partner_id.name,
+            )
 
             if msg and not self.env.context.get("no_message", False):
                 document = self
@@ -592,7 +617,12 @@ class ServiceNotificationItem(models.Model):
     sequence = fields.Integer(string="Sequence", default=10)
     name = fields.Char("Name")
     notification_id = fields.Many2one(
-        "service.notification", string="Notification", readonly=True, index=True, required=True, ondelete="cascade"
+        "service.notification",
+        string="Notification",
+        readonly=True,
+        index=True,
+        required=True,
+        ondelete="cascade",
     )
     product_id = fields.Many2one("product.product", string="Product")
     alternative_code = fields.Char(related="product_id.alternative_code")
@@ -645,7 +675,12 @@ class ServiceNotificationOperation(models.Model):
     sequence = fields.Integer(string="Sequence", default=10)
 
     notification_id = fields.Many2one(
-        "service.notification", string="Notification", readonly=True, index=True, required=True, ondelete="cascade"
+        "service.notification",
+        string="Notification",
+        readonly=True,
+        index=True,
+        required=True,
+        ondelete="cascade",
     )
     operation_id = fields.Many2one("service.operation", string="Operation")
     duration = fields.Float(string="Duration")
@@ -660,4 +695,8 @@ class ServiceNotificationType(models.Model):
     _description = "Service Notification Type"
 
     name = fields.Char(string="Notification Type", translate=True)
-    scope = fields.Selection([("external", "External"), ("internal", "Internal")], default="external", string="Type")
+    scope = fields.Selection(
+        [("external", "External"), ("internal", "Internal")],
+        default="external",
+        string="Type",
+    )

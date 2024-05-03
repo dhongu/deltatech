@@ -22,8 +22,9 @@ Deltatech Invoice to Draft
 
 |badge1| |badge2| |badge3|
 
-Features:
- - Restricted access to reset account move to draft
+-  Features:
+
+   -  Restricted access to reset account move to draft
 
 **Table of contents**
 
@@ -42,13 +43,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu

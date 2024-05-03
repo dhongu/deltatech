@@ -18,7 +18,14 @@ class MailMail(models.Model):
         if safe_eval(use_company_email):
             if self.author_id.company_id.email:
                 self.write(
-                    {"email_from": formataddr((self.author_id.company_id.name, self.author_id.company_id.email))}
+                    {
+                        "email_from": formataddr(
+                            (
+                                self.author_id.company_id.name,
+                                self.author_id.company_id.email,
+                            )
+                        )
+                    }
                 )
             else:
                 raise UserError(_("Unable to post message, please configure the company's email address."))

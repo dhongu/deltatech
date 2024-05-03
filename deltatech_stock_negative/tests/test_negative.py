@@ -28,7 +28,11 @@ class TestNegative(TransactionCase):
             }
         )
         cls.lot = cls.env["stock.lot"].create(
-            {"name": "ABC001", "product_id": cls.product_lot.id, "company_id": cls.env.company.id}
+            {
+                "name": "ABC001",
+                "product_id": cls.product_lot.id,
+                "company_id": cls.env.company.id,
+            }
         )
 
     def test_allow_positive(self):
@@ -74,7 +78,10 @@ class TestNegative(TransactionCase):
 
     def test_allow_positive_lot(self):
         self.env["stock.quant"]._update_available_quantity(
-            product_id=self.product_lot, location_id=self.stock_location, quantity=10.0, lot_id=self.lot
+            product_id=self.product_lot,
+            location_id=self.stock_location,
+            quantity=10.0,
+            lot_id=self.lot,
         )
         move = self.env["stock.move"].create(
             {
@@ -94,7 +101,10 @@ class TestNegative(TransactionCase):
 
     def test_prevent_negative_lot(self):
         self.env["stock.quant"]._update_available_quantity(
-            product_id=self.product_lot, location_id=self.stock_location, quantity=5.0, lot_id=self.lot
+            product_id=self.product_lot,
+            location_id=self.stock_location,
+            quantity=5.0,
+            lot_id=self.lot,
         )
         move = self.env["stock.move"].create(
             {
@@ -118,7 +128,10 @@ class TestNegative(TransactionCase):
     def test_allow_positive_package(self):
         package = self.env["stock.quant.package"].create({"name": "test_package"})
         self.env["stock.quant"]._update_available_quantity(
-            product_id=self.product, location_id=self.stock_location, quantity=10.0, package_id=package
+            product_id=self.product,
+            location_id=self.stock_location,
+            quantity=10.0,
+            package_id=package,
         )
         move = self.env["stock.move"].create(
             {
@@ -138,7 +151,10 @@ class TestNegative(TransactionCase):
     def test_prevent_negative_package(self):
         package = self.env["stock.quant.package"].create({"name": "test_package"})
         self.env["stock.quant"]._update_available_quantity(
-            product_id=self.product, location_id=self.stock_location, quantity=10.0, package_id=package
+            product_id=self.product,
+            location_id=self.stock_location,
+            quantity=10.0,
+            package_id=package,
         )
         move = self.env["stock.move"].create(
             {
