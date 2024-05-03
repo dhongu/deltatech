@@ -1,3 +1,3 @@
-  - Features:
-    
-      - add payment method card
+- Features:
+
+  - add payment method card
