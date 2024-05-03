@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <odoo>
-    <data>
+
         <record id="module_view_kanban" model="ir.ui.view">
             <field name="name">ir.module.module.kanban</field>
             <field name="model">ir.module.module</field>
@@ -19,5 +19,5 @@
                 <xpath expr="//sheet//div//div/a" position="replace" />
             </field>
         </record>
-    </data>
+
 </odoo>
