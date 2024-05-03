@@ -33,8 +33,7 @@ external_layout_background layout
 Usage
 =====
 
--  Go to:
-   Setting -> General Settings - Business Documents
+-  Go to: Setting -> General Settings - Business Documents
 
 |image0|
 

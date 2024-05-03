@@ -35,8 +35,7 @@ deltatech_website_watermark)
 Usage
 =====
 
--  Go to:
-   Setting -> General Settings - Business Documents
+-  Go to: Setting -> General Settings - Business Documents
 
 |image0|
 
