@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_stock_confirm_inventory_form" model="ir.ui.view">
+        <field name="name">Confirm Inventory</field>
+        <field name="model">stock.confirm.inventory</field>
+        <field name="arch" type="xml">
+            <form string="Change">
+
+                <group>
+                    <group>
+                        <field name="product_tmpl_id" />
+                        <field name="qty_available" />
+                    </group>
+                    <group>
+                        <field name="last_inventory_date" />
+                        <field name="last_inventory_id" />
+                    </group>
+                </group>
+                <footer>
+                    <button name="confirm_actual_inventory" string="Confirm" type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_stock_confirm_inventory" model="ir.actions.act_window">
+        <field name="name">Confirm Inventory</field>
+        <field name="res_model">stock.confirm.inventory</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="product.model_product_template" />
+        <field name="binding_view_types">form</field>
+    </record>
+
+
+</odoo>
