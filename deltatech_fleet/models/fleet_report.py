@@ -11,7 +11,11 @@ from odoo import fields, models, tools
 class FleetReport(models.Model):
     _inherit = "fleet.vehicle.cost.report"
 
-    cost_type = fields.Selection(selection_add=[("fuel", "Fuel")], default="service", ondelete={"fuel": "set default"})
+    cost_type = fields.Selection(
+        selection_add=[("fuel", "Fuel")],
+        default="service",
+        ondelete={"fuel": "set default"},
+    )
     cost_type_id = fields.Many2one("fleet.service.type", "Service Type", readonly=True)
 
     def init(self):
