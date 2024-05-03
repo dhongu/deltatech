@@ -1,4 +1,4 @@
-  - Features:
-    
-      - delivery status
-      - Stare livare
+- Features:
+
+  - delivery status
+  - Stare livare
