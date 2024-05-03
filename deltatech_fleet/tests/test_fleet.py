@@ -17,7 +17,11 @@ class TestFleet(TransactionCase):
         )
 
         self.vehicle = self.env["fleet.vehicle"].create(
-            {"model_id": self.vehicle_model.id, "license_plate": "Test Plate", "odometer": 1000}
+            {
+                "model_id": self.vehicle_model.id,
+                "license_plate": "Test Plate",
+                "odometer": 1000,
+            }
         )
         self.location = self.env["fleet.location"].create({"name": "Test Location"})
         self.route = self.env["fleet.route"].create({"from_loc_id": self.location.id, "to_loc_id": self.location.id})

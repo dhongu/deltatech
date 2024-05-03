@@ -10,7 +10,11 @@ from odoo.exceptions import UserError
 class FleetServiceType(models.Model):
     _inherit = "fleet.service.type"
 
-    category = fields.Selection(selection_add=[("fuel", "Fuel")], default="service", ondelete={"fuel": "set default"})
+    category = fields.Selection(
+        selection_add=[("fuel", "Fuel")],
+        default="service",
+        ondelete={"fuel": "set default"},
+    )
 
 
 class FleetVehicleLogFuel(models.Model):
