@@ -24,7 +24,6 @@ class StockPicking(models.Model):
     postponed = fields.Boolean(
         string="Postponed",
         tracking=True,
-
         default=_default_postponed,
     )
     delivery_state = fields.Selection(
@@ -41,7 +40,11 @@ class StockPicking(models.Model):
         readonly=False,
     )
     available_state = fields.Selection(
-        [("unavailable", "Unavailable"), ("partially", "Partially available"), ("available", "Available")],
+        [
+            ("unavailable", "Unavailable"),
+            ("partially", "Partially available"),
+            ("available", "Available"),
+        ],
         default=False,
         store=True,
         compute="_compute_state",

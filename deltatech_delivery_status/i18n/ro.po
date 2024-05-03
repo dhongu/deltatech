@@ -102,11 +102,10 @@ msgstr "Stare"
 #. module: deltatech_delivery_status
 #: model:ir.model,name:deltatech_delivery_status.model_stock_picking
 msgid "Transfer"
-msgstr "Transfer"
+msgstr ""
 
 #. module: deltatech_delivery_status
 #: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_internal_search
 #: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__available_state__unavailable
 msgid "Unavailable"
 msgstr "Indisponibil"
-

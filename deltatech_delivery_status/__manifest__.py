@@ -9,7 +9,11 @@
     "support": "odoo@terrabit.ro",
     "category": "Warehouse",
     "depends": ["delivery", "stock", "sales_team"],
-    "data": ["views/stock_picking_view.xml", "views/sale_view.xml", "views/sale_team_view.xml"],
+    "data": [
+        "views/stock_picking_view.xml",
+        "views/sale_view.xml",
+        "views/sale_team_view.xml",
+    ],
     "license": "OPL-1",
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
