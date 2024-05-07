@@ -13,7 +13,7 @@
                 <xpath expr="//header" position="inside">
                     <button
                     name="action_button_confirm_to_invoice"
-                    state="draft,sent"
+                    invisible="state not in ('draft','sent')"
                     confirm="Are you sure you want to make the automatic delivery with the quantities and price from the sale order?"
                     string="Confirm, Deliver and Invoice"
                     type="object"
@@ -21,7 +21,7 @@
                 />
                     <button
                     name="action_button_confirm_to_invoice"
-                    state="sale"
+                    invisible="state!='sale'"
                     confirm="Are you sure you want to make the automatic delivery with the quantities and price from the sale order?"
                     string="Deliver and Invoice"
                     type="object"
@@ -29,7 +29,7 @@
                 />
                     <button
                     name="action_button_confirm_notice"
-                    state="sale"
+                    invisible="state!='sale'"
                     string="Deliver Notice"
                     type="object"
                     groups="base.group_user"
