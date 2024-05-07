@@ -95,6 +95,11 @@ msgstr ""
 
 #. module: deltatech_saleorder_pickup_list
 #: model_terms:ir.ui.view,arch_db:deltatech_saleorder_pickup_list.report_saleorder_document_pickup_list
+msgid "Oferta #"
+msgstr ""
+
+#. module: deltatech_saleorder_pickup_list
+#: model_terms:ir.ui.view,arch_db:deltatech_saleorder_pickup_list.report_saleorder_document_pickup_list
 msgid "Order #"
 msgstr "Comanda #"
 
@@ -105,11 +110,6 @@ msgstr "Cantitate"
 
 #. module: deltatech_saleorder_pickup_list
 #: model_terms:ir.ui.view,arch_db:deltatech_saleorder_pickup_list.report_saleorder_document_pickup_list
-msgid "Oferta #"
-msgstr ""
-
-#. module: deltatech_saleorder_pickup_list
-#: model_terms:ir.ui.view,arch_db:deltatech_saleorder_pickup_list.report_saleorder_document_pickup_list
 msgid "Raft"
 msgstr ""
 
@@ -117,4 +117,3 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_saleorder_pickup_list.report_saleorder_document_pickup_list
 msgid "Rând"
 msgstr ""
-

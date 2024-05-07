@@ -17,7 +17,7 @@ Deltatech Sale Order Pickup List
     :target: https://www.odoo.com/documentation/master/legal/licenses.html
     :alt: License: OPL-1
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/16.0/deltatech_saleorder_pickup_list
+    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_saleorder_pickup_list
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -41,15 +41,15 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 * Dan Stoica
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/16.0/deltatech_saleorder_pickup_list>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_saleorder_pickup_list>`_ project on GitHub.
 
 You are welcome to contribute.
