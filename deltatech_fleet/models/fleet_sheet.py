@@ -198,7 +198,6 @@ class FleetMapSheet(models.Model):
     odometer_end = fields.Float(
         compute="_compute_odometer_end",
         inverse="_inverse_odometer_end",
-        states={"done": [("readonly", True)]},
         string="Odometer End",
         help="Odometer measure of the vehicle at the end of this map sheet",
     )
