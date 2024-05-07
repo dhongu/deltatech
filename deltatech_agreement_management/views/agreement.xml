@@ -30,21 +30,21 @@
                 <header>
                     <button
                         name="contract_close"
-                        state="open"
+                        invisible="state!='open'"
                         type="object"
                         class="oe_highlight"
                         string="Close Contract"
                     />
                     <button
                         name="contract_open"
-                        state="draft"
+                        invisible="state!='draft'"
                         type="object"
                         class="oe_highlight"
                         string="Set In Progress"
                     />
                     <button
                         name="contract_draft"
-                        state="closed"
+                        invisible="state!='closed'"
                         type="object"
                         class="oe_highlight"
                         string="Set Draft"
