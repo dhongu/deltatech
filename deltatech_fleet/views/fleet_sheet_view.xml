@@ -9,8 +9,8 @@
         <field name="arch" type="xml">
             <form string="Map Sheet">
                 <header>
-                    <button name="action_open" type="object" state="draft" string="Confirm" />
-                    <button name="action_done" type="object" state="open" string="Done" />
+                    <button name="action_open" type="object" invisible="stat!='draft'" string="Confirm" />
+                    <button name="action_done" type="object" invisible="stat!='open'" string="Done" />
                     <field
                         name="state"
                         widget="statusbar"
@@ -50,7 +50,7 @@
                                     type="object"
                                     class="oe_inline oe_edit_only"
                                     string="Read odometer start"
-                                    state="draft"
+                                    invisible="state!='draft'"
                                     icon="fa-calculator"
                                 />
                                 <field name="odometer_start" class="oe_inline" />
@@ -70,7 +70,7 @@
                                     type="object"
                                     class="oe_inline oe_edit_only"
                                     string="Read odometer end"
-                                    state="draft"
+                                    invisible="state!='draft'"
                                     icon="fa-calculator"
                                 />
                                 <field name="odometer_end" class="oe_inline" />
@@ -83,7 +83,7 @@
                         <page string="Route Log">
                             <button
                                 name="action_get_route_log"
-                                state="draft,open"
+                                invisible="state not in ('draft','open')"
                                 string="Get route log"
                                 type="object"
                                 class="oe_edit_only oe_link"
@@ -116,7 +116,7 @@
                         <page string="Fuel Logs">
                             <button
                                 name="action_get_log_fuel"
-                                state="draft,open"
+                                invisible="state not in ('draft','open')"
                                 string="Get fuel log"
                                 type="object"
                                 class="oe_edit_only oe_link"

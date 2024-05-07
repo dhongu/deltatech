@@ -8,20 +8,20 @@
                 <form string="Export attachment">
                     <field name="state" invisible="1" />
                     <field name="name" invisible="1" />
-                    <group state="choose" string="Export">
+                    <group invisible="state!='choose'" string="Export">
                         <group>
                             <field name="domain" widget="domain" />
                         </group>
                     </group>
-                    <div state="get">
+                    <div invisible="state!='get'">
                         <h2>Export Complete</h2>
                     </div>
-                    <footer state="choose">
+                    <footer invisible="state!='choose'">
                         <button name="do_export" string="_Apply" type="object" class="oe_highlight" />
                         or
                         <button string="_Cancel" class="oe_link" special="cancel" />
                     </footer>
-                    <footer state="get">
+                    <footer invisible="state!='get'">
                         <field name="data_file" readonly="1" filename="name" />
                         or
                         <button string="_Cancel" class="oe_link" special="cancel" />

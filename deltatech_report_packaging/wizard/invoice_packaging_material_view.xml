@@ -7,10 +7,10 @@
                 <form>
                     <sheet>
                         <field name="state" invisible="1" />
-                        <group state="choose">
+                        <group invisible="state!='choose'">
                             <div>Report packing materials used for products invoiced</div>
                         </group>
-                        <group state="get">
+                        <group invisible="state!='get'">
                             <field name="line_ids" nolabel="1" readonly="1">
                                 <tree>
                                     <field name="material_type" />
@@ -18,12 +18,12 @@
                                 </tree>
                             </field>
                         </group>
-                        <footer state="choose">
+                        <footer invisible="state!='choose'">
                             <button name="do_report" string="_Apply" type="object" class="oe_highlight" />
                             or
                             <button string="Cancel" class="oe_link" special="cancel" />
                         </footer>
-                        <footer state="get">
+                        <footer invisible="state!='get'">
                             <button string="Cancel" class="oe_link" special="cancel" />
                         </footer>
                     </sheet>
