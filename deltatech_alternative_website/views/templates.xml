@@ -5,9 +5,10 @@
         <template
             id="product_alternative_code"
             inherit_id="website_sale.product"
-            active="True"
+            active="False"
             customize_show="True"
             name="Alternative code"
+            priority="100"
         >
 
             <xpath expr="//p[@t-field='product.description_sale']" position="before">
@@ -30,9 +31,10 @@
         <template
             id="product_used_for"
             inherit_id="website_sale.product"
-            active="True"
+            active="False"
             customize_show="True"
             name="Used For"
+            priority="100"
         >
             <xpath expr="//p[@t-field='product.description_sale']" position="after">
                 <t t-if="product.used_for">
