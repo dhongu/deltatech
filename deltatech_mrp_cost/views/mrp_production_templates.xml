@@ -5,8 +5,8 @@
         <xpath expr="//div[@t-if='o.origin']" position="before">
             <div class="col-3">
                 <strong>Date:</strong>
-                <br/>
-                <span t-field="o.date_planned_start" t-options='{"widget": "date"}'/>
+                <br />
+                <span t-field="o.date_planned_start" t-options='{"widget": "date"}' />
             </div>
         </xpath>
 
@@ -15,26 +15,26 @@
             <div class="row mt32 mb32">
                 <div class="col-3" t-if="o.overhead_amount">
                     <strong>Overhead Amount:</strong>
-                    <br/>
-                    <span t-field="o.overhead_amount"/>
+                    <br />
+                    <span t-field="o.overhead_amount" />
                 </div>
                 <div class="col-3" t-if="o.utility_consumption">
                     <strong>Utility Consumption:</strong>
-                    <br/>
-                    <span t-field="o.utility_consumption"/>
+                    <br />
+                    <span t-field="o.utility_consumption" />
                 </div>
                 <div class="col-3" t-if="o.net_salary_rate">
                     <strong>Net Salary Rate:</strong>
-                    <br/>
-                    <span t-field="o.net_salary_rate"/>
+                    <br />
+                    <span t-field="o.net_salary_rate" />
                 </div>
                 <div class="col-3" t-if="o.salary_contributions">
                     <strong>Salary Contributions:</strong>
-                    <br/>
-                    <span t-field="o.salary_contributions"/>
+                    <br />
+                    <span t-field="o.salary_contributions" />
                 </div>
             </div>
-            <br/>
+            <br />
         </xpath>
 
 
@@ -64,27 +64,27 @@
                     <t t-if="o.move_finished_ids">
                         <tr t-foreach="o.move_finished_ids" t-as="line">
                             <td>
-                                <span t-field="line.product_id"/>
+                                <span t-field="line.product_id" />
                             </td>
                             <td class="text-right">
-                                <span t-field="line.product_uom_qty"/>
-                                <span t-field="line.product_uom.name" groups="uom.group_uom"/>
+                                <span t-field="line.product_uom_qty" />
+                                <span t-field="line.product_uom.name" groups="uom.group_uom" />
                             </td>
                             <td class="text-right">
-                                <span t-field="line.quantity_done"/>
-                                <span t-field="line.product_uom.name" groups="uom.group_uom"/>
+                                <span t-field="line.quantity_done" />
+                                <span t-field="line.product_uom.name" groups="uom.group_uom" />
                             </td>
-                            <t t-set="value" t-value="-sum(line.mapped('stock_valuation_layer_ids.value'))"/>
+                            <t t-set="value" t-value="-sum(line.mapped('stock_valuation_layer_ids.value'))" />
                             <td class="text-right">
                                 <span t-if="line.quantity_done">
-                                    <span t-field="line.price_unit"/>
+                                    <span t-field="line.price_unit" />
                                 </span>
                                 <span t-else="">
-                                    <span t-field="o.calculate_price"/>
+                                    <span t-field="o.calculate_price" />
                                 </span>
                             </td>
                             <td class="text-right">
-                                <span t-esc="abs(value)" t-options='{"widget": "float", "precision": 2}'/>
+                                <span t-esc="abs(value)" t-options='{"widget": "float", "precision": 2}' />
                             </td>
                         </tr>
                     </t>
@@ -110,22 +110,22 @@
 
        <xpath expr="//table[@class='table table-sm']//tbody//tr" position="inside">
             <td t-attf-class="text-end">
-                <span t-field="raw_line.quantity_done"/>
-                <span t-field="raw_line.product_uom.name" groups="uom.group_uom"/>
+                <span t-field="raw_line.quantity_done" />
+                <span t-field="raw_line.product_uom.name" groups="uom.group_uom" />
             </td>
-            <t t-set="value" t-value="-sum(raw_line.mapped('stock_valuation_layer_ids.value'))"/>
+            <t t-set="value" t-value="-sum(raw_line.mapped('stock_valuation_layer_ids.value'))" />
             <td t-attf-class="text-end">
                 <span t-if="raw_line.quantity_done">
-                    <t t-set="price_unit" t-value="value/raw_line.quantity_done"/>
-                    <span t-esc="price_unit" t-options='{"widget": "float", "precision": 2}'/>
+                    <t t-set="price_unit" t-value="value/raw_line.quantity_done" />
+                    <span t-esc="price_unit" t-options='{"widget": "float", "precision": 2}' />
                 </span>
                 <span t-else="">
-                    <span t-field="raw_line.product_id.sudo().standard_price"/>
+                    <span t-field="raw_line.product_id.sudo().standard_price" />
                 </span>
 
             </td>
             <td t-attf-class="text-end">
-                <span t-esc="value" t-options='{"widget": "float", "precision": 2}'/>
+                <span t-esc="value" t-options='{"widget": "float", "precision": 2}' />
             </td>
         </xpath>
     </template>

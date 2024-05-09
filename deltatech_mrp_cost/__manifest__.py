@@ -12,7 +12,7 @@
     "license": "OPL-1",
     "data": [
         "views/mrp_view.xml",
-        "views/mrp_production_templates.xml", 
+        "views/mrp_production_templates.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
