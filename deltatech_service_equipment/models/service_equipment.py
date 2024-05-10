@@ -285,11 +285,11 @@ class ServiceEquipment(models.Model):
                 limit=10,
             )
             if equipment_ids:
-                res_serial = equipment_ids.name_get()
+                res_serial = equipment_ids._compute_display_name()
         res = super().name_search(name, args, operator=operator, limit=limit) + res_serial
         return res
 
-    def name_get(self):
+    def _compute_display_name(self):
         res = []
         for equipment in self:
             name = equipment.name

@@ -170,7 +170,7 @@ class BusinessProcess(models.Model):
             result.responsible_id = result.area_id.responsible_id
         return result
 
-    def name_get(self):
+    def _compute_display_name(self):
         self.browse(self.ids).read(["name", "code"])
         return [
             (

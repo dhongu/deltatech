@@ -63,7 +63,7 @@ class ServiceEquipment(models.Model):
         if self.serial_id:
             self.serial_no = self.serial_id.name
 
-    def name_get(self):
+    def _compute_display_name(self):
         res = []
         for equipment in self:
             name = equipment.name

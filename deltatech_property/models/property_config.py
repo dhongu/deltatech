@@ -33,7 +33,7 @@ class PropertyNomenclature(models.AbstractModel):
             return super().name_search(name, args, operator, limit)
 
         recs = self.search([("cod", operator, name.zfill(2))], limit=1)
-        return recs.name_get()
+        return recs._compute_display_name()
 
 
 class PropertyAcquisition(models.Model):

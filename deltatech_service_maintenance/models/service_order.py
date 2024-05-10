@@ -507,7 +507,7 @@ class ServiceOrderReason(models.Model):
     code = fields.Char(string="Code")
     display_name = fields.Char(compute="_compute_display_name")
 
-    def name_get(self):
+    def _compute_display_name(self):
         result = []
         for record in self:
             result.append((record.id, record.display_name))
@@ -550,7 +550,7 @@ class ServiceOperation(models.Model):
     display_name = fields.Char(compute="_compute_display_name")
     product_id = fields.Many2one("product.product", domain=[("type", "=", "service")])
 
-    def name_get(self):
+    def _compute_display_name(self):
         result = []
         for record in self:
             result.append((record.id, record.display_name))

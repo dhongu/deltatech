@@ -23,7 +23,7 @@ class BusinessTransaction(models.Model):
         default="tr",
     )
 
-    def name_get(self):
+    def _compute_display_name(self):
         self.browse(self.ids).read(["name", "code"])
         return [
             (
