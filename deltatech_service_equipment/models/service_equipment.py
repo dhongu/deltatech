@@ -289,7 +289,7 @@ class ServiceEquipment(models.Model):
         res = super().name_search(name, args, operator=operator, limit=limit) + res_serial
         return res
 
-    def _compute_display_name(self):
+    def name_get(self):
         res = []
         for equipment in self:
             name = equipment.name
