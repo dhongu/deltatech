@@ -9,8 +9,8 @@
         <field name="arch" type="xml">
             <form string="Map Sheet">
                 <header>
-                    <button name="action_open" type="object" invisible="stat!='draft'" string="Confirm" />
-                    <button name="action_done" type="object" invisible="stat!='open'" string="Done" />
+                    <button name="action_open" type="object" invisible="state!='draft'" string="Confirm" />
+                    <button name="action_done" type="object" invisible="state!='open'" string="Done" />
                     <field
                         name="state"
                         widget="statusbar"
