@@ -19,8 +19,8 @@ class WebsiteSale(main.WebsiteSale):
     # def cart_update(self, product_id, add_qty=1, set_qty=0, **kw):
     #     return super(WebsiteSale, self).cart_update(product_id, add_qty, set_qty, **kw)
 
-    @http.route(["/shop/cart/update_json"], type="json", auth="public", methods=["POST"], website=True, csrf=False)
-    def cart_update_json(self, product_id, line_id=None, add_qty=None, set_qty=None, display=True, **kw):
+    @http.route()
+    def cart_update_json(self, **kwargs):
         user = request.env.user
         if user._is_public():  # The user is not logged in
             response = {
@@ -29,9 +29,7 @@ class WebsiteSale(main.WebsiteSale):
                 "warning": _("Please login to add products to cart."),
             }
             return response
-        return super().cart_update_json(
-            product_id, line_id=line_id, add_qty=add_qty, set_qty=set_qty, display=display, **kw
-        )
+        return super().cart_update_json(**kwargs)
 
     @http.route(auth="user")
     def checkout(self, **post):

@@ -120,7 +120,7 @@ addon | version | maintainers | summary | price
 [deltatech_sale_fix_followers](deltatech_sale_fix_followers/) | 16.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Fix for mail_followers_mail_followers_res_partner_res_model_id_uniq error | Free 
 [deltatech_sale_margin](deltatech_sale_margin/) | 16.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Check price in sale order | Free 
 [deltatech_sale_multiple](deltatech_sale_multiple/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale quantity multiple | Free 
-[deltatech_sale_multiple_website](deltatech_sale_multiple_website/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Quantity multiple on website | Free 
+[deltatech_sale_multiple_website](deltatech_sale_multiple_website/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Quantity multiple on website | Free 
 [deltatech_sale_pallet](deltatech_sale_pallet/) | 16.0.1.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale pallet | Free 
 [deltatech_sale_pallet_website](deltatech_sale_pallet_website/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale pallet | Free 
 [deltatech_sale_payment](deltatech_sale_payment/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Payment button in sale order | Free 
@@ -181,7 +181,7 @@ addon | version | maintainers | summary | price
 [deltatech_website_product_url_image](deltatech_website_product_url_image/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Load image for product from URL | Free 
 [deltatech_website_sale_attributes](deltatech_website_sale_attributes/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Attribute values for products displayed | Free 
 [deltatech_website_sale_portal](deltatech_website_sale_portal/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Portal extension | Free 
-[deltatech_website_sale_request_login](deltatech_website_sale_request_login/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Request Login | Free 
+[deltatech_website_sale_request_login](deltatech_website_sale_request_login/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Request Login | Free 
 [deltatech_website_sale_sort](deltatech_website_sale_sort/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Additional sorting criteria | Free 
 [deltatech_website_sale_status](deltatech_website_sale_status/) | 16.0.2.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Additional filters sales orders by status | Free 
 [deltatech_website_sale_wishlist](deltatech_website_sale_wishlist/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce wishlist | Free 
