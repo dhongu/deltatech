@@ -130,7 +130,7 @@ class Partner(models.Model):
         if name and len(name) > 2:
             partner_ids = self.search([("vat", "ilike", name), ("is_company", "=", True)], limit=10)
             if partner_ids:
-                res_vat = partner_ids._compute_display_name()
+                res_vat = partner_ids.name_get()
         res = super().name_search(name, args, operator=operator, limit=limit) + res_vat
         return res
 

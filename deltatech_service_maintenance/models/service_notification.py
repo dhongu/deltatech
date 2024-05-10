@@ -143,7 +143,7 @@ class ServiceNotification(models.Model):
     def company_user(self, present_ids, domain, **kwargs):
         partner_id = self.env.user.company_id.partner_id
         users = self.env["res.users"].search([("partner_id.parent_id", "=", partner_id.id)])
-        users_name = users._compute_display_name()
+        users_name = users.name_get()
         users_name.append((False, False))
         return users_name, None
 
@@ -255,7 +255,7 @@ class ServiceNotification(models.Model):
                         {
                             "model": "service.notification",
                             "res_id": document.id,
-                            "record_name": document._compute_display_name()[0][1],
+                            "record_name": document.name_get()[0][1],
                             # "email_from": self.env["mail.message"]._get_default_from_address(),
                             # "reply_to": self.env["mail.message"]._get_default_from_address(),
                             "subject": notification.subject,
@@ -361,7 +361,7 @@ class ServiceNotification(models.Model):
                     {
                         "model": "service.notification",
                         "res_id": document.id,
-                        "record_name": document._compute_display_name()[0][1],
+                        "record_name": document.name_get()[0][1],
                         # "email_from": self.env["mail.message"]._get_default_from_address(),
                         # "reply_to": self.env["mail.message"]._get_default_from_address(),
                         "subject": self.subject,
