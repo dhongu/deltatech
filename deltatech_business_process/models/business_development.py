@@ -89,7 +89,7 @@ class BusinessDevelopment(models.Model):
         result = super().create(vals)
         return result
 
-    def name_get(self):
+    def _compute_display_name(self):
         self.browse(self.ids).read(["name", "code"])
         return [
             (
