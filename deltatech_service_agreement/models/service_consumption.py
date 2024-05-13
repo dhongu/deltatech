@@ -143,11 +143,11 @@ class ServiceConsumption(models.Model):
             if item.from_uninstall:
                 raise UserError(
                     _(
-                        "You cannot delete a service consumption generated from an uninstall operation ({} / {}).").format(
+                        "You cannot delete a service consumption generated from an uninstall operation ({} / {})."
+                    ).format(
                         item.agreement_line_id.equipment_id.name,
                         item.agreement_id.name,
                     )
-
                 )
             if item.with_free_cycle:
                 # incrementing the free cycle on agreement line
