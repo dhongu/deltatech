@@ -184,7 +184,7 @@ addon | version | maintainers | summary | price
 [deltatech_website_sale_portal](deltatech_website_sale_portal/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Portal extension | Free 
 [deltatech_website_sale_request_login](deltatech_website_sale_request_login/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Request Login | Free 
 [deltatech_website_sale_sort](deltatech_website_sale_sort/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Additional sorting criteria | Free 
-[deltatech_website_sale_status](deltatech_website_sale_status/) | 16.0.2.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Additional filters sales orders by status | Free 
+[deltatech_website_sale_status](deltatech_website_sale_status/) | 16.0.2.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Additional filters sales orders by status | Free 
 [deltatech_website_sale_wishlist](deltatech_website_sale_wishlist/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce wishlist | Free 
 [deltatech_website_short_description](deltatech_website_short_description/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce short description | Free 
 [deltatech_website_snippet_attribute_filter](deltatech_website_snippet_attribute_filter/) | 16.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Attribute Values Filter Snippet | Free 
