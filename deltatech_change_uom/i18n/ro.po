@@ -1,0 +1,91 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_change_uom
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-17 10:44+0000\n"
+"PO-Revision-Date: 2024-05-17 10:44+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_change_uom
+#: model:res.groups,name:deltatech_change_uom.group_change_uom
+msgid "Allow to change unit of measure"
+msgstr "Permite schimbarea unitate măsură"
+
+#. module: deltatech_change_uom
+#: model_terms:ir.ui.view,arch_db:deltatech_change_uom.view_product_change_uom_form
+msgid "Apply"
+msgstr "Aplică"
+
+#. module: deltatech_change_uom
+#: model_terms:ir.ui.view,arch_db:deltatech_change_uom.view_product_change_uom_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_change_uom
+#: model:ir.actions.act_window,name:deltatech_change_uom.action_product_change_uom
+msgid "Change Uom"
+msgstr "Schimbă UM"
+
+#. module: deltatech_change_uom
+#: model:ir.model.fields,field_description:deltatech_change_uom.field_product_change_uom__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_change_uom
+#: model:ir.model.fields,field_description:deltatech_change_uom.field_product_change_uom__create_date
+msgid "Created on"
+msgstr "Creat pe"
+
+#. module: deltatech_change_uom
+#: model:ir.model.fields,field_description:deltatech_change_uom.field_product_change_uom__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_change_uom
+#: model:ir.model.fields,field_description:deltatech_change_uom.field_product_change_uom__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_change_uom
+#: model:ir.model.fields,field_description:deltatech_change_uom.field_product_change_uom____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare pe"
+
+#. module: deltatech_change_uom
+#: model:ir.model.fields,field_description:deltatech_change_uom.field_product_change_uom__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: deltatech_change_uom
+#: model:ir.model.fields,field_description:deltatech_change_uom.field_product_change_uom__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_change_uom
+#: model:ir.model,name:deltatech_change_uom.model_product_change_uom
+msgid "Product Change Uom"
+msgstr "Schimbare UM produs"
+
+#. module: deltatech_change_uom
+#: model:ir.model.fields,field_description:deltatech_change_uom.field_product_change_uom__uom_po_id
+msgid "Purchase Unit of Measure"
+msgstr "Unitate măsură achiziție"
+
+#. module: deltatech_change_uom
+#: model:ir.model.fields,field_description:deltatech_change_uom.field_product_change_uom__uom_id
+msgid "Unit of Measure"
+msgstr "Unitate măsură"
+
+#. module: deltatech_change_uom
+#: model_terms:ir.ui.view,arch_db:deltatech_change_uom.view_product_change_uom_form
+msgid "or"
+msgstr "sau"
