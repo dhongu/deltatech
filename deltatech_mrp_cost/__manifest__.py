@@ -4,7 +4,7 @@
 {
     "name": "MRP Cost",
     "summary": "MRP Cost",
-    "version": "16.0.2.0.3",
+    "version": "16.0.2.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",
@@ -12,7 +12,7 @@
     "license": "OPL-1",
     "data": [
         "views/mrp_view.xml",
-        # "views/mrp_production_templates.xml", #todo: de corectat
+        "views/mrp_production_templates.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
