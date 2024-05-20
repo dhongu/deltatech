@@ -67,21 +67,21 @@ msgstr "Consum și recepție"
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__auto_create_sale
 msgid "Create product & sale"
-msgstr ""
+msgstr "Crează produs și comanda vânzare"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__create_uid
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__create_uid
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creat de"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__create_date
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__create_date
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creat pe"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,help:deltatech_mrp_simple.field_mrp_simple_line_out__stock
@@ -92,6 +92,11 @@ msgid ""
 "stored in the Stock Location of the Warehouse of this Shop, or any of its children.\n"
 "Otherwise, this includes goods stored in any Stock Location with 'internal' type."
 msgstr ""
+"Cantitatea curentă de produse.\n"
+"Într-un context cu o singură locație de stocare, aceasta include bunurile stocate la această locație sau la oricare dintre copiii săi.\n"
+"Într-un context cu un singur depozit, aceasta include bunurile stocate în locația de stocare a acestui depozit sau a oricărui copil al său.\n"
+"stocate în locația de stocare a depozitului acestui magazin sau a oricărui copil al său.\n"
+"În caz contrar, aceasta include bunurile stocate în orice locație de stocare cu tipul 'intern'."
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__date
@@ -103,7 +108,7 @@ msgstr "Data"
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__display_name
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nume afișat"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields.selection,name:deltatech_mrp_simple.selection__mrp_simple__state__done
@@ -138,21 +143,21 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in____last_update
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima modificare pe"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__write_uid
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__write_uid
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima actualizare de"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__write_date
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__write_date
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultima actualizare pe"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model,name:deltatech_mrp_simple.model_mrp_simple
@@ -260,14 +265,14 @@ msgstr "Transferuri"
 #: model:ir.actions.act_window,name:deltatech_mrp_simple.action_mrp_simple
 #: model:ir.ui.menu,name:deltatech_mrp_simple.menu_mrp_simple
 msgid "Simple Production"
-msgstr ""
+msgstr "Producție simplă"
 
 #. module: deltatech_mrp_simple
 #: code:addons/deltatech_mrp_simple/models/sale_order.py:0
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp_simple.mrp_simple_tree
 #, python-format
 msgid "Simple production"
-msgstr ""
+msgstr "Producție simplă"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__state
@@ -278,7 +283,7 @@ msgstr "Status"
 #: model:ir.model,name:deltatech_mrp_simple.model_stock_picking
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp_simple.view_mrp_simple_form
 msgid "Transfer"
-msgstr ""
+msgstr "Transfer"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__price_unit

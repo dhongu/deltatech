@@ -28,24 +28,24 @@ msgstr "Transfer lot"
 #. module: deltatech_invoice_picking
 #: model_terms:ir.ui.view,arch_db:deltatech_invoice_picking.view_picking_form
 msgid "Bill"
-msgstr "Creează factură furnizor"
+msgstr "Factură"
 
 #. module: deltatech_invoice_picking
 #: model:ir.actions.server,name:deltatech_invoice_picking.action_picking_supplier_invoice
 msgid "Create Purchase Invoices"
-msgstr ""
+msgstr "Creează factură furnizor"
 
 #. module: deltatech_invoice_picking
 #: model:ir.actions.server,name:deltatech_invoice_picking.action_picking_invoice
 msgid "Create Sale Invoices"
-msgstr ""
+msgstr "Creează factură vânzare"
 
 #. module: deltatech_invoice_picking
 #: model:ir.model.fields,field_description:deltatech_invoice_picking.field_account_bank_statement_line__from_pickings
 #: model:ir.model.fields,field_description:deltatech_invoice_picking.field_account_move__from_pickings
 #: model:ir.model.fields,field_description:deltatech_invoice_picking.field_account_payment__from_pickings
 msgid "Created from pickings"
-msgstr ""
+msgstr "Creat din transferuri"
 
 #. module: deltatech_invoice_picking
 #: model:ir.model.fields,field_description:deltatech_invoice_picking.field_account_move__display_name
@@ -62,7 +62,7 @@ msgstr "Afiseaza nume"
 #. module: deltatech_invoice_picking
 #: model:ir.model.fields,field_description:deltatech_invoice_picking.field_sale_order__force_invoice_order
 msgid "Force Invoice Order"
-msgstr ""
+msgstr "Forțează ordinea facturării"
 
 #. module: deltatech_invoice_picking
 #: model:ir.model.fields,field_description:deltatech_invoice_picking.field_account_move__id
@@ -85,7 +85,7 @@ msgstr "Facturează"
 #. module: deltatech_invoice_picking
 #: model:ir.model.fields,field_description:deltatech_invoice_picking.field_stock_picking_batch__invoiced
 msgid "Invoiced"
-msgstr ""
+msgstr "Facturat"
 
 #. module: deltatech_invoice_picking
 #: model:ir.model,name:deltatech_invoice_picking.model_account_move
@@ -144,47 +144,47 @@ msgstr "Nr. factură furnizor"
 #: model:ir.model.fields,field_description:deltatech_invoice_picking.field_stock_picking__to_invoice
 #: model_terms:ir.ui.view,arch_db:deltatech_invoice_picking.view_picking_internal_search_inherit_invoice_picking
 msgid "To invoice"
-msgstr ""
+msgstr "De facturat"
 
 #. module: deltatech_invoice_picking
 #: model:ir.model,name:deltatech_invoice_picking.model_stock_picking
 msgid "Transfer"
-msgstr ""
+msgstr "Transfer"
 
 #. module: deltatech_invoice_picking
 #: code:addons/deltatech_invoice_picking/models/account_move.py:0
 #, python-format
 msgid "You cannot change this line, the move was generated from pickings"
-msgstr ""
+msgstr "Nu puteți modifica această linie, linie de factura a fost generat din transferuri"
 
 #. module: deltatech_invoice_picking
 #: code:addons/deltatech_invoice_picking/models/account_move.py:0
 #, python-format
 msgid "You cannot delete lines, the move was generated from pickings"
-msgstr ""
+msgstr "Nu puteți șterge linii, linie de factura a fost generat din transferuri"
 
 #. module: deltatech_invoice_picking
 #: code:addons/deltatech_invoice_picking/models/stock_picking_batch.py:0
 #, python-format
 msgid "You cannot invoice this type of batches: (%s)"
-msgstr ""
+msgstr "Nu puteți factura acest tip de loturi: (%s)"
 
 #. module: deltatech_invoice_picking
 #: code:addons/deltatech_invoice_picking/models/purchase.py:0
 #: code:addons/deltatech_invoice_picking/models/sale.py:0
 #, python-format
 msgid "You cannot invoice this type of transfer: %s"
-msgstr ""
+msgstr "Nu puteți factura acest tip de transfer: %s"
 
 #. module: deltatech_invoice_picking
 #: code:addons/deltatech_invoice_picking/models/stock_picking_batch.py:0
 #, python-format
 msgid "You cannot invoice unconfirmed batches (%s)"
-msgstr ""
+msgstr "Nu puteți factura loturi neconfirmate (%s)"
 
 #. module: deltatech_invoice_picking
 #: code:addons/deltatech_invoice_picking/models/stock_picking.py:0
 #: code:addons/deltatech_invoice_picking/models/stock_picking.py:0
 #, python-format
 msgid "You cannot invoice unconfirmed pickings (%s)"
-msgstr ""
+msgstr "Nu puteți factura transferuri neconfirmate (%s)"
