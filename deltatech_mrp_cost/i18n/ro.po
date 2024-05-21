@@ -73,7 +73,7 @@ msgstr "Costuri"
 #. module: deltatech_mrp_cost
 #: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__duration
 msgid "Duration"
-msgstr "Durată"
+msgstr ""
 
 #. module: deltatech_mrp_cost
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder

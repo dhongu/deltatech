@@ -1,2 +1,3 @@
+
 Features:
- - adding additional fields for cost in production order
+ - adaugare de costuri suplimentare in comanda de productie
