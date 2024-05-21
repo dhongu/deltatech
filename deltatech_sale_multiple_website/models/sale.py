@@ -6,6 +6,18 @@
 from odoo import api, models
 
 
+class SaleOrder(models.Model):
+    _inherit = "sale.order"
+
+    def _cart_update_order_line(self, product_id, quantity, order_line, **kwargs):
+        if product_id and quantity:
+            product = self.env["product.product"].browse(product_id)
+            new_qty = order_line.fix_qty_multiple(product, product.uom_id, quantity)
+            return super()._cart_update_order_line(product_id, new_qty, order_line, **kwargs)
+        else:
+            return super()._cart_update_order_line(product_id, quantity, order_line, **kwargs)
+
+
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
