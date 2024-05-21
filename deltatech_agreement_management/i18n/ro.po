@@ -18,12 +18,12 @@ msgstr ""
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Acțiune necesară"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "Activități"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__activity_exception_decoration
@@ -33,7 +33,7 @@ msgstr ""
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "Stare activitate"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__activity_type_icon
@@ -68,7 +68,7 @@ msgstr "Contracte"
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__message_attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "Număr atașamente"
 
 #. module: deltatech_agreement_management
 #: model_terms:ir.ui.view,arch_db:deltatech_agreement_management.view_agreement_form
@@ -83,7 +83,7 @@ msgstr "Companie"
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__company_currency_id
 msgid "Company Currency"
-msgstr ""
+msgstr "Moneda companiei"
 
 #. module: deltatech_agreement_management
 #: model:ir.ui.menu,name:deltatech_agreement_management.menu_service_agreement_config
@@ -93,19 +93,19 @@ msgstr "Configurare"
 #. module: deltatech_agreement_management
 #: model:ir.model,name:deltatech_agreement_management.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__create_uid
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement_type__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creat de"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__create_date
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement_type__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creat pe"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__currency_id
@@ -136,12 +136,12 @@ msgstr "Data închidere"
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__message_follower_ids
 msgid "Followers"
-msgstr ""
+msgstr "Urmăritori"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Urmăritori (parteneri)"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,help:deltatech_agreement_management.field_service_agreement__activity_type_icon
@@ -156,7 +156,7 @@ msgstr "Alocă număr"
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Are mesaj"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__id
@@ -172,19 +172,19 @@ msgstr ""
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,help:deltatech_agreement_management.field_service_agreement__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr ""
+msgstr "Icon pentru a indica o activitate excepțională"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,help:deltatech_agreement_management.field_service_agreement__message_needaction
 #: model:ir.model.fields,help:deltatech_agreement_management.field_service_agreement__message_unread
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Dacă este bifat, mesajele noi necesită atenție"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,help:deltatech_agreement_management.field_service_agreement__message_has_error
 #: model:ir.model.fields,help:deltatech_agreement_management.field_service_agreement__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr ""
+msgstr "Dacă este bifat, unele mesaje au erori de livrare"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields.selection,name:deltatech_agreement_management.selection__service_agreement__state__open
@@ -194,25 +194,25 @@ msgstr "În derulare"
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "Este urmăritor"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement____last_update
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement_type____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima modificare pe"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__write_uid
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement_type__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "ULima actualizare de"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__write_date
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement_type__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultima actualizare pe"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement_type__print_template_id
@@ -222,22 +222,22 @@ msgstr "Raport"
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__message_main_attachment_id
 msgid "Main Attachment"
-msgstr ""
+msgstr "Atașament principal"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__message_has_error
 msgid "Message Delivery error"
-msgstr ""
+msgstr "Mesaj eroare livrare"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__message_ids
 msgid "Messages"
-msgstr ""
+msgstr "Mesaje"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr ""
+msgstr "Limita activității mele"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__activity_date_deadline
@@ -257,27 +257,27 @@ msgstr ""
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__message_needaction_counter
 msgid "Number of Actions"
-msgstr ""
+msgstr "Număr acțiuni"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__message_has_error_counter
 msgid "Number of errors"
-msgstr ""
+msgstr "Număr erori"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,help:deltatech_agreement_management.field_service_agreement__message_needaction_counter
 msgid "Number of messages which requires an action"
-msgstr ""
+msgstr "Număr mesaje care necesită o acțiune"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,help:deltatech_agreement_management.field_service_agreement__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Număr mesaje cu eroare de livrare"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,help:deltatech_agreement_management.field_service_agreement__message_unread_counter
 msgid "Number of unread messages"
-msgstr ""
+msgstr "Număr mesaje necitite"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__partner_id
@@ -302,7 +302,7 @@ msgstr "Responsabil"
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr ""
+msgstr "Eroare livrare SMS"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement_type__sequence_id
@@ -345,7 +345,7 @@ msgstr "Setează în derulare"
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__state
 msgid "Status"
-msgstr ""
+msgstr "Stare"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,help:deltatech_agreement_management.field_service_agreement__activity_state
@@ -355,6 +355,10 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+"Stare bazată pe activități\n"
+"Întârziat: Data scadentă a trecut deja\n"
+"Azi: Data activității este azi\n"
+"Planificat: Activități viitoare."
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields.selection,name:deltatech_agreement_management.selection__service_agreement__state__closed
@@ -370,27 +374,27 @@ msgstr "Tip"
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,help:deltatech_agreement_management.field_service_agreement__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
+msgstr "Tipul activității excepționale pe înregistrare"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__message_unread
 msgid "Unread Messages"
-msgstr ""
+msgstr "Mesaje necitite"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__message_unread_counter
 msgid "Unread Messages Counter"
-msgstr ""
+msgstr "Număr mesaje necitite"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_service_agreement__website_message_ids
 msgid "Website Messages"
-msgstr ""
+msgstr "Mesaje site"
 
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,help:deltatech_agreement_management.field_service_agreement__website_message_ids
 msgid "Website communication history"
-msgstr ""
+msgstr "Istoric comunicare site"
 
 #. module: deltatech_agreement_management
 #: model_terms:ir.ui.view,arch_db:deltatech_agreement_management.view_partner_search_agreement

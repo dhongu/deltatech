@@ -23,7 +23,7 @@ class AccountInvoice(models.Model):
 
         action = self.env["ir.actions.actions"]._for_xml_id(action_ref)
         action["context"] = dict(safe_eval(action.get("context")))
-
+        action["context"].update({"search_default_outbound_filter": 0})
         if len(payment_ids) > 1:
             action["domain"] = [("id", "in", payment_ids)]
         elif payment_ids:

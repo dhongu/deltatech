@@ -1,0 +1,127 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_mail
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-20 10:04+0000\n"
+"PO-Revision-Date: 2024-05-20 10:04+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_mail
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_body_substitution__body_part
+msgid "Body Part"
+msgstr "Corpul mesajului"
+
+#. module: deltatech_mail
+#: model:ir.actions.act_window,name:deltatech_mail.action_mail_body_substitution
+#: model:ir.ui.menu,name:deltatech_mail.menu_email_body_substitution
+#: model_terms:ir.ui.view,arch_db:deltatech_mail.mail_body_substitution_tree
+msgid "Body Substitution"
+msgstr "Substituire corp"
+
+#. module: deltatech_mail
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_body_substitution__create_uid
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_substitution__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_mail
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_body_substitution__create_date
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_substitution__create_date
+msgid "Created on"
+msgstr "Creat pe"
+
+#. module: deltatech_mail
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_body_substitution__display_name
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_substitution__display_name
+msgid "Display Name"
+msgstr "Nume afisat"
+
+#. module: deltatech_mail
+#: model:ir.model,name:deltatech_mail.model_mail_thread
+msgid "Email Thread"
+msgstr "Fir E-mail"
+
+#. module: deltatech_mail
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_body_substitution__id
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_substitution__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_mail
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_body_substitution____last_update
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_substitution____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare pe"
+
+#. module: deltatech_mail
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_body_substitution__write_uid
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_substitution__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: deltatech_mail
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_body_substitution__write_date
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_substitution__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_mail
+#: model:ir.model,name:deltatech_mail.model_mail_body_substitution
+msgid "Mail Body Substitution"
+msgstr "Substituire corp e-mail"
+
+#. module: deltatech_mail
+#: model:ir.model,name:deltatech_mail.model_mail_substitution
+msgid "Mail Substitution"
+msgstr "Substituire e-mail"
+
+#. module: deltatech_mail
+#: model:ir.model,name:deltatech_mail.model_mail_message
+msgid "Message"
+msgstr "Mesaj"
+
+#. module: deltatech_mail
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_body_substitution__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_mail
+#: model:ir.model,name:deltatech_mail.model_mail_mail
+msgid "Outgoing Mails"
+msgstr "Email-uri Expediate"
+
+#. module: deltatech_mail
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_substitution__name
+msgid "Related Document Model"
+msgstr "Document model aferent"
+
+#. module: deltatech_mail
+#: model:ir.actions.act_window,name:deltatech_mail.action_mail_substitution
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_body_substitution__substitution
+#: model:ir.model.fields,field_description:deltatech_mail.field_mail_substitution__email
+#: model:ir.ui.menu,name:deltatech_mail.menu_email_substitution
+#: model_terms:ir.ui.view,arch_db:deltatech_mail.mail_substitution_tree
+msgid "Substitution"
+msgstr "Substituire"
+
+#. module: deltatech_mail
+#: model:ir.model.fields,help:deltatech_mail.field_mail_substitution__email
+msgid "Substitution with this email"
+msgstr "Substituire cu acest e-mail"
+
+#. module: deltatech_mail
+#. odoo-python
+#: code:addons/deltatech_mail/models/mail_mail.py:0
+#: code:addons/deltatech_mail/models/mail_message.py:0
+#, python-format
+msgid "Unable to post message, please configure the company's email address."
+msgstr "Nu se poate posta mesajul, va rugam sa configurati adresa de e-mail a companiei."
