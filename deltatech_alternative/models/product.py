@@ -10,10 +10,16 @@ from odoo.tools.safe_eval import safe_eval
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    search_index = fields.Char(compute="_compute_search_index", store=True, index=True, compute_sudo=True)
+    search_index = fields.Char(
+        compute="_compute_search_index", store=True, index=True, compute_sudo=True, unaccent=False
+    )
 
     alternative_code = fields.Char(
-        string="Alternative Code", index=True, inverse="_inverse_alternative_code", compute="_compute_alternative_code"
+        string="Alternative Code",
+        index=True,
+        inverse="_inverse_alternative_code",
+        compute="_compute_alternative_code",
+        unaccent=False,
     )
     alternative_ids = fields.One2many("product.alternative", "product_tmpl_id", string="Alternatives")
 
