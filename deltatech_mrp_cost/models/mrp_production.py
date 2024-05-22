@@ -62,10 +62,10 @@ class MrpProduction(models.Model):
         bom_id = vals_list.get("bom_id")
         if bom_id:
             bom = self.env["mrp.bom"].browse(bom_id)
-            vals_list["overhead_amount"] = vals_list["product_qty"] / bom.product_qty * bom.overhead_amount
-            vals_list["utility_consumption"] = vals_list["product_qty"] / bom.product_qty * bom.utility_consumption
-            vals_list["net_salary_rate"] = vals_list["product_qty"] / bom.product_qty * bom.net_salary_rate
-            vals_list["salary_contributions"] = vals_list["product_qty"] / bom.product_qty * bom.salary_contributions
+            vals_list["overhead_amount"] = bom.overhead_amount
+            vals_list["utility_consumption"] = bom.utility_consumption
+            vals_list["net_salary_rate"] = bom.net_salary_rate
+            vals_list["salary_contributions"] = bom.salary_contributions
             vals_list["duration"] = vals_list["product_qty"] / bom.product_qty * bom.duration
 
         return super().create(vals_list)
