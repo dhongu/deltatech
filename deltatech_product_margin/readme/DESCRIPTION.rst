@@ -1,2 +1,3 @@
 Features:
- - Calcul  adaos comercial si marja la fiecare produs
+ - Calculate trade markup and margin for each product
+

@@ -1,2 +1,2 @@
 Features:
- - Generara fatura de retur pentru cantitatile negative de facturat.
+ - Generate return invoice for negative quantities to be invoiced.

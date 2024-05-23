@@ -1,0 +1,42 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_purchase_picking_status
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-23 09:40+0000\n"
+"PO-Revision-Date: 2024-05-23 09:40+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_purchase_picking_status
+#: model:ir.model.fields,field_description:deltatech_purchase_picking_status.field_purchase_order__picking_status
+msgid "Delivery Status"
+msgstr "Stare livrare"
+
+#. module: deltatech_purchase_picking_status
+#: model:ir.model.fields.selection,name:deltatech_purchase_picking_status.selection__purchase_order__picking_status__done
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_picking_status.view_purchase_order_filter_picking_status
+msgid "Done"
+msgstr "Finalizat"
+
+#. module: deltatech_purchase_picking_status
+#: model:ir.model.fields.selection,name:deltatech_purchase_picking_status.selection__purchase_order__picking_status__in_progress
+msgid "In Progress"
+msgstr "In desfasurare"
+
+#. module: deltatech_purchase_picking_status
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_picking_status.view_purchase_order_filter_picking_status
+msgid "In progress"
+msgstr "In desfasurare"
+
+#. module: deltatech_purchase_picking_status
+#: model:ir.model,name:deltatech_purchase_picking_status.model_purchase_order
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"

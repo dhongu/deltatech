@@ -1,2 +1,2 @@
 Features:
- - adaugare filtru in portal pentru afisare separata facturi de intrare si facturi de iesire
+ - add filter in portal to display separate incoming invoices and outgoing invoices

@@ -1,1 +1,3 @@
-Permite creare si editare comenzilor de pos din backend.
+Features:
+ - Permits the creation and editing of POS orders from the backend.
+
