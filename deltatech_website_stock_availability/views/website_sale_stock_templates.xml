@@ -2,7 +2,20 @@
 <odoo>
 
 
-    <template id="website_sale_stock_product_lead_time" inherit_id="website_sale.product" priority="99">
+    <template
+        id="website_sale_stock_product"
+        inherit_id="website_sale.product"
+        priority="4"
+        active="True"
+        customize_show="True"
+        name="Product Available"
+    >
+        <xpath expr="//div[@id='o_wsale_cta_wrapper']" position="after">
+          <div class="lead_time_messages o_not_editable" />
+        </xpath>
+      </template>
+
+<!--    <template id="website_sale_stock_product_lead_time" inherit_id="website_sale.product" priority="99">
         <xpath expr="//form" position="before">
             <div class="lead_time_messages o_not_editable">
                 <div style="font-size: medium;" class="badge rounded-pill">
@@ -10,7 +23,7 @@
                 </div>
             </div>
         </xpath>
-    </template>
+    </template>-->
 
     <template
         id="products_qty_available"
