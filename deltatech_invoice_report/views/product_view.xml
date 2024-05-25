@@ -8,19 +8,6 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
                 <page string="History">
-<!--                    <group>
-                        <label for="last_invoice_history_computed" string="Last Refresh" />
-                        <div class="o_row">
-                            <field name="last_invoice_history_computed" />
-                            <button
-                                name="refresh_invoice_history"
-                                string="Refresh"
-                                type="object"
-                                class="btn-link mb-1 px-0"
-                                icon="fa-refresh"
-                            />
-                        </div>
-                    </group>-->
                     <group string="Invoice history">
                         <field name="invoice_history" nolabel="1">
                             <tree>
@@ -29,6 +16,17 @@
                                 <field name="qty_out" />
                             </tree>
                         </field>
+                    </group>
+                    <group>
+                        <div class="o_row">
+                            <button
+                                name="refresh_invoice_history"
+                                string="Refresh"
+                                type="object"
+                                class="btn-link mb-1 px-0"
+                                icon="fa-refresh"
+                            />
+                        </div>
                     </group>
                 </page>
             </xpath>

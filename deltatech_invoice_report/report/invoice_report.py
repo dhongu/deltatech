@@ -9,6 +9,7 @@ class AccountInvoiceReport(models.Model):
 
     state_id = fields.Many2one("res.country.state", string="Region", readonly=True)
     supplier_id = fields.Many2one("res.partner", string="Default Supplier", readonly=True)
+    product_tmpl_id = fields.Many2one("product.template", string="Product Template", readonly=True)
 
     def _select(self):
         return super()._select() + ", partner.state_id,   supplier.name as supplier_id, template.id as product_tmpl_id"
@@ -23,4 +24,4 @@ class AccountInvoiceReport(models.Model):
         )
 
     def _group_by(self):
-        return super()._group_by() + ", partner.state_id,     supplier.name "
+        return super()._group_by() + ", partner.state_id,     supplier.name, template.id "

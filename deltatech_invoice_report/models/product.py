@@ -1,7 +1,6 @@
 # ©  2015-2019 Deltatech
 # See README.rst file on addons root folder for license details
 
-
 from odoo import fields, models
 
 
@@ -9,7 +8,6 @@ class ProductInvoiceHistory(models.TransientModel):
     _name = "product.invoice.history"
     _description = "product.invoice.history"
 
-    product_id = fields.Many2one("product.product")
     template_id = fields.Many2one("product.template")
     year = fields.Char(string="Year")
     qty_in = fields.Float(string="Qty In", digits="Product Unit of Measure")
@@ -19,13 +17,51 @@ class ProductInvoiceHistory(models.TransientModel):
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    invoice_count = fields.Integer(compute="_compute_invoice_count")
-    invoice_history = fields.One2many("product.invoice.history", "template_id", compute="_compute_invoice_history")
+    invoice_history = fields.One2many("product.invoice.history", "template_id")
     last_sale_date = fields.Date()
+    last_invoice_history_computed = fields.Datetime(string="Last Computed Invoice History")
+
+    def refresh_invoice_history(self):
+        self._compute_invoice_history_sql()
+
+    def _compute_invoice_history_sql(self):
+        template_ids = self.ids
+        if not template_ids:
+            query = """
+                DELETE FROM product_invoice_history ;
+                INSERT INTO product_invoice_history (template_id, year, qty_in, qty_out)
+                SELECT
+                    pp.product_tmpl_id as template_id,
+                    EXTRACT(YEAR FROM aml.date) AS year,
+                    SUM(CASE WHEN am.move_type IN ('in_invoice', 'in_refund') THEN aml.quantity ELSE 0 END) AS qty_in,
+                    SUM(CASE WHEN am.move_type IN ('out_invoice', 'out_refund') THEN aml.quantity ELSE 0 END) AS qty_out
+                FROM account_move_line aml
+                JOIN account_move am ON aml.move_id = am.id
+                JOIN product_product pp ON aml.product_id = pp.id
+                GROUP BY pp.product_tmpl_id, year
+            """
+        else:
+            query = """
+                DELETE FROM product_invoice_history WHERE template_id IN %s;
+                INSERT INTO product_invoice_history (template_id, year, qty_in, qty_out)
+                SELECT
+                    pp.product_tmpl_id as template_id,
+                    EXTRACT(YEAR FROM aml.date) AS year,
+                    SUM(CASE WHEN am.move_type IN ('in_invoice', 'in_refund') THEN aml.quantity ELSE 0 END) AS qty_in,
+                    SUM(CASE WHEN am.move_type IN ('out_invoice', 'out_refund') THEN aml.quantity ELSE 0 END) AS qty_out
+                FROM account_move_line aml
+                JOIN account_move am ON aml.move_id = am.id
+                JOIN product_product pp ON aml.product_id = pp.id
+                WHERE pp.product_tmpl_id IN %s
+                GROUP BY pp.product_tmpl_id, year
+            """
+
+        params = (tuple(template_ids), tuple(template_ids))
+        self.env.cr.execute(query, params)
 
     def _compute_invoice_history(self):
         for template in self:
-            products = template.product_variant_ids
+            products = self.product_variant_ids
             domain = [
                 ("move_type", "in", ["out_invoice", "out_refund"]),
                 ("product_id", "in", products.ids),
@@ -42,7 +78,6 @@ class ProductTemplate(models.Model):
                 domain=domain, fields=["quantity", "invoice_date"], groupby=["invoice_date:year"]
             )
 
-            invoice_history = self.env["product.invoice.history"]
             history = {}
             for item in groups_out:
                 history[item["invoice_date:year"]] = {
@@ -66,25 +101,8 @@ class ProductTemplate(models.Model):
             invoice_history = self.env["product.invoice.history"].create(history_values)
             template.invoice_history = invoice_history
 
-    def _compute_invoice_count(self):
-        products = self.env["product.product"]
-        for template in self:
-            products = template.product_variant_ids
-
-            domain = [
-                ("move_type", "in", ["out_invoice", "out_refund"]),
-                ("product_id", "in", products.ids),
-            ]
-            product_qty = 0
-            price_average = 0.0
-            groups = self.env["account.invoice.report"].read_group(
-                domain=domain, fields=["product_id", "product_qty", "price_average"], groupby=["product_id"]
-            )
-            for item in groups:
-                product_qty += item["product_qty"]
-                price_average = item["price_average"]
-
-            template.invoice_count = price_average
+    def _cron_invoice_history(self):
+        self.refresh_invoice_history()
 
     def action_view_invoice(self):
         action = self.env["ir.actions.actions"]._for_xml_id("account.action_account_invoice_report_all")
