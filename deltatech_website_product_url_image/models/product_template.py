@@ -18,7 +18,7 @@ class ProductTemplate(models.Model):
 
     def load_image_from_url(self, url):
         try:
-            data = base64.b64encode(requests.get(url.strip()).content)  # .replace(b'\n', b'')
+            data = base64.b64encode(requests.get(url.strip(), timeout=10).content)  # .replace(b'\n', b'')
             image.base64_to_image(data)
         except Exception:
             data = False

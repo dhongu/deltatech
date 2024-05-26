@@ -38,9 +38,10 @@ class MrpProduction(models.Model):
         return res
 
     def action_generate_serial(self):
-        super().action_generate_serial()
+        res = super().action_generate_serial()
         if self.lot_producing_id and self.ral_id:
             self.lot_producing_id.write({"ral_id": self.ral_id.id})
+        return res
 
     @api.onchange("ral_id")
     def onchange_ral_id(self):
@@ -50,5 +51,6 @@ class MrpProduction(models.Model):
                     move.product_id = self.ral_id
 
     def _generate_moves(self):
-        super()._generate_moves()
+        res = super()._generate_moves()
         self.onchange_ral_id()
+        return res

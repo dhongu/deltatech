@@ -130,7 +130,7 @@ repos:
       - id: ruff-format
 
   - repo: https://github.com/OCA/pylint-odoo
-    rev: 7.0.2
+    rev: v9.1.2
     hooks:
       - id: pylint_odoo
         name: pylint with optional checks

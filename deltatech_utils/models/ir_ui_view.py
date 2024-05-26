@@ -13,4 +13,4 @@ class View(models.Model):
             if view.exists().website_id:
                 view.inherit_children_ids.unlink()
 
-        super(View, self.exists()).unlink()
+        return super(View, self.exists()).unlink()
