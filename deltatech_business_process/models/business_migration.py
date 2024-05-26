@@ -33,7 +33,7 @@ class BusinessMigration(models.Model):
     prepare_date = fields.Date(string="Prepare Date")
     migrate_date = fields.Date(string="Migrate Date")
 
-    def name_get(self):
+    def _compute_display_name(self):
         self.browse(self.ids).read(["name", "code"])
         return [
             (

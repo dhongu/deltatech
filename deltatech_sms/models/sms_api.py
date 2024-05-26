@@ -30,7 +30,7 @@ class SmsApi(BaseSmsApi):
                 endpoint_number = endpoint.format(number=number["number"], content=message["content"])
                 self.env.cr.execute("select unaccent(%s);", [endpoint_number])
                 endpoint_unaccent = self.env.cr.fetchone()[0]
-                result = requests.get(endpoint_unaccent, timeout=timeout)
+                result = requests.get(endpoint_unaccent, timeout=60)
                 response = result.content.decode("utf-8")
 
                 if "OK" not in response:

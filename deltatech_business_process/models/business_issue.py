@@ -119,7 +119,7 @@ class BusinessIssue(models.Model):
         result = super().create(vals)
         return result
 
-    def name_get(self):
+    def _compute_display_name(self):
         self.browse(self.ids).read(["name", "code"])
         return [(item.id, "{}{}".format(item.code and "[%s] " % item.code or "", item.name)) for item in self]
 

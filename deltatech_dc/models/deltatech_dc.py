@@ -35,7 +35,7 @@ class DeltatechDC(models.Model):
     standards = fields.Text(related="product_id.standards", string="Standards", store=False)
     company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)
 
-    def name_get(self):
+    def _compute_display_name(self):
         result = []
         for line in self:
             name = (line.product_id.name or "") + " (" + (line.name or "") + "/" + (str(line.date) or "") + ")"
