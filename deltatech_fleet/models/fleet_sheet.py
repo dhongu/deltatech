@@ -307,8 +307,8 @@ class FleetMapSheet(models.Model):
         for sheet in self:
             if sheet.date_start > sheet.date_end:
                 raise ValidationError(
-                    _("Map Sheet end-date (%s) must be greater then start-date (%s)")
-                    % (sheet.date_end, sheet.date_start)
+                    _("Map Sheet end-date (%(end_date)s) must be greater then start-date (%(start_date)s)")
+                    % {"end_date": sheet.date_end, "start_date": sheet.date_start}
                 )
 
     # @api.model
