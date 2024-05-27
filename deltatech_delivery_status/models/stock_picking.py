@@ -59,7 +59,7 @@ class StockPicking(models.Model):
 
     @api.depends("move_type", "move_ids.state", "move_ids.picking_id", "postponed")
     def _compute_state(self):
-        super()._compute_state()
+        res = super()._compute_state()
 
         for picking in self.filtered(lambda p: p.state == "assigned"):
             if picking.postponed:
@@ -73,6 +73,7 @@ class StockPicking(models.Model):
             picking.available_state = map_state.get(move_state, "unavailable")
 
         remaining.available_state = False
+        return res
 
     def button_validate(self):
         for picking in self:
