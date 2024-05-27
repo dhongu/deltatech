@@ -49,8 +49,10 @@ class ManualBackOrder(models.TransientModel):
                 }
             )
             picking.message_post(
-                body=_("The backorder <a href=# data-oe-model=stock.picking data-oe-id=%d>%s</a> has been created.")
-                % (backorder_picking.id, backorder_picking.name)
+                body=_(
+                    "The backorder <a href=# data-oe-model=stock.picking data-oe-id=%(backorder_id)d>%(backorder_name)s</a> has been created."
+                )
+                % {"backorder_id": backorder_picking.id, "backorder_name": backorder_picking.name}
             )
 
             for line in self.line_ids:

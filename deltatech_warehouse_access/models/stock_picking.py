@@ -18,9 +18,9 @@ class StockPicking(models.Model):
         for picking in self:
             warehouse = picking.picking_type_id.warehouse_id
             if self.env.user not in warehouse.user_ids and warehouse.user_ids:
-                msg = _("The %s user don’t have access to the %s warehouse") % (
-                    self.env.user.name,
-                    warehouse.name,
-                )
+                msg = _("The %(user_name)s user don’t have access to the %(warehouse_name)s warehouse") % {
+                    "user_name": self.env.user.name,
+                    "warehouse_name": warehouse.name,
+                }
                 raise AccessError(msg)
         return super().button_validate()

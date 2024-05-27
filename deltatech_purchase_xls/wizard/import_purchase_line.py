@@ -109,7 +109,10 @@ class ImportPurchaseLine(models.TransientModel):
                     uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
                     if uom:
                         if uom != product_id.uom_po_id and uom != product_id.uom_id:
-                            raise UserError(_("Product %s does not have UOM %s") % (product_id.name, uom.name))
+                            raise UserError(
+                                _("Product %(product_name)s does not have UOM %(uom_name)s")
+                                % {"product_name": product_id.name, "uom_name": uom.name}
+                            )
                         product_uom = uom
             else:
                 if self.new_product:

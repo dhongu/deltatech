@@ -29,9 +29,10 @@ class SaleOrder(models.Model):
             order.stage_id = order.stage_ids[0] if order.stage_ids else False
 
     def _get_invoice_status(self):
-        super()._get_invoice_status()
+        res = super()._get_invoice_status()
         orders_invoiced = self.filtered(lambda o: o.invoice_status == "invoiced")
         orders_invoiced.set_stage("invoiced")
+        return res
 
     @api.onchange("stage_id")
     def onchange_stage_id(self):
@@ -39,12 +40,14 @@ class SaleOrder(models.Model):
             raise UserError(_("The order was not invoiced"))
 
     def action_confirm(self):
-        super().action_confirm()
+        res = super().action_confirm()
         self.set_stage("confirmed")
+        return res
 
     def action_quotation_sent(self):
-        super().action_quotation_sent()
+        res = super().action_quotation_sent()
         self.set_stage("send_email")
+        return res
 
     def set_stage(self, stage_step):
         domain = [(stage_step, "=", True)]

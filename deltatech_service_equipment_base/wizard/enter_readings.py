@@ -26,10 +26,12 @@ class ServiceEnterReading(models.TransientModel):
                 self.error += _("The counter %s has readings in the future!!!") % (item.meter_id.name)
                 self.error += "<br/>\r\n"
             if item.counter_value <= item.meter_id.total_counter_value and item.meter_id.total_counter_value > 0:
-                self.error += _("The counter %s value must be greater than %s.<br/>") % (
-                    item.meter_id.name,
-                    item.meter_id.total_counter_value,
-                )
+                self.error += _(
+                    "The counter %(meter_name)s value must be greater than %(total_counter_value)s.<br/>"
+                ) % {
+                    "meter_name": item.meter_id.name,
+                    "total_counter_value": item.meter_id.total_counter_value,
+                }
 
     @api.model
     def default_get(self, fields_list):
@@ -63,7 +65,7 @@ class ServiceEnterReading(models.TransientModel):
             meter = item.meter_id
 
             if meter.type == "counter":
-                meter = meter.with_context({"date": self.date})
+                meter = meter.with_context(**{"date": self.date})
                 item.counter_value = meter.estimated_value
 
     def do_enter(self):

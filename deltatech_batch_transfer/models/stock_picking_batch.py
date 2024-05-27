@@ -23,13 +23,14 @@ class StockPickingBatch(models.Model):
     note = fields.Text("Note")
 
     def _compute_move_ids(self):
-        super()._compute_move_ids()
+        res = super()._compute_move_ids()
         for batch in self:
             batch.received_move_line_ids = False
             if batch.move_line_ids:
                 for move_line in batch.move_line_ids:
                     if move_line.quantity > 0:
                         batch.received_move_line_ids |= move_line
+        return res
 
     def action_done(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param

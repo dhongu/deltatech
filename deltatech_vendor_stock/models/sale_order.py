@@ -21,7 +21,7 @@ class SaleOrderLine(models.Model):
     )
 
     def _compute_qty_at_date(self):
-        super()._compute_qty_at_date()
+        res = super()._compute_qty_at_date()
         self.other_qty_available = 0
         treated = self.env["sale.order.line"]
         for line in self:
@@ -31,3 +31,4 @@ class SaleOrderLine(models.Model):
             treated |= line
         remaining = self - treated
         remaining.vendor_qty_available = False
+        return res

@@ -241,8 +241,9 @@ class ServiceEquipment(models.Model):
                 )
 
     def update_meter_status(self):
-        super().update_meter_status()
+        res = super().update_meter_status()
         self._compute_readings_status()
+        return res
 
     # o fi ok sa elimin echipmanetul din contract
     def remove_from_agreement_button(self):
@@ -260,7 +261,13 @@ class ServiceEquipment(models.Model):
             lines.write({"active": False, "quantity": 0})
             self.agreement_id = False
         else:
-            raise UserError(_("The agreement %s is in state %s") % (self.agreement_id.name, self.agreement_id.state))
+            raise UserError(
+                _("The agreement %(agreement_name)s is in state %(agreement_state)s")
+                % {
+                    "agreement_name": self.agreement_id.name,
+                    "agreement_state": self.agreement_id.state,
+                }
+            )
 
     def do_agreement(self):
         pass

@@ -85,12 +85,14 @@ class ServiceEquiOperation(models.TransientModel):
 
         if self.state == "ins":
             emplacement = self.emplacement or ""
-            message = _("Equipment installation at %s, address %s, emplacement %s.\r\rMeters: %s") % (
-                self.partner_id.name,
-                self.address_id.name,
-                emplacement,
-                counters,
-            )
+            message = _(
+                "Equipment installation at %(partner_name)s, address %(address_name)s, emplacement %(emplacement)s.\r\rMeters: %(counters)s"
+            ) % {
+                "partner_name": self.partner_id.name,
+                "address_name": self.address_id.name,
+                "emplacement": emplacement,
+                "counters": counters,
+            }
 
             values = {
                 "name": _("Installation"),
@@ -131,12 +133,14 @@ class ServiceEquiOperation(models.TransientModel):
             if not self.can_remove:
                 raise UserError(_("You must bill consumption before uninstalling"))
             emplacement = self.equipment_id.emplacement or ""
-            message = _("Uninstalling equipment from %s, address %s, emplacement %s.\r\rMeters: %s") % (
-                self.partner_id.name,
-                self.address_id.name,
-                emplacement,
-                counters,
-            )
+            message = _(
+                "Uninstalling equipment from %(partner_name)s, address %(address_name)s, emplacement %(emplacement)s.\r\rMeters: %(counters)s"
+            ) % {
+                "partner_name": self.partner_id.name,
+                "address_name": self.address_id.name,
+                "emplacement": emplacement,
+                "counters": counters,
+            }
             values = {
                 "name": _("Uninstall"),
                 "equipment_id": self.equipment_id.id,
@@ -170,14 +174,16 @@ class ServiceEquiOperation(models.TransientModel):
             for meter in self.equipment_id.meter_ids:
                 counters += str(meter.uom_id.name) + ": " + str(meter.total_counter_value) + "\r\n"
         emplacement = self.equipment_id.emplacement or ""
-        message = _("Add to contract %s, partner %s, address %s, emplacement %s.") % (
-            self.agreement_id.name,
-            self.equipment_id.partner_id.name,
-            self.equipment_id.address_id.name,
-            emplacement,
-        )
+        message = _(
+            "Add to contract %(agreement_name)s, partner %(partner_name)s, address %(address_name)s, emplacement %(emplacement)s."
+        ) % {
+            "agreement_name": self.agreement_id.name,
+            "partner_name": self.equipment_id.partner_id.name,
+            "address_name": self.equipment_id.address_id.name,
+            "emplacement": emplacement,
+        }
         message += "\r\n"
-        message += _("Meters: %s") % counters
+        message += _("Meters: %(counters)s") % {"counters": counters}
         values = {
             "name": _("Add to contract"),
             "equipment_id": self.equipment_id.id,

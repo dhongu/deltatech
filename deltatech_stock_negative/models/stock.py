@@ -40,27 +40,27 @@ class StockQuant(models.Model):
                 if location_id.company_id.no_negative_stock:
                     if not lot_id:
                         err = _(
-                            "You have chosen to avoid negative stock. %s pieces of %s are remaining in location %s, "
-                            "but you want to transfer %s pieces. "
+                            "You have chosen to avoid negative stock. %(lot_qty)s pieces of %(product_name)s are remaining in location %(location_name)s, "
+                            "but you want to transfer %(transfer_qty)s pieces. "
                             "Please adjust your quantities or correct your stock with an inventory adjustment."
-                        ) % (
-                            lot_qty,
-                            product_id.name,
-                            location_id.name,
-                            quantity - reserved_quantity,
-                        )
+                        ) % {
+                            "lot_qty": lot_qty,
+                            "product_name": product_id.name,
+                            "location_name": location_id.name,
+                            "transfer_qty": quantity - reserved_quantity,
+                        }
                     else:
                         err = _(
-                            "You have chosen to avoid negative stock. %s pieces of %s are remaining in location %s, "
-                            "lot %s, but you want to transfer %s pieces. "
+                            "You have chosen to avoid negative stock. %(lot_qty)s pieces of %(product_name)s are remaining in location %(location_name)s, "
+                            "lot %(lot_name)s, but you want to transfer %(transfer_qty)s pieces. "
                             "Please adjust your quantities or correct your stock with an inventory adjustment."
-                        ) % (
-                            lot_qty,
-                            product_id.name,
-                            location_id.name,
-                            lot_id.name,
-                            quantity - reserved_quantity,
-                        )
+                        ) % {
+                            "lot_qty": lot_qty,
+                            "product_name": product_id.name,
+                            "location_name": location_id.name,
+                            "lot_name": lot_id.name,
+                            "transfer_qty": quantity - reserved_quantity,
+                        }
                     raise UserError(err)
 
         return super()._update_available_quantity(

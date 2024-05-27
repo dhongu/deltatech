@@ -36,7 +36,7 @@ class ProductWishlist(models.Model):
         for line in self:
             uom_reference = line.product_id.uom_id
             try:
-                self.env["procurement.group"].with_context(clean_context(self.env.context)).run(
+                self.env["procurement.group"].with_context(**clean_context(self.env.context)).run(
                     [
                         self.env["procurement.group"].Procurement(
                             line.product_id,

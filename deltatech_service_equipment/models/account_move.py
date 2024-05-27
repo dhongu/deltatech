@@ -62,9 +62,15 @@ class AccountInvoice(models.Model):
 
         # date_default_style = workbook.add_format({"num_format": "dd/mm/yy"})
 
-        worksheet.write(0, 0, _("Invoice: %s / %s") % (self.name, self.invoice_date), style)
-        worksheet.write(1, 0, _("Customer: %s") % self.partner_id.name, style)
-        worksheet.write(2, 0, _("Agreement: %s ") % (agreements_string), style)
+        worksheet.write(
+            0,
+            0,
+            _("Invoice: %(invoice_name)s / %(invoice_date)s")
+            % {"invoice_name": self.name, "invoice_date": self.invoice_date},
+            style,
+        )
+        worksheet.write(1, 0, _("Customer: %(customer_name)s") % {"customer_name": self.partner_id.name}, style)
+        worksheet.write(2, 0, _("Agreement: %(agreement_details)s ") % {"agreement_details": agreements_string}, style)
 
         worksheet.write(3, 0, _("Data"), style)
         worksheet.write(3, 1, _("Equipment"), style)

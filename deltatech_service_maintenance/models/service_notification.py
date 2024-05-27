@@ -243,14 +243,14 @@ class ServiceNotification(models.Model):
             new_follower_ids = [notification.user_id.partner_id.id]
 
             if notification.user_id != self.env.user:
-                msg = _("Please solve notification for %s: %s") % (
-                    notification.partner_id.name,
-                    notification.description or "",
-                )
+                msg = _("Please solve notification for %(partner_name)s: %(description)s") % {
+                    "partner_name": notification.partner_id.name,
+                    "description": notification.description or "",
+                }
 
                 if msg and not self.env.context.get("no_message", False):
                     document = notification
-                    message = self.env["mail.message"].with_context({"default_starred": True})
+                    message = self.env["mail.message"].with_context(**{"default_starred": True})
                     message.create(
                         {
                             "model": "service.notification",
@@ -349,14 +349,14 @@ class ServiceNotification(models.Model):
         new_follower_ids = [self.contact_id.id]
 
         if self.user_id != self.env.user:
-            msg = _("Notification %s for %s was done") % (
-                self.description or "",
-                self.partner_id.name,
-            )
+            msg = _("Notification %(description)s for %(partner_name)s was done") % {
+                "description": self.description or "",
+                "partner_name": self.partner_id.name,
+            }
 
             if msg and not self.env.context.get("no_message", False):
                 document = self
-                message = self.env["mail.message"].with_context({"default_starred": True})
+                message = self.env["mail.message"].with_context(**{"default_starred": True})
                 message.create(
                     {
                         "model": "service.notification",
@@ -521,7 +521,7 @@ class ServiceNotification(models.Model):
             action["res_id"] = sale_order.id
         else:
             context["default_pricelist_id"] = self.partner_id.property_product_pricelist.id
-            sale_order = self.env["sale.order"].with_context(context).new()
+            sale_order = self.env["sale.order"].with_context(**context).new()
 
             context["default_order_line"] = []
             for item in self.item_ids:

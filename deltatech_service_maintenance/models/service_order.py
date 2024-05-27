@@ -365,7 +365,7 @@ class ServiceOrder(models.Model):
 
         else:
             context["pricelist_id"] = self.partner_id.property_product_pricelist.id
-            sale_order = self.env["sale.order"].with_context(context).new()
+            sale_order = self.env["sale.order"].with_context(**context).new()
 
             context["default_order_line"] = []
             for item in self.component_ids:
