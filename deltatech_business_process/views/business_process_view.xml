@@ -32,19 +32,19 @@
                     name="status_internal_test"
                     widget="badge"
                     optional="hide"
-                    decoration-success="state == 'done'"
+                    decoration-warning="status_internal_test == 'done'"
                 />
                 <field
                     name="status_integration_test"
                     widget="badge"
                     optional="hide"
-                    decoration-success="state == 'done'"
+                    decoration-warning="status_integration_test == 'done'"
                 />
                 <field
                     name="status_user_acceptance_test"
                     widget="badge"
                     optional="hide"
-                    decoration-success="state == 'done'"
+                    decoration-warning="status_user_acceptance_test == 'done'"
                 />
                 <field name="implementation_stage" optional="hide" />
 
@@ -216,7 +216,7 @@
                     />
                 </group>
                 <searchpanel>
-                        <field name="area_id" select="one" enable_counters="1" />
+                    <field name="area_id" select="one" enable_counters="1" />
                 </searchpanel>
             </search>
         </field>
