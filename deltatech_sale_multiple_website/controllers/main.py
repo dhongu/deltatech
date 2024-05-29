@@ -20,7 +20,7 @@ class WebsiteSaleQty(WebsiteSale):
         set_qty = kwargs.get("set_qty", None)
         if product_id and (add_qty or set_qty):
             line = request.env["sale.order.line"].sudo()
-            set_qty = line.fix_qty_multiple(product, product.uom_id, set_qty)
+            set_qty = line.fix_qty_multiple(product, product.uom_id, add_qty)
             kwargs["set_qty"] = set_qty
         value = super().cart_update_json(**kwargs)
         if product_id and (add_qty or set_qty):
