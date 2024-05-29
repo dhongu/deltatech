@@ -58,6 +58,7 @@ addon | version | maintainers | summary | price
 [deltatech_invoice_report](deltatech_invoice_report/) | 16.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Invoice Report | Free 
 [deltatech_invoice_to_draft](deltatech_invoice_to_draft/) | 16.0.2.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Restricted access to reset account move to draft | Free 
 [deltatech_invoice_weight](deltatech_invoice_weight/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Invoice Weight | Free 
+[deltatech_ledger](deltatech_ledger/) | 16.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Deltatech Ledger | Free 
 [deltatech_list_view](deltatech_list_view/) | 16.0.1.0.0 |  | List View Select Text | Free 
 [deltatech_logistic_docs](deltatech_logistic_docs/) | 16.0.1.0.2 |  | Logistic Documents | Free 
 [deltatech_lot](deltatech_lot/) | 16.0.1.0.2 |  | Generate/Select lot | Free 

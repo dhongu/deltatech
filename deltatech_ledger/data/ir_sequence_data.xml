@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="ledger_sequence" model="ir.sequence">
+            <field name="name">Ledger Sequence</field>
+            <field name="code">ledger.ledger</field>
+            <field name="prefix">%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+        </record>
+    </data>
+</odoo>

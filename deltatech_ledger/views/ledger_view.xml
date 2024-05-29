@@ -1,0 +1,111 @@
+<odoo>
+    <data>
+        <!-- Define the name -->
+
+
+        <!-- Define the tree view -->
+        <record id="view_ledger_tree" model="ir.ui.view">
+            <field name="name">ledger.tree</field>
+            <field name="model">ledger.ledger</field>
+            <field name="arch" type="xml">
+                <tree string="Ledger">
+                    <field name="name" />
+                    <field name="record_date" />
+                    <field name="document_number" />
+                    <field name="place_of_origin" />
+                    <field name="record_short_description" />
+                    <field name="record_type" />
+                    <field
+                        name="state"
+                        widget="badge"
+                        decoration-success="state=='active'"
+                        decoration-danger="state=='canceled'"
+                    />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_ledger_form" model="ir.ui.view">
+            <field name="name">ledger.form</field>
+            <field name="model">ledger.ledger</field>
+            <field name="arch" type="xml">
+                <form string="Ledger">
+                    <header>
+                        <field
+                            name="state"
+                            widget="statusbar"
+                            statusbar_visible="active,canceled"
+                            statusbar_colors='{"active":"blue","canceled":"red"}'
+                        />
+                        <button name="button_cancel" string="Cancel" type="object" class="oe_highlight" />
+                    </header>
+
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="document_number" />
+                                <field name="place_of_origin" />
+                                <field name="record_type" />
+                            </group>
+                            <group>
+                                <field name="contact_id" />
+                                <field name="record_date" />
+                            </group>
+                        </group>
+                        <group>
+                            <field name="record_short_description" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_ledger_search" model="ir.ui.view">
+            <field name="name">ledger.search</field>
+            <field name="model">ledger.ledger</field>
+            <field name="arch" type="xml">
+                <search string="Ledger">
+                    <field name="name" />
+                    <field name="record_date" />
+                    <field name="document_number" />
+                    <filter string="Active" name="default_filter_active" domain="[('state','=','active')]" />
+                    <field name="place_of_origin" />
+                    <field name="record_short_description" />
+                    <field name="record_type" />
+                    <filter string="Entry" name="filter_entry" domain="[('record_type','=','entry')]" />
+                    <filter string="Exit" name="filter_exit" domain="[('record_type','=','exit')]" />
+                    <group expand="0" string="Group By">
+                        <filter
+                            string="Record Type"
+                            name="groupby_record_type"
+                            domain="[]"
+                            context="{'group_by':'record_type'}"
+                        />
+                        <filter
+                            string="Contact"
+                            name="groupby_contact"
+                            domain="[]"
+                            context="{'group_by':'contact_id'}"
+                        />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Define the action -->
+        <record id="action_ledger_model" model="ir.actions.act_window">
+            <field name="name">Ledger</field>
+            <field name="res_model">ledger.ledger</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_default_filter_active': True}</field>
+        </record>
+
+        <!-- Define the menu -->
+        <menuitem id="menu_ledger_model" name="Ledger" action="action_ledger_model" />
+    </data>
+</odoo>
