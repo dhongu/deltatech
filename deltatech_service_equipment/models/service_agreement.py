@@ -131,7 +131,7 @@ class ServiceAgreementLine(models.Model):
     @api.model
     def after_create_consumption(self, consumption):
         self.ensure_one()
-        super().after_create_consumption(consumption)
+        res = super().after_create_consumption(consumption)
         if self.equipment_id:
             meter = self.meter_id
             equipment = self.equipment_id
@@ -169,10 +169,10 @@ class ServiceAgreementLine(models.Model):
                 if readings:
                     first_reading = readings[-1]
                     last_reading = readings[0]
-                    name += _("Old index: %s, New index:%s") % (
-                        first_reading.previous_counter_value,
-                        last_reading.counter_value,
-                    )
+                    name += _("Old index: %(old_index)s, New index:%(new_index)s") % {
+                        "old_index": first_reading.previous_counter_value,
+                        "new_index": last_reading.counter_value,
+                    }
 
                     readings.write({"consumption_id": consumption.id})
 
@@ -185,6 +185,7 @@ class ServiceAgreementLine(models.Model):
                         "equipment_id": equipment.id,
                     }
                 )
+        return res
 
 
 class ServiceConsumption(models.Model):

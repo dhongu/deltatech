@@ -117,8 +117,8 @@ class StockPrepareBatch(models.TransientModel):
                             quantity = 0
                 if not found:
                     raise UserError(
-                        _("The product [%s]%s was not found for this partner.")
-                        % (line.product_id.default_code, line.product_id.name)
+                        _("The product [%(product_code)s]%(product_name)s was not found for this partner.")
+                        % {"product_code": line.product_id.default_code, "product_name": line.product_id.name}
                     )
                 if quantity > 0:
                     line.write({"additional_quantity": quantity})
@@ -145,8 +145,8 @@ class StockPrepareBatch(models.TransientModel):
                             quantity = 0
                 if not found:
                     raise UserError(
-                        _("The product [%s]%s was not found for this partner.")
-                        % (line.product_id.default_code, line.product_id.name)
+                        _("The product [%(product_code)s]%(product_name)s was not found for this partner.")
+                        % {"product_code": line.product_id.default_code, "product_name": line.product_id.name}
                     )
                 if quantity > 0:
                     line.write({"additional_quantity": quantity})

@@ -188,10 +188,10 @@ class ServiceBilling(models.TransientModel):
                 comment = _("According to agreement ")
                 payment_term_id = False
                 for agreement in pre_invoice[date_invoice][key]["agreement_ids"]:
-                    comment += _("%s from %s \n") % (
-                        agreement.name or "____",
-                        agreement.date_agreement or "____",
-                    )
+                    comment += _("%(agreement_name)s from %(agreement_date)s \n") % {
+                        "agreement_name": agreement.name or "____",
+                        "agreement_date": agreement.date_agreement or "____",
+                    }
                 if len(pre_invoice[date_invoice][key]["agreement_ids"]) > 1:
                     payment_term_id = False
                     user_id = False

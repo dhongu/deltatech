@@ -41,6 +41,7 @@ class ResConfigSettings(models.TransientModel):
         _logger.info("Neutralization finished")
 
     def set_values(self):
-        super().set_values()
+        res = super().set_values()
         if self.database_is_neutralized:
             self.neutralize_database()
+        return res

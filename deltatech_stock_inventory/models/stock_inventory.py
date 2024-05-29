@@ -177,10 +177,9 @@ class Inventory(models.Model):
         if negative:
             raise UserError(
                 _(
-                    "You cannot set a negative product quantity in an inventory line:\n\t%s - qty: %s",
-                    negative.product_id.display_name,
-                    negative.product_qty,
+                    "You cannot set a negative product quantity in an inventory line:\n\t%(product_name)s - qty: %(product_qty)s",
                 )
+                % {"product_name": negative.product_id.display_name, "product_qty": negative.product_qty}
             )
         self.action_check()
         self.write({"state": "done", "date": fields.Datetime.now()})

@@ -48,7 +48,7 @@ class MRPSimple(models.Model):
         context = {"default_picking_type_id": picking_type_receipt_production.id}
         picking_in = (
             self.env["stock.picking"]
-            .with_context(context)
+            .with_context(**context)
             .create(
                 {
                     "picking_type_id": picking_type_receipt_production.id,
@@ -60,7 +60,7 @@ class MRPSimple(models.Model):
         context = {"default_picking_type_id": picking_type_consume.id}
         picking_out = (
             self.env["stock.picking"]
-            .with_context(context)
+            .with_context(**context)
             .create({"picking_type_id": picking_type_consume.id, "date": self.date})
         )
 

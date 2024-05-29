@@ -42,7 +42,7 @@ class PurchaseOrder(models.Model):
 
     def _create_picking(self):
         StockPicking = self.env["stock.picking"]
-        super()._create_picking()
+        result = super()._create_picking()
         for order in self:
             if any(
                 [line.product_id.type in ["product", "consu"] and line.product_qty < 0 for line in order.order_line]
@@ -66,6 +66,7 @@ class PurchaseOrder(models.Model):
                     render_values={"self": picking, "origin": order},
                     subtype_id=self.env.ref("mail.mt_note").id,
                 )
+        return result
 
 
 class PurchaseOrderLine(models.Model):

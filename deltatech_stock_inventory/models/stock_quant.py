@@ -60,7 +60,7 @@ class StockQuant(models.Model):
     def action_set_inventory_quantity_to_zero(self):
         self.inventory_id = False
         self.inventory_line_id = False
-        super().action_set_inventory_quantity_to_zero()
+        return super().action_set_inventory_quantity_to_zero()
 
     def action_apply_inventory(self):
         if not self.env.user.has_group("deltatech_stock_inventory.group_view_inventory_button"):
@@ -69,7 +69,7 @@ class StockQuant(models.Model):
             quant.last_inventory_date = fields.Date.today()
 
         inventory = self.filtered(lambda q: q.inventory_quantity_set).create_inventory_lines()
-        super(StockQuant, self.with_context(apply_inventory=True)).action_apply_inventory()
+        res = super(StockQuant, self.with_context(apply_inventory=True)).action_apply_inventory()
         for quant in self:
             inventor_line = quant.inventory_line_id
             if inventor_line:
@@ -85,6 +85,7 @@ class StockQuant(models.Model):
 
             inventory.write(values)
         self.write({"inventory_id": False, "inventory_line_id": False})
+        return res
 
     def write(self, vals):
         if "inventory_quantity" in vals and not self.env.user.has_group(
