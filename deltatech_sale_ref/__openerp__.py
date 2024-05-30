@@ -43,8 +43,9 @@ Functionalitati:
         "sale_view.xml",
         "account_invoice_view.xml",
         "stock_transfer_details.xml",
-        "stock_view.xml"
-
+        "stock_view.xml",
+        "wizard/pack_export_csv.xml",
+        "data/ir_sequence.xml",
     ],
 
     "active": False,

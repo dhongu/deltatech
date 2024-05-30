@@ -1,0 +1,19 @@
+<openerp>
+    <data>
+        <record id="view_pack_csv" model="ir.ui.view">
+            <field name="name">view.pack.csv</field>
+            <field name="model">packops.csv.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Generare export">
+                    <group>
+                        <field name="file_name" invisible="1" />
+                        <field name="csv_file" filename="file_name"  readonly="1"/>
+                    </group>
+                    <footer>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
