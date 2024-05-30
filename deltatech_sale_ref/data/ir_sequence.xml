@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<openerp>
+
+    <data noupdate="1">
+
+        <record id="packing_operations_sequence" model="ir.sequence">
+            <field name="name">Packing OP sequence</field>
+            <field name="active">True</field>
+            <field name="prefix">PACK/</field>
+            <field name="padding">5</field>
+            <field name="number_next_actual">1</field>
+            <field name="number_increment">1</field>
+            <field name="implementation">no_gap</field>
+        </record>
+    </data>
+</openerp>
