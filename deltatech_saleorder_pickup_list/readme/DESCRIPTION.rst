@@ -1,1 +1,2 @@
-Report with pickup list from sale order
+Features:
+ - Report with pickup list from sale order

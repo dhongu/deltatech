@@ -28,7 +28,7 @@ msgstr "<span class=\"o_stat_text\">Comenzi</span>"
 #. module: deltatech_service_maintenance_agreement
 #: model:res.groups,name:deltatech_service_maintenance_agreement.group_use_service_plan
 msgid "Access to maintenance plans"
-msgstr ""
+msgstr "Acces la planuri de întreținere"
 
 #. module: deltatech_service_maintenance_agreement
 #: code:addons/deltatech_service_maintenance_agreement/models/service_notification.py:0

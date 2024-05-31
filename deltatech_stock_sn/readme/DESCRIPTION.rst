@@ -1,4 +1,4 @@
 Features:
-    - ascundere loturi utilizate
-    - generare nr de lot la receptie daca se utilizeaza semnul /
-    - generare certificat de garantie
+  - hides used lots
+  - generates lot number at reception if / is used
+  - generates warranty certificate

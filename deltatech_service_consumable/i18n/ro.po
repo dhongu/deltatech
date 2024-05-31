@@ -156,7 +156,7 @@ msgstr "Locație destinație"
 #. module: deltatech_service_consumable
 #: model:ir.model.fields,help:deltatech_service_consumable.field_service_consumable_item__max_qty
 msgid "Maximum Quantity allowed"
-msgstr ""
+msgstr "Cantitate maximă permisă"
 
 #. module: deltatech_service_consumable
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__name
@@ -249,7 +249,7 @@ msgstr ""
 #: code:addons/deltatech_service_consumable/models/service_equipment.py:0
 #, python-format
 msgid "Stock Settings"
-msgstr ""
+msgstr "Setări stoc"
 
 #. module: deltatech_service_consumable
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_agreement__total_costs
@@ -259,7 +259,7 @@ msgstr "Total costuri"
 #. module: deltatech_service_consumable
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_agreement__total_percent
 msgid "Total percent"
-msgstr ""
+msgstr "Total procent"
 
 #. module: deltatech_service_consumable
 #: model:ir.model,name:deltatech_service_consumable.model_stock_picking
@@ -284,12 +284,12 @@ msgstr "Unitate măsură utilizare"
 #. module: deltatech_service_consumable
 #: model:ir.model.fields,help:deltatech_service_consumable.field_service_consumable_item__uom_shelf_life
 msgid "Unit of Measure for Shelf Life"
-msgstr ""
+msgstr "Unitate de măsură pentru durata de viață"
 
 #. module: deltatech_service_consumable
 #: model:ir.model.fields,help:deltatech_service_consumable.field_service_efficiency_report__uom_usage
 msgid "Unit of Measure for Usage"
-msgstr ""
+msgstr "Unitate de măsură pentru utilizare"
 
 #. module: deltatech_service_consumable
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__usage

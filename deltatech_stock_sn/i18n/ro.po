@@ -1,0 +1,64 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_stock_sn
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-31 07:33+0000\n"
+"PO-Revision-Date: 2024-05-31 07:33+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_stock_sn
+#: model:ir.model.fields,field_description:deltatech_stock_sn.field_stock_lot__active
+msgid "Active"
+msgstr ""
+
+#. module: deltatech_stock_sn
+#: model:ir.model.fields,field_description:deltatech_stock_sn.field_stock_lot__stock_available
+msgid "Available"
+msgstr "Disponibil"
+
+#. module: deltatech_stock_sn
+#: model:ir.model.fields,help:deltatech_stock_sn.field_stock_lot__active
+msgid ""
+"By unchecking the active field, you may hide an Lot Number without deleting "
+"it."
+msgstr ""
+"Prin deselectarea câmpului activ, puteți ascunde un număr de lot fără a-l "
+"șterge."
+
+#. module: deltatech_stock_sn
+#: model:ir.model.fields,help:deltatech_stock_sn.field_stock_lot__stock_available
+msgid ""
+"Current quantity of products with this Serial Number available in company "
+"warehouses"
+msgstr ""
+"Cantitatea curentă de produse cu acest număr de serie disponibilă în "
+"depozitele companiei"
+
+#. module: deltatech_stock_sn
+#: model:ir.model.fields,field_description:deltatech_stock_sn.field_stock_location__hide_lot
+msgid "Hide Lot"
+msgstr "Ascunde lot"
+
+#. module: deltatech_stock_sn
+#: model:ir.model,name:deltatech_stock_sn.model_stock_location
+msgid "Inventory Locations"
+msgstr "Locații inventar"
+
+#. module: deltatech_stock_sn
+#: model:ir.model,name:deltatech_stock_sn.model_stock_lot
+msgid "Lot/Serial"
+msgstr "Lot/Serie"
+
+#. module: deltatech_stock_sn
+#: model:ir.model,name:deltatech_stock_sn.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr "Mișcări de produs (linie mișcare stoc)"

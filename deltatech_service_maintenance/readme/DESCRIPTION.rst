@@ -1,8 +1,5 @@
 Features:
-  - gestionare sesizari
-  - gestionare comenzi de service
-  - gestionare planuri de revizii
-  - generare automat a comenzilor de service in baza planului
-
-
-ToDo: de utilizat si modulul de maintenance
+  - issues management
+  - service orders management
+  - maintenance plans management
+  - automatic generation of service orders based on maintenance plan

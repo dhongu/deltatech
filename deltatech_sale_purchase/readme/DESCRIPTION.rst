@@ -1,2 +1,2 @@
 Features:
- - Eliminare produs din comanda de achiztie la anularea comenzii de vanzare
+  - Eliminates product from purchase order when sale order is cancelled
