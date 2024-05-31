@@ -23,7 +23,7 @@ msgstr "<span class=\"fa fa-lg fa-building-o\" title=\"Valorile stabilite aici s
 #. module: deltatech_stock_negative
 #: model:ir.model.fields,field_description:deltatech_stock_negative.field_stock_location__allow_negative_stock
 msgid "Allow Negative Stock"
-msgstr ""
+msgstr "Permite stoc negativ"
 
 #. module: deltatech_stock_negative
 #: model:ir.model.fields,help:deltatech_stock_negative.field_res_company__no_negative_stock
@@ -44,7 +44,7 @@ msgstr "Setări de configurare"
 #. module: deltatech_stock_negative
 #: model:ir.model,name:deltatech_stock_negative.model_stock_location
 msgid "Inventory Locations"
-msgstr ""
+msgstr "Locații stoc"
 
 #. module: deltatech_stock_negative
 #: model:ir.model.fields,field_description:deltatech_stock_negative.field_res_company__no_negative_stock
@@ -72,4 +72,4 @@ msgstr "Ați ales să evitați stocurile negative.   %s din %s există în loca�
 #: code:addons/deltatech_stock_negative/models/stock.py:0
 #, python-format
 msgid "You have chosen to avoid negative stock. %s pieces of %s are remaining in location %s, lot %s, but you want to transfer %s pieces. Please adjust your quantities or correct your stock with an inventory adjustment."
-msgstr ""
+msgstr "Ați ales să evitați stocurile negative.   %s din %s există în locația %s, lot %s dar dvs vreți să transferați %s. Ajustați cantitățile sau corectați stocul cu o ajustare de inventar."

@@ -27,7 +27,7 @@ msgstr ""
 #. module: deltatech_saleorder_pickup_list
 #: model_terms:ir.ui.view,arch_db:deltatech_saleorder_pickup_list.report_saleorder_document_pickup_list
 msgid "<span>Pro-Forma Invoice #</span>"
-msgstr ""
+msgstr "<span>Pro-Forma Factura #</span>"
 
 #. module: deltatech_saleorder_pickup_list
 #: model_terms:ir.ui.view,arch_db:deltatech_saleorder_pickup_list.report_saleorder_document_pickup_list

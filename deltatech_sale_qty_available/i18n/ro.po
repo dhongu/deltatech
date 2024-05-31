@@ -45,12 +45,16 @@ msgid "Current quantity of products.\n"
 "In a context with a single Warehouse, this includes goods stored in the Stock Location of this Warehouse, or any of its children.\n"
 "stored in the Stock Location of the Warehouse of this Shop, or any of its children.\n"
 "Otherwise, this includes goods stored in any Stock Location with 'internal' type."
-msgstr ""
+msgstr "Cantitatea curentă de produse.\n"
+"Într-un context cu o singură locație de stoc, aceasta include bunurile stocate la această locație sau la oricare dintre copiii săi.\n"
+"Într-un context cu un singur depozit, aceasta include bunurile stocate în locația de stocare a acestui depozit sau a oricărui copil al său.\n"
+"stocat în locația de stocare a depozitului acestui magazin sau a oricărui copil al său.\n"
+"În caz contrar, aceasta include bunurile stocate în orice locație de stoc cu tip \"intern\"."
 
 #. module: deltatech_sale_qty_available
 #: model:ir.model.fields,field_description:deltatech_sale_qty_available.field_sale_order_line__display_qty_widget
 msgid "Display Qty Widget"
-msgstr " "
+msgstr "Afișează widget cantitate"
 
 #. module: deltatech_sale_qty_available
 #: model:ir.model.fields,field_description:deltatech_sale_qty_available.field_sale_order_line__virtual_available

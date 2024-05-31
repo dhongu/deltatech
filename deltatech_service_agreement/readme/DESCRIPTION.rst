@@ -1,5 +1,5 @@
 Features:
- - Ofera posibilitatea de a defini contracte de servicii.
-    - in contract se pot specifica: moneda, data de facturare, recurenta
- - Periodic in baza acestor contracte se genereaza facturi
-    - consumurile se servicii planificate se pot actualiza cu cele efective inainte de facturare
+ - Offers the possibility to define service contracts.
+    - in contract you can specify: currency, billing date, recurrence
+ - Periodically based on these contracts invoices are generated
+    - planned service consumptions can be updated with the actual ones before billing

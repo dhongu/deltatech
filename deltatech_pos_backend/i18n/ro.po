@@ -1,0 +1,73 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_pos_backend
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-23 08:08+0000\n"
+"PO-Revision-Date: 2024-05-23 08:08+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_pos_backend
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_backend.view_pos_pos_form
+msgid "Cancel"
+msgstr "Anulare"
+
+#. module: deltatech_pos_backend
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_backend.view_pos_pos_form
+msgid "Confirm"
+msgstr "Confirmare"
+
+#. module: deltatech_pos_backend
+#: model:ir.model.fields,field_description:deltatech_pos_backend.field_pos_order__amount_paid
+msgid "Paid"
+msgstr "Plătit"
+
+#. module: deltatech_pos_backend
+#. odoo-python
+#: code:addons/deltatech_pos_backend/models/pos_order.py:0
+#, python-format
+msgid "Payment"
+msgstr "Plată"
+
+#. module: deltatech_pos_backend
+#: model:ir.model.fields,field_description:deltatech_pos_backend.field_pos_order__default_payment_method_id
+msgid "Payment Method"
+msgstr "Metoda de plată"
+
+#. module: deltatech_pos_backend
+#: model:ir.model,name:deltatech_pos_backend.model_pos_order_line
+msgid "Point of Sale Order Lines"
+msgstr "Liniile Punctului de vânzare"
+
+#. module: deltatech_pos_backend
+#: model:ir.model,name:deltatech_pos_backend.model_pos_order
+msgid "Point of Sale Orders"
+msgstr "Comenzile Punctului de vânzare"
+
+#. module: deltatech_pos_backend
+#: model:ir.model.fields,field_description:deltatech_pos_backend.field_pos_order__amount_return
+msgid "Returned"
+msgstr "Returnat"
+
+#. module: deltatech_pos_backend
+#: model:ir.model.fields,field_description:deltatech_pos_backend.field_pos_order__amount_tax
+msgid "Taxes"
+msgstr "Taxe"
+
+#. module: deltatech_pos_backend
+#: model:ir.model.fields,field_description:deltatech_pos_backend.field_pos_order__amount_total
+msgid "Total"
+msgstr "Total"
+
+#. module: deltatech_pos_backend
+#: model:ir.model,name:deltatech_pos_backend.model_stock_picking
+msgid "Transfer"
+msgstr "Transfer"

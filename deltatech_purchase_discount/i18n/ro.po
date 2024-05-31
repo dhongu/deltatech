@@ -1,0 +1,79 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_purchase_discount
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-23 09:32+0000\n"
+"PO-Revision-Date: 2024-05-23 09:32+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_purchase_discount
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_discount.res_config_settings_view_form
+msgid ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
+"specific.\" aria-label=\"Values set here are company-specific.\" "
+"groups=\"base.group_multi_company\" role=\"img\"/>"
+msgstr ""
+
+#. module: deltatech_purchase_discount
+#: model:ir.model,name:deltatech_purchase_discount.model_res_company
+msgid "Companies"
+msgstr "Companii"
+
+#. module: deltatech_purchase_discount
+#: model:ir.model,name:deltatech_purchase_discount.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_purchase_discount
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_discount.res_config_settings_view_form
+msgid ""
+"Defines in which way the discount from the purchase order will be propagated"
+" in the invoice"
+msgstr ""
+"Defineste in ce mod discountul din comanda de achizitie va fi propagat in "
+"factura"
+
+#. module: deltatech_purchase_discount
+#: model:ir.model.fields,field_description:deltatech_purchase_discount.field_purchase_order_line__discount_received
+msgid "Discount %"
+msgstr ""
+
+#. module: deltatech_purchase_discount
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_discount.res_config_settings_view_form
+msgid ""
+"If enabled, the discount from the purchase line will be propagated in the "
+"invoice line. Else, the price with discount will be propagated and the "
+"discount will be 0."
+msgstr ""
+"Dacă este activat, discountul din linia de achiziție va fi propagat în linia "
+"facturii. În caz contrar, prețul cu discount va fi propagat și discountul va "
+"fi 0."
+
+#. module: deltatech_purchase_discount
+#: model:ir.model.fields,field_description:deltatech_purchase_discount.field_res_config_settings__purchase_keep_discount
+msgid "Keep discount from purchase line"
+msgstr "Păstrează discountul din linia de achiziție"
+
+#. module: deltatech_purchase_discount
+#: model:ir.model.fields,field_description:deltatech_purchase_discount.field_res_company__purchase_keep_discount
+msgid "Keep discount from purchase order"
+msgstr "Păstrează discountul din comanda de achiziție"
+
+#. module: deltatech_purchase_discount
+#: model:ir.model.fields,field_description:deltatech_purchase_discount.field_purchase_order_line__price_without_discount
+msgid "Price w discount"
+msgstr "Preț cu discount"
+
+#. module: deltatech_purchase_discount
+#: model:ir.model,name:deltatech_purchase_discount.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Linie comandă de achiziție"

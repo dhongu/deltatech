@@ -43,7 +43,7 @@ msgstr "<strong>Valoare veche</strong>"
 #. module: deltatech_price_change
 #: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
 msgid "<strong>Old Price</strong>"
-msgstr "<strong>Preț nou</strong>"
+msgstr "<strong>Preț vechi</strong>"
 
 #. module: deltatech_price_change
 #: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
@@ -150,7 +150,7 @@ msgstr "Urmăritori (Parteneri)"
 #. module: deltatech_price_change
 #: model:ir.model.fields,help:deltatech_price_change.field_product_price_change_line__sequence
 msgid "Gives the sequence order when displaying a list of product with price changed."
-msgstr ""
+msgstr "Reprezintă ordinea secvențială când se afișează o listă de produse cu preț modificat."
 
 #. module: deltatech_price_change
 #: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__id

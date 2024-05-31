@@ -1,2 +1,2 @@
 Features:
- - Generare manual de comanda restanta
+ - Manual generation of backorders

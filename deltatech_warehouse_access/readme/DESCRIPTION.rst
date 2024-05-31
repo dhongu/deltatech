@@ -1,2 +1,2 @@
 Features:
- - restictionare acces pe depozit
+ - restrict access to warehouse
