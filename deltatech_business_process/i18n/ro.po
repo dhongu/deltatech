@@ -23,7 +23,7 @@ msgstr "<span class=\"fa fa-clock-o mr-2\" title=\"Date\"/>"
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_kanban
 msgid "<span class=\"o_label ms-1\">Processes</span>"
-msgstr "<span class=\"o_label ms-1\">Procese</span>&gt;"
+msgstr "<span class=\"o_label ms-1\">Procese</span>"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_kanban
@@ -1836,7 +1836,7 @@ msgstr "Pornire test"
 #. module: deltatech_business_process
 #: model:ir.actions.server,name:deltatech_business_process.action_start_user_acceptance_test
 msgid "Start User Acceptance Test"
-msgstr "Pornire test acceptanței utilizatorului"
+msgstr "Pornire test acceptanță utilizator"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__date_start
@@ -1916,7 +1916,7 @@ msgstr "Stadiu test implementator"
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__status_user_acceptance_test
 msgid "Status user acceptance test"
-msgstr "Stadiu test acceptanțeii utilizatorului"
+msgstr "Stadiu test acceptanță utilizator"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__step_id
@@ -2097,7 +2097,7 @@ msgstr "Tipul activității excepționale înregistrate."
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test__scope__user_acceptance
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__scope__user_acceptance
 msgid "User Acceptance"
-msgstr "Acceptanța utilizatorului"
+msgstr "Acceptanță utilizator"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_from

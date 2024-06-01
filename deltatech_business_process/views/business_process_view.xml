@@ -15,9 +15,10 @@
                 <field
                     name="state"
                     widget="badge"
-                    decoration-success="state == 'production'"
+                    decoration-danger="state == 'draft'"
                     decoration-info="state == 'design'"
                     decoration-warning="state == 'test'"
+                    decoration-success="state in ['ready','production']"
                 />
 
                 <field name="date_start_bbp" optional="hide" />
@@ -32,19 +33,28 @@
                     name="status_internal_test"
                     widget="badge"
                     optional="hide"
-                    decoration-warning="status_internal_test == 'done'"
+                    decoration-danger="status_internal_test == 'draft'"
+                    decoration-info="status_internal_test == 'run'"
+                    decoration-warning="status_internal_test == 'wait'"
+                    decoration-success="status_internal_test == 'done'"
                 />
                 <field
                     name="status_integration_test"
                     widget="badge"
                     optional="hide"
-                    decoration-warning="status_integration_test == 'done'"
+                    decoration-danger="status_integration_test == 'draft'"
+                    decoration-info="status_integration_test == 'run'"
+                    decoration-warning="status_integration_test == 'wait'"
+                    decoration-success="status_integration_test == 'done'"
                 />
                 <field
                     name="status_user_acceptance_test"
                     widget="badge"
                     optional="hide"
-                    decoration-warning="status_user_acceptance_test == 'done'"
+                    decoration-danger="status_user_acceptance_test == 'draft'"
+                    decoration-info="status_user_acceptance_test == 'run'"
+                    decoration-warning="status_user_acceptance_test == 'wait'"
+                    decoration-success="status_user_acceptance_test == 'done'"
                 />
                 <field name="implementation_stage" optional="hide" />
 
@@ -83,7 +93,13 @@
                     />
                     <button name="button_go_live" type="object" string="Go live" class="oe_highlight" states="ready" />
                     <button name="button_draft" type="object" string="Reset to Draft" states="design,test,ready" />
-                    <field name="state" widget="statusbar" statusbar_visible="draft,design,test,ready,production" />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,design,test,ready,production"
+                        statusbar_colors='{"draft":"red","test":"green","production":"green"}'
+                    />
+
 
                 </header>
                 <sheet>
@@ -115,17 +131,8 @@
                             <field name="code" />
                             <field name="project_id" />
                         </group>
-                        <group string="Responsibles">
-                            <field name="responsible_id" />
-                            <field name="support_id" />
-                            <field name="customer_id" />
-                            <field name="approved_id" />
-                        </group>
-                        <group string="Business Blueprint">
-                            <field name="date_start_bbp" />
-                            <field name="date_end_bbp" />
-                            <field name="completion_bbp" widget="progressbar" options="{'editable': true}" />
-                        </group>
+
+
                         <group string="Business process">
                             <field name="area_id" />
                             <field name="process_group_id" />
@@ -135,15 +142,29 @@
                                                     <field name="status_integration_test" />
                                                     <field name="status_user_acceptance_test" />
                                                 </group>-->
-                        <group string="Duration of process">
-                            <field name="configuration_duration" widget="float_time" />
-                            <field name="instructing_duration" widget="float_time" />
-                            <field name="data_migration_duration" widget="float_time" />
-                            <field name="testing_duration" widget="float_time" />
-                        </group>
+
                         <group string="Implementation">
                             <field name="implementation_stage" />
                             <field name="module_type" />
+                        </group>
+
+                        <group string="Status">
+                            <field
+                                name="state"
+                                widget="badge"
+                                decoration-danger="state == 'draft'"
+                                decoration-info="state == 'design'"
+                                decoration-warning="state == 'test'"
+                                decoration-success="state in ['ready','production']"
+                            />
+                            <field
+                                name="status_user_acceptance_test"
+                                widget="badge"
+                                decoration-danger="status_user_acceptance_test == 'draft'"
+                                decoration-info="status_user_acceptance_test == 'run'"
+                                decoration-warning="status_user_acceptance_test == 'wait'"
+                                decoration-success="status_user_acceptance_test == 'done'"
+                            />
                         </group>
                     </group>
                     <notebook>
@@ -165,6 +186,31 @@
                         <page string="Description" name="description">
                             <label for="description" string="Description" />
                             <field name="description" />
+                        </page>
+                        <page string="Responsible">
+                            <group>
+                                <group string="Responsible">
+                                    <field name="responsible_id" />
+                                    <field name="support_id" />
+                                    <field name="customer_id" />
+                                    <field name="approved_id" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Duration">
+                            <group>
+                                <group string="Business Blueprint">
+                                    <field name="date_start_bbp" />
+                                    <field name="date_end_bbp" />
+                                    <field name="completion_bbp" widget="progressbar" options="{'editable': true}" />
+                                </group>
+                                <group string="Duration of process">
+                                    <field name="configuration_duration" widget="float_time" />
+                                    <field name="instructing_duration" widget="float_time" />
+                                    <field name="data_migration_duration" widget="float_time" />
+                                    <field name="testing_duration" widget="float_time" />
+                                </group>
+                            </group>
                         </page>
                         <page string="Sources  &amp; Destinations">
                             <separator string="Source process" />
@@ -209,10 +255,22 @@
                 <group>
                     <filter name="group_area" string="Area" domain="[]" context="{'group_by':'area_id'}" />
                     <filter
+                        name="group_process_group"
+                        string="Process Group"
+                        domain="[]"
+                        context="{'group_by':'process_group_id'}"
+                    />
+                    <filter
                         name="group_responsible"
                         string="Responsible"
                         domain="[]"
                         context="{'group_by':'responsible_id'}"
+                    />
+                    <filter
+                        name="group_state"
+                        string="Implementation state"
+                        domain="[]"
+                        context="{'group_by':'state'}"
                     />
                 </group>
                 <searchpanel>
