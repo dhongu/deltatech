@@ -3,7 +3,6 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
-from odoo.osv import expression
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -68,7 +67,7 @@ class ProductTemplate(models.Model):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         if name and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
             domain = [("search_index", operator, name)]
-            return self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+            return self._search(domain, limit=limit, access_rights_uid=name_get_uid)
         else:
             return super()._name_search(name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid)
 
@@ -82,7 +81,7 @@ class ProductProduct(models.Model):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         if name and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
             domain = [("search_index", operator, name)]
-            return self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+            return self._search(domain, limit=limit, access_rights_uid=name_get_uid)
         else:
             return super()._name_search(name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid)
 
