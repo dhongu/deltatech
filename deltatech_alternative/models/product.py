@@ -39,7 +39,7 @@ class ProductTemplate(models.Model):
 
             terms = list(set(terms))
             search_index += " " + " ".join(terms)
-            product.search_index = search_index
+            product.search_index = search_index.upper()
 
     def _inverse_alternative_code(self):
         for product in self:
@@ -67,9 +67,42 @@ class ProductTemplate(models.Model):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         if name and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
             domain = [("search_index", operator, name)]
-            return self._search(domain, limit=limit, access_rights_uid=name_get_uid)
+
+            if len(name) <= safe_eval(get_param("alternative.length_min", "3")):
+                return 0
+
+            if operator == "ilike":
+                # cauta direct in SQL
+                sql = """
+                    SELECT product_product.id
+                    FROM product_product
+                    WHERE search_index ILIKE %s
+                    LIMIT %s
+                """
+                self.env.cr.execute(sql, (f"%{name}%", limit))
+                res = self.env.cr.fetchall()
+                return [r[0] for r in res]
+
+            return self.sudo()._search(domain, limit=limit, access_rights_uid=name_get_uid)
         else:
             return super()._name_search(name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid)
+
+    @api.model
+    def search_count(self, args):
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        if safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
+            # exista search_index in args
+            for arg in args:
+                if arg[0] == "search_index":
+                    sql = """
+                        SELECT COUNT(*)
+                        FROM product_template
+                        WHERE search_index ILIKE %s
+                    """
+                    self.env.cr.execute(sql, (f"%{arg[2]}%",))
+                    res = self.env.cr.fetchone()
+                    return res[0]
+        return super().search_count(args)
 
 
 class ProductProduct(models.Model):
@@ -81,9 +114,42 @@ class ProductProduct(models.Model):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         if name and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
             domain = [("search_index", operator, name)]
-            return self._search(domain, limit=limit, access_rights_uid=name_get_uid)
+            if len(name) <= safe_eval(get_param("alternative.length_min", "3")):
+                return 0
+
+            if operator == "ilike":
+                # cauta direct in SQL
+                sql = """
+                    SELECT product_product.id
+                    FROM product_product
+                    JOIN product_template ON product_template.id = product_product.product_tmpl_id
+                    WHERE search_index ILIKE %s
+                    LIMIT %s
+                """
+                self.env.cr.execute(sql, (f"%{name}%", limit))
+                res = self.env.cr.fetchall()
+                return [r[0] for r in res]
+
+            return self.sudo()._search(domain, limit=limit, access_rights_uid=name_get_uid)
         else:
             return super()._name_search(name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid)
+
+    @api.model
+    def search_count(self, args):
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        if safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
+            # exista search_index in args
+            for arg in args:
+                if arg[0] == "search_index" and len(arg) > safe_eval(get_param("alternative.length_min", "3")):
+                    sql = """
+                        SELECT COUNT(*)
+                        FROM product_template
+                        WHERE search_index ILIKE %s
+                    """
+                    self.env.cr.execute(sql, (f"%{arg[2]}%",))
+                    res = self.env.cr.fetchone()
+                    return res[0]
+        return super().search_count(args)
 
 
 class ProductAlternative(models.Model):
