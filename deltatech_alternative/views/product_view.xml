@@ -11,11 +11,11 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <field name="name" position="after">
-                    <field name="alternative_ids" />
+                    <field name="alternative_ids" filter_domain="[('alternative_ids.name', 'like', self)]" />
                     <field
                         name="variant_seller_ids"
                         string="Vendor Code"
-                        filter_domain="[('seller_ids.product_code', 'ilike', self)]"
+                        filter_domain="[('seller_ids.product_code', 'like', self)]"
                     />
                 </field>
             </field>
