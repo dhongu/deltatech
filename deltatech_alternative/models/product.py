@@ -12,7 +12,7 @@ class ProductTemplate(models.Model):
     search_index = fields.Char(compute="_compute_search_index", store=True, index=True, compute_sudo=True)
 
     alternative_code = fields.Char(
-        string="Alternative Code", index=True, inverse="_inverse_alternative_code", compute="_compute_alternative_code"
+        string="Alternative Code", inverse="_inverse_alternative_code", compute="_compute_alternative_code", store=True
     )
     alternative_ids = fields.One2many("product.alternative", "product_tmpl_id", string="Alternatives")
 
@@ -39,6 +39,8 @@ class ProductTemplate(models.Model):
 
             terms = list(set(terms))
             search_index += " " + " ".join(terms)
+            terms = search_index.upper().split(" ")
+            search_index = " ".join(sorted(list(set(terms))))
             product.search_index = search_index.upper()
 
     def _inverse_alternative_code(self):
@@ -59,7 +61,7 @@ class ProductTemplate(models.Model):
                     codes += [cod.name]
 
             code = "; ".join(codes)
-            product.alternative_code = code
+            product.alternative_code = code.upper()
 
     @api.model
     def _name_search(self, name, args=None, operator="ilike", limit=100, name_get_uid=None):
@@ -70,15 +72,16 @@ class ProductTemplate(models.Model):
 
             if len(name) <= safe_eval(get_param("alternative.length_min", "3")):
                 return 0
-
-            if operator == "ilike":
+            positive_operators = ["ilike", "=ilike", "like", "=like"]
+            if operator in positive_operators:
                 # cauta direct in SQL
                 sql = """
                     SELECT id
                     FROM product_template
-                    WHERE search_index ILIKE %s
+                    WHERE search_index LIKE %s
                     LIMIT %s
                 """
+                name = name.upper()
                 self.env.cr.execute(sql, (f"%{name}%", limit))
                 res = self.env.cr.fetchall()
                 return [r[0] for r in res]
@@ -90,19 +93,35 @@ class ProductTemplate(models.Model):
     @api.model
     def search_count(self, args):
         get_param = self.env["ir.config_parameter"].sudo().get_param
+        positive_operators = ["ilike", "=ilike", "like", "=like"]
         if safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
             # exista search_index in args
             for arg in args:
-                if arg[0] == "search_index":
+                if arg[0] == "search_index" and arg[1] in positive_operators:
                     sql = """
                         SELECT COUNT(*)
                         FROM product_template
-                        WHERE search_index ILIKE %s
+                        WHERE search_index LIKE %s
                     """
-                    self.env.cr.execute(sql, (f"%{arg[2]}%",))
+                    term = arg[2].upper()
+                    self.env.cr.execute(sql, (f"%{term}%",))
                     res = self.env.cr.fetchone()
                     return res[0]
         return super().search_count(args)
+
+    @api.model
+    def _search(self, args, offset=0, limit=None, order=None, count=False, access_rights_uid=None):
+
+        for arg in args:
+            if arg[0] == "search_index":
+                if "ilike" in arg[1]:
+                    new_arg = (arg[0], arg[1].replace("ilike", "like"), arg[2].upper())
+                    args.remove(arg)
+                    args.append(new_arg)
+
+        return super()._search(
+            args, offset=offset, limit=limit, order=order, count=count, access_rights_uid=access_rights_uid
+        )
 
 
 class ProductProduct(models.Model):
@@ -112,20 +131,22 @@ class ProductProduct(models.Model):
     def _name_search(self, name, args=None, operator="ilike", limit=100, name_get_uid=None):
         args = args or []
         get_param = self.env["ir.config_parameter"].sudo().get_param
+        positive_operators = ["ilike", "=ilike", "like", "=like"]
         if name and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
             domain = [("search_index", operator, name)]
             if len(name) <= safe_eval(get_param("alternative.length_min", "3")):
                 return 0
 
-            if operator == "ilike":
+            if operator in positive_operators:
                 # cauta direct in SQL
                 sql = """
                     SELECT product_product.id
                     FROM product_product
                     JOIN product_template ON product_template.id = product_product.product_tmpl_id
-                    WHERE search_index ILIKE %s
+                    WHERE search_index LIKE %s
                     LIMIT %s
                 """
+                name = name.upper()
                 self.env.cr.execute(sql, (f"%{name}%", limit))
                 res = self.env.cr.fetchall()
                 return [r[0] for r in res]
@@ -144,12 +165,26 @@ class ProductProduct(models.Model):
                     sql = """
                         SELECT COUNT(*)
                         FROM product_template
-                        WHERE search_index ILIKE %s
+                        WHERE search_index LIKE %s
                     """
-                    self.env.cr.execute(sql, (f"%{arg[2]}%",))
+                    term = arg[2].upper()
+                    self.env.cr.execute(sql, (f"%{term}%",))
                     res = self.env.cr.fetchone()
                     return res[0]
         return super().search_count(args)
+
+    @api.model
+    def _search(self, args, offset=0, limit=None, order=None, count=False, access_rights_uid=None):
+        for arg in args:
+            if arg[0] == "search_index":
+                if "ilike" in arg[1]:
+                    new_arg = (arg[0], arg[1].replace("ilike", "like"), arg[2].upper())
+                    args.remove(arg)
+                    args.append(new_arg)
+
+        return super()._search(
+            args, offset=offset, limit=limit, order=order, count=count, access_rights_uid=access_rights_uid
+        )
 
 
 class ProductAlternative(models.Model):
@@ -158,5 +193,5 @@ class ProductAlternative(models.Model):
 
     name = fields.Char(string="Code", index=True)
     sequence = fields.Integer(string="sequence", default=10)
-    product_tmpl_id = fields.Many2one("product.template", string="Product Template", ondelete="cascade")
+    product_tmpl_id = fields.Many2one("product.template", string="Product Template", ondelete="cascade", index=True)
     hide = fields.Boolean(string="Hide")
