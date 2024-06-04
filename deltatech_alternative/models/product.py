@@ -74,8 +74,8 @@ class ProductTemplate(models.Model):
             if operator == "ilike":
                 # cauta direct in SQL
                 sql = """
-                    SELECT product_product.id
-                    FROM product_product
+                    SELECT id
+                    FROM product_template
                     WHERE search_index ILIKE %s
                     LIMIT %s
                 """
