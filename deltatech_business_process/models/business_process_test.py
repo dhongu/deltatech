@@ -22,7 +22,7 @@ class BusinessProcessTest(models.Model):
         domain="[('is_company', '=', False)]",
         states={"done": [("readonly", True)]},
     )
-    date_start = fields.Date(string="Date start", states={"done": [("readonly", True)]})
+    date_start = fields.Date(string="Date start", states={"done": [("readonly", True)]}, default=fields.Date.today)
     date_end = fields.Date(string="Date end", states={"done": [("readonly", True)]})
     state = fields.Selection(
         [("draft", "Draft"), ("run", "Run"), ("wait", "Waiting"), ("done", "Done")],
