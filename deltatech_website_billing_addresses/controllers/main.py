@@ -63,7 +63,15 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
 
     def values_postprocess(self, order, mode, values, errors, error_msg):
         new_values, errors, error_msg = super().values_postprocess(order, mode, values, errors, error_msg)
+
         errors.pop("vat", "")  # sa scrie fiecare ce vrea
+        vat = new_values.get("vat", False)
+        if vat:
+            vat = vat.strip()
+            vat = vat.replace("-", "")
+            if len(vat) < 6:
+                errors["vat"] = "Vat invalid"
+                error_msg.append("CUI invalid. Daca nu sunteti o firma, va rugam creati o adresa de persoana fizica")
         is_company = values.get("is_company", False) == "yes"
 
         if values.get("type", False):
@@ -129,7 +137,8 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         values, errors = {}, {}
 
         partner_id = int(kw.get("partner_id", -1))
-        is_company = request.httprequest.args.get("is_company", "no")
+        # is_company = request.httprequest.args.get("is_company", "no")
+        is_company = kw.get("is_company", "no")
 
         # IF PUBLIC ORDER
         if order.partner_id.id == request.website.user_id.sudo().partner_id.id:
