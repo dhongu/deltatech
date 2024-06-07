@@ -185,6 +185,10 @@
                 <field name="tester_id" />
                 <field name="state" />
                 <field name="scope" />
+                <group>
+                    <filter name="group_state" string="state" domain="[]" context="{'group_by':'state'}" />
+                    <filter name="group_scope" string="scope" domain="[]" context="{'group_by':'scope'}" />
+                </group>
             </search>
         </field>
     </record>

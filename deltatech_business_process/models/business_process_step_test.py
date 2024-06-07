@@ -54,7 +54,7 @@ class BusinessProcessStepTest(models.Model):
     data_used = fields.Text(string="Data used")
     data_result = fields.Text(string="Data result")
 
-    date_start = fields.Date(string="Date start")
+    date_start = fields.Date(string="Date start", default=fields.Date.today)
     date_end = fields.Date(string="Date end")
     observation = fields.Text(string="Observation")
 

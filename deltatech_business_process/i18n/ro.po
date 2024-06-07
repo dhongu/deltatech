@@ -143,6 +143,14 @@ msgid "Attachment Count"
 msgstr "Număr atașamente"
 
 #. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_process.py:0
+#: code:addons/deltatech_business_process/models/business_process_test.py:0
+#, python-format
+msgid "Attachments"
+msgstr "Atașamente"
+
+#. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
 msgid "Back"
@@ -437,13 +445,18 @@ msgstr "Durata configurare"
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__responsible_id
 msgid "Consultant"
-msgstr ""
+msgstr "Consultant"
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
+msgid "Contacts"
+msgstr "Contacte"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__severity__cosmetic
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__severity__cosmetic
 msgid "Cosmetic"
-msgstr ""
+msgstr "Cosmetic"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__count_developments
@@ -519,6 +532,11 @@ msgstr "Creat pe"
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__severity__critical
 msgid "Critical"
 msgstr "Critic"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__module_type__custom
+msgid "Custom"
+msgstr "Personalizat"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__customer_id
@@ -617,7 +635,7 @@ msgstr "Date"
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__category__defect
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__category__defect
 msgid "Defect"
-msgstr ""
+msgstr "Defect"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_project__state__deployment
@@ -857,7 +875,7 @@ msgstr "Export proces afaceri selectate"
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__transaction_type__ex
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_transaction__transaction_type__ex
 msgid "Extern"
-msgstr ""
+msgstr "Extern"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_step_test__result__failed
@@ -896,6 +914,11 @@ msgstr "Fişier"
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_import__name
 msgid "File Name"
 msgstr "Nume fișier"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__implementation_stage__first_stage
+msgid "First stage"
+msgstr "Etapa 1"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__message_follower_ids
@@ -1023,6 +1046,16 @@ msgid "If checked, some messages have a delivery error."
 msgstr "Dacă este bifat, unele mesaje au erori de livrare."
 
 #. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Implementation"
+msgstr "Implementare"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__implementation_stage
+msgid "Implementation stage"
+msgstr "Etapa implementare"
+
+#. module: deltatech_business_process
 #: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_from_process_import
 #: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_from_project_import
 msgid "Import Business Process"
@@ -1062,6 +1095,31 @@ msgstr "În desfășurare"
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_form
 msgid "In test"
 msgstr "În testare"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__include_approved_by
+msgid "Include Approved By?"
+msgstr "Includere aprobat de?"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__include_customer_responsible
+msgid "Include Customer Responsible?"
+msgstr "Includere responsabil client?"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__include_responsible
+msgid "Include Responsible?"
+msgstr "Includere responsabil?"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__include_support
+msgid "Include Support?"
+msgstr "Includere suport?"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__include_tests
+msgid "Include Tests in Export?"
+msgstr "Includere teste în export?"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__instructing_duration
@@ -1224,6 +1282,11 @@ msgid "Minor"
 msgstr "Minoră"
 
 #. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__module_type
+msgid "Module type"
+msgstr "Tip modul"
+
+#. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_transaction_filter
 msgid "More"
 msgstr "Mai multe"
@@ -1291,6 +1354,13 @@ msgstr "Sumarul următoarei activități"
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__activity_type_id
 msgid "Next Activity Type"
 msgstr "Tipul următoarei activități"
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/wizard/import_business_process.py:0
+#, python-format
+msgid "No project selected!"
+msgstr "Niciun proiect selectat!"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_step_test__feedback_state__not_ok
@@ -1578,7 +1648,7 @@ msgstr "Resetează la ciornă"
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_form
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_from
 msgid "Responsible"
-msgstr "Responsabil"
+msgstr "Responsabili"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__responsible_id
@@ -1601,6 +1671,11 @@ msgstr "Pas responsabil"
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__activity_user_id
 msgid "Responsible User"
 msgstr "Utilizator responsabil"
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Responsibles"
+msgstr "Responsabili"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__result
@@ -1627,6 +1702,16 @@ msgstr "Pornire"
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_project__state__running
 msgid "Running"
 msgstr "În desfășurare"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__message_has_sms_error
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__message_has_sms_error
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__message_has_sms_error
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__message_has_sms_error
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__message_has_sms_error
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Eroare trimitere SMS"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__scope
@@ -1735,7 +1820,7 @@ msgstr "Pornire test"
 #. module: deltatech_business_process
 #: model:ir.actions.server,name:deltatech_business_process.action_start_user_acceptance_test
 msgid "Start User Acceptance Test"
-msgstr "Pornire test acceptanței utilizatorului"
+msgstr "Pornire test acceptanță utilizator"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__date_start
@@ -1815,7 +1900,7 @@ msgstr "Stadiu test implementator"
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__status_user_acceptance_test
 msgid "Status user acceptance test"
-msgstr "Stadiu test acceptanțeii utilizatorului"
+msgstr "Stadiu test acceptanță utilizator"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__step_id
@@ -1838,6 +1923,11 @@ msgstr "Testare pas"
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_form
 msgid "Steps"
 msgstr "Pași"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__support_id
+msgid "Support"
+msgstr "Suport"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__team_member_ids
@@ -1870,15 +1960,68 @@ msgid "Tester"
 msgstr ""
 
 #. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_process_test.py:0
+#, python-format
+msgid "Testing %s"
+msgstr "Testare %s"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__testing_duration
+msgid "Testing duration"
+msgstr "Durata testare"
+
+#. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__test_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
 msgid "Tests"
 msgstr "Teste"
 
 #. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_issue.py:0
+#, python-format
+msgid ""
+"The field Closed Date is required, please complete it to change status to "
+"Closed"
+msgstr ""
+"Data închiderii este obligatorie, vă rugăm să o completați pentru a schimba "
+"in închis"
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_issue.py:0
+#, python-format
+msgid ""
+"The field Solution Date is required, please complete it to change status to "
+"Solved"
+msgstr ""
+"Data soluției este obligatorie, vă rugăm să o completați pentru a schimba în "
+"rezolvat"
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_issue.py:0
+#, python-format
+msgid ""
+"The field Solution is required, please complete it to change status to "
+"Solved"
+msgstr ""
+"Soluția este obligatorie, vă rugăm să o completați pentru a schimba în "
+"rezolvat"
+
+#. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
 msgid "The imported file:"
 msgstr "Fișiere importate"
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_issue.py:0
+#, python-format
+msgid "This test is completed."
+msgstr "Acest test este completat."
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__duration_for_completion
@@ -1931,7 +2074,7 @@ msgstr "Tipul activității excepționale înregistrate."
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test__scope__user_acceptance
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__scope__user_acceptance
 msgid "User Acceptance"
-msgstr "Acceptanța utilizatorului"
+msgstr "Acceptanță utilizator"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_from

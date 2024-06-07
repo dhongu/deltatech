@@ -29,7 +29,7 @@ class BusinessProcessTest(models.Model):
         domain="[('is_company', '=', False)]",
     )
     date_start = fields.Date(
-        string="Date start",
+        string="Date start", default=fields.Date.today
     )
     date_end = fields.Date(string="Date end")
     state = fields.Selection(
@@ -143,7 +143,13 @@ class BusinessProcessTest(models.Model):
         self.write({"state": "run"})
         self._add_followers()
         for test in self:
-            date_start = min(test.test_step_ids.mapped("date_start")) or fields.Date.today()
+            if not test.date_start:
+                test.date_start = fields.Date.today()
+            if not test.test_step_ids:
+                date_start = fields.Date.today()
+            else:
+                date_start = min(test.test_step_ids.mapped("date_start") or fields.Date.today())
+
             date_start = min(date_start, test.date_start or fields.Date.today())
             test_step_ids = test.test_step_ids.filtered(lambda x: not x.date_start)
             test_step_ids.write({"date_start": date_start})
@@ -163,7 +169,12 @@ class BusinessProcessTest(models.Model):
         self.ensure_one()
         self.write({"state": "done"})
         for test in self:
-            date_end = max(test.test_step_ids.mapped("date_end")) or fields.Date.today()
+            if not test.date_end:
+                test.date_start = fields.Date.today()
+            if not test.test_step_ids:
+                date_end = fields.Date.today()
+            else:
+                date_end = max(test.test_step_ids.mapped("date_end")) or fields.Date.today()
             date_end = max(date_end, test.date_end or fields.Date.today())
             test_step_ids = test.test_step_ids.filtered(lambda x: not x.date_end)
             test_step_ids.write({"date_end": date_end})
@@ -177,6 +188,19 @@ class BusinessProcessTest(models.Model):
                 test.process_id.write({"status_integration_test": "done"})
             elif test.scope == "user_acceptance":
                 test.process_id.write({"status_user_acceptance_test": "done"})
+
+        # verifica daca toate testele sunt done
+        for process in self.mapped("process_id"):
+            if (
+                process.status_internal_test == "done"
+                and process.status_integration_test == "done"
+                and process.status_user_acceptance_test == "done"
+            ):
+                process.write({"state": "ready"})
+            else:
+                tests = process.test_ids.filtered(lambda x: x.state != "done")
+                if not tests:
+                    process.write({"state": "ready"})
 
     def action_draft(self):
         self.ensure_one()
