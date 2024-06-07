@@ -126,7 +126,6 @@ class BusinessIssue(models.Model):
                 issue.name,
             )
 
-
     def _add_followers(self):
         for issue in self:
             followers = self.env["res.partner"]

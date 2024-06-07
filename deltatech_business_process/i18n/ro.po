@@ -445,7 +445,7 @@ msgstr "Durata configurare"
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__responsible_id
 msgid "Consultant"
-msgstr "Consultant"
+msgstr ""
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
@@ -456,7 +456,7 @@ msgstr "Contacte"
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__severity__cosmetic
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__severity__cosmetic
 msgid "Cosmetic"
-msgstr "Cosmetic"
+msgstr ""
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__count_developments
@@ -635,7 +635,7 @@ msgstr "Date"
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__category__defect
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__category__defect
 msgid "Defect"
-msgstr "Defect"
+msgstr ""
 
 #. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_project__state__deployment
@@ -875,7 +875,7 @@ msgstr "Export proces afaceri selectate"
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__transaction_type__ex
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_transaction__transaction_type__ex
 msgid "Extern"
-msgstr "Extern"
+msgstr ""
 
 #. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_step_test__result__failed
@@ -1997,8 +1997,8 @@ msgid ""
 "The field Solution Date is required, please complete it to change status to "
 "Solved"
 msgstr ""
-"Data soluției este obligatorie, vă rugăm să o completați pentru a schimba în "
-"rezolvat"
+"Data soluției este obligatorie, vă rugăm să o completați pentru a schimba în"
+" rezolvat"
 
 #. module: deltatech_business_process
 #. odoo-python

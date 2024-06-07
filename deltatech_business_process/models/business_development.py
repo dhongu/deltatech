@@ -95,4 +95,3 @@ class BusinessDevelopment(models.Model):
                 development.code and "[%s] " % development.code or "",
                 development.name,
             )
-

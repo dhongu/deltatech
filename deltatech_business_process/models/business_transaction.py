@@ -28,4 +28,3 @@ class BusinessTransaction(models.Model):
             transaction.display_name = "{}{}".format(
                 transaction.code and "[%s] " % transaction.code or "", transaction.name
             )
-

@@ -36,12 +36,9 @@ class DeltatechDC(models.Model):
     company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)
 
     def _compute_display_name(self):
-        result = []
-        for line in self:
-            name = (line.product_id.name or "") + " (" + (line.name or "") + "/" + (str(line.date) or "") + ")"
-            result.append((line.id, name))
+        for dc in self:
+            dc.display_name = dc.product_id + " (" + dc.name + "/" + dc.date + ")"
 
-        return result
 
     @api.model
     def create(self, vals):

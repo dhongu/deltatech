@@ -172,11 +172,7 @@ class BusinessProcess(models.Model):
 
     def _compute_display_name(self):
         for process in self:
-            process.display_name = "{}{}".format(
-                process.code and "[%s] " % process.code or "", process.name
-            )
-
-
+            process.display_name = "{}{}".format(process.code and "[%s] " % process.code or "", process.name)
 
     def _compute_developments(self):
         for process in self:

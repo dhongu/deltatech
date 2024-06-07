@@ -28,9 +28,7 @@ class BusinessProcessTest(models.Model):
         comodel_name="res.partner",
         domain="[('is_company', '=', False)]",
     )
-    date_start = fields.Date(
-        string="Date start", default=fields.Date.today
-    )
+    date_start = fields.Date(string="Date start", default=fields.Date.today)
     date_end = fields.Date(string="Date end")
     state = fields.Selection(
         [("draft", "Draft"), ("run", "Run"), ("wait", "Waiting"), ("done", "Done")],

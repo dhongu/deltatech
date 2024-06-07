@@ -110,11 +110,7 @@ class MaintenanceOperation(models.Model):
     duration = fields.Float(string="Duration")
     display_name = fields.Char(compute="_compute_display_name")
 
-    def _compute_display_name(self):
-        result = []
-        for record in self:
-            result.append((record.id, self.display_name))
-        return result
+
 
     @api.depends("name", "code")  # this definition is recursive
     def _compute_display_name(self):
