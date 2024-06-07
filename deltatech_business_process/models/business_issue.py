@@ -120,8 +120,12 @@ class BusinessIssue(models.Model):
         return result
 
     def _compute_display_name(self):
-        self.browse(self.ids).read(["name", "code"])
-        return [(item.id, "{}{}".format(item.code and "[%s] " % item.code or "", item.name)) for item in self]
+        for issue in self:
+            issue.display_name = "{}{}".format(
+                issue.code and "[%s] " % issue.code or "",
+                issue.name,
+            )
+
 
     def _add_followers(self):
         for issue in self:

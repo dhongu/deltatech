@@ -69,5 +69,7 @@ class BusinessProcessStep(models.Model):
         return result
 
     def _compute_display_name(self):
-        self.browse(self.ids).read(["name", "code"])
-        return [(step.id, "{}{}".format(step.code and "[%s] " % step.code or "", step.name)) for step in self]
+        for step in self:
+            step.display_name = "{}{}".format(
+                step.code and "[%s] " % step.code or "", step.name
+            )

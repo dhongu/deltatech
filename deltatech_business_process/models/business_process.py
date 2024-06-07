@@ -171,14 +171,12 @@ class BusinessProcess(models.Model):
         return result
 
     def _compute_display_name(self):
-        self.browse(self.ids).read(["name", "code"])
-        return [
-            (
-                process.id,
-                "{}{}".format(process.code and "[%s] " % process.code or "", process.name),
+        for process in self:
+            process.display_name = "{}{}".format(
+                process.code and "[%s] " % process.code or "", process.name
             )
-            for process in self
-        ]
+
+
 
     def _compute_developments(self):
         for process in self:

@@ -51,14 +51,11 @@ class BusinessProject(models.Model):
         return result
 
     def _compute_display_name(self):
-        self.browse(self.ids).read(["name", "code"])
-        return [
-            (
-                project.id,
-                "{}{}".format(project.code and "[%s] " % project.code or "", project.name),
+        for project in self:
+            project.display_name = "{}{}".format(
+                project.code and "[%s] " % project.code or "", project.name
             )
-            for project in self
-        ]
+
 
     def _compute_count_processes(self):
         for project in self:

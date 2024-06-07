@@ -24,11 +24,8 @@ class BusinessTransaction(models.Model):
     )
 
     def _compute_display_name(self):
-        self.browse(self.ids).read(["name", "code"])
-        return [
-            (
-                process.id,
-                "{}{}".format(process.code and "[%s] " % process.code or "", process.name),
+        for transaction in self:
+            transaction.display_name = "{}{}".format(
+                transaction.code and "[%s] " % transaction.code or "", transaction.name
             )
-            for process in self
-        ]
+

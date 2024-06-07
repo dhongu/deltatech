@@ -90,14 +90,9 @@ class BusinessDevelopment(models.Model):
         return result
 
     def _compute_display_name(self):
-        self.browse(self.ids).read(["name", "code"])
-        return [
-            (
-                development.id,
-                "{}{}".format(
-                    development.code and "[%s] " % development.code or "",
-                    development.name,
-                ),
+        for development in self:
+            development.display_name = "{}{}".format(
+                development.code and "[%s] " % development.code or "",
+                development.name,
             )
-            for development in self
-        ]
+

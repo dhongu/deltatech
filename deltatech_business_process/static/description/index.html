@@ -371,10 +371,20 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="https://www.odoo.com/documentation/master/legal/licenses.html"><img alt="License: OPL-1" src="https://img.shields.io/badge/licence-OPL--1-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/17.0/deltatech_business_process"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
 <ul class="simple">
-<li>Features:<ul>
-<li></li>
-</ul>
-</li>
+<li>Features:</li>
+<li>Adds the app “Business Process” to the menu</li>
+<li>Can create projects for different purposes</li>
+<li>For each project, you can create processes with steps</li>
+<li>For each process you can generate tests to be executed by the users</li>
+<li>Permits export(From business process list view action menu) with
+different options(tests, responsible, customer, support) as JSON</li>
+<li>Can import the JSON file on the Project form action menu</li>
+<li>Can crate Zones that serves as category for each business process</li>
+<li><em>IMPORTANT!</em> when importing/exporting make sure the name for the
+responsible/customer responsible/support are the same in <em>BOTH</em>
+databases or the import will create duplicate contacts(if one contact
+is missing in the second DB it will pe created with the name from the
+first)</li>
 </ul>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">

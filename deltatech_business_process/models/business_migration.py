@@ -34,14 +34,11 @@ class BusinessMigration(models.Model):
     migrate_date = fields.Date(string="Migrate Date")
 
     def _compute_display_name(self):
-        self.browse(self.ids).read(["name", "code"])
-        return [
-            (
-                process.id,
-                "{}{}".format(process.code and "[%s] " % process.code or "", process.name),
+        for migration in self:
+            migration.display_name = "{}{}".format(
+                migration.code and "[%s] " % migration.code or "", migration.name
             )
-            for process in self
-        ]
+
 
 
 class BusinessMigrationTest(models.Model):
