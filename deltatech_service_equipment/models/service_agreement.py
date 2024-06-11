@@ -133,7 +133,10 @@ class ServiceAgreementLine(models.Model):
             equipment = self.equipment_id
 
             # use installation_date if more recent
-            if self.equipment_id.installation_date > consumption.agreement_id.date_agreement:
+            if (
+                self.equipment_id.installation_date
+                and self.equipment_id.installation_date > consumption.agreement_id.date_agreement
+            ):
                 de_la_data = self.equipment_id.installation_date
             else:
                 de_la_data = consumption.agreement_id.date_agreement
