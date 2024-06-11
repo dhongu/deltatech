@@ -131,7 +131,13 @@ class ServiceAgreementLine(models.Model):
         if self.equipment_id:
             meter = self.meter_id
             equipment = self.equipment_id
-            de_la_data = consumption.agreement_id.date_agreement  # si eventual de pus data de instalare
+            if (
+                self.equipment_id.installation_date
+                and self.equipment_id.installation_date > consumption.agreement_id.date_agreement
+            ):
+                de_la_data = self.equipment_id.installation_date
+            else:
+                de_la_data = consumption.agreement_id.date_agreement
             if meter:
                 # se citesc inregistrarile la care a fost generat cosnumul
                 readings = meter.meter_reading_ids.filtered(lambda r: r.consumption_id)
