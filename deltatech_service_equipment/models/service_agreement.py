@@ -135,7 +135,10 @@ class ServiceAgreementLine(models.Model):
         if self.equipment_id:
             meter = self.meter_id
             equipment = self.equipment_id
-            if self.equipment_id.installation_date > consumption.agreement_id.date_agreement:
+            if (
+                self.equipment_id.installation_date
+                and self.equipment_id.installation_date > consumption.agreement_id.date_agreement
+            ):
                 de_la_data = self.equipment_id.installation_date
             else:
                 de_la_data = consumption.agreement_id.date_agreement
