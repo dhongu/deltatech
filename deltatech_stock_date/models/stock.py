@@ -3,9 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-
 from odoo import fields, models
-
 
 
 class StockPicking(models.Model):
@@ -18,7 +16,6 @@ class StockPicking(models.Model):
         copy=False,
     )
     force_current_date = fields.Boolean(related="picking_type_id.force_current_date")
-
 
 
 class StockPickingType(models.Model):

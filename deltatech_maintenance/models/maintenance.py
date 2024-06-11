@@ -110,8 +110,6 @@ class MaintenanceOperation(models.Model):
     duration = fields.Float(string="Duration")
     display_name = fields.Char(compute="_compute_display_name")
 
-
-
     @api.depends("name", "code")  # this definition is recursive
     def _compute_display_name(self):
         for operation in self:
