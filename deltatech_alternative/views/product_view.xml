@@ -11,7 +11,7 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <field name="name" position="after">
-                    <field name="alternative_ids" filter_domain="[('alternative_ids.name', 'like', self)]" />
+                    <field name="alternative_ids" />
                     <field
                         name="variant_seller_ids"
                         string="Vendor Code"
