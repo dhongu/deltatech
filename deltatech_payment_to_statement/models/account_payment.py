@@ -48,7 +48,7 @@ class AccountPayment(models.Model):
         # force cash in/out sequence
         for payment in self:
             if (
-                (not payment.name or payment.name == "/" or payment.name == _("New"))
+                (not payment.name or payment.name == "/")
                 and payment.partner_type == "customer"
                 and payment.journal_id.type == "cash"
             ):
@@ -65,7 +65,7 @@ class AccountPayment(models.Model):
                 if payment.journal_id.supplier_cash_out_sequence_id:
                     payment.name = payment.journal_id.supplier_cash_out_sequence_id.next_by_id()
             if (
-                (not payment.name or payment.name == "/" or payment.name == _("New"))
+                (not payment.name or payment.name == "/")
                 and payment.journal_id.type != "cash"
                 and payment.journal_id.journal_sequence_id
             ):
@@ -121,7 +121,7 @@ class AccountPayment(models.Model):
     def unlink(self):
         # deleting a payment with number should be forbidden, as the name is not computed anymore
         for payment in self:
-            if payment.name != _("New") and payment.name != "/" and not self._context.get("force_delete"):
+            if payment.name != "/" and not self._context.get("force_delete"):
                 raise UserError(_("You cannot delete this entry, as it has already consumed a sequence number"))
         statement_line_ids = self.env["account.bank.statement.line"]
         for payment in self:
