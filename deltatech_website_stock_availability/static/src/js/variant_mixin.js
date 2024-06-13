@@ -4,8 +4,15 @@ odoo.define("deltatech_website_stock_availability.VariantMixin", function (requi
     var VariantMixin = require("sale.VariantMixin");
     var publicWidget = require("web.public.widget");
 
+    var ajax = require("web.ajax");
     var core = require("web.core");
     var QWeb = core.qweb;
+    const loadXml = async () => {
+        return ajax.loadXML(
+            "/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml",
+            QWeb
+        );
+    };
 
     require("website_sale.website_sale");
 
@@ -30,15 +37,14 @@ odoo.define("deltatech_website_stock_availability.VariantMixin", function (requi
         const qty = $addQtyInput.val();
         combination.selected_qty = qty;
 
-        $(".oe_website_sale")
-            .find(".lead_time_messages_" + combination.product_template)
-            .remove();
-        const $message = $(QWeb.render("deltatech_website_stock_availability.lead_time", combination));
+        loadXml().then(function () {
+            $(".oe_website_sale")
+                .find(".lead_time_messages_" + combination.product_template)
+                .remove();
+            const $message = $(QWeb.render("deltatech_website_stock_availability.lead_time", combination));
 
-        $("div.lead_time_messages").html($message);
-        // LoadXml().then(function () {
-        //
-        // });
+            $("div.lead_time_messages").html($message);
+        });
     };
 
     publicWidget.registry.WebsiteSale.include({
