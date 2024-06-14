@@ -91,6 +91,7 @@ addon | version | maintainers | summary | price
 [deltatech_purchase_discount](deltatech_purchase_discount/) | 14.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Discount in purchase order line | Free 
 [deltatech_purchase_picking_status](deltatech_purchase_picking_status/) | 14.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Get purchase status from pickings | Free 
 [deltatech_purchase_price](deltatech_purchase_price/) | 14.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Update vendor price after reception | Free 
+[deltatech_purchase_price_history](deltatech_purchase_price_history/) | 14.0.0.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | View minim, maxim and average purchase price from the last 12 months in product template | Free 
 [deltatech_purchase_xls](deltatech_purchase_xls/) | 14.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Import/export purchase line from/to Excel | Free 
 [deltatech_queue_job](deltatech_queue_job/) | 14.0.2.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Queue Job using Crone | Free 
 [deltatech_reception_note](deltatech_reception_note/) | 14.0.0.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Batch reception note | Free 
