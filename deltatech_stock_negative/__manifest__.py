@@ -4,7 +4,7 @@
 {
     "name": "No Negative Stock",
     "summary": "Negative stocks are not allowed",
-    "version": "17.0.2.0.2",
+    "version": "17.0.2.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Stock",
