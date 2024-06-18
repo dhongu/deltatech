@@ -76,8 +76,9 @@ class SupplierInfo(models.Model):
     def update_last_purchase_price(self):
         date = self._context.get("date") or fields.Date.today()
         for item in self:
-            from_uom = item.product_uom or item.product_tmpl_id.uom_id
-            to_uom = item.product_tmpl_id.uom_id
+            product_tmpl = item.product_tmpl_id or item.product_id.product_tmpl_id
+            from_uom = item.product_uom or product_tmpl.uom_id
+            to_uom = product_tmpl.uom_id
             if not from_uom or not to_uom:
                 raise UserError(
                     _("You cannot update the supplier price here. Please edit the supplier info separately")
@@ -89,8 +90,8 @@ class SupplierInfo(models.Model):
                 company = self.env.user.company_id
                 price = item.currency_id._convert(price, to_currency, company, date)
             if price:
-                item.product_tmpl_id.last_purchase_price = price
-                item.product_tmpl_id.onchange_last_purchase_price()
+                product_tmpl.last_purchase_price = price
+                product_tmpl.onchange_last_purchase_price()
 
     def write(self, vals):
         res = super().write(vals)
