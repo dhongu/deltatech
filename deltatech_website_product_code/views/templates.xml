@@ -10,7 +10,7 @@
         >
             <xpath expr="//div[@itemprop='offers']" position="before">
                 <div t-if="product.default_code">
-                    <span itemprop="productID" t-field="product.default_code" class="text-muted" />
+                    <span itemprop="productID" t-field="product.default_code" class="text-muted me-2" />
                 </div>
             </xpath>
         </template>

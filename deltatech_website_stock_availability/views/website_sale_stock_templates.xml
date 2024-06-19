@@ -49,7 +49,9 @@
     <template
         id="cart_summary_website_sale_stock_product_lead_time"
         inherit_id="website_sale.cart_summary"
-        name="Lead_time"
+        name="Lead time"
+        active="False"
+        customize_show="True"
     >
         <xpath expr="//td[hasclass('td-product_name')]/div/strong" position="after">
             <xpath expr="//div" position="after">
