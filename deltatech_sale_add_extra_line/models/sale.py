@@ -64,7 +64,7 @@ class SaleOrderLine(models.Model):
                 if not extra_line_id:
                     new_uuid = str(uuid.uuid4())
                     values = {
-                        "product_uom_qty": line.product_uom_qty,
+                        "product_uom_qty": line.product_uom_qty * (line.product_id.extra_qty or 1.0),
                         "product_id": line.product_id.extra_product_id.id,
                         "state": "draft",
                         "order_id": self.order_id.id,
@@ -80,7 +80,7 @@ class SaleOrderLine(models.Model):
                     extra_line_id.product_uom_change()
                     line.line_uuid = new_uuid
 
-                extra_line_id.product_uom_qty = line.product_uom_qty
+                extra_line_id.product_uom_qty = line.product_uom_qty * (line.product_id.extra_qty or 1.0)
                 if line.product_id.extra_percent:
                     extra_line_id.price_unit = line.price_unit * (line.product_id.extra_percent or 0.0) / 100.0
                 else:
