@@ -11,3 +11,4 @@ class ProductTemplate(models.Model):
 
     extra_product_id = fields.Many2one("product.product")
     extra_percent = fields.Float()
+    extra_qty = fields.Float(default=1.0)
