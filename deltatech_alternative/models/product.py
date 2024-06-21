@@ -70,7 +70,7 @@ class ProductTemplate(models.Model):
         if name and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
             domain = [("search_index", operator, name)]
 
-            if len(name) <= safe_eval(get_param("alternative.length_min", "3")):
+            if len(name) < safe_eval(get_param("alternative.length_min", "3")):
                 return 0
             positive_operators = ["ilike", "=ilike", "like", "=like"]
             if operator in positive_operators:
@@ -134,7 +134,7 @@ class ProductProduct(models.Model):
         positive_operators = ["ilike", "=ilike", "like", "=like"]
         if name and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
             domain = [("search_index", operator, name)]
-            if len(name) <= safe_eval(get_param("alternative.length_min", "3")):
+            if len(name) < safe_eval(get_param("alternative.length_min", "3")):
                 return 0
 
             if operator in positive_operators:
