@@ -12,3 +12,5 @@ from . import service_location
 from . import service_equipment
 from . import stock
 from . import service_work_center
+from . import service_warranty
+from . import res_config_settings
