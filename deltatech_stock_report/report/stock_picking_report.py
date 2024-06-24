@@ -45,11 +45,11 @@ class StockPickingReport(models.Model):
             SELECT min(sm.id) as id, sp.id as picking_id,
             sp.partner_id, rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date,  sp.company_id,
             pt.categ_id, sm.product_id,  pt.uom_id as product_uom,
-            sm.location_id,sm.location_dest_id,
-            sum(sm.product_qty) as product_qty,
+            sm.location_id,sm.location_dest_id, sl.usage as dest_usage,
+            CASE WHEN sl.usage='internal' THEN sum(sm.product_qty) ELSE -1*sum(sm.product_qty) END as product_qty,
 
             COALESCE(abs(SUM(svl.value)/COALESCE(sum(sm.product_qty),1)), avg(sm.price_unit)) as price,
-            COALESCE(abs(SUM(svl.value)),sum(sm.product_qty*sm.price_unit)) as amount
+            COALESCE((SUM(svl.value)),sum(sm.product_qty*sm.price_unit)) as amount
         """
         return select_str
 
@@ -70,7 +70,7 @@ class StockPickingReport(models.Model):
            */
             LEFT JOIN product_product as pp ON  sm.product_id = pp.id
             LEFT JOIN product_template as pt ON  pp.product_tmpl_id = pt.id
-
+            LEFT JOIN stock_location sl on sm.location_dest_id = sl.id
         """
         return from_str
 
@@ -79,7 +79,7 @@ class StockPickingReport(models.Model):
             GROUP BY sp.id, sp.partner_id,rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date,
             sp.company_id,
             pt.categ_id, sm.product_id,  pt.uom_id ,
-            sm.location_id,sm.location_dest_id
+            sm.location_id,sm.location_dest_id, sl.usage
         """
         return group_by_str
 
