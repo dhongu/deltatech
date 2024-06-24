@@ -50,3 +50,14 @@ class TestServiceNotification(TestServiceBase):
 
         picking = sale_order.picking_ids
         picking.action_assign()
+
+    def test_create_warranty(self):
+        notification = Form(self.env["service.warranty"])
+        notification.user_id = self.user_demo
+        notification.partner_id = self.partner
+        notification = notification.save()
+
+        notification.set_assigned()
+        notification.set_in_progress()
+        notification.new_delivery_button()
+        notification.request_approval()
