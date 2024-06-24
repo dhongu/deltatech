@@ -155,7 +155,7 @@ addon | version | maintainers | summary | price
 [deltatech_stock_inventory](deltatech_stock_inventory/) | 15.0.2.3.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Inventory Old Method | Free 
 [deltatech_stock_location](deltatech_stock_location/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generate route, picking operation for location | Free 
 [deltatech_stock_negative](deltatech_stock_negative/) | 15.0.2.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Negative stocks are not allowed | Free 
-[deltatech_stock_report](deltatech_stock_report/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report with positions from picking lists | Free 
+[deltatech_stock_report](deltatech_stock_report/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report with positions from picking lists | Free 
 [deltatech_stock_reseller](deltatech_stock_reseller/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report report reseller | Free 
 [deltatech_stock_sn](deltatech_stock_sn/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Stock Serial Number | Free 
 [deltatech_test_system](deltatech_test_system/) | 15.0.0.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Utils | Free 
