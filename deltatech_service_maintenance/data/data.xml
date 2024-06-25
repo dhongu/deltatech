@@ -18,6 +18,14 @@
             <field name="number_next">1</field>
             <field name="number_increment">1</field>
         </record>
+        <record id="sequence_warranty" model="ir.sequence">
+            <field name="name">Warranty</field>
+            <field name="code">service.warranty</field>
+            <field name="prefix">W/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
 
     </data>
     <data noupdate="1">
