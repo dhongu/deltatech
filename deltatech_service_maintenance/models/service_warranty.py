@@ -15,7 +15,7 @@ class ServiceWarranty(models.Model):
     _description = "Warranty"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(string="Reference", readonly=True, index=True, default="/")
+    name = fields.Char(string="Reference", readonly=True, index=True, default="/", copy=False)
     date = fields.Datetime(
         string="Date", default=fields.Date.context_today, readonly=True, states={"new": [("readonly", False)]}
     )
@@ -38,7 +38,7 @@ class ServiceWarranty(models.Model):
     partner_id = fields.Many2one("res.partner", string="Customer")
     user_id = fields.Many2one("res.users", string="Responsible")
     description = fields.Text("Notes", readonly=False, states={"done": [("readonly", True)]})
-    picking_id = fields.Many2one("stock.picking", string="Consumables")
+    picking_id = fields.Many2one("stock.picking", string="Consumables", copy=False)
     sale_order_id = fields.Many2one("sale.order", string="Sale Order")
     invoice_id = fields.Many2one("account.move", string="Invoice")
     item_ids = fields.One2many(
@@ -122,7 +122,7 @@ class ServiceWarranty(models.Model):
                     "price_unit": item.product_id.standard_price,
                 }
                 context["default_move_ids_without_package"] += [(0, 0, value)]
-                context["warranty_id"] = self.id
+        context["warranty_id"] = self.id
         return {
             "name": _("Delivery for warranty"),
             "view_type": "form",
