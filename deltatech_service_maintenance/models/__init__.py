@@ -9,3 +9,5 @@ from . import required_product
 from . import sale
 from . import service_equipment
 from . import stock
+from . import res_config_settings
+from . import service_warranty
