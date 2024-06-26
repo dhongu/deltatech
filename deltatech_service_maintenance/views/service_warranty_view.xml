@@ -36,7 +36,7 @@
                         type="object"
                         class="oe_highlight"
                         string="New transfer"
-                        attrs="{'invisible': ['|', ('state','!=','progress'), ('picking_id', '!=', False)]}"
+                        attrs="{'invisible': ['|', ('state','!=','approved'), ('picking_id', '!=', False)]}"
                     />
                     <button
                         name="set_new"
@@ -57,7 +57,7 @@
                         type="object"
                         class="oe_highlight"
                         string="Request approval"
-                        attrs="{'invisible': ['|', ('state','!=','progress'), ('picking_id', '=', False)]}"
+                        attrs="{'invisible': [('state','!=','progress')]}"
                     />
                     <button
                         name="approve"
