@@ -212,7 +212,7 @@ class DeltatechExpensesDeduction(models.Model):
             # if statement_lines:
             #     statement_lines.unlink()
             # expenses.payment_ids.write({"move_name": False, "state": "draft"})
-            expenses.payment_ids.unlink()
+            expenses.payment_ids.with_context(force_delete=True).unlink()
             expenses.voucher_ids.with_context(force_delete=True).unlink()
 
             # anulare postare chitante.
