@@ -10,7 +10,7 @@ class ProductProduct(models.Model):
     def create_rule(self):
         for record in self:
             rules = record.env["stock.warehouse.orderpoint"].search([("product_id", "=", record.id)])
-            if not rules and record.type == "product":
+            if not rules and record.type == "consu" and record.is_storable == True:
                 record.env["stock.warehouse.orderpoint"].create(
                     {
                         "product_id": record.id,

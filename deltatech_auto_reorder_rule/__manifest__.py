@@ -5,7 +5,7 @@
     "name": "Deltatech Auto Reorder Rule",
     "category": "Stock",
     "summary": "Auto create reorder rule",
-    "version": "17.0.0.0.1",
+    "version": "17.4.0.0.1",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
