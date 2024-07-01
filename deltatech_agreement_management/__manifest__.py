@@ -4,7 +4,7 @@
 {
     "name": "Agreement Management",
     "summary": "Manage agreements numbers, date, state",
-    "version": "17.0.0.0.3",
+    "version": "17.4.0.0.3",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Services/Agreement",
