@@ -1,0 +1,46 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_account_restrict_date
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-06-09 10:38+0000\n"
+"PO-Revision-Date: 2022-06-09 10:38+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_account_restrict_date
+#: model:ir.model,name:deltatech_account_restrict_date.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Linie extras bacă"
+
+#. module: deltatech_account_restrict_date
+#: model:ir.model.fields,field_description:deltatech_account_restrict_date.field_account_bank_statement_line__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_account_restrict_date
+#: model:ir.model.fields,field_description:deltatech_account_restrict_date.field_account_bank_statement_line__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_account_restrict_date
+#: model:ir.model.fields,field_description:deltatech_account_restrict_date.field_account_bank_statement_line____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_account_restrict_date
+#: code:addons/deltatech_account_restrict_date/models/account_bank_statement.py:0
+#, python-format
+msgid ""
+"You cannot perform this operation on this line (date restriction). Please "
+"contact your support team."
+msgstr ""
+"Această operație nu poate fi efectuată (restricție dată). Vă rugăm să "
+"contactați echipa de asistență."
