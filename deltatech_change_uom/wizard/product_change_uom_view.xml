@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_product_change_uom_form" model="ir.ui.view">
+        <field name="name">Change invoice number</field>
+        <field name="model">product.change.uom</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="uom_id" />
+                    <field name="uom_po_id" />
+                </group>
+                <footer>
+                    <button name="do_change" string="Apply" type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_product_change_uom" model="ir.actions.act_window">
+        <field name="name">Change Uom</field>
+        <field name="res_model">product.change.uom</field>
+        <field name="binding_model_id" ref="product.model_product_template" />
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+<!--        <field name="groups_id" eval="[(4, ref('deltatech_change_uom.group_change_uom'))]" />-->
+    </record>
+
+</odoo>
