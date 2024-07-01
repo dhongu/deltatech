@@ -1,0 +1,93 @@
+<?xml version="1.0" ?>
+<odoo>
+
+        <record id="view_product_catalog_tree" model="ir.ui.view">
+            <field name="name">Product Catalog</field>
+            <field name="model">product.catalog</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code" />
+                    <field name="code_new" />
+                    <field name="name" />
+                    <field name="list_price" />
+                    <field name="categ_id" />
+                    <field name="product_id" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_product_catalog_form" model="ir.ui.view">
+            <field name="name">Product Catalog</field>
+            <field name="model">product.catalog</field>
+            <field name="arch" type="xml">
+                <form string="Product Catalog">
+                    <header>
+                        <button name="create_product" string="Create Product" type="object" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code" />
+                                <field name="code_new" />
+                                <field name="name" />
+                            </group>
+                            <group>
+                                <field name="categ_id" />
+                                <field name="product_id" />
+                                <field name="alternative_code" />
+                                <field name="barcode" />
+                            </group>
+                            <group>
+                                <field
+                                name="purchase_price"
+                                widget="monetary"
+                                options="{'currency_field': 'list_price_currency_id'}"
+                            />
+                                <field name="purchase_delay" />
+                                <field name="supplier_id" />
+                            </group>
+                            <group>
+                                <field
+                                name="list_price"
+                                widget="monetary"
+                                options="{'currency_field': 'list_price_currency_id'}"
+                            />
+                                <field name="sale_delay" />
+                                <field name="list_price_currency_id" />
+                            </group>
+                            <group>
+
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_product_catalog_filter" model="ir.ui.view">
+            <field name="name">product.catalog.select</field>
+            <field name="model">product.catalog</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="code" />
+                    <field name="code_new" />
+                    <field name="categ_id" filter_domain="[('categ_id', 'child_of', self)]" />
+                    <filter name="categ" string="Category" domain="[]" context="{'group_by' : 'categ_id'}" />
+                </search>
+            </field>
+        </record>
+        <record id="action_product_catalog" model="ir.actions.act_window">
+            <field name="name">Product Catalog</field>
+            <field name="res_model">product.catalog</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+        name="Product Catalog"
+        id="menu_product_catalog"
+        action="action_product_catalog"
+        parent="stock.menu_stock_inventory_control"
+        sequence="102"
+    />
+
+
+
+</odoo>

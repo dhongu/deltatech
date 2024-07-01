@@ -1,0 +1,284 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_alternative
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-02-04 06:34+0000\n"
+"PO-Revision-Date: 2023-02-04 06:34+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_alternative.product_template_form_view
+msgid "Alternative"
+msgstr ""
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__alternative_code
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_product__alternative_code
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_template__alternative_code
+#: model:ir.model.fields,field_description:deltatech_alternative.field_purchase_order_line__alternative_code
+#: model:ir.model.fields,field_description:deltatech_alternative.field_sale_order_line__alternative_code
+#: model:ir.model.fields,field_description:deltatech_alternative.field_stock_move__alternative_code
+#: model:ir.model.fields,field_description:deltatech_alternative.field_stock_move_line__alternative_code
+msgid "Alternative Code"
+msgstr "Cod alternativ"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_res_config_settings__alternative_limit
+msgid "Alternative Limit"
+msgstr "Limită alternativă"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_res_config_settings__alternative_search
+msgid "Alternative Search"
+msgstr "Căutare alternativă"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_product__alternative_ids
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_template__alternative_ids
+msgid "Alternatives"
+msgstr "Alternative"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__barcode
+msgid "Barcode"
+msgstr "Cod de bare"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_res_config_settings__catalog_search
+msgid "Catalog Search"
+msgstr "Căutare catalog"
+
+#. module: deltatech_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_alternative.view_product_catalog_filter
+msgid "Category"
+msgstr "Categorie"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_alternative__name
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__code
+msgid "Code"
+msgstr "Cod"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__code_new
+msgid "Code New"
+msgstr "Cod nou"
+
+#. module: deltatech_alternative
+#: model:ir.model.constraint,message:deltatech_alternative.constraint_product_catalog_code_uniq
+msgid "Code must be unique !"
+msgstr "Codul trebuie să fie unic!"
+
+#. module: deltatech_alternative
+#: model:ir.model,name:deltatech_alternative.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_alternative.view_product_catalog_form
+msgid "Create Product"
+msgstr "Creați produs"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_alternative__create_uid
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_alternative__create_date
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__list_price_currency_id
+msgid "Currency List Price"
+msgstr "Moneda prețului de listă"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,help:deltatech_alternative.field_product_catalog__list_price_currency_id
+msgid "Currency for list price."
+msgstr "Moneda pentru prețul de listă."
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_alternative__display_name
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_alternative
+#: model:ir.model,name:deltatech_alternative.model_product_catalog
+msgid "Extensive Product Catalog"
+msgstr "Catalog produs extins"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_alternative__hide
+msgid "Hide"
+msgstr "Ascuns"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_alternative__id
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__categ_id
+msgid "Internal Category"
+msgstr "Categorie internă"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_alternative____last_update
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_alternative__write_uid
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_alternative__write_date
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_res_config_settings__alternative_length_min
+msgid "Mimim Length"
+msgstr "Lungime minimă"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_alternative
+#: model:ir.model,name:deltatech_alternative.model_product_product
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__product_id
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_alternative.product_alternative_form_view
+#: model_terms:ir.ui.view,arch_db:deltatech_alternative.product_alternative_tree_view
+#: model_terms:ir.ui.view,arch_db:deltatech_alternative.product_template_form_view
+msgid "Product Alternatives"
+msgstr "Produse alternative"
+
+#. module: deltatech_alternative
+#: model:ir.actions.act_window,name:deltatech_alternative.action_product_catalog
+#: model:ir.ui.menu,name:deltatech_alternative.menu_product_catalog
+#: model_terms:ir.ui.view,arch_db:deltatech_alternative.view_product_catalog_form
+#: model_terms:ir.ui.view,arch_db:deltatech_alternative.view_product_catalog_tree
+msgid "Product Catalog"
+msgstr "Catalog produse"
+
+#. module: deltatech_alternative
+#: model:ir.model,name:deltatech_alternative.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr "Mișcări de produs (linie mișcare stoc)"
+
+#. module: deltatech_alternative
+#: model:ir.model,name:deltatech_alternative.model_product_template
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_alternative__product_tmpl_id
+msgid "Product Template"
+msgstr "Șablon produs"
+
+#. module: deltatech_alternative
+#: model:ir.model,name:deltatech_alternative.model_product_alternative
+msgid "Product alternative"
+msgstr "Produs alternativ"
+
+#. module: deltatech_alternative
+#: model:ir.model,name:deltatech_alternative.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Linie comandă de achiziție"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__purchase_price
+msgid "Purchase Price"
+msgstr "Preț achiziție"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__purchase_delay
+msgid "Purchase delay"
+msgstr "Interval achiziție"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__list_price
+msgid "Sale Price"
+msgstr "Preț vânzare"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__sale_delay
+msgid "Sale delay"
+msgstr "Interval vânzare"
+
+#. module: deltatech_alternative
+#: model:ir.model,name:deltatech_alternative.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linie comandă vânzare"
+
+#. module: deltatech_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_alternative.view_product_catalog_filter
+msgid "Search"
+msgstr "Caută"
+
+#. module: deltatech_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_alternative.res_config_settings_view_form
+msgid "Search for alternative products by searching in product name."
+msgstr "Caută produse alternative prin căutarea în numele produsului."
+
+#. module: deltatech_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_alternative.res_config_settings_view_form
+msgid "Search for products in the extensive product catalog."
+msgstr "Caută produse în catalogul extins de produse."
+
+#. module: deltatech_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_alternative.res_config_settings_view_form
+msgid "Search limit for alternative products."
+msgstr "Limită de căutare pentru produse alternative."
+
+#. module: deltatech_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_alternative.res_config_settings_view_form
+msgid "Search minim length code  ."
+msgstr "Lungime minimă de căutare a codului."
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,help:deltatech_alternative.field_product_catalog__categ_id
+msgid "Select category for the current product"
+msgstr "Selectați categoria pentru produsul curent"
+
+#. module: deltatech_alternative
+#: model:ir.model,name:deltatech_alternative.model_stock_move
+msgid "Stock Move"
+msgstr "Mișcare stoc"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_catalog__supplier_id
+msgid "Supplier"
+msgstr "Furnizor"
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_product__used_for
+#: model:ir.model.fields,field_description:deltatech_alternative.field_product_template__used_for
+msgid "Used For"
+msgstr "Utilizat la"
+
+#. module: deltatech_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_alternative.product_alternative_search_form_view
+msgid "Vendor Code"
+msgstr "Cod furnizor"
