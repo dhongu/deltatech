@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_invoice_form_inherit" model="ir.ui.view">
+        <field name="name">account.line.color</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='company_id']" position="after">
+                <field name="color_trigger" invisible="1" />
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
+                <attribute name="decoration-danger">color_trigger == 'danger'</attribute>
+                <attribute name="decoration-warning">color_trigger == 'warning'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="color_triggered" invisible="1" />
+            </xpath>
+            <header position="after">
+                <div
+                    class="alert alert-danger"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    invisible="color_triggered==False"
+                >
+                    <span>Careful! Invoice integration requires user intervention!</span>
+                </div>
+            </header>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,51 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_invoice_color
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-07 14:32+0000\n"
+"PO-Revision-Date: 2024-01-07 14:32+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_invoice_color
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_color.view_invoice_form_inherit
+msgid "<span>Careful! Invoice integration requires user intervention!</span>"
+msgstr ""
+"<span>Atenție! Integrarea facturii necesită intervenția "
+"utilizatorului!</span>"
+
+#. module: deltatech_invoice_color
+#: model:ir.model.fields.selection,name:deltatech_invoice_color.selection__account_move_line__color_trigger__danger
+msgid "Danger"
+msgstr ""
+
+#. module: deltatech_invoice_color
+#: model:ir.model,name:deltatech_invoice_color.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_invoice_color
+#: model:ir.model,name:deltatech_invoice_color.model_account_move_line
+msgid "Journal Item"
+msgstr "Element jurnal"
+
+#. module: deltatech_invoice_color
+#: model:ir.model.fields,field_description:deltatech_invoice_color.field_account_bank_statement_line__color_triggered
+#: model:ir.model.fields,field_description:deltatech_invoice_color.field_account_move__color_triggered
+#: model:ir.model.fields,field_description:deltatech_invoice_color.field_account_move_line__color_trigger
+#: model:ir.model.fields,field_description:deltatech_invoice_color.field_account_payment__color_triggered
+msgid "Trigger"
+msgstr ""
+
+#. module: deltatech_invoice_color
+#: model:ir.model.fields.selection,name:deltatech_invoice_color.selection__account_move_line__color_trigger__warning
+msgid "Warning"
+msgstr ""
