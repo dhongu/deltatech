@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
+from odoo.osv import expression
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -67,8 +68,11 @@ class ProductTemplate(models.Model):
     def _name_search(self, name, args=None, operator="ilike", limit=100, name_get_uid=None):
         args = args or []
         get_param = self.env["ir.config_parameter"].sudo().get_param
+        use_SQL = safe_eval(get_param("deltatech_alternative_website.use_sql", "False"))
         if name and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
             domain = [("search_index", operator, name)]
+            if not use_SQL:
+                return self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
 
             if len(name) < safe_eval(get_param("alternative.length_min", "3")):
                 return 0
@@ -93,8 +97,9 @@ class ProductTemplate(models.Model):
     @api.model
     def search_count(self, args):
         get_param = self.env["ir.config_parameter"].sudo().get_param
+        use_SQL = safe_eval(get_param("deltatech_alternative_website.use_sql", "False"))
         positive_operators = ["ilike", "=ilike", "like", "=like"]
-        if safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
+        if use_SQL and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
             # exista search_index in args
             for arg in args:
                 if arg[0] == "search_index" and arg[1] in positive_operators:
@@ -109,19 +114,19 @@ class ProductTemplate(models.Model):
                     return res[0]
         return super().search_count(args)
 
-    @api.model
-    def _search(self, args, offset=0, limit=None, order=None, count=False, access_rights_uid=None):
-
-        for arg in args:
-            if arg[0] == "search_index":
-                if "ilike" in arg[1]:
-                    new_arg = (arg[0], arg[1].replace("ilike", "like"), arg[2].upper())
-                    args.remove(arg)
-                    args.append(new_arg)
-
-        return super()._search(
-            args, offset=offset, limit=limit, order=order, count=count, access_rights_uid=access_rights_uid
-        )
+    # @api.model
+    # def _search(self, args, offset=0, limit=None, order=None, count=False, access_rights_uid=None):
+    #
+    #     for arg in args:
+    #         if arg[0] == "search_index":
+    #             if "ilike" in arg[1]:
+    #                 new_arg = (arg[0], arg[1].replace("ilike", "like"), arg[2].upper())
+    #                 args.remove(arg)
+    #                 args.append(new_arg)
+    #
+    #     return super()._search(
+    #         args, offset=offset, limit=limit, order=order, count=count, access_rights_uid=access_rights_uid
+    #     )
 
 
 class ProductProduct(models.Model):
@@ -131,9 +136,13 @@ class ProductProduct(models.Model):
     def _name_search(self, name, args=None, operator="ilike", limit=100, name_get_uid=None):
         args = args or []
         get_param = self.env["ir.config_parameter"].sudo().get_param
+        use_SQL = safe_eval(get_param("deltatech_alternative_website.use_sql", "False"))
         positive_operators = ["ilike", "=ilike", "like", "=like"]
         if name and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
             domain = [("search_index", operator, name)]
+            if not use_SQL:
+                return self._search(expression.AND([domain, args]), limit=limit, access_rights_uid=name_get_uid)
+
             if len(name) < safe_eval(get_param("alternative.length_min", "3")):
                 return 0
 
@@ -158,7 +167,8 @@ class ProductProduct(models.Model):
     @api.model
     def search_count(self, args):
         get_param = self.env["ir.config_parameter"].sudo().get_param
-        if safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
+        use_SQL = safe_eval(get_param("deltatech_alternative_website.use_sql", "False"))
+        if use_SQL and safe_eval(get_param("deltatech_alternative_website.search_index", "False")):
             # exista search_index in args
             for arg in args:
                 if arg[0] == "search_index" and len(arg) > safe_eval(get_param("alternative.length_min", "3")):
@@ -173,18 +183,18 @@ class ProductProduct(models.Model):
                     return res[0]
         return super().search_count(args)
 
-    @api.model
-    def _search(self, args, offset=0, limit=None, order=None, count=False, access_rights_uid=None):
-        for arg in args:
-            if arg[0] == "search_index":
-                if "ilike" in arg[1]:
-                    new_arg = (arg[0], arg[1].replace("ilike", "like"), arg[2].upper())
-                    args.remove(arg)
-                    args.append(new_arg)
-
-        return super()._search(
-            args, offset=offset, limit=limit, order=order, count=count, access_rights_uid=access_rights_uid
-        )
+    # @api.model
+    # def _search(self, args, offset=0, limit=None, order=None, count=False, access_rights_uid=None):
+    #     for arg in args:
+    #         if arg[0] == "search_index":
+    #             if "ilike" in arg[1]:
+    #                 new_arg = (arg[0], arg[1].replace("ilike", "like"), arg[2].upper())
+    #                 args.remove(arg)
+    #                 args.append(new_arg)
+    #
+    #     return super()._search(
+    #         args, offset=offset, limit=limit, order=order, count=count, access_rights_uid=access_rights_uid
+    #     )
 
 
 class ProductAlternative(models.Model):
