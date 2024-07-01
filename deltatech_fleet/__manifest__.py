@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Deltatech Fleet",
-    "version": "17.0.1.0.0",
+    "version": "17.4.1.0.0",
     "author": "Dorin Hongu, Terrabit",
     "website": "https://www.terrabit.ro",
     "category": "Human Resources/Fleet",
