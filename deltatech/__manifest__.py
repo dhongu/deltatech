@@ -4,7 +4,7 @@
 
 {
     "name": "Deltatech",
-    "version": "17.0.1.0.0",
+    "version": "17.4.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Generic module",
