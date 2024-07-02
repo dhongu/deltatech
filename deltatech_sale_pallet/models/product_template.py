@@ -19,7 +19,8 @@ class ProductTemplate(models.Model):
     )
 
     def _compute_pallet_price(self):
-        main_pricelist = self.env.ref("product.list0", False)
+        # todo: de verificat cum se determina lista de preturi principala
+        main_pricelist = self.env['product.pricelist'].search([('company_id', '=', self.env.company.id)], limit=1)
         for template in self:
             price = main_pricelist._get_product_price(template, template.pallet_qty_min)
             template.pallet_price = price
