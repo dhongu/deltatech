@@ -3,7 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class PricelistItem(models.Model):
@@ -140,7 +141,9 @@ class ProductTemplate(models.Model):
                     tax_value += price * tax.amount / 100
                 price += tax_value
                 price = round(price, 2)
-
+            # check for valuation errors, mainly for AVCO
+            if price < 0.0:
+                raise UserError(_("Computed price negative. Please check stock valuation (price_categ)"))
             product.list_price_bronze = price * (1 + product.percent_bronze)
             product.list_price_copper = price * (1 + product.percent_copper)
             product.list_price_silver = price * (1 + product.percent_silver)

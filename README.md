@@ -87,7 +87,7 @@ addon | version | maintainers | summary | price
 [deltatech_pos_decimal_numpad_dot](deltatech_pos_decimal_numpad_dot/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Numpad Dot as decimal separator | Free 
 [deltatech_pos_margin](deltatech_pos_margin/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Point of sale margin | Free 
 [deltatech_pos_product_filter](deltatech_pos_product_filter/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Searching pos order using product | Free 
-[deltatech_price_categ](deltatech_price_categ/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Price List: Bronze Silver and Gold in product | Free 
+[deltatech_price_categ](deltatech_price_categ/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Price List: Bronze Silver and Gold in product | Free 
 [deltatech_price_change](deltatech_price_change/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Price Change | Free 
 [deltatech_price_modify_reception](deltatech_price_modify_reception/) | 15.0.1.0.2 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) | Editarea pretului de lista la receptie | Free 
 [deltatech_print_bf](deltatech_print_bf/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Print Invoice to ECR | Free 
