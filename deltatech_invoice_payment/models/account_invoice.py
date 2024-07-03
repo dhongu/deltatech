@@ -2,12 +2,18 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import models
+from odoo import fields,models
 from odoo.tools.safe_eval import safe_eval
 
 
 class AccountInvoice(models.Model):
     _inherit = "account.move"
+
+    invoice_payments_widget = fields.Binary(
+        compute='_compute_payments_widget_reconciled_info',
+        groups=False,
+        exportable=False,
+    )
 
     def open_payments(self):
         self.ensure_one()
@@ -23,7 +29,7 @@ class AccountInvoice(models.Model):
 
         action = self.env["ir.actions.actions"]._for_xml_id(action_ref)
         action["context"] = dict(safe_eval(action.get("context")))
-
+        action["context"].update({"search_default_outbound_filter": 0})
         if len(payment_ids) > 1:
             action["domain"] = [("id", "in", payment_ids)]
         elif payment_ids:
