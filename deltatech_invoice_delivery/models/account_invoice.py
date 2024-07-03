@@ -32,7 +32,7 @@ class AccountInvoice(models.Model):
             # am gasit linii care nu sunt in comanda de vanzare
             lines_without_sale = invoice.invoice_line_ids.filtered(lambda line: not line.sale_line_ids)
             # doar pentru prousele stocabile
-            lines_without_sale = lines_without_sale.filtered(lambda line: line.product_id.type == "product")
+            lines_without_sale = lines_without_sale.filtered(lambda line: line.product_id.type == "consu" and line.product_id.is_storable == True)
             if lines_without_sale:
                 if len(sale_order) != 1:
                     sale_order = (
