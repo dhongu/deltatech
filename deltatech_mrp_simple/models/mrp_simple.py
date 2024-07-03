@@ -132,7 +132,8 @@ class MRPSimple(models.Model):
         if self.final_product_name:
             standard_price, list_price = self.get_final_product_prices()
             vals = {
-                "type": "product",
+                "type": "consu",
+                "is_storable":True,
                 "name": self.final_product_name,
                 "categ_id": self.final_product_category.id,
                 "standard_price": standard_price,
