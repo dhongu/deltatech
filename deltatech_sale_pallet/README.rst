@@ -10,9 +10,9 @@ Sale Pallet
    !! source digest: sha256:7d2f506eccdb407c567ce5477cd8250a7638986b799d4dea20fe185d94bfb380
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
@@ -22,9 +22,16 @@ Sale Pallet
 
 |badge1| |badge2| |badge3|
 
--  Features:
+Features:
 
-   -  
+-  create a product category with the "Pallet" option enabled
+-  select the pallet product and put in the the above category
+-  select a min quantity for a pallet
+-  when creating a sale order with a product that requires pallets, if
+   you reach the min qty for a pallet, the system will automatically add
+   a pallet product to the order
+-  the system will increase the quantity of required pallets when you
+   reach the next multiple of the min qty for a pallet
 
 **Table of contents**
 

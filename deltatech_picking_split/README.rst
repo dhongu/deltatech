@@ -22,9 +22,9 @@ Picking Split
 
 |badge1| |badge2| |badge3|
 
--  Features:
+Features:
 
-   -  Generare manual de comanda restanta
+-  Manual generation of backorders
 
 **Table of contents**
 

@@ -25,7 +25,6 @@ Deltatech Picking Service Lines
 -  Features:
 
    -  Adds a new tab in picking, with service type products only
-   -  
 
 **Table of contents**
 

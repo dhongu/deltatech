@@ -22,9 +22,9 @@ Notification Sound
 
 |badge1| |badge2| |badge3|
 
--  Features:
+Features:
 
-   -  
+-  adding sounds when you get errors to notify the operator
 
 **Table of contents**
 

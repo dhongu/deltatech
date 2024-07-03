@@ -22,9 +22,9 @@ Deltatech Product Margin
 
 |badge1| |badge2| |badge3|
 
--  Features:
+Features:
 
-   -  Calcul adaos comercial si marja la fiecare produs
+-  Calculate trade markup and margin for each product
 
 **Table of contents**
 

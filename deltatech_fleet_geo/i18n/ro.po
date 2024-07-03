@@ -1,0 +1,78 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_fleet_geo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-17 11:29+0000\n"
+"PO-Revision-Date: 2024-05-17 11:29+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_fleet_geo
+#: model_terms:ir.ui.view,arch_db:deltatech_fleet_geo.fleet_vehicle_view_form
+msgid "Get location"
+msgstr "Preia locația"
+
+#. module: deltatech_fleet_geo
+#: model:ir.model.fields,field_description:deltatech_fleet_geo.field_fleet_location__lat
+#: model:ir.model.fields,field_description:deltatech_fleet_geo.field_fleet_vehicle_location__lat
+msgid "Latitude"
+msgstr "Latitudine"
+
+#. module: deltatech_fleet_geo
+#: model:ir.model.fields,field_description:deltatech_fleet_geo.field_fleet_route__from_lat
+msgid "Latitude from"
+msgstr "Latitudine de la"
+
+#. module: deltatech_fleet_geo
+#: model:ir.model.fields,field_description:deltatech_fleet_geo.field_fleet_route__to_lat
+msgid "Latitude to"
+msgstr "Latitudine la"
+
+#. module: deltatech_fleet_geo
+#: model:ir.model,name:deltatech_fleet_geo.model_fleet_location
+msgid "Location"
+msgstr "Locația"
+
+#. module: deltatech_fleet_geo
+#: model:ir.model.fields,field_description:deltatech_fleet_geo.field_fleet_location__lng
+#: model:ir.model.fields,field_description:deltatech_fleet_geo.field_fleet_vehicle_location__lng
+msgid "Longitude"
+msgstr "Longitudine"
+
+#. module: deltatech_fleet_geo
+#: model:ir.model.fields,field_description:deltatech_fleet_geo.field_fleet_route__from_lng
+msgid "Longitude from"
+msgstr "Longitudine de la"
+
+#. module: deltatech_fleet_geo
+#: model:ir.model.fields,field_description:deltatech_fleet_geo.field_fleet_route__to_lng
+msgid "Longitude to"
+msgstr "Longitudine la"
+
+#. module: deltatech_fleet_geo
+#: model:ir.model.fields,field_description:deltatech_fleet_geo.field_fleet_location__radius
+msgid "Radius"
+msgstr "Raza"
+
+#. module: deltatech_fleet_geo
+#: model:ir.model,name:deltatech_fleet_geo.model_fleet_route
+msgid "Route"
+msgstr "Traseu"
+
+#. module: deltatech_fleet_geo
+#: model:ir.model,name:deltatech_fleet_geo.model_fleet_vehicle
+msgid "Vehicle"
+msgstr "Vehicul"
+
+#. module: deltatech_fleet_geo
+#: model:ir.model,name:deltatech_fleet_geo.model_fleet_vehicle_location
+msgid "vehicle Location"
+msgstr "Locația vehiculului"

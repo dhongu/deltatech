@@ -22,21 +22,16 @@ Services Agreement
 
 |badge1| |badge2| |badge3|
 
--  Features:
+Features:
 
-   -  
+-  Offers the possibility to define service contracts.
 
-      -  Ofera posibilitatea de a defini contracte de servicii.
+   -  in contract you can specify: currency, billing date, recurrence
 
-         -  in contract se pot specifica: moneda, data de facturare,
-            recurenta
+-  Periodically based on these contracts invoices are generated
 
-   -  
-
-      -  Periodic in baza acestor contracte se genereaza facturi
-
-         -  consumurile se servicii planificate se pot actualiza cu cele
-            efective inainte de facturare
+   -  planned service consumptions can be updated with the actual ones
+      before billing
 
 **Table of contents**
 

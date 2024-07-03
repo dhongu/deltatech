@@ -24,8 +24,8 @@ Deltatech Services Maintenance Plan
 
 Features:
 
-   -  gestionare planuri de revizii
-   -  generare automat a comenzilor de service in baza planului
+-  maintenance plan management
+-  automatic service orders generation based on the plan
 
 **Table of contents**
 

@@ -22,9 +22,9 @@ eCommerce Product Category
 
 |badge1| |badge2| |badge3|
 
--  Features:
+Features:
 
-   -  Arhivarea categorii publice
+-  Archive public categories
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.

@@ -22,9 +22,9 @@ Deltatech Services Maintenance Agreement
 
 |badge1| |badge2| |badge3|
 
--  Features:
+Features:
 
-   -  face lagatura intre contracte si sesizari/comenzi
+-  bridges the gap between contracts and orders
 
 **Table of contents**
 

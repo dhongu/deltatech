@@ -22,9 +22,10 @@ Deltatech Test System
 
 |badge1| |badge2| |badge3|
 
--  Features:
+Features:
 
-   -  
+-  can neutralizes the DB in settings and adds a permanent banner up top
+   to know the DB is a test DB
 
 **Table of contents**
 

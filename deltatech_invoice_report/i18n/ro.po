@@ -23,21 +23,21 @@ msgstr "Valoare"
 #. module: deltatech_invoice_report
 #: model_terms:ir.ui.view,arch_db:deltatech_invoice_report.view_product_without_move_form
 msgid "Cancel"
-msgstr ""
+msgstr "Anulare"
 
 #. module: deltatech_invoice_report
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__create_uid
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__create_uid
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creat de"
 
 #. module: deltatech_invoice_report
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__create_date
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__create_date
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creat pe"
 
 #. module: deltatech_invoice_report
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__days_last_sale
@@ -47,19 +47,19 @@ msgstr "Zile de la ultima vânzare"
 #. module: deltatech_invoice_report
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_account_invoice_report__supplier_id
 msgid "Default Supplier"
-msgstr ""
+msgstr "Furnizor implicit"
 
 #. module: deltatech_invoice_report
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__display_name
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__display_name
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nume afișat"
 
 #. module: deltatech_invoice_report
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__date_to
 msgid "End Date"
-msgstr ""
+msgstr "Data finală"
 
 #. module: deltatech_invoice_report
 #: model_terms:ir.ui.view,arch_db:deltatech_invoice_report.product_template_form_view
@@ -93,7 +93,7 @@ msgstr "Statistica Facturi"
 #. module: deltatech_invoice_report
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__item_ids
 msgid "Item"
-msgstr ""
+msgstr "Obiect"
 
 #. module: deltatech_invoice_report
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_product__last_invoice_history_computed
@@ -106,28 +106,28 @@ msgstr "Ultima actualizare istoric facturi"
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move____last_update
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Ultima modificare pe"
 
 #. module: deltatech_invoice_report
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_product__last_sale_date
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_template__last_sale_date
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__last_sale_date
 msgid "Last Sale Date"
-msgstr ""
+msgstr "Ultima dată vânzare"
 
 #. module: deltatech_invoice_report
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__write_uid
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__write_uid
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima actualizare de"
 
 #. module: deltatech_invoice_report
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__write_date
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__write_date
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultima actualizare pe"
 
 #. module: deltatech_invoice_report
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__price
@@ -163,7 +163,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:deltatech_invoice_report.action_product_template_without_move
 #, python-format
 msgid "Products without move"
-msgstr ""
+msgstr "Produse fără mișcare"
 
 #. module: deltatech_invoice_report
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__qty_in
@@ -199,17 +199,17 @@ msgstr "Raport"
 #. module: deltatech_invoice_report
 #: model_terms:ir.ui.view,arch_db:deltatech_invoice_report.product_template_form_view
 msgid "Sale Invoice"
-msgstr ""
+msgstr "Factură vânzare"
 
 #. module: deltatech_invoice_report
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__date_from
 msgid "Start Date"
-msgstr ""
+msgstr "Data început"
 
 #. module: deltatech_invoice_report
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__template_id
 msgid "Template"
-msgstr ""
+msgstr "Sablon"
 
 #. module: deltatech_invoice_report
 #: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__year
@@ -224,7 +224,7 @@ msgstr ""
 #. module: deltatech_invoice_report
 #: model_terms:ir.ui.view,arch_db:deltatech_invoice_report.view_product_without_move_form
 msgid "or"
-msgstr ""
+msgstr "sau"
 
 #. module: deltatech_invoice_report
 #: model:ir.model,name:deltatech_invoice_report.model_product_invoice_history

@@ -10,12 +10,10 @@
                 <group name="sale_extra_line" string="Extra Line">
                     <field name="extra_product_id" />
                     <field name="extra_percent" />
+                    <field name="extra_qty" />
                 </group>
             </group>
         </field>
     </record>
-
-
-
 
 </odoo>

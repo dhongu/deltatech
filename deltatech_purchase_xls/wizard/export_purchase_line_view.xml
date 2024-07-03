@@ -4,7 +4,7 @@
             <field name="name">export.purchase.line</field>
             <field name="model">export.purchase.line</field>
             <field name="arch" type="xml">
-                <form string="Export Working Days">
+                <form string="Export Purchase Line">
                     <field name="state" invisible="1" />
                     <div invisible="state!='choose'">
                         <p>Export selected purchase order lines</p>
@@ -34,7 +34,8 @@
         <field name="view_mode">form</field>
         <field name="target">new</field>
         <field name="binding_model_id" ref="purchase.model_purchase_order" />
-        <field name="binding_view_types">list</field>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list,form</field>
     </record>
 
 </odoo>

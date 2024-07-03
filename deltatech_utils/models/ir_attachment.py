@@ -1,7 +1,7 @@
 import logging
 import os
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -10,6 +10,19 @@ class IrAttachment(models.Model):
     _inherit = "ir.attachment"
 
     store_fname = fields.Char("Stored Filename", index=True)
+    store_file_size = fields.Integer("Store File Size", compute="_compute_store_file_size", store=True)
+
+    @api.depends("store_fname")
+    def _compute_store_file_size(self):
+        for attachment in self:
+            if attachment.store_fname:
+                file_name = self._full_path(attachment.store_fname)
+                if os.path.exists(file_name):
+                    attachment.store_file_size = os.path.getsize(file_name)
+                else:
+                    attachment.store_file_size = 0
+            else:
+                attachment.store_file_size = 0
 
     def getListOfFiles(self, dirName):
         # create a list of file and sub directories

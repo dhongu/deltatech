@@ -22,10 +22,9 @@ Purchase Stock
 
 |badge1| |badge2| |badge3|
 
--  Features:
+Features:
 
-   -  Separare comenzi de achizitie facute manual de comenzile de
-      achizitie facute de reaprovizionare
+-  Separate manual purchase orders from replenishment purchase orders
 
 **Table of contents**
 

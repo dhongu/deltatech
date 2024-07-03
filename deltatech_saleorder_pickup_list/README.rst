@@ -22,7 +22,9 @@ Deltatech Sale Order Pickup List
 
 |badge1| |badge2| |badge3|
 
-Report with pickup list from sale order
+Features:
+
+-  Report with pickup list from sale order
 
 **Table of contents**
 

@@ -22,9 +22,10 @@ No quick_create
 
 |badge1| |badge2| |badge3|
 
--  Features:
+Features:
 
-   -  disable quick_create
+-  disables the option to create new items without editing them, for
+   prevention of empty products, contacts, etc.
 
 **Table of contents**
 
