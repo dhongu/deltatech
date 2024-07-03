@@ -5,7 +5,7 @@
 {
     "name": "Deltatech partner discount",
     "summary": "Creates a discount field on partner and alerts the user on invoice",
-    "version": "17.0.1.0.0",
+    "version": "17.4.1.0.0",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Sale",
