@@ -17,7 +17,8 @@ class TestInvoiceReceipt(TransactionCase):
         self.product_a = self.env["product.product"].create(
             {
                 "name": "Test A",
-                "type": "product",
+                "type": "consu",
+                "is_storable": True,
                 "standard_price": 100,
                 "list_price": 150,
                 "seller_ids": seller_ids,
@@ -26,7 +27,8 @@ class TestInvoiceReceipt(TransactionCase):
         self.product_b = self.env["product.product"].create(
             {
                 "name": "Test B",
-                "type": "product",
+                "type": "consu",
+                "is_storable": True,
                 "standard_price": 100,
                 "list_price": 150,
                 "seller_ids": seller_ids,

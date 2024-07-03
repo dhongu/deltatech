@@ -45,7 +45,8 @@ class PurchaseOrder(models.Model):
         result = super()._create_picking()
         for order in self:
             if any(
-                [line.product_id.type in ["product", "consu"] and line.product_qty < 0 for line in order.order_line]
+                    [line.product_id.type == "consu" and line.product_id.is_storable == True and line.product_qty < 0
+                     for line in order.order_line]
             ):
                 res = order._prepare_picking()
                 res.update(
@@ -80,7 +81,7 @@ class PurchaseOrderLine(models.Model):
 
         self.ensure_one()
         res = []
-        if self.product_id.type not in ["product", "consu"]:
+        if self.product_id.type != "consu":
             return res
         qty = 0.0
         price_unit = self._get_stock_move_price_unit()
@@ -115,14 +116,14 @@ class PurchaseOrderLine(models.Model):
             "description_picking": description_picking,
             "propagate_cancel": self.propagate_cancel,
             "route_ids": self.order_id.picking_type_id.warehouse_id
-            and [
-                (
-                    6,
-                    0,
-                    [x.id for x in self.order_id.picking_type_id.warehouse_id.route_ids],
-                )
-            ]
-            or [],
+                         and [
+                             (
+                                 6,
+                                 0,
+                                 [x.id for x in self.order_id.picking_type_id.warehouse_id.route_ids],
+                             )
+                         ]
+                         or [],
             "warehouse_id": self.order_id.picking_type_id.warehouse_id.id,
         }
         diff_quantity = self.product_qty + qty
