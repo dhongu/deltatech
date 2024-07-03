@@ -4,7 +4,7 @@
 {
     "name": "Generate/Select lot",
     "summary": "Generate/Select lot",
-    "version": "17.0.1.0.2",
+    "version": "17.4.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
