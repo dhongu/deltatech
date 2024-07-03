@@ -1,3 +1,3 @@
-- Features:
+Features:
 
-  - face lagatura intre contracte si sesizari/comenzi
+- bridges the gap between contracts and orders

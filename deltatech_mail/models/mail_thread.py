@@ -18,5 +18,6 @@ class MailThread(models.AbstractModel):
             return super().message_post(body=body, **kwargs)
         body_subs = self.env["mail.body.substitution"].search([])
         for sub in body_subs:
-            body = body.replace(sub.body_part, sub.substitution)
+            if isinstance(body, str):
+                body = body.replace(sub.body_part, sub.substitution)
         return super().message_post(body=body, **kwargs)

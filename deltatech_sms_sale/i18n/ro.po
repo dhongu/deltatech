@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0+ec\n"
+"Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-09 13:49+0000\n"
-"PO-Revision-Date: 2020-09-09 13:49+0000\n"
+"POT-Creation-Date: 2024-05-31 07:14+0000\n"
+"PO-Revision-Date: 2024-05-31 07:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: model:sms.template,body:deltatech_sms_sale.sms_template_data_sale_order_confirm
 msgid ""
 "\n"
-"                    ${object.company_id.name}: We are glad to inform you that your order  ${object.name} has been confirmed.\n"
+"                {{ (object.company_id.name + ': We are glad to inform you that your order n° ' + object.name + ' has been confirmed.' ) }}\n"
 "            "
 msgstr ""
 "\n"
@@ -30,7 +30,7 @@ msgstr ""
 #: model:sms.template,body:deltatech_sms_sale.sms_template_data_sale_order_post
 msgid ""
 "\n"
-"                    ${object.company_id.name}: We are glad to inform you that your order ${object.name} has been posted.\n"
+"                {{ (object.company_id.name + ': We are glad to inform you that your order n° ' + object.name + ' has been posted.' ) }}\n"
 "            "
 msgstr ""
 "\n"
@@ -99,13 +99,13 @@ msgstr "Șablon SMS plasare comandă"
 #: model:ir.model.fields,help:deltatech_sms_sale.field_res_company__sale_order_sms_confirm_template_id
 #: model:ir.model.fields,help:deltatech_sms_sale.field_res_config_settings__sale_order_sms_confirm_template_id
 msgid "SMS sent to the customer once the sale order is confirmed."
-msgstr ""
+msgstr "SMS trimis clientului odată cu confirmarea comenzii de vânzare"
 
 #. module: deltatech_sms_sale
 #: model:ir.model.fields,help:deltatech_sms_sale.field_res_company__sale_order_sms_post_template_id
 #: model:ir.model.fields,help:deltatech_sms_sale.field_res_config_settings__sale_order_sms_post_template_id
 msgid "SMS sent to the customer once the sale order is posted from website."
-msgstr ""
+msgstr "SMS trimis clientului odată cu plasarea comenzii de vânzare"
 
 #. module: deltatech_sms_sale
 #: model:sms.template,name:deltatech_sms_sale.sms_template_data_sale_order_post

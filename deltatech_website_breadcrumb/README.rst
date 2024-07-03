@@ -22,9 +22,9 @@ eCommerce Category Breadcrumb
 
 |badge1| |badge2| |badge3|
 
--  Features:
+Features:
 
-   -  
+-  adds breadcrumbs to the top of the page on website
 
 **Table of contents**
 

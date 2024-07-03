@@ -22,7 +22,10 @@ Deltatech Replenish
 
 |badge1| |badge2| |badge3|
 
+Features:
 
+-  Add the "Supplier" field on the replenish wizard to select the vendor
+   from who you want to replenish the product
 
 **Table of contents**
 

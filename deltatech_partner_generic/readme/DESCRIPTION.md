@@ -1,4 +1,3 @@
-- Features:
+Features:
 
-  - definire partener generic
-  - defining generic partner
+- defining generic partner

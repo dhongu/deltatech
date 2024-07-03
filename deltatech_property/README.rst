@@ -22,7 +22,9 @@ Property Management
 
 |badge1| |badge2| |badge3|
 
+Features:
 
+-  Property management system
 
 **Table of contents**
 

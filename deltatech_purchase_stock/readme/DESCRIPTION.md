@@ -1,3 +1,3 @@
-- Features:
+Features:
 
-  - Separare comenzi de achizitie facute manual de comenzile de achizitie facute de reaprovizionare
+- Separate manual purchase orders from replenishment purchase orders

@@ -1,3 +1,3 @@
-- Features:
+Features:
 
-  - Camp suplimentar in comanda de vanzare de pentru a specifica stadiul in care se gaseste o comanda
+- Additional field in the sales order to specify the stage in which the order is

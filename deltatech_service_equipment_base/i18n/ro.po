@@ -64,7 +64,7 @@ msgstr ""
 #. module: deltatech_service_equipment_base
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment_base.view_service_enter_reading_form
 msgid "Cancel"
-msgstr ""
+msgstr "Anulare"
 
 #. module: deltatech_service_equipment_base
 #: model:ir.model.fields,field_description:deltatech_service_equipment_base.field_service_meter__meter_categ_id

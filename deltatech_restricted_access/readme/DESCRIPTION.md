@@ -1,5 +1,4 @@
-- Adds the technical rights "Edit sensible data" , those rights will be required to
+Features:
 
-  - edit cost methods in product category
-  - edit the name of locations
-  - edit the name of UOMs
+- Add "Edit sensible data" on the permission page to allow editing of of the name for the product category, stock
+  location and uom.

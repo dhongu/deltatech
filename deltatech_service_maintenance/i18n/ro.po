@@ -193,7 +193,6 @@ msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__address_id
-#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__address_id
 msgid "Address"
 msgstr "Adresă"
 

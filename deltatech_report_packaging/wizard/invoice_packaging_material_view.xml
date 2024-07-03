@@ -1,7 +1,7 @@
 <odoo>
 
         <record id="invoice_packaging_material_form" model="ir.ui.view">
-            <field name="name">Raport packaging wizard</field>
+            <field name="name">Report packaging wizard</field>
             <field name="model">packaging.report.material</field>
             <field name="arch" type="xml">
                 <form>
@@ -35,8 +35,11 @@
         <field name="name">Report packaging list</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">packaging.report.material</field>
-         <field name="binding_model_id" ref="account.model_account_move" />
+        <field name="view_id" ref="invoice_packaging_material_form" />
+        <field name="binding_model_id" ref="account.model_account_move" />
         <field name="binding_view_types">list</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
     </record>
 
 
