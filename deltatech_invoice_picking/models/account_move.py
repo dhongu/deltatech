@@ -147,7 +147,7 @@ class AccountMoveLine(models.Model):
         for line in self:
             if (
                 line.move_id.from_pickings
-                and line.product_id.type == "product"
+                and line.product_id.type == "consu" and line.product_id.is_storable==True
                 and line.display_type == "product"
                 and line.move_id.move_type in ["out_invoice", "out_refund", "in_invoice", "in_refund"]
             ):
@@ -157,7 +157,7 @@ class AccountMoveLine(models.Model):
         for line in self:
             if (
                 line.move_id.from_pickings
-                and line.product_id.type == "product"
+                and line.product_id.type == "consu" and line.product_id.is_storable==True
                 and line.display_type == "product"
                 and line.move_id.move_type in ["out_invoice", "out_refund", "in_invoice", "in_refund"]
                 and line.quantity > 0.0
