@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class MrpProduction(models.Model):
@@ -56,3 +56,28 @@ class MrpProduction(models.Model):
                 self.extra_cost = costs / self.product_qty
 
         return super()._cal_price(consumed_moves)
+
+    @api.model
+    def create(self, vals_list):
+        bom_id = vals_list.get("bom_id")
+        if bom_id:
+            bom = self.env["mrp.bom"].browse(bom_id)
+            vals_list["overhead_amount"] = bom.overhead_amount
+            vals_list["utility_consumption"] = bom.utility_consumption
+            vals_list["net_salary_rate"] = bom.net_salary_rate
+            vals_list["salary_contributions"] = bom.salary_contributions
+            vals_list["duration"] = vals_list["product_qty"] / bom.product_qty * bom.duration
+
+        return super().create(vals_list)
+
+    # def action_confirm(self):
+    #     # Call the original method
+    #     res = super(MrpProduction, self).action_confirm()
+    #
+    #     if self.bom_id:
+    #         self.overhead_amount = self.product_qty / self.bom_id.product_qty * self.bom_id.overhead_amount
+    #         self.utility_consumption = self.product_qty / self.bom_id.product_qty * self.bom_id.utility_consumption
+    #         self.net_salary_rate = self.product_qty / self.bom_id.product_qty * self.bom_id.net_salary_rate
+    #         self.salary_contributions = self.product_qty / self.bom_id.product_qty * self.bom_id.salary_contributions
+    #         self.duration = self.product_qty / self.bom_id.product_qty * self.bom_id.duration
+    #     return res
