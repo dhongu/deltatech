@@ -6,7 +6,7 @@
     "name": "Deltatech Purchase XLS",
     "summary": "Import/export purchase line from/to Excel",
     "author": "Terrabit, Dorin Hongu",
-    "version": "17.0.1.0.6",
+    "version": "17.0.1.0.7",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
     "category": "Purchase",
