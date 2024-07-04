@@ -27,11 +27,6 @@ msgid "Do not sell below the purchase price."
 msgstr "Nu puteți vinde sub prețul de achiziție."
 
 #. module: deltatech_sale_margin
-#: model:res.groups,name:deltatech_sale_margin.group_sale_margin
-msgid "Hide purchase price on sale order lines and customer invoice"
-msgstr "Ascunde preț de achiziție în comanda de vânzare și facură client"
-
-#. module: deltatech_sale_margin
 #: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_order_line__id
 msgid "ID"
 msgstr ""
