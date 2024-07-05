@@ -17,13 +17,13 @@ Business process documentation
     :target: https://www.odoo.com/documentation/master/legal/licenses.html
     :alt: License: OPL-1
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/16.0/deltatech_business_process_documentation
+    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_business_process_documentation
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
 
 Features:
- -
+---------
 
 **Table of contents**
 
@@ -42,24 +42,24 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Nexterp
 * Fekete Mihai
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `NextERP Romania <https://www.nexterp.ro>`_:
+-  `NextERP Romania <https://www.nexterp.ro>`__:
 
-  * Fekete Mihai <feketemihai@nexterp.ro>
+   -  Fekete Mihai <feketemihai@nexterp.ro>
 
-
-Do not contact contributors directly about support or help with technical issues.
+Do not contact contributors directly about support or help with
+technical issues.
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu
@@ -69,6 +69,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/16.0/deltatech_business_process_documentation>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_business_process_documentation>`_ project on GitHub.
 
 You are welcome to contribute.

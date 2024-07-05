@@ -30,7 +30,8 @@
                     </div>
                     <!--  steps_content -->
                     <div
-                        class="col-lg-9 s_table_of_content_main oe_structure oe_empty o_colored_level"
+                        id="table_of_content_steps_content_oe_structure"
+                        class="col-lg-9 s_table_of_content_main oe_empty o_colored_level"
                         data-name="Content"
                     >
                         <section t-if="doc.description" class="pb16 o_colored_level" style="background-image: none;">

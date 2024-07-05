@@ -5,7 +5,7 @@
 {
     "name": "Business process documentation",
     "summary": "Business process documentation",
-    "version": "16.0.1.0.5",
+    "version": "17.0.1.0.5",
     "author": "Terrabit, Nexterp, Fekete Mihai",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
