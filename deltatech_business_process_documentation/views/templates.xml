@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="business_process_documentation" name="Business process documentation">
+        <section
+            class="s_table_of_content pt24 pb24 o_cc o_cc1 o_colored_level"
+            data-snippet="s_table_of_content"
+            data-name="Table of Content"
+            style="background-image: none;"
+        >
+            <div class="container">
+                <div class="row s_nb_column_fixed">
+                    <!--  table_of_content -->
+                    <div
+                        class="col-lg-3 s_table_of_content_navbar_wrap s_table_of_content_navbar_sticky
+                            s_table_of_content_vertical_navbar d-print-none d-none d-lg-block o_not_editable
+                            o_cc o_cc1 o_colored_level"
+                        data-name="Navbar"
+                    >
+                        <div class="s_table_of_content_navbar list-group o_no_link_popover" style="">
+                            <t t-foreach="doc.step_ids" t-as="step">
+                                <a
+                                    t-attf-href="#table_of_content_heading_{{step.id}}"
+                                    class="table_of_content_link list-group-item list-group-item-action
+                                    py-2 border-0 rounded-0 active"
+                                >
+                                    <t t-esc="step.name" />
+                                </a>
+                            </t>
+                        </div>
+                    </div>
+                    <!--  steps_content -->
+                    <div
+                        id="table_of_content_steps_content_oe_structure"
+                        class="col-lg-9 s_table_of_content_main oe_empty o_colored_level"
+                        data-name="Content"
+                    >
+                        <section t-if="doc.description" class="pb16 o_colored_level" style="background-image: none;">
+                            <h2 data-anchor="true" class="o_default_snippet_text">Description</h2>
+                            <t t-row="doc.description" />
+                            <h2 data-anchor="true" class="o_default_snippet_text">Steps</h2>
+                        </section>
+                        <t t-foreach="doc.step_ids" t-as="step">
+                            <section class="pb16 o_colored_level" style="background-image: none;">
+                                <h4
+                                    data-anchor="true"
+                                    class="o_default_snippet_text"
+                                    t-attf-id="table_of_content_heading_{{step.id}}"
+                                >
+                                    <t t-esc="step.name" />
+                                </h4>
+                                <t t-esc="step.details" />
+                            </section>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+</odoo>
