@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_payment_report_form" model="ir.ui.view">
+        <field name="name">account.payment.report.form</field>
+        <field name="model">account.payment.report</field>
+        <field name="arch" type="xml">
+            <form string="Report Options">
+                <group name="filters">
+                    <group name="date_range">
+                        <field name="date_from" />
+                        <field name="date_to" />
+                        <field name="journal_payment_ids" widget="many2many_tags" />
+                        <field name="company_id" invisible="1" />
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        name="button_show_report"
+                        string="Show"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_account_payment_report_line_tree" model="ir.ui.view">
+        <field name="name">stock.sheet.stock.report.line</field>
+        <field name="model">account.payment.report.line</field>
+        <field name="arch" type="xml">
+            <tree edit="0" create="0" import="0">
+                <field name="payment_date" />
+                <field name="partner_id" />
+                <field name="amount" />
+                <field name="payment_journal_id" />
+                <field name="invoice_journal_id" />
+                <field name="payment_method_id" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_account_payment_report_line_form" model="ir.ui.view">
+        <field name="name">account.payment.report.line</field>
+        <field name="model">account.payment.report.line</field>
+        <field name="arch" type="xml">
+            <form edit="0" create="0" import="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="payment_date" />
+                            <field name="partner_id" />
+                            <field name="amount" />
+                        </group>
+                        <group>
+                            <field name="payment_journal_id" />
+                            <field name="invoice_journal_id" />
+                            <field name="payment_method_id" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_account_payment_report_line_pivot" model="ir.ui.view">
+        <field name="name">account.payment.report.line.pivot</field>
+        <field name="model">account.payment.report.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Stock Analysis">
+                <field name="payment_journal_id" type="row" />
+                <field name="invoice_journal_id" type="col" />
+                <field name="amount" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_account_payment_report_line_search" model="ir.ui.view">
+        <field name="name">account.payment.report.line</field>
+        <field name="model">account.payment.report.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="payment_journal_id" />
+                <field name="invoice_journal_id" />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_account_payment_report" model="ir.actions.act_window">
+        <field name="name">Account Payment Report</field>
+        <field name="res_model">account.payment.report</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="deltatech_payment_report.view_account_payment_report_form" />
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="menu_account_payment_report"
+        name="Payment Report"
+        action="action_account_payment_report"
+        parent="account.menu_finance_entries_actions"
+        groups="account.group_account_manager"
+    />
+    <record id="action_account_payment_report_line" model="ir.actions.act_window">
+        <field name="name">Payment Report</field>
+        <field name="res_model">account.payment.report.line</field>
+        <field name="view_mode">pivot,tree,form</field>
+        <field name="domain">[('report_id','=',active_id)]</field>
+        <field name="context">{'general_buttons':'get_general_buttons'}</field>
+        <field name="view_id" ref="deltatech_payment_report.view_account_payment_report_line_pivot" />
+    </record>
+</odoo>
