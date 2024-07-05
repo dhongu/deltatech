@@ -5,7 +5,7 @@
 {
     "name": "packaging",
     "summary": "packaging",
-    "version": "16.0.1.0.1",
+    "version": "17.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Tools",

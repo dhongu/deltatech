@@ -17,13 +17,15 @@ packaging
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/16.0/deltatech_packaging
+    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_packaging
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
 
 Features:
- - al adaugarea de produse intr-un pachet se tine cont de cantitatea maxima declarata pe tipul de amabalare specific produsului
+
+-  al adaugarea de produse intr-un pachet se tine cont de cantitatea
+   maxima declarata pe tipul de amabalare specific produsului
 
 **Table of contents**
 
@@ -42,13 +44,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu
@@ -58,6 +60,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/16.0/deltatech_packaging>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_packaging>`_ project on GitHub.
 
 You are welcome to contribute.
