@@ -48,11 +48,23 @@ class SaleOrder(models.Model):
 
     def set_stage(self, stage_step):
         domain = [(stage_step, "=", True)]
-        stage = self.env["sale.order.stage"].search(domain, limit=1)
-        if stage:
-            for order in self:
-                if not order.stage_id or not order.stage_id[stage_step]:
-                    order.stage_id = stage
+        stages = self.env["sale.order.stage"].search(domain)
+        if not stages:
+            return
+        for order in self:
+            transactions = order.sudo().transaction_ids.filtered(lambda a: a.state == "done")
+            relevant_stage = stages
+            if transactions:
+                relevant_stage = stages.filtered(lambda s: s.paid)
+            if not relevant_stage:
+                relevant_stage = stages
+
+            new_stage = relevant_stage[0]
+            for stage in relevant_stage:
+                if stage.sequence > order.stage_id.sequence:
+                    new_stage = stage
+                    break
+            order.stage_id = new_stage
 
     def write(self, vals):
         res = super().write(vals)
