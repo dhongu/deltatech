@@ -46,11 +46,13 @@ class PurchaseOrder(models.Model):
                     if lines:
                         message = _("Quantities forced on this reception note:<br />")
                         for line in lines:
-                            message += _("Product [{}]{}: quantity: {} {}<br />").format(
-                                line["product_id"].default_code,
-                                line["product_id"].name,
-                                line["product_qty"],
-                                line["uom"].name,
+                            message += _(
+                                "Product [{product_code}]{product_name}: quantity: {quantity} {uom}<br />"
+                            ).format(
+                                product_code=line["product_id"].default_code,
+                                product_name=line["product_id"].name,
+                                quantity=line["product_qty"],
+                                uom=line["uom"].name,
                             )
                         order.message_post(body=message)
                 else:
@@ -79,10 +81,10 @@ class PurchaseOrder(models.Model):
             if not rfq_lines:
                 if not self.ignore_quantities:
                     found_errors.append(
-                        _("The product [{}]{} is not found in a rfq").format(
-                            line.product_id.default_code, line.product_id.name
-                        )
+                        _("The product [%(default_code)s]%(name)s is not found in a RFQ")
+                        % {"default_code": line.product_id.default_code, "name": line.product_id.name}
                     )
+
             if not found_errors:
                 # check for quantities without writing the rfq lines
                 for rfq_line in rfq_lines:
@@ -93,10 +95,16 @@ class PurchaseOrder(models.Model):
                 if quantity != 0:
                     if not self.ignore_quantities:
                         quantity_errors.append(
-                            _("The quantity {} of the [{}] {} product is not found in a rfq").format(
-                                quantity, line.product_id.default_code, line.product_id.name
+                            _(
+                                "The quantity %(quantity)s of the [%(default_code)s] %(name)s product is not found in a RFQ"
                             )
+                            % {
+                                "quantity": quantity,
+                                "default_code": line.product_id.default_code,
+                                "name": line.product_id.name,
+                            }
                         )
+
                     else:
                         vals = {
                             "product_id": line.product_id,

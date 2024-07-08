@@ -9,8 +9,8 @@
             <xpath expr="//field[@name='partner_ref']" position="after">
                 <field name="reception_type" />
                 <field name="date_sent" readonly="1" force_save="1" />
-                <field name="delivery_note_no" attrs="{'invisible': [('reception_type','!=', 'note')]}" />
-                <field name="ignore_quantities" attrs="{'invisible': [('reception_type','!=', 'note')]}" />
+                <field name="delivery_note_no" invisible="reception_type!='note'" />
+                <field name="ignore_quantities" invisible="reception_type!='note'" />
             </xpath>
             <button id="bid_confirm" position="replace">
                 <button
@@ -19,7 +19,7 @@
                     string="Confirm Order"
                     class="oe_highlight"
                     id="bid_confirm"
-                    attrs="{'invisible': ['|', ('reception_type', '=', 'rfq_only'), ('state', '!=', 'sent')]}"
+                    invisible="reception_type == 'rfq_only' or state!='sent'"
                 />
             </button>
             <button id="draft_confirm" position="replace">
@@ -28,7 +28,7 @@
                     type="object"
                     string="Confirm Order"
                     id="draft_confirm"
-                    attrs="{'invisible': ['|', ('reception_type', '=', 'rfq_only'), ('state', '!=', 'draft')]}"
+                    invisible="reception_type == 'rfq_only' or state != 'draft'"
                 />
             </button>
         </field>
@@ -44,7 +44,7 @@
                     name="set_sent"
                     string="Set as sent"
                     type="object"
-                    attrs="{'invisible': ['|', ('reception_type', '!=', 'rfq_only'), ('state', '!=', 'draft')]}"
+                    invisible="reception_type!='rfq_only' or state!='draft'"
                 />
             </xpath>
         </field>
@@ -147,7 +147,7 @@
         <field name="name">Receptions</field>
         <field name="res_model">stock.picking</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[("picking_type_code", "=", "incoming"), ("to_invoice", "=", True)]</field>
+        <field name="domain">[("picking_type_code", "=", "incoming"), ("state", "=", 'done')]</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a new reception note
