@@ -17,16 +17,20 @@ Purchase Price History
     :target: https://www.odoo.com/documentation/master/legal/licenses.html
     :alt: License: OPL-1
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/16.0/deltatech_purchase_price_history
+    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_purchase_price_history
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
 
 Features:
- - Minimum, maximum and average purchase prices from tha last 12 months are displayed in the Purchase tab of the product template
- - The values are stored and computed by cron job (planned action)
- - The values are computed from suppliers bills, and are always in the company's currency
- - not recommended for multi-company environments (due to multiple company currencies)
+
+-  Minimum, maximum and average purchase prices from tha last 12 months
+   are displayed in the Purchase tab of the product template
+-  The values are stored and computed by cron job (planned action)
+-  The values are computed from suppliers bills, and are always in the
+   company's currency
+-  not recommended for multi-company environments (due to multiple
+   company currencies)
 
 **Table of contents**
 
@@ -45,13 +49,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dan Stoica
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-danila12| image:: https://github.com/danila12.png?size=40px
     :target: https://github.com/danila12
@@ -61,6 +65,6 @@ Current maintainer:
 
 |maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/16.0/deltatech_purchase_price_history>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_purchase_price_history>`_ project on GitHub.
 
 You are welcome to contribute.

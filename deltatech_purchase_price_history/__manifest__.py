@@ -5,7 +5,7 @@
 {
     "name": "Purchase Price History",
     "summary": "View minim, maxim and average purchase price from the last 12 months in product template",
-    "version": "16.0.0.0.1",
+    "version": "17.0.0.0.1",
     "author": "Terrabit, Dan Stoica",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
