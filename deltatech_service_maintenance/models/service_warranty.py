@@ -155,10 +155,7 @@ class ServiceWarranty(models.Model):
                 self.name = self.env["ir.sequence"].next_by_code("service.warranty")
 
     def request_approval(self):
-        if self.picking_id:
-            self.state = "approval_requested"
-        # else:
-        #     raise UserError(_("Create stock transfer first"))
+        self.state = "approval_requested"
 
     def approve(self):
         self.state = "approved"
