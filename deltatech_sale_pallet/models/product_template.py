@@ -15,10 +15,17 @@ class ProductTemplate(models.Model):
 
     @api.onchange("pallet_product_id", "pallet_qty_min")
     def _compute_pallet_price(self):
-        main_pricelist = self.env.ref("product.list0", False)
         for template in self:
-            price = main_pricelist._get_product_price(template, template.pallet_qty_min)
-            price = price * template.pallet_qty_min
+            price = 0
             if template.pallet_product_id:
-                price = price + template.pallet_product_id.list_price
+                price = template.pallet_product_id.list_price
+            if template.pallet_qty_min:
+                price = price + template.pallet_qty_min * template.list_price
             template.pallet_price = price
+        # main_pricelist = self.env.ref("product.list", False)
+        # for template in self:
+        #     price = main_pricelist._get_product_price(template, template.pallet_qty_min)
+        #     price = price * template.pallet_qty_min
+        #     if template.pallet_product_id:
+        #         price = price + template.pallet_product_id.list_price
+        #     template.pallet_price = price
