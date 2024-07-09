@@ -57,6 +57,7 @@ class StockPicking(models.Model):
             "type": "ir.actions.act_window",
         }
 
+
 class StockLot(models.Model):
     _inherit = "stock.lot"
 
@@ -71,8 +72,7 @@ class StockLot(models.Model):
                     "type": "ir.actions.act_window",
                     "name": _("Warranties for serial %s", self.name),
                     "domain": [("id", "in", warranties.ids)],
-                    "view_mode": "tree,form"
+                    "view_mode": "tree,form",
                 }
                 return action
         raise UserError(_("No warranties for this serial!"))
-
