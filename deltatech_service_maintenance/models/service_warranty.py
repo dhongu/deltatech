@@ -55,31 +55,71 @@ class ServiceWarranty(models.Model):
         if self.equipment_id:
             self.user_id = self.equipment_id.technician_user_id or self.user_id
             if self.equipment_id.serial_id:
-                moves = self.env["stock.move"].search(
-                    [("lot_ids", "in", self.equipment_id.serial_id.ids), ("state", "=", "done")], order="date DESC"
+                move_lines = self.env["stock.move.line"].search(
+                    [
+                        ("lot_id", "=", self.equipment_id.serial_id.id),
+                        ("state", "=", "done"),
+                        ("product_id", "=", self.equipment_id.product_id.id),
+                    ],
+                    order="date DESC",
                 )
-                if moves:
+                if move_lines:
                     last_move = False
-                    if moves[0].location_dest_id.usage == "customer":
+                    if move_lines[0].location_dest_id.usage == "customer":
                         # if last move seems like a delivery
-                        last_move = moves[0]
+                        last_move = move_lines[0]
                     else:
-                        for move in moves:
+                        for move in move_lines:
                             if move.location_dest_id.usage == "customer":
                                 last_move = move
                                 break
-                    if last_move and last_move.sale_line_id:
-                        self.sale_order_id = last_move.sale_line_id.order_id
-                        invoice_lines = last_move.sale_line_id.invoice_lines
+                    if last_move and last_move.move_id.sale_line_id:
+                        self.sale_order_id = last_move.move_id.sale_line_id.order_id
+                        invoice_lines = last_move.move_id.sale_line_id.invoice_lines
                         invoices = invoice_lines.move_id
                         if len(invoices) == 1:
                             if invoices.state == "posted" and invoices.move_type == "out_invoice":
                                 self.invoice_id = invoices
                                 self.partner_id = invoices.partner_id
+                    else:
+                        self.invoice_id = False
+                        self.sale_order_id = False
+                        self.partner_id = False
         else:
             self.invoice_id = False
             self.sale_order_id = False
             self.partner_id = False
+
+    # @api.onchange("equipment_id")
+    # def onchange_equipment_id(self):
+    #     if self.equipment_id:
+    #         self.user_id = self.equipment_id.technician_user_id or self.user_id
+    #         if self.equipment_id.serial_id:
+    #             moves = self.env["stock.move"].search(
+    #                 [("lot_ids", "in", self.equipment_id.serial_id.ids), ("state", "=", "done")], order="date DESC"
+    #             )
+    #             if moves:
+    #                 last_move = False
+    #                 if moves[0].location_dest_id.usage == "customer":
+    #                     # if last move seems like a delivery
+    #                     last_move = moves[0]
+    #                 else:
+    #                     for move in moves:
+    #                         if move.location_dest_id.usage == "customer":
+    #                             last_move = move
+    #                             break
+    #                 if last_move and last_move.sale_line_id:
+    #                     self.sale_order_id = last_move.sale_line_id.order_id
+    #                     invoice_lines = last_move.sale_line_id.invoice_lines
+    #                     invoices = invoice_lines.move_id
+    #                     if len(invoices) == 1:
+    #                         if invoices.state == "posted" and invoices.move_type == "out_invoice":
+    #                             self.invoice_id = invoices
+    #                             self.partner_id = invoices.partner_id
+    #     else:
+    #         self.invoice_id = False
+    #         self.sale_order_id = False
+    #         self.partner_id = False
 
     def new_delivery_button(self):
         # block picking if partner blocked
@@ -155,10 +195,7 @@ class ServiceWarranty(models.Model):
                 self.name = self.env["ir.sequence"].next_by_code("service.warranty")
 
     def request_approval(self):
-        if self.picking_id:
-            self.state = "approval_requested"
-        # else:
-        #     raise UserError(_("Create stock transfer first"))
+        self.state = "approval_requested"
 
     def approve(self):
         self.state = "approved"
