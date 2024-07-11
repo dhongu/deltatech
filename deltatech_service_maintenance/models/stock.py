@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class StockPicking(models.Model):
@@ -54,3 +55,23 @@ class StockPicking(models.Model):
             "context": context,
             "type": "ir.actions.act_window",
         }
+
+
+class StockLot(models.Model):
+    _inherit = "stock.production.lot"
+
+    def action_lot_open_warranty(self):
+        self.ensure_one()
+        equipments = self.env["service.equipment"].search([("serial_id", "=", self.id)])
+        if equipments:
+            warranties = self.env["service.warranty"].search([("equipment_id", "in", equipments.ids)])
+            if warranties:
+                action = {
+                    "res_model": "service.warranty",
+                    "type": "ir.actions.act_window",
+                    "name": _("Warranties for serial %s", self.name),
+                    "domain": [("id", "in", warranties.ids)],
+                    "view_mode": "tree,form",
+                }
+                return action
+        raise UserError(_("No warranties for this serial!"))

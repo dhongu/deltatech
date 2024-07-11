@@ -32,6 +32,7 @@ class ServiceWarranty(models.Model):
         string="Status",
         tracking=True,
     )
+    state_editable = fields.Boolean(compute="_compute_state_editable")
     equipment_id = fields.Many2one(
         "service.equipment", string="Equipment", index=True, readonly=True, states={"new": [("readonly", False)]}
     )
@@ -49,6 +50,13 @@ class ServiceWarranty(models.Model):
         states={"done": [("readonly", True)]},
         copy=True,
     )
+
+    def _compute_state_editable(self):
+        for warranty in self:
+            if self.env.user.has_group("deltatech_service.group_warranty_manager"):
+                warranty.state_editable = True
+            else:
+                warranty.state_editable = False
 
     @api.onchange("equipment_id")
     def onchange_equipment_id(self):
