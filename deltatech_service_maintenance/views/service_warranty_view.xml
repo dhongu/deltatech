@@ -83,13 +83,7 @@
                         string="Set done"
                         attrs="{'invisible': [('state','!=','approved')]}"
                     />
-                    <field
-                        name="state"
-                        widget="statusbar"
-                        options="{'clickable': '1'}"
-                        attrs="{'invisible': [('state_editable', '=', False)]}"
-                    />
-                    <field name="state" widget="statusbar" attrs="{'invisible': [('state_editable', '=', True)]}" />
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}" />
                 </header>
                 <sheet>
                     <div class="oe_title">
