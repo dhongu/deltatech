@@ -40,7 +40,6 @@
         <field name="arch" type="xml">
             <form string="Warranty">
                 <header>
-                    <field name="state_editable" invisible="1" />
                     <button
                         name="new_delivery_button"
                         type="object"
