@@ -1638,6 +1638,12 @@ msgid "You must have an agreement."
 msgstr ""
 
 #. module: deltatech_service_maintenance
+#: code:addons/deltatech_service_maintenance/models/service_warranty.py:0
+#, python-format
+msgid "Your user cannot change the state directly"
+msgstr "Acest utilizator nu poate modifica direct status-ul"
+
+#. module: deltatech_service_maintenance
 #: model:service.operating.parameter,name:deltatech_service_maintenance.equi_work_again
 msgid "the defect was fixed equipment works"
 msgstr "defectul a fost inlaturat echipamentul functioneaza"
