@@ -32,7 +32,6 @@ class ServiceWarranty(models.Model):
         string="Status",
         tracking=True,
     )
-    state_editable = fields.Boolean(compute="_compute_state_editable")
     equipment_id = fields.Many2one(
         "service.equipment", string="Equipment", index=True, readonly=True, states={"new": [("readonly", False)]}
     )
@@ -50,13 +49,6 @@ class ServiceWarranty(models.Model):
         states={"done": [("readonly", True)]},
         copy=True,
     )
-
-    def _compute_state_editable(self):
-        for warranty in self:
-            if self.env.user.has_group("deltatech_service.group_warranty_manager"):
-                warranty.state_editable = True
-            else:
-                warranty.state_editable = False
 
     @api.onchange("equipment_id")
     def onchange_equipment_id(self):
@@ -150,31 +142,38 @@ class ServiceWarranty(models.Model):
     @api.onchange("user_id")
     def set_assigned(self):
         if self.state == "new" and self.user_id:
-            self.state = "assigned"
+            self.with_context(change_ok=True).write({"state": "assigned"})
             if self.name == "/":
                 self.name = self.env["ir.sequence"].next_by_code("service.warranty")
 
     def set_new(self):
         if self.state == "assigned":
-            self.state = "new"
+            self.with_context(change_ok=True).write({"state": "new"})
             self.user_id = False
             if self.name == "/":
                 self.name = self.env["ir.sequence"].next_by_code("service.warranty")
 
     def set_in_progress(self):
         if self.state == "assigned" and self.user_id:
-            self.state = "progress"
+            self.with_context(change_ok=True).write({"state": "progress"})
             if self.name == "/":
                 self.name = self.env["ir.sequence"].next_by_code("service.warranty")
 
     def request_approval(self):
-        self.state = "approval_requested"
+        self.with_context(change_ok=True).write({"state": "approval_requested"})
 
     def approve(self):
-        self.state = "approved"
+        self.with_context(change_ok=True).write({"state": "approved"})
 
     def set_done(self):
-        self.state = "done"
+        self.with_context(change_ok=True).write({"state": "done"})
+
+    @api.onchange("state")
+    def check_if_ok(self):
+        if not self.env.user.has_group("deltatech_service.group_warranty_manager") and not self.env.context.get(
+            "change_ok", False
+        ):
+            raise UserError(_("Your user cannot change the state directly"))
 
 
 class ServiceWarrantyItem(models.Model):
