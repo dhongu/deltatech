@@ -6,22 +6,49 @@ class TestAccountInvoiceView(TransactionCase):
         super().setUp()
 
         # Create necessary records for the test
+        self.company = self.env["res.company"].create(
+            {
+                "name": "Test Company",
+            }
+        )
+
+        self.journal = self.env["account.journal"].create(
+            {
+                "name": "Test Journal",
+                "type": "general",
+                "code": "TJ",
+                "company_id": self.company.id,
+            }
+        )
+
         self.product_a = self.env["product.product"].create(
             {
                 "name": "Test A",
                 "type": "consu",
+                "company_id": self.company.id,
             }
         )
 
         self.partner = self.env["res.partner"].create(
             {
                 "name": "Test Partner",
+                "company_id": self.company.id,
+            }
+        )
+
+        self.account = self.env["account.account"].create(
+            {
+                "name": "Test Account",
+                "code": "TEST",
+                "company_id": self.company.id,
             }
         )
 
         self.invoice_a = self.env["account.move"].create(
             {
                 "partner_id": self.partner.id,
+                "company_id": self.company.id,
+                "journal_id": self.journal.id,
                 "invoice_line_ids": [
                     (
                         0,
@@ -31,7 +58,7 @@ class TestAccountInvoiceView(TransactionCase):
                             "quantity": 1,
                             "name": "Test A",
                             "price_unit": 1.0,
-                            "account_id": self.env["account.account"].search([], limit=1).id,
+                            "account_id": self.account.id,
                         },
                     )
                 ],
