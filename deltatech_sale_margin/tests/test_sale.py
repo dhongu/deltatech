@@ -7,7 +7,7 @@ from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
 
-class TestSale(TransactionCase):
+class TestSaleon(TransactionCase):
     def setUp(self):
         super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
@@ -22,6 +22,7 @@ class TestSale(TransactionCase):
         self.stock_location = self.env.ref("stock.stock_location_stock")
         self.env["stock.quant"]._update_available_quantity(self.product_a, self.stock_location, 1000)
         self.env["stock.quant"]._update_available_quantity(self.product_b, self.stock_location, 1000)
+        self.env["ir.config_parameter"].sudo().set_param("sale.margin_limit_check_validate", "1")
 
     def test_sale(self):
         so = Form(self.env["sale.order"])
