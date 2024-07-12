@@ -6,7 +6,7 @@ class TestAccountInvoiceView(TransactionCase):
         super().setUp()
 
         # Create necessary records for the test
-        self.product = self.env["product.product"].create(
+        self.product_a = self.env["product.product"].create(
             {
                 "name": "Test A",
                 "type": "consu",
@@ -19,7 +19,7 @@ class TestAccountInvoiceView(TransactionCase):
             }
         )
 
-        self.invoice = self.env["account.move"].create(
+        self.invoice_a = self.env["account.move"].create(
             {
                 "partner_id": self.partner.id,
                 "invoice_line_ids": [
@@ -27,7 +27,7 @@ class TestAccountInvoiceView(TransactionCase):
                         0,
                         0,
                         {
-                            "product_id": self.product.id,
+                            "product_id": self.product_a.id,
                             "quantity": 1,
                             "name": "Test A",
                             "price_unit": 1.0,
@@ -43,4 +43,4 @@ class TestAccountInvoiceView(TransactionCase):
         invoices = self.env["account.move"].search([("line_ids.product_id", "ilike", "Test A")])
 
         # Check that the correct invoice was found
-        self.assertEqual(invoices, self.invoice)
+        self.assertEqual(invoices, self.invoice_a)
