@@ -29,7 +29,7 @@ class TestAccountInvoiceView(TransactionCase):
                         {
                             "product_id": self.product.id,
                             "quantity": 1,
-                            "name": "Test Product",
+                            "name": "Test A",
                             "price_unit": 1.0,
                             "account_id": self.env["account.account"].search([], limit=1).id,
                         },
