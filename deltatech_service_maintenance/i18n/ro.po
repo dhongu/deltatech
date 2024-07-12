@@ -1535,14 +1535,14 @@ msgstr "Sesizări garanție"
 #: code:addons/deltatech_service_maintenance/models/service_equipment.py:0
 #, python-format
 msgid "Warranties for equipment %s"
-msgstr "Sesizări garanție pentru echipament"
+msgstr "Sesizări garanție pentru echipament %s"
 
 #. module: deltatech_service_maintenance
 #. odoo-python
 #: code:addons/deltatech_service_maintenance/models/stock.py:0
 #, python-format
 msgid "Warranties for serial %s"
-msgstr "Sesizări garanție pentru serial"
+msgstr "Sesizări garanție pentru serial %s"
 
 #. module: deltatech_service_maintenance
 #: model:ir.actions.act_window,name:deltatech_service_maintenance.action_service_warranty
