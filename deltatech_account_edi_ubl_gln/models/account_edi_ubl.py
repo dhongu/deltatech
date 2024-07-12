@@ -6,15 +6,11 @@
 from odoo import models
 
 
-class Partner(models.Model):
-    _inherit = "res.partner"
+class AccountEdiXmlUBL20(models.AbstractModel):
+    _inherit = "account.edi.xml.ubl_20"
 
     def _get_partner_party_identification_vals_list(self, partner):
         res = super()._get_partner_party_identification_vals_list(partner)
-        res += [
-            {
-                "id_attrs": {"schemeID": "0088"},
-                "id": partner.gln,
-            }
-        ]
+        if partner.gln:
+            res += [{"id_attrs": {"schemeID": "0088"}, "id": partner.gln}]
         return res
