@@ -18,6 +18,7 @@ addon | version | maintainers | summary | price
 [deltatech](deltatech/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generic module | Free 
 [deltatech_account](deltatech_account/) | 15.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account | Free 
 [deltatech_account_analytic](deltatech_account_analytic/) | 15.0.0.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Analytic lines enhancements | Free 
+[deltatech_account_edi_ubl_gln](deltatech_account_edi_ubl_gln/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL GLN | Free 
 [deltatech_account_restrict_date](deltatech_account_restrict_date/) | 15.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict certain operations depending on date | Free 
 [deltatech_agreement_management](deltatech_agreement_management/) | 15.0.0.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage agreements numbers, date, state | Free 
 [deltatech_alternative](deltatech_alternative/) | 15.0.2.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes | Free 
@@ -48,6 +49,7 @@ addon | version | maintainers | summary | price
 [deltatech_fleet_geo](deltatech_fleet_geo/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Fleet Geographical Information | Free 
 [deltatech_followup](deltatech_followup/) | 15.0.0.0.6 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Simple invoice followup, with automatic e-mails | Free 
 [deltatech_generic_partner_restriction](deltatech_generic_partner_restriction/) | 15.0.2.0.0 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) | Generic Partner restriction | Free 
+[deltatech_gln](deltatech_gln/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Partner Global Location Number | Free 
 [deltatech_invoice_color](deltatech_invoice_color/) | 15.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Colors Invoice Lines | Free 
 [deltatech_invoice_delivery](deltatech_invoice_delivery/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Create delivery form invoice | Free 
 [deltatech_invoice_number](deltatech_invoice_number/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Renumbering invoice | Free 
