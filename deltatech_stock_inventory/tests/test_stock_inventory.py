@@ -2,6 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+from odoo import fields
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
@@ -35,6 +36,35 @@ class TestStockInventory(TransactionCase):
                     "groups_id": [(6, 0, [group_inventory_user.id, group_stock_manager.id])],
                 }
             )
+        )
+        self.product = self.env["product.product"].create(
+            {
+                "name": "Test Product",
+                "type": "product",
+            }
+        )
+        self.quant = self.env["stock.quant"].create(
+            {
+                "product_id": self.product.id,
+                "location_id": self.stock_location.id,
+                "quantity": 10.0,
+            }
+        )
+
+        self.inventory_1 = self.env["stock.inventory"].create(
+            {
+                "name": "Inventory 1",
+                "location_ids": [(6, 0, [self.stock_location.id])],
+                "state": "done",
+            }
+        )
+
+        self.inventory_2 = self.env["stock.inventory"].create(
+            {
+                "name": "Inventory 2",
+                "location_ids": [(6, 0, [self.stock_location.id])],
+                "state": "done",
+            }
         )
 
     def test_stock_inventory(self):
@@ -138,3 +168,25 @@ class TestStockInventory(TransactionCase):
 
     def test_product_loc(self):
         self.product_a.product_tmpl_id.loc_row = "A"
+
+    def test_merge_inventory(self):
+        # Create the stock.inventory.merge record
+        merge_wizard = self.env["stock.inventory.merge"].create(
+            {
+                "name": "Merged Inventory",
+                "date": fields.Datetime.now(),
+                "company_id": self.env.user.company_id.id,
+                "location_id": self.stock_location.id,
+            }
+        )
+
+        # Call the merge_inventory method
+        merge_wizard.with_context(active_ids=[self.inventory_1.id, self.inventory_2.id]).merge_inventory()
+
+        # Get the created inventory
+        merged_inventory = self.env["stock.inventory"].search([], order="id desc", limit=1)
+
+        # Check that the inventory was created with the correct name and date
+        self.assertEqual(merged_inventory.name, merge_wizard.name)
+        self.assertEqual(merged_inventory.date, merge_wizard.date)
+        self.assertEqual(merged_inventory.state, "done")
