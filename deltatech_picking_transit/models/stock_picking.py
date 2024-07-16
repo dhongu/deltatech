@@ -18,11 +18,11 @@ class StockPicking(models.Model):
             "context": {"default_picking_id": self.id},
         }
 
-    def create_second_transfer_wizard(self, final_dest_location_id):
+    def create_second_transfer_wizard(self, final_dest_location_id, picking_type_id):
         for picking in self:
             if picking.picking_type_id.code == "internal" and picking.location_dest_id.usage == "transit":
                 new_picking_vals = {
-                    "picking_type_id": self.env.ref("stock.picking_type_internal").id,
+                    "picking_type_id": picking_type_id.id,
                     "location_id": picking.location_dest_id.id,
                     "location_dest_id": final_dest_location_id.id,
                     "move_ids_without_package": [],

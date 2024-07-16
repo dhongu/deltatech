@@ -6,10 +6,11 @@ class StockPickingTransferWizard(models.TransientModel):
     _description = "Stock Picking Transfer Wizard"
 
     final_dest_location_id = fields.Many2one("stock.location", string="Final Destination Location", required=True)
+    picking_type_id = fields.Many2one("stock.picking.type", string="Picking Type", required=True)
 
     def confirm_transfer(self):
         self.ensure_one()
         picking_id = self.env.context.get("active_id")
         if picking_id:
             picking = self.env["stock.picking"].browse(picking_id)
-            picking.create_second_transfer_wizard(self.final_dest_location_id)
+            picking.create_second_transfer_wizard(self.final_dest_location_id, self.picking_type_id)
