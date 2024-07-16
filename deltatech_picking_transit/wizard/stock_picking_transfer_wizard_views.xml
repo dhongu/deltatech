@@ -7,7 +7,6 @@
             <form string="Create Transfer">
                 <group>
                     <field name="final_dest_location_id" />
-                    <field name="picking_type_id" />
                 </group>
                 <footer>
                     <button string="Confirm" type="object" name="confirm_transfer" class="btn-primary" />

@@ -11,6 +11,7 @@
         "security/ir.model.access.csv",
         "views/stock_picking_views.xml",
         "wizard/stock_picking_transfer_wizard_views.xml",
+        "views/stock_picking_type_view.xml",
     ],
     "development_status": "Beta",
     "maintainers": ["VoicuStefan2001"],
