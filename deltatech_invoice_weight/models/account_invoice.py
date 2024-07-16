@@ -17,12 +17,15 @@ class AccountInvoice(models.Model):
         invoices = super().create(vals_list)
 
         for invoice in invoices:
-            new_weight = 0.0
+            gross_weight = 0.0
+            net_weight = 0.0
             # Extract the products from the order lines
             for line in invoice.invoice_line_ids:
                 # Calculate the new weight
-                new_weight += line.product_id.weight * line.quantity
+                gross_weight += line.product_id.weight * line.quantity
+                net_weight += line.product_id.l10n_ro_net_weight * line.quantity
             # Update the weight fields
-            invoice.weight_net = new_weight
+            invoice.weight_gross = gross_weight
+            invoice.weight_net = net_weight
 
         return invoices

@@ -16,12 +16,14 @@ class PurchaseOrder(models.Model):
         purchase_orders = super().create(vals_list)
 
         for purchase_order in purchase_orders:
-            new_weight = 0.0
+            gross_weight = 0.0
+            net_weight = 0.0
             # Extract the products from the order lines
             for line in purchase_order.order_line:
                 # Calculate the new weight
-                new_weight += line.product_id.weight * line.product_qty
+                gross_weight += line.product_id.weight * line.product_qty
+                net_weight += line.product_id.l10n_ro_net_weight * line.product_qty
             # Update the weight fields
-            purchase_order.weight_net = new_weight
-
+            purchase_order.weight_gross = gross_weight
+            purchase_order.weight_net = net_weight
         return purchase_orders

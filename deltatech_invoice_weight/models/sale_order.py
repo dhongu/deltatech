@@ -16,12 +16,15 @@ class SaleOrder(models.Model):
         sale_orders = super().create(vals_list)
 
         for sale_order in sale_orders:
-            new_weight = 0.0
+            gross_weight = 0.0
+            net_weight = 0.0
             # Extract the products from the order lines
             for line in sale_order.order_line:
                 # Calculate the new weight
-                new_weight += line.product_id.weight * line.product_uom_qty
+                gross_weight += line.product_id.weight * line.product_uom_qty
+                net_weight += line.product_id.l10n_ro_net_weight * line.product_uom_qty
             # Update the weight fields
-            sale_order.weight_net = new_weight
+            sale_order.weight_gross = gross_weight
+            sale_order.weight_net = net_weight
 
         return sale_orders
