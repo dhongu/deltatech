@@ -25,7 +25,7 @@ class AccountInvoice(models.Model):
                 gross_weight += line.product_id.weight * line.quantity
                 net_weight += line.product_id.l10n_ro_net_weight * line.quantity
             # Update the weight fields
-            invoice.weight_gross = gross_weight
+            invoice.weight = gross_weight
             invoice.weight_net = net_weight
 
         return invoices
