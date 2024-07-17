@@ -18,6 +18,9 @@ class TestPurchase(TransactionCase):
         self.product_b = self.env["product.product"].create(
             {"name": "Test B", "type": "product", "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
         )
+        self.purchase_journal = self.env["account.journal"].create(
+            {"name": "Purchase Journal", "code": "PUR", "type": "purchase"}
+        )
 
     def test_purchase_confirm_to_invoice(self):
         form_purchase = Form(self.env["purchase.order"])
