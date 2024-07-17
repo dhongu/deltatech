@@ -41,7 +41,6 @@ class TestStockOperations(TransactionCase):
                 "picking_type_id": self.ref("stock.picking_type_in"),
                 "location_id": self.location.id,
                 "location_dest_id": self.location.id,
-                "company_id": self.company.id,
             }
         )
 
@@ -52,7 +51,6 @@ class TestStockOperations(TransactionCase):
                 "location_id": self.location.id,
                 "location_dest_id": self.location.id,
                 "picking_id": picking.id,
-                "company_id": self.company.id,
                 "qty_done": 1.0,
             }
         )
@@ -70,9 +68,7 @@ class TestStockOperations(TransactionCase):
         lot = ProductionLot.create(
             {
                 "name": "TESTLOT001",
-                "product_id": self.product.id,
-                "company_id": self.company.id,
-            }
+                "product_id": self.product.id,            }
         )
         self.env["stock.quant"].create(
             {
@@ -80,7 +76,6 @@ class TestStockOperations(TransactionCase):
                 "location_id": self.location.id,
                 "quantity": 10.0,
                 "lot_id": lot.id,
-                "company_id": self.company.id,
             }
         )
 
@@ -99,7 +94,6 @@ class TestStockOperations(TransactionCase):
                 "picking_type_id": self.ref("stock.picking_type_in"),
                 "location_id": self.location.id,
                 "location_dest_id": self.location.id,
-                "company_id": self.company.id,
             }
         )
 
@@ -110,7 +104,6 @@ class TestStockOperations(TransactionCase):
                 "location_id": self.location.id,
                 "location_dest_id": self.location.id,
                 "picking_id": picking.id,
-                "company_id": self.company.id,
                 "qty_done": 1.0,
             }
         )
