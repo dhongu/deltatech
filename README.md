@@ -83,6 +83,7 @@ addon | version | maintainers | summary | price
 [deltatech_picking_restrict](deltatech_picking_restrict/) | 16.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict picking validation to a certain security group | Free 
 [deltatech_picking_services](deltatech_picking_services/) | 16.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Service lines in pickings | Free 
 [deltatech_picking_split](deltatech_picking_split/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Picking Manual Backorder | Free 
+[deltatech_picking_transit](deltatech_picking_transit/) | 16.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Automate internal transfer from transit location | Free 
 [deltatech_portal_invoice](deltatech_portal_invoice/) | 16.0.1.0.1 |  | Portal invoice | Free 
 [deltatech_pos_backend](deltatech_pos_backend/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Point of sale create/edit order form backend | Free 
 [deltatech_pos_decimal_numpad_dot](deltatech_pos_decimal_numpad_dot/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Numpad Dot as decimal separator | Free 
