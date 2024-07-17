@@ -68,7 +68,8 @@ class TestStockOperations(TransactionCase):
         lot = ProductionLot.create(
             {
                 "name": "TESTLOT001",
-                "product_id": self.product.id,            }
+                "product_id": self.product.id,
+            }
         )
         self.env["stock.quant"].create(
             {
