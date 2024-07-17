@@ -39,7 +39,7 @@ class TestWeightCalculation(TransactionCase):
             }
         )
         # Check the net weight
-        self.assertEqual(invoice.weight_net, 15.0, "Net weight should be 15 Kg (1.5 Kg * 10)")
+        self.assertEqual(invoice.weight, 15.0, "Gross weight should be 15 Kg (1.5 Kg * 10)")
 
     def test_purchase_order_weight_calculation(self):
         purchase_order = self.env["purchase.order"].create(
@@ -60,7 +60,7 @@ class TestWeightCalculation(TransactionCase):
             }
         )
         # Check the net weight
-        self.assertEqual(purchase_order.weight_net, 15.0, "Net weight should be 15 Kg (1.5 Kg * 10)")
+        self.assertEqual(purchase_order.weight_gross, 15.0, "Gross weight should be 15 Kg (1.5 Kg * 10)")
 
     def test_sale_order_weight_calculation(self):
         sale_order = self.env["sale.order"].create(
@@ -80,4 +80,4 @@ class TestWeightCalculation(TransactionCase):
             }
         )
         # Check the net weight
-        self.assertEqual(sale_order.weight_net, 15.0, "Net weight should be 15 Kg (1.5 Kg * 10)")
+        self.assertEqual(sale_order.weight_gross, 15.0, "Gross weight should be 15 Kg (1.5 Kg * 10)")
