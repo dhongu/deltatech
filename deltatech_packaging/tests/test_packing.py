@@ -8,6 +8,9 @@ class TestStockPicking(TransactionCase):
     def setUp(self):
         super().setUp()
 
+        # Define the company
+        self.company = self.env.ref("base.main_company")
+
         # Set up the data needed for the test
         self.stock_picking = self.env["stock.picking"].create(
             {
@@ -15,6 +18,7 @@ class TestStockPicking(TransactionCase):
                 "location_id": self.env.ref("stock.stock_location_stock").id,
                 "location_dest_id": self.env.ref("stock.stock_location_stock").id,
                 "picking_type_id": self.env.ref("stock.picking_type_internal").id,
+                "company_id": self.company.id,
             }
         )
 
@@ -24,6 +28,7 @@ class TestStockPicking(TransactionCase):
                 "type": "product",
                 "uom_id": self.env.ref("uom.product_uom_unit").id,
                 "uom_po_id": self.env.ref("uom.product_uom_unit").id,
+                "company_id": self.company.id,
             }
         )
 
@@ -34,6 +39,7 @@ class TestStockPicking(TransactionCase):
                 "qty": 5,
                 "product_uom_id": self.env.ref("uom.product_uom_unit").id,
                 "package_type_id": self.env["stock.package.type"].create({"name": "Test Package Type"}).id,
+                "company_id": self.company.id,
             }
         )
 
@@ -47,6 +53,7 @@ class TestStockPicking(TransactionCase):
                 "location_id": self.stock_picking.location_id.id,
                 "location_dest_id": self.stock_picking.location_dest_id.id,
                 "product_packaging_id": self.packaging.id,
+                "company_id": self.company.id,
             }
         )
 
@@ -60,6 +67,7 @@ class TestStockPicking(TransactionCase):
                 "location_id": self.stock_picking.location_id.id,
                 "location_dest_id": self.stock_picking.location_dest_id.id,
                 "qty_done": 10,
+                "company_id": self.company.id,
             }
         )
 
@@ -76,6 +84,7 @@ class TestStockPicking(TransactionCase):
                 "location_id": self.stock_picking.location_id.id,
                 "location_dest_id": self.stock_picking.location_dest_id.id,
                 "qty_done": 10,
+                "company_id": self.company.id,
             }
         )
 
@@ -92,6 +101,7 @@ class TestStockPicking(TransactionCase):
                 "location_id": self.stock_picking.location_id.id,
                 "location_dest_id": self.stock_picking.location_dest_id.id,
                 "qty_done": 12,  # 2 units more than a multiple of the packaging qty (5)
+                "company_id": self.company.id,
             }
         )
 
