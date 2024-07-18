@@ -25,7 +25,7 @@ class StockPicking(models.Model):
 
     def create_second_transfer_wizard(self, final_dest_location_id, picking_type_id):
         for picking in self:
-            if picking.picking_type_id.code == "internal" and picking.location_dest_id.usage == "transit":
+            if picking.picking_type_id.code == "internal":
                 new_picking_vals = {
                     "picking_type_id": picking_type_id.id,
                     "location_id": picking.location_dest_id.id,
@@ -54,18 +54,16 @@ class StockPicking(models.Model):
     @api.model
     def create(self, vals):
         res = super().create(vals)
-        if (
-            res.picking_type_id.code == "internal"
-            and res.location_dest_id.usage == "transit"
-            and res.picking_type_id.next_operation_id
-        ):
+        if res.picking_type_id.code == "internal" and res.picking_type_id.next_operation_id:
             res.is_transit_transfer = True
         return res
 
     def _compute_sub_location_existent(self):
         for record in self:
             sub_location_usage = (
-                self.env["ir.config_parameter"].sudo().get_param(key="use_sub_locations", default=False)
+                self.env["ir.config_parameter"]
+                .sudo()
+                .get_param(key="deltatech_picking_transit.use_sub_locations", default=False)
             )
             if sub_location_usage and self.picking_type_id.code == "internal":
                 record.sub_location_existent = True
@@ -85,10 +83,6 @@ class StockPicking(models.Model):
                 move_line.location_id = quants[0].location_id
 
     def button_validate(self):
-        if (
-            self.picking_type_id.code == "internal"
-            and self.location_dest_id.usage == "transit"
-            and self.picking_type_id.next_operation_id
-        ):
+        if self.picking_type_id.code == "internal" and self.picking_type_id.next_operation_id:
             self.is_transit_transfer = True
         return super().button_validate()
