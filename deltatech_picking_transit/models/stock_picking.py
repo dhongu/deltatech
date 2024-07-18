@@ -1,14 +1,19 @@
 # models/stock_picking.py
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     is_transit_transfer = fields.Boolean(default=False)
+    sub_location_existent = fields.Boolean(default=False, compute="_compute_sub_location_existent")
+    second_transfer_created = fields.Boolean(default=False)
 
     def open_transfer_wizard(self):
+        if self.second_transfer_created:
+            raise UserError(_("Second transfer already created."))
         return {
             "name": "Create Transfer",
             "type": "ir.actions.act_window",
@@ -30,8 +35,9 @@ class StockPicking(models.Model):
                 new_picking = self.env["stock.picking"].create(new_picking_vals)
                 self.copy_move_lines(picking, new_picking)
                 new_picking.action_confirm()
-                new_picking.action_assign()
-                new_picking.do_unreserve()
+                # new_picking.action_assign()
+                # new_picking.do_unreserve()
+                self.second_transfer_created = True
                 return new_picking
 
     def copy_move_lines(self, source_picking, target_picking):
@@ -41,12 +47,48 @@ class StockPicking(models.Model):
                     "picking_id": target_picking.id,
                     "location_id": source_picking.location_dest_id.id,
                     "location_dest_id": target_picking.location_dest_id.id,
+                    "state": "draft",
                 }
             )
 
     @api.model
     def create(self, vals):
         res = super().create(vals)
-        if res.picking_type_id.code == "internal" and res.location_dest_id.usage == "transit":
+        if (
+            res.picking_type_id.code == "internal"
+            and res.location_dest_id.usage == "transit"
+            and res.picking_type_id.next_operation_id
+        ):
             res.is_transit_transfer = True
         return res
+
+    def _compute_sub_location_existent(self):
+        for record in self:
+            sub_location_usage = (
+                self.env["ir.config_parameter"].sudo().get_param(key="use_sub_locations", default=False)
+            )
+            if sub_location_usage and self.picking_type_id.code == "internal":
+                record.sub_location_existent = True
+            else:
+                record.sub_location_existent = False
+
+    def reassign_location(self):
+        for move_line in self.move_line_ids:
+            quants = self.env["stock.quant"].search(
+                [
+                    ("product_id", "=", move_line.product_id.id),
+                    ("location_id", "child_of", self.location_id.id),
+                    ("quantity", ">", 0.0),
+                ]
+            )
+            if quants:
+                move_line.location_id = quants[0].location_id
+
+    def button_validate(self):
+        if (
+            self.picking_type_id.code == "internal"
+            and self.location_dest_id.usage == "transit"
+            and self.picking_type_id.next_operation_id
+        ):
+            self.is_transit_transfer = True
+        return super().button_validate()
