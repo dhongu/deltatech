@@ -32,6 +32,24 @@ class StockPicking(models.Model):
                 warranty.write({"picking_id": res.id})
         return res
 
+    def button_validate(self):
+        """
+        Write the actual values in warranty
+        """
+        res = super().button_validate()
+        for picking in self:
+            if picking.warranty_id:
+                for move in picking.move_ids:
+                    value = 0.0
+                    for layer in move.stock_valuation_layer_ids:
+                        value = +layer.value
+                    line = picking.warranty_id.item_ids.filtered(lambda p: p.product_id == move.product_id)
+                    if not line or len(line) > 1:
+                        raise UserError(_("No lines or multiple lines in linked warranty found"))
+                    else:
+                        line.write({"price_unit": value / line.quantity if line.quantity else 0.0})
+        return res
+
     def new_notification(self):
         self.ensure_one()
         context = {"default_partner_id": self.partner_id.id}

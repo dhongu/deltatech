@@ -112,7 +112,7 @@
                         </group>
                         <group name="partner">
                             <field name="partner_id" required="1" />
-                            <field name="state" groups="deltatech_service_base.group_warranty_manager" />
+<!--                            <field name="state" groups="deltatech_service_base.group_warranty_manager" />-->
                         </group>
                         <group>
                             <field name="picking_id" readonly="1" />
@@ -131,8 +131,9 @@
                                     <field name="alternative_code" />
                                     <field name="name" />
                                     <field name="quantity" />
-
                                     <field name="product_uom" />
+                                    <field name="price_unit" readonly="1" force_save="1" />
+                                    <field name="amount" sum="amount" />
                                     <field name="note" />
                                 </tree>
 
