@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_service_warranty_tree" model="ir.ui.view">
+        <field name="name">service.warranty.tree</field>
+        <field name="model">service.warranty</field>
+        <field name="arch" type="xml">
+            <tree
+                string="Warranty"
+                default_order='date desc'
+                sample="1"
+                decoration-info="state == 'new'"
+                decoration-danger="state == 'approval_requested'"
+                decoration-success="state == 'approved'"
+                decoration-muted="state == 'done'"
+                decoration-primary="state == 'new'"
+                decoration-warning="state == 'progress'"
+            >
+                <field name="name" decoration-bf="1" />
+                <field name="date" />
+                <field name="equipment_id" />
+                <field name="sale_order_id" />
+                <field name="partner_id" />
+                <field name="user_id" widget="many2one_avatar_user" />
+                <field
+                    name='state'
+                    widget="badge"
+                    decoration-danger="state == 'new'  "
+                    decoration-success="state == 'assigned'  "
+                    decoration-primary="state == 'progress'  "
+                />
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_service_warranty_form" model="ir.ui.view">
+        <field name="name">service.warranty.tree</field>
+        <field name="model">service.warranty</field>
+        <field name="arch" type="xml">
+            <form string="Warranty">
+                <header>
+                    <button
+                        name="new_delivery_button"
+                        type="object"
+                        class="oe_highlight"
+                        string="New transfer"
+                        attrs="{'invisible': ['|', ('state','!=','approved'), ('picking_id', '!=', False)]}"
+                    />
+                    <button
+                        name="set_new"
+                        type="object"
+                        class="oe_highlight"
+                        string="Set new"
+                        attrs="{'invisible': [('state','!=','assigned')]}"
+                    />
+                    <button
+                        name="set_in_progress"
+                        type="object"
+                        class="oe_highlight"
+                        string="Set in progress"
+                        attrs="{'invisible': [('state','!=','assigned')]}"
+                    />
+                    <button
+                        name="request_approval"
+                        type="object"
+                        class="oe_highlight"
+                        string="Request approval"
+                        attrs="{'invisible': [('state','!=','progress')]}"
+                    />
+                    <button
+                        name="approve"
+                        type="object"
+                        class="oe_highlight"
+                        string="Approve"
+                        attrs="{'invisible': [('state','!=','approval_requested')]}"
+                        groups="deltatech_service_base.group_warranty_manager"
+                    />
+                    <button
+                        name="set_done"
+                        type="object"
+                        class="oe_highlight"
+                        string="Set done"
+                        attrs="{'invisible': [('state','!=','approved')]}"
+                    />
+                    <field name="state" widget="statusbar" readonly="1" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" attrs="{'invisible': [('name','=','/')]}" readonly="1" />
+                        </h1>
+                    </div>
+
+
+                    <group>
+                        <group>
+                            <field name="date" />
+                            <field name="equipment_id" />
+                        </group>
+                        <group>
+                            <field name="sale_order_id" />
+                            <field name="invoice_id" />
+                        </group>
+                        <group name="responsible">
+                            <field
+                                name="user_id"
+                                domain="[('share', '=', False)]"
+                                widget="many2one_avatar_user"
+                                attrs="{'readonly': [('state','not in', ['new', 'assigned'])]}"
+                            />
+                        </group>
+                        <group name="partner">
+                            <field name="partner_id" required="1" />
+                            <field name="has_agreement" />
+                        </group>
+                        <group>
+                            <field name="picking_id" readonly="1" />
+                        </group>
+                        <group colspan="2">
+                            <field name="description" widget="text" />
+                        </group>
+
+                    </group>
+                    <notebook>
+                        <page string="Components" name="lines">
+                            <field name="item_ids" mode="tree,kanban">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="product_id" />
+                                    <field name="alternative_code" />
+                                    <field name="name" />
+                                    <field name="quantity" />
+                                    <field name="product_uom" />
+                                    <field name="price_unit" readonly="1" force_save="1" />
+                                    <field name="amount" sum="amount" />
+                                    <field name="note" />
+                                </tree>
+
+                                <kanban class="o_kanban_mobile">
+                                    <field name="product_id" />
+                                    <field name="quantity" />
+                                    <field name="product_uom" />
+
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <strong>
+                                                            <span>
+                                                                <t t-esc="record.product_id.value" />
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 text-muted">
+                                                        <span>
+                                                            Quantity:
+                                                            <t t-esc="record.quantity.value" />
+                                                            <t t-esc="record.product_uom.value" />
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+
+
+                            </field>
+
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search note -->
+    <record id="view_service_warranty_filter" model="ir.ui.view">
+        <field name="name">service.warranty.search</field>
+        <field name="model">service.warranty</field>
+        <field name="arch" type="xml">
+            <search string="Warranty">
+                <field name="name" />
+                <field name="user_id" />
+                <field name="partner_id" />
+                <field name="equipment_id" />
+                <separator />
+                <filter name="new" string="New" domain="[('state', '=', 'new')]" />
+                <filter name='assigned' string="Assigned" domain="[('state', '=', 'assigned')]" />
+                <filter name='progress' string="In Progress" domain="[('state', '=', 'progress')]" />
+                <filter name='done' string="Done" domain="[('state', '=', 'done')]" />
+                <separator />
+                <filter
+                    name='my'
+                    string="My"
+                    domain="[('user_id','=',uid)]"
+                    help="Notifications that are assigned to me"
+                />
+                <filter name="unassigned" string="Unassigned" domain="[('user_id','=', False)]" />
+                <group expand="0" string="Group By">
+                    <filter name="group_by_user_id" string="Responsible" context="{'group_by':'user_id'}" />
+                    <filter name="group_by_state" string="State" context="{'group_by':'state'}" />
+                    <filter name="group_by_equipment_id" string="Equipment" context="{'group_by':'equipment_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_service_warranty" model="ir.actions.act_window">
+        <field name="name">Warranty</field>
+        <field name="res_model">service.warranty</field>
+        <field name="view_mode">tree,form,activity</field>
+    </record>
+    <menuitem
+        name="Warranty"
+        id="menu_service_warranty"
+        action="action_service_warranty"
+        parent="deltatech_service_base.menu_service"
+        groups="deltatech_service_base.group_warranty_user"
+    />
+
+</odoo>
