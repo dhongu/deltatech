@@ -112,7 +112,7 @@
                         </group>
                         <group name="partner">
                             <field name="partner_id" required="1" />
-<!--                            <field name="state" groups="deltatech_service_base.group_warranty_manager" />-->
+                            <field name="has_agreement" />
                         </group>
                         <group>
                             <field name="picking_id" readonly="1" />
