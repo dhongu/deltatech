@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
     "category": "Generic Modules/Other",
-    "depends": ["product", "deltatech_product_trade_markup"],
+    "depends": ["account", "product", "deltatech_product_trade_markup"],
     "data": ["views/product_view.xml"],
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],
