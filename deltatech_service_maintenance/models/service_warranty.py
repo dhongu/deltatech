@@ -36,6 +36,7 @@ class ServiceWarranty(models.Model):
         "service.equipment", string="Equipment", index=True, readonly=True, states={"new": [("readonly", False)]}
     )
     partner_id = fields.Many2one("res.partner", string="Customer")
+    has_agreement = fields.Boolean("Has service agreement", compute="_compute_service_agreement")
     user_id = fields.Many2one("res.users", string="Responsible")
     description = fields.Text("Notes", readonly=False, states={"done": [("readonly", True)]})
     picking_id = fields.Many2one("stock.picking", string="Consumables", copy=False)
@@ -49,6 +50,41 @@ class ServiceWarranty(models.Model):
         states={"done": [("readonly", True)]},
         copy=True,
     )
+    total_amount = fields.Float(string="Total amount", compute="_compute_total_amount")
+
+    def _compute_service_agreement(self):
+        agreements_installed = (
+            self.env["ir.module.module"]
+            .sudo()
+            .search([("name", "=", "deltatech_service_agreement"), ("state", "=", "installed")])
+        )
+        for warranty in self:
+            if not agreements_installed:
+                warranty.has_agreement = False
+            else:
+                query = """
+                                    SELECT id, state FROM service_agreement agr
+                                    WHERE
+                                        state IN %(states)s
+                                        AND partner_id IN %(partners)s
+                                """
+                params = {
+                    "partners": tuple([warranty.partner_id.id, warranty.partner_id.commercial_partner_id.id]),
+                    "states": tuple(["draft", "open"]),
+                }
+                self.env.cr.execute(query, params=params)
+                res = self.env.cr.dictfetchall()
+                if res:
+                    warranty.has_agreement = True
+                else:
+                    warranty.has_agreement = False
+
+    def _compute_total_amount(self):
+        for warranty in self:
+            total_amount = 0.0
+            for line in warranty.item_ids:
+                total_amount += line.amount
+            warranty.total_amount = total_amount
 
     @api.onchange("equipment_id")
     def onchange_equipment_id(self):
@@ -191,8 +227,15 @@ class ServiceWarrantyItem(models.Model):
     quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
     product_uom = fields.Many2one("uom.uom", string="Unit of Measure ")
     note = fields.Char(string="Note")
+    price_unit = fields.Float(string="Unit price")
+    amount = fields.Float(string="Amount", compute="_compute_amount")
 
     @api.onchange("product_id")
     def onchange_product_id(self):
         self.product_uom = self.product_id.uom_id
         self.name = self.product_id.name
+        self.price_unit = self.product_id.standard_price
+
+    def _compute_amount(self):
+        for line in self:
+            line.amount = line.price_unit * line.quantity

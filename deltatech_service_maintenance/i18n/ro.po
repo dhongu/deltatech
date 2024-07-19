@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-11 06:45+0000\n"
-"PO-Revision-Date: 2024-07-11 06:45+0000\n"
+"POT-Creation-Date: 2024-07-19 08:33+0000\n"
+"PO-Revision-Date: 2024-07-19 08:33+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -91,6 +91,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty_item__alternative_code
 msgid "Alternative Code"
 msgstr "Cod alternativ"
+
+#. module: deltatech_service_maintenance
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty_item__amount
+msgid "Amount"
+msgstr "Valoare"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_warranty__state__approval_requested
@@ -477,6 +482,11 @@ msgid "Group By..."
 msgstr ""
 
 #. module: deltatech_service_maintenance
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty__has_agreement
+msgid "Has service agreement"
+msgstr "Cu contract"
+
+#. module: deltatech_service_maintenance
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_notification__priority__3
 msgid "High"
 msgstr ""
@@ -764,6 +774,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__activity_type_id
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty__activity_type_id
 msgid "Next Activity Type"
+msgstr ""
+
+#. module: deltatech_service_maintenance
+#: code:addons/deltatech_service_maintenance/models/stock.py:0
+#, python-format
+msgid "No lines or multiple lines in linked warranty found"
 msgstr ""
 
 #. module: deltatech_service_maintenance
@@ -1480,6 +1496,11 @@ msgid "This partner is blocked"
 msgstr ""
 
 #. module: deltatech_service_maintenance
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty__total_amount
+msgid "Total amount"
+msgstr "Valoare totală"
+
+#. module: deltatech_service_maintenance
 #: model:ir.model,name:deltatech_service_maintenance.model_stock_picking
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_notification__category__transfer
 msgid "Transfer"
@@ -1531,6 +1552,11 @@ msgstr "Unitate de măsură "
 #: model:ir.model.fields,help:deltatech_service_maintenance.field_service_plan__unit
 msgid "Unit of Measure for Cycle."
 msgstr "UM pentru ciclu"
+
+#. module: deltatech_service_maintenance
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty_item__price_unit
+msgid "Unit price"
+msgstr "Preț unitar"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__message_unread
@@ -1642,6 +1668,11 @@ msgstr ""
 #, python-format
 msgid "Your user cannot change the state directly"
 msgstr "Acest utilizator nu poate modifica direct status-ul"
+
+#. module: deltatech_service_maintenance
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_warranty_form
+msgid "amount"
+msgstr "Valoare"
 
 #. module: deltatech_service_maintenance
 #: model:service.operating.parameter,name:deltatech_service_maintenance.equi_work_again
