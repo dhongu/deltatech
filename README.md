@@ -79,7 +79,7 @@ addon | version | maintainers | summary | price
 [deltatech_price_modify_reception](deltatech_price_modify_reception/) | 14.0.1.0.2 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) | Editarea pretului de lista la receptie | Free 
 [deltatech_pricelist](deltatech_pricelist/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Price list currency | Free 
 [deltatech_print_bf](deltatech_print_bf/) | 14.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generare fisier pentu casa de marcat | Free 
-[deltatech_procurement](deltatech_procurement/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Required Order | Free 
+[deltatech_procurement](deltatech_procurement/) | 14.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Required Order | Free 
 [deltatech_product_catalog](deltatech_product_catalog/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | This module helps to print the catalog of the multi products | Free 
 [deltatech_product_category](deltatech_product_category/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Products Category | Free 
 [deltatech_product_code](deltatech_product_code/) | 14.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product codification internal | Free 
