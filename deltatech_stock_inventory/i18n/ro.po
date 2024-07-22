@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0+e\n"
+"Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-12 12:56+0000\n"
-"PO-Revision-Date: 2022-12-12 12:56+0000\n"
+"POT-Creation-Date: 2024-07-22 08:01+0000\n"
+"PO-Revision-Date: 2024-07-22 08:01+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_stock_inventory
+#. odoo-python
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 #, python-format
 msgid "%s (copy)"
@@ -24,27 +25,7 @@ msgstr "%s (copie)"
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
 msgid "<span class=\"o_stat_text\">On Hand</span>"
-msgstr ""
-
-#. module: deltatech_stock_inventory
-#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_position
-msgid "<span>Case:</span>"
-msgstr "<span>Cutie:</span>"
-
-#. module: deltatech_stock_inventory
-#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_position
-msgid "<span>Rack:</span>"
-msgstr "<span>Raft:</span>"
-
-#. module: deltatech_stock_inventory
-#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_position
-msgid "<span>Row:</span>"
-msgstr "<span>Rând:</span>"
-
-#. module: deltatech_stock_inventory
-#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_position
-msgid "<span>Shelf:</span>"
-msgstr "<span>Poliță:</span>"
+msgstr "<span class=\"o_stat_text\">În stoc</span>"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_total
@@ -87,7 +68,7 @@ msgstr "<strong>Locație</strong>"
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
 msgid "<strong>Minus Amount</strong>"
-msgstr "<strong>Valoare în minus</strong>"
+msgstr ""
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
@@ -97,7 +78,7 @@ msgstr "<strong>Ambalare</strong>"
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
 msgid "<strong>Plus Amount</strong>"
-msgstr "<strong>Valoare în plus</strong>"
+msgstr "<strong>Valoare in plus</strong>"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
@@ -122,7 +103,7 @@ msgstr "<strong>Cantitate teoretică</strong>"
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_total
 msgid "<strong>Total general</strong>"
-msgstr ""
+msgstr "<strong>Total general</strong>"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
@@ -132,12 +113,12 @@ msgstr "<strong>UM</strong>"
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Acțiune necesară"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "Activități"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_exception_decoration
@@ -147,7 +128,7 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "Stare activitate"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_type_icon
@@ -155,9 +136,16 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/wizard/stock_inventory_merge.py:0
+#, python-format
+msgid "All inventories must be in done state to be merged"
+msgstr "Toate inventatierile trebuie să fie în starea finalizat pentru a fi unite"
+
+#. module: deltatech_stock_inventory
 #: model:res.groups,name:deltatech_stock_inventory.group_change_inventory_date
 msgid "Allow to change inventory date"
-msgstr ""
+msgstr "Permite schimbarea datei inventarului"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__prefill_counted_quantity
@@ -165,16 +153,17 @@ msgid ""
 "Allows to start with a pre-filled counted quantity for each lines or with "
 "all counted quantities set to zero."
 msgstr ""
+"Permite pornirea cu o cantitate precompletată pentru fiecare linie sau cu toate cantitățile completate setate la zero."
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__start_empty
 msgid "Allows to start with an empty inventory."
-msgstr ""
+msgstr "Permite pornirea cu un inventar gol."
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "Număr atașamente"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.actions.act_window,help:deltatech_stock_inventory.action_inventory_form
@@ -183,6 +172,8 @@ msgid ""
 "                Manual inventory adjustments can also be performed and pre-filled with\n"
 "                suggested counted quantity."
 msgstr ""
+"Scannerul de coduri de bare poate fi activat prin intermediul setărilor inventarului.\n"
+"Ajustările manuale ale inventarului pot fi de asemenea efectuate și precompletate cu cantitatea sugerată."
 
 #. module: deltatech_stock_inventory
 #: model:res.groups,name:deltatech_stock_inventory.group_merge_inventory
@@ -190,20 +181,25 @@ msgid "Can merge inventory documents"
 msgstr "Unire documente inventar"
 
 #. module: deltatech_stock_inventory
+#: model:res.groups,name:deltatech_stock_inventory.group_view_inventory_button
+msgid "Can update quantities"
+msgstr "Poate actualiza cantitățile"
+
+#. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_confirm_inventory_form
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_inventory_merge_form
 msgid "Cancel"
-msgstr "Anulează"
+msgstr "Anuleaza"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
 msgid "Cancel Inventory"
-msgstr ""
+msgstr "Anuleaza inventar"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_inventory__state__cancel
 msgid "Cancelled"
-msgstr ""
+msgstr "Anulat"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_case
@@ -223,7 +219,7 @@ msgstr "Categorie"
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_confirm_inventory_form
 msgid "Change"
-msgstr ""
+msgstr "Schimbă"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__company_id
@@ -237,11 +233,10 @@ msgstr "Companie"
 msgid "Confirm"
 msgstr "Confirmă"
 
-
 #. module: deltatech_stock_inventory
 #: model:ir.actions.act_window,name:deltatech_stock_inventory.action_stock_confirm_inventory
 msgid "Confirm Inventory"
-msgstr ""
+msgstr "Confirmă inventar"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
@@ -261,12 +256,12 @@ msgstr "Cantitate Fizică"
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__prefill_counted_quantity
 msgid "Counted Quantities"
-msgstr "Cantitate Fizică"
+msgstr "Cantitate fizică"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__product_qty
 msgid "Counted Quantity"
-msgstr "Cantitate Fizică"
+msgstr "Cantitate fizică"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__move_ids
@@ -281,7 +276,7 @@ msgstr "Mișcări create"
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__create_uid
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
 msgid "Created by"
-msgstr ""
+msgstr "Creat de"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__create_date
@@ -290,7 +285,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__create_date
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creat la"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__date
@@ -300,12 +295,12 @@ msgstr "Data"
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_inventory__prefill_counted_quantity__counted
 msgid "Default to stock on hand"
-msgstr ""
+msgstr "Implicit la stocul disponibil"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_inventory__prefill_counted_quantity__zero
 msgid "Default to zero"
-msgstr ""
+msgstr "Implicit la zero"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__difference_qty
@@ -315,7 +310,7 @@ msgstr "Diferență"
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_search
 msgid "Difference different than zero"
-msgstr ""
+msgstr "Diferență diferită de zero"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__display_name
@@ -335,22 +330,22 @@ msgstr "Ciornă"
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__start_empty
 msgid "Empty Inventory"
-msgstr "Golește inventar"
+msgstr "Goleste inventar"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__product_tracking
 msgid "Ensure the traceability of a storable product in your warehouse."
-msgstr ""
+msgstr "Asigura urmărirea unui produs stocabil în depozitul dvs."
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_follower_ids
 msgid "Followers"
-msgstr ""
+msgstr "Urmăritori"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Urmăritori (Parteneri)"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__activity_type_icon
@@ -360,17 +355,17 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_filter
 msgid "Group By"
-msgstr ""
+msgstr "Grupează după"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_search
 msgid "Group by..."
-msgstr ""
+msgstr "Grupează după..."
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Are mesaj"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__id
@@ -382,6 +377,7 @@ msgid "ID"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#. odoo-python
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 #, python-format
 msgid "INV:"
@@ -395,19 +391,18 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr ""
+msgstr "Icon pentru a indica o activitate excepțională."
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__message_needaction
-#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__message_unread
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Dacă este bifat, noile mesaje necesită atenția dvs."
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__message_has_error
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr ""
+msgstr "Dacă este bifat, unele mesaje au o eroare de livrare."
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__date
@@ -424,22 +419,23 @@ msgid ""
 "If you cancel this inventory adjustment, all its inventory adjustment lines "
 "will be lost. Are you sure you want to discard it ?"
 msgstr ""
+"Dacă anulați această ajustare a inventarului, toate liniile sale de ajustare a inventarului vor fi pierdute. Sunteți sigur că doriți să o respingeți?"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_inventory__state__confirm
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_filter
 msgid "In Progress"
-msgstr ""
+msgstr "In desfășurare"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__exhausted
 msgid "Include Exhausted Products"
-msgstr ""
+msgstr "Includere produse epuizate"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__exhausted
 msgid "Include also products with quantity of 0"
-msgstr ""
+msgstr "Includere și produse cu cantitate de 0"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__difference_qty
@@ -447,6 +443,7 @@ msgid ""
 "Indicates the gap between the product's theoretical quantity and its newest "
 "quantity."
 msgstr ""
+"Indica diferența dintre cantitatea teoretică a produsului și cea mai nouă cantitate."
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__line_ids
@@ -457,7 +454,6 @@ msgstr "Inventare"
 #: model:ir.actions.report,name:deltatech_stock_inventory.action_report_inventory
 #: model:ir.model,name:deltatech_stock_inventory.model_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__inventory_id
-#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_move__inventory_id
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_quant__inventory_id
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_track_confirmation__inventory_id
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
@@ -465,21 +461,22 @@ msgid "Inventory"
 msgstr "Inventar"
 
 #. module: deltatech_stock_inventory
+#. odoo-python
 #: code:addons/deltatech_stock_inventory/wizard/stock_request_count.py:0
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
 #, python-format
 msgid "Inventory Adjustment"
-msgstr "Ajustări inventar"
+msgstr "Ajustari inventar"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_adjustment_name__inventory_adjustment_name
 msgid "Inventory Adjustment Name"
-msgstr ""
+msgstr "Nume ajustare inventar"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model,name:deltatech_stock_inventory.model_stock_inventory_adjustment_name
 msgid "Inventory Adjustment Reference / Reason"
-msgstr ""
+msgstr "Referință / Motiv ajustare inventar"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__date
@@ -496,7 +493,12 @@ msgstr "Detalii inventar"
 #. module: deltatech_stock_inventory
 #: model:ir.actions.report,name:deltatech_stock_inventory.action_report_inventory_diff
 msgid "Inventory Diff"
-msgstr "Diferențe inventar"
+msgstr "Diferente inventar"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_move__inventory_id
+msgid "Inventory Document"
+msgstr "Document inventariere"
 
 #. module: deltatech_stock_inventory
 #: model:ir.actions.act_window,name:deltatech_stock_inventory.action_inventory_form
@@ -508,13 +510,26 @@ msgstr "Documente inventariere"
 #: model:ir.model,name:deltatech_stock_inventory.model_stock_inventory_line
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_quant__inventory_line_id
 msgid "Inventory Line"
-msgstr "Linie Inventar"
+msgstr "Linie inventar"
 
 #. module: deltatech_stock_inventory
+#. odoo-python
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 #, python-format
 msgid "Inventory Lines"
-msgstr ""
+msgstr "Linii inventar"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_quant__inventory_note
+msgid "Inventory Note"
+msgstr "Notă inventar"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__is_inventory_ok
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__is_inventory_ok
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.product_template_form_view
+msgid "Inventory OK"
+msgstr "Inventar OK"
 
 #. module: deltatech_stock_inventory
 #: model:ir.actions.report,name:deltatech_stock_inventory.action_report_inventory_position
@@ -524,12 +539,12 @@ msgstr "Poziții inventar"
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__is_editable
 msgid "Is Editable"
-msgstr ""
+msgstr "Este editabil"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "Este urmăritor"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__is_ok
@@ -539,13 +554,13 @@ msgstr "E Ok"
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__last_inventory_id
 msgid "Last Inventory"
-msgstr ""
+msgstr "Ultima inventariere"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__last_inventory_date
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_quant__last_inventory_date
 msgid "Last Inventory Date"
-msgstr ""
+msgstr "Data ultimei inventarieri"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location____last_update
@@ -563,7 +578,7 @@ msgstr "Ultima modificare la"
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__write_uid
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima actualizare de"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__write_date
@@ -572,12 +587,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__write_date
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultima actualizare la"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__inventory_date
 msgid "Last date at which the On Hand Quantity has been computed."
-msgstr ""
+msgstr "Ultima dată la care cantitatea disponibilă a fost calculată."
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__location_id
@@ -591,12 +606,12 @@ msgstr "Locație"
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__location_ids
 msgid "Locations"
-msgstr "locații"
+msgstr "Locații"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__prod_lot_id
 msgid "Lot/Serial Number"
-msgstr "Lot/numar serial"
+msgstr "Lot/Număr serial"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_tree
@@ -609,6 +624,11 @@ msgid "Main Attachment"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_inventory_merge_form
+msgid "Merge"
+msgstr "Uneste"
+
+#. module: deltatech_stock_inventory
 #: model:ir.actions.act_window,name:deltatech_stock_inventory.action_stock_inventory_merge
 msgid "Merge Inventory"
 msgstr "Unește..."
@@ -616,7 +636,14 @@ msgstr "Unește..."
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_inventory_merge_form
 msgid "Merge inventories in"
-msgstr "Unește documentele inventar"
+msgstr "Uneste documentele inventar"
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/wizard/stock_inventory_merge.py:0
+#, python-format
+msgid "Merged inventory"
+msgstr "Unește..."
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_has_error
@@ -626,7 +653,7 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_ids
 msgid "Messages"
-msgstr ""
+msgstr "Mesaje"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__my_activity_date_deadline
@@ -640,22 +667,18 @@ msgid "Name"
 msgstr "Nume"
 
 #. module: deltatech_stock_inventory
+#. odoo-python
 #: code:addons/deltatech_stock_inventory/models/stock.py:0
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 #: code:addons/deltatech_stock_inventory/models/stock_quant.py:0
 #, python-format
 msgid "New"
-msgstr ""
+msgstr "Noua"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
 msgid "New inventory for Not Ok"
-msgstr "Inventar nou pentru Not ok"
-
-#. module: deltatech_stock_inventory
-#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_calendar_event_id
-msgid "Next Activity Calendar Event"
-msgstr ""
+msgstr "Inventar nou pentru Not Ok"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_date_deadline
@@ -680,27 +703,22 @@ msgstr "Notă"
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_needaction_counter
 msgid "Number of Actions"
-msgstr ""
+msgstr "Număr acțiuni"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_has_error_counter
 msgid "Number of errors"
-msgstr ""
+msgstr "Număr erori"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr ""
+msgid "Number of messages requiring action"
+msgstr "Număr mesaje care necesită acțiune"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
-
-#. module: deltatech_stock_inventory
-#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__message_unread_counter
-msgid "Number of unread messages"
-msgstr ""
+msgstr "Număr mesaje cu eroare de livrare"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_tree
@@ -710,12 +728,12 @@ msgstr "Disponibil"
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_search
 msgid "Outdated Theoretical Quantities"
-msgstr ""
+msgstr "Cantități teoretice depășite"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__partner_id
 msgid "Owner"
-msgstr ""
+msgstr "Proprietar"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__package_id
@@ -735,7 +753,7 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_filter
 msgid "Physical Inventories by Date"
-msgstr ""
+msgstr "Inventare fizice după dată"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__standard_price
@@ -745,10 +763,10 @@ msgstr "Preț"
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
 msgid "Print Count Sheet"
-msgstr ""
+msgstr "Printează foaia de inventar"
 
 #. module: deltatech_stock_inventory
-#: model:ir.model,name:deltatech_stock_inventory.model_product_product
+#: model:ir.model,name:deltatech_stock_inventory.model_product_template
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__product_id
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__product_id
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_search
@@ -762,36 +780,37 @@ msgid "Product Category"
 msgstr "Categorie produs"
 
 #. module: deltatech_stock_inventory
+#. odoo-python
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
 #, python-format
 msgid "Product Moves"
-msgstr ""
+msgstr "Mișcări produs"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
 msgid "Product Name"
-msgstr ""
-
-#. module: deltatech_stock_inventory
-#: model:ir.model,name:deltatech_stock_inventory.model_product_template
-msgid "Product Template"
-msgstr "Șablon produs"
+msgstr "Nume produs"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__product_tmpl_id
 msgid "Product Tmpl"
-msgstr ""
+msgstr "Sablon produs"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__product_uom_id
 msgid "Product Unit of Measure"
-msgstr ""
+msgstr "Unitate măsură produs"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_product_product
+msgid "Product Variant"
+msgstr "Variantă produs"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model,name:deltatech_stock_inventory.model_product_warehouse_location
 msgid "Product Warehouse Location"
-msgstr ""
+msgstr "Locație depozit produs"
 
 #. module: deltatech_stock_inventory
 #: model:ir.actions.act_window,name:deltatech_stock_inventory.action_product_template_warehouse
@@ -802,17 +821,17 @@ msgstr "Produse"
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__quant_id
 msgid "Quant"
-msgstr ""
+msgstr "Poziție de stoc"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__qty_available
 msgid "Quantity On Hand"
-msgstr ""
+msgstr "Cantitate disponibilă"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__outdated
 msgid "Quantity outdated"
-msgstr ""
+msgstr "Cantitate depășită"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model,name:deltatech_stock_inventory.model_stock_quant
@@ -833,27 +852,27 @@ msgstr "Raft"
 #. module: deltatech_stock_inventory
 #: model:ir.actions.server,name:deltatech_stock_inventory.model_stock_inventory_line_action_recompute_quantity
 msgid "Recompute On Hand Quantity"
-msgstr ""
+msgstr "Recalculează cantitatea disponibilă"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_filter
 msgid "Reference"
-msgstr "Referintă"
+msgstr "Referință"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_tree
 msgid "Refresh quantity"
-msgstr ""
+msgstr "Actualizează cantitatea"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
 msgid "Remove Not Ok"
-msgstr ""
+msgstr "Sterge Not Ok"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "Utilizator responsabil"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_row
@@ -873,27 +892,22 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_filter
 msgid "Search Inventory"
-msgstr ""
+msgstr "Caută inventar"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_search
 msgid "Search Inventory Lines"
-msgstr ""
-
-#. module: deltatech_stock_inventory
-#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__categ_id
-msgid "Select category for the current product"
-msgstr "Selectați categoria pentru produsul curent"
+msgstr "Caută linii inventar"
 
 #. module: deltatech_stock_inventory
 #: model:ir.actions.server,name:deltatech_stock_inventory.model_stock_inventory_line_action_reset_product_qty
 msgid "Set counted quantities to 0"
-msgstr ""
+msgstr "Setează cantitățile numărate la 0"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
 msgid "Set to Draft"
-msgstr ""
+msgstr "Setează la ciornă"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_shelf
@@ -902,7 +916,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
 msgid "Shelf"
-msgstr "Poliță"
+msgstr "Polita"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
@@ -912,7 +926,7 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__product_ids
 msgid "Specify Products to focus your inventory on particular Products."
-msgstr ""
+msgstr "Specificați produsele pentru a vă concentra inventarul pe anumite produse."
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
@@ -924,7 +938,7 @@ msgstr "Pornire inventar"
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__state
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_filter
 msgid "Status"
-msgstr ""
+msgstr "Stare"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__activity_state
@@ -934,6 +948,10 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+"Stare bazată pe activități\n"
+"Depășit: Data scadentă a trecut deja\n"
+"Azi: Data activității este astăzi\n"
+"Planificat: Activități viitoare."
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
@@ -944,7 +962,7 @@ msgstr "Stoc"
 #. module: deltatech_stock_inventory
 #: model:ir.model,name:deltatech_stock_inventory.model_stock_confirm_inventory
 msgid "Stock Confirm Inventory"
-msgstr ""
+msgstr "Confirmare inventar stoc"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_diff
@@ -954,7 +972,7 @@ msgstr "Inventar stoc"
 #. module: deltatech_stock_inventory
 #: model:ir.model,name:deltatech_stock_inventory.model_stock_inventory_merge
 msgid "Stock Inventory Merge Wizard"
-msgstr ""
+msgstr "Wizard unire inventar stoc"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_position
@@ -972,45 +990,49 @@ msgid "Stock Track Confirmation"
 msgstr "Confirmare Traseu Stoc"
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__warehouse_stock
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__warehouse_stock
+msgid "Stock/WH"
+msgstr ""
+
+#. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__is_editable
 msgid "Technical field to restrict editing."
-msgstr ""
+msgstr "Câmp tehnic pentru a restricționa editarea."
 
 #. module: deltatech_stock_inventory
-#: code:addons/deltatech_stock_inventory/wizard/stock_change_product_qty.py:0
-#, python-format
-msgid "The inventory cannot be made from this place"
-msgstr ""
-
-#. module: deltatech_stock_inventory
+#. odoo-python
 #: code:addons/deltatech_stock_inventory/models/stock_quant.py:0
 #, python-format
 msgid "The selected items are in different inventories"
-msgstr ""
+msgstr "Elementele selectate sunt în inventare diferite"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__theoretical_qty
 msgid "Theoretical Quantity"
-msgstr "Cantitate scriptică"
+msgstr "Cantitate scriptica"
 
 #. module: deltatech_stock_inventory
+#. odoo-python
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 #, python-format
 msgid ""
 "There is already one inventory adjustment line for this product, you should "
 "rather modify this one instead of creating a new one."
 msgstr ""
+"Există deja o linie de ajustare a inventarului pentru acest produs, ar trebui să modificați aceasta în loc să creați una nouă."
 
 #. module: deltatech_stock_inventory
+#. odoo-python
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 #, python-format
 msgid "Tracked Products in Inventory Adjustment"
-msgstr ""
+msgstr "Produse urmărite în ajustarea inventarului"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__product_tracking
 msgid "Tracking"
-msgstr ""
+msgstr "Urmărire"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__activity_exception_decoration
@@ -1018,47 +1040,40 @@ msgid "Type of the exception activity on record."
 msgstr ""
 
 #. module: deltatech_stock_inventory
-#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: deltatech_stock_inventory
-#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr ""
-
-#. module: deltatech_stock_inventory
+#. odoo-python
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 #, python-format
 msgid "Unsupported search on %s outside of an Inventory Adjustment"
-msgstr ""
+msgstr "Căutare nesuportată pe %s în afara unei ajustări a inventarului"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_tree
 msgid "UoM"
-msgstr ""
+msgstr "UM"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
 msgid "Update Stock"
-msgstr ""
+msgstr "Actualizează stoc"
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/wizard/stock_inventory_merge.py:0
+#, python-format
+msgid "User {} has merged inventories {}"
+msgstr "Utilizatorul {} a unit inventarele {}"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
 msgid "Validate Inventory"
-msgstr "Validare inventar"
+msgstr "Validează inventar"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_inventory__state__done
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_filter
 msgid "Validated"
 msgstr "Validat"
-
-#. module: deltatech_stock_inventory
-#: model:res.groups,name:deltatech_stock_inventory.group_view_inventory_button
-msgid "View inventory button in product"
-msgstr "Buton inventar în produs"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.actions.act_window,help:deltatech_stock_inventory.action_inventory_form
@@ -1068,23 +1083,23 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__warehouse_id
 msgid "Warehouse"
-msgstr ""
+msgstr "Depozit"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__warehouse_loc_ids
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__warehouse_loc_ids
 msgid "Warehouse Loc"
-msgstr ""
+msgstr "Loc depozit"
 
 #. module: deltatech_stock_inventory
 #: model:ir.ui.menu,name:deltatech_stock_inventory.menu_product_template_warehouse
 msgid "Warehouse Products"
-msgstr ""
+msgstr "Produse depozit"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.constraint,message:deltatech_stock_inventory.constraint_product_warehouse_location_product_product_uniq
 msgid "Warehouse must be unique per product!"
-msgstr ""
+msgstr "Depozitul trebuie să fie unic pe produs!"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__website_message_ids
@@ -1097,36 +1112,45 @@ msgid "Website communication history"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#. odoo-python
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 #, python-format
 msgid "You can only adjust storable products."
-msgstr ""
+msgstr "Puteți ajusta doar produse stocabile."
 
 #. module: deltatech_stock_inventory
+#. odoo-python
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 #, python-format
 msgid ""
 "You can only delete a draft inventory adjustment. If the inventory "
 "adjustment is not done, you can cancel it."
 msgstr ""
+"Puteți șterge doar o ajustare a inventarului în ciornă. Dacă ajustarea inventarului nu este finalizată, o puteți anula."
 
 #. module: deltatech_stock_inventory
+#. odoo-python
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 #, python-format
 msgid ""
 "You can't validate the inventory '%s', maybe this inventory has been already"
 " validated or isn't ready."
 msgstr ""
+"Nu puteți valida inventarul '%s', poate acest inventar a fost deja validat sau nu este pregătit."
 
 #. module: deltatech_stock_inventory
+#. odoo-python
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 #, python-format
 msgid ""
 "You cannot set a negative product quantity in an inventory line:\n"
 "\t%s - qty: %s"
 msgstr ""
+"Nu puteți seta o cantitate negativă a produsului într-o linie de inventar:\n"
+"\t%s - cantitate: %s"
 
 #. module: deltatech_stock_inventory
+#. odoo-python
 #: code:addons/deltatech_stock_inventory/wizard/stock_inventory_merge.py:0
 #: code:addons/deltatech_stock_inventory/wizard/stock_inventory_merge.py:0
 #, python-format
@@ -1134,10 +1158,13 @@ msgid "You must select at least two inventory documents"
 msgstr "Trebuie să selectezi cel puțin două documente pentru a le uni"
 
 #. module: deltatech_stock_inventory
-#: code:addons/deltatech_stock_inventory/wizard/stock_inventory_merge.py:0
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock_quant.py:0
+#: code:addons/deltatech_stock_inventory/models/stock_quant.py:0
+#: code:addons/deltatech_stock_inventory/models/stock_quant.py:0
 #, python-format
-msgid "User %s has merged inventories %s"
-msgstr "Utilizatorul %s a unit documentele de inventar %s"
+msgid "Your user cannot update product quantities"
+msgstr "Utilizatorul tău nu poate actualiza cantitățile produselor"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
@@ -1148,4 +1175,4 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_confirm_inventory_form
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_inventory_merge_form
 msgid "or"
-msgstr "sau"
+msgstr ""
