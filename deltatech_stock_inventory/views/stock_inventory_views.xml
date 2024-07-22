@@ -92,12 +92,7 @@
                             ('is_editable', '=', False),
                             ('state', '!=', 'confirm')]}"
                 />
-                <field
-                    name="is_ok"
-                    attrs="{'readonly': ['|',
-                            ('is_editable', '=', False),
-                            ('state', '!=', 'confirm')]}"
-                />
+                <field name="is_ok" attrs="{'readonly': [('state', '!=', 'confirm')]}" />
             </tree>
         </field>
     </record>
