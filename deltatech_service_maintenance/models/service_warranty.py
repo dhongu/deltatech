@@ -32,9 +32,7 @@ class ServiceWarranty(models.Model):
         string="Status",
         tracking=True,
     )
-    equipment_id = fields.Many2one(
-        "service.equipment", string="Equipment", index=True, readonly=True, states={"new": [("readonly", False)]}
-    )
+    equipment_id = fields.Many2one("service.equipment", string="Equipment", index=True, readonly=True)
     partner_id = fields.Many2one("res.partner", string="Customer")
     has_agreement = fields.Boolean("Has service agreement", compute="_compute_service_agreement")
     user_id = fields.Many2one("res.users", string="Responsible")
@@ -204,12 +202,16 @@ class ServiceWarranty(models.Model):
     def set_done(self):
         self.with_context(change_ok=True).write({"state": "done"})
 
-    @api.onchange("state")
-    def check_if_ok(self):
-        if not self.env.user.has_group("deltatech_service.group_warranty_manager") and not self.env.context.get(
-            "change_ok", False
+    def write(self, vals):
+        if (
+            "state" in vals
+            and vals["state"]
+            and not self.env.context.get("change_ok", False)
+            and self.state not in ["new"]
+            and not self.env.user.has_group("deltatech_service.group_warranty_manager")
         ):
             raise UserError(_("Your user cannot change the state directly"))
+        return super().write(vals)
 
 
 class ServiceWarrantyItem(models.Model):
