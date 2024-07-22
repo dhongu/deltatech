@@ -93,12 +93,7 @@
                     name="standard_price"
                     attrs="{'readonly': ['|', ('is_editable', '=', False), ('is_price_editable', '=', False)]}"
                 />
-                <field
-                    name="is_ok"
-                    attrs="{'readonly': ['|',
-                            ('is_editable', '=', False),
-                            ('state', '!=', 'confirm')]}"
-                />
+                <field name="is_ok" attrs="{'readonly': [('state', '!=', 'confirm')]}" />
             </tree>
         </field>
     </record>
@@ -262,7 +257,7 @@
                         class="oe_highlight"
                         groups="stock.group_stock_user"
                     />
-                     <button
+                    <button
                         name="action_open_inventory_lines"
                         states="done"
                         string="Show Lines"
@@ -416,16 +411,16 @@
         <field name="binding_model_id" ref="product.model_product_template" />
         <field name="state">code</field>
         <field name="code">
-records.create_putaway_rule()
-picking = records.move_to_putaway_location()
-if picking:
-    action = {
-        'type': 'ir.actions.act_window',
-        'res_id': picking.id,
-        'res_model': 'stock.picking',
-        'target': 'self',
-        "view_mode": "form",
-    }
+            records.create_putaway_rule()
+            picking = records.move_to_putaway_location()
+            if picking:
+            action = {
+            'type': 'ir.actions.act_window',
+            'res_id': picking.id,
+            'res_model': 'stock.picking',
+            'target': 'self',
+            "view_mode": "form",
+            }
         </field>
     </record>
 
