@@ -96,7 +96,10 @@
                     <group>
                         <group>
                             <field name="date" />
-                            <field name="equipment_id" />
+                            <field
+                                name="equipment_id"
+                                attrs="{'readonly': [('state', 'not in', ['new', 'assigned'])]}"
+                            />
                         </group>
                         <group>
                             <field name="sale_order_id" />
