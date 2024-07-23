@@ -214,9 +214,9 @@ class ServiceNotification(models.Model):
                 seq_date = None
                 if "date" in vals:
                     seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals["date"]))
-                vals["name"] = self.env["ir.sequence"].next_by_code("service.notification", sequence_date=seq_date) or _(
-                    "New"
-                )
+                vals["name"] = self.env["ir.sequence"].next_by_code(
+                    "service.notification", sequence_date=seq_date
+                ) or _("New")
 
         return super().create(vals_list)
 
