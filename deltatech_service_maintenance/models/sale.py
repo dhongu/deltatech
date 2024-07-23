@@ -12,19 +12,20 @@ class SaleOrder(models.Model):
     notification_id = fields.Many2one("service.notification", string="Notification", readonly=True)
     service_order_id = fields.Many2one("service.order", string="Service Order", readonly=True)
 
-    @api.model
+    @api.model_create_multi
     @api.returns("self", lambda value: value.id)
-    def create(self, vals):
+    def create(self, vals_list):
         notification_id = self.env.context.get("notification_id", False)
-        if notification_id:
-            vals["notification_id"] = notification_id
+        for vals in vals_list:
+            if notification_id:
+                vals["notification_id"] = notification_id
 
-        order = super().create(vals)
+        res = super().create(vals_list)
         notification_id = self.env.context.get("notification_id", False)
-        if notification_id:
+        if notification_id and res:
             notification = self.env["service.notification"].browse(notification_id)
-            notification.write({"sale_order_id": order.id})
-        return order
+            notification.write({"sale_order_id": res[0].id})
+        return res
 
     def new_notification(self):
         self.ensure_one()

@@ -173,51 +173,52 @@ class ServiceNotification(models.Model):
             self.work_center_id = self.service_location_id.work_center_id or self.work_center_id
             self.onchange_equipment_id()
 
-    @api.model
-    def create(self, vals):
-        if "company_id" in vals:
-            self = self.with_company(vals["company_id"])
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "company_id" in vals:
+                self = self.with_company(vals["company_id"])
 
-        equipment_id = vals.get("equipment_id", False)
+            equipment_id = vals.get("equipment_id", False)
 
-        if not equipment_id:
-            equipments = self.env["service.equipment"]
-            contact_id = vals.get("contact_id", False)
-            if contact_id:
-                equipments = self.env["service.equipment"].search([("contact_id", "=", contact_id)])
+            if not equipment_id:
+                equipments = self.env["service.equipment"]
+                contact_id = vals.get("contact_id", False)
+                if contact_id:
+                    equipments = self.env["service.equipment"].search([("contact_id", "=", contact_id)])
 
-            description = vals.get("description", False)
+                description = vals.get("description", False)
 
-            if description and (len(equipments) != 1):
-                keywords = description.split()
-                equipments_by_ean = self.env["service.equipment"]
-                for keyword in keywords:
-                    equipments_by_ean |= self.env["service.equipment"].search([("ean_code", "=", keyword)])
+                if description and (len(equipments) != 1):
+                    keywords = description.split()
+                    equipments_by_ean = self.env["service.equipment"]
+                    for keyword in keywords:
+                        equipments_by_ean |= self.env["service.equipment"].search([("ean_code", "=", keyword)])
 
-                if len(equipments) == 0:
-                    equipments = equipments_by_ean
-                else:
-                    equipments &= equipments_by_ean
+                    if len(equipments) == 0:
+                        equipments = equipments_by_ean
+                    else:
+                        equipments &= equipments_by_ean
 
-            if len(equipments) == 1:
-                vals["equipment_id"] = equipments.id
-                # if not vals.get("address_id", False):
-                #     vals["address_id"] = equipments.address_id.id
-                if not vals.get("user_id", False):
-                    vals["user_id"] = equipments.technician_user_id.id
+                if len(equipments) == 1:
+                    vals["equipment_id"] = equipments.id
+                    # if not vals.get("address_id", False):
+                    #     vals["address_id"] = equipments.address_id.id
+                    if not vals.get("user_id", False):
+                        vals["user_id"] = equipments.technician_user_id.id
 
-                if not vals.get("partner_id", False):
-                    vals["partner_id"] = equipments.agreement_id.partner_id.id
+                    if not vals.get("partner_id", False):
+                        vals["partner_id"] = equipments.agreement_id.partner_id.id
 
-        if vals.get("name", _("New")) == _("New"):
-            seq_date = None
-            if "date" in vals:
-                seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals["date"]))
-            vals["name"] = self.env["ir.sequence"].next_by_code("service.notification", sequence_date=seq_date) or _(
-                "New"
-            )
+            if vals.get("name", _("New")) == _("New"):
+                seq_date = None
+                if "date" in vals:
+                    seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals["date"]))
+                vals["name"] = self.env["ir.sequence"].next_by_code("service.notification", sequence_date=seq_date) or _(
+                    "New"
+                )
 
-        return super().create(vals)
+        return super().create(vals_list)
 
     def write(self, vals):
         if "user_id" in vals:
@@ -255,7 +256,7 @@ class ServiceNotification(models.Model):
                         {
                             "model": "service.notification",
                             "res_id": document.id,
-                            "record_name": document.name_get()[0][1],
+                            "record_name": document.display_name,
                             # "email_from": self.env["mail.message"]._get_default_from_address(),
                             # "reply_to": self.env["mail.message"]._get_default_from_address(),
                             "subject": notification.subject,
@@ -361,7 +362,7 @@ class ServiceNotification(models.Model):
                     {
                         "model": "service.notification",
                         "res_id": document.id,
-                        "record_name": document.name_get()[0][1],
+                        "record_name": document.display_name,
                         # "email_from": self.env["mail.message"]._get_default_from_address(),
                         # "reply_to": self.env["mail.message"]._get_default_from_address(),
                         "subject": self.subject,

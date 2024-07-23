@@ -44,6 +44,17 @@
                             </div>
                         </div>
                     </div>
+                <div class="col-12 col-lg-6 o_setting_box" id="purchase_force_price_at_validation">
+                    <div class="o_setting_left_pane">
+                        <field name="purchase_force_price_at_validation" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="purchase_force_price_at_validation" />
+                        <div class="text-muted">
+                            The price will be added/modified at PO validation and bill validation.
+                        </div>
+                    </div>
+                </div>
             </xpath>
         </field>
     </record>

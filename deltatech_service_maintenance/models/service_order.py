@@ -151,13 +151,14 @@ class ServiceOrder(models.Model):
     def action_check_available(self):
         self._compute_available_state()
 
-    @api.model
-    def create(self, vals):
-        if vals.get("name", _("New")) == _("New"):
-            seq_date = None
-            if "date" in vals:
-                seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals["date"]))
-            vals["name"] = self.env["ir.sequence"].next_by_code("service.order", sequence_date=seq_date) or _("New")
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("name", _("New")) == _("New"):
+                seq_date = None
+                if "date" in vals:
+                    seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals["date"]))
+                vals["name"] = self.env["ir.sequence"].next_by_code("service.order", sequence_date=seq_date) or _("New")
         return super().create(vals)
 
     @api.onchange("equipment_id", "date")
