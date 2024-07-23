@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_template_only_form_view" model="ir.ui.view">
+        <field name="name">product.template_procurement</field>
+        <field name="model">product.template</field>
+
+        <field name="inherit_id" ref="product.product_template_only_form_view" />
+        <field name="arch" type="xml">
+            <data>
+                <header position="inside">
+                    <button string="Print labels" type="action" name="%(action_action_product_template_label)d" />
+                </header>
+            </data>
+        </field>
+    </record>
+
+
+    <record id="product_normal_form_view" model="ir.ui.view">
+        <field name="name">product.product.procurement</field>
+        <field name="model">product.product</field>
+        <field name="groups_id" eval="[(4, ref('stock.group_stock_user'))]" />
+        <field name="inherit_id" ref="product.product_normal_form_view" />
+        <field name="arch" type="xml">
+            <data>
+                <header position="inside">
+                    <button string="Print labels" type="action" name="%(action_action_product_template_label)d" />
+                </header>
+            </data>
+        </field>
+    </record>
+
+
+</odoo>

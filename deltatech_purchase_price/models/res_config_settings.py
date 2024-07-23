@@ -20,3 +20,9 @@ class ResConfigSettings(models.TransientModel):
         default=True,
         config_parameter="purchase.add_supplier_to_product",
     )
+    purchase_force_price_at_validation = fields.Boolean(
+        "Force supplier price at PO and bill confirmation",
+        default=False,
+        config_parameter="purchase.force_price_at_validation",
+        help="Force product supplier price at purchase order validation and supplier bill validation",
+    )

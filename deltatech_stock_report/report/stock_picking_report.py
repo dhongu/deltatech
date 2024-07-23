@@ -39,13 +39,14 @@ class StockPickingReport(models.Model):
     amount = fields.Float("Amount", digits="Account", readonly=True)
 
     commercial_partner_id = fields.Many2one("res.partner", string="Commercial Entity")
+    product_weight = fields.Float(string="Weight", digits="Product UoM", readonly=True)
 
     def _select(self):
         select_str = """
             SELECT min(sm.id) as id, sp.id as picking_id,
             sp.partner_id, rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date,  sp.company_id,
             pt.categ_id, sm.product_id,  pt.uom_id as product_uom,
-            sm.location_id,sm.location_dest_id,sl.usage as dest_usage,
+            sm.location_id,sm.location_dest_id,sl.usage as dest_usage, sum(pt.weight*sm.product_qty) as product_weight,
             CASE WHEN sl.usage='internal' THEN sum(sm.product_qty) ELSE -1*sum(sm.product_qty) END as product_qty,
 
             COALESCE(abs(SUM(svl.value)/COALESCE(sum(sm.product_qty),1)), avg(sm.price_unit)) as price,

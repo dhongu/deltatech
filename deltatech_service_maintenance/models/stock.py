@@ -11,17 +11,18 @@ class StockPicking(models.Model):
     notification_id = fields.Many2one("service.notification", string="Notification", readonly=True)
     service_order_id = fields.Many2one("service.order", string="Service Order", readonly=True)
 
-    @api.model
+    @api.model_create_multi
     @api.returns("self", lambda value: value.id)
-    def create(self, vals):
+    def create(self, vals_list):
         notification_id = self.env.context.get("notification_id", False)
-        if notification_id:
-            vals["notification_id"] = notification_id
-        picking = super().create(vals)
+        for vals in vals_list:
+            if notification_id:
+                vals["notification_id"] = notification_id
+        picking = super().create(vals_list)
 
-        if notification_id:
+        if notification_id and picking:
             notification = self.env["service.notification"].browse(notification_id)
-            notification.write({"piking_id": picking.id})
+            notification.write({"piking_id": picking[0].id})
         return picking
 
     def new_notification(self):
