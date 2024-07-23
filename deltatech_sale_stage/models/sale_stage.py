@@ -21,5 +21,6 @@ class SaleOrderStage(models.Model):
     delivered = fields.Boolean()  # comanda a fost livrata
     invoiced = fields.Boolean()  # comanda a fost facturata
     paid = fields.Boolean()  # comanda a fost platita
+    canceled = fields.Boolean()  # comanda a fost anulata
 
     action_id = fields.Many2one("ir.actions.server", string="Action")

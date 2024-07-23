@@ -46,6 +46,10 @@ class SaleOrder(models.Model):
         super().action_quotation_sent()
         self.set_stage("send_email")
 
+    def action_cancel(self):
+        super().action_cancel()
+        self.set_stage("canceled")
+
     def set_stage(self, stage_step):
         domain = [(stage_step, "=", True)]
         stages = self.env["sale.order.stage"].search(domain)
