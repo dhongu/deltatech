@@ -16,4 +16,21 @@
             </field>
         </field>
     </record>
+
+    <record id="view_production_lot_form" model="ir.ui.view">
+        <field name="name">stock.production.lot.form</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form" />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    name="action_lot_open_warranty"
+                    icon="fa-exclamation"
+                    class="oe_stat_button"
+                    string="Warranties"
+                    type="object"
+                />
+            </div>
+        </field>
+    </record>
 </odoo>

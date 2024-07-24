@@ -4,6 +4,7 @@
 
 
 from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 
 class ServiceEquipment(models.Model):
@@ -46,3 +47,17 @@ class ServiceEquipment(models.Model):
             "context": context,
             "type": "ir.actions.act_window",
         }
+
+    def action_equipment_open_warranty(self):
+        self.ensure_one()
+        warranties = self.env["service.warranty"].search([("equipment_id", "=", self.id)])
+        if warranties:
+            action = {
+                "res_model": "service.warranty",
+                "type": "ir.actions.act_window",
+                "name": _("Warranties for equipment %s", self.name),
+                "domain": [("id", "in", warranties.ids)],
+                "view_mode": "tree,form",
+            }
+            return action
+        raise UserError(_("No warranties for this serial!"))
