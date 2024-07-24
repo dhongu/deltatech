@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class StockPicking(models.Model):
@@ -10,24 +11,25 @@ class StockPicking(models.Model):
 
     notification_id = fields.Many2one("service.notification", string="Notification", readonly=True)
     service_order_id = fields.Many2one("service.order", string="Service Order", readonly=True)
-    warranty_id = fields.Many2one("service.warranty", string="Warranty", readonly=True)
+    warranty_id = fields.Many2one("service.warranty", string="Warranty", readonly=True, copy=False)
 
     @api.model
     @api.returns("self", lambda value: value.id)
     def create(self, vals):
         res = super().create(vals)
-        notification_id = self.env.context.get("notification_id", False)
-        warranty_id = self.env.context.get("warranty_id", False)
+        if res:
+            notification_id = self.env.context.get("notification_id", False)
+            warranty_id = self.env.context.get("warranty_id", False)
 
-        if notification_id:
-            vals["notification_id"] = notification_id
-            notification = self.env["service.notification"].browse(notification_id)
-            notification.write({"piking_id": res.id})
+            if notification_id:
+                res.notification_id = notification_id
+                notification = self.env["service.notification"].browse(notification_id)
+                notification.write({"piking_id": res.id})
 
-        if warranty_id:
-            vals["warranty_id"] = warranty_id
-            warranty = self.env["service.warranty"].browse(warranty_id)
-            warranty.write({"picking_id": res.id})
+            if warranty_id:
+                res.warranty_id = warranty_id
+                warranty = self.env["service.warranty"].browse(warranty_id)
+                warranty.write({"picking_id": res.id})
         return res
 
     def new_notification(self):
@@ -54,3 +56,41 @@ class StockPicking(models.Model):
             "context": context,
             "type": "ir.actions.act_window",
         }
+
+    def button_validate(self):
+        """
+        Write the actual values in warranty
+        """
+        res = super().button_validate()
+        for picking in self:
+            if picking.warranty_id:
+                for move in picking.move_ids:
+                    value = 0.0
+                    for layer in move.stock_valuation_layer_ids:
+                        value = +layer.value
+                    line = picking.warranty_id.item_ids.filtered(lambda p: p.product_id == move.product_id)
+                    if not line or len(line) > 1:
+                        raise UserError(_("No lines or multiple lines in linked warranty found"))
+                    else:
+                        line.write({"price_unit": value / line.quantity if line.quantity else 0.0})
+        return res
+
+
+class StockLot(models.Model):
+    _inherit = "stock.lot"
+
+    def action_lot_open_warranty(self):
+        self.ensure_one()
+        equipments = self.env["service.equipment"].search([("serial_id", "=", self.id)])
+        if equipments:
+            warranties = self.env["service.warranty"].search([("equipment_id", "in", equipments.ids)])
+            if warranties:
+                action = {
+                    "res_model": "service.warranty",
+                    "type": "ir.actions.act_window",
+                    "name": _("Warranties for serial %s", self.name),
+                    "domain": [("id", "in", warranties.ids)],
+                    "view_mode": "tree,form",
+                }
+                return action
+        raise UserError(_("No warranties for this serial!"))

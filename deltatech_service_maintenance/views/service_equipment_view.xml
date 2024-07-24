@@ -12,6 +12,13 @@
                 <button type="object" class="oe_stat_button" id="order_button" icon="fa-ticket" name="order_button">
                     <span class="o_stat_text">Orders</span>
                 </button>
+                <button
+                    name="action_equipment_open_warranty"
+                    icon="fa-exclamation"
+                    class="oe_stat_button"
+                    string="Warranties"
+                    type="object"
+                />
             </div>
 
             <group name="technician" position="inside">
