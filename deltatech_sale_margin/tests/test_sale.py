@@ -115,3 +115,4 @@ class TestSaleOrder(TransactionCase):
             }
         )
         self.sale_order.order_line.write({"product_uom_qty": 2})
+
