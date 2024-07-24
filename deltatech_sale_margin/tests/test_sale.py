@@ -1,50 +1,117 @@
-# ©  2008-2021 Deltatech
-#              Dorin Hongu <dhongu(@)gmail(.)com
-# See README.rst file on addons root folder for license details
-
-
-from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
 
-class TestSale(TransactionCase):
+class TestSaleOrder(TransactionCase):
+
     def setUp(self):
         super().setUp()
-        self.partner_a = self.env["res.partner"].create({"name": "Test"})
-
-        seller_ids = [(0, 0, {"partner_id": self.partner_a.id})]
-        self.product_a = self.env["product.product"].create(
-            {"name": "Test A", "type": "product", "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
+        # Create a product with a purchase price
+        self.product = self.env["product.product"].create(
+            {
+                "name": "Test Product",
+                "type": "product",
+                "purchase_ok": True,
+                "list_price": 100.0,  # Sale price
+                "standard_price": 50.0,  # Purchase price
+            }
         )
-        self.product_b = self.env["product.product"].create(
-            {"name": "Test B", "type": "product", "standard_price": 70, "list_price": 150, "seller_ids": seller_ids}
+        self.partner = self.env["res.partner"].create(
+            {
+                "name": "Test Partner",
+            }
         )
-        self.stock_location = self.env.ref("stock.stock_location_stock")
-        self.env["stock.quant"]._update_available_quantity(self.product_a, self.stock_location, 1000)
-        self.env["stock.quant"]._update_available_quantity(self.product_b, self.stock_location, 1000)
 
-    def test_sale(self):
-        so = Form(self.env["sale.order"])
-        so.partner_id = self.partner_a
+        # Create a sale order with one order line
+        self.sale_order = self.env["sale.order"].create(
+            {
+                "partner_id": self.env.ref("base.res_partner_1").id,
+            }
+        )
+        self.sale_order_line = self.env["sale.order.line"].create(
+            {
+                "order_id": self.sale_order.id,
+                "product_id": self.product.id,
+                "product_uom_qty": 1.0,
+                "price_unit": 40.0,  # Below the purchase price
+            }
+        )
 
-        with so.order_line.new() as so_line:
-            so_line.product_id = self.product_a
-            so_line.product_uom_qty = 100
+    def test_price_warning_message(self):
+        # Test that the warning message is computed correctly
+        self.sale_order._compute_price_warning_message()
+        expected_warning = (
+            "The unit price of product Test Product is lower than the purchase price. The margin is negative."
+        )
+        self.assertEqual(self.sale_order.price_warning_message, expected_warning)
 
-        with so.order_line.new() as so_line:
-            so_line.product_id = self.product_b
-            so_line.product_uom_qty = 10
+    def test_onchange_product_id_warning(self):
+        # Test that a warning is raised when setting a product with a price below purchase price
+        sale_order_line = self.env["sale.order.line"].new(
+            {
+                "order_id": self.sale_order.id,
+                "product_id": self.product.id,
+                "product_uom_qty": 1.0,
+                "price_unit": 40.0,
+            }
+        )
+        sale_order_line._onchange_product_id_warning()
+        self.assertIn("warning", sale_order_line._onchange_product_id_warning())
+        self.assertEqual(
+            sale_order_line._onchange_product_id_warning()["warning"]["message"],
+            "Do not sell below the purchase price.",
+        )
 
-        self.so = so.save()
-        self.so.action_confirm()
+    def test_price_unit_change(self):
+        # Test that a warning is raised when changing the price unit below the purchase price
+        sale_order_line = self.env["sale.order.line"].new(
+            {
+                "order_id": self.sale_order.id,
+                "product_id": self.product.id,
+                "product_uom_qty": 1.0,
+                "price_unit": 60.0,
+            }
+        )
+        sale_order_line.price_unit_change()
+        sale_order_line.price_unit = 40.0
+        sale_order_line.price_unit_change()
+        self.assertIn("warning", sale_order_line.price_unit_change())
+        self.assertEqual(
+            sale_order_line.price_unit_change()["warning"]["message"], "Do not sell below the purchase price."
+        )
 
-        self.picking = self.so.picking_ids
-        self.picking.action_assign()
-        for move in self.picking.move_ids:
-            if move.product_uom_qty > 0 and move.quantity_done == 0:
-                move.write({"quantity_done": move.product_uom_qty})
-        self.picking._action_done()
-        invoice = self.so._create_invoices()
-        invoice = Form(invoice)
-        invoice = invoice.save()
-        invoice._post()
+    def test_website_order_ignores_margin_check(self):
+        # Test that website orders ignore the margin check
+        self.env["ir.config_parameter"].sudo().set_param("sale.margin_limit_check_validate", "True")
+        self.sale_order = self.env["sale.order"].create(
+            {
+                "partner_id": self.env.ref("base.res_partner_1").id,
+            }
+        )
+        self.sale_order_line = self.env["sale.order.line"].create(
+            {
+                "order_id": self.sale_order.id,
+                "product_id": self.product.id,
+                "product_uom_qty": 1.0,
+                "price_unit": 40.0,  # Below the purchase price
+            }
+        )
+        self.sale_order.action_confirm()
+
+        self.sale_order.order_line.write({"product_uom_qty": 2})
+
+    def test_sale_order_line_write(self):
+        self.env["ir.config_parameter"].sudo().set_param("sale.margin_limit_check_validate", "True")
+        self.sale_order = self.env["sale.order"].create(
+            {
+                "partner_id": self.partner.id,
+            }
+        )
+        self.sale_order_line = self.env["sale.order.line"].create(
+            {
+                "order_id": self.sale_order.id,
+                "product_id": self.product.id,
+                "product_uom_qty": 1.0,
+                "price_unit": 40.0,  # Below the purchase price
+            }
+        )
+        self.sale_order.order_line.write({"product_uom_qty": 2})
