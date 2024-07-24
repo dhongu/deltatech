@@ -35,7 +35,7 @@
 
 
     <record id="view_service_warranty_form" model="ir.ui.view">
-        <field name="name">service.warranty.tree</field>
+        <field name="name">service.warranty.form</field>
         <field name="model">service.warranty</field>
         <field name="arch" type="xml">
             <form string="Warranty">
@@ -113,6 +113,7 @@
                         </group>
                         <group name="partner">
                             <field name="partner_id" required="1" />
+                            <field name="has_agreement" />
                             <field name="state" groups="deltatech_service_base.group_warranty_manager" />
                         </group>
                         <group>
@@ -134,6 +135,8 @@
                                     <field name="quantity" />
 
                                     <field name="product_uom" />
+                                    <field name="price_unit" readonly="1" force_save="1" />
+                                    <field name="amount" sum="amount" />
                                     <field name="note" />
                                 </tree>
 
