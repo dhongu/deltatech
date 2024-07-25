@@ -6,7 +6,7 @@
 {
     "name": "Sale Phone",
     "summary": "Show partner phone in sale order",
-    "version": "17.0.1.0.1",
+    "version": "17.0.1.0.2",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
