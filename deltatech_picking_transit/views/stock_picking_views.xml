@@ -7,6 +7,14 @@
         <field name="arch" type="xml">
             <xpath expr="//button[@name='button_validate']" position="before">
                 <field name="is_transit_transfer" invisible="1" />
+                <field name="sub_location_existent" invisible="1" />
+                <button
+                    name="reassign_location"
+                    type="object"
+                    string="Reassign Location"
+                    class="btn-primary"
+                    attrs="{'invisible': [('sub_location_existent', '=', False)]}"
+                />
                 <button
                     name="open_transfer_wizard"
                     type="object"
