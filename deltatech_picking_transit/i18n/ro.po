@@ -1,0 +1,133 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_picking_transit
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-25 09:07+0000\n"
+"PO-Revision-Date: 2024-07-25 09:07+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_picking_transit
+#: model_terms:ir.ui.view,arch_db:deltatech_picking_transit.view_stock_picking_transfer_wizard_form
+msgid "Cancel"
+msgstr "Anulare"
+
+#. module: deltatech_picking_transit
+#: model_terms:ir.ui.view,arch_db:deltatech_picking_transit.view_stock_picking_transfer_wizard_form
+msgid "Confirm"
+msgstr "Confirmare"
+
+#. module: deltatech_picking_transit
+#: model_terms:ir.ui.view,arch_db:deltatech_picking_transit.view_picking_form_inherit
+#: model_terms:ir.ui.view,arch_db:deltatech_picking_transit.view_stock_picking_transfer_wizard_form
+msgid "Create Transfer"
+msgstr "Creare transfer"
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking_transfer_wizard__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking_transfer_wizard__create_date
+msgid "Created on"
+msgstr "Creat la"
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking_transfer_wizard__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking_transfer_wizard__final_dest_location_id
+msgid "Final Destination Location"
+msgstr "Locație destinație finală"
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking_transfer_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking__is_transit_transfer
+msgid "Is Transit Transfer"
+msgstr "Este transfer tranzit"
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking_transfer_wizard____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking_transfer_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking_transfer_wizard__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare la"
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking_type__next_operation_id
+msgid "Next Operation"
+msgstr "Următoarea operațiune"
+
+#. module: deltatech_picking_transit
+#: model:ir.model,name:deltatech_picking_transit.model_stock_picking_type
+msgid "Picking Type"
+msgstr "Tip ridicare"
+
+#. module: deltatech_picking_transit
+#: model_terms:ir.ui.view,arch_db:deltatech_picking_transit.view_picking_form_inherit
+msgid "Reassign Location"
+msgstr "Reatribuire locație"
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking__second_transfer_created
+msgid "Second Transfer Created"
+msgstr "Transfer secund creat"
+
+#. module: deltatech_picking_transit
+#: code:addons/deltatech_picking_transit/models/stock_picking.py:0
+#, python-format
+msgid "Second transfer already created."
+msgstr "Transferul secundar a fost deja creat."
+
+#. module: deltatech_picking_transit
+#: model:ir.model,name:deltatech_picking_transit.model_stock_move
+msgid "Stock Move"
+msgstr "Mișcare stoc"
+
+#. module: deltatech_picking_transit
+#: model:ir.model,name:deltatech_picking_transit.model_stock_picking_transfer_wizard
+msgid "Stock Picking Transfer Wizard"
+msgstr "Asistent transfer ridicare stoc"
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking__sub_location_existent
+msgid "Sub Location Existent"
+msgstr "Există sublocatie"
+
+#. module: deltatech_picking_transit
+#: model:ir.model,name:deltatech_picking_transit.model_stock_picking
+msgid "Transfer"
+msgstr "Transfer"
+
+#. module: deltatech_picking_transit
+#: code:addons/deltatech_picking_transit/models/stock_move.py:0
+#, python-format
+msgid ""
+"You can't add another move to this picking because the second transfer is "
+"already created."
+msgstr ""
+"Nu puteți adăuga o altă mișcare la această ridicare deoarece transferul "
+"secundar este deja creat."
