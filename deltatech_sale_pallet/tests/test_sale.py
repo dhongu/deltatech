@@ -20,6 +20,7 @@ class TestSale(TransactionCase):
                 "standard_price": 100,
                 "list_price": 150,
                 "seller_ids": seller_ids,
+                "invoice_policy": "order",
             }
         )
         self.product_b = self.env["product.product"].create(
@@ -31,6 +32,7 @@ class TestSale(TransactionCase):
                 "seller_ids": seller_ids,
                 "pallet_product_id": self.product_a.id,
                 "pallet_qty_min": 10,
+                "invoice_policy": "order",
             }
         )
 
@@ -60,6 +62,7 @@ class TestSale(TransactionCase):
         # inventory.action_validate()
 
     def test_sale(self):
+        self.product_b.product_tmpl_id._compute_pallet_price()
         so = Form(self.env["sale.order"])
         so.partner_id = self.partner_a
 
@@ -68,3 +71,14 @@ class TestSale(TransactionCase):
             so_line.product_uom_qty = 100
 
         self.so = so.save()
+        self.so.action_confirm()
+        self.so._create_invoices()
+        self.so = self.so
+        self.so.invoice_ids.show_pallets_status()
+        SaleReport = self.env["sale.report"]
+
+        SaleReport.search([])
+
+        SaleReport.browse(1)
+
+        SaleReport.read_group([("state", "=", "sale")], ["product_id", "qty_invoiced"], ["product_id"])
