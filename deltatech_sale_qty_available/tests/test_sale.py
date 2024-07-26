@@ -74,7 +74,7 @@ class TestSale(TransactionCase):
         invoice = self.so._create_invoices()
         invoice = Form(invoice)
         invoice = invoice.save()
-        invoice.post()
+        invoice._post()
 
     def test_sale_picking_policy_one(self):
         so = Form(self.env["sale.order"])
@@ -104,7 +104,7 @@ class TestSale(TransactionCase):
         invoice = self.so._create_invoices()
         invoice = Form(invoice)
         invoice = invoice.save()
-        invoice.post()
+        invoice._post()
 
     def test_sale_search_search_is_ready(self):
         self.env["sale.order"].search([("is_ready", "=", True)])
