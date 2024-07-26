@@ -6,17 +6,10 @@
         <field name="inherit_id" ref="analytic.account_analytic_distribution_model_form_view" />
         <field name="arch" type="xml">
             <xpath expr="//group/group" position="before">
-                <group id="split">
-                    <field name="can_split_analytic" invisible="0" readonly="1" string="Can split" />
-                    <field name="is_split_analytic_rule" attrs="{'invisible': [('can_split_analytic', '=', False)]}" />
-                    <field name="stock_analytic_id" attrs="{'invisible': [('is_split_analytic_rule', '=', False)]}" />
-                    <field name="margin_analytic_id" attrs="{'invisible': [('is_split_analytic_rule', '=', False)]}" />
-                    <field name="sale_team" />
+                <group id="sale">
+                    <field name="team_id" />
                 </group>
             </xpath>
-<!--            <xpath expr="//field[@name='user_id']" position="after">-->
-
-<!--            </xpath>-->
         </field>
     </record>
 </odoo>
