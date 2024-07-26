@@ -32,9 +32,7 @@ class ServiceWarranty(models.Model):
         string="Status",
         tracking=True,
     )
-    equipment_id = fields.Many2one(
-        "service.equipment", string="Equipment", index=True, readonly=True, states={"new": [("readonly", False)]}
-    )
+    equipment_id = fields.Many2one("service.equipment", string="Equipment", index=True)
     partner_id = fields.Many2one("res.partner", string="Customer")
     has_agreement = fields.Boolean("Has service agreement", compute="_compute_service_agreement")
     user_id = fields.Many2one("res.users", string="Responsible")
@@ -91,26 +89,35 @@ class ServiceWarranty(models.Model):
         if self.equipment_id:
             self.user_id = self.equipment_id.technician_user_id or self.user_id
             if self.equipment_id.serial_id:
-                moves = self.env["stock.move"].search(
-                    [("lot_ids", "in", self.equipment_id.serial_id.ids), ("state", "=", "done")], order="date DESC"
+                move_lines = (
+                    self.env["stock.move.line"]
+                    .sudo()
+                    .search(
+                        [
+                            ("lot_id", "=", self.equipment_id.serial_id.id),
+                            ("state", "=", "done"),
+                            ("product_id", "=", self.equipment_id.product_id.id),
+                        ],
+                        order="date DESC",
+                    )
                 )
-                if moves:
+                if move_lines:
                     last_move = False
-                    if moves[0].location_dest_usage == "customer":
+                    if move_lines[0].location_dest_id.usage == "customer":
                         # if last move seems like a delivery
-                        last_move = moves[0]
+                        last_move = move_lines[0]
                     else:
-                        for move in moves:
-                            if move.location_dest_usage == "customer":
+                        for move in move_lines:
+                            if move.location_dest_id.usage == "customer":
                                 last_move = move
                                 break
-                    if last_move and last_move.sale_line_id:
-                        self.sale_order_id = last_move.sale_line_id.order_id
-                        invoice_lines = last_move.sale_line_id.invoice_lines
-                        invoices = invoice_lines.move_id
-                        if len(invoices) == 1:
-                            if invoices.state == "posted" and invoices.move_type == "out_invoice":
-                                self.invoice_id = invoices
+                    if last_move and last_move.sudo().move_id.sale_line_id:
+                        self.sudo().sale_order_id = last_move.move_id.sudo().sale_line_id.order_id
+                        invoice_lines = last_move.move_id.sudo().sale_line_id.invoice_lines
+                        invoices = invoice_lines.sudo().move_id
+                        if len(invoices.sudo()) == 1:
+                            if invoices.sudo().state == "posted" and invoices.sudo().move_type == "out_invoice":
+                                self.invoice_id = invoices.sudo()
                                 self.partner_id = invoices.partner_id
         else:
             self.invoice_id = False
