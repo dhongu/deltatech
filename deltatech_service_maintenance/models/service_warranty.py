@@ -89,13 +89,17 @@ class ServiceWarranty(models.Model):
         if self.equipment_id:
             self.user_id = self.equipment_id.technician_user_id or self.user_id
             if self.equipment_id.serial_id:
-                move_lines = self.env["stock.move.line"].search(
-                    [
-                        ("lot_id", "=", self.equipment_id.serial_id.id),
-                        ("state", "=", "done"),
-                        ("product_id", "=", self.equipment_id.product_id.id),
-                    ],
-                    order="date DESC",
+                move_lines = (
+                    self.env["stock.move.line"]
+                    .sudo()
+                    .search(
+                        [
+                            ("lot_id", "=", self.equipment_id.serial_id.id),
+                            ("state", "=", "done"),
+                            ("product_id", "=", self.equipment_id.product_id.id),
+                        ],
+                        order="date DESC",
+                    )
                 )
                 if move_lines:
                     last_move = False
@@ -107,13 +111,13 @@ class ServiceWarranty(models.Model):
                             if move.location_dest_id.usage == "customer":
                                 last_move = move
                                 break
-                    if last_move and last_move.move_id.sale_line_id:
-                        self.sale_order_id = last_move.move_id.sale_line_id.order_id
-                        invoice_lines = last_move.move_id.sale_line_id.invoice_lines
-                        invoices = invoice_lines.move_id
-                        if len(invoices) == 1:
-                            if invoices.state == "posted" and invoices.move_type == "out_invoice":
-                                self.invoice_id = invoices
+                    if last_move and last_move.sudo().move_id.sale_line_id:
+                        self.sudo().sale_order_id = last_move.move_id.sudo().sale_line_id.order_id
+                        invoice_lines = last_move.move_id.sudo().sale_line_id.invoice_lines
+                        invoices = invoice_lines.sudo().move_id
+                        if len(invoices.sudo()) == 1:
+                            if invoices.sudo().state == "posted" and invoices.sudo().move_type == "out_invoice":
+                                self.invoice_id = invoices.sudo()
                                 self.partner_id = invoices.partner_id
         else:
             self.invoice_id = False
