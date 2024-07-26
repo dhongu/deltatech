@@ -47,8 +47,9 @@ class SaleOrder(models.Model):
         self.set_stage("send_email")
 
     def action_cancel(self):
-        super().action_cancel()
+        res = super().action_cancel()
         self.set_stage("canceled")
+        return res
 
     def set_stage(self, stage_step):
         domain = [(stage_step, "=", True)]
