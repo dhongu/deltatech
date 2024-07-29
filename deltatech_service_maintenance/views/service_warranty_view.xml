@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <tree
                 string="Warranty"
-                default_order='date desc'
+                default_order='create_date desc'
                 sample="1"
                 decoration-info="state == 'new'"
                 decoration-danger="state == 'approval_requested'"
@@ -16,8 +16,9 @@
                 decoration-primary="state == 'new'"
                 decoration-warning="state == 'progress'"
             >
+                <field name="create_date" optional="show" />
                 <field name="name" />
-                <field name="date" />
+                <field name="date" optional="show" />
                 <field name="equipment_id" />
                 <field name="sale_order_id" />
                 <field name="partner_id" />
