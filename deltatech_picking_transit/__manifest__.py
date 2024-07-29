@@ -1,6 +1,6 @@
 {
     "name": "Stock Auto Transfer",
-    "version": "15.0.0.0.2",
+    "version": "15.0.0.0.3",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
