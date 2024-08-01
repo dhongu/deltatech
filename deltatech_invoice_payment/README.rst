@@ -22,9 +22,10 @@ Invoice Payment
 
 |badge1| |badge2| |badge3|
 
--  Features:
+Features:
 
-   -  Show payments from invoice
+-  Adds a new widget to the top of the invoice in which you can see all
+   the payments for that invoice.
 
 **Table of contents**
 
