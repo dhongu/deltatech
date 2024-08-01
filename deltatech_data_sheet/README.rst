@@ -22,7 +22,10 @@ Product Data Sheet
 
 |badge1| |badge2| |badge3|
 
+Features:
 
+-  Adds the fields "Data Sheet Attachment" and "Safety Data Sheet" on
+   the product template Sale tab for pdf files
 
 **Table of contents**
 
