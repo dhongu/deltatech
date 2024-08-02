@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<!--    <report
+        id="action_report_product_catalog"
+        string="Product Catalog"
+        model="product.template"
+        report_type="qweb-pdf"
+        name="deltatech_product_catalog.report_product_catalog"
+        file="deltatech_product_catalog.report_product_catalog"
+    />-->
+
+        <record id="action_report_product_catalog" model="ir.actions.report">
+            <field name="name">Product Catalog</field>
+            <field name="model">product.template</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">deltatech_product_catalog.report_product_catalog</field>
+            <field name="report_file">deltatech_product_catalog.report_product_catalog</field>
+            <field name="binding_type">report</field>
+        </record>
+
+
+<!--    <report
+        id="action_report_product_category_catalog"
+        string="Product Catalog"
+        model="product.public.category"
+        report_type="qweb-pdf"
+        name="deltatech_product_catalog.report_category_catalog"
+        file="deltatech_product_catalog.report_category_catalog"
+    />-->
+
+    <record id="action_report_product_category_catalog" model="ir.actions.report">
+            <field name="name">Product Catalog</field>
+            <field name="model">product.public.category</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">deltatech_product_catalog.report_category_catalog</field>
+            <field name="report_file">deltatech_product_catalog.report_category_catalog</field>
+        <field name="binding_type">report</field>
+        </record>
+
+
+</odoo>

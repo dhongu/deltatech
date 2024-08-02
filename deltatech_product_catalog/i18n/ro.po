@@ -1,0 +1,71 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_product_catalog
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-23 08:47+0000\n"
+"PO-Revision-Date: 2024-05-23 08:47+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_product_catalog
+#: model_terms:ir.ui.view,arch_db:deltatech_product_catalog.report_product_catalog
+msgid "<span class=\"card-text\">_</span>"
+msgstr ""
+
+#. module: deltatech_product_catalog
+#: model_terms:ir.ui.view,arch_db:deltatech_product_catalog.report_product_catalog
+msgid "<strong>Address:</strong>"
+msgstr "<strong>Adresa:</strong>"
+
+#. module: deltatech_product_catalog
+#: model_terms:ir.ui.view,arch_db:deltatech_product_catalog.report_product_catalog
+msgid "<strong>Company</strong>"
+msgstr "<strong>Companie</strong>"
+
+#. module: deltatech_product_catalog
+#: model:ir.model,name:deltatech_product_catalog.model_report_deltatech_product_catalog_report_category_catalog
+msgid "CategoryCatalogReport"
+msgstr ""
+
+#. module: deltatech_product_catalog
+#: model_terms:ir.ui.view,arch_db:deltatech_product_catalog.catalog_layout
+msgid "Email:"
+msgstr ""
+
+#. module: deltatech_product_catalog
+#: model_terms:ir.ui.view,arch_db:deltatech_product_catalog.catalog_layout
+msgid ""
+"Page:\n"
+"                    <span class=\"page\"/>\n"
+"                    /\n"
+"                    <span class=\"topage\"/>"
+msgstr ""
+
+#. module: deltatech_product_catalog
+#: model_terms:ir.ui.view,arch_db:deltatech_product_catalog.catalog_layout
+msgid "Phone:"
+msgstr "Telefon:"
+
+#. module: deltatech_product_catalog
+#: model:ir.actions.report,name:deltatech_product_catalog.action_report_product_catalog
+#: model:ir.actions.report,name:deltatech_product_catalog.action_report_product_category_catalog
+msgid "Product Catalog"
+msgstr "Catalog produse"
+
+#. module: deltatech_product_catalog
+#: model:ir.model,name:deltatech_product_catalog.model_report_deltatech_product_catalog_report_product_catalog
+msgid "ProductCatalogReport"
+msgstr ""
+
+#. module: deltatech_product_catalog
+#: model_terms:ir.ui.view,arch_db:deltatech_product_catalog.catalog_layout
+msgid "Web:"
+msgstr ""
