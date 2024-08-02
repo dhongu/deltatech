@@ -3,7 +3,6 @@
 {
     "name": "Deltatech Ledger",
     "summary": "Deltatech Ledger",
-    "description": "Deltatech Ledger for keeping track of records.",
     "version": "17.0.0.0.0",
     "author": "Terrabit, Voicu Stefan",
     "depends": ["base", "mail"],
