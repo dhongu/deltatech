@@ -39,9 +39,9 @@ class StockPicking(models.Model):
                 for move_line in picking.move_line_ids_without_package:
                     if (
                         picking.picking_type_id.restrict_quantities
-                        and move_line.reserved_uom_qty
+                        and move_line.quantity_product_uom
                         and float_compare(
-                            move_line.reserved_uom_qty,
+                            move_line.quantity_product_uom,
                             move_line.quantity,
                             precision_digits=precision,
                         )
@@ -56,7 +56,7 @@ class StockPicking(models.Model):
                         )
                     if (
                         picking.picking_type_id.restrict_new_products
-                        and float_compare(move_line.reserved_uom_qty, 0.0, precision_digits=precision) == 0
+                        and float_compare(move_line.quantity_product_uom, 0.0, precision_digits=precision) == 0
                         and float_compare(move_line.quantity, 0.0, precision_digits=precision) != 0
                     ):
                         raise UserError(
