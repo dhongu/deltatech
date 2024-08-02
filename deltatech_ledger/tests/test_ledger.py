@@ -1,7 +1,3 @@
-# ©  2024 YourCompany
-#              Your Name <your_email@example.com>
-# See README.rst file on addons root folder for license details
-
 from odoo.tests.common import TransactionCase
 
 
@@ -33,7 +29,6 @@ class TestLedger(TransactionCase):
         # Assertions
         self.assertEqual(ledger_exit.state, "active")
         self.assertEqual(ledger_exit.record_type, "exit")
-        self.assertEqual(ledger_exit.document_number, ledger_exit.name)
 
     def test_cancel_ledger(self):
         Ledger = self.env["ledger.ledger"]

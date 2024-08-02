@@ -16,10 +16,9 @@ class Ledger(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if vals.get("name", _("New")) == _("New"):
-                vals["name"] = self.env["ir.sequence"].next_by_code("ledger.ledger")
-            if vals["record_type"] == "exit":
-                vals["document_number"] = vals["name"]
+            vals["name"] = self.env["ir.sequence"].next_by_code("ledger.ledger")
+            # if vals["record_type"] == "exit":
+            #     vals["document_number"] = vals["name"]
             if not vals.get("record_date"):
                 vals["record_date"] = fields.Date.today()
         result = super().create(vals_list)
