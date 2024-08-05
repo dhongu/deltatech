@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Property",
     "depends": ["mail", "maintenance"],
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "data": [
         "views/property_menu_view.xml",
         "views/property_config_view.xml",
