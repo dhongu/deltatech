@@ -22,6 +22,8 @@ Cash In / Out
 
 |badge1| |badge2| |badge3|
 
+(Obsolete)
+
 -  Features:
 
    -  specify account for cash deposit/withdrawal at the cash registry

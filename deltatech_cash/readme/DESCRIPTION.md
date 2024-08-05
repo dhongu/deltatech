@@ -1,3 +1,5 @@
+(Obsolete)
+
 - Features:
 
   - specify account for cash deposit/withdrawal at the cash registry
