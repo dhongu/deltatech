@@ -8,7 +8,7 @@
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
     "category": "Sales/Sales",
-    "depends": ["product"],
+    "depends": ["account", "product"],
     "data": ["views/product_view.xml"],
     "license": "LGPL-3",
     "development_status": "Mature",
