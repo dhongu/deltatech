@@ -31,11 +31,18 @@ Features:
 -  The batch will be created automatically upon order confirmation and
    will have the pigment from production order.
 
-It can be defined an attribute of type color and for RAL and the
-attribute values have the name of the RAL color code. If the finished
-product from the production order has a color attribute then the RAL
-product will be determined from the color attribute of the finished
-product and will be allocated to the production order.
+Instruction:
+
+-  Create the product "Dummy RAL" and set it's internal reference to
+   "RAL 0000".
+-  In the BOM a the product that uses pigments set the "Dummy RAL" as a
+   component (WITHOUT SELECTING A VARIANT).
+-  In the final product should have a colour type attribute
+-  Create the pigment products with internal reference "RAL color" where
+   you substitute 'color' with the name of the of the option from the
+   attribute of the final product (e.g. RAL White, RAL Rose etc.)
+-  When creating the production order for a variant the dummy RAL
+   product will be replaced with the corresponding RAL pigment.
 
 **Table of contents**
 
