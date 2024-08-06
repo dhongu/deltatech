@@ -26,7 +26,7 @@ class PurchaseOrder(models.Model):
 
                 # Get the activity type from the settings
                 activity_type = settings["purchase_order_reminder_activity_type_id"]
-                if order.user_id:
+                if order.user_id and activity_type:
                     # Create the activity
                     self.env["mail.activity"].create(
                         {
