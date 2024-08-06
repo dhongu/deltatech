@@ -5,6 +5,7 @@
 
 import base64
 
+from odoo import fields
 from odoo.modules.module import get_module_resource
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
@@ -34,3 +35,40 @@ class TestImportXLS(TransactionCase):
         wizard_form.has_header = True
         wizard = wizard_form.save()
         wizard.do_import()
+
+    def test_xlsx_file_export(self):
+        self.product = self.env["product.product"].create(
+            {
+                "name": "Test Product",
+                "type": "product",
+                "purchase_method": "purchase",
+            }
+        )
+
+        # Create a purchase order
+        self.purchase_order = self.env["purchase.order"].create(
+            {
+                "partner_id": self.env.ref("base.res_partner_1").id,
+                "date_order": fields.Date.today(),
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": self.product.name,
+                            "product_id": self.product.id,
+                            "product_qty": 10,
+                            "product_uom": self.env.ref("uom.product_uom_unit").id,
+                            "price_unit": 100,
+                            "date_planned": fields.Date.today(),
+                        },
+                    )
+                ],
+            }
+        )
+        wizard = self.env["export.purchase.line"].with_context(
+            active_ids=self.purchase_order.id, active_model="purchase.order"
+        )
+        wizard_form = Form(wizard)
+        wizard = wizard_form.save()
+        wizard.do_export()
