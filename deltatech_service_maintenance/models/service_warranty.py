@@ -183,8 +183,8 @@ class ServiceWarranty(models.Model):
     def set_assigned(self):
         if self.state == "new" and self.user_id:
             self.state = "assigned"
-            if self.name == "/":
-                self.name = self.env["ir.sequence"].next_by_code("service.warranty")
+            # if self.name == "/":
+            #     self.name = self.env["ir.sequence"].next_by_code("service.warranty")
 
     def set_new(self):
         if self.state == "assigned":
@@ -207,6 +207,13 @@ class ServiceWarranty(models.Model):
 
     def set_done(self):
         self.state = "done"
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "name" not in vals or ("name" in vals and vals["name"] == "/"):
+                vals["name"] = self.env["ir.sequence"].next_by_code("service.warranty")
+        return super().create(vals_list)
 
 
 class ServiceWarrantyItem(models.Model):
