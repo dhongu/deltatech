@@ -32,6 +32,9 @@ class ServiceWarranty(models.Model):
         string="Status",
         tracking=True,
     )
+    clarifications_state = fields.Selection(
+        [("required", "Required"), ("sent", "Sent")], string="Clarifications", tracking=True
+    )
     equipment_id = fields.Many2one(
         "service.equipment", string="Equipment", index=True, readonly=True, states={"new": [("readonly", False)]}
     )
