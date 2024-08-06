@@ -32,6 +32,9 @@ class ServiceWarranty(models.Model):
         string="Status",
         tracking=True,
     )
+    clarifications_state = fields.Selection(
+        [("required", "Required"), ("sent", "Sent")], string="Clarifications", tracking=True
+    )
     equipment_id = fields.Many2one("service.equipment", string="Equipment", index=True)
     partner_id = fields.Many2one("res.partner", string="Customer")
     has_agreement = fields.Boolean("Has service agreement", compute="_compute_service_agreement")
