@@ -15,6 +15,8 @@
                 decoration-muted="state == 'done'"
                 decoration-primary="state == 'new'"
                 decoration-warning="state == 'progress'"
+                decoration-bf="clarifications_state == 'required'"
+                decoration-it="clarifications_state == 'sent'"
             >
                 <field name="create_date" optional="show" />
                 <field name="name" decoration-bf="1" />
@@ -23,6 +25,7 @@
                 <field name="sale_order_id" />
                 <field name="partner_id" />
                 <field name="user_id" widget="many2one_avatar_user" />
+                <field name="clarifications_state" />
                 <field
                     name='state'
                     widget="badge"
@@ -30,6 +33,7 @@
                     decoration-success="state == 'assigned'  "
                     decoration-primary="state == 'progress'  "
                 />
+                <field name="total_amount" sum="total_amount" />
             </tree>
         </field>
     </record>
@@ -120,6 +124,9 @@
                         </group>
                         <group>
                             <field name="picking_id" readonly="1" />
+                        </group>
+                        <group name="clarifications">
+                            <field name="clarifications_state" />
                         </group>
                         <group colspan="2">
                             <field name="description" widget="text" />
@@ -255,6 +262,12 @@
                 <filter name='assigned' string="Assigned" domain="[('state', '=', 'assigned')]" />
                 <filter name='progress' string="In Progress" domain="[('state', '=', 'progress')]" />
                 <filter name='done' string="Done" domain="[('state', '=', 'done')]" />
+                <filter
+                    name='cl_required'
+                    string="Clarifications required"
+                    domain="[('clarifications_state', '=', 'required')]"
+                />
+                <filter name='cl_sent' string="Clarifications sent" domain="[('clarifications_state', '=', 'sent')]" />
                 <separator />
                 <filter
                     name='my'
