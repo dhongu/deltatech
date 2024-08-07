@@ -3,7 +3,6 @@ from odoo.tests import common
 
 
 class TestSaleOrder(common.TransactionCase):
-
     def setUp(self):
         super().setUp()
 
@@ -45,9 +44,9 @@ class TestSaleOrder(common.TransactionCase):
             {
                 "partner_id": self.partner.id,
                 "picking_type_id": self.picking_type.id,
-                "sale_id": self.sale_order.id,
             }
         )
+        self.stock_picking.sale_id = self.sale_order
 
     def test_sale_order_stage_creation(self):
         # Test the creation of a sale order stage

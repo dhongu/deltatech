@@ -23,6 +23,7 @@
                         <field name="delivered" />
                         <field name="invoiced" />
                         <field name="paid" />
+                        <field name="canceled" />
                     </group>
                     <group>
                         <field name="action_id" />
@@ -44,6 +45,7 @@
                     <field name="delivered" />
                     <field name="invoiced" />
                     <field name="paid" />
+                    <field name="canceled" />
                 </tree>
             </field>
         </record>
