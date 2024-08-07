@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="view_order_form_term" model="ir.ui.view">
+            <field name="name">sale.order.form.payment.term</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <field name="payment_term_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="groups">!deltatech_payment_term_restrict.group_payment_term</attribute>
+                </field>
+                <field name="payment_term_id" position="after">
+                    <field
+                        name="payment_term_id"
+                        groups="deltatech_payment_term_restrict.group_payment_term"
+                        options="{'no_open':True,'no_create': True}"
+                    />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
