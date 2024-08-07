@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from odoo import models
+from odoo import _, models
 
 
 class PurchaseOrder(models.Model):
@@ -8,9 +8,9 @@ class PurchaseOrder(models.Model):
 
     def action_send_reminder(self):
         draft_orders = self.env["purchase.order"].search([("state", "=", "draft")])
+        datetime_field = datetime.now()
+        date_now = datetime_field.date()
         for order in draft_orders:
-            datetime_field = datetime.now()
-            date_now = datetime_field.date()
             days_for_delivery = 1
             for line in order.order_line:
                 for seller in line.product_id.product_tmpl_id.seller_ids:
@@ -26,14 +26,22 @@ class PurchaseOrder(models.Model):
 
                 # Get the activity type from the settings
                 activity_type = settings["purchase_order_reminder_activity_type_id"]
-                if order.user_id and activity_type:
+                activity_exists = self.env["mail.activity"].search(
+                    [
+                        ("res_id", "=", order.id),
+                        ("res_model_id", "=", self.env["ir.model"]._get("purchase.order").id),
+                        ("summary", "=", _("Purchase Order Reminder")),
+                    ],
+                    limit=1,
+                )
+                if order.user_id and activity_type and not activity_exists:
                     # Create the activity
                     self.env["mail.activity"].create(
                         {
                             "activity_type_id": activity_type,
                             "user_id": order.user_id.id,
-                            "summary": "Purchase Order Reminder",
-                            "note": "This is a reminder for the purchase order.",
+                            "summary": _("Purchase Order Reminder"),
+                            "note": _("This is a reminder to confirm the purchase order."),
                             "date_deadline": date_now,
                             "res_id": order.id,
                             "res_model_id": self.env["ir.model"]._get("purchase.order").id,
