@@ -86,8 +86,12 @@ class StockInventoryLine(models.Model):
     def create(self, vals_list):
         for values in vals_list:
             if "standard_price" not in values:
-                product = self.env["product.product"].browse(values["product_id"])
-                values["standard_price"] = product.standard_price
+                if "product_id" in values:
+                    product = self.env["product.product"].browse(values["product_id"])
+                    values["standard_price"] = product.standard_price
+                elif self.env.context.get("default_product_id", False):
+                    product = self.env["product.product"].browse(self.env.context.get("default_product_id", False))
+                    values["standard_price"] = product.standard_price
         return super().create(vals_list)
 
     @api.onchange("product_id", "location_id", "product_uom_id", "prod_lot_id", "partner_id", "package_id")
