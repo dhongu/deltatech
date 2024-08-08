@@ -27,9 +27,10 @@ class PurchaseOrder(models.Model):
         action["context"]["default_invoice_date"] = self.date_planned
 
         notice = self.env.context.get("notice", False)
-        if not notice:
-            for picking in self.picking_ids:
-                notice = notice or picking.notice
+        if "l10n_ro_notice" in self.picking_ids._fields:
+            if not notice:
+                for picking in self.picking_ids:
+                    notice = notice or picking.l10n_ro_notice
 
         action["context"]["notice"] = notice
         return action
