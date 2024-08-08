@@ -1,0 +1,18 @@
+<!-- views/stock_picking_transfer_wizard_views.xml -->
+<odoo>
+    <record id="view_stock_picking_transfer_wizard_form" model="ir.ui.view">
+        <field name="name">stock.picking.transfer.wizard.form</field>
+        <field name="model">stock.picking.transfer.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Create Transfer">
+                <group>
+                    <field name="final_dest_location_id" />
+                </group>
+                <footer>
+                    <button string="Confirm" type="object" name="confirm_transfer" class="btn-primary" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

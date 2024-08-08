@@ -1,0 +1,38 @@
+<!-- views/stock_picking_views.xml -->
+<odoo>
+    <record id="view_picking_form_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_validate']" position="before">
+                <field name="is_transit_transfer" invisible="1" />
+                <field name="sub_location_existent" invisible="1" />
+                <button
+                    name="reassign_location"
+                    type="object"
+                    string="Reassign Location"
+                    class="btn-primary"
+                    attrs="{'invisible': [('sub_location_existent', '=', False)]}"
+                />
+                <button
+                    name="open_transfer_wizard"
+                    type="object"
+                    string="Create Transfer"
+                    class="btn-primary"
+                    attrs="{'invisible': [('is_transit_transfer', '=', False)]}"
+                />
+            </xpath>
+
+            <xpath
+                expr="//field[@name='move_ids_without_package']/tree/field[@name='product_uom_qty']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'column_invisible': [('parent.immediate_transfer', '=', True),('parent.is_transit_transfer', '=', False)], 'readonly': ['|', ('is_initial_demand_editable', '=', False), '&amp;', '&amp;', ('show_operations', '=', True), ('is_locked', '=', True), ('is_initial_demand_editable', '=', False)]}</attribute>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
