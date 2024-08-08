@@ -3,7 +3,6 @@ from odoo.tests import TransactionCase
 
 
 class TestSaleOrderSmsNotifications(TransactionCase):
-
     def setUp(self):
         super().setUp()
         self.company = self.env.ref("base.main_company")  # Assuming main_company is your company record
