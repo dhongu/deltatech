@@ -2,7 +2,6 @@ from odoo.tests.common import TransactionCase
 
 
 class TestStockCustomizations(TransactionCase):
-
     def setUp(self):
         super().setUp()
         self.StockLocation = self.env["stock.location"]
