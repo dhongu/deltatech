@@ -4,31 +4,40 @@ from odoo.exceptions import UserError
 
 class InvoiceWizard(models.TransientModel):
     _name = "transfer.product.to.product"
-    _description = "Invoice Wizard"
+    _description = "Transfer Wizard"
 
-    from_product_id = fields.Many2one("product.product", string="From Product")
-    location_adjustment = fields.Many2one("stock.location", string="Adjustment Location")
-    to_product_id = fields.Many2one("product.product", string="To Product")
-    quantity = fields.Float(string="Quantity")
-    location_id = fields.Many2one("stock.location", string="Adjusting Location")
+    from_product_id = fields.Many2one("product.product", string="From Product", required=True)
+    location_adjustment = fields.Many2one("stock.location", string="Adjustment Location", required=True)
+    to_product_id = fields.Many2one("product.product", string="To Product", required=True)
+    quantity = fields.Float(string="Quantity", required=True)
+    location_id = fields.Many2one("stock.location", string="Adjusting Location", required=True)
+    operation_type = fields.Many2one(
+        "stock.picking.type", string="Operation Type", domain=[("code", "=", "internal")], required=True
+    )
 
     @api.onchange("from_product_id")
     def _onchange_from_product_id(self):
         if self.from_product_id:
             self.location_id = self.from_product_id.property_stock_inventory
 
+    @api.onchange("location_adjustment")
+    def _onchange_location_adjustment(self):
+        if self.location_adjustment:
+            warehouse = self.env["stock.warehouse"].search(
+                [("view_location_id", "parent_of", self.location_adjustment.id)], limit=1
+            )
+            picking_type_id = self.env["stock.picking.type"].search(
+                [("code", "=", "internal"), ("warehouse_id", "=", warehouse.id)], limit=1
+            )
+            if not picking_type_id:
+                raise UserError(_("You don't have internal picking type defined for this warehouse"))
+            else:
+                self.operation_type = picking_type_id.id
+
     def action_confirm(self):
-        warehouse = self.env["stock.warehouse"].search(
-            [("view_location_id", "parent_of", self.location_adjustment.id)], limit=1
-        )
-        picking_type_id = self.env["stock.picking.type"].search(
-            [("code", "=", "internal"), ("warehouse_id", "=", warehouse.id)], limit=1
-        )
-        if not picking_type_id:
-            raise UserError(_("Make sure you have at least an internal picking type defined"))
         picking_id = self.env["stock.picking"].create(
             {
-                "picking_type_id": picking_type_id.id,
+                "picking_type_id": self.operation_type.id,
                 "location_id": self.location_adjustment.id,
                 "location_dest_id": self.location_id.id,
             }
@@ -47,7 +56,7 @@ class InvoiceWizard(models.TransientModel):
 
         picking_id2 = self.env["stock.picking"].create(
             {
-                "picking_type_id": picking_type_id.id,
+                "picking_type_id": self.operation_type.id,
                 "location_id": self.location_id.id,
                 "location_dest_id": self.location_adjustment.id,
             }
@@ -68,5 +77,6 @@ class InvoiceWizard(models.TransientModel):
         picking_id.action_confirm()
         picking_id2.action_confirm()
 
+        # Validate the pickings
         picking_id.button_validate()
         picking_id2.button_validate()
