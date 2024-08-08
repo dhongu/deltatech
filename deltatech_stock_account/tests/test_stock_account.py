@@ -54,7 +54,22 @@ class TestStockPickingAmount(TransactionCase):
                 "currency_id": self.currency.id,
             }
         )
+        self.env["stock.quant"].create(
+            {
+                "product_id": self.product_a.id,
+                "location_id": self.warehouse.lot_stock_id.id,
+                "quantity": 100,
+            }
+        )
 
+        # Set initial stock for product_b
+        self.env["stock.quant"].create(
+            {
+                "product_id": self.product_b.id,
+                "location_id": self.warehouse.lot_stock_id.id,
+                "quantity": 100,
+            }
+        )
         # Create stock moves
         self.move_a = self.env["stock.move"].create(
             {
