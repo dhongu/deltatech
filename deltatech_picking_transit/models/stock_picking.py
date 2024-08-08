@@ -7,11 +7,12 @@ from odoo.exceptions import UserError
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    is_transit_transfer = fields.Boolean(default=False)
+    is_transit_transfer = fields.Boolean(default=False, compute="_compute_is_transit_transfer")
     sub_location_existent = fields.Boolean(default=False, compute="_compute_sub_location_existent")
     second_transfer_created = fields.Boolean(default=False)
 
     def open_transfer_wizard(self):
+        self.action_assign()
         if self.second_transfer_created:
             raise UserError(_("Second transfer already created."))
         return {
@@ -51,12 +52,13 @@ class StockPicking(models.Model):
                 }
             )
 
-    @api.model
-    def create(self, vals):
-        res = super().create(vals)
-        if res.picking_type_id.code == "internal" and res.picking_type_id.next_operation_id:
-            res.is_transit_transfer = True
-        return res
+    # @api.model
+    # def create(self, vals):
+    #     res = super().create(vals)
+    #     if res.picking_type_id.code == "internal" and res.picking_type_id.next_operation_id:
+    #         res.action_toggle_is_locked()
+    #        # res.immediate_transfer = False
+    #     return res
 
     def _compute_sub_location_existent(self):
         for record in self:
@@ -82,7 +84,12 @@ class StockPicking(models.Model):
             if quants:
                 move_line.location_id = quants[0].location_id
 
-    def button_validate(self):
-        if self.picking_type_id.code == "internal" and self.picking_type_id.next_operation_id:
-            self.is_transit_transfer = True
-        return super().button_validate()
+    @api.onchange("picking_type_id")
+    def _compute_is_transit_transfer(self):
+        for record in self:
+            if record.picking_type_id.code == "internal" and record.picking_type_id.next_operation_id:
+                record.is_transit_transfer = True
+                record.action_toggle_is_locked()
+                record.immediate_transfer = False
+            else:
+                record.is_transit_transfer = False
