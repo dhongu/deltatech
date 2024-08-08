@@ -52,6 +52,14 @@ class TestStockMoveAnalytics(TransactionCase):
                 "list_price": 150,
             }
         )
+        self.warehouse = self.env["stock.warehouse"].create({"name": "Warehouse 2", "code": "WH2"})
+        self.env["stock.quant"].create(
+            {
+                "product_id": self.product.id,
+                "location_id": self.location_source.id,
+                "quantity": 100,
+            }
+        )
 
         # Create a picking type
         self.picking_type = self.env["stock.picking.type"].create(
@@ -59,7 +67,7 @@ class TestStockMoveAnalytics(TransactionCase):
                 "name": "Internal Transfers",
                 "code": "internal",
                 "sequence_code": "INT",
-                "warehouse_id": self.env["stock.warehouse"].search([], limit=1).id,
+                "warehouse_id": self.warehouse.id,
             }
         )
 
