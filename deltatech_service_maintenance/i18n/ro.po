@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-09 13:11+0000\n"
-"PO-Revision-Date: 2024-07-09 13:11+0000\n"
+"POT-Creation-Date: 2024-08-06 10:34+0000\n"
+"PO-Revision-Date: 2024-08-06 10:34+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -212,6 +212,11 @@ msgid "Alternative Code"
 msgstr "Cod alternativ"
 
 #. module: deltatech_service_maintenance
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty_item__amount
+msgid "Amount"
+msgstr ""
+
+#. module: deltatech_service_maintenance
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_warranty__state__approval_requested
 msgid "Approval requested"
 msgstr "Aprobare cerută"
@@ -310,6 +315,16 @@ msgstr "Verifica disponibilitate"
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__city
 msgid "City"
 msgstr "Localitate"
+
+#. module: deltatech_service_maintenance
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty__clarifications_state
+msgid "Clarifications"
+msgstr "Clarificări"
+
+#. module: deltatech_service_maintenance
+#: model:ir.actions.server,name:deltatech_service_maintenance.action_clear_clarifications
+msgid "Clear clarifications status"
+msgstr "Sterge clarificări"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_operation__code
@@ -567,6 +582,11 @@ msgid "Has Message"
 msgstr ""
 
 #. module: deltatech_service_maintenance
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty__has_agreement
+msgid "Has service agreement"
+msgstr "Contract service"
+
+#. module: deltatech_service_maintenance
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_notification__priority__3
 msgid "High"
 msgstr "Ridicată"
@@ -811,6 +831,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__activity_type_id
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty__activity_type_id
 msgid "Next Activity Type"
+msgstr ""
+
+#. module: deltatech_service_maintenance
+#. odoo-python
+#: code:addons/deltatech_service_maintenance/models/stock.py:0
+#, python-format
+msgid "No lines or multiple lines in linked warranty found"
 msgstr ""
 
 #. module: deltatech_service_maintenance
@@ -1140,6 +1167,11 @@ msgid "Request approval"
 msgstr ""
 
 #. module: deltatech_service_maintenance
+#: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_warranty__clarifications_state__required
+msgid "Required"
+msgstr "Cerut"
+
+#. module: deltatech_service_maintenance
 #: model:ir.actions.server,name:deltatech_service_maintenance.action_notification_set_draft
 msgid "Reset status"
 msgstr ""
@@ -1211,6 +1243,11 @@ msgstr "Comandă de vânzare"
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__access_token
 msgid "Security Token"
 msgstr ""
+
+#. module: deltatech_service_maintenance
+#: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_warranty__clarifications_state__sent
+msgid "Sent"
+msgstr "Trimis"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification_item__sequence
@@ -1462,6 +1499,11 @@ msgid "This partner is blocked"
 msgstr "Partenerul este blocat"
 
 #. module: deltatech_service_maintenance
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty__total_amount
+msgid "Total amount"
+msgstr ""
+
+#. module: deltatech_service_maintenance
 #: model:ir.model,name:deltatech_service_maintenance.model_stock_picking
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_notification__category__transfer
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_work_center_form
@@ -1513,6 +1555,11 @@ msgstr "Indisponibil"
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty_item__product_uom
 msgid "Unit of Measure "
 msgstr "Unitate de măsură "
+
+#. module: deltatech_service_maintenance
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty_item__price_unit
+msgid "Unit price"
+msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_notification__priority__4
@@ -1612,6 +1659,11 @@ msgid "Work Done"
 msgstr "Lucru efectuat"
 
 #. module: deltatech_service_maintenance
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_warranty_form
+msgid "amount"
+msgstr ""
+
+#. module: deltatech_service_maintenance
 #: model:service.operating.parameter,name:deltatech_service_maintenance.equi_work_again
 msgid "the defect was fixed equipment works"
 msgstr "defectul a fost înlăturat echipamentul funcționează"
@@ -1630,3 +1682,8 @@ msgstr "echipamentul nu funcționează"
 #: model:service.operating.parameter,name:deltatech_service_maintenance.equi_work
 msgid "the equipment works"
 msgstr "echipamentul funcționează"
+
+#. module: deltatech_service_maintenance
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_warranty_tree
+msgid "total_amount"
+msgstr ""

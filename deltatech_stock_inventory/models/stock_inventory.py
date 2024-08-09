@@ -592,8 +592,13 @@ class InventoryLine(models.Model):
                     to_uom=values.get("product_uom_id"),
                 )
                 values["theoretical_qty"] = theoretical_qty
-            if "product_id" in values and "product_uom_id" not in values:
-                values["product_uom_id"] = product.product_tmpl_id.uom_id.id
+            if "product_uom_id" not in values:
+                if product:
+                    values["product_uom_id"] = product.product_tmpl_id.uom_id.id
+                else:
+                    if self.env.context.get("default_product_id", False):
+                        product = self.env["product.product"].browse(self.env.context.get("default_product_id", False))
+                        values["product_uom_id"] = product.product_tmpl_id.uom_id.id
         res = super().create(vals_list)
         res._check_no_duplicate_line()
         return res
