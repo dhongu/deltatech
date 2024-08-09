@@ -106,6 +106,7 @@ addon | version | maintainers | summary | price
 [deltatech_product_list](deltatech_product_list/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Define products lists | Free 
 [deltatech_product_margin](deltatech_product_margin/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product margin and trade markup | Free 
 [deltatech_product_trade_markup](deltatech_product_trade_markup/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product trade markup | Free 
+[deltatech_purchase_confirmation_reminder](deltatech_purchase_confirmation_reminder/) | 15.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | This module will create an activity on the puchase order | Free 
 [deltatech_purchase_discount](deltatech_purchase_discount/) | 15.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Discount in purchase order line | Free 
 [deltatech_purchase_picking_status](deltatech_purchase_picking_status/) | 15.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Get purchase status from pickings | Free 
 [deltatech_purchase_price](deltatech_purchase_price/) | 15.0.1.1.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Update vendor price after reception | Free 
