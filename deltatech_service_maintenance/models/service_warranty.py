@@ -51,7 +51,7 @@ class ServiceWarranty(models.Model):
         states={"done": [("readonly", True)]},
         copy=True,
     )
-    total_amount = fields.Float(string="Total amount", compute="_compute_total_amount")
+    total_amount = fields.Float(string="Total amount", compute="_compute_total_amount", store=True)
 
     def _compute_service_agreement(self):
         agreements_installed = (
@@ -80,6 +80,7 @@ class ServiceWarranty(models.Model):
                 else:
                     warranty.has_agreement = False
 
+    @api.depends("item_ids")
     def _compute_total_amount(self):
         for warranty in self:
             total_amount = 0.0
