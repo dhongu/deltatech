@@ -4,6 +4,23 @@
         <field name="model">transfer.product.to.product</field>
         <field name="arch" type="xml">
             <form string="Transfer Wizard">
+                <field name="price_state" invisible="1" />
+                <div
+                    class="alert alert-danger"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    attrs="{'invisible':[('price_state','!=','different')]}"
+                >
+                    <field name="alert_message" nolabel="1" readonly="1" />
+                </div>
+                <div
+                    class="alert alert-success"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    attrs="{'invisible':[('price_state','!=','equal')]}"
+                >
+                    <field name="alert_message" nolabel="1" readonly="1" />
+                </div>
                 <group>
                     <field name="from_product_id" />
                     <field name="location_adjustment" />
@@ -12,6 +29,7 @@
                     <field name="location_id" />
                     <field name="operation_type" />
                 </group>
+
                 <footer>
                     <button name="action_confirm" string="Confirm" type="object" class="btn-primary" />
                     <button string="Cancel" class="btn-secondary" special="cancel" />
