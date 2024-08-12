@@ -9,11 +9,37 @@ class InvoiceWizard(models.TransientModel):
     from_product_id = fields.Many2one("product.product", string="From Product", required=True)
     location_adjustment = fields.Many2one("stock.location", string="Adjustment Location", required=True)
     to_product_id = fields.Many2one("product.product", string="To Product", required=True)
-    quantity = fields.Float(string="Quantity", required=True)
+    quantity = fields.Float(string="Quantity", required=True, default=1.0)
     location_id = fields.Many2one("stock.location", string="Adjusting Location", required=True)
     operation_type = fields.Many2one(
         "stock.picking.type", string="Operation Type", domain=[("code", "=", "internal")], required=True
     )
+    price_state = fields.Selection(
+        [("draft", "draft"), ("equal", "equal"), ("different", "different")], default="draft"
+    )
+    alert_message = fields.Char()
+
+    @api.onchange("from_product_id", "to_product_id")
+    def _onchange_product_id(self):
+        if self.from_product_id and self.to_product_id:
+            if self.from_product_id.standard_price == self.to_product_id.standard_price:
+                self.price_state = "equal"
+                self.alert_message = "The price of the products is the same"
+            else:
+                self.price_state = "different"
+                self.alert_message = (
+                    "Careful! "
+                    + self.from_product_id.name
+                    + " costs "
+                    + str(self.from_product_id.standard_price)
+                    + " and "
+                    + self.to_product_id.name
+                    + " costs "
+                    + str(self.to_product_id.standard_price)
+                )
+        else:
+            self.price_state = "draft"
+            self.alert_message = ""
 
     @api.onchange("from_product_id")
     def _onchange_from_product_id(self):
