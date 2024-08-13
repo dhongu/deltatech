@@ -18,9 +18,9 @@
                 decoration-bf="clarifications_state == 'required'"
                 decoration-it="clarifications_state == 'sent'"
             >
-                <field name="create_date" optional="show" />
+                <field name="create_date" optional="show" string="Create date" />
                 <field name="name" decoration-bf="1" />
-                <field name="date" optional="show" />
+                <field name="date" optional="show" string="Warranty date" />
                 <field name="equipment_id" />
                 <field name="sale_order_id" />
                 <field name="partner_id" />

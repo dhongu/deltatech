@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-05 14:25+0000\n"
-"PO-Revision-Date: 2024-08-05 14:25+0000\n"
+"POT-Creation-Date: 2024-08-13 12:21+0000\n"
+"PO-Revision-Date: 2024-08-13 12:21+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -191,6 +191,7 @@ msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty__clarifications_state
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_warranty_filter
 msgid "Clarifications"
 msgstr "Clarificări"
 
@@ -273,6 +274,11 @@ msgid "Corrective"
 msgstr ""
 
 #. module: deltatech_service_maintenance
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_warranty_tree
+msgid "Create date"
+msgstr "Data creare sesizare"
+
+#. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__create_uid
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification_item__create_uid
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification_type__create_uid
@@ -324,7 +330,7 @@ msgstr "Ciclu"
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__date
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty__date
 msgid "Date"
-msgstr "Dată"
+msgstr "Data sesizare problemă de către client"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_plan__last_call_done_date
@@ -1656,6 +1662,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty__item_ids
 msgid "Warranty Lines"
 msgstr "Linii garanții"
+
+#. module: deltatech_service_maintenance
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_warranty_tree
+msgid "Warranty date"
+msgstr "Data sesizare problemă de către client"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_res_config_settings__picking_type_for_warranty
