@@ -1,0 +1,50 @@
+<odoo>
+    <data>
+
+        <record id="view_sale_order_activity_record_tree" model="ir.ui.view">
+            <field name="name">sale.order.activity.record.tree</field>
+            <field name="model">sale.order.activity.record</field>
+            <field name="arch" type="xml">
+                <tree create="false">
+                    <field name="sale_order_id" />
+                    <field name="change_date" />
+                    <field name="state" />
+                    <field name="user_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sale_order_activity_record_pivot" model="ir.ui.view">
+            <field name="name">sale.order.activity.record.pivot</field>
+            <field name="model">sale.order.activity.record</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <field name="user_id" type="row" />
+                    <field name="change_date" type="col" />
+                </pivot>
+            </field>
+        </record>
+
+        <record id="action_sale_order_activity_record" model="ir.actions.act_window">
+            <field name="name">Activity Records</field>
+            <field name="res_model">sale.order.activity.record</field>
+            <field name="view_mode">tree,pivot</field>
+        </record>
+
+        <!-- Menu Item -->
+        <menuitem
+            id="menu_sale_order_activity_record"
+            name="Activity Records"
+            parent="sale.menu_sale_report"
+            action="action_sale_order_activity_record"
+        />
+        <menuitem
+            id="menu_sale_report_menu"
+            name="Reporting"
+            action="sale.action_order_report_all"
+            groups="sales_team.group_sale_manager"
+            parent="sale.menu_sale_report"
+            sequence="40"
+        />
+    </data>
+</odoo>
