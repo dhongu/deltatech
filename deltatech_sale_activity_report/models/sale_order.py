@@ -23,4 +23,6 @@ class SaleOrder(models.Model):
                     "state": self.state,
                 }
             )
+        else:
+            existing_record.write({"state": self.state})
         return res

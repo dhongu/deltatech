@@ -35,4 +35,6 @@ class MailActivity(models.Model):
                             "state": sale_order.state,
                         }
                     )
+                else:
+                    existing_record.write({"state": sale_order.state})
         return records
