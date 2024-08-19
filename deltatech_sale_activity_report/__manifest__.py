@@ -6,7 +6,7 @@
     "category": "Sales",
     "summary": "Adds a last modified field to the sale order",
     "depends": ["sale", "deltatech_website_sale_status"],
-    "license": "LGPL-3",
+    "license": "OPL-1",
     "data": [
         "security/ir.model.access.csv",
         "views/sale_activity_record_view.xml",
