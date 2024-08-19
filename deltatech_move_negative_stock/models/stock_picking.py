@@ -11,7 +11,6 @@ class StockPicking(models.Model):
     def get_negative_products(self):
         if self.state == "draft":
             # self.immediate_transfer = False
-            # self.update({"immediate_transfer": False})
             quants = self.env["stock.quant"].search(
                 [("location_id", "=", self.location_dest_id.id), ("quantity", "<", 0)]
             )
