@@ -4,7 +4,7 @@
         <field name="name">Location: send negative stock</field>
         <field name="model_id" ref="stock.model_stock_location" />
         <field name="subject">Negative stock for location {{object.complete_name}}</field>
-        <field name="partner_to">${object.user_id.partner_id.id}</field>
+        <field name="partner_to">{{object.user_id.partner_id.id}}</field>
         <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
                 <p style="margin: 0px; padding: 0px; font-size: 12px;">
@@ -24,7 +24,7 @@
                 </p>
             </div>
         </field>
-        <field name="lang">${object.user_id.partner_id.lang}</field>
+        <field name="lang">{{object.user_id.partner_id.lang}}</field>
         <field name="auto_delete" eval="False" />
     </record>
 </odoo>
