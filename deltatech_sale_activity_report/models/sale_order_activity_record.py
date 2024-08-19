@@ -19,3 +19,17 @@ class SaleOrderActivityRecord(models.Model):
         string="State",
     )
     user_id = fields.Many2one("res.users", string="User", default=lambda self: self.env.user, required=True)
+    stage = fields.Selection(
+        [
+            ("placed", "Placed"),  # comanda plasta pe website
+            ("in_process", "In Process"),  # comanda in procesare de catre agentul de vanzare
+            ("waiting", "Waiting availability"),  # nu sunt in stoc toate produsele din comanda
+            ("postponed", "Postponed"),  # livrarea a fost amanata
+            ("to_be_delivery", "To Be Delivery"),  # comanda este de livrat
+            ("in_delivery", "In Delivery"),  # marfa a fost predata la curier
+            ("delivered", "Delivered"),  # comanda a fost livrata la client
+            ("canceled", "Canceled"),
+            ("returned", "Returned"),
+        ],
+        string="Stage",
+    )

@@ -5,7 +5,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Sales",
     "summary": "Adds a last modified field to the sale order",
-    "depends": ["sale"],
+    "depends": ["sale", "deltatech_website_sale_status"],
     "license": "LGPL-3",
     "data": [
         "security/ir.model.access.csv",

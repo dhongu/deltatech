@@ -9,6 +9,7 @@
                     <field name="sale_order_id" />
                     <field name="change_date" />
                     <field name="state" />
+                    <field name="stage" />
                     <field name="user_id" />
                 </tree>
             </field>
@@ -20,15 +21,53 @@
             <field name="arch" type="xml">
                 <pivot>
                     <field name="user_id" type="row" />
+                    <field name="stage" type="row" />
                     <field name="change_date" type="col" />
                 </pivot>
             </field>
         </record>
 
+        <!-- Search View -->
+
+
+        <!-- Search View -->
+        <record id="view_sale_order_activity_record_search" model="ir.ui.view">
+            <field name="name">sale.order.activity.record.search</field>
+            <field name="model">sale.order.activity.record</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="sale_order_id" />
+                    <field name="change_date" />
+                    <field name="state" />
+                    <field name="stage" />
+                    <field name="user_id" />
+                    <filter
+                        string="This Month"
+                        name="this_month"
+                        domain="[('change_date', '&gt;=', context_today().strftime('%%Y-%%m-01'))]"
+                    />
+                    <filter
+                        string="This Year"
+                        name="this_year"
+                        domain="[('change_date', '&gt;=', context_today().strftime('%%Y-01-01'))]"
+                    />
+
+                    <group expand="0" string="Group By">
+                        <filter string="User" name="groupby_user" context="{'group_by':'user_id'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Remaining Action and Menu Items -->
+
+
         <record id="action_sale_order_activity_record" model="ir.actions.act_window">
             <field name="name">Activity Records</field>
             <field name="res_model">sale.order.activity.record</field>
             <field name="view_mode">tree,pivot</field>
+            <field name="search_view_id" ref="view_sale_order_activity_record_search" />
+            <field name="context">{'search_default_this_month': 1}</field>
         </record>
 
         <!-- Menu Item -->
