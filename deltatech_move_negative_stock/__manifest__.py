@@ -4,7 +4,7 @@
 {
     "name": "Replenish negative stock",
     "summary": "Replenish negative stock from other location",
-    "version": "16.0.1.1.0",
+    "version": "16.0.1.1.1",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Stock",
