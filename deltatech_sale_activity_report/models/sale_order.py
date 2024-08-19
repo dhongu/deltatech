@@ -21,8 +21,10 @@ class SaleOrder(models.Model):
                     "change_date": today,
                     "user_id": self.env.user.id,
                     "state": self.state,
+                    "stage": self.stage,
                 }
             )
         else:
             existing_record.write({"state": self.state})
+            existing_record.write({"stage": self.stage})
         return res
