@@ -31,11 +31,11 @@ class InvoiceWizard(models.TransientModel):
                     "Careful! "
                     + self.from_product_id.name
                     + " costs "
-                    + str(self.from_product_id.standard_price)
+                    + "{:.2f}".format(self.from_product_id.standard_price)
                     + " and "
                     + self.to_product_id.name
                     + " costs "
-                    + str(self.to_product_id.standard_price)
+                    + "{:.2f}".format(self.to_product_id.standard_price)
                 )
         else:
             self.price_state = "draft"
