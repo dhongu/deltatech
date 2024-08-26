@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_working_days_export_form" model="ir.ui.view">
+        <field name="name">stock.move.report.wizard</field>
+        <field name="model">stock.move.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Export Working Days">
+                <field name="state" invisible="1"/>
+                <div states="choose">
+                    <p>Export move lines between</p>
+                    <div class="o_row o_row_readonly">
+                        <span class="oe_inline">
+                            From
+                        </span>
+                        <field
+                            name="starting_report_date"
+                            class="oe_inline"
+                            nolabel="1"
+                            widget="daterange"
+                            options="{'related_end_date': 'ending_report_date'}"
+                        />
+                        <span class="oe_inline">
+                            To
+                        </span>
+                        <field
+                            name="ending_report_date"
+                            class="oe_inline"
+                            widget="daterange"
+                            options="{'related_start_date': 'starting_report_date'}"
+                        />
+                    </div>
+                </div>
+                <div states="get">
+                    <h2>Export Complete</h2>
+                    <p>Here is the exported file:
+                        <field name="data_file" readonly="1" filename="name"/>
+                    </p>
+                </div>
+
+                <footer states="choose">
+                    <button name="do_export" string="Apply" type="object" class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+                <footer states="get">
+                    <button string="Exit" class="oe_link" special="cancel"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_open_stock_move_history_export_wizard" model="ir.actions.act_window">
+        <field name="name">Export Stock Move History</field>
+        <field name="res_model">stock.move.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_working_days_export_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_inventory_export_working_days"
+              name="Export Stock Move History"
+              parent="stock.menu_stock_warehouse_mgmt"
+              action="action_open_stock_move_history_export_wizard"
+              sequence="100"/>
+
+</odoo>
