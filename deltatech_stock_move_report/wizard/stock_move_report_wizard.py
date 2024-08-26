@@ -16,17 +16,31 @@ class StockMoveReport(models.TransientModel):
     state = fields.Selection([("choose", "choose"), ("get", "get")], default="choose")
     data_file = fields.Binary(string="File", readonly=True)
     name = fields.Char(string="File Name", readonly=True)
-    def do_export(self):
 
+    def do_export(self):
 
         if self.starting_report_date > self.ending_report_date:
             raise UserError(_("Please make sure the second date is after the first"))
-        picking=self.env['stock.picking'].search([('date_done','>=',self.starting_report_date),('date_done','<=',self.ending_report_date),('picking_type_id.code','=','outgoing'),('state','=','done')])
+        picking = self.env["stock.picking"].search(
+            [
+                ("date_done", ">=", self.starting_report_date),
+                ("date_done", "<=", self.ending_report_date),
+                ("picking_type_id.code", "=", "outgoing"),
+                ("state", "=", "done"),
+            ]
+        )
         headers = [_("Location"), _("Product"), _("Date"), _("Quantity Delivered")]
         matrix = [headers]
         for pick in picking:
             for line in pick.move_ids_without_package:
-                matrix.append([pick.location_id.display_name,line.product_id.display_name,datetime.strftime(pick.date_done, "%Y-%m-%d"),line.product_uom_qty])
+                matrix.append(
+                    [
+                        pick.location_id.display_name,
+                        line.product_id.display_name,
+                        datetime.strftime(pick.date_done, "%Y-%m-%d"),
+                        line.product_uom_qty,
+                    ]
+                )
 
         output_buffer = BytesIO()
         workbook = xlsxwriter.Workbook(output_buffer)
@@ -42,7 +56,11 @@ class StockMoveReport(models.TransientModel):
 
         # Set the data_file field with the content of the file
         self.write(
-            {"state": "get", "name": "stock_move_history_export.xlsx", "data_file": base64.b64encode(output_buffer.getvalue())}
+            {
+                "state": "get",
+                "name": "stock_move_history_export.xlsx",
+                "data_file": base64.b64encode(output_buffer.getvalue()),
+            }
         )
         output_buffer.close()
 
