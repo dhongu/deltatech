@@ -32,6 +32,10 @@ class WebsiteSaleCity(WebsiteSale):
         return new_values, errors, error_msg
 
     def checkout_form_validate(self, mode, all_form_values, data):
+        if not all_form_values.get("city") and all_form_values.get("city_id"):
+            city = request.env["res.city"].browse(int(all_form_values.get("city_id")))
+            data["city"] = city.name
+            all_form_values["city"] = city.name
         error, error_message = super().checkout_form_validate(mode, all_form_values, data)
 
         # Check if city_id required
