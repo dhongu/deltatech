@@ -5,7 +5,7 @@
     "name": "Website City",
     "category": "Website/Website",
     "summary": "City extension",
-    "version": "17.0.1.0.3",
+    "version": "17.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
