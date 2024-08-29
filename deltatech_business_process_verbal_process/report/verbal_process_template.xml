@@ -11,48 +11,48 @@
                         <h4 style="color: blue; text-align: center;">Proces Verbal de Predare-Primire a Sistemului
                             Odoo
                         </h4>
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <span>Data:
-                            <t t-esc="datetime.date.today().strftime('%d-%m-%Y')"/>
+                            <t t-esc="datetime.date.today().strftime('%d-%m-%Y')" />
                         </span>
-                        <br/>
+                        <br />
                         <span>Prezenți:</span>
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <ul>
                             <li>
-                                <t t-esc="o.provider_company"/>
+                                <t t-esc="o.provider_company" />
                                 reprezentant prin
-                                <t t-esc="o.provider_representative.name"/>
+                                <t t-esc="o.provider_representative.name" />
                                 și reprezentant testare
                                 <t t-foreach="o.provider_testers" t-as="tester">
-                                    <t t-esc="tester.name"/>,
+                                    <t t-esc="tester.name" />,
                                 </t>
                             </li>
                             <li>
-                                <t t-esc="o.recipient_company"/>
+                                <t t-esc="o.recipient_company" />
                                 reprezentant prin
-                                <t t-esc="o.recipient_representative.name"/>
+                                <t t-esc="o.recipient_representative.name" />
                                 și reprezentant testare
                                 <t t-foreach="o.recipient_testers" t-as="tester">
-                                    <t t-esc="tester.name"/>,
+                                    <t t-esc="tester.name" />,
                                 </t>
                             </li>
                         </ul>
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <h6 style="text-align: center; font-weight: bold;">Obiectul Predării-Primirii: Sistemul Odoo
                         </h6>
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <span>Conform acordului anterior convenit între părți, astăzi,
-                            <t t-esc="datetime.date.today().strftime('%d-%m-%Y')"/>
+                            <t t-esc="datetime.date.today().strftime('%d-%m-%Y')" />
                             , a avut loc procesul de predare-
                             primire a sistemului Odoo. Detaliile procesului sunt următoarele:
                         </span>
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <ul>
                             <li>
                                 Starea Sistemului:
@@ -127,19 +127,19 @@
                                 </ul>
                             </li>
                         </ul>
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
 
                         Prin semnăturile noastre, confirmăm că procesul de predare-primire a sistemului Odoo a fost
                         finalizat
                         conform prezentului document și că ambele părți sunt de acord cu detaliile consemnate mai sus.
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <span style="font-weight: bold;">Semnături:</span>
 
                     </t>
                 </div>
-                <div style="page-break-before: always;"/>
+                <div style="page-break-before: always;" />
 
 
                 <h6 style="text-align: center; font-weight: bold;">Anexa 1.</h6>
@@ -148,13 +148,19 @@
                 <table class="table-bordered" style="width: 100%;">
                     <thead>
                         <tr>
-                            <th style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;">
+                            <th
+                                style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                            >
                                 Proces
                             </th>
-                            <th style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;">
+                            <th
+                                style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                            >
                                 Intern
                             </th>
-                            <th style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;">
+                            <th
+                                style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                            >
                                 Acceptanța utilizatorului
                             </th>
 
@@ -164,7 +170,7 @@
 
                         <tr>
                             <td colspan="3" style="background-color:#f8f3dd; font-weight:bold; text-align: center;">
-                                <t t-esc="area.name"/>
+                                <t t-esc="area.name" />
                             </td>
                         </tr>
 
@@ -172,24 +178,28 @@
                         <t t-foreach="o.process_ids.filtered(lambda p: p.area_id == area)" t-as="process">
                             <tr>
                                 <td>
-                                    <span t-esc="process.name"/>
+                                    <span t-esc="process.name" />
                                 </td>
 
                                 <!-- Internal Steps -->
-                                <t t-set="internal_steps"
-                                   t-value="sum(len(test.test_step_ids or []) for test in (process.test_ids or []) if test.scope == 'internal' and test.state == 'done')"/>
+                                <t
+                                    t-set="internal_steps"
+                                    t-value="sum(len(test.test_step_ids or []) for test in (process.test_ids or []) if test.scope == 'internal' and test.state == 'done')"
+                                />
                                 <td t-if="internal_steps > 0">
-                                    <span t-esc="internal_steps"/>
+                                    <span t-esc="internal_steps" />
                                 </td>
                                 <td t-if="internal_steps == 0">
                                     &#8203; <!-- Invisible character if no steps -->
                                 </td>
 
                                 <!-- User Acceptance Steps -->
-                                <t t-set="user_acceptance_steps"
-                                   t-value="sum(len(test.test_step_ids or []) for test in (process.test_ids or []) if test.scope == 'user_acceptance' and test.state == 'done')"/>
+                                <t
+                                    t-set="user_acceptance_steps"
+                                    t-value="sum(len(test.test_step_ids or []) for test in (process.test_ids or []) if test.scope == 'user_acceptance' and test.state == 'done')"
+                                />
                                 <td t-if="user_acceptance_steps > 0">
-                                    <span t-esc="user_acceptance_steps"/>
+                                    <span t-esc="user_acceptance_steps" />
                                 </td>
                                 <td t-if="user_acceptance_steps == 0">
                                     &#8203; <!-- Invisible character if no steps -->

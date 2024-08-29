@@ -15,7 +15,7 @@
         "report/paperforat_a4_bp.xml",
         "views/business_project_view.xml",
         "report/verbal_process_report.xml",
-        "report/verbal_process_template.xml"
+        "report/verbal_process_template.xml",
     ],
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],
