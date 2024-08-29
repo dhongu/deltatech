@@ -64,8 +64,8 @@ class BusinessProcessImport(models.TransientModel):
             support = self.env["res.partner"]
             if process_data["support"]:
                 support = self.env["res.partner"].search([("name", "=", process_data["support"])], limit=1)
-                if not approves:
-                    approves = self.env["res.partner"].create({"name": process_data["support"]})
+                if not support:
+                    support = self.env["res.partner"].create({"name": process_data["support"]})
             domain = [("code", "=", process_data["code"]), ("project_id", "=", project.id)]
 
             process = self.env["business.process"].search(domain, limit=1)
@@ -154,10 +154,10 @@ class BusinessProcessImport(models.TransientModel):
             if process_data["include_tests"]:
                 for test_data in process_data["tests"]:
                     tester = self.env["res.partner"]
-                    if process_data["responsible"]:
+                    if test_data["tester"]:
                         tester = self.env["res.partner"].search([("name", "=", test_data["tester"])], limit=1)
                         if not tester:
-                            tester = self.env["res.partner"].create({"name": process_data["responsible"]})
+                            tester = self.env["res.partner"].create({"name": test_data["tester"]})
                     domain = [("name", "=", test_data["name"]), ("process_id", "=", process.id)]
                     test = self.env["business.process.test"].search(domain, limit=1)
                     if not test:

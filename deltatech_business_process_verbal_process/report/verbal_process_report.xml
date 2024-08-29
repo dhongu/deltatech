@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <report
+            id="action_report_verbal_process"
+            model="business.project"
+            string="Verbal Process"
+            report_type="qweb-pdf"
+            name="deltatech_business_process_verbal_process.report_bp_document"
+            paperformat="deltatech_business_process_verbal_process.paperformat_a4_bp"
+        />
+    </data>
+</odoo>
