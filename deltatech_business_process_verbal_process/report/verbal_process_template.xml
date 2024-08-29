@@ -118,12 +118,7 @@
                                         întreținerea și
                                         actualizarea sistemului.
                                     </li>
-                                    <li>
-                                        Părțile implicate au discutat și au clarificat responsabilitățile ulterioare în
-                                        ceea
-                                        ce
-                                        privește administrarea, întreținerea și actualizarea sistemului.
-                                    </li>
+
                                 </ul>
                             </li>
                         </ul>
@@ -135,7 +130,7 @@
                         conform prezentului document și că ambele părți sunt de acord cu detaliile consemnate mai sus.
                         <br />
                         <br />
-                        <span style="font-weight: bold;">Semnături:</span>
+                        <span style="font-weight: bold;">Semnăturile:</span>
 
                     </t>
                 </div>
@@ -168,9 +163,53 @@
                     </thead>
                     <t t-foreach="o.process_ids.mapped('area_id').sorted(key=lambda r: r.name)" t-as="area">
 
-                        <tr>
-                            <td colspan="3" style="background-color:#f8f3dd; font-weight:bold; text-align: center;">
+                        <tr style="background-color:#f8f3dd; font-weight:bold; text-align: center;">
+                            <td>
                                 <t t-esc="area.name" />
+                            </td>
+                            <t t-set="total_internal_steps" t-value="0" />
+                            <t t-foreach="o.process_ids" t-as="process">
+                                <!-- Check if the process belongs to the current area -->
+                                <t t-if="process.area_id.id == area.id">
+                                    <!-- Loop through tests in each process -->
+                                    <t t-foreach="process.test_ids" t-as="test">
+                                        <!-- Accumulate steps for tests -->
+                                        <t t-if="test.scope == 'internal' and test.state == 'done'">
+                                            <t
+                                                t-set="total_internal_steps"
+                                                t-value="total_internal_steps + (len(test.test_step_ids or []))"
+                                            />
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <td t-if="total_internal_steps > 0">
+                                <span t-esc="total_internal_steps" />
+                            </td>
+                            <td t-if="total_internal_steps == 0">
+                                &#8203; <!-- Invisible character if no steps -->
+                            </td>
+                            <t t-set="total_user_steps" t-value="0" />
+                            <t t-foreach="o.process_ids" t-as="process">
+                                <!-- Check if the process belongs to the current area -->
+                                <t t-if="process.area_id.id == area.id">
+                                    <!-- Loop through tests in each process -->
+                                    <t t-foreach="process.test_ids" t-as="test">
+                                        <!-- Accumulate steps for tests -->
+                                        <t t-if="test.scope == 'user_acceptance' and test.state == 'done'">
+                                            <t
+                                                t-set="total_user_steps"
+                                                t-value="total_user_steps + (len(test.test_step_ids or []))"
+                                            />
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <td t-if="total_user_steps > 0">
+                                <span t-esc="total_user_steps" />
+                            </td>
+                            <td t-if="total_user_steps == 0">
+                                &#8203; <!-- Invisible character if no steps -->
                             </td>
                         </tr>
 
@@ -186,7 +225,7 @@
                                     t-set="internal_steps"
                                     t-value="sum(len(test.test_step_ids or []) for test in (process.test_ids or []) if test.scope == 'internal' and test.state == 'done')"
                                 />
-                                <td t-if="internal_steps > 0">
+                                <td t-if="internal_steps > 0" style="text-align: center;">
                                     <span t-esc="internal_steps" />
                                 </td>
                                 <td t-if="internal_steps == 0">
@@ -198,7 +237,7 @@
                                     t-set="user_acceptance_steps"
                                     t-value="sum(len(test.test_step_ids or []) for test in (process.test_ids or []) if test.scope == 'user_acceptance' and test.state == 'done')"
                                 />
-                                <td t-if="user_acceptance_steps > 0">
+                                <td t-if="user_acceptance_steps > 0" style="text-align: center;">
                                     <span t-esc="user_acceptance_steps" />
                                 </td>
                                 <td t-if="user_acceptance_steps == 0">
@@ -208,6 +247,9 @@
                         </t>
                     </t>
                 </table>
+                <br />
+                <br />
+                <span style="font-weight: bold;">Semnăturile:</span>
             </t>
         </template>
     </data>

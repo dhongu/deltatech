@@ -5,7 +5,7 @@
 {
     "name": "Business process verbal process",
     "summary": "Business process verbal process",
-    "version": "16.0.0.0.0",
+    "version": "16.0.0.0.1",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
