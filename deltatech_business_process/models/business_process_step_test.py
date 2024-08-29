@@ -2,7 +2,6 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
-from odoo.odoo.tools.populate import compute
 
 
 class BusinessProcessStepTest(models.Model):
@@ -77,4 +76,3 @@ class BusinessProcessStepTest(models.Model):
         }
         action.update({"domain": domain, "context": context})
         return action
-

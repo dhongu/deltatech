@@ -91,8 +91,8 @@
                                     <field name="responsible_id" />
                                     <field name="date_start" optional="show" />
                                     <field name="date_end" optional="show" />
-                                    <field name="test_started" invisible="1"/>
-                                    <field name="result" attrs="{'invisible': [('test_started', '=', False)]}"/>
+                                    <field name="test_started" invisible="1" />
+                                    <field name="result" attrs="{'invisible': [('test_started', '=', False)]}" />
 
                                      <button
                                         name="action_view_issue"
