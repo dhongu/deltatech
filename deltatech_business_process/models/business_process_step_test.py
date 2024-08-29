@@ -16,7 +16,7 @@ class BusinessProcessStepTest(models.Model):
     process_id = fields.Many2one(
         string="Process", comodel_name="business.process", related="step_id.process_id", store=True
     )
-
+    test_started = fields.Boolean(string="Test started", default=False)
     sequence = fields.Integer(string="Sequence", related="step_id.sequence", store=True)
     name = fields.Char(string="Name", related="step_id.name", store=True)
     description = fields.Text(string="Description", related="step_id.description", store=True)

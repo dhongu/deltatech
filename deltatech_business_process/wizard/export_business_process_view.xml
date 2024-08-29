@@ -27,6 +27,8 @@
                             <field name="include_approved_by" />
 
                             <field name="include_support" />
+
+                            <field name="include_durations" />
                         </group>
                     </div>
                 </div>

@@ -67,7 +67,17 @@ class BusinessProcessImport(models.TransientModel):
                 if not support:
                     support = self.env["res.partner"].create({"name": process_data["support"]})
             domain = [("code", "=", process_data["code"]), ("project_id", "=", project.id)]
-
+            configuration_duration = 0.0
+            instructing_duration = 0.0
+            data_migration_duration = 0.0
+            testing_duration = 0.0
+            duration_for_completion = 0.0
+            if "include_durations" in process_data and process_data["include_durations"]:
+                configuration_duration = process_data["configuration_duration"]
+                instructing_duration = process_data["instructing_duration"]
+                data_migration_duration = process_data["data_migration_duration"]
+                testing_duration = process_data["testing_duration"]
+                duration_for_completion = process_data["duration_for_completion"]
             process = self.env["business.process"].search(domain, limit=1)
             if not process:
                 process = self.env["business.process"].create(
@@ -87,6 +97,11 @@ class BusinessProcessImport(models.TransientModel):
                         "state": process_data["state"],
                         "implementation_stage": process_data["implementation_stage"],
                         "module_type": process_data["module_type"],
+                        "configuration_duration": configuration_duration,
+                        "instructing_duration": instructing_duration,
+                        "data_migration_duration": data_migration_duration,
+                        "testing_duration": testing_duration,
+                        "duration_for_completion": duration_for_completion,
                     }
                 )
             else:

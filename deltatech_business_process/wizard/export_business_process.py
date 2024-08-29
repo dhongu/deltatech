@@ -19,6 +19,7 @@ class BusinessProcessExport(models.TransientModel):
     include_customer_responsible = fields.Boolean(string="Include Customer Responsible?")
     include_approved_by = fields.Boolean(string="Include Approved By?")
     include_support = fields.Boolean(string="Include Support?")
+    include_durations = fields.Boolean(string="Include Durations?")
     state = fields.Selection([("choose", "choose"), ("get", "get")], default="choose")  # choose period  # get the file
 
     def do_export(self):
@@ -36,17 +37,29 @@ class BusinessProcessExport(models.TransientModel):
                 "process_group": process.process_group_id.name,
                 "steps": [],
                 "include_tests": self.include_tests,
+                "include_durations": self.include_durations,
                 "tests": [],
                 "responsible": "",
                 "customer": "",
                 "approved": "",
                 "support": "",
+                "configuration_duration": "",
+                "instructing_duration": "",
+                "data_migration_duration": "",
+                "testing_duration": "",
+                "duration_for_completion": "",
                 "date_start_bbp": process.date_start_bbp,
                 "date_end_bbp": process.date_end_bbp,
                 "state": process.state,
                 "module_type": process.module_type,
                 "implementation_stage": process.implementation_stage,
             }
+            if self.include_durations:
+                process_data["configuration_duration"] = process.configuration_duration
+                process_data["instructing_duration"] = process.instructing_duration
+                process_data["data_migration_duration"] = process.data_migration_duration
+                process_data["testing_duration"] = process.testing_duration
+                process_data["duration_for_completion"] = process.duration_for_completion
             if self.include_responsible:
                 process_data["responsible"] = process.responsible_id.name
             if self.include_customer_responsible:
