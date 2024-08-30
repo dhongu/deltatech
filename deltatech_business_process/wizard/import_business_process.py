@@ -64,13 +64,20 @@ class BusinessProcessImport(models.TransientModel):
             support = self.env["res.partner"]
             if process_data["support"]:
                 support = self.env["res.partner"].search([("name", "=", process_data["support"])], limit=1)
-                if not approves:
-                    approves = self.env["res.partner"].create({"name": process_data["support"]})
-            domain = [
-                ("code", "=", process_data["code"]),
-                ("project_id", "=", project.id),
-            ]
-
+                if not support:
+                    support = self.env["res.partner"].create({"name": process_data["support"]})
+            domain = [("code", "=", process_data["code"]), ("project_id", "=", project.id)]
+            configuration_duration = 0.0
+            instructing_duration = 0.0
+            data_migration_duration = 0.0
+            testing_duration = 0.0
+            duration_for_completion = 0.0
+            if "include_durations" in process_data and process_data["include_durations"]:
+                configuration_duration = process_data["configuration_duration"]
+                instructing_duration = process_data["instructing_duration"]
+                data_migration_duration = process_data["data_migration_duration"]
+                testing_duration = process_data["testing_duration"]
+                duration_for_completion = process_data["duration_for_completion"]
             process = self.env["business.process"].search(domain, limit=1)
             if not process:
                 process = self.env["business.process"].create(
@@ -90,6 +97,11 @@ class BusinessProcessImport(models.TransientModel):
                         "state": process_data["state"],
                         "implementation_stage": process_data["implementation_stage"],
                         "module_type": process_data["module_type"],
+                        "configuration_duration": configuration_duration,
+                        "instructing_duration": instructing_duration,
+                        "data_migration_duration": data_migration_duration,
+                        "testing_duration": testing_duration,
+                        "duration_for_completion": duration_for_completion,
                     }
                 )
             else:
@@ -126,10 +138,7 @@ class BusinessProcessImport(models.TransientModel):
                     if not transaction:
                         transaction = self.env["business.transaction"].create({"name": step_data["transaction"]})
 
-                domain = [
-                    ("code", "=", step_data["code"]),
-                    ("process_id", "=", process.id),
-                ]
+                domain = [("code", "=", step_data["code"]), ("process_id", "=", process.id)]
                 step = self.env["business.process.step"].search(domain, limit=1)
                 if not step:
                     self.env["business.process.step"].create(
@@ -160,14 +169,11 @@ class BusinessProcessImport(models.TransientModel):
             if process_data["include_tests"]:
                 for test_data in process_data["tests"]:
                     tester = self.env["res.partner"]
-                    if process_data["responsible"]:
+                    if test_data["tester"]:
                         tester = self.env["res.partner"].search([("name", "=", test_data["tester"])], limit=1)
                         if not tester:
-                            tester = self.env["res.partner"].create({"name": process_data["responsible"]})
-                    domain = [
-                        ("name", "=", test_data["name"]),
-                        ("process_id", "=", process.id),
-                    ]
+                            tester = self.env["res.partner"].create({"name": test_data["tester"]})
+                    domain = [("name", "=", test_data["name"]), ("process_id", "=", process.id)]
                     test = self.env["business.process.test"].search(domain, limit=1)
                     if not test:
                         self.env["business.process.test"].create(
@@ -206,25 +212,21 @@ class BusinessProcessImport(models.TransientModel):
                         step_in_test = self.env["business.transaction"]
                         if step_test_data["step"]:
                             step_in_test = self.env["business.process.step"].search(
-                                [
-                                    ("name", "=", step_test_data["step"]),
-                                    ("process_id", "=", process.id),
-                                ],
-                                limit=1,
+                                [("name", "=", step_test_data["step"]), ("process_id", "=", process.id)], limit=1
                             )
                         test_of_step = self.env["business.process.test"]
                         if step_test_data["test"]:
                             test_of_step = self.env["business.process.test"].search(
-                                [
-                                    ("name", "=", step_test_data["test"]),
-                                    ("process_id", "=", process.id),
-                                ],
-                                limit=1,
+                                [("name", "=", step_test_data["test"]), ("process_id", "=", process.id)], limit=1
                             )
-                        domain = [
-                            ("name", "=", step_test_data["name"]),
-                            ("process_test_id", "=", test_of_step.id),
-                        ]
+                        responsible = self.env["res.partner"]
+                        if "responsible" in step_test_data and step_test_data["responsible"]:
+                            responsible = self.env["res.partner"].search(
+                                [("name", "=", step_test_data["responsible"])], limit=1
+                            )
+                            if not responsible:
+                                responsible = self.env["res.partner"].create({"name": step_test_data["responsible"]})
+                        domain = [("name", "=", step_test_data["name"]), ("process_test_id", "=", test_of_step.id)]
                         step_test = self.env["business.process.step.test"].search(domain, limit=1)
                         if not step_test:
                             self.env["business.process.step.test"].create(
@@ -234,6 +236,11 @@ class BusinessProcessImport(models.TransientModel):
                                     "transaction_id": transaction.id,
                                     "step_id": step_in_test.id,
                                     "process_test_id": test_of_step.id,
+                                    "result": step_test_data["result"] if "result" in step_test_data else "draft",
+                                    "test_started": step_test_data["test_started"]
+                                    if "test_started" in step_test_data
+                                    else True,
+                                    "responsible_id": responsible.id,
                                 }
                             )
                         else:
@@ -244,6 +251,11 @@ class BusinessProcessImport(models.TransientModel):
                                     "transaction_id": transaction.id,
                                     "step_id": step_in_test.id,
                                     "process_test_id": test_of_step.id,
+                                    "result": step_test_data["result"] if "result" in step_test_data else "draft",
+                                    "test_started": step_test_data["test_started"]
+                                    if "test_started" in step_test_data
+                                    else True,
+                                    "responsible_id": responsible.id,
                                 }
                             )
 
