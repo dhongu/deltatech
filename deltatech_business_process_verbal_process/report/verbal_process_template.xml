@@ -25,8 +25,13 @@
                                 reprezentant prin
                                 <t t-esc="o.provider_representative.name" />
                                 și reprezentant testare
+                                <t t-set="total_testers" t-value="len(o.provider_testers)" />
+                                <t t-set="counter" t-value="0" />
                                 <t t-foreach="o.provider_testers" t-as="tester">
-                                    <t t-esc="tester.name" />,
+                                    <t t-set="counter" t-value="counter + 1" />
+                                    <t t-esc="tester.name" />
+                                    <t t-if="counter &lt; total_testers">,</t>
+                                    <t t-if="counter == total_testers">.</t>
                                 </t>
                             </li>
                             <li>
@@ -34,8 +39,13 @@
                                 reprezentant prin
                                 <t t-esc="o.recipient_representative.name" />
                                 și reprezentant testare
+                                <t t-set="total_testers" t-value="len(o.recipient_testers)" />
+                                <t t-set="counter" t-value="0" />
                                 <t t-foreach="o.recipient_testers" t-as="tester">
-                                    <t t-esc="tester.name" />,
+                                    <t t-set="counter" t-value="counter + 1" />
+                                    <t t-esc="tester.name" />
+                                    <t t-if="counter &lt; total_testers">,</t>
+                                    <t t-if="counter == total_testers">.</t>
                                 </t>
                             </li>
                         </ul>
@@ -113,9 +123,9 @@
                                 Responsabilități ulterioare:
                                 <ul>
                                     <li>
-                                        Părțile implicate au convenit asupra responsabilităților ulterioare pentru
-                                        întreținerea și
-                                        actualizarea sistemului.
+                                        Părțile implicate au discutat și au clarificat responsabilitățile ulterioare în
+                                        ceea ce
+                                        privește administrarea, întreținerea și actualizarea sistemului.
                                     </li>
 
                                 </ul>
