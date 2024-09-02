@@ -102,6 +102,21 @@ class BusinessProcessImport(models.TransientModel):
                         "data_migration_duration": data_migration_duration,
                         "testing_duration": testing_duration,
                         "duration_for_completion": duration_for_completion,
+                        "status_internal_test": (
+                            process_data["status_internal_test"]
+                            if "status_internal_test" in process_data
+                            else "not_started"
+                        ),
+                        "status_integration_test": (
+                            process_data["status_integration_test"]
+                            if "status_integration_test" in process_data
+                            else "not_started"
+                        ),
+                        "status_user_acceptance_test": (
+                            process_data["status_user_acceptance_test"]
+                            if "status_user_acceptance_test" in process_data
+                            else "not_started"
+                        ),
                     }
                 )
             else:
