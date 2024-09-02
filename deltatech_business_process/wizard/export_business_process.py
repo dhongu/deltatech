@@ -80,6 +80,9 @@ class BusinessProcessExport(models.TransientModel):
                 }
                 process_data["steps"].append(step_data)
             if self.include_tests:
+                process_data["status_internal_test"] = process.status_internal_test
+                process_data["status_integration_test"] = process.status_integration_test
+                process_data["status_user_acceptance_test"] = process.status_user_acceptance_test
                 for test in process.test_ids:
                     test_data = {
                         "name": test.name,
