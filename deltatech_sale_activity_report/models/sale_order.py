@@ -9,22 +9,24 @@ class SaleOrder(models.Model):
 
     def write(self, vals):
         res = super().write(vals)
-        today = datetime.now().date()
-        existing_record = self.env["sale.order.activity.record"].search(
-            [("sale_order_id", "=", self.id), ("change_date", "=", today), ("user_id", "=", self.env.user.id)], limit=1
-        )
-
-        if not existing_record:
-            self.env["sale.order.activity.record"].create(
-                {
-                    "sale_order_id": self.id,
-                    "change_date": today,
-                    "user_id": self.env.user.id,
-                    "state": self.state,
-                    "stage": self.stage,
-                }
+        if self.env.user.has_group("base.group_user") and self.env.user.login != "__system__":
+            today = datetime.now().date()
+            existing_record = self.env["sale.order.activity.record"].search(
+                [("sale_order_id", "=", self.id), ("change_date", "=", today), ("user_id", "=", self.env.user.id)],
+                limit=1,
             )
-        else:
-            existing_record.write({"state": self.state})
-            existing_record.write({"stage": self.stage})
+
+            if not existing_record:
+                self.env["sale.order.activity.record"].create(
+                    {
+                        "sale_order_id": self.id,
+                        "change_date": today,
+                        "user_id": self.env.user.id,
+                        "state": self.state,
+                        "stage": self.stage,
+                    }
+                )
+            else:
+                existing_record.write({"state": self.state})
+                existing_record.write({"stage": self.stage})
         return res

@@ -219,6 +219,13 @@ class BusinessProcessImport(models.TransientModel):
                             test_of_step = self.env["business.process.test"].search(
                                 [("name", "=", step_test_data["test"]), ("process_id", "=", process.id)], limit=1
                             )
+                        responsible = self.env["res.partner"]
+                        if "responsible" in step_test_data and step_test_data["responsible"]:
+                            responsible = self.env["res.partner"].search(
+                                [("name", "=", step_test_data["responsible"])], limit=1
+                            )
+                            if not responsible:
+                                responsible = self.env["res.partner"].create({"name": step_test_data["responsible"]})
                         domain = [("name", "=", step_test_data["name"]), ("process_test_id", "=", test_of_step.id)]
                         step_test = self.env["business.process.step.test"].search(domain, limit=1)
                         if not step_test:
@@ -229,6 +236,11 @@ class BusinessProcessImport(models.TransientModel):
                                     "transaction_id": transaction.id,
                                     "step_id": step_in_test.id,
                                     "process_test_id": test_of_step.id,
+                                    "result": step_test_data["result"] if "result" in step_test_data else "draft",
+                                    "test_started": (
+                                        step_test_data["test_started"] if "test_started" in step_test_data else True
+                                    ),
+                                    "responsible_id": responsible.id,
                                 }
                             )
                         else:
@@ -239,6 +251,11 @@ class BusinessProcessImport(models.TransientModel):
                                     "transaction_id": transaction.id,
                                     "step_id": step_in_test.id,
                                     "process_test_id": test_of_step.id,
+                                    "result": step_test_data["result"] if "result" in step_test_data else "draft",
+                                    "test_started": (
+                                        step_test_data["test_started"] if "test_started" in step_test_data else True
+                                    ),
+                                    "responsible_id": responsible.id,
                                 }
                             )
 
