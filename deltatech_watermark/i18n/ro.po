@@ -38,7 +38,7 @@ msgstr "Setări de configurare"
 
 #. module: deltatech_watermark
 #: model_terms:ir.ui.view,arch_db:deltatech_watermark.res_config_settings_view_form
-msgid "If set, watermark will can use in website or documents."
+msgid "If set, the watermark can be used on the website or in documents."
 msgstr ""
 "Dacă este setat, watermark-ul va putea fi utilizată pe site-ul web sau în "
 "documente."
