@@ -210,3 +210,8 @@ class BusinessProcessTest(models.Model):
                 if step.responsible_id not in process.message_partner_ids:
                     followers |= step.responsible_id
             process.message_subscribe(followers.ids)
+
+    @api.onchange("completion_test")
+    def _onchange_completion_test(self):
+        if self.completion_test == 100.0:
+            self.action_done()

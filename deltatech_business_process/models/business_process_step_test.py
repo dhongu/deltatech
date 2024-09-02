@@ -76,3 +76,8 @@ class BusinessProcessStepTest(models.Model):
         }
         action.update({"domain": domain, "context": context})
         return action
+
+    @api.onchange("result")
+    def _onchange_result(self):
+        if self.result == "passed":
+            self.date_end = fields.Date.today()

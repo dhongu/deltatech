@@ -98,6 +98,9 @@ class BusinessProcessExport(models.TransientModel):
                             "transaction": test_step.transaction_id.name,
                             "step": test_step.step_id.name,
                             "test": test_step.process_test_id.name,
+                            "result": test_step.result,
+                            "test_started": test_step.test_started,
+                            "responsible": test_step.responsible_id.name,
                         }
                         test_data["test_steps"].append(test_step_data)
 
