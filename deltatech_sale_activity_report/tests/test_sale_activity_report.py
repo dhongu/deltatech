@@ -5,7 +5,6 @@ from odoo.tests.common import TransactionCase
 
 
 class TestSaleOrderActivityRecord(TransactionCase):
-
     def setUp(self):
         super().setUp()
         self.sale_order_model = self.env["sale.order"]
