@@ -11,15 +11,20 @@ class SaleOrder(models.Model):
         res = super().write(vals)
         if self.env.user.has_group("base.group_user") and self.env.user.login != "__system__":
             today = datetime.now().date()
+            if self:
+                order_id = self.id
+            else:
+                # in pro forma e-mail wizard, self is empty
+                order_id = self.env.context.get("active_id", False)
             existing_record = self.env["sale.order.activity.record"].search(
-                [("sale_order_id", "=", self.id), ("change_date", "=", today), ("user_id", "=", self.env.user.id)],
+                [("sale_order_id", "=", order_id), ("change_date", "=", today), ("user_id", "=", self.env.user.id)],
                 limit=1,
             )
 
             if not existing_record:
                 self.env["sale.order.activity.record"].create(
                     {
-                        "sale_order_id": self.id,
+                        "sale_order_id": order_id,
                         "change_date": today,
                         "user_id": self.env.user.id,
                         "state": self.state,
