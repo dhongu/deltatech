@@ -17,7 +17,7 @@ Sale Order Last Modified
     :target: https://www.odoo.com/documentation/master/legal/licenses.html
     :alt: License: OPL-1
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/14.0/deltatech_sale_activity_report
+    :target: https://github.com/dhongu/deltatech/tree/16.0/deltatech_sale_activity_report
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -34,10 +34,8 @@ Features:
 Bug Tracker
 ===========
 
-Bugs are tracked on `GitHub Issues <https://github.com/dhongu/deltatech/issues>`_.
+Bugs are tracked on `Terrabit Issues <https://www.terrabit.ro/helpdesk>`_.
 In case of trouble, please check there if your issue has already been reported.
-If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/dhongu/deltatech/issues/new?body=module:%20deltatech_sale_activity_report%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -61,6 +59,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/14.0/deltatech_sale_activity_report>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/16.0/deltatech_sale_activity_report>`_ project on GitHub.
 
 You are welcome to contribute.
