@@ -3,7 +3,7 @@
 {
     "name": "Transfer Product to Product",
     "summary": "Helps to transfer x quantity of product A and replace it with product B",
-    "version": "15.0.0.0.0",
+    "version": "15.0.0.0.2",
     "author": "Terrabit, Voicu Stefan",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

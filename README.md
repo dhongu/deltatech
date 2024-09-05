@@ -106,6 +106,7 @@ addon | version | maintainers | summary | price
 [deltatech_product_list](deltatech_product_list/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Define products lists | Free 
 [deltatech_product_margin](deltatech_product_margin/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product margin and trade markup | Free 
 [deltatech_product_trade_markup](deltatech_product_trade_markup/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product trade markup | Free 
+[deltatech_purchase_confirmation_reminder](deltatech_purchase_confirmation_reminder/) | 15.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | This module will create an activity on the puchase order | Free 
 [deltatech_purchase_discount](deltatech_purchase_discount/) | 15.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Discount in purchase order line | Free 
 [deltatech_purchase_picking_status](deltatech_purchase_picking_status/) | 15.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Get purchase status from pickings | Free 
 [deltatech_purchase_price](deltatech_purchase_price/) | 15.0.1.1.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Update vendor price after reception | Free 
@@ -157,15 +158,16 @@ addon | version | maintainers | summary | price
 [deltatech_stock_analytic](deltatech_stock_analytic/) | 15.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Create analytic lines from stock moves | Free 
 [deltatech_stock_date](deltatech_stock_date/) | 15.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Set posting date for stock move | Free 
 [deltatech_stock_delivery](deltatech_stock_delivery/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Adding button in invoice for display reception or delivery | Free 
-[deltatech_stock_inventory](deltatech_stock_inventory/) | 15.0.2.3.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Inventory Old Method | Free 
+[deltatech_stock_inventory](deltatech_stock_inventory/) | 15.0.2.3.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Inventory Old Method | Free 
 [deltatech_stock_location](deltatech_stock_location/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generate route, picking operation for location | Free 
+[deltatech_stock_move_report](deltatech_stock_move_report/) | 15.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Pivot table for stock moves by provider/customer and product | Free 
 [deltatech_stock_negative](deltatech_stock_negative/) | 15.0.2.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Negative stocks are not allowed | Free 
 [deltatech_stock_report](deltatech_stock_report/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report with positions from picking lists | Free 
 [deltatech_stock_reseller](deltatech_stock_reseller/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report report reseller | Free 
 [deltatech_stock_sn](deltatech_stock_sn/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Stock Serial Number | Free 
 [deltatech_test_system](deltatech_test_system/) | 15.0.0.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Utils | Free 
 [deltatech_tracking_2performant](deltatech_tracking_2performant/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | 2Performant tracking | Free 
-[deltatech_transfer_product_to_product](deltatech_transfer_product_to_product/) | 15.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Helps to transfer x quantity of product A and replace it with product B | Free 
+[deltatech_transfer_product_to_product](deltatech_transfer_product_to_product/) | 15.0.0.0.2 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Helps to transfer x quantity of product A and replace it with product B | Free 
 [deltatech_utils](deltatech_utils/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Utils | Free 
 [deltatech_vendor_stock](deltatech_vendor_stock/) | 15.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vendor stock availability | Free 
 [deltatech_warehouse](deltatech_warehouse/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Warehouse | Free 
