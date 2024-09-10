@@ -13,6 +13,7 @@ class StockPickingReport(models.Model):
     partner_id = fields.Many2one("res.partner", "Partner", readonly=True)
     picking_type_id = fields.Many2one("stock.picking.type", "Picking Type", readonly=True)
     picking_id = fields.Many2one("stock.picking", "Picking", readonly=True)
+    origin = fields.Char("Source Document", readonly=True)
 
     picking_type_code = fields.Selection(related="picking_type_id.code", string="Picking Type Code", readonly=True)
 
@@ -43,7 +44,7 @@ class StockPickingReport(models.Model):
     def _select(self):
         select_str = """
             SELECT min(sm.id) as id, sp.id as picking_id,
-            sp.partner_id, rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date,  sp.company_id,
+            sp.partner_id, rp.commercial_partner_id, sp.picking_type_id, sp.origin,  sp.state, sp.date,  sp.company_id,
             pt.categ_id, sm.product_id,  pt.uom_id as product_uom,
             sm.location_id,sm.location_dest_id, sl.usage as dest_usage,
             CASE WHEN sl.usage='internal' THEN sum(sm.product_qty) ELSE -1*sum(sm.product_qty) END as product_qty,
@@ -75,7 +76,7 @@ class StockPickingReport(models.Model):
 
     def _group_by(self):
         group_by_str = """
-            GROUP BY sp.id, sp.partner_id,rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date,
+            GROUP BY sp.id, sp.partner_id,rp.commercial_partner_id, sp.picking_type_id, sp.origin,  sp.state, sp.date,
             sp.company_id,
             pt.categ_id, sm.product_id,  pt.uom_id ,
             sm.location_id,sm.location_dest_id, sl.usage
