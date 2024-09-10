@@ -118,7 +118,7 @@ addon | version | maintainers | summary | price
 [deltatech_service_consumable](deltatech_service_consumable/) | 14.0.1.1.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Service Consumable | Free 
 [deltatech_service_equipment](deltatech_service_equipment/) | 14.0.1.2.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Service Equipment Management | Free 
 [deltatech_service_equipment_base](deltatech_service_equipment_base/) | 14.0.1.1.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Service Equipment Management | Free 
-[deltatech_service_maintenance](deltatech_service_maintenance/) | 14.0.1.1.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance | Free 
+[deltatech_service_maintenance](deltatech_service_maintenance/) | 14.0.1.2.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance | Free 
 [deltatech_service_maintenance_agreement](deltatech_service_maintenance_agreement/) | 14.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance | Free 
 [deltatech_service_maintenance_plan](deltatech_service_maintenance_plan/) | 14.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance Plan | Free 
 [deltatech_sms](deltatech_sms/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Send SMS to custom endpoint | Free 
@@ -130,7 +130,7 @@ addon | version | maintainers | summary | price
 [deltatech_stock_delivery](deltatech_stock_delivery/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Adding button in invoice for display reception or delivery | Free 
 [deltatech_stock_inventory](deltatech_stock_inventory/) | 14.0.2.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Inventory enhancements | Free 
 [deltatech_stock_negative](deltatech_stock_negative/) | 14.0.2.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Negative stocks are not allowed | Free 
-[deltatech_stock_report](deltatech_stock_report/) | 14.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report with positions from picking lists | Free 
+[deltatech_stock_report](deltatech_stock_report/) | 14.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report with positions from picking lists | Free 
 [deltatech_stock_reseller](deltatech_stock_reseller/) | 14.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report report reseller | Free 
 [deltatech_test_system](deltatech_test_system/) | 14.0.0.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Utils | Free 
 [deltatech_tracking_2performant](deltatech_tracking_2performant/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | 2Performant tracking | Free 
