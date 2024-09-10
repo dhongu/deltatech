@@ -213,6 +213,11 @@
                 <field name="user_id" />
                 <field name="partner_id" />
                 <field name="equipment_id" />
+                <field
+                    name="equipment_id"
+                    filter_domain="[ ('equipment_id.serial_id','ilike',self)]"
+                    string="Serial Number"
+                />
                 <separator />
                 <filter name="new" string="New" domain="[('state', '=', 'new')]" />
                 <filter name='assigned' string="Assigned" domain="[('state', '=', 'assigned')]" />
