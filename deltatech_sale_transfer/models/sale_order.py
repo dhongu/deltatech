@@ -46,7 +46,7 @@ class SaleOrder(models.Model):
             product = line.product_id.with_context(warehouse=order.warehouse_id.id)
             product_qty = line.product_uom._compute_quantity(line.product_uom_qty, line.product_id.uom_id)
 
-            qty_available = product.qty_available
+            qty_available = product.free_qty
             if qty_available < 0:
                 qty_available = 0
 
@@ -54,7 +54,7 @@ class SaleOrder(models.Model):
                 demand = line.product_uom_qty - qty_available
                 if demand <= 0:
                     continue
-                qty_available = line.product_id.with_context(warehouse=warehouse.id).qty_available
+                qty_available = line.product_id.with_context(warehouse=warehouse.id).free_qty
                 if qty_available > 0:
                     if not picking:
                         picking = self.env["stock.picking"].create(
@@ -75,7 +75,7 @@ class SaleOrder(models.Model):
                     transfer_product = self.prepare_transfer_get_product(line.product_id)
                     self.env["stock.move"].create(
                         {
-                            "state": "confirmed",
+                            "state": "draft",
                             "product_id": transfer_product.id,
                             "picking_id": picking.id,
                             "product_uom": line.product_uom.id,
