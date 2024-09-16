@@ -43,7 +43,7 @@ addon | version | maintainers | summary | price
 [deltatech_download](deltatech_download/) | 15.0.0.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generare fisier | Free 
 [deltatech_dropshipping](deltatech_dropshipping/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Delivery address in picking | Free 
 [deltatech_dummy_queue_job](deltatech_dummy_queue_job/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Dummy Queue Job | Free 
-[deltatech_estimated_future_stock_valuation](deltatech_estimated_future_stock_valuation/) | 15.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Estimate future stock valuation by current cost in product | Free 
+[deltatech_estimated_future_stock_valuation](deltatech_estimated_future_stock_valuation/) | 15.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Estimate future stock valuation by current cost in product | Free 
 [deltatech_expenses](deltatech_expenses/) | 15.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Expenses Deduction & Disposition of Cashing | Free 
 [deltatech_fast_purchase](deltatech_fast_purchase/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Achizitie rapida | 5.0 EUR
 [deltatech_fast_sale](deltatech_fast_sale/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vanzare rapida | 5.0 EUR

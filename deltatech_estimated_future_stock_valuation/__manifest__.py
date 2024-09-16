@@ -4,12 +4,12 @@
 
 {
     "name": "Forcasted Stock Valuation",
-    "version": "15.0.0.0.0",
+    "version": "15.0.0.0.1",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "summary": "Estimate future stock valuation by current cost in product",
     "category": "Stock",
-    "depends": ["product", "stock"],
+    "depends": ["product", "stock", "stock_account"],
     "license": "OPL-1",
     "data": ["views/stock_report_view.xml"],
     "images": ["static/description/main_screenshot.png"],
