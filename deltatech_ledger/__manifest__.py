@@ -13,6 +13,7 @@
         "data/ir_sequence_data.xml",
         "views/ledger_view.xml",
     ],
+    "images": ["static/description/icon.png"],
     "development_status": "Alpha",
     "maintainers": ["VoicuStefan2001"],
     "application": True,

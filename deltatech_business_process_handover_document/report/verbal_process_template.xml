@@ -1,30 +1,28 @@
 <?xml version="1.0" ?>
 <odoo>
-        <!-- Define the report template -->
+    <!-- Define the report template -->
         <template id="report_bp_document">
 
             <!-- Call the basic layout template -->
             <t t-call="web.basic_layout">
                 <div t-attf-style="line-height: 1.5;">
                     <t t-foreach="docs" t-as="o">
-                        <h4 style="color: blue; text-align: center;">Proces Verbal de Predare-Primire a Sistemului
-                            Odoo
-                        </h4>
+                        <h4 style="color: blue; text-align: center;">Handover Report for the Odoo System</h4>
                         <br />
                         <br />
-                        <span>Data:
+                        <span>Date:
                             <t t-esc="datetime.date.today().strftime('%d-%m-%Y')" />
                         </span>
                         <br />
-                        <span>Prezenți:</span>
+                        <span>Attendees:</span>
                         <br />
                         <br />
                         <ul>
                             <li>
                                 <t t-esc="o.provider_company" />
-                                reprezentant prin
+                                represented by
                                 <t t-esc="o.provider_representative.name" />
-                                și reprezentant testare
+                                and testing representative
                                 <t t-set="total_testers" t-value="len(o.provider_testers)" />
                                 <t t-set="counter" t-value="0" />
                                 <t t-foreach="o.provider_testers" t-as="tester">
@@ -36,9 +34,9 @@
                             </li>
                             <li>
                                 <t t-esc="o.recipient_company" />
-                                reprezentant prin
+                                represented by
                                 <t t-esc="o.recipient_representative.name" />
-                                și reprezentant testare
+                                and testing representative
                                 <t t-set="total_testers" t-value="len(o.recipient_testers)" />
                                 <t t-set="counter" t-value="0" />
                                 <t t-foreach="o.recipient_testers" t-as="tester">
@@ -51,103 +49,82 @@
                         </ul>
                         <br />
                         <br />
-                        <h6 style="text-align: center; font-weight: bold;">Obiectul Predării-Primirii: Sistemul Odoo
-                        </h6>
+                        <h6 style="text-align: center; font-weight: bold;">Handover Subject: Odoo System</h6>
                         <br />
                         <br />
-                        <span>Conform acordului anterior convenit între părți, astăzi,
+                        <span>According to the previously agreed terms between the parties, today,
                             <t t-esc="datetime.date.today().strftime('%d-%m-%Y')" />
-                            , a avut loc procesul de predare-
-                            primire a sistemului Odoo. Detaliile procesului sunt următoarele:
+                            , the Odoo system handover process took place. The details of the process are as follows:
                         </span>
                         <br />
                         <br />
                         <ul>
                             <li>
-                                Starea Sistemului:
+                                System Status:
                                 <ul>
-                                    <li>Sistemul Odoo a fost verificat și se află într-o stare funcțională optimă.</li>
-                                    <li>Toate modulele și funcționalitățile specifice necesare au fost implementate
-                                        conform
-                                        cerințelor stabilite.
+                                    <li>The Odoo system was checked and is in an optimal working condition.</li>
+                                    <li>Required modules and specific functionalities have been implemented as per
+                                        the established requirements.
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                Documentație și Resurse:
+                                Documentation and Resources:
                                 <ul>
                                     <li>
-                                        Documentația completă a sistemului, inclusiv manuale de utilizare și
-                                        specificații
-                                        tehnice,
-                                        au fost furnizate și sunt disponibile pentru utilizare.
+                                        Complete system documentation, including user manuals and technical
+                                        specifications, have been provided and are available for use.
                                     </li>
                                     <li>
-                                        Resursele necesare pentru administrarea și întreținerea sistemului au fost
-                                        predate
-                                        și
-                                        sunt la dispoziția echipei responsabile.
+                                        The necessary resources for system administration and maintenance have been
+                                        handed over and are available to the responsible team.
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                Conturi și Acces:
+                                Accounts and Access:
                                 <ul>
                                     <li>
-                                        Conturile de utilizator și accesul la sistem au fost configurate conform
-                                        politicilor
-                                        de
-                                        securitate și sunt funcționale.
+                                        User accounts and system access have been configured in accordance with security policies and are functional.
                                     </li>
                                     <li>
-                                        Orice cerințe specifice de acces au fost notate și implementate conform
-                                        specificațiilor.
+                                        Any specific access requirements have been noted and implemented according to specifications.
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                Teste și Verificări:
+                                Tests and Verifications:
                                 <ul>
                                     <li>
-                                        Au fost realizate teste de funcționalitate pentru a verifica funcționarea
-                                        corectă a
-                                        sistemului, conform detaliilor prezentate în Anexa 1.
+                                        Functionality tests were carried out to verify the proper functioning of the system, as detailed in Annex 1.
                                     </li>
                                     <li>
-                                        Orice probleme sau anomalii identificate în timpul testelor au fost remediate în
-                                        prealabil.
+                                        Any issues or anomalies identified during the tests were resolved in advance.
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                Responsabilități ulterioare:
+                                Subsequent Responsibilities:
                                 <ul>
                                     <li>
-                                        Părțile implicate au discutat și au clarificat responsabilitățile ulterioare în
-                                        ceea ce
-                                        privește administrarea, întreținerea și actualizarea sistemului.
+                                        The parties have discussed and clarified the subsequent responsibilities regarding system administration, maintenance, and updates.
                                     </li>
-
                                 </ul>
                             </li>
                         </ul>
                         <br />
                         <br />
 
-                        Prin semnăturile noastre, confirmăm că procesul de predare-primire a sistemului Odoo a fost
-                        finalizat
-                        conform prezentului document și că ambele părți sunt de acord cu detaliile consemnate mai sus.
+                        By our signatures, we confirm that the Odoo system handover process has been completed as per this document and both parties agree with the details recorded above.
                         <br />
                         <br />
-                        <span style="font-weight: bold;">Semnăturile:</span>
+                        <span style="font-weight: bold;">Signatures:</span>
 
                     </t>
                 </div>
                 <div style="page-break-before: always;" />
 
-
-                <h6 style="text-align: center; font-weight: bold;">Anexa 1.</h6>
-
+                <h6 style="text-align: center; font-weight: bold;">Annex 1.</h6>
 
                 <table class="table-bordered" style="width: 100%;">
                     <thead>
@@ -155,23 +132,23 @@
                             <th
                             style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
                         >
-                                Proces
+                                Process
                             </th>
                             <th
                             style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
                         >
-                                Intern
+                                Internal
+                                (steps)
                             </th>
                             <th
                             style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
                         >
-                                Acceptanța utilizatorului
+                                User Acceptance
+                                (steps)
                             </th>
-
                         </tr>
                     </thead>
                     <t t-foreach="o.process_ids.mapped('area_id').sorted(key=lambda r: r.name)" t-as="area">
-
                         <tr style="background-color:#f8f3dd; font-weight:bold; text-align: center;">
                             <td>
                                 <t t-esc="area.name" />
@@ -196,7 +173,7 @@
                                 <span t-esc="total_internal_steps" />
                             </td>
                             <td t-if="total_internal_steps == 0">
-                                &#8203; <!-- Invisible character if no steps -->
+                               <span>0</span> <!-- Invisible character if no steps -->
                             </td>
                             <t t-set="total_user_steps" t-value="0" />
                             <t t-foreach="o.process_ids" t-as="process">
@@ -218,7 +195,7 @@
                                 <span t-esc="total_user_steps" />
                             </td>
                             <td t-if="total_user_steps == 0">
-                                &#8203; <!-- Invisible character if no steps -->
+                               <span>0</span>  <!-- Invisible character if no steps -->
                             </td>
                         </tr>
 
@@ -237,8 +214,8 @@
                                 <td t-if="internal_steps > 0" style="text-align: center;">
                                     <span t-esc="internal_steps" />
                                 </td>
-                                <td t-if="internal_steps == 0">
-                                    &#8203; <!-- Invisible character if no steps -->
+                                <td t-if="internal_steps == 0" style="text-align: center;">
+                                   <span> 0 </span><!-- Invisible character if no steps -->
                                 </td>
 
                                 <!-- User Acceptance Steps -->
@@ -249,8 +226,8 @@
                                 <td t-if="user_acceptance_steps > 0" style="text-align: center;">
                                     <span t-esc="user_acceptance_steps" />
                                 </td>
-                                <td t-if="user_acceptance_steps == 0">
-                                    &#8203; <!-- Invisible character if no steps -->
+                                <td t-if="user_acceptance_steps == 0" style="text-align: center;">
+                                    <span>0</span> <!-- Invisible character if no steps -->
                                 </td>
                             </tr>
                         </t>
@@ -258,7 +235,7 @@
                 </table>
                 <br />
                 <br />
-                <span style="font-weight: bold;">Semnăturile:</span>
+                <span style="font-weight: bold;">Signatures:</span>
             </t>
         </template>
 </odoo>

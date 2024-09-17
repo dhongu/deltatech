@@ -3,8 +3,8 @@
 
 
 {
-    "name": "Business process verbal process",
-    "summary": "Business process verbal process",
+    "name": "Business process handover document",
+    "summary": "Business process handover document",
     "version": "17.0.0.0.1",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
