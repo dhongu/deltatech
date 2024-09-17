@@ -1,0 +1,173 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#    * deltatech_website_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-12-18 04:02+0000\n"
+"PO-Revision-Date: 2019-12-18 04:02+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_website_sale
+#: model:ir.model.fields,help:deltatech_website_sale.field_product_product__inventory_availability
+#: model:ir.model.fields,help:deltatech_website_sale.field_product_template__inventory_availability
+msgid "Adds an inventory availability status on the web product page."
+msgstr ""
+
+#. module: deltatech_website_sale
+#: selection:product.template,is_qty_available:0
+msgid "At Order"
+msgstr "La comandă"
+
+#. module: deltatech_website_sale
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale.product_detail_qty_available
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale.products_qty_available
+msgid "At order"
+msgstr "La comandă"
+
+#. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_product_product__available_threshold
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_product_template__available_threshold
+msgid "Availability Threshold"
+msgstr "Pragul de disponibilitate"
+
+#. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_product_product__at_order
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_product_template__at_order
+msgid "Available at order"
+msgstr "Disponibil la comandă"
+
+#. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_website_user_search__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_website_user_search__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_website_user_search__date
+msgid "Date"
+msgstr "Dată"
+
+#. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_website_user_search__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_website_user_search__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_website_sale
+#: selection:product.template,is_qty_available:0
+msgid "In Stock"
+msgstr "În stoc"
+
+#. module: deltatech_website_sale
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale.product_detail_qty_available
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale.products_qty_available
+#: selection:product.template,is_qty_available:0
+msgid "In provider stock"
+msgstr "În stocul furnizorului"
+
+#. module: deltatech_website_sale
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale.product_detail_qty_available
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale.products_qty_available
+msgid "In stock"
+msgstr "În stoc"
+
+#. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_product_product__inventory_availability
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_product_template__inventory_availability
+msgid "Inventory Availability"
+msgstr "Stoc disponibil"
+
+#. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_product_product__is_qty_available
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_product_template__is_qty_available
+msgid "Is Qty Available"
+msgstr ""
+
+#. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_website_user_search____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_website_user_search__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_website_user_search__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_website_sale
+#: model:ir.model,name:deltatech_website_sale.model_product_template
+msgid "Product Template"
+msgstr "Șablon produs"
+
+#. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_product_product__published_on_website
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_product_template__published_on_website
+msgid "Published"
+msgstr "Publicat"
+
+#. module: deltatech_website_sale
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale.view_website_user_search_filter
+msgid "Search"
+msgstr "Caută"
+
+#. module: deltatech_website_sale
+#: selection:product.template,inventory_availability:0
+msgid "Sell regardless of inventory"
+msgstr "Vânzare indiferent de stocul existent"
+
+#. module: deltatech_website_sale
+#: selection:product.template,inventory_availability:0
+msgid "Show inventory below a threshold and prevent sales if not enough stock"
+msgstr "Arătați stocul sub un prag și împiedicați vânzările, dacă nu aveți suficient stoc"
+
+#. module: deltatech_website_sale
+#: selection:product.template,inventory_availability:0
+msgid "Show inventory on website and prevent sales if not enough stock"
+msgstr "Afișați inventarul pe site și împiedicați vânzările, dacă nu aveți suficient stoc"
+
+#. module: deltatech_website_sale
+#: selection:product.template,inventory_availability:0
+msgid "Show product-specific notifications"
+msgstr "Afișați notificările specifice produsului"
+
+#. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_website_user_search__user_id
+msgid "User"
+msgstr "Operator"
+
+#. module: deltatech_website_sale
+#: model:ir.actions.act_window,name:deltatech_website_sale.action_website_user_search
+#: model:ir.model,name:deltatech_website_sale.model_website_user_search
+#: model:ir.ui.menu,name:deltatech_website_sale.menu_website_user_search
+msgid "User search history"
+msgstr ""
+
+#. module: deltatech_website_sale
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale.product_template_form_view_inherit_website_sale_stock
+msgid "Website description"
+msgstr ""
+
+#. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_website_user_search__word
+msgid "Word"
+msgstr "Cuvânt"
