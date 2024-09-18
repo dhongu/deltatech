@@ -18,6 +18,8 @@ class SaleOrderActivityRecord(models.Model):
         ],
         string="State",
     )
+
+    # ('change_date', '&gt;=', (context_today()-relativedelta(days=60)).strftime('%Y-%m-%d'))
     user_id = fields.Many2one("res.users", string="User", default=lambda self: self.env.user, required=True)
     stage = fields.Selection(
         [
