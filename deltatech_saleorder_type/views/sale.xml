@@ -8,11 +8,21 @@
             <field eval="50" name="priority" />
             <field name="arch" type="xml">
                 <form string="Sale Order Type">
-                    <group>
-                        <field name="name" />
-                        <field name="journal_id" options="{'no_create':True}" />
-                        <field name="is_default" />
-                    </group>
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="model" />
+                            <field name="journal_id" options="{'no_create':True}" />
+                            <field name="is_default" />
+                            <field name="default_values_ids" mode="tree">
+                                <tree no_open="1" editable="bottom">
+                                    <field name="field_name" />
+                                    <field name="field_value" />
+                                    <field name="field_type" />
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -48,7 +58,7 @@
             <field name="inherit_id" ref="sale.view_order_form" />
             <field name="arch" type="xml">
                 <xpath expr="//sheet/group/group" position="inside">
-                    <field name="so_type" options="{'no_create':True}" />
+                    <field name="so_type" options="{'no_create':True}" domain="[('model', '=', 'sale')]" />
                 </xpath>
             </field>
         </record>
