@@ -4,7 +4,8 @@
 
 
 from odoo import _, models
-from odoo.exceptions import UserError
+
+# from odoo.exceptions import UserError
 
 
 class StockPicking(models.Model):

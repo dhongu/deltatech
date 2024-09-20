@@ -357,19 +357,22 @@ class DeltatechExpensesDeduction(models.Model):
             if expenses.difference:
                 account = expenses.journal_id.account_cash_advances_id
                 statement = self.get_statement(expenses.date_expense)
-                values = {
-                    "amount": -expenses.difference,
-                    "date": expenses.date_expense,
-                    "partner_id": expenses.employee_id.id,
-                    "statement_id": statement.id,
-                    "journal_id": expenses.journal_id.id,
-                    "ref": expenses.number,
-                    "expenses_deduction_id": expenses.id,
-                    "payment_ref": _("Deferenta Avans"),
-                    "counterpart_account_id": account.id,
-                    "backup_counterpart_account_id": account.id,
-                }
-                self.env["account.bank.statement.line"].with_context(counterpart_account_id=account.id).create(values)
+                if expenses.advance:
+                    values = {
+                        "amount": -expenses.difference + expenses.amount_vouchers,
+                        "date": expenses.date_expense,
+                        "partner_id": expenses.employee_id.id,
+                        "statement_id": statement.id,
+                        "journal_id": expenses.journal_id.id,
+                        "ref": expenses.number,
+                        "expenses_deduction_id": expenses.id,
+                        "payment_ref": _("Deferenta Avans"),
+                        "counterpart_account_id": account.id,
+                        "backup_counterpart_account_id": account.id,
+                    }
+                    self.env["account.bank.statement.line"].with_context(counterpart_account_id=account.id).create(
+                        values
+                    )
 
             if expenses.total_diem:
                 move_line_dr = {
