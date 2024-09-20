@@ -117,6 +117,7 @@ addon | version | maintainers | summary | price
 [deltatech_purchase_xls](deltatech_purchase_xls/) | 15.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Import/export purchase line from/to Excel | Free 
 [deltatech_ral](deltatech_ral/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | RAL | Free 
 [deltatech_reception_note](deltatech_reception_note/) | 15.0.0.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Batch reception note | Free 
+[deltatech_record_type](deltatech_record_type/) | 15.0.1.0.2 |  | Manage multiple record types | Free 
 [deltatech_replenish](deltatech_replenish/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Replenish | Free 
 [deltatech_report_packaging](deltatech_report_packaging/) | 15.0.1.0.1 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report Packaging | Free 
 [deltatech_report_prn](deltatech_report_prn/) | 15.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Raport PRN | Free 
@@ -142,7 +143,6 @@ addon | version | maintainers | summary | price
 [deltatech_sale_transfer](deltatech_sale_transfer/) | 15.0.1.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Sale Prepare Transfer | Free 
 [deltatech_saleorder_pickup_list](deltatech_saleorder_pickup_list/) | 15.0.1.0.0 |  | Pickup list report from sale order | Free 
 [deltatech_saleorder_search](deltatech_saleorder_search/) | 15.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Search sale order by partner e-mail, phone, mobile | Free 
-[deltatech_saleorder_type](deltatech_saleorder_type/) | 15.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage multiple sale order types | Free 
 [deltatech_select_journal](deltatech_select_journal/) | 15.0.1.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Selectie jurnal | Free 
 [deltatech_service](deltatech_service/) | 15.0.2.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage Services Agreement | Free 
 [deltatech_service_agreement](deltatech_service_agreement/) | 15.0.2.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage Services Agreement | Free 

@@ -4,9 +4,9 @@
 
 
 {
-    "name": "Terrabit - Sale Order Type",
-    "summary": "Manage multiple sale order types",
-    "version": "15.0.1.0.1",
+    "name": "Terrabit - Record Type",
+    "summary": "Manage multiple record types",
+    "version": "15.0.1.0.2",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Other",
@@ -14,6 +14,5 @@
     "license": "OPL-1",
     "data": ["views/sale.xml", "security/ir.model.access.csv"],
     "development_status": "Beta",
-    "maintainers": ["danila12"],
     "images": ["static/description/main_screenshot.png"],
 }
