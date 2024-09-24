@@ -4,3 +4,4 @@
 
 
 from . import sale
+from . import record_type
