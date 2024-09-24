@@ -48,6 +48,7 @@ class StockPicking(models.Model):
                         raise UserError(_("No lines or multiple lines in linked warranty found"))
                     else:
                         line.write({"price_unit": value / line.quantity if line.quantity else 0.0})
+                picking.warranty_id._compute_total_amount()
         return res
 
     def new_notification(self):

@@ -150,7 +150,7 @@ addon | version | maintainers | summary | price
 [deltatech_service_consumable](deltatech_service_consumable/) | 15.0.1.1.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Service Consumable | Free 
 [deltatech_service_equipment](deltatech_service_equipment/) | 15.0.1.1.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Service Equipment Management | Free 
 [deltatech_service_equipment_base](deltatech_service_equipment_base/) | 15.0.1.1.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Service Equipment Management | Free 
-[deltatech_service_maintenance](deltatech_service_maintenance/) | 15.0.1.1.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance | Free 
+[deltatech_service_maintenance](deltatech_service_maintenance/) | 15.0.1.1.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance | Free 
 [deltatech_service_maintenance_agreement](deltatech_service_maintenance_agreement/) | 15.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance | Free 
 [deltatech_service_maintenance_plan](deltatech_service_maintenance_plan/) | 15.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance Plan | Free 
 [deltatech_sms](deltatech_sms/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Send SMS to custom endpoint | Free 
@@ -163,7 +163,7 @@ addon | version | maintainers | summary | price
 [deltatech_stock_location](deltatech_stock_location/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generate route, picking operation for location | Free 
 [deltatech_stock_move_report](deltatech_stock_move_report/) | 15.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Pivot table for stock moves by provider/customer and product | Free 
 [deltatech_stock_negative](deltatech_stock_negative/) | 15.0.2.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Negative stocks are not allowed | Free 
-[deltatech_stock_report](deltatech_stock_report/) | 15.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report with positions from picking lists | Free 
+[deltatech_stock_report](deltatech_stock_report/) | 15.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report with positions from picking lists | Free 
 [deltatech_stock_reseller](deltatech_stock_reseller/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report report reseller | Free 
 [deltatech_stock_sn](deltatech_stock_sn/) | 15.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Stock Serial Number | Free 
 [deltatech_test_system](deltatech_test_system/) | 15.0.0.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Utils | Free 
