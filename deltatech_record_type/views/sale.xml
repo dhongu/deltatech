@@ -2,23 +2,33 @@
 <odoo>
     <data>
         <!--    Saleorder type views and actions    -->
-        <record model="ir.ui.view" id="view_saleorder_type_form">
+        <record model="ir.ui.view" id="view_record_type_form">
             <field name="name">saleorder.type.form</field>
-            <field name="model">sale.order.type</field>
+            <field name="model">record.type</field>
             <field eval="50" name="priority" />
             <field name="arch" type="xml">
-                <form string="Sale Order Type">
-                    <group>
-                        <field name="name" />
-                        <field name="journal_id" options="{'no_create':True}" />
-                        <field name="is_default" />
-                    </group>
+                <form string="Record Type">
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="model" />
+                            <field name="journal_id" options="{'no_create':True}" />
+                            <field name="is_default" />
+                            <field name="default_values_ids" mode="tree">
+                                <tree no_open="1" editable="bottom">
+                                    <field name="field_name" />
+                                    <field name="field_value" />
+                                    <field name="field_type" />
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>
-        <record model="ir.ui.view" id="view_saleorder_type_tree">
+        <record model="ir.ui.view" id="view_record_type_tree">
             <field name="name">saleorder.type.tree</field>
-            <field name="model">sale.order.type</field>
+            <field name="model">record.type</field>
             <field eval="50" name="priority" />
             <field name="arch" type="xml">
                 <tree string="Sale Order Type">
@@ -28,17 +38,17 @@
                 </tree>
             </field>
         </record>
-        <record model="ir.actions.act_window" id="action_saleorder_type">
+        <record model="ir.actions.act_window" id="action_record_type">
             <field name="name">Sale Order Types</field>
-            <field name="res_model">sale.order.type</field>
+            <field name="res_model">record.type</field>
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem
             id="menu_saleorder_type"
-            name="Sale Order Types"
+            name="Record Types"
             parent="sale.menu_sale_config"
             sequence="200"
-            action="action_saleorder_type"
+            action="action_record_type"
         />
         <!--        Sale order form view-->
         <record model="ir.ui.view" id="view_saleorder_type_saleorder_form">
@@ -48,7 +58,7 @@
             <field name="inherit_id" ref="sale.view_order_form" />
             <field name="arch" type="xml">
                 <xpath expr="//sheet/group/group" position="inside">
-                    <field name="so_type" options="{'no_create':True}" />
+                    <field name="so_type" options="{'no_create':True}" domain="[('model', '=', 'sale')]" />
                 </xpath>
             </field>
         </record>
