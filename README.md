@@ -110,7 +110,7 @@ addon | version | maintainers | summary | price
 [deltatech_sale_purchase](deltatech_sale_purchase/) | 14.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Purchase | Free 
 [deltatech_sale_qty_available](deltatech_sale_qty_available/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Quantity Available | Free 
 [deltatech_sale_stage](deltatech_sale_stage/) | 14.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Order Stage | Free 
-[deltatech_saleorder_type](deltatech_saleorder_type/) | 14.0.1.0.1 |  | Manage multiple sale order types | Free 
+[deltatech_saleorder_type](deltatech_saleorder_type/) | 14.0.1.0.2 |  | Manage multiple sale order types | Free 
 [deltatech_select_journal](deltatech_select_journal/) | 14.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Selectie jurnal | Free 
 [deltatech_service](deltatech_service/) | 14.0.2.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage Services Agreement | Free 
 [deltatech_service_agreement](deltatech_service_agreement/) | 14.0.2.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage Services Agreement | Free 

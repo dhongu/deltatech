@@ -6,7 +6,7 @@
 {
     "name": "Terrabit - Sale Order Type",
     "summary": "Manage multiple sale order types",
-    "version": "14.0.1.0.1",
+    "version": "14.0.1.0.2",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Other",
