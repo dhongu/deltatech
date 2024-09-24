@@ -11,6 +11,7 @@
     "license": "OPL-1",
     "depends": [
         "account_edi",
+        "sale",
     ],
     "data": [
         "data/ir_cron_data.xml",
