@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-04 04:31+0000\n"
-"PO-Revision-Date: 2024-09-04 04:31+0000\n"
+"POT-Creation-Date: 2024-09-19 04:14+0000\n"
+"PO-Revision-Date: 2024-09-19 04:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -56,6 +56,10 @@ msgstr "Afiseaza nume"
 
 #. module: deltatech_warehouse_arrangement
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_rack__full_name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_section__full_name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_shelf__full_name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_storehouse__full_name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_zone__full_name
 msgid "Full Name"
 msgstr ""
 
@@ -134,8 +138,6 @@ msgstr "Poziții de stoc"
 
 #. module: deltatech_warehouse_arrangement
 #: model:ir.actions.act_window,name:deltatech_warehouse_arrangement.action_rack
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_marketplace_product__loc_rack_id
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_marketplace_product_template__loc_rack_id
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_product__loc_rack_id
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_template__loc_rack_id
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_production_lot__loc_rack_id
@@ -148,9 +150,13 @@ msgid "Rack"
 msgstr "Polița"
 
 #. module: deltatech_warehouse_arrangement
+#: code:addons/deltatech_warehouse_arrangement/models/warehouse_location.py:0
+#, python-format
+msgid "Rack: "
+msgstr "Polița: "
+
+#. module: deltatech_warehouse_arrangement
 #: model:ir.actions.act_window,name:deltatech_warehouse_arrangement.action_section
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_marketplace_product__loc_section_id
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_marketplace_product_template__loc_section_id
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_product__loc_section_id
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_template__loc_section_id
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_production_lot__loc_section_id
@@ -164,6 +170,12 @@ msgid "Section"
 msgstr "Secțiune"
 
 #. module: deltatech_warehouse_arrangement
+#: code:addons/deltatech_warehouse_arrangement/models/warehouse_location.py:0
+#, python-format
+msgid "Section: "
+msgstr "Secțiune: "
+
+#. module: deltatech_warehouse_arrangement
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_rack__sequence
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_section__sequence
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_shelf__sequence
@@ -174,8 +186,6 @@ msgstr "Secvența"
 
 #. module: deltatech_warehouse_arrangement
 #: model:ir.actions.act_window,name:deltatech_warehouse_arrangement.action_shelf
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_marketplace_product__loc_shelf_id
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_marketplace_product_template__loc_shelf_id
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_product__loc_shelf_id
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_template__loc_shelf_id
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_production_lot__loc_shelf_id
@@ -189,9 +199,13 @@ msgid "Shelf"
 msgstr "Raft"
 
 #. module: deltatech_warehouse_arrangement
+#: code:addons/deltatech_warehouse_arrangement/models/warehouse_location.py:0
+#, python-format
+msgid "Shelf: "
+msgstr "Raft: "
+
+#. module: deltatech_warehouse_arrangement
 #: model:ir.actions.act_window,name:deltatech_warehouse_arrangement.action_storehouse
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_marketplace_product__loc_storehouse_id
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_marketplace_product_template__loc_storehouse_id
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_product__loc_storehouse_id
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_template__loc_storehouse_id
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_production_lot__loc_storehouse_id
@@ -205,7 +219,13 @@ msgid "Storehouse"
 msgstr "Hala"
 
 #. module: deltatech_warehouse_arrangement
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_storehouse__warehouse_id
+#: code:addons/deltatech_warehouse_arrangement/models/warehouse_location.py:0
+#, python-format
+msgid "Storehouse: "
+msgstr "Hala: "
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_storehouse__location_id
 msgid "Warehouse"
 msgstr "Depozit"
 
@@ -241,8 +261,6 @@ msgstr "Zona"
 
 #. module: deltatech_warehouse_arrangement
 #: model:ir.actions.act_window,name:deltatech_warehouse_arrangement.action_zone
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_marketplace_product__loc_zone_id
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_marketplace_product_template__loc_zone_id
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_product__loc_zone_id
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_template__loc_zone_id
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_production_lot__loc_zone_id
@@ -254,3 +272,9 @@ msgstr "Zona"
 #: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.view_zone_tree
 msgid "Zone"
 msgstr "Zona"
+
+#. module: deltatech_warehouse_arrangement
+#: code:addons/deltatech_warehouse_arrangement/models/warehouse_location.py:0
+#, python-format
+msgid "Zone: "
+msgstr "Zona: "

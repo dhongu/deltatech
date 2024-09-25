@@ -3,7 +3,21 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import fields, models
+from odoo import _, fields, models
+
+
+def get_location_type(model):
+    if model == "warehouse.location.rack":
+        return _("Rack: ")
+    if model == "warehouse.location.section":
+        return _("Section: ")
+    if model == "warehouse.location.shelf":
+        return _("Shelf: ")
+    if model == "warehouse.location.zone":
+        return _("Zone: ")
+    if model == "warehouse.location.storehouse":
+        return _("Storehouse: ")
+    return ""
 
 
 class WarehouseLocationStorehouse(models.Model):
@@ -14,7 +28,19 @@ class WarehouseLocationStorehouse(models.Model):
     sequence = fields.Integer(string="Sequence")
     active = fields.Boolean(default=True)
     name = fields.Char(string="Name")
-    warehouse_id = fields.Many2one("stock.warehouse", string="Warehouse")
+    location_id = fields.Many2one("stock.location", string="Warehouse")
+    full_name = fields.Char(compute="_compute_full_name")
+
+    def _compute_full_name(self):
+        for rec in self:
+            rec.full_name = rec.location_id.name or "" + "/" + rec.name
+
+    def name_get(self):
+        result = []
+        for rec in self:
+            name = "{} ({})".format(rec.name, rec.full_name)
+            result.append((rec.id, name))
+        return result
 
 
 class WarehouseLocationZone(models.Model):
@@ -26,6 +52,24 @@ class WarehouseLocationZone(models.Model):
     active = fields.Boolean(default=True)
     name = fields.Char(string="Name")
     storehouse_id = fields.Many2one("warehouse.location.storehouse", string="Storehouse")
+    full_name = fields.Char(compute="_compute_full_name")
+
+    def _compute_full_name(self):
+        for rec in self:
+            rec.full_name = (
+                get_location_type("warehouse.location.storehouse")
+                + rec.storehouse_id.name
+                + "/"
+                + get_location_type("warehouse.location.zone")
+                + rec.name
+            )
+
+    def name_get(self):
+        result = []
+        for rec in self:
+            name = "{} ({})".format(rec.name, rec.full_name)
+            result.append((rec.id, name))
+        return result
 
 
 class WarehouseLocationShelf(models.Model):
@@ -37,6 +81,27 @@ class WarehouseLocationShelf(models.Model):
     active = fields.Boolean(default=True)
     name = fields.Char(string="Name")
     zone_id = fields.Many2one("warehouse.location.zone", string="Zone")
+    full_name = fields.Char(compute="_compute_full_name")
+
+    def _compute_full_name(self):
+        for rec in self:
+            rec.full_name = (
+                get_location_type("warehouse.location.storehouse")
+                + rec.zone_id.storehouse_id.name
+                + "/"
+                + get_location_type("warehouse.location.zone")
+                + rec.zone_id.name
+                + "/"
+                + get_location_type("warehouse.location.shelf")
+                + rec.name
+            )
+
+    def name_get(self):
+        result = []
+        for rec in self:
+            name = "{} ({})".format(rec.name, rec.full_name)
+            result.append((rec.id, name))
+        return result
 
 
 class WarehouseLocationSection(models.Model):
@@ -48,6 +113,30 @@ class WarehouseLocationSection(models.Model):
     active = fields.Boolean(default=True)
     name = fields.Char(string="Name")
     shelf_id = fields.Many2one("warehouse.location.shelf", string="Shelf")
+    full_name = fields.Char(compute="_compute_full_name")
+
+    def _compute_full_name(self):
+        for rec in self:
+            rec.full_name = (
+                get_location_type("warehouse.location.storehouse")
+                + rec.shelf_id.zone_id.storehouse_id.name
+                + "/"
+                + get_location_type("warehouse.location.zone")
+                + rec.shelf_id.zone_id.name
+                + "/"
+                + get_location_type("warehouse.location.shelf")
+                + rec.shelf_id.name
+                + "/"
+                + get_location_type("warehouse.location.section")
+                + rec.name
+            )
+
+    def name_get(self):
+        result = []
+        for rec in self:
+            name = "{} ({})".format(rec.name, rec.full_name)
+            result.append((rec.id, name))
+        return result
 
 
 class WarehouseLocationRack(models.Model):
@@ -62,15 +151,27 @@ class WarehouseLocationRack(models.Model):
     full_name = fields.Char(compute="_compute_full_name")
 
     def _compute_full_name(self):
-        for rack in self:
-            rack.full_name = (
-                self.section_id.shelf_id.zone_id.storehouse_id.name
+        for rec in self:
+            rec.full_name = (
+                get_location_type("warehouse.location.storehouse")
+                + rec.section_id.shelf_id.zone_id.storehouse_id.name
                 + "/"
-                + self.section_id.shelf_id.zone_id.name
+                + get_location_type("warehouse.location.zone")
+                + rec.section_id.shelf_id.zone_id.name
                 + "/"
-                + self.section_id.shelf_id.name
+                + get_location_type("warehouse.location.shelf")
+                + rec.section_id.shelf_id.name
                 + "/"
-                + self.section_id.name
+                + get_location_type("warehouse.location.section")
+                + rec.section_id.name
                 + "/"
-                + self.name
+                + get_location_type("warehouse.location.rack")
+                + rec.name
             )
+
+    def name_get(self):
+        result = []
+        for rec in self:
+            name = "{} ({})".format(rec.name, rec.full_name)
+            result.append((rec.id, name))
+        return result
