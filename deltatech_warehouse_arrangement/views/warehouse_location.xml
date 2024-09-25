@@ -8,7 +8,8 @@
                 <tree string="Storehouse">
                     <field name="sequence" widget="handle" />
                     <field name="name" />
-                    <field name="warehouse_id" />
+                    <field name="location_id" />
+                    <field name="full_name" />
                 </tree>
             </field>
         </record>
@@ -23,7 +24,8 @@
                     <sheet>
                         <group>
                             <field name="name" required="1" />
-                            <field name="warehouse_id" />
+                            <field name="location_id" />
+                            <field name="full_name" />
                         </group>
                     </sheet>
                 </form>
@@ -60,6 +62,7 @@
                         <group>
                             <field name="name" required="1" />
                             <field name="storehouse_id" required="1" />
+                            <field name="full_name" />
                         </group>
                     </sheet>
                 </form>
@@ -96,6 +99,7 @@
                         <group>
                             <field name="name" required="1" />
                             <field name="zone_id" required="1" />
+                            <field name="full_name" />
                         </group>
                     </sheet>
                 </form>
@@ -132,6 +136,7 @@
                         <group>
                             <field name="name" required="1" />
                             <field name="shelf_id" required="1" />
+                            <field name="full_name" />
                         </group>
                     </sheet>
                 </form>

@@ -5,11 +5,13 @@
     "name": "Deltatech Warehouse Arrangement",
     "category": "Stock",
     "summary": "Manages warehouse locations, parallel to standard Odoo locations",
-    "version": "14.0.0.0.1",
+    "version": "14.0.0.1.0",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
-    "depends": ["stock"],
+    "depends": [
+        "stock",
+    ],
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",
