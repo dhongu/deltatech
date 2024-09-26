@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <template id="cart_lines" inherit_id="website_sale.cart_lines">
+            <xpath expr="//div[hasclass('js_cart_lines')]" position="inside">
+                <t t-if="not website_sale_order">
+                    <a role="button" t-attf-href="/shop/cart/?revive=reopen" class="btn btn-secondary">
+                        <span class="fa fa-undo" />
+                        <span class="">Reopen last order</span>
+                    </a>
+                </t>
+            </xpath>
+        </template>
+
+</odoo>
