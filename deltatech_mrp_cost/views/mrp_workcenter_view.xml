@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="mrp_workcenter_view" model="ir.ui.view">
+            <field name="name">mrp.workcenter.form</field>
+            <field name="model">mrp.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_workcenter_view" />
+            <field name="arch" type="xml">
+                <field name="costs_hour" position="after">
+                    <field name="costs_hour_account_id" groups="analytic.group_analytic_accounting" />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
