@@ -12,7 +12,6 @@
                         <group>
                             <field name="name" />
                             <field name="model" />
-                            <field name="journal_id" options="{'no_create':True}" />
                             <field name="is_default" />
                             <field name="default_values_ids" mode="tree">
                                 <tree no_open="1" editable="bottom">
@@ -33,7 +32,6 @@
             <field name="arch" type="xml">
                 <tree string="Sale Order Type">
                     <field name="name" />
-                    <field name="journal_id" />
                     <field name="is_default" />
                 </tree>
             </field>
