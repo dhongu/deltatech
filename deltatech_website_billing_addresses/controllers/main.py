@@ -69,7 +69,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         if vat:
             vat = vat.strip()
             vat = vat.replace("-", "")
-            if len(vat) < 6:
+            if len(vat) < 5:
                 errors["vat"] = "Vat invalid"
                 error_msg.append("CUI invalid. Daca nu sunteti o firma, va rugam creati o adresa de persoana fizica")
         is_company = values.get("is_company", False) == "yes"
