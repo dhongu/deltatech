@@ -149,6 +149,7 @@ class WarehouseLocationRack(models.Model):
     name = fields.Char(string="Name")
     section_id = fields.Many2one("warehouse.location.section", string="Section")
     full_name = fields.Char(compute="_compute_full_name")
+    barcode = fields.Char()
 
     def _compute_full_name(self):
         for rec in self:
