@@ -136,6 +136,9 @@ class BusinessProcessTest(models.Model):
             if not test.test_step_ids:
                 date_start = fields.Date.today()
             else:
+                for step in test.test_step_ids:
+                    if not step.date_start:
+                        step.date_start = fields.Date.today()
                 date_start = min(test.test_step_ids.mapped("date_start") or fields.Date.today())
 
             date_start = min(date_start, test.date_start or fields.Date.today())
