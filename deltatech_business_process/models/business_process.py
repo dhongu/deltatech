@@ -49,7 +49,7 @@ class BusinessProcess(models.Model):
     )
 
     responsible_id = fields.Many2one(
-        string="Responsible",
+        string="Implementation Responsible",
         domain="[('is_company', '=', False)]",
         comodel_name="res.partner",
         readonly=True,
