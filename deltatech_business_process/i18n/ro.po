@@ -1643,13 +1643,10 @@ msgstr "Resetează la ciornă"
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_area__responsible_id
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__responsible_id
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__responsible_id
-#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__responsible_id
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__responsible_id
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__responsible_id
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__responsible_id
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_filter
-#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_form
-#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_filter
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_filter
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_form
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_from
@@ -2152,3 +2149,9 @@ msgstr "obține"
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
 msgid "or"
 msgstr "sau"
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__responsible_id
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_form
+msgid "Implementation Responsible"
+msgstr "Responsabil implementare"
