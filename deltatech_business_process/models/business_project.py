@@ -40,6 +40,7 @@ class BusinessProject(models.Model):
         string="Responsible", domain="[('is_company', '=', False)]", comodel_name="res.partner"
     )
     team_member_ids = fields.Many2many(string="Team members", comodel_name="res.partner")
+    total_project_duration = fields.Float(string="Total project duration")
 
     @api.model
     def create(self, vals):
@@ -111,3 +112,7 @@ class BusinessProject(models.Model):
         action = self.env["ir.actions.actions"]._for_xml_id("deltatech_business_process.action_business_development")
         action.update({"domain": domain, "context": context})
         return action
+
+    def calculate_total_project_duration(self):
+        for project in self:
+            project.total_project_duration = sum(process.duration_for_completion for process in project.process_ids)

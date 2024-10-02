@@ -18,6 +18,12 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button
+                        name="calculate_total_project_duration"
+                        string="Get Duration"
+                        type="object"
+                        class="btn-primary"
+                    />
                     <field
                         name="state"
                         widget="statusbar"
@@ -61,6 +67,7 @@
                         <group string="Identification">
                             <field name="code" />
                             <field name="customer_id" />
+                            <field name="total_project_duration" widget="float_time" />
                         </group>
 
                         <group string="Dates">
