@@ -38,7 +38,7 @@ class ProductTemplate(models.Model):
                 FROM account_move_line aml
                 JOIN account_move am ON aml.move_id = am.id
                 JOIN product_product pp ON aml.product_id = pp.id
-                WHERE am.state='posted'
+                WHERE am.state='posted' or am.payment_state='invoicing_legacy'
                 GROUP BY pp.product_tmpl_id, year
             """
         else:
@@ -54,7 +54,7 @@ class ProductTemplate(models.Model):
                 JOIN account_move am ON aml.move_id = am.id
                 JOIN product_product pp ON aml.product_id = pp.id
                 WHERE pp.product_tmpl_id IN %s
-                AND am.state='posted'
+                AND (am.state='posted' or am.payment_state='invoicing_legacy')
                 GROUP BY pp.product_tmpl_id, year
             """
 
