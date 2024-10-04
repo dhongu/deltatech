@@ -16,6 +16,6 @@
     ],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
-    "development_status": "Beta",
+    "development_status": "Alpha",
     "maintainers": ["dhongu"],
 }
