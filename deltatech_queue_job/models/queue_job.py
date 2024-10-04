@@ -1,8 +1,11 @@
 # ©  2024 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
+import logging
 
 from odoo import api, models
+
+_logger = logging.getLogger(__name__)
 
 
 class QueueJob(models.Model):
@@ -26,10 +29,11 @@ class QueueJob(models.Model):
 
         job_count = 0
         while job:
+            _logger.info("Processing job %s", job.name)
             job._process(commit=commit)
             job = self._acquire_one_job()
             job_count += 1
             if job_count >= limit_jobs:
                 if job:
-                    self._cron_trigger()
+                    job._ensure_cron_trigger()
                 break
