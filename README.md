@@ -117,6 +117,7 @@ addon | version | maintainers | summary | price
 [deltatech_purchase_refund](deltatech_purchase_refund/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generare factura storno pentru retururi | 5.0 EUR
 [deltatech_purchase_stock](deltatech_purchase_stock/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Purchase Stock | Free 
 [deltatech_purchase_xls](deltatech_purchase_xls/) | 16.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Import/export purchase line from/to Excel | Free 
+[deltatech_queue_job](deltatech_queue_job/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Queue Job | Free 
 [deltatech_ral](deltatech_ral/) | 16.0.1.0.3 |  | RAL | Free 
 [deltatech_reception_note](deltatech_reception_note/) | 16.0.0.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Batch reception note | Free 
 [deltatech_record_type](deltatech_record_type/) | 16.0.1.0.3 |  | Manage multiple record types | Free 
