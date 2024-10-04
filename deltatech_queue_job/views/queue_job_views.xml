@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-       <record id="view_queue_job_tree" model="ir.ui.view">
+    <record id="view_queue_job_tree" model="ir.ui.view">
         <field name="name">queue.job.tree</field>
         <field name="model">queue.job</field>
         <field name="inherit_id" ref="queue_job.view_queue_job_tree" />
         <field name="arch" type="xml">
             <xpath expr="//tree" position="inside">
-               <header>
+                <header>
                     <button name="start_cron_trigger" type="object" string="Cron Trigger" />
                     <button name="process_jobs" type="object" string="Process" />
                 </header>
             </xpath>
+            <xpath expr="//tree" position="inside">
+                <field name="identity_key" optional="hide" />
+            </xpath>
         </field>
-       </record>
+    </record>
+
+
+    <record id="view_queue_job_search" model="ir.ui.view">
+        <field name="name">queue.job.search</field>
+        <field name="model">queue.job</field>
+        <field name="inherit_id" ref="queue_job.view_queue_job_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='group_by_graph']" position="inside">
+                <filter name="group_by_model_name" string="Model" context="{'group_by': 'model_name'}" />
+            </xpath>
+        </field>
+    </record>
 </odoo>

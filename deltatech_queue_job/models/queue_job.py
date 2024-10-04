@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 import logging
 
-from odoo import api, models
+from odoo import _, api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -12,7 +12,24 @@ class QueueJob(models.Model):
     _inherit = "queue.job"
 
     def start_cron_trigger(self):
-        self._cron_trigger()
+        _logger.info("Starting CRON trigger")
+        domain = [("queue_job_runner", "=", True)]
+        crons = self.env["ir.cron"].sudo().with_context(active_test=False).search(domain)
+        for cron in crons:
+            cron.active = True
+            _logger.info("Starting CRON trigger for %s", cron.name)
+            cron._trigger()
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": "CRON Trigger",
+                "message": _("The operation will be executed in the background!"),
+                "sticky": False,
+                "next": {"type": "ir.actions.act_window_close"},
+            },
+        }
 
     def process_jobs(self):
         for job in self.filtered(lambda j: j.state == "pending"):
@@ -29,7 +46,6 @@ class QueueJob(models.Model):
 
         job_count = 0
         while job:
-            _logger.info("Processing job %s", job.name)
             job._process(commit=commit)
             job = self._acquire_one_job()
             job_count += 1
