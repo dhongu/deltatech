@@ -37,7 +37,7 @@
             </field>
         </record>
         <record model="ir.actions.act_window" id="action_record_type">
-            <field name="name">Sale Order Types</field>
+            <field name="name">Record Types</field>
             <field name="res_model">record.type</field>
             <field name="view_mode">tree,form</field>
         </record>
