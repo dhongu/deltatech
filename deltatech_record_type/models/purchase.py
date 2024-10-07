@@ -7,7 +7,7 @@ from odoo import api, fields, models
 class SaleOrder(models.Model):
     _inherit = "purchase.order"
 
-    po_type = fields.Many2one("record.type", string="Type")
+    po_type = fields.Many2one("record.type", string="Type", tracking=True)
 
     @api.onchange("po_type")
     def _check_po_type(self):

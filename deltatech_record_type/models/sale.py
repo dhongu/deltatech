@@ -9,7 +9,7 @@ from odoo import api, fields, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    so_type = fields.Many2one("record.type", string="Type")
+    so_type = fields.Many2one("record.type", string="Type", tracking=True)
 
     @api.onchange("so_type")
     def _check_so_type(self):
