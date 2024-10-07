@@ -11,13 +11,13 @@
         </field>
     </record>
 
-    <menuitem
-        id="menu_purchaseorder_type"
-        name="Record Types"
-        parent="purchase.menu_purchase_config"
-        sequence="200"
-        action="action_record_type"
-    />
+<!--    <menuitem-->
+<!--        id="menu_purchaseorder_type"-->
+<!--        name="Record Types"-->
+<!--        parent="purchase.menu_purchase_config"-->
+<!--        sequence="200"-->
+<!--        action="action_record_type"-->
+<!--    />-->
 
 <!--    <menuitem-->
 <!--        id="menu_purchaseorder_type"-->
