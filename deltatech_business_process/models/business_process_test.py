@@ -155,7 +155,7 @@ class BusinessProcessTest(models.Model):
                 self.tester_id = self.env.user.partner_id
                 for step in self.test_step_ids:
                     if not step.responsible_id:
-                        step.responsible_id = self.tester_id
+                        step.responsible_id = self.env.user.partner_id
             for steps in self.test_step_ids:
                 steps.write({"test_started": True})
 
