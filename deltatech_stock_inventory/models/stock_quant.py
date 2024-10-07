@@ -71,6 +71,9 @@ class StockQuant(models.Model):
                 raise UserError(_("Your user cannot update product quantities"))
         for quant in self:
             quant.last_inventory_date = fields.Date.today()
+            if quant.product_id:
+                quant.product_id.write({"is_inventory_ok": True})
+                quant.product_id.product_tmpl_id.write({"is_inventory_ok": True})
 
         inventory = self.filtered(lambda q: q.inventory_quantity_set).create_inventory_lines()
         super(StockQuant, self.with_context(apply_inventory=True)).action_apply_inventory()
