@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="payment_provider_form" model="ir.ui.view">
+        <field name="name">payment.provider.form</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form" />
+        <field name="arch" type="xml">
+            <xpath expr='//group[@name="provider_config"]' position='after'>
+                <group string="Restrictions">
+                    <field name="value_limit" />
+                    <field
+                        name="restrict_label_ids"
+                        widget="many2many_tags"
+                        options="{'color_field': 'color', 'no_create_edit': True}"
+                        placeholder="Tags..."
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
