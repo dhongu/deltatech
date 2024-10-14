@@ -30,7 +30,7 @@ addon | version | maintainers | summary | price
 [deltatech_average_payment_period](deltatech_average_payment_period/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Computes average duration of cash accounting | Free 
 [deltatech_backup_attachment](deltatech_backup_attachment/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Backup attachments for selected file type | Free 
 [deltatech_batch_transfer](deltatech_batch_transfer/) | 16.0.0.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Batch transfer improvements | Free 
-[deltatech_business_process](deltatech_business_process/) | 16.0.1.2.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Business process | Free 
+[deltatech_business_process](deltatech_business_process/) | 16.0.1.2.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Business process | Free 
 [deltatech_business_process_documentation](deltatech_business_process_documentation/) | 16.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Business process documentation | Free 
 [deltatech_business_process_handover_document](deltatech_business_process_handover_document/) | 16.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Business process verbal process | Free 
 [deltatech_card_payment](deltatech_card_payment/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Payment Method Card | Free 
