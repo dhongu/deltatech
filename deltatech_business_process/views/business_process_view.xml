@@ -125,15 +125,9 @@
                     </div>
 
 
-                    <div class="oe_title">
-                        <h1>
-                            <field
-                                name="name"
-                                default_focus="1"
-                                placeholder="Name"
-                                class="oe_inline"
-                                readonly="state!='draft'"
-                            />
+                    <div>
+                        <h1 class="col-12">
+                            <field name="name" default_focus="1" placeholder="Name" readonly="state!='draft'" />
                         </h1>
                     </div>
 
