@@ -1,0 +1,29 @@
+# ©  2008-2021 Deltatech
+# See README.rst file on addons root folder for license details
+
+from odoo import fields, models
+
+
+class SaleOrder(models.Model):
+    _inherit = "sale.order"
+
+    provider_id = fields.Many2one("payment.provider")
+
+    def _get_delivery_methods(self):
+        carriers = super()._get_delivery_methods()
+        weight = self._get_estimated_weight()
+        carriers = carriers.filtered(lambda c: not c.weight_min or c.weight_min <= weight)
+        carriers = carriers.filtered(lambda c: not c.weight_max or c.weight_max >= weight)
+        return carriers
+
+    def _check_carrier_quotation(self, force_carrier_id=None, keep_carrier=False):
+        if force_carrier_id and force_carrier_id == self.carrier_id.id == int(force_carrier_id):
+            return True
+        return super()._check_carrier_quotation(force_carrier_id, keep_carrier)
+
+    def _action_confirm(self):
+        for order in self:
+            tx = order.sudo().transaction_ids._get_last()
+            if tx:
+                order.write({"provider_id": tx.provider_id.id})
+        return super()._action_confirm()
