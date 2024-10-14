@@ -3,7 +3,6 @@
 # See README.rst file on addons root folder for license details
 
 from . import delivery
-from . import payment
+from . import payment_provider
 from . import sale
 from . import res_partner
-from . import website

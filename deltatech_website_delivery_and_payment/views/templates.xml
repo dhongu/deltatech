@@ -12,6 +12,12 @@
         </xpath>
     </template>
 
+    <template id="checkout_delivery" inherit_id="website_sale.payment_delivery_methods">
+        <xpath expr="//input[@name='delivery_type']" position="attributes">
+            <attribute name="t-att-data-acquirer-allowed-ids">delivery.acquirer_allowed_ids.ids</attribute>
+        </xpath>
+    </template>
+
 <!--    <template id="payment_checkout_hide" inherit_id="payment.checkout_layout" priority="200">-->
 <!--        <xpath expr="//div[@name='o_payment_option_card']" position="before">-->
 <!--            <t t-set="is_restricted" t-value="provider.is_restricted(user_id.partner_id)" />-->

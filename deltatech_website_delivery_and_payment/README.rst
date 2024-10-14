@@ -17,15 +17,18 @@ Delivery and Payment
     :target: https://www.odoo.com/documentation/master/legal/licenses.html
     :alt: License: OPL-1
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/16.0/deltatech_website_delivery_and_payment
+    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_website_delivery_and_payment
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
 
 Features:
- - restrict payment selection by delivery method
- - restrict payment acquirers for partners (linked with logged in user) with certain label
- - restrict delivery methods for partners (linked with logged in user) with certain label
+
+-  restrict payment selection by delivery method
+-  restrict payment acquirers for partners (linked with logged in user)
+   with certain label
+-  restrict delivery methods for partners (linked with logged in user)
+   with certain label
 
 **Table of contents**
 
@@ -44,13 +47,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu
@@ -60,6 +63,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/16.0/deltatech_website_delivery_and_payment>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_website_delivery_and_payment>`_ project on GitHub.
 
 You are welcome to contribute.

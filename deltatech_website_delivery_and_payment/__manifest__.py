@@ -12,7 +12,6 @@
     "depends": ["website_sale_stock"],
     "data": [
         "views/delivery_view.xml",
-        # "views/assets.xml",
         "views/templates.xml",
         "views/payment_view.xml",
         "views/res_partner_view.xml",
@@ -22,6 +21,6 @@
     "development_status": "Mature",
     "maintainers": ["dhongu"],
     "assets": {
-        "web.assets_frontend": ["deltatech_website_delivery_and_payment/static/src/js/website_sale_delivery.js"],
+        "web.assets_frontend": ["deltatech_website_delivery_and_payment/static/src/js/payment_form.ems.js"],
     },
 }

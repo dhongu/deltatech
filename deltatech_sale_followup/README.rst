@@ -17,15 +17,17 @@ Sale Followup
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/16.0/deltatech_sale_followup
+    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_followup
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
 
 Features:
- - Sends an automated e-mail to clients based on sale order
- - A cron job (default not active) is used to send the e-mails  after the sale order.
- - E-mail template used: Sale order: send followup
+
+-  Sends an automated e-mail to clients based on sale order
+-  A cron job (default not active) is used to send the e-mails after the
+   sale order.
+-  E-mail template used: Sale order: send followup
 
 **Table of contents**
 
@@ -44,13 +46,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu
@@ -60,6 +62,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/16.0/deltatech_sale_followup>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_followup>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -14,7 +14,6 @@ class PaymentAcquirer(models.Model):
 
     value_limit = fields.Float(string="Value Limit")
     restrict_label_ids = fields.Many2many("res.partner.category")
-    submit_txt = fields.Char(string="Submit text", default="Finalize order", translate=True)
 
     def is_restricted(self, partner_id):
         self.ensure_one()
@@ -23,22 +22,17 @@ class PaymentAcquirer(models.Model):
                 return True
         return False
 
-
     @api.model
     def _get_compatible_providers(self, *args, sale_order_id=None, website_id=None, **kwargs):
         compatible_providers = super()._get_compatible_providers(
-            *args, sale_order_id=sale_order_id, website_id=website_id, **kwargs)
-
+            *args, sale_order_id=sale_order_id, website_id=website_id, **kwargs
+        )
         if sale_order_id:
-            order = self.env['sale.order'].browse(sale_order_id)
-            carrier = order.carrier_id
+            order = self.env["sale.order"].browse(sale_order_id)
             for provider in compatible_providers:
                 if provider.value_limit and order.amount_total > provider.value_limit:
                     compatible_providers -= provider
                 label_ids = list(set(order.partner_id.category_id.ids) & set(provider.restrict_label_ids.ids))
                 if label_ids:
                     compatible_providers -= provider
-                if carrier.acquirer_allowed_ids:
-                    if provider.id not in carrier.acquirer_allowed_ids.ids:
-                        compatible_providers -= provider
         return compatible_providers
