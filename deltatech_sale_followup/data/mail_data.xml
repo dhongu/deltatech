@@ -45,10 +45,10 @@
                         <tr style="${loop.cycle('background-color: #f2f2f2', 'background-color: #ffffff')}">
                             <td style="width: 100px;">
                                 <img
-                                        src="/web/image/product.product/${line.product_id.id}/image_128"
-                                        style="width: 64px; height: 64px; object-fit: contain;"
-                                        alt="Product image"
-                                    />
+                                    src="/web/image/product.product/${line.product_id.id}/image_128"
+                                    style="width: 64px; height: 64px; object-fit: contain;"
+                                    alt="Product image"
+                                />
                             </td>
                             <td align="left">
                                 <a href="${line.product_id.website_url}">${line.product_id.name}</a>
