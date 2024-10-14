@@ -5,3 +5,4 @@
 
 from . import sale
 from . import record_type
+from . import purchase

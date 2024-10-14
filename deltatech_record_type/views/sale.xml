@@ -12,7 +12,6 @@
                         <group>
                             <field name="name" />
                             <field name="model" />
-                            <field name="journal_id" options="{'no_create':True}" />
                             <field name="is_default" />
                             <field name="default_values_ids" mode="tree">
                                 <tree no_open="1" editable="bottom">
@@ -33,13 +32,12 @@
             <field name="arch" type="xml">
                 <tree string="Sale Order Type">
                     <field name="name" />
-                    <field name="journal_id" />
                     <field name="is_default" />
                 </tree>
             </field>
         </record>
         <record model="ir.actions.act_window" id="action_record_type">
-            <field name="name">Sale Order Types</field>
+            <field name="name">Record Types</field>
             <field name="res_model">record.type</field>
             <field name="view_mode">tree,form</field>
         </record>
