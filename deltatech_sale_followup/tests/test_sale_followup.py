@@ -6,7 +6,6 @@ from odoo.tests.common import TransactionCase
 
 
 class TestSaleFollowup(TransactionCase):
-
     def setUp(self):
         super().setUp()
         # Set up demo data for testing
