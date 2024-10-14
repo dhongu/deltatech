@@ -120,9 +120,9 @@
                     </div>
 
 
-                    <div class="oe_title">
-                        <h1>
-                            <field name="name" default_focus="1" placeholder="Name" class="oe_inline" />
+                    <div>
+                        <h1 class="col-12">
+                            <field name="name" default_focus="1" placeholder="Name" />
                         </h1>
                     </div>
 

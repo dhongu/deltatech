@@ -5,7 +5,7 @@
 {
     "name": "Business process",
     "summary": "Business process",
-    "version": "16.0.1.2.3",
+    "version": "16.0.1.2.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
