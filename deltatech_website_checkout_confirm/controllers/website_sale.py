@@ -12,5 +12,3 @@ class WebsiteSaleCheckout(WebsiteSale):
             order = request.env["sale.order"].sudo().browse(sale_order_id)
             order.action_confirm()
         return super().shop_payment_confirmation(**post)
-
-
