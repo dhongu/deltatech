@@ -3,7 +3,7 @@
 {
     "name": "Deltatech Account",
     "summary": "Deltatech Account",
-    "version": "17.4.2.0.0",
+    "version": "18.0.2.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

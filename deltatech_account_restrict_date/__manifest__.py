@@ -5,7 +5,7 @@
 
 {
     "name": "Restrict account date",
-    "version": "17.4.1.0.1",
+    "version": "18.0.1.0.1",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "summary": "Restrict certain operations depending on date",

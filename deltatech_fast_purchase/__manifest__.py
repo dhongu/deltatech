@@ -4,7 +4,7 @@
 
 {
     "name": "Fast Purchase",
-    "version": "17.4.1.0.0",
+    "version": "18.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Achizitie rapida",
