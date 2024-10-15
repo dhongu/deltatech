@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+    <template
+        id="website_sale_stock_product"
+        inherit_id="website_sale.product"
+        priority="4"
+        active="True"
+        customize_show="True"
+        name="Product Available"
+    >
+        <xpath expr="//div[@id='o_wsale_cta_wrapper']" position="after">
+          <div class="lead_time_messages o_not_editable" />
+        </xpath>
+      </template>
+
+<!--    <template id="website_sale_stock_product_lead_time" inherit_id="website_sale.product" priority="99">
+        <xpath expr="//form" position="before">
+            <div class="lead_time_messages o_not_editable">
+                <div style="font-size: medium;" class="badge rounded-pill">
+                    In stock
+                </div>
+            </div>
+        </xpath>
+    </template>-->
+
+    <template
+        id="products_qty_available"
+        inherit_id="website_sale.products_item"
+        active="False"
+        customize_show="True"
+        name="Product Available"
+    >
+        <xpath expr="//div[@itemprop='offers']" position="after">
+            <div>
+                <t t-if="product.sudo().qty_available  &gt;   0">
+                    <span class="badge badge-success">Immediate delivery</span>
+                </t>
+                <t t-else="">
+                    <span class="badge badge-warning">Subsequent delivery</span>
+                </t>
+            </div>
+        </xpath>
+    </template>
+
+
+
+<!--    <template
+        id="cart_summary_website_sale_stock_product_lead_time"
+        inherit_id="website_sale.cart_summary"
+        name="Lead time"
+        active="False"
+        customize_show="True"
+    >
+        <xpath expr="//td[hasclass('td-product_name')]/div/strong" position="after">
+            <xpath expr="//div" position="after">
+                <t t-if="line.product_id.qty_available  &gt;=   line.product_uom_qty">
+
+                    <span class="badge badge-success">Immediate delivery</span>
+                </t>
+                <t t-else="">
+                    <span class="badge badge-warning">Subsequent delivery</span>
+                </t>
+            </xpath>
+        </xpath>
+    </template>-->
+
+
+    <template
+        id="cart_line_description_following_lines"
+        inherit_id="website_sale.cart_line_description_following_lines"
+        customize_show="True"
+        name="Lead Time"
+    >
+        <xpath expr="//div" position="after">
+            <t t-if="line.product_id.free_qty  &gt;= line.product_uom_qty">
+                <span class="badge-pill badge-success">Immediate delivery</span>
+            </t>
+            <t t-else="">
+                <span class="badge-pill badge-warning">Subsequent delivery</span>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>
