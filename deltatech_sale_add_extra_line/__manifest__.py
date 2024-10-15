@@ -3,7 +3,7 @@
 
 {
     "name": "Sale Add Extra Line",
-    "summary": "Sale Add Extra Line",
+    "summary": "Sale Add Extra Line (SGR)",
     "version": "15.0.1.0.8",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
