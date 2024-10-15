@@ -4,7 +4,7 @@
 
 {
     "name": "Fast Sale",
-    "version": "17.4.1.0.1",
+    "version": "18.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Vanzare rapida",
