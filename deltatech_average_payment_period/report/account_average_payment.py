@@ -67,7 +67,7 @@ class AccountAveragePaymentReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(self._cr, self._table)
         self._cr.execute(
-            """CREATE or REPLACE VIEW %s as (
+            f"""CREATE or REPLACE VIEW {self._table} as (
         select l.id,
             l.partner_id,
             l.date,
@@ -95,5 +95,4 @@ class AccountAveragePaymentReport(models.Model):
                       j.type in ('sale', 'purchase', 'sale_refund', 'purchase_refund')
 
             )"""
-            % (self._table)
         )

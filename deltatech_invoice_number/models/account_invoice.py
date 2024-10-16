@@ -29,7 +29,8 @@ class AccountInvoice(models.Model):
                 raise UserError(msg)
             journal = invoice.journal_id
             if journal.journal_sequence_id:
-                # If invoice is actually refund and journal has a refund_sequence then use that one or use the regular one
+                # If invoice is actually refund and journal has a refund_sequence
+                # then use that one or use the regular one
                 sequence = journal.journal_sequence_id
                 # if invoice and invoice.move_type in ["out_refund", "in_refund"] and journal.refund_sequence:
                 #     if not journal.refund_sequence_id:

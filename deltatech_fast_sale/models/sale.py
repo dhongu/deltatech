@@ -61,7 +61,7 @@ class SaleOrder(models.Model):
         pick_ids = picking_ids.ids
         # choose the view_mode accordingly
         if len(pick_ids) > 1:
-            result["domain"] = "[('id','in',%s)]" % (pick_ids.ids)
+            result["domain"] = f"[('id','in',{pick_ids.ids})]"
         elif len(pick_ids) == 1:
             res = self.env.ref("stock.view_picking_form", False)
             result["views"] = [(res and res.id or False, "form")]

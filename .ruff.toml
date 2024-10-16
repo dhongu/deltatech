@@ -4,10 +4,8 @@ fix = true
 line-length = 120
 
 
-
-
-[lint]
-ignore = ["E501","E741","B905","B023"]
+#[lint]
+#ignore = ["E501","E741","B905","B023"]
 
 extend-select = [
     "B",
@@ -21,16 +19,16 @@ exclude = ["setup/*"]
 [format]
 exclude = ["setup/*"]
 
-[per-file-ignores]
+[lint.per-file-ignores]
 "__init__.py" = ["F401", "I001"]  # ignore unused and unsorted imports in __init__.py
 "__manifest__.py" = ["B018"]  # useless expression
 
-[isort]
+[lint.isort]
 section-order = ["future", "standard-library", "third-party", "odoo", "odoo-addons", "first-party", "local-folder"]
 
-[isort.sections]
+[lint.isort.sections]
 "odoo" = ["odoo"]
 "odoo-addons" = ["odoo.addons"]
 
-[mccabe]
+[lint.mccabe]
 max-complexity = 50
