@@ -11,7 +11,7 @@
     "depends": ["sale"],
     "license": "LGPL-3",
     "data": [
-        # "data/mail_data.xml",
+        "data/mail_data.xml",
         "views/sale_order_view.xml",
         "data/ir_cron_data.xml",
         "views/res_config_settings_views.xml",

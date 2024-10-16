@@ -34,7 +34,6 @@ class TestSaleFollowup(TransactionCase):
         self.product = self.env["product.product"].create(
             {
                 "name": "Test Product",
-                "type": "product",
                 "list_price": 100,
             }
         )
