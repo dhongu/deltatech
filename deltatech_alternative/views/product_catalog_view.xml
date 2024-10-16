@@ -5,14 +5,14 @@
             <field name="name">Product Catalog</field>
             <field name="model">product.catalog</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="code" />
                     <field name="code_new" />
                     <field name="name" />
                     <field name="list_price" />
                     <field name="categ_id" />
                     <field name="product_id" />
-                </tree>
+                </list>
             </field>
         </record>
         <record id="view_product_catalog_form" model="ir.ui.view">

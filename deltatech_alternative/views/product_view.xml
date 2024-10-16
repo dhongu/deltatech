@@ -63,11 +63,11 @@
                     <page string="Alternative">
                         <separator string="Alternative" colspan="4" />
                         <field name="alternative_ids" colspan="4" nolabel="1">
-                            <tree editable="bottom">
+                            <list editable="bottom">
                                 <field name="sequence" widget="handle" />
                                 <field name="name" />
                                 <field name="hide" />
-                            </tree>
+                            </list>
                         </field>
                         <group>
                             <field name="search_index" />
@@ -82,12 +82,12 @@
             <field name="model">product.alternative</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree editable="bottom">
+                <list editable="bottom">
                     <field name="product_tmpl_id" />
                     <field name="sequence" widget="handle" />
                     <field name="name" />
                     <field name="hide" />
-                </tree>
+                </list>
             </field>
         </record>
         <record model="ir.ui.view" id="product_alternative_form_view">
