@@ -1,7 +1,6 @@
 /** @odoo-module */
 
 import publicWidget from "@web/legacy/js/public/public_widget";
-import {_t} from "@web/core/l10n/translation";
 import "@website_sale/js/website_sale_delivery";
 
 publicWidget.registry.websiteSaleDelivery.include({
@@ -24,15 +23,15 @@ publicWidget.registry.websiteSaleDelivery.include({
 
     _onCarrierClick: function (ev) {
         const input = ev.currentTarget.querySelector("input");
-        // data-acquirer-allowed-ids is a comma-separated list of acquirer ids : ex: "[1,2,3]"
+        // Data-acquirer-allowed-ids is a comma-separated list of acquirer ids : ex: "[1,2,3]"
         let acquirerAllowedIds = input.getAttribute("data-acquirer-allowed-ids");
         if (acquirerAllowedIds) {
             acquirerAllowedIds = acquirerAllowedIds.replace(/[\[\] ]/g, "").split(",");
         }
-        for (let option of this.paymentOptions) {
+        for (const option of this.paymentOptions) {
             var isEnable = true;
             if (acquirerAllowedIds) {
-                const acquirerId = option.dataset["providerId"];
+                const acquirerId = option.dataset.providerId;
                 isEnable = acquirerAllowedIds.includes(acquirerId);
             }
             this._setEnablePaymentOption(option, isEnable);
