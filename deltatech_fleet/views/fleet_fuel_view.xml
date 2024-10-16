@@ -46,7 +46,7 @@
         <field name="name">fleet.vehicle.log.fuel.tree</field>
         <field name="model">fleet.vehicle.log.fuel</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="date_time" />
                 <field name="vehicle_id" />
@@ -59,7 +59,7 @@
                                         <field name="full" />
                         <field name="reservoir_level" />
                         <field name="map_sheet_id" />
-            </tree>
+            </list>
         </field>
     </record>
 

@@ -119,7 +119,7 @@
         <field name="name">fleet.route.log.tree</field>
         <field name="model">fleet.route.log</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="vehicle_id" />
                 <field name="state" />
                 <field name="date_begin" />
@@ -128,7 +128,7 @@
                 <field name="distance" sum="Total Distance" />
                 <field name="norm_cons" sum="Total Normal Consumption" />
                 <field name="map_sheet_id" context="{'vehicle_id':vehicle_id, 'date':date_begin}" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -191,11 +191,11 @@
         <field name="name">fleet.vehicle.location.tree</field>
         <field name="model">fleet.vehicle.location</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="vehicle_id" />
                 <field name="name" />
                 <field name="date" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -243,13 +243,13 @@
         <field name="name">fleet.route.tree</field>
         <field name="model">fleet.route</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="from_loc_id" />
                 <field name="to_loc_id" />
                 <field name="distance" />
                 <field name="duration" widget="float_time" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id='fleet_route_form' model='ir.ui.view'>
@@ -296,10 +296,10 @@
         <field name="name">fleet.location.tree</field>
         <field name="model">fleet.location</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="name" />
                 <field name="type" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id='fleet_location_form' model='ir.ui.view'>
@@ -334,10 +334,10 @@
         <field name="name">fleet.fuel.tree</field>
         <field name="model">fleet.fuel</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="name" />
                 <field name="fuel_type" />
-            </tree>
+            </list>
         </field>
     </record>
     <record model='ir.actions.act_window' id='fleet_fuel_act'>
@@ -357,9 +357,9 @@
         <field name="name">fleet.scope.tree</field>
         <field name="model">fleet.scope</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="name" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id='fleet_scope_act' model='ir.actions.act_window'>
@@ -379,9 +379,9 @@
         <field name="name">fleet.vehicle.category.tree</field>
         <field name="model">fleet.vehicle.category</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="name" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id='fleet_vehicle_category_act' model='ir.actions.act_window'>
@@ -402,11 +402,11 @@
         <field name="name">fleet.card.tree</field>
         <field name="model">fleet.card</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="name" />
                 <field name="type_card" />
                 <field name="vehicle_ids" widget="many2many_tags" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id='fleet_card_form' model='ir.ui.view'>
@@ -421,15 +421,15 @@
                         <field name="active" />
                         <newline />
                         <field name="vehicle_ids" widget="many2many_list" mode="tree">
-                            <tree>
+                            <list>
                                 <field name="name" />
-                            </tree>
+                            </list>
                         </field>
                         <field name="log_fuel_ids" widget="many2many_list" mode="tree">
-                            <tree>
+                            <list>
                                 <field name="name" />
                                 <field name="liter" sum="Total liters" />
-                            </tree>
+                            </list>
                         </field>
                     </group>
                 </sheet>
