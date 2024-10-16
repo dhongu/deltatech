@@ -41,7 +41,10 @@ class TestStockPicking(TransactionCase):
         self.sale_order.action_confirm()
 
     def test_create_invoice_from_picking(self):
-        domain = [("name", "=", "deltatech_stock_negative"), ("state", "=", "installed")]
+        domain = [
+            ("name", "=", "deltatech_stock_negative"),
+            ("state", "=", "installed"),
+        ]
         no_negative_module = self.env["ir.module.module"].sudo().search(domain)
         if no_negative_module:
             for picking in self.sale_order.picking_ids:

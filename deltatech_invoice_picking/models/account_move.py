@@ -27,7 +27,7 @@ class AccountMove(models.Model):
                         for sale_line in line.sale_line_ids:
                             if sale_line.order_id not in sale_orders:
                                 sale_orders |= sale_line.order_id
-                    invoice_pickings = pickings.filtered(lambda p: p.sale_id in sale_orders)
+                    invoice_pickings = pickings.filtered(lambda p: p.sale_id in sale_orders)  # noqa B023
                     invoice_pickings.write(
                         {
                             "account_move_id": move.id,
@@ -44,7 +44,7 @@ class AccountMove(models.Model):
                         for purchase_line in line.purchase_line_id:
                             if purchase_line.order_id not in purchase_orders:
                                 purchase_orders |= purchase_line.order_id
-                    invoice_pickings = pickings.filtered(lambda p: p.purchase_id in purchase_orders)
+                    invoice_pickings = pickings.filtered(lambda p: p.purchase_id in purchase_orders)  # noqa B023
                     invoice_pickings.write(
                         {
                             "account_move_id": move.id,
@@ -65,7 +65,7 @@ class AccountMove(models.Model):
 
     def update_pickings(self):
         for move in self:
-            for account_move_line in move.line_ids.filtered(lambda l: l.display_type == "product"):
+            for account_move_line in move.line_ids.filtered(lambda ml: ml.display_type == "product"):
                 if account_move_line.sale_line_ids:
                     sale_line_ids = account_move_line.sale_line_ids
                     for stock_move in sale_line_ids.move_ids.filtered(lambda m: m.state == "done"):
