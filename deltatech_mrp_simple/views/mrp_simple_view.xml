@@ -99,25 +99,25 @@
                     <group string="Consumption">
 
                         <field name="product_out_ids" nolabel="1" readonly="state!='draft'">
-                            <tree editable="bottom">
+                            <list editable="bottom">
                                 <field name="product_id" />
                                 <field name="stock" />
                                 <field name="quantity" sum="1" />
                                 <field name="price_unit" readonly="1" force_save="1" />
                                 <field name="uom_id" />
                                 <field name="value" sum="1" />
-                            </tree>
+                            </list>
                         </field>
                     </group>
                     <group string="Receipt">
                         <field name="product_in_ids" nolabel="1" readonly="state!='draft'">
-                            <tree editable="bottom">
+                            <list editable="bottom">
                                 <field name="product_id" />
                                 <field name="quantity" sum="1" />
                                 <field name="uom_id" />
                                 <field name="price_unit" />
                                 <field name="value" sum="1" />
-                            </tree>
+                            </list>
                         </field>
                     </group>
 
@@ -131,10 +131,10 @@
         <field name="name">mrp.simple.tree</field>
         <field name="model">mrp.simple</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="date" />
-            </tree>
+            </list>
         </field>
     </record>
 
