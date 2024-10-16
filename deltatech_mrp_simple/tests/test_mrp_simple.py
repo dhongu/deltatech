@@ -17,7 +17,7 @@ class TestMRPSimple(TransactionCase):
             {
                 "name": "Test A",
                 "type": "consu",
-                "is_storable":True,
+                "is_storable": True,
                 "standard_price": 100,
                 "list_price": 150,
                 "seller_ids": seller_ids,
@@ -27,7 +27,7 @@ class TestMRPSimple(TransactionCase):
             {
                 "name": "Test B",
                 "type": "consu",
-                "is_storable":True,
+                "is_storable": True,
                 "standard_price": 70,
                 "list_price": 150,
                 "seller_ids": seller_ids,
