@@ -32,7 +32,7 @@ class SaleOrder(models.Model):
             if not order.company_id.sale_followup:
                 continue
             template_id = order.company_id.sale_followup_template_id.id
-            message_post = order.with_context(force_send=True).message_post_with_template
+            message_post = order.with_context(force_send=True).message_post_with_source
             message_post(template_id, composition_mode="comment", email_layout_xmlid="mail.mail_notification_light")
 
         self.write({"days_send_followup": False, "date_send_followup": False})
