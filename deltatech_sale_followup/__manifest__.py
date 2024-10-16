@@ -4,11 +4,11 @@
 {
     "name": "Sale Followup",
     "summary": "Sale Followup",
-    "version": "17.0.1.0.1",
+    "version": "17.0.1.0.2",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "depends": ["sale"],
+    "depends": ["sale_management"],
     "license": "LGPL-3",
     "data": [
         "data/mail_data.xml",
