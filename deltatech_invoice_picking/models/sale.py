@@ -37,7 +37,7 @@ class SaleOrderLine(models.Model):
             else:
                 # update quantity with 0 (lines will be deleted)
                 product_id = self.env["product.product"].browse(invoice_line["product_id"])
-                if product_id.type == "consu" and product_id.is_storable==True:
+                if product_id.type == "consu" and product_id.is_storable is True:
                     invoice_line.update({"quantity": 0})
                 return invoice_line
         else:
