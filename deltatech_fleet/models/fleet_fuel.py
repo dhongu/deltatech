@@ -75,7 +75,8 @@ class FleetVehicleLogFuel(models.Model):
         # make any difference between 3.0 and 3). This cause a problem if you encode, for example, 2 liters at 1.5 per
         # liter => total is computed as 3.0, then trigger an onchange that recomputes price_per_liter as 3/2=1 (instead
         # of 3.0/2=1.5)
-        # If there is no change in the result, we return an empty dict to prevent an infinite loop due to the 3 intertwine
+        # If there is no change in the result, we return an empty dict to prevent an infinite
+        # loop due to the 3 intertwine
         # onchange. And in order to verify that there is no change in the result, we have to limit the precision of the
         # computation to 2 decimal
         liter = float(self.liter)
