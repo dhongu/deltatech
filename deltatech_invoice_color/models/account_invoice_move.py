@@ -25,7 +25,7 @@ class AccountMoveLine(models.Model):
             if not line.product_id:
                 color_trigger = "warning"
             else:
-                if line.product_id.type == "consu" and line.product_id.is_storable== True:
+                if line.product_id.type == "consu" and line.product_id.is_storable is True:
                     if line.move_id.move_type in ("in_invoice", "in_refund"):
                         if not line.purchase_line_id:
                             color_trigger = "danger"

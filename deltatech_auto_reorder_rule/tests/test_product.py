@@ -8,7 +8,9 @@ from odoo.tests.common import TransactionCase
 class TestCreateRule(TransactionCase):
     def setUp(self):
         super().setUp()
-        self.product = self.env["product.product"].create({"name": "Test product", "type": "consu", "is_storable": True})
+        self.product = self.env["product.product"].create(
+            {"name": "Test product", "type": "consu", "is_storable": True}
+        )
 
     def test_create_rule(self):
         self.product.create_rule()

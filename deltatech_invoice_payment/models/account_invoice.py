@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import fields,models
+from odoo import fields, models
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -10,7 +10,7 @@ class AccountInvoice(models.Model):
     _inherit = "account.move"
 
     invoice_payments_widget = fields.Binary(
-        compute='_compute_payments_widget_reconciled_info',
+        compute="_compute_payments_widget_reconciled_info",
         groups=False,
         exportable=False,
     )

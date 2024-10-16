@@ -57,7 +57,9 @@ class AccountInvoice(models.Model):
             # am gasit linii care nu sunt in comanda de achizitie
             lines_without_purchase = invoice.invoice_line_ids.filtered(lambda line: not line.purchase_line_id)
             # doar pentru prousele stocabile
-            lines_without_purchase = lines_without_purchase.filtered(lambda line: line.product_id.type == "consu" and line.product_id.is_storable==True)
+            lines_without_purchase = lines_without_purchase.filtered(
+                lambda line: line.product_id.type == "consu" and line.product_id.is_storable is True
+            )
             if lines_without_purchase:
                 # trebuie sa verific daca sunt produse stocabile ?
 

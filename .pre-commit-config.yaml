@@ -12,13 +12,18 @@ exclude: |
   /static/(src/)?lib/|
   # Repos using Sphinx to generate docs don't need prettying
   ^docs/_templates/.*\.html$|
+  # Don't bother non-technical authors with formatting issues in docs
+  readme/.*\.(rst|md)$|
+  # Ignore build and dist directories in addons
+  /build/|/dist/|
+  # Ignore test files in addons
+  /tests/samples/.*|
   # You don't usually want a bot to modify your legal texts
-  (LICENSE.*|COPYING.*)|
-  __unported__
-
+  (LICENSE.*|COPYING.*)
+    __unported__
 default_language_version:
   python: python3
-  node: "16.19.0"
+  node: "16.17.0"
 repos:
   - repo: local
     hooks:
@@ -34,9 +39,8 @@ repos:
         entry: found a en.po file
         language: fail
         files: '[a-zA-Z0-9_]*/i18n/en\.po$'
-
   - repo: https://github.com/sbidoul/whool
-    rev: v1.0.1
+    rev: v1.2
     hooks:
       - id: whool-init
 
@@ -49,37 +53,20 @@ repos:
           - --addons-dir=.
           - --org-name=dhongu
           - --repo-name=deltatech
-          - --branch=17.0
+          - --branch=18.0
           - --if-source-changed
           - --keep-source-digest
           - --convert-fragments-to-markdown
-
-      # This job could easily produce conflicts when it runs on every commit,
-      # so it's added as a manual job. If you automate it, beware.
-      # See https://pre-commit.com/#confining-hooks-to-run-at-certain-stages
-      - id: oca-gen-addons-table
-        stages: [manual]
-      # update the NOT INSTALLABLE ADDONS section above
-
-      - id: oca-update-pre-commit-excluded-addons
       - id: oca-gen-external-dependencies
-      - id: oca-fix-manifest-website
-        args: ["https://www.terrabit.ro"]
-  #      - id: oca-fix-manifest-images
-  #        args: ["static/description/main_screenshot.png"]
-  #      - id: oca-gen-addon-icon
-  #        args:
-  #          - --addons-dir=.
-
   - repo: https://github.com/OCA/odoo-pre-commit-hooks
-    rev: v0.0.31
+    rev: v0.0.33
     hooks:
       - id: oca-checks-odoo-module
       - id: oca-checks-po
-        args: ["--fix"]
-
+        args:
+          - --disable=po-pretty-format
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v4.0.0-alpha.8
+    rev: v2.7.1
     hooks:
       - id: prettier
         name: prettier (with plugin-xml)
@@ -89,16 +76,14 @@ repos:
         args:
           - --plugin=@prettier/plugin-xml
         files: \.(css|htm|html|js|json|jsx|less|md|scss|toml|ts|xml|yaml|yml)$
-
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.50.0
+    rev: v8.24.0
     hooks:
       - id: eslint
         verbose: true
         args:
           - --color
           - --fix
-
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
@@ -121,16 +106,14 @@ repos:
       - id: check-xml
       - id: mixed-line-ending
         args: ["--fix=lf"]
-
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.3
+    rev: v0.6.8
     hooks:
       - id: ruff
-        args: [--fix, --exit-non-zero-on-fix, --unsafe-fixes]
+        args: [--fix, --exit-non-zero-on-fix]
       - id: ruff-format
-
   - repo: https://github.com/OCA/pylint-odoo
-    rev: v9.1.2
+    rev: v9.0.4
     hooks:
       - id: pylint_odoo
         name: pylint with optional checks
