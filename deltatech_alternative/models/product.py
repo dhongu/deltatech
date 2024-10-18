@@ -32,6 +32,9 @@ class ProductTemplate(models.Model):
             if product.default_code:
                 search_index = product.default_code + " " + search_index
 
+            if product.name and product.name not in product.search_index:
+                search_index += product.name + " " + search_index
+
             terms = []
             if product.seller_ids:
                 terms += [s.product_code for s in product.seller_ids if s.product_code]
