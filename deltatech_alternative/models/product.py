@@ -42,10 +42,9 @@ class ProductTemplate(models.Model):
             if product.alternative_ids:
                 terms += [a.name for a in product.alternative_ids if a.name]
 
-            terms = list(set(terms))
-            search_index += " " + " ".join(terms)
-            terms = search_index.upper().split(" ")
-            search_index = " ".join(sorted(list(set(terms))))
+            terms = " ".join(terms)
+            terms = terms.upper().split(" ")
+            search_index += " " + " ".join(sorted(list(set(terms))))
             product.search_index = search_index.upper()
 
     def _inverse_alternative_code(self):
