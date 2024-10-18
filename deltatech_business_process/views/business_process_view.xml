@@ -86,7 +86,7 @@
                     <button
                         name="button_end_test"
                         type="object"
-                        string="End Test"
+                        string="End Testing"
                         class="oe_highlight"
                         invisible="state!='test'"
                         groups="deltatech_business_process.group_business_process_responsible"

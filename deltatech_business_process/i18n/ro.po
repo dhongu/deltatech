@@ -810,8 +810,8 @@ msgstr "FS final"
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
-msgid "End Test"
-msgstr "Test final"
+msgid "End Testing"
+msgstr "Finalizare Testare"
 
 #. module: deltatech_business_process
 #: model:res.groups,name:deltatech_business_process.group_business_end_user
