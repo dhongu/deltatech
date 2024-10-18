@@ -1,73 +1,176 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <odoo>
 
+
     <record id="mail_template_sale_followup" model="mail.template">
-        <field name="name">Sale Order: send followup</field>
-        <field name="model_id" ref="sale.model_sale_order" />
-        <field name="subject">${object.company_id.name} (Ref ${object.name or 'n/a' })</field>
-        <field name="email_from">${(object.user_id.email_formatted or user.email_formatted) | safe}</field>
-        <field name="partner_to">${object.partner_id.id}</field>
+        <field name="name">Sales: Send followup</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="subject">{{ object.company_id.name }} {{ (object.get_portal_last_transaction().state == 'pending')
+            and 'Pending Order' or 'Order' }} (Ref {{ object.name or 'n/a' }})
+        </field>
+        <field name="email_from">{{ (object.user_id.email_formatted or object.company_id.email_formatted or
+            user.email_formatted) }}
+        </field>
+        <field name="partner_to">{{ object.partner_id.id }}</field>
+        <field name="description">Sent to customers on order followup</field>
         <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
                 <p style="margin: 0px; padding: 0px; font-size: 12px;">
-                    Dear
+                    Hello,
+                    <br/>
+                    <br/>
+                    We hope you are satisfied with your order <span style="font-weight:bold;" t-out="object.name or ''">
+                    S00049
+                </span> amounting in
+                    <span style="font-weight:bold;"
+                          t-out="format_amount(object.amount_total, object.currency_id) or ''">$ 10.00
+                    </span>
 
-                    % if object.partner_id.parent_id:
-                    ${object.partner_id.name} (${object.partner_id.parent_id.name}),
-                    % else:
-                    ${object.partner_id.name},
-                    % endif
+                    <t t-if="not is_html_empty(object.user_id.signature)">
+                        <br/>
+                        <br/>
+                        <t t-out="object.user_id.signature or ''">--<br/>Mitchell Admin
+                        </t>
+                    </t>
+                    <br/>
+                    <br/>
                 </p>
-                <p>
-                    We hope you are satisfied with your order "<strong>${object.name}</strong>"
-                </p>
-                <br />
-                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <table width="100%" style="color: #454748; font-size: 12px; border-collapse: collapse;">
+                            <tr style="border-bottom: 2px solid #dee2e6;">
+                                <td style="width: 150px;">
+                                    <span style="font-weight:bold;">Products</span>
+                                </td>
+                                <td></td>
+                                <td width="15%" align="center">
+                                    <span style="font-weight:bold;">Quantity</span>
+                                </td>
 
-                    % for line in object.order_line:
+                            </tr>
+                        </table>
+                        <t t-foreach="object.order_line" t-as="line">
+                            <t t-if="(not hasattr(line, 'is_delivery') or not line.is_delivery) and line.display_type in ['line_section', 'line_note']">
+                                <table width="100%" style="color: #454748; font-size: 12px; border-collapse: collapse;">
+                                    <t t-set="loop_cycle_number" t-value="loop_cycle_number or 0"/>
+                                    <tr t-att-style="'background-color: #f2f2f2' if loop_cycle_number % 2 == 0 else 'background-color: #ffffff'">
+                                        <t t-set="loop_cycle_number" t-value="loop_cycle_number + 1"/>
+                                        <td colspan="4">
+                                            <t t-if="line.display_type == 'line_section'">
+                                                <span style="font-weight:bold;" t-out="line.name or ''">Taking care of
+                                                    Trees Course
+                                                </span>
+                                            </t>
+                                            <t t-elif="line.display_type == 'line_note'">
+                                                <i t-out="line.name or ''">Taking care of Trees Course</i>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </t>
+                            <t t-elif="(not hasattr(line, 'is_delivery') or not line.is_delivery)">
+                                <table width="100%" style="color: #454748; font-size: 12px; border-collapse: collapse;">
+                                    <t t-set="loop_cycle_number" t-value="loop_cycle_number or 0"/>
+                                    <tr t-att-style="'background-color: #f2f2f2' if loop_cycle_number % 2 == 0 else 'background-color: #ffffff'">
+                                        <t t-set="loop_cycle_number" t-value="loop_cycle_number + 1"/>
+                                        <td style="width: 150px;">
+                                            <img
+                                                t-attf-src="/web/image/product.product/{{ line.product_id.id }}/image_128"
+                                                style="width: 64px; height: 64px; object-fit: contain;"
+                                                alt="Product image"></img>
+                                        </td>
+                                        <td align="left" t-out="line.product_id.name or ''">Taking care of Trees
+                                            Course
+                                        </td>
+                                        <td width="15%" align="center" t-out="line.product_uom_qty or ''">1</td>
 
-                    % if line.display_type in ['line_section', 'line_note']:
-                    <table width="100%" style="color: #454748; font-size: 12px; border-collapse: collapse;">
-                        <tr style="${loop.cycle('background-color: #f2f2f2', 'background-color: #ffffff')}">
-                            <td colspan="4">
-                                % if line.display_type == 'line_section':
-                                <strong>${line.name}</strong>
-                                % elif line.display_type == 'line_note':
-                                <i>${line.name}</i>
-                                % endif
-                            </td>
-                        </tr>
-                    </table>
-                    % else
+                                    </tr>
+                                </table>
+                            </t>
+                        </t>
+                    </div>
+                    <div style="margin: 0px; padding: 0px;" t-if="hasattr(object, 'carrier_id') and object.carrier_id">
+                        <table width="100%" style="color: #454748; font-size: 12px; border-spacing: 0px 4px;"
+                               align="right">
+                            <tr>
+                                <td style="width: 60%"/>
+                                <td style="width: 30%; border-top: 1px solid #dee2e6;" align="right">
+                                    <span style="font-weight:bold;">Delivery:</span>
+                                </td>
+                                <td style="width: 10%; border-top: 1px solid #dee2e6;" align="right"
+                                    t-out="format_amount(object.amount_delivery, object.currency_id) or ''">$ 0.00
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 60%"/>
+                                <td style="width: 30%;" align="right">
+                                    <span style="font-weight:bold;">SubTotal:</span>
+                                </td>
+                                <td style="width: 10%;" align="right"
+                                    t-out="format_amount(object.amount_untaxed, object.currency_id) or ''">$ 10.00
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="margin: 0px; padding: 0px;" t-else="">
+                        <table width="100%" style="color: #454748; font-size: 12px; border-spacing: 0px 4px;"
+                               align="right">
+                            <tr>
+                                <td style="width: 60%"/>
+                                <td style="width: 30%; border-top: 1px solid #dee2e6;" align="right">
+                                    <span style="font-weight:bold;">SubTotal:</span>
+                                </td>
+                                <td style="width: 10%; border-top: 1px solid #dee2e6;" align="right"
+                                    t-out="format_amount(object.amount_untaxed, object.currency_id) or ''">$ 10.00
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="margin: 0px; padding: 0px;">
+                        <table width="100%" style="color: #454748; font-size: 12px; border-spacing: 0px 4px;"
+                               align="right">
+                            <tr>
+                                <td style="width: 60%"/>
+                                <td style="width: 30%;" align="right">
+                                    <span style="font-weight:bold;">Taxes:</span>
+                                </td>
+                                <td style="width: 10%;" align="right"
+                                    t-out="format_amount(object.amount_tax, object.currency_id) or ''">$ 0.00
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 60%"/>
+                                <td style="width: 30%; border-top: 1px solid #dee2e6;" align="right">
+                                    <span style="font-weight:bold;">Total:</span>
+                                </td>
+                                <td style="width: 10%; border-top: 1px solid #dee2e6;" align="right"
+                                    t-out="format_amount(object.amount_total, object.currency_id) or ''">$ 10.00
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div t-if="object.partner_invoice_id" style="margin: 0px; padding: 0px;">
+                        <table width="100%" style="color: #454748; font-size: 12px;">
+                            <tr>
+                                <td style="padding-top: 10px;">
+                                    <span style="font-weight:bold;">Bill to:</span>
+                                    <t t-out="object.partner_invoice_id.street or ''">1201 S Figueroa St</t>
+                                    <t t-out="object.partner_invoice_id.city or ''">Los Angeles</t>
+                                    <t t-out="object.partner_invoice_id.state_id.name or ''">California</t>
+                                    <t t-out="object.partner_invoice_id.zip or ''">90015</t>
+                                    <t t-out="object.partner_invoice_id.country_id.name or ''">United States</t>
+                                </td>
+                            </tr>
 
-
-                    <table width="100%" style="color: #454748; font-size: 12px; border-collapse: collapse;">
-                        <tr style="${loop.cycle('background-color: #f2f2f2', 'background-color: #ffffff')}">
-                            <td style="width: 100px;">
-                                <img
-                                    src="/web/image/product.product/${line.product_id.id}/image_128"
-                                    style="width: 64px; height: 64px; object-fit: contain;"
-                                    alt="Product image"
-                                />
-                            </td>
-                            <td align="left">
-                                <a href="${line.product_id.website_url}">${line.product_id.name}</a>
-                            </td>
-                            <td width="15%" align="center">${line.product_uom_qty}</td>
-                        </tr>
-                    </table>
-                    % endif
-                    % endfor
-                </div>
+                        </table>
+                    </div>
 
 
             </div>
         </field>
 
-        <field name="report_name">Followup_${(object.name or '').replace('/','_')}}
-        </field>
-        <field name="lang">${object.partner_id.lang}</field>
-        <field name="auto_delete" eval="True" />
+        <field name="lang">{{ object.partner_id.lang }}</field>
+        <field name="auto_delete" eval="True"/>
     </record>
+
 
 </odoo>
