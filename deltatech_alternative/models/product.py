@@ -33,7 +33,7 @@ class ProductTemplate(models.Model):
                 search_index = product.default_code + " " + search_index
 
             name = product.name or ""
-            if name not in product.search_index:
+            if name not in search_index:
                 search_index += name + " " + search_index
 
             terms = []
