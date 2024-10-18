@@ -1,0 +1,53 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_partner_minimal_aquisition
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-18 08:12+0000\n"
+"PO-Revision-Date: 2024-10-18 08:12+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_partner_minimal_aquisition
+#: model_terms:ir.ui.view,arch_db:deltatech_partner_minimal_aquisition.view_order_form
+msgid ""
+"<strong>Warning:</strong> The total value of this purchase order is below "
+"the minimal acquisition value of the partner."
+msgstr ""
+"<strong>Atenție:</strong> Valoarea totală a acestei comenzi de achiziție "
+"este sub valoarea minimă de achiziție a partenerului."
+
+#. module: deltatech_partner_minimal_aquisition
+#: model:ir.model,name:deltatech_partner_minimal_aquisition.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: deltatech_partner_minimal_aquisition
+#: model:ir.model.fields,field_description:deltatech_partner_minimal_aquisition.field_res_partner__minimal_purchase_value
+#: model:ir.model.fields,field_description:deltatech_partner_minimal_aquisition.field_res_users__minimal_purchase_value
+msgid "Minimal Purchase"
+msgstr "Achiziție minimă"
+
+#. module: deltatech_partner_minimal_aquisition
+#: model:ir.model.fields,help:deltatech_partner_minimal_aquisition.field_purchase_order__partner_minimal_purchase_value
+#: model:ir.model.fields,help:deltatech_partner_minimal_aquisition.field_res_partner__minimal_purchase_value
+#: model:ir.model.fields,help:deltatech_partner_minimal_aquisition.field_res_users__minimal_purchase_value
+msgid "Minimal value of the purchase order to this partner."
+msgstr "Valoarea minimă a comenzii de achiziție pentru acest partener."
+
+#. module: deltatech_partner_minimal_aquisition
+#: model:ir.model.fields,field_description:deltatech_partner_minimal_aquisition.field_purchase_order__partner_minimal_purchase_value
+msgid "Partner Minimal Purchase Value"
+msgstr "Valoare minimă achiziție a partenerului"
+
+#. module: deltatech_partner_minimal_aquisition
+#: model:ir.model,name:deltatech_partner_minimal_aquisition.model_purchase_order
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"
