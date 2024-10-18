@@ -81,6 +81,7 @@ class BusinessProcess(models.Model):
 
     count_steps = fields.Integer(string="Count Steps", compute="_compute_count_steps")
     count_tests = fields.Integer(string="Count Tests", compute="_compute_count_tests")
+    count_acceptance_tests = fields.Integer(string="Count Acceptance Tests", compute="_compute_count_acceptance_tests")
     count_developments = fields.Integer(string="Count Developments", compute="_compute_count_developments")
 
     doc_count = fields.Integer(
@@ -190,6 +191,10 @@ class BusinessProcess(models.Model):
         for process in self:
             process.count_tests = len(process.test_ids)
 
+    def _compute_count_acceptance_tests(self):
+        for process in self:
+            process.count_acceptance_tests = len(process.test_ids.filtered(lambda x: x.scope == "user_acceptance"))
+
     def _compute_duration_for_completion(self):
         for process in self:
             process.duration_for_completion = (
@@ -219,6 +224,35 @@ class BusinessProcess(models.Model):
         action.update({"domain": domain, "context": context})
         return action
 
+    def action_view_acceptance_tests(self):
+        if not self.count_acceptance_tests:
+            self.start_user_acceptance_test()
+        domain = [("process_id", "=", self.id), ("scope", "=", "user_acceptance")]
+        context = {
+            "default_process_id": self.id,
+        }
+        tests = self.env["business.process.test"].search(domain)
+        if len(tests) == 1:
+            action = self.env.ref("deltatech_business_process.business_process_test_action_form").read()[0]
+            action.update(
+                {
+                    "res_id": tests.id,
+                    "view_mode": "form",
+                    "context": context,
+                }
+            )
+        else:
+            action = self.env["ir.actions.actions"]._for_xml_id(
+                "deltatech_business_process.action_business_process_test"
+            )
+            action.update(
+                {
+                    "domain": domain,
+                    "context": context,
+                }
+            )
+        return action
+
     def action_view_developments(self):
         domain = [("id", "=", self.development_ids.ids)]
         context = {
@@ -229,7 +263,15 @@ class BusinessProcess(models.Model):
         return action
 
     def get_attachment_domain(self):
-        domain = [("res_model", "=", "business.process"), ("res_id", "=", self.id)]
+        domain = [
+            "|",
+            "&",
+            ("res_model", "=", "business.process"),
+            ("res_id", "=", self.id),
+            "&",
+            ("res_model", "=", "business.process.test"),
+            ("res_id", "in", self.test_ids.ids),
+        ]
         return domain
 
     def _compute_attached_docs_count(self):
