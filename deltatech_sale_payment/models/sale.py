@@ -51,7 +51,7 @@ class SaleOrder(models.Model):
             acquirer = self.env["payment.provider"]
 
             for invoice in order.invoice_ids:
-                amount += invoice.amount_total - invoice.amount_residual
+                amount += invoice.amount_total_signed - invoice.amount_residual_signed
                 transactions = transactions - invoice.transaction_ids
             for transaction in transactions:
                 amount += transaction.amount
