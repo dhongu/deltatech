@@ -14,7 +14,7 @@ class AccountPayment(models.Model):
         generic_partner_id = int(safe_eval(get_param("sale.partner_generic_id", default="False")))
 
         if customer_id == generic_partner_id:
-            if "domain" in res:
+            if res and "domain" in res:
                 res["domain"].update(
                     {
                         "journal_id": [("restriction", "=", False), ("type", "in", ("bank", "cash"))],
