@@ -1,15 +1,14 @@
 /** @odoo-module **/
 
-import { registry } from "@web/core/registry";
-import { _t } from "@web/core/l10n/translation";
-import { standardFieldProps } from "@web/views/fields/standard_field_props";
-import { Component } from "@odoo/owl";
-
+import {registry} from "@web/core/registry";
+import {_t} from "@web/core/l10n/translation";
+import {standardFieldProps} from "@web/views/fields/standard_field_props";
+import {Component} from "@odoo/owl";
 
 export class FieldFontAwesome extends Component {
     get icon() {
-        // return this.props.icons[this.props.record.data[this.props.name]];
-        return  "fa " + this.props.record.data[this.props.name]
+        // Return this.props.icons[this.props.record.data[this.props.name]];
+        return "fa " + this.props.record.data[this.props.name];
     }
     get title() {
         return (
@@ -29,10 +28,9 @@ export const fieldFontAwesome = {
     component: FieldFontAwesome,
     displayName: _t("Icon Selection"),
     supportedTypes: ["char", "text", "selection"],
-    extractProps: ({ options }) => ({
+    extractProps: ({options}) => ({
         icons: options,
     }),
 };
 
-
-registry.category("fields").add('fontawesome', fieldFontAwesome);
+registry.category("fields").add("fontawesome", fieldFontAwesome);

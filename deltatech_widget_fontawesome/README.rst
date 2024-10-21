@@ -17,16 +17,14 @@ FontAwesome Widget
     :target: https://www.odoo.com/documentation/master/legal/licenses.html
     :alt: License: OPL-1
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/16.0/deltatech_widget_fontawesome
+    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_widget_fontawesome
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
 
-
 Features:
- *
 
-    <field name="icon"            widget="fontawesome"           />
+-  <field name="icon" widget="fontawesome" />
 
 **Table of contents**
 
@@ -45,13 +43,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu
@@ -61,6 +59,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/16.0/deltatech_widget_fontawesome>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_widget_fontawesome>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -36,6 +36,11 @@ msgid "<span class=\"o_label\">Tests</span>"
 msgstr "<span class=\"o_label\">Teste</span>"
 
 #. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Acceptance Tests"
+msgstr "Teste acceptanță"
+
+#. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__message_needaction
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__message_needaction
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__message_needaction
