@@ -233,7 +233,7 @@ class BusinessProcess(models.Model):
         }
         tests = self.env["business.process.test"].search(domain)
         if len(tests) == 1:
-            action = self.env.ref("deltatech_business_process.business_process_test_action_form").read()[0]
+            action = self.env.ref("deltatech_business_process.business_process_test_action_form").sudo().read()[0]
             action.update(
                 {
                     "res_id": tests.id,
