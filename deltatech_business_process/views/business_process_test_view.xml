@@ -111,7 +111,7 @@
                                     <field name="test_started" readonly="1" optional="hide" />
                                     <field name="result" invisible="test_started==False" />
 
-                                     <button
+                                    <button
                                         name="action_view_issue"
                                         aria-label="Issue"
                                         invisible="result!='failed'"
@@ -199,6 +199,12 @@
         <field name="name">Process Tests</field>
         <field name="res_model">business.process.test</field>
         <field name="view_mode">tree,form,calendar,pivot,graph</field>
+    </record>
+    <record id="business_process_test_action_form" model="ir.actions.act_window">
+        <field name="name">Business Process Test Form</field>
+        <field name="res_model">business.process.test</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_business_process_test_form" />
     </record>
     <menuitem
         name="Process Tests"

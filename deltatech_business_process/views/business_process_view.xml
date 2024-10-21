@@ -104,6 +104,12 @@
                         string="Reset to Draft"
                         invisible="state not in ('design','test','ready')"
                     />
+<!--                    <button-->
+<!--                        name="start_user_acceptance_test"-->
+<!--                        type="object"-->
+<!--                        string="Start Acceptance Test"-->
+<!--                        invisible="state not in ('design','test','ready')"-->
+<!--                        />-->
                     <field name="state" widget="statusbar" statusbar_visible="draft,design,test,ready,production" />
 
                 </header>
@@ -114,6 +120,14 @@
                         </button>
                         <button class="oe_stat_button" type="object" name="action_view_tests" icon="fa-stethoscope">
                             <field name="count_tests" widget="statinfo" string="Tests" />
+                        </button>
+                        <button
+                            class="oe_start_button"
+                            type="object"
+                            name="action_view_acceptance_tests"
+                            icon="fa-stethoscope"
+                        >
+                            <field name="count_acceptance_tests" widget="statinfo" string="Acceptance Tests" />
                         </button>
                         <button class="oe_stat_button" type="object" name="action_view_developments" icon="fa-code">
                             <field name="count_developments" widget="statinfo" string="Developments" />
