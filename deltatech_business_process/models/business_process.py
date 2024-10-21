@@ -331,7 +331,7 @@ class BusinessProcess(models.Model):
                     {
                         "name": _("Test %s") % process.code if process.code else process.name,
                         "process_id": process.id,
-                        "tester_id": process.responsible_id.id,
+                        "tester_id": self.env.user.partner_id.id,
                         "scope": scope,
                     }
                 )
