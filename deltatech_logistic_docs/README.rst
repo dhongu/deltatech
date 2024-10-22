@@ -10,9 +10,9 @@ Logistic Documents
    !! source digest: sha256:a1c8b90ae1dc644b38ff4e0193387200294be98d482142e98cdff4914aa61fd2
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/licence-OPL--1-blue.png
     :target: https://www.odoo.com/documentation/master/legal/licenses.html
     :alt: License: OPL-1
