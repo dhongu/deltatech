@@ -7,7 +7,7 @@ on:
   push:
     branches:
       - "17.0"
-      - "17.0-ocabot-*"
+#      - "17.0-ocabot-*"
 
 jobs:
   unreleased-deps:
@@ -36,10 +36,10 @@ jobs:
       matrix:
         include:
           - container: ghcr.io/oca/oca-ci/py3.10-odoo17.0:latest
-            makepot: "true"
             name: test with Odoo
-          - container: ghcr.io/oca/oca-ci/py3.10-ocb17.0:latest
-            name: test with OCB
+#          - container: ghcr.io/oca/oca-ci/py3.10-ocb17.0:latest
+#            name: test with OCB
+            makepot: "true"
     services:
       postgres:
         image: postgres:12.0
@@ -59,17 +59,13 @@ jobs:
         run: manifestoo -d . check-licenses
       - name: Check development status
         run: manifestoo -d . check-dev-status --default-dev-status=Beta
-
-      - name: Install requirements
-        run: |
-          pip install -r requirements.txt
-
       - name: Initialize test db
         run: oca_init_test_database
       - name: Run tests
         run: oca_run_tests
       - uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 #      - name: Update .pot files
 #        run: oca_export_and_push_pot https://x-access-token:${{ secrets.GIT_PUSH_TOKEN }}@github.com/${{ github.repository }}
-#        if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'dhongu' }}
-
+#        if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'OCA' }}
