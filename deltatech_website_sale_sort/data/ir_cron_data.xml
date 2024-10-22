@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8' ?>
+
 <odoo noupdate="0">
     <record id="ir_cron_product_sale_scheduled" model="ir.cron">
         <field name="name">Products: Update products statistics</field>
