@@ -16,7 +16,7 @@ class AccountAveragePaymentReport(models.Model):
     partner_id = fields.Many2one("res.partner", string="Partner", readonly=True)
     date = fields.Date(string="Date")
     payment_date = fields.Date(string="Payment Date", readonly=True)
-    payment_days = fields.Integer(string="Payment Days", readonly=True, group_operator="avg")
+    payment_days = fields.Integer(string="Payment Days", readonly=True, aggregator="avg")
     # period_id = fields.Many2one('account.period', string="Period", readonly=True)
     journal_id = fields.Many2one("account.journal", string="Journal", readonly=True)
     move_id = fields.Many2one("account.move", string="Account Move", readonly=True)
