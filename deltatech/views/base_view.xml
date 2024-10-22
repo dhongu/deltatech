@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <odoo>
 
-        <record id="module_view_kanban" model="ir.ui.view">
+ <!--       <record id="module_view_kanban" model="ir.ui.view">
             <field name="name">ir.module.module.kanban</field>
             <field name="model">ir.module.module</field>
             <field name="priority">99</field>
@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//div[hasclass('oe_module_action')]//a" position="replace" />
             </field>
-        </record>
+        </record>-->
         <record id="module_form" model="ir.ui.view">
             <field name="name">ir.module.module.form</field>
             <field name="model">ir.module.module</field>
