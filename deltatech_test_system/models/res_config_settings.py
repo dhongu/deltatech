@@ -28,7 +28,7 @@ class ResConfigSettings(models.TransientModel):
     def get_neutralization_queries(self, modules):
         # neutralization for each module
         for module in modules:
-            filename = odoo.modules.get_module_resource(module, "data/neutralize.sql")
+            filename = odoo.tools.file_path(f"{module}/data/neutralize.sql")
             if filename:
                 with odoo.tools.misc.file_open(filename) as file:
                     yield file.read().strip()

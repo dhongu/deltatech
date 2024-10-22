@@ -6,7 +6,8 @@
 import base64
 
 from odoo import fields
-from odoo.modules.module import get_module_resource
+#from odoo.modules.module import get_module_resource
+from odoo.tools import file_path
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
@@ -16,11 +17,7 @@ class TestImportXLS(TransactionCase):
         super().setUp()
 
     def test_xlsx_file_import(self):
-        order_file_path = get_module_resource(
-            "deltatech_purchase_xls",
-            "tests",
-            "test.xlsx",
-        )
+        order_file_path = file_path("deltatech_purchase_xls/tests/test.xlsx"       )
         order_file = base64.b64encode(open(order_file_path, "rb").read())
 
         order_form = Form(self.env["purchase.order"])
