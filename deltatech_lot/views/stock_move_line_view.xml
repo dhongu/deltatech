@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
         <record id="view_stock_move_line_operation_tree" model="ir.ui.view">
             <field name="name">stock.move.line.operations.tree</field>

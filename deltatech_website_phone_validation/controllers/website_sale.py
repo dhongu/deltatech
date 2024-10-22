@@ -15,7 +15,7 @@ class WebsiteSalePhoneValidation(WebsiteSale):
 
         if data.get("phone"):
             data["phone"] = data.get("phone").strip()
-        #todo: de gasit functia din 18
+        # todo: de gasit functia din 18
         standard_error, standard_error_message = super().checkout_form_validate(mode, all_form_values, data)
 
         error.update(standard_error)

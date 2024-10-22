@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="account_payment_method_card_in" model="account.payment.method">
         <field name="name">Card</field>
