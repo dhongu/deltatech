@@ -13,7 +13,6 @@ class StockInventory(models.Model):
     date = fields.Datetime(
         string="Inventory Date",
         required=True,
-        readonly=True,
     )
     note = fields.Text(string="Note")
     filterbyrack = fields.Char("Rack")

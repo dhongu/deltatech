@@ -17,7 +17,6 @@ class Inventory(models.Model):
 
     name = fields.Char(
         "Inventory Reference",
-        readonly=True,
         required=True,
         default=lambda self: _("New"),
     )
@@ -35,7 +34,6 @@ class Inventory(models.Model):
         "inventory_id",
         string="Inventories",
         copy=False,
-        readonly=False,
     )
     move_ids = fields.One2many("stock.move", "inventory_id", string="Created Moves")
     state = fields.Selection(
@@ -55,7 +53,6 @@ class Inventory(models.Model):
     company_id = fields.Many2one(
         "res.company",
         "Company",
-        readonly=True,
         index=True,
         required=True,
         default=lambda self: self.env.company,
@@ -63,7 +60,6 @@ class Inventory(models.Model):
     location_ids = fields.Many2many(
         "stock.location",
         string="Locations",
-        readonly=True,
         check_company=True,
         domain="[('company_id', '=', company_id), ('usage', 'in', ['internal', 'transit'])]",
     )
@@ -72,7 +68,6 @@ class Inventory(models.Model):
         string="Products",
         check_company=True,
         domain="[('type', '=', 'product'), '|', ('company_id', '=', False), ('company_id', '=', company_id)]",
-        readonly=True,
         help="Specify Products to focus your inventory on particular Products.",
     )
     start_empty = fields.Boolean("Empty Inventory", help="Allows to start with an empty inventory.")
@@ -88,7 +83,6 @@ class Inventory(models.Model):
     )
     exhausted = fields.Boolean(
         "Include Exhausted Products",
-        readonly=True,
         help="Include also products with quantity of 0",
     )
 
