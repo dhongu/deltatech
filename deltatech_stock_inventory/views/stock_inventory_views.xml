@@ -65,7 +65,7 @@
                     type="object"
                     invisible="not outdated"
                 />
-                <field name="product_qty" width="0.5" string="Counted" />
+                <field name="product_qty" width="0.5" string="Counted" readonly="state!='confirm'" />
 
 
                 <field name="difference_qty" optional="show" width="0.5" />
@@ -159,12 +159,9 @@
             <tree sample="1">
                 <field name="date" />
                 <field name="name" />
-                <field
-                    name="location_ids"
-                    widget="many2many_tags"
-                    optional="hide"
-                    groups="stock.group_stock_multi_locations"
-                />
+                <field name="location_ids" widget="many2many_tags" optional="hide" readonly="0" />
+<!--                    groups="stock.group_stock_multi_locations"-->
+<!--                />-->
                 <field name="product_ids" widget="many2many_tags" optional="hide" />
                 <field name="company_id" groups="base.group_multi_company" optional="show" />
                 <field
@@ -306,7 +303,7 @@
                     <div class="oe_title">
                         <label for="name" class="oe_edit_only" />
                         <h1>
-                            <field name="name" placeholder="e.g. Annual inventory" />
+                            <field name="name" placeholder="e.g. Annual inventory" readonly="state!='draft'" />
                         </h1>
                     </div>
                     <group>
@@ -316,20 +313,26 @@
                                 options="{'no_create': True}"
                                 widget="many2many_tags"
                                 force_save="1"
+                                readonly="state!='draft'"
                                 groups="base.group_multi_company,stock.group_stock_multi_locations"
                             />
-                            <field name="product_ids" context="{'default_type': 'product'}" widget="many2many_tags" />
-                            <field name="exhausted" />
+                            <field
+                                name="product_ids"
+                                context="{'default_type': 'product'}"
+                                widget="many2many_tags"
+                                readonly="state!='draft'"
+                            />
+                            <field name="exhausted" readonly="state!='draft'" />
                         </group>
                         <group>
-                            <field name="date" readonly="state !='draft'" />
+                            <field name="date" readonly="state!='draft'" />
                             <field name="create_uid" string="Created by" widget="many2one_avatar_user" />
 
-                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
+                            <field name="company_id" options="{'no_create': True}" readonly="state!='draft'" />
                             <field name="prefill_counted_quantity" widget="radio" invisible="state != 'draft'" />
                         </group>
                     </group>
-                    <field name="line_ids" />
+                    <field name="line_ids" readonly="state=='done'" />
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" />
