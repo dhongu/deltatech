@@ -1,4 +1,3 @@
-
 <odoo>
     <record id="action_send_followup" model="ir.actions.server">
         <field name="name">Send Followup</field>

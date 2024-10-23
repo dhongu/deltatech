@@ -1,4 +1,3 @@
-
 <odoo noupdate="1">
     <record id="mail_template_negative_stock" model="mail.template">
         <field name="name">Location: send negative stock</field>
