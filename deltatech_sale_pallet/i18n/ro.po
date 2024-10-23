@@ -81,4 +81,4 @@ msgstr "Linie comandă vânzare"
 #. module: deltatech_sale_pallet
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_pallet.view_move_form
 msgid "Show pallets status"
-msgstr "Afișează starea paletelor"
+msgstr "Afișează starea paleților"
