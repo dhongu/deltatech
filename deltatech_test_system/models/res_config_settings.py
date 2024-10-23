@@ -28,7 +28,10 @@ class ResConfigSettings(models.TransientModel):
     def get_neutralization_queries(self, modules):
         # neutralization for each module
         for module in modules:
-            filename = odoo.tools.file_path(f"{module}/data/neutralize.sql")
+            try:
+                filename = odoo.tools.file_path(f"{module}/data/neutralize.sql")
+            except FileNotFoundError:
+                continue
             if filename:
                 with odoo.tools.misc.file_open(filename) as file:
                     yield file.read().strip()
@@ -41,7 +44,9 @@ class ResConfigSettings(models.TransientModel):
         _logger.info("Neutralization finished")
 
     def set_values(self):
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        is_neutralized = get_param("database.is_neutralized", default=False)
         res = super().set_values()
-        if self.database_is_neutralized:
+        if not is_neutralized and self.database_is_neutralized:
             self.neutralize_database()
         return res
