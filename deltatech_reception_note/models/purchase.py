@@ -75,7 +75,8 @@ class PurchaseOrder(models.Model):
                 ("product_id", "=", line.product_id.id),
                 ("product_qty", ">", 0.0),
             ]
-            rfq_lines = self.env["purchase.order.line"].search(domain, order="date_order")
+            rfq_lines = self.env["purchase.order.line"].search(domain)
+            rfq_lines = rfq_lines.sorted(key=lambda unsorted_rfq_line: unsorted_rfq_line.date_order)
             if not rfq_lines:
                 if not self.ignore_quantities:
                     found_errors.append(
