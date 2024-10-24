@@ -24,8 +24,8 @@ addon | version | maintainers | summary | price
 [deltatech_account_restrict_date](deltatech_account_restrict_date/) | 16.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict certain operations depending on date | Free 
 [deltatech_actions](deltatech_actions/) | 16.0.0.0.2 |  | Cleaning and other actions | Free 
 [deltatech_agreement_management](deltatech_agreement_management/) | 16.0.0.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage agreements numbers, date, state | Free 
-[deltatech_alternative](deltatech_alternative/) | 16.0.2.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes | Free 
-[deltatech_alternative_website](deltatech_alternative_website/) | 16.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show alternative code in website | Free 
+[deltatech_alternative](deltatech_alternative/) | 16.0.2.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes | Free 
+[deltatech_alternative_website](deltatech_alternative_website/) | 16.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show alternative code in website | Free 
 [deltatech_auto_reorder_rule](deltatech_auto_reorder_rule/) | 16.0.0.0.1 |  | Auto create reorder rule | Free 
 [deltatech_average_payment_period](deltatech_average_payment_period/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Computes average duration of cash accounting | Free 
 [deltatech_backup_attachment](deltatech_backup_attachment/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Backup attachments for selected file type | Free 
