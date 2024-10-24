@@ -78,10 +78,10 @@ class ProductTemplate(models.Model):
             product_qty = 0
             price_average = 0.0
             groups = self.env["account.invoice.report"].read_group(
-                domain=domain, fields=["product_id", "product_qty", "price_average"], groupby=["product_id"]
+                domain=domain, fields=["product_id", "quantity", "price_average"], groupby=["product_id"]
             )
             for item in groups:
-                product_qty += item["product_qty"]
+                product_qty += item["quantity"]
                 price_average = item["price_average"]
 
             template.invoice_count = price_average
@@ -93,7 +93,7 @@ class ProductTemplate(models.Model):
             products |= template.product_variant_ids
         action["context"] = {
             "group_by": ["date:year"],
-            "measures": ["product_qty", "price_average"],
+            "measures": ["quantity", "price_average"],
             "col_group_by": ["move_type"],
             "group_by_no_leaf": 1,
             "search_disable_custom_filters": True,
@@ -107,15 +107,13 @@ class ProductProduct(models.Model):
 
     def action_view_invoice(self):
         action = self.env["ir.actions.actions"]._for_xml_id("account.action_account_invoice_report_all")
-        action[
-            "context"
-        ] = """{
-             'group_by':['date:year'],
-             'measures': ['product_qty', 'price_average'],
-             'col_group_by': ['move_type'] ,
-              'group_by_no_leaf': 1,
-              'search_disable_custom_filters': True
-             }"""
+        action["context"] = {
+            "group_by": ["date:year"],
+            "measures": ["quantity", "price_average"],
+            "col_group_by": ["move_type"],
+            "group_by_no_leaf": 1,
+            "search_disable_custom_filters": True,
+        }
         #
         action["domain"] = [("move_type", "in", ["out_invoice", "out_refund"]), ("product_id", "in", self.ids)]
         return action
