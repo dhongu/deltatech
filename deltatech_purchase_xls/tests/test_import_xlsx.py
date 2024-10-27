@@ -38,7 +38,7 @@ class TestImportXLS(TransactionCase):
         self.product = self.env["product.product"].create(
             {
                 "name": "Test Product",
-                "type": "product",
+                "is_storable": True,
                 "purchase_method": "purchase",
             }
         )
