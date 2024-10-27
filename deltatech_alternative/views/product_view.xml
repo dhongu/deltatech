@@ -61,7 +61,6 @@
                 </group>
                 <notebook position="inside">
                     <page string="Alternative">
-                        <separator string="Alternative" colspan="4" />
                         <field name="alternative_ids" colspan="4" nolabel="1">
                             <list editable="bottom">
                                 <field name="sequence" widget="handle" />
@@ -69,10 +68,6 @@
                                 <field name="hide" />
                             </list>
                         </field>
-                        <group>
-                            <field name="search_index" />
-                        </group>
-
                     </page>
                 </notebook>
             </field>
