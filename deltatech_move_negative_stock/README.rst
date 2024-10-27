@@ -17,7 +17,7 @@ Replenish negative stock
     :target: https://www.odoo.com/documentation/master/legal/licenses.html
     :alt: License: OPL-1
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_move_negative_stock
+    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_move_negative_stock
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -66,11 +66,11 @@ Usage
    -  The negative stock products will be added with each click on the
       <Get negative products> button.
 
-.. |image1| image:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_move_negative_stock/static/description/op-type.png
-.. |image2| image:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_move_negative_stock/static/description/negative-stock.png
-.. |image3| image:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_move_negative_stock/static/description/picking1.png
-.. |image4| image:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_move_negative_stock/static/description/picking2.png
-.. |image5| image:: https://raw.githubusercontent.com/dhongu/deltatech/17.0/deltatech_move_negative_stock/static/description/picking3.png
+.. |image1| image:: https://raw.githubusercontent.com/dhongu/deltatech/18.0/deltatech_move_negative_stock/static/description/op-type.png
+.. |image2| image:: https://raw.githubusercontent.com/dhongu/deltatech/18.0/deltatech_move_negative_stock/static/description/negative-stock.png
+.. |image3| image:: https://raw.githubusercontent.com/dhongu/deltatech/18.0/deltatech_move_negative_stock/static/description/picking1.png
+.. |image4| image:: https://raw.githubusercontent.com/dhongu/deltatech/18.0/deltatech_move_negative_stock/static/description/picking2.png
+.. |image5| image:: https://raw.githubusercontent.com/dhongu/deltatech/18.0/deltatech_move_negative_stock/static/description/picking3.png
 
 Bug Tracker
 ===========
@@ -100,6 +100,6 @@ Current maintainer:
 
 |maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_move_negative_stock>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_move_negative_stock>`_ project on GitHub.
 
 You are welcome to contribute.
