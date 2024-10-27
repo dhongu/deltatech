@@ -22,7 +22,6 @@
             <field name="name">product.product.alternative.tree</field>
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_product_tree_view" />
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <field name="name" position="after">
                     <!-- <field name="seller_id" /> -->
