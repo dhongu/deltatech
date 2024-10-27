@@ -22,11 +22,14 @@ msgid ""
 "specific.\" role=\"img\" aria-label=\"Values set here are company-"
 "specific.\" groups=\"base.group_multi_company\"/>"
 msgstr ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Valorile setate aici sunt "
+"specifice companiei.\" role=\"img\" aria-label=\"Valorile setate aici sunt "
+"specifice companiei.\" groups=\"base.group_multi_company\"/>"
 
 #. module: deltatech_account
 #: model_terms:ir.ui.view,arch_db:deltatech_account.res_config_settings_view_form
 msgid "<span class=\"o_form_label\">Inter-Banks Transfers</span>"
-msgstr ""
+msgstr "<span class=\"o_form_label\">Transferuri interbancare</span>"
 
 #. module: deltatech_account
 #: model_terms:ir.ui.view,arch_db:deltatech_account.res_config_settings_view_form
@@ -42,7 +45,7 @@ msgstr "Contabilitate"
 #. module: deltatech_account
 #: model:ir.model.fields,field_description:deltatech_account.field_res_config_settings__use_anglo_saxon
 msgid "Anglo-Saxon Accounting"
-msgstr ""
+msgstr "Contabilitate anglo-saxonă"
 
 #. module: deltatech_account
 #: model:ir.model,name:deltatech_account.model_res_config_settings
@@ -69,9 +72,9 @@ msgstr ""
 #. module: deltatech_account
 #: model_terms:ir.ui.view,arch_db:deltatech_account.res_config_settings_view_form
 msgid "Record cost of goods sold in your journal entries"
-msgstr ""
+msgstr "Inregistrează costul vânzărilor în jurnalele tale"
 
 #. module: deltatech_account
 #: model:ir.model.fields,field_description:deltatech_account.field_res_config_settings__transfer_account_id
 msgid "Transfer Account"
-msgstr ""
+msgstr "Cont transfer"
