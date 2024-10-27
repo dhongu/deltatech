@@ -94,7 +94,7 @@
     <record id="action_general_agreement" model="ir.actions.act_window">
         <field name="name">generals Agreements</field>
         <field name="res_model">general.agreement</field>
-        <field name="view_mode">tree,form,pivot,activity</field>
+        <field name="view_mode">list,form,pivot,activity</field>
         <field name="view_id" ref="deltatech_agreement_management.view_general_agreement_tree" />
     </record>
     <menuitem
@@ -115,7 +115,7 @@
     <record id="action_general_agreement_type" model="ir.actions.act_window">
         <field name="name">generals Agreement Types</field>
         <field name="res_model">general.agreement.type</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
     <menuitem
         name="Agreement types"
