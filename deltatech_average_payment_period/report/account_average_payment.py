@@ -22,7 +22,7 @@ class AccountAveragePaymentReport(models.Model):
     move_id = fields.Many2one("account.move", string="Account Move", readonly=True)
     ref = fields.Char("Reference", readonly=True)
     # invoice_id = fields.Many2one('account.invoice',string="Invoice",readonly=True)
-    account_code = fields.Char(string="Account Code",  related="account_id.code", readonly=True)
+    account_code = fields.Char(string="Account Code", related="account_id.code", readonly=True)
     account_id = fields.Many2one("account.account", string="Account", readonly=True)
     debit = fields.Float("Debit", readonly=True)
     credit = fields.Float("Credit", readonly=True)
