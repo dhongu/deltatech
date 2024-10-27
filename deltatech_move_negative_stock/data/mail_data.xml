@@ -1,0 +1,29 @@
+<odoo noupdate="1">
+    <record id="mail_template_negative_stock" model="mail.template">
+        <field name="name">Location: send negative stock</field>
+        <field name="model_id" ref="stock.model_stock_location" />
+        <field name="subject">Negative stock for location {{object.complete_name}}</field>
+        <field name="partner_to">{{object.user_id.partner_id.id}}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 12px;">
+                    Negative quantity products:
+                </p>
+                <p>
+                    <t t-foreach="object.get_negative_products()" t-as="line">
+                        <t t-foreach="line.items()" t-as="prod">
+                            [<t t-out="prod[0].default_code" />]<t
+                                t-out="prod[0].with_context(lang=object.user_id.lang).name"
+                            />:
+                            <t t-out="prod[1]" />
+                            <t t-out="prod[0].with_context(lang=object.user_id.lang).uom_id.name" />
+                            <br />
+                        </t>
+                    </t>
+                </p>
+            </div>
+        </field>
+        <field name="lang">{{object.user_id.partner_id.lang}}</field>
+        <field name="auto_delete" eval="False" />
+    </record>
+</odoo>
