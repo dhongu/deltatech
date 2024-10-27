@@ -10,7 +10,7 @@ class TestStockPicking(TransactionCase):
         self.product = self.env["product.product"].create(
             {
                 "name": "Test Product",
-                "type": "product",
+                "is_storable": True,
                 "default_code": "TEST_PROD",
                 "uom_id": self.ref("uom.product_uom_unit"),  # Replace with appropriate UOM ID
                 "uom_po_id": self.ref("uom.product_uom_unit"),  # Replace with appropriate UOM ID
