@@ -183,7 +183,7 @@ class ImportPurchaseLine(models.TransientModel):
         else:
             uom_id = 1
         values = {
-            "type": "product",
+            "is_storable": True,
             "name": product_name,
             "seller_ids": [(0, 0, seller_values)],
             "uom_po_id": uom_id,
