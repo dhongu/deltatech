@@ -67,7 +67,7 @@ class Inventory(models.Model):
         "product.product",
         string="Products",
         check_company=True,
-        domain="[('type', '=', 'product'), '|', ('company_id', '=', False), ('company_id', '=', company_id)]",
+        domain="[('is_storable', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id)]",
         help="Specify Products to focus your inventory on particular Products.",
     )
     start_empty = fields.Boolean("Empty Inventory", help="Allows to start with an empty inventory.")
@@ -128,14 +128,14 @@ class Inventory(models.Model):
                 )
             )
         inventory_lines = self.line_ids.filtered(
-            lambda l: l.product_id.tracking in ["lot", "serial"]
-            and not l.prod_lot_id
-            and l.theoretical_qty != l.product_qty
+            lambda li: li.product_id.tracking in ["lot", "serial"]
+            and not li.prod_lot_id
+            and li.theoretical_qty != li.product_qty
         )
         lines = self.line_ids.filtered(
-            lambda l: float_compare(l.product_qty, 1, precision_rounding=l.product_uom_id.rounding) > 0
-            and l.product_id.tracking == "serial"
-            and l.prod_lot_id
+            lambda li: float_compare(li.product_qty, 1, precision_rounding=li.product_uom_id.rounding) > 0
+            and li.product_id.tracking == "serial"
+            and li.prod_lot_id
         )
         if inventory_lines and not lines:
             wiz_lines = [
@@ -171,7 +171,8 @@ class Inventory(models.Model):
         if negative:
             raise UserError(
                 _(
-                    "You cannot set a negative product quantity in an inventory line:\n\t%(product_name)s - qty: %(product_qty)s",
+                    "You cannot set a negative product quantity in an inventory line:\n\t"
+                    "%(product_name)s - qty: %(product_qty)s",
                 )
                 % {"product_name": negative.product_id.display_name, "product_qty": negative.product_qty}
             )
@@ -440,7 +441,7 @@ class InventoryLine(models.Model):
         if self.env.context.get("active_model") == "stock.inventory":
             inventory = self.env["stock.inventory"].browse(self.env.context.get("active_id"))
             if inventory.exists() and inventory.location_ids:
-                return f"[('company_id', '=', company_id), ('usage', 'in', ['internal', 'transit']), ('id', 'child_of', {inventory.location_ids.ids})]"
+                return f"[('company_id', '=', company_id), ('usage', 'in', ['internal', 'transit']), ('id', 'child_of', {inventory.location_ids.ids})]"  # noqa E501
         return "[('company_id', '=', company_id), ('usage', 'in', ['internal', 'transit'])]"
 
     @api.model
@@ -448,7 +449,7 @@ class InventoryLine(models.Model):
         if self.env.context.get("active_model") == "stock.inventory":
             inventory = self.env["stock.inventory"].browse(self.env.context.get("active_id"))
             if inventory.exists() and len(inventory.product_ids) > 1:
-                return f"[('type', '=', 'product'), '|', ('company_id', '=', False), ('company_id', '=', company_id), ('id', 'in', {inventory.product_ids.ids})]"
+                return f"[('is_storable', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id), ('id', 'in', {inventory.product_ids.ids})]"  # noqa E501
         return "[('type', '=', 'product'), '|', ('company_id', '=', False), ('company_id', '=', company_id)]"
 
     is_editable = fields.Boolean(help="Technical field to restrict editing.")
@@ -797,7 +798,7 @@ class InventoryLine(models.Model):
         return all_quants
 
     def action_refresh_quantity(self):
-        filtered_lines = self.filtered(lambda l: l.state != "done")
+        filtered_lines = self.filtered(lambda li: li.state != "done")
         for line in filtered_lines:
             if line.outdated:
                 quants = line.get_quants()
