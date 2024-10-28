@@ -8,7 +8,7 @@ class TestSaleOrder(TransactionCase):
         self.product = self.env["product.product"].create(
             {
                 "name": "Test Product",
-                "type": "product",
+                 "is_storable": True,
                 "purchase_ok": True,
                 "list_price": 100.0,  # Sale price
                 "standard_price": 50.0,  # Purchase price
