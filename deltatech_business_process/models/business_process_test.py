@@ -53,7 +53,7 @@ class BusinessProcessTest(models.Model):
     count_steps = fields.Integer(string="Steps", compute="_compute_count_steps")
     completion_test = fields.Float(
         help="Completion test",
-        group_operator="avg",
+        aggregator="avg",
         compute="_compute_completion_test",
         store=True,
         digits=(16, 2),

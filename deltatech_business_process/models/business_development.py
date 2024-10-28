@@ -50,7 +50,7 @@ class BusinessDevelopment(models.Model):
     completion_fs = fields.Float(
         string="Completion FS",
         help="Completion of functional specification",
-        group_operator="avg",
+        aggregator="avg",
     )
     effort_fs = fields.Float(string="Effort FS", help="Effort for functional specification")
 
@@ -63,7 +63,7 @@ class BusinessDevelopment(models.Model):
     date_end_dev = fields.Date(help="End date development")
     completion_dev = fields.Float(
         help="Completion development",
-        group_operator="avg",
+        aggregator="avg",
     )
     effort_dev = fields.Float(string="Effort Dev", help="Effort for development")
 
@@ -76,18 +76,18 @@ class BusinessDevelopment(models.Model):
     date_end_test = fields.Date(help="End date test")
     completion_test = fields.Float(
         help="Completion test",
-        group_operator="avg",
+        aggregator="avg",
     )
     effort_test = fields.Float(string="Effort Test", help="Effort for test")
 
     customer_id = fields.Many2one(string="Customer", comodel_name="res.partner")
 
-    @api.model
-    def create(self, vals):
-        if not vals.get("code", False):
-            vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
-        result = super().create(vals)
-        return result
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get("code", False):
+                vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
+        return super().create(vals_list)
 
     def _compute_display_name(self):
         for development in self:
