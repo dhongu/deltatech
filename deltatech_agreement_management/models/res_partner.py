@@ -20,7 +20,7 @@ class Partner(models.Model):
         action = {
             "name": _("Agreement"),
             "type": "ir.actions.act_window",
-            "view_mode": "tree,form",
+            "view_mode": "list,form",
             "res_model": "general.agreement",
             "domain": [("partner_id", "=", self.id)],
             "context": {"default_partner_id": self.id},
