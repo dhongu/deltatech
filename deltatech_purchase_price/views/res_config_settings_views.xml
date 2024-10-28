@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="11" />
+        <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='matrix_setting_container']" position="inside">
+
+                    <div class="col-12 col-lg-6 o_setting_box" id="purchase_update_product_price">
+                        <div class="o_setting_left_pane">
+                            <field name="purchase_update_product_price" />
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="purchase_update_product_price" />
+                            <div class="text-muted">
+                                The product's supplier price will be allways overwritten with the price from the purchase order.
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="col-12 col-lg-6 o_setting_box" id="purchase_update_list_price">
+                        <div class="o_setting_left_pane">
+                            <field name="purchase_update_list_price" />
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="purchase_update_list_price" />
+                            <div class="text-muted">
+                                The list price will be updated according to trade markup value and the last purchase price.
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="col-12 col-lg-6 o_setting_box" id="purchase_add_supplier_to_product">
+                        <div class="o_setting_left_pane">
+                            <field name="purchase_add_supplier_to_product" />
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="purchase_add_supplier_to_product" />
+                            <div class="text-muted">
+                                The supplier will be added to the product when a purchase order is confirmed.
+                            </div>
+                        </div>
+                    </div>
+                <div class="col-12 col-lg-6 o_setting_box" id="purchase_force_price_at_validation">
+                    <div class="o_setting_left_pane">
+                        <field name="purchase_force_price_at_validation" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="purchase_force_price_at_validation" />
+                        <div class="text-muted">
+                            The price will be added/modified at PO validation and bill validation.
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

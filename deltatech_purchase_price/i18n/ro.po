@@ -1,0 +1,241 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_purchase_price
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-09-23 11:02+0000\n"
+"PO-Revision-Date: 2023-09-23 11:02+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_res_config_settings__purchase_add_supplier_to_product
+msgid "Add supplier to product"
+msgstr "Adaugă furnizorul la produs"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,help:deltatech_purchase_price.field_product_pricelist_item__base
+msgid ""
+"Base price for computation.\n"
+"Sales Price: The base price will be the Sales Price.\n"
+"Cost Price : The base price will be the cost price.\n"
+"Other Pricelist : Computation of the base price based on another Pricelist."
+msgstr ""
+"Preț de bază pentru calcul.\n"
+"Prețul de vânzare: Prețul de bază va fi Prețul de vânzare.\n"
+"Prețul costului: Prețul de bază va fi prețul costului.\n"
+"Altă listă de prețuri: calculul prețului de bază bazat pe o altă listă de prețuri."
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_pricelist_item__base
+msgid "Based on"
+msgstr "Bazat pe"
+
+#. module: deltatech_purchase_price
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_price.product_markup_wizard_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_purchase_price
+#: model:ir.model,name:deltatech_purchase_price.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_product__standard_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_template__standard_price
+msgid "Cost"
+msgstr ""
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,help:deltatech_purchase_price.field_product_product__standard_price
+#: model:ir.model.fields,help:deltatech_purchase_price.field_product_template__standard_price
+msgid ""
+"In Standard Price & AVCO: value of the product (automatically computed in AVCO).\n"
+"        In FIFO: value of the next unit that will leave the stock (automatically computed).\n"
+"        Used to value the product when the purchase cost is not known (e.g. inventory adjustment).\n"
+"        Used to compute margins on sale orders."
+msgstr ""
+"In Prețul Standard & AVCO: valoarea produsului (calculată automat în AVCO).\n"
+"        In FIFO: valoarea următoarei unități care va ieși din stoc (calculată automat).\n"
+"        Folosit pentru a evalua produsul atunci când costul achiziției nu este cunoscut (de ex. ajustarea stocului).\n"
+"        Folosit pentru a calcula marjele pe ordinele de vânzare."
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_product__last_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_template__last_purchase_price
+#: model:ir.model.fields.selection,name:deltatech_purchase_price.selection__product_pricelist_item__base__last_purchase_price
+msgid "Last Purchase Price"
+msgstr "Ultimul preț de achiziție"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__partner_id
+msgid "Partner"
+msgstr "Furnizor"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,help:deltatech_purchase_price.field_product_product__list_price
+#: model:ir.model.fields,help:deltatech_purchase_price.field_product_template__list_price
+msgid "Price at which the product is sold to customers."
+msgstr "Prețul la care produsul este vândut clienților."
+
+#. module: deltatech_purchase_price
+#: model:ir.model,name:deltatech_purchase_price.model_product_pricelist_item
+msgid "Pricelist Rule"
+msgstr "Regula listei de prețuri"
+
+#. module: deltatech_purchase_price
+#: model:ir.model,name:deltatech_purchase_price.model_product_product
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_purchase_price
+#: model:ir.model,name:deltatech_purchase_price.model_product_template
+msgid "Product Template"
+msgstr "Șablon produs"
+
+#. module: deltatech_purchase_price
+#: model:ir.model,name:deltatech_purchase_price.model_purchase_order
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"
+
+#. module: deltatech_purchase_price
+#: model:ir.model,name:deltatech_purchase_price.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Linie comandă de achiziție"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_product__list_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_template__list_price
+msgid "Sales Price"
+msgstr "Preț vânzare"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__selected_line
+msgid "Selected Line"
+msgstr "Liniile selectate"
+
+#. module: deltatech_purchase_price
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_price.product_markup_wizard_form
+msgid "Set"
+msgstr "Aplică"
+
+#. module: deltatech_purchase_price
+#: model:ir.actions.act_window,name:deltatech_purchase_price.action_product_template_markup_wizard
+msgid "Set Trade Markup"
+msgstr "Aplică marja"
+
+#. module: deltatech_purchase_price
+#: model:ir.model,name:deltatech_purchase_price.model_stock_move
+msgid "Stock Move"
+msgstr "Mișcare stoc"
+
+#. module: deltatech_purchase_price
+#: model:ir.model,name:deltatech_purchase_price.model_product_supplierinfo
+msgid "Supplier Pricelist"
+msgstr "Lista de preturi Furnizor"
+
+#. module: deltatech_purchase_price
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_price.res_config_settings_view_form
+msgid ""
+"The list price will be updated according to trade markup value and the last "
+"purchase price."
+msgstr ""
+"Prețul listei va fi actualizat în funcție de valoarea adaosului comercial și"
+" a ultimul preț de achiziție."
+
+#. module: deltatech_purchase_price
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_price.res_config_settings_view_form
+msgid ""
+"The product's supplier price will be allways overwritten with the price from"
+" the purchase order."
+msgstr ""
+"Prețul furnizorului produsului va fi întotdeauna suprascris cu prețul din "
+"comanda de achiziție."
+
+#. module: deltatech_purchase_price
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_price.res_config_settings_view_form
+msgid ""
+"The supplier will be added to the product when a purchase order is "
+"confirmed."
+msgstr ""
+"Furnizorul va fi adăugat la produs atunci când o comandă de achiziție este "
+"confirmată."
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__trade_markup
+msgid "Trade Markup"
+msgstr "Marja"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_res_config_settings__purchase_update_list_price
+msgid "Update list price"
+msgstr "Actualizează prețul de listă"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_res_config_settings__purchase_update_product_price
+msgid "Update product price"
+msgstr "Actualizează prețul produsului"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_res_config_settings__purchase_update_standard_price
+msgid "Update standard price"
+msgstr "Actualizează prețul standard"
+
+#. module: deltatech_purchase_price
+#: code:addons/deltatech_purchase_price/models/product.py:0
+#, python-format
+msgid ""
+"You cannot update the supplier price here. Please edit the supplier info "
+"separately"
+msgstr ""
+"Pretul de achizitie nu se poate modifica in acest ecran. Completeaza pretul "
+"in linia comenzii de achizitie, editeaza produsul sau lista de preturi "
+"furnizor"
+
+#. module: deltatech_purchase_price
+#: model:ir.model,name:deltatech_purchase_price.model_product_markup_wizard
+msgid "product.markup.wizard"
+msgstr ""
