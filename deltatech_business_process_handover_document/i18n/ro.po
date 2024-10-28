@@ -1,0 +1,289 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_business_process_handover_document
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-16 12:19+0000\n"
+"PO-Revision-Date: 2024-09-16 12:19+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+", the Odoo system handover process took place. The details of the process "
+"are as follows:"
+msgstr ""
+", a avut loc procesul de predare-primire a sistemului Odoo. Detaliile "
+"procesului sunt următoarele:"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"<br/>\n"
+"                        <br/>\n"
+"\n"
+"                        By our signatures, we confirm that the Odoo system handover process has been completed as per this document and both parties agree with the details recorded above.\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        <span style=\"font-weight: bold;\">Signatures:</span>"
+msgstr ""
+"<br/>\n"
+"                        <br/>\n"
+"\n"
+"                          Prin semnăturile noastre, confirmăm că procesul de predare-primire a sistemului Odoo a fost finalizat conform prezentului document și că ambele părți sunt de acord cu detaliile consemnate mai sus.\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        <span style=\"font-weight: bold;\">Semnăturile:</span>"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"<br/>\n"
+"                        <span>Attendees:</span>\n"
+"                        <br/>\n"
+"                        <br/>"
+msgstr ""
+"<br/>\n"
+"                        <span>Prezenți:</span>\n"
+"                        <br/>\n"
+"                        <br/>"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"<br/>\n"
+"                <br/>\n"
+"                <span style=\"font-weight: bold;\">Signatures:</span>"
+msgstr ""
+"<br/>\n"
+"                <br/>\n"
+"                <span style=\"font-weight: bold;\">Semnăturile:</span>"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "<span> 0 </span>"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "<span>0</span>"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "According to the previously agreed terms between the parties, today,"
+msgstr "Conform acordului anterior convenit între părți, astăzi,"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Accounts and Access:"
+msgstr "Conturi și Acces:"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Annex 1."
+msgstr "Anexa 1"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"Any issues or anomalies identified during the tests were resolved in "
+"advance."
+msgstr ""
+"Orice probleme sau anomalii identificate în timpul testelor au fost "
+"remediate înprealabil."
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"Any specific access requirements have been noted and implemented according "
+"to specifications."
+msgstr ""
+"Cerințele specifice de acces au fost notate și implementate "
+"conformspecificațiilor."
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model,name:deltatech_business_process_handover_document.model_business_project
+msgid "Business project"
+msgstr "Proiect afaceri"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"Complete system documentation, including user manuals and technical\n"
+"                                        specifications, have been provided and are available for use."
+msgstr ""
+"Documentația completă, accesul la manualele de utilizare și specificațiile "
+"tehnice, au fost furnizate și sunt disponibile pentru utilizare."
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Date:"
+msgstr "Data:"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Documentation and Resources:"
+msgstr "Documentație și Resurse:"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"Functionality tests were carried out to verify the proper functioning of the"
+" system, as detailed in Annex 1."
+msgstr ""
+"Au fost realizate teste de funcționalitate pentru a verifica funcționarea "
+"corectă asistemului, conform detaliilor prezentate în Anexa 1."
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.actions.report,name:deltatech_business_process_handover_document.action_report_verbal_process
+msgid "Handover Document"
+msgstr "Proces verbal"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Handover Report for the Odoo System"
+msgstr "Proces Verbal de Predare-Primire a Sistemului Odoo"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Handover Subject: Odoo System"
+msgstr "Obiectul Predării-Primirii: Sistemul Odoo"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"Internal\n"
+"                                (steps)"
+msgstr ""
+"Intern\n"
+"                                (pasi)"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Process"
+msgstr "Proces"
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__provider_company
+msgid "Provider Company"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.view_business_project_form_inherit
+msgid "Provider Information"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__provider_representative
+msgid "Provider Representative"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__provider_testers
+msgid "Provider Testers"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__recipient_company
+msgid "Recipient Company"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.view_business_project_form_inherit
+msgid "Recipient Information"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__recipient_representative
+msgid "Recipient Representative"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__recipient_testers
+msgid "Recipient Testers"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"Required modules and specific functionalities have been implemented as per\n"
+"                                        the established requirements."
+msgstr ""
+"Modulele și funcționalitățile specifice necesare au fost implementate conform\n"
+"                                        cerințelor stabilite."
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Subsequent Responsibilities:"
+msgstr "Responsabilități ulterioare:"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "System Status:"
+msgstr "Starea Sistemului:"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Tests and Verifications:"
+msgstr "Teste și Verificări:"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "The Odoo system was checked and is in an optimal working condition."
+msgstr ""
+"Sistemul Odoo a fost verificat și se află într-o stare funcțională optimă."
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"The necessary resources for system administration and maintenance have been\n"
+"                                        handed over and are available to the responsible team."
+msgstr ""
+" Resursele necesare pentru administrarea și întreținerea sistemului au fost\n"
+"                                        predate și sunt la dispoziția echipei responsabile."
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"The parties have discussed and clarified the subsequent responsibilities "
+"regarding system administration, maintenance, and updates."
+msgstr ""
+"Părțile implicate au discutat și au clarificat responsabilitățile ulterioare"
+" în ceea ce privește administrarea, întreținerea și actualizarea sistemului."
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"User Acceptance\n"
+"                                (steps)"
+msgstr ""
+"Acceptanța utilizatorului\n"
+"                                (pasi)"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"User accounts and system access have been configured in accordance with "
+"security policies and are functional."
+msgstr ""
+"Conturile de utilizator și accesul la sistem au fost configurate "
+"conformpoliticilor de securitate și sunt funcționale."
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "and testing representative"
+msgstr "și reprezentant testare"
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "represented by"
+msgstr "prin reprezentant"

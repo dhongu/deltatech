@@ -1,0 +1,241 @@
+<?xml version="1.0" ?>
+<odoo>
+    <!-- Define the report template -->
+        <template id="report_bp_document">
+
+            <!-- Call the basic layout template -->
+            <t t-call="web.basic_layout">
+                <div t-attf-style="line-height: 1.5;">
+                    <t t-foreach="docs" t-as="o">
+                        <h4 style="color: blue; text-align: center;">Handover Report for the Odoo System</h4>
+                        <br />
+                        <br />
+                        <span>Date:
+                            <t t-esc="datetime.date.today().strftime('%d-%m-%Y')" />
+                        </span>
+                        <br />
+                        <span>Attendees:</span>
+                        <br />
+                        <br />
+                        <ul>
+                            <li>
+                                <t t-esc="o.provider_company" />
+                                represented by
+                                <t t-esc="o.provider_representative.name" />
+                                and testing representative
+                                <t t-set="total_testers" t-value="len(o.provider_testers)" />
+                                <t t-set="counter" t-value="0" />
+                                <t t-foreach="o.provider_testers" t-as="tester">
+                                    <t t-set="counter" t-value="counter + 1" />
+                                    <t t-esc="tester.name" />
+                                    <t t-if="counter &lt; total_testers">,</t>
+                                    <t t-if="counter == total_testers">.</t>
+                                </t>
+                            </li>
+                            <li>
+                                <t t-esc="o.recipient_company" />
+                                represented by
+                                <t t-esc="o.recipient_representative.name" />
+                                and testing representative
+                                <t t-set="total_testers" t-value="len(o.recipient_testers)" />
+                                <t t-set="counter" t-value="0" />
+                                <t t-foreach="o.recipient_testers" t-as="tester">
+                                    <t t-set="counter" t-value="counter + 1" />
+                                    <t t-esc="tester.name" />
+                                    <t t-if="counter &lt; total_testers">,</t>
+                                    <t t-if="counter == total_testers">.</t>
+                                </t>
+                            </li>
+                        </ul>
+                        <br />
+                        <br />
+                        <h6 style="text-align: center; font-weight: bold;">Handover Subject: Odoo System</h6>
+                        <br />
+                        <br />
+                        <span>According to the previously agreed terms between the parties, today,
+                            <t t-esc="datetime.date.today().strftime('%d-%m-%Y')" />
+                            , the Odoo system handover process took place. The details of the process are as follows:
+                        </span>
+                        <br />
+                        <br />
+                        <ul>
+                            <li>
+                                System Status:
+                                <ul>
+                                    <li>The Odoo system was checked and is in an optimal working condition.</li>
+                                    <li>Required modules and specific functionalities have been implemented as per
+                                        the established requirements.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                Documentation and Resources:
+                                <ul>
+                                    <li>
+                                        Complete system documentation, including user manuals and technical
+                                        specifications, have been provided and are available for use.
+                                    </li>
+                                    <li>
+                                        The necessary resources for system administration and maintenance have been
+                                        handed over and are available to the responsible team.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                Accounts and Access:
+                                <ul>
+                                    <li>
+                                        User accounts and system access have been configured in accordance with security policies and are functional.
+                                    </li>
+                                    <li>
+                                        Any specific access requirements have been noted and implemented according to specifications.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                Tests and Verifications:
+                                <ul>
+                                    <li>
+                                        Functionality tests were carried out to verify the proper functioning of the system, as detailed in Annex 1.
+                                    </li>
+                                    <li>
+                                        Any issues or anomalies identified during the tests were resolved in advance.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                Subsequent Responsibilities:
+                                <ul>
+                                    <li>
+                                        The parties have discussed and clarified the subsequent responsibilities regarding system administration, maintenance, and updates.
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <br />
+                        <br />
+
+                        By our signatures, we confirm that the Odoo system handover process has been completed as per this document and both parties agree with the details recorded above.
+                        <br />
+                        <br />
+                        <span style="font-weight: bold;">Signatures:</span>
+
+                    </t>
+                </div>
+                <div style="page-break-before: always;" />
+
+                <h6 style="text-align: center; font-weight: bold;">Annex 1.</h6>
+
+                <table class="table-bordered" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th
+                            style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                        >
+                                Process
+                            </th>
+                            <th
+                            style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                        >
+                                Internal
+                                (steps)
+                            </th>
+                            <th
+                            style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                        >
+                                User Acceptance
+                                (steps)
+                            </th>
+                        </tr>
+                    </thead>
+                    <t t-foreach="o.process_ids.mapped('area_id').sorted(key=lambda r: r.name)" t-as="area">
+                        <tr style="background-color:#f8f3dd; font-weight:bold; text-align: center;">
+                            <td>
+                                <t t-esc="area.name" />
+                            </td>
+                            <t t-set="total_internal_steps" t-value="0" />
+                            <t t-foreach="o.process_ids" t-as="process">
+                                <!-- Check if the process belongs to the current area -->
+                                <t t-if="process.area_id.id == area.id">
+                                    <!-- Loop through tests in each process -->
+                                    <t t-foreach="process.test_ids" t-as="test">
+                                        <!-- Accumulate steps for tests -->
+                                        <t t-if="test.scope == 'internal' and test.state == 'done'">
+                                            <t
+                                            t-set="total_internal_steps"
+                                            t-value="total_internal_steps + (len(test.test_step_ids or []))"
+                                        />
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <td t-if="total_internal_steps > 0">
+                                <span t-esc="total_internal_steps" />
+                            </td>
+                            <td t-if="total_internal_steps == 0">
+                               <span>0</span> <!-- Invisible character if no steps -->
+                            </td>
+                            <t t-set="total_user_steps" t-value="0" />
+                            <t t-foreach="o.process_ids" t-as="process">
+                                <!-- Check if the process belongs to the current area -->
+                                <t t-if="process.area_id.id == area.id">
+                                    <!-- Loop through tests in each process -->
+                                    <t t-foreach="process.test_ids" t-as="test">
+                                        <!-- Accumulate steps for tests -->
+                                        <t t-if="test.scope == 'user_acceptance' and test.state == 'done'">
+                                            <t
+                                            t-set="total_user_steps"
+                                            t-value="total_user_steps + (len(test.test_step_ids or []))"
+                                        />
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <td t-if="total_user_steps > 0">
+                                <span t-esc="total_user_steps" />
+                            </td>
+                            <td t-if="total_user_steps == 0">
+                               <span>0</span>  <!-- Invisible character if no steps -->
+                            </td>
+                        </tr>
+
+                        <!-- Processes under each Area -->
+                        <t t-foreach="o.process_ids.filtered(lambda p: p.area_id == area)" t-as="process">
+                            <tr>
+                                <td>
+                                    <span t-esc="process.name" />
+                                </td>
+
+                                <!-- Internal Steps -->
+                                <t
+                                t-set="internal_steps"
+                                t-value="sum(len(test.test_step_ids or []) for test in (process.test_ids or []) if test.scope == 'internal' and test.state == 'done')"
+                            />
+                                <td t-if="internal_steps > 0" style="text-align: center;">
+                                    <span t-esc="internal_steps" />
+                                </td>
+                                <td t-if="internal_steps == 0" style="text-align: center;">
+                                   <span> 0 </span><!-- Invisible character if no steps -->
+                                </td>
+
+                                <!-- User Acceptance Steps -->
+                                <t
+                                t-set="user_acceptance_steps"
+                                t-value="sum(len(test.test_step_ids or []) for test in (process.test_ids or []) if test.scope == 'user_acceptance' and test.state == 'done')"
+                            />
+                                <td t-if="user_acceptance_steps > 0" style="text-align: center;">
+                                    <span t-esc="user_acceptance_steps" />
+                                </td>
+                                <td t-if="user_acceptance_steps == 0" style="text-align: center;">
+                                    <span>0</span> <!-- Invisible character if no steps -->
+                                </td>
+                            </tr>
+                        </t>
+                    </t>
+                </table>
+                <br />
+                <br />
+                <span style="font-weight: bold;">Signatures:</span>
+            </t>
+        </template>
+</odoo>

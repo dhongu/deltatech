@@ -1,0 +1,23 @@
+<odoo>
+    <record id="view_business_project_form_inherit" model="ir.ui.view">
+        <field name="name">business.project.form.inherit</field>
+        <field name="model">business.project</field>
+        <field name="inherit_id" ref="deltatech_business_process.view_business_project_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group>
+                    <group string="Provider Information">
+                        <field name="provider_company" />
+                        <field name="provider_representative" />
+                        <field name="provider_testers" widget="many2many_tags" />
+                    </group>
+                    <group string="Recipient Information">
+                        <field name="recipient_company" />
+                        <field name="recipient_representative" />
+                        <field name="recipient_testers" widget="many2many_tags" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
