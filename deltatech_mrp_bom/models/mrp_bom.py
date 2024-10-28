@@ -56,7 +56,7 @@ class MrpBomLine(models.Model):
                 "res_id": self.child_bom_id.id,
                 "domain": "[('id','=', " + str(self.child_bom_id.id) + ")]",
                 "name": _("BOM"),
-                "view_mode": "form,tree",
+                "view_mode": "form,list",
                 "res_model": "mrp.bom",
                 "view_id": False,
                 "target": "current",
