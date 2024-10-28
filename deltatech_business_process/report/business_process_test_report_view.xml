@@ -1,0 +1,93 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_business_process_test_report_tree" model="ir.ui.view">
+        <field name="name">Business process test report</field>
+        <field name="model">business.process.test.report</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="project_id" optional="hide" />
+                <field name="process_id" optional="hide" />
+                <field name="step_id" optional="hide" />
+                <field name="process_test_id" optional="show" />
+                <field name="process_step_test_id" optional="show" />
+                <field name="area_id" />
+                <field name="process_group_id" optional="show" />
+                <field name="responsible_id" optional="show" />
+                <field name="customer_id" optional="show" />
+                <field name="transaction_id" optional="show" />
+                <field name="transaction_type" optional="show" />
+                <field name="role_id" optional="hide" />
+                <field
+                    name="result"
+                    optional="show"
+                    widget="badge"
+                    decoration-danger="result == 'failed'"
+                    decoration-success="result == 'passed'"
+                />
+
+            </list>
+        </field>
+    </record>
+    <record id="view_business__process_test_report_form" model="ir.ui.view">
+        <field name="name">Business process test report</field>
+        <field name="model">business.process.test.report</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="project_id" />
+                        <field name="process_id" />
+                        <field name="step_id" />
+                        <field name="process_test_id" />
+                        <field name="process_step_test_id" />
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_business__process_test_report_pivot" model="ir.ui.view">
+        <field name="name">Business process test report</field>
+        <field name="model">business.process.test.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Business process test report" sample="1">
+                <field name="area_id" type="row" />
+                <field name="result" type="col" />
+            </pivot>
+        </field>
+    </record>
+
+
+    <record id="view_business__process_test_report_filter" model="ir.ui.view">
+        <field name="name">Business process test report</field>
+        <field name="model">business.process.test.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="project_id" />
+                <field name="process_id" />
+                <field name="step_id" />
+                <field name="area_id" />
+                <field name="process_group_id" />
+                <field name="responsible_id" />
+                <field name="customer_id" />
+                <field name="transaction_id" />
+                <field name="scope" />
+                <field name="result" />
+            </search>
+
+        </field>
+    </record>
+
+    <record id="action_business_process_test_report" model="ir.actions.act_window">
+        <field name="name">Business process test report</field>
+        <field name="res_model">business.process.test.report</field>
+        <field name="view_mode">pivot,graph,list,form</field>
+    </record>
+    <menuitem
+        name="Business Tests"
+        id="menu_business_process_test_report"
+        action="action_business_process_test_report"
+        parent="menu_report"
+    />
+
+</odoo>

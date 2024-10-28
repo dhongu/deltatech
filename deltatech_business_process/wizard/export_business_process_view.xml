@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="view_business_process_export_form" model="ir.ui.view">
+            <field name="name">business.process.export</field>
+            <field name="model">business.process.export</field>
+            <field name="arch" type="xml">
+                <form string="Export business process">
+                    <field name="state" invisible="1" />
+                    <field name="name" invisible="1" />
+                    <div invisible="state!='choose'">
+                        <div>
+                    <p>Export selected business processes</p>
+                        <group string="Processes" expand="0" colspan="4" col="4">
+                            <field name="include_process_state" />
+                        </group>
+                        <group string="Tests" expand="0" colspan="4" col="4">
+                            <field name="include_tests" />
+
+                        </group>
+                    </div>
+                    <div>
+                        <group string="Contacts">
+                            <field name="include_responsible" />
+
+
+                            <field name="include_customer_responsible" />
+
+
+                            <field name="include_approved_by" />
+
+                            <field name="include_support" />
+
+                            <field name="include_durations" />
+                        </group>
+                    </div>
+                    </div>
+                    <div invisible="state!='get'">
+
+                        <h2>Export Complete</h2>
+                        <p>Here is the exported file: <field name="data_file" readonly="1" filename="name" /></p>
+
+                    </div>
+
+                    <footer invisible="state!='choose'">
+                        <button name="do_export" string="Apply" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                    <footer invisible="state!='get'">
+                        <button name="do_back" string="Back" type="object" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+     </record>
+
+
+    <record id="action_business_process_export" model="ir.actions.act_window">
+        <field name="name">Export Business Process</field>
+        <field name="res_model">business.process.export</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_business_process" />
+        <field name="binding_view_types">list</field>
+    </record>
+
+
+    <!-- actiune context pentru exportul de business process -->
+
+</odoo>

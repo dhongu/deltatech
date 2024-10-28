@@ -1,0 +1,120 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="view_business_process_step_test_tree" model="ir.ui.view">
+        <field name="name">Process step test</field>
+        <field name="model">business.process.step.test</field>
+        <field name="arch" type="xml">
+            <list sample="1" create="false">
+                <field name="process_id" optional="hide" />
+                <field name="process_test_id" optional="hide" />
+                <field name="step_id" optional="hide" />
+                <field name="name" />
+                <field name="transaction_id" />
+                <field name="description" optional="hide" />
+                <field name="data_used" />
+                <field name="data_result" />
+                <field name="responsible_id" optional="show" />
+                <field name="date_start" optional="show" />
+                <field name="date_end" optional="show" />
+                <field
+                    name="result"
+                    widget="badge"
+                    decoration-danger="result == 'failed'"
+                    decoration-success="result == 'passed'"
+                />
+
+                <field name="feedback_by_id" optional="hide" />
+                <field name="feedback_date" optional="hide" />
+                <field
+                    name="feedback_state"
+                    widget="badge"
+                    decoration-danger="result == 'not_ok'"
+                    decoration-success="result == 'ok'"
+                    optional="hide"
+                />
+
+                <field name="feedback_text" optional="hide" />
+
+            </list>
+        </field>
+    </record>
+
+    <record id="view_business_process_step_test_from" model="ir.ui.view">
+        <field name="name">Process step test</field>
+        <field name="model">business.process.step.test</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box" />
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name" class="oe_inline" />
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Identification">
+                            <field name="process_test_id" />
+                            <field name="step_id" />
+                            <field
+                                name="result"
+                                decoration-danger="result == 'failed'"
+                                decoration-success="result == 'passed'"
+                            />
+
+                        </group>
+                        <group string="Responsible">
+                            <field name="responsible_id" />
+                        </group>
+                        <group string="Transaction">
+                            <field name="transaction_id" />
+                            <field name="description" />
+                        </group>
+                        <group string="Date">
+                            <field name="date_start" />
+                            <field name="date_end" />
+                        </group>
+                        <group string="Data">
+                            <field name="data_used" />
+                            <field name="data_result" />
+                        </group>
+                        <group string="Verification">
+                            <field name="feedback_by_id" />
+                            <field name="feedback_date" />
+                            <field name="feedback_state" />
+                            <field name="feedback_text" />
+                        </group>
+                        <field name="observation" />
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_business_process_step_test_calendar" model="ir.ui.view">
+        <field name="name">Process step test</field>
+        <field name="model">business.process.step.test</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date_start" date_stop="date_end" mode="week" color="process_id" string="Process test">
+                <field name="name" />
+                <field name="process_id" filters="1" />
+            </calendar>
+        </field>
+    </record>
+
+    <record id="action_business_process_step_test" model="ir.actions.act_window">
+        <field name="name">Process step test</field>
+        <field name="res_model">business.process.step.test</field>
+        <field name="view_mode">list,form,pivot,calendar</field>
+    </record>
+    <!--    <menuitem
+            name="Process step test"
+            id="menu_business_process_step_test"
+            action="action_business_process_step_test"
+            sequence="55"
+            parent="menu_report"
+        />-->
+</odoo>

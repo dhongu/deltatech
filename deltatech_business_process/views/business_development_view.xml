@@ -1,0 +1,148 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="view_business_development_tree" model="ir.ui.view">
+        <field name="name">Business development</field>
+        <field name="model">business.development</field>
+        <field name="arch" type="xml">
+            <list sample="1">
+                <field name="code" />
+                <field name="project_id" optional="hide" />
+                <field name="name" />
+                <field
+                    name="approved"
+                    widget="badge"
+                    decoration-danger="approved == 'rejected' "
+                    decoration-success="approved == 'approved'  "
+                />
+                 <field name="state" widget="badge" />
+                <field name="responsible_id" optional="show" />
+                <field name="date_start_fs" optional="show" />
+                <field name="date_end_fs" optional="show" />
+                <field name="completion_fs" optional="show" widget="progressbar" />
+
+                <field name="developer_id" optional="show" />
+                <field name="date_start_dev" optional="show" />
+                <field name="date_end_dev" optional="show" />
+                <field name="completion_dev" optional="show" widget="progressbar" />
+
+                <field name="tester_id" optional="show" />
+                <field name="date_start_test" optional="show" />
+                <field name="date_end_test" optional="show" />
+                <field name="completion_test" optional="show" widget="progressbar" />
+
+
+            </list>
+        </field>
+    </record>
+    <record id="view_business_development_form" model="ir.ui.view">
+        <field name="name">Business development</field>
+        <field name="model">business.development</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        options="{'clickable': '1'}"
+                        statusbar_visible="draft,specification,development,test,production"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name" class="oe_inline" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code" />
+                            <field name="project_id" />
+                        </group>
+                        <group>
+                            <field name="area_id" />
+                            <field name="type_id" />
+                            <field name="approved" />
+                        </group>
+
+                        <group string="Specification">
+                            <field name="responsible_id" />
+                            <field name="date_start_fs" string="Date start" />
+                            <field name="date_end_fs" string="Date end" />
+                            <field name="completion_fs" widget="progressbar" options="{'editable': true}" />
+                        </group>
+                        <group string="Development">
+                            <field name="developer_id" />
+                            <field name="date_start_dev" string="Date start" />
+                            <field name="date_end_dev" string="Date end" />
+                            <field name="completion_dev" widget="progressbar" options="{'editable': true}" />
+                        </group>
+                        <group string="Test ">
+                            <field name="tester_id" />
+                            <field name="date_start_test" string="Date start" />
+                            <field name="date_end_test" string="Date end" />
+                            <field name="completion_test" widget="progressbar" options="{'editable': true}" />
+                        </group>
+
+                    </group>
+                </sheet>
+  <chatter />
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_business_development_filter" model="ir.ui.view">
+        <field name="name">Business development</field>
+        <field name="model">business.development</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]" />
+                <filter string="Specification" name="specification" domain="[('state','=','specification')]" />
+                <filter string="Development" name="development" domain="[('state','=','development')]" />
+
+                <filter string="Approved" name="is_approved" domain="[('approved','=','approved')]" />
+                <filter string="Rejected" name="is_rejected" domain="[('state','=','rejected')]" />
+
+                <field name="code" />
+                <field name="name" />
+                <field name="state" />
+                <field name="area_id" />
+                <field name="type_id" />
+                <field name="approved" />
+                <field name="responsible_id" />
+                <field name="developer_id" />
+                <group>
+                    <filter name="group_area" string="Area" domain="[]" context="{'group_by':'area_id'}" />
+                    <filter
+                        name="group_responsible"
+                        string="Responsible"
+                        domain="[]"
+                        context="{'group_by':'responsible_id'}"
+                    />
+                </group>
+
+            </search>
+        </field>
+
+    </record>
+
+
+    <record id="action_business_development" model="ir.actions.act_window">
+        <field name="name">Business development</field>
+        <field name="res_model">business.development</field>
+        <field name="view_mode">list,form,pivot</field>
+    </record>
+
+    <menuitem
+        name="Developments"
+        id="menu_business_development"
+        action="action_business_development"
+        parent="menu_business_process_main"
+        sequence="30"
+    />
+
+
+</odoo>

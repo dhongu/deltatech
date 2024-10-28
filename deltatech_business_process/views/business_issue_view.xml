@@ -1,0 +1,188 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_business_issue_tree" model="ir.ui.view">
+        <field name="name">Business Issue</field>
+        <field name="model">business.issue</field>
+        <field name="arch" type="xml">
+            <list sample="1">
+                <field name="code" />
+                <field name="name" />
+                <field name="open_date" />
+                <field name="project_id" />
+                <field name="process_id" />
+                <field name="area_id" />
+                <field name="responsible_id" />
+                <field name='state' widget="badge" decoration-success="state == 'running'  " />
+                <field name='severity' widget="badge" />
+                <field name='category' widget="badge" />
+            </list>
+        </field>
+    </record>
+    <record id="view_business_issue_form" model="ir.ui.view">
+        <field name="name">Business Issue</field>
+        <field name="model">business.issue</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="button_send"
+                        type="object"
+                        string="Send"
+                        class="oe_highlight"
+                        invisible="state!='draft'"
+                    />
+                    <button
+                        name="button_in_progress"
+                        type="object"
+                        string="In progress"
+                        class="oe_highlight"
+                        invisible="state not in ('open','reopened')"
+                        groups="deltatech_business_process.group_business_process_responsible"
+                    />
+                    <button
+                        name="button_solved"
+                        type="object"
+                        string="Solved"
+                        class="oe_highlight"
+                        invisible="state!='allocated'"
+                        groups="deltatech_business_process.group_business_process_responsible"
+                    />
+                    <button
+                        name="button_in_test"
+                        type="object"
+                        string="In test"
+                        class="oe_highlight"
+                        invisible="state!='solved'"
+                    />
+                    <button
+                        name="button_done"
+                        type="object"
+                        string="Done"
+                        class="oe_highlight"
+                        invisible="state!='in_test'"
+                    />
+                    <button name="button_reopened" type="object" string="Reopen" invisible="state!='in_test'" />
+                    <button
+                        name="button_draft"
+                        type="object"
+                        string="Set Draft"
+                        groups="deltatech_business_process.group_business_process_manager"
+                        invisible="state not in ('open','allocated','solved','in_test','closed')"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,open,allocated,solved,in_test,closed"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field
+                                name="name"
+                                default_focus="1"
+                                placeholder="Name"
+                                class="oe_inline"
+                                readonly="state!='draft'"
+                            />
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Identification">
+                            <field name="code" readonly="state!='draft'" />
+                            <field name="project_id" readonly="state!='draft'" />
+                            <field name="area_id" readonly="state!='draft'" />
+                            <field name="process_id" readonly="state!='draft'" />
+                            <field name="step_test_id" readonly="state!='draft'" />
+                        </group>
+                        <group string="Type">
+                            <field name="category" />
+                            <field name="severity" />
+                        </group>
+                        <group string="Date">
+                            <field name="open_date" readonly="state!='draft'" />
+                            <field name="date_estimated" required="state=='allocated'" readonly="state!='allocated'" />
+                            <field name="solution_date" readonly="state!='allocated'" />
+                            <field name="closed_date" readonly="state!='in_test'" />
+                        </group>
+                        <group string="Responsible">
+                            <field name="raise_by_id" readonly="state!='draft'" />
+                            <field name="responsible_id" />
+                            <field name="customer_id" />
+                            <field name="closed_by_id" readonly="state!='in_test'" />
+                        </group>
+                        <group string="Description">
+                            <field name="description" nolabel="1" placeholder="Description" readonly="state!='draft'" />
+                        </group>
+                        <group string="Solution">
+                            <field name="solution" nolabel="1" placeholder="Solution" readonly="state!='allocated'" />
+                        </group>
+                    </group>
+                </sheet>
+  <chatter />
+            </form>
+        </field>
+    </record>
+
+     <record id="view_business_issue_filter" model="ir.ui.view">
+        <field name="name">Business Issue</field>
+        <field name="model">business.issue</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code" />
+                <field name="name" />
+                <field name="project_id" />
+                <field name="process_id" />
+                <field name="area_id" />
+                <field name="responsible_id" />
+                <field name='state' />
+                <field name='severity' />
+                <field name='category' />
+            </search>
+        </field>
+    </record>
+
+    <record id="view_business_issue_pivot" model="ir.ui.view">
+        <field name="name">Business Issue</field>
+        <field name="model">business.issue</field>
+        <field name="arch" type="xml">
+            <pivot string="Issues" sample="1">
+                <field name="area_id" type="row" />
+                <field name='severity' type="col" />
+            </pivot>
+        </field>
+    </record>
+
+
+    <record id="action_business_issue" model="ir.actions.act_window">
+        <field name="name">Issues</field>
+        <field name="res_model">business.issue</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+    </record>
+
+    <menuitem
+        name="Issues"
+        id="menu_business_issue"
+        action="action_business_issue"
+        parent="menu_business_process_main"
+        sequence="90"
+    />
+
+    <record id="action_business_issue_report" model="ir.actions.act_window">
+        <field name="name">Issues</field>
+        <field name="res_model">business.issue</field>
+        <field name="view_mode">pivot,graph</field>
+    </record>
+
+
+    <menuitem
+        name="Issues"
+        id="menu_business_issue_report"
+        action="action_business_issue_report"
+        parent="menu_report"
+        sequence="90"
+    />
+
+
+</odoo>

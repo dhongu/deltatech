@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_business_transaction_tree" model="ir.ui.view">
+        <field name="name">Business transaction</field>
+        <field name="model">business.transaction</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code" />
+                <field name="name" />
+                <field name="transaction_type" />
+                <field name="area_id" />
+            </list>
+        </field>
+    </record>
+    <record id="view_business_transaction_form" model="ir.ui.view">
+        <field name="name">Business transaction</field>
+        <field name="model">business.transaction</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="code" />
+                        <field name="name" />
+                    </group>
+                    <group>
+                        <field name="transaction_type" />
+                        <field name="area_id" />
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_business_transaction_filter" model="ir.ui.view">
+        <field name="name">Business transaction</field>
+        <field name="model">business.transaction</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="transaction_type" />
+                <field name="area_id" />
+                <group expand="0" string="More">
+                    <field name="area_id" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_business_transaction" model="ir.actions.act_window">
+        <field name="name">Business transaction</field>
+        <field name="res_model">business.transaction</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        name="Transactions"
+        id="menu_business_transaction"
+        action="action_business_transaction"
+        parent="menu_config"
+    />
+</odoo>
