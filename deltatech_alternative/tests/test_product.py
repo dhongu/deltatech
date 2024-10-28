@@ -20,9 +20,9 @@ class TestProduct(TransactionCase):
         product.alternative_code = "CODE2"
         product = product.save()
 
-        product._name_search("CODE2", domain=None, operator="ilike", limit=100)
+        product.name_search("CODE2", domain=None, operator="ilike", limit=100)
         self.set_param("deltatech_alternative_website.search_index", "False")
-        product._name_search("CODE2", domain=None, operator="ilike", limit=100)
+        product.name_search("CODE2", domain=None, operator="ilike", limit=100)
 
     def test_create_product_product(self):
         product = Form(self.env["product.product"])
@@ -31,6 +31,6 @@ class TestProduct(TransactionCase):
         product.alternative_code = "CODE2"
         product = product.save()
 
-        product._name_search("CODE2", domain=None, operator="ilike", limit=100)
+        product.name_search("CODE2", domain=None, operator="ilike", limit=100)
         self.set_param("deltatech_alternative_website.search_index", "False")
-        product._name_search("CODE2", domain=None, operator="ilike", limit=100)
+        product.name_search("CODE2", domain=None, operator="ilike", limit=100)

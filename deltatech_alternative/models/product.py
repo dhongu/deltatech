@@ -45,8 +45,8 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     @api.model
-    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
-        res = super()._name_search(name, domain=domain, operator=operator, limit=limit, order=order)
+    def name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
+        res = super().name_search(name, domain=domain, operator=operator, limit=limit, order=order)
         get_param = self.env["ir.config_parameter"].sudo().get_param
         res_ids = list(res)
         if name and safe_eval(get_param("alternative.search_name", "False")):
