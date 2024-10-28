@@ -1,0 +1,139 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* terrabit_product_labels
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-12 10:47+0000\n"
+"PO-Revision-Date: 2018-10-12 13:51+0300\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 2.2\n"
+
+#. module: terrabit_product_labels
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_line_barcode_image
+msgid "Barcode Image"
+msgstr ""
+
+#. module: terrabit_product_labels
+#: model_terms:ir.ui.view,arch_db:terrabit_product_labels.product_product_label_view_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: terrabit_product_labels
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_create_uid
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_line_create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: terrabit_product_labels
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_create_date
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_line_create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: terrabit_product_labels
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_customer_id
+msgid "Customer"
+msgstr "Client"
+
+#. module: terrabit_product_labels
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_display_name
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_line_display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: terrabit_product_labels
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_id
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_line_id
+msgid "ID"
+msgstr ""
+
+#. module: terrabit_product_labels
+#: model_terms:ir.ui.view,arch_db:terrabit_product_labels.product_product_label_view_form
+msgid "Label"
+msgstr "Eticheta"
+
+#. module: terrabit_product_labels
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_line_quantity
+msgid "Label Qty"
+msgstr "Număr etichete"
+
+#. module: terrabit_product_labels
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_label_lines
+msgid "Labels"
+msgstr "Etichete"
+
+#. module: terrabit_product_labels
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label___last_update
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_line___last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: terrabit_product_labels
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_line_write_uid
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: terrabit_product_labels
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_line_write_date
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: terrabit_product_labels
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_layout_id
+msgid "Layout"
+msgstr "Format"
+
+#. module: terrabit_product_labels
+#: model_terms:ir.ui.view,arch_db:terrabit_product_labels.product_product_label_view_form
+msgid "Print"
+msgstr "Tipăriți"
+
+#. module: terrabit_product_labels
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_line_product_id
+msgid "Product"
+msgstr "Produs"
+
+#. module: terrabit_product_labels
+#: model:ir.model.fields,field_description:terrabit_product_labels.field_product_product_label_line_label_id
+msgid "Product Label"
+msgstr "Eticheta produsului"
+
+#. module: terrabit_product_labels
+#: model:ir.actions.report,name:terrabit_product_labels.report_product_product_label
+msgid "Product Label - etichete "
+msgstr ""
+
+#. module: terrabit_product_labels
+#: model:ir.actions.report,name:terrabit_product_labels.report_product_product_label_100x50
+msgid "Product Label - etichete 100x50"
+msgstr ""
+
+#. module: terrabit_product_labels
+#: model:ir.actions.report,name:terrabit_product_labels.report_product_product_label_90x9
+msgid "Product Label - etichete 90x9"
+msgstr ""
+
+#. module: terrabit_product_labels
+#: model:ir.actions.report,name:terrabit_product_labels.report_product_product_label_90x9_prn
+msgid "Product Label - etichete 90x9 prn"
+msgstr ""
+
+#. module: terrabit_product_labels
+#: model:ir.actions.act_window,name:terrabit_product_labels.action_action_product_product_label
+#: model:ir.actions.act_window,name:terrabit_product_labels.action_action_product_template_label
+#: model:ir.actions.act_window,name:terrabit_product_labels.action_action_sale_order_product_label
+#: model:ir.actions.act_window,name:terrabit_product_labels.action_action_stock_picking_product_label
+#: model_terms:ir.ui.view,arch_db:terrabit_product_labels.product_product_label_view_form
+msgid "Product Labels"
+msgstr "Etichete de produs"

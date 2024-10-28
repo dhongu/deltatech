@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_product_label_view_form" model="ir.ui.view">
+        <field name="name">product.product.label.view.form</field>
+        <field name="model">product.product.label</field>
+        <field name="arch" type="xml">
+            <form string="Product Labels">
+                <separator string="Label" />
+                <group>
+                    <group>
+                        <field name="warehouse_id" options="{'no_create_edit': True}" />
+                        <field
+                            name="layout_id"
+                            domain="[('model', '=', 'product.product.label')]"
+                            context="{'default_model':'product.product.label'}"
+                        />
+                        <field name="print_only_lots" />
+                    </group>
+                    <group name="location">
+                        <field name="use_location" />
+                        <field name="location_id" invisible="use_location == False" />
+                    </group>
+                </group>
+                <field name="label_lines">
+                    <list editable="bottom">
+                        <field name="product_id" />
+                        <field name="quantity" />
+                        <field name="lot" optional="hide" />
+                    </list>
+                </field>
+                <footer>
+                    <button string="Print" name="print_labels" type="object" default_focus="1" class="btn-primary" />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <!--
+        <record id="product_product_label_view_action" model="ir.actions.act_window">
+            <field name="name">Product Labels</field>
+            <field name="res_model">product.product.label</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="product_product_label_view_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="product_product_action_product_product_label" model="ir.values">
+            <field name="model_id" ref="product.model_product_product"/>
+            <field name="name">Product Labels</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' +str(ref('product_product_label_view_action'))"/>
+            <field name="key">action</field>
+            <field name="model">product.product</field>
+        </record>
+        -->
+    <record id="action_action_product_template_label" model="ir.actions.act_window">
+        <field name="name">Product Labels</field>
+        <field name="res_model">product.product.label</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="product.model_product_template" />
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list,form</field>
+    </record>
+    <!--        <act_window-->
+    <!--            id="action_action_product_template_label"-->
+    <!--            name="Product Labels"-->
+    <!--            res_model="product.product.label"-->
+    <!--            binding_model="product.template"-->
+    <!--            binding_view_types="tree,form"-->
+    <!--            target="new"-->
+    <!--            binding_type="report"-->
+    <!--        />-->
+<!--    <act_window-->
+<!--        id="action_action_product_product_label"-->
+<!--        name="Product Labels"-->
+<!--        res_model="product.product.label"-->
+<!--        binding_model="product.product"-->
+<!--        binding_type="report"-->
+<!--        view_mode="form"-->
+<!--        target="new"-->
+<!--    />-->
+    <record id="action_action_product_product_label" model="ir.actions.act_window">
+        <field name="name">Product Labels</field>
+        <field name="res_model">product.product.label</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="product.model_product_product" />
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list,form</field>
+    </record>
+<!--    <act_window-->
+<!--        id="action_action_sale_order_product_label"-->
+<!--        name="Product Labels"-->
+<!--        res_model="product.product.label"-->
+<!--        binding_model="sale.order"-->
+<!--        binding_type="report"-->
+<!--        view_mode="form"-->
+<!--        target="new"-->
+<!--    />-->
+    <record id="action_action_sale_order_product_label" model="ir.actions.act_window">
+        <field name="name">Product Labels</field>
+        <field name="res_model">product.product.label</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="sale.model_sale_order" />
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list,form</field>
+    </record>
+<!--    <act_window-->
+<!--        id="action_action_stock_picking_product_label"-->
+<!--        name="Product Labels"-->
+<!--        res_model="product.product.label"-->
+<!--        binding_model="stock.picking"-->
+<!--        binding_type="report"-->
+<!--        view_mode="form"-->
+<!--        target="new"-->
+<!--    />-->
+    <record id="action_action_stock_picking_product_label" model="ir.actions.act_window">
+        <field name="name">Product Labels</field>
+        <field name="res_model">product.product.label</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="stock.model_stock_picking" />
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list,form</field>
+    </record>
+</odoo>
