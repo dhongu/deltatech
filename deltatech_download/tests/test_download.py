@@ -16,7 +16,7 @@ class TestWizardDownloadFile(TransactionCase):
     def test_do_download_file(self):
         action = self.wizard.do_download_file()
 
-        expected_url = f"/web/content?model=wizard.download.file&download=True&field=data_file&id={self.wizard.id}&filename=test_file.txt"
+        expected_url = f"/web/content?model=wizard.download.file&download=True&field=data_file&id={self.wizard.id}&filename=test_file.txt"  # noq E501
 
         self.assertEqual(action["type"], "ir.actions.act_url")
         self.assertEqual(action["url"], expected_url)
