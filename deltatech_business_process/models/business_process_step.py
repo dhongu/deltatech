@@ -25,7 +25,7 @@ class BusinessProcessStep(models.Model):
     process_id = fields.Many2one(
         string="Process",
         comodel_name="business.process",
-        required=True,
+        # required=True,
         ondelete="cascade",
     )
     area_id = fields.Many2one(related="process_id.area_id", store=True)
