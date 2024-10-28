@@ -44,12 +44,12 @@ class BusinessProject(models.Model):
     team_member_ids = fields.Many2many(string="Team members", comodel_name="res.partner")
     total_project_duration = fields.Float(string="Total project duration")
 
-    @api.model
-    def create(self, vals):
-        if not vals.get("code", False):
-            vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
-        result = super().create(vals)
-        return result
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get("code", False):
+                vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
+        return super().create(vals)
 
     def _compute_display_name(self):
         for project in self:

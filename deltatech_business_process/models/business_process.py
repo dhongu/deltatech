@@ -102,7 +102,7 @@ class BusinessProcess(models.Model):
     completion_bbp = fields.Float(
         string="Completion",
         help="Completion business blueprint",
-        group_operator="avg",
+        aggregator="avg",
     )
     approved_id = fields.Many2one(
         string="Approved by",
@@ -162,14 +162,16 @@ class BusinessProcess(models.Model):
     )
     module_type = fields.Selection([("standard", "Standard"), ("custom", "Custom")], string="Module type")
 
-    @api.model
-    def create(self, vals):
-        if not vals.get("code", False):
-            vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
-        result = super().create(vals)
-        if result.area_id.responsible_id and not result.responsible_id:
-            result.responsible_id = result.area_id.responsible_id
-        return result
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get("code", False):
+                vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
+        results = super().create(vals_list)
+        for result in results:
+            if result.area_id.responsible_id and not result.responsible_id:
+                result.responsible_id = result.area_id.responsible_id
+        return results
 
     def _compute_display_name(self):
         for process in self:

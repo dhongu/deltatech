@@ -75,7 +75,7 @@ class BusinessProcessTestReport(models.Model):
         default="other",
         readonly=True,
     )
-    completion_test = fields.Float(help="Completion test", group_operator="avg", readonly=True, digits=(16, 2))
+    completion_test = fields.Float(help="Completion test", aggregator="avg", readonly=True, digits=(16, 2))
 
     result = fields.Selection(
         [
