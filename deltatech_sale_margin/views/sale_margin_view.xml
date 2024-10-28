@@ -58,7 +58,7 @@
 
 
       <record model="ir.ui.view" id="sale_margin_sale_order_line_form">
-          <field name="name">sale.order.line.tree.margin.view.form</field>
+          <field name="name">sale.order.line.list.margin.view.form</field>
           <field name="model">sale.order</field>
           <field name="priority">150</field>
           <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line_form" />
