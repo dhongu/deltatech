@@ -52,7 +52,8 @@ class SmsSms(models.AbstractModel):
         )
 
         for iap_state, results_group in tools.groupby(results, key=lambda result: result["state"]):
-            sms_sudo = all_sms_sudo.filtered(lambda s: s.uuid in {result["uuid"] for result in results_group})
+            uuids = list(result["uuid"] for result in results_group)
+            sms_sudo = all_sms_sudo.filtered(lambda s, list_uuids=list(uuids): s.uuid in list_uuids)
             if success_state := self.IAP_TO_SMS_STATE_SUCCESS.get(iap_state):
                 sms_sudo.sms_tracker_id._action_update_from_sms_state(success_state)
                 to_delete = {"to_delete": True} if unlink_sent else {}
