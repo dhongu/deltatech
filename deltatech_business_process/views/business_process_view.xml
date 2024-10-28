@@ -1,0 +1,404 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="view_business_process_tree" model="ir.ui.view">
+        <field name="name">Business process</field>
+        <field name="model">business.process</field>
+        <field name="arch" type="xml">
+            <list sample="1" default_order="code">
+                <field name="code" />
+                <field name="name" />
+                <field name="project_id" optional="hide" />
+                <field name="responsible_id" optional="show" />
+                <field name="area_id" optional="show" />
+                <field name="process_group_id" optional="show" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-danger="state == 'draft'"
+                    decoration-info="state == 'design'"
+                    decoration-warning="state == 'test'"
+                    decoration-success="state in ['ready','production']"
+                />
+
+                <field name="date_start_bbp" optional="hide" />
+                <field name="date_end_bbp" optional="hide" />
+                <field name="completion_bbp" widget="progressbar" optional="hide" />
+                <field name="duration_for_completion" optional="hide" widget="float_time" />
+                <field name="configuration_duration" optional="hide" widget="float_time" />
+                <field name="instructing_duration" optional="hide" widget="float_time" />
+                <field name="testing_duration" optional="hide" widget="float_time" />
+                <field name="data_migration_duration" optional="hide" widget="float_time" />
+                <field
+                    name="status_internal_test"
+                    widget="badge"
+                    optional="hide"
+                    decoration-danger="status_internal_test == 'draft'"
+                    decoration-info="status_internal_test == 'run'"
+                    decoration-warning="status_internal_test == 'wait'"
+                    decoration-success="status_internal_test == 'done'"
+                />
+                <field
+                    name="status_integration_test"
+                    widget="badge"
+                    optional="hide"
+                    decoration-danger="status_integration_test == 'draft'"
+                    decoration-info="status_integration_test == 'run'"
+                    decoration-warning="status_integration_test == 'wait'"
+                    decoration-success="status_integration_test == 'done'"
+                />
+                <field
+                    name="status_user_acceptance_test"
+                    widget="badge"
+                    optional="hide"
+                    decoration-danger="status_user_acceptance_test == 'draft'"
+                    decoration-info="status_user_acceptance_test == 'run'"
+                    decoration-warning="status_user_acceptance_test == 'wait'"
+                    decoration-success="status_user_acceptance_test == 'done'"
+                />
+                <field name="implementation_stage" optional="hide" />
+
+            </list>
+        </field>
+    </record>
+    <record id="view_business_process_form" model="ir.ui.view">
+        <field name="name">Business process</field>
+        <field name="model">business.process</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="button_start_design"
+                        type="object"
+                        string="Start Design"
+                        class="oe_highlight"
+                        invisible="state!='draft'"
+                        groups="deltatech_business_process.group_business_process_responsible"
+                    />
+                    <button
+                        name="button_start_test"
+                        type="object"
+                        string="Start Test"
+                        class="oe_highlight"
+                        invisible="state!='design'"
+                        groups="deltatech_business_process.group_business_process_responsible"
+                    />
+                    <button
+                        name="button_end_test"
+                        type="object"
+                        string="End Testing"
+                        class="oe_highlight"
+                        invisible="state!='test'"
+                        groups="deltatech_business_process.group_business_process_responsible"
+                    />
+                    <button
+                        name="button_go_live"
+                        type="object"
+                        string="Go live"
+                        class="oe_highlight"
+                        invisible="state!='ready'"
+                    />
+                    <button
+                        name="button_draft"
+                        type="object"
+                        string="Reset to Draft"
+                        invisible="state not in ('design','test','ready')"
+                    />
+<!--                    <button-->
+<!--                        name="start_user_acceptance_test"-->
+<!--                        type="object"-->
+<!--                        string="Start Acceptance Test"-->
+<!--                        invisible="state not in ('design','test','ready')"-->
+<!--                        />-->
+                    <field name="state" widget="statusbar" statusbar_visible="draft,design,test,ready,production" />
+
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_view_steps" icon="fa-cog">
+                            <field name="count_steps" widget="statinfo" string="Steps" />
+                        </button>
+                        <button class="oe_stat_button" type="object" name="action_view_tests" icon="fa-stethoscope">
+                            <field name="count_tests" widget="statinfo" string="Tests" />
+                        </button>
+                        <button
+                            class="oe_start_button"
+                            type="object"
+                            name="action_view_acceptance_tests"
+                            icon="fa-stethoscope"
+                        >
+                            <field name="count_acceptance_tests" widget="statinfo" string="Acceptance Tests" />
+                        </button>
+                        <button class="oe_stat_button" type="object" name="action_view_developments" icon="fa-code">
+                            <field name="count_developments" widget="statinfo" string="Developments" />
+                        </button>
+
+                        <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-file-text-o">
+                            <field string="Documents" name="doc_count" widget="statinfo" />
+                        </button>
+                    </div>
+
+
+                    <div>
+                        <h1 class="col-12">
+                            <field name="name" default_focus="1" placeholder="Name" readonly="state!='draft'" />
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Identification">
+                            <field name="code" readonly="state!='draft'" />
+                            <field name="project_id" readonly="state!='draft'" />
+                        </group>
+
+                        <group string="Business process">
+                            <field name="area_id" readonly="state!='draft'" />
+                            <field name="process_group_id" readonly="state!='draft'" />
+                        </group>
+                        <!--                        <group string="Tests Status">
+                                                    <field name="status_internal_test" />
+                                                    <field name="status_integration_test" />
+                                                    <field name="status_user_acceptance_test" />
+                                                </group>-->
+
+                        <group string="Implementation">
+                            <field name="implementation_stage" />
+                            <field name="module_type" />
+                        </group>
+
+                        <group string="Status">
+                            <field
+                                name="state"
+                                widget="badge"
+                                decoration-danger="state == 'draft'"
+                                decoration-info="state == 'design'"
+                                decoration-warning="state == 'test'"
+                                decoration-success="state in ['ready','production']"
+                            />
+                            <field
+                                name="status_user_acceptance_test"
+                                widget="badge"
+                                decoration-danger="status_user_acceptance_test == 'draft'"
+                                decoration-info="status_user_acceptance_test == 'run'"
+                                decoration-warning="status_user_acceptance_test == 'wait'"
+                                decoration-success="status_user_acceptance_test == 'done'"
+                            />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Process steps" name="steps">
+                            <field
+                                name="step_ids"
+                                widget="section_and_note_one2many"
+                                mode="tree,kanban"
+                                readonly="state not in ('draft','design')"
+                            >
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="code" />
+                                    <field name="process_id" invisible="1" />
+                                    <field name="state" invisible="1" />
+                                    <field name="name" />
+                                    <field name="transaction_id" optional="show" />
+                                    <field name="transaction_type" optional="hide" />
+                                    <field name="responsible_id" />
+                                    <field name="development_ids" widget="many2many_tags" optional="hide" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Description" name="description">
+                            <label for="description" string="Description" />
+                            <field name="description" />
+                        </page>
+                        <page string="Responsible">
+                            <group>
+                                <group string="Responsible">
+                                    <field name="responsible_id" readonly="state not in ('draft','design')" />
+                                    <field name="support_id" readonly="state not in ('draft','design')" />
+                                    <field name="customer_id" readonly="state not in ('draft','design')" />
+                                    <field name="approved_id" readonly="state not in ('draft','design')" />
+                                </group>
+                            </group>
+
+
+                        </page>
+                        <page string="Duration">
+                            <group>
+                                <group string="Business Blueprint">
+                                    <field name="date_start_bbp" readonly="state not in ('draft','design')" />
+                                    <field name="date_end_bbp" readonly="state not in ('draft','design')" />
+                                    <field
+                                        name="completion_bbp"
+                                        widget="progressbar"
+                                        options="{'editable': true}"
+                                        readonly="state not in ('draft','design')"
+                                    />
+                                </group>
+                                <group string="Duration of process">
+                                    <field name="configuration_duration" widget="float_time" />
+                                    <field name="instructing_duration" widget="float_time" />
+                                    <field name="data_migration_duration" widget="float_time" />
+                                    <field name="testing_duration" widget="float_time" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Sources  &amp; Destinations">
+                            <separator string="Source process" />
+                            <field name="source_process_ids" />
+                            <separator string="Destination process" />
+                            <field name="destination_process_ids" />
+                        </page>
+                    </notebook>
+                </sheet>
+  <chatter />
+            </form>
+        </field>
+    </record>
+
+    <record id="view_business_process_calendar" model="ir.ui.view">
+        <field name="name">Process test</field>
+        <field name="model">business.process</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date_start_bbp" date_stop="date_end_bbp" mode="week" color="area_id" string="Process">
+                <field name="name" />
+                <field name="area_id" filters="1" />
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_business_process_filter" model="ir.ui.view">
+        <field name="name">Business process</field>
+        <field name="model">business.process</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code" />
+                <field name="name" />
+                <field name="project_id" />
+                <field name="area_id" />
+                <field name="responsible_id" />
+                <field name="implementation_stage" />
+                <field name="module_type" />
+                <group>
+                    <filter name="group_area" string="Area" domain="[]" context="{'group_by':'area_id'}" />
+                    <filter
+                        name="group_process_group"
+                        string="Process Group"
+                        domain="[]"
+                        context="{'group_by':'process_group_id'}"
+                    />
+                    <filter
+                        name="group_responsible"
+                        string="Responsible"
+                        domain="[]"
+                        context="{'group_by':'responsible_id'}"
+                    />
+                    <filter
+                        name="group_state"
+                        string="Implementation state"
+                        domain="[]"
+                        context="{'group_by':'state'}"
+                    />
+                </group>
+                <searchpanel>
+                    <field name="area_id" select="one" enable_counters="1" />
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="view_business_process_kanban" model="ir.ui.view">
+        <field name="name">Business process</field>
+        <field name="model">business.process</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="id" />
+                <field name="name" />
+                <field name="code" />
+                <field name="count_steps" />
+                <field name="count_tests" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name" />
+                                </strong>
+                            </div>
+                            <div class="o_kanban_record_bottom mt-3">
+                                <div class="oe_kanban_bottom_left">
+                                    <div>
+                                        <a name="action_view_steps" type="object">
+                                            <div>
+                                                <span class="o_value">
+                                                    <t t-esc="record.count_steps.value" />
+                                                </span>
+                                                <span class="o_label">Steps</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a name="action_view_tests" type="object">
+                                            <div>
+                                                <span class="o_value">
+                                                    <t t-esc="record.count_tests.value" />
+                                                </span>
+                                                <span class="o_label">Tests</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <field name="activity_ids" widget="kanban_activity" />
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="action_business_process" model="ir.actions.act_window">
+        <field name="name">Business process</field>
+        <field name="res_model">business.process</field>
+        <field name="view_mode">list,kanban,form,pivot,calendar</field>
+    </record>
+
+    <menuitem
+        name="Business Process"
+        id="menu_business_process"
+        action="action_business_process"
+        parent="menu_business_process_main"
+        sequence="20"
+    />
+
+
+    <record id="action_start_internal_test" model="ir.actions.server">
+        <field name="name">Start Internal Test</field>
+        <field name="model_id" ref="model_business_process" />
+        <field name="state">code</field>
+        <field name="code">action = records.start_internal_test()</field>
+        <field name="binding_model_id" ref="model_business_process" />
+    </record>
+
+
+    <record id="action_start_integration_test" model="ir.actions.server">
+        <field name="name">Start Integration Test</field>
+        <field name="model_id" ref="model_business_process" />
+        <field name="state">code</field>
+        <field name="code">action = records.start_integration_test()</field>
+        <field name="binding_model_id" ref="model_business_process" />
+    </record>
+
+    <record id="action_start_user_acceptance_test" model="ir.actions.server">
+        <field name="name">Start User Acceptance Test</field>
+        <field name="model_id" ref="model_business_process" />
+        <field name="state">code</field>
+        <field name="code">action = records.start_user_acceptance_test()</field>
+        <field name="binding_model_id" ref="model_business_process" />
+    </record>
+
+</odoo>

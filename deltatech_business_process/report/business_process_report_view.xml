@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_business_process_report_tree" model="ir.ui.view">
+        <field name="name">Business process report</field>
+        <field name="model">business.process.report</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="project_id" optional="hide" />
+                <field name="process_id" optional="show" />
+                <field name="step_id" />
+                <field name="area_id" />
+                <field name="process_group_id" optional="show" />
+                <field name="responsible_id" optional="show" />
+                <field name="customer_id" optional="show" />
+                <field name="transaction_id" optional="show" />
+                <field name="transaction_type" optional="show" />
+                <field name="role_id" optional="hide" />
+            </list>
+        </field>
+    </record>
+    <record id="view_business__process_report_form" model="ir.ui.view">
+        <field name="name">Business process report</field>
+        <field name="model">business.process.report</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="project_id" />
+                        <field name="process_id" />
+                        <field name="step_id" />
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_business__process_report_pivot" model="ir.ui.view">
+        <field name="name">Business process report</field>
+        <field name="model">business.process.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Business Process Report" sample="1">
+                <field name="project_id" type="row" />
+                <field name="area_id" type="row" />
+                <field name="state" type="col" />
+            </pivot>
+        </field>
+    </record>
+
+
+    <record id="view_business__process_report_filter" model="ir.ui.view">
+        <field name="name">Business process report</field>
+        <field name="model">business.process.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="project_id" />
+                <field name="process_id" />
+                <field name="step_id" />
+                <field name="area_id" />
+                <field name="process_group_id" />
+                <field name="responsible_id" />
+                <field name="customer_id" />
+                <field name="transaction_id" />
+
+                <group>
+                    <filter name="group_area" string="Area" domain="[]" context="{'group_by':'area_id'}" />
+                    <filter name="group_process" string="Process" domain="[]" context="{'group_by':'process_id'}" />
+                </group>
+            </search>
+
+        </field>
+    </record>
+
+    <record id="action_business_process_report" model="ir.actions.act_window">
+        <field name="name">Business Processes Report</field>
+        <field name="res_model">business.process.report</field>
+        <field name="view_mode">pivot,list,graph</field>
+    </record>
+    <menuitem
+        name="Business Processes"
+        id="menu_business_process_report"
+        action="action_business_process_report"
+        parent="menu_report"
+    />
+
+</odoo>

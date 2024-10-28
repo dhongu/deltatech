@@ -1,0 +1,214 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_business_process_test_tree" model="ir.ui.view">
+        <field name="name">Process test</field>
+        <field name="model">business.process.test</field>
+        <field name="arch" type="xml">
+            <list multi_edit="1" sample="1">
+                <field name="name" />
+                <field name="process_id" />
+                <field name="tester_id" />
+                <field name="date_start" optional="show" />
+                <field name="date_end" optional="show" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-success="state == 'done'   "
+                    decoration-info="state == 'run'"
+                />
+                <field name="scope" widget="badge" />
+                <field name="completion_test" widget="progressbar" optional="show" />
+            </list>
+        </field>
+    </record>
+    <record id="view_business_process_test_form" model="ir.ui.view">
+        <field name="name">Process test</field>
+        <field name="model">business.process.test</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+
+                    <button
+                        name="action_run"
+                        class="oe_highlight"
+                        type="object"
+                        string="Run"
+                        invisible="state!='draft'"
+                    />
+                    <button
+                        name="action_done"
+                        class="oe_highlight"
+                        type="object"
+                        string="Done"
+                        invisible="state!='run'"
+                    />
+                    <button name="action_wait" type="object" string="Wait" invisible="state!='run'" />
+                    <button name="action_draft" type="object" string="Draft" invisible="state!='done'" />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        options="{'clickable': '1'}"
+                        statusbar_visible="draft,run,done"
+                    />
+
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_view_test_steps" icon="fa-cog">
+                            <field name="count_steps" widget="statinfo" string="Test Steps" />
+                        </button>
+
+                        <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-file-text-o">
+                            <field string="Documents" name="doc_count" widget="statinfo" />
+                        </button>
+                    </div>
+
+
+                    <div class="oe_title">
+                        <h1>
+                            <field
+                                name="name"
+                                default_focus="1"
+                                placeholder="Name"
+                                class="oe_inline"
+                                readonly="state=='done'"
+                            />
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Process">
+                            <field name="process_id" readonly="state=='done'" />
+                            <field name="tester_id" readonly="state=='done'" />
+                        </group>
+                        <group string="Scope">
+                            <field name="scope" />
+                        </group>
+                        <group string="Date">
+                            <field name="date_start" readonly="state=='done'" />
+                            <field name="date_end" readonly="state=='done'" />
+                            <field name="completion_test" widget="progressbar" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Process steps" name="steps">
+                            <field name="test_step_ids" widget="section_and_note_one2many" mode="tree,kanban">
+                                <list
+                                    create="false"
+                                    editable="bottom"
+                                    delete="false"
+                                    decoration-danger="result == 'failed'"
+                                    decoration-success="result == 'passed'"
+                                >
+                                    <field name="step_id" invisible="1" />
+                                    <field name="name" />
+                                    <field name="transaction_id" />
+                                    <field name="description" optional="hide" />
+                                    <field name="data_used" />
+                                    <field name="data_result" />
+                                    <field name="responsible_id" />
+                                    <field name="date_start" optional="show" />
+                                    <field name="date_end" optional="show" />
+                                    <field name="test_started" readonly="1" optional="hide" />
+                                    <field name="result" invisible="test_started==False" />
+
+                                    <button
+                                        name="action_view_issue"
+                                        aria-label="Issue"
+                                        invisible="result!='failed'"
+                                        context="{'default_step_id': step_id}"
+                                        title="Issue"
+                                        type="object"
+                                        icon="fa-exclamation-triangle"
+                                    />
+
+                                    <field name="observation" optional="hide" />
+
+                                    <field name="feedback_by_id" optional="hide" />
+                                    <field name="feedback_date" optional="hide" />
+                                    <field name="feedback_state" optional="hide" />
+                                    <field name="feedback_text" optional="hide" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+  <chatter />
+            </form>
+        </field>
+    </record>
+
+    <record id="view_business_process_test_calendar" model="ir.ui.view">
+        <field name="name">Process test</field>
+        <field name="model">business.process.test</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date_start" date_stop="date_end" mode="week" color="process_id" string="Process test">
+                <field name="name" />
+                <field name="process_id" filters="1" />
+            </calendar>
+        </field>
+    </record>
+
+
+    <record id="view_business_process_test_pivot" model="ir.ui.view">
+        <field name="name">Process test</field>
+        <field name="model">business.process.test</field>
+        <field name="arch" type="xml">
+            <pivot string="Process test" sample="1">
+                <field name="process_id" type="row" />
+                <field name="completion_test" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_business_process_test_graph" model="ir.ui.view">
+        <field name="name">Process test</field>
+        <field name="model">business.process.test</field>
+        <field name="arch" type="xml">
+            <graph string="Process test" sample="1">
+                <field name="process_id" type="row" />
+                <field name="completion_test" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+
+    <record id="view_business_process_test_filter" model="ir.ui.view">
+        <field name="name">Process test</field>
+        <field name="model">business.process.test</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="process_id" />
+                <field name="tester_id" />
+                <field name="state" />
+                <field name="scope" />
+                <group>
+                    <filter name="group_state" string="state" domain="[]" context="{'group_by':'state'}" />
+                    <filter name="group_scope" string="scope" domain="[]" context="{'group_by':'scope'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_business_process_test" model="ir.actions.act_window">
+        <field name="name">Process Tests</field>
+        <field name="res_model">business.process.test</field>
+        <field name="view_mode">list,form,calendar,pivot,graph</field>
+    </record>
+    <record id="business_process_test_action_form" model="ir.actions.act_window">
+        <field name="name">Business Process Test Form</field>
+        <field name="res_model">business.process.test</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_business_process_test_form" />
+    </record>
+    <menuitem
+        name="Process Tests"
+        id="menu_business_process_test"
+        action="action_business_process_test"
+        sequence="50"
+        parent="menu_business_process_main"
+    />
+
+
+</odoo>
