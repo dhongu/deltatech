@@ -130,9 +130,9 @@ class Partner(models.Model):
     def name_search(self, name="", args=None, operator="ilike", limit=100):
         res_vat = []
         if name and len(name) > 2:
-            partner_ids = self.search([("vat", "ilike", name), ("is_company", "=", True)], limit=10)
+            partner_ids = self.search([("vat", operator, name), ("is_company", "=", True)], limit=10)
             if partner_ids:
-                res_vat = partner_ids.name_get()
+                res_vat = [(record.id, record.display_name) for record in partner_ids]
         res = super().name_search(name, args, operator=operator, limit=limit) + res_vat
         return res
 
