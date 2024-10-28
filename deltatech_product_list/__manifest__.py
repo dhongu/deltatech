@@ -1,0 +1,25 @@
+# ©  2008-2019 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+
+{
+    "name": "Product List",
+    "summary": "Define products lists",
+    "version": "180.1.0.1",
+    "category": "Sale",
+    "author": "Terrabit, Dorin Hongu",
+    "license": "LGPL-3",
+    "company": "Terrabit",
+    "maintainer": "Terrabit",
+    "website": "https://www.terrabit.ro",
+    "depends": ["product", "sale"],
+    "data": [
+        "views/product_list_view.xml",
+        "security/ir.model.access.csv",
+        "security/security.xml",
+    ],
+    "images": ["static/description/main_screenshot.png"],
+    "development_status": "Mature",
+    "maintainers": ["dhongu"],
+}
