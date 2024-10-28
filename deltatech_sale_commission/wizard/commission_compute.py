@@ -43,7 +43,7 @@ class CommissionCompute(models.TransientModel):
         return {
             "domain": "[('id','in', [" + ",".join(map(str, res)) + "])]",
             "name": _("Commission"),
-            "view_mode": "tree,form",
+            "view_mode": "list,form",
             "res_model": "sale.margin.report",
             "view_id": False,
             "type": "ir.actions.act_window",

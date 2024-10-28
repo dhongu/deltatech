@@ -2,7 +2,7 @@
 <odoo>
 
     <record id="view_sale_margin_report_tree" model="ir.ui.view">
-        <field name="name">sale.margin.report.tree</field>
+        <field name="name">sale.margin.report.list</field>
         <field name="model">sale.margin.report</field>
         <field name="arch" type="xml">
             <list create="false">
@@ -66,7 +66,7 @@
 
 
     <record id="view_sale_margin_report_commission_tree" model="ir.ui.view">
-        <field name="name">sale.margin.report.commission.tree</field>
+        <field name="name">sale.margin.report.commission.list</field>
         <field name="model">sale.margin.report</field>
 
         <field name="arch" type="xml">
