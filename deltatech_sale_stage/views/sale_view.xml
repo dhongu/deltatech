@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+        <!--    Sale.order Stage views and actions    -->
+        <record id="view_sale_order_stage_form" model="ir.ui.view">
+            <field name="name">sale.order.stage.form</field>
+            <field name="model">sale.order.stage</field>
+            <field eval="50" name="priority" />
+            <field name="arch" type="xml">
+                <form string="Sale Order Stage">
+                    <group>
+
+
+                    <group>
+                        <field name="name" />
+                        <field name="sequence" />
+                        <field name="code" />
+                        <field name="color" widget="color_picker" />
+                    </group>
+                    <group>
+                        <field name="send_email" />
+                        <field name="confirmed" />
+                        <field name="delivered" />
+                        <field name="invoiced" />
+                        <field name="paid" />
+                        <field name="canceled" />
+                    </group>
+                    <group>
+                        <field name="action_id" />
+                    </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="view_sale_order_stage_tree" model="ir.ui.view">
+            <field name="name">sale.order.stage.list</field>
+            <field name="model">sale.order.stage</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="sequence" widget="handle" />
+                    <field name="name" />
+                    <field name="code" optional="show" />
+                    <field name="send_email" />
+                    <field name="confirmed" />
+                    <field name="delivered" />
+                    <field name="invoiced" />
+                    <field name="paid" />
+                    <field name="canceled" />
+                </list>
+            </field>
+        </record>
+        <record id="action_sale_order_stage" model="ir.actions.act_window">
+            <field name="name">Sale Order Stage</field>
+            <field name="res_model">sale.order.stage</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        <menuitem
+        id="menu_sale_order_stage"
+        name="Sale Order Stage"
+        parent="sale.menu_sale_config"
+        sequence="200"
+        action="action_sale_order_stage"
+    />
+
+
+        <record id="view_order_tree" model="ir.ui.view">
+            <field name="name">sale.order.list</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree" />
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="stage_id" invisible="1" />
+                    <field name="stage_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
+                </field>
+
+            </field>
+        </record>
+
+
+        <record id="view_quotation_tree" model="ir.ui.view">
+            <field name="name">sale.quotation.list</field>
+            <field name="model">sale.order</field>
+            <field eval="500" name="priority" />
+            <field name="inherit_id" ref="sale.view_quotation_tree" />
+            <field name="arch" type="xml">
+                <field name="create_date" position="after">
+                    <field name="date_order" widget="date" optional="show" />
+                </field>
+                <field name="state" position="after">
+<!--                     <field name="stage_id" options="{'color_field': 'color'}" />-->
+                    <field name="stage_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
+                </field>
+
+            </field>
+        </record>
+
+
+
+        <!--        Sale order form view-->
+        <record id="view_order_form" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field eval="500" name="priority" />
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group/group" position="inside">
+<!--                    <field name="stage_id" options="{'color_field': 'color'}" />-->
+                    <field name="stage_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
+                </xpath>
+            </field>
+        </record>
+        <!--        Sale order search view-->
+        <record id="view_sales_order_filter" model="ir.ui.view">
+            <field name="name">sale.order.filter</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter" />
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="stage_id" />
+                </field>
+                <xpath expr="//group" position="inside">
+                    <filter name='group_by_stage' string="Stage" domain="[]" context="{'group_by':'stage_id'}" />
+                </xpath>
+            </field>
+        </record>
+
+</odoo>
