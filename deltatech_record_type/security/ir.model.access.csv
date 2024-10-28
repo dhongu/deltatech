@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+deltatech_record_type.access_record_type,access_record_type,deltatech_record_type.model_record_type,base.group_user,1,1,1,1
+deltatech_record_type.access_record_type_default_values,access_record_type_default_values,deltatech_record_type.model_record_type_default_values,base.group_user,1,1,1,1
