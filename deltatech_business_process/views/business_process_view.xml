@@ -190,7 +190,7 @@
                             <field
                                 name="step_ids"
                                 widget="section_and_note_one2many"
-                                mode="tree,kanban"
+                                mode="list,kanban"
                                 readonly="state not in ('draft','design')"
                             >
                                 <list editable="bottom">
