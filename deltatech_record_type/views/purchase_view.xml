@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_purchase_order_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <field name="currency_id" position="after">
+                <field name="po_type" options="{'no_create':True}" domain="[('model', '=', 'purchase')]" />
+            </field>
+        </field>
+    </record>
+
+
+<!--    <menuitem-->
+<!--        id="menu_purchaseorder_type"-->
+<!--        name="Record Types"-->
+<!--        parent="purchase.menu_purchase_config"-->
+<!--        sequence="200"-->
+<!--        action="action_record_type"-->
+<!--    />-->
+
+<!--    <menuitem-->
+<!--        id="menu_saleorder_type"-->
+<!--        name="Record Types"-->
+<!--        parent="sale.menu_sale_config"-->
+<!--        sequence="200"-->
+<!--        action="action_record_type"-->
+<!--    />-->
+</odoo>
