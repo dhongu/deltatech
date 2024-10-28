@@ -39,7 +39,7 @@
 
 
     <record id="vpicktree_view_tree" model="ir.ui.view">
-        <field name="name">stock.picking.tree</field>
+        <field name="name">stock.picking.list</field>
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.vpicktree" />
         <field name="arch" type="xml">
