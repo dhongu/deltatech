@@ -91,7 +91,7 @@
                     </group>
                     <notebook>
                         <page string="Process steps" name="steps">
-                            <field name="test_step_ids" widget="section_and_note_one2many" mode="tree,kanban">
+                            <field name="test_step_ids" widget="section_and_note_one2many" mode="list,kanban">
                                 <list
                                     create="false"
                                     editable="bottom"
