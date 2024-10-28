@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template">
+
+    <t t-name="qtyAtDate" t-inherit="sale_stock.QtyAtDate" t-inherit-mode="extension" owl="1">
+         <xpath expr="//a" position="replace">
+               <t t-set="text_color" t-value="props.record.data.forecasted_issue ? 'text-danger' : 'text-primary'" />
+            <t t-if="!props.record.data.qty_available_today and !props.record.data.forecasted_issue ">
+                <t t-set="text_color" t-value="'text-warning'" />
+            </t>
+             <a
+                t-att-tabindex="props.record.data.display_qty_widget ? '0' : '-1'"
+                t-on-click="showPopup"
+                t-attf-class="fa fa-area-chart {{ text_color }}"
+            />
+         </xpath>
+    </t>
+
+
+    <t t-name="QtyDetailPopOver" t-inherit="sale_stock.QtyAtDatePopover" t-inherit-mode="extension" owl="1">
+        <xpath expr="//tbody" position="inside">
+            <tr>
+                <td><strong>Vendor Stock</strong></td>
+                <td><b t-out='props.record.data.vendor_qty_available' /> <t
+                        t-out='props.record.data.product_uom[1]'
+                    /></td>
+            </tr>
+            <tr t-if="props.record.data.other_qty_available">
+                <td><strong>Other Stock</strong></td>
+                <td><b t-out='props.record.data.other_qty_available' /> <t
+                        t-out='props.record.data.product_uom[1]'
+                    /></td>
+            </tr>
+        </xpath>
+    </t>
+
+
+
+</templates>
