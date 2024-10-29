@@ -25,28 +25,19 @@ class StorageSheet(models.TransientModel):
     def _get_sql_select_sold_final(self):
         sql = super()._get_sql_select_sold_final()
         if self.only_active:
-            sql = sql.replace(
-                "left join stock_valuation_layer as svl on svl.stock_move_id = sm.id and",
-                "left join stock_valuation_layer as svl on svl.stock_move_id = sm.id and svl.active = 't' and",
-            )
+            sql = sql.replace("where", "where svl.active = 't' AND")
         return sql
 
     def _get_sql_select_in(self):
         sql = super()._get_sql_select_in()
         if self.only_active:
-            sql = sql.replace(
-                "left join stock_valuation_layer as svl on svl.stock_move_id = sm.id and",
-                "left join stock_valuation_layer as svl on svl.stock_move_id = sm.id and svl.active = 't' and",
-            )
+            sql = sql.replace("where", "where svl_in.active = 't' AND")
         return sql
 
     def _get_sql_select_out(self):
         sql = super()._get_sql_select_out()
         if self.only_active:
-            sql = sql.replace(
-                "left join stock_valuation_layer as svl on svl.stock_move_id = sm.id and",
-                "left join stock_valuation_layer as svl on svl.stock_move_id = sm.id and svl.active = 't' and",
-            )
+            sql = sql.replace("where", "where svl_out.active = 't' AND")
         return sql
 
 
