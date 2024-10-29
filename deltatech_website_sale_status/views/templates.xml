@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="portal_my_quotations_status" inherit_id="sale.portal_my_quotations" priority="100">
+        <xpath expr="//thead/tr/th[4]" position="replace">
+            <th class="text-center">Status</th>
+        </xpath>
+        <xpath expr="//t[@t-foreach='quotations']/tr/td[4]" position="replace">
+            <td class="text-center">
+                <span class="badge badge-pill badge-info"><span t-field="quotation.stage" /></span>
+            </td>
+        </xpath>
+    </template>
+
+    <template id="portal_my_orders_status" inherit_id="sale.portal_my_orders">
+        <xpath expr="//thead/tr/th[3]" position="after">
+            <th class="text-center">Status</th>
+        </xpath>
+        <xpath expr="//t[@t-foreach='orders']/tr/td[3]" position="after">
+            <td class="text-center">
+                <span
+                    t-if="order.stage in ['placed','in_delivery','to_be_delivery']"
+                    class="badge badge-pill badge-info"
+                ><span t-field="order.stage" /></span>
+                <span t-if="order.stage in ['in_process']" class="badge badge-pill badge-warning"><span
+                        t-field="order.stage"
+                    /></span>
+                <span
+                    t-if="order.stage in ['canceled','waiting','postponed','returned']"
+                    class="badge badge-pill badge-danger"
+                ><span t-field="order.stage" /></span>
+                <span t-if="order.stage in ['delivered']" class="badge badge-pill badge-success"><span
+                        t-field="order.stage"
+                    /></span>
+            </td>
+        </xpath>
+    </template>
+</odoo>
