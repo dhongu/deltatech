@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="crm_team_view_form" model="ir.ui.view">
+        <field name="name">crm.team.form</field>
+        <field name="model">crm.team</field>
+        <field name="inherit_id" ref="sales_team.crm_team_view_form" />
+        <field name="arch" type="xml">
+            <field name="user_id" position="before">
+                <field name="team_type" groups="base.group_no_one" />
+            </field>
+            <group name="left" position="inside">
+                <field name="warehouse_id" />
+            </group>
+        </field>
+    </record>
+    <record id="crm_team_view_kanban_dashboard" model="ir.ui.view">
+        <field name="name">crm.team.kanban</field>
+        <field name="model">crm.team</field>
+        <field name="inherit_id" ref="sales_team.crm_team_view_kanban_dashboard" />
+        <field name="arch" type="xml">
+
+                 <xpath expr="//button[@name='action_primary_channel_button']" position="after">
+                    <button type="object" class="btn btn-primary" name="action_sale_order_button">
+                        Sale orders
+                    </button>
+                 </xpath>
+
+
+                <xpath expr="//t[@name='second_options']" position="after">
+                    <div class="row" t-if="record.quotations_count.raw_value">
+                        <div class="col-8">
+                            <a name="show_validated_quotations" type="object">Quotations validated</a>
+                        </div>
+                        <div class="col-4 text-right">
+
+                        </div>
+                    </div>
+                </xpath>
+                <xpath expr="//t[@name='third_options']" position="after">
+                    <div class="row">
+                        <div class="col-8">
+                            <div>
+                                <a name="show_products" type="object">Products</a>
+                            </div>
+                        </div>
+                        <div class="col-4 text-right">
+
+                        </div>
+                    </div>
+                </xpath>
+
+        </field>
+    </record>
+</odoo>
