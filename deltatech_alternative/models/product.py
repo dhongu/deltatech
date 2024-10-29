@@ -45,7 +45,7 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     @api.model
-    def name_search(self, name='', args=None, operator='ilike', limit=100):
+    def name_search(self, name="", args=None, operator="ilike", limit=100):
         res = super().name_search(name, args=args, operator=operator, limit=limit)
         get_param = self.env["ir.config_parameter"].sudo().get_param
         res_ids = list(res)
@@ -54,10 +54,7 @@ class ProductProduct(models.Model):
             alternatives = self.env["product.alternative"].search(domain, limit=limit)
             if alternatives:
                 product_tmpl_ids = alternatives.mapped("product_tmpl_id")
-                product_ids = self._search(
-                    [("product_tmpl_id", "in", product_tmpl_ids.ids)],
-                    limit=limit
-                )
+                product_ids = self._search([("product_tmpl_id", "in", product_tmpl_ids.ids)], limit=limit)
                 res_ids.extend(list(product_ids))
 
         return res_ids
