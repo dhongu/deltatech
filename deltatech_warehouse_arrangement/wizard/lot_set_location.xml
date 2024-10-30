@@ -5,21 +5,27 @@
         <field name="name">Change lot location</field>
         <field name="model">lot.change.location</field>
         <field name="arch" type="xml">
-            <form>
-                <group>
-                    <field name="_barcode_scanned" widget="barcode_handler" />
-                    <field name="lot_id" />
-                    <field name="rack_id" />
-                    <field name="lot_scanned" />
-                </group>
-                <footer>
-                    <button name="do_change" string="_Apply" type="object" class="oe_highlight" />
-                    or
-                    <button name="reset" string="Reset" type="object" class="oe_highlight" />
-<!--                    or-->
-<!--                    <button string="Cancel" class="oe_link" special="cancel" />-->
-                </footer>
-            </form>
+                <form>
+                    <group>
+                        <field name="_barcode_scanned" widget="barcode_handler" nolabel="1" />
+                        <label for="lot_id" style="font-size: 2rem;" />
+                        <field name="lot_id" style="font-size: 2rem;" nolabel="1" />
+                        <label for="rack_id" style="font-size: 2rem;" />
+                        <field name="rack_id" style="font-size: 2rem;" nolabel="1" />
+                        <field name="lot_scanned" />
+                    </group>
+                    <footer>
+                        <button
+                        name="do_change"
+                        string="_Apply"
+                        type="object"
+                        class="oe_highlight"
+                        style="width: 150px;"
+                    />
+                        or
+                        <button name="reset" string="Reset" type="object" class="oe_highlight" style="width: 150px;" />
+                    </footer>
+                </form>
         </field>
     </record>
 

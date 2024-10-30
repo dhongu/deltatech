@@ -4,7 +4,6 @@
 
 
 from odoo import _, fields, models
-from odoo.exceptions import UserError
 
 
 class LotChangeLocation(models.TransientModel):
@@ -21,21 +20,39 @@ class LotChangeLocation(models.TransientModel):
         if lot_id:
             if len(lot_id) > 1:
                 # error, multiple lots found
-                pass
+                res = {"warning": {"title": _("Error"), "type": "danger", "message": "Multiple lots found"}}
             else:
                 self.lot_id = lot_id
                 self.lot_scanned = True
+                res = {"warning": {"title": _("Info"), "type": "success", "message": "Lot scanned"}}
         else:
             if self.lot_scanned:
                 # search for location
                 rack_id = self.env["warehouse.location.rack"].search([("barcode", "=", barcode)])
                 if not rack_id:
-                    raise UserError(_("Location %s not found" % barcode))
+                    # raise UserError(_("Location %s not found" % barcode))
+                    res = {
+                        "warning": {
+                            "title": _("Error"),
+                            "type": "danger",
+                            "message": _("Location %s not found" % barcode),
+                        }
+                    }
                 else:
                     self.rack_id = rack_id
+                    # self.do_change()
+                    res = {"warning": {"title": _("Info"), "type": "success", "message": "Location changed for lot"}}
             else:
                 # error, lot not found
-                raise UserError(_("Lot/serial %s not found" % barcode))
+                # raise UserError(_("Lot/serial %s not found" % barcode))
+                res = {
+                    "warning": {
+                        "title": _("Error"),
+                        "type": "danger",
+                        "message": _("Lot/serial %s not found" % barcode),
+                    }
+                }
+        return res
 
     def do_change(self):
         if self.lot_id and self.rack_id:
