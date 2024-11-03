@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+        <template
+        id="product_alternative_code"
+        inherit_id="website_sale.product"
+        active="True"
+        customize_show="True"
+        name="Alternative code"
+    >
+
+            <xpath expr="//p[@t-field='product.description_sale']" position="before">
+                <t t-foreach="product.alternative_ids" t-as="alternative">
+                    <t t-if="not alternative.hide">
+                        <span itemprop="alternateName" style="display:none;" t-field="alternative.name" />
+                    </t>
+                </t>
+                <t t-if="website.user_id != user_id">
+                    <t t-if="product.alternative_code">
+                        <hr />
+                        <div>
+                            <span>Alternative code:</span>
+                            <span itemprop="alternateName" t-field="product.alternative_code" />
+                        </div>
+                    </t>
+                </t>
+            </xpath>
+        </template>
+        <template
+        id="product_used_for"
+        inherit_id="website_sale.product"
+        active="True"
+        customize_show="True"
+        name="Used For"
+        priority="100"
+    >
+            <xpath expr="//p[@t-field='product.description_sale']" position="after">
+                <t t-if="product.used_for">
+                    <div>
+                        <span>User for:</span>
+                        <span itemprop="isConsumableFor" t-field="product.used_for" class="text-muted" />
+                    </div>
+                    <hr />
+                </t>
+            </xpath>
+        </template>
+
+</odoo>
