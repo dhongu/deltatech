@@ -1,0 +1,225 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_dc
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-09 23:11+0000\n"
+"PO-Revision-Date: 2022-09-09 23:11+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>, declare that the product:</span>"
+msgstr "<span>, declaram că produsul:</span>"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>, with dates the tax identification</span>"
+msgstr "<span>, cu datele de identificare fiscală</span>"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>, with its headquarters in</span>"
+msgstr "<span>, cu sediul în localitatea</span>"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>Declaration of Conformity:</span>"
+msgstr "<span>Declarație de conformitate:</span"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>Standard of Company #:</span>"
+msgstr "<span>Standard de firmă:</span>"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>Standards:</span>"
+msgstr "<span>Standarde:</span>"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>Technical Data Sheet #:</span>"
+msgstr "<span>Fișa tehnică nr.:</span>"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>Technical Specification #:</span>"
+msgstr "<span>Speciticație tehnică nr.:</span>"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>We,</span>"
+msgstr "<span>Noi,</span>"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>and controlled according to Quality Control Plan dated in</span>"
+msgstr ""
+"și controlat în conformitate cu Planul de control al calității din data"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>is made in accordance with:</span>"
+msgstr "este realizat în conformitate cu:"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>street</span>"
+msgstr "strada"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>with expiration date</span>"
+msgstr "cu data de expirare în"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>with lot number</span>"
+msgstr "cu lot numărul"
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__company_id
+msgid "Company"
+msgstr "Compania"
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__data_sheet
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_product__data_sheet
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_template__data_sheet
+msgid "Data Sheet"
+msgstr "Fișa tehnică"
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__date
+msgid "Date of Declaration"
+msgstr "Data Declarație"
+
+#. module: deltatech_dc
+#: model:ir.actions.act_window,name:deltatech_dc.action_deltatech_dc
+#: model:ir.actions.report,name:deltatech_dc.action_report_dc
+#: model:ir.actions.report,name:deltatech_dc.action_report_dc_invoice
+#: model:ir.actions.report,name:deltatech_dc.action_report_dc_lot
+#: model:ir.model,name:deltatech_dc.model_deltatech_dc
+#: model:ir.ui.menu,name:deltatech_dc.menu_deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.view_deltatech_dc_type_form
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.view_deltatech_dc_type_tree
+msgid "Declaration of Conformity"
+msgstr "Declarație de conformitate"
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "F(PP 7.5/4.4.6-01)03"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__name
+msgid "Number"
+msgstr "Număr"
+
+#. module: deltatech_dc
+#: model:ir.model,name:deltatech_dc.model_product_product
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__product_id
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_dc
+#: model:ir.model,name:deltatech_dc.model_product_template
+msgid "Product Template"
+msgstr "Șablon produs"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.product_template_form_view
+msgid "Quality Control"
+msgstr "Control calitate"
+
+#. module: deltatech_dc
+#: model:ir.model,name:deltatech_dc.model_report_deltatech_dc_report_dc
+#: model:ir.model,name:deltatech_dc.model_report_deltatech_dc_report_dc_invoice
+#: model:ir.model,name:deltatech_dc.model_report_deltatech_dc_report_dc_lot
+msgid "ReportDCPrint"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "Signature,"
+msgstr "Semnatură"
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__company_standard
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_product__company_standard
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_template__company_standard
+msgid "Standard of Company"
+msgstr "Standardul de firmă"
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__standards
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_product__standards
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_template__standards
+msgid "Standards"
+msgstr "Standarde"
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__technical_specification
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_product__technical_specification
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_template__technical_specification
+msgid "Technical Specification"
+msgstr "Specificație tehnică"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid ""
+"We hereby certify that the above mentioned materials has been inspected by ourselves and\n"
+"                                meets our manufacturing specification and the\n"
+"                                requirements of your order. Final physical properties and compliance with any finished\n"
+"                                product specification depends on satisfactory\n"
+"                                processing by yourselves."
+msgstr ""
+"Declarăm pe propria răspundere,  că produsul nu pune în pericol viața, "
+"sănătatea securitatea muncii utilizatorilor și nu este toxic pentru mediul "
+"înconjurător dacă este folosit în conformitate cu destinația pentru care a "
+"fost produs respectând depozitarea, manipularea din fișa cu date de "
+"securitate.  "

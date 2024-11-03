@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+
+        <record id="action_report_dc" model="ir.actions.report">
+            <field name="name">Declaration of Conformity</field>
+            <field name="model">deltatech.dc</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">deltatech_dc.report_dc</field>
+            <field name="report_file">deltatech_dc.report_dc</field>
+            <field name="binding_type">report</field>
+            <field name="binding_view_types">form</field>
+            <field name="binding_model_id" ref="model_deltatech_dc" />
+        </record>
+
+
+
+
+        <record id="action_report_dc_lot" model="ir.actions.report">
+            <field name="name">Declaration of Conformity</field>
+            <field name="model">stock.lot</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">deltatech_dc.report_dc_lot</field>
+            <field name="report_file">deltatech_dc.report_dc_lot</field>
+            <field name="binding_type">report</field>
+            <field name="binding_model_id" ref="stock.model_stock_lot" />
+        </record>
+
+
+
+
+        <record id="action_report_dc_invoice" model="ir.actions.report">
+            <field name="name">Declaration of Conformity</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">deltatech_dc.report_dc_invoice</field>
+            <field name="report_file">deltatech_dc.report_dc_invoice</field>
+            <field name="binding_type">report</field>
+             <field name="binding_view_types">form</field>
+           <field name="binding_model_id" ref="account.model_account_move" />
+
+        </record>
+
+        <record id="action_report_dc_picking" model="ir.actions.report">
+            <field name="name">Declaration of Conformity</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">deltatech_dc.report_dc_picking</field>
+            <field name="report_file">deltatech_dc.report_dc_picking</field>
+            <field name="binding_type">report</field>
+             <field name="binding_view_types">form</field>
+           <field name="binding_model_id" ref="stock.model_stock_picking" />
+
+        </record>
+
+
+
+</odoo>
