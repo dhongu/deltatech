@@ -37,7 +37,6 @@
         <record model="ir.ui.view" id="view_deltatech_dc_type_tree">
             <field name="name">deltatech.declaration.conformity.list</field>
             <field name="model">deltatech.dc</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="name" />
