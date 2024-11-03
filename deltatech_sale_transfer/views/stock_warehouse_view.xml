@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_warehouse" model="ir.ui.view">
+        <field name="name">stock.warehouse</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.view_warehouse" />
+        <field name="arch" type="xml">
+            <field name="out_type_id" position="after">
+                <field name="pick_type_auto_transfer_id" />
+                <field name="group_transfer_with_delivery" />
+            </field>
+        </field>
+    </record>
+</odoo>
