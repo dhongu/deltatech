@@ -12,7 +12,6 @@
     "depends": ["website_sale_stock"],
     "data": [
         # "views/product_view.xml"
-
     ],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
