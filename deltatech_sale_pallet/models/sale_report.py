@@ -17,8 +17,8 @@ class SaleReport(models.Model):
         additional_fields_info = super()._select_additional_fields()
         additional_fields_info["price_unit"] = """
             CASE WHEN l.product_id IS NOT NULL
-                THEN sum(l.untaxed_amount_invoiced / CASE COALESCE(s.currency_rate, 0) WHEN 0 THEN 1.0 ELSE s.currency_rate END) /
-                    CASE COALESCE(sum(l.qty_invoiced / u.factor * u2.factor), 0)
+                THEN sum(l.untaxed_amount_invoiced / CASE COALESCE(s.currency_rate, 0) WHEN 0
+                THEN 1.0 ELSE s.currency_rate END) / CASE COALESCE(sum(l.qty_invoiced / u.factor * u2.factor), 0)
                      WHEN 0
                      THEN 1.0
                      ELSE sum(l.qty_invoiced / u.factor * u2.factor)

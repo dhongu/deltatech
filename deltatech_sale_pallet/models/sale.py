@@ -29,8 +29,9 @@ class SaleOrder(models.Model):
         for line in self.order_line:
             if line.product_id.pallet_product_id and line.product_id.pallet_qty_min:
                 # search for lines with same pallet
+                product = line.product_id.pallet_product_id.id
                 prod_with_pallet_lines = self.order_line.filtered(
-                    lambda p: p.product_id.pallet_product_id == line.product_id.pallet_product_id
+                    lambda p, product_id=product.id: p.product_id.pallet_product_id.id == product_id
                 )
 
                 # compute sum for all lines with pallets
