@@ -17,7 +17,7 @@ Logistic Documents
     :target: https://www.odoo.com/documentation/master/legal/licenses.html
     :alt: License: OPL-1
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_logistic_docs
+    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_logistic_docs
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -51,6 +51,6 @@ Authors
 Maintainers
 -----------
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_logistic_docs>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_logistic_docs>`_ project on GitHub.
 
 You are welcome to contribute.
