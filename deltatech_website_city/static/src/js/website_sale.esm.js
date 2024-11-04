@@ -1,5 +1,6 @@
 /** @odoo-module **/
 import {WebsiteSale} from "@website_sale/js/website_sale";
+import {rpc} from "@web/core/network/rpc";
 
 WebsiteSale.include({
     events: Object.assign({}, WebsiteSale.prototype.events, {
@@ -8,8 +9,8 @@ WebsiteSale.include({
     }),
     start: function () {
         this.elementCities = document.querySelector("select[name='city_id']");
-        this.cityBlock = document.querySelector(".div_city");
-        this.zipBlock = document.querySelector(".div_zip");
+        this.cityBlock = document.querySelector("#div_city");
+        this.zipBlock = document.querySelector("#div_zip");
 
         this.autoFormat = document.querySelector(".checkout_autoformat");
         this.elementState = document.querySelector("select[name='state_id']");
@@ -22,7 +23,7 @@ WebsiteSale.include({
             return;
         }
 
-        return this.rpc(rpcRoute, {}).then((data) => {
+        return rpc(rpcRoute, {}).then((data) => {
             const data_place = data[place];
             if (data_place && data_place.length !== 0) {
                 selectElement.innerHTML = "";

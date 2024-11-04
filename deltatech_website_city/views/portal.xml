@@ -66,27 +66,20 @@
         </div>
     </template>
     <template id="address" inherit_id="website_sale.address">
-        <div t-attf-class="#{error.get('city') and 'o_has_error' or ''} div_city col-md-8 mb-2" position="before">
-            <div t-attf-class="#{error.get('city') and 'o_has_error' or ''} div_city_id col-md-8 mb-2">
-                <label class="col-form-label label-optional" for="city_id">City</label>
+        <xpath expr="//div[@id='div_city']" position="before">
 
-                <select
-                    id="city_id"
-                    name="city_id"
-                    t-attf-class="form-control #{error.get('city_id') and 'is-invalid' or ''}"
-                    t-att-data-value="'city_id' in checkout and  checkout['city_id'] != '' and  int(checkout['city_id'])"
-                    data-init="1"
-                >
-                    <t t-foreach="state_cities" t-as="city">
-                        <option
-                            t-att-value="city.id"
-                            t-att-selected="city.id == ('city_id' in checkout and checkout['city_id'] != '' and int(checkout['city_id']))"
-                        >
-                            <t t-out="city.name" />
+            <div id="div_city_id" class="col-lg-6 mb-2">
+                <label class="col-form-label" for="o_city_id">City</label>
+                <select id="o_city_id" name="city_id" class="form-select">
+                    <option value="">City...</option>
+                    <t t-foreach="state_cities" t-as="c">
+                        <option t-att-value="c.id" t-att-selected="c.id == country.id" t-att-code="c.code">
+                            <t t-esc="c.name" />
                         </option>
                     </t>
                 </select>
             </div>
-        </div>
+
+        </xpath>
     </template>
 </odoo>
