@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+        <record id="view_order_tree" model="ir.ui.view">
+            <field name="name">sale.order.list</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree" />
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="is_ready" invisible="1" />
+                </field>
+                <xpath expr="//list" position="attributes">
+                    <attribute name="decoration-success">is_ready</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_quotation_tree" model="ir.ui.view">
+            <field name="name">sale.order.list</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree" />
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="is_ready" invisible="1" />
+                </field>
+                <xpath expr="//list" position="attributes">
+                    <attribute name="decoration-success">is_ready</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_order_form" model="ir.ui.view">
+            <field name="name">Sale Order</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//list/field[@name='product_uom_qty']" position="before">
+                    <field name="qty_available_text" groups="stock.group_stock_user" optional="hide" />
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_sales_order_filter" model="ir.ui.view">
+            <field name="name">sale.order.list.select</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter" />
+            <field name="arch" type="xml">
+                <filter name="my_sale_orders_filter" position="after">
+                    <filter string="Is Ready" domain="[('is_ready', '=', True)]" name="is_ready" />
+                </filter>
+            </field>
+        </record>
+
+
+</odoo>
