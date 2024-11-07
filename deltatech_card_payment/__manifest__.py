@@ -12,7 +12,7 @@
     "depends": ["account"],
     "license": "OPL-1",
     "data": [
-        "data/account_data.xml",
+        # "data/account_data.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",

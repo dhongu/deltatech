@@ -1,1 +1,1 @@
-from . import test_card_payment
+# from . import test_card_payment

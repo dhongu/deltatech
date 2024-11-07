@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="auth_signup_help" model="ir.ui.view">
+        <field name="name">auth.signup.help</field>
+        <field name="type">qweb</field>
+        <field name="inherit_id" ref="auth_signup.fields" />
+        <field name="priority">900</field>
+        <field name="arch" type="xml">
+            <xpath expr="//div" position="before">
+                <div class="alert alert-danger" role="alert">
+                    Please enter only your personal data. Do not enter your company name.
+                    <br />
+                    The billing data (company name, address and VAT) can be enetered when placing an order.
+                </div>
+            </xpath>
+        </field>
+        </record>
+</odoo>

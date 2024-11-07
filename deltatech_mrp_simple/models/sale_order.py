@@ -32,3 +32,6 @@ class SaleOrder(models.Model):
             "context": {},
             "type": "ir.actions.act_window",
         }
+
+    def add_multiple_lines(self):
+        pass  # pentru migrare

@@ -1,0 +1,419 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_website_billing_addresses
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-26 10:45+0000\n"
+"PO-Revision-Date: 2022-10-26 10:45+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address_on_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.confirmation
+msgid "&amp; Shipping"
+msgstr "&amp; Livrare"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address_on_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.confirmation
+msgid "<b>Shipping:</b>"
+msgstr "<b>Adresa Livrare: </b>"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.checkout
+msgid ""
+"<i class=\"fa fa-building\"/>\n"
+"                                        Legal entity"
+msgstr ""
+"<i class=\"fa fa-building\"/>\n"
+"                                        Persoană juridică"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address_billing_kanban
+msgid ""
+"<i class=\"fa fa-check\"/>\n"
+"                        Billing to this address"
+msgstr "<i class=\"fa fa-check\"/> Facturare pe aceasta adresa"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address_shipping_kanban
+msgid "<i class=\"fa fa-check\"/> Ship to this address"
+msgstr "<i class=\"fa fa-check\"/> Livrează la această adresă"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address_on_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.confirmation
+msgid ""
+"<i class=\"fa fa-edit\"/>\n"
+"                    Edit"
+msgstr ""
+"<i class=\"fa fa-edit\"/>\n"
+"                    Editare"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.checkout
+msgid ""
+"<i class=\"fa fa-plus-square\"/>\n"
+"                                                    <span>Add an address</span>"
+msgstr ""
+"<i class=\"fa fa-plus-square\"/>\n"
+"                                    <span>Adaugă date de facturare</span>"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.checkout
+msgid ""
+"<i class=\"fa fa-plus-square\"/>\n"
+"                        <span>Add a delivery address</span>"
+msgstr ""
+"<i class=\"fa fa-plus-square\"/>\n"
+"                                    <span>Adaugă o adresă nouă</span>"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.checkout
+msgid ""
+"<i class=\"fa fa-user\"/>\n"
+"                                        Person"
+msgstr ""
+"<i class=\"fa fa-user\"/>\n"
+"                                        Persoană fizică"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_res_partner__access_for_user_id
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_res_users__access_for_user_id
+msgid "Access For User"
+msgstr "Acces utilizator"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.checkout
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
+msgid "Address"
+msgstr "Adresa"
+
+#. module: deltatech_website_billing_addresses
+#: code:addons/deltatech_website_billing_addresses/controllers/portal.py:0
+#: code:addons/deltatech_website_billing_addresses/controllers/portal.py:0
+#, python-format
+msgid "All"
+msgstr ""
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address_on_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.confirmation
+msgid "Billing"
+msgstr "Facturare"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address
+msgid "Billing Address"
+msgstr "Detalii de facturare"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.billing_addresses_portal_my_requests
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.checkout
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.portal_my_home_billing_addresses
+msgid "Billing Addresses"
+msgstr "Detalii de facturare"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields.selection,name:deltatech_website_billing_addresses.selection__res_partner__contact_type__billing_address
+msgid "Billing address"
+msgstr "Detalii facturare"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_create_billing_address_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.billing_addresses_portal_my_requests
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.shipping_addresses_portal_my_requests
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
+msgid "City"
+msgstr "Localitate"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields.selection,name:deltatech_website_billing_addresses.selection__res_partner__contact_type__company
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model,name:deltatech_website_billing_addresses.model_res_partner
+#: model:ir.model.fields.selection,name:deltatech_website_billing_addresses.selection__res_partner__contact_type__contact
+msgid "Contact"
+msgstr "Contact"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
+msgid "Contact / Address"
+msgstr "Contact / Adresă"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
+msgid "Contact Name"
+msgstr "Nume contact"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_res_partner__contact_type
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_res_users__contact_type
+msgid "Contact Type"
+msgstr "Tip contact"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
+msgid "Contact image"
+msgstr "Imagine contact"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
+msgid "Country"
+msgstr "Țara"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_create_billing_address_form
+msgid "Create"
+msgstr "Creează"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model,name:deltatech_website_billing_addresses.model_create_billing_address
+msgid "Create Billing Address Wizard"
+msgstr ""
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_create_billing_address_form
+msgid "Create a billing address to link frontend users to existing company"
+msgstr "Creează o adresă de facturare legată de un partener existent"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.actions.act_window,name:deltatech_website_billing_addresses.action_create_billing_address
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_create_billing_address_form
+msgid "Create billing address"
+msgstr "Creează adresă de facturare"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_create_billing_address__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_create_billing_address__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_create_billing_address__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address_billing_kanban
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address_shipping_kanban
+msgid "Edit this address"
+msgstr "Editează această adresă"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_create_billing_address__from_partner
+msgid "From Partner"
+msgstr "Partener"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_create_billing_address__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
+msgid "Internal notes..."
+msgstr "Note interne..."
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address_b2b
+msgid "Is Company"
+msgstr "Factura pe companie ?"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model,name:deltatech_website_billing_addresses.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_create_billing_address____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_create_billing_address__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_create_billing_address__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
+msgid "Mobile:"
+msgstr "Mobil:"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.billing_addresses_portal_my_requests
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.shipping_addresses_portal_my_requests
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address_b2b
+msgid "No"
+msgstr "Nu"
+
+#. module: deltatech_website_billing_addresses
+#: code:addons/deltatech_website_billing_addresses/controllers/portal.py:0
+#: code:addons/deltatech_website_billing_addresses/controllers/portal.py:0
+#, python-format
+msgid "None"
+msgstr "Fără"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
+msgid "Phone:"
+msgstr "Telefon:"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.auth_signup_help
+msgid ""
+"Please enter only your personal data. Do not enter your company name.\n"
+"                    <br/>\n"
+"                    The billing data (company name, address and VAT) can be enetered when placing an order."
+msgstr ""
+"Vă rugăm să completați doar datele personale (ex. Nume, Prenume). Nu completați datele unei companii.\n"
+"                    <br/>\n"
+"                    Datele de facturare vor putea fi adăugate la momentul efectuării unei comenzi."
+
+#. module: deltatech_website_billing_addresses
+#: code:addons/deltatech_website_billing_addresses/controllers/portal.py:0
+#: code:addons/deltatech_website_billing_addresses/controllers/portal.py:0
+#, python-format
+msgid "Search <span class=\"nolabel\"> (in Document)</span>"
+msgstr "Caută <span class=\"nolabel\"> (în Document)</span>"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address_billing_kanban
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address_shipping_kanban
+msgid "Select this address"
+msgstr "Selectează această adresă"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.portal_my_home_shipping_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.shipping_addresses_portal_my_requests
+msgid "Shipping Addresses"
+msgstr "Adresa livrare"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields.selection,name:deltatech_website_billing_addresses.selection__res_partner__contact_type__shipping_address
+msgid "Shipping address"
+msgstr "Adresă livrare"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
+msgid "State"
+msgstr "Județ"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.billing_addresses_portal_my_requests
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.shipping_addresses_portal_my_requests
+msgid "Street"
+msgstr "Stradă"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
+msgid "Street 2..."
+msgstr "Stradă"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
+msgid "Street..."
+msgstr "Stradă..."
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.billing_addresses_portal_my_requests
+msgid ""
+"There are no billing addresses. You can add billing addresses when placing "
+"an order."
+msgstr ""
+"Nu există date de facturare. Se pot adăuga date de facturare la finalizarea "
+"unei comenzi."
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.shipping_addresses_portal_my_requests
+msgid ""
+"There are no shipping addresses request. You can add shipping addresses when"
+" placing an order."
+msgstr ""
+"Nu există adrese de livrare. Se pot adăuga adrese de livrare la finalizarea "
+"unei comenzi."
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_create_billing_address__update_vat
+msgid "Update VAT"
+msgstr "Rescrie CUI"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_create_billing_address__user_id
+msgid "User"
+msgstr "Utilizator"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_res_partner__user_address_ids
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_res_users__user_address_ids
+msgid "User Address"
+msgstr ""
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_create_billing_address__vat
+msgid "VAT"
+msgstr "CUI"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address_b2b
+msgid "Yes"
+msgstr "Da"
+
+#. module: deltatech_website_billing_addresses
+#: code:addons/deltatech_website_billing_addresses/wizard/create_billing_address.py:0
+#, python-format
+msgid "You can only create a billing address from a company!"
+msgstr "Partnerul ales trebuie sa fie de tip Companie!"
+
+#. module: deltatech_website_billing_addresses
+#: code:addons/deltatech_website_billing_addresses/wizard/create_billing_address.py:0
+#, python-format
+msgid "You cannot create a billing adress on a child partner!"
+msgstr "Partenerul ales nu poate avea un părinte!"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
+msgid "ZIP"
+msgstr "Cod poștal"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
+msgid "e.g. Mr."
+msgstr ""
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
+msgid "e.g. Sales Director"
+msgstr ""
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_create_billing_address_form
+msgid "or"
+msgstr ""

@@ -20,6 +20,7 @@
                     groups="stock.group_stock_user"
                     attrs="{'invisible': [('postponed_delivery', '=', False)]}"
                     string="Release delivery"
+                    class="oe_highlight"
                 />
                 </xpath>
             </field>
