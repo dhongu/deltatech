@@ -8,9 +8,11 @@
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Accounting & Finance",
-    "depends": ["account", "analytic", "sale"],
+    "depends": ["account", "analytic", "sale", "purchase"],
     "data": [
         "views/res_config_settings.xml",
+        "security/security.xml",
+        "security/ir.model.access.csv",
         "views/account_analytic_default.xml",
         "views/account_analytic_line.xml",
         "views/account_analytic_split_template.xml",

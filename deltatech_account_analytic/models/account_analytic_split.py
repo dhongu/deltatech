@@ -11,7 +11,7 @@ class AccountAnalyticSplitTemplate(models.Model):
 
     name = fields.Char(string="Name")
     sequence = fields.Integer(string="Sequence", default=10)
-    active = fields.Boolean()
+    active = fields.Boolean(default=True)
     line_ids = fields.One2many("account.analytic.split.template.line", "split_template_id", string="Split lines")
 
 

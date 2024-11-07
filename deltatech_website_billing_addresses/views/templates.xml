@@ -101,7 +101,7 @@
 
         </xpath>
 
-        <xpath expr="//t[@groups='sale.group_delivery_invoice_address']" position="before">
+        <xpath expr="//t[@groups='account.group_delivery_invoice_address']" position="before">
             <div class="row">
                 <div class="col-lg-12">
                     <h3 class="o_page_header mt16 mb4">Billing Addresses</h3>
