@@ -24,8 +24,8 @@
                                         alt="Barcode"
                                     />
                             </div>
-                            <div class="text-center" style="margin-top: 80px;">
-                                <span t-field="o.full_name" />
+                            <div class="text-center" style="margin-top: 20px;">
+                                <span style="font-size: 1.3rem;font-weight:bold;" t-field="o.full_name"/>
                             </div>
                         </div>
                     </div>
