@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="action_report_rack" model="ir.actions.report">
+            <field name="name">Rack Labels</field>
+            <field name="model">warehouse.location.rack</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="binding_model_id" ref="deltatech_warehouse_arrangement.model_warehouse_location_rack" />
+            <field name="binding_type">report</field>
+            <field name="report_name">deltatech_warehouse_arrangement.report_rack</field>
+            <field name="report_file">deltatech_warehouse_arrangement.report_rack</field>
+        </record>
+
+        <template id="report_rack">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                    <div class="page">
+                        <div class="container">
+                            <div class="row text-center">
+                                <img
+                                        t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.barcode or o.name, 600, 150)"
+                                        style="width:90%;margin-top: 140px;"
+                                        alt="Barcode"
+                                    />
+                            </div>
+                            <div class="text-center" style="margin-top: 80px;">
+                                <span t-field="o.full_name" />
+                            </div>
+                        </div>
+                    </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

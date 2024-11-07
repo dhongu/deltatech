@@ -136,7 +136,7 @@ addon | version | maintainers | summary | price
 [deltatech_tracking_2performant](deltatech_tracking_2performant/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | 2Performant tracking | Free 
 [deltatech_vendor_stock](deltatech_vendor_stock/) | 14.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vendor stock availability | Free 
 [deltatech_warehouse](deltatech_warehouse/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Warehouse | Free 
-[deltatech_warehouse_arrangement](deltatech_warehouse_arrangement/) | 14.0.0.1.2 |  | Manages warehouse locations, parallel to standard Odoo locations | Free 
+[deltatech_warehouse_arrangement](deltatech_warehouse_arrangement/) | 14.0.0.1.3 |  | Manages warehouse locations, parallel to standard Odoo locations | Free 
 [deltatech_watermark](deltatech_watermark/) | 14.0.3.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Watermark field | Free 
 [deltatech_watermark_report](deltatech_watermark_report/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Watermark in report | Free 
 [deltatech_website_access_design](deltatech_website_access_design/) | 14.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Access for web designer | Free 
