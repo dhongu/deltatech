@@ -1,2 +1,2 @@
 Features:
- - Additional field in the sales order to specify the stage in which the order is
+ - Additional field in the sales order to specify the phase in which the order is

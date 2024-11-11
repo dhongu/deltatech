@@ -10,70 +10,70 @@ from odoo.exceptions import UserError
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    stage_id = fields.Many2one("sale.order.stage", string="Stage", copy=False, tracking=True)
-    stage_ids = fields.Many2many(
-        "sale.order.stage",
-        string="Stages",
+    phase_id = fields.Many2one("sale.order.phase", string="Phase", copy=False, tracking=True)
+    phase_ids = fields.Many2many(
+        "sale.order.phase",
+        string="phases",
         readonly=False,
-        compute="_compute_stage_ids",
-        inverse="_inverse_stage_ids",
+        compute="_compute_phase_ids",
+        inverse="_inverse_phase_ids",
     )
 
-    @api.depends("stage_id")
-    def _compute_stage_ids(self):
+    @api.depends("phase_id")
+    def _compute_phase_ids(self):
         for order in self:
-            order.stage_ids = order.stage_id
+            order.phase_ids = order.phase_id
 
-    def _inverse_stage_ids(self):
+    def _inverse_phase_ids(self):
         for order in self:
-            order.stage_id = order.stage_ids[0] if order.stage_ids else False
+            order.phase_id = order.phase_ids[0] if order.phase_ids else False
 
     def _get_invoice_status(self):
         super()._get_invoice_status()
         orders_invoiced = self.filtered(lambda o: o.invoice_status == "invoiced")
-        orders_invoiced.set_stage("invoiced")
+        orders_invoiced.set_phase("invoiced")
 
-    @api.onchange("stage_id")
-    def onchange_stage_id(self):
-        if self.stage_id.invoiced and self.invoice_status == "invoiced":
+    @api.onchange("phase_id")
+    def onchange_phase_id(self):
+        if self.phase_id.invoiced and self.invoice_status == "invoiced":
             raise UserError(_("The order was not invoiced"))
 
     def action_confirm(self):
         super().action_confirm()
-        self.set_stage("confirmed")
+        self.set_phase("confirmed")
 
     def action_quotation_sent(self):
         super().action_quotation_sent()
-        self.set_stage("send_email")
+        self.set_phase("send_email")
 
     def action_cancel(self):
         res = super().action_cancel()
-        self.set_stage("canceled")
+        self.set_phase("canceled")
         return res
 
-    def set_stage(self, stage_step):
-        domain = [(stage_step, "=", True)]
-        stages = self.env["sale.order.stage"].search(domain)
-        if not stages:
+    def set_phase(self, phase_step):
+        domain = [(phase_step, "=", True)]
+        phases = self.env["sale.order.phase"].search(domain)
+        if not phases:
             return
         for order in self:
             transactions = order.sudo().transaction_ids.filtered(lambda a: a.state == "done")
-            relevant_stage = stages
+            relevant_phase = phases
             if transactions:
-                relevant_stage = stages.filtered(lambda s: s.paid)
-            if not relevant_stage:
-                relevant_stage = stages
+                relevant_phase = phases.filtered(lambda s: s.paid)
+            if not relevant_phase:
+                relevant_phase = phases
 
-            new_stage = relevant_stage[0]
-            for stage in relevant_stage:
-                if stage.sequence > order.stage_id.sequence:
-                    new_stage = stage
+            new_phase = relevant_phase[0]
+            for phase in relevant_phase:
+                if phase.sequence > order.phase_id.sequence:
+                    new_phase = phase
                     break
-            order.stage_id = new_stage
+            order.phase_id = new_phase
 
     def write(self, vals):
         res = super().write(vals)
-        if "stage_id" in vals:
-            if self.stage_id.action_id:
-                self.stage_id.action_id.run()
+        if "phase_id" in vals:
+            if self.phase_id.action_id:
+                self.phase_id.action_id.run()
         return res

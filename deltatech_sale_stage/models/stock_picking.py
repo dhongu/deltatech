@@ -8,7 +8,7 @@ from odoo import fields, models
 class PickingType(models.Model):
     _inherit = "stock.picking.type"
 
-    stage_id = fields.Many2one("sale.order.stage", string="Stage", copy=False)
+    phase_id = fields.Many2one("sale.order.phase", string="Phase", copy=False)
 
 
 class StockPicking(models.Model):
@@ -18,10 +18,10 @@ class StockPicking(models.Model):
         res = super()._action_done()
         for picking in self:
             if picking.sale_id:
-                stage = picking.picking_type_id.stage_id
-                if not stage:
-                    picking.sale_id.set_stage("delivered")
+                phase = picking.picking_type_id.phase_id
+                if not phase:
+                    picking.sale_id.set_phase("delivered")
                 else:
-                    picking.sale_id.stage_id = stage
+                    picking.sale_id.phase_id = phase
 
         return res

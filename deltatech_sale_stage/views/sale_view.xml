@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <!--    Sale.order Stage views and actions    -->
-        <record id="view_sale_order_stage_form" model="ir.ui.view">
-            <field name="name">sale.order.stage.form</field>
-            <field name="model">sale.order.stage</field>
+        <!--    Sale.order phase views and actions    -->
+        <record id="view_sale_order_phase_form" model="ir.ui.view">
+            <field name="name">sale.order.phase.form</field>
+            <field name="model">sale.order.phase</field>
             <field eval="50" name="priority" />
             <field name="arch" type="xml">
-                <form string="Sale Order Stage">
+                <form string="Sale Order phase">
                     <group>
 
 
@@ -32,11 +32,11 @@
                 </form>
             </field>
         </record>
-        <record id="view_sale_order_stage_tree" model="ir.ui.view">
-            <field name="name">sale.order.stage.tree</field>
-            <field name="model">sale.order.stage</field>
+        <record id="view_sale_order_phase_tree" model="ir.ui.view">
+            <field name="name">sale.order.phase.tree</field>
+            <field name="model">sale.order.phase</field>
             <field name="arch" type="xml">
-                <tree string="Sale Order Stage">
+                <tree string="Sale Order phase">
                     <field name="sequence" widget="handle" />
                     <field name="name" />
                     <field name="code" optional="show" />
@@ -49,17 +49,17 @@
                 </tree>
             </field>
         </record>
-        <record id="action_sale_order_stage" model="ir.actions.act_window">
-            <field name="name">Sale Order Stage</field>
-            <field name="res_model">sale.order.stage</field>
+        <record id="action_sale_order_phase" model="ir.actions.act_window">
+            <field name="name">Sale Order phase</field>
+            <field name="res_model">sale.order.phase</field>
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem
-            id="menu_sale_order_stage"
-            name="Sale Order Stage"
+            id="menu_sale_order_phase"
+            name="Sale Order phase"
             parent="sale.menu_sale_config"
             sequence="200"
-            action="action_sale_order_stage"
+            action="action_sale_order_phase"
         />
 
 
@@ -69,8 +69,8 @@
             <field name="inherit_id" ref="sale.view_order_tree" />
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
-                    <field name="stage_id" invisible="1" />
-                    <field name="stage_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
+                    <field name="phase_id" invisible="1" />
+                    <field name="phase_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
                 </field>
 
             </field>
@@ -87,8 +87,8 @@
                     <field name="date_order" widget="date" optional="show" />
                 </field>
                 <field name="state" position="after">
-<!--                     <field name="stage_id" options="{'color_field': 'color'}" />-->
-                    <field name="stage_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
+<!--                     <field name="phase_id" options="{'color_field': 'color'}" />-->
+                    <field name="phase_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
                 </field>
 
             </field>
@@ -104,8 +104,8 @@
             <field name="inherit_id" ref="sale.view_order_form" />
             <field name="arch" type="xml">
                 <xpath expr="//sheet/group/group" position="inside">
-<!--                    <field name="stage_id" options="{'color_field': 'color'}" />-->
-                    <field name="stage_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
+<!--                    <field name="phase_id" options="{'color_field': 'color'}" />-->
+                    <field name="phase_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
                 </xpath>
             </field>
         </record>
@@ -116,10 +116,10 @@
             <field name="inherit_id" ref="sale.view_sales_order_filter" />
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
-                    <field name="stage_id" />
+                    <field name="phase_id" />
                 </field>
                 <xpath expr="//group" position="inside">
-                    <filter name='group_by_stage' string="Stage" domain="[]" context="{'group_by':'stage_id'}" />
+                    <filter name='group_by_phase' string="phase" domain="[]" context="{'group_by':'phase_id'}" />
                 </xpath>
             </field>
         </record>

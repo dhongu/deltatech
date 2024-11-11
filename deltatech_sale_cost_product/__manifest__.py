@@ -4,15 +4,15 @@
 
 
 {
-    "name": "Deltatech Sale Order Phase",
-    "version": "16.0.1.2.0",
-    "author": "Terrabit, Dorin Hongu",
+    "name": "Deltatech Sale Cost on Order",
+    "version": "16.0.0.0.0",
+    "author": "Terrabit, Voicu Stefan",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
-    "summary": "Sale Order Stage",
+    "summary": "Sale Cost on Order",
     "category": "Sales",
-    "depends": ["sale_stock"],
-    "data": ["security/ir.model.access.csv", "views/sale_view.xml", "views/stock_picking_type_view.xml"],
+    "depends": ["sale", "product"],
+    "data": ["views/sale_view.xml", "data/server_action.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
     "maintainers": ["dhongu"],

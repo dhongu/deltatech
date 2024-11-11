@@ -133,6 +133,7 @@ addon | version | maintainers | summary | price
 [deltatech_sale_add_extra_line](deltatech_sale_add_extra_line/) | 16.0.1.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Add Extra Line | Free 
 [deltatech_sale_add_extra_line_pos](deltatech_sale_add_extra_line_pos/) | 16.0.0.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | POS Add Extra Line | Free 
 [deltatech_sale_commission](deltatech_sale_commission/) | 16.0.1.1.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Compute sale commission | Free 
+[deltatech_sale_cost_product](deltatech_sale_cost_product/) | 16.0.0.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Cost on Order | Free 
 [deltatech_sale_feedback](deltatech_sale_feedback/) | 16.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Feedback | Free 
 [deltatech_sale_fix_followers](deltatech_sale_fix_followers/) | 16.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Fix for mail_followers_mail_followers_res_partner_res_model_id_uniq error | Free 
 [deltatech_sale_followup](deltatech_sale_followup/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Followup | Free 
@@ -147,7 +148,7 @@ addon | version | maintainers | summary | price
 [deltatech_sale_purchase](deltatech_sale_purchase/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Purchase | Free 
 [deltatech_sale_qty_available](deltatech_sale_qty_available/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Quantity Available | Free 
 [deltatech_sale_return_cause](deltatech_sale_return_cause/) | 16.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Return Cause | Free 
-[deltatech_sale_stage](deltatech_sale_stage/) | 16.0.1.1.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Order Stage | Free 
+[deltatech_sale_stage](deltatech_sale_stage/) | 16.0.1.2.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Order Stage | Free 
 [deltatech_sale_team](deltatech_sale_team/) | 16.0.1.0.2 |  | Sale Team Access | Free 
 [deltatech_sale_transfer](deltatech_sale_transfer/) | 16.0.1.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Sale Prepare Transfer | Free 
 [deltatech_saleorder_pickup_list](deltatech_saleorder_pickup_list/) | 16.0.1.0.0 |  | Pickup list report from sale order | Free 

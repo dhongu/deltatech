@@ -1,0 +1,38 @@
+<odoo>
+    <record id="view_order_tree_inherit" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field
+                    name="cost_of_goods"
+                    sum="Total Cost of Goods"
+                    widget="monetary"
+                    decoration-bf="1"
+                    optional="show"
+                />
+
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="view_quotation_tree_inherit" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field
+                    name="cost_of_goods"
+                    sum="Total Cost of Goods"
+                    widget="monetary"
+                    decoration-bf="1"
+                    optional="show"
+                />
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -6,9 +6,9 @@
 from odoo import fields, models
 
 
-class SaleOrderStage(models.Model):
-    _name = "sale.order.stage"
-    _description = "SaleOrderStage"
+class SaleOrderPhase(models.Model):
+    _name = "sale.order.phase"
+    _description = "SaleOrderPhase"
     _order = "sequence, name"
 
     name = fields.Char()
