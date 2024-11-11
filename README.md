@@ -128,12 +128,12 @@ addon | version | maintainers | summary | price
 [deltatech_report_prn](deltatech_report_prn/) | 16.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Raport PRN | Free 
 [deltatech_restricted_access](deltatech_restricted_access/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Restricted Access | Free 
 [deltatech_sale](deltatech_sale/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Extension Obsolete | Free 
-[deltatech_sale_activity_report](deltatech_sale_activity_report/) | 16.0.0.0.3 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Adds a last modified field to the sale order | Free 
+[deltatech_sale_activity_report](deltatech_sale_activity_report/) | 16.0.0.0.4 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Adds a last modified field to the sale order | Free 
 [deltatech_sale_activity_search](deltatech_sale_activity_search/) | 16.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Adds a field with the active activity types on that sale order | Free 
 [deltatech_sale_add_extra_line](deltatech_sale_add_extra_line/) | 16.0.1.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Add Extra Line | Free 
 [deltatech_sale_add_extra_line_pos](deltatech_sale_add_extra_line_pos/) | 16.0.0.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | POS Add Extra Line | Free 
 [deltatech_sale_commission](deltatech_sale_commission/) | 16.0.1.1.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Compute sale commission | Free 
-[deltatech_sale_cost_product](deltatech_sale_cost_product/) | 16.0.0.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Cost on Order | Free 
+[deltatech_sale_cost_product](deltatech_sale_cost_product/) | 16.0.0.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Cost on Order | Free 
 [deltatech_sale_feedback](deltatech_sale_feedback/) | 16.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Feedback | Free 
 [deltatech_sale_fix_followers](deltatech_sale_fix_followers/) | 16.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Fix for mail_followers_mail_followers_res_partner_res_model_id_uniq error | Free 
 [deltatech_sale_followup](deltatech_sale_followup/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Followup | Free 
@@ -185,7 +185,7 @@ addon | version | maintainers | summary | price
 [deltatech_watermark_report](deltatech_watermark_report/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Watermark in report | Free 
 [deltatech_website_access_design](deltatech_website_access_design/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Access for web designer | Free 
 [deltatech_website_authentication_request](deltatech_website_authentication_request/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Authentication request | Free 
-[deltatech_website_billing_addresses](deltatech_website_billing_addresses/) | 16.0.1.2.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Website Billing Addresses | 10.0 EUR
+[deltatech_website_billing_addresses](deltatech_website_billing_addresses/) | 16.0.1.2.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Website Billing Addresses | 10.0 EUR
 [deltatech_website_blog](deltatech_website_blog/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Blog Extension | Free 
 [deltatech_website_breadcrumb](deltatech_website_breadcrumb/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce extension Category Breadcrumb | Free 
 [deltatech_website_category](deltatech_website_category/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Public category | Free 
