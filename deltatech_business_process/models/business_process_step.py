@@ -70,4 +70,4 @@ class BusinessProcessStep(models.Model):
 
     def _compute_display_name(self):
         for step in self:
-            step.display_name = "{}{}".format(step.code and "[%s] " % step.code or "", step.name)
+            step.display_name = "{}{}".format(step.code and f"[{step.code}] " or "", step.name)
