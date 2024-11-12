@@ -42,8 +42,11 @@
                             <field name="count_steps" widget="statinfo" string="Steps" />
                         </button>
 
-                       <button class="oe_stat_button" type="object" name="action_view_developments" icon="fa-code">
+                        <button class="oe_stat_button" type="object" name="action_view_developments" icon="fa-code">
                             <field name="count_developments" widget="statinfo" string="Developments" />
+                        </button>
+                        <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-file-text-o">
+                            <field string="Documents" name="doc_count" widget="statinfo" />
                         </button>
 
 
@@ -67,7 +70,9 @@
                         <group string="Identification">
                             <field name="code" />
                             <field name="customer_id" />
+                            <field name="project_manager_id" />
                             <field name="total_project_duration" widget="float_time" />
+                            <field name="project_type" groups="base.group_system" />
                         </group>
 
                         <group string="Dates">
@@ -132,17 +137,17 @@
                                 </div>
                             </div>
                             <div class="o_kanban_record_bottom mt-3">
-                                    <div class="oe_kanban_bottom_left">
-                                        <div>
-                                            <a name="action_view_processes" type="object">
-                                                <div>
-                                                    <span class="o_value"><t
-                                                        t-esc="record.count_processes.value"
-                                                    /></span>
-                                                    <span class="o_label ms-1">Processes</span>
-                                                </div>
-                                            </a>
-                                        </div>
+                                <div class="oe_kanban_bottom_left">
+                                    <div>
+                                        <a name="action_view_processes" type="object">
+                                            <div>
+                                                <span class="o_value">
+                                                    <t t-esc="record.count_processes.value" />
+                                                </span>
+                                                <span class="o_label ms-1">Processes</span>
+                                            </div>
+                                        </a>
+                                    </div>
 
                                     </div>
                                     <div class="oe_kanban_bottom_right">

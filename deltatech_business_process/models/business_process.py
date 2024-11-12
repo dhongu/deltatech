@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class BusinessProcess(models.Model):
@@ -36,6 +37,11 @@ class BusinessProcess(models.Model):
         comodel_name="business.process.step",
         inverse_name="process_id",
         copy=True,
+    )
+
+    module_ids = fields.Many2many(
+        comodel_name="ir.module.module",
+        string="Modules",
     )
 
     responsible_id = fields.Many2one(
@@ -160,7 +166,9 @@ class BusinessProcess(models.Model):
         [("first_stage", "First stage"), ("second_stage", "Second stage")],
         string="Implementation stage",
     )
-    module_type = fields.Selection([("standard", "Standard"), ("custom", "Custom")], string="Module type")
+    module_type = fields.Selection(
+        [("standard", "Standard"), ("custom", "Custom"), ("implementor", "Implementor")], string="Module type"
+    )
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -175,7 +183,7 @@ class BusinessProcess(models.Model):
 
     def _compute_display_name(self):
         for process in self:
-            process.display_name = "{}{}".format(process.code and f"[{process.code}] " or "", process.name)
+            process.display_name = "{}{}".format(process.code and "[%s] " % process.code or "", process.name)
 
     def _compute_developments(self):
         for process in self:
@@ -328,14 +336,23 @@ class BusinessProcess(models.Model):
             domain = [("process_id", "=", process.id), ("scope", "=", scope)]
             test = self.env["business.process.test"].search(domain, limit=1)
             if not test:
-                test = self.env["business.process.test"].create(
-                    {
-                        "name": _("Test %s") % process.code if process.code else process.name,
-                        "process_id": process.id,
-                        "tester_id": self.env.user.partner_id.id,
-                        "scope": scope,
-                    }
-                )
+                if scope == "internal":
+                    test = self.env["business.process.test"].create(
+                        {
+                            "name": _("Internal Test %s") % process.code if process.code else process.name,
+                            "process_id": process.id,
+                            "tester_id": self.responsible_id.id,
+                            "scope": scope,
+                        }
+                    )
+                else:
+                    test = self.env["business.process.test"].create(
+                        {
+                            "name": _("Test %s") % process.code if process.code else process.name,
+                            "process_id": process.id,
+                            "scope": scope,
+                        }
+                    )
                 test._onchange_process_id()
 
     def _add_followers(self):
@@ -386,3 +403,39 @@ class BusinessProcess(models.Model):
 
     def start_user_acceptance_test(self):
         self._start_test("user_acceptance")
+
+    def button_install_modules(self):
+        found_modules = False
+        for record in self:
+            if record.project_id.project_type != "local":
+                raise UserError(_("Only local projects can install modules"))
+            modules_to_install = record.module_ids.filtered(lambda m: m.state != "installed")
+            if not modules_to_install:
+                continue
+            for module in modules_to_install:
+                found_modules = True
+                module.button_immediate_install()
+        if not found_modules:
+            notification = {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": _("Warning"),
+                    "type": "warning",
+                    "message": "No modules to install found",
+                    "sticky": False,
+                },
+            }
+            return notification
+        else:
+            notification = {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": _("Success"),
+                    "type": "success",
+                    "message": "Modules installed successfully",
+                    "sticky": False,
+                },
+            }
+            return notification

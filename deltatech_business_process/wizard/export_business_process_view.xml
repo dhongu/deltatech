@@ -10,8 +10,9 @@
                     <div invisible="state!='choose'">
                         <div>
                     <p>Export selected business processes</p>
-                        <group string="Processes" expand="0" colspan="4" col="4">
+                        <group string="Processes" colspan="2">
                             <field name="include_process_state" />
+                            <field name="include_modules" />
                         </group>
                         <group string="Tests" expand="0" colspan="4" col="4">
                             <field name="include_tests" />

@@ -25,7 +25,7 @@ class BusinessProcessStep(models.Model):
     process_id = fields.Many2one(
         string="Process",
         comodel_name="business.process",
-        # required=True,
+        required=True,
         ondelete="cascade",
     )
     area_id = fields.Many2one(related="process_id.area_id", store=True)
@@ -70,4 +70,4 @@ class BusinessProcessStep(models.Model):
 
     def _compute_display_name(self):
         for step in self:
-            step.display_name = "{}{}".format(step.code and f"[{step.code}] " or "", step.name)
+            step.display_name = "{}{}".format(step.code and "[%s] " % step.code or "", step.name)

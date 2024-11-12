@@ -1,7 +1,7 @@
 # ©  2023 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 
 class BusinessProject(models.Model):
@@ -43,6 +43,16 @@ class BusinessProject(models.Model):
     )
     team_member_ids = fields.Many2many(string="Team members", comodel_name="res.partner")
     total_project_duration = fields.Float(string="Total project duration")
+    doc_count = fields.Integer(
+        string="Count Documents",
+        help="Number of documents attached",
+        compute="_compute_attached_docs_count",
+    )
+    project_manager_id = fields.Many2one(
+        string="Project Manager",
+        comodel_name="res.partner",
+    )
+    project_type = fields.Selection([("remote", "Remote"), ("local", "Local")], string="Project Type", default="remote")
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -53,7 +63,7 @@ class BusinessProject(models.Model):
 
     def _compute_display_name(self):
         for project in self:
-            project.display_name = "{}{}".format(project.code and f"[{project.code}] " or "", project.name)
+            project.display_name = "{}{}".format(project.code and "[%s] " % project.code or "", project.name)
 
     def _compute_count_processes(self):
         for project in self:
@@ -69,9 +79,7 @@ class BusinessProject(models.Model):
 
     def _compute_count_developments(self):
         for project in self:
-            developments = self.env["business.development"]
-            for process in project.process_ids:
-                developments |= process.development_ids
+            developments = self.env["business.development"].search([("project_id", "=", self.id)])
             project.count_developments = len(developments)
 
     def action_view_processes(self):
@@ -83,6 +91,39 @@ class BusinessProject(models.Model):
         action = self.env["ir.actions.actions"]._for_xml_id("deltatech_business_process.action_business_process")
         action.update({"domain": domain, "context": context})
         return action
+
+    def get_attachment_domain(self):
+        domain = [
+            "|",
+            "|",
+            "&",
+            ("res_model", "=", "business.project"),
+            ("res_id", "=", self.id),
+            "&",
+            ("res_model", "=", "business.process"),
+            ("res_id", "in", self.process_ids.ids),
+            "&",
+            ("res_model", "=", "business.process.test"),
+            ("res_id", "in", self.process_ids.test_ids.ids),
+        ]
+        return domain
+
+    def _compute_attached_docs_count(self):
+        for order in self:
+            domain = order.get_attachment_domain()
+            order.doc_count = self.env["ir.attachment"].search_count(domain)
+
+    def attachment_tree_view(self):
+        domain = self.get_attachment_domain()
+        return {
+            "name": _("Attachments"),
+            "domain": domain,
+            "res_model": "ir.attachment",
+            "type": "ir.actions.act_window",
+            "view_id": False,
+            "view_mode": "kanban,list,form",
+            "context": f"{{'default_res_model': '{self._name}','default_res_id': {self.id}}}",
+        }
 
     def action_view_issue(self):
         domain = [("project_id", "=", self.id)]
@@ -103,10 +144,7 @@ class BusinessProject(models.Model):
         return action
 
     def action_view_developments(self):
-        developments = self.env["business.development"]
-        for process in self.process_ids:
-            developments |= process.development_ids
-
+        developments = self.env["business.development"].search([("project_id", "=", self.id)])
         domain = [("id", "=", developments.ids)]
         context = {"default_project_id": self.id}
         action = self.env["ir.actions.actions"]._for_xml_id("deltatech_business_process.action_business_development")
@@ -116,3 +154,7 @@ class BusinessProject(models.Model):
     def calculate_total_project_duration(self):
         for project in self:
             project.total_project_duration = sum(process.duration_for_completion for process in project.process_ids)
+            for development in self.env["business.development"].search(
+                [("project_id", "=", project.id), ("approved", "not in", ("draft", "rejected"))]
+            ):
+                project.total_project_duration += development.development_duration
