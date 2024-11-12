@@ -64,7 +64,9 @@
                         <group>
                             <field name="area_id" />
                             <field name="type_id" />
+                            <field name="development_duration" widget="float_time" />
                             <field name="approved" />
+<!--                            readonly="approved=='approved'"-->
                         </group>
 
                         <group string="Specification">
@@ -87,6 +89,8 @@
                         </group>
 
                     </group>
+                    <label for="note" string="Note" />
+                    <field name="note" />
                 </sheet>
   <chatter />
             </form>

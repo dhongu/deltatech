@@ -35,7 +35,7 @@ class BusinessMigration(models.Model):
 
     def _compute_display_name(self):
         for migration in self:
-            migration.display_name = "{}{}".format(migration.code and f"[{migration.code}] " or "", migration.name)
+            migration.display_name = "{}{}".format(migration.code and "[%s] " % migration.code or "", migration.name)
 
 
 class BusinessMigrationTest(models.Model):

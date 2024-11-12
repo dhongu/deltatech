@@ -1,6 +1,8 @@
 # ©  2023 Deltatech
 # See README.rst file on addons root folder for license details
 
+from datetime import date
+
 from odoo import api, fields, models
 
 
@@ -82,16 +84,35 @@ class BusinessDevelopment(models.Model):
 
     customer_id = fields.Many2one(string="Customer", comodel_name="res.partner")
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        for vals in vals_list:
-            if not vals.get("code", False):
-                vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
-        return super().create(vals_list)
+    development_duration = fields.Float(string="Development duration")
+    note = fields.Html(string="Note")
+
+    @api.model
+    def create(self, vals):
+        if not vals.get("code", False):
+            vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
+        result = super().create(vals)
+
+        return result
+
+    def write(self, vals):
+        result = super().write(vals)
+        if (
+            "approved" in vals
+            and vals["approved"] == "approved"
+            and self.project_id
+            and self.project_id.project_manager_id
+        ):
+            today = date.today().strftime("%Y-%m-%d")
+            self.sudo().message_post(body=f"Date of approval: {today}")
+            template = self.env.ref("deltatech_business_process.email_template_development_approved")
+            self.env["mail.template"].browse(template.id).send_mail(self.id, force_send=True)
+
+        return result
 
     def _compute_display_name(self):
         for development in self:
             development.display_name = "{}{}".format(
-                development.code and f"[{development.code}] " or "",
+                development.code and "[%s] " % development.code or "",
                 development.name,
             )

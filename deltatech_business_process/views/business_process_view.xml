@@ -206,6 +206,22 @@
                                 </list>
                             </field>
                         </page>
+                        <page string="Modules" name="modules">
+                            <field name="module_ids">
+                                <list editable="bottom">
+                                    <field name="shortdesc" />
+                                    <field name="name" />
+                                    <field name="installed_version" />
+                                    <field
+                                        name="state"
+                                        widget="badge"
+                                        decoration-muted="state == 'uninstallable'"
+                                        decoration-info="state  == 'uninstalled'"
+                                        decoration-success="state == 'installed'"
+                                    />
+                                </list>
+                            </field>
+                        </page>
                         <page string="Description" name="description">
                             <label for="description" string="Description" />
                             <field name="description" />
@@ -399,6 +415,15 @@
         <field name="state">code</field>
         <field name="code">action = records.start_user_acceptance_test()</field>
         <field name="binding_model_id" ref="model_business_process" />
+    </record>
+
+    <record id="action_install_modules_for_selected" model="ir.actions.server">
+        <field name="name">Install Modules for Selected Processes</field>
+        <field name="model_id" ref="model_business_process" />
+        <field name="state">code</field>
+        <field name="code">action = records.button_install_modules()</field>
+        <field name="binding_model_id" ref="model_business_process" />
+        <field name="groups_id" eval="[(4, ref('base.group_system'))]" />
     </record>
 
 </odoo>
