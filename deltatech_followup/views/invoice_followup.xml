@@ -4,7 +4,6 @@
         <record id="view_invoice_followup_tree" model="ir.ui.view">
             <field name="name">invoice.followup.list</field>
             <field name="model">account.invoice.followup</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="name" />
