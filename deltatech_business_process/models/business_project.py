@@ -63,7 +63,7 @@ class BusinessProject(models.Model):
 
     def _compute_display_name(self):
         for project in self:
-            project.display_name = "{}{}".format(project.code and "[%s] " % project.code or "", project.name)
+            project.display_name = "{}{}".format(project.code and f"[{project.code}] " or "", project.name)
 
     def _compute_count_processes(self):
         for project in self:

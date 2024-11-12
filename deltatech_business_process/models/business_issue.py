@@ -123,7 +123,6 @@ class BusinessIssue(models.Model):
         res.send_mail()
         return res
 
-
     def send_mail(self):
         for item in self:
             today = date.today().strftime("%Y-%m-%d")
@@ -134,7 +133,7 @@ class BusinessIssue(models.Model):
     def _compute_display_name(self):
         for issue in self:
             issue.display_name = "{}{}".format(
-                issue.code and "[%s] " % issue.code or "",
+                issue.code and f"[{issue.code}] " or "",
                 issue.name,
             )
 

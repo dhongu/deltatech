@@ -113,6 +113,6 @@ class BusinessDevelopment(models.Model):
     def _compute_display_name(self):
         for development in self:
             development.display_name = "{}{}".format(
-                development.code and "[%s] " % development.code or "",
+                development.code and f"[{development.code}] " or "",
                 development.name,
             )

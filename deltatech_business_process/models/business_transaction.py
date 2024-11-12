@@ -26,5 +26,5 @@ class BusinessTransaction(models.Model):
     def _compute_display_name(self):
         for transaction in self:
             transaction.display_name = "{}{}".format(
-                transaction.code and "[%s] " % transaction.code or "", transaction.name
+                transaction.code and f"[{transaction.code}] " or "", transaction.name
             )
