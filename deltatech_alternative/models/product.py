@@ -11,10 +11,10 @@ class ProductTemplate(models.Model):
 
     alternative_code = fields.Char(
         string="Alternative Code",
-        index=True,
+        index="trigram",
         inverse="_inverse_alternative_code",
         compute="_compute_alternative_code",
-        unaccent=False,
+        # unaccent=False,
     )
     alternative_ids = fields.One2many("product.alternative", "product_tmpl_id", string="Alternatives")
 
@@ -64,7 +64,9 @@ class ProductAlternative(models.Model):
     _name = "product.alternative"
     _description = "Product alternative"
 
-    name = fields.Char(string="Code", index=True, unaccent=False)
+    name = fields.Char(string="Code", index="trigram",
+                       # unaccent=False
+                       )
     sequence = fields.Integer(string="sequence", default=10)
     product_tmpl_id = fields.Many2one("product.template", string="Product Template", ondelete="cascade")
     hide = fields.Boolean(string="Hide")
