@@ -33,7 +33,7 @@ class TestStockPicking(TransactionCase):
         self.product = self.env["product.product"].create(
             {
                 "name": "Test Product",
-                "type": "product",
+                "is_storable": True,
                 "categ_id": self.product_category.id,
             }
         )
