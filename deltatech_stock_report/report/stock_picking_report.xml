@@ -49,7 +49,7 @@
                     <field name="picking_type_code" />
 
 
-                    <filter name="date" date="date" default_period="this_month" />
+                    <filter name="date" date="date" default_period="month" />
 
                     <filter
                     name="picking_type_incoming"
