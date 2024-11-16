@@ -22,7 +22,7 @@ class TestStockPicking(TransactionCase):
             {
                 "name": "Test Product",
                 "categ_id": self.product_category.id,
-                "type": "product",
+                "is_storable": True,
                 "list_price": 100.0,
             }
         )
