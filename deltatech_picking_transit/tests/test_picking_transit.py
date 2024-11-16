@@ -14,7 +14,7 @@
 #         self.product = self.env["product.product"].create(
 #             {
 #                 "name": "Test Product",
-#                 "type": "product",
+#                 "is_storable": True,
 #                 "standard_price": 100,
 #                 "list_price": 150,
 #             }
