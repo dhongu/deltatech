@@ -15,10 +15,10 @@ class TestStockInventory(TransactionCase):
 
         seller_ids = [(0, 0, {"partner_id": self.partner_a.id})]
         self.product_a = self.env["product.product"].create(
-            {"name": "Test A", "type": "product", "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
+            {"name": "Test A","is_storable": True, "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
         )
         self.product_b = self.env["product.product"].create(
-            {"name": "Test B", "type": "product", "standard_price": 70, "list_price": 150, "seller_ids": seller_ids}
+            {"name": "Test B", "is_storable": True, "standard_price": 70, "list_price": 150, "seller_ids": seller_ids}
         )
         # self.stock_location = self.env.ref("stock.stock_location_stock")
         self.stock_location = self.env["stock.location"].create({"name": "Test location", "usage": "internal"})
@@ -41,7 +41,7 @@ class TestStockInventory(TransactionCase):
         self.product = self.env["product.product"].create(
             {
                 "name": "Test Product",
-                "type": "product",
+                "is_storable": True,
             }
         )
         self.quant = self.env["stock.quant"].create(
