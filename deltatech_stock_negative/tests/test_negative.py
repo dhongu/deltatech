@@ -17,13 +17,13 @@ class TestNegative(TransactionCase):
         cls.product = cls.env["product.product"].create(
             {
                 "name": "Product A",
-                "type": "product",
+                "is_storable": True,
             }
         )
         cls.product_lot = cls.env["product.product"].create(
             {
                 "name": "Product B",
-                "type": "product",
+                "is_storable": True,
                 "tracking": "lot",
             }
         )
