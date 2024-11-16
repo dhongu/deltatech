@@ -5,7 +5,7 @@
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.stock_picking_kanban" />
         <field name="arch" type="xml">
-            <xpath expr="//feild[@name='state']" position="after">
+            <xpath expr="//field[@name='state']" position="after">
                 <field name="categ_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
             </xpath>
         </field>
