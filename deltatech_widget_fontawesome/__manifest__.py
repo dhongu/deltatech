@@ -4,7 +4,7 @@
 {
     "name": "FontAwesome Widget",
     "summary": "Font Awesome Widget",
-    "version": "17.0.1.0.0",
+    "version": "18.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
