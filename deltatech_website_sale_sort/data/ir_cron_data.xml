@@ -3,7 +3,6 @@
         <field name="name">Products: Update products statistics</field>
         <field name="model_id" ref="model_product_template" />
         <field name="state">code</field>
-        <field name="numbercall">-1</field>
         <field name="code">model._cron_update_statistics()</field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
