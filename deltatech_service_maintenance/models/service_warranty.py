@@ -7,7 +7,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
-# flux garantii
+# flux garantii si reconditionari
 
 
 class ServiceWarranty(models.Model):
@@ -15,6 +15,7 @@ class ServiceWarranty(models.Model):
     _description = "Warranty"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
+    type = fields.Selection([("warranty", "Warranty"), ("recondition", "Recondition")])
     name = fields.Char(string="Reference", readonly=True, index=True, default="/", copy=False)
     date = fields.Datetime(
         string="Date", default=fields.Date.context_today, readonly=True, states={"new": [("readonly", False)]}
@@ -32,6 +33,18 @@ class ServiceWarranty(models.Model):
         string="Status",
         tracking=True,
     )
+
+    rec_state = fields.Selection(
+        [
+            ("new", "New"),
+            ("progress", "In Progress"),
+            ("done", "Done"),
+        ],
+        default="new",
+        string="Status",
+        tracking=True,
+    )
+
     clarifications_state = fields.Selection(
         [("required", "Required"), ("sent", "Sent")], string="Clarifications", tracking=True
     )
