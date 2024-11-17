@@ -4,10 +4,10 @@
 
 from odoo import http
 
-from odoo.addons.website_sale.controllers import main
+from odoo.addons.website_sale.controllers import main, website
 
 
-class Website(main.Website):
+class Website(website.Website):
     @http.route()
     def autocomplete(
         self,
