@@ -48,12 +48,12 @@
             </field>
             <field name="groups" eval="[(4, ref('group_sale_team_manager'))]" />
         </record>
-        <record id="res_partner_team_rule" model="ir.rule">
+<!--        <record id="res_partner_team_rule" model="ir.rule">
             <field name="name">Sales Team Partners</field>
             <field ref="base.model_res_partner" name="model_id" />
             <field name="domain_force">['|', ('team_id', '=', user.sale_team_id.id), ('team_id', '=', False)]</field>
             <field name="groups" eval="[(4, ref('group_sale_team_manager'))]" />
-        </record>
+        </record>-->
         <!--
         <record id="crm_lead_team_rule" model="ir.rule">
             <field name="name">Sales Team Leads/Opportunities</field>
