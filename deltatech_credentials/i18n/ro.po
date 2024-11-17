@@ -1,0 +1,120 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_credentials
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-17 10:47+0000\n"
+"PO-Revision-Date: 2024-05-17 10:47+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields,field_description:deltatech_credentials.field_access_credentials__access_token
+msgid "Access Token"
+msgstr "Token acces"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields,field_description:deltatech_credentials.field_access_credentials__access_type
+msgid "Access Type"
+msgstr "Tip acces"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields.selection,name:deltatech_credentials.selection__access_credentials__access_type__token
+msgid "Access token"
+msgstr "Token acces"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields,field_description:deltatech_credentials.field_access_credentials__client_id
+msgid "Client Id"
+msgstr "Id client"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields,field_description:deltatech_credentials.field_access_credentials__client_secret
+msgid "Client Secret / API key"
+msgstr "Secret client / Cheie API"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields.selection,name:deltatech_credentials.selection__access_credentials__access_type__client
+msgid "Client_id and client_secret"
+msgstr "Client_id si client_secret"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields,field_description:deltatech_credentials.field_access_credentials__code
+msgid "Code"
+msgstr "Cod"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields,field_description:deltatech_credentials.field_access_credentials__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields,field_description:deltatech_credentials.field_access_credentials__create_date
+msgid "Created on"
+msgstr "Creat pe"
+
+#. module: deltatech_credentials
+#: model:ir.actions.act_window,name:deltatech_credentials.action_access_credentials
+#: model:ir.model,name:deltatech_credentials.model_access_credentials
+#: model:ir.ui.menu,name:deltatech_credentials.menu_access_credentials
+#: model_terms:ir.ui.view,arch_db:deltatech_credentials.view_access_credentials_form
+#: model_terms:ir.ui.view,arch_db:deltatech_credentials.view_access_credentials_tree
+msgid "Credentials"
+msgstr "Credentiale"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields,field_description:deltatech_credentials.field_access_credentials__display_name
+msgid "Display Name"
+msgstr "Nume afisat"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields,field_description:deltatech_credentials.field_access_credentials__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_credentials
+#: model:ir.model.fields,field_description:deltatech_credentials.field_access_credentials____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare pe"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields,field_description:deltatech_credentials.field_access_credentials__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields,field_description:deltatech_credentials.field_access_credentials__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields,field_description:deltatech_credentials.field_access_credentials__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields,field_description:deltatech_credentials.field_access_credentials__password
+msgid "Password"
+msgstr "Parola"
+
+#. module: deltatech_credentials
+#: model_terms:ir.ui.view,arch_db:deltatech_credentials.view_access_credentials_filter
+msgid "Search"
+msgstr "Cauta"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields.selection,name:deltatech_credentials.selection__access_credentials__access_type__user
+msgid "User and password"
+msgstr "Utilizator si parola"
+
+#. module: deltatech_credentials
+#: model:ir.model.fields,field_description:deltatech_credentials.field_access_credentials__username
+msgid "Username"
+msgstr "Utilizator"
