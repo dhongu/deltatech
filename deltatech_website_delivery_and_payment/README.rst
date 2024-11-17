@@ -30,6 +30,8 @@ Features:
 -  restrict delivery methods for partners (linked with logged in user)
    with certain label
 
+In V18 is working in progress.
+
 **Table of contents**
 
 .. contents::
