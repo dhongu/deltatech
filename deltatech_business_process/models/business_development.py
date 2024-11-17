@@ -87,13 +87,13 @@ class BusinessDevelopment(models.Model):
     development_duration = fields.Float(string="Development duration")
     note = fields.Html(string="Note")
 
-    @api.model
-    def create(self, vals):
-        if not vals.get("code", False):
-            vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
-        result = super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get("code", False):
+                vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
 
-        return result
+        return super().create()
 
     def write(self, vals):
         result = super().write(vals)
