@@ -26,7 +26,7 @@ class TestSale(TransactionCase):
         self.product_b = self.env["product.product"].create(
             {
                 "name": "Test B",
-                "type": "product",
+                "is_storable": True,
                 "standard_price": 70,
                 "list_price": 150,
                 "seller_ids": seller_ids,
