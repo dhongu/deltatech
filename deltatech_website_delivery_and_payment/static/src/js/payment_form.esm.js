@@ -3,8 +3,7 @@
 // import "@website_sale/js/website_sale_delivery";
 import publicWidget from "@web/legacy/js/public/public_widget";
 
-
-// publicWidget.registry.websiteSaleDelivery.include({
+// PublicWidget.registry.websiteSaleDelivery.include({
 //     start: function () {
 //         this.paymentOptions = document.querySelectorAll('input[name="o_payment_radio"]');
 //         return this._super.apply(this, ...arguments);
