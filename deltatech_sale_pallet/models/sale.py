@@ -29,7 +29,7 @@ class SaleOrder(models.Model):
         for line in self.order_line:
             if line.product_id.pallet_product_id and line.product_id.pallet_qty_min:
                 # search for lines with same pallet
-                product = line.product_id.pallet_product_id.id
+                product = line.product_id.pallet_product_id
                 prod_with_pallet_lines = self.order_line.filtered(
                     lambda p, product_id=product.id: p.product_id.pallet_product_id.id == product_id
                 )
