@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_analytic_split_form" model="ir.ui.view">
+        <field name="name">account.analytic.split.form</field>
+        <field name="model">account.analytic.split</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_prepare_lines"
+                        type="object"
+                        attrs="{'invisible': [('state','!=','draft')]}"
+                        string="Compute"
+                    />
+                    <button
+                        name="action_create_analytic_lines"
+                        type="object"
+                        attrs="{'invisible': [('state','!=','draft')]}"
+                        string="Confirm"
+                    />
+                    <button
+                        name="action_reset_split"
+                        type="object"
+                        attrs="{'invisible': [('state','!=','confirmed')]}"
+                        string="Reset"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box" />
+                    <group name="head1">
+                        <field name="name" attrs="{'readonly': [('state','!=','draft')]}" />
+                        <field name="date" />
+                        <field name="split_type" attrs="{'readonly': [('state','!=','draft')]}" />
+                    </group>
+                    <group name="head2">
+                        <field name="split_template_id" />
+                        <field
+                            name="amount"
+                            attrs="{'readonly': ['|', ('state','!=','draft'), ('split_type','!=','amount')]}"
+                        />
+                        <field
+                            name="line_to_split"
+                            attrs="{'invisible': [('split_type','!=','line')], 'readonly': [('state','!=','draft')], 'required': [('split_type','=','line'), ('state','=','draft')]}"
+                        />
+                    </group>
+                    <notebook>
+                        <page string="Lines templates">
+                            <field name="line_ids" attrs="{'readonly': [('state','!=','draft')]}">
+                                <tree editable="bottom">
+                                    <field name="analytic_id" />
+                                    <field name="percent" sum="percent" />
+                                    <field name="amount" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_account_analytic_split_tree" model="ir.ui.view">
+        <field name="name">account.analytic.split.tree</field>
+        <field name="model">account.analytic.split</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="split_type" />
+                <field name="amount" />
+                <field name="date" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_analytic_split" model="ir.actions.act_window">
+        <field name="name">Analytic split</field>
+        <field name="res_model">account.analytic.split</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        name="Analytic splits"
+        id="menu_analytic_split"
+        action="action_analytic_split"
+        parent="account.menu_analytic_accounting"
+        sequence="110"
+    />
+</odoo>

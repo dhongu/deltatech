@@ -16,6 +16,7 @@
         "views/account_analytic_default.xml",
         "views/account_analytic_line.xml",
         "views/account_analytic_split_template.xml",
+        "views/account_analytic_split.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
