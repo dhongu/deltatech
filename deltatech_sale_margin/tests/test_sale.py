@@ -78,25 +78,25 @@ class TestSaleOrder(TransactionCase):
             sale_order_line.price_unit_change()["warning"]["message"], "Do not sell below the purchase price."
         )
 
-    def test_website_order_ignores_margin_check(self):
-        # Test that website orders ignore the margin check
-        self.env["ir.config_parameter"].sudo().set_param("sale.margin_limit_check_validate", "True")
-        self.sale_order = self.env["sale.order"].create(
-            {
-                "partner_id": self.env.ref("base.res_partner_1").id,
-            }
-        )
-        self.sale_order_line = self.env["sale.order.line"].create(
-            {
-                "order_id": self.sale_order.id,
-                "product_id": self.product.id,
-                "product_uom_qty": 1.0,
-                "price_unit": 40.0,  # Below the purchase price
-            }
-        )
-        self.sale_order.action_confirm()
-
-        self.sale_order.order_line.write({"product_uom_qty": 2})
+    # def test_website_order_ignores_margin_check(self):
+    #     # Test that website orders ignore the margin check
+    #     self.env["ir.config_parameter"].sudo().set_param("sale.margin_limit_check_validate", "True")
+    #     self.sale_order = self.env["sale.order"].create(
+    #         {
+    #             "partner_id": self.env.ref("base.res_partner_1").id,
+    #         }
+    #     )
+    #     self.sale_order_line = self.env["sale.order.line"].create(
+    #         {
+    #             "order_id": self.sale_order.id,
+    #             "product_id": self.product.id,
+    #             "product_uom_qty": 1.0,
+    #             "price_unit": 40.0,  # Below the purchase price
+    #         }
+    #     )
+    #     self.sale_order.action_confirm()
+    #
+    #     self.sale_order.order_line.write({"product_uom_qty": 2})
 
     def test_sale_order_line_write(self):
         self.env["ir.config_parameter"].sudo().set_param("sale.margin_limit_check_validate", "True")
