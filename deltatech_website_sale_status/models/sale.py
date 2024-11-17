@@ -63,7 +63,7 @@ class SaleOrder(models.Model):
                 qty_to_deliver = 0
                 order.stage = "delivered"
                 for line in order.order_line:
-                    if line.product_id.type == "product":
+                    if line.product_id.is_storable:
                         qty_to_deliver += line.qty_to_deliver
                 if qty_to_deliver != 0:
                     order.stage = "to_be_delivery"
