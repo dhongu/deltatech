@@ -108,7 +108,7 @@
             </th>
         </xpath>
 
-       <xpath expr="//table[@class='table table-sm']//tbody//tr" position="inside">
+       <xpath expr="//table[hasclass('table table-sm')]//tbody//tr" position="inside">
             <td t-attf-class="text-end">
                 <span t-field="raw_line.quantity" />
                 <span t-field="raw_line.product_uom.name" groups="uom.group_uom" />
