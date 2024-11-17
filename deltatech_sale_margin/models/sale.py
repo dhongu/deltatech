@@ -17,7 +17,7 @@ class SaleOrder(models.Model):
         for order in self.filtered(lambda o: o.state in ["draft", "sent"]):
             warning_message = ""
             for line in order.order_line:
-                if line.product_id and line.product_id.type == "product":
+                if line.product_id and line.product_id.is_storable:
                     price_unit = line.price_reduce_taxexcl
                     if price_unit and price_unit < line.purchase_price and line.purchase_price > 0:
                         warning_message += _(
