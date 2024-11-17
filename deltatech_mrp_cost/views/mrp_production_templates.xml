@@ -96,7 +96,7 @@
 
     <template id="report_production_components" inherit_id="mrp.report_mrp_production_components">
 
-     <xpath expr="//th[@t-if='has_product_barcode']" position="after">
+     <xpath expr="//table//thead//tr" position="inside">
             <th class="text-right">
                 <strong>Effective Quantity</strong>
             </th>
@@ -108,7 +108,7 @@
             </th>
         </xpath>
 
-       <xpath expr="//table[hasclass('table table-sm')]//tbody//tr" position="inside">
+       <xpath expr="//table//tbody//tr" position="inside">
             <td t-attf-class="text-end">
                 <span t-field="raw_line.quantity" />
                 <span t-field="raw_line.product_uom.name" groups="uom.group_uom" />
