@@ -21,6 +21,10 @@ class StockQuant(models.Model):
             strict=strict,
             allow_negative=allow_negative,
         )
+        company = self.company_id or self.env.company
+        if not company.no_negative_stock:
+            return res
+
         if location_id and not location_id.allow_negative_stock and res < 0.0 and location_id.usage == "internal":
             err = _(
                 "You have chosen to avoid negative stock. %(lot_qty)s pieces of %(product_name)s"
