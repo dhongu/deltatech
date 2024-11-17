@@ -15,7 +15,7 @@ class TestProduct(TransactionCase):
         self.product_a = self.env["product.product"].create(
             {
                 "name": "Test A",
-                "type": "product",
+                "is_storable": True,
                 "standard_price": 100,
                 "list_price": 150,
                 "seller_ids": seller_ids,
@@ -24,7 +24,7 @@ class TestProduct(TransactionCase):
         self.product_b = self.env["product.product"].create(
             {
                 "name": "Test B",
-                "type": "product",
+                "is_storable": True,
                 # "inventory_availability": "preorder",
                 "standard_price": 70,
                 "list_price": 150,
@@ -35,7 +35,7 @@ class TestProduct(TransactionCase):
         self.product_c = self.env["product.product"].create(
             {
                 "name": "Test C",
-                "type": "product",
+                "is_storable": True,
                 # "inventory_availability": "preorder",
                 "standard_price": 70,
                 "list_price": 150,
