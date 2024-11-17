@@ -17,8 +17,8 @@ class TestMrpOrder(TestMrpCommon):
     def test_basic(self):
         """Checks a basic manufacturing order: no routing (thus no workorders), no lot and
         consume strictly what's needed."""
-        self.product_1.type = "product"
-        self.product_2.type = "product"
+        self.product_1.is_storable = True
+        self.product_2.is_storable = True
         self.env["stock.quant"].create(
             {
                 "location_id": self.warehouse_1.lot_stock_id.id,

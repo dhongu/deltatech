@@ -57,16 +57,17 @@ class MrpProduction(models.Model):
 
         return super()._cal_price(consumed_moves)
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals_list):
-        bom_id = vals_list.get("bom_id")
-        if bom_id:
-            bom = self.env["mrp.bom"].browse(bom_id)
-            vals_list["overhead_amount"] = bom.overhead_amount
-            vals_list["utility_consumption"] = bom.utility_consumption
-            vals_list["net_salary_rate"] = bom.net_salary_rate
-            vals_list["salary_contributions"] = bom.salary_contributions
-            vals_list["duration"] = vals_list["product_qty"] / bom.product_qty * bom.duration
+        for vals in vals_list:
+            bom_id = vals.get("bom_id")
+            if bom_id:
+                bom = self.env["mrp.bom"].browse(bom_id)
+                vals["overhead_amount"] = bom.overhead_amount
+                vals["utility_consumption"] = bom.utility_consumption
+                vals["net_salary_rate"] = bom.net_salary_rate
+                vals["salary_contributions"] = bom.salary_contributions
+                vals["duration"] = vals["product_qty"] / bom.product_qty * bom.duration
 
         return super().create(vals_list)
 
