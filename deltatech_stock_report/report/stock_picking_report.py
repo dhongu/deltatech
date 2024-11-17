@@ -35,7 +35,7 @@ class StockPickingReport(models.Model):
     location_dest_id = fields.Many2one("stock.location", "Location Destination", readonly=True, index=True)
 
     product_qty = fields.Float("Quantity", digits="Product UoM", readonly=True)
-    price = fields.Float("Price Unit", digits="Account", readonly=True, group_operator="avg")
+    price = fields.Float("Price Unit", digits="Account", readonly=True, aggregator="avg")
     amount = fields.Float("Amount", digits="Account", readonly=True)
 
     commercial_partner_id = fields.Many2one("res.partner", string="Commercial Entity")
