@@ -5,7 +5,7 @@
         <field name="model">ir.attachment</field>
         <field name="inherit_id" ref="mail.view_document_file_kanban" />
         <field name="arch" type="xml">
-            <xpath expr="field[@name='create_date']" position="after">
+            <xpath expr="field[@name='type']" position="after">
                 <field name="datas" />
             </xpath>
             <xpath expr="//templates//field[@name='create_date']" position="after">
