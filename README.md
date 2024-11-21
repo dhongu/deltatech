@@ -113,7 +113,7 @@ addon | version | maintainers | summary | price
 [deltatech_property](deltatech_property/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Property Management | Free 
 [deltatech_property_agreement](deltatech_property_agreement/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage property agreements | Free 
 [deltatech_purchase_confirmation_reminder](deltatech_purchase_confirmation_reminder/) | 16.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | This module will create an activity on the puchase order | Free 
-[deltatech_purchase_discount](deltatech_purchase_discount/) | 16.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Discount in purchase order line | Free 
+[deltatech_purchase_discount](deltatech_purchase_discount/) | 16.0.1.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Discount in purchase order line | Free 
 [deltatech_purchase_picking_status](deltatech_purchase_picking_status/) | 16.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Get purchase status from pickings | Free 
 [deltatech_purchase_price](deltatech_purchase_price/) | 16.0.1.1.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Update vendor price after reception | Free 
 [deltatech_purchase_price_history](deltatech_purchase_price_history/) | 16.0.0.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | View minim, maxim and average purchase price from the last 12 months in product template | Free 

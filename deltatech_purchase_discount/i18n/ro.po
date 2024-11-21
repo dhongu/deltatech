@@ -71,7 +71,7 @@ msgstr "Păstrează discountul din comanda de achiziție"
 #. module: deltatech_purchase_discount
 #: model:ir.model.fields,field_description:deltatech_purchase_discount.field_purchase_order_line__price_without_discount
 msgid "Price w discount"
-msgstr "Preț cu discount"
+msgstr "Preț fără discount"
 
 #. module: deltatech_purchase_discount
 #: model:ir.model,name:deltatech_purchase_discount.model_purchase_order_line
