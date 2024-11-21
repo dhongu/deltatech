@@ -14,7 +14,8 @@ class StockMoveLine(models.Model):
         for ml in self:
             # if a lot/serial enters the master location
             if (
-                ml.lot_id
+                ml
+                and ml.lot_id
                 and ml.product_id.loc_storehouse_id
                 and ml.product_id.loc_storehouse_id.location_id == ml.location_dest_id
             ):
