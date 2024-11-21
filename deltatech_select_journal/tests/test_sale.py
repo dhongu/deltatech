@@ -49,21 +49,24 @@ class TestSale(TransactionCase):
             }
         ).action_apply_inventory()
 
+        currency_eur = self.env.ref("base.EUR")
+        currency_eur.write({"active": True})
         self.journal_eur = self.env["account.journal"].create(
             {
                 "name": "Test Journal EUR",
                 "type": "sale",
                 "code": "SJ1",
-                "currency_id": self.env.ref("base.EUR").id,
+                "currency_id": currency_eur.id,
             }
         )
-
+        currency_usd = self.env.ref("base.USD")
+        currency_usd.write({"active": True})
         self.journal_usd = self.env["account.journal"].create(
             {
                 "name": "Test Journal USD",
                 "type": "sale",
                 "code": "SJ2",
-                "currency_id": self.env.ref("base.USD").id,
+                "currency_id": currency_usd.id,
             }
         )
         self.team_eur = self.env["crm.team"].create(
