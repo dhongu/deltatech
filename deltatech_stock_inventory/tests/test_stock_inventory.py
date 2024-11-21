@@ -6,16 +6,68 @@ from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
 
+def _create_accounting_data(env):
+    """Create the accounts and journals used in stock valuation.
+
+    :param env: environment used to create the records
+    :return: an input account, an output account, a valuation account, an expense account, a stock journal
+    """
+    stock_input_account = env['account.account'].create({
+        'name': 'Stock Input',
+        'code': 'StockIn',
+        'user_type_id': env.ref('account.data_account_type_current_assets').id,
+        'reconcile': True,
+    })
+    stock_output_account = env['account.account'].create({
+        'name': 'Stock Output',
+        'code': 'StockOut',
+        'user_type_id': env.ref('account.data_account_type_current_assets').id,
+        'reconcile': True,
+    })
+    stock_valuation_account = env['account.account'].create({
+        'name': 'Stock Valuation',
+        'code': 'Stock Valuation',
+        'user_type_id': env.ref('account.data_account_type_current_assets').id,
+        'reconcile': True,
+    })
+    expense_account = env['account.account'].create({
+        'name': 'Expense Account',
+        'code': 'Expense Account',
+        'user_type_id': env.ref('account.data_account_type_expenses').id,
+        'reconcile': True,
+    })
+    stock_journal = env['account.journal'].create({
+        'name': 'Stock Journal',
+        'code': 'STJTEST',
+        'type': 'general',
+    })
+    return stock_input_account, stock_output_account, stock_valuation_account, expense_account, stock_journal
+
+
 class TestStockInventory(TransactionCase):
     def setUp(self):
         super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
+        self.stock_input_account, self.stock_output_account, self.stock_valuation_account, self.expense_account, self.stock_journal = _create_accounting_data(
+            self.env)
         self.category_average = self.env["product.category"].create(
             {"name": "category1", "property_cost_method": "average", "property_valuation": "real_time"}
         )
         self.category_fifo = self.env["product.category"].create(
             {"name": "category2", "property_cost_method": "fifo", "property_valuation": "real_time"}
         )
+        self.category_average.write({
+            'property_stock_account_input_categ_id': self.stock_input_account.id,
+            'property_stock_account_output_categ_id': self.stock_output_account.id,
+            'property_stock_valuation_account_id': self.stock_valuation_account.id,
+            'property_stock_journal': self.stock_journal.id,
+        })
+        self.category_fifo.write({
+            'property_stock_account_input_categ_id': self.stock_input_account.id,
+            'property_stock_account_output_categ_id': self.stock_output_account.id,
+            'property_stock_valuation_account_id': self.stock_valuation_account.id,
+            'property_stock_journal': self.stock_journal.id,
+        })
         seller_ids = [(0, 0, {"name": self.partner_a.id})]
         self.product_a = self.env["product.product"].create(
             {
