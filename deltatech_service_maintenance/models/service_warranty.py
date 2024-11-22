@@ -7,7 +7,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
-# flux garantii
+# flux garantii si reconditionari
 
 
 class ServiceWarranty(models.Model):
@@ -15,6 +15,7 @@ class ServiceWarranty(models.Model):
     _description = "Warranty"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
+    type = fields.Selection([("warranty", "Warranty"), ("recondition", "Recondition")])
     name = fields.Char(string="Reference", readonly=True, index=True, default="/", copy=False)
     date = fields.Datetime(
         string="Date", default=fields.Date.context_today, readonly=True, states={"new": [("readonly", False)]}
@@ -32,6 +33,18 @@ class ServiceWarranty(models.Model):
         string="Status",
         tracking=True,
     )
+
+    rec_state = fields.Selection(
+        [
+            ("new", "New"),
+            ("progress", "In Progress"),
+            ("done", "Done"),
+        ],
+        default="new",
+        string="Status",
+        tracking=True,
+    )
+
     clarifications_state = fields.Selection(
         [("required", "Required"), ("sent", "Sent")], string="Clarifications", tracking=True
     )
@@ -53,7 +66,7 @@ class ServiceWarranty(models.Model):
         states={"done": [("readonly", True)]},
         copy=True,
     )
-    total_amount = fields.Float(string="Total amount", compute="_compute_total_amount")
+    total_amount = fields.Float(string="Total amount", compute="_compute_total_amount", store=True)
 
     def _compute_service_agreement(self):
         agreements_installed = (
@@ -62,7 +75,7 @@ class ServiceWarranty(models.Model):
             .search([("name", "=", "deltatech_service_agreement"), ("state", "=", "installed")])
         )
         for warranty in self:
-            if not agreements_installed:
+            if not agreements_installed or not warranty.partner_id:
                 warranty.has_agreement = False
             else:
                 query = """
@@ -82,6 +95,7 @@ class ServiceWarranty(models.Model):
                 else:
                     warranty.has_agreement = False
 
+    @api.depends("item_ids")
     def _compute_total_amount(self):
         for warranty in self:
             total_amount = 0.0
@@ -94,13 +108,17 @@ class ServiceWarranty(models.Model):
         if self.equipment_id:
             self.user_id = self.equipment_id.technician_user_id or self.user_id
             if self.equipment_id.serial_id:
-                move_lines = self.env["stock.move.line"].search(
-                    [
-                        ("lot_id", "=", self.equipment_id.serial_id.id),
-                        ("state", "=", "done"),
-                        ("product_id", "=", self.equipment_id.product_id.id),
-                    ],
-                    order="date DESC",
+                move_lines = (
+                    self.env["stock.move.line"]
+                    .sudo()
+                    .search(
+                        [
+                            ("lot_id", "=", self.equipment_id.serial_id.id),
+                            ("state", "=", "done"),
+                            ("product_id", "=", self.equipment_id.product_id.id),
+                        ],
+                        order="date DESC",
+                    )
                 )
                 if move_lines:
                     last_move = False
@@ -112,18 +130,14 @@ class ServiceWarranty(models.Model):
                             if move.location_dest_id.usage == "customer":
                                 last_move = move
                                 break
-                    if last_move and last_move.move_id.sale_line_id:
-                        self.sale_order_id = last_move.move_id.sale_line_id.order_id
-                        invoice_lines = last_move.move_id.sale_line_id.invoice_lines
-                        invoices = invoice_lines.move_id
-                        if len(invoices) == 1:
-                            if invoices.state == "posted" and invoices.move_type == "out_invoice":
-                                self.invoice_id = invoices
+                    if last_move and last_move.sudo().move_id.sale_line_id:
+                        self.sudo().sale_order_id = last_move.move_id.sudo().sale_line_id.order_id
+                        invoice_lines = last_move.move_id.sudo().sale_line_id.invoice_lines
+                        invoices = invoice_lines.sudo().move_id
+                        if len(invoices.sudo()) == 1:
+                            if invoices.sudo().state == "posted" and invoices.sudo().move_type == "out_invoice":
+                                self.invoice_id = invoices.sudo()
                                 self.partner_id = invoices.partner_id
-                    else:
-                        self.invoice_id = False
-                        self.sale_order_id = False
-                        self.partner_id = False
         else:
             self.invoice_id = False
             self.sale_order_id = False
@@ -233,9 +247,9 @@ class ServiceWarrantyItem(models.Model):
     alternative_code = fields.Char(related="product_id.alternative_code")
     quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
     product_uom = fields.Many2one("uom.uom", string="Unit of Measure ")
+    note = fields.Char(string="Note")
     price_unit = fields.Float(string="Unit price")
     amount = fields.Float(string="Amount", compute="_compute_amount")
-    note = fields.Char(string="Note")
 
     @api.onchange("product_id")
     def onchange_product_id(self):

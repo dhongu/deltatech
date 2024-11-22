@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <tree
                 string="Warranty"
-                default_order='create_date desc'
+                default_order="create_date desc"
                 sample="1"
                 decoration-info="state == 'new'"
                 decoration-danger="state == 'approval_requested'"
@@ -18,9 +18,9 @@
                 decoration-bf="clarifications_state == 'required'"
                 decoration-it="clarifications_state == 'sent'"
             >
-                <field name="create_date" optional="show" />
+                <field name="create_date" optional="show" string="Create date" />
                 <field name="name" decoration-bf="1" />
-                <field name="date" optional="show" />
+                <field name="date" optional="show" string="Warranty date" />
                 <field name="equipment_id" />
                 <field name="sale_order_id" />
                 <field name="partner_id" />
@@ -33,6 +33,7 @@
                     decoration-success="state == 'assigned'  "
                     decoration-primary="state == 'progress'  "
                 />
+                <field name="total_amount" sum="total_amount" />
             </tree>
         </field>
     </record>
@@ -87,7 +88,19 @@
                         string="Set done"
                         attrs="{'invisible': [('state','!=','approved')]}"
                     />
-                    <field name="state" widget="statusbar" readonly="1" />
+                    <field name="type" invisible="1" />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        options="{'clickable': '1'}"
+                        attrs="{'invisible': [('type','!=','warranty')]}"
+                    />
+                    <field
+                        name="rec_state"
+                        widget="statusbar"
+                        options="{'clickable': '1'}"
+                        attrs="{'invisible': [('type','!=','recondition')]}"
+                    />
                 </header>
                 <sheet>
                     <div class="oe_title">
@@ -99,12 +112,16 @@
 
                     <group>
                         <group>
-                            <field name="date" />
-                            <field name="equipment_id" />
+                            <field name="create_date" readonly="1" />
+                            <field name="date" attrs="{'invisible': [('type','!=','warranty')]}" />
+                            <field
+                                name="equipment_id"
+                                attrs="{'readonly': [('state', 'not in', ['new', 'assigned'])]}"
+                            />
                         </group>
                         <group>
-                            <field name="sale_order_id" />
-                            <field name="invoice_id" />
+                            <field name="sale_order_id" attrs="{'invisible': [('type','!=','warranty')]}" />
+                            <field name="invoice_id" attrs="{'invisible': [('type','!=','warranty')]}" />
                         </group>
                         <group name="responsible">
                             <field
@@ -114,18 +131,25 @@
                                 attrs="{'readonly': [('state','not in', ['new', 'assigned'])]}"
                             />
                         </group>
-                        <group name="partner">
-                            <field name="partner_id" required="1" />
+                        <group name="partner" attrs="{'invisible': [('type','!=','warranty')]}">
+                            <field name="partner_id" attrs="{'required': [('type','=','warranty')]}" />
                             <field name="has_agreement" />
                         </group>
                         <group>
-                            <field name="picking_id" readonly="1" />
+                            <field name="picking_id" readonly="1" attrs="{'invisible': [('type','!=','warranty')]}" />
                         </group>
                         <group name="clarifications">
-                            <field name="clarifications_state" />
+                            <field
+                                name="clarifications_state"
+                                attrs="{'invisible': [('state','!=','approval_requested')]}"
+                            />
                         </group>
                         <group colspan="2">
-                            <field name="description" widget="text" />
+                            <field
+                                name="description"
+                                widget="text"
+                                style="border: 2px solid red; font-weight:bold; padding: 2px;"
+                            />
                         </group>
 
                     </group>
@@ -213,6 +237,12 @@
                 <filter name='assigned' string="Assigned" domain="[('state', '=', 'assigned')]" />
                 <filter name='progress' string="In Progress" domain="[('state', '=', 'progress')]" />
                 <filter name='done' string="Done" domain="[('state', '=', 'done')]" />
+                <filter
+                    name='cl_required'
+                    string="Clarifications required"
+                    domain="[('clarifications_state', '=', 'required')]"
+                />
+                <filter name='cl_sent' string="Clarifications sent" domain="[('clarifications_state', '=', 'sent')]" />
                 <separator />
                 <filter
                     name='my'
@@ -225,6 +255,11 @@
                     <filter name="group_by_user_id" string="Responsible" context="{'group_by':'user_id'}" />
                     <filter name="group_by_state" string="State" context="{'group_by':'state'}" />
                     <filter name="group_by_equipment_id" string="Equipment" context="{'group_by':'equipment_id'}" />
+                    <filter
+                        name="group_by_clarifications"
+                        string="Clarifications"
+                        context="{'group_by':'clarifications_state'}"
+                    />
                 </group>
             </search>
         </field>
@@ -233,11 +268,30 @@
         <field name="name">Warranty</field>
         <field name="res_model">service.warranty</field>
         <field name="view_mode">tree,form,activity</field>
+        <field name="domain">[('type', '=', 'warranty')]</field>
+        <field name="context">{'default_type': 'warranty'}</field>
     </record>
     <menuitem
         name="Warranty"
         id="menu_service_warranty"
         action="action_service_warranty"
+        parent="deltatech_service_base.menu_service"
+        groups="deltatech_service_base.group_warranty_user"
+    />
+
+
+
+    <record id="action_service_recondition" model="ir.actions.act_window">
+        <field name="name">Reconditions</field>
+        <field name="res_model">service.warranty</field>
+        <field name="view_mode">tree,form,activity</field>
+        <field name="domain">[('type', '=', 'recondition')]</field>
+        <field name="context">{'default_type': 'recondition'}</field>
+    </record>
+    <menuitem
+        name="Reconditions"
+        id="menu_service_recondition"
+        action="action_service_recondition"
         parent="deltatech_service_base.menu_service"
         groups="deltatech_service_base.group_warranty_user"
     />
