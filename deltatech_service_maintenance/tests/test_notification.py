@@ -52,7 +52,7 @@ class TestServiceNotification(TestServiceBase):
         picking.action_assign()
 
     def test_create_warranty(self):
-        notification = Form(self.env["service.warranty"])
+        notification = Form(self.env["service.warranty"].with_context(default_type="warranty"))
         notification.user_id = self.user_demo
         notification.partner_id = self.partner
         notification = notification.save()
@@ -64,3 +64,9 @@ class TestServiceNotification(TestServiceBase):
         notification.set_in_progress()
         notification.new_delivery_button()
         notification.request_approval()
+
+    def test_create_recondition(self):
+        notification = Form(self.env["service.warranty"].with_context(default_type="recondition"))
+        notification.user_id = self.user_demo
+        notification = notification.save()
+        notification.rec_state = "done"
