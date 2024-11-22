@@ -161,7 +161,7 @@ addon | version | maintainers | summary | price
 [deltatech_service_consumable](deltatech_service_consumable/) | 16.0.1.1.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Service Consumable | Free 
 [deltatech_service_equipment](deltatech_service_equipment/) | 16.0.1.1.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Service Equipment Management | Free 
 [deltatech_service_equipment_base](deltatech_service_equipment_base/) | 16.0.1.1.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Service Equipment Management | Free 
-[deltatech_service_maintenance](deltatech_service_maintenance/) | 16.0.1.1.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance | Free 
+[deltatech_service_maintenance](deltatech_service_maintenance/) | 16.0.1.1.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance | Free 
 [deltatech_service_maintenance_agreement](deltatech_service_maintenance_agreement/) | 16.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance | Free 
 [deltatech_service_maintenance_plan](deltatech_service_maintenance_plan/) | 16.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance Plan | Free 
 [deltatech_sms](deltatech_sms/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Send SMS to custom endpoint | Free 
