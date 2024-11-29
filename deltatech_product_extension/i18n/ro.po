@@ -1,0 +1,68 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_product_extension
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-23 09:12+0000\n"
+"PO-Revision-Date: 2024-05-23 09:12+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_product_extension
+#: model:ir.model,name:deltatech_product_extension.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: deltatech_product_extension
+#: model:ir.model.fields,field_description:deltatech_product_extension.field_product_product__dimensions
+#: model:ir.model.fields,field_description:deltatech_product_extension.field_product_template__dimensions
+msgid "Dimensions"
+msgstr "Dimensiuni"
+
+#. module: deltatech_product_extension
+#: model:ir.model,name:deltatech_product_extension.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr "Statistica Facturi"
+
+#. module: deltatech_product_extension
+#: model:ir.model.fields,field_description:deltatech_product_extension.field_res_partner__is_manufacturer
+#: model:ir.model.fields,field_description:deltatech_product_extension.field_res_users__is_manufacturer
+msgid "Is manufacturer"
+msgstr "Este producator"
+
+#. module: deltatech_product_extension
+#: model:ir.model.fields,field_description:deltatech_product_extension.field_account_invoice_report__manufacturer
+#: model:ir.model.fields,field_description:deltatech_product_extension.field_product_product__manufacturer
+#: model:ir.model.fields,field_description:deltatech_product_extension.field_product_template__manufacturer
+msgid "Manufacturer"
+msgstr "Producator"
+
+#. module: deltatech_product_extension
+#: model:ir.model,name:deltatech_product_extension.model_product_template
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_product_extension
+#: model:ir.model.fields,field_description:deltatech_product_extension.field_product_product__shelf_life
+#: model:ir.model.fields,field_description:deltatech_product_extension.field_product_template__shelf_life
+msgid "Shelf Life"
+msgstr "Valabilitate"
+
+#. module: deltatech_product_extension
+#: model:ir.model.fields,field_description:deltatech_product_extension.field_product_product__uom_shelf_life
+#: model:ir.model.fields,field_description:deltatech_product_extension.field_product_template__uom_shelf_life
+msgid "Unit of Measure Shelf Life"
+msgstr "Unitate de masura valabilitate"
+
+#. module: deltatech_product_extension
+#: model:ir.model.fields,help:deltatech_product_extension.field_product_product__uom_shelf_life
+#: model:ir.model.fields,help:deltatech_product_extension.field_product_template__uom_shelf_life
+msgid "Unit of Measure for Shelf Life"
+msgstr "Unitate de masura pentru valabilitate"
