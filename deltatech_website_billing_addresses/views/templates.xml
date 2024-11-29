@@ -340,23 +340,23 @@
     </template>
 
     <template id="address_b2b" inherit_id="website_sale.address_b2b">
-        <xpath expr="//div[@id='div_phone']" position="after">
-            <div t-attf-class="form-group col-lg-6 div_is_company" t-if="mode[1]=='billing'" style="display: none;">
+        <xpath expr="//div[@id='div_phone']" position="before">
+            <div t-attf-class="form-group col-lg-6 div_is_company" t-if="mode[1]=='billing'" style="display: block;">
                 <label class="col-form-label" for="is_company">Is Company</label>
-                <t t-set="is_company" t-value=" request.httprequest.args.get('is_company') " />
+                <t t-set="is_company" t-value=" request.httprequest.args.get('is_company') or 'no'" />
+
                 <select
                     id="is_company"
                     name="is_company"
                     t-attf-class="form-control js_is_company"
                     t-att-mode="mode[1]"
                 >
-                    <option value="yes" t-att-selected="is_company == 'yes'">
-                        Yes
-                    </option>
                     <option value="no" t-att-selected="is_company == 'no'">
                         No
                     </option>
-
+                    <option value="yes" t-att-selected="is_company == 'yes'">
+                        Yes
+                    </option>
                 </select>
             </div>
         </xpath>

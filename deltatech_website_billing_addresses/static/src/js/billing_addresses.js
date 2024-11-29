@@ -69,8 +69,7 @@ odoo.define("deltatech_website_billing_addresses.billing_addresses", function (r
 
             $("#div_email").hide();
             $(".div_street2").hide();
-
-            if (is_company === "yes") {
+            if (is_company === "yes" || !is_company) {
                 // $("#div_phone").hide();
                 $vat.parent().show();
                 $vat_warning.show();
