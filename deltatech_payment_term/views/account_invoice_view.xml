@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" ?>
 <odoo>
-    <data>
+
         <record id="invoice_form1" model="ir.ui.view">
             <field name="name">account.invoice.form</field>
             <field name="model">account.move</field>
@@ -9,12 +9,12 @@
                 <div name="button_box" position="inside">
 
                 <button
-                        type="object"
-                        name="view_rate"
-                        class="oe_stat_button"
-                        icon="fa-money"
-                        invisible="move_type not in ('out_invoice', 'out_refund')"
-                    >
+                    type="object"
+                    name="view_rate"
+                    class="oe_stat_button"
+                    icon="fa-money"
+                    invisible="move_type not in ('out_invoice', 'out_refund')"
+                >
                     <span class="o_stat_text">Rates</span>
 
                 </button>
@@ -26,5 +26,5 @@
                 </xpath>
             </field>
         </record>
-    </data>
+
 </odoo>
