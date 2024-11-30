@@ -29,7 +29,7 @@
                 <page string="Received" invisible="state=='draft' or direction=='outgoing'">
                     <field
                         name="received_move_line_ids"
-                        context="{'tree_view_ref': 'stock_picking_batch.view_move_line_tree'}"
+                        context="{'list_view_ref': 'stock_picking_batch.view_move_line_tree'}"
                     />
                 </page>
             </xpath>
@@ -44,11 +44,11 @@
     </record>
 
     <record id="batch_view_move_line_tree" model="ir.ui.view">
-        <field name="name">batch.view.move.line.tree</field>
+        <field name="name">batch.view.move.line.list</field>
         <field name="model">stock.move.line</field>
         <field name="inherit_id" ref="stock_picking_batch.view_move_line_tree" />
         <field name="arch" type="xml">
-            <xpath expr="//tree" position="attributes">
+            <xpath expr="//list" position="attributes">
                 <attribute name="decoration-bf">quantity &gt; 0.0</attribute>
                 <attribute name="decoration-muted">quantity == 0.0</attribute>
             </xpath>
