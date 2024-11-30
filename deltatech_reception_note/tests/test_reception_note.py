@@ -17,7 +17,7 @@ class TestPurchaseOrderReceptionType(TransactionCase):
             {
                 "name": "Test Product",
                 "default_code": "TEST_PRODUCT",
-                "type": "product",
+                "is_storable": True,
             }
         )
 
