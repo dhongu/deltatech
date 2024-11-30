@@ -1,5 +1,5 @@
 <odoo>
-    <data>
+
         <!-- STOREHOUSE -->
         <record id="view_storehouse_tree" model="ir.ui.view">
             <field name="name">view.storehouse.list</field>
@@ -189,15 +189,15 @@
 
         <menuitem id="menu_locations" name="Locations" parent="stock.menu_stock_root" sequence="200" />
         <menuitem
-            id="menu_storehouse"
-            name="Storehouse"
-            action="action_storehouse"
-            sequence="10"
-            parent="menu_locations"
-        />
+        id="menu_storehouse"
+        name="Storehouse"
+        action="action_storehouse"
+        sequence="10"
+        parent="menu_locations"
+    />
         <menuitem id="menu_zone" name="Zone" action="action_zone" sequence="20" parent="menu_locations" />
         <menuitem id="menu_shelf" name="Shelf" action="action_shelf" sequence="30" parent="menu_locations" />
         <menuitem id="menu_section" name="Section" action="action_section" sequence="40" parent="menu_locations" />
         <menuitem id="menu_rack" name="Rack" action="action_rack" sequence="50" parent="menu_locations" />
-    </data>
+
 </odoo>

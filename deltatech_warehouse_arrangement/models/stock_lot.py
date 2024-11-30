@@ -42,8 +42,8 @@ class StockLot(models.Model):
                     .with_context(active_test=False)
                     .search([("id", "child_of", stock_location_id.ids)])
                 )
-                internal_children_locations = children_location.filtered(lambda l: l.usage == "internal")
-                quants = lot.quant_ids.filtered(lambda q: q.location_id in internal_children_locations)
+                internal_children_locations = children_location.filtered(lambda li: li.usage == "internal")
+                quants = lot.quant_ids.filtered(lambda q, ids=internal_children_locations.ids: q.location_id.id in ids)
                 product_qty = sum(quants.mapped("quantity"))
                 if float_is_zero(product_qty, precision_rounding=lot.product_id.uom_id.rounding):
                     lot.write(
