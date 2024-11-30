@@ -15,7 +15,7 @@ class ProductTemplate(models.Model):
         "uom.uom",
         string="Unit of Measure Shelf Life",
         help="Unit of Measure for Shelf Life",
-        group_operator="avg",
+        aggregator="avg",
     )
 
     manufacturer = fields.Many2one("res.partner", string="Manufacturer", domain=[("is_manufacturer", "=", True)])
