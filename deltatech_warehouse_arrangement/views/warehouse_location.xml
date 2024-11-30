@@ -1,0 +1,203 @@
+<odoo>
+    <data>
+        <!-- STOREHOUSE -->
+        <record id="view_storehouse_tree" model="ir.ui.view">
+            <field name="name">view.storehouse.tree</field>
+            <field name="model">warehouse.location.storehouse</field>
+            <field name="arch" type="xml">
+                <tree string="Storehouse">
+                    <field name="sequence" widget="handle" />
+                    <field name="name" />
+                    <field name="location_id" />
+                    <field name="full_name" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_storehouse_form" model="ir.ui.view">
+            <field name="name">view.storehouse.form</field>
+            <field name="model">warehouse.location.storehouse</field>
+            <field name="arch" type="xml">
+                <form string="Storehouse">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1" />
+                            <field name="location_id" />
+                            <field name="full_name" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_storehouse" model="ir.actions.act_window">
+            <field name="name">Storehouse</field>
+            <field name="res_model">warehouse.location.storehouse</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- ZONE -->
+        <record id="view_zone_tree" model="ir.ui.view">
+            <field name="name">view.zone.tree</field>
+            <field name="model">warehouse.location.zone</field>
+            <field name="arch" type="xml">
+                <tree string="Zone">
+                    <field name="sequence" widget="handle" />
+                    <field name="name" />
+                    <field name="storehouse_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_zone_form" model="ir.ui.view">
+            <field name="name">view.zone.form</field>
+            <field name="model">warehouse.location.zone</field>
+            <field name="arch" type="xml">
+                <form string="Zone">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1" />
+                            <field name="storehouse_id" required="1" />
+                            <field name="full_name" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_zone" model="ir.actions.act_window">
+            <field name="name">Zone</field>
+            <field name="res_model">warehouse.location.zone</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- SHELF -->
+        <record id="view_shelf_tree" model="ir.ui.view">
+            <field name="name">view.shelf.tree</field>
+            <field name="model">warehouse.location.shelf</field>
+            <field name="arch" type="xml">
+                <tree string="Shelf">
+                    <field name="sequence" widget="handle" />
+                    <field name="name" />
+                    <field name="zone_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_shelf_form" model="ir.ui.view">
+            <field name="name">view.shelf.form</field>
+            <field name="model">warehouse.location.shelf</field>
+            <field name="arch" type="xml">
+                <form string="Shelf">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1" />
+                            <field name="zone_id" required="1" />
+                            <field name="full_name" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_shelf" model="ir.actions.act_window">
+            <field name="name">Shelf</field>
+            <field name="res_model">warehouse.location.shelf</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- SECTION -->
+        <record id="view_section_tree" model="ir.ui.view">
+            <field name="name">view.section.tree</field>
+            <field name="model">warehouse.location.section</field>
+            <field name="arch" type="xml">
+                <tree string="Section">
+                    <field name="sequence" widget="handle" />
+                    <field name="name" />
+                    <field name="shelf_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_section_form" model="ir.ui.view">
+            <field name="name">view.section.form</field>
+            <field name="model">warehouse.location.section</field>
+            <field name="arch" type="xml">
+                <form string="Section">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1" />
+                            <field name="shelf_id" required="1" />
+                            <field name="full_name" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_section" model="ir.actions.act_window">
+            <field name="name">Section</field>
+            <field name="res_model">warehouse.location.section</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- RACK -->
+        <record id="view_rack_tree" model="ir.ui.view">
+            <field name="name">view.rack.tree</field>
+            <field name="model">warehouse.location.rack</field>
+            <field name="arch" type="xml">
+                <tree string="Rack">
+                    <field name="sequence" widget="handle" />
+                    <field name="name" />
+                    <field name="section_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_rack_form" model="ir.ui.view">
+            <field name="name">view.rack.form</field>
+            <field name="model">warehouse.location.rack</field>
+            <field name="arch" type="xml">
+                <form string="Rack">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1" />
+                            <field name="section_id" required="1" />
+                            <field name="full_name" />
+                            <field name="barcode" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_rack" model="ir.actions.act_window">
+            <field name="name">Rack</field>
+            <field name="res_model">warehouse.location.rack</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_locations" name="Locations" parent="stock.menu_stock_root" sequence="200" />
+        <menuitem
+            id="menu_storehouse"
+            name="Storehouse"
+            action="action_storehouse"
+            sequence="10"
+            parent="menu_locations"
+        />
+        <menuitem id="menu_zone" name="Zone" action="action_zone" sequence="20" parent="menu_locations" />
+        <menuitem id="menu_shelf" name="Shelf" action="action_shelf" sequence="30" parent="menu_locations" />
+        <menuitem id="menu_section" name="Section" action="action_section" sequence="40" parent="menu_locations" />
+        <menuitem id="menu_rack" name="Rack" action="action_rack" sequence="50" parent="menu_locations" />
+    </data>
+</odoo>

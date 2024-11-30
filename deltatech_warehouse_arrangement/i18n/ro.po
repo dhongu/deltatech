@@ -1,0 +1,280 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_warehouse_arrangement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-19 04:14+0000\n"
+"PO-Revision-Date: 2024-09-19 04:14+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_rack__active
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_section__active
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_shelf__active
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_storehouse__active
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_zone__active
+msgid "Active"
+msgstr ""
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_rack__create_uid
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_section__create_uid
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_shelf__create_uid
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_storehouse__create_uid
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_zone__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_rack__create_date
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_section__create_date
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_shelf__create_date
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_storehouse__create_date
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_zone__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_template__display_name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_production_lot__display_name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_quant__display_name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_rack__display_name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_section__display_name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_shelf__display_name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_storehouse__display_name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_zone__display_name
+msgid "Display Name"
+msgstr "Afiseaza nume"
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_rack__full_name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_section__full_name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_shelf__full_name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_storehouse__full_name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_zone__full_name
+msgid "Full Name"
+msgstr ""
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_template__id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_production_lot__id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_quant__id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_rack__id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_section__id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_shelf__id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_storehouse__id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_zone__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_template____last_update
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_production_lot____last_update
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_quant____last_update
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_rack____last_update
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_section____last_update
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_shelf____last_update
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_storehouse____last_update
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_zone____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_rack__write_uid
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_section__write_uid
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_shelf__write_uid
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_storehouse__write_uid
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_zone__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_rack__write_date
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_section__write_date
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_shelf__write_date
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_storehouse__write_date
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_zone__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.ui.menu,name:deltatech_warehouse_arrangement.menu_locations
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.product_template_form_view
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.view_production_lot_form
+msgid "Locations"
+msgstr "Locație"
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model,name:deltatech_warehouse_arrangement.model_stock_production_lot
+msgid "Lot/Serial"
+msgstr ""
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_rack__name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_section__name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_shelf__name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_storehouse__name
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_zone__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model,name:deltatech_warehouse_arrangement.model_product_template
+msgid "Product Template"
+msgstr "Sablon Produs"
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model,name:deltatech_warehouse_arrangement.model_stock_quant
+msgid "Quants"
+msgstr "Poziții de stoc"
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.actions.act_window,name:deltatech_warehouse_arrangement.action_rack
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_product__loc_rack_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_template__loc_rack_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_production_lot__loc_rack_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_quant__loc_rack_id
+#: model:ir.ui.menu,name:deltatech_warehouse_arrangement.menu_rack
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.quant_search_view
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.view_rack_form
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.view_rack_tree
+msgid "Rack"
+msgstr "Polița"
+
+#. module: deltatech_warehouse_arrangement
+#: code:addons/deltatech_warehouse_arrangement/models/warehouse_location.py:0
+#, python-format
+msgid "Rack: "
+msgstr "Polița: "
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.actions.act_window,name:deltatech_warehouse_arrangement.action_section
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_product__loc_section_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_template__loc_section_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_production_lot__loc_section_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_quant__loc_section_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_rack__section_id
+#: model:ir.ui.menu,name:deltatech_warehouse_arrangement.menu_section
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.quant_search_view
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.view_section_form
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.view_section_tree
+msgid "Section"
+msgstr "Secțiune"
+
+#. module: deltatech_warehouse_arrangement
+#: code:addons/deltatech_warehouse_arrangement/models/warehouse_location.py:0
+#, python-format
+msgid "Section: "
+msgstr "Secțiune: "
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_rack__sequence
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_section__sequence
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_shelf__sequence
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_storehouse__sequence
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_zone__sequence
+msgid "Sequence"
+msgstr "Secvența"
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.actions.act_window,name:deltatech_warehouse_arrangement.action_shelf
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_product__loc_shelf_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_template__loc_shelf_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_production_lot__loc_shelf_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_quant__loc_shelf_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_section__shelf_id
+#: model:ir.ui.menu,name:deltatech_warehouse_arrangement.menu_shelf
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.quant_search_view
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.view_shelf_form
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.view_shelf_tree
+msgid "Shelf"
+msgstr "Raft"
+
+#. module: deltatech_warehouse_arrangement
+#: code:addons/deltatech_warehouse_arrangement/models/warehouse_location.py:0
+#, python-format
+msgid "Shelf: "
+msgstr "Raft: "
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.actions.act_window,name:deltatech_warehouse_arrangement.action_storehouse
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_product__loc_storehouse_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_template__loc_storehouse_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_production_lot__loc_storehouse_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_quant__loc_storehouse_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_zone__storehouse_id
+#: model:ir.ui.menu,name:deltatech_warehouse_arrangement.menu_storehouse
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.quant_search_view
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.view_storehouse_form
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.view_storehouse_tree
+msgid "Storehouse"
+msgstr "Hala"
+
+#. module: deltatech_warehouse_arrangement
+#: code:addons/deltatech_warehouse_arrangement/models/warehouse_location.py:0
+#, python-format
+msgid "Storehouse: "
+msgstr "Hala: "
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_storehouse__location_id
+msgid "Warehouse"
+msgstr "Depozit"
+
+#. module: deltatech_warehouse_arrangement
+#: model:res.groups,name:deltatech_warehouse_arrangement.group_locations_manager
+msgid "Warehouse Locations manager"
+msgstr "Manager locații"
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model,name:deltatech_warehouse_arrangement.model_warehouse_location_rack
+msgid "Warehouse Rack"
+msgstr "Polița"
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model,name:deltatech_warehouse_arrangement.model_warehouse_location_section
+msgid "Warehouse Section"
+msgstr "Secțiune"
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model,name:deltatech_warehouse_arrangement.model_warehouse_location_shelf
+msgid "Warehouse Shelf"
+msgstr "Raft"
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model,name:deltatech_warehouse_arrangement.model_warehouse_location_storehouse
+msgid "Warehouse Storehouse"
+msgstr "Hala"
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.model,name:deltatech_warehouse_arrangement.model_warehouse_location_zone
+msgid "Warehouse Zone"
+msgstr "Zona"
+
+#. module: deltatech_warehouse_arrangement
+#: model:ir.actions.act_window,name:deltatech_warehouse_arrangement.action_zone
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_product__loc_zone_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_template__loc_zone_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_production_lot__loc_zone_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_quant__loc_zone_id
+#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_shelf__zone_id
+#: model:ir.ui.menu,name:deltatech_warehouse_arrangement.menu_zone
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.quant_search_view
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.view_zone_form
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.view_zone_tree
+msgid "Zone"
+msgstr "Zona"
+
+#. module: deltatech_warehouse_arrangement
+#: code:addons/deltatech_warehouse_arrangement/models/warehouse_location.py:0
+#, python-format
+msgid "Zone: "
+msgstr "Zona: "
