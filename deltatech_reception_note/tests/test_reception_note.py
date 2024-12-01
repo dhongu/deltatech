@@ -147,7 +147,7 @@ class TestPurchaseOrderReceptionType(TransactionCase):
         reception_order.button_confirm()
 
         # Check if quantities are reduced in RFQ
-        rfq_line = rfq_order.order_line.filtered(lambda li, product_id=self.product_id: li.product_id == product_id)
+        rfq_line = rfq_order.order_line.filtered(lambda li, product_id=self.product: li.product_id == product_id)
         self.assertEqual(rfq_line.product_qty, 5, "RFQ quantity should be reduced to 5")
 
     def test_do_create_reception_note(self):
