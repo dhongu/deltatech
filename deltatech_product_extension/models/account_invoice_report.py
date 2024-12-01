@@ -13,8 +13,8 @@ class AccountInvoiceReport(models.Model):
 
     @api.model
     def _select(self) -> SQL:
-        select_str = super()._select() + SQL(", template.manufacturer")
-        return select_str
+        select_str = super()._select().code + ", template.manufacturer"
+        return SQL(select_str)
 
     # def _group_by(self):
     #     group_by_str = super()._group_by() + ", template.manufacturer"
