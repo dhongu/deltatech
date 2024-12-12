@@ -6,11 +6,11 @@
 {
     "name": "Terrabit - Record Type",
     "summary": "Manage multiple record types",
-    "version": "17.0.1.0.5",
+    "version": "17.0.1.0.6",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Other",
-    "depends": ["sale", "deltatech_select_journal", "purchase"],
+    "depends": ["sale", "purchase"],
     "license": "OPL-1",
     "data": [
         "views/record_type_view.xml",
