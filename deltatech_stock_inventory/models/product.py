@@ -62,7 +62,7 @@ class ProductTemplate(models.Model):
         location_id = self.env.context.get("location", False)
         if not warehouse_id and location_id:
             if isinstance(location_id, int):
-                location = self.env["stock.location"].browse(location_id)
+                # location = self.env["stock.location"].browse(location_id)
                 # warehouse_id = location.warehouse_id.id
                 warehouse = self.env["stock.warehouse"].search([("lot_stock_id", "=", location_id)], limit=1)
                 if warehouse:
