@@ -2,8 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, fields, models
-from odoo.exceptions import UserError
+from odoo import fields, models
 
 
 class AccountMove(models.Model):
@@ -22,13 +21,15 @@ class AccountMove(models.Model):
             for sale_line in line.sale_line_ids:
                 to_currency = sale_line.order_id.currency_id
                 if from_currency != to_currency:
-                    if not self.currency_rate_custom:
-                        raise UserError(_("The exchange rate is not maintained"))
-                    currency_rate = 1 / self.currency_rate_custom
-                    price_unit = from_currency.with_context(currency_rate=currency_rate)._convert(
-                        from_amount=line.price_unit, to_currency=to_currency, company=invoice.company_id, date=date_eval
-                    )
-                    sale_line.write({"price_unit": price_unit})
+                    if self.currency_rate_custom:
+                        currency_rate = 1 / self.currency_rate_custom
+                        price_unit = from_currency.with_context(currency_rate=currency_rate)._convert(
+                            from_amount=line.price_unit,
+                            to_currency=to_currency,
+                            company=invoice.company_id,
+                            date=date_eval,
+                        )
+                        sale_line.write({"price_unit": price_unit})
         return res
 
     def action_switch_invoice_into_refund_credit_note(self):
