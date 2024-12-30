@@ -17,4 +17,4 @@ class SaleOrder(models.Model):
     def _check_carrier_quotation(self, force_carrier_id=None, keep_carrier=False):
         if force_carrier_id and force_carrier_id == self.carrier_id.id == int(force_carrier_id):
             return True
-        return super()._check_carrier_quotation(force_carrier_id, keep_carrier)
+        return super()._check_carrier_quotation(force_carrier_id=force_carrier_id, keep_carrier=keep_carrier)

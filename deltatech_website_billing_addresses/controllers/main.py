@@ -27,13 +27,15 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
     @http.route()
     def checkout(self, **post):
         post.pop("express", False)
-        new_context = dict(request.env.context, ignore_check_address=True)
-        request.context = new_context
+        # new_context = dict(request.env.context, ignore_check_address=True)
+        # request.context = new_context
+        request.update_context(ignore_check_address=True)
         return super().checkout(**post)
 
-    def checkout_values(self, **kw):
-        values = super().checkout_values(**kw)
-        order = request.website.sale_get_order(force_create=1)
+
+    def checkout_values(self, order, **kw):
+        values = super().checkout_values(order, **kw)
+        # order = request.website.sale_get_order(force_create=1)
         billings_addresses = []
         if order.partner_id != request.website.user_id.sudo().partner_id:
             Partner = order.partner_id.with_context(show_address=1).sudo()

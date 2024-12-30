@@ -398,9 +398,9 @@
 
     </template>
 
-    <template id="address_b2b" inherit_id="website_sale.address_b2b">
+    <template id="address_b2b" inherit_id="website_sale.address">
         <xpath expr="//div[@id='div_phone']" position="after">
-            <div t-attf-class="form-group col-lg-6 div_is_company" t-if="mode[1]=='billing'" style="display: none;">
+            <div t-attf-class="form-group col-lg-6 div_is_company" t-if="mode[1]=='billing'" style="display: block;">
                 <label class="col-form-label" for="is_company">Is Company</label>
 <!--                <t t-set="is_company" t-value=" 'is_company' in checkout and  checkout['is_company']  " />-->
                 <select
