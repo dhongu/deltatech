@@ -18,7 +18,7 @@
                     <button
                         name="validate_expenses"
                         string="Validate"
-                        invisible=""
+                        invisible="state != 'advance'"
                         class="oe_highlight"
                         type="object"
                     />
@@ -49,19 +49,19 @@
 
                     <group>
                         <group>
-                            <field name="employee_id" domain="[('is_company','=',False)]" />
+                            <field name="employee_id" domain="[('is_company','=',False)]" readonly="state != 'draft'" />
                         </group>
                         <group>
-                            <field name="journal_id" widget="selection" />
+                            <field name="journal_id" widget="selection" readonly="state != 'draft'" />
                         </group>
                     </group>
                     <group>
                         <group>
-                            <field name="date_advance" />
-                            <field name="date_expense" />
+                            <field name="date_advance" readonly="state != 'draft'" />
+                            <field name="date_expense" readonly="state not in ['draft', 'advance']" />
                         </group>
                         <group>
-                            <field name="advance" />
+                            <field name="advance" readonly="state != 'draft'" />
                             <field name="difference" widget="monetary" options="{'currency_field': 'currency_id'}" />
 
                         </group>
@@ -69,17 +69,22 @@
                     </group>
                     <group>
                         <group>
-                            <field name="travel_order" />
-                            <field name="account_diem_id" />
+                            <field name="travel_order" readonly="state != 'draft'" />
+                            <field name="account_diem_id" readonly="state not in ['draft', 'advance']" />
                         </group>
                         <group>
-                            <field name="days" />
-                            <field name="diem" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                            <field name="days" readonly="state not in ['draft', 'advance']" />
+                            <field
+                                name="diem"
+                                widget="monetary"
+                                readonly="state not in ['draft', 'advance']"
+                                options="{'currency_field': 'currency_id'}"
+                            />
                         </group>
                     </group>
                     <notebook>
                         <page string="Description">
-                            <field name="expenses_line_ids">
+                            <field name="expenses_line_ids" readonly="state != 'advance'">
                                 <tree editable="bottom">
                                     <field name="date" />
                                     <field name="name" />

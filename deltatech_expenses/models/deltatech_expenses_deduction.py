@@ -56,18 +56,21 @@ class DeltatechExpensesDeduction(models.Model):
     )
     date_expense = fields.Date(
         string="Expense Date",
-        readonly=True,
-
+        # readonly=True,
         # states={"draft": [("readonly", False)], "advance": [("readonly", False)]},
         index=True,
     )
     date_advance = fields.Date(
-        string="Advance Date", required=True, readonly=True,
+        string="Advance Date",
+        required=True,
+        # readonly=True,
         # states={"draft": [("readonly", False)]}
     )
-    travel_order = fields.Char(string="Travel Order", readonly=True,
-                               # states={"draft": [("readonly", False)]}
-                               )
+    travel_order = fields.Char(
+        string="Travel Order",
+        # readonly=True,
+        # states={"draft": [("readonly", False)]}
+    )
 
     company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)
 
@@ -75,7 +78,7 @@ class DeltatechExpensesDeduction(models.Model):
         "res.partner",
         string="Employee",
         required=True,
-        readonly=True,
+        # readonly=True,
         # states={"draft": [("readonly", False)]},
         domain=[("is_company", "=", False)],
     )
@@ -84,7 +87,7 @@ class DeltatechExpensesDeduction(models.Model):
         "deltatech.expenses.deduction.line",
         "expenses_deduction_id",
         string="Expenses",
-        readonly=True,
+        # readonly=True,
         # states={"advance": [("readonly", False)]},
     )
 
@@ -94,7 +97,7 @@ class DeltatechExpensesDeduction(models.Model):
         string="Vouchers",
         domain=[("move_type", "=", "in_receipt")],
         context={"default_move_type": "in_receipt"},
-        readonly=True,
+        # readonly=True,
         # states={"draft": [("readonly", False)]},
     )
 
@@ -110,9 +113,11 @@ class DeltatechExpensesDeduction(models.Model):
     note = fields.Text(string="Note")
     amount = fields.Monetary(string="Total Amount", compute="_compute_amount")
     amount_vouchers = fields.Monetary(string="Vouchers Amount", compute="_compute_amount")
-    advance = fields.Monetary(string="Advance", readonly=True,
-                              # states={"draft": [("readonly", False)]}
-                              )
+    advance = fields.Monetary(
+        string="Advance",
+        readonly=True,
+        # states={"draft": [("readonly", False)]}
+    )
 
     difference = fields.Monetary(string="Difference", compute="_compute_amount")
 

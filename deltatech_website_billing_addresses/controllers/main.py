@@ -32,7 +32,6 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         request.update_context(ignore_check_address=True)
         return super().checkout(**post)
 
-
     def checkout_values(self, order, **kw):
         values = super().checkout_values(order, **kw)
         # order = request.website.sale_get_order(force_create=1)
