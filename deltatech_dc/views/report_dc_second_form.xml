@@ -110,7 +110,7 @@
                                 <strong t-esc="move.product_id.name" />
                             </td>
                             <td>
-                                <strong t-esc="move.quantity_done" />
+                                <strong t-esc="move.quantity" />
                             </td>
 
                             <td>
