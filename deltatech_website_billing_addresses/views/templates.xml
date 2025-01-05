@@ -296,7 +296,7 @@
     </template>
 
 
-    <template id="address_on_payment" inherit_id="website_sale.address_on_payment">
+    <template id="address_on_payment" inherit_id="website_sale.address_on_payment" priority="100">
         <xpath expr="//div[@id='shipping_and_billing']" position="replace">
             <div class="card-body" id="shipping_and_billing">
                 <a class='float-right no-decoration' href='/shop/checkout'>
@@ -370,7 +370,7 @@
     </template>
 
 
-    <template id="address" inherit_id="website_sale.address">
+    <template id="address" inherit_id="website_sale.address" priority="100">
 
         <input name="csrf_token" position="after">
             <input type="hidden" name="type" t-att-value="type" />

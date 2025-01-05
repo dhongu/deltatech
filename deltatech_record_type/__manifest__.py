@@ -24,7 +24,7 @@
     # "demo": [
     #     "data/demo_data.xml",
     # ],
-    "development_status": "Beta",
+    "development_status": "Mature",
     "images": ["static/description/main_screenshot.png"],
     "maintainers": ["VoicuStefan2001"],
 }
