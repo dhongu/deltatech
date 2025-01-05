@@ -61,7 +61,7 @@
                             <field name="date_expense" readonly="state not in ['draft', 'advance']" />
                         </group>
                         <group>
-                            <field name="advance" readonly="state not in ['draft', 'advance']"/>
+                            <field name="advance" readonly="state not in ['draft', 'advance']" />
                             <field name="difference" widget="monetary" options="{'currency_field': 'currency_id'}" />
 
                         </group>
