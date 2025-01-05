@@ -17,20 +17,27 @@ Sale Feedback
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/16.0/deltatech_sale_feedback
+    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_feedback
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
 
 Features:
- - Sends an automated e-mail to clients based on out invoices
- - A cron job (default not active) is used to send the e-mails at 3 days after the invoice date. Another interval can be set using the sale.days_request_feedback system parameter
- - E-mail template used: Invoice: request feedback
+
+-  Sends an automated e-mail to clients based on out invoices
+-  A cron job (default not active) is used to send the e-mails at 3 days
+   after the invoice date. Another interval can be set using the
+   sale.days_request_feedback system parameter
+-  E-mail template used: Invoice: request feedback
 
 Descriere:
- - Trimite la client un email pentru a cere feedback pentru produsele vandute.
- - Trimiterea se face prin cron job (la instalare inactiv), default la 3 zile dupa data facturii. Daca se doreste alt interval, se foloseste paramentrul de sistem sale.days_request_feedback
- - Template-ul de e-mail: Invoice: request feedback
+
+-  Trimite la client un email pentru a cere feedback pentru produsele
+   vandute.
+-  Trimiterea se face prin cron job (la instalare inactiv), default la 3
+   zile dupa data facturii. Daca se doreste alt interval, se foloseste
+   paramentrul de sistem sale.days_request_feedback
+-  Template-ul de e-mail: Invoice: request feedback
 
 **Table of contents**
 
@@ -49,13 +56,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu
@@ -65,6 +72,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/16.0/deltatech_sale_feedback>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_feedback>`_ project on GitHub.
 
 You are welcome to contribute.
