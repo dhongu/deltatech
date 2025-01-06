@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech POS - Numpad Dot as decimal separator",
+    "name": "Deltatech POS - Numpad Dot as decimal separator - Obsolete",
     "summary": "Numpad Dot as decimal separator",
     "version": "17.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
@@ -11,11 +11,9 @@
     "category": "Sales/Point of Sale",
     "depends": ["point_of_sale"],
     "license": "OPL-1",
-    "data": [
-        # "views/assets.xml",
-    ],
+
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["dhongu"],
-    "assets": {"point_of_sale.assets": ["deltatech_pos_decimal_numpad_dot/static/src/js/NumberBuffer.js"]},
+
 }
