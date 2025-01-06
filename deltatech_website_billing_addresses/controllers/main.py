@@ -6,8 +6,8 @@ from odoo import http
 from odoo.http import request
 from odoo.osv import expression
 
-from odoo.addons.website_sale.controllers.main import WebsiteSale
 from odoo.addons.payment.controllers import portal as payment_portal
+from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class WebsiteSaleBillingAddresses(WebsiteSale):
@@ -217,17 +217,17 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         if not all(order.partner_shipping_id.read(shipping_fields_required)[0].values()):
             return request.redirect("/shop/address?partner_id=%d" % order.partner_shipping_id.id)  # noqa
 
-class WebsiteSale(payment_portal.PaymentPortal):
 
+class WebsiteSale(payment_portal.PaymentPortal):
     def checkout_values(self, order, **kw):
         res = super().checkout_values(order, **kw)
         Partner = order.partner_id.with_context(show_address=1).sudo()
-        bill_partners = Partner.search([
-            ("type", "in", ["invoice", "other"]), ("access_for_user_id", "=", request.uid)
-        ], order='id desc')
+        bill_partners = Partner.search(
+            [("type", "in", ["invoice", "other"]), ("access_for_user_id", "=", request.uid)], order="id desc"
+        )
         res["billings"] |= bill_partners
-        delivery_partners = Partner.search([
-            ("type", "in", ["delivery", "other"]), ("access_for_user_id", "=", request.uid)
-        ], order='id desc')
+        delivery_partners = Partner.search(
+            [("type", "in", ["delivery", "other"]), ("access_for_user_id", "=", request.uid)], order="id desc"
+        )
         res["shippings"] |= delivery_partners
         return res
