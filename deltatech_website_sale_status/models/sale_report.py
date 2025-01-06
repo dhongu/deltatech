@@ -27,7 +27,7 @@ class SaleReport(models.Model):
 
     def _select_additional_fields(self):
         additional_fields_info = super()._select_additional_fields()
-        additional_fields_info[ "stage" ] = ' stage '
+        additional_fields_info["stage"] = " stage "
         return additional_fields_info
 
     def _group_by_sale(self):

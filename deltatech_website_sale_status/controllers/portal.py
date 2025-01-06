@@ -42,7 +42,6 @@ class CustomerPortal(portal.CustomerPortal):
 
     @http.route()
     def portal_my_orders(self, page=1, date_begin=None, date_end=None, sortby=None, filterby=None, **kw):
-
         request.update_context(show_order_fiter=True)
         result = super().portal_my_orders(
             page=page, date_begin=date_begin, date_end=date_end, sortby=sortby, filterby=filterby, **kw

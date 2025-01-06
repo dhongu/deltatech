@@ -9,7 +9,7 @@
     "license": "OPL-1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "depends": ["portal","website_sale_stock", "deltatech_delivery_status", "sale_stock"],
+    "depends": ["portal", "website_sale_stock", "deltatech_delivery_status", "sale_stock"],
     "data": [
         "views/sale_view.xml",
         "views/templates.xml",
@@ -19,5 +19,4 @@
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["dhongu"],
-
 }
