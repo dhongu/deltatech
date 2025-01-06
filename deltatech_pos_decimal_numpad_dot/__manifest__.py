@@ -11,9 +11,7 @@
     "category": "Sales/Point of Sale",
     "depends": ["point_of_sale"],
     "license": "OPL-1",
-
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["dhongu"],
-
 }
