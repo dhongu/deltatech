@@ -27,6 +27,14 @@ class DeltatechExpensesDeduction(models.Model):
         return self.env["account.journal"].search(domain, limit=1)
 
     @api.model
+    def _default_journal_diem(self):
+        if self._context.get("default_journal_diem_id", False):
+            return self.env["account.journal"].browse(self._context.get("default_journal_diem_id"))
+
+        domain = [("type", "=", "general"), ("company_id", "=", self.env.company.id)]
+        return self.env["account.journal"].search(domain, limit=1)
+
+    @api.model
     def _default_account_diem(self):
         account_pool = self.env["account.account"]
         try:
@@ -137,6 +145,12 @@ class DeltatechExpensesDeduction(models.Model):
         readonly=True,
         # states={"draft": [("readonly", False)]},
         default=_default_journal,
+    )
+
+    journal_diem_id = fields.Many2one(
+        "account.journal",
+        string="Diem Journal",
+        default=_default_journal_diem,
     )
 
     account_diem_id = fields.Many2one(
@@ -451,7 +465,7 @@ class DeltatechExpensesDeduction(models.Model):
                     "debit": expenses.total_diem,
                     "credit": 0.0,
                     "account_id": expenses.account_diem_id.id,
-                    "journal_id": expenses.journal_id.id,
+                    "journal_id": expenses.journal_diem_id.id,
                     "partner_id": expenses.employee_id.id,
                     "date": expenses.date_expense,
                     "date_maturity": expenses.date_expense,
@@ -461,7 +475,7 @@ class DeltatechExpensesDeduction(models.Model):
                     "debit": 0.0,
                     "credit": expenses.total_diem,
                     "account_id": expenses.journal_id.account_cash_advances_id.id,  # 542
-                    "journal_id": expenses.journal_id.id,
+                    "journal_id": expenses.journal_diem_id.id,
                     "partner_id": expenses.employee_id.id,
                     "date": expenses.date_expense,
                     "date_maturity": expenses.date_expense,
@@ -470,8 +484,8 @@ class DeltatechExpensesDeduction(models.Model):
                 line_ids.append([0, False, move_line_cr])
                 move = self.env["account.move"].create(
                     {
-                        "name": name or "/",
-                        "journal_id": expenses.journal_id.id,
+                        # "name": name or "/",
+                        "journal_id": expenses.journal_diem_id.id,
                         "date": expenses.date_expense,
                         "ref": name or "",
                         "line_ids": line_ids,
