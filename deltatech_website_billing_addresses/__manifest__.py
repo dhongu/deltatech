@@ -22,7 +22,6 @@
     "price": 10.00,
     "currency": "EUR",
     "images": ["static/description/main_screenshot.png"],
-
     "assets": {
         "web.assets_frontend": [
             "deltatech_website_billing_addresses/static/src/js/billing_addresses.esm.js",

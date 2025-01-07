@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0+e\n"
+"Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-13 13:32+0000\n"
-"PO-Revision-Date: 2022-10-13 13:32+0000\n"
+"POT-Creation-Date: 2025-01-07 06:40+0000\n"
+"PO-Revision-Date: 2025-01-07 06:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -64,8 +64,18 @@ msgstr "Tip ridicare"
 
 #. module: deltatech_delivery_status
 #: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_order_form
-msgid "Postpone delivery"
-msgstr "Amână livrarea"
+msgid "Postpone"
+msgstr "Amână"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_crm_team__postpone_payment_transfer
+msgid "Postpone delivery for transfer payment"
+msgstr "Amână livrarea pentru plata prin transfer"
+
+#. module: deltatech_delivery_status
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_order_form
+msgid "Postpone the delivery of the products"
+msgstr "Amână livrarea produselor"
 
 #. module: deltatech_delivery_status
 #: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__postponed
@@ -86,8 +96,13 @@ msgstr "Avizat"
 
 #. module: deltatech_delivery_status
 #: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_order_form
-msgid "Release delivery"
-msgstr "Eliberează livrarea"
+msgid "Release"
+msgstr "Eliberează"
+
+#. module: deltatech_delivery_status
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_order_form
+msgid "Release the postponed delivery of the products"
+msgstr "Eliberează livrarea amânată a produselor"
 
 #. module: deltatech_delivery_status
 #: model:ir.model,name:deltatech_delivery_status.model_sale_order
@@ -95,9 +110,21 @@ msgid "Sales Order"
 msgstr "Comandă de vânzare"
 
 #. module: deltatech_delivery_status
+#: model:ir.model,name:deltatech_delivery_status.model_crm_team
+msgid "Sales Team"
+msgstr "Echipa de vânzări"
+
+#. module: deltatech_delivery_status
 #: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__delivery_state
 msgid "State"
 msgstr "Stare"
+
+#. module: deltatech_delivery_status
+#. odoo-python
+#: code:addons/deltatech_delivery_status/models/stock_picking.py:0
+#, python-format
+msgid "The transfer %s is postponed"
+msgstr "Transferul %s este amânat"
 
 #. module: deltatech_delivery_status
 #: model:ir.model,name:deltatech_delivery_status.model_stock_picking
@@ -105,7 +132,7 @@ msgid "Transfer"
 msgstr ""
 
 #. module: deltatech_delivery_status
-#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_internal_search
 #: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__available_state__unavailable
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_internal_search
 msgid "Unavailable"
 msgstr "Indisponibil"
