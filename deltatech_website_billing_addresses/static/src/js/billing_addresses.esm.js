@@ -3,12 +3,15 @@
 import publicWidget from "@web/legacy/js/public/public_widget";
 
 class WebsiteSaleCartBillingAddress extends publicWidget.Widget {
-    selector = ".oe_website_sale .oe_cart";
-    events = {
-        "click .js_change_billing": this._onClickChangeBilling,
-        "click .js_edit_billing_address": this._onClickEditBillingAddress,
-        'change select[name="is_company"]': this._onChangeIsCompany,
-    };
+    constructor() {
+        super(...arguments);
+        this.selector = ".oe_website_sale .oe_cart";
+        this.events = {
+            "click .js_change_billing": this._onClickChangeBilling,
+            "click .js_edit_billing_address": this._onClickEditBillingAddress,
+            'change select[name="is_company"]': this._onChangeIsCompany,
+        };
+    }
 
     _onClickChangeBilling(ev) {
         const $old = $(".all_billings").find(".card.border.border-primary");
@@ -63,8 +66,10 @@ class WebsiteSaleCartBillingAddress extends publicWidget.Widget {
 }
 
 class WebsiteSaleCartBillingAddressShow extends publicWidget.Widget {
-    selector = ".js_is_company";
-
+    constructor() {
+        super(...arguments);
+        this.selector = ".js_is_company";
+    }
     start() {
         const websiteSaleCartBillingAddress = new WebsiteSaleCartBillingAddress();
         websiteSaleCartBillingAddress._onChangeIsCompany();
