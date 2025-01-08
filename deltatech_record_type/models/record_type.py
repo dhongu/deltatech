@@ -20,7 +20,8 @@ class RecordType(models.Model):
         string="Model",
     )
     user_ids = fields.Many2many(
-        "res.users", string="Allowed Users"
+        "res.users", string="Allowed Users",
+        domain=[('share', '=', False)]
     )
     default_values_ids = fields.One2many(
         "record.type.default.values", "record_type_id", string="Default Values", copy=True
