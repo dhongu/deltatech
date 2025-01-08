@@ -42,7 +42,8 @@
                     ,
                     <span t-field="o.picking_type_id.warehouse_id.partner_id.city" />,
                     <span t-field="o.picking_type_id.warehouse_id.partner_id.state_id.name" />
-                    county, VAT:&#160;<span t-field="o.picking_type_id.warehouse_id.partner_id.vat" />, NRC:&#160;<span
+                    county, VAT:&#160;<span t-field="o.picking_type_id.warehouse_id.partner_id.vat" />, NRC:&#160;
+                    <span
                         t-field="o.picking_type_id.warehouse_id.partner_id.nrc"
                     />; we declare, ensure and guarantee on our
                     own

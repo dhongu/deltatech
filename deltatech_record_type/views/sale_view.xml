@@ -5,8 +5,8 @@
     <record model="ir.ui.view" id="view_saleorder_type_saleorder_form">
         <field name="name">saleorder.type.saleorder.form</field>
         <field name="model">sale.order</field>
-        <field eval="500" name="priority" />
-        <field name="inherit_id" ref="sale.view_order_form" />
+        <field eval="500" name="priority"/>
+        <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="before">
                 <field
@@ -14,12 +14,11 @@
                     widget="selection"
                     readonly="state in ['cancel', 'sale']"
                     options="{'no_create':True}"
-                    domain="[('model', '=', 'sale.order')]"
-                />
+                    domain="['|', ('user_ids', '=', False), ('user_ids', 'in', uid), ('model', '=', 'sale.order')]"/>
             </xpath>
             <xpath expr="//field[@name='journal_id']" position="attributes">
                 <attribute name="invisible">0</attribute>
-                <attribute name="groups" />
+                <attribute name="groups"/>
             </xpath>
         </field>
     </record>
@@ -27,13 +26,13 @@
     <record model="ir.ui.view" id="view_saleorder_type_filter">
         <field name="name">saleorder.type.saleorder.filter</field>
         <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_sales_order_filter" />
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
-                <field name="so_type" />
+                <field name="so_type"/>
             </field>
             <xpath expr="//group" position="inside">
-                <filter name='group_by_type' string="Order Type" domain="[]" context="{'group_by':'so_type'}" />
+                <filter name='group_by_type' string="Order Type" domain="[]" context="{'group_by':'so_type'}"/>
             </xpath>
         </field>
     </record>
