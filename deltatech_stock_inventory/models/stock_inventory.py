@@ -23,7 +23,7 @@ class Inventory(models.Model):
     )
     date = fields.Datetime(
         "Inventory Date",
-        readonly=True,
+
         required=True,
         default=fields.Datetime.now,
         help="If the inventory adjustment is not validated, "
@@ -183,7 +183,7 @@ class Inventory(models.Model):
                 % {"product_name": negative.product_id.display_name, "product_qty": negative.product_qty}
             )
         self.action_check()
-        self.write({"state": "done", "date": fields.Datetime.now()})
+        self.write({"state": "done", "date": self.date})
         self.post_inventory()
         return True
 
@@ -218,7 +218,12 @@ class Inventory(models.Model):
                     move_in = line.create_inventory_in_move()
                     line.with_context(is_l10n_ro=True).create_inventory_in_svl(move_in)
 
-        self.mapped("move_ids").filtered(lambda move: move.state != "done")._action_done()
+        move_ids = self.mapped("move_ids").filtered(lambda move: move.state != "done")
+        move_ids.picked = True
+        move_ids._action_done()
+        move_ids = self.mapped("move_ids").filtered(lambda move: move.state != "done")
+        if move_ids:
+            raise UserError(_("Some products have not been moved. Please check the inventory moves."))
         return True
 
     def action_check(self):
@@ -792,6 +797,7 @@ class InventoryLine(models.Model):
                         "location_id": location_id,
                         "location_dest_id": location_dest_id,
                         "owner_id": self.partner_id.id,
+                        "picked": True,
                     },
                 )
             ],
