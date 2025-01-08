@@ -19,7 +19,9 @@ class RecordType(models.Model):
         [("sale.order", "Sale Order"), ("purchase.order", "Purchase Order")],
         string="Model",
     )
-
+    user_ids = fields.Many2many(
+        "res.users", string="Allowed Users"
+    )
     default_values_ids = fields.One2many(
         "record.type.default.values", "record_type_id", string="Default Values", copy=True
     )
