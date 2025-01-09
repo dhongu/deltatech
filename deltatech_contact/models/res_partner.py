@@ -109,22 +109,40 @@ class Partner(models.Model):
         else:
             return super()._get_contact_name(partner, name)
 
-    def _get_name(self):
-        partner = self
-        context = self.env.context
-        name = super()._get_name()
+    def _compute_display_name(self):
+        res = super()._compute_display_name()
+        for partner in self:
+            context = self.env.context
+            name = partner.display_name
+            if context.get("show_phone", False):
+                if partner.phone or partner.mobile:
+                    name = f"{name}\n<{partner.phone or partner.mobile}>"
+            if context.get("show_category") and partner.category_id:
+                cat = []
+                for category in partner.category_id:
+                    cat.append(category.name)
+                name = name + "\n[" + ",".join(cat) + "]"
+            if context.get("address_inline"):
+                name = name.replace("\n", ", ")
+            partner.display_name = name
+        return res
 
-        if context.get("show_phone", False):
-            if partner.phone or partner.mobile:
-                name = f"{name}\n<{partner.phone or partner.mobile}>"
-        if context.get("show_category") and partner.category_id:
-            cat = []
-            for category in partner.category_id:
-                cat.append(category.name)
-            name = name + "\n[" + ",".join(cat) + "]"
-        if context.get("address_inline"):
-            name = name.replace("\n", ", ")
-        return name
+    # def _get_name(self):
+    #     partner = self
+    #     context = self.env.context
+    #     name = super()._get_name()
+    #
+    #     if context.get("show_phone", False):
+    #         if partner.phone or partner.mobile:
+    #             name = f"{name}\n<{partner.phone or partner.mobile}>"
+    #     if context.get("show_category") and partner.category_id:
+    #         cat = []
+    #         for category in partner.category_id:
+    #             cat.append(category.name)
+    #         name = name + "\n[" + ",".join(cat) + "]"
+    #     if context.get("address_inline"):
+    #         name = name.replace("\n", ", ")
+    #     return name
 
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
