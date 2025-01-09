@@ -227,7 +227,7 @@ class ProductTemplate(models.Model):
                     "location_dest_id": location_dest_id.id,
                     "product_uom": product.uom_id.id,
                     "product_uom_qty": qty,
-                    'picked': True,
+                    "picked": True,
                 }
                 values.append(value)
             else:
