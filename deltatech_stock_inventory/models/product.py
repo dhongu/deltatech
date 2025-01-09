@@ -194,10 +194,10 @@ class ProductTemplate(models.Model):
                             "location_out_id": location_dest.id,
                         }
                         vals.append(value)
-            else:
-                raise UserError(
-                    _(f"No location can be fount for product {product.name}. Check product stock configuration")
-                )
+            # else:
+            #     raise UserError(
+            #         _(f"No location can be fount for product {product.name}. Check product stock configuration")
+            #     )
         if vals:
             self.env["stock.putaway.rule"].create(vals)
 
@@ -227,7 +227,6 @@ class ProductTemplate(models.Model):
                     "location_dest_id": location_dest_id.id,
                     "product_uom": product.uom_id.id,
                     "product_uom_qty": qty,
-                    "product_qty": qty,
                     'picked': True,
                 }
                 values.append(value)
@@ -243,7 +242,11 @@ class ProductTemplate(models.Model):
             }
             picking = self.env["stock.picking"].create(picking_values)
             picking.action_confirm()
-            picking.button_validate()
+            for move in picking.move_ids:
+                move._set_quantity_done(move.product_uom_qty)
+
+            picking.move_ids.picked = True
+            picking._action_done()
             return picking
 
 
