@@ -144,15 +144,15 @@ class Partner(models.Model):
     #         name = name.replace("\n", ", ")
     #     return name
 
-    @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100):
-        res_vat = []
-        if name and len(name) > 2:
-            partner_ids = self.search([("vat", "ilike", name), ("is_company", "=", True)], limit=10)
-            if partner_ids:
-                res_vat = partner_ids.name_get()
-        res = super().name_search(name, args, operator=operator, limit=limit) + res_vat
-        return res
+    # @api.model
+    # def name_search(self, name="", args=None, operator="ilike", limit=100):
+    #     res_vat = []
+    #     if name and len(name) > 2:
+    #         partner_ids = self.search([("vat", "ilike", name), ("is_company", "=", True)], limit=10)
+    #         if partner_ids:
+    #             res_vat = partner_ids.name_get()
+    #     res = super().name_search(name, args, operator=operator, limit=limit) + res_vat
+    #     return res
 
     @api.model_create_multi
     def create(self, vals_list):
