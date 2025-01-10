@@ -418,6 +418,12 @@
                 </select>
             </div>
         </xpath>
+        <xpath expr="//t[@t-if='website._display_partner_b2b_fields()']/t[2]" position="attributes">
+            <attribute
+                name="t-if"
+            >mode == ('new', 'billing') or (mode == ('edit', 'billing')  and (can_edit_vat or 'vat' in checkout and checkout['vat']))</attribute>
+            <attribute name="invisible">is_company!='Yes'</attribute>
+        </xpath>
     </template>
 
 

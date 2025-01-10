@@ -2,8 +2,8 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import http
-from odoo.http import request
+from odoo import _, http
+from odoo.http import request, route
 from odoo.osv import expression
 
 from odoo.addons.payment.controllers import portal as payment_portal
@@ -15,7 +15,11 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         error, error_message = super().checkout_form_validate(mode, all_form_values, data)
         is_company = data.get("is_company", False) == "yes"
         if is_company and not data.get("vat", False):
+            error.update({"vat": "error"})
+            error_message.append(_("If you are a company, please provide VAT number"))
             error["vat"] = "missing"
+        if is_company and not data.get("company_name", False):
+            error["company_name"] = "missing"
         return error, error_message
 
     def _get_mandatory_fields_billing(self, country_id=False):
@@ -61,7 +65,8 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
 
     def values_postprocess(self, order, mode, values, errors, error_msg):
         new_values, errors, error_msg = super().values_postprocess(order, mode, values, errors, error_msg)
-        errors.pop("vat", "")  # sa scrie fiecare ce vrea
+        if "vat" in errors and errors["vat"] != "missing":
+            errors.pop("vat", "")  # sa scrie fiecare ce vrea
         is_company = values.get("is_company", False) == "yes"
 
         if values.get("type", False):
@@ -231,3 +236,40 @@ class WebsiteSale(payment_portal.PaymentPortal):
         )
         res["shippings"] |= delivery_partners
         return res
+
+    @route("/shop/cart/update_address", type="http", auth="public", methods=["POST"], website=True)
+    def update_cart_address(self, partner_id, mode="billing", **kw):
+        partner_id = int(partner_id)
+
+        order_sudo = request.website.sale_get_order()
+        if not order_sudo:
+            return
+
+        ResPartner = request.env["res.partner"].sudo()
+        partner_sudo = ResPartner.browse(partner_id).exists()
+        # children = ResPartner._search([
+        #     ('id', 'child_of', order_sudo.partner_id.commercial_partner_id.id),
+        #     ('type', 'in', ('invoice', 'delivery', 'other')),
+        # ])
+        # if (
+        #     partner_sudo != order_sudo.partner_id
+        #     and partner_sudo != order_sudo.partner_id.commercial_partner_id
+        #     and partner_sudo.id not in children
+        # ):
+        #     raise Forbidden()
+
+        fpos_before = order_sudo.fiscal_position_id
+        if mode == "billing" and partner_sudo != order_sudo.partner_invoice_id:
+            order_sudo.partner_invoice_id = partner_id
+        elif mode == "shipping" and partner_sudo != order_sudo.partner_shipping_id:
+            order_sudo.partner_shipping_id = partner_id
+            if order_sudo.carrier_id:
+                # update carrier rates on shipping address change
+                order_sudo._check_carrier_quotation(force_carrier_id=order_sudo.carrier_id.id)
+        else:
+            # TODO someday we should gracefully handle invalid addresses
+            return
+
+        if fpos_before != order_sudo.fiscal_position_id:
+            # TODO recompute full cart amounts to correctly handle price_include taxes stuff ?
+            order_sudo._recompute_taxes()
