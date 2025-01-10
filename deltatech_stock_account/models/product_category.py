@@ -15,6 +15,8 @@ class ProductCategory(models.Model):
         return res
 
     def propagate_account(self):
+        if self.env.context.get("propagate_account"):
+            return
         for categ in self:
             if not categ.property_stock_valuation_account_id:
                 continue
@@ -41,7 +43,7 @@ class ProductCategory(models.Model):
                 # property_valuation
                 "property_valuation": categ.property_valuation,
             }
-            children.write(values)
+            children.with_context(propagate_account=True).write(values)
 
     @api.onchange("parent_id")
     def _onchange_parent_id(self):
