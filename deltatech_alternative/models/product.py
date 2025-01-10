@@ -68,7 +68,7 @@ class ProductAlternative(models.Model):
     _name = "product.alternative"
     _description = "Product alternative"
 
-    name = fields.Char(string="Code", index=True, unaccent=False)
+    name = fields.Char(string="Code", index="btree_not_null")
     sequence = fields.Integer(string="sequence", default=10)
     product_tmpl_id = fields.Many2one("product.template", string="Product Template", ondelete="cascade")
     hide = fields.Boolean(string="Hide")
