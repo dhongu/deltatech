@@ -1,7 +1,7 @@
 {
     "name": "Price List add Category",
-    "version": "17.0.0.0.1",
-    "author": "cojocariudaniel1, Terrabit",
+    "version": "17.0.0.0.2",
+    "author": "Voicu Stefan, Terrabit",
     "website": "https://www.terrabit.ro",
     "summary": "You can add a public category to the products in price list",
     "category": "Slales",
