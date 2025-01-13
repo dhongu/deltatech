@@ -36,7 +36,7 @@ class ProductTemplate(models.Model):
     loc_case = fields.Char("Case", size=16, compute="_compute_loc", inverse="_inverse_loc")
 
     warehouse_loc_ids = fields.One2many("product.warehouse.location", "product_id")
-    is_inventory_ok = fields.Boolean("Inventory OK", tracking=True)
+    is_inventory_ok = fields.Boolean("Inventory OK", tracking=True)  # nu are senes daca sunt mai multe locatii
     warehouse_stock = fields.Text(string="Stock/WH", compute="_compute_warehouse_stocks")
 
     def _compute_warehouse_stocks(self):
@@ -104,13 +104,13 @@ class ProductTemplate(models.Model):
             else:
                 self.env["product.warehouse.location"].sudo().create(values)
 
-    def write(self, vals):
-        res = super().write(vals)
-        if "is_inventory_ok" in vals:
-            self.with_context(active_test=False).mapped("product_variant_ids").write(
-                {"is_inventory_ok": vals.get("is_inventory_ok")}
-            )
-        return res
+    # def write(self, vals):
+    #     res = super().write(vals)
+    #     if "is_inventory_ok" in vals:
+    #         self.with_context(active_test=False).mapped("product_variant_ids").write(
+    #             {"is_inventory_ok": vals.get("is_inventory_ok")}
+    #         )
+    #     return res
 
     def variants_is_ok(self):
         self.ensure_one()
