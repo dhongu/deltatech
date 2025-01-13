@@ -130,7 +130,6 @@ class StockQuant(models.Model):
         values["name"] = self.inventory_note or values["name"]
         return values
 
-
     def action_confirm_inventory(self):
         inventory_values = {"state": "confirm", "line_ids": []}
         for quant in self:
