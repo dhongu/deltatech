@@ -17,14 +17,17 @@ Price List add Category
     :target: https://www.odoo.com/documentation/master/legal/licenses.html
     :alt: License: OPL-1
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/16.0/deltatech_pricelist_add_category
+    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_pricelist_add_category
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
 
 Features:
- - Gives you the possibility to add a category to a pricelist's products.
- - This is done by opening the action menu on the pricelist and selecting "Open Pricelist Wizard".
+
+-  Gives you the possibility to add a category to a pricelist's
+   products.
+-  This is done by opening the action menu on the pricelist and
+   selecting "Open Pricelist Wizard".
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -48,13 +51,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
-* cojocariudaniel1
+* Voicu Stefan
 * Terrabit
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-VoicuStefan2001| image:: https://github.com/VoicuStefan2001.png?size=40px
     :target: https://github.com/VoicuStefan2001
@@ -64,6 +67,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/16.0/deltatech_pricelist_add_category>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_pricelist_add_category>`_ project on GitHub.
 
 You are welcome to contribute.
