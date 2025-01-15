@@ -15,9 +15,10 @@
                 </t>
             </t>
 
-            <a t-att-tabindex="props.record.data.display_qty_widget ? '0' : '-1'"
-               t-on-click="showPopup"
-               t-attf-class="fa fa-area-chart cursor-pointer {{ text_color }}"
+            <a
+                t-att-tabindex="props.record.data.display_qty_widget ? '0' : '-1'"
+                t-on-click="showPopup"
+                t-attf-class="fa fa-area-chart cursor-pointer {{ text_color }}"
             />
         </xpath>
     </t>
@@ -30,10 +31,8 @@
                     <strong>Vendor Stock</strong>
                 </td>
                 <td>
-                    <b t-out='props.record.data.vendor_qty_available'/>
-                    <t
-                        t-out='props.record.data.product_uom[1]'
-                    />
+                    <b t-out='props.record.data.vendor_qty_available' />
+                    <t t-out='props.record.data.product_uom[1]' />
                 </td>
             </tr>
             <tr t-if="props.record.data.other_qty_available">
@@ -41,10 +40,8 @@
                     <strong>Other Stock</strong>
                 </td>
                 <td>
-                    <b t-out='props.record.data.other_qty_available'/>
-                    <t
-                        t-out='props.record.data.product_uom[1]'
-                    />
+                    <b t-out='props.record.data.other_qty_available' />
+                    <t t-out='props.record.data.product_uom[1]' />
                 </td>
             </tr>
         </xpath>
