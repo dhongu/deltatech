@@ -25,8 +25,6 @@ class SaleOrderLine(models.Model):
         self.other_qty_available = 0
         treated = self.env["sale.order.line"]
         for line in self:
-            if not line.display_qty_widget:
-                continue
             line.vendor_qty_available = line.product_id.vendor_qty_available
             treated |= line
         remaining = self - treated
