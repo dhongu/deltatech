@@ -7,22 +7,14 @@ class SaleOrder(models.Model):
 
     so_type = fields.Many2one("record.type", string="Order Type", tracking=True)
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        for vals in vals_list:
-            if not self.env.user.has_group("deltatech_record_type.group_create_order_without_record_type"):
-                if not vals.get("so_type"):
-                    raise exceptions.UserError(
-                        _("You do not have the rights to create an order without specifying an Order Type.")
-                    )
-        return super().create(vals_list)
-
-    def write(self, vals):
+    def action_confirm(self):
         for order in self:
-            if not self.env.user.has_group("deltatech_record_type.group_create_order_without_record_type"):
-                if "so_type" not in vals and not order.so_type:
-                    raise exceptions.UserError(_("You do not have the rights to remove the Order Type from an order."))
-        return super().write(vals)
+            if not self.env.user.has_group("deltatech_record_type.group_confirm_order_without_record_type"):
+                if not order.so_type:
+                    raise exceptions.UserError(
+                        _("You do not have the rights to confirm an order without specifying an Order Type.")
+                    )
+        return super().action_confirm()
 
     @api.onchange("so_type")
     def _onchange_so_type(self):
