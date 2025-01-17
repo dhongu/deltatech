@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-17 13:47+0000\n"
-"PO-Revision-Date: 2025-01-17 13:47+0000\n"
+"POT-Creation-Date: 2025-01-17 20:25+0000\n"
+"PO-Revision-Date: 2025-01-17 20:25+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,9 +26,9 @@ msgid "Boolean"
 msgstr ""
 
 #. module: deltatech_record_type
-#: model:res.groups,name:deltatech_record_type.group_create_order_without_record_type
-msgid "Can Create Orders Without Record Type"
-msgstr "Poate crea comenzi fără tip comandă"
+#: model:res.groups,name:deltatech_record_type.group_confirm_order_without_record_type
+msgid "Can Confirm Orders Without Record Type"
+msgstr "Poate confirma comenzi fără tip comandă"
 
 #. module: deltatech_record_type
 #: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type_default_values__field_type__char
@@ -132,7 +132,7 @@ msgstr "Tipuri comandă"
 #: model:ir.model,name:deltatech_record_type.model_purchase_order
 #: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type__model__purchase_order
 msgid "Purchase Order"
-msgstr "Comandă de achiziție"
+msgstr "Comandă achiziție"
 
 #. module: deltatech_record_type
 #: model:ir.model,name:deltatech_record_type.model_record_type
@@ -154,7 +154,7 @@ msgstr ""
 #. module: deltatech_record_type
 #: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type__model__sale_order
 msgid "Sale Order"
-msgstr "Comandă de vânzare"
+msgstr "Comandă vânzare"
 
 #. module: deltatech_record_type
 #: model:ir.model,name:deltatech_record_type.model_record_type_default_values
@@ -164,21 +164,15 @@ msgstr "Valori implicite tip comandă de vânzare"
 #. module: deltatech_record_type
 #: model:ir.model,name:deltatech_record_type.model_sale_order
 msgid "Sales Order"
-msgstr "Comandă de vânzare"
+msgstr "Comandă vânzare"
 
 #. module: deltatech_record_type
 #. odoo-python
 #: code:addons/deltatech_record_type/models/sale.py:0
 #, python-format
 msgid ""
-"You do not have the rights to create an order without specifying an Order "
+"You do not have the rights to confirm an order without specifying an Order "
 "Type."
 msgstr ""
-"Nu aveți drepturi pentru a crea o comandă fără a specifica un Tip comanda"
-
-#. module: deltatech_record_type
-#. odoo-python
-#: code:addons/deltatech_record_type/models/sale.py:0
-#, python-format
-msgid "You do not have the rights to remove the Order Type from an order."
-msgstr "Nu aveți drepturi pentru a elimina tipul de comandă dintr-o comandă"
+"Nu aveți drepturi pentru a confirma o comandă fără a specifica un tip de "
+"comandă."
