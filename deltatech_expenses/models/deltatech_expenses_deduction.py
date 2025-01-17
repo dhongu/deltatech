@@ -325,7 +325,7 @@ class DeltatechExpensesDeduction(models.Model):
         purchase_journal = self.env["account.journal"].search(domain, limit=1)
         partner_generic = self.company_id.generic_partner_id
         if not partner_generic:
-            partner_generic = self.env.ref("deltatech_partner_generic.partner_generic")
+            partner_generic = self.env.ref("deltatech_partner_generic.partner_generic", raise_if_not_found=False)
 
         for expenses in self:
             name = expenses.number
