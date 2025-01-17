@@ -6,7 +6,7 @@
 {
     "name": "Terrabit - Record Type",
     "summary": "Manage multiple record types",
-    "version": "17.0.1.1.0",
+    "version": "17.0.1.1.1",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Other",
@@ -16,6 +16,7 @@
     ],
     "license": "OPL-1",
     "data": [
+        "security/record_type_security.xml",
         "views/record_type_view.xml",
         "views/purchase_view.xml",
         "views/sale_view.xml",
