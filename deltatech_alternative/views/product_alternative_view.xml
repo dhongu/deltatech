@@ -6,10 +6,10 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree editable="bottom">
-                <field name="product_tmpl_id"/>
-                <field name="sequence" widget="handle"/>
-                <field name="name"/>
-                <field name="hide"/>
+                <field name="product_tmpl_id" />
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="hide" />
             </tree>
         </field>
     </record>
@@ -19,9 +19,9 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Product Alternatives">
-                <field name="product_tmpl_id"/>
-                <field name="name"/>
-                <field name="hide"/>
+                <field name="product_tmpl_id" />
+                <field name="name" />
+                <field name="hide" />
             </form>
         </field>
     </record>
