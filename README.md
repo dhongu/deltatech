@@ -111,6 +111,7 @@ addon | version | maintainers | summary | price
 [deltatech_product_list](deltatech_product_list/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Define products lists | Free 
 [deltatech_product_margin](deltatech_product_margin/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product margin and trade markup | Free 
 [deltatech_product_trade_markup](deltatech_product_trade_markup/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product trade markup | Free 
+[deltatech_promissory_note](deltatech_promissory_note/) | 17.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage Promissory Note | Free 
 [deltatech_property](deltatech_property/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Property Management | Free 
 [deltatech_property_agreement](deltatech_property_agreement/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage property agreements | Free 
 [deltatech_purchase_confirmation_reminder](deltatech_purchase_confirmation_reminder/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | This module will create an activity on the puchase order | Free 
