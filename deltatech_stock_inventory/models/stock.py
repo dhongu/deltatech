@@ -135,7 +135,7 @@ class StockInventoryLine(models.Model):
                 )
                 and use_inventory_price
             ):
-                inventory_line.product_id.with_context(disable_auto_svl=True).write(
+                inventory_line.product_id.sudo().with_context(disable_auto_svl=True).write(
                     {"standard_price": inventory_line.standard_price}
                 )
         moves = super()._generate_moves()
