@@ -75,8 +75,6 @@ class DeltatechMrpReport(models.Model):
         for line in self:
             line.product_val = line.product_qty * line.standard_price
 
-
-
     def init(self):
         tools.drop_view_if_exists(self.env.cr, "deltatech_mrp_report")
         self.env.cr.execute(
