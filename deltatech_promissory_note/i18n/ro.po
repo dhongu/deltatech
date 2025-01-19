@@ -57,12 +57,6 @@ msgid "Attachment Count"
 msgstr ""
 
 #. module: deltatech_promissory_note
-#: model:mail.message.subtype,description:deltatech_promissory_note.mt_state_cashed
-#: model:mail.message.subtype,name:deltatech_promissory_note.mt_state_cashed
-msgid "PN Cashed"
-msgstr "BO încasat"
-
-#. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__acc_beneficiary
 msgid "Bank Account Beneficiary"
 msgstr "Cont beneficiar"
@@ -299,6 +293,12 @@ msgstr ""
 #: model:ir.model.fields,help:deltatech_promissory_note.field_promissory_note__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:mail.message.subtype,description:deltatech_promissory_note.mt_state_cashed
+#: model:mail.message.subtype,name:deltatech_promissory_note.mt_state_cashed
+msgid "PN Cashed"
+msgstr "BO încasat"
 
 #. module: deltatech_promissory_note
 #: model:res.groups,name:deltatech_promissory_note.bo_notifications

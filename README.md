@@ -70,7 +70,7 @@ addon | version | maintainers | summary | price
 [deltatech_mail](deltatech_mail/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Substitution | Free 
 [deltatech_maintenance](deltatech_maintenance/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Maintenance Extension | Free 
 [deltatech_move_negative_stock](deltatech_move_negative_stock/) | 17.0.1.1.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Replenish negative stock from other location | Free 
-[deltatech_mrp](deltatech_mrp/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Extension - Obsolete | Free 
+[deltatech_mrp](deltatech_mrp/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Extension | Free 
 [deltatech_mrp_bom](deltatech_mrp_bom/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Bom | Free 
 [deltatech_mrp_cost](deltatech_mrp_cost/) | 17.0.2.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Cost | Free 
 [deltatech_mrp_simple](deltatech_mrp_simple/) | 17.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Simple production | Free 

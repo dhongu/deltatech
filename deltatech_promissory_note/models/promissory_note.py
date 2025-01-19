@@ -24,7 +24,7 @@ class PromissoryNote(models.Model):
         default="not_cashed",
         string="Status",
         copy=False,
-        tracking=True
+        tracking=True,
     )
 
     type = fields.Selection(
