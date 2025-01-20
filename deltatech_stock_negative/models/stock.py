@@ -25,7 +25,12 @@ class StockQuant(models.Model):
         if not company.no_negative_stock:
             return res
 
-        if location_id and not location_id.allow_negative_stock and res < 0.0 and location_id.usage == "internal":
+        if (
+            location_id
+            and not location_id.allow_negative_stock
+            and round(res, 2) < 0.0
+            and location_id.usage == "internal"
+        ):
             err = _(
                 "You have chosen to avoid negative stock. %(lot_qty)s pieces of %(product_name)s are remaining in location %(location_name)s. "
                 "Please adjust your quantities or correct your stock with an inventory adjustment."
