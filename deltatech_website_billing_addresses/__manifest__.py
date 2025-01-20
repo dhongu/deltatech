@@ -5,7 +5,7 @@
     "name": "Website Billing Addresses",
     "category": "Website/Website",
     "summary": "Website Billing Addresses",
-    "version": "17.0.1.2.7",
+    "version": "17.0.1.3.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
@@ -22,10 +22,10 @@
     "price": 10.00,
     "currency": "EUR",
     "images": ["static/description/main_screenshot.png"],
-    "css": ["static/src/scss/override.scss"],
     "assets": {
         "web.assets_frontend": [
-            # "deltatech_website_billing_addresses/static/src/js/billing_addresses.js",
+            "deltatech_website_billing_addresses/static/src/js/billing_addresses.esm.js",
+            "deltatech_website_billing_addresses/static/src/scss/*.scss",
         ],
     },
     "development_status": "Beta",

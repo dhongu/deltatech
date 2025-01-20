@@ -14,6 +14,7 @@ class SaleOrder(models.Model):
 
     can_change_price = fields.Boolean(compute="_compute_can_change_price")
 
+    @api.depends("user_id")
     def _compute_can_change_price(self):
         self.can_change_price = not self.env.user.has_group("deltatech_sale_margin.group_sale_no_change_price")
 

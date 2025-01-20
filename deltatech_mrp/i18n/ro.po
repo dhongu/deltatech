@@ -241,7 +241,7 @@ msgstr "Cant efectivă"
 #: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__product_qty
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_tree
 msgid "Qty Plan"
-msgstr "cant planificată"
+msgstr "Cant planificată"
 
 #. module: deltatech_mrp
 #: selection:deltatech.cost.detail,cost_categ:0

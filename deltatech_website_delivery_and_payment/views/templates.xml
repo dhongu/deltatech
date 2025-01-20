@@ -18,6 +18,34 @@
         </xpath>
     </template>
 
+
+    <template id="confirmation" inherit_id="website_sale.confirmation">
+        <xpath expr="//t[@t-set='tx_sudo']" position="after">
+            <t t-if="tx_sudo.state == 'authorized'">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3>Thank you for your order.</h3>
+                    <a
+                        role="button"
+                        class="d-none d-md-inline-block btn btn-primary ms-auto"
+                        href="/shop/print"
+                        target="_blank"
+                        aria-label="Print"
+                        title="Print"
+                    ><i class="fa fa-print me-2" />Print</a>
+                </div>
+                <div class="mb-4">
+                    <h5>
+                        <em>
+                            <span>Order</span>
+                            <span t-field="order.name" />
+                                <i class="fa fa-stamp-circle ms-1" />
+                        </em>
+                    </h5>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
 <!--    <template id="payment_checkout_hide" inherit_id="payment.checkout_layout" priority="200">-->
 <!--        <xpath expr="//div[@name='o_payment_option_card']" position="before">-->
 <!--            <t t-set="is_restricted" t-value="provider.is_restricted(user_id.partner_id)" />-->

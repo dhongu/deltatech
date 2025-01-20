@@ -3,8 +3,8 @@
 
 {
     "name": "MRP Extension",
-    "summary": "MRP Extension - Obsolete",
-    "version": "17.0.1.0.1",
+    "summary": "MRP Extension",
+    "version": "17.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

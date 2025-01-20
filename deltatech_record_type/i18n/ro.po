@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0+e\n"
+"Project-Id-Version: Odoo Server 17.0+ec\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-17 20:25+0000\n"
-"PO-Revision-Date: 2025-01-17 20:25+0000\n"
+"POT-Creation-Date: 2025-01-18 02:51+0000\n"
+"PO-Revision-Date: 2025-01-18 02:51+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -31,9 +31,24 @@ msgid "Can Confirm Orders Without Record Type"
 msgstr "Poate confirma comenzi fără tip comandă"
 
 #. module: deltatech_record_type
+#: model_terms:ir.ui.view,arch_db:deltatech_record_type.res_config_settings_view_form
+msgid "Can confirm orders without record type"
+msgstr "Poate confirma comenzi fără tip comandă"
+
+#. module: deltatech_record_type
 #: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type_default_values__field_type__char
 msgid "Char"
 msgstr ""
+
+#. module: deltatech_record_type
+#: model:ir.model,name:deltatech_record_type.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_res_config_settings__group_confirm_order_without_record_type
+msgid "Confirmed without record type"
+msgstr "Confirmat fără tip comandă"
 
 #. module: deltatech_record_type
 #: model:ir.model.fields,field_description:deltatech_record_type.field_record_type__create_uid
@@ -132,7 +147,7 @@ msgstr "Tipuri comandă"
 #: model:ir.model,name:deltatech_record_type.model_purchase_order
 #: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type__model__purchase_order
 msgid "Purchase Order"
-msgstr "Comandă achiziție"
+msgstr "Comandă de achiziție"
 
 #. module: deltatech_record_type
 #: model:ir.model,name:deltatech_record_type.model_record_type
@@ -154,7 +169,7 @@ msgstr ""
 #. module: deltatech_record_type
 #: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type__model__sale_order
 msgid "Sale Order"
-msgstr "Comandă vânzare"
+msgstr "Comandă de vânzare"
 
 #. module: deltatech_record_type
 #: model:ir.model,name:deltatech_record_type.model_record_type_default_values
@@ -164,7 +179,7 @@ msgstr "Valori implicite tip comandă de vânzare"
 #. module: deltatech_record_type
 #: model:ir.model,name:deltatech_record_type.model_sale_order
 msgid "Sales Order"
-msgstr "Comandă vânzare"
+msgstr "Comandă de vânzare"
 
 #. module: deltatech_record_type
 #. odoo-python

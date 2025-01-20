@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record model="ir.ui.view" id="product_alternative_tree_view">
+        <field name="name">product.alternative.tree</field>
+        <field name="model">product.alternative</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="product_tmpl_id" />
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="hide" />
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="product_alternative_form_view">
+        <field name="name">product.alternative.form</field>
+        <field name="model">product.alternative</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Product Alternatives">
+                <field name="product_tmpl_id" />
+                <field name="name" />
+                <field name="hide" />
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -3,10 +3,9 @@
     <record id="group_confirm_order_without_record_type" model="res.groups">
         <field name="name">Can Confirm Orders Without Record Type</field>
         <field name="category_id" ref="base.module_category_hidden" />
-         <field
+        <field
             name="users"
-            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin')), (4, ref('base.group_user'))]"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin')), (4, ref('base.default_user'))]"
         />
     </record>
-
 </odoo>

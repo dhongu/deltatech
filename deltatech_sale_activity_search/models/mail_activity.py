@@ -4,13 +4,14 @@ from odoo import api, models
 class MailActivity(models.Model):
     _inherit = "mail.activity"
 
-    @api.model
-    def create(self, vals):
-        activity = super().create(vals)
-        if activity.res_model == "sale.order":
-            order = self.env["sale.order"].browse(activity.res_id)
-            order.set_active_activity_types()
-        return activity
+    @api.model_create_multi
+    def create(self, vals_list):
+        activities = super().create(vals_list)
+        for activity in activities:
+            if activity.res_model == "sale.order":
+                order = self.env["sale.order"].browse(activity.res_id)
+                order.set_active_activity_types()
+        return activities
 
     def write(self, vals):
         res = super().write(vals)

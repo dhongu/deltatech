@@ -69,11 +69,11 @@ class StockQuant(models.Model):
                 and quant.inventory_diff_quantity
             ):
                 raise UserError(_("Your user cannot update product quantities"))
-        for quant in self:
-            quant.last_inventory_date = fields.Date.today()
-            if quant.product_id:
-                quant.product_id.write({"is_inventory_ok": True})
-                quant.product_id.product_tmpl_id.write({"is_inventory_ok": True})
+        # for quant in self:
+        #     quant.last_inventory_date = fields.Date.today()
+        #     if quant.product_id:
+        #         quant.product_id.write({"is_inventory_ok": True})
+        #         quant.product_id.product_tmpl_id.write({"is_inventory_ok": True})
 
         inventory = self.filtered(lambda q: q.inventory_quantity_set).create_inventory_lines()
         res = super(StockQuant, self.with_context(apply_inventory=True)).action_apply_inventory()
@@ -146,3 +146,29 @@ class StockQuant(models.Model):
                 ].location_out_id.id  # set the location_id to the location_out_id of the putaway rule
 
         return defaults
+
+    def action_confirm_inventory(self):
+        inventory_values = {"state": "confirm", "line_ids": []}
+        for quant in self:
+            if quant.location_id.usage == "internal" and (
+                not quant.last_inventory_date
+                or (quant.last_inventory_date and quant.last_inventory_date < fields.Date.today())
+            ):
+                values = {
+                    "product_id": quant.product_id.id,
+                    "product_uom_id": quant.product_id.uom_id.id,
+                    "location_id": quant.location_id.id,
+                    "theoretical_qty": quant.quantity,
+                    "product_qty": quant.quantity,
+                    "standard_price": quant.product_id.product_tmpl_id.standard_price,
+                    "is_ok": True,
+                }
+                inventory_values["line_ids"].append((0, 0, values))
+        if inventory_values["line_ids"]:
+            inventory = self.env["stock.inventory"].create(inventory_values)
+            inventory.action_validate()
+
+        for quant in self:
+            quant.product_id.product_tmpl_id.message_post(
+                body=_(f"Quantity {quant.quantity} at location {quant.location_id.name} was confirmed.")
+            )

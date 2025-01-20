@@ -36,7 +36,7 @@ class ProductTemplate(models.Model):
     loc_case = fields.Char("Case", size=16, compute="_compute_loc", inverse="_inverse_loc")
 
     warehouse_loc_ids = fields.One2many("product.warehouse.location", "product_id")
-    is_inventory_ok = fields.Boolean("Inventory OK", tracking=True)
+    is_inventory_ok = fields.Boolean("Inventory OK", tracking=True)  # nu are senes daca sunt mai multe locatii
     warehouse_stock = fields.Text(string="Stock/WH", compute="_compute_warehouse_stocks")
 
     def _compute_warehouse_stocks(self):
@@ -104,13 +104,13 @@ class ProductTemplate(models.Model):
             else:
                 self.env["product.warehouse.location"].sudo().create(values)
 
-    def write(self, vals):
-        res = super().write(vals)
-        if "is_inventory_ok" in vals:
-            self.with_context(active_test=False).mapped("product_variant_ids").write(
-                {"is_inventory_ok": vals.get("is_inventory_ok")}
-            )
-        return res
+    # def write(self, vals):
+    #     res = super().write(vals)
+    #     if "is_inventory_ok" in vals:
+    #         self.with_context(active_test=False).mapped("product_variant_ids").write(
+    #             {"is_inventory_ok": vals.get("is_inventory_ok")}
+    #         )
+    #     return res
 
     def variants_is_ok(self):
         self.ensure_one()
@@ -194,10 +194,10 @@ class ProductTemplate(models.Model):
                             "location_out_id": location_dest.id,
                         }
                         vals.append(value)
-            else:
-                raise UserError(
-                    _(f"No location can be fount for product {product.name}. Check product stock configuration")
-                )
+            # else:
+            #     raise UserError(
+            #         _(f"No location can be fount for product {product.name}. Check product stock configuration")
+            #     )
         if vals:
             self.env["stock.putaway.rule"].create(vals)
 
@@ -227,7 +227,7 @@ class ProductTemplate(models.Model):
                     "location_dest_id": location_dest_id.id,
                     "product_uom": product.uom_id.id,
                     "product_uom_qty": qty,
-                    "quantity_done": qty,
+                    "picked": True,
                 }
                 values.append(value)
             else:
@@ -242,7 +242,11 @@ class ProductTemplate(models.Model):
             }
             picking = self.env["stock.picking"].create(picking_values)
             picking.action_confirm()
-            picking.button_validate()
+            for move in picking.move_ids:
+                move._set_quantity_done(move.product_uom_qty)
+
+            picking.move_ids.picked = True
+            picking._action_done()
             return picking
 
 

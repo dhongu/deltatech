@@ -8,14 +8,15 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="date" invisible="1" />
+                    <field name="date" optional="hide" />
                     <field name="product_id" invisible="0" />
-                    <field name="categ_id" invisible="1" />
-                    <field name="production_id" invisible="1" />
+                    <field name="lot_producing_id" optional="hide" />
+                    <field name="categ_id" optional="show" />
+                    <field name="production_id" optional="hide" />
                     <field name="product_qty" sum='Qty Plan' />
-                    <field name="product_val" sum='Val Plan' invisible="1" />
-                    <field name="product_qty_ef" sum='Qty Efective' invisible="1" />
-                    <field name="product_val_ef" sum='Val Efective' invisible="1" />
+                    <field name="product_val" sum='Val Plan' optional="hide" />
+                    <field name="product_qty_ef" sum='Qty Efective' optional="hide" />
+                    <field name="product_val_ef" sum='Val Efective' optional="hide" />
                     <field name="consumed_val" sum='Val Consumed' />
                     <field name="consumed_raw_val" sum='Val Consumed Raw' />
                     <field name="consumed_pak_val" sum='Val Consumed Packing' />
@@ -23,9 +24,9 @@
                     <field name="val_prod" sum='Value production' />
                     <field name="standard_price" sum='Price Standard' />
                     <field name="actually_price" sum='Actually Price' />
-                    <field name="nbr" sum='# of Orders' invisible="1" />
-                    <field name="state" invisible="1" />
-                    <field name="company_id" groups="base.group_multi_company" invisible="1" />
+                    <field name="nbr" sum='# of Orders' optional="hide" />
+                    <field name="state" optional="hide" />
+                    <field name="company_id" groups="base.group_multi_company" optional="hide" />
                 </tree>
             </field>
         </record>
@@ -55,6 +56,7 @@
                 <pivot string="Production Analysis">
                     <field name="product_id" type="row" />
                     <field name="date" interval="month" type="row" />
+                    <field name="lot_producing_id" type="row" />
                     <field name="consumed_val" type="measure" />
                     <field name="consumed_raw_val" type="measure" />
                     <field name="consumed_pak_val" type="measure" />
@@ -80,7 +82,7 @@
                     <filter name="date" date="date" default_period="last_month" />
 
                     <field name="product_id" />
-
+                    <field name="lot_producing_id" />
                     <separator />
                     <filter string="Current" name='current' domain="[('state','in',('open','draft'))]" />
                     <filter string="In Production" name="in_production" domain="[('state','=','in_production')]" />

@@ -10,7 +10,7 @@ class SaleOrder(models.Model):
     weight_gross = fields.Float("Gross Weight", digits="Stock Weight", help="The gross weight in Kg.")
     weight_net = fields.Float("Net Weight", digits="Stock Weight", help="The net weight in Kg.")
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals_list):
         # Create the sale orders using the default implementation
         sale_orders = super().create(vals_list)

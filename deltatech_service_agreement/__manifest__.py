@@ -12,6 +12,8 @@
         "base",
         "product",
         "account",
+        "stock",
+        "sale",
         # "date_range",
         "deltatech_service_base",
         # "deltatech_agreement_management",
