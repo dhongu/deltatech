@@ -130,6 +130,23 @@ class StockQuant(models.Model):
         values["name"] = self.inventory_note or values["name"]
         return values
 
+    @api.model
+    def default_get(self, fields_list):
+        defaults = super().default_get(fields_list)
+        product_id = self.env.context.get("default_product_id")  # Default product_id retrieved from context
+
+        if product_id:  # if there is a product in context
+            product = self.env["product.product"].browse(product_id)  # get the product
+            putaway_rules = self.env["stock.putaway.rule"].search(
+                [("product_id", "=", product.id)]
+            )  # get the first putaway rule for the product
+            if putaway_rules:  # should I check if the location is already in the lines?
+                defaults["location_id"] = putaway_rules[
+                    0
+                ].location_out_id.id  # set the location_id to the location_out_id of the putaway rule
+
+        return defaults
+
     def action_confirm_inventory(self):
         inventory_values = {"state": "confirm", "line_ids": []}
         for quant in self:
