@@ -15,6 +15,13 @@
                             <field name="user_ids" widget="many2many_tags" />
                         </group>
                         <group>
+                            <field
+                                name="route_ids"
+                                string="Routes"
+                                options="{'no_create': True}"
+                                groups="stock.group_adv_location"
+                                widget="many2many_tags"
+                            />
                         </group>
                     </group>
                     <notebook>

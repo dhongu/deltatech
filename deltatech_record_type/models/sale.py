@@ -20,3 +20,13 @@ class SaleOrder(models.Model):
     def _onchange_so_type(self):
         for default_value in self.so_type.default_values_ids:
             self[default_value.field_name] = safe_eval(default_value.field_value)
+
+
+class SaleOrderLine(models.Model):
+    _inherit = "sale.order.line"
+
+    def _prepare_procurement_values(self, group_id):
+        values = super()._prepare_procurement_values(group_id)
+        if not values.get("route_ids") and self.order_id.so_type.route_ids:
+            values["route_ids"] = self.order_id.so_type.route_ids
+        return values

@@ -23,7 +23,7 @@ class RecordType(models.Model):
     default_values_ids = fields.One2many(
         "record.type.default.values", "record_type_id", string="Default Values", copy=True
     )
-
+    route_ids = fields.Many2many("stock.route", "Routes")
 
 class SaleOrderTypeDefaultValues(models.Model):
     _name = "record.type.default.values"
