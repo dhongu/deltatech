@@ -27,7 +27,7 @@
                     </group>
                 </group>
                 <footer>
-                    <button name="do_import" string="_Apply" type="object" class="oe_highlight" />
+                    <button name="do_import" string="Apply" type="object" class="oe_highlight" />
                     or
                     <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>
