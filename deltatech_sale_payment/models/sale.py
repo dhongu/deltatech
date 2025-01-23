@@ -19,8 +19,8 @@ class SaleOrder(models.Model):
             ("done", "Done"),
         ],
         default="without",
-        compute="_compute_payment_status",
-        store=True,
+        compute="_compute_payments",
+        search="_search_payment_status",
     )
 
     def action_payment_link(self):
@@ -41,10 +41,6 @@ class SaleOrder(models.Model):
             "url": payment_link.link,
             "target": "new",
         }
-
-    @api.depends("transaction_ids", "transaction_ids.state", "invoice_ids.payment_state")
-    def _compute_payment_status(self):
-        self._compute_payment()
 
     @api.depends("transaction_ids", "transaction_ids.state")
     def _compute_payment(self):
@@ -82,3 +78,15 @@ class SaleOrder(models.Model):
                             acquirer = transaction.provider_id
 
             order.provider_id = acquirer
+
+    def _search_payment_status(self, operator, value):
+        if operator == "=":
+            if value == "without":
+                return [("transaction_ids", "=", False)]
+            if value == "initiated":
+                return [("transaction_ids.state", "!=", "done")]
+            if value == "authorized":
+                return [("transaction_ids.state", "=", "authorized")]
+            if value == "done":
+                return [("transaction_ids.state", "=", "done")]
+        return []
