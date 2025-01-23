@@ -4,7 +4,7 @@
 {
     "name": "Logistic Documents",
     "summary": "Logistic Documents",
-    "version": "17.0.1.0.2",
+    "version": "17.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",

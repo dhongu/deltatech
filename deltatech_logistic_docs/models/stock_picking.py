@@ -21,12 +21,16 @@ class StockPicking(models.Model):
                 ("res_id", "=", picking.sale_id.id),
             ]
             domain = expression.OR([subdomains, domain])
+            subdomains = [("id", "in", picking.sale_id.invoice_ids.message_main_attachment_id.ids)]
+            domain = expression.OR([subdomains, domain])
             invoice_ids += picking.sale_id.sudo().invoice_ids.ids
         if picking.purchase_id:
             subdomains = [
                 ("res_model", "=", "purchase.order"),
                 ("res_id", "=", picking.purchase_id.id),
             ]
+            domain = expression.OR([subdomains, domain])
+            subdomains = [("id", "in", picking.sale_id.invoice_ids.message_main_attachment_id.ids)]
             domain = expression.OR([subdomains, domain])
             invoice_ids += picking.purchase_id.sudo().invoice_ids.ids
         if invoice_ids:
@@ -35,6 +39,7 @@ class StockPicking(models.Model):
                 ("res_id", "=", invoice_ids),
             ]
             domain = expression.OR([subdomains, domain])
+
         return domain
 
     def _compute_attached_docs_count(self):
