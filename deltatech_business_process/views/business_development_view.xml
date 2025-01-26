@@ -14,6 +14,7 @@
                     widget="badge"
                     decoration-danger="approved == 'rejected' "
                     decoration-success="approved == 'approved'  "
+                    decoration-warning="approved == 'awaiting_approval' "
                 />
                  <field name="state" widget="badge" />
                 <field name="responsible_id" optional="show" />
@@ -71,20 +72,47 @@
 
                         <group string="Specification">
                             <field name="responsible_id" />
-                            <field name="date_start_fs" string="Date start" />
-                            <field name="date_end_fs" string="Date end" />
+
+                            <field
+                                name="date_start_fs"
+                                string="Date"
+                                widget="daterange"
+                                options="{'end_date_field': 'date_end_fs'}"
+                            />
+                            <field name="date_end_fs" invisible="1" />
+
+                        <!--    <field name="date_start_fs" string="Date start" />
+                            <field name="date_end_fs" string="Date end" />-->
                             <field name="completion_fs" widget="progressbar" options="{'editable': true}" />
                         </group>
                         <group string="Development">
                             <field name="developer_id" />
-                            <field name="date_start_dev" string="Date start" />
-                            <field name="date_end_dev" string="Date end" />
+
+                            <field
+                                name="date_start_dev"
+                                string="Date"
+                                widget="daterange"
+                                options="{'end_date_field': 'date_end_dev'}"
+                            />
+                            <field name="date_end_dev" invisible="1" />
+
+                     <!--       <field name="date_start_dev" string="Date start" />
+                            <field name="date_end_dev" string="Date end" />-->
                             <field name="completion_dev" widget="progressbar" options="{'editable': true}" />
                         </group>
                         <group string="Test ">
                             <field name="tester_id" />
-                            <field name="date_start_test" string="Date start" />
-                            <field name="date_end_test" string="Date end" />
+
+                            <field
+                                name="date_start_test"
+                                string="Date"
+                                widget="daterange"
+                                options="{'end_date_field': 'date_end_test'}"
+                            />
+                            <field name="date_end_test" invisible="1" />
+
+                    <!--        <field name="date_start_test" string="Date start" />
+                            <field name="date_end_test" string="Date end" />-->
                             <field name="completion_test" widget="progressbar" options="{'editable': true}" />
                         </group>
 
