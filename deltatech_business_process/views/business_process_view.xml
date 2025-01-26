@@ -15,7 +15,7 @@
                 <field
                     name="state"
                     widget="badge"
-                    decoration-danger="state == 'draft'"
+                    decoration-danger="state in ['draft','abandoned']"
                     decoration-info="state == 'design'"
                     decoration-warning="state == 'test'"
                     decoration-success="state in ['ready','production']"
@@ -102,7 +102,14 @@
                         name="button_draft"
                         type="object"
                         string="Reset to Draft"
-                        invisible="state not in ('design','test','ready')"
+                        invisible="state not in ('design','test','ready','abandoned')"
+                    />
+                    <button
+                        name="button_abandon"
+                        type="object"
+                        string="Abandon"
+                        groups="base.group_system"
+                        invisible="state in ('abandoned','production')"
                     />
 <!--                    <button-->
 <!--                        name="start_user_acceptance_test"-->
@@ -150,6 +157,7 @@
                             <field name="code" readonly="state!='draft'" />
                             <field name="project_id" readonly="state!='draft'" />
                         </group>
+
 
                         <group string="Business process">
                             <field name="area_id" readonly="state!='draft'" />
@@ -241,6 +249,15 @@
                         <page string="Duration">
                             <group>
                                 <group string="Business Blueprint">
+                                    <field
+                                        name="date_start_bbp"
+                                        string="Date"
+                                        widget="daterange"
+                                        options="{'end_date_field': 'date_end_bbp'}"
+                                        readonly="state not in ('draft','design')"
+                                    />
+                                    <field name="date_end_bbp" invisible="1" />
+              <!--
                                     <field name="date_start_bbp" readonly="state not in ('draft','design')" />
                                     <field name="date_end_bbp" readonly="state not in ('draft','design')" />
                                     <field

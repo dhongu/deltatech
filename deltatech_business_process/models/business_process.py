@@ -68,6 +68,7 @@ class BusinessProcess(models.Model):
             ("test", "Test"),
             ("ready", "Ready"),
             ("production", "Production"),
+            ("abandoned", "Abandoned"),
         ],
         string="State",
         default="draft",
@@ -229,6 +230,7 @@ class BusinessProcess(models.Model):
         domain = [("process_id", "=", self.id)]
         context = {
             "default_process_id": self.id,
+            "default_scope": "internal",
         }
         action = self.env["ir.actions.actions"]._for_xml_id("deltatech_business_process.action_business_process_test")
         action.update({"domain": domain, "context": context})
@@ -240,6 +242,7 @@ class BusinessProcess(models.Model):
         domain = [("process_id", "=", self.id), ("scope", "=", "user_acceptance")]
         context = {
             "default_process_id": self.id,
+            "default_scope": "user_acceptance",
         }
         tests = self.env["business.process.test"].search(domain)
         if len(tests) == 1:
@@ -394,6 +397,9 @@ class BusinessProcess(models.Model):
 
     def button_draft(self):
         self.write({"state": "draft"})
+
+    def button_abandon(self):
+        self.write({"state": "abandoned"})
 
     def start_internal_test(self):
         self._start_test("internal")

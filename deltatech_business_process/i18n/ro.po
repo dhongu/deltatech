@@ -210,6 +210,12 @@ msgid "Attachments"
 msgstr "Atașamente"
 
 #. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_development__approved__awaiting_approval
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_filter
+msgid "Awaiting Approval"
+msgstr "Așteaptă aprobare"
+
+#. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
 msgid "Back"
