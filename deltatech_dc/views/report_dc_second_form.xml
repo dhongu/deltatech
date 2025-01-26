@@ -1,0 +1,157 @@
+<?xml version="1.0" ?>
+<odoo>
+    <!-- Define the report template -->
+    <template id="report_dc_form_2">
+
+        <!-- Call the basic layout template -->
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <style>
+                    .small {
+                    font-size: 10px;
+                    line-height: 1.2; /* Adjust this value to make the space between lines smaller */
+                    }
+                </style>
+                <strong t-field="o.company_id.partner_id.name" />
+                <h4>
+                    <span>Declaration of Conformity:</span>
+                </h4>
+                <br />
+                <br />
+
+                <br />
+
+                <br />
+
+                <br />
+
+                <br />
+
+                <span>
+                    Registration Nr.
+                </span>
+                <br />
+                <br />
+                <span>
+                    We,&#160;<span t-field="o.company_id.partner_id.name" />, with headquarters in
+                    <span t-field="o.company_id.partner_id.city" />
+                    ,<span t-field="o.company_id.partner_id.street" />,
+                    <span t-field="o.company_id.state_id.name" />
+                    county, work point located in
+                    <span t-field="o.picking_type_id.warehouse_id.partner_id.street" />
+                    ,
+                    <span t-field="o.picking_type_id.warehouse_id.partner_id.city" />,
+                    <span t-field="o.picking_type_id.warehouse_id.partner_id.state_id.name" />
+                    county, VAT:&#160;<span t-field="o.picking_type_id.warehouse_id.partner_id.vat" />, NRC:&#160;
+                    <span
+                        t-field="o.picking_type_id.warehouse_id.partner_id.nrc"
+                    />; we declare, ensure and guarantee on our
+                    own
+                    responsibility that the products delivered to the customer, according to the invoice/notice no.
+                    <span t-field="o.name" />, do not endanger the life, health and safety of consumers and comply with
+                    the
+                    internal technical specifications of the products and with the sanitary-veterinary legislation and
+                    for food safety in force. We guarantee the quality of the products provided that the storage and
+                    transport parameters specified in the table and on the packaging are respected.
+                </span>
+
+                <br />
+                <br />
+                <strong>Sale Order:
+                    <span t-field="o.sale_id.client_order_ref" />
+                    from<span t-field="o.sale_id.date_order" t-options='{"widget": "date"}' />,
+                    <span t-field="o.sale_id.partner_id.display_name" />
+                </strong>
+                <table class="table-bordered" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th
+                                style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                            >
+                                Nr.
+                            </th>
+                            <th
+                                style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                            >
+                                Name of products and services
+                            </th>
+                            <th
+                                style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                            >
+                                Quantity
+                            </th>
+                            <th
+                                style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                            >
+                                Lot Number
+                            </th>
+                            <th
+                                style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                            >
+                                Expiration Date
+                            </th>
+                            <th
+                                style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                            >
+                                Storage Conditions
+                            </th>
+                        </tr>
+                    </thead>
+                    <t t-set="counter" t-value="0" />
+
+                    <t t-foreach="o.move_ids" t-as="move">
+                        <t t-set="counter" t-value="counter + 1" />
+
+                        <tr>
+                            <td>
+                                <strong t-esc="counter" />
+                            </td>
+
+                            <td>
+                                <strong t-esc="move.product_id.name" />
+                            </td>
+                            <td>
+                                <strong t-esc="move.quantity" />
+                            </td>
+
+                            <td>
+                                <t t-foreach="move.lot_ids" t-as="lot">
+                                    <strong t-esc="lot.name" />
+                                    <br />
+                                </t>
+                            </td>
+                            <td>
+                                <t t-foreach="move.lot_ids" t-as="lot">
+                                    <strong t-esc="lot.use_date" t-options='{"widget": "date"}' />
+                                    <br />
+                                </t>
+                            </td>
+                            <td>
+                                <strong t-esc="move.product_id.standards" />
+
+                            </td>
+                        </tr>
+
+
+                    </t>
+                </table>
+                <br />
+                <br />
+                <span>
+                    <strong>Responsible Person:</strong>
+                    <br />
+                    <br />
+                    <strong>Signature:</strong>
+                </span>
+                <div class="footer">
+                    <span class="small">
+                        The document belongs to the
+                        <span t-field="o.company_id.partner_id.name" />
+                        and cannot be made
+                        public without the council's approval.
+                    </span>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

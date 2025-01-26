@@ -54,6 +54,18 @@
 
         </record>
 
+        <record id="action_report_dc_picking_form_2" model="ir.actions.report">
+            <field name="name">Declaration of Conformity 2</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">deltatech_dc.report_dc_form_2</field>
+            <field name="report_file">deltatech_dc.report_dc_form_2</field>
+            <field name="binding_type">report</field>
+             <field name="binding_view_types">form</field>
+           <field name="binding_model_id" ref="stock.model_stock_picking" />
+
+        </record>
+
 
 
 </odoo>
