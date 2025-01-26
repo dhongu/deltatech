@@ -5,7 +5,7 @@
 {
     "name": "Cash In / Out",
     "summary": "Cash In / Out",
-    "version": "17.0.1.0.0",
+    "version": "18.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
