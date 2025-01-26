@@ -26,7 +26,7 @@ class AccountAveragePaymentReport(models.Model):
     debit = fields.Float("Debit", readonly=True)
     credit = fields.Float("Credit", readonly=True)
     balance = fields.Float("Balance", readonly=True)
-    pondere = fields.Float("Pondere", readonly=True)
+    weight = fields.Float("Weight", readonly=True)
     amount = fields.Float("Amount", readonly=True)
     payment_days_simple = fields.Float("Plain payment days", readonly=True, group_operator="avg")
 
@@ -37,8 +37,8 @@ class AccountAveragePaymentReport(models.Model):
 
         if "payment_days" in fields:
             # new_fields.remove('payment_days')
-            if "pondere" not in new_fields:
-                new_fields.append("pondere")
+            if "weight" not in new_fields:
+                new_fields.append("weight")
             if "amount" not in new_fields:
                 new_fields.append("amount")
 
@@ -55,10 +55,10 @@ class AccountAveragePaymentReport(models.Model):
         # new_res = self.read_group(cr, uid, domain, new_fields, groupby, offset, limit, context, orderby, lazy)
         if "payment_days" in fields:
             for line in res:
-                pondere = line.get("pondere", 0.0)
+                weight = line.get("weight", 0.0)
                 amount = line.get("amount", 0.0)
-                if line["amount"] != 0.0 and pondere and amount:
-                    line["payment_days"] = pondere / amount
+                if line["amount"] != 0.0 and weight and amount:
+                    line["payment_days"] = weight / amount
                 else:
                     line["payment_days"] = 0.0
                 if line["payment_days"] < 0.0:
@@ -81,10 +81,9 @@ class AccountAveragePaymentReport(models.Model):
             l.debit as debit,
             l.credit as credit,
             am.ref as ref,
-            l.account_id as account_id,
-            a.code as account_code,
+            l.account_id as account_id
 
-            abs(coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0)) * l.payment_days as pondere,
+            abs(coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0)) * l.payment_days as weight,
             abs(coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0))  as amount,
             coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0) as balance,
             l.payment_days_simple as payment_days_simple
