@@ -15,5 +15,6 @@
     "data": ["views/product_view.xml"],
     "images": ["images/main_screenshot.png"],
     "development_status": "Mature",
+    "sequence": 100,
     "maintainers": ["dhongu"],
 }
