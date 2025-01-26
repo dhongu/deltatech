@@ -1,0 +1,3 @@
+Features:
+
+- Archive public categories

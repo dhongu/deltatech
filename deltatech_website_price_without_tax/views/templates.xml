@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template
+        id="product_price_without_tax"
+        inherit_id="website_sale.product_price"
+        name="Price without tax"
+        customize_show="True"
+        priority="100"
+    >
+        <xpath expr="//div[@itemprop='offers']" position="inside">
+            <h5 class="css_editable_mode_hidden">
+
+                <t t-if="combination_info.get('list_price_without_tax')">
+                    <span>Price without tax</span>
+                    <span
+                        class="oe_price"
+                        style="white-space: nowrap;"
+                        t-out="combination_info['list_price_without_tax']"
+                        t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
+                    />
+                </t>
+            </h5>
+        </xpath>
+    </template>
+
+
+</odoo>

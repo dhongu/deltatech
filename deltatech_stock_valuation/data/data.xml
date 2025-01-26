@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="action_product_valuation_history_recompute" model="ir.actions.server">
+        <field name="name">Recompute All Stock Valuation</field>
+        <field name="model_id" ref="base.model_ir_actions_server" />
+        <field name="state">code</field>
+        <field name="code">
+env['product.valuation.history'].recompute_all_amount()
+env['product.valuation'].recompute_all_amount()
+        </field>
+    </record>
+
+
+</odoo>

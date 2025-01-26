@@ -1,0 +1,48 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_warehouse_access
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-31 08:02+0000\n"
+"PO-Revision-Date: 2024-05-31 08:02+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_warehouse_access
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_access.view_warehouse
+msgid "Avatar"
+msgstr ""
+
+#. module: deltatech_warehouse_access
+#. odoo-python
+#: code:addons/deltatech_warehouse_access/models/stock_picking.py:0
+#, python-format
+msgid "The %s user don’t have access to the %s warehouse"
+msgstr "Utilizatorul %s nu are acces la depozitul %s"
+
+#. module: deltatech_warehouse_access
+#: model:ir.model,name:deltatech_warehouse_access.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: deltatech_warehouse_access
+#: model:ir.model.fields,field_description:deltatech_warehouse_access.field_stock_warehouse__user_ids
+msgid "User"
+msgstr "Utilizator"
+
+#. module: deltatech_warehouse_access
+#: model_terms:ir.ui.view,arch_db:deltatech_warehouse_access.view_warehouse
+msgid "Users"
+msgstr "Utilizatori"
+
+#. module: deltatech_warehouse_access
+#: model:ir.model,name:deltatech_warehouse_access.model_stock_warehouse
+msgid "Warehouse"
+msgstr "Depozit"
