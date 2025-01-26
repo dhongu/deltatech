@@ -4,7 +4,7 @@ from odoo import fields, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    active_activity_types = fields.Char(string="Active Activity Types", readonly=1)
+    active_activity_types = fields.Char(string="Active Activity Types", readonly=True)
 
     def set_active_activity_types(self):
         for order in self:
