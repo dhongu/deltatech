@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="address" inherit_id="website_sale.address">
+        <div t-attf-class="#{error.get('city') and 'o_has_error' or ''} div_city col-md-8 mb-2" position="before">
+            <div t-attf-class="#{error.get('city') and 'o_has_error' or ''} div_city_id col-md-8 mb-2">
+                <label class="col-form-label label-optional" for="city_id">City</label>
+
+                <select
+                    id="city_id"
+                    name="city_id"
+                    t-attf-class="form-control #{error.get('city_id') and 'is-invalid' or ''}"
+                    t-att-data-value="'city_id' in checkout and  checkout['city_id'] != '' and  int(checkout['city_id'])"
+                    data-init="1"
+                >
+                    <t t-foreach="state_cities" t-as="city">
+                        <option
+                            t-att-value="city.id"
+                            t-att-selected="city.id == ('city_id' in checkout and checkout['city_id'] != '' and int(checkout['city_id']))"
+                        >
+                            <t t-out="city.name" />
+                        </option>
+                    </t>
+                </select>
+            </div>
+        </div>
+    </template>
+</odoo>

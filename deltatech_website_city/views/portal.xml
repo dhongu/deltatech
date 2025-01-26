@@ -65,21 +65,4 @@
             </div>
         </div>
     </template>
-    <template id="address" inherit_id="website_sale.address">
-        <xpath expr="//div[@id='div_city']" position="before">
-
-            <div id="div_city_id" class="col-lg-6 mb-2">
-                <label class="col-form-label" for="o_city_id">City</label>
-                <select id="o_city_id" name="city_id" class="form-select">
-                    <option value="">City...</option>
-                    <t t-foreach="state_cities" t-as="c">
-                        <option t-att-value="c.id" t-att-selected="c.id == country.id" t-att-code="c.code">
-                            <t t-esc="c.name" />
-                        </option>
-                    </t>
-                </select>
-            </div>
-
-        </xpath>
-    </template>
 </odoo>

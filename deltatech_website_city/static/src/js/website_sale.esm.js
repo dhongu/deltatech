@@ -1,6 +1,5 @@
 /** @odoo-module **/
 import {WebsiteSale} from "@website_sale/js/website_sale";
-import {rpc} from "@web/core/network/rpc";
 
 WebsiteSale.include({
     events: Object.assign({}, WebsiteSale.prototype.events, {
@@ -9,8 +8,8 @@ WebsiteSale.include({
     }),
     start: function () {
         this.elementCities = document.querySelector("select[name='city_id']");
-        this.cityBlock = document.querySelector("#div_city");
-        this.zipBlock = document.querySelector("#div_zip");
+        this.cityBlock = document.querySelector(".div_city");
+        this.zipBlock = document.querySelector(".div_zip");
 
         this.autoFormat = document.querySelector(".checkout_autoformat");
         this.elementState = document.querySelector("select[name='state_id']");
@@ -23,7 +22,7 @@ WebsiteSale.include({
             return;
         }
 
-        return rpc(rpcRoute, {}).then((data) => {
+        return this.rpc(rpcRoute, {}).then((data) => {
             const data_place = data[place];
             if (data_place && data_place.length !== 0) {
                 selectElement.innerHTML = "";
@@ -47,9 +46,7 @@ WebsiteSale.include({
         }
         const state = this.elementState.value;
         const rpcRoute = `/shop/state_infos/${state}`;
-        return this.autoFormat.length
-            ? this._changeOption(state, rpcRoute, "cities", this.elementCities) // .then(() => this._onChangeCity())
-            : undefined;
+        return this.autoFormat.length ? this._changeOption(state, rpcRoute, "cities", this.elementCities) : undefined;
     },
 
     _onChangeCity: function () {
@@ -65,7 +62,7 @@ WebsiteSale.include({
                 cityInput.value = "";
             }
             this.cityBlock.classList.add("d-none");
-            return this._onChangeState(); // .then(() => {            this._onChangeCity();            });
+            return this._onChangeState();
         });
     },
 });
