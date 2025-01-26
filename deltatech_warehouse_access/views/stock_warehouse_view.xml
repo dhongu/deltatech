@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_warehouse" model="ir.ui.view">
+        <field name="name">stock.warehouse</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.view_warehouse" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Users" groups="base.group_no_one">
+                    <field name="user_ids" widget="many2many" options="{'not_delete': True}">
+                        <kanban quick_create="false" create="true" delete="true">
+                            <field name="id" />
+                            <field name="name" />
+                            <templates>
+                                <t t-name="kanban-box">
+                                    <div class="oe_kanban_global_click" style="max-width: 200px">
+                                        <div class="o_kanban_record_top">
+                                            <img
+                                                t-att-src="kanban_image('res.users', 'image_small', record.id.raw_value)"
+                                                height="40"
+                                                width="40"
+                                                class="oe_avatar oe_kanban_avatar_smallbox mb0"
+                                                alt="Avatar"
+                                            />
+                                            <div class="o_kanban_record_headings ml8">
+                                                <strong class="o_kanban_record_title">
+                                                    <field name="name" />
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </templates>
+                        </kanban>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
