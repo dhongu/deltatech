@@ -28,7 +28,7 @@ class AccountAveragePaymentReport(models.Model):
     balance = fields.Float("Balance", readonly=True)
     weight = fields.Float("Weight", readonly=True)
     amount = fields.Float("Amount", readonly=True)
-    payment_days_simple = fields.Float("Plain payment days", readonly=True, group_operator="avg")
+    payment_days_simple = fields.Float("Plain payment days", readonly=True, aggregator="avg")
 
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
@@ -81,7 +81,7 @@ class AccountAveragePaymentReport(models.Model):
             l.debit as debit,
             l.credit as credit,
             am.ref as ref,
-            l.account_id as account_id
+            l.account_id as account_id,
 
             abs(coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0)) * l.payment_days as weight,
             abs(coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0))  as amount,
