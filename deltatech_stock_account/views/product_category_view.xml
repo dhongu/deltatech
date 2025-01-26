@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_product_category_propagate" model="ir.actions.server">
+        <field name="name">Propagate Accounts</field>
+        <field name="model_id" ref="model_product_category" />
+        <field name="binding_model_id" ref="model_product_category" />
+        <field name="binding_view_types">form</field>
+        <field name="groups_id" eval="[(4, ref('base.group_no_one'))]" />
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records.propagate_account()
+        </field>
+    </record>
+</odoo>
