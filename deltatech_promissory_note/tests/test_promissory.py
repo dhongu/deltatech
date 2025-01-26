@@ -23,8 +23,7 @@ class TestPromissoryNote(TransactionCase):
         promissory_note.currency_id = self.env.ref("base.EUR")
         promissory_note.acc_issuer = "XXX"
         promissory_note.acc_beneficiary = "XXX"
-        promissory_note.bank_issuer = "XXX"
-        promissory_note.bank_beneficiary = "XXX"
+
         promissory_note.is_last_bo = True
         promissory_note = promissory_note.save()
         promissory_note.action_cashed()
@@ -39,8 +38,7 @@ class TestPromissoryNote(TransactionCase):
         promissory_note.currency_id = self.env.ref("base.EUR")
         promissory_note.acc_issuer = "XXX"
         promissory_note.acc_beneficiary = "XXX"
-        promissory_note.bank_issuer = "XXX"
-        promissory_note.bank_beneficiary = "XXX"
+
         promissory_note.is_last_bo = True
         promissory_note = promissory_note.save()
         promissory_note.action_cashed()
