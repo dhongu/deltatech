@@ -139,7 +139,7 @@ class Partner(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for values in vals_list:
-            if "cnp" in values:
+            if values.get("cnp", False):
                 if not self.check_single_cnp(values["cnp"]):
                     values["cnp"] = ""
         return super().create(vals_list)
