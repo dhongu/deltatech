@@ -94,7 +94,7 @@ class BusinessDevelopment(models.Model):
             if not vals.get("code", False):
                 vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
 
-        return super().create()
+        return super().create(vals_list)
 
     def write(self, vals):
         result = super().write(vals)
