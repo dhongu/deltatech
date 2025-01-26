@@ -1,0 +1,26 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_website_price_without_tax
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-22 04:18+0000\n"
+"PO-Revision-Date: 2024-12-22 04:18+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_website_price_without_tax
+#: model_terms:ir.ui.view,arch_db:deltatech_website_price_without_tax.product_price_without_tax
+msgid "<span>Price without tax</span>"
+msgstr "<span>Preț fără TVA</span>"
+
+#. module: deltatech_website_price_without_tax
+#: model:ir.model,name:deltatech_website_price_without_tax.model_product_template
+msgid "Product"
+msgstr "Produs"
