@@ -16,6 +16,61 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid ", NRC:"
+msgstr ", CIF:"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid ""
+", do not endanger the life, health and safety of consumers and comply with\n"
+"                    the\n"
+"                    internal technical specifications of the products and with the sanitary-veterinary legislation and\n"
+"                    for food safety in force. We guarantee the quality of the products provided that the storage and\n"
+"                    transport parameters specified in the table and on the packaging are respected."
+msgstr ""
+", nu pun în pericol viața, sănătatea și siguranța consumatorilor și respectă\n"
+"                    specificațiile tehnice interne ale produselor și cu legislația sanitar-veterinară și\n"
+"                    pentru siguranța alimentelor în vigoare. Garantăm calitatea produselor cu condiția respectării parametrilor de depozitare și\n"
+"                    transport specificați în tabel și pe ambalaj."
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid ", with headquarters in"
+msgstr ", cu sediul în mun. "
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid ""
+"; we declare, ensure and guarantee on our\n"
+"                    own\n"
+"                    responsibility that the products delivered to the customer, according to the invoice/notice no."
+msgstr ""
+"; declarăm, asigurăm și garantăm pe propria noastră\n"
+"                    răspundere că produsele livrate clientului, conform facturii/avizului nr."
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid ""
+"<br/>\n"
+"                <br/>\n"
+"                <span>\n"
+"                    <strong>Responsible Person:</strong>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <strong>Signature:</strong>\n"
+"                </span>"
+msgstr ""
+"<br/>\n"
+"                <br/>\n"
+"                <span>\n"
+"                    <strong>Responsabil calitate:</strong>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <strong>Semnătură:</strong>\n"
+"                </span>"
+
+#. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
 msgid "<span>, declare that the product:</span>"
 msgstr "<span>, declaram că produsul:</span>"
@@ -32,8 +87,9 @@ msgstr "<span>, cu sediul în localitatea</span>"
 
 #. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
 msgid "<span>Declaration of Conformity:</span>"
-msgstr "<span>Declarație de conformitate:</span"
+msgstr "<span>Declarație de conformitate:</span>"
 
 #. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
@@ -118,6 +174,7 @@ msgstr "Data Declarație"
 #: model:ir.actions.report,name:deltatech_dc.action_report_dc
 #: model:ir.actions.report,name:deltatech_dc.action_report_dc_invoice
 #: model:ir.actions.report,name:deltatech_dc.action_report_dc_lot
+#: model:ir.actions.report,name:deltatech_dc.action_report_dc_picking
 #: model:ir.model,name:deltatech_dc.model_deltatech_dc
 #: model:ir.ui.menu,name:deltatech_dc.menu_deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.view_deltatech_dc_type_form
@@ -126,9 +183,19 @@ msgid "Declaration of Conformity"
 msgstr "Declarație de conformitate"
 
 #. module: deltatech_dc
+#: model:ir.actions.report,name:deltatech_dc.action_report_dc_picking_form_2
+msgid "Declaration of Conformity 2"
+msgstr "Declarație de conformitate 2"
+
+#. module: deltatech_dc
 #: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "Expiration Date"
+msgstr "Data expirarii"
 
 #. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
@@ -156,20 +223,59 @@ msgid "Last Updated on"
 msgstr "Ultima actualizare pe"
 
 #. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__lot_id
+msgid "Lot"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "Lot Number"
+msgstr "Numar lot"
+
+#. module: deltatech_dc
+#: model:ir.model,name:deltatech_dc.model_stock_lot
+msgid "Lot/Serial"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "Name of products and services"
+msgstr "Denumirea produselor si serviciilor"
+
+#. module: deltatech_dc
+#. odoo-python
+#: code:addons/deltatech_dc/models/deltatech_dc.py:0
+#: code:addons/deltatech_dc/models/deltatech_dc.py:0
+#: code:addons/deltatech_dc/models/deltatech_dc.py:0
+#, python-format
+msgid "New"
+msgstr "Nou"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "Nr."
+msgstr "Nr. crt."
+
+#. module: deltatech_dc
 #: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__name
 msgid "Number"
 msgstr "Număr"
 
 #. module: deltatech_dc
-#: model:ir.model,name:deltatech_dc.model_product_product
+#: model:ir.model,name:deltatech_dc.model_product_template
 #: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__product_id
 msgid "Product"
 msgstr "Produs"
 
 #. module: deltatech_dc
-#: model:ir.model,name:deltatech_dc.model_product_template
-msgid "Product Template"
-msgstr "Șablon produs"
+#: model:ir.model,name:deltatech_dc.model_product_product
+msgid "Product Variant"
+msgstr "Produs"
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_stock_lot__production_date
+msgid "Production Date"
+msgstr "Data producere"
 
 #. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.product_template_form_view
@@ -177,11 +283,27 @@ msgid "Quality Control"
 msgstr "Control calitate"
 
 #. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "Registration Nr."
+msgstr "Nr. Inreg"
+
+#. module: deltatech_dc
 #: model:ir.model,name:deltatech_dc.model_report_deltatech_dc_report_dc
 #: model:ir.model,name:deltatech_dc.model_report_deltatech_dc_report_dc_invoice
 #: model:ir.model,name:deltatech_dc.model_report_deltatech_dc_report_dc_lot
+#: model:ir.model,name:deltatech_dc.model_report_deltatech_dc_report_dc_picking
 msgid "ReportDCPrint"
 msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "Sale Order:"
+msgstr "Comanda:"
 
 #. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
@@ -203,11 +325,21 @@ msgid "Standards"
 msgstr "Standarde"
 
 #. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "Storage Conditions"
+msgstr "Conditii de pastrare si transport"
+
+#. module: deltatech_dc
 #: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__technical_specification
 #: model:ir.model.fields,field_description:deltatech_dc.field_product_product__technical_specification
 #: model:ir.model.fields,field_description:deltatech_dc.field_product_template__technical_specification
 msgid "Technical Specification"
 msgstr "Specificație tehnică"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "The document belongs to the"
+msgstr "Documentul apartine"
 
 #. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
@@ -222,4 +354,31 @@ msgstr ""
 "sănătatea securitatea muncii utilizatorilor și nu este toxic pentru mediul "
 "înconjurător dacă este folosit în conformitate cu destinația pentru care a "
 "fost produs respectând depozitarea, manipularea din fișa cu date de "
-"securitate.  "
+"securitate."
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "We,"
+msgstr "Noi,"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid ""
+"and cannot be made\n"
+"                        public without the council's approval."
+msgstr "și nu poate fi făcut public fără acordul consiliului."
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "county, VAT:"
+msgstr "județ, CUI:"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "county, work point located in"
+msgstr "județ, punct de lucru situat în"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "from"
+msgstr "din"

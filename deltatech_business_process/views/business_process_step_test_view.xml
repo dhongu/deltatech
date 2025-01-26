@@ -72,8 +72,16 @@
                             <field name="description" />
                         </group>
                         <group string="Date">
-                            <field name="date_start" />
-                            <field name="date_end" />
+                            <field
+                                name="date_start"
+                                string="Date"
+                                widget="daterange"
+                                options="{'end_date_field': 'date_end'}"
+                            />
+                            <field name="date_end" invisible="1" />
+
+                        <!--    <field name="date_start" />
+                            <field name="date_end" />-->
                         </group>
                         <group string="Data">
                             <field name="data_used" />

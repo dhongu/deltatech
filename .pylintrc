@@ -8,13 +8,12 @@ score=n
 readme-template-url="https://github.com/OCA/maintainer-tools/blob/master/template/module/README.rst"
 manifest-required-authors=Terrabit
 manifest-required-keys=license,summary,development_status
-manifest-deprecated-keys=description,active
+manifest-deprecated_keys=description,active
 license-allowed=AGPL-3,GPL-2,GPL-2 or any later version,GPL-3,GPL-3 or any later version,LGPL-3,OPL-1
 valid-odoo-versions=18.0
 
 [MESSAGES CONTROL]
 disable=all
-
 # This .pylintrc contains optional AND mandatory checks and is meant to be
 # loaded in an IDE to have it check everything, in the hope this will make
 # optional checks more visible to contributors who otherwise never look at a

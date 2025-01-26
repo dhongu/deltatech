@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="ubl_20_despatch_advice" inherit_id="account_edi_ubl_cii.ubl_20_InvoiceType">
+        <xpath expr="//*[local-name()='OrderReference']" position="after">
+             <cac:DespatchDocumentReference
+                xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+                xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+                xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+            >
+                <cbc:ID t-esc="vals.get('despatch_advice')" />
+            </cac:DespatchDocumentReference>
+        </xpath>
+    </template>
+</odoo>

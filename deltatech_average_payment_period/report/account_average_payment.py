@@ -12,7 +12,6 @@ class AccountAveragePaymentReport(models.Model):
     _auto = False
     _rec_name = "date"
 
-    # invoice_id = fields.Many2one('account.invoice', string='Invoice', readonly=True)
     partner_id = fields.Many2one("res.partner", string="Partner", readonly=True)
     date = fields.Date(string="Date")
     payment_date = fields.Date(string="Payment Date", readonly=True)
@@ -29,6 +28,7 @@ class AccountAveragePaymentReport(models.Model):
     balance = fields.Float("Balance", readonly=True)
     pondere = fields.Float("Pondere", readonly=True)
     amount = fields.Float("Amount", readonly=True)
+    payment_days_simple = fields.Float("Plain payment days", readonly=True, group_operator="avg")
 
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
@@ -61,6 +61,8 @@ class AccountAveragePaymentReport(models.Model):
                     line["payment_days"] = pondere / amount
                 else:
                     line["payment_days"] = 0.0
+                if line["payment_days"] < 0.0:
+                    line["payment_days"] = abs(line["payment_days"])
 
         return res
 
@@ -80,10 +82,12 @@ class AccountAveragePaymentReport(models.Model):
             l.credit as credit,
             am.ref as ref,
             l.account_id as account_id,
+            a.code as account_code,
 
             abs(coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0)) * l.payment_days as pondere,
             abs(coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0))  as amount,
-            coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0) as balance
+            coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0) as balance,
+            l.payment_days_simple as payment_days_simple
 
 
         from    account_move_line l

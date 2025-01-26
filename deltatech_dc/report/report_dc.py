@@ -127,7 +127,7 @@ class ReportDCPickingPrint(models.AbstractModel):
 
         product_with_lots = self.env["product.product"]
         for picking in pickings:
-            for move in picking.move_lines:
+            for move in picking.move_ids:
                 for move_line in move.move_line_ids:
                     lot = move_line.lot_id
                     if not lot:

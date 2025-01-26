@@ -24,6 +24,7 @@ class BusinessDevelopment(models.Model):
             ("approved", "Approved"),
             ("rejected", "Rejected"),
             ("pending", "Pending"),
+            ("awaiting_approval", "Awaiting Approval"),
         ],
         string="Approved",
         default="draft",

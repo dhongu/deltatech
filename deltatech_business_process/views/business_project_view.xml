@@ -179,6 +179,14 @@
         <field name="view_mode">kanban,list,form,calendar</field>
     </record>
 
+    <record id="action_download_excel_report" model="ir.actions.server">
+        <field name="name">Download Excel Report</field>
+        <field name="model_id" ref="model_business_project" />
+        <field name="binding_model_id" ref="model_business_project" />
+        <field name="state">code</field>
+        <field name="code">action = model.action_download_excel_report()</field>
+    </record>
+
     <menuitem
         name="Projects"
         id="menu_business_project"
