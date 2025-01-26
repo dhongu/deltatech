@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_quotation_tree_picking_status" model="ir.ui.view">
+        <field name="name">quotation.tree.picking.status</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree" />
+        <field name="arch" type="xml">
+            <field name="invoice_status" position="after">
+                <field
+                    name="picking_status"
+                    widget="badge"
+                    decoration-info="picking_status == 'done'"
+                    decoration-warning="picking_status == 'in_progress'"
+                    optional="show"
+                />
+
+            </field>
+
+        </field>
+    </record>
+    <record id="view_order_tree_picking_status" model="ir.ui.view">
+        <field name="name">sale.order.tree.picking.status</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree" />
+        <field name="arch" type="xml">
+            <field name="invoice_status" position="after">
+                <field
+                    name="picking_status"
+                    widget="badge"
+                    decoration-info="picking_status == 'done'"
+                    decoration-warning="picking_status == 'in_progress'"
+                    optional="show"
+                />
+            </field>
+
+        </field>
+    </record>
+    <record id="view_order_form_picking_status" model="ir.ui.view">
+        <field name="name">sale.order.form.picking.status</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <field name="payment_term_id" position="after">
+                <field
+                    name="picking_status"
+                    widget="badge"
+                    decoration-info="picking_status == 'done'"
+                    decoration-warning="picking_status == 'in_progress'"
+                />
+            </field>
+        </field>
+    </record>
+    <record id="view_sales_order_filter_picking_status" model="ir.ui.view">
+        <field name="name">sale.order.list.select.picking.status</field>
+        <field name="model">sale.order</field>
+        <field name="priority">50</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter" />
+        <field name="arch" type="xml">
+            <filter name="my_sale_orders_filter" position="after">
+                <filter string="Done" name="pickings_done" domain="[('picking_status', '=', 'done')]" />
+                <filter
+                    string="In progress"
+                    name="pickings_in_progress"
+                    domain="[('picking_status', '=', 'in_progress')]"
+                />
+            </filter>
+        </field>
+    </record>
+</odoo>
