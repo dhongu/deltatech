@@ -10,15 +10,19 @@
                     name="postpone_delivery"
                     type="object"
                     groups="stock.group_stock_user"
-                    invisible="delivery_count==0 or postponed_delivery==True"
-                    string="Postpone delivery"
+                    invisible="postponed_delivery or not delivery_count"
+                    string="Postpone"
+                    icon="fa-pause"
+                    help="Postpone the delivery of the products"
                 />
                      <button
                     name="release_delivery"
                     type="object"
                     groups="stock.group_stock_user"
-                    invisible="delivery_count!=0 and postponed_delivery==False"
-                    string="Release delivery"
+                    invisible="not postponed_delivery or not delivery_count"
+                    string="Release"
+                    icon="fa-play"
+                    help="Release the postponed delivery of the products"
                 />
                 </xpath>
             </field>
