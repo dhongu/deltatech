@@ -84,10 +84,13 @@
                             <field name="is_last_bo" />
                         </group>
                         <group>
+                            <field name="acc_issuer" readonly="state != 'not_cashed'" />
+                            <field name="acc_beneficiary" readonly="state != 'not_cashed'" />
+                        </group>
+                        <group>
                             <field name="issuer_id" readonly="state != 'not_cashed'" />
                             <field name="beneficiary_id" readonly="state != 'not_cashed'" />
                         </group>
-
                         <group>
                             <field name="bank_issuer_id" required="1" readonly="state != 'not_cashed'" />
                             <field name="bank_beneficiary_id" required="1" readonly="state != 'not_cashed'" />
