@@ -259,7 +259,7 @@
                                     <field name="date_end_bbp" invisible="1" />
               <!--
                                     <field name="date_start_bbp" readonly="state not in ('draft','design')" />
-                                    <field name="date_end_bbp" readonly="state not in ('draft','design')" />
+                                    <field name="date_end_bbp" readonly="state not in ('draft','design')" />-->
                                     <field
                                         name="completion_bbp"
                                         widget="progressbar"
