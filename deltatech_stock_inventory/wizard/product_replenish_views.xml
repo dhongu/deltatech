@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_product_replenish" model="ir.ui.view">
+        <field name="name">Replenish</field>
+        <field name="model">product.replenish</field>
+        <field name="inherit_id" ref="stock.view_product_replenish" />
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="group_id" />
+            </field>
+        </field>
+    </record>
+</odoo>

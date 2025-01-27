@@ -63,10 +63,17 @@ class StockQuant(models.Model):
         return super().action_set_inventory_quantity_to_zero()
 
     def action_apply_inventory(self):
-        if not self.env.user.has_group("deltatech_stock_inventory.group_view_inventory_button"):
-            raise UserError(_("Your user cannot update product quantities"))
         for quant in self:
-            quant.last_inventory_date = fields.Date.today()
+            if (
+                not self.env.user.has_group("deltatech_stock_inventory.group_view_inventory_button")
+                and quant.inventory_diff_quantity
+            ):
+                raise UserError(_("Your user cannot update product quantities"))
+        # for quant in self:
+        #     quant.last_inventory_date = fields.Date.today()
+        #     if quant.product_id:
+        #         quant.product_id.write({"is_inventory_ok": True})
+        #         quant.product_id.product_tmpl_id.write({"is_inventory_ok": True})
 
         inventory = self.filtered(lambda q: q.inventory_quantity_set).create_inventory_lines()
         res = super(StockQuant, self.with_context(apply_inventory=True)).action_apply_inventory()
@@ -88,8 +95,12 @@ class StockQuant(models.Model):
         return res
 
     def write(self, vals):
-        if "inventory_quantity" in vals and not self.env.user.has_group(
-            "deltatech_stock_inventory.group_view_inventory_button"
+        if (
+            "inventory_quantity" in vals
+            and "inventory_quantity_set" in vals
+            and not self.env.context.get("inventory_mode", False)
+            and not self.env.user.has_group("deltatech_stock_inventory.group_view_inventory_button")
+            and self.quantity != vals["inventory_quantity"]
         ):
             raise UserError(_("Your user cannot update product quantities"))
         res = super().write(vals)
@@ -118,3 +129,46 @@ class StockQuant(models.Model):
         values["inventory_id"] = self.inventory_id.id
         values["name"] = self.inventory_note or values["name"]
         return values
+
+    @api.model
+    def default_get(self, fields_list):
+        defaults = super().default_get(fields_list)
+        product_id = self.env.context.get("default_product_id")  # Default product_id retrieved from context
+
+        if product_id:  # if there is a product in context
+            product = self.env["product.product"].browse(product_id)  # get the product
+            putaway_rules = self.env["stock.putaway.rule"].search(
+                [("product_id", "=", product.id)]
+            )  # get the first putaway rule for the product
+            if putaway_rules:  # should I check if the location is already in the lines?
+                defaults["location_id"] = putaway_rules[
+                    0
+                ].location_out_id.id  # set the location_id to the location_out_id of the putaway rule
+
+        return defaults
+
+    def action_confirm_inventory(self):
+        inventory_values = {"state": "confirm", "line_ids": []}
+        for quant in self:
+            if quant.location_id.usage == "internal" and (
+                not quant.last_inventory_date
+                or (quant.last_inventory_date and quant.last_inventory_date < fields.Date.today())
+            ):
+                values = {
+                    "product_id": quant.product_id.id,
+                    "product_uom_id": quant.product_id.uom_id.id,
+                    "location_id": quant.location_id.id,
+                    "theoretical_qty": quant.quantity,
+                    "product_qty": quant.quantity,
+                    "standard_price": quant.product_id.product_tmpl_id.standard_price,
+                    "is_ok": True,
+                }
+                inventory_values["line_ids"].append((0, 0, values))
+        if inventory_values["line_ids"]:
+            inventory = self.env["stock.inventory"].create(inventory_values)
+            inventory.action_validate()
+
+        for quant in self:
+            quant.product_id.product_tmpl_id.message_post(
+                body=_(f"Quantity {quant.quantity} at location {quant.location_id.name} was confirmed.")
+            )

@@ -33,6 +33,4 @@ class StockMove(models.Model):
                     line[2].update({"valuation_area_id": valuation_area.id})
         return res
 
-    # pretul de iesire din stoc se va calula in functie de aria de evaluare
-    def _get_price_unit(self):
-        return super()._get_price_unit()
+
