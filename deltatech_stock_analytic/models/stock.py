@@ -14,7 +14,7 @@ class StockMove(models.Model):
             for move in self:
                 if not move.price_unit:
                     if move.stock_valuation_layer_ids:
-                        price_unit = move._get_price_unit()
+                        price_unit = next(iter(move._get_price_unit().values()))
                     else:
                         price_unit = move.product_id.standard_price
                 else:
