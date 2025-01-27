@@ -9,6 +9,8 @@ class SaleOrder(models.Model):
 
     def action_confirm(self):
         for order in self:
+            if hasattr(order, "website_id") and order.website_id:
+                continue
             if not self.env.user.has_group("deltatech_record_type.group_confirm_order_without_record_type"):
                 if not order.so_type:
                     raise exceptions.UserError(
