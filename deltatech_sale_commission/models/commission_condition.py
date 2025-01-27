@@ -1,7 +1,7 @@
 from odoo import fields, models
 
 
-class SaleMarginReport(models.Model):
+class SaleCommissionCondition(models.Model):
     _name = "sale.commission.condition"
     _description = "Commission condition"
 

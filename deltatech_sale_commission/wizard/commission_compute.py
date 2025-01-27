@@ -42,9 +42,9 @@ class CommissionCompute(models.TransientModel):
                 # if the invoice is paid, we will calculate the commission based on the payment date
                 if line.invoice_id.payment_state == "paid":
                     # take the latest payment date
-                    last_payment = sorted(line.invoice_id.invoice_payments_widget["content"], key=lambda d: d["date"])[
-                        0
-                    ]
+                    last_payment = sorted(
+                        line.invoice_id.invoice_payments_widget["content"], key=lambda d: d["date"], reverse=True
+                    )[0]
                     days_difference = (
                         fields.Date.to_date(last_payment["date"]) - line.invoice_id.invoice_date
                     ).days  # calculate the days difference between the invoice date and the payment date
