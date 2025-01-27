@@ -5,6 +5,7 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.tools import float_compare, float_is_zero
 from odoo.tools.misc import OrderedSet
+from odoo.tools.safe_eval import safe_eval
 
 from odoo.addons.base.models.ir_model import MODULE_UNINSTALL_FLAG
 
@@ -22,7 +23,6 @@ class Inventory(models.Model):
     )
     date = fields.Datetime(
         "Inventory Date",
-        readonly=True,
         required=True,
         default=fields.Datetime.now,
         help="If the inventory adjustment is not validated, "
@@ -85,6 +85,12 @@ class Inventory(models.Model):
         "Include Exhausted Products",
         help="Include also products with quantity of 0",
     )
+    can_archive_svl = fields.Boolean(compute="_compute_archive_svl")
+    archive_svl = fields.Boolean(string="Clear old valuation")
+
+    def _compute_archive_svl(self):
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        self.can_archive_svl = bool(safe_eval(get_param("inventory.can_archive_svl", "False")))
 
     @api.onchange("company_id")
     def _onchange_company_id(self):
@@ -177,7 +183,7 @@ class Inventory(models.Model):
                 % {"product_name": negative.product_id.display_name, "product_qty": negative.product_qty}
             )
         self.action_check()
-        self.write({"state": "done", "date": fields.Datetime.now()})
+        self.write({"state": "done", "date": self.date})
         self.post_inventory()
         return True
 
@@ -188,7 +194,36 @@ class Inventory(models.Model):
         # This is a normal behavior
         # as quants cannot be reuse from inventory location (users can still manually move the products before/after
         # the inventory if they want).
-        self.mapped("move_ids").filtered(lambda move: move.state != "done")._action_done()
+
+        # archive old SVL's and write new svl if checked
+        # TODO: test and correct with storage stock sheet
+        if self.archive_svl:
+            # archive old svls
+            products = self.line_ids.product_id.ids
+            svls = self.env["stock.valuation.layer"].search([("product_id", "in", products)])
+            svls.write({"active": False})
+            # check if l10n_ro_stock_account installed
+            is_l10n_ro = False
+            svl_model = self.env["stock.valuation.layer"]
+            if hasattr(svl_model, "l10n_ro_account_id"):
+                is_l10n_ro = True
+            for line in self.line_ids:
+                if not is_l10n_ro:
+                    move = line.create_inventory_in_move()
+                    line.create_inventory_in_svl(move)
+                else:
+                    old_svl_val, old_svl_qty = line.get_old_svl_value()
+                    move_out = line.create_inventory_out_move(old_svl_qty)
+                    line.create_inventory_out_svl(move_out, old_svl_val)
+                    move_in = line.create_inventory_in_move()
+                    line.with_context(is_l10n_ro=True).create_inventory_in_svl(move_in)
+
+        move_ids = self.mapped("move_ids").filtered(lambda move: move.state != "done")
+        move_ids.picked = True
+        move_ids._action_done()
+        move_ids = self.mapped("move_ids").filtered(lambda move: move.state != "done")
+        if move_ids:
+            raise UserError(_("Some products have not been moved. Please check the inventory moves."))
         return True
 
     def action_check(self):
@@ -453,13 +488,11 @@ class InventoryLine(models.Model):
         return "[('type', '=', 'product'), '|', ('company_id', '=', False), ('company_id', '=', company_id)]"
 
     is_editable = fields.Boolean(help="Technical field to restrict editing.")
-    inventory_id = fields.Many2one(
-        "stock.inventory",
-        "Inventory",
-        check_company=True,
-        index=True,
-        ondelete="cascade",
+    is_price_editable = fields.Boolean(
+        compute="_compute_is_price_editable", help="Technical field to restrict price editing."
     )
+    inventory_id = fields.Many2one("stock.inventory", "Inventory", check_company=True, index=True, ondelete="cascade")
+
     partner_id = fields.Many2one("res.partner", "Owner", check_company=True)
     product_id = fields.Many2one(
         "product.product",
@@ -569,6 +602,23 @@ class InventoryLine(models.Model):
             else:
                 line.outdated = False
 
+    def _compute_is_editable(self):
+        for line in self:
+            if line.inventory_id.state != "confirm":
+                line.is_editable = False
+            else:
+                line.is_editable = True
+
+    def _compute_is_price_editable(self):
+        config_parameter = self.env["ir.config_parameter"].sudo()
+        use_inventory_price = config_parameter.get_param(key="stock.use_inventory_price", default="True")
+        use_inventory_price = safe_eval(use_inventory_price)
+        for line in self:
+            if not use_inventory_price:
+                line.is_price_editable = False
+            else:
+                line.is_price_editable = True
+
     @api.onchange(
         "product_id",
         "location_id",
@@ -642,7 +692,12 @@ class InventoryLine(models.Model):
                 )
                 values["theoretical_qty"] = theoretical_qty
             if "product_id" in values and "product_uom_id" not in values:
-                values["product_uom_id"] = product.product_tmpl_id.uom_id.id
+                if product:
+                    values["product_uom_id"] = product.product_tmpl_id.uom_id.id
+                else:
+                    if self.env.context.get("default_product_id", False):
+                        product = self.env["product.product"].browse(self.env.context.get("default_product_id", False))
+                        values["product_uom_id"] = product.product_tmpl_id.uom_id.id
         res = super().create(vals_list)
         res._check_no_duplicate_line()
         return res
@@ -746,6 +801,7 @@ class InventoryLine(models.Model):
                         "location_id": location_id,
                         "location_dest_id": location_dest_id,
                         "owner_id": self.partner_id.id,
+                        "picked": True,
                     },
                 )
             ],
@@ -856,3 +912,127 @@ class InventoryLine(models.Model):
         lines = self.search([("inventory_id", "=", self.env.context.get("default_inventory_id"))])
         line_ids = lines.filtered(lambda line: line.outdated == value).ids
         return [("id", "in", line_ids)]
+
+    # archive svl functions
+    def get_old_svl_value(self):
+        """
+        Get existing SVLs value, qty
+        :return: old value, old quantity
+        """
+        domain = [("product_id", "=", self.product_id.id), ("l10n_ro_location_dest_id", "=", self.location_id.id)]
+        in_svls = self.env["stock.valuation.layer"].with_context(active_test=False).search(domain)
+        in_svls_value = sum(in_svls.mapped("value"))
+        in_svls_quantity = sum(in_svls.mapped("quantity"))
+        domain = [("product_id", "=", self.product_id.id), ("l10n_ro_location_id", "=", self.location_id.id)]
+        out_svls = self.env["stock.valuation.layer"].with_context(active_test=False).search(domain)
+        out_svls_value = sum(out_svls.mapped("value"))
+        out_svls_quantity = sum(out_svls.mapped("quantity"))
+        return in_svls_value - out_svls_value, in_svls_quantity - out_svls_quantity
+
+    def create_inventory_out_move(self, svl_qty):
+        """
+        Creates a move from line location to inventory location
+        :param svl_qty: quantity to move
+        :return: created move
+        """
+        # svl_total_value, svl_total_quantity = self.get_old_svl_value()
+        values = {
+            "company_id": self.company_id.id,
+            "date": self.inventory_id.date,
+            "location_dest_id": self.product_id.property_stock_inventory.id,
+            "location_id": self.location_id.id,
+            "name": "dummy_move_" + self.product_id.name,
+            "procure_method": "make_to_stock",
+            "product_id": self.product_id.id,
+            "product_uom": self.product_id.uom_id.id,
+            "product_uom_qty": self.theoretical_qty,
+            "state": "done",
+        }
+        move = self.env["stock.move"].create(values)
+        return move
+
+    def create_inventory_out_svl(self, move_id, svl_value):
+        """
+        Creates a svl for the inventory move
+        :param move_id: move to link to svl
+        :param svl_value: total value to move
+        :return: created svls
+        """
+        if move_id.product_uom_qty:
+            unit_cost = svl_value / move_id.product_uom_qty
+        else:
+            unit_cost = 0
+        svl_vals = {
+            "active": False,
+            "company_id": self.company_id.id,
+            "currency_id": self.company_id.currency_id.id,
+            "product_id": self.product_id.id,
+            "stock_move_id": move_id.id,
+            # "quantity": -1 * move_id.product_uom_qty,
+            "quantity": -1 * self.theoretical_qty,
+            "unit_cost": unit_cost,
+            "value": -1 * svl_value,
+            "remaining_value": 0,
+            "remaining_qty": 0,
+            "description": self.product_id.name + " -fix value",
+        }
+        if self.env.context.get("is_l10n_ro", False):
+            accounts = self.product_id.product_tmpl_id._get_product_accounts()
+            svl_vals["l10n_ro_account_id"] = accounts["stock_valuation"].id
+            svl_vals["l10n_ro_valued_type"] = "internal_transfer"
+            if self.prod_lot_id:
+                svl_vals["l10n_ro_lot_ids"] = [(4, self.prod_lot_id.id)]
+        svl = self.env["stock.valuation.layer"].create(svl_vals)
+        return svl
+
+    def create_inventory_in_move(self):
+        """
+        Creates a move from inventory location to line location. Theoretical quantity is used, because a new move
+        will be created by the inventory line (if quantities are different)
+        :return: created move
+        """
+        # svl_total_value, svl_total_quantity = self.get_old_svl_value()
+        values = {
+            "company_id": self.company_id.id,
+            "date": self.inventory_id.date,
+            "location_dest_id": self.location_id.id,
+            "location_id": self.product_id.property_stock_inventory.id,
+            "name": "dummy_move_" + self.product_id.name,
+            "procure_method": "make_to_stock",
+            "product_id": self.product_id.id,
+            "product_uom": self.product_id.uom_id.id,
+            "product_uom_qty": self.theoretical_qty,
+            "state": "done",
+        }
+        move = self.env["stock.move"].create(values)
+        return move
+
+    def create_inventory_in_svl(self, move_id):
+        """
+        Creates a svl for the inventory move. Theoretical quantity is used, because a new svl will be created
+        by the inventory line's move for the difference (if exists)
+        :param move_id: move to link to svl
+        :return: created svls
+        """
+        svl_vals = {
+            "active": True,
+            "company_id": self.company_id.id,
+            "currency_id": self.company_id.currency_id.id,
+            "product_id": self.product_id.id,
+            "stock_move_id": move_id.id,
+            "quantity": self.theoretical_qty,
+            "unit_cost": self.standard_price,
+            "value": self.theoretical_qty * self.standard_price,
+            "remaining_value": self.product_qty * self.standard_price,
+            "remaining_qty": self.theoretical_qty,
+            "description": self.product_id.name + " -fix value",
+        }
+        if self.env.context.get("is_l10n_ro", False):
+            accounts = self.product_id.product_tmpl_id._get_product_accounts()
+            svl_vals["l10n_ro_account_id"] = accounts["stock_valuation"].id
+            # svl_vals["l10n_ro_valued_type"] = "vasile"
+            # svl_vals["l10n_ro_valued_type"] = "inventory_return"
+            if self.prod_lot_id:
+                svl_vals["l10n_ro_lot_ids"] = [(4, self.prod_lot_id.id)]
+        svl = self.env["stock.valuation.layer"].create(svl_vals)
+        return svl

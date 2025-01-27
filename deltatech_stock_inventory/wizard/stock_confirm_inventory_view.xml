@@ -9,6 +9,7 @@
 
                 <group>
                     <group>
+                        <field name="location_id" domain="[('usage', '=', 'internal')]" />
                         <field name="product_tmpl_id" />
                         <field name="qty_available" />
                     </group>

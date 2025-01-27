@@ -16,6 +16,7 @@
                 <field name="company_id" column_invisible="1" />
                 <field name="product_tracking" column_invisible="1" />
                 <field name="is_editable" column_invisible="1" />
+                <field name="is_price_editable" invisible="1" />
                 <field name="outdated" column_invisible="1" />
                 <field
                     name="product_id"
@@ -247,7 +248,7 @@
                         name="action_validate"
                         string="Validate Inventory"
                         type="object"
-                        invisible="state != 'confirm'"
+                        invisible="state != 'confirm' and line_ids"
                         class="oe_highlight"
                         groups="stock.group_stock_manager"
                     />
@@ -325,7 +326,7 @@
                             <field name="exhausted" readonly="state!='draft'" />
                         </group>
                         <group>
-                            <field name="date" readonly="state!='draft'" />
+                            <field name="date" readonly="state=='done'" />
                             <field name="create_uid" string="Created by" widget="many2one_avatar_user" />
 
                             <field name="company_id" options="{'no_create': True}" readonly="state!='draft'" />
@@ -381,6 +382,25 @@
         <field name="code">
             if records:
             action = records.action_refresh_quantity()
+        </field>
+    </record>
+
+    <record id="move_product_to_location" model="ir.actions.server">
+        <field name="name">Move product to location</field>
+        <field name="model_id" ref="product.model_product_template" />
+        <field name="binding_model_id" ref="product.model_product_template" />
+        <field name="state">code</field>
+        <field name="code">
+records.create_putaway_rule()
+picking = records.move_to_putaway_location()
+if picking:
+    action = {
+        'type': 'ir.actions.act_window',
+        'res_id': picking.id,
+        'res_model': 'stock.picking',
+        'target': 'self',
+        "view_mode": "form",
+    }
         </field>
     </record>
 
