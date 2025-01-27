@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form string="Export Working Days">
 
-                <field name="state" invisible="1"/>
+                <field name="state" invisible="1" />
                 <div invisible="state!='choose'">
                     <p>Export selected employees working days</p>
                     <group name="date_range" string="Date">
@@ -16,24 +16,24 @@
                             widget="daterange"
                             options="{'end_date_field': 'ending_report_date'}"
                         />
-                        <field name="ending_report_date" invisible="1"/>
+                        <field name="ending_report_date" invisible="1" />
                     </group>
                 </div>
                 <div invisible="state!='get'">
                     <h2>Export Complete</h2>
                     <p>Here is the exported file:
-                        <field name="data_file" readonly="1" filename="name"/>
+                        <field name="data_file" readonly="1" filename="name" />
                     </p>
                 </div>
 
-                <group/>
+                <group />
                 <footer invisible="state!='choose'">
-                    <button name="do_export" string="Apply" type="object" class="oe_highlight"/>
+                    <button name="do_export" string="Apply" type="object" class="oe_highlight" />
                     or
-                    <button string="Cancel" class="oe_link" special="cancel"/>
+                    <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>
                 <footer invisible="state!='get'">
-                    <button string="Exit" class="oe_link" special="cancel"/>
+                    <button string="Exit" class="oe_link" special="cancel" />
                 </footer>
 
             </form>
@@ -46,7 +46,7 @@
         <field name="res_model">working.days.export</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
-        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_model_id" ref="hr.model_hr_employee" />
         <field name="binding_view_types">list</field>
     </record>
 

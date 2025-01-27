@@ -6,7 +6,6 @@ from odoo.tests.common import TransactionCase
 
 
 class TestWorkingDaysExport(TransactionCase):
-
     def setUp(self):
         super().setUp()
         # Create an employee
