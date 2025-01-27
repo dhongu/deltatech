@@ -19,6 +19,7 @@
         "wizard/commission_compute_view.xml",
         "wizard/update_purchase_price_view.xml",
         "views/res_config_settings_views.xml",
+        "views/commission_condition_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
