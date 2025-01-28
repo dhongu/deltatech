@@ -8,6 +8,9 @@
             <field name="currency_id" position="after">
                 <field name="po_type" options="{'no_create':True}" domain="[('model', '=', 'purchase.order')]" />
             </field>
+            <field name="fiscal_position_id" position="after">
+                <field name="journal_id" />
+            </field>
         </field>
     </record>
 
