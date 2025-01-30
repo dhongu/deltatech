@@ -23,6 +23,7 @@
         "views/sale_view.xml",
         "security/ir.model.access.csv",
         "views/res_config_settings_views.xml",
+        "views/account_move_view.xml",
     ],
     # "demo": [
     #     "data/demo_data.xml",

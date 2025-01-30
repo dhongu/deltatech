@@ -5,8 +5,15 @@
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_form" />
         <field name="arch" type="xml">
-            <field name="currency_id" position="after">
-                <field name="po_type" options="{'no_create':True}" domain="[('model', '=', 'purchase.order')]" />
+            <field name="partner_id" position="before">
+                <field name="show_po_type" invisible="1" />
+                <field
+                    name="po_type"
+                    readonly="state!='draft'"
+                    options="{'no_create':True}"
+                    domain="[('model', '=', 'purchase.order')]"
+                    invisible="not show_po_type"
+                />
             </field>
             <field name="fiscal_position_id" position="after">
                 <field name="journal_id" />
@@ -24,7 +31,7 @@
     </record>
 
      <menuitem
-        id="menu_sale_order_type"
+        id="menu_purchase_order_type"
         name="Order Types"
         parent="purchase.menu_purchase_config"
         action="action_purchase_order_type"

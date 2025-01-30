@@ -9,13 +9,17 @@
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="show_so_type" invisible="1" />
                 <field
                     name="so_type"
                     widget="selection"
                     readonly="state in ['cancel', 'sale']"
                     options="{'no_create':True}"
                     domain="['|', ('user_ids', '=', False), ('user_ids', 'in', uid), ('model', '=', 'sale.order')]"
+                    invisible="not show_so_type"
                 />
+
+
             </xpath>
             <xpath expr="//field[@name='journal_id']" position="attributes">
                 <attribute name="invisible">0</attribute>
@@ -48,7 +52,7 @@
     </record>
 
     <menuitem
-        id="menu_purchase_order_type"
+        id="menu_sale_order_type"
         name="Order Types"
         parent="sale.menu_sale_config"
         action="action_sale_order_type"
