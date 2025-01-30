@@ -16,7 +16,7 @@ class RecordType(models.Model):
 
     name = fields.Char(required=True)
     model = fields.Selection(
-        [("sale.order", "Sale Order"), ("purchase.order", "Purchase Order")],
+        [("sale.order", "Sale Order"), ("purchase.order", "Purchase Order"), ("account.move", "Invoice")],
         string="Model",
     )
     user_ids = fields.Many2many("res.users", string="Allowed Users", domain=[("share", "=", False)])
