@@ -5,7 +5,7 @@
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
             <xpath expr="//label[@for='partner_id']" position="before">
-                <field name="show_invoice_type" force_save="1" invisible="1" />
+                <field name="show_invoice_type" invisible="1" />
                 <field
                     name="invoice_type"
                     readonly="state!='draft'"

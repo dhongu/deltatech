@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="purchase.purchase_order_form" />
         <field name="arch" type="xml">
             <field name="partner_id" position="before">
-                <field name="show_po_type" force_save="1" invisible="1" />
+                <field name="show_po_type" invisible="1" />
                 <field
                     name="po_type"
                     readonly="state!='draft'"

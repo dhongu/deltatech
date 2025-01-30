@@ -2,10 +2,10 @@ from odoo import api, fields, models
 from odoo.tools.safe_eval import safe_eval
 
 
-class InvoiceMove(models.Model):
+class AccountMove(models.Model):
     _inherit = "account.move"
 
-    invoice_type = fields.Many2one("record.type", string="Order Type", tracking=True)
+    invoice_type = fields.Many2one("record.type", string="Invoice Type", tracking=True)
     show_invoice_type = fields.Boolean(compute="_compute_show_invoice_type", store=False)
 
     @api.onchange("invoice_type")

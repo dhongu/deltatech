@@ -27,7 +27,7 @@ class SaleOrder(models.Model):
                 record.show_po_type = True
             else:
                 record.show_po_type = False
-               
+
     def _prepare_invoice(self):
         invoice_vals = super()._prepare_invoice()
         if self.journal_id:
