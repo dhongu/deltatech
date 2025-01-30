@@ -106,7 +106,7 @@ class WorkingDaysExport(models.TransientModel):
             dates_length, remainder = divmod(dates_length - 1, 26)
             result = chr(65 + remainder) + result
         worksheet.merge_range("D4:" + result + "4", _("Days"), bold)
-        if result[1] != "Z":
+        if result and result[1] != "Z":
             letter = chr(ord(result[1]) + 1)
             new_letter = result[0] + letter
             result = new_letter

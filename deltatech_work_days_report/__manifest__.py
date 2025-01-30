@@ -1,7 +1,7 @@
 {
     "name": "Work Days Report",
     "summary": "A report for every day of the month for each employee",
-    "version": "17.0.0.0.0",
+    "version": "17.0.0.0.1",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",

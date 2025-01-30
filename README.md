@@ -199,7 +199,7 @@ addon | version | maintainers | summary | price
 [deltatech_website_delivery_and_payment](deltatech_website_delivery_and_payment/) | 17.0.2.1.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Delivery and Payment constrains | Free 
 [deltatech_website_disable_fuzzy_search](deltatech_website_disable_fuzzy_search/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Disable Fuzzy Search | Free 
 [deltatech_website_phone_validation](deltatech_website_phone_validation/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Phone Validation | Free 
-[deltatech_website_price_without_tax](deltatech_website_price_without_tax/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Display Product Price Without Tax | Free 
+[deltatech_website_price_without_tax](deltatech_website_price_without_tax/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Display Product Price Without Tax | Free 
 [deltatech_website_product_code](deltatech_website_product_code/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Display product by code in eCommerce | Free 
 [deltatech_website_product_url_image](deltatech_website_product_url_image/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Load image for product from URL | Free 
 [deltatech_website_sale_attributes](deltatech_website_sale_attributes/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Attribute values for products displayed | Free 
@@ -212,7 +212,7 @@ addon | version | maintainers | summary | price
 [deltatech_website_stock_availability](deltatech_website_stock_availability/) | 17.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Stock Availability and lead time | 10.0 EUR
 [deltatech_website_texture_attributes](deltatech_website_texture_attributes/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Attribute with image for texture | Free 
 [deltatech_widget_fontawesome](deltatech_widget_fontawesome/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Font Awesome Widget | Free 
-[deltatech_work_days_report](deltatech_work_days_report/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | A report for every day of the month for each employee | Free 
+[deltatech_work_days_report](deltatech_work_days_report/) | 17.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | A report for every day of the month for each employee | Free 
 
 [//]: # (end addons)
 

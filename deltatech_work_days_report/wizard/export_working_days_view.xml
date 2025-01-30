@@ -5,28 +5,19 @@
         <field name="model">working.days.export</field>
         <field name="arch" type="xml">
             <form string="Export Working Days">
+
                 <field name="state" invisible="1" />
                 <div invisible="state!='choose'">
                     <p>Export selected employees working days</p>
-                    <div class="o_row o_row_readonly">
-                        <span class="oe_inline">
-                            From
-                        </span>
-                        <group name="date_range">
-                            <field
-                                name="starting_report_date"
-                                class="oe_inline"
-                                nolabel="1"
-                                string="Date"
-                                widget="daterange"
-                                options="{'end_date_field': 'ending_report_date'}"
-                            />
-                            <span class="oe_inline">
-                                To
-                            </span>
-                            <field name="ending_report_date" class="oe_inline" invisible="1" />
-                        </group>
-                    </div>
+                    <group name="date_range" string="Date">
+                        <field
+                            name="starting_report_date"
+                            string="Date"
+                            widget="daterange"
+                            options="{'end_date_field': 'ending_report_date'}"
+                        />
+                        <field name="ending_report_date" invisible="1" />
+                    </group>
                 </div>
                 <div invisible="state!='get'">
                     <h2>Export Complete</h2>
@@ -35,6 +26,7 @@
                     </p>
                 </div>
 
+                <group />
                 <footer invisible="state!='choose'">
                     <button name="do_export" string="Apply" type="object" class="oe_highlight" />
                     or

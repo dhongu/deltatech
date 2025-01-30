@@ -23,8 +23,8 @@ class ProductTemplate(models.Model):
             parent_combination=parent_combination,
             only_template=only_template,
         )
-
-        res = self.taxes_id.compute_all(combination_info["list_price"], product=self)
+        taxes = combination_info.get("taxes", self.taxes_id)
+        res = taxes.compute_all(combination_info["list_price"], product=self)
         excluded = res["total_excluded"]
         combination_info["list_price_without_tax"] = excluded
 

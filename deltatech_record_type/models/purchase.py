@@ -12,6 +12,7 @@ class SaleOrder(models.Model):
 
     po_type = fields.Many2one("record.type", string="Order Type", tracking=True)
     show_po_type = fields.Boolean(compute="_compute_show_po_type", store=False)
+    journal_id = fields.Many2one("account.journal", string="Journal", domain="[('type', '=', 'purchase')]")
 
     @api.onchange("po_type")
     def _onchange_po_type(self):
@@ -26,3 +27,9 @@ class SaleOrder(models.Model):
                 record.show_po_type = True
             else:
                 record.show_po_type = False
+               
+    def _prepare_invoice(self):
+        invoice_vals = super()._prepare_invoice()
+        if self.journal_id:
+            invoice_vals["journal_id"] = self.journal_id.id
+        return invoice_vals
