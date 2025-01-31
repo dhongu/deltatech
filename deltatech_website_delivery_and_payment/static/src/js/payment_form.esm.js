@@ -26,12 +26,12 @@ publicWidget.registry.websiteSaleDelivery.include({
         let acquirerAllowedIds = input.getAttribute("data-acquirer-allowed-ids");
         acquirerAllowedIds = JSON.parse(acquirerAllowedIds);
 
-        let  isEnable = true;
-        for (let option of this.paymentOptions) {
+        let isEnable = true;
+        for (const option of this.paymentOptions) {
             const acquirerId = JSON.parse(option.dataset.providerId);
             isEnable = true;
             if (acquirerAllowedIds) {
-                 isEnable = acquirerAllowedIds.includes(acquirerId);
+                isEnable = acquirerAllowedIds.includes(acquirerId);
             }
             this._setEnablePaymentOption(option, isEnable);
         }
