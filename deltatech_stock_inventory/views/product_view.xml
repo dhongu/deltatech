@@ -21,7 +21,7 @@
                     groups="stock.group_stock_multi_warehouses"
                     invisible="context.get('warehouse')"
                 >
-                        <field name="warehouse_loc_ids" nolabel="1"  colspan="2">
+                        <field name="warehouse_loc_ids" nolabel="1" colspan="2">
                             <list editable="bottom">
                                 <field name="warehouse_id" />
                                 <field name="loc_rack" />
