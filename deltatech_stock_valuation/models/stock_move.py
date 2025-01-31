@@ -32,5 +32,3 @@ class StockMove(models.Model):
                 if valuation_area:
                     line[2].update({"valuation_area_id": valuation_area.id})
         return res
-
-
