@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models
+from odoo import _, api, exceptions, fields, models
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -27,6 +27,18 @@ class SaleOrder(models.Model):
                 record.show_po_type = True
             else:
                 record.show_po_type = False
+
+    def button_confirm(self):
+        for order in self:
+            if (
+                not self.env.user.has_group("deltatech_record_type.group_confirm_order_without_record_type")
+                and order.show_po_type
+            ):
+                if not order.po_type:
+                    raise exceptions.UserError(
+                        _("You do not have the rights to confirm an order without specifying an Order Type.")
+                    )
+        return super().button_confirm()
 
     def _prepare_invoice(self):
         invoice_vals = super()._prepare_invoice()
