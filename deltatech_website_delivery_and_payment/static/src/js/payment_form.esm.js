@@ -23,16 +23,15 @@ publicWidget.registry.websiteSaleDelivery.include({
 
     _onCarrierClick: function (ev) {
         const input = ev.currentTarget.querySelector("input");
-        // Data-acquirer-allowed-ids is a comma-separated list of acquirer ids : ex: "[1,2,3]"
         let acquirerAllowedIds = input.getAttribute("data-acquirer-allowed-ids");
-        if (acquirerAllowedIds) {
-            acquirerAllowedIds = acquirerAllowedIds.replace(/[[] ]/g, "").split(",");
-        }
-        for (const option of this.paymentOptions) {
-            var isEnable = true;
+        acquirerAllowedIds = JSON.parse(acquirerAllowedIds);
+
+        let  isEnable = true;
+        for (let option of this.paymentOptions) {
+            const acquirerId = JSON.parse(option.dataset.providerId);
+            isEnable = true;
             if (acquirerAllowedIds) {
-                const acquirerId = option.dataset.providerId;
-                isEnable = acquirerAllowedIds.includes(acquirerId);
+                 isEnable = acquirerAllowedIds.includes(acquirerId);
             }
             this._setEnablePaymentOption(option, isEnable);
         }

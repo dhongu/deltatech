@@ -196,7 +196,7 @@ addon | version | maintainers | summary | price
 [deltatech_website_city](deltatech_website_city/) | 17.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | City extension | 5.0 EUR
 [deltatech_website_country](deltatech_website_country/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce extension | Free 
 [deltatech_website_delivery_address](deltatech_website_delivery_address/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Default delivery address | Free 
-[deltatech_website_delivery_and_payment](deltatech_website_delivery_and_payment/) | 17.0.2.1.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Delivery and Payment constrains | Free 
+[deltatech_website_delivery_and_payment](deltatech_website_delivery_and_payment/) | 17.0.2.1.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Delivery and Payment constrains | Free 
 [deltatech_website_disable_fuzzy_search](deltatech_website_disable_fuzzy_search/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Disable Fuzzy Search | Free 
 [deltatech_website_phone_validation](deltatech_website_phone_validation/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Phone Validation | Free 
 [deltatech_website_price_without_tax](deltatech_website_price_without_tax/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Display Product Price Without Tax | Free 
