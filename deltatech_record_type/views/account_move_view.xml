@@ -4,7 +4,7 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
-            <xpath expr="//label[@for='partner_id']" position="before">
+            <xpath expr="//field[@name='team_id']" position="after">
                 <field name="show_invoice_type" invisible="1" />
                 <field
                     name="invoice_type"
@@ -29,7 +29,7 @@
     <menuitem
         id="menu_invoice_order_type"
         name="Invoice Types"
-        parent="account.menu_account_config"
+        parent="account.account_invoicing_menu"
         action="action_invoice_type"
     />
 </odoo>
