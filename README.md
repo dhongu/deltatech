@@ -77,6 +77,7 @@ addon | version | maintainers | summary | price
 [deltatech_no_quick_create](deltatech_no_quick_create/) | 17.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Disable quick_create | Free 
 [deltatech_notification_sound](deltatech_notification_sound/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Notification Sound | Free 
 [deltatech_object_history](deltatech_object_history/) | 17.0.0.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Object history - a parallel history of Odoo documents, separated from standard Odoo messages | Free 
+[deltatech_operating_unit](deltatech_operating_unit/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Manage multiple operating units | Free 
 [deltatech_packaging](deltatech_packaging/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | packaging | Free 
 [deltatech_partner_discount](deltatech_partner_discount/) | 17.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Creates a discount field on partner and alerts the user on invoice | Free 
 [deltatech_partner_generic](deltatech_partner_generic/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Gneric partner | Free 

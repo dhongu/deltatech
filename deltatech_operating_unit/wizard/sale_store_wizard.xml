@@ -1,0 +1,19 @@
+<odoo>
+    <record id="view_sale_store_form_inherit" model="ir.ui.view">
+        <field name="name">sale.store.form.inherit</field>
+        <field name="model">sale.store</field>
+        <field name="inherit_id" ref="deltatech_sale_store.view_sale_store_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_journal_id']" position="before">
+                <field name="deltatech_operation_unit" invisible="1" />
+            </xpath>
+
+            <xpath expr="//field[@name='payment_journal_id']" position="attributes">
+                <attribute name="domain">[('sale_store_status', 'in', ['bf_only', 'all']),
+                    '|', ('deltatech_operating_unit_id', '=', False),
+                    ('deltatech_operating_unit_id', 'in', deltatech_operation_unit)]
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
