@@ -4,7 +4,7 @@
 
 {
     "name": "Products Alternative",
-    "version": "17.0.2.0.8",
+    "version": "17.0.2.0.9",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Alternative product codes",
