@@ -13,7 +13,7 @@
         "deltatech_sale_add_extra_line",
     ],
     "assets": {
-        'point_of_sale._assets_pos': [
+        "point_of_sale._assets_pos": [
             "deltatech_sale_add_extra_line_pos/static/src/js/models.esm.js",
         ],
     },

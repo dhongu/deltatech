@@ -2,7 +2,6 @@ from odoo.tests.common import TransactionCase
 
 
 class TestPosSession(TransactionCase):
-
     def setUp(self):
         super().setUp()
         # Set up demo data for testing

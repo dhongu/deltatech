@@ -1,10 +1,7 @@
 /** @odoo-module **/
 
-
-
-import { Order, Orderline } from "@point_of_sale/app/store/models";
+import {Order, Orderline} from "@point_of_sale/app/store/models";
 import {patch} from "@web/core/utils/patch";
-
 
 patch(Orderline.prototype, {
     set_quantity(...args) {
@@ -16,9 +13,8 @@ patch(Orderline.prototype, {
             }
         }
         return res;
-    }
-})
-
+    },
+});
 
 patch(Order.prototype, {
     add_product(product, ...args) {
@@ -31,7 +27,7 @@ patch(Order.prototype, {
         }
         return res;
     },
-     add_extra_product(extra_product_id) {
+    add_extra_product(extra_product_id) {
         let extra_line = false;
         let qty = 0;
         let options = {};
@@ -49,10 +45,8 @@ patch(Order.prototype, {
         if (extra_line !== false) {
             extra_line.set_quantity(qty);
         } else {
-            options = { quantity: qty };
+            options = {quantity: qty};
             this.add_product(extra_product_id, options);
         }
-    }
-})
-
-
+    },
+});
