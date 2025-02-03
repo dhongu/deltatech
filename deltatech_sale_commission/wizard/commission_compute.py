@@ -50,8 +50,8 @@ class CommissionCompute(models.TransientModel):
                             line.invoice_id.invoice_payments_widget["content"], key=lambda d: d["date"], reverse=True
                         )[0]
                         days_difference = (
-                            fields.Date.to_date(last_payment["date"]) - line.invoice_id.invoice_date
-                        ).days  # calculate the days difference between the invoice date and the payment date
+                            fields.Date.to_date(last_payment["date"]) - line.invoice_id.invoice_date_due
+                        ).days  # calculate the days difference between the invoice due date and the payment date
 
                         if days_difference <= 0:
                             value = {"commission": line.commission_computed}

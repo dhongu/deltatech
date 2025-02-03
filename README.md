@@ -77,7 +77,6 @@ addon | version | maintainers | summary | price
 [deltatech_no_quick_create](deltatech_no_quick_create/) | 17.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Disable quick_create | Free 
 [deltatech_notification_sound](deltatech_notification_sound/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Notification Sound | Free 
 [deltatech_object_history](deltatech_object_history/) | 17.0.0.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Object history - a parallel history of Odoo documents, separated from standard Odoo messages | Free 
-[deltatech_operating_unit](deltatech_operating_unit/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Manage multiple operating units | Free 
 [deltatech_packaging](deltatech_packaging/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | packaging | Free 
 [deltatech_partner_discount](deltatech_partner_discount/) | 17.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Creates a discount field on partner and alerts the user on invoice | Free 
 [deltatech_partner_generic](deltatech_partner_generic/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Gneric partner | Free 
@@ -133,7 +132,7 @@ addon | version | maintainers | summary | price
 [deltatech_sale](deltatech_sale/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Extension Obsolete | Free 
 [deltatech_sale_activity_search](deltatech_sale_activity_search/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Adds a field with the active activity types on that sale order | Free 
 [deltatech_sale_add_extra_line](deltatech_sale_add_extra_line/) | 17.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Add Extra Line | Free 
-[deltatech_sale_commission](deltatech_sale_commission/) | 17.0.1.2.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Compute sale commission | Free 
+[deltatech_sale_commission](deltatech_sale_commission/) | 17.0.1.2.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Compute sale commission | Free 
 [deltatech_sale_contact](deltatech_sale_contact/) | 17.0.1.0.21 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Limit contacts insale order | Free 
 [deltatech_sale_cost_product](deltatech_sale_cost_product/) | 17.0.0.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Cost on Order | Free 
 [deltatech_sale_feedback](deltatech_sale_feedback/) | 17.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Feedback | Free 
