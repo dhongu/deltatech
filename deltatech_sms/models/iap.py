@@ -2,28 +2,32 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
 import logging
+
 import requests
 
+from odoo import fields, models
+
 _logger = logging.getLogger(__name__)
+
 
 class IapAccount(models.Model):
     _inherit = "iap.account"
 
     endpoint = fields.Char()
 
-    sms_provider = fields.Selection([('4pay', 'SMS 4Pay'), ('wapi', 'SMS Wapi')], string="SMS Provider", required=True,
-                                    default="4pay")
+    sms_provider = fields.Selection(
+        [("4pay", "SMS 4Pay"), ("wapi", "SMS Wapi")], string="SMS Provider", required=True, default="4pay"
+    )
     sms_secret = fields.Char(string="SMS Secret")
     sms_gateway = fields.Char(string="SMS Gateway")
 
     def send_sms(self, phone_number, message):
-        """Send SMS using IAP        """
+        """Send SMS using IAP"""
         response = {}
-        if self.sms_provider == '4pay':
+        if self.sms_provider == "4pay":
             response = self._send_sms_4pay(phone_number, message)
-        if self.sms_provider == 'wapi':
+        if self.sms_provider == "wapi":
             response = self._send_sms_wapi(phone_number, message)
         return response
 
@@ -34,24 +38,16 @@ class IapAccount(models.Model):
             "msg_text": message,
             "API": "",
             "password": self.sms_secret,
-            "external_messageID": 1
+            "external_messageID": 1,
         }
-        result = requests.get('https://sms.4pay.ro/smscust/api.send_sms', params=params, timeout=60)
+        result = requests.get("https://sms.4pay.ro/smscust/api.send_sms", params=params, timeout=60)
         response = result.content.decode("utf-8")
 
         if "OK" not in response:
             _logger.error(f"SMS: {response}")
-            res = {
-                "status": 500,
-                "message": response,
-                "data": False
-            }
+            res = {"status": 500, "message": response, "data": False}
         else:
-            res = {
-                "status": 200,
-                "message": "Message has been queued for sending!",
-                "data": False
-            }
+            res = {"status": 200, "message": "Message has been queued for sending!", "data": False}
 
         return res
 
@@ -64,8 +60,8 @@ class IapAccount(models.Model):
             "mode": "devices",
             "phone": phone_number,
             "message": message,
-            'device': self.sms_gateway,
-            "sim": 1
+            "device": self.sms_gateway,
+            "sim": 1,
         }
 
         # Make the POST request
@@ -77,11 +73,6 @@ class IapAccount(models.Model):
         if response.status_code == 200:
             res = response.json()
         else:
-            res = {
-                "status": 500,
-                "message": response.content,
-                "data": False
-            }
+            res = {"status": 500, "message": response.content, "data": False}
 
         return res
-
