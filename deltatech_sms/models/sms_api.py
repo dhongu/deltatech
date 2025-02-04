@@ -16,26 +16,18 @@ class SmsApi(BaseSmsApi):
     def _contact_iap(self, local_endpoint, params, timeout=15):
         account = self.env["iap.account"].get("sms")
 
+
         res = []
 
         for message in params["messages"]:
-            res_value = {"state": "success"}
+            res_value = {"state": "success", "res_id": message["res_id"]}
 
-            endpoint = account.endpoint
-            if not endpoint:
-                res_value["state"] = "Endpoint is not defined."
+            response = account.send_sms(message["number"], message["content"])
 
-            for number in message["numbers"]:
-                res_value["uuid"] = number["uuid"]
-                endpoint_number = endpoint.format(number=number["number"], content=message["content"])
-                self.env.cr.execute("select unaccent(%s);", [endpoint_number])
-                endpoint_unaccent = self.env.cr.fetchone()[0]
-                result = requests.get(endpoint_unaccent, timeout=60)
-                response = result.content.decode("utf-8")
+            if response['status'] != 200:
+                res_value["state"] = "server_error"
+                res_value["error"] = response['message']
 
-                if "OK" not in response:
-                    _logger.error(f"SMS: {response}")
-                    res_value["state"] = "server_error"
-                res += [res_value]
+            res += [res_value]
 
         return res
