@@ -13,18 +13,13 @@ _logger = logging.getLogger(__name__)
 class SmsApi(BaseSmsApi):
     def _contact_iap(self, local_endpoint, params, timeout=15):
         account = self.env["iap.account"].get("sms")
-
         res = []
-
         for message in params["messages"]:
-            res_value = {"state": "success", "res_id": message["res_id"]}
-
-            response = account.sudo().send_sms(message["number"], message["content"])
-
-            if response["status"] != 200:
-                res_value["state"] = "server_error"
-                res_value["error"] = response["message"]
-
-            res += [res_value]
-
+            for number in message["numbers"]:
+                res_value = {"state": "success"}
+                response = account.sudo().send_sms(number["number"], message["content"])
+                if response["status"] != 200:
+                    res_value["state"] = "server_error"
+                    res_value["error"] = response["message"]
+                res += [res_value]
         return res
