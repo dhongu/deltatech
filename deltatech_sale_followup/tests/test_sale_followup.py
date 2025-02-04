@@ -1,7 +1,6 @@
 from datetime import date, timedelta
 
 from dateutil.relativedelta import relativedelta
-
 from odoo.tests.common import TransactionCase
 
 

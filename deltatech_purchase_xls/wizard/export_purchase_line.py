@@ -2,7 +2,6 @@ import base64
 from io import BytesIO
 
 import xlsxwriter
-
 from odoo import fields, models
 
 

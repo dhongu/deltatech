@@ -10,20 +10,21 @@ POS Add Extra Line
    !! source digest: sha256:02ce04186583f7900dff4030930bc906b7d76a682cb432d53d533caa7e1e574a
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/licence-OPL--1-blue.png
     :target: https://www.odoo.com/documentation/master/legal/licenses.html
     :alt: License: OPL-1
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/16.0/deltatech_sale_add_extra_line_pos
+    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_add_extra_line_pos
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
 
 Features:
- - Automatically add an extra line for configured products in POS order
+
+- Automatically add an extra line for configured products in POS order
 
 **Table of contents**
 
@@ -42,13 +43,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dorin Hongu
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu
@@ -58,6 +59,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/16.0/deltatech_sale_add_extra_line_pos>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_add_extra_line_pos>`_ project on GitHub.
 
 You are welcome to contribute.

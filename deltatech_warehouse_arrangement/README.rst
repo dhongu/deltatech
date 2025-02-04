@@ -24,7 +24,7 @@ Deltatech Warehouse Arrangement
 
 Features:
 
--  Manages warehouse locations, parallel to standard Odoo locations
+- Manages warehouse locations, parallel to standard Odoo locations
 
 **Table of contents**
 

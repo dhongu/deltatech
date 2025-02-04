@@ -4,7 +4,6 @@
 
 
 from odoo import http
-
 from odoo.addons.account.controllers.portal import PortalAccount
 
 

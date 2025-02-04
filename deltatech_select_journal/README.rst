@@ -10,9 +10,9 @@ Deltatech Select Journal - Obsolete
    !! source digest: sha256:0734c99841fbbaf6ff52f0272b14da074d39752ea72595db2bbc83a188eb2db7
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Mature
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/licence-OPL--1-blue.png
     :target: https://www.odoo.com/documentation/master/legal/licenses.html
     :alt: License: OPL-1
@@ -22,14 +22,14 @@ Deltatech Select Journal - Obsolete
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Selectie jurnal si termen de plata in momentul generarii facturii
-      din comanda de vanzare
-   -  la stergerea unui produs din lista unei comenzi de vanzare se
-      sterge si produsul 'avans' daca nu a fost facturat
-   -  cursul valutar se poate seta in wizard-ul de selectie jurnal
-   -  configurare jurnal de stornare (in jurnal)
+  - Selectie jurnal si termen de plata in momentul generarii facturii
+    din comanda de vanzare
+  - la stergerea unui produs din lista unei comenzi de vanzare se sterge
+    si produsul 'avans' daca nu a fost facturat
+  - cursul valutar se poate seta in wizard-ul de selectie jurnal
+  - configurare jurnal de stornare (in jurnal)
 
 **Table of contents**
 

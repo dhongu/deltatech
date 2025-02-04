@@ -3,9 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import http
-from odoo.http import request
-
 from odoo.addons.website_sale.controllers import main
+from odoo.http import request
 
 
 class WebsiteSale(main.WebsiteSale):

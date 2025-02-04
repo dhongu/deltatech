@@ -3,11 +3,10 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import _, http
-from odoo.http import request, route
-from odoo.osv import expression
-
 from odoo.addons.payment.controllers import portal as payment_portal
 from odoo.addons.website_sale.controllers.main import WebsiteSale
+from odoo.http import request, route
+from odoo.osv import expression
 
 
 class WebsiteSaleBillingAddresses(WebsiteSale):
