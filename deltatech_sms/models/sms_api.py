@@ -19,7 +19,7 @@ class SmsApi(BaseSmsApi):
         for message in params["messages"]:
             res_value = {"state": "success", "res_id": message["res_id"]}
 
-            response = account.send_sms(message["number"], message["content"])
+            response = account.sudo().send_sms(message["number"], message["content"])
 
             if response["status"] != 200:
                 res_value["state"] = "server_error"
