@@ -4,7 +4,6 @@ from datetime import timedelta
 from io import BytesIO
 
 import xlsxwriter
-
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 

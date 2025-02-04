@@ -6,7 +6,6 @@ import base64
 
 import requests
 import werkzeug
-
 from odoo import api, fields, models
 from odoo.tools import image
 

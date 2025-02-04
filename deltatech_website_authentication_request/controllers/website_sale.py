@@ -3,7 +3,6 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import http
-
 from odoo.addons.website_sale.controllers.main import WebsiteSale as WebsiteSaleBase
 
 

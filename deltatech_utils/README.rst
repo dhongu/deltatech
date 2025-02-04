@@ -22,10 +22,10 @@ Deltatech Utils
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  remove unused files from filestore
-   -  delete view in cascade
+  - remove unused files from filestore
+  - delete view in cascade
 
 **Table of contents**
 

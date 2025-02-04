@@ -24,7 +24,7 @@ eCommerce Portal
 
 Features:
 
--  
+- 
 
 **Table of contents**
 

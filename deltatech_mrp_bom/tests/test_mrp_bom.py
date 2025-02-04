@@ -1,11 +1,9 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from freezegun import freeze_time
-
 from odoo import Command, fields
-from odoo.tests import Form
-
 from odoo.addons.mrp.tests.common import TestMrpCommon
+from odoo.tests import Form
 
 
 @freeze_time(fields.Date.today())

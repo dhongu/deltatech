@@ -2,10 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo.tests import Form
-
 from odoo.addons.deltatech_service_agreement.tests.test_agreement import TestAgreement
 from odoo.addons.deltatech_service_equipment_base.tests.test_service import TestService
+from odoo.tests import Form
 
 
 class TestAgreementEquipment(TestAgreement, TestService):

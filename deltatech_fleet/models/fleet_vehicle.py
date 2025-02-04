@@ -5,7 +5,6 @@
 from datetime import datetime
 
 import pytz
-
 from odoo import api, fields, models
 
 

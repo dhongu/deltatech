@@ -2,11 +2,10 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo.tests import Form
-from odoo.tools.safe_eval import safe_eval
-
 from odoo.addons.deltatech_service_agreement.tests.test_agreement import TestAgreement
 from odoo.addons.deltatech_service_equipment_base.tests.test_service import TestService
+from odoo.tests import Form
+from odoo.tools.safe_eval import safe_eval
 
 
 class TestAgreementEquipment(TestAgreement, TestService):
