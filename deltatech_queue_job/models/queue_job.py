@@ -2,9 +2,10 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 import logging
-
-from odoo import _, api,fields, models
 from datetime import timedelta
+
+from odoo import _, api, fields, models
+
 _logger = logging.getLogger(__name__)
 
 
