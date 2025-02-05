@@ -2,9 +2,10 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 import logging
-
-from odoo import _, api,fields, models
 from datetime import timedelta
+
+from odoo import _, api, fields, models
+
 _logger = logging.getLogger(__name__)
 
 
@@ -12,6 +13,12 @@ class QueueJob(models.Model):
     _inherit = "queue.job"
 
     def start_cron_trigger(self):
+        domain = [("queue_job_runner", "=", True)]
+        crons = self.env["ir.cron"].sudo().with_context(active_test=False).search(domain)
+        for cron in crons:
+            if not cron.active:
+                cron.active = True
+
         self._cron_trigger()
         return {
             "type": "ir.actions.client",
@@ -52,12 +59,14 @@ class QueueJob(models.Model):
     @api.model
     def _cron_trigger(self, at=None):
         domain = [("queue_job_runner", "=", True)]
-        crons = self.env["ir.cron"].sudo().with_context(active_test=False).search(domain)
+        crons = self.env["ir.cron"].sudo().search(domain)
         for cron in crons:
-            cron.active = True
             trigger = self.env["ir.cron.trigger"].search([("cron_id", "=", cron.id)])
             if trigger:
-                trigger.unlink()
+                try:
+                    trigger.unlink()
+                except Exception as e:
+                    _logger.error("Error deleting trigger: %s", e)
             if not at:
                 at = fields.Datetime.now() + timedelta(seconds=5)
             cron._trigger(at=at)
