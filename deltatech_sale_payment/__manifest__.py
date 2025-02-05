@@ -4,7 +4,7 @@
 {
     "name": "Sale Payment",
     "summary": "Payment button in sale order",
-    "version": "17.0.1.0.6",
+    "version": "17.0.1.0.7",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
