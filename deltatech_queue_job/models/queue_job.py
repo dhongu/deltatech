@@ -63,7 +63,10 @@ class QueueJob(models.Model):
         for cron in crons:
             trigger = self.env["ir.cron.trigger"].search([("cron_id", "=", cron.id)])
             if trigger:
-                trigger.unlink()
+                try:
+                    trigger.unlink()
+                except Exception as e:
+                    _logger.error("Error deleting trigger: %s", e)
             if not at:
                 at = fields.Datetime.now() + timedelta(seconds=5)
             cron._trigger(at=at)
