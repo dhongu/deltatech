@@ -24,7 +24,7 @@ Deltatech Services Maintenance Agreement
 
 Features:
 
-- bridges the gap between contracts and orders
+-  bridges the gap between contracts and orders
 
 **Table of contents**
 
