@@ -49,14 +49,14 @@ class SaleOrder(models.Model):
             payment_status = "without"
             transactions = order.sudo().transaction_ids.filtered(lambda a: a.state == "done")
 
-            acquirer = self.env["payment.provider"]
+            provider = self.env["payment.provider"]
 
             for invoice in order.invoice_ids.filtered(lambda a: a.state == "done"):
                 amount += invoice.amount_total_signed - invoice.amount_residual_signed
                 transactions = transactions - invoice.transaction_ids
             for transaction in transactions:
                 amount += transaction.amount
-                acquirer = transaction.provider_id
+                provider = transaction.provider_id
 
             order.payment_amount = amount
             if amount:
@@ -70,16 +70,16 @@ class SaleOrder(models.Model):
                 if order.transaction_ids:
                     payment_status = "initiated"
                     for transaction in order.sudo().transaction_ids:
-                        acquirer = transaction.provider_id
+                        provider = transaction.provider_id
 
                     authorized_transaction_ids = order.transaction_ids.filtered(lambda t: t.state == "authorized")
                     if authorized_transaction_ids:
                         payment_status = "authorized"
                         for transaction in authorized_transaction_ids:
-                            acquirer = transaction.provider_id
+                            provider = transaction.provider_id
 
             order.payment_status = payment_status
-            order.provider_id = acquirer
+            order.provider_id = provider
 
     def _search_payment_status(self, operator, value):
         if operator == "=":
