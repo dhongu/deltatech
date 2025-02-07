@@ -24,7 +24,7 @@ Product Catalog
 
 Features:
 
-- Enables the option for printing the catalog for single/multi products
+-  Enables the option for printing the catalog for single/multi products
 
 **Table of contents**
 
