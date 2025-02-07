@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="group_confirm_order_without_record_type" model="res.groups">
+        <field name="name">Can Confirm Orders Without Record Type</field>
+        <field name="category_id" ref="base.module_category_hidden" />
+        <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin')), (4, ref('base.default_user'))]"
+        />
+    </record>
+</odoo>
