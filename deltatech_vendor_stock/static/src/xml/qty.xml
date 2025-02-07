@@ -44,6 +44,15 @@
                     <t t-out='props.record.data.product_uom[1]' />
                 </td>
             </tr>
+            <tr t-if="props.record.data.warehouse_stock">
+                <td>
+                    <strong>Warehouse Stock</strong>
+                </td>
+                <td>
+                    <b t-out='props.record.data.warehouse_stock' />
+                    <t t-out='props.record.data.product_uom[1]' />
+                </td>
+            </tr>
         </xpath>
     </t>
 

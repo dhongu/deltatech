@@ -24,8 +24,8 @@ Deltatech Ledger
 
 Feature:
 
--  a ledger for storing the entry and exit documents numbers and
-   descriptions
+- a ledger for storing the entry and exit documents numbers and
+  descriptions
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
