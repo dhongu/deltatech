@@ -45,7 +45,7 @@ class SaleOrderLine(models.Model):
                     if quantity_in_warehouse:
                         line = f"{warehouse.code}: {quantity_in_warehouse}"
                         warehouse_stock_lines.append(line)
-            sale_line.warehouse_stock = " \n".join(warehouse_stock_lines)
+            sale_line.warehouse_stock = " \t\n".join(warehouse_stock_lines)
 
     def _compute_qty_at_date(self):
         res = super()._compute_qty_at_date()

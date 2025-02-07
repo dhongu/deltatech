@@ -39,7 +39,7 @@
                 <td>
                     <strong>Other Stock</strong>
                 </td>
-                <td>
+                <td class="text-end">
                     <b t-out='props.record.data.other_qty_available' />
                     <t t-out='props.record.data.product_uom[1]' />
                 </td>
@@ -48,9 +48,8 @@
                 <td>
                     <strong>Warehouse Stock</strong>
                 </td>
-                <td>
+                <td class="text-end">
                     <b t-out='props.record.data.warehouse_stock' />
-                    <t t-out='props.record.data.product_uom[1]' />
                 </td>
             </tr>
         </xpath>
