@@ -67,7 +67,7 @@ class SaleMarginReport(models.Model):
             ("in_invoice", "Vendor Bill"),
             ("out_refund", "Customer Refund"),
             ("in_refund", "Vendor Refund"),
-            ('out_receipt', 'Sales Receipt'),
+            ("out_receipt", "Sales Receipt"),
         ],
         readonly=True,
     )
