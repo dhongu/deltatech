@@ -18,7 +18,7 @@ addon | version | maintainers | summary | price
 --- | --- | --- | --- | ---
 [deltatech](deltatech/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generic module | Free 
 [deltatech_account](deltatech_account/) | 16.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account | Free 
-[deltatech_account_analytic](deltatech_account_analytic/) | 16.0.0.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Analytic lines enhancements | Free 
+[deltatech_account_analytic](deltatech_account_analytic/) | 16.0.0.0.4 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Analytic lines enhancements | Free 
 [deltatech_account_edi_ub_advice](deltatech_account_edi_ub_advice/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL despatch advice | Free 
 [deltatech_account_edi_ubl_gln](deltatech_account_edi_ubl_gln/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL GLN | Free 
 [deltatech_account_restrict_date](deltatech_account_restrict_date/) | 16.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict certain operations depending on date | Free 
@@ -124,7 +124,7 @@ addon | version | maintainers | summary | price
 [deltatech_queue_job](deltatech_queue_job/) | 16.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Queue Job | Free 
 [deltatech_ral](deltatech_ral/) | 16.0.1.0.3 |  | RAL | Free 
 [deltatech_reception_note](deltatech_reception_note/) | 16.0.0.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Batch reception note | Free 
-[deltatech_record_type](deltatech_record_type/) | 16.0.1.0.4 |  | Manage multiple record types | Free 
+[deltatech_record_type](deltatech_record_type/) | 16.0.1.1.5 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Manage multiple record types | Free 
 [deltatech_replenish](deltatech_replenish/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Replenish | Free 
 [deltatech_report_packaging](deltatech_report_packaging/) | 16.0.1.0.3 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report Packaging | Free 
 [deltatech_report_prn](deltatech_report_prn/) | 16.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Raport PRN | Free 
