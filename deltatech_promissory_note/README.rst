@@ -24,7 +24,7 @@ Deltatech Promissory Note
 
 Features:
 
-- gestionare bilete la ordin
+-  gestionare bilete la ordin
 
 **Table of contents**
 
