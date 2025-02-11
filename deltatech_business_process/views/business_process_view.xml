@@ -99,6 +99,14 @@
                         statusbar_visible="draft,design,test,ready,production"
                         statusbar_colors='{"draft":"red","test":"green","production":"green"}'
                     />
+                    <button name="button_abandon" type="object" string="Abandon" groups="base.group_system" />
+                    <!--                    <button-->
+                    <!--                        name="start_user_acceptance_test"-->
+                    <!--                        type="object"-->
+                    <!--                        string="Start Acceptance Test"-->
+                    <!--                        invisible="state not in ('design','test','ready')"-->
+                    <!--                        />-->
+                    <field name="state" widget="statusbar" statusbar_visible="draft,design,test,ready,production" />
 
                 </header>
                 <sheet>

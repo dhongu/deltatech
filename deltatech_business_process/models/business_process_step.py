@@ -79,12 +79,12 @@ class BusinessProcessStep(models.Model):
 
     details = fields.Html()
 
-    @api.model
-    def create(self, vals):
-        if not vals.get("code", False):
-            vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
-        result = super().create(vals)
-        return result
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get("code", False):
+                vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
+        return super().create(vals_list)
 
     def name_get(self):
         self.browse(self.ids).read(["name", "code"])

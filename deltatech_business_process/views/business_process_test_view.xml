@@ -91,7 +91,7 @@
                                     <field name="responsible_id" />
                                     <field name="date_start" optional="show" />
                                     <field name="date_end" optional="show" />
-                                    <field name="test_started" invisible="1" />
+                                    <field name="test_started" readonly="1" optional="hide" />
                                     <field name="result" attrs="{'invisible': [('test_started', '=', False)]}" />
 
                                      <button

@@ -22,7 +22,7 @@ addon | version | maintainers | summary | price
 [deltatech_auto_reorder_rule](deltatech_auto_reorder_rule/) | 14.0.0.0.3 |  | Auto create reorder rule | Free 
 [deltatech_average_payment_period](deltatech_average_payment_period/) | 14.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Computes average duration of cash accounting | Free 
 [deltatech_batch_transfer](deltatech_batch_transfer/) | 14.0.0.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Batch transfer improvements | Free 
-[deltatech_business_process](deltatech_business_process/) | 14.0.1.3.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Business process | Free 
+[deltatech_business_process](deltatech_business_process/) | 14.0.1.3.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Business process | Free 
 [deltatech_cash](deltatech_cash/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Cash In / Out | Free 
 [deltatech_cash_statement](deltatech_cash_statement/) | 14.0.3.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Update cash balance | Free 
 [deltatech_category_group](deltatech_category_group/) | 14.0.0.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Groups for internal categories | Free 
