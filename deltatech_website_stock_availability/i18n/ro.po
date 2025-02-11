@@ -113,8 +113,8 @@ msgstr "Lista de preturi Furnizor"
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
 #, python-format
-msgid "Up to"
-msgstr "Pană la"
+msgid "Delivery up to"
+msgstr "Livrare până la"
 
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
