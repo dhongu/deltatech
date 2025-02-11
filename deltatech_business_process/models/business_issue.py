@@ -133,19 +133,21 @@ class BusinessIssue(models.Model):
         string="Closed by", comodel_name="res.partner", readonly=True, states={"in_test": [("readonly", False)]}
     )
 
-    @api.model
-    def create(self, vals):
-        if not vals.get("code", False):
-            vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
-        result = super().create(vals)
-        result.send_mail()
-        return result
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get("code", False):
+                vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
+        res = super().create(vals_list)
+        res.send_mail()
+        return res
 
     def send_mail(self):
-        today = date.today().strftime("%Y-%m-%d")
-        self.sudo().message_post(body=f"Date of approval: {today}")
-        template = self.env.ref("deltatech_business_process.email_template_issue_submitted")
-        self.env["mail.template"].browse(template.id).send_mail(self.id, force_send=True)
+        for item in self:
+            today = date.today().strftime("%Y-%m-%d")
+            item.sudo().message_post(body=f"Date of approval: {today}")
+            template = self.env.ref("deltatech_business_process.email_template_issue_submitted")
+            self.env["mail.template"].browse(template.id).send_mail(item.id, force_send=True)
 
     def name_get(self):
         self.browse(self.ids).read(["name", "code"])
