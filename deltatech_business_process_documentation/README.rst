@@ -24,7 +24,7 @@ Business process documentation
 
 Features:
 
-- 
+-  
 
 **Table of contents**
 
@@ -52,9 +52,9 @@ Authors
 Contributors
 ------------
 
-- `NextERP Romania <https://www.nexterp.ro>`__:
+-  `NextERP Romania <https://www.nexterp.ro>`__:
 
-  - Fekete Mihai <feketemihai@nexterp.ro>
+   -  Fekete Mihai <feketemihai@nexterp.ro>
 
 Do not contact contributors directly about support or help with
 technical issues.

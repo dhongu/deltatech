@@ -24,7 +24,7 @@ POS Add Extra Line
 
 Features:
 
-- Automatically add an extra line for configured products in POS order
+-  Automatically add an extra line for configured products in POS order
 
 **Table of contents**
 

@@ -22,9 +22,9 @@ Deltatech Picking Service Lines
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Adds a new tab in picking, with service type products only
+   -  Adds a new tab in picking, with service type products only
 
 **Table of contents**
 

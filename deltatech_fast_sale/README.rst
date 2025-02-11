@@ -22,10 +22,10 @@ Fast Sale
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Button in sale order to make the steps of confirmation, delivery and
-    billing
+   -  Button in sale order to make the steps of confirmation, delivery
+      and billing
 
 **Table of contents**
 
