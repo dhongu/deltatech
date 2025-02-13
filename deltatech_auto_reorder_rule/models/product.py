@@ -8,21 +8,21 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     def create_rule(self):
-        warehouses = self.env["stock.warehouse"].search([
-            ("generate_reorder_rules", "=", True),
-            ("company_id", "=", self.env.user.company_id.id)
-        ])
-        routes = self.env["stock.route"].search([
-            ("use_this_for_auto_rules", "=", True),
-        ])
+        warehouses = self.env["stock.warehouse"].search(
+            [("generate_reorder_rules", "=", True), ("company_id", "=", self.env.user.company_id.id)]
+        )
+        routes = self.env["stock.route"].search(
+            [
+                ("use_this_for_auto_rules", "=", True),
+            ]
+        )
         route = False
         if routes:
             route = routes[0].id
         for record in self:
-            rules = record.env["stock.warehouse.orderpoint"].search([
-                ("product_id", "=", record.id),
-                ("company_id", "=", self.env.user.company_id.id)
-            ])
+            rules = record.env["stock.warehouse.orderpoint"].search(
+                [("product_id", "=", record.id), ("company_id", "=", self.env.user.company_id.id)]
+            )
             if not rules:
                 values = []
                 for warehouse in warehouses:
