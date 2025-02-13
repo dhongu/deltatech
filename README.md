@@ -25,7 +25,7 @@ addon | version | maintainers | summary | price
 [deltatech_agreement_management](deltatech_agreement_management/) | 17.0.0.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage agreements numbers, date, state | Free 
 [deltatech_alternative](deltatech_alternative/) | 17.0.2.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes | Free 
 [deltatech_alternative_website](deltatech_alternative_website/) | 17.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show alternative code in website | Free 
-[deltatech_auto_reorder_rule](deltatech_auto_reorder_rule/) | 17.0.0.0.1 |  | Auto create reorder rule | Free 
+[deltatech_auto_reorder_rule](deltatech_auto_reorder_rule/) | 17.0.0.0.2 |  | Auto create reorder rule | Free 
 [deltatech_average_payment_period](deltatech_average_payment_period/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Computes average duration of cash accounting | Free 
 [deltatech_backup_attachment](deltatech_backup_attachment/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Backup attachments for selected file type | Free 
 [deltatech_batch_transfer](deltatech_batch_transfer/) | 17.0.0.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Batch transfer improvements | Free 
