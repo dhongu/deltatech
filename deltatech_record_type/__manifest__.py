@@ -6,7 +6,7 @@
 {
     "name": "Terrabit - Record Type",
     "summary": "Manage multiple record types",
-    "version": "16.0.1.1.5",
+    "version": "16.0.1.1.6",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Other",

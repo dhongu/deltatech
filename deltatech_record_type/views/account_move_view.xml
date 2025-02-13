@@ -4,8 +4,8 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
-            <xpath expr="//label[@for='partner_id']" position="before">
-                <field name="show_invoice_type" force_save="1" invisible="1" />
+            <group name="accounting_info_group" position="inside">
+                <field name="show_invoice_type" invisible="1" />
                 <field
                     name="invoice_type"
                     attrs="{
@@ -15,8 +15,7 @@
                     options="{'no_create':True}"
                     domain="[('model', '=', 'account.move')]"
                 />
-
-            </xpath>
+            </group>
         </field>
     </record>
 
@@ -31,7 +30,8 @@
     <menuitem
         id="menu_invoice_order_type"
         name="Invoice Types"
-        parent="account.menu_account_config"
+        parent="account.account_management_menu"
+        sequence="100"
         action="action_invoice_type"
     />
 </odoo>
