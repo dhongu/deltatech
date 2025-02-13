@@ -84,7 +84,7 @@
                 </SdCompanyHeader>
                 <SdPackingSlip>
                     <PartnerId t-esc="'0000001877'" />
-                    <PackingSlipNumber t-esc="invoice.nr_packing_list" />
+                    <PackingSlipNumber t-esc="invoice.number1" />
                     <FgOutbound t-esc="'false'" />
                     <t t-set="inv_date_year" t-value="invoice.date_invoice[0:4]"/>
                     <t t-set="inv_date_month" t-value="invoice.date_invoice[5:7]"/>
