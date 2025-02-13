@@ -31,7 +31,7 @@ class ProductProduct(models.Model):
                             }
                         )
                 if values:
-                    record.env["stock.warehouse.orderpoint"].create(values)
+                    record.env["stock.warehouse.orderpoint"].sudo().create(values)
 
             # if not rules and record.type == "product":
             #     record.env["stock.warehouse.orderpoint"].create(
