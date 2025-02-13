@@ -2,8 +2,9 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 import logging
+from datetime import timedelta
 
-from odoo import _, api, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -12,14 +13,13 @@ class QueueJob(models.Model):
     _inherit = "queue.job"
 
     def start_cron_trigger(self):
-        _logger.info("Starting CRON trigger")
         domain = [("queue_job_runner", "=", True)]
         crons = self.env["ir.cron"].sudo().with_context(active_test=False).search(domain)
         for cron in crons:
-            cron.active = True
-            _logger.info("Starting CRON trigger for %s", cron.name)
-            cron._trigger()
+            if not cron.active:
+                cron.active = True
 
+        self._cron_trigger()
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
@@ -58,5 +58,16 @@ class QueueJob(models.Model):
 
     @api.model
     def _cron_trigger(self, at=None):
-        _logger.info("CRON Trigger")
-        return super()._cron_trigger(at=at)
+        domain = [("queue_job_runner", "=", True)]
+        crons = self.env["ir.cron"].sudo().search(domain)
+        for cron in crons:
+            trigger = self.env["ir.cron.trigger"].search([("cron_id", "=", cron.id)])
+            if trigger:
+                try:
+                    trigger.unlink()
+                except Exception as e:
+                    _logger.error("Error deleting trigger: %s", e)
+            if not at:
+                at = fields.Datetime.now() + timedelta(seconds=5)
+            cron._trigger(at=at)
+            _logger.info(f"CRON trigger for {cron.name} at {at}")

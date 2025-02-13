@@ -20,6 +20,36 @@ class SaleOrderLine(models.Model):
         compute="_compute_qty_at_date",
     )
 
+    warehouse_stock = fields.Text(string="Stock/WH", compute="_compute_warehouse_stocks")
+
+    def _compute_warehouse_stocks(self):
+        warehouses = self.env["stock.warehouse"].search([])
+        if len(warehouses) == 1:
+            self.warehouse_stock = False
+            return
+
+        for sale_line in self:
+            if sale_line.product_id:
+                product = sale_line.product_id
+                warehouse_stock_lines = []
+                for warehouse in warehouses:
+                    if warehouse.lot_stock_id.usage == "internal":
+                        qty = product.with_context(warehouse=warehouse.id)._compute_quantities_dict(
+                            self._context.get("lot_id"),
+                            self._context.get("owner_id"),
+                            self._context.get("package_id"),
+                            self._context.get("from_date"),
+                            self._context.get("to_date"),
+                        )
+
+                        quantity_in_warehouse = qty[product.id]["qty_available"]
+                        if quantity_in_warehouse:
+                            line = f"{warehouse.code}: {quantity_in_warehouse}"
+                            warehouse_stock_lines.append(line)
+                sale_line.warehouse_stock = " \t\n".join(warehouse_stock_lines)
+            else:
+                sale_line.warehouse_stock = ""
+
     def _compute_qty_at_date(self):
         res = super()._compute_qty_at_date()
         self.other_qty_available = 0

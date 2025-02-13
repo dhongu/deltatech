@@ -18,6 +18,6 @@
         "views/account_journal.xml",
     ],
     "images": ["images/main_screenshot.png"],
-    "development_status": "Mature",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }

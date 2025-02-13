@@ -3,9 +3,8 @@
 
 import base64
 
-from reportlab.graphics.barcode import createBarcodeDrawing
-
 from odoo import api, fields, models
+from reportlab.graphics.barcode import createBarcodeDrawing
 
 
 class ProductProductLabel(models.TransientModel):
@@ -19,6 +18,7 @@ class ProductProductLabel(models.TransientModel):
     use_location = fields.Boolean("Use ptw rules")
     location_id = fields.Many2one("stock.location")
     print_only_lots = fields.Boolean("Print lots only")
+    pricelist_id = fields.Many2one("product.pricelist", string="Price List")
     # discount = fields.Float()
 
     @api.model
@@ -175,6 +175,11 @@ class ProductProductLabel(models.TransientModel):
             if model == "stock.picking":
                 return False
 
+    @api.onchange("pricelist_id")
+    def onchange_pricelist(self):
+        for label in self:
+            label.label_lines._compute_price()
+
 
 class ProductProductLabelLine(models.TransientModel):
     _name = "product.product.label.line"
@@ -187,6 +192,7 @@ class ProductProductLabelLine(models.TransientModel):
     barcode_image = fields.Binary(string="Barcode Image", compute="_compute_barcode_image")
 
     lot = fields.Char()
+    price = fields.Float(compute="_compute_price")
 
     def _compute_barcode_image(self):
         for line in self:
@@ -241,3 +247,24 @@ class ProductProductLabelLine(models.TransientModel):
             if location_lines:
                 location_line = location_lines[0]
         return location_line
+
+    def _compute_price(self):
+        for label_line in self:
+            if label_line.label_id.pricelist_id:
+                # compute price based on pricelist
+                label_line.price = label_line.label_id.pricelist_id._get_product_price(
+                    label_line.product_id, quantity=1
+                )
+            else:
+                label_line.price = label_line.product_id.lst_price
+
+    def get_barcode_url(self, code_format="Code128", barcode="", width=200, height=60, humanreadable=1):
+        self.ensure_one()
+        if self.product_id:
+            base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+            # url = "{}/report/barcode/{}/{}".format(base_url, format, barcode)
+            url = f"{base_url}/report/barcode/?barcode_type={code_format}&value={barcode}&width={width}&height={height}&humanreadable={humanreadable}"
+
+            return url
+        else:
+            return False

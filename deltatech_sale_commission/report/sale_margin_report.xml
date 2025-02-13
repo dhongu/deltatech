@@ -156,6 +156,7 @@
                     <filter string="Product" name="product" context="{'group_by':'product_id','set_visible':True}" />
                     <filter string="Invoice" name="invoice" context="{'group_by':'invoice_id'}" />
                     <filter string="Category of Product" name="category" context="{'group_by':'categ_id'}" />
+                    <filter string="Account" name="account" context="{'group_by':'account_id'}" />
                     <filter string="Status" name="status" context="{'group_by':'state'}" />
                     <!--
                     <filter string="Period"   context="{'group_by':'period_id'}"/>

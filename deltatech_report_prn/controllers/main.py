@@ -5,12 +5,10 @@
 import json
 import time
 
-from werkzeug.urls import url_decode
-
+import odoo.addons.web.controllers.report as report
 from odoo.http import content_disposition, request, route
 from odoo.tools.safe_eval import safe_eval
-
-import odoo.addons.web.controllers.report as report
+from werkzeug.urls import url_decode
 
 
 class ReportController(report.ReportController):
