@@ -200,7 +200,7 @@ class SaleMarginReport(models.Model):
     def _where(self):
         where_str = """
               s.move_type in ( 'out_invoice', 'out_refund', 'out_receipt') and s.state='posted'
-              and l.display_type not in ('line_section', 'line_note')
+              and l.display_type = 'product'
         """
         return where_str
 
