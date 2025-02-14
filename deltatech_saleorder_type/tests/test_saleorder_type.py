@@ -25,4 +25,4 @@ class TestSOType(TransactionCase):
                 "partner_id": 1,
             }
         )
-        test_saleorder.write({"so_type": self.type1.id})
+        test_saleorder.write({"sale_order_type": self.type1.id})

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-30 11:38+0000\n"
-"PO-Revision-Date: 2025-01-30 11:38+0000\n"
+"POT-Creation-Date: 2025-02-13 14:31+0000\n"
+"PO-Revision-Date: 2025-02-13 14:31+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -111,6 +111,13 @@ msgid "Invoice"
 msgstr "Factură"
 
 #. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_account_bank_statement_line__invoice_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_account_move__invoice_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_account_payment__invoice_type
+msgid "Invoice Type"
+msgstr "Tip factură"
+
+#. module: deltatech_record_type
 #: model:ir.actions.act_window,name:deltatech_record_type.action_invoice_type
 #: model:ir.ui.menu,name:deltatech_record_type.menu_invoice_order_type
 msgid "Invoice Types"
@@ -151,9 +158,8 @@ msgid "Name"
 msgstr "Nume"
 
 #. module: deltatech_record_type
-#: model:ir.model.fields,field_description:deltatech_record_type.field_account_bank_statement_line__invoice_type
-#: model:ir.model.fields,field_description:deltatech_record_type.field_account_move__invoice_type
-#: model:ir.model.fields,field_description:deltatech_record_type.field_account_payment__invoice_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_marketplace_purchase_order__po_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_marketplace_sale_order__so_type
 #: model:ir.model.fields,field_description:deltatech_record_type.field_purchase_order__po_type
 #: model:ir.model.fields,field_description:deltatech_record_type.field_sale_order__so_type
 #: model_terms:ir.ui.view,arch_db:deltatech_record_type.view_saleorder_type_filter
@@ -172,7 +178,7 @@ msgstr "Tipuri comandă"
 #: model:ir.model,name:deltatech_record_type.model_purchase_order
 #: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type__model__purchase_order
 msgid "Purchase Order"
-msgstr "Comandă achiziție"
+msgstr "Comandă de achiziție"
 
 #. module: deltatech_record_type
 #: model:ir.model,name:deltatech_record_type.model_record_type
@@ -193,10 +199,6 @@ msgstr ""
 
 #. module: deltatech_record_type
 #: model:ir.model.fields,field_description:deltatech_record_type.field_record_type__route_ids
-msgid "Route"
-msgstr ""
-
-#. module: deltatech_record_type
 #: model_terms:ir.ui.view,arch_db:deltatech_record_type.view_record_type_form
 msgid "Routes"
 msgstr ""
@@ -214,7 +216,7 @@ msgstr "Valori implicite tip comandă de vânzare"
 #. module: deltatech_record_type
 #: model:ir.model,name:deltatech_record_type.model_sale_order
 msgid "Sales Order"
-msgstr "Comandă vânzare"
+msgstr "Comandă de vânzare"
 
 #. module: deltatech_record_type
 #: model:ir.model,name:deltatech_record_type.model_sale_order_line
@@ -229,11 +231,13 @@ msgid "Show Invoice Type"
 msgstr "Afișare tip factură"
 
 #. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_marketplace_purchase_order__show_po_type
 #: model:ir.model.fields,field_description:deltatech_record_type.field_purchase_order__show_po_type
 msgid "Show Po Type"
 msgstr "Afișare tip CA"
 
 #. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_marketplace_sale_order__show_so_type
 #: model:ir.model.fields,field_description:deltatech_record_type.field_sale_order__show_so_type
 msgid "Show So Type"
 msgstr "Afișare tip CV"

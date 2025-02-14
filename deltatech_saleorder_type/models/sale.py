@@ -10,7 +10,7 @@ from odoo.exceptions import UserError
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    so_type = fields.Many2one("sale.order.type", string="Type")
+    sale_order_type = fields.Many2one("sale.order.type", string="Type")
 
 
 class SaleAdvancePaymentInv(models.TransientModel):
@@ -22,8 +22,8 @@ class SaleAdvancePaymentInv(models.TransientModel):
         active_ids = self._context["active_ids"]
         if active_ids:
             order = self.env["sale.order"].browse(self._context.get("active_ids"))[0]
-            if order and order.so_type:
-                journal_id = order.so_type.journal_id
+            if order and order.sale_order_type:
+                journal_id = order.sale_order_type.journal_id
                 if journal_id:
                     defaults["journal_id"] = journal_id.id
         return defaults
