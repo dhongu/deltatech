@@ -90,7 +90,7 @@ addon | version | maintainers | summary | price
 [deltatech_picking_restrict_entry_exit](deltatech_picking_restrict_entry_exit/) | 17.0.0.0.7 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | You can't create entry/exit picking if there are no purchase/sale atached | Free 
 [deltatech_picking_services](deltatech_picking_services/) | 17.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Service lines in pickings | Free 
 [deltatech_picking_split](deltatech_picking_split/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Picking Manual Backorder | Free 
-[deltatech_picking_transit](deltatech_picking_transit/) | 17.0.0.0.7 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Automate internal transfer from transit location | Free 
+[deltatech_picking_transit](deltatech_picking_transit/) | 17.0.0.0.8 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Automate internal transfer from transit location | Free 
 [deltatech_portal_invoice](deltatech_portal_invoice/) | 17.0.1.0.1 |  | Portal invoice | Free 
 [deltatech_pos_decimal_numpad_dot](deltatech_pos_decimal_numpad_dot/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Numpad Dot as decimal separator | Free 
 [deltatech_pos_product_filter](deltatech_pos_product_filter/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Searching pos order using product | Free 

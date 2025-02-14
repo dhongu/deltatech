@@ -20,7 +20,7 @@
                     type="object"
                     string="Create Transfer"
                     class="btn-primary"
-                    invisible="is_transit_transfer==False"
+                    invisible="is_transit_transfer==False or origin!=False"
                 />
             </xpath>
         </field>
