@@ -21,6 +21,17 @@
                             </div>
                         </div>
                     </div>
+                    <div class="o_setting_right_pane">
+                        <label for="picking_type_for_recondition" />
+                        <div class="text-muted">
+                           Picking type for reconditions transfers.
+                        </div>
+                        <div class="content-group">
+                            <div class="mt16">
+                                <field name="picking_type_for_recondition" class="o_light_label" widget="selection" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
