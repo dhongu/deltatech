@@ -25,7 +25,7 @@
         "web.assets_frontend": [
             "deltatech_business_process_portal/static/src/scss/business_project_sharing_frontend.scss",
         ],
-        "deltatech_business_process.webclient": [
+        "deltatech_business_process_portal.webclient": [
             # ("include", "web.assets_backend"),
             ("include", "web._assets_helpers"),
             ("include", "web._assets_backend_helpers"),

@@ -49,7 +49,7 @@
                     <tr class="active">
                         <th>ID</th>
                         <th>Code</th>
-                        <th><span class='d-none d-md-inline'>Business Process #</span></th>
+                        <th><span class='d-none d-md-inline'>Business Project #</span></th>
                         <th>Partner</th>
                         <th>Status</th>
                     </tr>
@@ -62,10 +62,15 @@
                                 t-attf-href="/my/business_projects/{{ business_project.id }}?{{ keep_query() }}"
                                 t-out="business_project.id"
                             />
-
                         </td>
                         <td><span t-field="business_project.code" /></td>
-                        <td><t t-esc="business_project.name" /></td>
+                        <td>
+                            <a
+                                t-if="business_project"
+                                t-attf-href="/my/business_projects/{{ business_project.id }}?{{ keep_query() }}"
+                                t-out="business_project.name"
+                            />
+                        </td>
                         <td><span t-field="business_project.customer_id" /></td>
                         <td><span t-field="business_project.state" /></td>
                     </tr>

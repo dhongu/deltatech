@@ -19,6 +19,7 @@ class BusinessProcessTest(models.Model):
     area_id = fields.Many2one(string="Area", comodel_name="business.area", related="process_id.area_id", store=True)
     tester_id = fields.Many2one(
         string="Tester",
+        tracking=True,
         comodel_name="res.partner",
         domain="[('is_company', '=', False)]",
         states={"done": [("readonly", True)]},
