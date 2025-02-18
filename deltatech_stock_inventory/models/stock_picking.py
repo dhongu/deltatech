@@ -15,7 +15,7 @@ class StockPicking(models.Model):
             (
                 "id",
                 "in",
-                (self.with_context(active_test=False).move_lines + scraps.move_id).stock_valuation_layer_ids.ids,
+                (self.with_context(active_test=False).move_ids + scraps.move_id).stock_valuation_layer_ids.ids,
             )
         ]
         res["domain"] = domain

@@ -49,13 +49,14 @@ class SaleOrder(models.Model):
 
             if order.stage == "in_process" and order.state in ["sale", "done"]:
                 qty_to_deliver = 0
-                order.stage = "delivered"
+
                 for line in order.order_line:
                     if line.product_id.type == "product":
                         qty_to_deliver += line.qty_to_deliver
                 if qty_to_deliver != 0:
                     order.stage = "to_be_delivery"
                 else:
+                    order.stage = "delivered"
                     for picking in order.picking_ids:
                         if picking.delivery_state not in ["draft", "delivered"]:
                             order.stage = "in_delivery"
@@ -66,13 +67,14 @@ class SaleOrder(models.Model):
 
                 # if all pickings are delivered, sale order must be delivered
                 # without backorder, not all quantities are delivered but all pickings are done
-                if len(order.picking_ids.mapped("state")) == 1 and order.picking_ids.mapped("state")[0] == "done":
-                    order.stage = "delivered"
+                if order.picking_ids:
+                    if len(order.picking_ids.mapped("state")) == 1 and order.picking_ids.mapped("state")[0] == "done":
+                        order.stage = "delivered"
 
-                # if all pickings are delivered or canceled, sale order must be delivered
-                all_delivered = True
-                for picking in order.picking_ids:
-                    if picking.state not in ["done", "cancel"]:
-                        all_delivered = False
-                if all_delivered:
-                    order.stage = "delivered"
+                    # if all pickings are delivered or canceled, sale order must be delivered
+                    all_delivered = True
+                    for picking in order.picking_ids:
+                        if picking.state not in ["done", "cancel"]:
+                            all_delivered = False
+                    if all_delivered:
+                        order.stage = "delivered"

@@ -90,18 +90,8 @@
                         attrs="{'invisible': [('state','!=','approved')]}"
                     />
                     <field name="type" invisible="1" />
-                    <field
-                        name="state"
-                        widget="statusbar"
-                        options="{'clickable': '1'}"
-                        attrs="{'invisible': [('type','!=','warranty')]}"
-                    />
-                    <field
-                        name="rec_state"
-                        widget="statusbar"
-                        options="{'clickable': '1'}"
-                        attrs="{'invisible': [('type','!=','recondition')]}"
-                    />
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}" />
+
                 </header>
                 <sheet>
                     <div class="oe_title">
@@ -138,7 +128,7 @@
                             <field name="state" groups="deltatech_service_base.group_warranty_manager" />
                         </group>
                         <group>
-                            <field name="picking_id" readonly="1" attrs="{'invisible': [('type','!=','warranty')]}" />
+                            <field name="picking_id" readonly="1" />
                         </group>
                         <group name="clarifications">
                             <field

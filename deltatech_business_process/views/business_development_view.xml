@@ -14,8 +14,9 @@
                     widget="badge"
                     decoration-danger="approved == 'rejected' "
                     decoration-success="approved == 'approved'  "
+                    decoration-warning="approved == 'awaiting_approval' "
                 />
-                 <field name="state" widget="badge" />
+                <field name="state" widget="badge" />
                 <field name="responsible_id" optional="show" />
                 <field name="date_start_fs" optional="show" />
                 <field name="date_end_fs" optional="show" />

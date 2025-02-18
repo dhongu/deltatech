@@ -2,12 +2,27 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _
+from odoo import _, http
+from odoo.http import request
 
 from odoo.addons.sale.controllers import portal
 
 
 class CustomerPortal(portal.CustomerPortal):
+    def _prepare_portal_layout_values(self):
+        values = super()._prepare_portal_layout_values()
+        if "show_order_fiter" in request.context:
+            searchbar_filters = {
+                "open_order": {"label": _("Open Orders"), "domain": [("stage", "not in", ["delivered", "cancel"])]},
+                "all": {"label": _("All"), "domain": []},
+            }
+            values.update(
+                {
+                    "searchbar_filters": searchbar_filters,
+                }
+            )
+        return values
+
     def _get_sale_searchbar_sortings(self):
         sortings = super()._get_sale_searchbar_sortings()
         if "stage" in sortings:
@@ -18,3 +33,50 @@ class CustomerPortal(portal.CustomerPortal):
             }
         )
         return sortings
+
+    def _prepare_orders_domain(self, partner):
+        domain = super()._prepare_orders_domain(partner)
+        if request.params.get("filterby", "") == "open_order":
+            domain += [("stage", "not in", ["delivered", "cancel"])]
+        return domain
+
+    @http.route()
+    def portal_my_orders(self, page=1, date_begin=None, date_end=None, sortby=None, filterby=None, **kw):
+        request.update_context(show_order_fiter=True)
+        if not filterby:
+            filterby = "all"
+        result = super().portal_my_orders(
+            page=page, date_begin=date_begin, date_end=date_end, sortby=sortby, filterby=filterby, **kw
+        )
+
+        result.qcontext["filterby"] = request.params.get("filterby", "all")
+        return result
+
+    def _prepare_sale_portal_rendering_values(
+        self, page=1, date_begin=None, date_end=None, sortby=None, quotation_page=False, **kwargs
+    ):
+        filterby = kwargs.get("filterby", "all")
+        if not filterby:
+            filterby = "all"
+            kwargs["filterby"] = filterby
+
+        values = super()._prepare_sale_portal_rendering_values(
+            page=page, date_begin=date_begin, date_end=date_end, sortby=sortby, quotation_page=quotation_page, **kwargs
+        )
+
+        values["filterby"] = filterby
+        values["pager"] = self.fix_pager_filer(values["pager"], filterby)
+
+        return values
+
+    def fix_pager_filer(self, pager, filterby):
+        pager["page"]["url"] = pager["page"]["url"] + "&filterby=" + filterby
+        pager["page_first"]["url"] = pager["page_first"]["url"] + "&filterby=" + filterby
+        pager["page_start"]["url"] = pager["page_start"]["url"] + "&filterby=" + filterby
+        pager["page_previous"]["url"] = pager["page_previous"]["url"] + "&filterby=" + filterby
+        pager["page_next"]["url"] = pager["page_next"]["url"] + "&filterby=" + filterby
+        pager["page_end"]["url"] = pager["page_end"]["url"] + "&filterby=" + filterby
+        pager["page_last"]["url"] = pager["page_last"]["url"] + "&filterby=" + filterby
+        for page in pager["pages"]:
+            page["url"] = page["url"] + "&filterby=" + filterby
+        return pager
