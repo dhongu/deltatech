@@ -89,18 +89,13 @@
                         attrs="{'invisible': [('state','!=','approved')]}"
                     />
                     <field name="type" invisible="1" />
-                    <field
-                        name="state"
-                        widget="statusbar"
-                        options="{'clickable': '1'}"
-                        attrs="{'invisible': [('type','!=','warranty')]}"
-                    />
-                    <field
-                        name="rec_state"
-                        widget="statusbar"
-                        options="{'clickable': '1'}"
-                        attrs="{'invisible': [('type','!=','recondition')]}"
-                    />
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}" />
+<!--                    <field-->
+<!--                        name="rec_state"-->
+<!--                        widget="statusbar"-->
+<!--                        options="{'clickable': '1'}"-->
+<!--                        attrs="{'invisible': [('type','!=','recondition')]}"-->
+<!--                    />-->
                 </header>
                 <sheet>
                     <div class="oe_title">
@@ -136,7 +131,7 @@
                             <field name="has_agreement" />
                         </group>
                         <group>
-                            <field name="picking_id" readonly="1" attrs="{'invisible': [('type','!=','warranty')]}" />
+                            <field name="picking_id" readonly="1" />
                         </group>
                         <group name="clarifications">
                             <field

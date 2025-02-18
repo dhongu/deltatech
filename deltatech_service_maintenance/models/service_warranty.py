@@ -151,7 +151,10 @@ class ServiceWarranty(models.Model):
                     raise UserError(self.partner_id.parent_id.picking_warn_msg)
 
         get_param = self.env["ir.config_parameter"].sudo().get_param
-        picking_type_id = safe_eval(get_param("service.picking_type_for_warranty", "False"))
+        if self.type == "warranty":
+            picking_type_id = safe_eval(get_param("service.picking_type_for_warranty", "False"))
+        elif self.type == "recondition":
+            picking_type_id = safe_eval(get_param("service.picking_type_for_recondition", "False"))
         if picking_type_id:
             picking_type = self.env["stock.picking.type"].browse(picking_type_id)
         else:
