@@ -11,3 +11,6 @@ class ResConfigSettings(models.TransientModel):
     picking_type_for_warranty = fields.Many2one(
         "stock.picking.type", string="Warranty picking type", config_parameter="service.picking_type_for_warranty"
     )
+    picking_type_for_recondition = fields.Many2one(
+        "stock.picking.type", string="Recondition picking type", config_parameter="service.picking_type_for_recondition"
+    )
