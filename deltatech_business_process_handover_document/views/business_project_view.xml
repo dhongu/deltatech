@@ -17,6 +17,7 @@
                         <field name="recipient_testers" widget="many2many_tags" />
                     </group>
                 </group>
+                <field name="development_ids" invisible="1" />
             </xpath>
         </field>
     </record>
