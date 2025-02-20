@@ -258,12 +258,12 @@ class ProductProductLabelLine(models.TransientModel):
             else:
                 label_line.price = label_line.product_id.lst_price
 
-    def get_barcode_url(self, code_format="Code128", barcode="", width=200, height=60, humanreadable=1):
+    def get_barcode_url(self, code_format="Code128", barcode="", width=200, height=60, humanreadable=1, quiet=0):
         self.ensure_one()
         if self.product_id:
             base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
             # url = "{}/report/barcode/{}/{}".format(base_url, format, barcode)
-            url = f"{base_url}/report/barcode/?barcode_type={code_format}&value={barcode}&width={width}&height={height}&humanreadable={humanreadable}"
+            url = f"{base_url}/report/barcode/?barcode_type={code_format}&value={barcode}&width={width}&height={height}&humanreadable={humanreadable}&quiet={quiet}"
 
             return url
         else:

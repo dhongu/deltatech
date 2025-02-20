@@ -25,6 +25,12 @@ class StockPicking(models.Model):
         if notification_id and picking:
             notification = self.env["service.notification"].browse(notification_id)
             notification.write({"piking_id": picking[0].id})
+
+        warranty_id = self.env.context.get("warranty_id", False)
+        if warranty_id:
+            picking.warranty_id = warranty_id
+            warranty = self.env["service.warranty"].browse(warranty_id)
+            warranty.write({"picking_id": picking.id})
         return picking
 
     def new_notification(self):
