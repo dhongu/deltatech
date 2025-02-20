@@ -75,7 +75,6 @@
     <template id="invoice_xml">
     <t t-call="report_xml.utf8_header">
         <t t-foreach="docs" t-as="invoice">
-<!--            <!DOCTYPE SdDataSlice SYSTEM "m2Data_Partner.dtd">-->
             <SdDataSlice>
                 <SdCompanyHeader>
                     <LegalName t-esc="'CALZEDONIA s.p.a.'" />
@@ -112,7 +111,7 @@
                             <OrderLineNumber t-esc="pack.ref" />
                             <Qty t-esc="pack.product_qty" />
                             <ProductCode t-esc="pack.product_id.default_code" />
-                            <AuxRow1 t-esc="'1'" />
+                            <AuxRow1 t-esc="'picking_nr'" />
                             <AuxRow2 t-esc="pack.label_sequence" />
                             <AuxRow3 t-esc="'BOX'" />
                             <AuxRow4 t-esc="pack.product_id.name" />
