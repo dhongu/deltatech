@@ -212,8 +212,7 @@ class ServiceWarranty(models.Model):
 
     @api.onchange("user_id")
     def set_assigned(self):
-        if self.state == "new" and self.user_id:
-            self.state = "assigned"
+        self.state = "assigned"
 
     def set_new(self):
         if self.state == "assigned":
@@ -223,7 +222,7 @@ class ServiceWarranty(models.Model):
                 self.name = self.env["ir.sequence"].next_by_code("service.warranty")
 
     def set_in_progress(self):
-        if self.state == "assigned" and self.user_id:
+        if self.user_id:
             self.state = "progress"
             if self.name == "/":
                 self.name = self.env["ir.sequence"].next_by_code("service.warranty")

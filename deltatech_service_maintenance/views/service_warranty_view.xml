@@ -50,7 +50,15 @@
                         type="object"
                         class="oe_highlight"
                         string="New transfer"
-                        invisible="state != 'approved' or picking_id"
+                        invisible="state != 'approved' or picking_id or type != 'warranty'"
+                    />
+                    <button
+                        name="new_delivery_button"
+                        type="object"
+                        class="oe_highlight"
+                        string="New recondition transfer"
+                        invisible="state != 'approved' or picking_id or type != 'recondition'"
+                        groups="deltatech_service_base.group_warranty_manager"
                     />
                     <button
                         name="set_new"
@@ -58,6 +66,13 @@
                         class="oe_highlight"
                         string="Set new"
                         invisible="state != 'assigned'"
+                    />
+                    <button
+                        name="set_assigned"
+                        type="object"
+                        class="oe_highlight"
+                        string="Set Assigned"
+                        invisible="state != 'new'"
                     />
                     <button
                         name="set_in_progress"
@@ -78,18 +93,44 @@
                         type="object"
                         class="oe_highlight"
                         string="Approve"
-                        invisible="state != 'approval_requested'"
+                        invisible="state != 'approval_requested' or type != 'warranty'"
                         groups="deltatech_service_base.group_warranty_manager"
+                    />
+                    <button
+                        name="approve"
+                        type="object"
+                        class="oe_highlight"
+                        string="Approve"
+                        invisible="state != 'approval_requested' or type != 'recondition'"
                     />
                     <button
                         name="set_done"
                         type="object"
                         class="oe_highlight"
                         string="Set done"
-                        invisible="state != 'approved'"
+                        invisible="state != 'approved' or type != 'warranty'"
+                    />
+                    <button
+                        name="set_done"
+                        type="object"
+                        class="oe_highlight"
+                        string="Set done"
+                        invisible="state != 'approved' or type != 'recondition'"
+                        groups="deltatech_service_base.group_warranty_manager"
                     />
                     <field name="type" invisible="1" />
-                    <field name="state" widget="statusbar" options="{'clickable': '1'}" />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        readonly="1"
+                        groups="!deltatech_service_base.group_warranty_manager"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        options="{'clickable': '1'}"
+                        groups="deltatech_service_base.group_warranty_manager"
+                    />
                 </header>
                 <sheet>
                     <div class="oe_title">
