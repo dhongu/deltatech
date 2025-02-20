@@ -134,6 +134,109 @@
     </t>
 </template>
 
+    <report
+    id="xml_report_action_v2"
+    name="deltatech_sale_ref.invoice_xml_v2"
+    string="XML V2 Report"
+    report_type="qweb-xml"
+    model="account.invoice"/>
+
+    <template id="invoice_xml_v2">
+    <t t-call="report_xml.utf8_header">
+        <t t-foreach="docs" t-as="invoice">
+            <SdDataSlice>
+                <SdCompanyHeader>
+                    <LegalName t-esc="'CALZEDONIA s.p.a.'" />
+                    <Group t-esc="'CALZEDONIANEW'" />
+                    <TransmissionDate t-esc="datetime.datetime.now().strftime('%d-%m-%Y')" />
+                </SdCompanyHeader>
+                <SdPackingSlip>
+                    <PartnerId t-esc="'0000001877'" />
+                    <PackingSlipNumber t-esc="invoice.number1" />
+                    <FgOutbound t-esc="'false'" />
+                    <t t-set="inv_date_year" t-value="invoice.date_invoice[0:4]"/>
+                    <t t-set="inv_date_month" t-value="invoice.date_invoice[5:7]"/>
+                    <t t-set="inv_date_day" t-value="invoice.date_invoice[8:10]"/>
+                    <t t-set="inv_date" t-value="inv_date_day + '-' + inv_date_month + '-' + inv_date_year" />
+                    <PackingSlipDate t-esc="inv_date" />
+                    <DeliveryDate t-esc="inv_date" />
+                    <note t-esc="''"/>
+                    <t t-set="line_nr" t-value="1" />
+                    <t t-foreach="invoice.invoice_line" t-as="invoice_line">
+                        <t t-set="operations_links" t-value="invoice_line.move_line_ids.linked_move_operation_ids"/>
+                        <t t-set="sale_order_line" t-value="invoice_line.sale_line_ids[0]" />
+                        <t t-set="sale_id" t-value="sale_order_line.order_id" />
+
+                        <t t-set="so_date_year" t-value="sale_id.date_order[0:4]"/>
+                        <t t-set="so_date_month" t-value="sale_id.date_order[5:7]"/>
+                        <t t-set="so_date_day" t-value="sale_id.date_order[8:10]"/>
+                        <t t-set="so_date" t-value="so_date_day + '-' + so_date_month + '-' + so_date_year" />
+
+                        <t t-set="delivery_date" t-value="inv_date" />
+                        <t t-set="operation_nr" t-value="1" />
+                        <SdPackingSlipLine t-foreach="operations_links" t-as="operation_link">
+                            <t t-set="pack" t-value="operation_link.operation_id"/>
+                            <PackingSlipLineNumber t-esc="str(line_nr)+'-'+str(operation_nr)" />
+                            <OrderTypeName t-esc="'ZA6A'" />
+                            <OrderNumber t-esc="sale_id.client_order_ref" />
+                            <OrderDate t-esc="so_date" />
+                            <OrderLineNumber t-esc="pack.ref" />
+                            <Qty t-esc="pack.product_qty" />
+                            <ProductCode t-esc="pack.product_id.default_code" />
+                            <AuxRow1 t-esc="line_nr" />
+                            <AuxRow2 t-esc="pack.label_sequence" />
+                            <AuxRow3 t-esc="'BOX'" />
+                            <AuxRow4 t-esc="pack.product_id.name" />
+                            <AuxRow5 t-esc="pack.product_uom_id.name" />
+                            <AuxRowNum1 t-esc="operation_nr" />
+                            <AuxRowNum2 t-esc="pack.product_id.pack_weight" />
+                            <AuxRowNum3 t-esc="pack.product_id.pack_weight_neto" />
+                            <AuxRowNum4 t-esc="invoice_line.quantity" />
+
+                            <t t-set="operation_nr" t-value="operation_nr+1" />
+                        </SdPackingSlipLine>
+                        <t t-set="line_nr" t-value="line_nr+1" />
+                    </t>
+<!--                    <t t-foreach="invoice.picking_ids" t-as="p">-->
+<!--                        <t t-set="so_date_year" t-value="p.sale_id.date_order[0:4]"/>-->
+<!--                        <t t-set="so_date_month" t-value="p.sale_id.date_order[5:7]"/>-->
+<!--                        <t t-set="so_date_day" t-value="p.sale_id.date_order[8:10]"/>-->
+<!--                        <t t-set="so_date" t-value="so_date_day + '-' + so_date_month + '-' + so_date_year" />-->
+<!--                        <t t-set="delivery_date_year" t-value="p.min_date[0:4]"/>-->
+<!--                        <t t-set="delivery_date_month" t-value="p.min_date[5:7]"/>-->
+<!--                        <t t-set="delivery_date_day" t-value="p.min_date[8:10]"/>-->
+<!--                        <t t-set="delivery_date" t-value="delivery_date_day + '-' + delivery_date_month + '-' + delivery_date_year" />-->
+<!--                        <t t-set="line_nr" t-value="1" />-->
+<!--                        <SdPackingSlipLine t-foreach="p.pack_operation_ids" t-as="pack">-->
+<!--                            <PackingSlipLineNumber t-esc="str(picking_nr)+'-'+str(line_nr)" />-->
+<!--                            <OrderTypeName t-esc="'ZA6A'" />-->
+<!--                            <OrderNumber t-esc="p.sale_id.client_order_ref" />-->
+<!--                            <OrderDate t-esc="so_date" />-->
+<!--                            <OrderLineNumber t-esc="pack.ref" />-->
+<!--                            <Qty t-esc="pack.product_qty" />-->
+<!--                            <ProductCode t-esc="pack.product_id.default_code" />-->
+<!--                            <AuxRow1 t-esc="picking_nr" />-->
+<!--                            <AuxRow2 t-esc="pack.label_sequence" />-->
+<!--                            <AuxRow3 t-esc="'BOX'" />-->
+<!--                            <AuxRow4 t-esc="pack.product_id.name" />-->
+<!--                            <AuxRow5 t-esc="pack.product_uom_id.name" />-->
+<!--                            <AuxRowNum1 t-esc="line_nr" />-->
+<!--                            <AuxRowNum2 t-esc="pack.product_id.pack_weight" />-->
+<!--                            <AuxRowNum3 t-esc="pack.product_id.pack_weight_neto" />-->
+<!--                            <t t-set="move_qty" t-value="''" />-->
+<!--                            <t t-if="pack.linked_move_operation_ids">-->
+<!--                                <t t-set="move_qty" t-value="pack.linked_move_operation_ids[0].move_id.product_qty" />-->
+<!--                            </t>-->
+<!--                            <AuxRowNum4 t-esc="move_qty" />-->
+<!--                            <t t-set="line_nr" t-value="line_nr+1" />-->
+<!--                        </SdPackingSlipLine>-->
+<!--                        <t t-set="picking_nr" t-value="picking_nr+1" />-->
+<!--                    </t>-->
+                </SdPackingSlip>
+            </SdDataSlice>
+        </t>
+    </t>
+</template>
 
 </data>
 </openerp>
