@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-21 09:24+0000\n"
-"PO-Revision-Date: 2024-11-21 09:24+0000\n"
+"POT-Creation-Date: 2025-02-20 11:22+0000\n"
+"PO-Revision-Date: 2025-02-20 11:22+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -330,7 +330,7 @@ msgstr "Ciclu"
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__date
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_warranty__date
 msgid "Date"
-msgstr "Data sesizare problemă de către client"
+msgstr "Dată"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_plan__last_call_done_date
@@ -365,7 +365,7 @@ msgstr "Livrare pentru service"
 #: code:addons/deltatech_service_maintenance/models/service_warranty.py:0
 #, python-format
 msgid "Delivery for warranty"
-msgstr ""
+msgstr "Creează aviz garanție"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_required_order__display_name
@@ -779,6 +779,11 @@ msgid "New Notification"
 msgstr "Sesizare nouă"
 
 #. module: deltatech_service_maintenance
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_warranty_form
+msgid "New recondition transfer"
+msgstr "Creează ieșire recondiționare"
+
+#. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_warranty_form
 msgid "New transfer"
@@ -1013,6 +1018,11 @@ msgstr "Partener"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.res_config_settings_view_form_stock
+msgid "Picking type for reconditions transfers."
+msgstr ""
+
+#. module: deltatech_service_maintenance
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.res_config_settings_view_form_stock
 msgid "Picking type for warranty transfers."
 msgstr "Tip transfer garanție"
 
@@ -1143,6 +1153,11 @@ msgstr "Motive"
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_warranty__type__recondition
 msgid "Recondition"
 msgstr "Recondiționare"
+
+#. module: deltatech_service_maintenance
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_res_config_settings__picking_type_for_recondition
+msgid "Recondition picking type"
+msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model:ir.actions.act_window,name:deltatech_service_maintenance.action_service_recondition
