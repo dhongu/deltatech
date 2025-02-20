@@ -111,7 +111,7 @@
                             <OrderLineNumber t-esc="pack.ref" />
                             <Qty t-esc="pack.product_qty" />
                             <ProductCode t-esc="pack.product_id.default_code" />
-                            <AuxRow1 t-esc="'picking_nr'" />
+                            <AuxRow1 t-esc="picking_nr" />
                             <AuxRow2 t-esc="pack.label_sequence" />
                             <AuxRow3 t-esc="'BOX'" />
                             <AuxRow4 t-esc="pack.product_id.name" />
