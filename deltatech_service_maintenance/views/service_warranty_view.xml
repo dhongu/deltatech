@@ -51,6 +51,7 @@
                         class="oe_highlight"
                         string="New transfer"
                         attrs="{'invisible': ['|', '|', ('state','!=','approved'), ('picking_id', '!=', False), ('type', '!=', 'warranty')]}"
+                        groups="deltatech_service.group_warranty_manager"
                     />
                     <button
                         name="new_delivery_button"
@@ -86,29 +87,15 @@
                         type="object"
                         class="oe_highlight"
                         string="Approve"
-                        attrs="{'invisible': ['|', ('state','!=','approval_requested'), ('type', '!=', 'warranty')]}"
+                        attrs="{'invisible': [('state','!=','approval_requested')]}"
                         groups="deltatech_service.group_warranty_manager"
                     />
                     <button
-                        name="approve"
-                        type="object"
-                        class="oe_highlight"
-                        string="Approve"
-                        attrs="{'invisible': ['|', ('state','!=','approval_requested'), ('type', '!=', 'recondition')]}"
-                    />
-                    <button
                         name="set_done"
                         type="object"
                         class="oe_highlight"
                         string="Set done"
-                        attrs="{'invisible': ['|', ('state','!=','approved'), ('type', '!=', 'warranty')]}"
-                    />
-                    <button
-                        name="set_done"
-                        type="object"
-                        class="oe_highlight"
-                        string="Set done"
-                        attrs="{'invisible': ['|', ('state','!=','approved'), ('type', '!=', 'recondition')]}"
+                        attrs="{'invisible': [('state','!=','approved')]}"
                         groups="deltatech_service.group_warranty_manager"
                     />
                     <field name="type" invisible="1" />
