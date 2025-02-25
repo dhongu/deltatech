@@ -5,4 +5,3 @@ from . import commission_users
 from . import account_invoice
 from . import sale
 from . import res_config_settings
-from . import commission_condition
