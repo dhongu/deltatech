@@ -5,7 +5,7 @@
 {
     "name": "Business process Portal",
     "summary": "Access to Business process from portal",
-    "version": "16.0.0.0.0",
+    "version": "16.0.0.0.1",
     "author": "Terrabit, Dorin Hongu,NextERP Romania",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
