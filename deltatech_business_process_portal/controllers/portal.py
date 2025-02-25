@@ -1,7 +1,6 @@
-# Copyright 2024 NextERP Romania SRL
-# License OPL-1.0 or later
-# (https://www.odoo.com/documentation/user/16.0/legal/licenses/licenses.html#).
-
+# ©  2023 Deltatech
+# ©  2025 NextERP Romania
+# See README.rst file on addons root folder for license details
 
 from odoo import _, conf, http
 from odoo.exceptions import AccessError, MissingError

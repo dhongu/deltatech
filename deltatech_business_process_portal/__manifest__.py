@@ -1,12 +1,12 @@
 # ©  2023 Deltatech
+# ©  2025 NextERP Romania
 # See README.rst file on addons root folder for license details
-
 
 {
     "name": "Business process Portal",
     "summary": "Access to Business process from portal",
     "version": "16.0.0.0.0",
-    "author": "Terrabit, Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu,NextERP Romania",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
     "category": "Generic Modules/Other",
