@@ -10,7 +10,7 @@
 
 
                     <group string="Compute Commission">
-                        <div class="oe_grey">
+                        <div class="oe_grey" colspan="2">
                             For the selected invoice line will compute commission
                         </div>
                     </group>
