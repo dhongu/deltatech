@@ -22,10 +22,10 @@ Generate/Select lot
 
 |badge1| |badge2| |badge3|
 
--  Functions:
+- Functions:
 
-   -  Generare de lot la receptia produselor de la furnizor
-   -  Camp locatie in lot
+  - Generare de lot la receptia produselor de la furnizor
+  - Camp locatie in lot
 
 **Table of contents**
 
