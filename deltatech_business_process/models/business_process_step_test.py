@@ -6,6 +6,7 @@ from odoo import api, fields, models
 
 class BusinessProcessStepTest(models.Model):
     _name = "business.process.step.test"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Business Process Step Test"
 
     process_test_id = fields.Many2one(
@@ -81,3 +82,12 @@ class BusinessProcessStepTest(models.Model):
     def _onchange_result(self):
         if self.result == "passed":
             self.date_end = fields.Date.today()
+
+    def reset_draft(self):
+        self.write({"result": "draft", "date_end": False})
+
+    def do_fail(self):
+        self.write({"result": "failed", "date_end": fields.Date.today()})
+
+    def do_pass(self):
+        self.write({"result": "passed", "date_end": fields.Date.today()})

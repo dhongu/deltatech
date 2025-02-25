@@ -28,16 +28,11 @@
             <form>
                 <header>
 
-                    <button name="action_run" class="oe_highlight" type="object" string="Run" states="draft" />
+                    <button name="action_run" class="oe_highlight" type="object" string="Run" states="draft,wait" />
                     <button name="action_done" class="oe_highlight" type="object" string="Done" states="run" />
                     <button name="action_wait" type="object" string="Wait" states="run" />
-                    <button name="action_draft" type="object" string="Draft" states="done" />
-                    <field
-                        name="state"
-                        widget="statusbar"
-                        options="{'clickable': '1'}"
-                        statusbar_visible="draft,run,done"
-                    />
+                    <button name="action_draft" type="object" string="Draft" states="done,run,wait" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,run,wait,done" readonly="1" />
 
                 </header>
                 <sheet>
@@ -46,7 +41,13 @@
                             <field name="count_steps" widget="statinfo" string="Test Steps" />
                         </button>
 
-                        <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-file-text-o">
+                        <button
+                            class="oe_stat_button"
+                            name="attachment_tree_view"
+                            type="object"
+                            icon="fa-file-text-o"
+                            groups="base.group_user"
+                        >
                             <field string="Documents" name="doc_count" widget="statinfo" />
                         </button>
                     </div>
@@ -54,71 +55,68 @@
 
                     <div class="oe_title">
                         <h1>
-                            <field name="name" default_focus="1" placeholder="Name" class="oe_inline" />
+                            <field
+                                name="name"
+                                default_focus="1"
+                                placeholder="Name"
+                                class="oe_inline"
+                                readonly="1"
+                                groups="base.group_portal"
+                            />
+                            <field
+                                name="name"
+                                default_focus="1"
+                                placeholder="Name"
+                                class="oe_inline"
+                                groups="base.group_user"
+                            />
                         </h1>
                     </div>
                     <group>
                         <group string="Process">
-                            <field name="process_id" />
-                            <field name="tester_id" />
+                            <field name="process_id" readonly="1" groups="base.group_portal" />
+                            <field name="process_id" groups="base.group_user" />
+                            <field name="tester_id" readonly="1" groups="base.group_portal" />
+                            <field name="tester_id" groups="base.group_user" />
+                            <button
+                                name="action_assign_to_me"
+                                string="Assign to Me"
+                                type="object"
+                                class="oe_highlight"
+                                attrs="{'invisible' : &quot;[('tester_id.user_ids', 'in', [uid])]&quot;}"
+                                data-hotkey="a"
+                            />
+                            <button
+                                name="action_unassign_me"
+                                string="Unassign Me"
+                                type="object"
+                                class="oe_highlight"
+                                attrs="{'invisible' : &quot;[('tester_id.user_ids', 'not in', [uid])]&quot;}"
+                                data-hotkey="u"
+                            />
                         </group>
                         <group string="Scope">
-                            <field name="scope" />
+                            <field name="scope" readonly="1" groups="base.group_portal" />
+                            <field name="scope" groups="base.group_user" />
                         </group>
                         <group string="Date">
-                            <field name="date_start" />
-                            <field name="date_end" />
+                            <field name="date_start" readonly="1" groups="base.group_portal" />
+                            <field name="date_start" groups="base.group_user" />
+                            <field name="date_end" readonly="1" groups="base.group_portal" />
+                            <field name="date_end" groups="base.group_user" />
                             <field name="completion_test" widget="progressbar" />
                         </group>
                     </group>
                     <notebook>
                         <page string="Process steps" name="steps">
-                            <field name="test_step_ids" widget="section_and_note_one2many" mode="tree,kanban">
-                                <tree
-                                    create="false"
-                                    string="Process steps"
-                                    editable="bottom"
-                                    delete="false"
-                                    decoration-danger="result == 'failed'"
-                                    decoration-success="result == 'passed'"
-                                >
-                                    <field name="step_id" invisible="1" />
-                                    <field name="name" />
-                                    <field name="transaction_id" />
-                                    <field name="description" optional="hide" />
-                                    <field name="data_used" />
-                                    <field name="data_result" />
-                                    <field name="responsible_id" />
-                                    <field name="date_start" optional="show" />
-                                    <field name="date_end" optional="show" />
-                                    <field name="test_started" invisible="1" />
-                                    <field name="result" attrs="{'invisible': [('test_started', '=', False)]}" />
-
-                                     <button
-                                        name="action_view_issue"
-                                        aria-label="Issue"
-                                        attrs="{'invisible': [('result', '!=', 'failed')]}"
-                                        context="{'default_step_id': step_id}"
-                                        title="Issue"
-                                        type="object"
-                                        icon="fa-exclamation-triangle"
-                                    />
-
-                                    <field name="observation" optional="hide" />
-
-                                    <field name="feedback_by_id" optional="hide" />
-                                    <field name="feedback_date" optional="hide" />
-                                    <field name="feedback_state" optional="hide" />
-                                    <field name="feedback_text" optional="hide" />
-                                </tree>
-                            </field>
+                            <field name="test_step_ids" widget="section_and_note_one2many" mode="tree,kanban" />
                         </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers" />
-                    <field name="activity_ids" widget="mail_activity" />
-                    <field name="message_ids" widget="mail_thread" />
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
                 </div>
             </form>
         </field>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<!--creare template pentru vizualizare business process-->
+    <template
+        id="portal_my_home_menu_business_project"
+        name="Portal layout : partner invoice menu entries"
+        inherit_id="portal.portal_breadcrumbs"
+        priority="30"
+    >
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li
+                t-if="page_name == 'business_projects'"
+                t-attf-class="breadcrumb-item #{'active ' if not business_projects else ''}"
+            >
+                <a t-if="business_projects" t-attf-href="/my/business_projects?{{ keep_query() }}">Business Projects</a>
+            </li>
+        </xpath>
+    </template>
+
+    <template
+        id="portal_my_home_business_projects"
+        name="Show Business Process"
+        customize_show="True"
+        inherit_id="portal.portal_my_home"
+        priority="26"
+    >
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Business Projects</t>
+                <t t-set="url" t-value="'/my/business_projects'" />
+                <t t-set="placeholder_count" t-value="'business_project_count'" />
+            </t>
+        </xpath>
+
+    </template>
+
+    <template id="portal_my_business_projects" name="Business Projects">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Business Projects</t>
+            </t>
+            <t t-if="not business_projects">
+                <p>There are currently no business process for your account.</p>
+            </t>
+            <t t-if="business_projects" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>ID</th>
+                        <th>Code</th>
+                        <th><span class='d-none d-md-inline'>Business Project #</span></th>
+                        <th>Partner</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <t t-foreach="business_projects" t-as="business_project">
+                    <tr>
+                        <td>
+                            <a
+                                t-if="business_project"
+                                t-attf-href="/my/business_projects/{{ business_project.id }}?{{ keep_query() }}"
+                                t-out="business_project.id"
+                            />
+                        </td>
+                        <td><span t-field="business_project.code" /></td>
+                        <td>
+                            <a
+                                t-if="business_project"
+                                t-attf-href="/my/business_projects/{{ business_project.id }}?{{ keep_query() }}"
+                                t-out="business_project.name"
+                            />
+                        </td>
+                        <td><span t-field="business_project.customer_id" /></td>
+                        <td><span t-field="business_project.state" /></td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template
+        id="portal_business_project_page"
+        name="Business Process Portal Template"
+        inherit_id="portal.portal_sidebar"
+        primary="True"
+    >
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <div class="row mt16 o_business_project_sidebar">
+                <!-- Sidebar -->
+                <t t-call="portal.portal_record_sidebar">
+                    <t t-set="classes" t-value="'col-lg-auto d-print-none'" />
+                    <t t-set="title">
+                        <h2 class="mb-0">
+
+                        </h2>
+                    </t>
+                </t>
+            </div>
+        </xpath>
+    </template>
+
+<!--    incercare cu portal sharing-->
+    <template id="business_project_sharing_portal" name="Business Process Sharing View in Portal">
+        <t t-call="portal.frontend_layout">
+            <!-- To add the class on div#wrapwrap to remove the overflow -->
+            <t t-set="pageName" t-value="'o_business_project_sharing_container'" />
+            <t t-set="no_footer" t-value="true" />
+            <t t-call="deltatech_business_process_portal.business_project_sharing" />
+        </t>
+    </template>
+
+    <template id="business_project_sharing" name="Business Process Sharing View">
+        <!--    We need to forward the request lang to ensure that the lang set on the portal match the lang delivered -->
+        <iframe
+            class="flex-grow-1"
+            frameborder="0"
+            t-attf-src="/{{ request.context['lang'] }}/my/business_projects/{{ str(business_project_id) }}/business_project_sharing"
+        />
+    </template>
+
+    <template id="business_project_sharing_embed" name="Business Project Sharing View Embed">
+        <t t-call="web.layout">
+            <t t-set="head_business_project_sharing">
+
+                <script type="text/javascript">
+                    odoo.__session_info__ = <t t-out="json.dumps(session_info)" />;
+                    // Prevent the menu_service to load anything. In an ideal world, Business Process assets would only contain
+                    // what is genuinely necessary, and not the whole backend.
+                    odoo.loadMenusPromise = Promise.resolve();
+                </script>
+                <base target="_parent" />
+                <t t-call-assets="web.assets_common" t-js="false" />
+                <t t-call-assets="deltatech_business_process_portal.webclient" t-js="false" />
+                <t t-call-assets="web.assets_common" t-css="false" />
+                <t t-call-assets="deltatech_business_process_portal.webclient" t-css="false" />
+                <t t-call="web.conditional_assets_tests" />
+            </t>
+            <t t-set="head" t-value="head_business_project_sharing + (head or '')" />
+            <t t-set="body_classname" t-value="'o_web_client o_business_project_sharing'" />
+        </t>
+    </template>
+
+</odoo>

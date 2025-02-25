@@ -7,8 +7,8 @@ from odoo import fields, models
 class BusinessProject(models.Model):
     _inherit = "business.project"
 
-    auto_generate_doc = fields.Boolean(string="Auto generate documentation", default=False)
-    channel_id = fields.Many2one(string="Channel", comodel_name="slide.channel")
+    auto_generate_doc = fields.Boolean(string="Auto generate documentation", default=False, copy=False)
+    channel_id = fields.Many2one(string="Channel", comodel_name="slide.channel", copy=False)
     website_published = fields.Boolean(related="channel_id.website_published", store=True)
 
     def write(self, vals):

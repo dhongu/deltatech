@@ -23,6 +23,15 @@
                     decoration-danger="result == 'failed'"
                     decoration-success="result == 'passed'"
                 />
+                <button
+                    name="reset_draft"
+                    type="object"
+                    attrs="{'invisible': [('result', '=', 'draft')]}"
+                    string="Draft"
+                />
+                <button name="do_pass" type="object" attrs="{'invisible': [('result', '=', 'passed')]}" string="Pass" />
+                <button name="do_fail" type="object" attrs="{'invisible': [('result', '=', 'failed')]}" string="Fail" />
+
 
                 <field name="feedback_by_id" optional="hide" />
                 <field name="feedback_date" optional="hide" />
@@ -49,31 +58,62 @@
                     <div class="oe_button_box" name="button_box" />
                     <div class="oe_title">
                         <h1>
-                            <field name="name" default_focus="1" placeholder="Name" class="oe_inline" />
+                            <field
+                                name="name"
+                                readonly="1"
+                                groups="base.group_portal"
+                                default_focus="1"
+                                placeholder="Name"
+                                class="oe_inline"
+                            />
+                            <field
+                                name="name"
+                                groups="base.group_user"
+                                default_focus="1"
+                                placeholder="Name"
+                                class="oe_inline"
+                            />
+                            <field name="process_id" readonly="1" groups="base.group_portal" />
+                            <field name="process_id" groups="base.group_user" />
                         </h1>
                     </div>
 
                     <group>
                         <group string="Identification">
-                            <field name="process_test_id" />
-                            <field name="step_id" />
+                            <field name="process_test_id" readonly="1" groups="base.group_portal" />
+                            <field name="process_test_id" groups="base.group_user" />
+                            <field name="step_id" readonly="1" groups="base.group_portal" />
+                            <field name="step_id" groups="base.group_user" />
                             <field
                                 name="result"
+                                readonly="1"
+                                groups="base.group_portal"
+                                decoration-danger="result == 'failed'"
+                                decoration-success="result == 'passed'"
+                            />
+                            <field
+                                name="result"
+                                groups="base.group_user"
                                 decoration-danger="result == 'failed'"
                                 decoration-success="result == 'passed'"
                             />
 
                         </group>
                         <group string="Responsible">
-                            <field name="responsible_id" />
+                            <field name="responsible_id" readonly="1" groups="base.group_portal" />
+                            <field name="responsible_id" groups="base.group_user" />
                         </group>
                         <group string="Transaction">
-                            <field name="transaction_id" />
-                            <field name="description" />
+                            <field name="transaction_id" readonly="1" groups="base.group_portal" />
+                            <field name="transaction_id" groups="base.group_user" />
+                            <field name="description" readonly="1" groups="base.group_portal" />
+                            <field name="description" groups="base.group_user" />
                         </group>
                         <group string="Date">
-                            <field name="date_start" />
-                            <field name="date_end" />
+                            <field name="date_start" readonly="1" groups="base.group_portal" />
+                            <field name="date_start" groups="base.group_user" />
+                            <field name="date_end" readonly="1" groups="base.group_portal" />
+                            <field name="date_end" groups="base.group_user" />
                         </group>
                         <group string="Data">
                             <field name="data_used" />
@@ -89,6 +129,11 @@
                     </group>
 
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
             </form>
         </field>
     </record>

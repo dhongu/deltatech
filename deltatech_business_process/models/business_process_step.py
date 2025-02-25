@@ -6,6 +6,7 @@ from odoo import api, fields, models
 
 class BusinessProcessStep(models.Model):
     _name = "business.process.step"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Business process step"
     _order = "sequence, code, id"
 

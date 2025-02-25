@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<odoo>
+
+        <record id="action_business_project_sharing_form_action" model="ir.actions.act_window">
+        <field name="name">Business project</field>
+        <field name="res_model">business.project</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="deltatech_business_process.view_business_project_form" />
+        <field name="search_view_id" ref="deltatech_business_process.view_business_project_filter" />
+        <field name="context">{
+            'default_business_project_id': active_id,
+            'default_res_model': 'business.project',
+            'default_res_id': active_id,
+            'delete': 0,
+            'active_id_chatter': active_id,
+            'business_project_sharing_id': active_id,
+            'res_model': 'business.project',
+        }</field>
+    </record>
+
+</odoo>

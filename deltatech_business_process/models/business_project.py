@@ -12,6 +12,9 @@ class BusinessProject(models.Model):
     code = fields.Char(string="Code")
     name = fields.Char(string="Name", required=True)
     customer_id = fields.Many2one(string="Customer", comodel_name="res.partner")
+    customer_project_manager_id = fields.Many2one(
+        string="Customer Project Manager", domain="[('is_company', '=', False)]", comodel_name="res.partner"
+    )
     logo = fields.Image()
     state = fields.Selection(
         [

@@ -23,6 +23,7 @@
                         string="Get Duration"
                         type="object"
                         class="btn-primary"
+                        groups="base.group_user"
                     />
                     <field
                         name="state"
@@ -45,7 +46,13 @@
                         <button class="oe_stat_button" type="object" name="action_view_developments" icon="fa-code">
                             <field name="count_developments" widget="statinfo" string="Developments" />
                         </button>
-                        <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-file-text-o">
+                        <button
+                            class="oe_stat_button"
+                            name="attachment_tree_view"
+                            type="object"
+                            icon="fa-file-text-o"
+                            groups="base.group_user"
+                        >
                             <field string="Documents" name="doc_count" widget="statinfo" />
                         </button>
 
@@ -59,7 +66,7 @@
                             <field name="count_issues" widget="statinfo" string="Issues" />
                         </button>
                     </div>
-                    <field name="logo" widget="image" class="oe_avatar" />
+                    <field name="logo" widget="image" class="oe_avatar" groups="base.group_user" />
                     <div class="oe_title">
                         <h1>
                             <field name="name" default_focus="1" placeholder="Name" class="oe_inline" />
@@ -67,26 +74,34 @@
                     </div>
 
                     <group>
-                        <group string="Identification">
-                            <field name="code" />
+                        <group string="Customer">
                             <field name="customer_id" />
+                            <field name="customer_project_manager_id" />
+                        </group>
+
+                        <group string="Provider">
                             <field name="project_manager_id" />
-                            <field name="total_project_duration" widget="float_time" />
+                            <field name="responsible_id" />
+                            <field name="team_member_ids" widget="many2many_tags" />
+                        </group>
+
+                        <group string="Details">
+                            <field name="code" />
                             <field name="project_type" groups="base.group_system" />
                         </group>
 
                         <group string="Dates">
                             <field name="date_start" />
                             <field name="date_go_live" />
+                            <field name="total_project_duration" widget="float_time" />
                         </group>
-
 
                     </group>
                 </sheet>
                 <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers" />
-                    <field name="activity_ids" widget="mail_activity" />
-                    <field name="message_ids" widget="mail_thread" />
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
                 </div>
             </form>
         </field>
@@ -190,5 +205,7 @@
         parent="menu_business_process_main"
         sequence="10"
     />
+
+
 
 </odoo>

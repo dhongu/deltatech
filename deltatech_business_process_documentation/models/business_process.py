@@ -7,7 +7,7 @@ from odoo import fields, models
 class BusinessProcess(models.Model):
     _inherit = "business.process"
 
-    slide_id = fields.Many2one(string="Slide", comodel_name="slide.slide")
+    slide_id = fields.Many2one(string="Slide", comodel_name="slide.slide", copy=False)
     website_published = fields.Boolean(related="slide_id.website_published", store=True)
 
     def write(self, vals):

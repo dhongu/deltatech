@@ -6,11 +6,15 @@
         <field name="model">business.project</field>
         <field name="inherit_id" ref="deltatech_business_process.view_business_project_form" />
         <field name="arch" type="xml">
-            <field name="customer_id" position="after">
-                <field name="auto_generate_doc" />
-                <field name="channel_id" />
-                <field name="website_published" />
-            </field>
+            <xpath expr="//sheet" position="inside">
+                <group>
+                    <group string="Documentation" groups="base.group_user">
+                        <field name="auto_generate_doc" />
+                        <field name="channel_id" />
+                        <field name="website_published" />
+                    </group>
+                </group>
+            </xpath>
         </field>
     </record>
 
@@ -19,10 +23,14 @@
         <field name="model">business.process</field>
         <field name="inherit_id" ref="deltatech_business_process.view_business_process_form" />
         <field name="arch" type="xml">
-            <field name="project_id" position="after">
-                <field name="slide_id" />
-                <field name="website_published" />
-            </field>
+            <xpath expr="//sheet" position="inside">
+                <group>
+                    <group string="Documentation" groups="base.group_user">
+                        <field name="slide_id" />
+                        <field name="website_published" />
+                    </group>
+                </group>
+            </xpath>
         </field>
     </record>
 </odoo>
