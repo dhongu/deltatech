@@ -40,7 +40,7 @@ repos:
       #        stages: [manual]
 
       - id: oca-update-pre-commit-excluded-addons
-#      - id: oca-gen-external-dependencies
+      #      - id: oca-gen-external-dependencies
       - id: oca-fix-manifest-website
         args: ["https://www.terrabit.ro"]
 
@@ -121,7 +121,6 @@ repos:
     rev: v3.19.1
     hooks:
       - id: pyupgrade
-
 
   - repo: https://github.com/acsone/setuptools-odoo
     rev: "3.3"

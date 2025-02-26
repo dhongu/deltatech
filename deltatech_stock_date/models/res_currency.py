@@ -9,7 +9,7 @@ from odoo import models
 class Currency(models.Model):
     _inherit = "res.currency"
 
-    def _convert(self, from_amount, to_currency, company, date, round=True):
+    def _convert(self, from_amount, to_currency, company, date, round=True):  # noqa: W0622
         use_date = self.env.context.get("force_period_date", False)
         if use_date:
             return super()._convert(from_amount, to_currency, company, use_date, round)
