@@ -4,6 +4,11 @@ from odoo.tests.common import TransactionCase, tagged
 @tagged("post_install", "-at_install")
 class TestAccountMove(TransactionCase):
 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env.company.country_id = cls.env.ref("base.us")
+
     def setUp(self):
         super().setUp()
 
