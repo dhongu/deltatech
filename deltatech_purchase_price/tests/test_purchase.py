@@ -3,9 +3,10 @@
 # See README.rst file on addons root folder for license details
 
 from odoo.tests import Form
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import TransactionCase, tagged
 
 
+@tagged("post_install", "-at_install")
 class TestPurchase(TransactionCase):
     def setUp(self):
         super().setUp()

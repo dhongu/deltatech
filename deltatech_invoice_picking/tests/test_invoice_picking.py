@@ -1,8 +1,9 @@
 from odoo import fields
-from odoo.tests import common
+from odoo.tests.common import TransactionCase, tagged
 
 
-class TestStockAccountCustom(common.TransactionCase):
+@tagged("post_install", "-at_install")
+class TestStockAccountCustom(TransactionCase):
 
     def setUp(self):
         super().setUp()

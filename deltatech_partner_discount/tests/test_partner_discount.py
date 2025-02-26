@@ -1,9 +1,10 @@
 # tests/test_partner_discount.py
 
 from odoo.exceptions import UserError
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import TransactionCase, tagged
 
 
+@tagged("post_install", "-at_install")
 class TestPartnerDiscount(TransactionCase):
 
     def setUp(self):
