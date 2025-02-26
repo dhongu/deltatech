@@ -1,19 +1,18 @@
 from odoo import fields
-from odoo.tests.common import Form, tagged
+from odoo.tests.common import tagged
+
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
-@tagged('post_install', '-at_install')
-class TestProductInvoiceHistory(AccountTestInvoicingCommon):
 
+@tagged("post_install", "-at_install")
+class TestProductInvoiceHistory(AccountTestInvoicingCommon):
 
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref=chart_template_ref)
 
-
     def setUp(self):
         super().setUp()
-
 
         # Create a purchase journal
         self.purchase_journal = self.env["account.journal"].create(
@@ -77,7 +76,8 @@ class TestProductInvoiceHistory(AccountTestInvoicingCommon):
                             "product_id": self.product.id,
                             "quantity": 10,
                             "price_unit": 100,
-                            "display_type": 'product',                        },
+                            "display_type": "product",
+                        },
                     )
                 ],
             }
@@ -97,7 +97,7 @@ class TestProductInvoiceHistory(AccountTestInvoicingCommon):
                             "product_id": self.product.id,
                             "quantity": 5,
                             "price_unit": 150,
-                            "display_type": 'product',
+                            "display_type": "product",
                         },
                     )
                 ],
