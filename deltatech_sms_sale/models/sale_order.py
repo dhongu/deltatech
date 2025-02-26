@@ -12,7 +12,7 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     def _send_order_confirmation_mail(self):
-        if not getattr(threading.currentThread(), "testing", False) and not self.env.registry.in_test_mode():
+        if not getattr(threading.current_thread(), "testing", False) and not self.env.registry.in_test_mode():
             sales = self.filtered(
                 lambda o: o.company_id.sale_order_sms_post and (o.partner_id.mobile or o.partner_id.phone)
             )
@@ -26,7 +26,7 @@ class SaleOrder(models.Model):
 
     def action_confirm(self):
         res = super().action_confirm()
-        if not getattr(threading.currentThread(), "testing", False) and not self.env.registry.in_test_mode():
+        if not getattr(threading.current_thread(), "testing", False) and not self.env.registry.in_test_mode():
             sales = self.filtered(
                 lambda p: p.company_id.sale_order_sms_confirm and (p.partner_id.mobile or p.partner_id.phone)
             )

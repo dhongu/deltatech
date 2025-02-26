@@ -1,7 +1,8 @@
 from odoo import fields
-from odoo.tests import TransactionCase
+from odoo.tests.common import TransactionCase, tagged
 
 
+@tagged("post_install", "-at_install")
 class TestWeightCalculation(TransactionCase):
 
     def setUp(self):
