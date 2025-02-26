@@ -8,7 +8,7 @@
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Accounting & Finance",
-    "depends": ["account"],
+    "depends": ["account", "l10n_ro"],
     "data": ["views/account_invoice_view.xml", "views/res_config_settings_views.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
