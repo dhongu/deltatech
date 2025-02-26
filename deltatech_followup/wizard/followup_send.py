@@ -30,16 +30,18 @@ class FollowupSendWizard(models.TransientModel):
                     lang_id = self.env["res.lang"].search([("code", "=", partner.lang)])[0]
                     domain = [
                         ("partner_id", "=", partner.id),
-                        ("type", "=", "out_invoice"),
                         ("state", "in", ["posted"]),
                     ]
                     if followup.only_open:
                         domain = [
                             ("partner_id", "=", partner.id),
-                            ("move_type", "=", "out_invoice"),
                             ("state", "in", ["posted"]),
                             ("payment_state", "in", ["not_paid", "partial"]),
                         ]
+                    if followup.with_refunds:
+                        domain.append(("move_type", "in", ["out_invoice", "out_refund"]))
+                    else:
+                        domain.append(("move_type", "=", "out_invoice"))
                     invoices = self.env["account.move"].search(domain)
                     invoices_to_process = []
                     for invoice in invoices:
@@ -65,7 +67,7 @@ class FollowupSendWizard(models.TransientModel):
                                 amount_untaxed=invoice.amount_untaxed,
                                 amount_tax=invoice.amount_tax,
                                 amount_total=invoice.amount_total,
-                                amount_due=invoice.amount_residual,
+                                amount_due=invoice.amount_residual_signed,
                             )
                             invoices_content += crt_row
                             partner_debit += invoice.amount_residual
