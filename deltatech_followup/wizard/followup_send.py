@@ -4,7 +4,8 @@
 import html
 from string import Template
 
-from odoo import api, models
+from odoo import api, fields, models
+from odoo.tools.safe_eval import safe_eval
 
 
 class FollowupSendWizard(models.TransientModel):
@@ -24,6 +25,8 @@ class FollowupSendWizard(models.TransientModel):
             for followup in followups:
                 for partner in partners:
                     partner_debit = 0.0
+                    partner_all_debit = 0.0
+                    partner_due_debit = 0.0
                     lang_id = self.env["res.lang"].search([("code", "=", partner.lang)])[0]
                     domain = [
                         ("partner_id", "=", partner.id),
@@ -47,6 +50,10 @@ class FollowupSendWizard(models.TransientModel):
                         if followup.is_match(date_process):
                             # add invoice
                             invoices_to_process.append(invoice)
+                        if invoice.payment_state in ["not_paid", "partial"]:
+                            partner_all_debit += invoice.amount_residual_signed
+                            if invoice.invoice_date_due < fields.Date.today():
+                                partner_due_debit += invoice.amount_residual_signed
                     if invoices_to_process:
                         invoices_content = ""
                         for invoice in invoices_to_process:
@@ -67,8 +74,8 @@ class FollowupSendWizard(models.TransientModel):
                             # todo: de corectat metoda de transmitere email
                             mail_values = followup.mail_template.with_context(
                                 template_preview_lang=partner.lang
-                            ).generate_email(
-                                partner.id,
+                            )._generate_template(
+                                [partner.id],
                                 [
                                     "subject",
                                     "body_html",
@@ -80,12 +87,14 @@ class FollowupSendWizard(models.TransientModel):
                                     "scheduled_date",
                                 ],
                             )
-                            new_body = mail_values["body_html"]
-                            override_id = (
-                                self.env["ir.config_parameter"]
-                                .sudo()
-                                .get_param("followup.override_partner_id", default=False)
-                            )
+                            new_body = mail_values[partner.id]["body_html"]
+                            get_param = self.env["ir.config_parameter"].sudo().get_param
+                            override_id = safe_eval(get_param("followup.override_partner_id", "False"))
+                            # override_id = (
+                            #     self.env["ir.config_parameter"]
+                            #     .sudo()
+                            #     .get_param("followup.override_partner_id", default=False)
+                            # )
                             if override_id:
                                 try:
                                     partner_id = int(override_id)
@@ -96,6 +105,8 @@ class FollowupSendWizard(models.TransientModel):
                             body = new_body.replace("[invoices]", invoices_content)
                             body = body.replace("${object.name}", partner.name)
                             body = body.replace("$total_debit", f"{partner_debit:,.2f}")
+                            body = body.replace("$total_all_debit", f"{partner_all_debit:,.2f}")
+                            body = body.replace("$total_due_debit", f"{partner_due_debit:,.2f}")
                             body = html.unescape(body)
                             email_values = {
                                 "body_html": body,

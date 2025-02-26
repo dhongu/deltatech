@@ -24,7 +24,7 @@ Property Management
 
 Features:
 
-- Property management system
+-  Property management system
 
 **Table of contents**
 

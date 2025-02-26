@@ -22,13 +22,13 @@ Product trade markup
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - 
+   -  
 
-    - New fields added in product template:
+      -  New fields added in product template:
 
-      - trade_markup - trade markup for the product.
+         -  trade_markup - trade markup for the product.
 
 **Table of contents**
 
