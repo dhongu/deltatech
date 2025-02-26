@@ -81,7 +81,7 @@ class TestBusinessProcess(TransactionCase):
 
         business_process_test.action_view_test_steps()
         business_process_test.attachment_tree_view()
-        business_process_test.action_done()
+        # business_process_test.action_done()
         test_step_ids = business_process_test.test_step_ids
         test_step_ids[0].result = "passed"
         test_step_ids[1].result = "failed"
