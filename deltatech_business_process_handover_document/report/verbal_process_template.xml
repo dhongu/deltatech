@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <odoo>
-    <data>
+
         <!-- Define the report template -->
         <template id="report_bp_document">
 
@@ -131,19 +131,19 @@
                     <thead>
                         <tr>
                             <th
-                                style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
-                            >
+                            style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                        >
                                 Process
                             </th>
                             <th
-                                style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
-                            >
+                            style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                        >
                                 Internal
                                 (steps)
                             </th>
                             <th
-                                style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
-                            >
+                            style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                        >
                                 User Acceptance
                                 (steps)
                             </th>
@@ -163,9 +163,9 @@
                                         <!-- Accumulate steps for tests -->
                                         <t t-if="test.scope == 'internal' and test.state == 'done'">
                                             <t
-                                                t-set="total_internal_steps"
-                                                t-value="total_internal_steps + (len(test.test_step_ids or []))"
-                                            />
+                                            t-set="total_internal_steps"
+                                            t-value="total_internal_steps + (len(test.test_step_ids or []))"
+                                        />
                                         </t>
                                     </t>
                                 </t>
@@ -185,9 +185,9 @@
                                         <!-- Accumulate steps for tests -->
                                         <t t-if="test.scope == 'user_acceptance' and test.state == 'done'">
                                             <t
-                                                t-set="total_user_steps"
-                                                t-value="total_user_steps + (len(test.test_step_ids or []))"
-                                            />
+                                            t-set="total_user_steps"
+                                            t-value="total_user_steps + (len(test.test_step_ids or []))"
+                                        />
                                         </t>
                                     </t>
                                 </t>
@@ -209,9 +209,9 @@
 
                                 <!-- Internal Steps -->
                                 <t
-                                    t-set="internal_steps"
-                                    t-value="sum(len(test.test_step_ids or []) for test in (process.test_ids or []) if test.scope == 'internal' and test.state == 'done')"
-                                />
+                                t-set="internal_steps"
+                                t-value="sum(len(test.test_step_ids or []) for test in (process.test_ids or []) if test.scope == 'internal' and test.state == 'done')"
+                            />
                                 <td t-if="internal_steps > 0" style="text-align: center;">
                                     <span t-esc="internal_steps" />
                                 </td>
@@ -221,9 +221,9 @@
 
                                 <!-- User Acceptance Steps -->
                                 <t
-                                    t-set="user_acceptance_steps"
-                                    t-value="sum(len(test.test_step_ids or []) for test in (process.test_ids or []) if test.scope == 'user_acceptance' and test.state == 'done')"
-                                />
+                                t-set="user_acceptance_steps"
+                                t-value="sum(len(test.test_step_ids or []) for test in (process.test_ids or []) if test.scope == 'user_acceptance' and test.state == 'done')"
+                            />
                                 <td t-if="user_acceptance_steps > 0" style="text-align: center;">
                                     <span t-esc="user_acceptance_steps" />
                                 </td>
@@ -239,5 +239,5 @@
                 <span style="font-weight: bold;">Signatures:</span>
             </t>
         </template>
-    </data>
+
 </odoo>
