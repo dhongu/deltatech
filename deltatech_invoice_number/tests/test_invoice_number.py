@@ -4,9 +4,10 @@
 
 
 from odoo.tests import Form
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import TransactionCase, tagged
 
 
+@tagged("post_install", "-at_install")
 class TestInvoiceNumer(TransactionCase):
     def setUp(self):
         super().setUp()

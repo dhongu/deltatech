@@ -37,7 +37,7 @@ class TestAccountInvoiceReport(TransactionCase):
         )
 
     def test_manufacturer_field(self):
-        self.account_move.refresh()
+        self.account_move.invalidate_cache()
 
         self.env["account.invoice.report"].search([("move_id", "=", self.account_move.id)], limit=1)
 
