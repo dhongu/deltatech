@@ -22,9 +22,9 @@ Terrabit - Sale Order Type - Obsolete
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - 
+   -  
 
 **Table of contents**
 

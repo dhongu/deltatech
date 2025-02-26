@@ -22,9 +22,9 @@ Deltatech Purchase XLS
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Import purchase line from Excel
+   -  Import purchase line from Excel
 
 **Table of contents**
 

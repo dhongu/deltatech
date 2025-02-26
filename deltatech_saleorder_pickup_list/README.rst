@@ -24,7 +24,7 @@ Deltatech Sale Order Pickup List
 
 Features:
 
-- Report with pickup list from sale order
+-  Report with pickup list from sale order
 
 **Table of contents**
 

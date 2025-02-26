@@ -36,7 +36,7 @@ This field is used in other modules (deltatech_website_watermark)
 Usage
 =====
 
-- Go to: Setting -> General Settings - Business Documents
+-  Go to: Setting -> General Settings - Business Documents
 
 |image1|
 
