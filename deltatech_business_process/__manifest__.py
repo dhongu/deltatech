@@ -37,4 +37,5 @@
     "images": ["static/description/main_screenshot.png"],
     "maintainers": ["dhongu"],
     "application": True,
+    "sequence": 100,
 }
