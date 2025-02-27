@@ -13,13 +13,14 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     @api.model
-    def cron_clean_xml_attachments(self, limit=10, duplicates=10):
+    def cron_clean_xml_attachments(self, limit=10, duplicates=10, dry_run=False):
         """
         Searches for duplicate xml attachments for invoices and deletes them (mainly edi ubl)
         :param limit: how many invoices with duplicate attachments should be processed.
         Increase this number if you have many invoices with few duplicate attachments
         Decrease this number if you have few invoices with many duplicates attachments
         :param duplicates: how many attachments with same name are found
+        :param dry_run: if set to True, just selects the attachments and does not delete anything
         :return: None
         """
 
@@ -48,7 +49,8 @@ class AccountMove(models.Model):
                 if attachments:
                     try:
                         total_attachments += len(attachments)
-                        attachments.unlink()
+                        if not dry_run:
+                            attachments.unlink()
                     except Exception as e:
                         _logger.info(f"Cannot delete attachments: {e}")
 
