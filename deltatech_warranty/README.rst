@@ -22,10 +22,10 @@ Deltatech Warranty
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  a warranty period (months) can be set for products
-   -  a warranty page can be printed from the RFQ
+  - a warranty period (months) can be set for products
+  - a warranty page can be printed from the RFQ
 
 **Table of contents**
 
