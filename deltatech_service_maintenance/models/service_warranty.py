@@ -18,7 +18,10 @@ class ServiceWarranty(models.Model):
     type = fields.Selection([("warranty", "Warranty"), ("recondition", "Recondition")])
     name = fields.Char(string="Reference", readonly=True, index=True, default="/", copy=False)
     date = fields.Datetime(
-        string="Date", default=fields.Date.context_today, readonly=True, states={"new": [("readonly", False)]}
+        string="Date",
+        default=fields.Date.context_today,
+        readonly=True,
+        # states={"new": [("readonly", False)]}
     )
     state = fields.Selection(
         [
@@ -49,12 +52,20 @@ class ServiceWarranty(models.Model):
         [("required", "Required"), ("sent", "Sent")], string="Clarifications", tracking=True
     )
     equipment_id = fields.Many2one(
-        "service.equipment", string="Equipment", index=True, readonly=True, states={"new": [("readonly", False)]}
+        "service.equipment",
+        string="Equipment",
+        index=True,
+        readonly=True,
+        # states={"new": [("readonly", False)]}
     )
     partner_id = fields.Many2one("res.partner", string="Customer")
     has_agreement = fields.Boolean("Has service agreement", compute="_compute_service_agreement")
     user_id = fields.Many2one("res.users", string="Responsible")
-    description = fields.Text("Notes", readonly=False, states={"done": [("readonly", True)]})
+    description = fields.Text(
+        "Notes",
+        readonly=False,
+        # states={"done": [("readonly", True)]}
+    )
     picking_id = fields.Many2one("stock.picking", string="Consumables", copy=False)
     sale_order_id = fields.Many2one("sale.order", string="Sale Order")
     invoice_id = fields.Many2one("account.move", string="Invoice")
@@ -63,7 +74,7 @@ class ServiceWarranty(models.Model):
         "warranty_id",
         string="Warranty Lines",
         readonly=False,
-        states={"done": [("readonly", True)]},
+        # states={"done": [("readonly", True)]},
         copy=True,
     )
     total_amount = fields.Float(string="Total amount", compute="_compute_total_amount", store=True)
@@ -151,9 +162,12 @@ class ServiceWarranty(models.Model):
             if self.partner_id.parent_id:
                 if self.partner_id.parent_id.picking_warn == "block":
                     raise UserError(self.partner_id.parent_id.picking_warn_msg)
-
+        picking_type_id = False
         get_param = self.env["ir.config_parameter"].sudo().get_param
-        picking_type_id = safe_eval(get_param("service.picking_type_for_warranty", "False"))
+        if self.type == "warranty":
+            picking_type_id = safe_eval(get_param("service.picking_type_for_warranty", "False"))
+        elif self.type == "recondition":
+            picking_type_id = safe_eval(get_param("service.picking_type_for_recondition", "False"))
         if picking_type_id:
             picking_type = self.env["stock.picking.type"].browse(picking_type_id)
         else:
@@ -198,8 +212,7 @@ class ServiceWarranty(models.Model):
 
     @api.onchange("user_id")
     def set_assigned(self):
-        if self.state == "new" and self.user_id:
-            self.state = "assigned"
+        self.state = "assigned"
 
     def set_new(self):
         if self.state == "assigned":
@@ -209,7 +222,7 @@ class ServiceWarranty(models.Model):
                 self.name = self.env["ir.sequence"].next_by_code("service.warranty")
 
     def set_in_progress(self):
-        if self.state == "assigned" and self.user_id:
+        if self.user_id:
             self.state = "progress"
             if self.name == "/":
                 self.name = self.env["ir.sequence"].next_by_code("service.warranty")
