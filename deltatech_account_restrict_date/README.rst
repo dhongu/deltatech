@@ -22,10 +22,11 @@ Restrict account date
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Restricts statement line reconciliation cancel if the date is before
-    the value of system parameter "sequence.mixin.constraint_start_date"
+   -  Restricts statement line reconciliation cancel if the date is
+      before the value of system parameter
+      "sequence.mixin.constraint_start_date"
 
 **Table of contents**
 

@@ -22,12 +22,12 @@ Change Unit of measure
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Forces modification of unit of measurement purchase orders, sales
-    orders, invoices
-  - Fortare modificare unitate de masura in produs, comenzi de
-    achizitie, comenzi de vanzare si facturi.
+   -  Forces modification of unit of measurement purchase orders, sales
+      orders, invoices
+   -  Fortare modificare unitate de masura in produs, comenzi de
+      achizitie, comenzi de vanzare si facturi.
 
 **Table of contents**
 

@@ -11,7 +11,7 @@ class ProductTemplate(models.Model):
 
     alternative_code = fields.Char(
         string="Alternative Code",
-        index="trigram",
+        index=True,
         inverse="_inverse_alternative_code",
         compute="_compute_alternative_code",
         # unaccent=False,
@@ -45,8 +45,8 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100):
-        res = super().name_search(name, args=args, operator=operator, limit=limit)
+    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
+        res = super()._name_search(name, domain=domain, operator=operator, limit=limit, order=order)
         get_param = self.env["ir.config_parameter"].sudo().get_param
         res_ids = list(res)
         if name and safe_eval(get_param("alternative.search_name", "False")):
@@ -54,7 +54,11 @@ class ProductProduct(models.Model):
             alternatives = self.env["product.alternative"].search(domain, limit=limit)
             if alternatives:
                 product_tmpl_ids = alternatives.mapped("product_tmpl_id")
-                product_ids = self._search([("product_tmpl_id", "in", product_tmpl_ids.ids)], limit=limit)
+                product_ids = self._search(
+                    [("product_tmpl_id", "in", product_tmpl_ids.ids)],
+                    limit=limit,
+                    order=order,
+                )
                 res_ids.extend(list(product_ids))
 
         return res_ids

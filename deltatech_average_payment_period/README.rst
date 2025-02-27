@@ -22,15 +22,15 @@ Deltatech Average Payment Period
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-- it computes average duration of cash accounting:
+-  it computes average duration of cash accounting:
 
-- Payment Days: diference between invoice date and payment date,
-  weighted by the amount
+-  Payment Days: diference between invoice date and payment date,
+   weighted by the amount
 
-- Payment days simple: diference between invoice date and payment date,
-  only for supplier and client invoices, without credit notes
+-  Payment days simple: diference between invoice date and payment date,
+   only for supplier and client invoices, without credit notes
 
 **Table of contents**
 

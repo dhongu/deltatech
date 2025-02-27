@@ -8,6 +8,17 @@
             <xpath expr="//field[@name='order_line']/list/field[@name='product_id']" position="after">
                 <field name="alternative_code" optional="hide" />
             </xpath>
+            <xpath expr="//kanban[@class='o_kanban_mobile']" position="inside">
+                <field name="alternative_code" />
+            </xpath>
+            <xpath expr="//div[@class='text-muted'][1]" position="after">
+                <div class="row">
+                    <div class="col-12 text-muted">
+                        Alternative Code:
+                        <t t-out="record.alternative_code.value" />
+                    </div>
+                </div>
+            </xpath>
         </field>
     </record>
 
