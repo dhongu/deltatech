@@ -22,11 +22,11 @@ MRP Warehouse
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - defining field for scrap (losses)
-  - defining implicit provider
-  - defining implicit deposit
+   -  defining field for scrap (losses)
+   -  defining implicit provider
+   -  defining implicit deposit
 
 **Table of contents**
 

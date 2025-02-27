@@ -22,9 +22,9 @@ Notification Sound
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - 
+   -  
 
 **Table of contents**
 

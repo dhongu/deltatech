@@ -21,23 +21,23 @@
 <ul class="simple">
 <li>Allows the selection of a pigment (RAL) in production order.</li>
 <li>The pigment is a material which have code that starts with RAL.</li>
-<li>If in BOM it is used the pigment RAL 0000 it will be replaced with the
-pigment from production order.</li>
+<li>If in BOM it is used the pigment RAL 0000 it will be replaced with
+the pigment from production order.</li>
 <li>The batch will be created automatically upon order confirmation and
 will have the pigment from production order.</li>
 </ul>
 <p>Instruction:</p>
 <ul class="simple">
-<li>Create the product “Dummy RAL” and set it’s internal reference to “RAL
-0000”.</li>
+<li>Create the product “Dummy RAL” and set it’s internal reference to
+“RAL 0000”.</li>
 <li>In the BOM a the product that uses pigments set the “Dummy RAL” as a
 component (WITHOUT SELECTING A VARIANT).</li>
 <li>In the final product should have a colour type attribute</li>
 <li>Create the pigment products with internal reference “RAL color” where
 you substitute ‘color’ with the name of the of the option from the
 attribute of the final product (e.g. RAL White, RAL Rose etc.)</li>
-<li>When creating the production order for a variant the dummy RAL product
-will be replaced with the corresponding RAL pigment.</li>
+<li>When creating the production order for a variant the dummy RAL
+product will be replaced with the corresponding RAL pigment.</li>
 </ul>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">

@@ -22,15 +22,15 @@ eCommerce Product Code
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Display product page using internal code
-  - Display product code in product page
-  - Display product code in search results
+   -  Display product page using internal code
+   -  Display product code in product page
+   -  Display product code in search results
 
-- Usage:
+-  Usage:
 
-  - Use link: /shop/product-code/<code>
+   -  Use link: /shop/product-code/<code>
 
 **Table of contents**
 
