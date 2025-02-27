@@ -269,7 +269,7 @@ class BusinessProcess(models.Model):
     def action_view_developments(self):
         domain = [("id", "=", self.development_ids.ids)]
         context = {
-            "default_project_id": self.id,
+            "default_project_id": self.project_id.id,
         }
         action = self.env["ir.actions.actions"]._for_xml_id("deltatech_business_process.action_business_development")
         action.update({"domain": domain, "context": context})
@@ -319,13 +319,13 @@ class BusinessProcess(models.Model):
         return super()._load_records(data_list, update)
 
     @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100):
-        args = args or []
+    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
+        args = domain or []
         project_id = self.env.context.get("default_project_id", False)
         local_domain = [("code", "=", name)]
         if project_id:
             local_domain.append(("project_id", "=", project_id))
-        ids = list(self._search(local_domain + args, limit=limit))
+        ids = list(self._search(local_domain + args, limit=limit, order=order))
 
         search_domain = [("name", operator, name)]
         if ids:
