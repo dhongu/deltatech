@@ -18,7 +18,7 @@ addon | version | maintainers | summary | price
 --- | --- | --- | --- | ---
 [deltatech](deltatech/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generic module | Free 
 [deltatech_account](deltatech_account/) | 17.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account | Free 
-[deltatech_account_edi_ub_advice](deltatech_account_edi_ub_advice/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL despatch advice | Free 
+[deltatech_account_edi_ub_advice](deltatech_account_edi_ub_advice/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL despatch advice | Free 
 [deltatech_account_edi_ubl_gln](deltatech_account_edi_ubl_gln/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL GLN | Free 
 [deltatech_account_restrict_date](deltatech_account_restrict_date/) | 17.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict certain operations depending on date | Free 
 [deltatech_actions](deltatech_actions/) | 17.0.0.0.2 |  | Cleaning and other actions | Free 
