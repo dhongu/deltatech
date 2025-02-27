@@ -189,7 +189,7 @@ class ServiceEquiOperation(models.TransientModel):
                 "currency_id": template.currency_id.id,
                 "product_id": template.product_id.id,
                 "uom_id": template.meter_categ_id.bill_uom_id.id or template.product_id.uom_id.id,
-                "price_unit": template.product_id.lst_price
+                "price_unit": template.product_id.lst_price,
                 # "analytic_account_id": template.analytic_account_id.id,
             }
             for meter in self.equipment_id.meter_ids:
