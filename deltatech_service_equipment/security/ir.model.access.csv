@@ -9,9 +9,6 @@ access_service_equipment_manager,access_service_equipment,model_service_equipmen
 access_service_equipment_type_manager,access_service_equipment_type,model_service_equipment_type,deltatech_service_base.group_service_manager,1,1,1,1
 
 
-
-
-
 access_service_history,access_service_history,model_service_history,deltatech_service_base.group_service_user,1,1,1,1
 access_service_equi_operation,access_service_equi_operation,model_service_equi_operation,base.group_user,1,1,1,1
 
