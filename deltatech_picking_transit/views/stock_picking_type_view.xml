@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <field name="return_picking_type_id" position="after">
                 <field name="two_step_transfer_use" />
+                <field name="auto_second_transfer" invisible="two_step_transfer_use!='delivery'" />
             </field>
         </field>
     </record>
