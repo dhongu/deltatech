@@ -269,7 +269,7 @@ class BusinessProcess(models.Model):
     def action_view_developments(self):
         domain = [("id", "=", self.development_ids.ids)]
         context = {
-            "default_project_id": self.id,
+            "default_project_id": self.project_id.id,
         }
         action = self.env["ir.actions.actions"]._for_xml_id("deltatech_business_process.action_business_development")
         action.update({"domain": domain, "context": context})
