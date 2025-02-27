@@ -11,6 +11,11 @@ class StockPicking(models.Model):
     sub_location_existent = fields.Boolean(default=False, compute="_compute_sub_location_existent")
     second_transfer_created = fields.Boolean(default=False)
     source_transfer_id = fields.Many2one("stock.picking")
+    create_second_transfer_automatically = fields.Boolean(
+        string="Create Second Transfer Automatically",
+        related="picking_type_id.auto_second_transfer",
+        store=True,
+    )
 
     def open_transfer_wizard(self):
         if self.second_transfer_created:
@@ -108,6 +113,36 @@ class StockPicking(models.Model):
 
     def button_validate(self):
         for picking in self:
+            # to make the module work automatically without the wizard will have some conditions, if the document was an origin it will not create the second transfer automatically because it assumes that the picking comes from a different document so it has the counter part created (eg: replenishment, sale order with replenishment form a different warehouse, etc))
+            if (
+                picking.create_second_transfer_automatically
+                and not picking.second_transfer_created
+                and not picking.origin
+            ):
+                if (
+                    not picking.partner_id
+                ):  # we use the partner to find the warehouse where the products need to arrive to
+                    raise UserError(
+                        _(
+                            "You must set a partner before validating the picking when you are using 2 step picking with auto create on the second transfer."
+                        )
+                    )
+                warehouse = self.env["stock.warehouse"].search([("partner_id", "=", picking.partner_id.id)], limit=1)
+                if warehouse:
+                    next_operation = self.env["stock.picking.type"].search(
+                        [
+                            ("warehouse_id", "=", warehouse.id),
+                            ("code", "=", "internal"),
+                            ("two_step_transfer_use", "=", "reception"),
+                        ],
+                        limit=1,
+                    )
+                    if next_operation:
+                        picking.create_second_transfer_wizard(next_operation.default_location_dest_id, next_operation)
+                    else:
+                        raise UserError(_("No 2 step reception found for warehouse %s") % warehouse.name)
+                else:
+                    raise UserError(_("No warehouse found for partner %s") % picking.partner_id.name)
             if picking.source_transfer_id:
                 for move in picking.move_ids_without_package:
                     other_moves = picking.source_transfer_id.move_ids_without_package.filtered(
