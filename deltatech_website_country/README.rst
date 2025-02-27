@@ -22,9 +22,9 @@ eCommerce Country
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - propose company country as default for customer
+   -  propose company country as default for customer
 
 **Table of contents**
 
