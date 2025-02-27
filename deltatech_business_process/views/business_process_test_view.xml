@@ -49,6 +49,7 @@
                         widget="statusbar"
                         options="{'clickable': '1'}"
                         statusbar_visible="draft,run,done"
+                        readonly="1"
                     />
 
                 </header>
