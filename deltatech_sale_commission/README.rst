@@ -35,6 +35,14 @@ Sale Commission
    -  New report for analysis profitability
    -  Calculation of sales commissions on sale order salesperson or
       invoice salesperson (configurable)
+   -  Added parameter "deltatech_sale_commission.days_for_commission",
+      the value should be an integer
+   -  When the parameter is set when the commission is calculated, the
+      system will check if the invoice is *fully paid* and if the
+      difference between the date of the last payment and the due date
+      is less than the value of the parameter
+   -  If the difference is grater than the value of the parameter, the
+      commission will be 0
 
 **Table of contents**
 

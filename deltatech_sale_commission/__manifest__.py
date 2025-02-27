@@ -4,7 +4,7 @@
 {
     "name": "Sale Commission",
     "summary": "Compute sale commission",
-    "version": "17.0.1.2.7",
+    "version": "17.0.1.2.8",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
