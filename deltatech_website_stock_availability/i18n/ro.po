@@ -18,28 +18,18 @@ msgstr ""
 #. module: deltatech_website_stock_availability
 #: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_summary_website_sale_stock_product_lead_time
 #: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.products_qty_available
-msgid "<span class=\"badge badge-success\">Immediate delivery</span>"
-msgstr "<span class=\"badge badge-success\">Livrare imediată</span>"
+#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_line_description_following_lines
+msgid "<span class=\"badge bg-success\">Immediate delivery</span>"
+msgstr "<span class=\"badge bg-success\">Livrare imediată</span>"
 
 #. module: deltatech_website_stock_availability
 #: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_summary_website_sale_stock_product_lead_time
 #: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.products_qty_available
-msgid "<span class=\"badge badge-warning\">Subsequent delivery</span>"
-msgstr "<span class=\"badge badge-warning\">Livrare ulterioară</span>"
-
-#. module: deltatech_website_stock_availability
 #: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_line_description_following_lines
-msgid "<span class=\"badge-pill badge-success\">Immediate delivery</span>"
-msgstr "<span class=\"badge-pill badge-success\">Livrare imediată</span>"
+msgid "<span class=\"badge bg-warning\">Subsequent delivery</span>"
+msgstr "<span class=\"badge bg-warning\">Livrare ulterioară</span>"
 
 #. module: deltatech_website_stock_availability
-#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_line_description_following_lines
-msgid "<span class=\"badge-pill badge-warning\">Subsequent delivery</span>"
-msgstr "<span class=\"badge-pill badge-warning\">Livrare ulterioară</span>"
-
-#. module: deltatech_website_stock_availability
-#: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_marketplace_product__sale_delay_safety
-#: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_marketplace_product_template__sale_delay_safety
 #: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_product__sale_delay_safety
 #: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_template__sale_delay_safety
 msgid "Customer Safety Lead Time"
@@ -100,6 +90,13 @@ msgstr "În stoc"
 #, python-format
 msgid "In stock at vendor"
 msgstr "În stoc la furnizor"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#, python-format
+msgid "Out of stock"
+msgstr "Nu este în stoc"
 
 #. module: deltatech_website_stock_availability
 #: model:ir.model,name:deltatech_website_stock_availability.model_product_template

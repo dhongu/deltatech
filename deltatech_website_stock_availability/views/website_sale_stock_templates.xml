@@ -15,6 +15,21 @@
         </xpath>
       </template>
 
+
+     <template
+        id="website_sale_stock_product_lead_time"
+        inherit_id="website_sale.product"
+        priority="5"
+        active="True"
+        customize_show="True"
+        name="Delivery Lead Time"
+    >
+        <xpath expr="//div[@id='o_wsale_cta_wrapper']" position="after">
+          <div class="lead_time_messages_interval o_not_editable" />
+        </xpath>
+      </template>
+
+
 <!--    <template id="website_sale_stock_product_lead_time" inherit_id="website_sale.product" priority="99">
         <xpath expr="//form" position="before">
             <div class="lead_time_messages o_not_editable">
@@ -31,14 +46,19 @@
         active="False"
         customize_show="True"
         name="Product Available"
+        priority="500"
     >
-        <xpath expr="//div[@itemprop='offers']" position="after">
-            <div>
+        <xpath expr="//div[hasclass('o_wsale_product_sub')]" position="before">
+            <div class="flex-grow-1">
                 <t t-if="product.sudo().qty_available  &gt;   0">
-                    <span class="badge badge-success">Immediate delivery</span>
+                    <div class="o_immediate_delivery">
+                        <span class="badge bg-success">Immediate delivery</span>
+                    </div>
                 </t>
                 <t t-else="">
-                    <span class="badge badge-warning">Subsequent delivery</span>
+                     <div class="o_subsequent_delivery">
+                        <span class="badge bg-warning">Subsequent delivery</span>
+                     </div>
                 </t>
             </div>
         </xpath>
@@ -46,39 +66,46 @@
 
 
 
-<!--    <template
+    <template
         id="cart_summary_website_sale_stock_product_lead_time"
-        inherit_id="website_sale.cart_summary"
-        name="Lead time"
+        inherit_id="website_sale.checkout_layout"
+        name="Delivery Lead Time"
         active="False"
         customize_show="True"
     >
         <xpath expr="//td[hasclass('td-product_name')]/div/strong" position="after">
             <xpath expr="//div" position="after">
                 <t t-if="line.product_id.qty_available  &gt;=   line.product_uom_qty">
-
-                    <span class="badge badge-success">Immediate delivery</span>
+                    <div class="o_immediate_delivery">
+                        <span class="badge bg-success">Immediate delivery</span>
+                    </div>
                 </t>
                 <t t-else="">
-                    <span class="badge badge-warning">Subsequent delivery</span>
+                    <div class="o_subsequent_delivery">
+                        <span class="badge bg-warning">Subsequent delivery</span>
+                    </div>
                 </t>
             </xpath>
         </xpath>
-    </template>-->
+    </template>
 
 
     <template
         id="cart_line_description_following_lines"
         inherit_id="website_sale.cart_line_description_following_lines"
         customize_show="True"
-        name="Lead Time"
+        name="Delivery Lead Time"
     >
         <xpath expr="//div" position="after">
             <t t-if="line.product_id.free_qty  &gt;= line.product_uom_qty">
-                <span class="badge-pill badge-success">Immediate delivery</span>
+                <span class="badge bg-success">Immediate delivery</span>
             </t>
             <t t-else="">
-                <span class="badge-pill badge-warning">Subsequent delivery</span>
+                <t t-if="line.product_id.free_qty">
+                    <span class="badge bg-success" t-esc="line.product_id.free_qty" />
+                    <span class="badge bg-success">Immediate delivery</span>
+                </t>
+                <span class="badge bg-warning">Subsequent delivery</span>
             </t>
         </xpath>
     </template>
