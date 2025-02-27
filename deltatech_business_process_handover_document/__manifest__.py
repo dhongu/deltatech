@@ -5,7 +5,7 @@
 {
     "name": "Business process handover document",
     "summary": "Business process handover document",
-    "version": "18.0.0.0.1",
+    "version": "18.0.0.0.2",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
