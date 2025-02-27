@@ -22,10 +22,10 @@ Sale Prepare Transfer
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  At sale order validation, stock is checked in other warehouses and
-      a transfer is generated if demand quantity is not available
+  - At sale order validation, stock is checked in other warehouses and a
+    transfer is generated if demand quantity is not available
 
 **Table of contents**
 
