@@ -252,6 +252,7 @@
                         class="oe_highlight"
                         groups="stock.group_stock_manager"
                     />
+
                     <button
                         name="action_print"
                         string="Print Count Sheet"
