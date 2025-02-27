@@ -8,7 +8,7 @@
                     <field name="balance_start" />
                 </group>
                 <footer>
-                    <button name="do_update_balance" string="_Apply" type="object" class="oe_highlight" />
+                    <button name="do_update_balance" string="Apply" type="object" class="oe_highlight" />
                     or
                     <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>
