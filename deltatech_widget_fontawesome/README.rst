@@ -24,7 +24,7 @@ FontAwesome Widget
 
 Features:
 
-- <field name="icon" widget="fontawesome" />
+-  <field name="icon" widget="fontawesome" />
 
 **Table of contents**
 
