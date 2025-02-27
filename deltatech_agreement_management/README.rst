@@ -22,11 +22,10 @@ Agreement Management
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Manage agreements
-   -  Agreement types can be configured, with sequence and report
-      template
+  - Manage agreements
+  - Agreement types can be configured, with sequence and report template
 
 **Table of contents**
 

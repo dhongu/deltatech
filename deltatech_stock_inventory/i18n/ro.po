@@ -155,6 +155,14 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/wizard/stock_inventory_merge.py:0
+#, python-format
+msgid "All inventories must be in done state to be merged"
+msgstr ""
+"Toate inventarele trebuie să fie în starea finalizat pentru a fi unite"
+
+#. module: deltatech_stock_inventory
 #: model:res.groups,name:deltatech_stock_inventory.group_change_inventory_date
 msgid "Allow to change inventory date"
 msgstr "Permite schimbarea datei inventarului"

@@ -22,9 +22,9 @@ eCommerce Delivery Address
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  add default delivery address in user
+  - add default delivery address in user
 
 **Table of contents**
 

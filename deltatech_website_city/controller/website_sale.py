@@ -26,14 +26,14 @@ class WebsiteSaleCity(WebsiteSale):
         new_values, errors, error_msg = super().values_postprocess(order, mode, values, errors, error_msg)
         new_values["city_id"] = values.get("city_id")
         if new_values["city_id"]:
-            city = request.env["res.city"].browse(int(values.get("city_id")))
+            city = request.env["res.city"].sudo().browse(int(values.get("city_id")))
             if city:
                 new_values["city"] = city.name
         return new_values, errors, error_msg
 
     def checkout_form_validate(self, mode, all_form_values, data):
         if not all_form_values.get("city") and all_form_values.get("city_id"):
-            city = request.env["res.city"].browse(int(all_form_values.get("city_id")))
+            city = request.env["res.city"].sudo().browse(int(all_form_values.get("city_id")))
             data["city"] = city.name
             all_form_values["city"] = city.name
         error, error_message = super().checkout_form_validate(mode, all_form_values, data)

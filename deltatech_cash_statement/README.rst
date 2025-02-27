@@ -22,9 +22,9 @@ Deltatech Cash Statement Extension
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  auto update balance for cash journal
+  - auto update balance for cash journal
 
 **Table of contents**
 

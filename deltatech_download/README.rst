@@ -22,10 +22,10 @@ Download File
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Downloading files
-   -  A direct download option can be set in the report
+  - Downloading files
+  - A direct download option can be set in the report
 
 **Table of contents**
 

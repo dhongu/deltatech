@@ -22,10 +22,10 @@ Deltatech Products Extension
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  New fields in product: Manufacturer Dimensions, Shelf Life and
-      Unit of Measure for Shelf Life
+  - New fields in product: Manufacturer Dimensions, Shelf Life and Unit
+    of Measure for Shelf Life
 
 **Table of contents**
 

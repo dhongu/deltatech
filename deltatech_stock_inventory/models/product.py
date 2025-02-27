@@ -83,26 +83,25 @@ class ProductTemplate(models.Model):
 
     def _inverse_loc(self):
         warehouse_id = self.env.context.get("warehouse", False)
-        if not warehouse_id:
-            warehouse_id = self.env.ref("stock.warehouse0").id
-        for product in self:
-            domain = [
-                ("product_id", "=", product.id),
-                ("warehouse_id", "=", warehouse_id),
-            ]
-            loc = self.env["product.warehouse.location"].sudo().search(domain)
-            values = {
-                "loc_rack": product.loc_rack,
-                "loc_row": product.loc_row,
-                "loc_shelf": product.loc_shelf,
-                "loc_case": product.loc_case,
-                "product_id": product.id,
-                "warehouse_id": warehouse_id,
-            }
-            if loc:
-                loc.write(values)
-            else:
-                self.env["product.warehouse.location"].sudo().create(values)
+        if warehouse_id:
+            for product in self:
+                domain = [
+                    ("product_id", "=", product.id),
+                    ("warehouse_id", "=", warehouse_id),
+                ]
+                loc = self.env["product.warehouse.location"].sudo().search(domain)
+                values = {
+                    "loc_rack": product.loc_rack,
+                    "loc_row": product.loc_row,
+                    "loc_shelf": product.loc_shelf,
+                    "loc_case": product.loc_case,
+                    "product_id": product.id,
+                    "warehouse_id": warehouse_id,
+                }
+                if loc:
+                    loc.write(values)
+                else:
+                    self.env["product.warehouse.location"].sudo().create(values)
 
     # def write(self, vals):
     #     res = super().write(vals)

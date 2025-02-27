@@ -158,7 +158,7 @@ addon | version | maintainers | summary | price
 [deltatech_website_sale_status](deltatech_website_sale_status/) | 18.0.2.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Additional filters sales orders by status | Free 
 [deltatech_website_sale_wishlist](deltatech_website_sale_wishlist/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce wishlist | Free 
 [deltatech_website_short_description](deltatech_website_short_description/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce short description | Free 
-[deltatech_website_stock_availability](deltatech_website_stock_availability/) | 18.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Stock Availability and lead time | 10.0 EUR
+[deltatech_website_stock_availability](deltatech_website_stock_availability/) | 18.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Stock Availability and lead time | 10.0 EUR
 [deltatech_widget_fontawesome](deltatech_widget_fontawesome/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Font Awesome Widget | Free 
 [deltatech_work_days_report](deltatech_work_days_report/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | A report for every day of the month for each employee | Free 
 

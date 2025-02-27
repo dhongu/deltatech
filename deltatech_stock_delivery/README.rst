@@ -22,9 +22,9 @@ Invoice Delivery / Reception
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Adding a button in invoice for displaying reception or delivery
+  - Adding a button in invoice for displaying reception or delivery
 
 **Table of contents**
 

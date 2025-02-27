@@ -22,9 +22,9 @@ Website web designer access
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  access for web designer
+  - access for web designer
 
 **Table of contents**
 

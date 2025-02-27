@@ -22,12 +22,12 @@ Warehouse Access
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Adds the Users tab in warehouse configurations,
-   -  Users added to this tab gain access to warehouse operations
-   -  If the tab remains empty everyone maintains access right to the
-      warehouse
+  - Adds the Users tab in warehouse configurations,
+  - Users added to this tab gain access to warehouse operations
+  - If the tab remains empty everyone maintains access right to the
+    warehouse
 
 **Table of contents**
 

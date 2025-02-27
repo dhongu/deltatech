@@ -22,9 +22,9 @@ Deltatech Web Site Blog
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  sort blogs by posting date
+  - sort blogs by posting date
 
 **Table of contents**
 

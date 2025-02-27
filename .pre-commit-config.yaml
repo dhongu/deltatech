@@ -23,7 +23,7 @@ exclude: |
     __unported__
 default_language_version:
   python: python3
-  node: "16.19.0"
+#  node: "16.19.0"
 repos:
   - repo: local
     hooks:

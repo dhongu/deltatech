@@ -25,12 +25,18 @@ VariantMixin._onChangeLeadTimeMessage = function (ev, $parent, combination) {
     const $addQtyInput = $parent.find('input[name="add_qty"]');
     const qty = $addQtyInput.val();
     combination.selected_qty = qty;
+    let $message = "";
+    $(".oe_website_sale")
+        .find(".lead_time_availability_" + combination.product_template)
+        .remove();
+    $message = $(renderToFragment("deltatech_website_stock_availability.lead_time_availability", combination));
+    $("div.lead_time_messages").html($message);
 
     $(".oe_website_sale")
-        .find(".lead_time_messages_" + combination.product_template)
+        .find(".lead_time_interval_" + combination.product_template)
         .remove();
-    const $message = $(renderToFragment("deltatech_website_stock_availability.lead_time", combination));
-    $("div.lead_time_messages").html($message);
+    $message = $(renderToFragment("deltatech_website_stock_availability.lead_time_interval", combination));
+    $("div.lead_time_messages_interval").html($message);
 };
 
 publicWidget.registry.WebsiteSale.include({
