@@ -22,10 +22,10 @@ Picking Number
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - A second sequence can be linked to the operation type
-  - A number from the second sequence can be requested
+   -  A second sequence can be linked to the operation type
+   -  A number from the second sequence can be requested
 
 **Table of contents**
 

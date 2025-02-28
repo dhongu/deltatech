@@ -22,11 +22,11 @@ Deltatech Invoice Receipt
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Generation of a purchase order and receipt automatically when
-    validating a bill
-  - Allow negative quantity in purchase order
+   -  Generation of a purchase order and receipt automatically when
+      validating a bill
+   -  Allow negative quantity in purchase order
 
 **Table of contents**
 

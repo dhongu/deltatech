@@ -22,9 +22,9 @@ eCommerce Product Price Without Tax
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Display product without tax in website
+   -  Display product without tax in website
 
 **Table of contents**
 

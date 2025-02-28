@@ -22,9 +22,9 @@ Website Disable Fuzzy Search
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Disable fuzzy search for the search bar
+   -  Disable fuzzy search for the search bar
 
 **Table of contents**
 

@@ -1,0 +1,89 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_cash_statement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-17 10:40+0000\n"
+"PO-Revision-Date: 2024-05-17 10:40+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_cash_statement
+#: model:ir.model,name:deltatech_cash_statement.model_account_cash_update_balances
+msgid "Account Cash Update Balances"
+msgstr "Actualizare solduri cont cash"
+
+#. module: deltatech_cash_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_cash_statement.view_account_cash_update_balances_form
+msgid "Cancel"
+msgstr "Anulare"
+
+#. module: deltatech_cash_statement
+#: model:ir.actions.act_window,name:deltatech_cash_statement.action_account_cash_update_balances
+#: model_terms:ir.ui.view,arch_db:deltatech_cash_statement.view_account_cash_update_balances_form
+msgid "Cash Update Balances"
+msgstr "Actualizare solduri cash"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__create_date
+msgid "Created on"
+msgstr "Creat pe"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare pe"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_cash_statement
+#. odoo-python
+#: code:addons/deltatech_cash_statement/wizard/account_cash_update_balances.py:0
+#, python-format
+msgid "Please select only Open or Posted statements"
+msgstr "Vă rugăm să selectați doar extrase deschise sau postate"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__balance_start
+msgid "Starting Balance"
+msgstr "Sold inițial"
+
+#. module: deltatech_cash_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_cash_statement.view_account_cash_update_balances_form
+msgid "_Apply"
+msgstr ""
+
+#. module: deltatech_cash_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_cash_statement.view_account_cash_update_balances_form
+msgid "or"
+msgstr "sau"

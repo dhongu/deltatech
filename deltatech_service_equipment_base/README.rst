@@ -22,14 +22,14 @@ Services Equipment Base
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - equipment management
-  - counters management
-  - reading counters management
-  - biling based on readings
-  - reading estimate calculation
-  - automatic introduction at end of the period at estimated values
+   -  equipment management
+   -  counters management
+   -  reading counters management
+   -  biling based on readings
+   -  reading estimate calculation
+   -  automatic introduction at end of the period at estimated values
 
 **Table of contents**
 

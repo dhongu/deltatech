@@ -20,3 +20,15 @@ class BusinessProject(models.Model):
 
     provider_testers = fields.Many2many("res.partner", string="Provider Testers", relation="tester_provider")
     recipient_testers = fields.Many2many("res.partner", string="Recipient Testers", relation="tester_recipient")
+
+    development_ids = fields.One2many(
+        "business.development",
+        "project_id",
+        string="Developments",
+        compute="_compute_development_ids",
+        store=True,
+    )
+
+    def _compute_development_ids(self):
+        for project in self:
+            project.development_ids = self.env["business.development"].search([("project_id", "=", project.id)])
