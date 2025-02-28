@@ -4,8 +4,7 @@
 
 
 from odoo import api, fields, models
-
-from odoo.addons.http_routing.tools import slug
+from odoo.http import slug
 
 
 class ProductPublicCategory(models.Model):
