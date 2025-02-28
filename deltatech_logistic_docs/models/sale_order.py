@@ -25,6 +25,8 @@ class SaleOrder(models.Model):
                 ("res_id", "in", self.invoice_ids.ids),
             ]
             domain = expression.OR([subdomains, domain])
+            subdomains = [("id", "in", self.invoice_ids.message_main_attachment_id.ids)]
+            domain = expression.OR([subdomains, domain])
         return domain
 
     def _compute_attached_docs_count(self):
