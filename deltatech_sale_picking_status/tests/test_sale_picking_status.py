@@ -12,7 +12,8 @@ class TestStockPickingAndSaleOrder(TransactionCase):
         self.product_a = self.env["product.product"].create(
             {
                 "name": "Test Product A",
-                "type": "product",
+                "type": "consu",
+                "is_storable": True,
                 "standard_price": 100,
                 "list_price": 150,
             }
@@ -20,7 +21,8 @@ class TestStockPickingAndSaleOrder(TransactionCase):
         self.product_b = self.env["product.product"].create(
             {
                 "name": "Test Product B",
-                "type": "product",
+                "type": "consu",
+                "is_storable": True,
                 "standard_price": 70,
                 "list_price": 150,
             }
