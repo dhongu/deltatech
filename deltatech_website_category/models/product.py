@@ -4,7 +4,6 @@
 
 
 from odoo import api, fields, models
-from odoo.http import slug
 
 
 class ProductPublicCategory(models.Model):
@@ -25,4 +24,4 @@ class ProductPublicCategory(models.Model):
     @api.depends_context("lang")
     def _compute_website_url(self):
         for category in self:
-            category.website_url = f"/shop/category/{slug(category)}"
+            category.website_url = f"/shop/category/{self.env['ir.http']._slug(category)}"
