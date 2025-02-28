@@ -59,7 +59,7 @@ addon | version | maintainers | summary | price
 [deltatech_invoice_weight](deltatech_invoice_weight/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Invoice Weight | Free 
 [deltatech_ledger](deltatech_ledger/) | 18.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Deltatech Ledger | Free 
 [deltatech_list_view](deltatech_list_view/) | 18.0.1.0.1 |  | List View Select Text | Free 
-[deltatech_logistic_docs](deltatech_logistic_docs/) | 18.0.1.0.2 |  | Logistic Documents | Free 
+[deltatech_logistic_docs](deltatech_logistic_docs/) | 18.0.1.0.3 |  | Logistic Documents | Free 
 [deltatech_lot](deltatech_lot/) | 18.0.1.0.2 |  | Generate/Select lot | Free 
 [deltatech_move_negative_stock](deltatech_move_negative_stock/) | 18.0.1.1.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Replenish negative stock from other location | Free 
 [deltatech_mrp_bom](deltatech_mrp_bom/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Bom | Free 

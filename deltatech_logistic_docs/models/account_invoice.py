@@ -25,7 +25,9 @@ class AccountInvoice(models.Model):
 
             pickings |= sale_orders.mapped("picking_ids")
             pickings |= purchase_orders.mapped("picking_ids")
-
+            if self.message_main_attachment_id.ids:
+                subdomains = [("id", "in", self.message_main_attachment_id.ids)]
+                domain = expression.OR([subdomains, domain])
             if sale_orders:
                 subdomains = [
                     ("res_model", "=", "sale.order"),
