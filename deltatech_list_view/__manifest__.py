@@ -4,7 +4,7 @@
 {
     "name": "List View Select Text",
     "summary": "List View Select Text",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
@@ -15,6 +15,7 @@
     "images": ["static/description/main_screenshot.png"],
     "assets": {
         "web.assets_backend": ["deltatech_list_view/static/src/js/list_renderer.esm.js"],
+        "web.assets_web_dark": ["deltatech_list_view/static/src/scss/style_dark.scss"],
     },
     "development_status": "Beta",
 }
