@@ -56,7 +56,7 @@ addon | version | maintainers | summary | price
 [deltatech_invoice_product_filter](deltatech_invoice_product_filter/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Searching invoice using product | Free 
 [deltatech_invoice_receipt](deltatech_invoice_receipt/) | 18.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Create receipt form invoice | Free 
 [deltatech_invoice_to_draft](deltatech_invoice_to_draft/) | 18.0.2.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Restricted access to reset account move to draft | Free 
-[deltatech_invoice_weight](deltatech_invoice_weight/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Invoice Weight | Free 
+[deltatech_invoice_weight](deltatech_invoice_weight/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Invoice Weight | Free 
 [deltatech_list_view](deltatech_list_view/) | 18.0.1.0.0 |  | List View Select Text | Free 
 [deltatech_logistic_docs](deltatech_logistic_docs/) | 18.0.1.0.2 |  | Logistic Documents | Free 
 [deltatech_lot](deltatech_lot/) | 18.0.1.0.2 |  | Generate/Select lot | Free 
