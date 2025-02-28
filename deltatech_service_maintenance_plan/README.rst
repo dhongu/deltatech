@@ -24,8 +24,8 @@ Deltatech Services Maintenance Plan
 
 Features:
 
-- maintenance plan management
-- automatic service orders generation based on the plan
+-  maintenance plan management
+-  automatic service orders generation based on the plan
 
 **Table of contents**
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_sale_form" model="ir.ui.view">
+        <field name="name">sale.move.sale_form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Weight">
+                    <group>
+                        <field name="weight_gross" />
+                        <field name="weight_net" />
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

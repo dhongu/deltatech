@@ -22,9 +22,9 @@ Products Dimension
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Additional fields in product: length, width, height
+   -  Additional fields in product: length, width, height
 
 **Table of contents**
 
