@@ -65,7 +65,7 @@ addon | version | maintainers | summary | price
 [deltatech_move_negative_stock](deltatech_move_negative_stock/) | 18.0.1.1.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Replenish negative stock from other location | Free 
 [deltatech_mrp_bom](deltatech_mrp_bom/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Bom | Free 
 [deltatech_mrp_cost](deltatech_mrp_cost/) | 18.0.2.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Cost | Free 
-[deltatech_mrp_simple](deltatech_mrp_simple/) | 18.0.1.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Simple production | Free 
+[deltatech_mrp_simple](deltatech_mrp_simple/) | 18.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Simple production | Free 
 [deltatech_no_quick_create](deltatech_no_quick_create/) | 18.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Disable quick_create | Free 
 [deltatech_notification_sound](deltatech_notification_sound/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Notification Sound | Free 
 [deltatech_object_history](deltatech_object_history/) | 18.0.0.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Object history - a parallel history of Odoo documents, separated from standard Odoo messages | Free 
