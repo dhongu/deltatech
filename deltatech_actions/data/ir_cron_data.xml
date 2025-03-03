@@ -5,7 +5,11 @@
         <field name="state">code</field>
         <field name="numbercall">-1</field>
         <field name="code">
-            model.cron_clean_xml_attachments(limit=10)
+# params:
+#   limit: how many invoices with duplicate attachments should be processed at once
+#   duplicates: how many attachments with same name should be found to start deleting
+#   dry_run: if set to True, just selects the attachments and does not delete anything
+model.cron_clean_xml_attachments(limit=10)
         </field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
