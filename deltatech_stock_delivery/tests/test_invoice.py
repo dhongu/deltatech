@@ -4,11 +4,13 @@
 
 
 from odoo.tests import Form
-from odoo.tests.common import TransactionCase, tagged
+from odoo.tests.common import tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
 @tagged("post_install", "-at_install")
-class TestInvoice(TransactionCase):
+class TestInvoice(AccountTestInvoicingCommon):
     def setUp(self):
         super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})

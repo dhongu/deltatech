@@ -1,10 +1,12 @@
 from odoo import fields
-from odoo.tests.common import TransactionCase, tagged
+from odoo.tests.common import tagged
 from odoo.tools import float_compare
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
 @tagged("post_install", "-at_install")
-class TestPurchaseOrder(TransactionCase):
+class TestPurchaseOrder(AccountTestInvoicingCommon):
 
     def setUp(self):
         super().setUp()

@@ -1,9 +1,11 @@
 from odoo import fields
-from odoo.tests.common import TransactionCase, tagged
+from odoo.tests.common import tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
 @tagged("post_install", "-at_install")
-class TestWeightCalculation(TransactionCase):
+class TestWeightCalculation(AccountTestInvoicingCommon):
 
     def setUp(self):
         super().setUp()
