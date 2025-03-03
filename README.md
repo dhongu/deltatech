@@ -37,6 +37,8 @@ addon | version | maintainers | summary | price
 [deltatech_card_payment](deltatech_card_payment/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Payment Method Card | Free 
 [deltatech_cash](deltatech_cash/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Cash In / Out | Free 
 [deltatech_cash_statement](deltatech_cash_statement/) | 16.0.3.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Update cash balance | Free 
+[deltatech_category_group](deltatech_category_group/) | 16.0.0.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Groups for internal categories | Free 
+[deltatech_category_group_equipment](deltatech_category_group_equipment/) | 16.0.0.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Groups for equipments, related to internal categories groups | Free 
 [deltatech_change_uom](deltatech_change_uom/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Change unit of measure in product | Free 
 [deltatech_contact](deltatech_contact/) | 16.0.1.4.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | New fields in partner | Free 
 [deltatech_credentials](deltatech_credentials/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage credentials for external services | Free 
@@ -82,6 +84,7 @@ addon | version | maintainers | summary | price
 [deltatech_packaging](deltatech_packaging/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | packaging | Free 
 [deltatech_partner_discount](deltatech_partner_discount/) | 16.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Creates a discount field on partner and alerts the user on invoice | Free 
 [deltatech_partner_generic](deltatech_partner_generic/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Gneric partner | Free 
+[deltatech_payment_forecast](deltatech_payment_forecast/) | 16.0.0.0.4 |  | Generates a report to estimate payments at a certain date | Free 
 [deltatech_payment_report](deltatech_payment_report/) | 16.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Payment Report | Free 
 [deltatech_payment_term](deltatech_payment_term/) | 16.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Term Rate Wizard | Free 
 [deltatech_payment_term_fix](deltatech_payment_term_fix/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Payment Term Fix | Free 
@@ -167,7 +170,7 @@ addon | version | maintainers | summary | price
 [deltatech_service_maintenance](deltatech_service_maintenance/) | 16.0.1.1.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance | Free 
 [deltatech_service_maintenance_agreement](deltatech_service_maintenance_agreement/) | 16.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance | Free 
 [deltatech_service_maintenance_plan](deltatech_service_maintenance_plan/) | 16.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Services Maintenance Plan | Free 
-[deltatech_sms](deltatech_sms/) | 16.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Send SMS to custom endpoint | Free 
+[deltatech_sms](deltatech_sms/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Send SMS to custom endpoint | Free 
 [deltatech_sms_sale](deltatech_sms_sale/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | send SMS at sale order confirmation | Free 
 [deltatech_stock_account](deltatech_stock_account/) | 16.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Stock Account Extension | Free 
 [deltatech_stock_analytic](deltatech_stock_analytic/) | 16.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Create analytic lines from stock moves | Free 
