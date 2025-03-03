@@ -2,12 +2,16 @@
 
 
 import datetime
+import logging
 
-from odoo.tests import Form
-from odoo.tests.common import TransactionCase
+from odoo.tests import Form, tagged
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+
+_logger = logging.getLogger(__name__)
 
 
-class TestPaymentForecast(TransactionCase):
+@tagged("post_install", "-at_install")
+class TestPaymentForecast(AccountTestInvoicingCommon):
     def setUp(self):
         super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
