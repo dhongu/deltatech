@@ -18,7 +18,7 @@ exclude: |
 
 default_language_version:
   python: python3
-  node: "16.19.0"
+#  node: "16.19.0"
 repos:
   - repo: https://github.com/dhongu/maintainer-tools
     rev: dcb6f7e461110d0450f087f8b49c44d0bf36bbfd

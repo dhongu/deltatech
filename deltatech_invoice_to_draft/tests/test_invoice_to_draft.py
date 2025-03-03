@@ -1,8 +1,6 @@
 from odoo.tests.common import TransactionCase, tagged
 
 
-
-
 @tagged("post_install", "-at_install")
 class TestAccountMove(TransactionCase):
 
@@ -14,10 +12,10 @@ class TestAccountMove(TransactionCase):
             coa = cls.env.ref("l10n_generic_coa.configurable_chart_template", False)
             if not coa:
                 # Load the first available CoA
-                coa = cls.env["account.chart.template"].search(
-                    [("visible", "=", True)], limit=1
-                )
+                coa = cls.env["account.chart.template"].search([("visible", "=", True)], limit=1)
             coa.try_loading(company=cls.env.company, install_demo=False)
+
+        return super().setUpClass()
 
     def setUp(self):
         super().setUp()
