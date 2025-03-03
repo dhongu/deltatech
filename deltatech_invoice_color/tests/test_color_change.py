@@ -1,8 +1,9 @@
-from odoo.tests.common import TransactionCase, tagged
 
+from odoo.tests.common import tagged
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 @tagged("post_install", "-at_install")
-class TestAccountMoveLineColorTrigger(TransactionCase):
+class TestAccountMoveLineColorTrigger(AccountTestInvoicingCommon):
 
     def setUp(self):
         super().setUp()

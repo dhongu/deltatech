@@ -3,11 +3,11 @@
 # See README.rst file on addons root folder for license details
 
 from odoo.tests import Form
-from odoo.tests.common import TransactionCase, tagged
-
+from odoo.tests.common import tagged
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 @tagged("post_install", "-at_install")
-class TestPurchase(TransactionCase):
+class TestPurchase(AccountTestInvoicingCommon):
     def setUp(self):
         super().setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})

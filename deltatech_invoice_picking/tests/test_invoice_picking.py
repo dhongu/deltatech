@@ -1,9 +1,11 @@
 from odoo import fields
-from odoo.tests.common import TransactionCase, tagged
+from odoo.tests.common import tagged
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+
 
 
 @tagged("post_install", "-at_install")
-class TestStockAccountCustom(TransactionCase):
+class TestStockAccountCustom(AccountTestInvoicingCommon):
 
     def setUp(self):
         super().setUp()

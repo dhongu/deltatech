@@ -3,11 +3,12 @@
 
 
 from odoo.tests import Form
-from odoo.tests.common import TransactionCase, tagged
 
+from odoo.tests.common import tagged
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 @tagged("post_install", "-at_install")
-class TestAgreement(TransactionCase):
+class TestAgreement(AccountTestInvoicingCommon):
     def setUp(self):
         super().setUp()
         self.partner_1 = self.env["res.partner"].create({"name": "Test Partner"})
