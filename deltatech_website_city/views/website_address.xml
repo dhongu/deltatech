@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="address" inherit_id="website_sale.address">
-        <div t-attf-class="#{error.get('city') and 'o_has_error' or ''} div_city col-md-8 mb-2" position="before">
+        <div id="div_city" position="before">
             <div t-attf-class="#{error.get('city') and 'o_has_error' or ''} div_city_id col-md-8 mb-2">
                 <label class="col-form-label label-optional" for="city_id">City</label>
 
