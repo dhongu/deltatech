@@ -74,6 +74,7 @@ addon | version | maintainers | summary | price
 [deltatech_partner_generic](deltatech_partner_generic/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Gneric partner | Free 
 [deltatech_payment_term](deltatech_payment_term/) | 18.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Term Rate Wizard | Free 
 [deltatech_payment_term_fix](deltatech_payment_term_fix/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Payment Term Fix | Free 
+[deltatech_payment_term_restrict](deltatech_payment_term_restrict/) | 18.0.0.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restricts payment terms change for certain users | Free 
 [deltatech_picking_number](deltatech_picking_number/) | 18.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Picking Number | Free 
 [deltatech_picking_restrict](deltatech_picking_restrict/) | 18.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict picking validation to a certain security group | Free 
 [deltatech_picking_split](deltatech_picking_split/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Picking Manual Backorder | Free 
