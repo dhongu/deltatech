@@ -24,7 +24,7 @@
     -->
 
     <template id="categorie_link" inherit_id="website_sale.categorie_link">
-        <xpath expr="//div" position="attributes">
+        <xpath expr="//a" position="attributes">
             <attribute name="t-attf-onclick">location.href='#{keep(c.website_url, category=0)}';</attribute>
         </xpath>
     </template>

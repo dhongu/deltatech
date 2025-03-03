@@ -14,7 +14,8 @@ class TestStockCustomizations(TransactionCase):
         self.product = self.Product.create(
             {
                 "name": "Test Product",
-                "type": "product",
+                "type": "consu",
+                "is_storable": True,
                 # 'sale_line_warn': 'no-message',
                 # Add default value for sale_line_warn
             }

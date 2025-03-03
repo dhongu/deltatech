@@ -14,7 +14,8 @@ class TestSaleOrderAndStockRule(TransactionCase):
         self.product = self.Product.create(
             {
                 "name": "Test Product",
-                "type": "product",
+                "type": "consu",
+                "is_storable": True,
                 "weight": 1.0,
             }
         )
