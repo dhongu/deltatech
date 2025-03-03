@@ -129,7 +129,7 @@
     </record>
 
 
-    <record id="mrp_simple_tree" model="ir.ui.view">
+    <record id="mrp_simple_list" model="ir.ui.view">
         <field name="name">mrp.simple.list</field>
         <field name="model">mrp.simple</field>
         <field name="arch" type="xml">
