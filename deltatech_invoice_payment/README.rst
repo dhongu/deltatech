@@ -22,9 +22,9 @@ Invoice Payment
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Show payments from invoice
+  - Show payments from invoice
 
 **Table of contents**
 
