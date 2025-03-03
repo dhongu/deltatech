@@ -1,6 +1,7 @@
-
 from odoo.tests.common import tagged
+
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+
 
 @tagged("post_install", "-at_install")
 class TestAccountMoveLineColorTrigger(AccountTestInvoicingCommon):

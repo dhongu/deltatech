@@ -1,4 +1,5 @@
 from odoo.tests.common import tagged
+
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
