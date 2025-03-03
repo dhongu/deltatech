@@ -24,7 +24,7 @@ Picking Split
 
 Features:
 
--  Manual generation of backorders
+- Manual generation of backorders
 
 **Table of contents**
 
