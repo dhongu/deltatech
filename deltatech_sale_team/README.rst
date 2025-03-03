@@ -22,9 +22,9 @@ Sale Team Access
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Restricting access to sales team
+  - Restricting access to sales team
 
 **Table of contents**
 
