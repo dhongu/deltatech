@@ -5,7 +5,6 @@
 import logging
 
 import requests
-
 from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
@@ -65,7 +64,7 @@ class IapAccount(models.Model):
         }
 
         # Make the POST request
-        response = requests.post(url, data=data)
+        response = requests.post(url, data=data, timeout=60)
 
         res = response.json()
         _logger.info(f"SMS: {res}")
