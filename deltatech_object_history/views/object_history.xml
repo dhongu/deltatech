@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="object_history_tree" model="ir.ui.view">
+    <record id="object_history_list" model="ir.ui.view">
         <field name="name">object.history.list</field>
         <field name="model">object.history</field>
         <field name="arch" type="xml">
