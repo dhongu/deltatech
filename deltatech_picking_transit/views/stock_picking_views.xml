@@ -8,6 +8,7 @@
             <xpath expr="//button[@name='button_validate']" position="before">
                 <field name="is_transit_transfer" invisible="1" />
                 <field name="sub_location_existent" invisible="1" />
+                <field name="create_second_transfer_automatically" invisible="1" />
                 <button
                     name="reassign_location"
                     type="object"
@@ -20,7 +21,7 @@
                     type="object"
                     string="Create Transfer"
                     class="btn-primary"
-                    invisible="is_transit_transfer==False"
+                    invisible="is_transit_transfer==False or origin!=False or create_second_transfer_automatically==True"
                 />
             </xpath>
         </field>

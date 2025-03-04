@@ -22,11 +22,11 @@ eCommerce Sale Short Description
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - website_short_description - Camp nou pentru descriere scurta
-    utilizata in feed-uri
-  - buton de publicare produse
+   -  website_short_description - Camp nou pentru descriere scurta
+      utilizata in feed-uri
+   -  buton de publicare produse
 
 **Table of contents**
 

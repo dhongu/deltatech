@@ -22,11 +22,11 @@ Deltatech Invoice Delivery
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Generation of a sale order and delivery automatically when
-    validating a sale invoice
-  - Allows negative quantity in sale order
+   -  Generation of a sale order and delivery automatically when
+      validating a sale invoice
+   -  Allows negative quantity in sale order
 
 **Table of contents**
 

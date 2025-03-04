@@ -22,9 +22,9 @@ eCommerce Product Image URL Link
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Incarcare poza din url
+   -  Incarcare poza din url
 
 **Table of contents**
 
