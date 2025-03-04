@@ -1,0 +1,18 @@
+<odoo>
+    <record id="view_pricelist_wizard_form" model="ir.ui.view">
+        <field name="name">pricelist.wizard.form</field>
+        <field name="model">pricelist.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add Public Category">
+                <group>
+                    <field name="public_category_id" />
+                    <field name="add_to_children" />
+                </group>
+                <footer>
+                    <button string="Confirm" type="object" name="apply_category_to_products" class="btn-primary" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
