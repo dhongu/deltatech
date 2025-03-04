@@ -1,0 +1,18 @@
+<odoo>
+    <record id="action_open_pricelist_wizard" model="ir.actions.server">
+        <field name="name">Open Pricelist Wizard</field>
+        <field name="model_id" ref="product.model_product_pricelist" />
+        <field name="binding_model_id" ref="product.model_product_pricelist" />
+        <field name="state">code</field>
+        <field name="code">
+            action = {
+                'type': 'ir.actions.act_window',
+                'name': 'Add Public Category',
+                'res_model': 'pricelist.wizard',
+                'view_mode': 'form',
+                'target': 'new',
+                'context': {'default_pricelist_id': record.id},
+            }
+        </field>
+    </record>
+</odoo>
