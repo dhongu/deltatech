@@ -24,7 +24,7 @@ Terrabit - Record Type
 
 Features:
 
-- Types can be defined for records
+-  Types can be defined for records
 
 **Table of contents**
 
