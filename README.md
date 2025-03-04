@@ -89,6 +89,8 @@ addon | version | maintainers | summary | price
 [deltatech_pricelist_add_category](deltatech_pricelist_add_category/) | 18.0.0.0.2 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | You can add a public category to the products in price list | Free 
 [deltatech_pricelist_vat_cost](deltatech_pricelist_vat_cost/) | 18.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Base pricelist on cost with vat | Free 
 [deltatech_print_bf](deltatech_print_bf/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Print Invoice to ECR | Free 
+[deltatech_product_catalog](deltatech_product_catalog/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | This module helps to print the catalog of the multi products | Free 
+[deltatech_product_category](deltatech_product_category/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Products Category | Free 
 [deltatech_product_category_color](deltatech_product_category_color/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Products Category Color | Free 
 [deltatech_product_category_group](deltatech_product_category_group/) | 18.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Products Category User Group | Free 
 [deltatech_product_code](deltatech_product_code/) | 18.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product codification internal | Free 
