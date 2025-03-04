@@ -84,6 +84,7 @@ addon | version | maintainers | summary | price
 [deltatech_picking_split](deltatech_picking_split/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Picking Manual Backorder | Free 
 [deltatech_picking_transit](deltatech_picking_transit/) | 18.0.0.0.9 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Automate internal transfer from transit location | Free 
 [deltatech_price_categ](deltatech_price_categ/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Price List: Bronze Silver and Gold in product | Free 
+[deltatech_price_modify_reception](deltatech_price_modify_reception/) | 18.0.1.0.2 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) | Editarea pretului de lista la receptie | Free 
 [deltatech_product_category_color](deltatech_product_category_color/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Products Category Color | Free 
 [deltatech_product_category_group](deltatech_product_category_group/) | 18.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Products Category User Group | Free 
 [deltatech_product_code](deltatech_product_code/) | 18.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product codification internal | Free 
