@@ -24,14 +24,14 @@ Services Agreement
 
 Features:
 
--  Offers the possibility to define service contracts.
+- Offers the possibility to define service contracts.
 
-   -  in contract you can specify: currency, billing date, recurrence
+  - in contract you can specify: currency, billing date, recurrence
 
--  Periodically based on these contracts invoices are generated
+- Periodically based on these contracts invoices are generated
 
-   -  planned service consumptions can be updated with the actual ones
-      before billing
+  - planned service consumptions can be updated with the actual ones
+    before billing
 
 **Table of contents**
 

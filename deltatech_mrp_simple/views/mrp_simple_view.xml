@@ -95,30 +95,33 @@
                         </group>
                     </group>
 
-                    <group string="Consumption">
-
-                        <field name="product_out_ids" nolabel="1" readonly="state!='draft'">
-                            <list editable="bottom">
-                                <field name="product_id" />
-                                <field name="stock" />
-                                <field name="quantity" sum="1" />
-                                <field name="price_unit" readonly="1" force_save="1" />
-                                <field name="uom_id" />
-                                <field name="value" sum="1" />
-                            </list>
-                        </field>
-                    </group>
-                    <group string="Receipt">
-                        <field name="product_in_ids" nolabel="1" readonly="state!='draft'">
-                            <list editable="bottom">
-                                <field name="product_id" />
-                                <field name="quantity" sum="1" />
-                                <field name="uom_id" />
-                                <field name="price_unit" />
-                                <field name="value" sum="1" />
-                            </list>
-                        </field>
-                    </group>
+                    <div class="o_row">
+                        <div class="o_col-6">
+                            <label for="product_out_ids" string="Consume" />
+                            <field name="product_out_ids" nolabel="1" readonly="state!='draft'">
+                                <list editable="bottom">
+                                    <field name="product_id" />
+                                    <field name="stock" />
+                                    <field name="quantity" sum="1" />
+                                    <field name="price_unit" readonly="1" force_save="1" />
+                                    <field name="uom_id" />
+                                    <field name="value" sum="1" />
+                                </list>
+                            </field>
+                        </div>
+                        <div class="o_col-6">
+                            <label for="product_in_ids" string="Receipt" />
+                            <field name="product_in_ids" nolabel="1" readonly="state!='draft'">
+                                <list editable="bottom">
+                                    <field name="product_id" />
+                                    <field name="quantity" sum="1" />
+                                    <field name="uom_id" />
+                                    <field name="price_unit" />
+                                    <field name="value" sum="1" />
+                                </list>
+                            </field>
+                        </div>
+                    </div>
 
                 </sheet>
             </form>
@@ -126,7 +129,7 @@
     </record>
 
 
-    <record id="mrp_simple_tree" model="ir.ui.view">
+    <record id="mrp_simple_list" model="ir.ui.view">
         <field name="name">mrp.simple.list</field>
         <field name="model">mrp.simple</field>
         <field name="arch" type="xml">

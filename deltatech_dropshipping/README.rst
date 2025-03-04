@@ -22,10 +22,10 @@ Deltatech Drop Shipping
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Displays delivery address in picking
-   -  Afisare adresa livrare in picking
+  - Displays delivery address in picking
+  - Afisare adresa livrare in picking
 
 **Table of contents**
 
