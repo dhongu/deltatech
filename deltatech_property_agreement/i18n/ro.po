@@ -1,0 +1,48 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_property_agreement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-23 09:22+0000\n"
+"PO-Revision-Date: 2024-05-23 09:22+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_property_agreement
+#: model_terms:ir.ui.view,arch_db:deltatech_property_agreement.view_property_building_form
+msgid "<span class=\"o_stat_text\">Meters</span>"
+msgstr "<span class=\"o_stat_text\">Metri</span>"
+
+#. module: deltatech_property_agreement
+#: model:ir.model.fields,field_description:deltatech_property_agreement.field_property_building__agreement_id
+msgid "Agreement"
+msgstr "Contract"
+
+#. module: deltatech_property_agreement
+#: model:ir.model,name:deltatech_property_agreement.model_property_building
+#: model:ir.model.fields.selection,name:deltatech_property_agreement.selection__service_equipment__internal_type__building
+msgid "Building"
+msgstr "Clădire"
+
+#. module: deltatech_property_agreement
+#: model:ir.model.fields,field_description:deltatech_property_agreement.field_service_equipment__internal_type
+msgid "Internal Type"
+msgstr "Tip intern"
+
+#. module: deltatech_property_agreement
+#: model:ir.model,name:deltatech_property_agreement.model_service_equipment
+#: model:ir.model.fields,field_description:deltatech_property_agreement.field_property_building__service_equipment_id
+msgid "Service Equipment"
+msgstr "Echipament serviciu"
+
+#. module: deltatech_property_agreement
+#: model:ir.model.fields,field_description:deltatech_property_agreement.field_property_building__tenant_id
+msgid "Tenant"
+msgstr "Chiriaș"
