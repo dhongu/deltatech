@@ -1,0 +1,63 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_purchase_confirmation_reminder
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-08-07 06:23+0000\n"
+"PO-Revision-Date: 2024-08-07 06:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_purchase_confirmation_reminder
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_confirmation_reminder.res_config_settings_view_form
+msgid ""
+"<span class=\"fa fa-lg fa-building-o p-2\" title=\"Values set here are "
+"company-specific.\" groups=\"base.group_multi_company\"/>"
+msgstr ""
+
+#. module: deltatech_purchase_confirmation_reminder
+#: model:ir.model,name:deltatech_purchase_confirmation_reminder.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări configurare"
+
+#. module: deltatech_purchase_confirmation_reminder
+#: model:ir.model,name:deltatech_purchase_confirmation_reminder.model_purchase_order
+msgid "Purchase Order"
+msgstr "Comandă achiziție"
+
+#. module: deltatech_purchase_confirmation_reminder
+#. odoo-python
+#: code:addons/deltatech_purchase_confirmation_reminder/models/purchase_order.py:0
+#: code:addons/deltatech_purchase_confirmation_reminder/models/purchase_order.py:0
+#, python-format
+msgid "Purchase Order Reminder"
+msgstr "Notificare comandă achiziție"
+
+#. module: deltatech_purchase_confirmation_reminder
+#: model:ir.model.fields,field_description:deltatech_purchase_confirmation_reminder.field_res_config_settings__purchase_order_reminder_activity_type_id
+msgid "Purchase Order Reminder Activity Type"
+msgstr "Tip activitate notificare comandă achiziție"
+
+#. module: deltatech_purchase_confirmation_reminder
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_confirmation_reminder.res_config_settings_view_form
+msgid "Select witch activity type to use for reminders"
+msgstr "Selectați tipul de activitate de utilizat pentru notificări"
+
+#. module: deltatech_purchase_confirmation_reminder
+#: model:ir.actions.server,name:deltatech_purchase_confirmation_reminder.cron_action_send_reminder_ir_actions_server
+msgid "Send Purchase Order Reminder"
+msgstr "Trimite notificare comandă achiziție"
+
+#. module: deltatech_purchase_confirmation_reminder
+#. odoo-python
+#: code:addons/deltatech_purchase_confirmation_reminder/models/purchase_order.py:0
+#, python-format
+msgid "This is a reminder to confirm the purchase order."
+msgstr "Aceasta este o notificare pentru a confirma comanda de achiziție."
