@@ -22,10 +22,10 @@ Terrabit - Sale Order Type
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Types can be defined for sale order
-  - A journal can be defined for invoicing
+   -  Types can be defined for sale order
+   -  A journal can be defined for invoicing
 
 **Table of contents**
 
