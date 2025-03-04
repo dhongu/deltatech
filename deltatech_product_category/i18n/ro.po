@@ -1,0 +1,61 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_product_category
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-23 08:52+0000\n"
+"PO-Revision-Date: 2024-05-23 08:52+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_product_category
+#: model:ir.model.fields,field_description:deltatech_product_category.field_product_category__company_id
+#: model:ir.model.fields,field_description:deltatech_product_category.field_product_product__company_id
+#: model:ir.model.fields,field_description:deltatech_product_category.field_product_template__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_product_category
+#: model:ir.model,name:deltatech_product_category.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_product_category
+#: model:ir.model,name:deltatech_product_category.model_product_template
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_product_category
+#: model:ir.model,name:deltatech_product_category.model_product_category
+msgid "Product Category"
+msgstr "Categorie produs"
+
+#. module: deltatech_product_category
+#: model:ir.model.fields,field_description:deltatech_product_category.field_res_config_settings__company_share_product_category
+msgid "Share product category to all companies"
+msgstr "Trimite categoria de produse tuturor companiilor"
+
+#. module: deltatech_product_category
+#: model_terms:ir.ui.view,arch_db:deltatech_product_category.res_config_settings_view_form
+msgid "Share your product category to all companies defined in your instance."
+msgstr ""
+"Trimite categoria de produse proprie tuturor companiilor definite în "
+"instanța dvs."
+
+#. module: deltatech_product_category
+#: model:ir.model.fields,help:deltatech_product_category.field_res_config_settings__company_share_product_category
+msgid ""
+"Share your product category to all companies defined in your instance.\n"
+" * Checked : Product category are visible for every company, even if a company is defined on the partner.\n"
+" * Unchecked : Each company can see only its product category (product category where company is defined). Product category not related to a company are visible for all companies."
+msgstr ""
+"Trimite categoria de produse proprie tuturor companiilor definite în instanța dvs.\n"
+" * Bifat : Categoria de produse este vizibilă pentru fiecare companie, chiar dacă o companie este definită pe partener.\n"
+" * Debifat : Fiecare companie poate vedea doar categoria sa de produse (categoria de produse unde compania este definită). Categoria de produse care nu sunt legate de o companie sunt vizibile pentru toate companiile."
