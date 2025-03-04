@@ -1,0 +1,73 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_picking_restrict_entry_exit
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-05 11:19+0000\n"
+"PO-Revision-Date: 2024-12-05 11:19+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_picking_restrict_entry_exit
+#: model:res.groups,name:deltatech_picking_restrict_entry_exit.group_picking_restrict_entry_exit
+msgid "Picking create permission"
+msgstr "Permite crearea documentelor de transfer"
+
+#. module: deltatech_picking_restrict_entry_exit
+#: model:ir.model,name:deltatech_picking_restrict_entry_exit.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: deltatech_picking_restrict_entry_exit
+#. odoo-python
+#: code:addons/deltatech_picking_restrict_entry_exit/models/stock_picking.py:0
+#, python-format
+msgid "You cannot create an incoming picking without a source purchase order."
+msgstr "Nu puteti crea o receptie fara o comanda de achizitie sursa."
+
+#. module: deltatech_picking_restrict_entry_exit
+#. odoo-python
+#: code:addons/deltatech_picking_restrict_entry_exit/models/stock_picking.py:0
+#, python-format
+msgid "You cannot create an outgoing picking without a source sale order."
+msgstr "Nu puteti crea o livrare fara o comanda de vanzare sursa."
+
+#. module: deltatech_picking_restrict_entry_exit
+#. odoo-python
+#: code:addons/deltatech_picking_restrict_entry_exit/models/stock_picking.py:0
+#, python-format
+msgid ""
+"You cannot validate the picking because the product %s is not linked to a "
+"purchase order line."
+msgstr ""
+"Nu puteti valida documentul de transfer deoarece produsul %s nu este legat "
+"de o linie a unei comenzi de achizitie."
+
+#. module: deltatech_picking_restrict_entry_exit
+#. odoo-python
+#: code:addons/deltatech_picking_restrict_entry_exit/models/stock_picking.py:0
+#, python-format
+msgid ""
+"You cannot validate the picking because the product %s is not linked to a "
+"sale order line."
+msgstr ""
+"Nu puteti valida documentul de transfer deoarece produsul %s nu este legat "
+"de o linie a unei comenzi de vanzare."
+
+#. module: deltatech_picking_restrict_entry_exit
+#. odoo-python
+#: code:addons/deltatech_picking_restrict_entry_exit/models/stock_picking.py:0
+#, python-format
+msgid ""
+"You cannot validate the picking because the quantity done is greater than "
+"the quantity ordered for the product %s."
+msgstr ""
+"Nu puteti valida documentul de transfer deoarece cantitatea realizata este "
+"mai mare decat cantitatea comandata pentru produsul %s."
