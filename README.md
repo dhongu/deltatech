@@ -111,6 +111,7 @@ addon | version | maintainers | summary | price
 [deltatech_purchase_stock](deltatech_purchase_stock/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Purchase Stock | Free 
 [deltatech_purchase_xls](deltatech_purchase_xls/) | 18.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Import/export purchase line from/to Excel | Free 
 [deltatech_ral](deltatech_ral/) | 18.0.1.0.3 |  | RAL | Free 
+[deltatech_reccurent_task_activity](deltatech_reccurent_task_activity/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Will automatically create an activity at the creation of the recurring task | Free 
 [deltatech_reception_note](deltatech_reception_note/) | 18.0.0.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Batch reception note | Free 
 [deltatech_record_type](deltatech_record_type/) | 18.0.1.0.4 |  | Manage multiple record types | Free 
 [deltatech_report_packaging](deltatech_report_packaging/) | 18.0.1.0.1 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report Packaging | Free 
