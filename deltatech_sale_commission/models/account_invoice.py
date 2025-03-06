@@ -99,6 +99,8 @@ class AccountInvoiceLine(models.Model):
             if price_unit_list:
                 purchase_price = abs(sum(price_unit_list)) / len(price_unit_list)
 
+        if not purchase_price:
+            purchase_price = self.product_id.standard_price
         return purchase_price
 
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
@@ -111,7 +113,7 @@ class AccountInvoiceLine(models.Model):
             if not invoice_line.product_id:
                 invoice_line.purchase_price = 0.0
                 continue
-            if invoice_line.move_id.move_type not in ["out_invoice", "out_refund"]:
+            if invoice_line.move_id.move_type not in ["out_invoice", "out_refund", "out_receipt"]:
                 invoice_line.purchase_price = 0.0
                 continue
             if invoice_line.product_id.id == int(deposit_product):
@@ -123,13 +125,13 @@ class AccountInvoiceLine(models.Model):
             product_uom = invoice_line.product_uom_id
             invoice_date = invoice_line.move_id.invoice_date or fields.Date.today()
             if invoice_line.sale_line_ids:
-                purchase_price = 0
-                for line in invoice_line.sale_line_ids:
-                    from_currency = line.order_id.currency_id
-                    price = line.product_uom._compute_price(line.purchase_price, product_uom)
-                    price = from_currency._convert(price, to_cur, company, invoice_date, round=False)
-                    purchase_price += price
-                purchase_price = purchase_price / len(invoice_line.sale_line_ids)
+                # purchase_price = 0
+                # for line in invoice_line.sale_line_ids:
+                #     from_currency = line.order_id.currency_id
+                #     price = line.product_uom._compute_price(line.purchase_price, product_uom)
+                #     price = from_currency._convert(price, to_cur, company, invoice_date, round=False)
+                #     purchase_price += price
+                # purchase_price = purchase_price / len(invoice_line.sale_line_ids)
 
                 purchase_price = invoice_line.get_purchase_price()
 
