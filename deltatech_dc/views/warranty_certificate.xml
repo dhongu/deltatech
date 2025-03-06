@@ -21,20 +21,20 @@
                 </h2>
                 <div class="center-text">
                     <span>Annex of invoice:
-                        <span t-field="o.name"/>
+                        <span t-field="o.name" />
                     </span>
                 </div>
-                <br/>
-                <br/>
+                <br />
+                <br />
 
-                <br/>
+                <br />
 
-                <br/>
+                <br />
 
-                <br/>
+                <br />
 
-                <br/>
-                We,&#160;<span t-field="o.company_id.partner_id.name"/>with registration certificate (number), Unique
+                <br />
+                We,&#160;<span t-field="o.company_id.partner_id.name" />with registration certificate (number), Unique
                 Registration Code (number), as a distributor, we provide a warranty for the following products:
                 <table class="table-bordered" style="width: 100%;">
                     <thead>
@@ -51,18 +51,18 @@
                             </th>
                         </tr>
                     </thead>
-                    <t t-set="counter" t-value="0"/>
+                    <t t-set="counter" t-value="0" />
 
                     <t t-foreach="o.invoice_line_ids" t-as="move">
-                        <t t-set="counter" t-value="counter + 1"/>
+                        <t t-set="counter" t-value="counter + 1" />
                         <t t-if="move.display_type == 'product'">
                             <tr>
                                 <td>
-                                    <strong t-esc="move.product_id.name"/>
+                                    <strong t-esc="move.product_id.name" />
                                 </td>
 
                                 <td>
-                                    <strong t-esc="move.product_id.warranty"/>
+                                    <strong t-esc="move.product_id.warranty" />
                                 </td>
                             </tr>
                         </t>
