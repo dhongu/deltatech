@@ -87,9 +87,7 @@ class AccountInvoiceLine(models.Model):
             bom = self.product_id.variant_bom_ids.filtered(lambda b: b.type == "phantom")
             purchase_price = 0
             for move in moves:
-                bom_line = bom.bom_line_ids.filtered(
-                    lambda b, product_id=move.product_id.id: b.product_id.id == product_id
-                )
+                bom_line = bom.bom_line_ids.filtered(lambda b: b.product_id == move.product_id)
                 price_unit_comp = move.mapped("stock_valuation_layer_ids").mapped("unit_cost")
                 purchase_price += sum(price_unit_comp) * bom_line.product_qty
         else:

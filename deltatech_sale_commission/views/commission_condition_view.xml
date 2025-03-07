@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+        <record id="view_commission_conditions_list" model="ir.ui.view">
+            <field name="name">Commission Conditions</field>
+            <field name="model">sale.commission.condition</field>
+            <field name="arch" type="xml">
+                <list editable="top">
+                    <field name="sequence" widget="handle" />
+                    <field name="percentage" />
+                    <field name="less_than_days" />
+<!--                    <field name="maximum_days" />-->
+                </list>
+            </field>
+        </record>
+
+
+        <record id="action_commission_conditions" model="ir.actions.act_window">
+            <field name="name">Commission Conditions</field>
+            <field name="res_model">sale.commission.condition</field>
+            <field name="view_mode">list</field>
+        </record>
+
+        <menuitem
+        name="Commission Conditions"
+        id="menu_commission_conditions"
+        action="action_commission_conditions"
+        parent="sale.menu_sale_config"
+        groups="sales_team.group_sale_manager"
+    />
+
+
+
+</odoo>
