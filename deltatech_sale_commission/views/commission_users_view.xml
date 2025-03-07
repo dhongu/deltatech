@@ -2,7 +2,7 @@
 <odoo>
 
 
-        <record id="view_commission_users_tree" model="ir.ui.view">
+        <record id="view_commission_users_list" model="ir.ui.view">
             <field name="name">Users Commission</field>
             <field name="model">commission.users</field>
             <field name="arch" type="xml">
