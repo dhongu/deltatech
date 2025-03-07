@@ -5,6 +5,7 @@
 
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase, tagged
+
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
