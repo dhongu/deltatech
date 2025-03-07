@@ -123,6 +123,7 @@ addon | version | maintainers | summary | price
 [deltatech_sale_add_extra_line](deltatech_sale_add_extra_line/) | 18.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Add Extra Line | Free 
 [deltatech_sale_commission](deltatech_sale_commission/) | 18.0.1.2.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Compute sale commission | Free 
 [deltatech_sale_contact](deltatech_sale_contact/) | 18.0.1.0.21 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Limit contacts insale order | Free 
+[deltatech_sale_cost_product](deltatech_sale_cost_product/) | 18.0.0.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Cost on Order | Free 
 [deltatech_sale_followup](deltatech_sale_followup/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Followup | Free 
 [deltatech_sale_margin](deltatech_sale_margin/) | 18.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Check price in sale order | Free 
 [deltatech_sale_multiple](deltatech_sale_multiple/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale quantity multiple | Free 

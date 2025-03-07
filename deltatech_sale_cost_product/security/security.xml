@@ -1,0 +1,7 @@
+<odoo noupdate="1">
+    <record id="group_view_cost_on_sale" model="res.groups">
+        <field name="name">Can See Cost Of Goods</field>
+        <field name="category_id" ref="base.module_category_hidden" />
+        <field name="comment">Users in this group can see Cost of Goods column.</field>
+    </record>
+</odoo>
