@@ -137,14 +137,14 @@ msgstr "Hârtie"
 #: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_product_material__material_type__pet
 #: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_report_material_line__material_type__pet
 msgid "Pet"
-msgstr "Pet"
+msgstr ""
 
 #. module: deltatech_report_packaging
 #: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_invoice_material__material_type__plastic
 #: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_product_material__material_type__plastic
 #: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_report_material_line__material_type__plastic
 msgid "Plastic"
-msgstr "Plastic"
+msgstr ""
 
 #. module: deltatech_report_packaging
 #: model:ir.model,name:deltatech_report_packaging.model_product_template
