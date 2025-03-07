@@ -74,11 +74,16 @@
               <xpath expr="//field[@name='margin']" position="attributes">
                   <t groups="deltatech_sale_margin.group_sale_margin">
                     <attribute name="readonly">1</attribute>
-                  </t>
-              </xpath>
-
-          </field>
-      </record>
+                </t>
+            </xpath>
+            <xpath expr="//field[@name='margin']" position="attributes">
+                <attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
+            </xpath>
+            <xpath expr="//field[@name='margin_percent']" position="attributes">
+                <attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
+            </xpath>
+        </field>
+    </record>
 
 
     <record model="ir.ui.view" id="view_order_form_no_change_price">
@@ -86,25 +91,18 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
+
             <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="attributes">
-                <t groups="deltatech_sale_margin.group_sale_no_change_price">
-                    <attribute name="readonly">1</attribute>
-                </t>
+                    <attribute name="readonly">not parent.can_change_price</attribute>
             </xpath>
             <xpath expr="//field[@name='order_line']/list//field[@name='price_unit']" position="attributes">
-                <t groups="deltatech_sale_margin.group_sale_no_change_price">
-                    <attribute name="readonly">1</attribute>
-                </t>
+                <attribute name="readonly">not parent.can_change_price</attribute>
             </xpath>
             <xpath expr="//field[@name='order_line']/form//field[@name='discount']" position="attributes">
-                <t groups="deltatech_sale_margin.group_sale_no_change_price">
-                    <attribute name="readonly">1</attribute>
-                </t>
+                <attribute name="readonly">not parent.can_change_price</attribute>
             </xpath>
             <xpath expr="//field[@name='order_line']/list//field[@name='discount']" position="attributes">
-                <t groups="deltatech_sale_margin.group_sale_no_change_price">
-                    <attribute name="readonly">1</attribute>
-                </t>
+                <attribute name="readonly">not parent.can_change_price</attribute>
             </xpath>
         </field>
     </record>
