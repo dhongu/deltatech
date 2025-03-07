@@ -2,7 +2,7 @@
     "name": "Report Packaging",
     "category": "Product",
     "summary": "Report Packaging",
-    "version": "17.0.1.0.2",
+    "version": "17.0.1.0.4",
     "author": "Terrabit",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
