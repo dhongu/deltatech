@@ -135,7 +135,7 @@ addon | version | maintainers | summary | price
 [deltatech_sale_picking_status](deltatech_sale_picking_status/) | 18.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Get sale order status from pickings | Free 
 [deltatech_sale_purchase](deltatech_sale_purchase/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Purchase | Free 
 [deltatech_sale_qty_available](deltatech_sale_qty_available/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Quantity Available | Free 
-[deltatech_sale_stage](deltatech_sale_stage/) | 18.0.1.1.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Order Stage | Free 
+[deltatech_sale_stage](deltatech_sale_stage/) | 18.0.1.2.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Order Stage | Free 
 [deltatech_sale_team](deltatech_sale_team/) | 18.0.1.0.2 |  | Sale Team Access | Free 
 [deltatech_sale_transfer](deltatech_sale_transfer/) | 18.0.1.0.1 |  | Sale Prepare Transfer | Free 
 [deltatech_saleorder_pickup_list](deltatech_saleorder_pickup_list/) | 18.0.1.0.0 |  | Pickup list report from sale order | Free 
