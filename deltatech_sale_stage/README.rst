@@ -24,7 +24,7 @@ Deltatech Sale Order Stage
 
 Features:
 
--  Additional field in the sales order to specify the stage in which the
+-  Additional field in the sales order to specify the phase in which the
    order is
 
 **Table of contents**
