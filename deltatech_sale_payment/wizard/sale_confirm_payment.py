@@ -47,7 +47,7 @@ class SaleConfirmPayment(models.TransientModel):
         active_id = self.env.context.get("active_id", False)
         order = self.env["sale.order"].browse(active_id)
 
-        if self.amount <= 0:
+        if self.amount < 0:
             raise UserError(_("Then amount must be positive"))
 
         if self.transaction_id:
