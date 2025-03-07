@@ -52,11 +52,13 @@ class SaleMarginReport(models.Model):
     account_id = fields.Many2one("account.account", "Account", readonly=True)
     company_id = fields.Many2one("res.company", "Company", readonly=True)
     # period_id = fields.Many2one('account.period', 'Period', readonly=True)
-    indicator_supplement = fields.Float("Supplement Indicator", readonly=True, digits=(12, 2), aggregator="avg")
-    indicator_profit = fields.Float("Profit Indicator", readonly=True, digits=(12, 2), aggregator="avg")
+    indicator_supplement = fields.Float("Supplement Indicator", readonly=True, digits=(12, 2), group_operator="avg")
+    indicator_profit = fields.Float("Profit Indicator", readonly=True, digits=(12, 2), group_operator="avg")
 
     journal_id = fields.Many2one("account.journal", "Journal", readonly=True)
-    company_currency_id = fields.Many2one("res.currency", "Currency", readonly=True, related="company_id.currency_id")
+    company_currency_id = fields.Many2one(
+        "res.currency", "Company Currency", readonly=True, related="company_id.currency_id"
+    )
     currency_id = fields.Many2one("res.currency", "Currency", readonly=True)
 
     move_type = fields.Selection(
@@ -65,6 +67,7 @@ class SaleMarginReport(models.Model):
             ("in_invoice", "Vendor Bill"),
             ("out_refund", "Customer Refund"),
             ("in_refund", "Vendor Refund"),
+            ("out_receipt", "Sales Receipt"),
         ],
         readonly=True,
     )
@@ -113,8 +116,7 @@ class SaleMarginReport(models.Model):
                 sub.director_rate * (sale_val    - stock_val )  as commission_director_computed,
 
                 commission,
-                partner_id, commercial_partner_id,  state_id, user_id, manager_user_id,
-                director_user_id,   sub.company_id,
+                partner_id, commercial_partner_id,  state_id, user_id, manager_user_id, director_user_id,   sub.company_id,
                 move_type,  state , payment_state, journal_id,
                  sub.currency_id
         """
@@ -197,7 +199,7 @@ class SaleMarginReport(models.Model):
 
     def _where(self):
         where_str = """
-              s.move_type in ( 'out_invoice', 'out_refund') and s.state='posted'
+              s.move_type in ( 'out_invoice', 'out_refund', 'out_receipt') and s.state='posted'
               and l.display_type = 'product'
         """
         return where_str

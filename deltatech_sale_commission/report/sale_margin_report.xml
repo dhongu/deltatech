@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-    <record id="view_sale_margin_report_tree" model="ir.ui.view">
+    <record id="view_sale_margin_report_list" model="ir.ui.view">
         <field name="name">sale.margin.report.list</field>
         <field name="model">sale.margin.report</field>
+        <field name="type">list</field>
         <field name="arch" type="xml">
             <list create="false">
-                <field name="date" invisible="1" />
-                <field name="categ_id" invisible="1" />
-                <field name="product_id" invisible="1" />
+                <field name="date" column_invisible="True" />
+                <field name="categ_id" column_invisible="True" />
+                <field name="product_id" column_invisible="True" />
                 <field name="product_uom" invisible="not context.get('set_visible',False)" groups="uom.group_uom" />
-                <field name="user_id" invisible="1" />
-                <field name="partner_id" invisible="1" />
-                <field name="commercial_partner_id" invisible="1" />
+                <field name="user_id" column_invisible="True" />
+                <field name="partner_id" column_invisible="True" />
+                <field name="commercial_partner_id" column_invisible="True" />
                 <field name="product_uom_qty" sum="Qty" />
                 <field name="sale_val" sum="Sale value" />
                 <field name="stock_val" sum="Stock value" />
                 <field name="profit_val" sum="Profit" />
                 <field name="company_id" invisible="1" groups="base.group_multi_company" />
-                <field name="move_type" invisible="1" />
-                <field name="state" invisible="1" />
+                <field name="move_type" column_invisible="True" />
+                <field name="state" column_invisible="True" />
             </list>
         </field>
     </record>
@@ -65,10 +66,10 @@
     </record>
 
 
-    <record id="view_sale_margin_report_commission_tree" model="ir.ui.view">
+    <record id="view_sale_margin_report_commission_list" model="ir.ui.view">
         <field name="name">sale.margin.report.commission.list</field>
         <field name="model">sale.margin.report</field>
-
+        <field name="type">list</field>
         <field name="arch" type="xml">
             <list delete="false" create="false">
                 <field name="date" invisible="1" />
@@ -127,7 +128,7 @@
         <field name="arch" type="xml">
             <search string="Search">
 
-                <filter name="date" date="date" default_period="month-1" />
+                <filter name="date" date="date" default_period="month" />
 
                 <separator />
                 <filter string="My Sales" name="mysale" domain="[('user_id','=',uid)]" />
@@ -155,6 +156,7 @@
                     <filter string="Product" name="product" context="{'group_by':'product_id','set_visible':True}" />
                     <filter string="Invoice" name="invoice" context="{'group_by':'invoice_id'}" />
                     <filter string="Category of Product" name="category" context="{'group_by':'categ_id'}" />
+                    <filter string="Account" name="account" context="{'group_by':'account_id'}" />
                     <filter string="Status" name="status" context="{'group_by':'state'}" />
                     <!--
                     <filter string="Period"   context="{'group_by':'period_id'}"/>
@@ -178,7 +180,7 @@
         <field name="res_model">sale.margin.report</field>
 
         <field name="view_mode">list,pivot</field>
-        <field name="view_id" ref="view_sale_margin_report_tree" />
+        <field name="view_id" ref="view_sale_margin_report_list" />
         <field name="search_view_id" ref="view_sale_margin_report_filter" />
         <field name="help">This report performs analysis on your invoices.</field>
         <field name="context">{"search_default_date":1,
@@ -193,21 +195,21 @@
         <field name="act_window_id" ref="action_sale_margin_report" />
     </record>
 
-    <record model="ir.actions.act_window.view" id="action_sale_margin_report_tree">
+    <record model="ir.actions.act_window.view" id="action_sale_margin_report_list">
         <field name="sequence" eval="2" />
         <field name="view_mode">list</field>
-        <field name="view_id" ref="view_sale_margin_report_tree" />
+        <field name="view_id" ref="view_sale_margin_report_list" />
         <field name="act_window_id" ref="action_sale_margin_report" />
     </record>
 
-    <menuitem action="action_sale_margin_report" id="menu_sale_margin_report_tree" parent="sale.menu_sale_report" />
+    <menuitem action="action_sale_margin_report" id="menu_sale_margin_report_list" parent="sale.menu_sale_report" />
 
     <record id="action_sale_margin_commission_report" model="ir.actions.act_window">
         <field name="name">Commission</field>
         <field name="res_model">sale.margin.report</field>
 
         <field name="view_mode">list,form</field>
-        <field name="view_id" ref="view_sale_margin_report_commission_tree" />
+        <field name="view_id" ref="view_sale_margin_report_commission_list" />
         <field name="search_view_id" ref="view_sale_margin_report_filter" />
         <field name="context">{"search_default_date":1, 'search_default_paid':1}</field>
         <field name="domain">[('move_type','in',['out_invoice','out_refund'])]</field>
@@ -223,7 +225,7 @@
     />
     <menuitem
         action="action_sale_margin_commission_report"
-        id="menu_sale_margin_commission_report_tree"
+        id="menu_sale_margin_commission_report_list"
         parent="menu_commission"
     />
 

@@ -10,7 +10,7 @@
 
 
                     <group string="Compute Commission">
-                        <div class="oe_grey">
+                        <div class="oe_grey" colspan="2">
                             For the selected invoice line will compute commission
                         </div>
                     </group>
@@ -18,7 +18,7 @@
                         <field name="invoice_line_ids" nolabel="1" />
                     </group>
                     <footer>
-                        <button name="do_compute" string="_Apply" type="object" class="oe_highlight" />
+                        <button name="do_compute" string="Apply" type="object" class="oe_highlight" />
                         or
                         <button string="Cancel" class="oe_link" special="cancel" />
                     </footer>
