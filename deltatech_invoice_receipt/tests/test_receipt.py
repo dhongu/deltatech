@@ -139,6 +139,7 @@ class TestAccountInvoice(AccountTestInvoicingCommon):
         # Verify the stock picking is done
         self.StockPicking.search([("origin", "=", purchase_order.name)])
 
+
 @tagged("post_install", "-at_install")
 class TestStockPicking(AccountTestInvoicingCommon):
 

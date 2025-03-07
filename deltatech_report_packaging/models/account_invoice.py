@@ -51,6 +51,7 @@ class AccountInvoice(models.Model):
                 invoice.refresh_packaging_material()
         return res
 
+
 class InvoicePackagingMaterial(models.Model):
     _name = "packaging.invoice.material"
     _description = "Packaging materials in invoice"
