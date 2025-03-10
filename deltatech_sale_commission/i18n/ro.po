@@ -49,14 +49,10 @@ msgid "Commercial Partner"
 msgstr "Partener comercial"
 
 #. module: deltatech_sale_commission
-#: code:addons/deltatech_sale_commission/wizard/commission_compute.py:0
 #: model:ir.actions.act_window,name:deltatech_sale_commission.action_sale_margin_commission_report
-#: model:ir.model.fields,field_description:deltatech_sale_commission.field_account_move_line__commission
-#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__commission
 #: model:ir.ui.menu,name:deltatech_sale_commission.menu_commission
 #: model:ir.ui.menu,name:deltatech_sale_commission.menu_sale_margin_commission_report_tree
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_tree
-#, python-format
 msgid "Commission"
 msgstr "Comision"
 
@@ -69,7 +65,7 @@ msgstr "Comision calculat"
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__commission_manager_computed
 msgid "Commission Manager Computed"
-msgstr ""
+msgstr "Comision manager calculat"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__company_id
@@ -317,7 +313,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_tree
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_pivot
 msgid "Profit Indicator"
-msgstr "Indicator profit"
+msgstr "Marja"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,help:deltatech_sale_commission.field_sale_margin_report__profit_val
@@ -344,6 +340,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__manager_rate
 msgid "Rate manager"
 msgstr ""
+
+#. module: deltatech_sale_commission
+#: code:addons/deltatech_sale_commission/wizard/commission_compute.py:0
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_account_move_line__commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__commission
+#, python-format
+msgid "Real Commission"
+msgstr "Comision real"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__state_id
@@ -425,7 +429,7 @@ msgstr "Valoare stoc în moneda companiei"
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_tree
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_pivot
 msgid "Supplement Indicator"
-msgstr "Indicator supliment"
+msgstr "Adaos"
 
 #. module: deltatech_sale_commission
 #: model_terms:ir.actions.act_window,help:deltatech_sale_commission.action_sale_margin_report

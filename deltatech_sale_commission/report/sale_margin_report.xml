@@ -110,7 +110,7 @@
             <pivot string="Sale margin report">
                 <field name="categ_id" type="row" />
                 <field name="date" type="row" />
-                <field name="product_uom_qty" type="measure" />
+<!--                <field name="product_uom_qty" type="measure" />-->
                 <field name="sale_val" type="measure" />
                 <field name="stock_val" type="measure" />
                 <field name="profit_val" type="measure" />

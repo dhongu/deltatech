@@ -40,7 +40,7 @@ class SaleMarginReport(models.Model):
     commission_manager_computed = fields.Float("Commission Manager Computed", readonly=True)
     commission_director_computed = fields.Float("Commission Director Computed", readonly=True)
 
-    commission = fields.Float("Commission")
+    commission = fields.Float("Real Commission")
     partner_id = fields.Many2one("res.partner", "Partner", readonly=True)
     commercial_partner_id = fields.Many2one("res.partner", "Commercial Partner", readonly=True)
 
