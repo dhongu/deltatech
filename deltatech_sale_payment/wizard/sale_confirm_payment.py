@@ -35,7 +35,7 @@ class SaleConfirmPayment(models.TransientModel):
         defaults["currency_id"] = order.currency_id.id
 
         tx = order.sudo().transaction_ids._get_last()
-        if tx and tx.state in ["pending", "authorized"]:
+        if tx and tx.state in ["pending", "authorized"] or tx.amount == 0:
             defaults["transaction_id"] = tx.id
             defaults["provider_id"] = tx.provider_id.id
             defaults["payment_method_id"] = tx.payment_method_id.id
@@ -95,7 +95,8 @@ class SaleConfirmPayment(models.TransientModel):
         if transaction.state != "done":
             transaction = transaction.with_context(payment_date=self.payment_date)
             transaction._set_pending()
-            transaction._set_done()
+            if transaction.amount > 0:
+                transaction._set_done()
             if transaction.provider_id.code not in ["none", "custom"]:
                 transaction._finalize_post_processing()
 
