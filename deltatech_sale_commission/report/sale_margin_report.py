@@ -278,3 +278,31 @@ class SaleMarginReport(models.Model):
         if 1 == 2:
             super().write(vals)
         return True
+
+    # @api.model
+    # def cron_update_purchase_price(self):
+    #     """Cron job to update purchase prices for lines from yesterday."""
+    #     AccountMoveLine = self.env["account.move.line"].sudo()
+    #
+    #     last_week = (datetime.now() - timedelta(days=7)).date()
+    #
+    #     lines = self.env["sale.margin.report"].search([
+    #         ("date", ">=", last_week)
+    #     ])
+    #
+    #     for line in lines:
+    #         invoice_line = AccountMoveLine.browse(line.id)
+    #         purchase_price = 0.0
+    #
+    #         if invoice_line:
+    #             # Use price from delivery if available
+    #             purchase_price = invoice_line.get_purchase_price() or 0.0
+    #
+    #             # If price from delivery is not available, use standard product price
+    #             if not purchase_price and invoice_line.product_id:
+    #                 purchase_price = invoice_line.product_id.standard_price
+    #
+    #             if purchase_price:
+    #                 invoice_line.write({"purchase_price": purchase_price})
+    #
+    #     return True
