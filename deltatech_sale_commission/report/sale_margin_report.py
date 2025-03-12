@@ -11,7 +11,9 @@ class SaleMarginReport(models.Model):
     _order = "date desc"
 
     date = fields.Date("Date", readonly=True)
+    due_date = fields.Date("Due Date", readonly=True)
     invoice_id = fields.Many2one("account.move", "Invoice", readonly=True)
+    payment_term_id = fields.Many2one("account.payment.term", "Payment Term", readonly=True)
     categ_id = fields.Many2one("product.category", "Category", readonly=True)
     product_id = fields.Many2one("product.product", "Product", readonly=True)
     product_uom = fields.Many2one("uom.uom", "Unit of Measure", readonly=True)
@@ -92,7 +94,7 @@ class SaleMarginReport(models.Model):
     def _select(self):
         select_str = """
             SELECT
-                id, date, invoice_id, categ_id, product_id,  account_id, product_uom, product_uom_qty ,
+                id, date,due_date, invoice_id,payment_term_id, categ_id, product_id,  account_id, product_uom, product_uom_qty ,
                 purchase_price,
                 sale_val ,
                 stock_val  as stock_val,
@@ -127,6 +129,8 @@ class SaleMarginReport(models.Model):
                 SELECT
                     l.id as id,
                     s.invoice_date as date,
+                    s.invoice_date_due as due_date,
+                    s.invoice_payment_term_id as payment_term_id,
                     l.move_id as invoice_id,
                     t.categ_id as categ_id,
                     l.product_id as product_id,
@@ -213,6 +217,8 @@ class SaleMarginReport(models.Model):
                     t.uom_id,
                     t.categ_id,
                     s.invoice_date,
+                    s.invoice_date_due,
+                    s.invoice_payment_term_id,
                     s.partner_id,
                     res_partner.state_id,
                     s.commercial_partner_id,

@@ -130,6 +130,18 @@ msgid "Date"
 msgstr "Dată"
 
 #. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__due_date
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Due Date"
+msgstr "Dată scadență"
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__payment_term_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Payment Term"
+msgstr "Termen plată"
+
+#. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__display_name
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__display_name
