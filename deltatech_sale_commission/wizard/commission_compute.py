@@ -43,22 +43,33 @@ class CommissionCompute(models.TransientModel):
             commission_days_limit = int(commission_days_limit_string)
         for line in self.invoice_line_ids:
             if commission_days_limit:
-                if line.invoice_id.payment_state != "paid":
-                    value = {"commission": 0}
-                else:
-                    if not line.invoice_id.invoice_payments_widget:
-                        value = {"commission": 0}
+                if line.invoice_id.payment_state not in ["paid", "reversed"]:
+                    if line.invoice_id.move_type == "out_refund":
+                        value = {"commission": line.commission_computed}
                     else:
-                        last_payment = sorted(
-                            line.invoice_id.invoice_payments_widget["content"], key=lambda d: d["date"], reverse=True
-                        )[0]
-                        days_difference = (
-                            fields.Date.to_date(last_payment["date"]) - line.invoice_id.invoice_date_due
-                        ).days  # calculate the days difference between the invoice due date and the payment date
-                        if days_difference <= commission_days_limit:
-                            value = {"commission": line.commission_computed}
+                        value = {"commission": 0}
+                else:
+                    if line.invoice_id.move_type == "out_refund":
+                        value = {"commission": line.commission_computed}
+                    else:
+                        if not line.invoice_id.invoice_payments_widget:
+                            if line.commission_computed < 0:
+                                value = {"commission": line.commission_computed}
+                            else:
+                                value = {"commission": 0}
                         else:
-                            value = {"commission": 0}
+                            last_payment = sorted(
+                                line.invoice_id.invoice_payments_widget["content"],
+                                key=lambda d: d["date"],
+                                reverse=True,
+                            )[0]
+                            days_difference = (
+                                fields.Date.to_date(last_payment["date"]) - line.invoice_id.invoice_date_due
+                            ).days  # calculate the days difference between the invoice due date and the payment date
+                            if days_difference <= commission_days_limit:
+                                value = {"commission": line.commission_computed}
+                            else:
+                                value = {"commission": 0}
 
             else:
                 value = {"commission": line.commission_computed}

@@ -1,7 +1,9 @@
 # ©  2008-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models, tools
+from datetime import datetime, timedelta
+
+from odoo import api, fields, models, tools
 
 
 class SaleMarginReport(models.Model):
@@ -11,7 +13,9 @@ class SaleMarginReport(models.Model):
     _order = "date desc"
 
     date = fields.Date("Date", readonly=True)
+    due_date = fields.Date("Due Date", readonly=True)
     invoice_id = fields.Many2one("account.move", "Invoice", readonly=True)
+    payment_term_id = fields.Many2one("account.payment.term", "Payment Term", readonly=True)
     categ_id = fields.Many2one("product.category", "Category", readonly=True)
     product_id = fields.Many2one("product.product", "Product", readonly=True)
     product_uom = fields.Many2one("uom.uom", "Unit of Measure", readonly=True)
@@ -40,7 +44,7 @@ class SaleMarginReport(models.Model):
     commission_manager_computed = fields.Float("Commission Manager Computed", readonly=True)
     commission_director_computed = fields.Float("Commission Director Computed", readonly=True)
 
-    commission = fields.Float("Commission")
+    commission = fields.Float("Real Commission")
     partner_id = fields.Many2one("res.partner", "Partner", readonly=True)
     commercial_partner_id = fields.Many2one("res.partner", "Commercial Partner", readonly=True)
 
@@ -92,7 +96,7 @@ class SaleMarginReport(models.Model):
     def _select(self):
         select_str = """
             SELECT
-                id, date, invoice_id, categ_id, product_id,  account_id, product_uom, product_uom_qty ,
+                id, date,due_date, invoice_id,payment_term_id, categ_id, product_id,  account_id, product_uom, product_uom_qty ,
                 purchase_price,
                 sale_val ,
                 stock_val  as stock_val,
@@ -127,6 +131,8 @@ class SaleMarginReport(models.Model):
                 SELECT
                     l.id as id,
                     s.invoice_date as date,
+                    s.invoice_date_due as due_date,
+                    s.invoice_payment_term_id as payment_term_id,
                     l.move_id as invoice_id,
                     t.categ_id as categ_id,
                     l.product_id as product_id,
@@ -200,7 +206,7 @@ class SaleMarginReport(models.Model):
     def _where(self):
         where_str = """
               s.move_type in ( 'out_invoice', 'out_refund', 'out_receipt') and s.state='posted'
-              and l.display_type = 'product'
+              and l.display_type in ('product','discount')
         """
         return where_str
 
@@ -213,6 +219,8 @@ class SaleMarginReport(models.Model):
                     t.uom_id,
                     t.categ_id,
                     s.invoice_date,
+                    s.invoice_date_due,
+                    s.invoice_payment_term_id,
                     s.partner_id,
                     res_partner.state_id,
                     s.commercial_partner_id,
@@ -277,4 +285,31 @@ class SaleMarginReport(models.Model):
             invoice.write({"invoice_user_id": vals["user_id"]})
         if 1 == 2:
             super().write(vals)
+        return True
+
+    @api.model
+    def cron_update_purchase_price(self):
+        """Cron job to update purchase prices for lines from yesterday."""
+        AccountMoveLine = self.env["account.move.line"].sudo()
+
+        last_week = (datetime.now() - timedelta(days=7)).date()
+
+        lines = self.env["sale.margin.report"].search([("date", ">=", last_week)])
+
+        for line in lines:
+            invoice_line = AccountMoveLine.browse(line.id)
+            purchase_price = 0.0
+
+            if invoice_line:
+                # Use price from delivery if available
+                purchase_price = invoice_line.get_purchase_price()
+
+                if not purchase_price:
+                    if invoice_line.product_id:
+                        if invoice_line.product_id.standard_price > 0:
+                            purchase_price = invoice_line.product_id.standard_price
+
+            if purchase_price:
+                invoice_line.write({"purchase_price": purchase_price})
+
         return True
