@@ -24,7 +24,7 @@ Deltatech  Queue Job Enhancements
 
 Features:
 
-- Imbunatatiri la modulul Job Queue
+-  Imbunatatiri la modulul Job Queue
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
