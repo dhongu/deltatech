@@ -144,6 +144,12 @@ msgid "Draft"
 msgstr "Ciornă"
 
 #. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__due_date
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Due Date"
+msgstr "Dată scadență"
+
+#. module: deltatech_sale_commission
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
 msgid "Extended Filters..."
 msgstr "Filtre extinse..."
@@ -284,6 +290,12 @@ msgstr "Partener"
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__payment_state
 msgid "Payment Status"
 msgstr "Stare plată"
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__payment_term_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Payment Term"
+msgstr "Termen plată"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__state__posted

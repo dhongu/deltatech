@@ -8,6 +8,8 @@
         <field name="arch" type="xml">
             <tree create="false">
                 <field name="date" column_invisible="True" />
+                <field name="due_date" />
+                <field name="payment_term_id" />
                 <field name="categ_id" column_invisible="True" />
                 <field name="product_id" column_invisible="True" />
                 <field name="product_uom" invisible="not context.get('set_visible',False)" groups="uom.group_uom" />
@@ -37,6 +39,7 @@
                             <field name="product_id" />
                             <field name="partner_id" invisible="1" />
                             <field name="commercial_partner_id" />
+                            <field name="invoice_id" />
                         </group>
                         <group>
                             <field name="purchase_price" />
@@ -73,12 +76,15 @@
         <field name="arch" type="xml">
             <tree delete="false" create="false">
                 <field name="date" column_invisible="1" />
+                <field name="due_date" />
+                <field name="payment_term_id" />
                 <field name="categ_id" column_invisible="1" />
                 <field name="product_id" />
                 <field name="user_id" />
                 <field name="partner_id" column_invisible="1" />
                 <field name="commercial_partner_id" />
                 <field name="invoice_id" />
+                <field name="due_date" />
                 <field name="product_uom_qty" sum="Qty" />
                 <field name="purchase_price" optional="hide" />
                 <field name="sale_val" sum="Sale value" />
@@ -110,7 +116,7 @@
             <pivot string="Sale margin report">
                 <field name="categ_id" type="row" />
                 <field name="date" type="row" />
-<!--                <field name="product_uom_qty" type="measure" />-->
+                <!--                <field name="product_uom_qty" type="measure" />-->
                 <field name="sale_val" type="measure" />
                 <field name="stock_val" type="measure" />
                 <field name="profit_val" type="measure" />
@@ -129,6 +135,9 @@
             <search string="Search">
 
                 <filter name="date" date="date" default_period="last_month" />
+                <separator />
+
+                <filter name="due_date" date="due_date" />
 
                 <separator />
                 <filter string="My Sales" name="mysale" domain="[('user_id','=',uid)]" />
