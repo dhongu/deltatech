@@ -4,7 +4,7 @@
 {
     "name": "Sale Commission",
     "summary": "Compute sale commission",
-    "version": "18.0.1.2.8",
+    "version": "18.0.1.3.4",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
@@ -19,6 +19,7 @@
         "wizard/commission_compute_view.xml",
         "wizard/update_purchase_price_view.xml",
         "views/res_config_settings_views.xml",
+        "data/cron_jobs.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",

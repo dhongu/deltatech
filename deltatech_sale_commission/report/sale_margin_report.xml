@@ -8,6 +8,8 @@
         <field name="arch" type="xml">
             <list create="false">
                 <field name="date" column_invisible="True" />
+                <field name="due_date" />
+                <field name="payment_term_id" />
                 <field name="categ_id" column_invisible="True" />
                 <field name="product_id" column_invisible="True" />
                 <field name="product_uom" invisible="not context.get('set_visible',False)" groups="uom.group_uom" />
@@ -18,7 +20,7 @@
                 <field name="sale_val" sum="Sale value" />
                 <field name="stock_val" sum="Stock value" />
                 <field name="profit_val" sum="Profit" />
-                <field name="company_id" invisible="1" groups="base.group_multi_company" />
+                <field name="company_id" column_invisible="1" groups="base.group_multi_company" />
                 <field name="move_type" column_invisible="True" />
                 <field name="state" column_invisible="True" />
             </list>
@@ -37,6 +39,7 @@
                             <field name="product_id" />
                             <field name="partner_id" invisible="1" />
                             <field name="commercial_partner_id" />
+                            <field name="invoice_id" />
                         </group>
                         <group>
                             <field name="purchase_price" />
@@ -72,13 +75,16 @@
         <field name="type">list</field>
         <field name="arch" type="xml">
             <list delete="false" create="false">
-                <field name="date" invisible="1" />
-                <field name="categ_id" invisible="1" />
+                <field name="date" column_invisible="1" />
+                <field name="due_date" />
+                <field name="payment_term_id" />
+                <field name="categ_id" column_invisible="1" />
                 <field name="product_id" />
                 <field name="user_id" />
-                <field name="partner_id" invisible="1" />
+                <field name="partner_id" column_invisible="1" />
                 <field name="commercial_partner_id" />
                 <field name="invoice_id" />
+                <field name="due_date" />
                 <field name="product_uom_qty" sum="Qty" />
                 <field name="purchase_price" optional="hide" />
                 <field name="sale_val" sum="Sale value" />
@@ -93,9 +99,9 @@
                 <field name="commission_manager_computed" optional="hide" />
                 <field name="director_user_id" optional="hide" />
                 <field name="commission_director_computed" optional="hide" />
-                <field name="company_id" invisible="1" groups="base.group_multi_company" />
-                <field name="move_type" invisible="1" />
-                <field name="state" invisible="1" />
+                <field name="company_id" column_invisible="1" groups="base.group_multi_company" />
+                <field name="move_type" column_invisible="1" />
+                <field name="state" column_invisible="1" />
                 <field name="currency_id" optional="hide" />
                 <field name="journal_id" optional="hide" />
             </list>
@@ -110,7 +116,7 @@
             <pivot string="Sale margin report">
                 <field name="categ_id" type="row" />
                 <field name="date" type="row" />
-                <field name="product_uom_qty" type="measure" />
+                <!--                <field name="product_uom_qty" type="measure" />-->
                 <field name="sale_val" type="measure" />
                 <field name="stock_val" type="measure" />
                 <field name="profit_val" type="measure" />
@@ -128,7 +134,10 @@
         <field name="arch" type="xml">
             <search string="Search">
 
-                <filter name="date" date="date" default_period="month" />
+                <filter name="date" date="date" default_period="month-1" />
+                <separator />
+
+                <filter name="due_date" date="due_date" />
 
                 <separator />
                 <filter string="My Sales" name="mysale" domain="[('user_id','=',uid)]" />
@@ -212,7 +221,7 @@
         <field name="view_id" ref="view_sale_margin_report_commission_list" />
         <field name="search_view_id" ref="view_sale_margin_report_filter" />
         <field name="context">{"search_default_date":1, 'search_default_paid':1}</field>
-        <field name="domain">[('move_type','in',['out_invoice','out_refund'])]</field>
+        <field name="domain">[('move_type','in',['out_invoice','out_refund','out_receipt'])]</field>
     </record>
 
 
