@@ -5,8 +5,8 @@
 import logging
 
 import requests
-from unidecode import unidecode
 from odoo import fields, models
+from unidecode import unidecode
 
 _logger = logging.getLogger(__name__)
 

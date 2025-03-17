@@ -4,6 +4,7 @@
 import base64
 
 from odoo import api, fields, models
+from odoo.osv import expression
 from reportlab.graphics.barcode import createBarcodeDrawing
 
 
@@ -62,7 +63,11 @@ class ProductProductLabel(models.TransientModel):
             if not lots_only:
                 label_list.append([0, 0, {"product_id": product.id, "quantity": 1}])
             else:
-                quants = self.env["stock.quant"].search([("product_id", "=", product.id)])
+                domain = [("product_id", "=", product.id)]
+                if self.warehouse_id:
+                    location_id = self.warehouse_id.lot_stock_id
+                    domain = expression.AND([[("location_id", "child_of", location_id.id)], domain])
+                quants = self.env["stock.quant"].search(domain)
                 for quant in quants:
                     if quant.location_id.usage == "internal" and quant.lot_id:
                         label_list.append(
@@ -150,7 +155,7 @@ class ProductProductLabel(models.TransientModel):
                     vals.append(
                         {
                             "product_id": label[2]["product_id"],
-                            "quantity": 1,
+                            "quantity": label[2]["quantity"],
                             "lot": label[2]["lot"],
                         }
                     )
