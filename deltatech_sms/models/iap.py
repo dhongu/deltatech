@@ -5,7 +5,7 @@
 import logging
 
 import requests
-
+from unidecode import unidecode
 from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
@@ -55,6 +55,7 @@ class IapAccount(models.Model):
 
         # Define the endpoint and payload
         url = "https://smswapi.com/api/send/sms"
+        message = unidecode(message) # Remove accents
         data = {
             "secret": self.sms_secret,
             "mode": "devices",

@@ -13,6 +13,7 @@
     "license": "OPL-1",
     "data": ["views/iap_views.xml"],
     "images": ["static/description/main_screenshot.png"],
+    "external_dependencies": {"python": ["unidecode"]},
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["dhongu"],
