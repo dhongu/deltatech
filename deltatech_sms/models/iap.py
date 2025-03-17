@@ -25,6 +25,7 @@ class IapAccount(models.Model):
     def send_sms(self, phone_number, message):
         """Send SMS using IAP"""
         response = {}
+        message = unidecode(message)  # Remove accents
         if self.sms_provider == "4pay":
             response = self._send_sms_4pay(phone_number, message)
         if self.sms_provider == "wapi":
@@ -52,10 +53,8 @@ class IapAccount(models.Model):
         return res
 
     def _send_sms_wapi(self, phone_number, message):
-
         # Define the endpoint and payload
         url = "https://smswapi.com/api/send/sms"
-        message = unidecode(message) # Remove accents
         data = {
             "secret": self.sms_secret,
             "mode": "devices",
