@@ -5,6 +5,7 @@
 import logging
 
 import requests
+from unidecode import unidecode
 from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
@@ -12,6 +13,8 @@ _logger = logging.getLogger(__name__)
 
 class IapAccount(models.Model):
     _inherit = "iap.account"
+
+    endpoint = fields.Char()
 
     sms_provider = fields.Selection(
         [("4pay", "SMS 4Pay"), ("wapi", "SMS Wapi")], string="SMS Provider", required=True, default="4pay"
@@ -22,6 +25,7 @@ class IapAccount(models.Model):
     def send_sms(self, phone_number, message):
         """Send SMS using IAP"""
         response = {}
+        message = unidecode(message)  # Remove accents
         if self.sms_provider == "4pay":
             response = self._send_sms_4pay(phone_number, message)
         if self.sms_provider == "wapi":
