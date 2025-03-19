@@ -4,15 +4,15 @@
 
 
 {
-    "name": "Terrabit - Sale Order Type",
+    "name": "Terrabit - Sale Order Type - Obsolete",
     "summary": "Manage multiple sale order types",
     "version": "18.0.1.0.1",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Other",
-    "depends": ["sale", "deltatech_select_journal"],
+    "depends": ["deltatech_record_type"],
     "license": "OPL-1",
-    "data": ["views/sale.xml", "security/ir.model.access.csv"],
+    "data": [],
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],
 }

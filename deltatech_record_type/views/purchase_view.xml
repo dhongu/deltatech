@@ -5,26 +5,37 @@
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_form" />
         <field name="arch" type="xml">
-            <field name="currency_id" position="after">
-                <field name="po_type" options="{'no_create':True}" domain="[('model', '=', 'purchase')]" />
+            <field name="partner_id" position="before">
+                <field name="show_po_type" invisible="1" />
+                <field
+                    name="po_type"
+                    readonly="state!='draft'"
+                    options="{'no_create':True}"
+                    domain="[('model', '=', 'purchase.order')]"
+                    invisible="not show_po_type"
+                />
+            </field>
+            <field name="fiscal_position_id" position="after">
+                <field name="journal_id" />
             </field>
         </field>
     </record>
 
 
-<!--    <menuitem-->
-<!--        id="menu_purchaseorder_type"-->
-<!--        name="Record Types"-->
-<!--        parent="purchase.menu_purchase_config"-->
-<!--        sequence="200"-->
-<!--        action="action_record_type"-->
-<!--    />-->
+    <record model="ir.actions.act_window" id="action_purchase_order_type">
+        <field name="name">Order Types</field>
+        <field name="res_model">record.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'default_model':'purchase.order'}</field>
+        <field name="domain">[('model', '=', 'purchase.order')]</field>
+    </record>
 
-<!--    <menuitem-->
-<!--        id="menu_saleorder_type"-->
-<!--        name="Record Types"-->
-<!--        parent="sale.menu_sale_config"-->
-<!--        sequence="200"-->
-<!--        action="action_record_type"-->
-<!--    />-->
+     <menuitem
+        id="menu_purchase_order_type"
+        name="Order Types"
+        parent="purchase.menu_purchase_config"
+        action="action_purchase_order_type"
+    />
+
+
 </odoo>

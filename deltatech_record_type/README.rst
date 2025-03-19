@@ -10,9 +10,9 @@ Terrabit - Record Type
    !! source digest: sha256:b0619f4886e70796f25dc18aef1ae850aff1f1f34442032a1025ddf2c2ffd5a3
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/licence-OPL--1-blue.png
     :target: https://www.odoo.com/documentation/master/legal/licenses.html
     :alt: License: OPL-1
@@ -24,7 +24,9 @@ Terrabit - Record Type
 
 Features:
 
--  Types can be defined for records
+-  Types can be defined for records sale.order, purchase.order,
+   account.move
+-  If a model has no types defined, the type field will not be displayed
 
 **Table of contents**
 
@@ -46,10 +48,18 @@ Authors
 -------
 
 * Terrabit
-* Dan Stoica
+* Voicu Stefan
 
 Maintainers
 -----------
+
+.. |maintainer-VoicuStefan2001| image:: https://github.com/VoicuStefan2001.png?size=40px
+    :target: https://github.com/VoicuStefan2001
+    :alt: VoicuStefan2001
+
+Current maintainer:
+
+|maintainer-VoicuStefan2001| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_record_type>`_ project on GitHub.
 
