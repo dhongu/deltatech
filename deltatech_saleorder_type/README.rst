@@ -1,6 +1,6 @@
-==========================
-Terrabit - Sale Order Type
-==========================
+=====================================
+Terrabit - Sale Order Type - Obsolete
+=====================================
 
 .. 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -24,8 +24,7 @@ Terrabit - Sale Order Type
 
 -  Features:
 
-   -  Types can be defined for sale order
-   -  A journal can be defined for invoicing
+   -  
 
 **Table of contents**
 
