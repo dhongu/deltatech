@@ -56,8 +56,8 @@ class SaleMarginReport(models.Model):
     account_id = fields.Many2one("account.account", "Account", readonly=True)
     company_id = fields.Many2one("res.company", "Company", readonly=True)
     # period_id = fields.Many2one('account.period', 'Period', readonly=True)
-    indicator_supplement = fields.Float("Supplement Indicator", readonly=True, digits=(12, 2), group_operator="avg")
-    indicator_profit = fields.Float("Profit Indicator", readonly=True, digits=(12, 2), group_operator="avg")
+    indicator_supplement = fields.Float("Supplement Indicator", readonly=True, digits=(12, 2), aggregator="avg")
+    indicator_profit = fields.Float("Profit Indicator", readonly=True, digits=(12, 2), aggregator="avg")
 
     journal_id = fields.Many2one("account.journal", "Journal", readonly=True)
     company_currency_id = fields.Many2one(
