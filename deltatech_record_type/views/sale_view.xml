@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!--        Sale order form view-->
+    <record model="ir.ui.view" id="view_saleorder_type_saleorder_form">
+        <field name="name">saleorder.type.saleorder.form</field>
+        <field name="model">sale.order</field>
+        <field eval="500" name="priority" />
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="show_so_type" invisible="1" />
+                <field
+                    name="so_type"
+                    widget="selection"
+                    readonly="state in ['cancel', 'sale']"
+                    options="{'no_create':True}"
+                    domain="['|', ('user_ids', '=', False), ('user_ids', 'in', uid), ('model', '=', 'sale.order')]"
+                    invisible="not show_so_type"
+                />
+
+
+            </xpath>
+            <xpath expr="//field[@name='journal_id']" position="attributes">
+                <attribute name="invisible">0</attribute>
+                <attribute name="groups" />
+            </xpath>
+        </field>
+    </record>
+    <!--        Sale order search view-->
+    <record model="ir.ui.view" id="view_saleorder_type_filter">
+        <field name="name">saleorder.type.saleorder.filter</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="so_type" />
+            </field>
+            <xpath expr="//group" position="inside">
+                <filter name='group_by_type' string="Order Type" domain="[]" context="{'group_by':'so_type'}" />
+            </xpath>
+        </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="action_sale_order_type">
+        <field name="name">Order Types</field>
+        <field name="res_model">record.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'default_model':'sale.order'}</field>
+        <field name="domain">[('model', '=', 'sale.order')]</field>
+    </record>
+
+    <menuitem
+        id="menu_sale_order_type"
+        name="Order Types"
+        parent="sale.menu_sale_config"
+        action="action_sale_order_type"
+    />
+
+</odoo>
