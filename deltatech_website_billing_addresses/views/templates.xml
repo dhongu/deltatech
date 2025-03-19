@@ -323,7 +323,7 @@
                         class="address-inline"
                     />
                 </div>
-                <div t-if="not same_shipping and not only_services" groups="sale.group_delivery_invoice_address">
+                <div t-if="not same_shipping and not only_services">
                     <b>Shipping:</b>
                     <span
                         t-esc='order.partner_shipping_id'

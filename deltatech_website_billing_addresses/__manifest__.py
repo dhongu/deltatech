@@ -5,7 +5,7 @@
     "name": "Website Billing Addresses",
     "category": "Website/Website",
     "summary": "Website Billing Addresses",
-    "version": "17.0.1.3.0",
+    "version": "17.0.1.3.1",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
