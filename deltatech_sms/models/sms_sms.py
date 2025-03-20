@@ -5,9 +5,8 @@
 
 import logging
 
-from werkzeug.urls import url_join
-
 from odoo import models, tools
+from werkzeug.urls import url_join
 
 from .sms_api import SmsApi
 

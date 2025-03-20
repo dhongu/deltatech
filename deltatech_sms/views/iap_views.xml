@@ -6,7 +6,9 @@
         <field name="inherit_id" ref="iap.iap_account_view_form" />
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="endpoint" />
+                  <field name="sms_provider" />
+                  <field name="sms_secret" />
+                  <field name="sms_gateway" />
             </field>
         </field>
     </record>
