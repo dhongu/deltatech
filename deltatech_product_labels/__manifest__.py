@@ -2,7 +2,7 @@
 
 {
     "name": "Product Labels",
-    "version": "17.0.1.0.9",
+    "version": "17.0.1.1.0",
     "category": "Stock",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

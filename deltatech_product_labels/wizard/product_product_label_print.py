@@ -44,7 +44,7 @@ class ProductProductLabel(models.TransientModel):
             product_list = self.get_saleorder_lines(active_ids)
 
         if model == "stock.picking":
-            product_list = self.get_picking_lines(active_ids)
+            label_list = self.get_picking_lines(active_ids)
 
         for item in product_list:
             label_list.append([0, 0, product_list[item]])
@@ -127,14 +127,20 @@ class ProductProductLabel(models.TransientModel):
     @api.model
     def get_picking_lines(self, active_ids):
         pickings = self.env["stock.picking"].browse(active_ids)
-        product_list = {}
+        product_list = []
         for picking in pickings:
             for line in picking.move_line_ids:
-                product_list[line.product_id.id] = {
-                    "product_id": line.product_id.id,
-                    "quantity": line.quantity,
-                    "lot": line.lot_id.name if line.lot_id else "",
-                }
+                product_list.append(
+                    [
+                        0,
+                        0,
+                        {
+                            "product_id": line.product_id.id,
+                            "quantity": line.quantity,
+                            "lot": line.lot_id.name if line.lot_id else "",
+                        },
+                    ]
+                )
         return product_list
 
     def print_labels(self):
