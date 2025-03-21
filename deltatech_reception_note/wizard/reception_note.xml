@@ -9,7 +9,7 @@
                     Are you sure you want to create a reception note?
                 </div>
                 <footer>
-                    <button name="do_create_reception_note" string="_Apply" type="object" class="oe_highlight" />
+                    <button name="do_create_reception_note" string="Apply" type="object" class="oe_highlight" />
                     or
                     <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>
