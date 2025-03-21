@@ -9,7 +9,7 @@
                     <field name="internal_number" />
                 </group>
                 <footer>
-                    <button name="do_change_number" string="_Apply" type="object" class="oe_highlight" />
+                    <button name="do_change_number" string="Apply" type="object" class="oe_highlight" />
                     or
                     <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>
