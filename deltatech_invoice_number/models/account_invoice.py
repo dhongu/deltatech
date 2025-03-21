@@ -44,25 +44,25 @@ class AccountInvoice(models.Model):
 
     def check_data(self, journal_id=None, invoice_date=None):
         for obj_inv in self:
-            inv_type = obj_inv.move_type
-
-            invoice_date = invoice_date or obj_inv.invoice_date
             journal_id = journal_id or obj_inv.journal_id.id
-
-            if (inv_type == "out_invoice" or inv_type == "out_refund") and obj_inv.state == "draft":
-                res = self.search(
-                    [
-                        ("move_type", "=", inv_type),
-                        ("invoice_date", ">", invoice_date),
-                        ("journal_id", "=", journal_id),
-                        ("state", "=", "posted"),
-                    ],
-                    limit=1,
-                    order="invoice_date desc",
-                )
-                if res:
-                    invoice_date = res.invoice_date
-                    return _("Post the invoice with a greater date than %s") % invoice_date
+            journal = self.env["account.journal"].browse(journal_id)
+            if journal.restrict_date:
+                inv_type = obj_inv.move_type
+                invoice_date = invoice_date or obj_inv.invoice_date
+                if (inv_type == "out_invoice" or inv_type == "out_refund") and obj_inv.state == "draft":
+                    res = self.search(
+                        [
+                            ("move_type", "=", inv_type),
+                            ("invoice_date", ">", invoice_date),
+                            ("journal_id", "=", journal_id),
+                            ("state", "=", "posted"),
+                        ],
+                        limit=1,
+                        order="invoice_date desc",
+                    )
+                    if res:
+                        invoice_date = res.invoice_date
+                        return _("Post the invoice with a greater date than %s") % invoice_date
         return ""
 
     # def action_move_create(self):
