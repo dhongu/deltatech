@@ -10,7 +10,7 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     loc_storehouse_id = fields.Many2one("warehouse.location.storehouse", string="Storehouse")
-    loc_zone_id = fields.Many2one("warehouse.location.zone", string="Zone")
-    loc_shelf_id = fields.Many2one("warehouse.location.shelf", string="Shelf")
-    loc_section_id = fields.Many2one("warehouse.location.section", string="Section")
-    loc_rack_id = fields.Many2one("warehouse.location.rack", string="Rack")
+    loc_zone_id = fields.Many2one("warehouse.location.zone", string="Zone Location")
+    loc_shelf_id = fields.Many2one("warehouse.location.shelf", string="Shelf Location")
+    loc_section_id = fields.Many2one("warehouse.location.section", string="Section Location")
+    loc_rack_id = fields.Many2one("warehouse.location.rack", string="Rack Location")
