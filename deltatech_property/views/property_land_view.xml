@@ -8,7 +8,7 @@
                 <kanban>
                     <field name="id" />
                     <templates>
-                        <t t-name="kanban-box">
+                        <t t-name="card">
                             <div class="oe_kanban_global_click">
                                 <!--                                <div class="o_kanban_image">-->
                                 <div class="pull-left">

@@ -168,7 +168,7 @@
                             <field name="uom_id" />
                             <field name="price_unit" />
                             <templates>
-                                <t t-name="kanban-box">
+                                <t t-name="card">
                                     <div t-attf-class="oe_kanban_card oe_kanban_global_click">
                                         <div class="row">
                                             <div class="col-8">
