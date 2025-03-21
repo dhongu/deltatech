@@ -12,7 +12,7 @@
                             <field name="id" />
                             <field name="name" />
                             <templates>
-                                <t t-name="kanban-box">
+                                <t t-name="card">
                                     <div class="oe_kanban_global_click" style="max-width: 200px">
                                         <div class="o_kanban_record_top">
                                             <img
