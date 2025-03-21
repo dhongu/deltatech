@@ -336,7 +336,7 @@
                     </group>
                     <field name="line_ids" readonly="state=='done'" />
                 </sheet>
-                <chatter/>
+                <chatter />
             </form>
         </field>
     </record>
