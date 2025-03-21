@@ -9,7 +9,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Services/Equipment",
-    "depends": ["deltatech_service_base", "product","stock"],
+    "depends": ["deltatech_service_base", "product", "stock"],
     "license": "OPL-1",
     "data": [
         "data/data.xml",

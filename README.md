@@ -50,7 +50,7 @@ addon | version | maintainers | summary | price
 [deltatech_gln](deltatech_gln/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Partner Global Location Number | Free 
 [deltatech_invoice_color](deltatech_invoice_color/) | 18.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Colors Invoice Lines | Free 
 [deltatech_invoice_delivery](deltatech_invoice_delivery/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Create delivery form invoice | Free 
-[deltatech_invoice_number](deltatech_invoice_number/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Renumbering invoice | Free 
+[deltatech_invoice_number](deltatech_invoice_number/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Renumbering invoice | Free 
 [deltatech_invoice_payment](deltatech_invoice_payment/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show payments from invoice | Free 
 [deltatech_invoice_picking](deltatech_invoice_picking/) | 18.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Facturare livrari | 5.0 EUR
 [deltatech_invoice_product_filter](deltatech_invoice_product_filter/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Searching invoice using product | Free 
@@ -130,7 +130,7 @@ addon | version | maintainers | summary | price
 [deltatech_sale_multiple_website](deltatech_sale_multiple_website/) | 18.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Quantity multiple on website | Free 
 [deltatech_sale_pallet](deltatech_sale_pallet/) | 18.0.1.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale pallet | Free 
 [deltatech_sale_pallet_website](deltatech_sale_pallet_website/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale pallet | Free 
-[deltatech_sale_payment](deltatech_sale_payment/) | 18.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Payment button in sale order | Free 
+[deltatech_sale_payment](deltatech_sale_payment/) | 18.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Payment button in sale order | Free 
 [deltatech_sale_phone](deltatech_sale_phone/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show partner phone in sale order | Free 
 [deltatech_sale_picking_status](deltatech_sale_picking_status/) | 18.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Get sale order status from pickings | Free 
 [deltatech_sale_purchase](deltatech_sale_purchase/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Purchase | Free 

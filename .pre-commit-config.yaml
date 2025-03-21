@@ -23,7 +23,7 @@ exclude: |
     __unported__
 default_language_version:
   python: python3
-#  node: "16.19.0"
+  node: "16.19.0"
 repos:
   - repo: local
     hooks:
@@ -133,8 +133,9 @@ repos:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --unsafe-fixes]
       - id: ruff-format
+
   - repo: https://github.com/OCA/pylint-odoo
-    rev: v9.1.3
+    rev: v9.2.0
     hooks:
       - id: pylint_odoo
         name: pylint with optional checks

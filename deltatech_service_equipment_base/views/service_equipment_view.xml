@@ -103,7 +103,7 @@
                     </notebook>
                     <field name="note" />
                 </sheet>
-                <chatter/>
+                <chatter />
             </form>
         </field>
     </record>

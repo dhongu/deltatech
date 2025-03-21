@@ -6,8 +6,7 @@
         <field name="inherit_id" ref="account.view_account_journal_form" />
         <field name="arch" type="xml">
             <xpath expr="//notebook/page/group/group[2]" position="after">
-                <group name="restrict_date"
-                       invisible="type != 'sale'">
+                <group name="restrict_date" invisible="type != 'sale'">
 
                     <field name="restrict_date" />
                 </group>

@@ -22,9 +22,9 @@ Products Category Color
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Add color in product category
+  - Add color in product category
 
 **Table of contents**
 

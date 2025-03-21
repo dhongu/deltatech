@@ -22,12 +22,12 @@ Stock Inventory
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Adds the old stock.inventory model, with its functionalities
-   -  Display stock price column at inventory
-   -  Security group "Can update quantities" is added. Only users in
-      this group can update product quantities
+  - Adds the old stock.inventory model, with its functionalities
+  - Display stock price column at inventory
+  - Security group "Can update quantities" is added. Only users in this
+    group can update product quantities
 
 If system parameter "stock.use_inventory_price" is set to True, the cost
 price of the product is updated with the price on the inventory line

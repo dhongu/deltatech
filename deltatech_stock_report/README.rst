@@ -22,9 +22,9 @@ Stock Reports
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Report with positions from picking lists
+  - Report with positions from picking lists
 
 **Table of contents**
 

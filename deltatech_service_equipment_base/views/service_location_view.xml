@@ -45,7 +45,7 @@
 
                     <field name="note" placeholder="Note" />
                 </sheet>
-                <chatter/>
+                <chatter />
             </form>
         </field>
     </record>
