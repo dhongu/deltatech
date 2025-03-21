@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Invoice Number",
+    "name": "Invoice Number Obsolete",
     "summary": "Renumbering invoice",
     "version": "18.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
