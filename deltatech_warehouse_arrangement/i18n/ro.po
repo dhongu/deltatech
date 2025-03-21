@@ -113,7 +113,7 @@ msgid "Locations"
 msgstr "Locație"
 
 #. module: deltatech_warehouse_arrangement
-#: model:ir.model,name:deltatech_warehouse_arrangement.model_stock_production_lot
+#: model:ir.model,name:deltatech_warehouse_arrangement.model_stock_lot
 msgid "Lot/Serial"
 msgstr ""
 
