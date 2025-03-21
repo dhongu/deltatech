@@ -27,6 +27,6 @@ msgid "RAL"
 msgstr "RAL"
 
 #. module: deltatech_ral
-#: model:ir.model,name:deltatech_ral.model_stock_production_lot
+#: model:ir.model,name:deltatech_ral.model_stock_lot
 msgid "Serial Number"
 msgstr "Număr de lot"
