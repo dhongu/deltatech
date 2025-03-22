@@ -18,16 +18,17 @@ class ServiceNotification(models.Model):
     )
     can_create_delivery = fields.Boolean(related="agreement_id.type_id.permits_pickings")
 
-    @api.model
-    def create(self, vals):
-        equipment_id = vals.get("equipment_id", False)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            equipment_id = vals.get("equipment_id", False)
 
-        if equipment_id:
-            equipment = self.env["service.equipment"].browse(equipment_id)
-            if not vals.get("agreement_id", False):
-                vals["agreement_id"] = equipment.agreement_id.id
+            if equipment_id:
+                equipment = self.env["service.equipment"].browse(equipment_id)
+                if not vals.get("agreement_id", False):
+                    vals["agreement_id"] = equipment.agreement_id.id
 
-        return super().create(vals)
+        return super().create(vals_list)
 
     def get_context_default(self):
         context = super().get_context_default()

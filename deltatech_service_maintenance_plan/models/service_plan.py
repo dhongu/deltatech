@@ -99,13 +99,14 @@ class ServicePlan(models.Model):
             else:
                 plan.last_call_id = False
 
-    @api.model
-    def create(self, vals):
-        if ("name" not in vals) or (vals.get("name") in ("/", False)):
-            sequence_plan = self.env.ref("deltatech_service_maintenance_plan.sequence_plan")
-            if sequence_plan:
-                vals["name"] = sequence_plan.next_by_id()
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if ("name" not in vals) or (vals.get("name") in ("/", False)):
+                sequence_plan = self.env.ref("deltatech_service_maintenance_plan.sequence_plan")
+                if sequence_plan:
+                    vals["name"] = sequence_plan.next_by_id()
+        return super().create(vals_list)
 
     def action_start(self):
         self.write({"state": "active"})
