@@ -34,6 +34,9 @@
 <!--        <field name="groups_id" eval="[(4, ref('deltatech_change_uom.group_change_uom'))]" />-->
     </record>
 
-    <menuitem name="Change lot" id="menu_change_lot_location" action="action_lot_change_location" sequence="1001" />
+    <menuitem name="Change lot" id="menu_change_lot_location"
+              action="action_lot_change_location" sequence="1001"
+                parent="stock.menu_stock_adjustments"
+    />
 
 </odoo>
