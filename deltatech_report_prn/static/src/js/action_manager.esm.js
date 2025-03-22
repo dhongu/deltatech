@@ -1,12 +1,10 @@
 /** @odoo-module **/
-import config from "web.config";
-import {download} from "@web/core/network/download";
 import {registry} from "@web/core/registry";
 
 async function prnReportHandler(action, options, env) {
-    if (config.device.isMobile) {
-        return;
-    }
+    // if (config.device.isMobile) {
+    //     return;
+    // }
     if (action.device_id) {
         // Raportul se va tipari prin IoT
         return;
