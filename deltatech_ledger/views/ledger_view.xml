@@ -2,7 +2,7 @@
         <!-- Define the name -->
 
 
-        <!-- Define the tree view -->
+        <!-- Define the list view -->
         <record id="view_ledger_tree" model="ir.ui.view">
             <field name="name">ledger.tree</field>
             <field name="model">ledger.ledger</field>

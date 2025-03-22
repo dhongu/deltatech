@@ -17,13 +17,15 @@ Deltatech Object History for Service
     :target: https://www.odoo.com/documentation/master/legal/licenses.html
     :alt: License: OPL-1
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/14.0/deltatech_object_history_service
+    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_object_history_service
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
 
 Features:
- - Extends the object history functionalities to Service agreement ans Service Equipment models
+
+- Extends the object history functionalities to Service agreement ans
+  Service Equipment models
 
 **Table of contents**
 
@@ -42,13 +44,13 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Terrabit
 * Dan Stoica
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 .. |maintainer-danila12| image:: https://github.com/danila12.png?size=40px
     :target: https://github.com/danila12
@@ -58,6 +60,6 @@ Current maintainer:
 
 |maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/14.0/deltatech_object_history_service>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_object_history_service>`_ project on GitHub.
 
 You are welcome to contribute.

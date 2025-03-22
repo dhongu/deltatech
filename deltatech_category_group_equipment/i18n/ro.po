@@ -1,0 +1,46 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_category_group_equipment
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-01 08:41+0000\n"
+"PO-Revision-Date: 2023-08-01 08:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_category_group_equipment
+#: model:ir.model.fields,field_description:deltatech_category_group_equipment.field_service_equipment__category_group_class
+msgid "Category class"
+msgstr "Clasa categorie"
+
+#. module: deltatech_category_group_equipment
+#: model:ir.model.fields,field_description:deltatech_category_group_equipment.field_service_equipment__category_group_type
+msgid "Category type"
+msgstr "Tip categorie"
+
+#. module: deltatech_category_group_equipment
+#: model:ir.model.fields,field_description:deltatech_category_group_equipment.field_service_equipment__display_name
+msgid "Display Name"
+msgstr "Afiseaza nume"
+
+#. module: deltatech_category_group_equipment
+#: model:ir.model.fields,field_description:deltatech_category_group_equipment.field_service_equipment__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_category_group_equipment
+#: model:ir.model.fields,field_description:deltatech_category_group_equipment.field_service_equipment____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_category_group_equipment
+#: model:ir.model,name:deltatech_category_group_equipment.model_service_equipment
+msgid "Service Equipment"
+msgstr "Echipament"

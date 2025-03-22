@@ -107,7 +107,7 @@ class PropertyProperty(models.AbstractModel):
             "res_model": "ir.attachment",
             "type": "ir.actions.act_window",
             "view_id": False,
-            "view_mode": "kanban,tree,form",
+            "view_mode": "kanban,list,form",
             "limit": 80,
             "context": f"{'default_res_model': {self._name},'default_res_id': {self.id}}",
         }

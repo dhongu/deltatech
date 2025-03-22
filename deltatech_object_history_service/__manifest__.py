@@ -9,7 +9,7 @@
     "category": "Other",
     "depends": [
         "deltatech_object_history",
-        "deltatech_service",
+        "deltatech_service_agreement",
         "deltatech_service_equipment",
     ],
     "license": "OPL-1",

@@ -5,7 +5,7 @@
             <field name="name">deltatech.sale.report.tree</field>
             <field name="model">deltatech.sale.report</field>
             <field name="arch" type="xml">
-                <tree string="Sale_report" create="false">
+                <list string="Sale_report" create="false">
                     <field name="date" invisible="1" />
                     <field name="user_id" invisible="1" />
                     <field name="warehouse_id" invisible="1" />
@@ -19,7 +19,7 @@
                     <field name="sale_val" sum="Sale value" />
                     <field name="stock_val" sum="Stock value" />
                     <field name="profit_val" sum="Profit" />
-                </tree>
+                </list>
             </field>
         </record>-->
         <record id="view_deltatech_sale_report_graph" model="ir.ui.view">

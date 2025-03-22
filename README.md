@@ -35,6 +35,8 @@ addon | version | maintainers | summary | price
 [deltatech_card_payment](deltatech_card_payment/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Payment Method Card | Free 
 [deltatech_cash](deltatech_cash/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Cash In / Out | Free 
 [deltatech_cash_statement](deltatech_cash_statement/) | 18.0.3.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Update cash balance | Free 
+[deltatech_category_group](deltatech_category_group/) | 18.0.0.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Groups for internal categories | Free 
+[deltatech_category_group_equipment](deltatech_category_group_equipment/) | 18.0.0.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Groups for equipments, related to internal categories groups | Free 
 [deltatech_change_uom](deltatech_change_uom/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Change unit of measure in product | Free 
 [deltatech_contact](deltatech_contact/) | 18.0.1.4.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | New fields in partner | Free 
 [deltatech_credentials](deltatech_credentials/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage credentials for external services | Free 
@@ -69,10 +71,12 @@ addon | version | maintainers | summary | price
 [deltatech_no_quick_create](deltatech_no_quick_create/) | 18.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Disable quick_create | Free 
 [deltatech_notification_sound](deltatech_notification_sound/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Notification Sound | Free 
 [deltatech_object_history](deltatech_object_history/) | 18.0.0.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Object history - a parallel history of Odoo documents, separated from standard Odoo messages | Free 
+[deltatech_object_history_service](deltatech_object_history_service/) | 18.0.0.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Extends Object History for Agreement an Equipment models | Free 
 [deltatech_packaging](deltatech_packaging/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Packaging | Free 
 [deltatech_partner_discount](deltatech_partner_discount/) | 18.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Creates a discount field on partner and alerts the user on invoice | Free 
 [deltatech_partner_generic](deltatech_partner_generic/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Gneric partner | Free 
 [deltatech_partner_minimal_aquisition](deltatech_partner_minimal_aquisition/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Warns you if your PO to a partner hasn't reached a minimal value | Free 
+[deltatech_payment_forecast](deltatech_payment_forecast/) | 18.0.0.0.4 |  | Generates a report to estimate payments at a certain date | Free 
 [deltatech_payment_report](deltatech_payment_report/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Payment Report | Free 
 [deltatech_payment_term](deltatech_payment_term/) | 18.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Term Rate Wizard | Free 
 [deltatech_payment_term_fix](deltatech_payment_term_fix/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Payment Term Fix | Free 
@@ -155,6 +159,7 @@ addon | version | maintainers | summary | price
 [deltatech_sms_sale](deltatech_sms_sale/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | send SMS at sale order confirmation | Free 
 [deltatech_stock_account](deltatech_stock_account/) | 18.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Stock Account Extension | Free 
 [deltatech_stock_analytic](deltatech_stock_analytic/) | 18.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Create analytic lines from stock moves | Free 
+[deltatech_stock_close](deltatech_stock_close/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Close stock operations at date | 0.0 EUR
 [deltatech_stock_date](deltatech_stock_date/) | 18.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Obsolete use l10n_ro_stock_account_date | Free 
 [deltatech_stock_delivery](deltatech_stock_delivery/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Adding button in invoice for display reception or delivery | Free 
 [deltatech_stock_inventory](deltatech_stock_inventory/) | 18.0.2.2.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Inventory Old Method | Free 
