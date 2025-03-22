@@ -2,7 +2,7 @@
 import {registry} from "@web/core/registry";
 
 async function prnReportHandler(action, options, env) {
-    // if (config.device.isMobile) {
+    // If (config.device.isMobile) {
     //     return;
     // }
     if (action.device_id) {
