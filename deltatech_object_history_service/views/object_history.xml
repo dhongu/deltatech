@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="object_history_filter" model="ir.ui.view">
+        <field name="name">object.history.filter</field>
+        <field name="model">object.history</field>
+        <field name="inherit_id" ref="deltatech_object_history.object_history_filter" />
+        <field name="arch" type="xml">
+            <filter name="pickings" position="after">
+                <filter name="agreements" domain="[('res_model','=','service.agreement')]" string="Agreements" />
+                <filter name="equipments" domain="[('res_model','=','service.equipment')]" string="Equipments" />
+            </filter>
+        </field>
+    </record>
+</odoo>
