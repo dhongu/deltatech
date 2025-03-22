@@ -1,9 +1,8 @@
 /** @odoo-module */
 
+import WebsiteSaleCheckout from "@website_sale/js/checkout";
 
-import WebsiteSaleCheckout from '@website_sale/js/checkout';
-
-// import "@website_sale/js/website_sale_delivery";
+// Import "@website_sale/js/website_sale_delivery";
 // import publicWidget from "@web/legacy/js/public/public_widget";
 
 // PublicWidget.registry.websiteSaleDelivery.include({
