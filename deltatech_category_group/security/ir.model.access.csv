@@ -1,0 +1,6 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+
+access_category_type_manager,access_category_type_manager,model_category_group_type,category_group_manager,1,1,1,1
+access_category_type_user,access_category_type_user,model_category_group_type,stock.group_stock_user,1,0,0,0
+access_category_class_manager,access_category_class_manager,model_category_group_class,category_group_manager,1,1,1,1
+access_category_class_user,access_category_class_user,model_category_group_class,stock.group_stock_user,1,0,0,0
