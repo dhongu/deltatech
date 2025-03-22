@@ -40,7 +40,7 @@
     <menuitem
         id="menu_payment_forecast"
         name="Payment forecast"
-        parent="account.menu_finance"
+        parent="account.menu_finance_reports"
         groups="deltatech_payment_forecast.payment_forecast_manager"
     />
     <menuitem
