@@ -63,7 +63,7 @@ addon | version | maintainers | summary | price
 [deltatech_list_view](deltatech_list_view/) | 18.0.1.0.1 |  | List View Select Text | Free 
 [deltatech_logistic_docs](deltatech_logistic_docs/) | 18.0.1.0.3 |  | Logistic Documents | Free 
 [deltatech_lot](deltatech_lot/) | 18.0.1.0.3 |  | Generate/Select lot | Free 
-[deltatech_mail](deltatech_mail/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Substitution | Free 
+[deltatech_mail](deltatech_mail/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Mail Substitution | Free 
 [deltatech_maintenance](deltatech_maintenance/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Maintenance Extension | Free 
 [deltatech_move_negative_stock](deltatech_move_negative_stock/) | 18.0.1.1.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Replenish negative stock from other location | Free 
 [deltatech_mrp_bom](deltatech_mrp_bom/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Bom | Free 
