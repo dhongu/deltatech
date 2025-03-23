@@ -5,3 +5,4 @@ from . import mail_mail, mail_message, mail_substitution
 
 from . import mail_body_substitution
 from . import mail_thread
+from . import mail_substitution
