@@ -3,7 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.tools import SQL
 
 
 class AccountInvoiceReport(models.Model):
@@ -12,16 +13,17 @@ class AccountInvoiceReport(models.Model):
     category_type = fields.Many2one("category.group.type", readonly=True)
     category_class = fields.Many2one("category.group.class", readonly=True)
 
-    def _select(self):
-        select_str = super()._select()
+    @api.model
+    def _select(self) -> SQL:
+        select_str = super()._select().code
         select_str += """
             , categ.category_group_type as category_type, categ.category_group_class as category_class
         """
-        return select_str
+        return SQL(select_str)
 
     def _from(self):
-        from_str = super()._from()
+        from_str = super()._from().code
         from_str += """
             left join product_category categ on template.categ_id=categ.id
         """
-        return from_str
+        return SQL(from_str)
