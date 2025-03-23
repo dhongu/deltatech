@@ -11,11 +11,12 @@
                         <t t-name="card">
                             <div class="oe_kanban_global_click">
                                 <div class="pull-left">
-                                    <img
+                                    <field name="image" alt="Image"    widget="image" options="{ 'img_class': 'object-fit-contain'}"/>
+                   <!--                 <img
                                     t-att-src="kanban_image('property.building', 'image', record.id.raw_value)"
                                     alt="Logo"
                                     style="max-width:200px;margin:3px;"
-                                />
+                                />-->
                                 </div>
                                 <div class="oe_kanban_details">
                                     <strong class="o_kanban_record_title">
