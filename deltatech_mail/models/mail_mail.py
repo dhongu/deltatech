@@ -38,14 +38,21 @@ class MailMail(models.Model):
 
         if substitutions:
             email_to = []
+            email_from = []
+
             if model:
                 for substitution in substitutions:
                     email_to += [substitution.email]
             else:
                 for substitution in substitutions:
-                    if not substitution.name or substitution.name in self.message_id:
-                        email_to += [substitution.email]
+                    if substitution.type == "receiver":
+                        if not substitution.name or substitution.name in self.message_id:
+                            email_to += [substitution.email]
+                        else:
+                            email_from += [substitution.email]
             if email_to:
                 res["email_to"] = email_to
+            if email_from and self:
+                self.write({"email_from": email_from[0]})
 
         return res
