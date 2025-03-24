@@ -4,7 +4,7 @@
     "name": "Terrabit payment forecast",
     "summary": "Generates a report to estimate payments at a certain date",
     "author": "Terrabit",
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
     "version": "18.0.0.0.4",
