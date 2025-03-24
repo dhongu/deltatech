@@ -24,7 +24,7 @@ Deltatech Generic Partner
 
 Features:
 
-- defining generic partner
+-  defining generic partner
 
 **Table of contents**
 

@@ -22,10 +22,10 @@ Website Phone Validation
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Validation of phone number from frontend
-  - Validare telefon in frontend
+   -  Validation of phone number from frontend
+   -  Validare telefon in frontend
 
 **Table of contents**
 

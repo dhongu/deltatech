@@ -24,8 +24,8 @@ Deltatech Object History for Service
 
 Features:
 
-- Extends the object history functionalities to Service agreement ans
-  Service Equipment models
+-  Extends the object history functionalities to Service agreement ans
+   Service Equipment models
 
 **Table of contents**
 

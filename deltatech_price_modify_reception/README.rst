@@ -22,9 +22,9 @@ Price modify at the reception
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Price modify at reception
+   -  Price modify at reception
 
 **Table of contents**
 
