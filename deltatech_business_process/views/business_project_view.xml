@@ -111,26 +111,31 @@
                 <field name="date_go_live" />
                 <field name="count_processes" />
                 <templates>
-                    <t t-name="card"  class="flex-row p-1">
+                    <t t-name="card" class="flex-row p-1">
                         <aside class="o_kanban_image">
-                            <field name="logo" alt="Logo"    widget="image" options="{ 'img_class': 'object-fit-contain'}"/>
+                            <field
+                                name="logo"
+                                alt="Logo"
+                                widget="image"
+                                options="{ 'img_class': 'object-fit-contain'}"
+                            />
                         </aside>
                         <main cclass="ms-4 mt-1 ml-5">
-                                <field class="fw-bold fs-5" name="name"/>
+                                <field class="fw-bold fs-5" name="name" />
                             <div t-if="record.date_start.raw_value" class="text-muted o_row">
                                     <span class="fa fa-clock-o mr-2" title="Dates" />
                                     <field class="ms-1" name="date_start" />
                                     <i
-                                        t-if="record.date_go_live.raw_value and record.date_start.raw_value"
-                                        class="fa fa-long-arrow-right mx-2 oe_read_only"
-                                        aria-label="Arrow icon"
-                                        title="Arrow"
-                                    />
+                                    t-if="record.date_go_live.raw_value and record.date_start.raw_value"
+                                    class="fa fa-long-arrow-right mx-2 oe_read_only"
+                                    aria-label="Arrow icon"
+                                    title="Arrow"
+                                />
                                     <field name="date_go_live" />
                                 </div>
                         </main>
                          <footer class="pt-0">
-                            <field name="activity_ids" widget="kanban_activity"/>
+                            <field name="activity_ids" widget="kanban_activity" />
 
                         </footer>
                     </t>
