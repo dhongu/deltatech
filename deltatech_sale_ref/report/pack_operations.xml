@@ -187,7 +187,7 @@
                             <AuxRow2 t-esc="pack.label_sequence" />
                             <AuxRow3 t-esc="'BOX'" />
                             <AuxRow4 t-esc="pack.product_id.name" />
-                            <AuxRow5 t-esc="pack.product_uom_id.name" />
+                            <AuxRow5 t-esc="invoice_line.uos_id.name" />
                             <AuxRowNum1 t-esc="operation_nr" />
                             <AuxRowNum2 t-esc="pack.product_id.pack_weight" />
                             <AuxRowNum3 t-esc="pack.product_id.pack_weight_neto" />
