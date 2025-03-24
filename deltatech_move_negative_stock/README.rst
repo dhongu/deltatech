@@ -22,10 +22,10 @@ Replenish negative stock
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Button in picking to populate a transfer with all negative qty's
-    found in destination location
+   -  Button in picking to populate a transfer with all negative qty's
+      found in destination location
 
 **Table of contents**
 
@@ -35,36 +35,36 @@ Replenish negative stock
 Usage
 =====
 
-- 
+-  
 
-  - Configure your operation type:
+   -  Configure your operation type:
 
-    - Inventory -> Configuration -> Operation Types
+      -  Inventory -> Configuration -> Operation Types
 
 |image1|
 
-- Sell some stuff from your location, resulting in negative stock:
+-  Sell some stuff from your location, resulting in negative stock:
 
 |image2|
 
-- Create a picking with the previuous Operation type
+-  Create a picking with the previuous Operation type
 
 |image3|
 
-- Press the <Get negative products> button:
+-  Press the <Get negative products> button:
 
 |image4|
 
-- You products will be added to the picking:
+-  You products will be added to the picking:
 
 |image5|
 
-- Other info:
+-  Other info:
 
-  - You can manually add, delete or edit the picking after negative
-    values have been added
-  - The negative stock products will be added with each click on the
-    <Get negative products> button.
+   -  You can manually add, delete or edit the picking after negative
+      values have been added
+   -  The negative stock products will be added with each click on the
+      <Get negative products> button.
 
 .. |image1| image:: https://raw.githubusercontent.com/dhongu/deltatech/18.0/deltatech_move_negative_stock/static/description/op-type.png
 .. |image2| image:: https://raw.githubusercontent.com/dhongu/deltatech/18.0/deltatech_move_negative_stock/static/description/negative-stock.png
