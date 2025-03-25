@@ -5,7 +5,7 @@
 {
     "name": "Deltatech Contacts",
     "summary": "New fields in partner",
-    "version": "18.0.1.4.6",
+    "version": "18.0.1.4.7",
     "author": "Terrabit,Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Administration",
