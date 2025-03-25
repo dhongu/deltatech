@@ -19,7 +19,7 @@
                     <footer invisible="state!='choose'">
                         <button name="do_export" string="Apply" type="object" class="oe_highlight" />
                         or
-                        <button string="_Cancel" class="oe_link" special="cancel" />
+                        <button string="Cancel" class="oe_link" special="cancel" />
                     </footer>
                     <footer invisible="state!='get'">
                         <field name="data_file" readonly="1" filename="name" />
