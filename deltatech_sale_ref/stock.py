@@ -37,7 +37,7 @@ _logger = logging.getLogger(__name__)
 
 class stock_transfer_details_items(models.TransientModel):
     _inherit = 'stock.transfer_details_items'
-    _order = 'product_id'
+    _order = 'product_id, quantity desc'
 
     # ref = fields.Char(string="Reference", related="packop_id.ref" , copy=True, store=True)  #related=False
     ref = fields.Char(string="Reference", related=False , copy=True, store=True)
