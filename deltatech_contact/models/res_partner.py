@@ -109,32 +109,50 @@ class Partner(models.Model):
         else:
             return super()._get_contact_name(partner, name)
 
-    def _get_name(self):
-        partner = self
-        context = self.env.context
-        name = super()._get_name()
-
-        if context.get("show_phone", False):
-            if partner.phone or partner.mobile:
-                name = f"{name}\n<{partner.phone or partner.mobile}>"
-        if context.get("show_category") and partner.category_id:
-            cat = []
-            for category in partner.category_id:
-                cat.append(category.name)
-            name = name + "\n[" + ",".join(cat) + "]"
-        if context.get("address_inline"):
-            name = name.replace("\n", ", ")
-        return name
-
-    @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100):
-        res_vat = []
-        if name and len(name) > 2:
-            partner_ids = self.search([("vat", operator, name), ("is_company", "=", True)], limit=10)
-            if partner_ids:
-                res_vat = [(record.id, record.display_name) for record in partner_ids]
-        res = super().name_search(name, args, operator=operator, limit=limit) + res_vat
+    def _compute_display_name(self):
+        res = super()._compute_display_name()
+        for partner in self:
+            context = self.env.context
+            name = partner.display_name
+            if context.get("show_phone", False):
+                if partner.phone or partner.mobile:
+                    name = f"{name}\n<{partner.phone or partner.mobile}>"
+            if context.get("show_category") and partner.category_id:
+                cat = []
+                for category in partner.category_id:
+                    cat.append(category.name)
+                name = name + "\n[" + ",".join(cat) + "]"
+            if context.get("address_inline"):
+                name = name.replace("\n", ", ")
+            partner.display_name = name
         return res
+
+    # def _get_name(self):
+    #     partner = self
+    #     context = self.env.context
+    #     name = super()._get_name()
+    #
+    #     if context.get("show_phone", False):
+    #         if partner.phone or partner.mobile:
+    #             name = f"{name}\n<{partner.phone or partner.mobile}>"
+    #     if context.get("show_category") and partner.category_id:
+    #         cat = []
+    #         for category in partner.category_id:
+    #             cat.append(category.name)
+    #         name = name + "\n[" + ",".join(cat) + "]"
+    #     if context.get("address_inline"):
+    #         name = name.replace("\n", ", ")
+    #     return name
+
+    # @api.model
+    # def name_search(self, name="", args=None, operator="ilike", limit=100):
+    #     res_vat = []
+    #     if name and len(name) > 2:
+    #         partner_ids = self.search([("vat", "ilike", name), ("is_company", "=", True)], limit=10)
+    #         if partner_ids:
+    #             res_vat = partner_ids.name_get()
+    #     res = super().name_search(name, args, operator=operator, limit=limit) + res_vat
+    #     return res
 
     @api.model_create_multi
     def create(self, vals_list):
