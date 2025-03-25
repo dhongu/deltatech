@@ -13,9 +13,9 @@ Deltatech Category Group
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
-    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
-    :alt: License: AGPL-3
+.. |badge2| image:: https://img.shields.io/badge/licence-OPL--1-blue.png
+    :target: https://www.odoo.com/documentation/master/legal/licenses.html
+    :alt: License: OPL-1
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_category_group
     :alt: dhongu/deltatech
@@ -24,10 +24,10 @@ Deltatech Category Group
 
 Features:
 
-- adds two grouping elements for internal categories: "Category type"
-  and "Category class"
-- reports that can group by the two elements: Sale margin report, Stock
-  quant, Account invoice report
+-  adds two grouping elements for internal categories: "Category type"
+   and "Category class"
+-  reports that can group by the two elements: Sale margin report, Stock
+   quant, Account invoice report
 
 **Table of contents**
 

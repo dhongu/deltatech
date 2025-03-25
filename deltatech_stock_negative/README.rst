@@ -22,10 +22,10 @@ No Negative Stock
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - No negative stock for internal location
-  - Allows negative stock at certain locations
+   -  No negative stock for internal location
+   -  Allows negative stock at certain locations
 
 **Table of contents**
 
@@ -35,12 +35,12 @@ No Negative Stock
 Usage
 =====
 
-- Inventory -> Configuration -> Settings
-- Traceability -> Negative Stock
+-  Inventory -> Configuration -> Settings
+-  Traceability -> Negative Stock
 
 |image1|
 
-- Inventory -> Configuration -> Location
+-  Inventory -> Configuration -> Location
 
 |image2|
 

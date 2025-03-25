@@ -22,9 +22,9 @@ Website alternative code
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - searching product using the equivalent code
+   -  searching product using the equivalent code
 
 **Table of contents**
 

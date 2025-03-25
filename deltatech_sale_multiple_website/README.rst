@@ -22,9 +22,9 @@ eCommerce Qty Multiple
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Sale of multiple quantity
+   -  Sale of multiple quantity
 
 **Table of contents**
 

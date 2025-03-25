@@ -22,9 +22,9 @@ Product List
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - defining product lists
+   -  defining product lists
 
 **Table of contents**
 

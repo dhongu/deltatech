@@ -12,7 +12,12 @@
                             <div class="oe_kanban_global_click">
                                 <!--                                <div class="o_kanban_image">-->
                                 <div class="pull-left">
-                                    <field name="image" alt="image"    widget="image" options="{ 'img_class': 'object-fit-contain'}"/>
+                                    <field
+                                    name="image"
+                                    alt="image"
+                                    widget="image"
+                                    options="{ 'img_class': 'object-fit-contain'}"
+                                />
 
                              <!--       <img
                                     t-att-src="kanban_image('property.land', 'image', record.id.raw_value)"

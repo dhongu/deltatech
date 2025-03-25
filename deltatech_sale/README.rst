@@ -22,11 +22,11 @@ Sale Extension
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Error selecting product in order without customer.
-  - Sales report presents the profitability analysis using standard
-    price.
+   -  Error selecting product in order without customer.
+   -  Sales report presents the profitability analysis using standard
+      price.
 
 **Table of contents**
 
