@@ -1,4 +1,4 @@
-- Features:
+Features:
 
 - it computes average duration of cash accounting:
 - Payment Days: diference between invoice date and payment date, weighted by the amount
