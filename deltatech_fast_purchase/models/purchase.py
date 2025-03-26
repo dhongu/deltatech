@@ -24,11 +24,10 @@ class PurchaseOrder(models.Model):
                             "origin": purchase_order.partner_ref or self.name,
                         }
                     )
-                    for move_line in picking.move_ids:
-                        if move_line.product_uom_qty > 0 and move_line.product_qty == 0:
-                            move_line.write({"product_qty": move_line.product_uom_qty})
-                        else:
-                            move_line.unlink()
+                    for move in picking.move_ids:
+                        if move.product_uom_qty > 0 and move.product_qty == 0:
+                            move._set_quantity_done(move.product_uom_qty)
+                    picking.move_ids.picked = True
                     # pentru a se prelua data din comanda de achizitie
                     picking.with_context(force_period_date=purchase_order.date_order)._action_done()
 
