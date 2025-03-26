@@ -49,7 +49,7 @@ addon | version | maintainers | summary | price
 [deltatech_dummy_queue_job](deltatech_dummy_queue_job/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Dummy Queue Job | Free 
 [deltatech_fast_purchase](deltatech_fast_purchase/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Achizitie rapida | 5.0 EUR
 [deltatech_fast_sale](deltatech_fast_sale/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vanzare rapida | 5.0 EUR
-[deltatech_followup](deltatech_followup/) | 18.0.0.0.4 |  | Simple invoice followup, with automatic e-mails | Free 
+[deltatech_followup](deltatech_followup/) | 18.0.0.0.5 |  | Simple invoice followup, with automatic e-mails | Free 
 [deltatech_gln](deltatech_gln/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Partner Global Location Number | Free 
 [deltatech_invoice_color](deltatech_invoice_color/) | 18.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Colors Invoice Lines | Free 
 [deltatech_invoice_delivery](deltatech_invoice_delivery/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Create delivery form invoice | Free 
