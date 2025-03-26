@@ -38,6 +38,7 @@ class InvoiceFollowup(models.Model):
         default=True,
         help="Only open (unpaid) invoices will be " "processed",
     )
+    with_refunds = fields.Boolean(string="Parse refund invoices", default=False, help="Also get refund invoices")
     invoice_html = fields.Html(
         "Invoices placeholder",
         help="This code will be inserted into the mail, replacing the"
