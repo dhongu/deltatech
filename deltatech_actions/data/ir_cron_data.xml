@@ -29,7 +29,7 @@ model.cron_clean_xml_attachments(limit=10)
 #   pattern: the beginning of the attachment name to delete (ex. "INV/%")
 #   max_date_days: relative days from which the attachments will be deleted
 #   dry_run: if set to True, just selects the attachments and does not delete anything
-model.cron_clean_generated_pdfs(limit=5000, pattern="RSY%", max_date=90, dry_run=True)
+model.cron_clean_generated_pdfs(limit=5000, pattern="", max_date_days=90, dry_run=True)
         </field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
@@ -49,7 +49,7 @@ model.cron_clean_generated_pdfs(limit=5000, pattern="RSY%", max_date=90, dry_run
 #   pattern: the beginning of the attachment name to delete (ex. "Pro forma/%")
 #   max_date_days: relative days from which the attachments will be deleted
 #   dry_run: if set to True, just selects the attachments and does not delete anything
-model.cron_clean_generated_pdfs(limit=5000, pattern="", max_date=90, dry_run=True)
+model.cron_clean_generated_pdfs(limit=5000, pattern="", max_date_days=90, dry_run=True)
         </field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
