@@ -13,8 +13,7 @@ class StockPicking(models.Model):
 
     def action_view_sale_invoice(self):
         if self.sale_id:
-            action_obj = self.sudo().env.ref("sale.action_view_sale_advance_payment_inv")
-            action = action_obj.read()[0]
+            action = self.env["ir.actions.actions"]._for_xml_id("sale.action_view_sale_advance_payment_inv")
             action["context"] = {
                 "active_id": self.sale_id.id,
                 "active_ids": self.sale_id.ids,
