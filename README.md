@@ -46,6 +46,7 @@ addon | version | maintainers | summary | price
 [deltatech_delivery_status](deltatech_delivery_status/) | 18.0.2.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Carrier status on picking | Free 
 [deltatech_download](deltatech_download/) | 18.0.0.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generare fisier | Free 
 [deltatech_dropshipping](deltatech_dropshipping/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Delivery address in picking | Free 
+[deltatech_dummy_queue_job](deltatech_dummy_queue_job/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Dummy Queue Job | Free 
 [deltatech_fast_purchase](deltatech_fast_purchase/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Achizitie rapida | 5.0 EUR
 [deltatech_fast_sale](deltatech_fast_sale/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vanzare rapida | 5.0 EUR
 [deltatech_followup](deltatech_followup/) | 18.0.0.0.4 |  | Simple invoice followup, with automatic e-mails | Free 
