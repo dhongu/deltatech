@@ -17,7 +17,7 @@ addon | version | maintainers | summary | price
 --- | --- | --- | --- | ---
 [deltatech](deltatech/) | 14.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generic module | Free 
 [deltatech_account_restrict_date](deltatech_account_restrict_date/) | 14.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict certain operations depending on date | Free 
-[deltatech_actions](deltatech_actions/) | 14.0.0.0.3 |  | Cleaning and other actions | Free 
+[deltatech_actions](deltatech_actions/) | 14.0.0.0.4 |  | Cleaning and other actions | Free 
 [deltatech_alternative](deltatech_alternative/) | 14.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes | Free 
 [deltatech_alternative_website](deltatech_alternative_website/) | 14.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show alternative code in website | Free 
 [deltatech_auto_reorder_rule](deltatech_auto_reorder_rule/) | 14.0.0.0.3 |  | Auto create reorder rule | Free 
