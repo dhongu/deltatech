@@ -5,7 +5,7 @@ from odoo.tools.safe_eval import safe_eval
 class AccountPayment(models.Model):
     _inherit = "account.payment"
 
-    @api.depends("payment_type")
+    @api.depends("payment_type", "partner_id")
     def _compute_available_journal_ids(self):
         res = super()._compute_available_journal_ids()
         # mai are sens modulul asta?
