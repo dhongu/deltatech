@@ -14,6 +14,10 @@ class ProductProduct(models.Model):
 
     @api.model
     def create_missing_orderpoint(self):
+        """
+        Creates missing stock rules - for large number of products.
+        :return:
+        """
         sql = """
             SELECT pp.id, pp.default_code
             FROM product_product pp
