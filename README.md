@@ -21,6 +21,7 @@ addon | version | maintainers | summary | price
 [deltatech_account_edi_ub_advice](deltatech_account_edi_ub_advice/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL despatch advice | Free 
 [deltatech_account_edi_ubl_gln](deltatech_account_edi_ubl_gln/) | 15.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL GLN | Free 
 [deltatech_account_restrict_date](deltatech_account_restrict_date/) | 15.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict certain operations depending on date | Free 
+[deltatech_actions](deltatech_actions/) | 15.0.0.0.4 |  | Cleaning and other actions | Free 
 [deltatech_agreement_management](deltatech_agreement_management/) | 15.0.0.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage agreements numbers, date, state | Free 
 [deltatech_alternative](deltatech_alternative/) | 15.0.2.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes | Free 
 [deltatech_alternative_website](deltatech_alternative_website/) | 15.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show alternative code in website | Free 
