@@ -27,8 +27,8 @@ model.cron_clean_xml_attachments(limit=10)
             <field name="state">code</field>
             <field name="numbercall">-1</field>
             <field name="code">
-                # deltatech_auto_reorder_rule module must be installed
-                model.create_missing_orderpoint()
+# deltatech_auto_reorder_rule module must be installed
+model.create_missing_orderpoint()
             </field>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
