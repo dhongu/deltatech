@@ -68,7 +68,7 @@ class PropertyRoom(models.Model):
     last_maintenance = fields.Date()
     technical_condition = fields.Selection(
         [("0", "Missing"), ("1", "Unsatisfactory"), ("3", "good"), ("5", "very good")],
-        group_operator="avg",
+        aggregaton="avg",
     )
 
     @api.depends("surface", "height", "perimeter")
