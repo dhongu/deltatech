@@ -24,25 +24,25 @@
                         type="object"
                         class="oe_highlight"
                     />
-                    <field name="state" widget="statusbar" statusbar_visible="draft,done" readonly="1" />
-                </header>
-                <sheet>
-                    <div class="oe_title">
-                        <h1>
-                            <field name="name" class="oe_inline" readonly="1" />
-                        </h1>
-                    </div>
-                    <group col="2">
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done" readonly="1" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <label for="name" string="Change Product Price" />
+                                <field name="name" class="oe_inline" readonly="1" />
+                            </h1>
+                        </div>
                         <group>
-                            <field name="date" />
-                            <field name="partner_id" />
-                            <field name="warehouse_id" />
+                            <group>
+                                <field name="date" />
+                                <field name="partner_id" />
+                                <field name="warehouse_id" />
+                                <field name="location_id" />
+                                <field name="parent_id" readonly="1" />
+                            </group>
+                            <group />
                         </group>
-                        <group>
-                            <field name="location_id" />
-                            <field name="parent_id" readonly="1" />
-                        </group>
-                    </group>
 
                     <notebook>
                         <page string="Lines">
