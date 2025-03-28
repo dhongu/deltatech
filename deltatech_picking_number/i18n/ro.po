@@ -39,7 +39,7 @@ msgstr "Gama de numere la cerere"
 #: code:addons/deltatech_picking_number/models/stock.py:31
 #, python-format
 msgid "The document %s has been numbered"
-msgstr ""
+msgstr "Documentul %s a fost numerotat"
 
 #. module: deltatech_picking_number
 #: model:ir.model,name:deltatech_picking_number.model_stock_picking
