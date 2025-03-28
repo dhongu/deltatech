@@ -15,9 +15,7 @@
                     icon="fa-pencil-square-o"
                     name="open_history"
                     string="History"
-                    groups="deltatech_object_history.group_history_manager"
                 >
-                    <field name="history_count" widget="statinfo" string="History" />
                 </button>
             </div>
         </field>

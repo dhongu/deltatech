@@ -9,8 +9,6 @@
     "category": "Other",
     "depends": [
         "contacts",
-        "account",
-        "stock",
     ],
     "license": "OPL-1",
     "data": [
@@ -19,8 +17,6 @@
         "views/object_history.xml",
         "wizard/add_history_wizard.xml",
         "views/res_partner.xml",
-        "views/account_move.xml",
-        "views/stock_picking.xml",
     ],
     # "images": ["static/description/main_screenshot.png"],
     "installable": True,
