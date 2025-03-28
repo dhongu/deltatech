@@ -6,6 +6,7 @@ import base64
 from reportlab.graphics.barcode import createBarcodeDrawing
 
 from odoo import api, fields, models
+from odoo.osv import expression
 
 
 class ProductProductLabel(models.TransientModel):
@@ -19,6 +20,7 @@ class ProductProductLabel(models.TransientModel):
     use_location = fields.Boolean("Use ptw rules")
     location_id = fields.Many2one("stock.location")
     print_only_lots = fields.Boolean("Print lots only")
+    pricelist_id = fields.Many2one("product.pricelist", string="Price List")
     # discount = fields.Float()
 
     @api.model
@@ -43,7 +45,7 @@ class ProductProductLabel(models.TransientModel):
             product_list = self.get_saleorder_lines(active_ids)
 
         if model == "stock.picking":
-            product_list = self.get_picking_lines(active_ids)
+            label_list = self.get_picking_lines(active_ids)
 
         for item in product_list:
             label_list.append([0, 0, product_list[item]])
@@ -62,7 +64,11 @@ class ProductProductLabel(models.TransientModel):
             if not lots_only:
                 label_list.append([0, 0, {"product_id": product.id, "quantity": 1}])
             else:
-                quants = self.env["stock.quant"].search([("product_id", "=", product.id)])
+                domain = [("product_id", "=", product.id)]
+                if self.warehouse_id:
+                    location_id = self.warehouse_id.lot_stock_id
+                    domain = expression.AND([[("location_id", "child_of", location_id.id)], domain])
+                quants = self.env["stock.quant"].search(domain)
                 for quant in quants:
                     if quant.location_id.usage == "internal" and quant.lot_id:
                         label_list.append(
@@ -122,14 +128,20 @@ class ProductProductLabel(models.TransientModel):
     @api.model
     def get_picking_lines(self, active_ids):
         pickings = self.env["stock.picking"].browse(active_ids)
-        product_list = {}
+        product_list = []
         for picking in pickings:
             for line in picking.move_line_ids:
-                product_list[line.product_id.id] = {
-                    "product_id": line.product_id.id,
-                    "quantity": line.quantity,
-                    "lot": line.lot_id.name if line.lot_id else "",
-                }
+                product_list.append(
+                    [
+                        0,
+                        0,
+                        {
+                            "product_id": line.product_id.id,
+                            "quantity": line.quantity,
+                            "lot": line.lot_id.name if line.lot_id else "",
+                        },
+                    ]
+                )
         return product_list
 
     def print_labels(self):
@@ -150,7 +162,7 @@ class ProductProductLabel(models.TransientModel):
                     vals.append(
                         {
                             "product_id": label[2]["product_id"],
-                            "quantity": 1,
+                            "quantity": label[2]["quantity"],
                             "lot": label[2]["lot"],
                         }
                     )
@@ -175,6 +187,11 @@ class ProductProductLabel(models.TransientModel):
             if model == "stock.picking":
                 return False
 
+    @api.onchange("pricelist_id")
+    def onchange_pricelist(self):
+        for label in self:
+            label.label_lines._compute_price()
+
 
 class ProductProductLabelLine(models.TransientModel):
     _name = "product.product.label.line"
@@ -187,6 +204,7 @@ class ProductProductLabelLine(models.TransientModel):
     barcode_image = fields.Binary(string="Barcode Image", compute="_compute_barcode_image")
 
     lot = fields.Char()
+    price = fields.Float(compute="_compute_price")
 
     def _compute_barcode_image(self):
         for line in self:
@@ -241,3 +259,24 @@ class ProductProductLabelLine(models.TransientModel):
             if location_lines:
                 location_line = location_lines[0]
         return location_line
+
+    def _compute_price(self):
+        for label_line in self:
+            if label_line.label_id.pricelist_id:
+                # compute price based on pricelist
+                label_line.price = label_line.label_id.pricelist_id._get_product_price(
+                    label_line.product_id, quantity=1
+                )
+            else:
+                label_line.price = label_line.product_id.lst_price
+
+    def get_barcode_url(self, code_format="Code128", barcode="", width=200, height=60, humanreadable=1, quiet=0):
+        self.ensure_one()
+        if self.product_id:
+            base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+            # url = "{}/report/barcode/{}/{}".format(base_url, format, barcode)
+            url = f"{base_url}/report/barcode/?barcode_type={code_format}&value={barcode}&width={width}&height={height}&humanreadable={humanreadable}&quiet={quiet}"
+
+            return url
+        else:
+            return False
