@@ -47,10 +47,10 @@ class DeltatechMrpReport(models.Model):
         related="product_id.standard_price",
         string="Price Standard",
         readonly=True,
-        group_operator="avg",
+        aggregaton="avg",
     )
 
-    actually_price = fields.Float("Actually Price", digits="Account", readonly=True, group_operator="avg")
+    actually_price = fields.Float("Actually Price", digits="Account", readonly=True, aggregaton="avg")
 
     company_id = fields.Many2one("res.company", "Company", readonly=True)
     #        origin = fields.char('Source Document', size=64)
