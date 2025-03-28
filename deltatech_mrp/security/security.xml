@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.rule" id="mrp_report_backend_comp_rule">
+        <field name="name">Deltatech MRP Report multi-company</field>
+        <field name="model_id" ref="model_deltatech_mrp_report" />
+        <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>
