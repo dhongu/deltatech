@@ -172,7 +172,7 @@ addon | version | maintainers | summary | price
 [deltatech_stock_reseller](deltatech_stock_reseller/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report report reseller | Free 
 [deltatech_stock_sn](deltatech_stock_sn/) | 18.0.1.0.0 |  | Stock Serial Number | Free 
 [deltatech_stock_valuation](deltatech_stock_valuation/) | 18.0.0.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product Stock Valuation | Free 
-[deltatech_test_system](deltatech_test_system/) | 18.0.0.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Utils | Free 
+[deltatech_test_system](deltatech_test_system/) | 18.0.0.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Utils | Free 
 [deltatech_transfer_product_to_product](deltatech_transfer_product_to_product/) | 18.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Helps to transfer x quantity of product A and replace it with product B | Free 
 [deltatech_utils](deltatech_utils/) | 18.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Utils | Free 
 [deltatech_vendor_stock](deltatech_vendor_stock/) | 18.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vendor stock availability | Free 

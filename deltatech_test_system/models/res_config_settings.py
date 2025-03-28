@@ -48,12 +48,12 @@ class ResConfigSettings(models.TransientModel):
         is_neutralized = get_param("database.is_neutralized", default=False)
         res = super().set_values()
 
-        sql =  """
+        sql = """
             UPDATE ir_ui_view
                 SET active = %s
                  WHERE key = 'web.neutralize_banner';
         """
-        self.env.cr.execute(sql, ( self.database_is_neutralized,))
+        self.env.cr.execute(sql, (self.database_is_neutralized,))
         # self.env.ref("web.web_neutralize_banner").write({"active": is_neutralized})
 
         if not is_neutralized and self.database_is_neutralized:
