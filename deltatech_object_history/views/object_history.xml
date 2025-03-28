@@ -34,7 +34,6 @@
                     <group id="common">
                         <group id="left">
                             <field name="name" required="1" />
-                            <field name="partner_id" required="1" />
                         </group>
                         <group id="right">
                             <field name="res_model" readonly="0" />
