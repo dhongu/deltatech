@@ -29,7 +29,7 @@ class TestAgreementEquipment(TestAgreement, TestService):
         self.consumable_item = self.env["service.consumable.item"].create(
             {
                 "type_id": self.equipment_type.id,
-                "product_id": self.product_1.id,
+                "product_id": self.product_ab.id,
             }
         )
 
@@ -66,7 +66,7 @@ class TestAgreementEquipment(TestAgreement, TestService):
         agreement.cycle_id = self.cycle
 
         with agreement.agreement_line.new() as agreement_line:
-            agreement_line.product_id = self.product_1
+            agreement_line.product_id = self.product_ab
             agreement_line.quantity = 1
             agreement_line.price_unit = 100
             agreement_line.equipment_id = self.equipment
@@ -89,9 +89,9 @@ class TestAgreementEquipment(TestAgreement, TestService):
         picking.picking_type_id = picking_type_for_service
         picking.equipment_id = self.equipment
         with picking.move_ids_without_package.new() as move:
-            move.product_id = self.product_1
+            move.product_id = self.product_ab
             move.product_uom_qty = 1
-            # move.product_uom_id = self.product_1.uom_id
+            # move.product_uom_id = self.product_ab.uom_id
 
         picking = picking.save()
         picking.check_consumable()
@@ -101,6 +101,6 @@ class TestAgreementEquipment(TestAgreement, TestService):
             "2000-01-01",
             "2999-12-31",
             self.equipment.id,
-            self.product_1.uom_id.id,
-            self.product_1.id,
+            self.product_ab.uom_id.id,
+            self.product_ab.id,
         )
