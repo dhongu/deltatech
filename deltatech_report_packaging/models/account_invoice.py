@@ -46,11 +46,30 @@ class AccountInvoice(models.Model):
             invoice.refresh_packaging_material()
         return res
 
+    def action_post(self):
+        res = super().action_post()
+        for invoice in self:
+            if invoice.move_type == "entry":
+                continue
+            if not invoice.packaging_material_ids:
+                invoice.refresh_packaging_material()
+        return res
+
 
 class InvoicePackagingMaterial(models.Model):
     _name = "packaging.invoice.material"
     _description = "Packaging materials in invoice"
 
     invoice_id = fields.Many2one("account.move")
-    material_type = fields.Selection([("plastic", "Plastic"), ("wood", "Wood"), ("paper", "Paper"), ("pet", "Pet")])
+    material_type = fields.Selection(
+        [
+            ("plastic", "Plastic"),
+            ("wood", "Wood"),
+            ("paper", "Paper"),
+            ("pet", "Pet"),
+            ("glass", "Glass"),
+            ("metal", "Metal"),
+            ("aluminium", "Aluminium"),
+        ]
+    )
     qty = fields.Float(string="Quantity")
