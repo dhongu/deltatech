@@ -14,8 +14,8 @@ class TestProductCategory(TransactionCase):
         )
         self.unrestricted_user = self.env["res.users"].create(
             {
-                "name": "Restricted User",
-                "login": "restricted_user",
+                "name": "Unrestricted User",
+                "login": "unrestricted_user",
                 "password": "password",
                 "groups_id": [(6, 0, [self.env.ref("deltatech_restricted_access.group_edit_sensible_data").id])],
             }
@@ -45,8 +45,8 @@ class TestStockLocation(TransactionCase):
         )
         self.unrestricted_user = self.env["res.users"].create(
             {
-                "name": "Restricted User",
-                "login": "restricted_user",
+                "name": "Unrestricted User",
+                "login": "unrestricted_user",
                 "password": "password",
                 "groups_id": [(6, 0, [self.env.ref("deltatech_restricted_access.group_edit_sensible_data").id])],
             }
@@ -78,15 +78,23 @@ class TestUoM(TransactionCase):
         )
         self.unrestricted_user = self.env["res.users"].create(
             {
+                "name": "Unrestricted User",
+                "login": "unrestricted_user",
+                "password": "password",
+                "groups_id": [(6, 0, [self.env.ref("deltatech_restricted_access.group_edit_sensible_data").id])],
+            }
+        )
+        self.restricted_user = self.env["res.users"].create(
+            {
                 "name": "Restricted User",
                 "login": "restricted_user",
                 "password": "password",
-                "groups_id": [(6, 0, [self.env.ref("deltatech_restricted_access.group_edit_sensible_data").id])],
             }
         )
 
     def test_write(self):
         # Try to write a disallowed field
+        self.env.user = self.restricted_user
         with self.assertRaises(UserError):
             self.uom.write({"name": "New UoM"})
 
