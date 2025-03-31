@@ -9,6 +9,7 @@
         <field name="binding_model_id" ref="model_promissory_note" />
     </record>
 
+
     <record id="action_report_promissory_note_content" model="ir.actions.report">
         <field name="name">Promissory Note Content</field>
         <field name="model">promissory.note</field>
