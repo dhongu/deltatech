@@ -85,7 +85,7 @@ class SaleOrderLine(models.Model):
             product = line.product_id
             if line.route_id:
                 location = False
-                for pull in line.route_id.pull_ids:
+                for pull in line.route_id.rule_ids:
                     location = pull.location_src_id
                 if location:
                     product = line.product_id.with_context(location=location.id)
