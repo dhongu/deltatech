@@ -4,3 +4,4 @@
 
 
 from . import product_price_change
+from . import product_template
