@@ -19,6 +19,7 @@ class MailMessage(models.Model):
     def cron_clean_old_messages(self, limit=100, pattern="", max_date_days=False, dry_run=False, exclude_models=False):
         """
         Delete old messages and linked attachments
+        Fixes all mimetypes for anaf signature from text/palin to application/xml
         :param limit: limit of messages to delete
         :param pattern: optional pattern of message subject, ex "Facturx%"
         :param max_date_days: relative days from which the messages will be deleted.
@@ -27,20 +28,32 @@ class MailMessage(models.Model):
         :param exclude_models: list of models to exclude. Ex: ["business.%", "res.partner"]
         :return: None
         """
-
+        # mimetype fix
+        query = """UPDATE ir_attachment set mimetype='application/xml'
+                            WHERE name='%.xml' and mimetype='text/plain'
+                            """
+        self.env.cr.execute(query)
+        _logger.info("Corrected attachments mimetype.")
         if not max_date_days:
             max_date = datetime.now() - relativedelta(days=1)
         else:
             max_date = datetime.now() - relativedelta(days=max_date_days)
         if not pattern:
-            pattern = "%%"
-        query = """SELECT id FROM mail_message
-                    WHERE model not in %(exclude_models)s
-                    AND create_date <= %(create_date)s AND subject like %(pattern)s
-                    ORDER BY id
-                    limit %(limit)s;
-                    """
-        params = {"limit": limit, "create_date": max_date, "pattern": pattern, "exclude_models": tuple(exclude_models)}
+            query = """SELECT id FROM mail_message
+                                WHERE model not like any(%(exclude_models)s)
+                                AND create_date <= %(create_date)s
+                                ORDER BY id
+                                limit %(limit)s;
+                                """
+            params = {"limit": limit, "create_date": max_date, "exclude_models": exclude_models}
+        else:
+            query = """SELECT id FROM mail_message
+                        WHERE model not like any(%(exclude_models)s)
+                        AND create_date <= %(create_date)s AND subject like %(pattern)s
+                        ORDER BY id
+                        limit %(limit)s;
+                        """
+            params = {"limit": limit, "create_date": max_date, "pattern": pattern, "exclude_models": exclude_models}
         self.env.cr.execute(query, params=params)
         res = self.env.cr.fetchall()
         message_ids = [item[0] for item in res]
