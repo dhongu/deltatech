@@ -36,7 +36,7 @@ class TestAgreementEquipment(TestAgreement, TestService):
         agreement.meter_reading_status = True
 
         with agreement.agreement_line.new() as agreement_line:
-            agreement_line.product_id = self.product_1
+            agreement_line.product_id = self.product_ab
             agreement_line.quantity = 1
             agreement_line.price_unit = 100
             agreement_line.equipment_id = self.equipment

@@ -104,7 +104,7 @@ addon | version | maintainers | summary | price
 [deltatech_product_code](deltatech_product_code/) | 18.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product codification internal | Free 
 [deltatech_product_dimension](deltatech_product_dimension/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product dimension | Free 
 [deltatech_product_extension](deltatech_product_extension/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | New fields in product: Manufacturer Dimensions, Shelf Life and Unit of Measure for Shelf Life | Free 
-[deltatech_product_labels](deltatech_product_labels/) | 18.0.1.0.6 |  | Print Labels on Products | Free 
+[deltatech_product_labels](deltatech_product_labels/) | 18.0.1.1.0 |  | Print Labels on Products | Free 
 [deltatech_product_list](deltatech_product_list/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Define products lists | Free 
 [deltatech_product_margin](deltatech_product_margin/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product margin and trade markup | Free 
 [deltatech_product_trade_markup](deltatech_product_trade_markup/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product trade markup | Free 

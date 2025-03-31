@@ -30,6 +30,8 @@ Features:
 -  by default overrides the print label button in products. To revert to
    standard print function, system parameter
    "terrabit_labels.override_print_button" must be set to False
+-  custom layouts can be created by defining a report on the
+   product.product.label model
 
 **Table of contents**
 
