@@ -10,7 +10,10 @@ class TestAgreement(TransactionCase):
     def setUp(self):
         super().setUp()
         self.partner_1 = self.env["res.partner"].create({"name": "Test Partner", "property_account_position_id": False})
-        self.product_ab = self.env["product.product"].create({"name": "Test Product"})
+        self.product_ab = self.env["product.product"].create({
+            "name": "Test Product",
+            "company_id": self.env.company.id
+        })
 
         self.journal = self.env["account.journal"].create(
             {
