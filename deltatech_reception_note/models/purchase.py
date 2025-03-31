@@ -96,8 +96,7 @@ class PurchaseOrder(models.Model):
                     if not self.ignore_quantities:
                         quantity_errors.append(
                             _(
-                                "The quantity %(quantity)s of the [%(default_code)s] %(name)s "
-                                "product is not found in a RFQ"
+                                "The quantity %(quantity)s of the [%(default_code)s] %(name)s product is not found in a RFQ"
                             )
                             % {
                                 "quantity": quantity,
