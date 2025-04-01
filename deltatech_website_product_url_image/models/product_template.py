@@ -8,6 +8,9 @@ import requests
 import werkzeug
 from odoo import api, fields, models
 from odoo.tools import image
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class ProductTemplate(models.Model):
@@ -17,10 +20,17 @@ class ProductTemplate(models.Model):
 
     def load_image_from_url(self, url):
         try:
-            data = base64.b64encode(requests.get(url.strip(), timeout=60).content)  # .replace(b'\n', b'')
-            image.base64_to_image(data)
-        except Exception:
-            data = False
+            data = requests.get(url.strip(), timeout=10).content
+            # data = base64.b64encode(requests.get(url.strip(), timeout=10).content)  # .replace(b'\n', b'')
+            # image.base64_to_image(data)
+            if url.endswith(".webp"):
+                data = base64.b64encode(data)
+                return data
+            data = image.binary_to_image(data)
+        except Exception as e:
+            _logger.warning(f"Error loading image from url {url}: {e}")
+            data = base64.b64encode(data)
+
         return data
 
     @api.onchange("image_file_name")
