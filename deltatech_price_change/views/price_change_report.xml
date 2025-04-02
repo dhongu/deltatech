@@ -20,4 +20,14 @@
         <field name="binding_model_id" ref="product.model_product_template" />
     </record>
 
+    <record id="action_report_product_price_change_variant" model="ir.actions.report">
+        <field name="name">Price Change</field>
+        <field name="model">product.product</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">deltatech_price_change.report_pricechange_variant</field>
+        <field name="report_file">deltatech_price_change.report_pricechange_variant</field>
+        <field name="binding_type">report</field>
+        <field name="binding_model_id" ref="product.model_product_product" />
+    </record>
+
 </odoo>

@@ -20,7 +20,8 @@ class ProductPriceChange(models.Model):
         size=64,
         index=True,
         readonly=True,
-        default=lambda self: self.env["ir.sequence"].next_by_code("price.change"),
+        # default=lambda self: self.env["ir.sequence"].next_by_code("price.change"),
+        default="/",
     )
 
     date = fields.Date(
@@ -193,13 +194,15 @@ class ProductPriceChange(models.Model):
                     }
                     pricelist_lines.append(price_list_vals)
             self.env["product.pricelist.item"].create(pricelist_lines)
-
+            if self.name == "/":
+                self.write({"name": self.env["ir.sequence"].next_by_code("price.change")})
         return True
 
     def unlink(self):
-        for change in self:
-            if change.state not in ["draft"]:
-                raise UserError(_("Change Price document with status 'Done' cant't by deleted"))
+        if not self.env.context.get("force_delete", False):
+            for change in self:
+                if change.state not in ["draft"]:
+                    raise UserError(_("Change Price document with status 'Done' cant't by deleted"))
         return super().unlink()
 
     @api.onchange("warehouse_id")
