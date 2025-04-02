@@ -21,9 +21,5 @@ class AccountInvoiceReport(models.Model):
         """
         return SQL(select_str)
 
-    def _from(self):
-        from_str = super()._from().code
-        from_str += """
-            left join product_category categ on template.categ_id=categ.id
-        """
-        return SQL(from_str)
+    def _from(self) -> SQL:
+        return SQL("%s left join product_category categ on template.categ_id = categ.id", super()._from())

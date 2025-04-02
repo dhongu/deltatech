@@ -35,7 +35,7 @@ addon | version | maintainers | summary | price
 [deltatech_card_payment](deltatech_card_payment/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Payment Method Card | Free 
 [deltatech_cash](deltatech_cash/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Cash In / Out | Free 
 [deltatech_cash_statement](deltatech_cash_statement/) | 18.0.3.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Update cash balance | Free 
-[deltatech_category_group](deltatech_category_group/) | 18.0.0.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Groups for internal categories | Free 
+[deltatech_category_group](deltatech_category_group/) | 18.0.0.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Groups for internal categories | Free 
 [deltatech_category_group_equipment](deltatech_category_group_equipment/) | 18.0.0.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Groups for equipments, related to internal categories groups | Free 
 [deltatech_change_uom](deltatech_change_uom/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Change unit of measure in product | Free 
 [deltatech_contact](deltatech_contact/) | 18.0.1.4.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | New fields in partner | Free 
