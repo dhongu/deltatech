@@ -13,6 +13,9 @@ class TestMrpOrder(TestMrpCommon):
     def setUpClass(cls):
         super().setUpClass()
         cls.env.ref("base.group_user").write({"implied_ids": [(4, cls.env.ref("stock.group_production_lot").id)]})
+        unrestricted_group = cls.env.ref("deltatech_restricted_access", raise_if_not_found=False)
+        if unrestricted_group:
+            cls.env.ref("base.group_user").write({"implied_ids": [(4, unrestricted_group.id)]})
 
     def test_basic(self):
         """Checks a basic manufacturing order: no routing (thus no workorders), no lot and
