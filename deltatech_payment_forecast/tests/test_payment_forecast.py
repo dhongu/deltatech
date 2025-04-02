@@ -18,8 +18,11 @@ class TestPaymentForecast(TransactionCase):
         self.product_b = self.env["product.product"].create(
             {"name": "Test B", "type": "service", "standard_price": 70, "list_price": 150, "taxes_id": False}
         )
-
-        self.journal = self.env["account.journal"].create({"name": "Sales", "type": "sale", "code": "INV"})
+        sale_journal = self.env["account.journal"].search([("type", "=", "sale")], limit=1)
+        if sale_journal:
+            self.journal = sale_journal
+        else:
+            self.journal = self.env["account.journal"].create({"name": "Sales", "type": "sale", "code": "INV"})
 
         invoice = Form(self.env["account.move"].with_context(default_move_type="out_invoice"))
         invoice.partner_id = self.partner_a
