@@ -29,7 +29,7 @@ class ProductTemplate(models.Model):
             data = image.binary_to_image(data)
         except Exception as e:
             _logger.warning(f"Error loading image from url {url}: {e}")
-            data = base64.b64encode(data)
+            data = False
 
         return data
 
