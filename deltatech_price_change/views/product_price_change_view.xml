@@ -49,7 +49,7 @@
                         </group>
                         <notebook>
                             <page string="Lines">
-                                <field name="line_ids">
+                                <field name="line_ids" readonly="state == 'done'">
                                     <tree editable="botoom">
                                         <field name="product_id" column_invisible="parent.use_product_template" />
                                         <field
