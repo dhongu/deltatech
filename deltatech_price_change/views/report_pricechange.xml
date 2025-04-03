@@ -137,4 +137,57 @@
         </t>
     </template>
 
+    <template id="report_pricechange_variant">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <t t-foreach="docs" t-as="o">
+                <div id="product_name">
+                    <strong>
+                        <span t-esc="o.display_name" />
+                    </strong>
+                </div>
+                <t t-set="price_change_items" t-value="o.get_price_change_items()" />
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <td>Date</td>
+                            <td>Old price</td>
+                            <td>New price</td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span t-field="o.create_date" />
+                            </td>
+                            <td>
+                                <span>-</span>
+                            </td>
+                            <td>
+                                <span t-field="o.list_price" />
+                            </td>
+                        </tr>
+                        <t t-if="price_change_items">
+                            <tr t-foreach="price_change_items" t-as="change_item">
+                                <td>
+                                    <span t-field="change_item.price_change_id.date" />
+                                </td>
+                                <td>
+                                    <span t-field="change_item.old_price" />
+                                </td>
+                                <td>
+                                    <span t-field="change_item.new_price" />
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
 </odoo>
