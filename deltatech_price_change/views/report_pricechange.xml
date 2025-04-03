@@ -49,7 +49,16 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr t-foreach="o.line_ids" t-as="line">
+                                            <t t-if="o.default_pricelist_id">
+                                                <t
+                                            t-set="line_ids"
+                                            t-value="o.line_ids.filtered(lambda l: l.pricelist_id == o.default_pricelist_id)"
+                                        />
+                                            </t>
+                                            <t t-else="">
+                                                <t t-set="line_ids" t-value="o.line_ids" />
+                                            </t>
+                                            <tr t-foreach="line_ids" t-as="line">
                                                 <td>
                                                     <span
                                                 t-field="line.product_id.name or line.product_template_id.name"

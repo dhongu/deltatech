@@ -3,12 +3,12 @@
 # See README.rst file on addons root folder for license details
 
 import base64
+import logging
 
 import requests
 import werkzeug
 from odoo import api, fields, models
 from odoo.tools import image
-import logging
 
 _logger = logging.getLogger(__name__)
 
