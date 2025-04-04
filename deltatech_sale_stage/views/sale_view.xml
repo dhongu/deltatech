@@ -119,7 +119,7 @@
                     <field name="phase_id" />
                 </field>
                 <xpath expr="//group" position="inside">
-                    <filter name='group_by_phase' string="phase" domain="[]" context="{'group_by':'phase_id'}" />
+                    <filter name='group_by_phase' string="Phase" domain="[]" context="{'group_by':'phase_id'}" />
                 </xpath>
             </field>
         </record>
