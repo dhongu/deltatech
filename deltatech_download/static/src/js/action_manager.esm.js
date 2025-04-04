@@ -34,7 +34,7 @@ async function pdfReportHandler(action, options, env) {
                 url_ += `/${actionContext.active_ids.join(",")}`;
             }
             if (type === "pdf") {
-                const context = encodeURIComponent(JSON.stringify(env.services.user.context));
+                const context = encodeURIComponent(JSON.stringify(action.context));
                 url_ += `?context=${context}`;
             }
         }
