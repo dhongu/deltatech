@@ -70,4 +70,4 @@ class QueueJob(models.Model):
             if not at:
                 at = fields.Datetime.now() + timedelta(seconds=5)
             cron._trigger(at=at)
-            _logger.info("CRON trigger for {} at {}".format(cron.name, at))
+            _logger.info(f"CRON trigger for {cron.name} at {at}")
