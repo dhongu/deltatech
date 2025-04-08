@@ -39,6 +39,7 @@ class ProductPriceChange(models.Model):
         "product.price.change.line",
         "price_change_id",
         "Price History Lines",
+        copy=True,
     )
 
     warehouse_id = fields.Many2one("stock.warehouse", "Warehouse")

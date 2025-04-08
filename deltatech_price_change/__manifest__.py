@@ -6,7 +6,7 @@
 {
     "name": "Price Change",
     "summary": "Price Change",
-    "version": "17.0.1.1.1",
+    "version": "17.0.1.1.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",

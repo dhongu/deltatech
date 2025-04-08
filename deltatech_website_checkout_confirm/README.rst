@@ -24,7 +24,7 @@ eCommerce Checkout Confirm Order
 
 Features:
 
-- 
+-  
 
 **Table of contents**
 

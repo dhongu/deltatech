@@ -94,10 +94,6 @@ msgstr "Plătit"
 #: model:ir.model.fields,field_description:deltatech_sale_stage.field_marketplace_sale_order__phase_id
 #: model:ir.model.fields,field_description:deltatech_sale_stage.field_sale_order__phase_id
 #: model:ir.model.fields,field_description:deltatech_sale_stage.field_stock_picking_type__phase_id
-msgid "Phase"
-msgstr "Stadiu"
-
-#. module: deltatech_sale_stage
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_stage.view_sales_order_filter
 msgid "Phase"
 msgstr "Stadiu"
