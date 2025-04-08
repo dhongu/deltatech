@@ -24,8 +24,8 @@ Product Data Sheet
 
 Features:
 
-- Adds the fields "Data Sheet Attachment" and "Safety Data Sheet" on the
-  product template Sale tab for pdf files
+-  Adds the fields "Data Sheet Attachment" and "Safety Data Sheet" on
+   the product template Sale tab for pdf files
 
 **Table of contents**
 
