@@ -100,9 +100,9 @@ class StorageSheet(models.TransientModel):
                             ((l10n_ro_valued_type !='internal_transfer' or
                                 l10n_ro_valued_type is Null
                              ) or
-                             (l10n_ro_valued_type ='internal_transfer' and quantity<0 and
+                             (l10n_ro_valued_type ='internal_transfer' and svl.quantity<0 and
                               sm.location_id in %(locations)s) or
-                             (l10n_ro_valued_type ='internal_transfer' and quantity>0 and
+                             (l10n_ro_valued_type ='internal_transfer' and svl.quantity>0 and
                               sm.location_dest_id in %(locations)s))
                     where
                         ( %(all_products)s  or sm.product_id in %(product)s ) and svl.active = 't'
@@ -139,9 +139,9 @@ class StorageSheet(models.TransientModel):
                             ((l10n_ro_valued_type !='internal_transfer' or
                               l10n_ro_valued_type is Null
                              ) or
-                             (l10n_ro_valued_type ='internal_transfer' and quantity<0 and
+                             (l10n_ro_valued_type ='internal_transfer' and svl.quantity<0 and
                               sm.location_id in %(locations)s) or
-                             (l10n_ro_valued_type ='internal_transfer' and quantity>0 and
+                             (l10n_ro_valued_type ='internal_transfer' and svl.quantity>0 and
                               sm.location_dest_id in %(locations)s))
                     where sm.state = 'done' AND
                         sm.company_id = %(company)s AND
