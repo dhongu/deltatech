@@ -98,7 +98,7 @@ addon | version | maintainers | summary | price
 [deltatech_price_change](deltatech_price_change/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Price Change | Free 
 [deltatech_price_modify_reception](deltatech_price_modify_reception/) | 17.0.1.0.2 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) | Editarea pretului de lista la receptie | Free 
 [deltatech_pricelist_add_category](deltatech_pricelist_add_category/) | 17.0.0.0.2 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | You can add a public category to the products in price list | Free 
-[deltatech_pricelist_vat_cost](deltatech_pricelist_vat_cost/) | 17.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Base pricelist on cost with vat | Free 
+[deltatech_pricelist_vat_cost](deltatech_pricelist_vat_cost/) | 17.0.0.0.2 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Base pricelist on cost with vat | Free 
 [deltatech_print_bf](deltatech_print_bf/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Print Invoice to ECR | Free 
 [deltatech_product_catalog](deltatech_product_catalog/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | This module helps to print the catalog of the multi products | Free 
 [deltatech_product_category](deltatech_product_category/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Products Category | Free 

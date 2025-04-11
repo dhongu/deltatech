@@ -12,7 +12,7 @@ class ProductTemplate(models.Model):
     def _compute_standard_price_with_vat(self):
         for product in self:
             if product.taxes_id and product.standard_price:
-                taxes = product.taxes_id.compute_all(
+                taxes = product.supplier_taxes_id.compute_all(
                     product.standard_price, product.currency_id, 1, product=product, handle_price_include=False
                 )
                 product.standard_price_with_vat = taxes["total_included"]
