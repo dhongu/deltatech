@@ -21,8 +21,15 @@
 <ul class="simple">
 <li>Search and delete duplicate xml anaf files (cron: Delete duplicate
 xml attachments)</li>
-<li>Cancel sale order (including picking, stock moves and account moves
-linked)</li>
+<li>Create missing stock reordering rules (cron: Create missing
+reordering rules (0/0))</li>
+<li>Search and delete old pdf attachments of sale orders (cron: Delete
+pdf sale order attachments)</li>
+<li>All cron jobs are disabled by default and run in “dry mode” (no
+changes in the database)</li>
+<li>Function to cancel all stock and account moves on a sale order -
+force_cancel_order_and_moves. Must be called by server action. Create
+server action manually, for security reason</li>
 </ul>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
