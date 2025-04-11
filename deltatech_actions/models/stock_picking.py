@@ -12,32 +12,8 @@ from odoo import api, models
 _logger = logging.getLogger(__name__)
 
 
-class SaleOrder(models.Model):
-    _inherit = "sale.order"
-
-    def force_cancel_order_and_moves(self):
-        """
-        Cancel sale order, attached pickings, stock moves and stock move lines.
-        :return:
-        """
-        stock_move_lines_to_cancel = self.env["stock.move.line"]
-        stock_moves_to_cancel = self.env["stock.move"]
-        pickings_to_cancel = self.env["stock.picking"]
-        account_moves_to_cancel = self.env["account.move"]
-        # sale_orders_to_cancel = []
-        for order in self:
-            if order.state == "sale" and order.picking_ids:
-                for picking in order.picking_ids:
-                    stock_moves_to_cancel |= picking.move_ids
-                    account_moves_to_cancel |= picking.move_ids.account_move_ids
-                    stock_move_lines_to_cancel |= picking.move_ids.move_line_ids
-                    pickings_to_cancel |= picking
-
-        stock_move_lines_to_cancel.write({"state": "cancel"})
-        account_moves_to_cancel.write({"state": "cancel"})
-        stock_moves_to_cancel.write({"state": "cancel"})
-        pickings_to_cancel.write({"state": "cancel"})
-        self.write({"state": "cancel"})
+class StockPicking(models.Model):
+    _inherit = "stock.picking"
 
     @api.model
     def cron_clean_generated_pdfs(self, limit=100, pattern="", max_date_days=False, dry_run=False):
@@ -57,10 +33,11 @@ class SaleOrder(models.Model):
         if not pattern:
             pattern = "%%"
         query = """SELECT id,file_size FROM ir_attachment
-                        WHERE mimetype='application/pdf' AND res_model='sale.order'
-                        AND create_date <= %(create_date)s AND name like %(pattern)s
-                        limit %(limit)s;
-                        """
+                            WHERE (mimetype='application/pdf' or mimetype='application/octet-stream')
+                            AND res_model='stock.picking'
+                            AND create_date <= %(create_date)s AND name like %(pattern)s
+                            limit %(limit)s;
+                            """
         params = {"limit": limit, "create_date": max_date, "pattern": pattern}
         self.env.cr.execute(query, params=params)
         res = self.env.cr.fetchall()

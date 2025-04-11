@@ -18,10 +18,10 @@ addon | version | maintainers | summary | price
 --- | --- | --- | --- | ---
 [deltatech](deltatech/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generic module | Free 
 [deltatech_account](deltatech_account/) | 18.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account | Free 
-[deltatech_account_edi_ub_advice](deltatech_account_edi_ub_advice/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL despatch advice | Free 
+[deltatech_account_edi_ub_advice](deltatech_account_edi_ub_advice/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL despatch advice | Free 
 [deltatech_account_edi_ubl_gln](deltatech_account_edi_ubl_gln/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL GLN | Free 
 [deltatech_account_restrict_date](deltatech_account_restrict_date/) | 18.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict certain operations depending on date | Free 
-[deltatech_actions](deltatech_actions/) | 18.0.0.0.3 |  | Cleaning and other actions | Free 
+[deltatech_actions](deltatech_actions/) | 18.0.0.0.4 |  | Cleaning and other actions | Free 
 [deltatech_agreement_management](deltatech_agreement_management/) | 18.0.0.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage agreements numbers, date, state | Free 
 [deltatech_alternative](deltatech_alternative/) | 18.0.2.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes | Free 
 [deltatech_alternative_website](deltatech_alternative_website/) | 18.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show alternative code in website | Free 
@@ -59,6 +59,7 @@ addon | version | maintainers | summary | price
 [deltatech_invoice_picking](deltatech_invoice_picking/) | 18.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Facturare livrari | 5.0 EUR
 [deltatech_invoice_product_filter](deltatech_invoice_product_filter/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Searching invoice using product | Free 
 [deltatech_invoice_receipt](deltatech_invoice_receipt/) | 18.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Create receipt form invoice | Free 
+[deltatech_invoice_report](deltatech_invoice_report/) | 18.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Invoice Report | Free 
 [deltatech_invoice_to_draft](deltatech_invoice_to_draft/) | 18.0.2.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Restricted access to reset account move to draft | Free 
 [deltatech_invoice_weight](deltatech_invoice_weight/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Invoice Weight | Free 
 [deltatech_ledger](deltatech_ledger/) | 18.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Deltatech Ledger | Free 
@@ -133,6 +134,7 @@ addon | version | maintainers | summary | price
 [deltatech_sale_commission](deltatech_sale_commission/) | 18.0.1.3.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Compute sale commission | Free 
 [deltatech_sale_contact](deltatech_sale_contact/) | 18.0.1.0.21 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Limit contacts insale order | Free 
 [deltatech_sale_cost_product](deltatech_sale_cost_product/) | 18.0.0.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Cost on Order | Free 
+[deltatech_sale_feedback](deltatech_sale_feedback/) | 18.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Feedback | Free 
 [deltatech_sale_followup](deltatech_sale_followup/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Followup | Free 
 [deltatech_sale_margin](deltatech_sale_margin/) | 18.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Check price in sale order | Free 
 [deltatech_sale_multiple](deltatech_sale_multiple/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale quantity multiple | Free 
