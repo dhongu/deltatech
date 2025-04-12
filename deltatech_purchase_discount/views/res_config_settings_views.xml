@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='invoicing_settings_container']" position="inside">
+                <div
+                    class="col-12 col-lg-6 o_setting_box"
+                    id="purchase_keep_discount"
+                    title="If enabled, the discount from the purchase line will be propagated in the invoice line. Else, the price with discount will be propagated and the discount will be 0."
+                >
+                    <div class="o_setting_left_pane">
+                        <field name="purchase_keep_discount" readonly="False" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="purchase_keep_discount" />
+                        <span
+                            class="fa fa-lg fa-building-o"
+                            title="Values set here are company-specific."
+                            aria-label="Values set here are company-specific."
+                            groups="base.group_multi_company"
+                            role="img"
+                        />
+                        <div class="text-muted">
+                            Defines in which way the discount from the purchase order will be propagated in the invoice
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
