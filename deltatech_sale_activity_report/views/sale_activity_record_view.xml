@@ -1,0 +1,112 @@
+<odoo>
+    <data>
+
+        <record id="view_sale_order_activity_record_tree" model="ir.ui.view">
+            <field name="name">sale.order.activity.record.tree</field>
+            <field name="model">sale.order.activity.record</field>
+            <field name="arch" type="xml">
+                <tree create="false">
+                    <field name="sale_order_id" />
+                    <field name="change_date" />
+                    <field name="state" />
+                    <field name="stage" />
+                    <field name="user_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sale_order_activity_record_pivot" model="ir.ui.view">
+            <field name="name">sale.order.activity.record.pivot</field>
+            <field name="model">sale.order.activity.record</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <field name="user_id" type="row" />
+                    <field name="stage" type="row" />
+                    <field name="change_date" type="col" interval="day" />
+                </pivot>
+            </field>
+        </record>
+
+        <!-- Search View -->
+
+
+        <!-- Search View -->
+        <record id="view_sale_order_activity_record_search" model="ir.ui.view">
+            <field name="name">sale.order.activity.record.search</field>
+            <field name="model">sale.order.activity.record</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="sale_order_id" />
+                    <field name="change_date" />
+                    <field name="state" />
+                    <field name="stage" />
+                    <field name="user_id" />
+                    <filter
+                        string="This Month"
+                        name="this_month"
+                        domain="[('change_date', '&gt;=', context_today().strftime('%%Y-%%m-01'))]"
+                    />
+                    <filter
+                        string="This Year"
+                        name="this_year"
+                        domain="[('change_date', '&gt;=', context_today().strftime('%%Y-01-01'))]"
+                    />
+                    <filter
+                        string="Today"
+                        name="today"
+                        domain="[('change_date', '=', context_today().strftime('%%Y-%%m-%%d'))]"
+                    />
+                    <filter
+                        string="Yesterday"
+                        name="yesterday"
+                        domain="[('change_date', '>=', (context_today() - relativedelta(days=1)).strftime('%%Y-%%m-%%d')), ('change_date', '&lt;', context_today().strftime('%%Y-%%m-%%d'))]"
+                    />
+
+
+                    <group expand="0" string="Group By">
+                        <filter string="User" name="groupby_user" context="{'group_by':'user_id'}" />
+                        <filter string="Stage" name="groupby_stage" context="{'group_by':'stage'}" />
+                        <filter string="Date" name="groupby_date" context="{'group_by':'change_date'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <!-- Remaining Action and Menu Items -->
+
+        <record id="view_sale_order_activity_record_graph" model="ir.ui.view">
+            <field name="name">sale.order.activity.record.graph</field>
+            <field name="model">sale.order.activity.record</field>
+            <field name="arch" type="xml">
+                <graph>
+
+                    <field name="stage" type="row" />
+                </graph>
+            </field>
+        </record>
+        <record id="action_sale_order_activity_record" model="ir.actions.act_window">
+            <field name="name">Activity Records</field>
+            <field name="res_model">sale.order.activity.record</field>
+            <field name="view_mode">tree,pivot,graph</field>
+            <field name="search_view_id" ref="view_sale_order_activity_record_search" />
+            <field name="context">{'search_default_this_month': 1}</field>
+        </record>
+
+        <!-- Menu Item -->
+        <menuitem
+            id="menu_sale_order_activity_record"
+            name="Activity Records"
+            parent="sale.menu_sale_report"
+            action="action_sale_order_activity_record"
+        />
+        <menuitem
+            id="menu_sale_report_menu"
+            name="Reporting"
+            action="sale.action_order_report_all"
+            groups="sales_team.group_sale_manager"
+            parent="sale.menu_sale_report"
+            sequence="40"
+        />
+    </data>
+</odoo>
