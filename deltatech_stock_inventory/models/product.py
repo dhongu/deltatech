@@ -40,6 +40,7 @@ class ProductTemplate(models.Model):
     warehouse_stock = fields.Text(string="Stock/WH", compute="_compute_warehouse_stocks")
 
     def _compute_warehouse_stocks(self):
+        display_free_quantity = self.env.context.get("display_free_quantity", False)
         warehouses = self.env["stock.warehouse"].search([])
         if len(warehouses) == 1:
             self.warehouse_stock = False
@@ -50,10 +51,16 @@ class ProductTemplate(models.Model):
             for warehouse in warehouses:
                 if warehouse.lot_stock_id.usage == "internal":
                     qty = product.with_context(warehouse=warehouse.id)._compute_quantities_dict()
-                    quantity_in_warehouse = qty[product.id]["qty_available"]
-                    if quantity_in_warehouse:
-                        line = f"{warehouse.code}: {quantity_in_warehouse}"
-                        warehouse_stock_lines.append(line)
+                    if display_free_quantity:
+                        quantity_in_warehouse = qty[product.id]["qty_available"] - qty[product.id]["outgoing_qty"]
+                        if quantity_in_warehouse:
+                            line = f"{warehouse.code}: {quantity_in_warehouse}"
+                            warehouse_stock_lines.append(line)
+                    else:
+                        quantity_in_warehouse = qty[product.id]["qty_available"]
+                        if quantity_in_warehouse:
+                            line = f"{warehouse.code}: {quantity_in_warehouse}"
+                            warehouse_stock_lines.append(line)
             product.warehouse_stock = "\n".join(warehouse_stock_lines)
 
     @api.depends_context("warehouse", "location")
