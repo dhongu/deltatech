@@ -1,0 +1,32 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_stock_inventory_product_display
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-15 10:48+0000\n"
+"PO-Revision-Date: 2025-04-15 10:48+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_stock_inventory_product_display
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory_product_display.invoice_view_form_saleorder_button
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory_product_display.sale_order_view_form
+msgid "<span>Products</span>"
+msgstr "<span>Produse</span>"
+
+#. module: deltatech_stock_inventory_product_display
+#: model:ir.model,name:deltatech_stock_inventory_product_display.model_account_move
+msgid "Journal Entry"
+msgstr "Înregistrare jurnal"
+
+#. module: deltatech_stock_inventory_product_display
+#: model:ir.model,name:deltatech_stock_inventory_product_display.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă vânzare"
