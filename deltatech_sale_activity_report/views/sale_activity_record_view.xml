@@ -1,5 +1,4 @@
 <odoo>
-    <data>
 
         <record id="view_sale_order_activity_record_tree" model="ir.ui.view">
             <field name="name">sale.order.activity.record.tree</field>
@@ -42,25 +41,25 @@
                     <field name="stage" />
                     <field name="user_id" />
                     <filter
-                        string="This Month"
-                        name="this_month"
-                        domain="[('change_date', '&gt;=', context_today().strftime('%%Y-%%m-01'))]"
-                    />
+                    string="This Month"
+                    name="this_month"
+                    domain="[('change_date', '&gt;=', context_today().strftime('%%Y-%%m-01'))]"
+                />
                     <filter
-                        string="This Year"
-                        name="this_year"
-                        domain="[('change_date', '&gt;=', context_today().strftime('%%Y-01-01'))]"
-                    />
+                    string="This Year"
+                    name="this_year"
+                    domain="[('change_date', '&gt;=', context_today().strftime('%%Y-01-01'))]"
+                />
                     <filter
-                        string="Today"
-                        name="today"
-                        domain="[('change_date', '=', context_today().strftime('%%Y-%%m-%%d'))]"
-                    />
+                    string="Today"
+                    name="today"
+                    domain="[('change_date', '=', context_today().strftime('%%Y-%%m-%%d'))]"
+                />
                     <filter
-                        string="Yesterday"
-                        name="yesterday"
-                        domain="[('change_date', '>=', (context_today() - relativedelta(days=1)).strftime('%%Y-%%m-%%d')), ('change_date', '&lt;', context_today().strftime('%%Y-%%m-%%d'))]"
-                    />
+                    string="Yesterday"
+                    name="yesterday"
+                    domain="[('change_date', '>=', (context_today() - relativedelta(days=1)).strftime('%%Y-%%m-%%d')), ('change_date', '&lt;', context_today().strftime('%%Y-%%m-%%d'))]"
+                />
 
 
                     <group expand="0" string="Group By">
@@ -95,18 +94,17 @@
 
         <!-- Menu Item -->
         <menuitem
-            id="menu_sale_order_activity_record"
-            name="Activity Records"
-            parent="sale.menu_sale_report"
-            action="action_sale_order_activity_record"
-        />
+        id="menu_sale_order_activity_record"
+        name="Activity Records"
+        parent="sale.menu_sale_report"
+        action="action_sale_order_activity_record"
+    />
         <menuitem
-            id="menu_sale_report_menu"
-            name="Reporting"
-            action="sale.action_order_report_all"
-            groups="sales_team.group_sale_manager"
-            parent="sale.menu_sale_report"
-            sequence="40"
-        />
-    </data>
+        id="menu_sale_report_menu"
+        name="Reporting"
+        action="sale.action_order_report_all"
+        groups="sales_team.group_sale_manager"
+        parent="sale.menu_sale_report"
+        sequence="40"
+    />
 </odoo>

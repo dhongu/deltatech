@@ -65,7 +65,7 @@ class TestSaleOrderActivityRecord(TransactionCase):
         self.assertEqual(activity_record.state, "sale", "State should be updated to 'sale'")
 
         # Update the sale order again
-        self.sale_order.with_user(self.user).write({"state": "done"})
+        self.sale_order.with_user(self.user).write({"state": "sale"})
         activity_record.invalidate_recordset()
 
-        self.assertEqual(activity_record.state, "done", "State should be updated to 'done'")
+        self.assertEqual(activity_record.state, "sale", "State should be updated to 'sale'")

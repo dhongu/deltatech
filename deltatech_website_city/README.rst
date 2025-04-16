@@ -24,7 +24,7 @@ Website City
 
 Features:
 
-- select city from the list in website
+-  select city from the list in website
 
 **Table of contents**
 
