@@ -23,3 +23,6 @@ class ProductPublicCategory(models.Model):
     def _compute_website_url(self):
         for category in self:
             category.website_url = "/shop/category/%s" % slug(category)
+
+    # descriere pe website in partea de jos dupa produse
+    website_footer_description = fields.Html()
