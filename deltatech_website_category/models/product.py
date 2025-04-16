@@ -22,7 +22,12 @@ class ProductPublicCategory(models.Model):
         help="The full URL to access the document through the website.",
     )
 
+    # descriere pe website in partea de jos dupa produse
+    website_footer_description = fields.Html()
+
+
     @api.depends_context("lang")
     def _compute_website_url(self):
         for category in self:
             category.website_url = f"/shop/category/{slug(category)}"
+
