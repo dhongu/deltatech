@@ -20,7 +20,7 @@ class ProductImage(models.Model):
                 self.image_1920 = data
 
     def write(self, vals):
-        if "name" in vals:
+        if vals.get("name", False):
             image_file_name = vals["name"]
             parsed_url = werkzeug.urls.url_parse(image_file_name)
             if parsed_url.scheme:

@@ -95,4 +95,25 @@ model.cron_clean_generated_pdfs(limit=5000, pattern="Label%", max_date_days=90, 
         <field name="doall" eval="False" />
     </record>
 
+    <record id="ir_cron_delete_mail_messages" model="ir.cron">
+        <field name="name">Delete mail messages</field>
+        <field name="model_id" ref="mail.model_mail_message" />
+        <field name="state">code</field>
+        <field name="numbercall">-1</field>
+        <field name="code">
+# params:
+#   limit: limit of messages to delete
+#   pattern: optional pattern of message subject, ex "Facturx%"
+#   max_date_days: relative days from which the messages will be deleted.
+#   exclude_models: list of models to exclude. Ex: ["business.%", "res.partner"]
+#   dry_run: if set to True, just selects the attachments and does not delete anything
+model.cron_clean_old_messages(limit=5000, pattern="%", max_date_days=90, dry_run=True, exclude_models=["business.%", "project.%", "helpdesk.%"])
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="active" eval="False" />
+        <field name="doall" eval="False" />
+    </record>
+
 </odoo>

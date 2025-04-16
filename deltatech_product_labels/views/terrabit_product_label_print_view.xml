@@ -16,6 +16,8 @@
                             context="{'default_model':'product.product.label'}"
                         />
                         <field name="print_only_lots" />
+                        <field name="can_generate_lots" invisible="1" />
+                        <field name="auto_generate_lots" invisible="not can_generate_lots" />
                     </group>
                     <group name="location">
                         <field name="use_location" />

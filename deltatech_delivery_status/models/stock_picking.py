@@ -38,6 +38,7 @@ class StockPicking(models.Model):
         string="State",
         default="draft",
         readonly=False,
+        tracking=True,
     )
     available_state = fields.Selection(
         [

@@ -41,19 +41,40 @@
                                 <field name="location_id" />
                                 <field name="parent_id" readonly="1" />
                             </group>
-                            <group />
+                            <group>
+                                <field name="type" required="1" />
+                                <field name="default_pricelist_id" invisible="type != 'pricelist'" />
+                                <field name="use_product_template" invisible="type != 'pricelist'" />
+                            </group>
                         </group>
                         <notebook>
                             <page string="Lines">
-                                <field name="line_ids">
+                                <field name="line_ids" readonly="state == 'done'">
                                     <tree editable="botoom">
-                                        <field name="product_id" />
-                                        <field name="old_price" />
+                                        <field name="product_id" column_invisible="parent.use_product_template" />
+                                        <field
+                                        name="product_template_id"
+                                        column_invisible="not parent.use_product_template"
+                                    />
+                                        <field
+                                        name="pricelist_id"
+                                        column_invisible="parent.type != 'pricelist'"
+                                        required="parent.type == 'pricelist'"
+                                    />
+                                        <field name="old_price" readonly="1" force_save="1" />
                                         <field name="new_price" />
-                                        <field name="quantity" />
-                                        <field name="old_amount" />
-                                        <field name="new_amount" />
-                                        <field name="diff_amount" />
+                                        <field
+                                        name="pricelist_date_start"
+                                        column_invisible="parent.type != 'pricelist'"
+                                    />
+                                        <field
+                                        name="pricelist_date_end"
+                                        column_invisible="parent.type != 'pricelist'"
+                                    />
+                                        <field name="quantity" column_invisible="parent.type == 'pricelist'" />
+                                        <field name="old_amount" column_invisible="parent.type == 'pricelist'" />
+                                        <field name="new_amount" column_invisible="parent.type == 'pricelist'" />
+                                        <field name="diff_amount" column_invisible="parent.type == 'pricelist'" />
                                     </tree>
                                 </field>
                                 <group class="oe_subtotal_footer oe_right">

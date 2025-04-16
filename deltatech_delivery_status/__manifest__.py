@@ -3,12 +3,12 @@
 {
     "name": "Deltatech Delivery Status",
     "summary": "Carrier status on picking",
-    "version": "17.0.2.0.6",
+    "version": "17.0.2.0.8",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
     "category": "Warehouse",
-    "depends": ["delivery", "stock", "sales_team"],
+    "depends": ["delivery", "stock", "sales_team", "stock_delivery"],
     "data": [
         "views/stock_picking_view.xml",
         "views/sale_view.xml",

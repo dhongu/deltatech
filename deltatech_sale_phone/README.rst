@@ -22,9 +22,9 @@ Sale Phone
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  add phone number in sales order
+  - add phone number in sales order
 
 **Table of contents**
 
