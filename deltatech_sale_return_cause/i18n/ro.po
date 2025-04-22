@@ -1,0 +1,82 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_return_cause
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-25 12:16+0000\n"
+"PO-Revision-Date: 2024-10-25 12:16+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__200_warranty
+msgid "200% warranty"
+msgstr "Garantia 200%"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.actions.server,name:deltatech_sale_return_cause.ir_cron_check_and_update_return_amount_ir_actions_server
+#: model:ir.cron,cron_name:deltatech_sale_return_cause.ir_cron_check_and_update_return_amount
+msgid "Check and Update Return Amount"
+msgstr "Verifica si actualizeaza suma returnata"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__does_not_expect
+msgid "Does not expect the order"
+msgstr "Nu asteapta comanda"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__does_not_fit
+msgid "Does not fit"
+msgstr "Nu se potrivesc desi sunt dedicate"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__duplicate_order
+msgid "Duplicate order"
+msgstr "Comanda dublata"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__sale_team_mistake
+msgid "Incorrectly advised by Sales"
+msgstr "Consiliat gresit de CC"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__not_satisfied
+msgid "Not satisfied with quality"
+msgstr "Nu este multumit de calitate"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__ordered_incorrectly
+msgid "Ordered incorrectly by client"
+msgstr "Comandat gresit de client"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__not_picked
+msgid "Package not picked up by client"
+msgstr "Colet neridicat de client"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_order__return_amount
+msgid "Return Amount"
+msgstr "Valoare retur"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_order__return_cause
+msgid "Return Cause"
+msgstr "Motiv retur"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model,name:deltatech_sale_return_cause.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă vânzare"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__wrong_shipped
+msgid "Wrongly shipped warehouse"
+msgstr "Expediat gresit depozit"
