@@ -33,8 +33,15 @@
         <xpath expr="//div[@id='products_grid']" position="inside">
            <t t-set='editor_msg'>Drag building blocks here to customize the footer for category.</t>
                 <t t-if="category">
-                    <t t-set='editor_msg'>Drag building blocks here to customize the footer for "<t t-esc='category.name'/>" category.</t>
-                    <div class="mb16" id="category_footer" t-att-data-editor-message="editor_msg" t-field="category.website_footer_description"/>
+                    <t t-set='editor_msg'>Drag building blocks here to customize the footer for "<t
+                        t-esc='category.name'
+                    />" category.</t>
+                    <div
+                    class="mb16"
+                    id="category_footer"
+                    t-att-data-editor-message="editor_msg"
+                    t-field="category.website_footer_description"
+                />
                 </t>
         </xpath>
     </template>
