@@ -199,6 +199,7 @@ addon | version | maintainers | summary | price
 [deltatech_website_price_without_tax](deltatech_website_price_without_tax/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Display Product Price Without Tax | Free 
 [deltatech_website_product_code](deltatech_website_product_code/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Display product by code in eCommerce | Free 
 [deltatech_website_product_url_image](deltatech_website_product_url_image/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Load image for product from URL | Free 
+[deltatech_website_sale_attributes](deltatech_website_sale_attributes/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Attribute values for products displayed | Free 
 [deltatech_website_sale_sort](deltatech_website_sale_sort/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Additional sorting criteria | Free 
 [deltatech_website_sale_status](deltatech_website_sale_status/) | 18.0.2.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Additional filters sales orders by status | Free 
 [deltatech_website_sale_wishlist](deltatech_website_sale_wishlist/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce wishlist | Free 
