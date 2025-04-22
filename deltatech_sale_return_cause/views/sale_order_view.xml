@@ -4,12 +4,10 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
-            <field name="tag_ids" position="after">
-                <group>
+            <group name="sales_person" position="inside">
                     <field name="return_cause" />
                     <field name="return_amount" />
-                </group>
-            </field>
+            </group>
         </field>
     </record>
 
