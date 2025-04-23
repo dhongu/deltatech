@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-        <record id="product_action_create_rule" model="ir.actions.server">
-            <field name="name">Create rule</field>
-            <field name="model_id" ref="product.model_product_template" />
-            <field name="binding_model_id" ref="product.model_product_template" />
-            <field name="state">code</field>
-            <field name="code">
-                for template in records:
-                    template.product_variant_ids.create_rule()
-            </field>
-        </record>
+    <record id="product_action_create_rule" model="ir.actions.server">
+        <field name="name">Create rule</field>
+        <field name="model_id" ref="product.model_product_template" />
+        <field name="binding_model_id" ref="product.model_product_template" />
+        <field name="state">code</field>
+        <field name="code">
+            for template in records:
+            template.product_variant_ids.create_rule()
+        </field>
+    </record>
+
+    <record id="product_action_create_variant_rule" model="ir.actions.server">
+        <field name="name">Open Rules Wizard</field>
+        <field name="model_id" ref="product.model_product_template" />
+        <field name="binding_model_id" ref="product.model_product_template" />
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = {
+            "type": "ir.actions.act_window",
+            "name": "Order Rules Details",
+            "res_model": "order.rules.details.wizard",
+            "view_mode": "form",
+            "target": "new",
+            "context": {
+                "active_id": record.id,
+                "active_model": "product.template",
+            },
+        }
+        </field>
+    </record>
 
 </odoo>
