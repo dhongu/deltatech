@@ -8,7 +8,7 @@
         <field name="state">code</field>
         <field name="code">
             for template in records:
-            template.product_variant_ids.create_rule()
+                template.product_variant_ids.create_rule()
         </field>
     </record>
 
