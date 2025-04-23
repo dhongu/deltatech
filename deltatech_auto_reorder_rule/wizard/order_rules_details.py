@@ -16,6 +16,14 @@ class OrderRulesDetailsWizard(models.TransientModel):
 
     def do_create(self):
         product_template = self.env["product.template"].browse(self._context.get("active_id"))
+        routes = self.env["stock.route"].search(
+            [
+                ("use_this_for_auto_rules", "=", True),
+            ]
+        )
+        route = False
+        if routes:
+            route = routes[0].id
         values = []
         for variant in product_template.product_variant_ids:
             for location in self.stock_location_ids:
@@ -25,6 +33,7 @@ class OrderRulesDetailsWizard(models.TransientModel):
                         "product_min_qty": self.min_quantity,
                         "product_max_qty": self.max_quantity,
                         "qty_multiple": 0,
+                        "route_id": route,
                         "trigger": self.trigger,
                         "location_id": location.id,
                     }
