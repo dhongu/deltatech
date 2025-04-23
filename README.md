@@ -126,7 +126,7 @@ addon | version | maintainers | summary | price
 [deltatech_record_type](deltatech_record_type/) | 18.0.1.1.8 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Manage multiple record types | Free 
 [deltatech_replenish](deltatech_replenish/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Replenish | Free 
 [deltatech_report_packaging](deltatech_report_packaging/) | 18.0.1.0.4 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report Packaging | Free 
-[deltatech_report_prn](deltatech_report_prn/) | 18.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Raport PRN | Free 
+[deltatech_report_prn](deltatech_report_prn/) | 18.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Raport PRN | Free 
 [deltatech_restricted_access](deltatech_restricted_access/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Restricted Access | Free 
 [deltatech_sale](deltatech_sale/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Extension Obsolete | Free 
 [deltatech_sale_activity_search](deltatech_sale_activity_search/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Adds a field with the active activity types on that sale order | Free 
