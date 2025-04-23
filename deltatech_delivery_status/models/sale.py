@@ -37,7 +37,9 @@ class SaleOrder(models.Model):
         res = super()._action_confirm()
         for order in self:
             if order.team_id.postpone_payment_transfer:
-                tx = self.sudo().transaction_ids._get_last()
+                tx = order.sudo().transaction_ids._get_last()
+                if not tx and order.sudo().transaction_ids:
+                    tx = order.sudo().transaction_ids[-1]
                 if not tx or tx.provider_code == "custom":
                     order.postpone_delivery()
 

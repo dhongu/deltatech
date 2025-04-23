@@ -35,6 +35,8 @@ class SaleConfirmPayment(models.TransientModel):
         defaults["currency_id"] = order.currency_id.id
 
         tx = order.sudo().transaction_ids._get_last()
+        if not tx and order.sudo().transaction_ids:
+            tx = order.sudo().transaction_ids[-1]
         if tx and tx.state in ["pending", "authorized"] or tx.amount == 0:
             defaults["transaction_id"] = tx.id
             defaults["provider_id"] = tx.provider_id.id
