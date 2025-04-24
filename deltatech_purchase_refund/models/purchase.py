@@ -49,4 +49,11 @@ class PurchaseOrderLine(models.Model):
             if float_compare(qty, 0.0, precision_rounding=self.product_uom.rounding) <= 0:
                 qty = 0.0
             res["quantity"] = qty
+        # fix the balance
+
+        res['balance'] = self.currency_id._convert(
+            self.price_unit_discounted * res["quantity"],
+            self.company_id.currency_id,
+            round=False,
+        )
         return res
