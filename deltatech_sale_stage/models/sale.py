@@ -69,12 +69,14 @@ class SaleOrder(models.Model):
             if not relevant_phase:
                 relevant_phase = phases
 
-            new_phase = relevant_phase[0]
+            new_phase = False
             for phase in relevant_phase:
                 if phase.sequence > order.phase_id.sequence:
                     new_phase = phase
                     break
-            order.phase_id = new_phase
+
+            if not new_phase:
+                order.phase_id = new_phase
 
     def write(self, vals):
         res = super().write(vals)

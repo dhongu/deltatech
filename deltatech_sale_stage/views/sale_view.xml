@@ -20,6 +20,7 @@
                     <group>
                         <field name="send_email" />
                         <field name="confirmed" />
+                        <field name="shipped" />
                         <field name="delivered" />
                         <field name="invoiced" />
                         <field name="paid" />
