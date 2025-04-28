@@ -34,3 +34,5 @@ class StockPicking(models.Model):
                     if picking.sale_id:
                         picking.sale_id.set_phase("delivered")
 
+        return super().write(vals)
+
