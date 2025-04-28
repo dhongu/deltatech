@@ -14,25 +14,27 @@ class PurchaseOrder(models.Model):
     def action_view_invoice(self, invoices=False):
         action = super().action_view_invoice(invoices)
         invoice_type = "in_invoice"
-        for line in self.order_line:
-            if line.product_id.purchase_method == "purchase":
-                qty = line.product_qty - line.qty_invoiced
-            else:
-                qty = line.qty_received - line.qty_invoiced
-            if qty < 0:
-                invoice_type = "in_refund"
-        if isinstance(action["context"], str):
-            action["context"] = safe_eval(action["context"])
-        action["context"]["default_type"] = invoice_type
-        action["context"]["default_invoice_date"] = self.date_planned
-
         notice = self.env.context.get("notice", False)
-        if "l10n_ro_notice" in self.picking_ids._fields:
-            if not notice:
-                for picking in self.picking_ids:
-                    notice = notice or picking.l10n_ro_notice
+        for purchase in self:
+            for line in purchase.order_line:
+                if line.product_id.purchase_method == "purchase":
+                    qty = line.product_qty - line.qty_invoiced
+                else:
+                    qty = line.qty_received - line.qty_invoiced
+                if qty < 0:
+                    invoice_type = "in_refund"
+            if isinstance(action["context"], str):
+                action["context"] = safe_eval(action["context"])
+            action["context"]["default_type"] = invoice_type
+            action["context"]["default_invoice_date"] = purchase.date_planned
+
+            if "l10n_ro_notice" in purchase.picking_ids._fields:
+                if not notice:
+                    for picking in purchase.picking_ids:
+                        notice = notice or picking.l10n_ro_notice
 
         action["context"]["notice"] = notice
+
         return action
 
 
