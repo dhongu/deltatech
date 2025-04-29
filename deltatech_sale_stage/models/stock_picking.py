@@ -35,4 +35,3 @@ class StockPicking(models.Model):
                         picking.sale_id.set_phase("delivered")
 
         return super().write(vals)
-
