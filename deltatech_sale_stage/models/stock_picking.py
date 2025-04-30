@@ -39,4 +39,3 @@ class StockPicking(models.Model):
                         picking.sale_id.set_phase("pre_advice")
 
         return super().write(vals)
-

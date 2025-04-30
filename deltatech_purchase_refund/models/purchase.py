@@ -53,7 +53,7 @@ class PurchaseOrderLine(models.Model):
             res["quantity"] = qty
         # fix the balance
 
-        res['balance'] = self.currency_id._convert(
+        res["balance"] = self.currency_id._convert(
             self.price_unit_discounted * res["quantity"],
             self.company_id.currency_id,
             round=False,
