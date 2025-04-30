@@ -63,7 +63,7 @@ class SaleOrder(models.Model):
             return
         for order in self:
             transactions = order.sudo().transaction_ids.filtered(lambda a: a.state == "done")
-            relevant_phase = phases
+            relevant_phase = False
             if transactions:
                 relevant_phase = phases.filtered(lambda s: s.paid)
             if not relevant_phase:

@@ -33,6 +33,10 @@ class StockPicking(models.Model):
                 for picking in self:
                     if picking.sale_id:
                         picking.sale_id.set_phase("delivered")
+            if vals["delivery_state"] == "pre_advice":
+                for picking in self:
+                    if picking.sale_id:
+                        picking.sale_id.set_phase("pre_advice")
 
         return super().write(vals)
 

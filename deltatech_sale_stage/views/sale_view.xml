@@ -20,6 +20,7 @@
                     <group>
                         <field name="send_email" />
                         <field name="confirmed" />
+                        <field name="pre_advice" />
                         <field name="shipped" />
                         <field name="delivered" />
                         <field name="invoiced" />
@@ -43,6 +44,8 @@
                     <field name="code" optional="show" />
                     <field name="send_email" />
                     <field name="confirmed" />
+                    <field name="pre_advice" />
+                    <field name="shipped" />
                     <field name="delivered" />
                     <field name="invoiced" />
                     <field name="paid" />
