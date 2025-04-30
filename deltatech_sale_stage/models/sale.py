@@ -75,7 +75,7 @@ class SaleOrder(models.Model):
                     new_phase = phase
                     break
 
-            if not new_phase:
+            if new_phase:
                 order.phase_id = new_phase
 
     def write(self, vals):
