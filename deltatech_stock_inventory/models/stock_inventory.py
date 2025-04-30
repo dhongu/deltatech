@@ -568,6 +568,9 @@ class InventoryLine(models.Model):
         "product_uom_id.rounding",
     )
     def _compute_outdated(self):
+        if self[0].inventory_id.state == "done":
+            self.outdated = False
+            return
         quants_by_inventory = {inventory: inventory._get_quantities() for inventory in self.inventory_id}
         for line in self:
             quants = quants_by_inventory[line.inventory_id]
