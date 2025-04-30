@@ -26,7 +26,7 @@ class Inventory(models.Model):
         required=True,
         default=fields.Datetime.now,
         help="If the inventory adjustment is not validated, "
-        "date at which the theoritical quantities have been checked.\n"
+        "date at which the theoretical quantities have been checked.\n"
         "If the inventory adjustment is validated, date at which the inventory adjustment has been validated.",
     )
     line_ids = fields.One2many(
@@ -765,7 +765,7 @@ class InventoryLine(models.Model):
         their quantity.
         """
         for line in self:
-            if line.product_id.type != "product":
+            if not line.product_id.is_storable:
                 raise ValidationError(
                     _("You can only adjust storable products.")
                     + f"\n\n{line.product_id.display_name} -> {line.product_id.type}"
