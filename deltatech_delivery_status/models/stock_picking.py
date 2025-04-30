@@ -35,7 +35,7 @@ class StockPicking(models.Model):
             ("in_delivery", "In delivery"),  # coletul este livrare
             ("delivered", "Delivered"),
         ],
-        string="State",
+        string="Delivery State",
         default="draft",
         readonly=False,
         tracking=True,
