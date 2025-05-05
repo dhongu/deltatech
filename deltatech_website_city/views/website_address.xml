@@ -8,7 +8,7 @@
                 <select
                     id="city_id"
                     name="city_id"
-                    t-attf-class="form-control #{error.get('city_id') and 'is-invalid' or ''}"
+                    t-attf-class="form-select #{error.get('city_id') and 'is-invalid' or ''}"
                     t-att-data-value="'city_id' in checkout and  checkout['city_id'] != '' and  int(checkout['city_id'])"
                     data-init="1"
                 >
