@@ -24,6 +24,13 @@ msgstr ""
 "distribuție analitică de 100%."
 
 #. module: deltatech_analytic_distribution
+#. odoo-python
+#: code:addons/deltatech_analytic_distribution/models/account_move.py:0
+#, python-format
+msgid "Analytic distribution is required for all invoice lines."
+msgstr "Distribuția analitică este necesară pentru toate liniile de factură."
+
+#. module: deltatech_analytic_distribution
 #: model:ir.model,name:deltatech_analytic_distribution.model_res_config_settings
 msgid "Config Settings"
 msgstr "Setări configurare"
