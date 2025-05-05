@@ -1,0 +1,76 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_analytic_distribution
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-05 08:09+0000\n"
+"PO-Revision-Date: 2025-05-05 08:09+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_analytic_distribution
+#: model_terms:ir.ui.view,arch_db:deltatech_analytic_distribution.view_res_config_settings_analytic_distribution
+msgid ""
+"Activating this will enforce that the bills have 100% analytic distribution."
+msgstr ""
+"Activarea acestei opțiuni va impune ca facturile de furnizor să aibă o "
+"distribuție analitică de 100%."
+
+#. module: deltatech_analytic_distribution
+#: model:ir.model,name:deltatech_analytic_distribution.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări configurare"
+
+#. module: deltatech_analytic_distribution
+#: model:ir.model.fields,field_description:deltatech_analytic_distribution.field_res_config_settings__analytic_distribution_validation_enabled
+msgid "Enable Analytic Distribution Validation"
+msgstr "Activare validare distribuție analitică"
+
+#. module: deltatech_analytic_distribution
+#: model:ir.model.fields,help:deltatech_analytic_distribution.field_res_config_settings__analytic_distribution_validation_enabled
+msgid ""
+"Enable or disable the validation of analytic distribution in account moves."
+msgstr ""
+"Activează sau dezactivează validarea distribuției analitice în mișcările "
+"contabile."
+
+#. module: deltatech_analytic_distribution
+#. odoo-python
+#: code:addons/deltatech_analytic_distribution/models/account_move.py:0
+#, python-format
+msgid ""
+"Invalid distribution, all distribution lines need to have: Location, "
+"Department and Line of Business."
+msgstr ""
+"Distribuția este invalidă, toate liniile de distribuție trebuie să aibă: "
+"Locație, Departament și Linia de Business."
+
+#. module: deltatech_analytic_distribution
+#. odoo-python
+#: code:addons/deltatech_analytic_distribution/models/account_move.py:0
+#, python-format
+msgid "Invalid value in analytic distribution: %s. It must be a number."
+msgstr ""
+"Valorile din distribuția analitică sunt invalide: %s. Trebuie să fie un "
+"număr."
+
+#. module: deltatech_analytic_distribution
+#: model:ir.model,name:deltatech_analytic_distribution.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_analytic_distribution
+#. odoo-python
+#: code:addons/deltatech_analytic_distribution/models/account_move.py:0
+#, python-format
+msgid ""
+"The total percentage in analytic distribution must add up to 100. Found: %s."
+msgstr ""
+"Procentajul total din distribuția analitică trebuie să fie 100. Găsit: %s."
