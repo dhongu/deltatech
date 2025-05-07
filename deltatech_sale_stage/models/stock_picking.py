@@ -25,7 +25,7 @@ class StockPicking(models.Model):
 
     def write(self, vals):
         if "delivery_state" in vals:
-            if vals["delivery_state"] in ["in_transit","in_warehouse","in_delivery"]:
+            if vals["delivery_state"] in ["in_transit", "in_warehouse", "in_delivery"]:
                 for picking in self:
                     if picking.sale_id:
                         picking.sale_id.set_phase("shipped")

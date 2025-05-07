@@ -24,7 +24,7 @@ Payment Term Rate Wizard
 
 Features:
 
--  Rate generation
+- Rate generation
 
 **Table of contents**
 
