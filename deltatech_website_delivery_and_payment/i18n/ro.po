@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0+e\n"
+"Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-17 13:10+0000\n"
-"PO-Revision-Date: 2023-02-17 13:10+0000\n"
+"POT-Creation-Date: 2025-05-07 16:51+0000\n"
+"PO-Revision-Date: 2025-05-07 16:51+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,14 +16,24 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_website_delivery_and_payment
-#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_sale_order__aprovider_id
-msgid "Acquirer"
-msgstr "Mod plată"
+#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.confirmation
+msgid "<i class=\"fa fa-print me-2\"/>Print"
+msgstr "<i class=\"fa fa-print me-2\"/>Tipărește"
+
+#. module: deltatech_website_delivery_and_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.confirmation
+msgid "<span>Order</span>"
+msgstr "<span>Comandă</span>"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model,name:deltatech_website_delivery_and_payment.model_res_partner
+msgid "Contact"
+msgstr "Contact"
 
 #. module: deltatech_website_delivery_and_payment
 #: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__logo
 msgid "Logo"
-msgstr ""
+msgstr "Logo"
 
 #. module: deltatech_website_delivery_and_payment
 #: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.view_delivery_carrier_form
@@ -36,20 +46,35 @@ msgid "Min"
 msgstr ""
 
 #. module: deltatech_website_delivery_and_payment
-#: model:ir.model,name:deltatech_website_delivery_and_payment.model_payment_acquirer
 #: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.view_delivery_carrier_form
 msgid "Payment Acquirer"
 msgstr "Colector plată"
 
 #. module: deltatech_website_delivery_and_payment
+#: model:ir.model,name:deltatech_website_delivery_and_payment.model_payment_provider
+msgid "Payment Provider"
+msgstr "Furnizor plată"
+
+#. module: deltatech_website_delivery_and_payment
 #: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__acquirer_allowed_ids
-msgid "Payments Acquirer Allowed"
+msgid "Payments Provider Allowed"
 msgstr "Metode de plată permise"
 
 #. module: deltatech_website_delivery_and_payment
-#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_acquirer__restrict_label_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.confirmation
+msgid "Print"
+msgstr "Tipărește"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_res_partner__provider_id
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_res_users__provider_id
+msgid "Provider"
+msgstr "Furnizor"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_provider__restrict_label_ids
 msgid "Restrict Label"
-msgstr "Restricționează pentru partenerii cu label"
+msgstr "Etietă restricționare"
 
 #. module: deltatech_website_delivery_and_payment
 #: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__restrict_label_ids
@@ -57,9 +82,9 @@ msgid "Restrict for partners with label"
 msgstr "Restricționează pentru partenerii cu label"
 
 #. module: deltatech_website_delivery_and_payment
-#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.acquirer_form_on_delivery
+#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.payment_provider_form
 msgid "Restrictions"
-msgstr "Restrictii"
+msgstr "Restricții"
 
 #. module: deltatech_website_delivery_and_payment
 #: model:ir.model,name:deltatech_website_delivery_and_payment.model_sale_order
@@ -72,17 +97,17 @@ msgid "Shipping Methods"
 msgstr "Metode de expediere"
 
 #. module: deltatech_website_delivery_and_payment
-#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_acquirer__submit_txt
-msgid "Submit text"
-msgstr "Text buton"
-
-#. module: deltatech_website_delivery_and_payment
-#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.acquirer_form_on_delivery
+#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.payment_provider_form
 msgid "Tags..."
-msgstr ""
+msgstr "Etichete..."
 
 #. module: deltatech_website_delivery_and_payment
-#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_acquirer__value_limit
+#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.confirmation
+msgid "Thank you for your order."
+msgstr "Vă mulțumim pentru comandă."
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_provider__value_limit
 msgid "Value Limit"
 msgstr "Limită valoare"
 
