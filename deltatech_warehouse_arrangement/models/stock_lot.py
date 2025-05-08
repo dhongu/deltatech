@@ -19,7 +19,12 @@ class StockLot(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            product_id = self.env["product.product"].browse(vals["product_id"])
+            if "product_id" not in vals:
+                product_context = self.env.context.get("default_product_id", False)
+                if product_context:
+                    product_id = self.env["product.product"].browse(product_context)
+            else:
+                product_id = self.env["product.product"].browse(vals["product_id"])
             vals["loc_storehouse_id"] = product_id.loc_storehouse_id.id
             vals["loc_zone_id"] = product_id.loc_zone_id.id
             vals["loc_shelf_id"] = product_id.loc_shelf_id.id
