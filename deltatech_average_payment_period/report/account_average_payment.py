@@ -90,7 +90,7 @@ class AccountAveragePaymentReport(models.Model):
         return sql
 
     def _from(self):
-        sql  = """
+        sql = """
                 from    account_move_line l
                 left join account_move am on (am.id=l.move_id)
                 left join account_journal j on (j.id = l.journal_id)
@@ -103,11 +103,9 @@ class AccountAveragePaymentReport(models.Model):
 
     def init(self):
         tools.drop_view_if_exists(self._cr, self._table)
-        sql_select = self._select()
-        sql_from = self._from()
         self._cr.execute(
             f"""CREATE or REPLACE VIEW {self._table} as (
-                {sql_select}
-                {sql_from}
+                {self._select()}
+                {self._from()}
             )"""
         )
