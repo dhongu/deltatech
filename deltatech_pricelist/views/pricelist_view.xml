@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="product_pricelist_item_tree_view" model="ir.ui.view">
+            <field name="name">product.pricelist.item.tree</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="priority">99</field>
+            <field name="inherit_id" ref="product.product_pricelist_item_tree_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="default_order">price_version_id,sequence</attribute>
+                </xpath>
+                <field name="sequence" position="replace">
+                    <field name="sequence" widget="handle" />
+                    <field name="price_version_id" invisible="context.get('hide_price_version_id', True)" />
+                </field>
+                <field name="min_quantity" position="replace">
+                    <field name="min_quantity" invisible="1" />
+                </field>
+                <field name="base" position="replace">
+                    <field name="base" invisible="1" />
+                    <field name="price_text" />
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="product_pricelist_item_view_search">
+            <field name="name">product.pricelist.item.search</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="arch" type="xml">
+                <search string="Products Price Item Search">
+                    <field name="name" />
+                    <field name="product_id" />
+                    <field name="categ_id" />
+                    <field name="price_version_id" />
+                    <group expand="1" string="Group By...">
+                        <filter string="Category of Product" name="categ_id" context="{'group_by':'categ_id'}" />
+                        <filter
+                            string="Pricelist Version"
+                            name="price_version_id"
+                            context="{'group_by':'price_version_id'}"
+                        />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="product_pricelist_item_action" model="ir.actions.act_window">
+            <field name="name">Products Listprices Items</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.pricelist.item</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product.product_pricelist_item_tree_view" />
+            <field name="search_view_id" ref="product_pricelist_item_view_search" />
+            <field name="context">{"hide_price_version_id":False}</field>
+        </record>
+        <menuitem
+            action="product_pricelist_item_action"
+            id="menu_product_pricelist_item_action"
+            parent="product.menu_product_pricelist_main"
+            sequence="10"
+        />
+    </data>
+</odoo>
