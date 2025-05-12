@@ -257,9 +257,9 @@
                                         readonly="state not in ('draft','design')"
                                     />
                                     <field name="date_end_bbp" invisible="1" />
-              <!--
-                                    <field name="date_start_bbp" readonly="state not in ('draft','design')" />
-                                    <field name="date_end_bbp" readonly="state not in ('draft','design')" />-->
+                                    <!--
+                                                          <field name="date_start_bbp" readonly="state not in ('draft','design')" />
+                                                          <field name="date_end_bbp" readonly="state not in ('draft','design')" />-->
                                     <field
                                         name="completion_bbp"
                                         widget="progressbar"
@@ -283,6 +283,7 @@
                         </page>
                     </notebook>
                 </sheet>
+                <div class="o_attachment_preview" />
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" />
                     <field name="activity_ids" widget="mail_activity" />
