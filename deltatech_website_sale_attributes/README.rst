@@ -22,9 +22,9 @@ eCommerce Attribute values
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Afisare valori atribute in functie de produsele determinate
+  - Afisare valori atribute in functie de produsele determinate
 
 in website_sale.products_attributes after: <t t-foreach="attributes"
 t-as="a"> add <t t-set="a_value_ids"
