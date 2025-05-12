@@ -103,11 +103,9 @@ class AccountAveragePaymentReport(models.Model):
 
     def init(self):
         tools.drop_view_if_exists(self._cr, self._table)
-        sql_select = self._select()
-        sql_from = self._from()
         self._cr.execute(
             f"""CREATE or REPLACE VIEW {self._table} as (
-                {sql_select}
-                {sql_from}
+                {self._select()}
+                {self._from()}
             )"""
         )

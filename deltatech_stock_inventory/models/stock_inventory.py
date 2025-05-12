@@ -485,7 +485,7 @@ class InventoryLine(models.Model):
             inventory = self.env["stock.inventory"].browse(self.env.context.get("active_id"))
             if inventory.exists() and len(inventory.product_ids) > 1:
                 return f"[('is_storable', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id), ('id', 'in', {inventory.product_ids.ids})]"  # noqa E501
-        return "[('type', '=', 'product'), '|', ('company_id', '=', False), ('company_id', '=', company_id)]"
+        return "[('is_storable', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id)]"
 
     is_editable = fields.Boolean(help="Technical field to restrict editing.")
     is_price_editable = fields.Boolean(
