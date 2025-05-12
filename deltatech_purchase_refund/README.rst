@@ -22,9 +22,9 @@ Refund Purchase
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Generara fatura de retur pentru cantitatile negative de facturat.
+  - Generara fatura de retur pentru cantitatile negative de facturat.
 
 **Table of contents**
 
