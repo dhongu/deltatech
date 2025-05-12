@@ -22,9 +22,9 @@ Sale Contact
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Limitare selectare contacte
+  - Limitare selectare contacte
 
 **Table of contents**
 

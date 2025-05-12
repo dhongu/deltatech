@@ -90,7 +90,7 @@ class AccountAveragePaymentReport(models.Model):
         return sql
 
     def _from(self):
-        sql  = """
+        sql = """
                 from    account_move_line l
                 left join account_move am on (am.id=l.move_id)
                 left join account_journal j on (j.id = l.journal_id)

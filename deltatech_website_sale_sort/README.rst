@@ -22,9 +22,9 @@ eCommerce Product sort
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Additional criteria for sorting products
+  - Additional criteria for sorting products
 
 Cautare produse cu cele mai multe canzari
 
