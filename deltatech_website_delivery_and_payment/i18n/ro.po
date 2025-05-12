@@ -28,12 +28,12 @@ msgstr "<span>Comandă</span>"
 #. module: deltatech_website_delivery_and_payment
 #: model:ir.model,name:deltatech_website_delivery_and_payment.model_res_partner
 msgid "Contact"
-msgstr "Contact"
+msgstr ""
 
 #. module: deltatech_website_delivery_and_payment
 #: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__logo
 msgid "Logo"
-msgstr "Logo"
+msgstr ""
 
 #. module: deltatech_website_delivery_and_payment
 #: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.view_delivery_carrier_form
