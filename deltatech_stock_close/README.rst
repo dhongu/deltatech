@@ -24,7 +24,7 @@ Deltatech Stock Close
 
 Features:
 
--  Adds "Active" field in stock.valuation.layer
+- Adds "Active" field in stock.valuation.layer
 
 **Table of contents**
 

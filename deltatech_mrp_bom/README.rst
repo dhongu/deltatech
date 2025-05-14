@@ -22,11 +22,11 @@ MRP Bom
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
--  adds button for quick access of sub-LDM Functionalitati:
+- adds button for quick access of sub-LDM Functionalitati:
 
--  adugare buton pentru accesare rapida sub-LDM
+- adugare buton pentru accesare rapida sub-LDM
 
 **Table of contents**
 

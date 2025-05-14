@@ -59,15 +59,11 @@ class QueueJob(models.Model):
     @api.model
     def _cron_trigger(self, at=None):
         domain = [("queue_job_runner", "=", True)]
-        crons = self.env["ir.cron"].sudo().search(domain)
-        for cron in crons:
-            trigger = self.env["ir.cron.trigger"].search([("cron_id", "=", cron.id)])
-            if trigger:
-                try:
-                    trigger.unlink()
-                except Exception as e:
-                    _logger.error("Error deleting trigger: %s", e)
-            if not at:
-                at = fields.Datetime.now() + timedelta(seconds=5)
-            cron._trigger(at=at)
-            _logger.info(f"CRON trigger for {cron.name} at {at}")
+        crones = self.env["ir.cron"].sudo().search(domain)
+        for cron in crones:
+            trigger = self.env["ir.cron.trigger"].search([("cron_id", "=", cron.id)], limit=1)
+            if not trigger:
+                if not at:
+                    at = fields.Datetime.now() + timedelta(seconds=5)
+                cron._trigger(at=at)
+                _logger.info(f"CRON trigger for {cron.name} at {at}")

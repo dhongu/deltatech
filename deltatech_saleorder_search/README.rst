@@ -22,9 +22,9 @@ Deltatech Sale Order Search by Partner Fields
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Search sale order by partner fields: e-mail, phone, mobile
+  - Search sale order by partner fields: e-mail, phone, mobile
 
 **Table of contents**
 

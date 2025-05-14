@@ -27,7 +27,7 @@ async function prnReportHandler(action, options, env) {
                 url_ += `/${actionContext.active_ids.join(",")}`;
             }
             if (type === "prn") {
-                const context = encodeURIComponent(JSON.stringify(env.services.user.context));
+                const context = encodeURIComponent(JSON.stringify(action.context));
                 url_ += `?context=${context}`;
             }
         }
@@ -38,7 +38,7 @@ async function prnReportHandler(action, options, env) {
                 url: "/report/download",
                 data: {
                     data: JSON.stringify([url_, action.report_type]),
-                    context: JSON.stringify(env.services.user.context),
+                    context: JSON.stringify(action.context),
                 },
             });
         } finally {

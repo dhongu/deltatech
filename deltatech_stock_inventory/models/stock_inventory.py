@@ -26,7 +26,7 @@ class Inventory(models.Model):
         required=True,
         default=fields.Datetime.now,
         help="If the inventory adjustment is not validated, "
-        "date at which the theoritical quantities have been checked.\n"
+        "date at which the theoretical quantities have been checked.\n"
         "If the inventory adjustment is validated, date at which the inventory adjustment has been validated.",
     )
     line_ids = fields.One2many(
@@ -96,7 +96,8 @@ class Inventory(models.Model):
     def _onchange_company_id(self):
         # If the multilocation group is not active, default the location to the one of the main
         # warehouse.
-        if not self.env.user.has_group("stock.group_stock_multi_locations"):
+
+        if not self.env.user.has_groups("stock.group_stock_multi_locations"):
             warehouse = self.env["stock.warehouse"].search([("company_id", "=", self.company_id.id)], limit=1)
             if warehouse:
                 self.location_ids = warehouse.lot_stock_id
@@ -485,7 +486,7 @@ class InventoryLine(models.Model):
             inventory = self.env["stock.inventory"].browse(self.env.context.get("active_id"))
             if inventory.exists() and len(inventory.product_ids) > 1:
                 return f"[('is_storable', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id), ('id', 'in', {inventory.product_ids.ids})]"  # noqa E501
-        return "[('type', '=', 'product'), '|', ('company_id', '=', False), ('company_id', '=', company_id)]"
+        return "[('is_storable', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id)]"
 
     is_editable = fields.Boolean(help="Technical field to restrict editing.")
     is_price_editable = fields.Boolean(

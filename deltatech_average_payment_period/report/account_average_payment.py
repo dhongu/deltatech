@@ -66,11 +66,9 @@ class AccountAveragePaymentReport(models.Model):
 
         return res
 
-    def init(self):
-        tools.drop_view_if_exists(self._cr, self._table)
-        self._cr.execute(
-            f"""CREATE or REPLACE VIEW {self._table} as (
-        select l.id,
+    def _select(self):
+        sql = """
+         select l.id,
             l.partner_id,
             l.date,
             l.payment_date,
@@ -88,13 +86,26 @@ class AccountAveragePaymentReport(models.Model):
             coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0) as balance,
             l.payment_days_simple as payment_days_simple
 
+        """
+        return sql
 
-        from    account_move_line l
+    def _from(self):
+        sql = """
+                from    account_move_line l
                 left join account_move am on (am.id=l.move_id)
                 left join account_journal j on (j.id = l.journal_id)
                 left join account_account a on (a.id = l.account_id)
                 where am.state = 'posted' and  l.full_reconcile_id is not null and
                       j.type in ('sale', 'purchase', 'sale_refund', 'purchase_refund')
 
+        """
+        return sql
+
+    def init(self):
+        tools.drop_view_if_exists(self._cr, self._table)
+        self._cr.execute(
+            f"""CREATE or REPLACE VIEW {self._table} as (
+                {self._select()}
+                {self._from()}
             )"""
         )
