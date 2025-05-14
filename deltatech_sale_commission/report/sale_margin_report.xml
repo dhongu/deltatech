@@ -135,7 +135,19 @@
             <search string="Search">
 
                 <filter name="date" date="date" default_period="last_month" />
-                <separator />
+                <filter name="filter_today" string="Today" domain="[('date', '>=', context_today())]" />
+
+                <filter
+                    name="filter_yesterday"
+                    string="Yesterday"
+                    domain="[('date', '>=', (context_today() - datetime.timedelta(days=1)))]"
+                />
+
+                <filter
+                    name="filter_last_week"
+                    string="Last 7 Days"
+                    domain="[('date', '>=', (context_today() - datetime.timedelta(days=7)))]"
+                />
 
                 <filter name="due_date" date="due_date" />
 
@@ -194,6 +206,34 @@
         <field name="help">This report performs analysis on your invoices.</field>
         <field name="context">{"search_default_date":1,
             'search_default_product':1,'group_by_no_leaf':1,'group_by':['user_id']}
+        </field>
+    </record>
+
+    <record id="inherit_sale_view_order_product_search" model="ir.ui.view">
+        <field name="name">sale.view_order_product_search.inherit</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_search" />
+        <field name="arch" type="xml">
+            <!-- Add your customizations here -->
+            <filter name="filter_date" position="after">
+                <separator />
+                <filter name="filter_today" string="Today" domain="[('date', '>=', context_today())]" />
+
+                <filter
+                    name="filter_yesterday"
+                    string="Yesterday"
+                    domain="[('date', '>=', (context_today() - datetime.timedelta(days=1)))]"
+                />
+
+                <filter
+                    name="filter_last_week"
+                    string="Last 7 Days"
+                    domain="[('date', '>=', (context_today() - datetime.timedelta(days=7)))]"
+                />
+            </filter>
+            <filter name="company" position="after">
+                <filter string="Warehouse" name="warehouse" context="{'group_by':'warehouse_id'}" />
+            </filter>
         </field>
     </record>
 
