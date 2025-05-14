@@ -96,7 +96,7 @@ class Inventory(models.Model):
     def _onchange_company_id(self):
         # If the multilocation group is not active, default the location to the one of the main
         # warehouse.
-        if not self.user_has_groups("stock.group_stock_multi_locations"):
+        if not self.env.user.has_group("stock.group_stock_multi_locations"):
             warehouse = self.env["stock.warehouse"].search([("company_id", "=", self.company_id.id)], limit=1)
             if warehouse:
                 self.location_ids = warehouse.lot_stock_id
@@ -765,7 +765,7 @@ class InventoryLine(models.Model):
         their quantity.
         """
         for line in self:
-            if line.product_id.type != "product":
+            if not line.product_id.is_storable:
                 raise ValidationError(
                     _("You can only adjust storable products.")
                     + f"\n\n{line.product_id.display_name} -> {line.product_id.type}"
