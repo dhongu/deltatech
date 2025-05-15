@@ -7,6 +7,9 @@
 
             <t t-if="calcData.will_be_fulfilled ">
                 <t t-set="text_color">text-success</t>
+                <t t-if="!props.record.data.free_qty_today">
+                    <t t-set="text_color">text-info</t>
+                </t>
             </t>
             <t t-else="">
                 <t t-set="text_color">text-danger</t>
