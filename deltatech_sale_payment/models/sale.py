@@ -1,7 +1,7 @@
 # ©  2008-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class SaleOrder(models.Model):
@@ -42,7 +42,6 @@ class SaleOrder(models.Model):
             "target": "new",
         }
 
-    @api.depends("transaction_ids", "transaction_ids.state")
     def _compute_payment(self):
         for order in self:
             amount = 0
@@ -51,7 +50,7 @@ class SaleOrder(models.Model):
 
             provider = self.env["payment.provider"]
 
-            for invoice in order.invoice_ids.filtered(lambda a: a.state == "done"):
+            for invoice in order.invoice_ids.filtered(lambda a: a.state == "posted"):
                 amount += invoice.amount_total_signed - invoice.amount_residual_signed
                 transactions = transactions - invoice.transaction_ids
             for transaction in transactions:
