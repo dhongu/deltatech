@@ -39,12 +39,20 @@ class MrpBom(models.Model):
                     new_line = line.copy()
                     new_line.bom_id = bom.id
                     line_tmpl = line.product_id.product_tmpl_id
-                    # determina varianta de produs cu atributele corespunzatoare produsului din antet
+                    combinations = self.env["product.template.attribute.value"]
+
                     for attribute_header in bom.product_tmpl_id.attribute_line_ids:
                         for attribute_line in line_tmpl.attribute_line_ids:
                             if attribute_header.attribute_id == attribute_line.attribute_id:
-                                # determin varianta de produs cu atributele corespunzatoare
-                                pass
+                                ptav = bom.product_id.product_template_attribute_value_ids
+                                ptav = ptav.filtered(lambda x: x.attribute_id == attribute_header.attribute_id)
+                                line_ptav  = line_tmpl.attribute_line_ids.mapped("product_template_value_ids")
+                                line_ptav = line_ptav.filtered(lambda x: x.product_attribute_value_id == ptav.product_attribute_value_id)
+                                combinations |=  line_ptav
+
+                    product = line_tmpl._get_variant_for_combination(combinations)
+                    new_line.product_id = product
+
 
 
 class MrpBomLine(models.Model):
