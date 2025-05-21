@@ -51,7 +51,8 @@ class MrpBom(models.Model):
                                 combinations |=  line_ptav
 
                     product = line_tmpl._get_variant_for_combination(combinations)
-                    new_line.product_id = product
+                    if product:
+                        new_line.product_id = product
 
 
 
