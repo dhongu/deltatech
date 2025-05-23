@@ -24,10 +24,9 @@ Price List add Category
 
 Features:
 
--  Gives you the possibility to add a category to a pricelist's
-   products.
--  This is done by opening the action menu on the pricelist and
-   selecting "Open Pricelist Wizard".
+- Gives you the possibility to add a category to a pricelist's products.
+- This is done by opening the action menu on the pricelist and selecting
+  "Open Pricelist Wizard".
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.

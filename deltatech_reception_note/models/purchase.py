@@ -46,7 +46,7 @@ class PurchaseOrder(models.Model):
                     if lines:
                         message = _("Quantities forced on this reception note:<br />")
                         for line in lines:
-                                message += _(
+                            message += _(
                                 "Product [{product_code}]{product_name}: quantity: {quantity} {uom}<br />"
                             ).format(
                                 product_code=line["product_id"].default_code,

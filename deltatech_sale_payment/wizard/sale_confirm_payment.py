@@ -37,7 +37,12 @@ class SaleConfirmPayment(models.TransientModel):
         tx = order.sudo().transaction_ids._get_last()
         if not tx and order.sudo().transaction_ids:
             tx = order.sudo().transaction_ids[-1]
-        if tx and tx.state in ["pending", "authorized"] or tx.amount == 0 or tx.provider_code in ['on_delivery', 'custom']:
+        if (
+            tx
+            and tx.state in ["pending", "authorized"]
+            or tx.amount == 0
+            or tx.provider_code in ["on_delivery", "custom"]
+        ):
             defaults["transaction_id"] = tx.id
             defaults["provider_id"] = tx.provider_id.id
             defaults["payment_method_id"] = tx.payment_method_id.id
@@ -104,7 +109,7 @@ class SaleConfirmPayment(models.TransientModel):
             transaction._set_pending()
             if transaction.amount > 0:
                 transaction._set_done()
-            if transaction.provider_id.code not in ["none", "custom", 'on_delivery']:
+            if transaction.provider_id.code not in ["none", "custom", "on_delivery"]:
                 transaction._finalize_post_processing()
 
             # transaction._reconcile_after_transaction_done()

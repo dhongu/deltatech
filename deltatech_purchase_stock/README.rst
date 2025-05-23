@@ -24,7 +24,7 @@ Purchase Stock
 
 Features:
 
--  Separate manual purchase orders from replenishment purchase orders
+- Separate manual purchase orders from replenishment purchase orders
 
 **Table of contents**
 

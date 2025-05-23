@@ -67,7 +67,6 @@ msgid "Print"
 msgstr "Tipărește"
 
 #. module: deltatech_website_delivery_and_payment
-
 #: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_res_users__provider_id
 msgid "Provider"
 msgstr "Furnizor"
