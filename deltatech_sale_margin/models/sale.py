@@ -146,7 +146,7 @@ class SaleOrderLine(models.Model):
 
             #
             if line.product_id and line.price_unit == 0:
-                if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
+                if not self.env.user.has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
                     raise UserError(_("You can not sell %s without price.") % line.product_id.name)
                 else:
                     message = _("Sale %s without price.") % line.product_id.name
@@ -154,7 +154,7 @@ class SaleOrderLine(models.Model):
             price_unit = line.price_reduce_taxexcl
             if price_unit:
                 if price_unit < line.purchase_price:
-                    if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
+                    if not self.env.user.has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
                         raise UserError(_(f"You can not sell below the purchase price: {self[0].product_id.name}."))
                     else:
                         message = _("Sale %s under the purchase price.") % line.product_id.name
@@ -162,7 +162,7 @@ class SaleOrderLine(models.Model):
 
                 margin = (price_unit - line.purchase_price) / price_unit * 100
                 if margin < margin_limit:
-                    if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_margin"):
+                    if not self.env.user.has_group("deltatech_sale_margin.group_sale_below_margin"):
                         raise UserError(_("You can not sell below margin: %s") % line.product_id.name)
                     else:
                         message = _("Sale %s below margin.") % line.product_id.name
