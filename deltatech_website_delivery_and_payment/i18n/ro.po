@@ -52,6 +52,7 @@ msgstr "Colector plată"
 
 #. module: deltatech_website_delivery_and_payment
 #: model:ir.model,name:deltatech_website_delivery_and_payment.model_payment_provider
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_res_partner__provider_id
 msgid "Payment Provider"
 msgstr "Furnizor plată"
 
@@ -66,7 +67,6 @@ msgid "Print"
 msgstr "Tipărește"
 
 #. module: deltatech_website_delivery_and_payment
-#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_res_partner__provider_id
 #: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_res_users__provider_id
 msgid "Provider"
 msgstr "Furnizor"

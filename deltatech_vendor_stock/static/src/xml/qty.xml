@@ -7,6 +7,9 @@
 
             <t t-if="calcData.will_be_fulfilled ">
                 <t t-set="text_color">text-success</t>
+                <t t-if="!props.record.data.free_qty_today">
+                    <t t-set="text_color">text-info</t>
+                </t>
             </t>
             <t t-else="">
                 <t t-set="text_color">text-danger</t>
@@ -17,6 +20,7 @@
 
             <a
                 t-att-tabindex="props.record.data.display_qty_widget ? '0' : '-1'"
+                t-att-class="!props.record.data.display_qty_widget ? 'invisible' : ''"
                 t-on-click="showPopup"
                 t-attf-class="fa fa-area-chart cursor-pointer {{ text_color }}"
             />

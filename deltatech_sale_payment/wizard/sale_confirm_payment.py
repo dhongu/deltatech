@@ -37,7 +37,12 @@ class SaleConfirmPayment(models.TransientModel):
         tx = order.sudo().transaction_ids._get_last()
         if not tx and order.sudo().transaction_ids:
             tx = order.sudo().transaction_ids[-1]
-        if tx and tx.state in ["pending", "authorized"] or tx.amount == 0:
+        if (
+            tx
+            and tx.state in ["pending", "authorized"]
+            or tx.amount == 0
+            or tx.provider_code in ["on_delivery", "custom"]
+        ):
             defaults["transaction_id"] = tx.id
             defaults["provider_id"] = tx.provider_id.id
             defaults["payment_method_id"] = tx.payment_method_id.id
@@ -58,6 +63,9 @@ class SaleConfirmPayment(models.TransientModel):
         if self.transaction_id:
             return self.transaction_id
 
+        if not self.amount:
+            return self.env["payment.transaction"]
+
         transaction = self.env["payment.transaction"].create(
             {
                 "amount": self.amount,
@@ -71,7 +79,8 @@ class SaleConfirmPayment(models.TransientModel):
                 "state": "draft",
             }
         )
-        transaction._set_pending()
+        if self.amount:
+            transaction._set_pending()
         self.transaction_id = transaction
 
         return transaction
@@ -89,17 +98,18 @@ class SaleConfirmPayment(models.TransientModel):
             )
         else:
             self.transaction_id.sudo()._set_canceled()
+            self.transaction_id.unlink()
             self.transaction_id = False
 
     def do_confirm(self):
         self.do_add_payment()
         transaction = self.transaction_id
-        if transaction.state != "done":
+        if transaction.state != "done" and transaction.amount:
             transaction = transaction.with_context(payment_date=self.payment_date)
             transaction._set_pending()
             if transaction.amount > 0:
                 transaction._set_done()
-            if transaction.provider_id.code not in ["none", "custom"]:
+            if transaction.provider_id.code not in ["none", "custom", "on_delivery"]:
                 transaction._finalize_post_processing()
 
             # transaction._reconcile_after_transaction_done()
