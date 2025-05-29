@@ -6,7 +6,7 @@
 {
     "name": "Vendor Stock",
     "summary": "Vendor stock availability",
-    "version": "17.0.1.1.2",
+    "version": "17.0.1.1.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
