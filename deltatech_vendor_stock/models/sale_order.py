@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class SaleOrderLine(models.Model):
@@ -49,6 +49,10 @@ class SaleOrderLine(models.Model):
                 sale_line.warehouse_stock = " \t\n".join(warehouse_stock_lines)
             else:
                 sale_line.warehouse_stock = ""
+
+    @api.onchange("product_id")
+    def _onchange_product_recalculate_stock(self):
+        self._compute_warehouse_stocks()
 
     def _compute_qty_at_date(self):
         res = super()._compute_qty_at_date()
