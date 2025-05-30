@@ -5,4 +5,4 @@ from . import sale
 from . import product_template
 from . import product_category
 from . import invoice
-# from . import sale_report
+from . import sale_report
