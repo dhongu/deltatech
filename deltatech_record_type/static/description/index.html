@@ -17,40 +17,85 @@
 !! source digest: sha256:b0619f4886e70796f25dc18aef1ae850aff1f1f34442032a1025ddf2c2ffd5a3
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="https://www.odoo.com/documentation/master/legal/licenses.html"><img alt="License: OPL-1" src="https://img.shields.io/badge/licence-OPL--1-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/17.0/deltatech_record_type"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<p>Features:</p>
+<div class="section" id="deltatech-record-type">
+<h1>Deltatech Record Type</h1>
+<div class="section" id="overview">
+<h2>Overview</h2>
+<p>The Deltatech Record Type module provides an enhanced way to manage
+multiple record types for various Odoo documents including sales orders,
+purchase orders, and invoices. This module allows businesses to create
+and maintain different types of records with specific default values and
+routing configurations.</p>
+</div>
+<div class="section" id="key-features">
+<h2>Key Features</h2>
 <ul class="simple">
-<li>Types can be defined for records sale.order, purchase.order,
-account.move</li>
-<li>If a model has no types defined, the type field will not be displayed</li>
-</ul>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
-</ul>
-</li>
+<li>Define custom record types for sale orders, purchase orders, and
+invoices</li>
+<li>Assign specific users to each record type for access control</li>
+<li>Set default values for fields when creating new records of a specific
+type</li>
+<li>Configure stock routes for each record type</li>
+<li>Only displays type field in models that have types defined</li>
 </ul>
 </div>
+<div class="section" id="technical-implementation">
+<h2>Technical Implementation</h2>
+<p>The module implements a flexible framework through two main models:</p>
+<ul class="simple">
+<li>: Defines the type configuration including allowed users and routing
+<tt class="docutils literal">record.type</tt></li>
+<li><tt class="docutils literal">record.type.default.values</tt>: Manages default field values for each
+record type with dynamic field selection</li>
+</ul>
+</div>
+<div class="section" id="integration-points">
+<h2>Integration Points</h2>
+<ul class="simple">
+<li>Integrates with core Odoo modules: Sale, Purchase, and Accounting</li>
+<li>Extends the standard views of sale orders, purchase orders, and
+invoices</li>
+<li>Supports custom security roles for type management</li>
+</ul>
+</div>
+<div class="section" id="business-benefits">
+<h2>Business Benefits</h2>
+<ul class="simple">
+<li>Streamlines document creation with predefined templates</li>
+<li>Enhances user experience by showing only relevant record types to
+specific users</li>
+<li>Improves business workflow with customized routing per record type</li>
+<li>Reduces data entry errors with automatic default values</li>
+</ul>
+</div>
+<div class="section" id="usage">
+<h2>Usage</h2>
+<p>Record types can be configured in the system settings. Each type can
+have specific default values for fields, which will be automatically
+applied when creating new records of that type. User access to record
+types can be restricted, ensuring that users only see and use the
+appropriate record types for their role. This module is maintained by
+Terrabit and is available for Odoo 17.0.</p>
+<p><strong>Table of contents</strong></p>
+</div>
+</div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Voicu Stefan</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/VoicuStefan2001"><img alt="VoicuStefan2001" src="https://github.com/VoicuStefan2001.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/17.0/deltatech_record_type">dhongu/deltatech</a> project on GitHub.</p>
