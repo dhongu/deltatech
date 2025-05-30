@@ -55,28 +55,37 @@ class SaleOrder(models.Model):
         return res
 
     def set_phase(self, phase_step):
+        if self.env.context.get("skip_phase_update", False):
+            return
         domain = [(phase_step, "=", True)]
         phases = self.env["sale.order.phase"].search(domain)
         if not phases:
             return
         for order in self:
             transactions = order.sudo().transaction_ids.filtered(lambda a: a.state == "done")
-            relevant_phase = phases
+            relevant_phase = False
             if transactions:
                 relevant_phase = phases.filtered(lambda s: s.paid)
             if not relevant_phase:
                 relevant_phase = phases
 
-            new_phase = relevant_phase[0]
+            new_phase = False
             for phase in relevant_phase:
                 if phase.sequence > order.phase_id.sequence:
                     new_phase = phase
                     break
-            order.phase_id = new_phase
+
+            if new_phase:
+                order.phase_id = new_phase
 
     def write(self, vals):
         res = super().write(vals)
         if "phase_id" in vals:
             if self.phase_id.action_id:
                 self.phase_id.action_id.run()
+            for order in self:
+                if self.phase_id.confirmed and order.state == "draft":
+                    order.with_context(skip_phase_update=True).action_confirm()
+                if self.phase_id.canceled and order.state != "cancel":
+                    order.with_context(skip_phase_update=True).action_cancel()
         return res
