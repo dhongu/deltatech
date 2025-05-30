@@ -32,9 +32,19 @@ msgid "Delivered"
 msgstr "Livrat"
 
 #. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__delivery_state
+msgid "Delivery State"
+msgstr "Stare Livrare"
+
+#. module: deltatech_delivery_status
 #: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__draft
 msgid "Draft"
 msgstr "Ciornă"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__in_warehouse
+msgid "In Carrier Warehouse"
+msgstr "În depozit curier"
 
 #. module: deltatech_delivery_status
 #: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__in_transit
@@ -93,6 +103,11 @@ msgstr "Livrare amânată"
 #: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__pre_advice
 msgid "Pre advice"
 msgstr "Avizat"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__ready_in_warehouse
+msgid "Ready in warehouse"
+msgstr "Pregatita in depozit"
 
 #. module: deltatech_delivery_status
 #: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_order_form

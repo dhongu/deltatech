@@ -3,8 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Select Journal",
-    "version": "18.0.1.0.7",
+    "name": "Deltatech Select Journal - Obsolete",
+    "version": "18.0.1.0.8",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

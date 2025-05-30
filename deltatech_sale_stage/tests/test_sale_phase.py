@@ -7,11 +7,29 @@ class TestSaleOrder(common.TransactionCase):
         super().setUp()
 
         # Create a sale order phase
-        self.phase = self.env["sale.order.phase"].create(
+
+        self.send_email_phase = self.env["sale.order.phase"].create(
+            {
+                "name": "Send Email phase",
+                "send_email": True,
+                "sequence": 1,
+            }
+        )
+
+        self.phase_confirmed = self.env["sale.order.phase"].create(
             {
                 "name": "Test phase",
-                "sequence": 1,
+                "sequence": 2,
+                "send_email": True,
                 "confirmed": True,
+            }
+        )
+
+        self.phase_invoiced = self.env["sale.order.phase"].create(
+            {
+                "name": "Invoiced phase",
+                "invoiced": True,
+                "sequence": 3,
             }
         )
 
@@ -24,7 +42,7 @@ class TestSaleOrder(common.TransactionCase):
         self.sale_order = self.env["sale.order"].create(
             {
                 "partner_id": self.partner.id,
-                "phase_id": self.phase.id,
+                "phase_id": self.phase_confirmed.id,
             }
         )
 
@@ -33,7 +51,7 @@ class TestSaleOrder(common.TransactionCase):
             {
                 "name": "Test Picking Type",
                 "sequence": 1,
-                "phase_id": self.phase.id,
+                "phase_id": self.phase_confirmed.id,
                 "sequence_code": "TEST",  # Add this line
                 "code": "internal",  # Add this line
             }
@@ -50,13 +68,13 @@ class TestSaleOrder(common.TransactionCase):
 
     def test_sale_order_phase_creation(self):
         # Test the creation of a sale order phase
-        self.assertEqual(self.phase.name, "Test phase")
-        self.assertEqual(self.phase.sequence, 1)
-        self.assertEqual(self.phase.confirmed, True)
+        self.assertEqual(self.phase_confirmed.name, "Test phase")
+        self.assertEqual(self.phase_confirmed.sequence, 2)
+        self.assertEqual(self.phase_confirmed.confirmed, True)
 
     def test_sale_order_creation(self):
         # Test the creation of a sale order
-        self.assertEqual(self.sale_order.phase_id, self.phase)
+        self.assertEqual(self.sale_order.phase_id, self.phase_confirmed)
 
     def test_stock_picking_creation(self):
         # Test the creation of a stock picking
@@ -66,7 +84,7 @@ class TestSaleOrder(common.TransactionCase):
     def test_action_done(self):
         # Test the _action_done method
         self.stock_picking._action_done()
-        self.assertEqual(self.sale_order.phase_id, self.phase)
+        self.assertEqual(self.sale_order.phase_id, self.phase_confirmed)
 
     def test_set_phase(self):
         # Test the set_phase method
@@ -75,17 +93,12 @@ class TestSaleOrder(common.TransactionCase):
 
     def test_write(self):
         # Test the write method
-        self.sale_order.write({"phase_id": self.phase.id})
-        self.assertEqual(self.sale_order.phase_id, self.phase)
+        self.sale_order.write({"phase_id": self.phase_confirmed.id})
+        self.assertEqual(self.sale_order.phase_id, self.phase_confirmed)
 
     def test_onchange_phase_id(self):
         # Test the onchange_phase_id method
-        self.sale_order.phase_id = self.env["sale.order.phase"].create(
-            {
-                "name": "Invoiced phase",
-                "invoiced": True,
-            }
-        )
+        self.sale_order.phase_id = self.phase_invoiced
         self.sale_order.invoice_status = "invoiced"
         with self.assertRaises(UserError):
             self.sale_order.onchange_phase_id()
@@ -96,14 +109,9 @@ class TestSaleOrder(common.TransactionCase):
 
     def test_action_quotation_sent(self):
         # Test the action_quotation_sent method
-        send_email_phase = self.env["sale.order.phase"].create(
-            {
-                "name": "Send Email phase",
-                "send_email": True,
-            }
-        )
+
         self.sale_order.action_quotation_sent()
-        self.assertEqual(self.sale_order.phase_id, send_email_phase)
+        self.assertEqual(self.sale_order.phase_id.send_email, True)
 
     def test_compute_phase_ids(self):
         # Test the _compute_phase_ids method

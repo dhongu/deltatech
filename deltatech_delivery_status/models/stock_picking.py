@@ -29,15 +29,17 @@ class StockPicking(models.Model):
     delivery_state = fields.Selection(
         [
             ("draft", "Draft"),
+            ("ready_in_warehouse", "Ready in warehouse"),  # coletul este in depozit
             ("pre_advice", "Pre advice"),  # awb generat
             ("in_transit", "In Transit"),  # colet ridicat de curier
-            ("in_warehouse", "In Warehouse"),  # colet in depozitul curierului
+            ("in_warehouse", "In Carrier Warehouse"),  # colet in depozitul curierului
             ("in_delivery", "In delivery"),  # coletul este livrare
             ("delivered", "Delivered"),
         ],
         string="Delivery State",
         default="draft",
         readonly=False,
+        tracking=True,
     )
     available_state = fields.Selection(
         [

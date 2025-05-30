@@ -34,7 +34,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
                         defaults["amount"] = order.payment_term_id.line_ids[0].value_amount
 
             if "journal_id" in fields_list:
-                journal = order.team_id.journal_id
+                journal = order.journal_id or order.team_id.journal_id
                 if not journal:
                     company_id = self._context.get("company_id", self.env.user.company_id.id)
                     domain = [("type", "=", "sale"), ("company_id", "=", company_id)]
@@ -44,6 +44,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
         return defaults
 
     def create_invoices(self):
+        self.order_id.write({"journal_id": self.journal_id.id})
         if self.is_currency_rate_custom:
             new_self = self.with_context(default_journal_id=self.journal_id.id, currency_rate=self.currency_rate)
         else:

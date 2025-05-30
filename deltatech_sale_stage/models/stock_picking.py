@@ -19,9 +19,23 @@ class StockPicking(models.Model):
         for picking in self:
             if picking.sale_id:
                 phase = picking.picking_type_id.phase_id
-                if not phase:
-                    picking.sale_id.set_phase("delivered")
-                else:
+                if phase:
                     picking.sale_id.phase_id = phase
-
         return res
+
+    def write(self, vals):
+        if "delivery_state" in vals:
+            if vals["delivery_state"] in ["in_transit", "in_warehouse", "in_delivery"]:
+                for picking in self:
+                    if picking.sale_id:
+                        picking.sale_id.set_phase("shipped")
+            if vals["delivery_state"] == "delivered":
+                for picking in self:
+                    if picking.sale_id:
+                        picking.sale_id.set_phase("delivered")
+            if vals["delivery_state"] == "pre_advice":
+                for picking in self:
+                    if picking.sale_id:
+                        picking.sale_id.set_phase("pre_advice")
+
+        return super().write(vals)

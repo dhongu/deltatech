@@ -20,6 +20,8 @@
                     <group>
                         <field name="send_email" />
                         <field name="confirmed" />
+                        <field name="pre_advice" />
+                        <field name="shipped" />
                         <field name="delivered" />
                         <field name="invoiced" />
                         <field name="paid" />
@@ -42,6 +44,8 @@
                     <field name="code" optional="show" />
                     <field name="send_email" />
                     <field name="confirmed" />
+                    <field name="pre_advice" />
+                    <field name="shipped" />
                     <field name="delivered" />
                     <field name="invoiced" />
                     <field name="paid" />
@@ -119,7 +123,7 @@
                     <field name="phase_id" />
                 </field>
                 <xpath expr="//group" position="inside">
-                    <filter name='group_by_phase' string="phase" domain="[]" context="{'group_by':'phase_id'}" />
+                    <filter name='group_by_phase' string="Phase" domain="[]" context="{'group_by':'phase_id'}" />
                 </xpath>
             </field>
         </record>

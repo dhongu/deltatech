@@ -1,0 +1,6 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+
+access_split_template,access_split_template,model_account_analytic_split_template,group_analytic_split,1,1,1,1
+access_split_template_line,access_split_template_line,model_account_analytic_split_template_line,group_analytic_split,1,1,1,1
+access_split,access_split,model_account_analytic_split,group_analytic_split,1,1,1,1
+access_split_line,access_split_line,model_account_analytic_split_line,group_analytic_split,1,1,1,1
