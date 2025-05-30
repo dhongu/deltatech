@@ -52,11 +52,6 @@ msgid "In Transit"
 msgstr "În tranzit"
 
 #. module: deltatech_delivery_status
-#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__in_warehouse
-msgid "In Warehouse"
-msgstr "În depozit"
-
-#. module: deltatech_delivery_status
 #: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__in_delivery
 msgid "In delivery"
 msgstr "În livrare"
@@ -128,11 +123,6 @@ msgstr "Comandă de vânzare"
 #: model:ir.model,name:deltatech_delivery_status.model_crm_team
 msgid "Sales Team"
 msgstr "Echipa de vânzări"
-
-#. module: deltatech_delivery_status
-#: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__delivery_state
-msgid "State"
-msgstr "Stare"
 
 #. module: deltatech_delivery_status
 #. odoo-python
