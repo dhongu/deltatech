@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_analytic_split_t_form" model="ir.ui.view">
+        <field name="name">account.analytic.split.template.form</field>
+        <field name="model">account.analytic.split.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box" />
+                    <group name="head">
+                        <field name="name" />
+                        <field name="active" widget="boolean_toggle" />
+                    </group>
+                    <notebook>
+                        <page string="Lines templates">
+                            <field name="line_ids">
+                                <tree editable="bootom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="analytic_id" />
+                                    <field name="percent" sum="percent" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_account_analytic_split_t_tree" model="ir.ui.view">
+        <field name="name">account.analytic.split.template.tree</field>
+        <field name="model">account.analytic.split.template</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_analytic_split_template" model="ir.actions.act_window">
+        <field name="name">Analytic split templates</field>
+        <field name="res_model">account.analytic.split.template</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        name="Analytic split templates"
+        id="menu_analytic_split_template"
+        action="action_analytic_split_template"
+        parent="account.menu_analytic_accounting"
+        sequence="100"
+    />
+</odoo>
