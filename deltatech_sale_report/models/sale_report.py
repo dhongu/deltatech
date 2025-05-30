@@ -7,10 +7,9 @@ class SaleReport(models.Model):
     # Add the new field to the report
     partner_email = fields.Char(string="Partner Email")
 
-
     def _select_additional_fields(self):
         res = super()._select_additional_fields()
-        res['partner_email'] = " partner.email"
+        res["partner_email"] = " partner.email"
         return res
 
     # def _select_sale(self):
