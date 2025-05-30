@@ -54,5 +54,11 @@ class ProductProduct(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         products = super().create(vals_list)
-        products.create_rule()
+        dont_auto_create_rule = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("deltatech_auto_reorder_rule.dont_auto_create_rule", default=False)
+        )
+        if not dont_auto_create_rule:
+            products.create_rule()
         return products
