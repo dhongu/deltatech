@@ -18,6 +18,7 @@ addon | version | maintainers | summary | price
 --- | --- | --- | --- | ---
 [deltatech](deltatech/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generic module | Free 
 [deltatech_account](deltatech_account/) | 18.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account | Free 
+[deltatech_account_analytic](deltatech_account_analytic/) | 18.0.0.0.4 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Analytic lines enhancements | Free 
 [deltatech_account_edi_ub_advice](deltatech_account_edi_ub_advice/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL despatch advice | Free 
 [deltatech_account_edi_ubl_gln](deltatech_account_edi_ubl_gln/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL GLN | Free 
 [deltatech_account_restrict_date](deltatech_account_restrict_date/) | 18.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict certain operations depending on date | Free 
@@ -25,7 +26,8 @@ addon | version | maintainers | summary | price
 [deltatech_agreement_management](deltatech_agreement_management/) | 18.0.0.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage agreements numbers, date, state | Free 
 [deltatech_alternative](deltatech_alternative/) | 18.0.2.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes | Free 
 [deltatech_alternative_website](deltatech_alternative_website/) | 18.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show alternative code in website | Free 
-[deltatech_auto_reorder_rule](deltatech_auto_reorder_rule/) | 18.0.0.0.2 |  | Auto create reorder rule | Free 
+[deltatech_analytic_distribution](deltatech_analytic_distribution/) | 18.0.0.0.1 |  | Can't validate bills without 100% analytic distribution | Free 
+[deltatech_auto_reorder_rule](deltatech_auto_reorder_rule/) | 18.0.0.1.3 |  | Auto create reorder rule | Free 
 [deltatech_average_payment_period](deltatech_average_payment_period/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Computes average duration of cash accounting | Free 
 [deltatech_backup_attachment](deltatech_backup_attachment/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Backup attachments for selected file type | Free 
 [deltatech_batch_transfer](deltatech_batch_transfer/) | 18.0.0.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Batch transfer improvements | Free 
@@ -43,7 +45,7 @@ addon | version | maintainers | summary | price
 [deltatech_data_sheet](deltatech_data_sheet/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Data Sheet | Free 
 [deltatech_data_sheet_website](deltatech_data_sheet_website/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Data Sheet | Free 
 [deltatech_dc](deltatech_dc/) | 18.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Print Declaration of Conformity | Free 
-[deltatech_delivery_status](deltatech_delivery_status/) | 18.0.2.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Carrier status on picking | Free 
+[deltatech_delivery_status](deltatech_delivery_status/) | 18.0.2.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Carrier status on picking | Free 
 [deltatech_download](deltatech_download/) | 18.0.0.1.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generare fisier | Free 
 [deltatech_dropshipping](deltatech_dropshipping/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Delivery address in picking | Free 
 [deltatech_dummy_queue_job](deltatech_dummy_queue_job/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Dummy Queue Job | Free 
@@ -155,7 +157,7 @@ addon | version | maintainers | summary | price
 [deltatech_saleorder_pickup_list](deltatech_saleorder_pickup_list/) | 18.0.1.0.0 |  | Pickup list report from sale order | Free 
 [deltatech_saleorder_search](deltatech_saleorder_search/) | 18.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Search sale order by partner e-mail, phone, mobile | Free 
 [deltatech_saleorder_type](deltatech_saleorder_type/) | 18.0.1.0.1 |  | Manage multiple sale order types | Free 
-[deltatech_select_journal](deltatech_select_journal/) | 18.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Selectie jurnal | Free 
+[deltatech_select_journal](deltatech_select_journal/) | 18.0.1.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Selectie jurnal | Free 
 [deltatech_service](deltatech_service/) | 18.0.2.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage Services Agreement | Free 
 [deltatech_service_agreement](deltatech_service_agreement/) | 18.0.2.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage Services Agreement | Free 
 [deltatech_service_base](deltatech_service_base/) | 18.0.2.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage Services Base | Free 
