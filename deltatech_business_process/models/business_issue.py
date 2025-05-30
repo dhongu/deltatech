@@ -118,10 +118,10 @@ class BusinessIssue(models.Model):
             if not vals.get("code", False):
                 vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
         res = super().create(vals_list)
-        res.send_mail()
+        res.send_issue_mail()
         return res
 
-    def send_mail(self):
+    def send_issue_mail(self):
         for item in self:
             today = date.today().strftime("%Y-%m-%d")
             item.sudo().message_post(body=f"Date of approval: {today}")
