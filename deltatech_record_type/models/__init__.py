@@ -8,3 +8,5 @@ from . import record_type
 from . import purchase
 from . import res_config_settings
 from . import account_move
+from . import sale_report
+from . import purchase_report
