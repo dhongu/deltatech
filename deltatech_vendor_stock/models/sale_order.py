@@ -4,6 +4,7 @@
 
 
 from odoo import fields, models
+from odoo.tools.safe_eval import safe_eval
 
 
 class SaleOrderLine(models.Model):
