@@ -73,7 +73,7 @@
             <field name="inherit_id" ref="sale.view_order_tree" />
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
-                    <field name="phase_id" invisible="1" />
+                    <field name="phase_id" column_invisible="1" />
                     <field name="phase_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
                 </field>
 
