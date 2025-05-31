@@ -11,7 +11,7 @@ class ServiceDateRange(models.Model):
     _name = "service.date.range"
     _description = "Date Range"
 
-    name = fields.Char(string="Data Range")
+    name = fields.Char(string="Data Range", translate=True)
     date_start = fields.Date(string="Start date", required=True)
     date_end = fields.Date(string="End date", required=True)
     active = fields.Boolean(
