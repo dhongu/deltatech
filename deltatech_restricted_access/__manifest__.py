@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Restricted Access",
+    "name": "Restricted Access Obsolete",
     "summary": "Restricted Access",
     "version": "18.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
