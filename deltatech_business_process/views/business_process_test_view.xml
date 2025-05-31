@@ -110,7 +110,7 @@
                                     decoration-danger="result == 'failed'"
                                     decoration-success="result == 'passed'"
                                 >
-                                    <field name="step_id" invisible="1" />
+                                    <field name="step_id" column_invisible="1" />
                                     <field name="name" />
                                     <field name="transaction_id" />
                                     <field name="description" optional="hide" />
