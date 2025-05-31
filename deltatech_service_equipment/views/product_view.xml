@@ -24,7 +24,6 @@
                     <field name="equi_type_required" readonly="1" />
                     <field
                         name="equi_type_id"
-
                         invisible="equi_type_required!=True"
                         required="equi_type_required==True"
                     />
