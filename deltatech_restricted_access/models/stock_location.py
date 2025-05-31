@@ -10,6 +10,8 @@ class StockLocation(models.Model):
 
     def write(self, vals):
         disallowed_fields = ["name"]
+        if self.env.user.has_group("base.group_system"):
+            return super().write(vals)
         if any(field for field in vals.keys() if field in disallowed_fields):
             if not self.env.user.has_group("deltatech_restricted_access.group_edit_sensible_data"):
                 raise UserError(_("Editing is restricted, you can't do this operation."))
