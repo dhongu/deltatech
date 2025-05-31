@@ -105,7 +105,9 @@ class AccountInvoiceLine(models.Model):
 
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
     def _compute_purchase_price(self):
-        deposit_product = self.env["ir.config_parameter"].sudo().get_param("sale.default_deposit_product_id")
+        # deposit_product = self.env["ir.config_parameter"].sudo().get_param("sale.default_deposit_product_id")
+        company = self.company_id or self.env.user.company_id
+        deposit_product = company.sale_down_payment_product_id
         for invoice_line in self:
             if invoice_line.display_type != "product":
                 invoice_line.purchase_price = 0.0
