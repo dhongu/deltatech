@@ -134,7 +134,7 @@ addon | version | maintainers | summary | price
 [deltatech_sale](deltatech_sale/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Extension Obsolete | Free 
 [deltatech_sale_activity_search](deltatech_sale_activity_search/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Adds a field with the active activity types on that sale order | Free 
 [deltatech_sale_add_extra_line](deltatech_sale_add_extra_line/) | 18.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Add Extra Line | Free 
-[deltatech_sale_commission](deltatech_sale_commission/) | 18.0.1.3.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Compute sale commission | Free 
+[deltatech_sale_commission](deltatech_sale_commission/) | 18.0.1.3.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Compute sale commission | Free 
 [deltatech_sale_contact](deltatech_sale_contact/) | 18.0.1.0.21 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Limit contacts insale order | Free 
 [deltatech_sale_cost_product](deltatech_sale_cost_product/) | 18.0.0.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Cost on Order | Free 
 [deltatech_sale_currency](deltatech_sale_currency/) | 18.0.0.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Currency | Free 
