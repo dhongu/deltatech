@@ -16,11 +16,11 @@
                     <notebook>
                         <page string="Lines templates">
                             <field name="line_ids">
-                                <tree editable="bootom">
+                                <list editable="bootom">
                                     <field name="sequence" widget="handle" />
                                     <field name="analytic_id" />
                                     <field name="percent" sum="percent" />
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -33,17 +33,17 @@
         <field name="name">account.analytic.split.template.tree</field>
         <field name="model">account.analytic.split.template</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="sequence" widget="handle" />
                 <field name="name" />
-            </tree>
+            </list>
         </field>
     </record>
 
     <record id="action_analytic_split_template" model="ir.actions.act_window">
         <field name="name">Analytic split templates</field>
         <field name="res_model">account.analytic.split.template</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem

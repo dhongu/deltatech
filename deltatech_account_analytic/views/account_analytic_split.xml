@@ -36,11 +36,11 @@
                     <notebook>
                         <page string="Lines templates">
                             <field name="line_ids" readonly="state!='draft'">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="analytic_id" />
                                     <field name="percent" sum="percent" />
                                     <field name="amount" />
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -53,19 +53,19 @@
         <field name="name">account.analytic.split.tree</field>
         <field name="model">account.analytic.split</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="split_type" />
                 <field name="amount" />
                 <field name="date" />
-            </tree>
+            </list>
         </field>
     </record>
 
     <record id="action_analytic_split" model="ir.actions.act_window">
         <field name="name">Analytic split</field>
         <field name="res_model">account.analytic.split</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem
