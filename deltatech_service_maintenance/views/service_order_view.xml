@@ -199,8 +199,8 @@
                                     <field name="alternative_code" />
                                     <field name="name" />
                                     <field name="quantity" />
-                                    <field name="stock_location_issue" invisible="1" />
-                                    <field name="stock_issue" invisible="1" />
+                                    <field name="stock_location_issue" column_invisible="1" />
+                                    <field name="stock_issue" column_invisible="1" />
                                     <button
                                         type="object"
                                         name="action_product_forecast_report"

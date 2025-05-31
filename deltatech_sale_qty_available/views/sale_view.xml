@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="sale.view_order_tree" />
             <field name="arch" type="xml">
                 <field name="state" position="after">
-                    <field name="is_ready" invisible="1" />
+                    <field name="is_ready" column_invisible="1" />
                 </field>
                 <xpath expr="//list" position="attributes">
                     <attribute name="decoration-success">is_ready</attribute>

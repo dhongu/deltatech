@@ -15,12 +15,12 @@
                 <field name="quantity" />
                 <field name="uom_id" groups="uom.group_uom" />
                 <field name="price_unit" widget="monetary" options="{'currency_field': 'currency_id'}" />
-                <field name="currency_id" invisible="1" />
-                <field name="state" invisible="1" />
+                <field name="currency_id" column_invisible="1" />
+                <field name="state" column_invisible="1" />
                 <field name="agreement_id" />
-                <field name="company_id" invisible="1" />
+                <field name="company_id" column_invisible="1" />
                 <field name="analytic_account_id" optional="hide" />
-                <field name="company_currency_id" invisible="1" />
+                <field name="company_currency_id" column_invisible="1" />
                 <field name="revenues" sum="1" widget="monetary" options="{'currency_field': 'company_currency_id'}" />
             </list>
         </field>

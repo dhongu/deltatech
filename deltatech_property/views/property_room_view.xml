@@ -10,7 +10,7 @@
                     <field name="name" />
                     <field name="building_id" />
                     <field name="usage_id" />
-                    <field name="usage" invisible="1" />
+                    <field name="usage" column_invisible="1" />
                     <field name="surface" sum="surface" />
                 </list>
             </field>

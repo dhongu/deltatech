@@ -14,7 +14,7 @@
                 <field name="debit" sum="sum_debit" />
                 <field name="credit" sum="sum_credit" />
                 <field name="amount" sum="sum_amount" />
-                <field name="currency_id" invisible="1" />
+                <field name="currency_id" column_invisible="1" />
                 <field name="company_id" groups="base.group_multi_company" />
             </list>
         </field>
@@ -113,7 +113,7 @@
                 <field name="credit" sum="sum_credit" optional="hide" />
                 <field name="amount" sum="sum_amount" />
                 <field name="amount_final" optional="show" />
-                <field name="currency_id" invisible="1" />
+                <field name="currency_id" column_invisible="1" />
                 <field name="company_id" groups="base.group_multi_company" />
             </list>
         </field>

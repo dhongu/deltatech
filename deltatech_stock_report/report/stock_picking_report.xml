@@ -17,7 +17,7 @@
                     <field name="product_id" />
                     <field name="product_qty" sum='Quantity ' />
                     <field name="amount" sum='Amount' />
-                    <field name="company_id" groups="base.group_multi_company" invisible="1" />
+                    <field name="company_id" groups="base.group_multi_company" column_invisible="1" />
                 </list>
             </field>
         </record>

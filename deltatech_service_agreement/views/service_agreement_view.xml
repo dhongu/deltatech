@@ -157,7 +157,7 @@
                             <field name="price_unit" />
                             <field name="currency_id" options="{'no_create': True}" />
                             <field name="quantity_free" readonly="has_free_cycles==True or cycles_free &gt; 0" />
-                            <field name="company_id" invisible="1" />
+                            <field name="company_id" column_invisible="1" />
                             <field name="has_free_cycles" readonly="quantity_free &gt; 0" optional="hide" />
                             <field name="cycles_free" readonly="quantity_free &gt; 0" optional="hide" />
                             <field name="analytic_account_id" optional="hide" />

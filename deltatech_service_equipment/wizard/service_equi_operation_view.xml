@@ -65,7 +65,7 @@
 
                     <field name="items" nolabel="1">
                         <list editable="bottom" create="0" delete="0">
-                            <field name="equipment_id" invisible="1" readonly="1" force_save="1" />
+                            <field name="equipment_id" column_invisible="1" readonly="1" force_save="1" />
                             <field name="meter_id" readonly="1" force_save="1" />
                             <field name="counter_value" />
                         </list>

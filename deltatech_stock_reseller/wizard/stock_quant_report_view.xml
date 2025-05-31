@@ -15,8 +15,8 @@
                     <field name="qty_text" />
                     <field name="price_reseller" />
                     <field name="list_price" />
-                    <field name="list_currency_id" invisible="1" />
-                    <field name="reseller_currency_id" invisible="1" />
+                    <field name="list_currency_id" column_invisible="1" />
+                    <field name="reseller_currency_id" column_invisible="1" />
                 </list>
             </field>
         </record>

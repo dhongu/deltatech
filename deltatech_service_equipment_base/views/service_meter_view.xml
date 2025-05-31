@@ -113,7 +113,7 @@
             <field name="model">service.meter.reading</field>
             <field name="arch" type="xml">
                 <list>
-                    <field name="equipment_id" invisible="context.get('default_equipment_id', False)" />
+                    <field name="equipment_id" column_invisible="context.get('default_equipment_id', False)" />
                     <field name="meter_id" />
                     <field name="date" />
                     <field name="previous_counter_value" />

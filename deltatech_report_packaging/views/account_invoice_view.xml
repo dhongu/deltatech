@@ -14,7 +14,7 @@
                         <list editable="bottom">
                             <field name="material_type" />
                             <field name="qty" />
-                            <field name="invoice_id" invisible="1" />
+                            <field name="invoice_id" column_invisible="1" />
                         </list>
                     </field>
                 </page>

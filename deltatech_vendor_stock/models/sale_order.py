@@ -34,13 +34,26 @@ class SaleOrderLine(models.Model):
                 warehouse_stock_lines = []
                 for warehouse in warehouses:
                     if warehouse.lot_stock_id.usage == "internal":
-                        qty = product.with_context(warehouse=warehouse.id)._compute_quantities_dict(
-                            self._context.get("lot_id"),
-                            self._context.get("owner_id"),
-                            self._context.get("package_id"),
-                            self._context.get("from_date"),
-                            self._context.get("to_date"),
+                        get_param = self.env["ir.config_parameter"].sudo().get_param
+                        use_only_main_location = safe_eval(
+                            get_param("deltatech_vendor_stock.use_only_main_location", "0")
                         )
+                        if not use_only_main_location:
+                            qty = product.with_context(warehouse=warehouse.id)._compute_quantities_dict(
+                                self._context.get("lot_id"),
+                                self._context.get("owner_id"),
+                                self._context.get("package_id"),
+                                self._context.get("from_date"),
+                                self._context.get("to_date"),
+                            )
+                        else:
+                            qty = product.with_context(location=warehouse.lot_stock_id.id)._compute_quantities_dict(
+                                self._context.get("lot_id"),
+                                self._context.get("owner_id"),
+                                self._context.get("package_id"),
+                                self._context.get("from_date"),
+                                self._context.get("to_date"),
+                            )
 
                         quantity_in_warehouse = qty[product.id]["qty_available"]
                         if quantity_in_warehouse:
@@ -50,13 +63,15 @@ class SaleOrderLine(models.Model):
             else:
                 sale_line.warehouse_stock = ""
 
+    @api.onchange("product_id")
+    def _onchange_product_recalculate_stock(self):
+        self._compute_warehouse_stocks()
+
     def _compute_qty_at_date(self):
         res = super()._compute_qty_at_date()
         self.other_qty_available = 0
         treated = self.env["sale.order.line"]
         for line in self:
-            if not line.display_qty_widget:
-                continue
             line.vendor_qty_available = line.product_id.vendor_qty_available
             treated |= line
         remaining = self - treated

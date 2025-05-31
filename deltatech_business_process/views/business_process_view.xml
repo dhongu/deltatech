@@ -204,8 +204,8 @@
                                 <list editable="bottom">
                                     <field name="sequence" widget="handle" />
                                     <field name="code" />
-                                    <field name="process_id" invisible="1" />
-                                    <field name="state" invisible="1" />
+                                    <field name="process_id" column_invisible="1" />
+                                    <field name="state" column_invisible="1" />
                                     <field name="name" />
                                     <field name="transaction_id" optional="show" />
                                     <field name="transaction_type" optional="hide" />
