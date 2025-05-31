@@ -10,7 +10,7 @@ from .common import TestServiceBase
 class TestServiceNotification(TestServiceBase):
     def setUp(self):
         super().setUp()
-        self.user_demo = self.env.user.copy()
+        self.user_demo = self.env.user
 
     def test_create_notification(self):
         notification = Form(self.env["service.notification"])
