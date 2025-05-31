@@ -7,7 +7,7 @@
             <field name="priority">99</field>
             <field name="inherit_id" ref="product.product_pricelist_item_tree_view" />
             <field name="arch" type="xml">
-                <xpath expr="//tree" position="attributes">
+                <xpath expr="//list" position="attributes">
                     <attribute name="default_order">price_version_id,sequence</attribute>
                 </xpath>
                 <field name="sequence" position="replace">
@@ -47,7 +47,7 @@
             <field name="name">Products Listprices Items</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">product.pricelist.item</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="view_type">form</field>
             <field name="view_id" ref="product.product_pricelist_item_tree_view" />
             <field name="search_view_id" ref="product_pricelist_item_view_search" />
