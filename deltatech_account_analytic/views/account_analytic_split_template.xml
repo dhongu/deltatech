@@ -16,7 +16,7 @@
                     <notebook>
                         <page string="Lines templates">
                             <field name="line_ids">
-                                <list editable="bootom">
+                                <list editable="bottom">
                                     <field name="sequence" widget="handle" />
                                     <field name="analytic_id" />
                                     <field name="percent" sum="percent" />
