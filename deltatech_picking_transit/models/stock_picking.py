@@ -31,29 +31,27 @@ class StockPicking(models.Model):
 
     def create_second_transfer_wizard(self, final_dest_location_id, picking_type_id):
         for picking in self:
-            if picking.picking_type_id.code == "internal":
-                new_picking_vals = {
-                    "picking_type_id": picking_type_id.id,
-                    "location_id": picking.location_dest_id.id,
-                    "location_dest_id": final_dest_location_id.id,
-                    "move_ids_without_package": [],
-                }
-                new_picking = self.env["stock.picking"].create(new_picking_vals)
-                self.copy_move_lines(picking, new_picking)
-                new_picking.action_confirm()
-                # new_picking.action_assign()
-                # new_picking.do_unreserve()
-                self.second_transfer_created = True
+            new_picking_vals = {
+                "picking_type_id": picking_type_id.id,
+                "location_id": picking.location_dest_id.id,
+                "location_dest_id": final_dest_location_id.id,
+                "move_ids_without_package": [],
+            }
+            new_picking = self.env["stock.picking"].create(new_picking_vals)
+            self.copy_move_lines(picking, new_picking)
+            new_picking.action_confirm()
+            # new_picking.action_assign()
+            # new_picking.do_unreserve()
+            self.second_transfer_created = True
 
-                message = _("This transfer was generated from %s.") % picking.name
-                new_picking.message_post(body=message)
-                new_picking.source_transfer_id = picking.id
-                message = _("Transfer %s was generated.") % new_picking.name
+            message = _("This transfer was generated from %s.") % picking.name
+            new_picking.message_post(body=message)
+            new_picking.source_transfer_id = picking.id
+            message = _("Transfer %s was generated.") % new_picking.name
 
-                picking.message_post(body=message)
-                picking.write({"partner_id": picking_type_id.warehouse_id.partner_id.id})
-                new_picking.write({"partner_id": picking.picking_type_id.warehouse_id.partner_id.id})
-                return new_picking
+            picking.message_post(body=message)
+            picking.write({"partner_id": picking_type_id.warehouse_id.partner_id.id})
+            new_picking.write({"partner_id": picking.picking_type_id.warehouse_id.partner_id.id})
 
     def copy_move_lines(self, source_picking, target_picking):
         for move in source_picking.move_ids_without_package:
@@ -104,7 +102,7 @@ class StockPicking(models.Model):
             if self.second_transfer_created:
                 record.is_transit_transfer = False
                 return
-            if record.picking_type_id.code == "internal" and record.picking_type_id.two_step_transfer_use == "delivery":
+            if record.picking_type_id.two_step_transfer_use == "delivery":
                 record.is_transit_transfer = True
                 record.action_toggle_is_locked()
             # record.immediate_transfer = False
