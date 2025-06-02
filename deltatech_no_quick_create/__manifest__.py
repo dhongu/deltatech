@@ -5,7 +5,7 @@
 {
     "name": "No quick_create",
     "summary": "Disable quick_create",
-    "version": "17.0.2.0.0",
+    "version": "17.0.2.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Tools",
