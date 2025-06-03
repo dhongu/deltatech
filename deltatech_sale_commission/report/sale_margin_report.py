@@ -4,7 +4,7 @@
 from datetime import datetime, timedelta
 
 from odoo import api, fields, models, tools
-
+from odoo.tools import SQL, Query
 
 class SaleMarginReport(models.Model):
     _name = "sale.margin.report"
@@ -22,23 +22,28 @@ class SaleMarginReport(models.Model):
     product_uom_qty = fields.Float("Quantity", readonly=True)
     purchase_price = fields.Float("Purchase price", readonly=False)
     sale_val = fields.Monetary(
-        "Sale value",
+        "Sale Amount",
         readonly=True,
-        help="Sale value in company currency",
+        help="Sale Amount in company currency",
         currency_field="company_currency_id",
+        group_operator="sum",
     )
 
     stock_val = fields.Monetary(
-        "Stock value",
+        "Stock Amount",
         readonly=True,
-        help="Stock value in company currency",
+        help="Stock Amount in company currency",
         currency_field="company_currency_id",
+        group_operator="sum",
+
     )
     profit_val = fields.Monetary(
-        "Profit",
+        "Profit Amount",
         readonly=True,
         help="Profit obtained at invoicing in company currency",
         currency_field="company_currency_id",
+        group_operator="sum",
+
     )
     commission_computed = fields.Float("Commission Computed", readonly=True)
     commission_manager_computed = fields.Float("Commission Manager Computed", readonly=True)
@@ -56,8 +61,10 @@ class SaleMarginReport(models.Model):
     account_id = fields.Many2one("account.account", "Account", readonly=True)
     company_id = fields.Many2one("res.company", "Company", readonly=True)
     # period_id = fields.Many2one('account.period', 'Period', readonly=True)
-    indicator_supplement = fields.Float("Supplement Indicator", readonly=True, digits=(12, 2), group_operator="avg")
-    indicator_profit = fields.Float("Profit Indicator", readonly=True, digits=(12, 2), group_operator="avg")
+
+
+    markup = fields.Float("Markup", readonly=True, digits=(12, 2), group_operator="avg")
+    profit_margin = fields.Float("Profit Margin", readonly=True, digits=(12, 2), group_operator="avg")
 
     journal_id = fields.Many2one("account.journal", "Journal", readonly=True)
     company_currency_id = fields.Many2one(
@@ -106,13 +113,13 @@ class SaleMarginReport(models.Model):
                      WHEN (stock_val ) = 0
                       THEN 0
                       ELSE  100 * (sale_val    - stock_val ) / stock_val
-                END  AS indicator_supplement,
+                END  AS markup,
 
                 CASE
                      WHEN (sale_val  ) = 0
                       THEN 0
                       ELSE  100 * (sale_val   - stock_val ) / (sale_val  )
-                END  AS indicator_profit,
+                END  AS profit_margin,
 
 
                 sub.rate * (sale_val  - stock_val ) as commission_computed,
@@ -313,3 +320,30 @@ class SaleMarginReport(models.Model):
                 invoice_line.write({"purchase_price": purchase_price})
 
         return True
+
+
+    # Adăugați metoda _read_group_select pentru a personaliza calculul la grupare
+    def _read_group_select(self, aggregate_spec: str, query: Query) -> tuple[SQL, list[str]]:
+        if aggregate_spec == 'markup:avg':
+            # Calculează indicatorul de supliment din valorile agregate de vânzări și stoc
+            sale_val_sql, sale_val_params = self._read_group_select("sale_val:sum", query)
+            stock_val_sql, stock_val_params = self._read_group_select("stock_val:sum", query)
+            sql_expr = SQL(
+                "CASE WHEN %s = 0 THEN 0 ELSE 100 * (%s - %s) / %s END",
+                stock_val_sql, sale_val_sql, stock_val_sql, stock_val_sql
+            )
+            return sql_expr, sale_val_params + stock_val_params + stock_val_params
+
+        elif aggregate_spec == 'profit_margin:avg':
+            # Calculează indicatorul de profit din valorile agregate de vânzări și stoc
+            sale_val_sql, sale_val_params = self._read_group_select("sale_val:sum", query)
+            stock_val_sql, stock_val_params = self._read_group_select("stock_val:sum", query)
+            sql_expr = SQL(
+                "CASE WHEN %s = 0 THEN 0 ELSE 100 * (%s - %s) / %s END",
+                sale_val_sql, sale_val_sql, stock_val_sql, sale_val_sql
+            )
+            return sql_expr, sale_val_params + sale_val_params + stock_val_params + sale_val_params
+
+        return super()._read_group_select(aggregate_spec, query)
+
+
