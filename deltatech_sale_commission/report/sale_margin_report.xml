@@ -92,9 +92,9 @@
                 <field name="profit_val" sum="Profit" />
                 <field name="commission_computed" sum="Commission Computed" />
                 <field name="commission" sum="Commission" />
-                <field name="markup"   optional="hide" />
+                <field name="markup" optional="hide" />
                 <field name="payment_state" optional="hide" />
-                <field name="profit_margin"   optional="hide" />
+                <field name="profit_margin" optional="hide" />
                 <field name="manager_user_id" optional="hide" />
                 <field name="commission_manager_computed" optional="hide" />
                 <field name="director_user_id" optional="hide" />
@@ -121,7 +121,7 @@
                 <field name="stock_val" type="measure" />
                 <field name="profit_val" type="measure" />
                 <field name="markup" avg="Markup" type="measure" />
-                <field name="profit_margin"  type="measure" />
+                <field name="profit_margin" type="measure" />
             </pivot>
         </field>
     </record>
