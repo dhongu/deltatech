@@ -12,14 +12,14 @@ patch(Many2OneField.prototype, {
     },
     setup() {
         this.props.canQuickCreate = false;
-        // diabled create edit too
+        // Diabled create edit too
         // this.props.canCreateEdit = false;
         super.setup();
     },
     extractProps({attrs}) {
         const props = super.extractProps(...arguments);
         if (attrs.options.no_quick_create === undefined) props.canQuickCreate = false;
-        // diabled create edit too
+        // Diabled create edit too
         // if (attrs.options.no_create_edit === undefined) props.canCreateEdit = false;
         return props;
     },
