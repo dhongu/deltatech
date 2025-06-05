@@ -46,9 +46,13 @@ class SaleOrder(models.Model):
         for order in self:
             amount = 0
             payment_status = "without"
-            transactions = order.sudo().transaction_ids.filtered(lambda a: a.state == "done")
 
             provider = self.env["payment.provider"]
+            all_transactions = order.sudo().transaction_ids
+            if all_transactions:
+                provider = all_transactions[-1].provider_id
+
+            transactions = all_transactions.filtered(lambda a: a.state == "done")
 
             for invoice in order.invoice_ids.filtered(lambda a: a.state == "posted"):
                 amount += invoice.amount_total_signed - invoice.amount_residual_signed
@@ -68,7 +72,7 @@ class SaleOrder(models.Model):
                 payment_status = "without"
                 if order.transaction_ids:
                     payment_status = "initiated"
-                    for transaction in order.sudo().transaction_ids:
+                    for transaction in all_transactions:
                         provider = transaction.provider_id
 
                     authorized_transaction_ids = order.transaction_ids.filtered(lambda t: t.state == "authorized")
