@@ -55,8 +55,11 @@ class SaleOrder(models.Model):
             transactions = all_transactions.filtered(lambda a: a.state == "done")
 
             for invoice in order.invoice_ids.filtered(lambda a: a.state == "posted"):
-                amount += invoice.amount_total_signed - invoice.amount_residual_signed
-                transactions = transactions - invoice.transaction_ids
+                amount_invoice = invoice.amount_total_signed - invoice.amount_residual_signed
+                if amount_invoice:
+                    amount += amount_invoice
+                    transactions = transactions - invoice.transaction_ids.filtered(lambda a: a.is_post_processed)
+
             for transaction in transactions:
                 amount += transaction.amount
                 provider = transaction.provider_id
