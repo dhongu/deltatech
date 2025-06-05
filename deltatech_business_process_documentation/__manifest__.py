@@ -15,6 +15,7 @@
         "views/business_project_view.xml",
         "views/templates.xml",
     ],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["dhongu"],
     "application": True,

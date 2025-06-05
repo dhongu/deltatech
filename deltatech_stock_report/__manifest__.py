@@ -17,7 +17,7 @@
         # "report/monthly_stock_report_view.xml",
         # "report/stock_balance_view.xml",
     ],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
 }
