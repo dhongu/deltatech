@@ -15,7 +15,7 @@
         "security/ir.model.access.csv",
         "wizard/stock_quant_report_view.xml",
     ],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
