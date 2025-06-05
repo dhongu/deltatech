@@ -17,6 +17,7 @@
         "views/stock_route_view.xml",
         "wizard/order_rules_details_view.xml",
     ],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "installable": True,
 }
