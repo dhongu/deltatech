@@ -25,7 +25,7 @@ class Inventory(models.Model):
         required=True,
         default=fields.Datetime.now,
         help="If the inventory adjustment is not validated, "
-        "date at which the theoritical quantities have been checked.\n"
+        "date at which the theoretical quantities have been checked.\n"
         "If the inventory adjustment is validated, date at which the inventory adjustment has been validated.",
     )
     line_ids = fields.One2many(
@@ -133,14 +133,14 @@ class Inventory(models.Model):
                 )
             )
         inventory_lines = self.line_ids.filtered(
-            lambda l: l.product_id.tracking in ["lot", "serial"]
-            and not l.prod_lot_id
-            and l.theoretical_qty != l.product_qty
+            lambda li: li.product_id.tracking in ["lot", "serial"]
+            and not li.prod_lot_id
+            and li.theoretical_qty != li.product_qty
         )
         lines = self.line_ids.filtered(
-            lambda l: float_compare(l.product_qty, 1, precision_rounding=l.product_uom_id.rounding) > 0
-            and l.product_id.tracking == "serial"
-            and l.prod_lot_id
+            lambda li: float_compare(li.product_qty, 1, precision_rounding=li.product_uom_id.rounding) > 0
+            and li.product_id.tracking == "serial"
+            and li.prod_lot_id
         )
         if inventory_lines and not lines:
             wiz_lines = [
@@ -677,7 +677,7 @@ class InventoryLine(models.Model):
         Finally, this override checks we don't try to create a duplicated line.
         """
         products = self.env["product.product"].browse([vals.get("product_id") for vals in vals_list])
-        for product, values in zip(products, vals_list):
+        for product, values in zip(products, vals_list, strict=False):
             if "theoretical_qty" not in values:
                 theoretical_qty = self.env["product.product"].get_theoretical_quantity(
                     values["product_id"],
@@ -851,7 +851,7 @@ class InventoryLine(models.Model):
         return all_quants
 
     def action_refresh_quantity(self):
-        filtered_lines = self.filtered(lambda l: l.state != "done")
+        filtered_lines = self.filtered(lambda li: li.state != "done")
         for line in filtered_lines:
             if line.outdated:
                 quants = line.get_quants()
