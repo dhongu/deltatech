@@ -272,8 +272,7 @@ class ProductProduct(models.Model):
         to_uom=None,
     ):
         product_id = self.env["product.product"].browse(product_id)
-        product_id.check_access_rights("read")
-        product_id.check_access_rule("read")
+        product_id.check_access("read")
 
         location_id = self.env["stock.location"].browse(location_id)
         lot_id = self.env["stock.lot"].browse(lot_id)
