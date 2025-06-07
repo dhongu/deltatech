@@ -17,12 +17,19 @@ class ServiceMeterCategory(models.Model):
     )
 
 
+class ServiceEquipmentCategory(models.Model):
+    _name = "service.equipment.category"
+    _description = "Service Equipment category"
+
+    name = fields.Char(string="Type", translate=True)
+
 class ServiceEquipmentType(models.Model):
     _name = "service.equipment.type"
     _description = "Service Equipment Type"
 
     name = fields.Char(string="Type", translate=True)
     template_meter_ids = fields.One2many("service.template.meter", "type_id", string="Meters")
+    category_id = fields.Many2one("service.equipment.category", string="Category")
 
 
 class ServiceEquipmentModel(models.Model):
