@@ -23,6 +23,7 @@ class ServiceEquipmentCategory(models.Model):
 
     name = fields.Char(string="Type", translate=True)
 
+
 class ServiceEquipmentType(models.Model):
     _name = "service.equipment.type"
     _description = "Service Equipment Type"
