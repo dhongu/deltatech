@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_sale_margin_report_filter_group" model="ir.ui.view">
+        <field name="name">sale.margin.report.select.group</field>
+        <field name="model">sale.margin.report</field>
+        <field name="inherit_id" ref="deltatech_sale_commission.view_sale_margin_report_filter" />
+        <field name="arch" type="xml">
+            <field name="invoice_id" position="after">
+                <field name="category_type" />
+                <field name="category_class" />
+            </field>
+            <filter name="product" position="after">
+                <filter name="group_type" context="{'group_by': 'category_type'}" />
+                <filter name="group_class" context="{'group_by': 'category_class'}" />
+            </filter>
+        </field>
+    </record>
+</odoo>
