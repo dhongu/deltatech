@@ -1,27 +1,27 @@
-## Overview
+# Overview
 The Deltatech Account Analytic module is a comprehensive extension for Odoo's analytic accounting system, designed to enhance the management and tracking of analytic information. Developed by Terrabit, this module provides advanced features for splitting analytic lines, especially in sales and purchase workflows, allowing for more detailed financial analysis and reporting.
 
 
-## Key Features
-### Analytic Line Splitting
+# Key Features
+## Analytic Line Splitting
 - **Automatic Splitting**: Automatically splits sale invoice analytic lines into stock value and margin components when the deltatech_sale_commission module is installed.
 - **Configuration Settings**: Adds "Split Sale Analytic" option in the Odoo settings for enabling/disabling the splitting functionality.
 
-### Analytic Account Enhancements
+## Analytic Account Enhancements
 - **Split Configuration**: Extends the analytic account form with additional fields:
     - "This rule is for splitting" toggle
     - "Stock Analytic Account" selection
     - "Margin Analytic Account" selection
     - "Sale team" selection for split configuration
 
-### Integration with Other Modules
+## Integration with Other Modules
 - Seamless integration with:
     - Account module
     - Analytic module
     - Sale module
     - Purchase module
 
-### Enhanced Views and Security
+## Enhanced Views and Security
 - Custom views for:
     - Account analytic defaults
     - Account analytic lines
@@ -30,14 +30,14 @@ The Deltatech Account Analytic module is a comprehensive extension for Odoo's an
 
 - Additional security rules and access rights to manage analytic operations
 
-## Technical Details
-### Module Dependencies
+# Technical Details
+## Module Dependencies
 - account
 - analytic
 - sale
 - purchase
 
-### Included Data Files
+## Included Data Files
 1. Views:
     - res_config_settings.xml
     - account_analytic_default.xml
@@ -49,7 +49,7 @@ The Deltatech Account Analytic module is a comprehensive extension for Odoo's an
     - security.xml
     - ir.model.access.csv
 
-### Models Extended
+## Models Extended
 - account.analytic.account: Enhances the analytic account model with additional functionality for splitting and tracking
 - Adds related counters and access to invoices and bills from analytic accounts
 

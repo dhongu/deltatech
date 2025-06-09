@@ -23,7 +23,7 @@ Deltatech Account Analytic
 |badge1| |badge2| |badge3|
 
 Overview
---------
+========
 
 The Deltatech Account Analytic module is a comprehensive extension for
 Odoo's analytic accounting system, designed to enhance the management
@@ -33,10 +33,10 @@ sales and purchase workflows, allowing for more detailed financial
 analysis and reporting.
 
 Key Features
-------------
+============
 
 Analytic Line Splitting
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 - **Automatic Splitting**: Automatically splits sale invoice analytic
   lines into stock value and margin components when the
@@ -45,7 +45,7 @@ Analytic Line Splitting
   Odoo settings for enabling/disabling the splitting functionality.
 
 Analytic Account Enhancements
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------
 
 - **Split Configuration**: Extends the analytic account form with
   additional fields:
@@ -56,7 +56,7 @@ Analytic Account Enhancements
   - "Sale team" selection for split configuration
 
 Integration with Other Modules
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------
 
 - Seamless integration with:
 
@@ -66,7 +66,7 @@ Integration with Other Modules
   - Purchase module
 
 Enhanced Views and Security
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
 - Custom views for:
 
@@ -79,10 +79,10 @@ Enhanced Views and Security
   operations
 
 Technical Details
------------------
+=================
 
 Module Dependencies
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 - account
 - analytic
@@ -90,7 +90,7 @@ Module Dependencies
 - purchase
 
 Included Data Files
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 1. Views:
 
@@ -106,7 +106,7 @@ Included Data Files
    - ir.model.access.csv
 
 Models Extended
-~~~~~~~~~~~~~~~
+---------------
 
 - account.analytic.account: Enhances the analytic account model with
   additional functionality for splitting and tracking
