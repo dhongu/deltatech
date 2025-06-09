@@ -4,8 +4,8 @@
 {
     "name": "Deltatech Analytic distribution enforcer",
     "category": "Accounting",
-    "summary": "Can't validate bills without 100% analytic distribution",
-    "version": "18.0.0.0.1",
+    "summary": "Analytic distribution",
+    "version": "18.0.0.0.2",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
