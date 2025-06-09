@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <!--
+        Product categories
+        -->
+        <record id="cat_expense" model="product.category">
+            <field name="type" eval="'view'" />
+            <field name="name">Cheltuieli</field>
+        </record>
+        <record id="cat_chelt_chirii" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_expense" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_612" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_706" />
+            <field name="name">Cheltuieli cu chiriile</field>
+        </record>
+        <record id="cat_chelt_penalitati" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_expense" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_6588" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_7588" />
+            <field name="name">Cheltuieli cu penalitati deductibile</field>
+        </record>
+        <record id="cat_chelt_publicitate" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_expense" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_623" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_704" />
+            <field name="name">Cheltuieli publicitate</field>
+        </record>
+        <record id="cat_chelt_intretinere" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_expense" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_611" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_7588" />
+            <field name="name">Intretinere</field>
+        </record>
+        <record id="cat_chelt_nestocabile" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_expense" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_604" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_7588" />
+            <field name="name">Cheltuieli privind materialele nestocabile</field>
+        </record>
+        <record id="cat_chelt_comisioane" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_expense" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_622" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_704" />
+            <field name="name">Cheltuieli cu comisioane si onorarii</field>
+        </record>
+        <record id="cat_chelt_dobanzi" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_expense" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_666" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_766" />
+            <field name="name">Cheltuieli cu dobanziile</field>
+        </record>
+        <record id="cat_chelt_valutar" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_expense" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_665" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_765" />
+            <field name="name">Cheltuieli cu diferente de curs valutar</field>
+        </record>
+        <record id="cat_chelt_utilitati" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_expense" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_605" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_704" />
+            <field name="name">Cheltuieli privind energia si apa</field>
+        </record>
+        <record id="cat_chelt_comunicatii" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_expense" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_626" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_704" />
+            <field name="name">Comunicatii</field>
+        </record>
+        <record id="cat_chelt_transport" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_expense" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_624" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_704" />
+            <field name="name">Cheltuieli transport</field>
+        </record>
+        <record id="cat_chelt_taxe" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_expense" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_635" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_704" />
+            <field name="name">Taxe</field>
+        </record>
+        <record id="cat_chelt_servicii" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_expense" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_628" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_704" />
+            <field name="name">Prestari servicii executate de terti</field>
+        </record>
+        <record id="cat_mijloace" model="product.category">
+            <field name="type" eval="'view'" />
+            <field name="name">Mijloace fixe</field>
+        </record>
+        <record id="cat_chelt_constituire" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_mijloace" />
+            <field name="property_stock_account_input_categ" ref="l10n_ro.pcg_201" />
+            <field name="property_stock_account_output_categ" ref="l10n_ro.pcg_201" />
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_201" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_6583" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_7583" />
+            <field name="name">Cheltuieli de constituire</field>
+        </record>
+        <record id="cat_mobilier" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_mijloace" />
+            <field name="property_stock_account_input_categ" ref="l10n_ro.pcg_214" />
+            <field name="property_stock_account_output_categ" ref="l10n_ro.pcg_214" />
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_214" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_6583" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_7583" />
+            <field name="name">Mobilier, aparatură birotică, echipamente de protecție a valorilor</field>
+        </record>
+        <record id="cat_constuctii" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_mijloace" />
+            <field name="property_stock_account_input_categ" ref="l10n_ro.pcg_212" />
+            <field name="property_stock_account_output_categ" ref="l10n_ro.pcg_212" />
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_212" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_6583" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_7583" />
+            <field name="name">Constructii</field>
+        </record>
+        <record id="cat_brevete" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_mijloace" />
+            <field name="property_stock_account_input_categ" ref="l10n_ro.pcg_205" />
+            <field name="property_stock_account_output_categ" ref="l10n_ro.pcg_205" />
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_205" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_6583" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_7583" />
+            <field name="name">Concesiuni brevete</field>
+        </record>
+        <record id="cat_terenuri" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_mijloace" />
+            <field name="property_stock_account_input_categ" ref="l10n_ro.pcg_2112" />
+            <field name="property_stock_account_output_categ" ref="l10n_ro.pcg_2112" />
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_2112" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_6583" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_7583" />
+            <field name="name">Amenajari terenuri</field>
+        </record>
+        <record id="cat_tehnologice" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_mijloace" />
+            <field name="property_stock_account_input_categ" ref="l10n_ro.pcg_2131" />
+            <field name="property_stock_account_output_categ" ref="l10n_ro.pcg_2131" />
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_2131" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_6583" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_7583" />
+            <field name="name">Echipamente tehnologice</field>
+        </record>
+        <record id="cat_masura" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_mijloace" />
+            <field name="property_stock_account_input_categ" ref="l10n_ro.pcg_2132" />
+            <field name="property_stock_account_output_categ" ref="l10n_ro.pcg_2132" />
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_2132" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_6583" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_7583" />
+            <field name="name">Aparate si instalatii de masura control si reglare</field>
+        </record>
+        <record id="cat_transport" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_mijloace" />
+            <field name="property_stock_account_input_categ" ref="l10n_ro.pcg_2133" />
+            <field name="property_stock_account_output_categ" ref="l10n_ro.pcg_2133" />
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_2133" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_6583" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_7583" />
+            <field name="name">Mijloace de transport</field>
+        </record>
+        <record id="cat_consumabile" model="product.category">
+            <field name="type" eval="'view'" />
+            <field name="name">Consumabile</field>
+        </record>
+        <record id="cat_combustibil" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_consumabile" />
+            <field name="property_stock_account_input_categ" ref="l10n_ro.pcg_3022" />
+            <field name="property_stock_account_output_categ" ref="l10n_ro.pcg_3022" />
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_3022" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_6022" />
+            <field name="property_account_income_categ" ref="l10n_ro.ro_pcg_sale" />
+            <field name="name">Combustibil</field>
+        </record>
+        <record id="cat_altecons" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_consumabile" />
+            <field name="property_stock_account_input_categ" ref="l10n_ro.pcg_3028" />
+            <field name="property_stock_account_output_categ" ref="l10n_ro.pcg_3028" />
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_3028" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_6028" />
+            <field name="property_account_income_categ" ref="l10n_ro.ro_pcg_sale" />
+            <field name="name">Alte materiale consumabile</field>
+        </record>
+        <record id="cat_venituri" model="product.category">
+            <field name="type" eval="'view'" />
+            <field name="name">Total venituri</field>
+        </record>
+        <record id="cat_ven_servicii" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_venituri" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_628" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_704" />
+            <field name="name">Venituri din prestari servicii</field>
+        </record>
+        <record id="cat_ven_chirii" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_venituri" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_612" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_706" />
+            <field name="name">Venituri din chirii</field>
+        </record>
+        <record id="cat_ven_diverse" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="parent_id" ref="cat_venituri" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_628" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_708" />
+            <field name="name">Venituri din activitati diverse</field>
+        </record>
+        <record id="cat_obinventar" model="product.category">
+            <field name="type" eval="'normal'" />
+            <field name="property_stock_account_input_categ" ref="l10n_ro.pcg_303" />
+            <field name="property_stock_account_output_categ" ref="l10n_ro.pcg_303" />
+            <field name="property_stock_valuation_account_id" ref="l10n_ro.pcg_303" />
+            <field name="property_account_expense_categ" ref="l10n_ro.pcg_6583" />
+            <field name="property_account_income_categ" ref="l10n_ro.pcg_7583" />
+            <field name="name">Obiecte de inventar</field>
+        </record>
+        <!--
+        Products
+        -->
+        <record id="product_chelt_apa" model="product.product">
+            <field name="default_code">APA</field>
+            <field name="supply_method">buy</field>
+            <field name="type">service</field>
+            <field eval="'make_to_stock'" name="procure_method" />
+            <field eval="0" name="sale_ok" />
+            <field eval="1" name="purchase_ok" />
+            <field name="standard_price">0.0</field>
+            <field name="cost_method" eval="'average'" />
+            <field name="uom_id" ref="product.product_uom_unit" />
+            <field name="uom_po_id" ref="product.product_uom_unit" />
+            <field name="name">Cheltuieli apa</field>
+            <field name="categ_id" ref="cat_chelt_utilitati" />
+        </record>
+        <record id="product_chelt_chirie" model="product.product">
+            <field name="default_code">CHIRIE</field>
+            <field name="supply_method">buy</field>
+            <field name="type">service</field>
+            <field eval="'make_to_stock'" name="procure_method" />
+            <field eval="0" name="sale_ok" />
+            <field eval="1" name="purchase_ok" />
+            <field name="standard_price">0.0</field>
+            <field name="cost_method" eval="'average'" />
+            <field name="uom_id" ref="product.product_uom_unit" />
+            <field name="uom_po_id" ref="product.product_uom_unit" />
+            <field name="name">Cheltuieli chirie spatiu</field>
+            <field name="categ_id" ref="cat_chelt_chirii" />
+        </record>
+        <record id="product_chelt_consult" model="product.product">
+            <field name="default_code">CONSULTANT</field>
+            <field name="supply_method">buy</field>
+            <field name="type">service</field>
+            <field eval="'make_to_stock'" name="procure_method" />
+            <field eval="0" name="sale_ok" />
+            <field eval="1" name="purchase_ok" />
+            <field name="standard_price">0.0</field>
+            <field name="cost_method" eval="'average'" />
+            <field name="uom_id" ref="product.product_uom_unit" />
+            <field name="uom_po_id" ref="product.product_uom_unit" />
+            <field name="name">Cheltuieli servicii de consultanta</field>
+            <field name="categ_id" ref="cat_chelt_servicii" />
+        </record>
+        <record id="product_chelt_contab" model="product.product">
+            <field name="default_code">CONTABIL</field>
+            <field name="supply_method">buy</field>
+            <field name="type">service</field>
+            <field eval="'make_to_stock'" name="procure_method" />
+            <field eval="0" name="sale_ok" />
+            <field eval="1" name="purchase_ok" />
+            <field name="standard_price">0.0</field>
+            <field name="cost_method" eval="'average'" />
+            <field name="uom_id" ref="product.product_uom_unit" />
+            <field name="uom_po_id" ref="product.product_uom_unit" />
+            <field name="name">Cheltuieli servicii de contabilitate</field>
+            <field name="categ_id" ref="cat_chelt_servicii" />
+        </record>
+        <record id="product_chelt_energ" model="product.product">
+            <field name="default_code">ENERGIE</field>
+            <field name="supply_method">buy</field>
+            <field name="type">service</field>
+            <field eval="'make_to_stock'" name="procure_method" />
+            <field eval="0" name="sale_ok" />
+            <field eval="1" name="purchase_ok" />
+            <field name="standard_price">0.0</field>
+            <field name="cost_method" eval="'average'" />
+            <field name="uom_id" ref="product.product_uom_unit" />
+            <field name="uom_po_id" ref="product.product_uom_unit" />
+            <field name="name">Cheltuieli energie electrica</field>
+            <field name="categ_id" ref="cat_chelt_utilitati" />
+        </record>
+        <record id="product_chelt_gaz" model="product.product">
+            <field name="default_code">GAZ</field>
+            <field name="supply_method">buy</field>
+            <field name="type">service</field>
+            <field eval="'make_to_stock'" name="procure_method" />
+            <field eval="0" name="sale_ok" />
+            <field eval="1" name="purchase_ok" />
+            <field name="standard_price">0.0</field>
+            <field name="cost_method" eval="'average'" />
+            <field name="uom_id" ref="product.product_uom_unit" />
+            <field name="uom_po_id" ref="product.product_uom_unit" />
+            <field name="name">Cheltuieli gaz</field>
+            <field name="categ_id" ref="cat_chelt_utilitati" />
+        </record>
+        <record id="product_chelt_nestoc" model="product.product">
+            <field name="default_code">NESTOCABIL</field>
+            <field name="supply_method">buy</field>
+            <field name="type">service</field>
+            <field eval="'make_to_stock'" name="procure_method" />
+            <field eval="0" name="sale_ok" />
+            <field eval="1" name="purchase_ok" />
+            <field name="standard_price">0.0</field>
+            <field name="cost_method" eval="'average'" />
+            <field name="uom_id" ref="product.product_uom_unit" />
+            <field name="uom_po_id" ref="product.product_uom_unit" />
+            <field name="name">Cheltuieli alte materiale nestocabile</field>
+            <field name="categ_id" ref="cat_chelt_nestocabile" />
+        </record>
+        <record id="product_chelt_public" model="product.product">
+            <field name="default_code">PUBLICITATE</field>
+            <field name="supply_method">buy</field>
+            <field name="type">service</field>
+            <field eval="'make_to_stock'" name="procure_method" />
+            <field eval="0" name="sale_ok" />
+            <field eval="1" name="purchase_ok" />
+            <field name="standard_price">0.0</field>
+            <field name="cost_method" eval="'average'" />
+            <field name="uom_id" ref="product.product_uom_unit" />
+            <field name="uom_po_id" ref="product.product_uom_unit" />
+            <field name="name">Cheltuieli cu publicitate</field>
+            <field name="categ_id" ref="cat_chelt_publicitate" />
+        </record>
+        <record id="product_chelt_penal" model="product.product">
+            <field name="default_code">PENALITATI</field>
+            <field name="supply_method">buy</field>
+            <field name="type">service</field>
+            <field eval="'make_to_stock'" name="procure_method" />
+            <field eval="0" name="sale_ok" />
+            <field eval="1" name="purchase_ok" />
+            <field name="standard_price">0.0</field>
+            <field name="cost_method" eval="'average'" />
+            <field name="uom_id" ref="product.product_uom_unit" />
+            <field name="uom_po_id" ref="product.product_uom_unit" />
+            <field name="name">Cheltuieli cu penalitatile</field>
+            <field name="categ_id" ref="cat_chelt_penalitati" />
+        </record>
+        <record id="product_chelt_repar" model="product.product">
+            <field name="default_code">REPAR</field>
+            <field name="supply_method">buy</field>
+            <field name="type">service</field>
+            <field eval="'make_to_stock'" name="procure_method" />
+            <field eval="0" name="sale_ok" />
+            <field eval="1" name="purchase_ok" />
+            <field name="standard_price">0.0</field>
+            <field name="cost_method" eval="'average'" />
+            <field name="uom_id" ref="product.product_uom_unit" />
+            <field name="uom_po_id" ref="product.product_uom_unit" />
+            <field name="name">Cheltuieli de reparatii</field>
+            <field name="categ_id" ref="cat_chelt_intretinere" />
+        </record>
+        <record id="product_chelt_salub" model="product.product">
+            <field name="default_code">SALUBRITATE</field>
+            <field name="supply_method">buy</field>
+            <field name="type">service</field>
+            <field eval="'make_to_stock'" name="procure_method" />
+            <field eval="0" name="sale_ok" />
+            <field eval="1" name="purchase_ok" />
+            <field name="standard_price">0.0</field>
+            <field name="cost_method" eval="'average'" />
+            <field name="uom_id" ref="product.product_uom_unit" />
+            <field name="uom_po_id" ref="product.product_uom_unit" />
+            <field name="name">Cheltuieli de salubritate</field>
+            <field name="categ_id" ref="cat_chelt_intretinere" />
+        </record>
+        <record id="product_chelt_terti" model="product.product">
+            <field name="default_code">TERTI</field>
+            <field name="supply_method">buy</field>
+            <field name="type">service</field>
+            <field eval="'make_to_stock'" name="procure_method" />
+            <field eval="0" name="sale_ok" />
+            <field eval="1" name="purchase_ok" />
+            <field name="standard_price">0.0</field>
+            <field name="cost_method" eval="'average'" />
+            <field name="uom_id" ref="product.product_uom_unit" />
+            <field name="uom_po_id" ref="product.product_uom_unit" />
+            <field name="name">Cheltuieli servicii diverse executate de terti    </field>
+            <field name="categ_id" ref="cat_chelt_servicii" />
+        </record>
+    </data>
+</odoo>

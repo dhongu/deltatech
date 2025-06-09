@@ -8,7 +8,7 @@
             <xpath expr="//block[@id='account_vendor_bills']" position="inside">
                 <setting
                     id="analytic_distribution_enforcer"
-                    help="Activating this will enforce that the bills have 100% analytic distribution."
+                    help="Activating this will enforce that the bills have 100% analytic distribution. This field is company specific!"
                 >
                     <field name="analytic_distribution_validation_enabled" />
                 </setting>

@@ -19,9 +19,10 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_analytic_distribution.view_res_config_settings_analytic_distribution
 msgid ""
 "Activating this will enforce that the bills have 100% analytic distribution."
+" This field is company specific!"
 msgstr ""
-"Activarea acestei opțiuni va impune ca facturile de furnizor să aibă o "
-"distribuție analitică de 100%."
+"Activarea acestei opțiuni va impune ca facturile să aibă o distribuție "
+"analitică de 100%. Acest câmp este specific companiei!"
 
 #. module: deltatech_analytic_distribution
 #. odoo-python

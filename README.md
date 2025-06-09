@@ -22,11 +22,11 @@ addon | version | maintainers | summary | price
 [deltatech_account_edi_ub_advice](deltatech_account_edi_ub_advice/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL despatch advice | Free 
 [deltatech_account_edi_ubl_gln](deltatech_account_edi_ubl_gln/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL GLN | Free 
 [deltatech_account_restrict_date](deltatech_account_restrict_date/) | 18.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict certain operations depending on date | Free 
-[deltatech_actions](deltatech_actions/) | 18.0.0.0.4 |  | Cleaning and other actions | Free 
+[deltatech_actions](deltatech_actions/) | 18.0.0.0.6 |  | Cleaning and other actions | Free 
 [deltatech_agreement_management](deltatech_agreement_management/) | 18.0.0.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage agreements numbers, date, state | Free 
 [deltatech_alternative](deltatech_alternative/) | 18.0.2.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes | Free 
 [deltatech_alternative_website](deltatech_alternative_website/) | 18.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show alternative code in website | Free 
-[deltatech_analytic_distribution](deltatech_analytic_distribution/) | 18.0.0.0.1 |  | Can't validate bills without 100% analytic distribution | Free 
+[deltatech_analytic_distribution](deltatech_analytic_distribution/) | 18.0.0.0.2 |  | Analytic distribution | Free 
 [deltatech_auto_reorder_rule](deltatech_auto_reorder_rule/) | 18.0.0.1.3 |  | Auto create reorder rule | Free 
 [deltatech_average_payment_period](deltatech_average_payment_period/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Computes average duration of cash accounting | Free 
 [deltatech_backup_attachment](deltatech_backup_attachment/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Backup attachments for selected file type | Free 
@@ -49,6 +49,7 @@ addon | version | maintainers | summary | price
 [deltatech_download](deltatech_download/) | 18.0.0.1.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generare fisier | Free 
 [deltatech_dropshipping](deltatech_dropshipping/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Delivery address in picking | Free 
 [deltatech_dummy_queue_job](deltatech_dummy_queue_job/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Dummy Queue Job | Free 
+[deltatech_expenses](deltatech_expenses/) | 18.0.2.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Expenses Deduction & Disposition of Cashing | Free 
 [deltatech_fast_purchase](deltatech_fast_purchase/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Achizitie rapida | 5.0 EUR
 [deltatech_fast_sale](deltatech_fast_sale/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vanzare rapida | 5.0 EUR
 [deltatech_followup](deltatech_followup/) | 18.0.0.0.5 |  | Simple invoice followup, with automatic e-mails | Free 
