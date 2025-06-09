@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='utf-8' ?>
 <odoo noupdate="1">
     <record id="ir_cron_delete_xml_attachments" model="ir.cron">
         <field name="name">Delete duplicate xml attachments</field>
@@ -10,6 +11,103 @@
 #   duplicates: how many attachments with same name should be found to start deleting
 #   dry_run: if set to True, just selects the attachments and does not delete anything
 model.cron_clean_xml_attachments(limit=10)
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="active" eval="False" />
+
+    </record>
+
+    <record id="ir_cron_create_missing_reordering_rules" model="ir.cron">
+        <field name="name">Create missing reordering rules (0/0)</field>
+        <field name="model_id" ref="model_product_product" />
+        <field name="state">code</field>
+
+        <field name="code">
+# deltatech_auto_reorder_rule module must be installed
+model.create_missing_orderpoint()
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="active" eval="False" />
+        <field name="doall" eval="False" />
+    </record>
+
+    <record id="ir_cron_delete_pdf_attachments_invoice" model="ir.cron">
+        <field name="name">Delete pdf invoice attachments</field>
+        <field name="model_id" ref="model_account_move" />
+        <field name="state">code</field>
+
+        <field name="code">
+# params:
+#   limit: limit of attachments to delete
+#   pattern: the beginning of the attachment name to delete (ex. "INV/%")
+#   max_date_days: relative days from which the attachments will be deleted
+#   dry_run: if set to True, just selects the attachments and does not delete anything
+model.cron_clean_generated_pdfs(limit=5000, pattern="", max_date_days=90, dry_run=True)
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="active" eval="False" />
+
+    </record>
+
+    <record id="ir_cron_delete_pdf_attachments_sale_order" model="ir.cron">
+        <field name="name">Delete pdf sale order attachments</field>
+        <field name="model_id" ref="sale.model_sale_order" />
+        <field name="state">code</field>
+
+        <field name="code">
+# params:
+#   limit: limit of attachments to delete
+#   pattern: the beginning of the attachment name to delete (ex. "Pro forma/%")
+#   max_date_days: relative days from which the attachments will be deleted
+#   dry_run: if set to True, just selects the attachments and does not delete anything
+model.cron_clean_generated_pdfs(limit=5000, pattern="", max_date_days=90, dry_run=True)
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="active" eval="False" />
+
+    </record>
+
+    <record id="ir_cron_delete_pdf_attachments_stock_picking" model="ir.cron">
+        <field name="name">Delete pdf pickings attachments</field>
+        <field name="model_id" ref="stock.model_stock_picking" />
+        <field name="state">code</field>
+
+        <field name="code">
+# params:
+#   limit: limit of attachments to delete
+#   pattern: the beginning of the attachment name to delete (ex. "Pro forma/%")
+#   max_date_days: relative days from which the attachments will be deleted
+#   dry_run: if set to True, just selects the attachments and does not delete anything
+model.cron_clean_generated_pdfs(limit=5000, pattern="Label%", max_date_days=90, dry_run=True)
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="active" eval="False" />
+
+    </record>
+
+    <record id="ir_cron_delete_mail_messages" model="ir.cron">
+        <field name="name">Delete mail messages</field>
+        <field name="model_id" ref="mail.model_mail_message" />
+        <field name="state">code</field>
+
+        <field name="code">
+# params:
+#   limit: limit of messages to delete
+#   pattern: optional pattern of message subject, ex "Facturx%"
+#   max_date_days: relative days from which the messages will be deleted.
+#   exclude_models: list of models to exclude. Ex: ["business.%", "res.partner"]
+#   dry_run: if set to True, just selects the attachments and does not delete anything
+model.cron_clean_old_messages(limit=5000, pattern="%", max_date_days=90, dry_run=True, exclude_models=["business.%", "project.%", "helpdesk.%"])
         </field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
