@@ -10,3 +10,4 @@ class MailSubstitution(models.Model):
 
     name = fields.Char("Related Document Model", index=True)
     email = fields.Char("Substitution", help="Substitution with this email")
+    type = fields.Selection([("sender", "Sender"), ("receiver", "Receiver")], default="receiver")
