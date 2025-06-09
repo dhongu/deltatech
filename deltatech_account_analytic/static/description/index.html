@@ -17,43 +17,152 @@
 !! source digest: sha256:0f1dafc0c900114a9681a1b9a5b657649ce16d7a127524be49c8e554bb0c5b9f
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Production/Stable" src="https://img.shields.io/badge/maturity-Production%2FStable-green.png" /></a> <a class="reference external image-reference" href="https://www.odoo.com/documentation/master/legal/licenses.html"><img alt="License: OPL-1" src="https://img.shields.io/badge/licence-OPL--1-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_account_analytic"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<p>Features:</p>
+<div class="section" id="overview">
+<h1>Overview</h1>
+<p>The Deltatech Account Analytic module is a comprehensive extension for
+Odoo’s analytic accounting system, designed to enhance the management
+and tracking of analytic information. Developed by Terrabit, this module
+provides advanced features for splitting analytic lines, especially in
+sales and purchase workflows, allowing for more detailed financial
+analysis and reporting.</p>
+</div>
+<div class="section" id="key-features">
+<h1>Key Features</h1>
+<div class="section" id="analytic-line-splitting">
+<h2>Analytic Line Splitting</h2>
 <ul class="simple">
-<li>can automatically split the sale invoice analytic line in stock value
-and margin (if module deltatech_sale_commission installed)</li>
-<li>add the “Split Sale Analytic” in settings</li>
-<li>in the analytic account form there are “This rule is for
-splitting”,”Stock Analytic Account”,”Margin Analytic Account”,”Sale
-team” fields for split configuration</li>
+<li><strong>Automatic Splitting</strong>: Automatically splits sale invoice analytic
+lines into stock value and margin components when the
+deltatech_sale_commission module is installed.</li>
+<li><strong>Configuration Settings</strong>: Adds “Split Sale Analytic” option in the
+Odoo settings for enabling/disabling the splitting functionality.</li>
 </ul>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
+</div>
+<div class="section" id="analytic-account-enhancements">
+<h2>Analytic Account Enhancements</h2>
 <ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<li><strong>Split Configuration</strong>: Extends the analytic account form with
+additional fields:<ul>
+<li>“This rule is for splitting” toggle</li>
+<li>“Stock Analytic Account” selection</li>
+<li>“Margin Analytic Account” selection</li>
+<li>“Sale team” selection for split configuration</li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="section" id="integration-with-other-modules">
+<h2>Integration with Other Modules</h2>
+<ul class="simple">
+<li>Seamless integration with:<ul>
+<li>Account module</li>
+<li>Analytic module</li>
+<li>Sale module</li>
+<li>Purchase module</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="enhanced-views-and-security">
+<h2>Enhanced Views and Security</h2>
+<ul class="simple">
+<li>Custom views for:<ul>
+<li>Account analytic defaults</li>
+<li>Account analytic lines</li>
+<li>Analytic split templates</li>
+<li>Analytic split configurations</li>
+</ul>
+</li>
+<li>Additional security rules and access rights to manage analytic
+operations</li>
+</ul>
+</div>
+</div>
+<div class="section" id="technical-details">
+<h1>Technical Details</h1>
+<div class="section" id="module-dependencies">
+<h2>Module Dependencies</h2>
+<ul class="simple">
+<li>account</li>
+<li>analytic</li>
+<li>sale</li>
+<li>purchase</li>
+</ul>
+</div>
+<div class="section" id="included-data-files">
+<h2>Included Data Files</h2>
+<ol class="arabic simple">
+<li>Views:<ul>
+<li>res_config_settings.xml</li>
+<li>account_analytic_default.xml</li>
+<li>account_analytic_line.xml</li>
+<li>account_analytic_split_template.xml</li>
+<li>account_analytic_split.xml</li>
+</ul>
+</li>
+<li>Security:<ul>
+<li>security.xml</li>
+<li>ir.model.access.csv</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="models-extended">
+<h2>Models Extended</h2>
+<ul class="simple">
+<li>account.analytic.account: Enhances the analytic account model with
+additional functionality for splitting and tracking</li>
+<li>Adds related counters and access to invoices and bills from analytic
+accounts</li>
+</ul>
+</div>
+<div class="section" id="benefits">
+<h2>Benefits</h2>
+<ol class="arabic simple">
+<li><strong>Improved Financial Analysis</strong>: By splitting analytic lines into
+stock value and margin, the module provides deeper insights into
+business profitability.</li>
+<li><strong>Enhanced Reporting</strong>: More detailed analytic information allows for
+better financial reporting and decision-making.</li>
+<li><strong>Flexible Configuration</strong>: The ability to configure splitting rules
+at the analytic account level provides flexibility for different
+business needs.</li>
+<li><strong>Better Integration</strong>: Seamless integration with sales and purchase
+workflows ensures comprehensive tracking of costs and revenues.</li>
+</ol>
+</div>
+<div class="section" id="use-cases">
+<h2>Use Cases</h2>
+<ul class="simple">
+<li><strong>Sales Margin Analysis</strong>: Track and analyze sales margins separately
+from cost of goods sold.</li>
+<li><strong>Team Performance Tracking</strong>: Associate specific analytic accounts
+with sales teams for performance analysis.</li>
+<li><strong>Cost Center Management</strong>: Better allocation of costs and revenues to
+appropriate cost centers.</li>
+<li><strong>Profitability Analysis</strong>: More accurate analysis of product and
+service profitability.</li>
+</ul>
+<p><strong>Table of contents</strong></p>
+</div>
+</div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dan Stoica</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/danila12"><img alt="danila12" src="https://github.com/danila12.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_account_analytic">dhongu/deltatech</a> project on GitHub.</p>
