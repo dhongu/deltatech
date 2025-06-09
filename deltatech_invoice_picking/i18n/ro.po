@@ -28,7 +28,7 @@ msgstr "Transfer lot"
 #. module: deltatech_invoice_picking
 #: model_terms:ir.ui.view,arch_db:deltatech_invoice_picking.view_picking_form
 msgid "Bill"
-msgstr "Creează factură furnizor"
+msgstr "Factură"
 
 #. module: deltatech_invoice_picking
 #: model:ir.actions.server,name:deltatech_invoice_picking.action_picking_supplier_invoice
