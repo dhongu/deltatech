@@ -5,14 +5,14 @@
 {
     "name": "Deltatech Category Group",
     "summary": "Groups for internal categories",
-    "version": "17.0.0.0.2",
+    "version": "17.0.0.0.3",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Other",
     "depends": [
         "deltatech_sale_commission",
     ],
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "data": [
         "security/security.xml",
         "views/product_category.xml",
