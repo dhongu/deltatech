@@ -87,9 +87,11 @@ class AccountInvoiceLine(models.Model):
             bom = self.product_id.variant_bom_ids.filtered(lambda b: b.type == "phantom")
             purchase_price = 0
             for move in moves:
-                bom_line = bom.bom_line_ids.filtered(lambda b: b.product_id == move.product_id)
-                price_unit_comp = move.mapped("stock_valuation_layer_ids").mapped("unit_cost")
-                purchase_price += sum(price_unit_comp) * bom_line.product_qty
+                for bom_line in bom.bom_line_ids:
+                    if bom_line.product_id != move.product_id:
+                        continue
+                    price_unit_comp = move.mapped("stock_valuation_layer_ids").mapped("unit_cost")
+                    purchase_price += sum(price_unit_comp) * bom_line.product_qty
         else:
             # preluare pret in svl
             svls = moves.mapped("stock_valuation_layer_ids")
@@ -105,6 +107,7 @@ class AccountInvoiceLine(models.Model):
 
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
     def _compute_purchase_price(self):
+        #todo: se verificat daca acest paramentru mai este valabil
         deposit_product = self.env["ir.config_parameter"].sudo().get_param("sale.default_deposit_product_id")
         for invoice_line in self:
             if invoice_line.display_type != "product":
