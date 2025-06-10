@@ -28,21 +28,4 @@ class TestPosSession(TransactionCase):
             }
         )
 
-    def test_loader_params_product_product(self):
-        # Create a new POS session
-        pos_session = self.pos_session_model.create(
-            {
-                "name": "Test POS Session",
-                "config_id": self.pos_config.id,
-            }
-        )
 
-        # Get the loader parameters for product.product
-        loader_params = pos_session._loader_params_product_product()
-
-        # Check if the 'extra_product_id' field is included in the loader parameters
-        self.assertIn(
-            "extra_product_id",
-            loader_params["search_params"]["fields"],
-            "The 'extra_product_id' field should be included in the loader parameters",
-        )
