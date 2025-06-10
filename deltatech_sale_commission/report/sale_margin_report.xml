@@ -92,9 +92,9 @@
                 <field name="profit_val" sum="Profit" />
                 <field name="commission_computed" sum="Commission Computed" />
                 <field name="commission" sum="Commission" />
-                <field name="indicator_supplement" avg="Supplement Indicator" optional="hide" />
+                <field name="markup" optional="hide" />
                 <field name="payment_state" optional="hide" />
-                <field name="indicator_profit" avg="Profit Indicator" optional="hide" />
+                <field name="profit_margin" optional="hide" />
                 <field name="manager_user_id" optional="hide" />
                 <field name="commission_manager_computed" optional="hide" />
                 <field name="director_user_id" optional="hide" />
@@ -120,8 +120,8 @@
                 <field name="sale_val" type="measure" />
                 <field name="stock_val" type="measure" />
                 <field name="profit_val" type="measure" />
-                <field name="indicator_supplement" avg="Supplement Indicator" type="measure" />
-                <field name="indicator_profit" avg="Profit Indicator" type="measure" />
+                <field name="markup" avg="Markup" type="measure" />
+                <field name="profit_margin" type="measure" />
             </pivot>
         </field>
     </record>
@@ -135,6 +135,20 @@
             <search string="Search">
 
                 <filter name="date" date="date" default_period="month-1" />
+
+                <filter name="filter_today" string="Today" domain="[('date', '>=', context_today())]" />
+
+                <filter
+                    name="filter_yesterday"
+                    string="Yesterday"
+                    domain="[('date', '>=', (context_today() - datetime.timedelta(days=1)))]"
+                />
+
+                <filter
+                    name="filter_last_week"
+                    string="Last 7 Days"
+                    domain="[('date', '>=', (context_today() - datetime.timedelta(days=7)))]"
+                />
                 <separator />
 
                 <filter name="due_date" date="due_date" />

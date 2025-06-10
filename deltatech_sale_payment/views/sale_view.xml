@@ -34,8 +34,17 @@
             <xpath expr="//field[@name='payment_term_id']" position="after">
                 <label for="payment_amount" string="Payment" />
                 <div class="o_row">
-                    <field name="payment_amount" />
-                    <field name="provider_id" />
+                    <field
+                        name="payment_amount"
+                        decoration-success="payment_status == 'done'"
+                        decoration-danger="payment_status == 'partial'"
+                    />
+                    <field
+                        name="provider_id"
+                        widget="many2one"
+                        decoration-danger="payment_status == 'initiated'"
+                        options="{'no_create': True, 'no_open': True}"
+                    />
                 </div>
                 <field name="payment_status" />
             </xpath>
