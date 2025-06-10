@@ -27,5 +27,3 @@ class TestPosSession(TransactionCase):
                 "extra_product_id": self.env["product.product"].create({"name": "Extra Product"}).id,
             }
         )
-
-
