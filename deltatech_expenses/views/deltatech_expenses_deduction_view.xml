@@ -85,7 +85,7 @@
                     <notebook>
                         <page string="Description">
                             <field name="expenses_line_ids" readonly="state != 'advance'">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="date" />
                                     <field name="name" />
 
@@ -112,7 +112,7 @@
                                     <field name="type" />
                                     <field name="state" optional="hide" />
                                     <field name="currency_id" invisible="1" />
-                                </tree>
+                                </list>
                                 <form>
                                     <field name="date" />
                                     <field name="name" />
@@ -161,7 +161,7 @@
                         </page>
                         <page string="Journal Items">
                             <field name="move_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="move_id" />
                                     <field name="ref" />
                                     <field name="date" />
@@ -171,16 +171,16 @@
                                     <field name="name" />
                                     <field name="debit" />
                                     <field name="credit" />
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Payments">
                             <field name="payment_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="partner_id" />
                                     <field name="amount" sum="Total Amount" />
                                     <field name="state" />
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Other information">
@@ -200,7 +200,7 @@
         <field name="name">deltatech.expenses.deduction.tree</field>
         <field name="model">deltatech.expenses.deduction</field>
         <field name="arch" type="xml">
-            <tree sample="1">
+            <list sample="1">
                 <field name="number" />
                 <field name="date_expense" />
                 <field name="employee_id" />
@@ -212,7 +212,7 @@
                     decoration-warning="(state == 'advance')"
                     decoration-muted="(state == 'close')"
                 />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="view_deltatech_expenses_deduction_filter" model="ir.ui.view">
