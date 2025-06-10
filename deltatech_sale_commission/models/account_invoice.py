@@ -107,7 +107,7 @@ class AccountInvoiceLine(models.Model):
 
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
     def _compute_purchase_price(self):
-        #todo: se verificat daca acest paramentru mai este valabil
+        # todo: se verificat daca acest paramentru mai este valabil
         deposit_product = self.env["ir.config_parameter"].sudo().get_param("sale.default_deposit_product_id")
         for invoice_line in self:
             if invoice_line.display_type != "product":
