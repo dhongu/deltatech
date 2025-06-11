@@ -16,7 +16,7 @@ class WebsiteSearchableMixin(models.AbstractModel):
             search = search.strip().split(" ")
             words_count = len(search)
             if words_count > 1:
-                fields = ['name']
+                fields = ["name"]
 
             search = " ".join(s.strip() for s in search if s.strip())
 
