@@ -14,6 +14,10 @@ class WebsiteSearchableMixin(models.AbstractModel):
     def _search_build_domain(self, domain_list, search, fields, extra=None):
         if search:
             search = search.strip().split(" ")
+            words_count = len(search)
+            if words_count > 1:
+                fields = ['name']
+
             search = " ".join(s.strip() for s in search if s.strip())
 
         return super()._search_build_domain(domain_list, search, fields, extra)
