@@ -15,13 +15,14 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     @api.model
-    def cron_clean_xml_attachments(self, limit=10, duplicates=10, dry_run=False):
+    def cron_clean_xml_attachments(self, limit=10, duplicates=10, max_attachments_to_delete=50, dry_run=False):
         """
         Searches for duplicate xml attachments for invoices and deletes them (mainly edi ubl)
         :param limit: how many invoices with duplicate attachments should be processed.
         Increase this number if you have many invoices with few duplicate attachments
         Decrease this number if you have few invoices with many duplicates attachments
         :param duplicates: how many attachments with same name are found
+        :param max_attachments_to_delete: maximum attachment number to delete
         :param dry_run: if set to True, just selects the attachments and does not delete anything
         :return: None
         """
@@ -45,14 +46,16 @@ class AccountMove(models.Model):
                 invoice_id = self.browse(attachments[0].res_id)
                 linked_attachments = invoice_id.edi_document_ids.attachment_id
                 attachments -= linked_attachments
-                _logger.info(
-                    f"Deleting attachments: {attachment_name[0]} ({counter}/{att_count} - {len(attachments)} attachments to delete)"
-                )
                 if attachments:
                     try:
-                        total_attachments += len(attachments)
                         if not dry_run:
-                            attachments.unlink()
+                            if len(attachments) > max_attachments_to_delete:
+                                attachments = attachments[:max_attachments_to_delete]
+                            _logger.info(
+                                f"Deleting attachments: {attachment_name[0]} ({counter}/{att_count} - {len(attachments)} attachments to delete)"
+                            )
+                            total_attachments += len(attachments)
+                            attachments.sudo().unlink()
                     except Exception as e:
                         _logger.info(f"Cannot delete attachments: {e}")
 

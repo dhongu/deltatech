@@ -4,7 +4,7 @@
         <field name="name">Category types</field>
         <field name="model">category.group.type</field>
         <field name="arch" type="xml">
-            <tree string="Category types">
+            <tree>
                 <field name="sequence" widget="handle" />
                 <field name="name" />
             </tree>
@@ -15,7 +15,7 @@
         <field name="name">Category type</field>
         <field name="model">category.group.type</field>
         <field name="arch" type="xml">
-            <form string="Category type">
+            <form>
                 <header>
                 </header>
                 <sheet>
@@ -51,7 +51,7 @@
         <field name="name">Category classes</field>
         <field name="model">category.group.class</field>
         <field name="arch" type="xml">
-            <tree string="Category classes">
+            <tree>
                 <field name="sequence" widget="handle" />
                 <field name="name" />
             </tree>

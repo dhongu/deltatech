@@ -92,3 +92,9 @@ class SaleOrderLine(models.Model):
                     extra_line_id.price_unit = line.price_unit * (line.product_id.extra_percent or 0.0) / 100.0
                 else:
                     extra_line_id.price_unit = line.product_id.extra_product_id.lst_price
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        res = super().create(vals_list)
+        res.check_extra_product()
+        return res

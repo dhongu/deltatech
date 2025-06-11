@@ -24,7 +24,7 @@ Sale Report Additional Info
 
 Features: This module will add new fields to the sale order report:
 
-- (17.0.0.0.0) adds the email of the partner to the report
+-  (17.0.0.0.0) adds the email of the partner to the report
 
 **Table of contents**
 

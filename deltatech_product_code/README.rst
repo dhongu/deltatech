@@ -22,11 +22,11 @@ Products Code
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - Generate product code
-  - Check consistence of product coding
-  - Mass coding of products
+   -  Generate product code
+   -  Check consistence of product coding
+   -  Mass coding of products
 
 **Table of contents**
 

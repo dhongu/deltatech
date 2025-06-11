@@ -22,13 +22,13 @@ Mail Substitution
 
 |badge1| |badge2| |badge3|
 
-- Features:
+-  Features:
 
-  - email filtration and redirecting to another address
+   -  email filtration and redirecting to another address
 
-- Functionalitati:
+-  Functionalitati:
 
-  - filtrare emailuri si redirectionare la alta adresa
+   -  filtrare emailuri si redirectionare la alta adresa
 
 **Table of contents**
 
