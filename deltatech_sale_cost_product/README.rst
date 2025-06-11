@@ -19,7 +19,7 @@ Deltatech Sale Cost on Order
 
 |badge1| |badge2|
 
--  Features:
+- Features:
 
 **Table of contents**
 

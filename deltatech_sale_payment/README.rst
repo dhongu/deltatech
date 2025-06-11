@@ -22,9 +22,9 @@ Sale Payment
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Add payment button in sale order
+  - Add payment button in sale order
 
 **Table of contents**
 

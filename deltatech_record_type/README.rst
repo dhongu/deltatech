@@ -34,40 +34,40 @@ routing configurations.
 Key Features
 ------------
 
--  Define custom record types for sale orders, purchase orders, and
-   invoices
--  Assign specific users to each record type for access control
--  Set default values for fields when creating new records of a specific
-   type
--  Configure stock routes for each record type
--  Only displays type field in models that have types defined
+- Define custom record types for sale orders, purchase orders, and
+  invoices
+- Assign specific users to each record type for access control
+- Set default values for fields when creating new records of a specific
+  type
+- Configure stock routes for each record type
+- Only displays type field in models that have types defined
 
 Technical Implementation
 ------------------------
 
 The module implements a flexible framework through two main models:
 
--  : Defines the type configuration including allowed users and routing
-   ``record.type``
--  ``record.type.default.values``: Manages default field values for each
-   record type with dynamic field selection
+- : Defines the type configuration including allowed users and routing
+  ``record.type``
+- ``record.type.default.values``: Manages default field values for each
+  record type with dynamic field selection
 
 Integration Points
 ------------------
 
--  Integrates with core Odoo modules: Sale, Purchase, and Accounting
--  Extends the standard views of sale orders, purchase orders, and
-   invoices
--  Supports custom security roles for type management
+- Integrates with core Odoo modules: Sale, Purchase, and Accounting
+- Extends the standard views of sale orders, purchase orders, and
+  invoices
+- Supports custom security roles for type management
 
 Business Benefits
 -----------------
 
--  Streamlines document creation with predefined templates
--  Enhances user experience by showing only relevant record types to
-   specific users
--  Improves business workflow with customized routing per record type
--  Reduces data entry errors with automatic default values
+- Streamlines document creation with predefined templates
+- Enhances user experience by showing only relevant record types to
+  specific users
+- Improves business workflow with customized routing per record type
+- Reduces data entry errors with automatic default values
 
 Usage
 -----

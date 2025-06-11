@@ -22,9 +22,9 @@ Report Packaging
 
 |badge1| |badge2| |badge3|
 
--  Features:
+- Features:
 
-   -  Report packing materials used for products invoiced
+  - Report packing materials used for products invoiced
 
 **Table of contents**
 

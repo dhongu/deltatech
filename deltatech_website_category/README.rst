@@ -21,7 +21,7 @@ eCommerce Product Category
 
 Features:
 
--  Archive public categories
+- Archive public categories
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.

@@ -21,13 +21,13 @@ Products Category
 
 Features:
 
--  Product category per company
+- Product category per company
 
--  The "All" category must remain without a company
+- The "All" category must remain without a company
 
--  Categorii de produse pentru fiecare companie
+- Categorii de produse pentru fiecare companie
 
--  Categoria All trebuie sa ramana fara companie
+- Categoria All trebuie sa ramana fara companie
 
 **Table of contents**
 

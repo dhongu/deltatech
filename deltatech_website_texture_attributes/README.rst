@@ -21,7 +21,7 @@ eCommerce Attribute Texture
 
 Features:
 
--  Attribute with image for texture
+- Attribute with image for texture
 
 **Table of contents**
 

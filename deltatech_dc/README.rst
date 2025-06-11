@@ -19,10 +19,10 @@ Declaration of Conformity
 
 |badge1| |badge2|
 
--  Features:
+- Features:
 
-   -  Declaration of Conformity
-   -  Declaration of Conformity printing at billing
+  - Declaration of Conformity
+  - Declaration of Conformity printing at billing
 
 **Table of contents**
 

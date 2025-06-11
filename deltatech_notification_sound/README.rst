@@ -24,7 +24,7 @@ Notification Sound
 
 Features:
 
--  adding sounds when you get errors to notify the operator
+- adding sounds when you get errors to notify the operator
 
 **Table of contents**
 

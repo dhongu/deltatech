@@ -19,9 +19,9 @@ Deltatech Payment Method Card
 
 |badge1| |badge2|
 
--  Features:
+- Features:
 
-   -  add payment method card
+  - add payment method card
 
 **Table of contents**
 

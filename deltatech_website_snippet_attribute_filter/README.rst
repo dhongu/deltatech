@@ -19,9 +19,9 @@ eCommerce Attribute Filter Snippet
 
 |badge1| |badge2|
 
--  Features:
+- Features:
 
-   -  
+  - 
 
 **Table of contents**
 

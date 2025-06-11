@@ -21,8 +21,8 @@ Stock Account Extension
 
 Features:
 
--  adds the stock valuation on the picking
--  display the stock valuation on the picking form
+- adds the stock valuation on the picking
+- display the stock valuation on the picking form
 
 **Table of contents**
 

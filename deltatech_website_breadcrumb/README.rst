@@ -21,7 +21,7 @@ eCommerce Category Breadcrumb
 
 Features:
 
--  adds breadcrumbs to the top of the page on website
+- adds breadcrumbs to the top of the page on website
 
 **Table of contents**
 

@@ -19,9 +19,9 @@ Sale Contact
 
 |badge1| |badge2|
 
--  Features:
+- Features:
 
-   -  Limitare selectare contacte
+  - Limitare selectare contacte
 
 **Table of contents**
 

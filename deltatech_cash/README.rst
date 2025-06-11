@@ -21,10 +21,10 @@ Cash In / Out
 
 (Obsolete)
 
--  Features:
+- Features:
 
-   -  specify account for cash deposit/withdrawal at the cash registry
-   -  specificare cont la depunere/retragenere numerar din casa
+  - specify account for cash deposit/withdrawal at the cash registry
+  - specificare cont la depunere/retragenere numerar din casa
 
 **Table of contents**
 

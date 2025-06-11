@@ -19,9 +19,9 @@ Deltatech POS - Numpad Dot as decimal separator - Obsolete
 
 |badge1| |badge2|
 
--  Features:
+- Features:
 
-   -  
+  - 
 
 **Table of contents**
 

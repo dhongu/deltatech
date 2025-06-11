@@ -19,9 +19,9 @@ Logistic Documents
 
 |badge1| |badge2|
 
--  Functions:
+- Functions:
 
-   -  Afisare documente anexate la achizitie, receptie si factura
+  - Afisare documente anexate la achizitie, receptie si factura
 
 **Table of contents**
 

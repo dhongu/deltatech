@@ -21,8 +21,8 @@ Portal invoice
 
 Features:
 
--  add filter in portal to display separate incoming invoices and
-   outgoing invoices
+- add filter in portal to display separate incoming invoices and
+  outgoing invoices
 
 **Table of contents**
 

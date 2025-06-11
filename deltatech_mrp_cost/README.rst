@@ -19,9 +19,9 @@ MRP Cost
 
 |badge1| |badge2|
 
--  Features:
+- Features:
 
-   -  adaugare de costuri suplimentare in comanda de productie
+  - adaugare de costuri suplimentare in comanda de productie
 
 **Table of contents**
 

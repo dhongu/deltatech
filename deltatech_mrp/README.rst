@@ -47,13 +47,13 @@ raport pt analiza costuri de productie
 
 Observation:
 
--  at the material cost it must be added a coefficient of 20 % for
-   indirect costs
+- at the material cost it must be added a coefficient of 20 % for
+  indirect costs
 
 Observatie:
 
--  la costul materialelor se adauga si un coeficient de 20 % pentru
-   costurile indirecte.
+- la costul materialelor se adauga si un coeficient de 20 % pentru
+  costurile indirecte.
 
 **Table of contents**
 

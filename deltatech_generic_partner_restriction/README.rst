@@ -21,7 +21,7 @@ Deltatech Generic Partner Restriction
 
 Features:
 
--  
+- 
 
 **Table of contents**
 

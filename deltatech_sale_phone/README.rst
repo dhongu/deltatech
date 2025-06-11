@@ -19,9 +19,9 @@ Sale Phone
 
 |badge1| |badge2|
 
--  Features:
+- Features:
 
-   -  add phone number in sales order
+  - add phone number in sales order
 
 **Table of contents**
 

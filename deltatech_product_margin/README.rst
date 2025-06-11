@@ -21,7 +21,7 @@ Deltatech Product Margin
 
 Features:
 
--  Calculate trade markup and margin for each product
+- Calculate trade markup and margin for each product
 
 **Table of contents**
 

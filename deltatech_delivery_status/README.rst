@@ -19,10 +19,10 @@ Deltatech Delivery Status
 
 |badge1| |badge2|
 
--  Features:
+- Features:
 
-   -  delivery status
-   -  Stare livare
+  - delivery status
+  - Stare livare
 
 **Table of contents**
 
