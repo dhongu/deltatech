@@ -12,6 +12,12 @@ exclude: |
   /static/(src/)?lib/|
   # Repos using Sphinx to generate docs don't need prettying
   ^docs/_templates/.*\.html$|
+  # Don't bother non-technical authors with formatting issues in docs
+  readme/.*\.(rst|md)$|
+  # Ignore build and dist directories in addons
+  /build/|/dist/|
+  # Ignore test files in addons
+  /tests/samples/.*|
   # You don't usually want a bot to modify your legal texts
   (LICENSE.*|COPYING.*)|
   __unported__
@@ -45,6 +51,7 @@ repos:
     hooks:
       # Use each script's `--help` to understand the args
       - id: oca-gen-addon-readme
+        stages: [manual]
         args:
           - --addons-dir=.
           - --org-name=dhongu
