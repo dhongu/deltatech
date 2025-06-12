@@ -27,7 +27,7 @@ class SaleMarginReport(models.Model):
         readonly=True,
         help="Sale Amount in company currency",
         currency_field="company_currency_id",
-        group_operator="sum",
+        aggregator="sum",
     )
 
     stock_val = fields.Monetary(
@@ -35,14 +35,14 @@ class SaleMarginReport(models.Model):
         readonly=True,
         help="Stock Amount in company currency",
         currency_field="company_currency_id",
-        group_operator="sum",
+        aggregator="sum",
     )
     profit_val = fields.Monetary(
         "Profit Amount",
         readonly=True,
         help="Profit obtained at invoicing in company currency",
         currency_field="company_currency_id",
-        group_operator="sum",
+        aggregator="sum",
     )
     commission_computed = fields.Float("Commission Computed", readonly=True)
     commission_manager_computed = fields.Float("Commission Manager Computed", readonly=True)
@@ -61,8 +61,8 @@ class SaleMarginReport(models.Model):
     company_id = fields.Many2one("res.company", "Company", readonly=True)
     # period_id = fields.Many2one('account.period', 'Period', readonly=True)
 
-    markup = fields.Float("Markup", readonly=True, digits=(12, 2), group_operator="avg")
-    profit_margin = fields.Float("Profit Margin", readonly=True, digits=(12, 2), group_operator="avg")
+    markup = fields.Float("Markup", readonly=True, digits=(12, 2), aggregator="avg")
+    profit_margin = fields.Float("Profit Margin", readonly=True, digits=(12, 2), aggregator="avg")
 
     journal_id = fields.Many2one("account.journal", "Journal", readonly=True)
     company_currency_id = fields.Many2one(
