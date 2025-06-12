@@ -63,10 +63,7 @@ class SaleConfirmPayment(models.TransientModel):
         if self.transaction_id:
             return self.transaction_id
 
-        if not self.amount:
-            return self.env["payment.transaction"]
-
-        transaction = self.env["payment.transaction"].create(
+        transaction = self.env["payment.transaction"].sudo().create(
             {
                 "amount": self.amount,
                 "provider_id": self.provider_id.id,
@@ -88,8 +85,9 @@ class SaleConfirmPayment(models.TransientModel):
     def update_transaction(self):
         if not self.transaction_id:
             return
-        if self.transaction_id.state in ["pending", "draft"]:
-            self.transaction_id.write(
+        transaction = self.transaction_id.sudo()
+        if transaction.state in ["pending", "draft"]:
+            transaction.write(
                 {
                     "amount": self.amount,
                     "provider_id": self.provider_id.id,
@@ -97,13 +95,13 @@ class SaleConfirmPayment(models.TransientModel):
                 }
             )
         else:
-            self.transaction_id.sudo()._set_canceled()
-            self.transaction_id.unlink()
+            transaction._set_canceled()
+            transaction.unlink()
             self.transaction_id = False
 
     def do_confirm(self):
         self.do_add_payment()
-        transaction = self.transaction_id
+        transaction = self.transaction_id.sudo()
         if transaction.state != "done" and transaction.amount:
             transaction = transaction.with_context(payment_date=self.payment_date)
             transaction._set_pending()
