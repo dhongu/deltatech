@@ -3,8 +3,9 @@
 from datetime import timedelta
 
 from odoo import fields
-from odoo.addons.mrp.tests.common import TestMrpCommon
 from odoo.tests import Form
+
+from odoo.addons.mrp.tests.common import TestMrpCommon
 
 
 class TestMrpOrder(TestMrpCommon):

@@ -3,9 +3,10 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import _, http
-from odoo.addons.sale.controllers import portal
 from odoo.http import request
 from odoo.osv import expression
+
+from odoo.addons.sale.controllers import portal
 
 
 class CustomerPortal(portal.CustomerPortal):

@@ -6,6 +6,7 @@ import logging
 from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
+
 from odoo import api, models
 
 _logger = logging.getLogger(__name__)

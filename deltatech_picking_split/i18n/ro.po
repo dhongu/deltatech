@@ -133,4 +133,4 @@ msgstr "Aplică"
 #. module: deltatech_picking_split
 #: model_terms:ir.ui.view,arch_db:deltatech_picking_split.view_manual_backorder_form
 msgid "or"
-msgstr "sau"
+msgstr ""

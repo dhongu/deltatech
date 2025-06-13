@@ -3,11 +3,13 @@
 # See README.rst file on addons root folder for license details
 
 from markupsafe import Markup
+
 from odoo import _, http
-from odoo.addons.portal.controllers import portal
-from odoo.addons.portal.controllers.portal import pager as portal_pager
 from odoo.http import request
 from odoo.osv import expression
+
+from odoo.addons.portal.controllers import portal
+from odoo.addons.portal.controllers.portal import pager as portal_pager
 
 
 class CustomerPortal(portal.CustomerPortal):

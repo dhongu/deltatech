@@ -1,6 +1,7 @@
 from odoo import http
-from odoo.addons.website_sale.controllers.main import WebsiteSale
 from odoo.http import request
+
+from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class WebsiteSaleCheckout(WebsiteSale):

@@ -597,4 +597,4 @@ msgstr "Nu puteți vinde sub prețul de achiziție"
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_commission_compute_form
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_commission_update_purchase_price_form
 msgid "or"
-msgstr "sau"
+msgstr ""

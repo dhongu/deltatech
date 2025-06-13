@@ -86,4 +86,4 @@ msgstr ""
 #. module: deltatech_cash_statement
 #: model_terms:ir.ui.view,arch_db:deltatech_cash_statement.view_account_cash_update_balances_form
 msgid "or"
-msgstr "sau"
+msgstr ""

@@ -88,4 +88,4 @@ msgstr "Unitate măsură"
 #. module: deltatech_change_uom
 #: model_terms:ir.ui.view,arch_db:deltatech_change_uom.view_product_change_uom_form
 msgid "or"
-msgstr "sau"
+msgstr ""

@@ -226,4 +226,4 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_import_purchase_line_form
 msgid "or"
-msgstr "sau"
+msgstr ""

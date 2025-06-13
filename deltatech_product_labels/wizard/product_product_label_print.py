@@ -3,9 +3,10 @@
 
 import base64
 
+from reportlab.graphics.barcode import createBarcodeDrawing
+
 from odoo import api, fields, models
 from odoo.osv import expression
-from reportlab.graphics.barcode import createBarcodeDrawing
 
 
 class ProductProductLabel(models.TransientModel):

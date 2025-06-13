@@ -7,6 +7,7 @@ import logging
 
 import requests
 import werkzeug
+
 from odoo import api, fields, models
 from odoo.tools import image
 

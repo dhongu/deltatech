@@ -327,4 +327,4 @@ msgstr "_Aplică"
 #. module: deltatech_payment_term
 #: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_payment_term_rate_wizard_form
 msgid "or"
-msgstr "sau"
+msgstr ""

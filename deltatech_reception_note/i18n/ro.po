@@ -229,4 +229,4 @@ msgstr "_Aplică"
 #. module: deltatech_reception_note
 #: model_terms:ir.ui.view,arch_db:deltatech_reception_note.view_reception_note_create_form
 msgid "or"
-msgstr "sau"
+msgstr ""

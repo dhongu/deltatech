@@ -5,6 +5,7 @@
 from datetime import date
 
 from dateutil.relativedelta import relativedelta
+
 from odoo import api, models
 from odoo.tools.safe_eval import safe_eval
 

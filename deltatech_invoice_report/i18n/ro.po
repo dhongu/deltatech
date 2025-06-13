@@ -224,7 +224,7 @@ msgstr ""
 #. module: deltatech_invoice_report
 #: model_terms:ir.ui.view,arch_db:deltatech_invoice_report.view_product_without_move_form
 msgid "or"
-msgstr "sau"
+msgstr ""
 
 #. module: deltatech_invoice_report
 #: model:ir.model,name:deltatech_invoice_report.model_product_invoice_history

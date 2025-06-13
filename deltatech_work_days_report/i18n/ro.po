@@ -248,4 +248,4 @@ msgstr ""
 #. module: deltatech_work_days_report
 #: model_terms:ir.ui.view,arch_db:deltatech_work_days_report.view_working_days_export_form
 msgid "or"
-msgstr "sau"
+msgstr ""

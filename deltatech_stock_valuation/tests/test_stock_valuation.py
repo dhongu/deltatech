@@ -3,9 +3,11 @@
 # See README.rst file on addons rcoot folder for license details
 
 from dateutil.relativedelta import relativedelta
+
 from odoo import Command, fields
-from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.tests import tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
 @tagged("post_install", "-at_install")
