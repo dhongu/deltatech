@@ -3,8 +3,9 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import http
-from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.http import request
+
+from odoo.addons.portal.controllers.portal import CustomerPortal
 
 
 class CustomerPortalCity(CustomerPortal):

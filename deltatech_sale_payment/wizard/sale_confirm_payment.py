@@ -63,18 +63,22 @@ class SaleConfirmPayment(models.TransientModel):
         if self.transaction_id:
             return self.transaction_id
 
-        transaction = self.env["payment.transaction"].sudo().create(
-            {
-                "amount": self.amount,
-                "provider_id": self.provider_id.id,
-                "provider_reference": order.name,
-                "payment_method_id": self.payment_method_id.id,
-                "partner_id": order.partner_id.id,
-                "sale_order_ids": [(4, order.id, False)],
-                "currency_id": self.currency_id.id,
-                # "date": self.payment_date,
-                "state": "draft",
-            }
+        transaction = (
+            self.env["payment.transaction"]
+            .sudo()
+            .create(
+                {
+                    "amount": self.amount,
+                    "provider_id": self.provider_id.id,
+                    "provider_reference": order.name,
+                    "payment_method_id": self.payment_method_id.id,
+                    "partner_id": order.partner_id.id,
+                    "sale_order_ids": [(4, order.id, False)],
+                    "currency_id": self.currency_id.id,
+                    # "date": self.payment_date,
+                    "state": "draft",
+                }
+            )
         )
         if self.amount:
             transaction._set_pending()

@@ -1,12 +1,13 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import _, api, fields, models
-from odoo.addons.base.models.ir_model import MODULE_UNINSTALL_FLAG
 from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.tools import float_compare, float_is_zero
 from odoo.tools.misc import OrderedSet
 from odoo.tools.safe_eval import safe_eval
+
+from odoo.addons.base.models.ir_model import MODULE_UNINSTALL_FLAG
 
 
 class Inventory(models.Model):

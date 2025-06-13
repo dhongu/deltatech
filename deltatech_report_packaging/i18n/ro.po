@@ -208,4 +208,4 @@ msgstr ""
 #. module: deltatech_report_packaging
 #: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.invoice_packaging_material_form
 msgid "or"
-msgstr "sau"
+msgstr ""

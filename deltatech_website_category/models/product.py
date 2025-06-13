@@ -4,6 +4,7 @@
 
 
 from odoo import api, fields, models
+
 from odoo.addons.http_routing.models.ir_http import slug
 
 

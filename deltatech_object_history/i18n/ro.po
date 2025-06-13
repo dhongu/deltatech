@@ -243,4 +243,4 @@ msgstr ""
 #. module: deltatech_object_history
 #: model_terms:ir.ui.view,arch_db:deltatech_object_history.history_add_wizard_form
 msgid "or"
-msgstr "sau"
+msgstr ""

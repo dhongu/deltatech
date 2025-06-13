@@ -123,4 +123,4 @@ msgstr "_Aplică"
 #. module: deltatech_invoice_number
 #: model_terms:ir.ui.view,arch_db:deltatech_invoice_number.view_account_invoice_change_number_form
 msgid "or"
-msgstr "sau"
+msgstr ""

@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from dateutil.relativedelta import relativedelta
+
 from odoo import api, fields, models
 
 

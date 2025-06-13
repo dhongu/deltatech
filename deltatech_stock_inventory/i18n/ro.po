@@ -1223,4 +1223,4 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_confirm_inventory_form
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_inventory_merge_form
 msgid "or"
-msgstr "sau"
+msgstr ""

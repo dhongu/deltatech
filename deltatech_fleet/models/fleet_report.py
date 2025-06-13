@@ -3,8 +3,9 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import fields, models, tools
 from psycopg2 import sql
+
+from odoo import fields, models, tools
 
 
 class FleetReport(models.Model):

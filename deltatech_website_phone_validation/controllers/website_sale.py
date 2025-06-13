@@ -2,9 +2,10 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+from odoo.http import request
+
 from odoo.addons.phone_validation.tools import phone_validation
 from odoo.addons.website_sale.controllers.main import WebsiteSale
-from odoo.http import request
 
 
 class WebsiteSalePhoneValidation(WebsiteSale):
