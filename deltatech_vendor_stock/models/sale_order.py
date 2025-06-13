@@ -56,7 +56,7 @@ class SaleOrderLine(models.Model):
                                 self._context.get("to_date"),
                             )
 
-                        quantity_in_warehouse = qty[product.id]["qty_available"]
+                        quantity_in_warehouse = qty[product.id]["free_qty"]
                         if quantity_in_warehouse:
                             line = f"{warehouse.code}: {quantity_in_warehouse}"
                             warehouse_stock_lines.append(line)
