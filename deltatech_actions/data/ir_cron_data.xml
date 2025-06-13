@@ -15,7 +15,6 @@ model.cron_clean_xml_attachments(limit=10, duplicates=10, max_attachments_to_del
         <field name="interval_type">days</field>
         <field name="user_id" ref="base.user_root" />
         <field name="active" eval="False" />
-        <field name="doall" eval="False" />
     </record>
 
     <record id="ir_cron_create_missing_reordering_rules" model="ir.cron">
@@ -30,7 +29,6 @@ model.create_missing_orderpoint()
         <field name="interval_type">days</field>
         <field name="user_id" ref="base.user_root" />
         <field name="active" eval="False" />
-        <field name="doall" eval="False" />
     </record>
 
     <record id="ir_cron_delete_pdf_attachments_invoice" model="ir.cron">
@@ -49,7 +47,6 @@ model.cron_clean_generated_pdfs(limit=5000, pattern="", max_date_days=90, dry_ru
         <field name="interval_type">days</field>
         <field name="user_id" ref="base.user_root" />
         <field name="active" eval="False" />
-        <field name="doall" eval="False" />
     </record>
 
     <record id="ir_cron_delete_pdf_attachments_sale_order" model="ir.cron">
@@ -68,7 +65,6 @@ model.cron_clean_generated_pdfs(limit=5000, pattern="", max_date_days=90, dry_ru
         <field name="interval_type">days</field>
         <field name="user_id" ref="base.user_root" />
         <field name="active" eval="False" />
-        <field name="doall" eval="False" />
     </record>
 
     <record id="ir_cron_delete_pdf_attachments_stock_picking" model="ir.cron">
@@ -87,7 +83,6 @@ model.cron_clean_generated_pdfs(limit=5000, pattern="Label%", max_date_days=90, 
         <field name="interval_type">days</field>
         <field name="user_id" ref="base.user_root" />
         <field name="active" eval="False" />
-        <field name="doall" eval="False" />
     </record>
 
     <record id="ir_cron_delete_mail_messages" model="ir.cron">
@@ -107,7 +102,6 @@ model.cron_clean_old_messages(limit=5000, pattern="%", max_date_days=90, dry_run
         <field name="interval_type">days</field>
         <field name="user_id" ref="base.user_root" />
         <field name="active" eval="False" />
-        <field name="doall" eval="False" />
     </record>
 
 </odoo>
