@@ -8,8 +8,9 @@
                 <field name="account_modifier_id" />
                 <field name="valuation_class_id" />
                 <field name="valuation_area_id" />
-                <field name="debit_account_id" />
-                <field name="credit_account_id" />
+                <field name="acc_src_id" />
+                <field name="acc_dest_id" />
+                <field name="acc_valuation_id" />
             </tree>
         </field>
     </record>
@@ -20,15 +21,18 @@
         <field name="arch" type="xml">
             <form>
                 <group>
-                    <field name="transaction_key" />
-                    <field name="account_modifier_id" />
-                    <field name="valuation_class_id" />
-                    <field name="valuation_area_id" />
-                    <field name="company_id" />
-                </group>
-                <group>
-                    <field name="debit_account_id" />
-                    <field name="credit_account_id" />
+                    <group string="Conditions">
+                        <field name="valuation_area_id" />
+                        <field name="transaction_key" />
+                        <field name="valuation_class_id" />
+                        <field name="account_modifier_id" />
+                        <field name="company_id" />
+                    </group>
+                    <group string="Accounts">
+                        <field name="acc_src_id" />
+                        <field name="acc_dest_id" />
+                        <field name="acc_valuation_id" />
+                    </group>
                 </group>
             </form>
         </field>
@@ -39,7 +43,6 @@
         <field name="res_model">product.account.determination</field>
         <field name="view_mode">tree,form</field>
     </record>
-
 
 
 </odoo>

@@ -15,6 +15,8 @@
         "views/res_config_settings_views.xml",
         "views/stock_location_views.xml",
         "views/warehouse_views.xml",
+        "views/stock_picking_views.xml",
+        "views/account_journal_views.xml",
         "views/product_valuation_class_views.xml",
         "views/product_template_views.xml",
         "views/product_account_determination_views.xml",

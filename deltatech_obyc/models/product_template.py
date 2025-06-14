@@ -12,3 +12,10 @@ class ProductTemplate(models.Model):
         string="Valuation Class",
         company_dependent=True,
     )
+
+    def get_product_accounts(self, fiscal_pos=None):
+        res = super().get_product_accounts(fiscal_pos)
+        if self.valuation_class_id:
+            for key in res:
+                res[key] = False
+        return res

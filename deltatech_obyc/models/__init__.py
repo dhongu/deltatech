@@ -7,6 +7,10 @@ from . import res_company
 from . import res_config_settings
 from . import warehouse
 from . import stock_location
+from . import stock_picking
+from . import account_move_line
+
+from . import account_journal
 
 from . import product_valuation_class
 from . import product_template

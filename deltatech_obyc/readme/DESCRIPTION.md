@@ -14,7 +14,7 @@ This module implements an account determination mechanism inspired by SAP OBYC, 
 - Defines a flexible mapping table (`product.account.determination`) for automatic GL account assignment
 - Introduces configurable master data:
   - `product.valuation.class` – assigned to product templates
-  - `valuation.area` – assigned to companies
+  - `product.valuation.area` – assigned to companies
   - `account.modifier` – optionally used in operations (e.g., picking types)
 - Automatically selects debit and credit accounts during stock moves, depending on the type of stock transition
 - Transaction key determination logic for common inventory operations
@@ -30,11 +30,38 @@ This module implements an account determination mechanism inspired by SAP OBYC, 
 
 You can customize the `_compute_transaction_key()` method in `stock.move` to support more complex cases (e.g. subcontracting, scrapping, manufacturing).
 
+## 📋 Comprehensive Transaction Keys List
+
+The module supports the following transaction keys:
+
+| Key | Description | Typical Accounting Impact |
+|-----|-------------|---------------------------|
+| WRX | Goods Receipt from Supplier (GR/IR clearing) | Debit Inventory, Credit GR/IR clearing |
+| VAX | Goods Issue to Customer | Debit COGS, Credit Inventory |
+| ZTR | Internal Transfer | Debit Inventory Location, Credit Inventory Location |
+| GBB | Consumption (General) | Debit Expense, Credit Inventory |
+| BSX | Stock Posting (positive inventory) | Debit Inventory, Credit Inventory Adjustment |
+| BSM | Stock Posting (negative inventory) | Debit Inventory Adjustment, Credit Inventory |
+| BSV | Change in Stock | Debit/Credit Inventory Changes |
+| BSD | Supplementary Entry for Stock | Adjusts Stock Account for Valuation Areas |
+| AUM | Expenditure/Income from Transfer Posting | Debit/Credit Transfer Price Differences |
+| UMB | Revenue/Expense from Revaluation | Debit New Account, Credit Old Account |
+| PRD | Price Differences | Debit/Credit Price Difference Account |
+| KON | Consignment Liabilities | Debit Consignment Stock, Credit Consignment Vendor |
+| AKO | Expense/Revenue from Consumption of Consignment | Debit Expense, Credit Revenue Account |
+| KDM | Exchange Rate Differences (Open Items) | Debit/Credit Exchange Rate Difference Account |
+| FR1 | Freight Clearing | Debit Inventory/Expense, Credit Accrued Freight |
+| FR2 | Provision for Freight Charges | Debit Freight Expense, Credit Accrued Freight |
+| FRL | External Service (Subcontracting) | Debit WIP/Inventory, Credit Subcontractor |
+| GBD | Scrapping | Debit Scrap Expense, Credit Inventory |
+
+Each transaction key can be mapped to different GL accounts based on product valuation class, valuation area, and account modifiers.
+
 ## ⚙️ Models Introduced
 
 - **product.account.determination**: Core mapping rule
 - **product.valuation.class**: Master data used to group products by accounting behavior
-- **valuation.area**: Organizational structure influencing account determination
+- **product.valuation.area**: Organizational structure influencing account determination
 - **account.modifier**: Optional field used to refine selection (similar to SAP account modifier)
 
 ## 📁 How it Works
@@ -62,5 +89,8 @@ You can configure:
 - **WRX** (Goods Receipt from supplier) → Debit Inventory, Credit GR/IR
 - **VAX** (Goods Issue to customer) → Debit COGS, Credit Inventory
 - **GBB** (Consumption to cost center) → Debit Expense, Credit Inventory
+- **BSX** (Positive inventory adjustment) → Debit Inventory, Credit Inventory Adjustment
+- **AUM** (Transfer posting differences) → Debit/Credit Transfer Price Differences
+- **PRD** (Price differences) → Debit/Credit Price Difference Account
 
 Each of these can vary by product class or warehouse (valuation area).
