@@ -14,7 +14,7 @@ This module implements an account determination mechanism inspired by SAP OBYC, 
 - Defines a flexible mapping table (`product.account.determination`) for automatic GL account assignment
 - Introduces configurable master data:
   - `product.valuation.class` – assigned to product templates
-  - `product.valuation.area` – assigned to companies
+  - `valuation.area` – assigned to companies
   - `account.modifier` – optionally used in operations (e.g., picking types)
 - Automatically selects debit and credit accounts during stock moves, depending on the type of stock transition
 - Transaction key determination logic for common inventory operations
@@ -34,7 +34,7 @@ You can customize the `_compute_transaction_key()` method in `stock.move` to sup
 
 - **product.account.determination**: Core mapping rule
 - **product.valuation.class**: Master data used to group products by accounting behavior
-- **product.valuation.area**: Organizational structure influencing account determination
+- **valuation.area**: Organizational structure influencing account determination
 - **account.modifier**: Optional field used to refine selection (similar to SAP account modifier)
 
 ## 📁 How it Works

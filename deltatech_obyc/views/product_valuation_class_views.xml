@@ -4,8 +4,8 @@
         <field name="model">product.valuation.class</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="code"/>
-                <field name="name"/>
+                <field name="code" />
+                <field name="name" />
             </tree>
         </field>
     </record>
@@ -16,8 +16,8 @@
         <field name="arch" type="xml">
             <form>
                 <group>
-                    <field name="code"/>
-                    <field name="name"/>
+                    <field name="code" />
+                    <field name="name" />
                 </group>
             </form>
         </field>

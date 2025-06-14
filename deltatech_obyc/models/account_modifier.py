@@ -1,7 +1,8 @@
 # © 2025 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import models, fields
+from odoo import fields, models
+
 
 class AccountModifier(models.Model):
     _name = "account.modifier"
