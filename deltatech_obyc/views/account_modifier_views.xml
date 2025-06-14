@@ -1,0 +1,31 @@
+<odoo>
+    <record id="view_account_modifier_tree" model="ir.ui.view">
+        <field name="name">account.modifier.tree</field>
+        <field name="model">account.modifier</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_account_modifier_form" model="ir.ui.view">
+        <field name="name">account.modifier.form</field>
+        <field name="model">account.modifier</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="code"/>
+                    <field name="name"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_modifier" model="ir.actions.act_window">
+        <field name="name">Account Modifiers</field>
+        <field name="res_model">account.modifier</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_account_determination,Access Product Account Determination,model_product_account_determination,,1,1,1,1
+access_account_modifier,Access Account Modifier,model_account_modifier,,1,1,1,1
+access_product_valuation_class,Access Valuation Class,model_product_valuation_class,,1,1,1,1
+access_product_valuation_area,Access Valuation Area,model_product_valuation_area,,1,1,1,1

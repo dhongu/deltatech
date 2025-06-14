@@ -1,0 +1,31 @@
+<odoo>
+    <record id="view_product_valuation_class_tree" model="ir.ui.view">
+        <field name="name">product.valuation.class.tree</field>
+        <field name="model">product.valuation.class</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_product_valuation_class_form" model="ir.ui.view">
+        <field name="name">product.valuation.class.form</field>
+        <field name="model">product.valuation.class</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="code"/>
+                    <field name="name"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_valuation_class" model="ir.actions.act_window">
+        <field name="name">Product Valuation Class</field>
+        <field name="res_model">product.valuation.class</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

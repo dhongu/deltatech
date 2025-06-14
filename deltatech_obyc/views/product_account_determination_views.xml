@@ -1,0 +1,45 @@
+<odoo>
+    <record id="view_product_account_determination_tree" model="ir.ui.view">
+        <field name="name">product.account.determination.tree</field>
+        <field name="model">product.account.determination</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="transaction_key"/>
+                <field name="account_modifier_id"/>
+                <field name="valuation_class_id"/>
+                <field name="valuation_area_id"/>
+                <field name="debit_account_id"/>
+                <field name="credit_account_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_product_account_determination_form" model="ir.ui.view">
+        <field name="name">product.account.determination.form</field>
+        <field name="model">product.account.determination</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="transaction_key"/>
+                    <field name="account_modifier_id"/>
+                    <field name="valuation_class_id"/>
+                    <field name="valuation_area_id"/>
+                    <field name="company_id"/>
+                </group>
+                <group>
+                    <field name="debit_account_id"/>
+                    <field name="credit_account_id"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_account_determination" model="ir.actions.act_window">
+        <field name="name">Product Account Determination</field>
+        <field name="res_model">product.account.determination</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+</odoo>
