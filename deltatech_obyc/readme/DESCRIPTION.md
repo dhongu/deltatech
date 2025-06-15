@@ -158,7 +158,7 @@ This module is inspired by the SAP OBYC concept but adapted for the Odoo ecosyst
 
 - [Odoo Accounting Documentation](https://www.odoo.com/documentation/17.0/applications/finance/accounting.html)
 - [Odoo Inventory Management Documentation](https://www.odoo.com/documentation/17.0/applications/inventory_and_mrp/inventory.html)
-- [SAP OBYC Reference](https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f0a0f6a2c5534160b5af7a96ecc81d3c/3ce36768fe599c4be10000000a174cb4.html)
+- [SAP OBYC Reference](https://community.sap.com/t5/enterprise-resource-planning-blog-posts-by-members/automatic-account-determination-overview/ba-p/13262637)
 
 ## 📣 Important Notes
 
