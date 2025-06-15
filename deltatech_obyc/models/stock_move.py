@@ -46,7 +46,7 @@ class StockMove(models.Model):
         rule = _get_rule_account(
             valuation_area=valuation_area,
             valuation_class=self.product_id.valuation_class_id,
-            transaction_key="BSX",
+            transaction_key="stock_valuation",
             account_modifier=account_modifier,
             company=self.company_id,
         )
@@ -87,11 +87,54 @@ class StockMove(models.Model):
         source_usage = self.location_id.usage
         dest_usage = self.location_dest_id.usage
 
-        if source_usage == "supplier" and dest_usage == "internal":
-            return "WRX"
-        elif source_usage == "internal" and dest_usage == "customer":
-            return "VAX"
-        elif source_usage == "internal" and dest_usage == "internal":
-            return "ZTR"
-        else:
-            return "GBB"
+
+        match source_usage, dest_usage:
+            # Purchase transactions
+            case "supplier", "internal":
+                tr_key = "stock_receipt"  # Receipt from supplier
+            case "supplier", "transit":
+                tr_key = "stock_receipt"  # Receipt from supplier
+            case "internal", "supplier":
+                tr_key = "return_to_supplier"  # Return to supplier
+            case "transit", "supplier":
+                tr_key = "return_to_supplier"  # Return to supplier
+
+            # Sale transactions
+            case "internal", "customer":
+                tr_key = "stock_delivery"  # Delivery to customer
+            case "customer", "internal":
+                tr_key = "return_from_customer"  # Return from customer
+            case "supplier", "customer":
+                tr_key = "dropship"  # Drop shipment from supplier to customer
+            case "customer", "supplier":
+                tr_key = "dropship_return"  # Return from customer to supplier (if applicable)
+
+            # Internal transfers
+            case "internal", "internal":
+                tr_key = "internal_transfer"
+            case "internal", "transit":
+                tr_key = "internal_transfer_out"
+            case "transit", "internal":
+                tr_key = "internal_transfer_in"
+
+            # Inventory adjustments
+            case "internal", "inventory":
+                tr_key = "inventory_adjustment_plus"
+            case "inventory", "internal":
+                tr_key = "inventory_adjustment_minus"
+
+            # Production transactions
+            case "internal", "production":
+                tr_key = "production_issue"  # Issue to production
+            case "production", "internal":
+                tr_key = "production_receipt" # Receipt from production
+            case _:
+                tr_key = False
+
+        if not tr_key:
+            raise UserError(
+                _(  f"Transaction key could not be determined for the move from {source_usage} to {dest_usage}."
+                )
+            )
+
+        return tr_key

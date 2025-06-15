@@ -375,10 +375,11 @@ ul.auto-toc {
 <div class="section" id="description">
 <h2>Description</h2>
 <p>This module implements an account determination mechanism inspired by
-SAP OBYC, allowing automatic selection of debit and credit accounts
-based on:</p>
+SAP OBYC (OBject-based valuation and account determination for inventorY
+and Cost management). It allows automatic selection of accounts based
+on:</p>
 <ul class="simple">
-<li><strong>Transaction Key</strong> (e.g. WRX, VAX, GBB)</li>
+<li><strong>Transaction Key</strong> (e.g. WRX, VAX, BSX)</li>
 <li><strong>Valuation Class</strong> (from the product)</li>
 <li><strong>Valuation Area</strong> (e.g. by company, plant, warehouse)</li>
 <li><strong>Account Modifier</strong> (from operation context)</li>
@@ -397,8 +398,8 @@ for automatic GL account assignment</li>
 types)</li>
 </ul>
 </li>
-<li>Automatically selects debit and credit accounts during stock moves,
-depending on the type of stock transition</li>
+<li>Automatically selects source, destination, and valuation accounts
+during stock moves</li>
 <li>Transaction key determination logic for common inventory operations</li>
 </ul>
 </div>
@@ -441,121 +442,173 @@ scrapping, manufacturing).</p>
 </div>
 <div class="section" id="comprehensive-transaction-keys-list">
 <h2>📋 Comprehensive Transaction Keys List</h2>
-<p>The module supports the following transaction keys:</p>
+<p>The module supports the following transaction keys adapted from SAP:</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="7%" />
-<col width="46%" />
-<col width="46%" />
+<col width="8%" />
+<col width="31%" />
+<col width="31%" />
+<col width="31%" />
 </colgroup>
 <thead valign="bottom">
 <tr><th class="head">Key</th>
 <th class="head">Description</th>
-<th class="head">Typical Accounting Impact</th>
+<th class="head">Typical Accounting
+Impact</th>
+<th class="head">Use Case</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr><td>WRX</td>
-<td>Goods Receipt from Supplier
-(GR/IR clearing)</td>
-<td>Debit Inventory, Credit GR/IR
+<td>Goods Receipt from
+Supplier</td>
+<td>Debit Inventory,
+Credit GR/IR
 clearing</td>
+<td>Receipt of goods
+against purchase
+order</td>
 </tr>
 <tr><td>VAX</td>
-<td>Goods Issue to Customer</td>
-<td>Debit COGS, Credit Inventory</td>
+<td>Goods Issue to
+Customer</td>
+<td>Debit COGS, Credit
+Inventory</td>
+<td>Delivery of goods
+to customer
+against sales
+order</td>
 </tr>
 <tr><td>ZTR</td>
 <td>Internal Transfer</td>
-<td>Debit Inventory Location,
-Credit Inventory Location</td>
+<td>Debit Destination
+Inventory, Credit
+Source Inventory</td>
+<td>Transfer between
+warehouses or
+stock locations</td>
 </tr>
 <tr><td>GBB</td>
-<td>Consumption (General)</td>
-<td>Debit Expense, Credit
-Inventory</td>
+<td>Consumption
+(General)</td>
+<td>Debit Expense,
+Credit Inventory</td>
+<td>Internal
+consumption, usage
+for cost centers</td>
 </tr>
 <tr><td>BSX</td>
-<td>Stock Posting (positive
+<td>Stock Posting
+(positive
 inventory)</td>
-<td>Debit Inventory, Credit
-Inventory Adjustment</td>
+<td>Debit Inventory,
+Credit Inventory
+Adjustment</td>
+<td>Inventory with
+surplus, entries
+without order</td>
 </tr>
 <tr><td>BSM</td>
-<td>Stock Posting (negative
+<td>Stock Posting
+(negative
 inventory)</td>
-<td>Debit Inventory Adjustment,
-Credit Inventory</td>
-</tr>
-<tr><td>BSV</td>
-<td>Change in Stock</td>
-<td>Debit/Credit Inventory
-Changes</td>
-</tr>
-<tr><td>BSD</td>
-<td>Supplementary Entry for Stock</td>
-<td>Adjusts Stock Account for
-Valuation Areas</td>
+<td>Debit Inventory
+Adjustment, Credit
+Inventory</td>
+<td>Inventory with
+shortage, exits
+without order</td>
 </tr>
 <tr><td>AUM</td>
-<td>Expenditure/Income from
-Transfer Posting</td>
-<td>Debit/Credit Transfer Price
+<td>Expenditure/Income
+from Transfer
+Posting</td>
+<td>Debit/Credit
+Transfer Price
 Differences</td>
-</tr>
-<tr><td>UMB</td>
-<td>Revenue/Expense from
-Revaluation</td>
-<td>Debit New Account, Credit Old
-Account</td>
+<td>Transfer between
+materials with
+different prices</td>
 </tr>
 <tr><td>PRD</td>
-<td>Price Differences</td>
-<td>Debit/Credit Price Difference
-Account</td>
+<td>Production Receipt</td>
+<td>Debit Finished
+Goods, Credit WIP</td>
+<td>Completion of
+production order</td>
 </tr>
-<tr><td>KON</td>
-<td>Consignment Liabilities</td>
-<td>Debit Consignment Stock,
-Credit Consignment Vendor</td>
+<tr><td>PRC</td>
+<td>Production
+Consumption</td>
+<td>Debit WIP, Credit
+Raw Materials</td>
+<td>Consumption of
+materials for
+production orders</td>
 </tr>
-<tr><td>AKO</td>
-<td>Expense/Revenue from
-Consumption of Consignment</td>
-<td>Debit Expense, Credit Revenue
-Account</td>
-</tr>
-<tr><td>KDM</td>
-<td>Exchange Rate Differences
-(Open Items)</td>
-<td>Debit/Credit Exchange Rate
-Difference Account</td>
-</tr>
-<tr><td>FR1</td>
-<td>Freight Clearing</td>
-<td>Debit Inventory/Expense,
-Credit Accrued Freight</td>
-</tr>
-<tr><td>FR2</td>
-<td>Provision for Freight Charges</td>
-<td>Debit Freight Expense, Credit
-Accrued Freight</td>
-</tr>
-<tr><td>FRL</td>
-<td>External Service
-(Subcontracting)</td>
-<td>Debit WIP/Inventory, Credit
-Subcontractor</td>
+<tr><td>UMB</td>
+<td>Revenue/Expense
+from Revaluation</td>
+<td>Debit New Account,
+Credit Old Account</td>
+<td>Accounting
+reclassification
+of stocks</td>
 </tr>
 <tr><td>GBD</td>
 <td>Scrapping</td>
-<td>Debit Scrap Expense, Credit
+<td>Debit Scrap
+Expense, Credit
 Inventory</td>
+<td>Scrapping
+defective or
+expired products</td>
+</tr>
+<tr><td>KON</td>
+<td>Consignment
+Liabilities</td>
+<td>Debit Consignment
+Stock, Credit
+Consignment Vendor</td>
+<td>Management of
+consignment stocks</td>
+</tr>
+<tr><td>BSV</td>
+<td>Change in Stock</td>
+<td>Debit/Credit Stock
+Changes</td>
+<td>Periodic stock
+valuation</td>
+</tr>
+<tr><td>FR1</td>
+<td>Freight Clearing</td>
+<td>Debit
+Inventory/Expense,
+Credit Accrued
+Freight</td>
+<td>Management of
+freight costs at
+reception</td>
+</tr>
+<tr><td>FR2</td>
+<td>Provision for
+Freight Charges</td>
+<td>Debit Freight
+Expense, Credit
+Freight Provision</td>
+<td>Accrual of
+estimated freight
+costs</td>
+</tr>
+<tr><td>SAL</td>
+<td>Sales Invoice</td>
+<td>Debit Receivables,
+Credit Revenue</td>
+<td>Revenue posting
+for sales invoices</td>
 </tr>
 </tbody>
 </table>
-<p>Each transaction key can be mapped to different GL accounts based on
-product valuation class, valuation area, and account modifiers.</p>
 </div>
 <div class="section" id="models-introduced">
 <h2>⚙️ Models Introduced</h2>
@@ -572,46 +625,301 @@ to SAP account modifier)</li>
 <div class="section" id="how-it-works">
 <h2>📁 How it Works</h2>
 <p>When a stock move is processed:</p>
-<ol class="arabic simple">
-<li>The system computes a transaction key based on the source/destination
-locations</li>
-<li>It gathers:</li>
+<ol class="arabic">
+<li><p class="first"><strong>Transaction Key Determination</strong>: The system computes a transaction
+key based on the source/destination locations</p>
+<pre class="literal-block">
+Example: WRX for supplier receipts, VAX for customer deliveries
+</pre>
+</li>
+<li><p class="first"><strong>Parameters Collection</strong>:</p>
+</li>
 </ol>
 <ul class="simple">
-<li>Valuation class from product</li>
-<li>Valuation area from company</li>
-<li>Account modifier from picking type (if set)</li>
+<li>Valuation class from product (e.g., “RM” for raw materials, “FG” for
+finished goods)</li>
+<li>Valuation area from company (e.g., “MAIN” for main company)</li>
+<li>Account modifier from picking type (e.g., “STD” for standard)</li>
 </ul>
-<ol class="arabic simple" start="3">
-<li>It searches for a matching rule in <tt class="docutils literal">product.account.determination</tt></li>
-<li>If found, the specified debit and credit accounts are used in the
-accounting entries</li>
+<ol class="arabic" start="3">
+<li><p class="first"><strong>Rule Matching</strong>: It searches for a matching rule in
+<tt class="docutils literal">product.account.determination</tt></p>
+<pre class="literal-block">
+Search criteria: Transaction Key + Valuation Class + Valuation Area + Account Modifier + Company
+</pre>
+</li>
+<li><p class="first"><strong>Account Application</strong>: If a rule is found, the three specified
+accounts are used in the accounting entries:</p>
+</li>
 </ol>
+<ul class="simple">
+<li><strong>Source Account</strong> (acc_src_id): Typically used as the credit account
+in transactions</li>
+<li><strong>Destination Account</strong> (acc_dest_id): Typically used as the debit
+account in transactions</li>
+<li><strong>Valuation Account</strong> (acc_valuation_id): Used for stock valuation and
+price differences</li>
+</ul>
+</div>
+<div class="section" id="account-determination-model">
+<h2>🧩 Account Determination Model</h2>
+<p>Each account determination rule (<tt class="docutils literal">product.account.determination</tt>)
+contains:</p>
+<ol class="arabic simple">
+<li><strong>Transaction Key</strong> (transaction_key): Defines the type of operation
+(WRX, VAX, BSX, etc.)</li>
+<li><strong>Account Modifier</strong> (account_modifier_id): Allows refinement of
+account selection</li>
+<li><strong>Valuation Class</strong> (valuation_class_id): Groups products by
+accounting behavior</li>
+<li><strong>Valuation Area</strong> (valuation_area_id): Allows different accounting
+per company/division</li>
+<li><strong>Company</strong> (company_id): The company for which the rule applies</li>
+<li><strong>Source Account</strong> (acc_src_id): The account used for the credit side</li>
+<li><strong>Destination Account</strong> (acc_dest_id): The account used for the debit
+side</li>
+<li><strong>Valuation Account</strong> (acc_valuation_id): The account used for
+valuation and price differences</li>
+</ol>
+<p>This flexible structure allows defining complex accounting rules for
+various types of inventory operations.</p>
 </div>
 <div class="section" id="extensibility">
 <h2>🛠️ Extensibility</h2>
 <ul class="simple">
 <li>You can override the logic for transaction key computation per
 business scenario</li>
-<li>Add additional dimensions (e.g. storage location, product category) if
-needed</li>
+<li>Add additional dimensions (e.g., storage location, product category)
+if needed</li>
 <li>Compatible with Odoo 17 Enterprise &amp; Community</li>
+<li>Extensible for adaptation to industry specifics or special accounting
+requirements</li>
 </ul>
 </div>
-<div class="section" id="use-case-example">
-<h2>📌 Use Case Example</h2>
-<p>You can configure:</p>
+<div class="section" id="usage-examples">
+<h2>📌 Usage Examples</h2>
+<div class="section" id="basic-configuration">
+<h3>Basic Configuration</h3>
+<p>To configure the module:</p>
+<ol class="arabic simple">
+<li>Define valuation classes for products (e.g., Raw Materials,
+Semi-Finished, Finished Goods)</li>
+<li>Define valuation areas for companies</li>
+<li>Define account modifiers (optional)</li>
+<li>Configure account determination rules in
+<tt class="docutils literal">product.account.determination</tt></li>
+</ol>
+</div>
+<div class="section" id="typical-account-mappings">
+<h3>Typical Account Mappings</h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="15%" />
+<col width="15%" />
+<col width="12%" />
+<col width="18%" />
+<col width="15%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Key</th>
+<th class="head">Valuation
+Class</th>
+<th class="head">Valuation
+Area</th>
+<th class="head">Source
+Account</th>
+<th class="head">Destination
+Account</th>
+<th class="head">Valuation
+Account</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>WRX</td>
+<td>RM</td>
+<td>MAIN</td>
+<td>408000</td>
+<td>408000</td>
+<td>&nbsp;</td>
+<td>Raw
+materials
+receipt</td>
+</tr>
+<tr><td>WRX</td>
+<td>FG</td>
+<td>MAIN</td>
+<td>408000</td>
+<td>408000</td>
+<td>&nbsp;</td>
+<td>Finished
+goods
+receipt</td>
+</tr>
+<tr><td>VAX</td>
+<td>FG</td>
+<td>MAIN</td>
+<td>607000</td>
+<td>607000</td>
+<td>&nbsp;</td>
+<td>Finished
+goods
+delivery</td>
+</tr>
+<tr><td>BSX</td>
+<td>RM</td>
+<td>MAIN</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>301000</td>
+<td>Positive
+adjustment
+raw
+materials</td>
+</tr>
+<tr><td>BSM</td>
+<td>FG</td>
+<td>MAIN</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>378000</td>
+<td>Negative
+adjustment
+finished
+goods</td>
+</tr>
+<tr><td>PRD</td>
+<td>FG</td>
+<td>MAIN</td>
+<td>711000</td>
+<td>371000</td>
+<td>378000</td>
+<td>Production
+receipt</td>
+</tr>
+<tr><td>PRC</td>
+<td>RM</td>
+<td>MAIN</td>
+<td>601000</td>
+<td>601000</td>
+<td>&nbsp;</td>
+<td>Production
+consumption</td>
+</tr>
+<tr><td>AUM</td>
+<td>RM</td>
+<td>MAIN</td>
+<td>408000</td>
+<td>301000</td>
+<td>378000</td>
+<td>Transfer
+with price
+difference</td>
+</tr>
+<tr><td>SAL</td>
+<td>FG</td>
+<td>MAIN</td>
+<td>707000</td>
+<td>707000</td>
+<td>&nbsp;</td>
+<td>Sales
+revenue
+posting</td>
+</tr>
+<tr><td>GBB</td>
+<td>FG</td>
+<td>MAIN</td>
+<td>601000</td>
+<td>601000</td>
+<td>&nbsp;</td>
+<td>Consumption</td>
+</tr>
+</tbody>
+</table>
+<p>Each of these mappings can vary by product class or warehouse (valuation
+area).</p>
+</div>
+</div>
+<div class="section" id="comparison-with-sap-obyc">
+<h2>🔍 Comparison with SAP OBYC</h2>
+<p>This module is inspired by the SAP OBYC concept but adapted for the Odoo
+ecosystem. The main differences include:</p>
 <ul class="simple">
-<li><strong>WRX</strong> (Goods Receipt from supplier) → Debit Inventory, Credit GR/IR</li>
-<li><strong>VAX</strong> (Goods Issue to customer) → Debit COGS, Credit Inventory</li>
-<li><strong>GBB</strong> (Consumption to cost center) → Debit Expense, Credit Inventory</li>
-<li><strong>BSX</strong> (Positive inventory adjustment) → Debit Inventory, Credit
-Inventory Adjustment</li>
-<li><strong>AUM</strong> (Transfer posting differences) → Debit/Credit Transfer Price
-Differences</li>
-<li><strong>PRD</strong> (Price differences) → Debit/Credit Price Difference Account</li>
+<li>Simplification: Only essential transaction keys for most business
+scenarios are implemented</li>
+<li>Integration: Works natively with the Odoo inventory system</li>
+<li>Flexibility: Allows simpler customizations than the original SAP
+system</li>
+<li>Structure: Uses concepts familiar to Odoo users (products, locations,
+stock moves)</li>
 </ul>
-<p>Each of these can vary by product class or warehouse (valuation area).</p>
+</div>
+<div class="section" id="additional-resources">
+<h2>📚 Additional Resources</h2>
+<ul class="simple">
+<li><a class="reference external" href="https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f0a0f6a2c5534160b5af7a96ecc81d3c/3ce36768fe599c4be10000000a174cb4.html">SAP OBYC
+Documentation</a></li>
+<li><a class="reference external" href="https://www.odoo.com/documentation/17.0/applications/finance/accounting.html">Odoo Accounting
+Documentation</a></li>
+<li><a class="reference external" href="https://www.odoo.com/documentation/17.0/applications/inventory_and_mrp/inventory.html">Odoo Inventory Management
+Documentation</a></li>
+</ul>
+</div>
+<div class="section" id="important-notes">
+<h2>📣 Important Notes</h2>
+<ul class="simple">
+<li>Ensure you understand the accounting implications before configuring
+this module</li>
+<li>Test the configuration in a test environment before using it in
+production</li>
+<li>Consult with an accounting expert to ensure compliance with local
+accounting regulations</li>
+<li>The module is compatible with Odoo 17, but can be adapted for other
+versions</li>
+</ul>
+</div>
+<div class="section" id="three-account-system">
+<h2>🧮 Three-Account System</h2>
+<p>The key innovation of this module is the three-account system that
+provides enhanced flexibility for inventory accounting:</p>
+<ol class="arabic simple">
+<li><strong>Source Account</strong>: Typically represents the origin of the value
+(credit side)</li>
+</ol>
+<ul class="simple">
+<li>For purchases: Accounts payable or GR/IR clearing</li>
+<li>For sales: Inventory account</li>
+<li>For internal operations: Source location’s inventory account</li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><strong>Destination Account</strong>: Represents where the value goes (debit side)</li>
+</ol>
+<ul class="simple">
+<li>For purchases: Inventory account</li>
+<li>For sales: Cost of goods sold</li>
+<li>For internal operations: Destination location’s inventory account</li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><strong>Valuation Account</strong>: Handles value differences and revaluations</li>
+</ol>
+<ul class="simple">
+<li>Price differences between standard and actual costs</li>
+<li>Exchange rate differences</li>
+<li>Revaluation adjustments</li>
+<li>Inventory valuation changes</li>
+</ul>
+<p>This three-account approach enables more sophisticated accounting
+treatments than Odoo’s standard two-account inventory valuation system,
+allowing businesses to:</p>
+<ul class="simple">
+<li>Track price differences separately from inventory movements</li>
+<li>Handle complex valuation scenarios (FIFO, LIFO, standard cost with
+variances)</li>
+<li>Support compliance with international accounting standards</li>
+<li>Maintain detailed audit trails for inventory value changes</li>
+</ul>
 <p><strong>Table of contents</strong></p>
 </div>
 </div>

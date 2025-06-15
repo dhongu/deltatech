@@ -10,21 +10,44 @@ _logger = logging.getLogger(__name__)
 
 
 TRANSACTION_KEYS = [
-    ("BSX", "BSX Stock posting "),  # cont de evaluare
-    ("WRX", "WRX Goods Receipt from Supplier"),  # cont pt recepție
-    ("VAX", "VAX Goods Issue to Customer"),  # cont de  consum la livrare
-    ("ZTR", "ZTR Internal Transfer"),
-    ("GBB", "GBB Consumption"),
-    ("SAL", "SAL Sales Invoice"),  # cont de venituri pentru vânzări
-]
+    # transcation  for stock valuation
+    ('stock_valuation', 'Stock Valuation'),  # In SAP is BSX
 
+
+    # Purchase transactions
+    ('stock_receipt', 'Stock Receipt'),     # in SAP is WRX
+    ('return_to_supplier', 'Return to Supplier'),
+
+    # Sale transactions
+    ('stock_delivery', 'Stock Delivery'),
+    ('return_from_customer', 'Return from Customer'),
+    ('stock_income', 'Income'),
+
+    # Dropshipping transactions
+    ('dropship', 'Dropshipping'),
+    ('dropship_return', 'Dropshipping Return'),
+
+    # Internal transfers
+    ('internal_transfer', 'Internal Transfer'),
+    ('internal_transfer_out', 'Internal Transfer Out'),
+    ('internal_transfer_in', 'Internal Transfer In'),
+
+    # Inventory adjustments
+    ('inventory_adjustment_plus', 'Inventory Adjustment Plus'),
+    ('inventory_adjustment_minus', 'Inventory Adjustment Minus'),
+
+    # Production transactions
+    ('production_issue', 'Production Issue'),
+    ('production_receipt', 'Production Receipt'),
+
+]
 
 class ProductAccountDetermination(models.Model):
     _name = "product.account.determination"
     _description = "Product Account Determination"
 
     transaction_key = fields.Selection(
-        selection=TRANSACTION_KEYS, string="Transaction Key", required=True, default="GBB"
+        selection=TRANSACTION_KEYS, string="Transaction Key", required=True,
     )
     account_modifier_id = fields.Many2one("account.modifier", string="Account Modifier")
     valuation_class_id = fields.Many2one("product.valuation.class", string="Valuation Class")

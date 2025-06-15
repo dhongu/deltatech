@@ -39,12 +39,12 @@ class AccountMoveLine(models.Model):
             if not valuation_area:
                 raise UserError("Valuation area is not defined")
 
-            transaction_key = "NON"
+            transaction_key = False
 
             if line.move_id.is_sale_document(include_receipts=True):
-                transaction_key = "SAL"
+                transaction_key = "stock_income"
             elif line.move_id.is_purchase_document(include_receipts=True):
-                transaction_key = "WRX"
+                transaction_key = "stock_receipt"
 
             account_modifier = self._get_account_modifier()
 
