@@ -10,11 +10,12 @@ _logger = logging.getLogger(__name__)
 
 
 TRANSACTION_KEYS = [
-    ("BSX", "BSX Stock posting "),
-    ("WRX", "WRX Goods Receipt from Supplier"),
-    ("VAX", "VAX Goods Issue to Customer"),
+    ("BSX", "BSX Stock posting "),  # cont de evaluare
+    ("WRX", "WRX Goods Receipt from Supplier"),  # cont pt recepție
+    ("VAX", "VAX Goods Issue to Customer"),  # cont de  consum la livrare
     ("ZTR", "ZTR Internal Transfer"),
     ("GBB", "GBB Consumption"),
+    ("SAL", "SAL Sales Invoice"),  # cont de venituri pentru vânzări
 ]
 
 
@@ -33,6 +34,14 @@ class ProductAccountDetermination(models.Model):
     acc_src_id = fields.Many2one("account.account", string="Source Account")
     acc_dest_id = fields.Many2one("account.account", string="Destination Account")
     acc_valuation_id = fields.Many2one("account.account", string="Valuation Account")
+
+    def _compute_display_name(self):
+        for item in self:
+            item.display_name = (
+                f"{item.transaction_key} - {item.valuation_class_id.name}"
+                f" - {item.valuation_area_id.name} "
+                f"- {item.account_modifier_id.name if item.account_modifier_id else 'None'}"
+            )
 
     def _get_rule_account(self, valuation_area, valuation_class, transaction_key, account_modifier, company):
         modifier_name = account_modifier.name if account_modifier else "None"

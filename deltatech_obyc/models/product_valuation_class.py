@@ -10,3 +10,7 @@ class ProductValuationClass(models.Model):
 
     name = fields.Char(required=True)
     code = fields.Char(required=True)
+
+    def _compute_display_name(self):
+        for item in self:
+            item.display_name = f"[{item.code}] {item.name}"

@@ -82,6 +82,7 @@ addon | version | maintainers | summary
 [deltatech_no_quick_create](deltatech_no_quick_create/) | 17.0.2.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Disable quick_create
 [deltatech_notification_sound](deltatech_notification_sound/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Notification Sound
 [deltatech_object_history](deltatech_object_history/) | 17.0.0.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Object history - a parallel history of Odoo documents, separated from standard Odoo messages
+[deltatech_obyc](deltatech_obyc/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Implementare OBYC-style account mapping pentru tranzacții de stoc
 [deltatech_packaging](deltatech_packaging/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | packaging
 [deltatech_partner_discount](deltatech_partner_discount/) | 17.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Creates a discount field on partner and alerts the user on invoice
 [deltatech_partner_generic](deltatech_partner_generic/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Gneric partner
@@ -184,7 +185,7 @@ addon | version | maintainers | summary
 [deltatech_test_system](deltatech_test_system/) | 17.0.0.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Utils
 [deltatech_transfer_product_to_product](deltatech_transfer_product_to_product/) | 17.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Helps to transfer x quantity of product A and replace it with product B
 [deltatech_utils](deltatech_utils/) | 17.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Utils
-[deltatech_vendor_stock](deltatech_vendor_stock/) | 17.0.1.1.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vendor stock availability
+[deltatech_vendor_stock](deltatech_vendor_stock/) | 17.0.1.1.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vendor stock availability
 [deltatech_warehouse](deltatech_warehouse/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Warehouse
 [deltatech_warehouse_access](deltatech_warehouse_access/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Warehouse Access
 [deltatech_warehouse_arrangement](deltatech_warehouse_arrangement/) | 17.0.0.1.1 |  | Manages warehouse locations, parallel to standard Odoo locations
