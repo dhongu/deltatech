@@ -15,7 +15,7 @@ TRANSACTION_KEYS = [
 
 
     # Purchase transactions
-    ('stock_receipt', 'Stock Receipt'),     # in SAP is WRX
+    ('stock_receipt', 'Stock Receipt from Supplier'),     # in SAP is WRX
     ('return_to_supplier', 'Return to Supplier'),
 
     # Sale transactions
@@ -45,6 +45,7 @@ TRANSACTION_KEYS = [
 class ProductAccountDetermination(models.Model):
     _name = "product.account.determination"
     _description = "Product Account Determination"
+    _order = 'valuation_area_id, valuation_class_id, transaction_key, account_modifier_id'
 
     transaction_key = fields.Selection(
         selection=TRANSACTION_KEYS, string="Transaction Key", required=True,

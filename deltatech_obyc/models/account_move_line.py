@@ -56,8 +56,11 @@ class AccountMoveLine(models.Model):
                 account_modifier=account_modifier,
                 company=self.company_id,
             )
+            if line.debit:
+                line.account_id = rule.acc_src_id
+            elif line.credit:
+                line.account_id = rule.acc_dest_id
 
-            line.account_id = rule.acc_dest_id
             line.valuation_area_id = valuation_area
 
         return res

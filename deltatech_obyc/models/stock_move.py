@@ -43,15 +43,6 @@ class StockMove(models.Model):
             account_modifier = picking_type.account_modifier_id
 
         _get_rule_account = self.env["product.account.determination"]._get_rule_account
-        rule = _get_rule_account(
-            valuation_area=valuation_area,
-            valuation_class=self.product_id.valuation_class_id,
-            transaction_key="stock_valuation",
-            account_modifier=account_modifier,
-            company=self.company_id,
-        )
-
-        acc_valuation = rule.acc_valuation_id.id
 
         rule = _get_rule_account(
             valuation_area=valuation_area,
@@ -62,6 +53,7 @@ class StockMove(models.Model):
         )
         acc_src = rule.acc_src_id.id
         acc_dest = rule.acc_dest_id.id
+        acc_valuation = rule.acc_valuation_id.id
 
         return journal_id, acc_src, acc_dest, acc_valuation
 
@@ -71,9 +63,13 @@ class StockMove(models.Model):
         self.ensure_one()
         if credit_account_id == debit_account_id:
             return False
-        return super()._prepare_account_move_vals(
+        vals =  super()._prepare_account_move_vals(
             credit_account_id, debit_account_id, journal_id, qty, description, svl_id, cost
         )
+        if self.company_id.account_storno  and  self.origin_returned_move_id:
+            vals["is_storno"] = True
+        return vals
+
 
     def _account_entry_move(self, qty, description, svl_id, cost):
         am_vals_list = super()._account_entry_move(qty, description, svl_id, cost)
