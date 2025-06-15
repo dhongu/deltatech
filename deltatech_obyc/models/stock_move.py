@@ -72,6 +72,8 @@ class StockMove(models.Model):
 
 
     def _account_entry_move(self, qty, description, svl_id, cost):
+        if not qty:
+            self = self.with_context(price_difference=True)
         am_vals_list = super()._account_entry_move(qty, description, svl_id, cost)
         for am_vals in am_vals_list:
             if not am_vals:
@@ -132,5 +134,7 @@ class StockMove(models.Model):
                 _(  f"Transaction key could not be determined for the move from {source_usage} to {dest_usage}."
                 )
             )
-
+        if self.env.context.get("price_difference"):
+            # If the context indicates a price difference, we use a specific transaction key
+            tr_key = "price_difference"
         return tr_key

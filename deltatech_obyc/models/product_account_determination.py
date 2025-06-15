@@ -12,11 +12,12 @@ _logger = logging.getLogger(__name__)
 TRANSACTION_KEYS = [
     # transcation  for stock valuation
     ('stock_valuation', 'Stock Valuation'),  # In SAP is BSX
-
+    ("price_difference", 'Price Difference'),  # In SAP is PRD
 
     # Purchase transactions
     ('stock_receipt', 'Stock Receipt from Supplier'),     # in SAP is WRX
     ('return_to_supplier', 'Return to Supplier'),
+    ("stock_receipt_price_difference", 'Stock Receipt Price Difference'),
 
     # Sale transactions
     ('stock_delivery', 'Stock Delivery'),
