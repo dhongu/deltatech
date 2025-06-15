@@ -33,7 +33,7 @@ SAP OBYC (OBject-based valuation and account determination for inventorY
 and Cost management). It allows automatic selection of accounts based
 on:
 
-- **Transaction Key** (e.g. WRX, VAX, BSX)
+- **Transaction Key** (e.g. stock_receipt, stock_delivery)
 - **Valuation Class** (from the product)
 - **Valuation Area** (e.g. by company, plant, warehouse)
 - **Account Modifier** (from operation context)
@@ -58,91 +58,110 @@ on:
 🔄 Transaction Key Mapping (Default Logic)
 ------------------------------------------
 
-=============== ==================== ===============
+=============== ==================== ====================
 Source Location Destination Location Transaction Key
-=============== ==================== ===============
-Supplier        Internal             WRX
-Internal        Customer             VAX
-Internal        Internal             ZTR
-Other           Other                GBB (default)
-=============== ==================== ===============
+=============== ==================== ====================
+Supplier        Internal             stock_receipt
+Internal        Customer             stock_delivery
+Internal        Internal             internal_transfer
+Customer        Internal             return_from_customer
+Internal        Supplier             return_to_supplier
+Supplier        Customer             dropship
+=============== ==================== ====================
 
-You can customize the ``_compute_transaction_key()`` method in
-``stock.move`` to support more complex cases (e.g. subcontracting,
-scrapping, manufacturing).
+You can customize the transaction key determination logic in
+``stock.move`` to support more complex cases.
 
 📋 Comprehensive Transaction Keys List
 --------------------------------------
 
-The module supports the following transaction keys adapted from SAP:
+The module implements the following transaction keys:
 
-+-----+--------------------+--------------------+--------------------+
-| Key | Description        | Typical Accounting | Use Case           |
-|     |                    | Impact             |                    |
-+=====+====================+====================+====================+
-| WRX | Goods Receipt from | Debit Inventory,   | Receipt of goods   |
-|     | Supplier           | Credit GR/IR       | against purchase   |
-|     |                    | clearing           | order              |
-+-----+--------------------+--------------------+--------------------+
-| VAX | Goods Issue to     | Debit COGS, Credit | Delivery of goods  |
-|     | Customer           | Inventory          | to customer        |
-|     |                    |                    | against sales      |
-|     |                    |                    | order              |
-+-----+--------------------+--------------------+--------------------+
-| ZTR | Internal Transfer  | Debit Destination  | Transfer between   |
-|     |                    | Inventory, Credit  | warehouses or      |
-|     |                    | Source Inventory   | stock locations    |
-+-----+--------------------+--------------------+--------------------+
-| GBB | Consumption        | Debit Expense,     | Internal           |
-|     | (General)          | Credit Inventory   | consumption, usage |
-|     |                    |                    | for cost centers   |
-+-----+--------------------+--------------------+--------------------+
-| BSX | Stock Posting      | Debit Inventory,   | Inventory with     |
-|     | (positive          | Credit Inventory   | surplus, entries   |
-|     | inventory)         | Adjustment         | without order      |
-+-----+--------------------+--------------------+--------------------+
-| BSM | Stock Posting      | Debit Inventory    | Inventory with     |
-|     | (negative          | Adjustment, Credit | shortage, exits    |
-|     | inventory)         | Inventory          | without order      |
-+-----+--------------------+--------------------+--------------------+
-| AUM | Expenditure/Income | Debit/Credit       | Transfer between   |
-|     | from Transfer      | Transfer Price     | materials with     |
-|     | Posting            | Differences        | different prices   |
-+-----+--------------------+--------------------+--------------------+
-| PRD | Production Receipt | Debit Finished     | Completion of      |
-|     |                    | Goods, Credit WIP  | production order   |
-+-----+--------------------+--------------------+--------------------+
-| PRC | Production         | Debit WIP, Credit  | Consumption of     |
-|     | Consumption        | Raw Materials      | materials for      |
-|     |                    |                    | production orders  |
-+-----+--------------------+--------------------+--------------------+
-| UMB | Revenue/Expense    | Debit New Account, | Accounting         |
-|     | from Revaluation   | Credit Old Account | reclassification   |
-|     |                    |                    | of stocks          |
-+-----+--------------------+--------------------+--------------------+
-| GBD | Scrapping          | Debit Scrap        | Scrapping          |
-|     |                    | Expense, Credit    | defective or       |
-|     |                    | Inventory          | expired products   |
-+-----+--------------------+--------------------+--------------------+
-| KON | Consignment        | Debit Consignment  | Management of      |
-|     | Liabilities        | Stock, Credit      | consignment stocks |
-|     |                    | Consignment Vendor |                    |
-+-----+--------------------+--------------------+--------------------+
-| BSV | Change in Stock    | Debit/Credit Stock | Periodic stock     |
-|     |                    | Changes            | valuation          |
-+-----+--------------------+--------------------+--------------------+
-| FR1 | Freight Clearing   | Debit              | Management of      |
-|     |                    | Inventory/Expense, | freight costs at   |
-|     |                    | Credit Accrued     | reception          |
-|     |                    | Freight            |                    |
-+-----+--------------------+--------------------+--------------------+
-| FR2 | Provision for      | Debit Freight      | Accrual of         |
-|     | Freight Charges    | Expense, Credit    | estimated freight  |
-|     |                    | Freight Provision  | costs              |
-+-----+--------------------+--------------------+--------------------+
-| SAL | Sales Invoice      | Debit Receivables, | Revenue posting    |
-|     |                    | Credit Revenue     | for sales invoices |
-+-----+--------------------+--------------------+--------------------+
++----------------------------+-----------------+-----------------+----------------+
+| Key                        | Description     | Typical         | SAP Equivalent |
+|                            |                 | Accounting      |                |
+|                            |                 | Impact          |                |
++============================+=================+=================+================+
+| **Stock Valuation**        |                 |                 |                |
++----------------------------+-----------------+-----------------+----------------+
+| stock_valuation            | Stock Valuation | Debit/Credit    | BSX            |
+|                            |                 | for valuation   |                |
+|                            |                 | updates         |                |
++----------------------------+-----------------+-----------------+----------------+
+| **Purchase Transactions**  |                 |                 |                |
++----------------------------+-----------------+-----------------+----------------+
+| stock_receipt              | Stock Receipt   | Debit           | WRX            |
+|                            | from Supplier   | Inventory,      |                |
+|                            |                 | Credit GR/IR    |                |
+|                            |                 | clearing        |                |
++----------------------------+-----------------+-----------------+----------------+
+| return_to_supplier         | Return to       | Debit GR/IR     | -              |
+|                            | Supplier        | clearing,       |                |
+|                            |                 | Credit          |                |
+|                            |                 | Inventory       |                |
++----------------------------+-----------------+-----------------+----------------+
+| **Sale Transactions**      |                 |                 |                |
++----------------------------+-----------------+-----------------+----------------+
+| stock_delivery             | Delivery to     | Debit COGS,     | VAX            |
+|                            | Customer        | Credit          |                |
+|                            |                 | Inventory       |                |
++----------------------------+-----------------+-----------------+----------------+
+| return_from_customer       | Return from     | Debit           | -              |
+|                            | Customer        | Inventory,      |                |
+|                            |                 | Credit COGS     |                |
++----------------------------+-----------------+-----------------+----------------+
+| stock_income               | Income          | Debit           | SAL            |
+|                            | Recognition     | Receivables,    |                |
+|                            |                 | Credit Revenue  |                |
++----------------------------+-----------------+-----------------+----------------+
+| **Dropshipping             |                 |                 |                |
+| Transactions**             |                 |                 |                |
++----------------------------+-----------------+-----------------+----------------+
+| dropship                   | Dropshipping    | Debit COGS,     | -              |
+|                            |                 | Credit Payables |                |
++----------------------------+-----------------+-----------------+----------------+
+| dropship_return            | Dropshipping    | Debit Payables, | -              |
+|                            | Return          | Credit COGS     |                |
++----------------------------+-----------------+-----------------+----------------+
+| **Internal Transfers**     |                 |                 |                |
++----------------------------+-----------------+-----------------+----------------+
+| internal_transfer          | Internal        | Debit           | ZTR            |
+|                            | Transfer        | Destination     |                |
+|                            |                 | Inventory,      |                |
+|                            |                 | Credit Source   |                |
+|                            |                 | Inventory       |                |
++----------------------------+-----------------+-----------------+----------------+
+| internal_transfer_out      | Internal        | Credit Source   | -              |
+|                            | Transfer Out    | Inventory       |                |
++----------------------------+-----------------+-----------------+----------------+
+| internal_transfer_in       | Internal        | Debit           | -              |
+|                            | Transfer In     | Destination     |                |
+|                            |                 | Inventory       |                |
++----------------------------+-----------------+-----------------+----------------+
+| **Inventory Adjustments**  |                 |                 |                |
++----------------------------+-----------------+-----------------+----------------+
+| inventory_adjustment_plus  | Positive        | Debit           | BSX            |
+|                            | Inventory       | Inventory,      |                |
+|                            | Adjustment      | Credit          |                |
+|                            |                 | Inventory       |                |
+|                            |                 | Adjustment      |                |
++----------------------------+-----------------+-----------------+----------------+
+| inventory_adjustment_minus | Negative        | Debit Inventory | -              |
+|                            | Inventory       | Adjustment,     |                |
+|                            | Adjustment      | Credit          |                |
+|                            |                 | Inventory       |                |
++----------------------------+-----------------+-----------------+----------------+
+| **Production               |                 |                 |                |
+| Transactions**             |                 |                 |                |
++----------------------------+-----------------+-----------------+----------------+
+| production_issue           | Production      | Debit WIP,      | -              |
+|                            | Consumption     | Credit Raw      |                |
+|                            |                 | Materials       |                |
++----------------------------+-----------------+-----------------+----------------+
+| production_receipt         | Production      | Debit Finished  | -              |
+|                            | Receipt         | Goods, Credit   |                |
+|                            |                 | WIP             |                |
++----------------------------+-----------------+-----------------+----------------+
 
 ⚙️ Models Introduced
 --------------------
@@ -161,11 +180,11 @@ The module supports the following transaction keys adapted from SAP:
 When a stock move is processed:
 
 1. **Transaction Key Determination**: The system computes a transaction
-   key based on the source/destination locations
+   key based on the source/destination locations and operation type
 
    ::
 
-      Example: WRX for supplier receipts, VAX for customer deliveries
+      Example: stock_receipt for supplier receipts, stock_delivery for customer deliveries
 
 2. **Parameters Collection**:
 
@@ -198,7 +217,7 @@ Each account determination rule (``product.account.determination``)
 contains:
 
 1. **Transaction Key** (transaction_key): Defines the type of operation
-   (WRX, VAX, BSX, etc.)
+   (stock_receipt, stock_delivery, etc.)
 2. **Account Modifier** (account_modifier_id): Allows refinement of
    account selection
 3. **Valuation Class** (valuation_class_id): Groups products by
@@ -244,48 +263,60 @@ To configure the module:
 Typical Account Mappings
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-+-----+-----------+-----------+---------+-------------+-----------+-------------+
-| Key | Valuation | Valuation | Source  | Destination | Valuation | Description |
-|     | Class     | Area      | Account | Account     | Account   |             |
-+=====+===========+===========+=========+=============+===========+=============+
-| WRX | RM        | MAIN      | 408000  | 408000      |           | Raw         |
-|     |           |           |         |             |           | materials   |
-|     |           |           |         |             |           | receipt     |
-+-----+-----------+-----------+---------+-------------+-----------+-------------+
-| WRX | FG        | MAIN      | 408000  | 408000      |           | Finished    |
-|     |           |           |         |             |           | goods       |
-|     |           |           |         |             |           | receipt     |
-+-----+-----------+-----------+---------+-------------+-----------+-------------+
-| VAX | FG        | MAIN      | 607000  | 607000      |           | Finished    |
-|     |           |           |         |             |           | goods       |
-|     |           |           |         |             |           | delivery    |
-+-----+-----------+-----------+---------+-------------+-----------+-------------+
-| BSX | RM        | MAIN      |         |             | 301000    | Positive    |
-|     |           |           |         |             |           | adjustment  |
-|     |           |           |         |             |           | raw         |
-|     |           |           |         |             |           | materials   |
-+-----+-----------+-----------+---------+-------------+-----------+-------------+
-| BSM | FG        | MAIN      |         |             | 378000    | Negative    |
-|     |           |           |         |             |           | adjustment  |
-|     |           |           |         |             |           | finished    |
-|     |           |           |         |             |           | goods       |
-+-----+-----------+-----------+---------+-------------+-----------+-------------+
-| PRD | FG        | MAIN      | 711000  | 371000      | 378000    | Production  |
-|     |           |           |         |             |           | receipt     |
-+-----+-----------+-----------+---------+-------------+-----------+-------------+
-| PRC | RM        | MAIN      | 601000  | 601000      |           | Production  |
-|     |           |           |         |             |           | consumption |
-+-----+-----------+-----------+---------+-------------+-----------+-------------+
-| AUM | RM        | MAIN      | 408000  | 301000      | 378000    | Transfer    |
-|     |           |           |         |             |           | with price  |
-|     |           |           |         |             |           | difference  |
-+-----+-----------+-----------+---------+-------------+-----------+-------------+
-| SAL | FG        | MAIN      | 707000  | 707000      |           | Sales       |
-|     |           |           |         |             |           | revenue     |
-|     |           |           |         |             |           | posting     |
-+-----+-----------+-----------+---------+-------------+-----------+-------------+
-| GBB | FG        | MAIN      | 601000  | 601000      |           | Consumption |
-+-----+-----------+-----------+---------+-------------+-----------+-------------+
++----------------------------+-----------+----------+-------------+-----------+-------------+
+| Key                        | Valuation | Source   | Destination | Valuation | Description |
+|                            | Class     | Account  | Account     | Account   |             |
++============================+===========+==========+=============+===========+=============+
+| stock_receipt              | RM        | 408000   | 301000      | 378000    | Raw         |
+|                            |           |          |             |           | materials   |
+|                            |           |          |             |           | receipt     |
++----------------------------+-----------+----------+-------------+-----------+-------------+
+| stock_receipt              | FG        | 408000   | 371000      | 378000    | Finished    |
+|                            |           |          |             |           | goods       |
+|                            |           |          |             |           | receipt     |
++----------------------------+-----------+----------+-------------+-----------+-------------+
+| stock_delivery             | FG        | 371000   | 607000      | 378000    | Finished    |
+|                            |           |          |             |           | goods       |
+|                            |           |          |             |           | delivery    |
++----------------------------+-----------+----------+-------------+-----------+-------------+
+| inventory_adjustment_plus  | RM        | 601800   | 301000      | 378000    | Positive    |
+|                            |           |          |             |           | adjustment  |
+|                            |           |          |             |           | raw         |
+|                            |           |          |             |           | materials   |
++----------------------------+-----------+----------+-------------+-----------+-------------+
+| inventory_adjustment_minus | FG        | 371000   | 608000      | 378000    | Negative    |
+|                            |           |          |             |           | adjustment  |
+|                            |           |          |             |           | finished    |
+|                            |           |          |             |           | goods       |
++----------------------------+-----------+----------+-------------+-----------+-------------+
+| production_receipt         | FG        | 711000   | 371000      | 378000    | Production  |
+|                            |           |          |             |           | receipt     |
++----------------------------+-----------+----------+-------------+-----------+-------------+
+| production_issue           | RM        | 301000   | 601000      | 378000    | Production  |
+|                            |           |          |             |           | consumption |
++----------------------------+-----------+----------+-------------+-----------+-------------+
+| internal_transfer          | RM        | 301000   | 301000      | 378000    | Transfer    |
+|                            |           |          |             |           | between     |
+|                            |           |          |             |           | locations   |
++----------------------------+-----------+----------+-------------+-----------+-------------+
+| stock_income               | FG        | 707000   | 411000      | 378000    | Sales       |
+|                            |           |          |             |           | revenue     |
+|                            |           |          |             |           | posting     |
++----------------------------+-----------+----------+-------------+-----------+-------------+
+| dropship                   | FG        | 408000   | 607000      | 378000    | Direct      |
+|                            |           |          |             |           | delivery    |
+|                            |           |          |             |           | from        |
+|                            |           |          |             |           | supplier to |
+|                            |           |          |             |           | customer    |
++----------------------------+-----------+----------+-------------+-----------+-------------+
+| return_from_customer       | FG        | 607000   | 371000      | 378000    | Return of   |
+|                            |           |          |             |           | goods from  |
+|                            |           |          |             |           | customer    |
++----------------------------+-----------+----------+-------------+-----------+-------------+
+| return_to_supplier         | RM        | 301000   | 408000      | 378000    | Return of   |
+|                            |           |          |             |           | goods to    |
+|                            |           |          |             |           | supplier    |
++----------------------------+-----------+----------+-------------+-----------+-------------+
 
 Each of these mappings can vary by product class or warehouse (valuation
 area).
@@ -296,8 +327,8 @@ area).
 This module is inspired by the SAP OBYC concept but adapted for the Odoo
 ecosystem. The main differences include:
 
-- Simplification: Only essential transaction keys for most business
-  scenarios are implemented
+- Simplification: Transaction keys are named descriptively rather than
+  using SAP codes
 - Integration: Works natively with the Odoo inventory system
 - Flexibility: Allows simpler customizations than the original SAP
   system
@@ -307,12 +338,12 @@ ecosystem. The main differences include:
 📚 Additional Resources
 -----------------------
 
-- `SAP OBYC
-  Documentation <https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f0a0f6a2c5534160b5af7a96ecc81d3c/3ce36768fe599c4be10000000a174cb4.html>`__
 - `Odoo Accounting
   Documentation <https://www.odoo.com/documentation/17.0/applications/finance/accounting.html>`__
 - `Odoo Inventory Management
   Documentation <https://www.odoo.com/documentation/17.0/applications/inventory_and_mrp/inventory.html>`__
+- `SAP OBYC
+  Reference <https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/f0a0f6a2c5534160b5af7a96ecc81d3c/3ce36768fe599c4be10000000a174cb4.html>`__
 
 📣 Important Notes
 ------------------
@@ -332,20 +363,22 @@ ecosystem. The main differences include:
 The key innovation of this module is the three-account system that
 provides enhanced flexibility for inventory accounting:
 
-1. **Source Account**: Typically represents the origin of the value
-   (credit side)
+1. **Source Account** (acc_src_id): Typically represents the origin of
+   the value (credit side)
 
 - For purchases: Accounts payable or GR/IR clearing
 - For sales: Inventory account
 - For internal operations: Source location's inventory account
 
-2. **Destination Account**: Represents where the value goes (debit side)
+2. **Destination Account** (acc_dest_id): Represents where the value
+   goes (debit side)
 
 - For purchases: Inventory account
 - For sales: Cost of goods sold
 - For internal operations: Destination location's inventory account
 
-3. **Valuation Account**: Handles value differences and revaluations
+3. **Valuation Account** (acc_valuation_id): Handles value differences
+   and revaluations
 
 - Price differences between standard and actual costs
 - Exchange rate differences
@@ -361,6 +394,91 @@ allowing businesses to:
   variances)
 - Support compliance with international accounting standards
 - Maintain detailed audit trails for inventory value changes
+
+📊 Transaction Key Use Cases
+----------------------------
+
+Purchase Flow
+~~~~~~~~~~~~~
+
+- **stock_receipt**: When goods are received from a supplier
+
+  - Debit: Inventory (Destination Account)
+  - Credit: GR/IR Clearing (Source Account)
+  - Valuation Account: Used for price differences
+
+- **return_to_supplier**: When goods are returned to a supplier
+
+  - Debit: GR/IR Clearing (Destination Account)
+  - Credit: Inventory (Source Account)
+  - Valuation Account: Used for price differences
+
+Sales Flow
+~~~~~~~~~~
+
+- **stock_delivery**: When goods are delivered to a customer
+
+  - Debit: COGS (Destination Account)
+  - Credit: Inventory (Source Account)
+  - Valuation Account: Used for price differences
+
+- **return_from_customer**: When goods are returned from a customer
+
+  - Debit: Inventory (Destination Account)
+  - Credit: COGS (Source Account)
+  - Valuation Account: Used for price differences
+
+- **stock_income**: When revenue is recognized
+
+  - Debit: Receivables (Destination Account)
+  - Credit: Revenue (Source Account)
+  - Valuation Account: Usually not used in this context
+
+Inventory Management
+~~~~~~~~~~~~~~~~~~~~
+
+- **inventory_adjustment_plus**: For positive inventory adjustments
+
+  - Debit: Inventory (Destination Account)
+  - Credit: Inventory Adjustment (Source Account)
+  - Valuation Account: Used for valuation effects
+
+- **inventory_adjustment_minus**: For negative inventory adjustments
+
+  - Debit: Inventory Adjustment (Destination Account)
+  - Credit: Inventory (Source Account)
+  - Valuation Account: Used for valuation effects
+
+Manufacturing
+~~~~~~~~~~~~~
+
+- **production_issue**: When materials are consumed in production
+
+  - Debit: WIP (Destination Account)
+  - Credit: Raw Materials (Source Account)
+  - Valuation Account: Used for price differences
+
+- **production_receipt**: When finished goods are received from
+  production
+
+  - Debit: Finished Goods (Destination Account)
+  - Credit: WIP (Source Account)
+  - Valuation Account: Used for price differences
+
+Special Cases
+~~~~~~~~~~~~~
+
+- **dropship**: For direct delivery from supplier to customer
+
+  - Debit: COGS (Destination Account)
+  - Credit: Payables (Source Account)
+  - Valuation Account: Used for price differences
+
+- **internal_transfer**: For transfers between locations
+
+  - Debit: Destination Location Inventory (Destination Account)
+  - Credit: Source Location Inventory (Source Account)
+  - Valuation Account: Used for price differences
 
 **Table of contents**
 
