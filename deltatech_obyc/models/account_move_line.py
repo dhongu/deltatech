@@ -29,7 +29,7 @@ class AccountMoveLine(models.Model):
             if stock_move:
                 valuation_area = stock_move._get_valuation_area()
         if not valuation_area:
-            raise UserError("Valuation area is not defined")
+            raise UserError(_("Valuation area is not defined"))
 
         return valuation_area
 

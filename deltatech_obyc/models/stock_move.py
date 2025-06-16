@@ -34,7 +34,7 @@ class StockMove(models.Model):
 
         journal_id = valuation_area.stock_journal_id.id
         if not journal_id:
-            raise UserError("Stock journal is not defined for the valuation area")
+            raise UserError(_("Stock journal is not defined for the valuation area"))
 
         picking_type = self.picking_type_id
         transaction_key = self._compute_transaction_key()
