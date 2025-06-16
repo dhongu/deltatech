@@ -63,13 +63,12 @@ class StockMove(models.Model):
         self.ensure_one()
         if credit_account_id == debit_account_id:
             return False
-        vals =  super()._prepare_account_move_vals(
+        vals = super()._prepare_account_move_vals(
             credit_account_id, debit_account_id, journal_id, qty, description, svl_id, cost
         )
-        if self.company_id.account_storno  and  self.origin_returned_move_id:
+        if self.company_id.account_storno and self.origin_returned_move_id:
             vals["is_storno"] = True
         return vals
-
 
     def _account_entry_move(self, qty, description, svl_id, cost):
         if not qty:
@@ -84,7 +83,6 @@ class StockMove(models.Model):
     def _compute_transaction_key(self):
         source_usage = self.location_id.usage
         dest_usage = self.location_dest_id.usage
-
 
         match source_usage, dest_usage:
             # Purchase transactions
@@ -125,14 +123,13 @@ class StockMove(models.Model):
             case "internal", "production":
                 tr_key = "production_issue"  # Issue to production
             case "production", "internal":
-                tr_key = "production_receipt" # Receipt from production
+                tr_key = "production_receipt"  # Receipt from production
             case _:
                 tr_key = False
 
         if not tr_key:
             raise UserError(
-                _(  f"Transaction key could not be determined for the move from {source_usage} to {dest_usage}."
-                )
+                _(f"Transaction key could not be determined for the move from {source_usage} to {dest_usage}.")
             )
         if self.env.context.get("price_difference"):
             # If the context indicates a price difference, we use a specific transaction key

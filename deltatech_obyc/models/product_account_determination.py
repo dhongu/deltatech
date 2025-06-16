@@ -4,52 +4,48 @@
 import logging
 
 from odoo import _, fields, models
-from odoo.exceptions import UserError, RedirectWarning
+from odoo.exceptions import RedirectWarning
 
 _logger = logging.getLogger(__name__)
 
 
 TRANSACTION_KEYS = [
     # transcation  for stock valuation
-    ('stock_valuation', 'Stock Valuation'),  # In SAP is BSX
-    ("price_difference", 'Price Difference'),  # In SAP is PRD
-
+    ("stock_valuation", "Stock Valuation"),  # In SAP is BSX
+    ("price_difference", "Price Difference"),  # In SAP is PRD
     # Purchase transactions
-    ('stock_receipt', 'Stock Receipt from Supplier'),     # in SAP is WRX
-    ('return_to_supplier', 'Return to Supplier'),
-    ("stock_receipt_price_difference", 'Stock Receipt Price Difference'),
-
+    ("stock_receipt", "Stock Receipt from Supplier"),  # in SAP is WRX
+    ("return_to_supplier", "Return to Supplier"),
+    ("stock_receipt_price_difference", "Stock Receipt Price Difference"),
     # Sale transactions
-    ('stock_delivery', 'Stock Delivery'),
-    ('return_from_customer', 'Return from Customer'),
-    ('stock_income', 'Income'),
-
+    ("stock_delivery", "Stock Delivery"),
+    ("return_from_customer", "Return from Customer"),
+    ("stock_income", "Income"),
     # Dropshipping transactions
-    ('dropship', 'Dropshipping'),
-    ('dropship_return', 'Dropshipping Return'),
-
+    ("dropship", "Dropshipping"),
+    ("dropship_return", "Dropshipping Return"),
     # Internal transfers
-    ('internal_transfer', 'Internal Transfer'),
-    ('internal_transfer_out', 'Internal Transfer Out'),
-    ('internal_transfer_in', 'Internal Transfer In'),
-
+    ("internal_transfer", "Internal Transfer"),
+    ("internal_transfer_out", "Internal Transfer Out"),
+    ("internal_transfer_in", "Internal Transfer In"),
     # Inventory adjustments
-    ('inventory_adjustment_plus', 'Inventory Adjustment Plus'),
-    ('inventory_adjustment_minus', 'Inventory Adjustment Minus'),
-
+    ("inventory_adjustment_plus", "Inventory Adjustment Plus"),
+    ("inventory_adjustment_minus", "Inventory Adjustment Minus"),
     # Production transactions
-    ('production_issue', 'Production Issue'),
-    ('production_receipt', 'Production Receipt'),
-
+    ("production_issue", "Production Issue"),
+    ("production_receipt", "Production Receipt"),
 ]
+
 
 class ProductAccountDetermination(models.Model):
     _name = "product.account.determination"
     _description = "Product Account Determination"
-    _order = 'valuation_area_id, valuation_class_id, transaction_key, account_modifier_id'
+    _order = "valuation_area_id, valuation_class_id, transaction_key, account_modifier_id"
 
     transaction_key = fields.Selection(
-        selection=TRANSACTION_KEYS, string="Transaction Key", required=True,
+        selection=TRANSACTION_KEYS,
+        string="Transaction Key",
+        required=True,
     )
     account_modifier_id = fields.Many2one("account.modifier", string="Account Modifier")
     valuation_class_id = fields.Many2one("product.valuation.class", string="Valuation Class")
@@ -94,22 +90,21 @@ class ProductAccountDetermination(models.Model):
         )
 
         if not rule:
-            action = self.env.ref('deltatech_obyc.action_product_account_determination')
-            msg =  _(
+            action = self.env.ref("deltatech_obyc.action_product_account_determination")
+            msg = _(
                 f"No account determination rule found for transaction key '{transaction_key_name}', "
                 f"account modifier '{modifier_name}', valuation class '{valuation_class_name}', "
                 f"valuation area '{area_name}' and company '{company_name}'."
             )
 
             additional_context = {
-                'default_transaction_key': transaction_key,
-                'default_account_modifier_id': account_modifier.id,
-                'default_valuation_class_id': valuation_class.id,
-                'default_valuation_area_id': valuation_area.id,
-                'default_company_id': company.id,
+                "default_transaction_key": transaction_key,
+                "default_account_modifier_id": account_modifier.id,
+                "default_valuation_class_id": valuation_class.id,
+                "default_valuation_area_id": valuation_area.id,
+                "default_company_id": company.id,
             }
 
-
-            raise RedirectWarning(msg, action.id, _('Go to the configuration'), additional_context=additional_context)
+            raise RedirectWarning(msg, action.id, _("Go to the configuration"), additional_context=additional_context)
 
         return rule

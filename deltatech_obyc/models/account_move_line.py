@@ -34,7 +34,7 @@ class AccountMoveLine(models.Model):
         return valuation_area
 
     def _compute_account_id(self):
-        self = self.with_context(transaction_key='skip')
+        self = self.with_context(transaction_key="skip")
         res = super()._compute_account_id()
 
         product_lines = self.filtered(lambda line: line.display_type == "product" and line.move_id.is_invoice(True))
@@ -74,7 +74,7 @@ class AccountMoveLine(models.Model):
         self = self.with_context(
             valuation_area=self._get_valuation_area(),
             account_modifier=self._get_account_modifier(),
-            transaction_key='stock_receipt_price_difference',
+            transaction_key="stock_receipt_price_difference",
         )
 
         return super()._generate_price_difference_vals(layers)

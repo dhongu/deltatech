@@ -11,7 +11,7 @@ class ValuationArea(models.Model):
     name = fields.Char(required=True)
     code = fields.Char(required=True, help="Short code used in account determination")
     company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)
-    stock_journal_id = fields.Many2one("account.journal", string="Stock Journal", required=True)
+    stock_journal_id = fields.Many2one("account.journal", string="Stock Journal")
 
     def _compute_display_name(self):
         for item in self:
