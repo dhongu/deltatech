@@ -69,7 +69,7 @@ class QueueJob(models.Model):
 
     @api.model
     def _job_runner(self, commit=True):
-        limit_jobs = self.env["ir.config_parameter"].sudo().get_param("queue_job.limit_jobs","100")
+        limit_jobs = self.env["ir.config_parameter"].sudo().get_param("queue_job.limit_jobs","10")
         limit_jobs = int(limit_jobs)
         jobs = self.search([("state", "=", "pending")], limit=limit_jobs + 1)
 
