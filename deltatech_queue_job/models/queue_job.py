@@ -119,9 +119,14 @@ class QueueJob(models.Model):
         crones = self.env["ir.cron"].sudo().search(domain)
         res = "nothing"
         for cron in crones:
-            trigger = self.env["ir.cron.trigger"].search([("cron_id", "=", cron.id)], limit=1)
+            domain = [("cron_id", "=", cron.id)]
+            if at:
+                domain.append(("call_at", "=", at))
+            trigger = self.env["ir.cron.trigger"].search(domain, limit=1)
             if trigger:
                 res = "exists"
+                _logger.info(f"CRON trigger exists for {cron.name} ")
+                cron._trigger()
             else:
                 res = "triggered"
                 if not at:
