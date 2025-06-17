@@ -16,6 +16,8 @@
                             context="{'default_model':'product.product.label'}"
                         />
                         <field name="print_only_lots" />
+                        <field name="can_generate_lots" invisible="1" />
+                        <field name="auto_generate_lots" invisible="not can_generate_lots" />
                     </group>
                     <group name="location">
                         <field name="use_location" />
@@ -125,6 +127,16 @@
         <field name="view_mode">form</field>
         <field name="target">new</field>
         <field name="binding_model_id" ref="stock.model_stock_picking" />
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list,form</field>
+    </record>
+
+    <record id="action_action_stock_lot_product_label" model="ir.actions.act_window">
+        <field name="name">Product Labels</field>
+        <field name="res_model">product.product.label</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="stock.model_stock_lot" />
         <field name="binding_type">report</field>
         <field name="binding_view_types">list,form</field>
     </record>
