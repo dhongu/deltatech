@@ -75,6 +75,8 @@ class QueueJob(models.Model):
 
         need_retrigger = False
         if len(jobs) > limit_jobs:
+            at = fields.Datetime.now() + timedelta(minutes=5)
+            self._cron_trigger(at)
             need_retrigger = True
         for job in jobs[:limit_jobs]:
             job = self._acquire_specific_job(job.id)
