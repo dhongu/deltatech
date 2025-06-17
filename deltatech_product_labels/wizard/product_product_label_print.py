@@ -48,6 +48,9 @@ class ProductProductLabel(models.TransientModel):
         if model == "stock.picking":
             label_list = self.get_picking_lines(active_ids)
 
+        if model == "stock.lot":
+            label_list = self.get_lot_lines(active_ids)
+
         for item in product_list:
             label_list.append([0, 0, product_list[item]])
 
@@ -159,6 +162,24 @@ class ProductProductLabel(models.TransientModel):
                         },
                     ]
                 )
+        return product_list
+
+    @api.model
+    def get_lot_lines(self, active_ids):
+        lots = self.env["stock.lot"].browse(active_ids)
+        product_list = []
+        for lot in lots:
+            product_list.append(
+                [
+                    0,
+                    0,
+                    {
+                        "product_id": lot.product_id.id,
+                        "quantity": lot.product_qty or 1,
+                        "lot": lot.name,
+                    },
+                ]
+            )
         return product_list
 
     def generate_lots(self):
