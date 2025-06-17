@@ -21,7 +21,8 @@ class ProductProductLabel(models.TransientModel):
     location_id = fields.Many2one("stock.location")
     print_only_lots = fields.Boolean("Print lots only")
     pricelist_id = fields.Many2one("product.pricelist", string="Price List")
-    # discount = fields.Float()
+    can_generate_lots = fields.Boolean(compute="_compute_can_generate_lots")
+    auto_generate_lots = fields.Boolean()
 
     @api.model
     def default_get(self, fields_list):
@@ -47,11 +48,30 @@ class ProductProductLabel(models.TransientModel):
         if model == "stock.picking":
             label_list = self.get_picking_lines(active_ids)
 
+        if model == "stock.lot":
+            label_list = self.get_lot_lines(active_ids)
+
         for item in product_list:
             label_list.append([0, 0, product_list[item]])
 
         res["label_lines"] = label_list
         return res
+
+    @api.depends("label_lines")
+    def _compute_can_generate_lots(self):
+        model = self.env.context.get("active_model", False)
+        for label in self:
+            if model != "stock.picking":
+                label.can_generate_lots = False
+            else:
+                label.can_generate_lots = True
+                active_ids = self.env.context.get("active_ids", [])
+                pickings = self.env["stock.picking"].browse(active_ids)
+                for picking in pickings:
+                    picking_type = picking.picking_type_id
+                    if picking_type.use_create_lots or picking_type.use_existing_lots:
+                        if picking_type.code not in ["incoming", "dropship"]:
+                            label.can_generate_lots = False
 
     @api.model
     def get_product_template_lines(self, active_ids, lots_only=False):
@@ -144,7 +164,43 @@ class ProductProductLabel(models.TransientModel):
                 )
         return product_list
 
+    @api.model
+    def get_lot_lines(self, active_ids):
+        lots = self.env["stock.lot"].browse(active_ids)
+        product_list = []
+        for lot in lots:
+            product_list.append(
+                [
+                    0,
+                    0,
+                    {
+                        "product_id": lot.product_id.id,
+                        "quantity": lot.product_qty or 1,
+                        "lot": lot.name,
+                    },
+                ]
+            )
+        return product_list
+
+    def generate_lots(self):
+        active_ids = self.env.context.get("active_ids", [])
+        pickings = self.env["stock.picking"].browse(active_ids)
+        for picking in pickings:
+            picking_type = picking.picking_type_id
+            if picking_type.use_create_lots or picking_type.use_existing_lots:
+                if picking_type.code in ["incoming", "dropship"]:
+                    for line in picking.move_line_ids:
+                        if line.product_id.tracking == "lot" and not line.lot_name:
+                            line.lot_name = self.env["ir.sequence"].next_by_code("stock.lot.serial")
+        self.label_lines.unlink()
+        label_list = self.get_picking_lines(active_ids)
+        for label in label_list:
+            label[2]["label_id"] = self.id
+            self.label_lines.create(label[2])
+
     def print_labels(self):
+        if self.auto_generate_lots:
+            self.generate_lots()
         report = self.layout_id.report_action(self)
         return report
 
