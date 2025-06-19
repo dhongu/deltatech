@@ -12,12 +12,16 @@ class AccountMove(models.Model):
     def recompute_valuation(self):
         for move in self:
             for line in move.line_ids:
-                if line.product_id and line.account_id.stock_valuation:
-                    if not line.valuation_area_id:
-                        line.set_valuation_area_id()
+                if line.product_id and line.account_id.is_for_stock_valuation:
+                    line.valuation_area_id = line._get_valuation_area()
 
+        self.flush_model()
+        self._invalidate_cache()
+
+        for move in self:
+            for line in move.line_ids:
+                if line.product_id and line.account_id.is_for_stock_valuation:
                     valuation_area = line.valuation_area_id
-
                     valuation_history = self.env["product.valuation.history"].get_valuation(
                         line.product_id.id, valuation_area.id, line.account_id.id, move.date, line.company_id.id
                     )
@@ -41,6 +45,5 @@ class AccountMove(models.Model):
     def write(self, vals):
         res = super().write(vals)
         if vals.get("state"):
-            self._invalidate_cache()
             self.recompute_valuation()
         return res

@@ -21,7 +21,7 @@ class TestStockValuation(AccountTestInvoicingCommon):
                 "name": "Account A",
                 "code": "1234",
                 "user_type_id": cls.env.ref("account.data_account_type_current_assets").id,
-                "stock_valuation": True,
+                "is_for_stock_valuation": True,
             }
         )
 

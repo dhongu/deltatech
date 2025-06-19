@@ -18,16 +18,16 @@ class ProductValuation(models.Model):
     _rec_name = "product_id"
 
     product_id = fields.Many2one("product.product", string="Product", required=True, index=True)
+    product_tmpl_id = fields.Many2one(
+        "product.template", string="Product Template", index=True, related="product_id.product_tmpl_id"
+    )
     valuation_area_id = fields.Many2one("valuation.area", string="Valuation Area", index=True)
 
+    price = fields.Float(string="Price", digits="Product Price")
+
     quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=0.0)
-    quantity_in = fields.Float(string="Quantity In", digits="Product Unit of Measure", default=0.0)
-    quantity_out = fields.Float(string="Quantity Out", digits="Product Unit of Measure", default=0.0)
 
     amount = fields.Monetary(string="Amount", default=0.0)
-    debit = fields.Monetary(string="Debit", default=0.0)
-    credit = fields.Monetary(string="Credit", default=0.0)
-
     account_id = fields.Many2one("account.account", string="Account", required=True, index=True)
 
     currency_id = fields.Many2one("res.currency", string="Currency", default=lambda self: self.env.company.currency_id)
@@ -74,7 +74,19 @@ class ProductValuation(models.Model):
             ]
             valuation = self.env["product.valuation.history"].search(domain, order="month desc", limit=1)
             if valuation:
-                item.write({"quantity": valuation.quantity_final, "amount": valuation.amount_final})
+                price = item.price
+                if valuation.quantity_final:
+                    price = valuation.amount_final / valuation.quantity_final
+                elif valuation.quantity_in:
+                    price = valuation.debit / valuation.quantity_in
+
+                item.write(
+                    {
+                        "quantity": valuation.quantity_final,
+                        "amount": valuation.amount_final,
+                        "price": price,
+                    }
+                )
 
     def recompute_amount_sql(self):
         valuation_areas = self.mapped("valuation_area_id")
@@ -182,22 +194,9 @@ class ProductValuation(models.Model):
 
     def recompute_all_amount(self):
         params = {
-            "account_ids": tuple(self.env["account.account"].search([("stock_valuation", "=", True)]).ids),
+            "account_ids": tuple(self.env["account.account"].search([("is_for_stock_valuation", "=", True)]).ids),
         }
         self.env.cr.execute("DELETE FROM product_valuation WHERE account_id in %(account_ids)s", params)
-
-        # sql = (
-        #     """
-        #     INSERT INTO product_valuation
-        #         (product_id, valuation_area_id, account_id, company_id,
-        #         quantity, quantity_in, quantity_out, debit, credit, amount)
-        #     select product_id, valuation_area_id, account_id, company_id,
-        #                  quantity, quantity_in, quantity_out, debit, credit, debit-credit as amount
-        #     FROM ( %s ) as a
-        #     """
-        #     % self._get_sql_select()
-        # )
-        #
 
         self.env.cr.execute(
             """
@@ -237,6 +236,11 @@ class ProductValuationHistory(models.Model):
 
     amount_initial = fields.Monetary("Initial Amount", default=0.0)
     quantity_initial = fields.Float("Initial Quantity", digits="Product Unit of Measure", default=0.0)
+
+    quantity_in = fields.Float(string="Quantity In", digits="Product Unit of Measure", default=0.0)
+    quantity_out = fields.Float(string="Quantity Out", digits="Product Unit of Measure", default=0.0)
+    debit = fields.Monetary(string="Debit", default=0.0)
+    credit = fields.Monetary(string="Credit", default=0.0)
 
     amount_final = fields.Monetary("Final Amount", compute="_compute_final", store=True, default=0.0)
     quantity_final = fields.Float(
@@ -360,7 +364,7 @@ class ProductValuationHistory(models.Model):
                 sum(
                     quantity * (
                     CASE
-                        WHEN move_type ='in_invoice' THEN 1
+                        WHEN move_type IN ('in_invoice','in_receipt') THEN 1
                         WHEN move_type ='in_refund' THEN -1
                         WHEN move_type IN ('out_invoice','out_refund') THEN 0
                         ELSE
@@ -372,7 +376,7 @@ class ProductValuationHistory(models.Model):
                 sum(
                     quantity * (
                     CASE
-                        WHEN move_type ='out_invoice' THEN 1
+                        WHEN move_type in ('out_invoice','out_receipt') THEN 1
                         WHEN move_type ='out_refund' THEN -1
                         WHEN move_type IN ('in_invoice','in_refund') THEN 0
                         ELSE CASE WHEN credit > 0 THEN -1 ELSE 0 END
@@ -391,6 +395,7 @@ class ProductValuationHistory(models.Model):
                 ) as sub
              GROUP BY  product_id, valuation_area_id, account_id, company_id, currency_id,  month
         """
+        _logger.info(sql)
         return sql
 
     def _get_sql_sub_select(self, all_records=True):
@@ -471,7 +476,7 @@ class ProductValuationHistory(models.Model):
         valuation_area = self.env.company.valuation_area_id
 
         params = {
-            "account_ids": tuple(self.env["account.account"].search([("stock_valuation", "=", True)]).ids),
+            "account_ids": tuple(self.env["account.account"].search([("is_for_stock_valuation", "=", True)]).ids),
             "valuation_area_id": valuation_area.id,
             "company_id": self.env.company.id,
             "currency_id": self.env.company.currency_id.id,

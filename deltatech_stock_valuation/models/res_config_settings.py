@@ -12,9 +12,6 @@ class ResConfigSettings(models.TransientModel):
 
     module_deltatech_stock_valuation = fields.Boolean("Stock Valuation", readonly=True)
     valuation_area_level = fields.Selection(related="company_id.valuation_area_level", readonly=False)
-    valuation_area_id = fields.Many2one(
-        "valuation.area", related="company_id.valuation_area_id", string="Valuation Area", readonly=False
-    )
 
     def set_values(self):
         res = super().set_values()

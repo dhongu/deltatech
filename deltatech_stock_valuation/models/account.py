@@ -9,4 +9,4 @@ from odoo import fields, models
 class AccountAccount(models.Model):
     _inherit = "account.account"
 
-    stock_valuation = fields.Boolean(string="Stock Valuation")
+    is_for_stock_valuation = fields.Boolean(string="Stock Valuation")

@@ -8,13 +8,10 @@
                 <field name="product_id" />
                 <field name="valuation_area_id" />
                 <field name="account_id" />
-                <field name="quantity" sum="sum_qty" />
-                <field name="quantity_in" sum="sum_qty_in" />
-                <field name="quantity_out" sum="sum_qty_out" />
-                <field name="debit" sum="sum_debit" />
-                <field name="credit" sum="sum_credit" />
+                <field name="price" />
+                 <field name="quantity" />
                 <field name="amount" sum="sum_amount" />
-                <field name="currency_id" invisible="1" />
+                <field name="currency_id" column_invisible="1" />
                 <field name="company_id" groups="base.group_multi_company" />
             </tree>
         </field>
@@ -31,13 +28,8 @@
                         <field name="valuation_area_id" />
                     </group>
                     <group>
+                        <field name="price" />
                         <field name="quantity" />
-                        <field name="quantity_in" />
-                        <field name="quantity_out" />
-                    </group>
-                    <group>
-                        <field name="debit" />
-                        <field name="credit" />
                         <field name="amount" />
                         <field name="currency_id" invisible="1" />
                     </group>
@@ -56,10 +48,6 @@
             <pivot string="Product Valuation">
                 <field name="valuation_area_id" type="row" />
                 <field name="quantity" type="measure" />
-                <field name="quantity_in" type="measure" />
-                <field name="quantity_out" type="measure" />
-                <field name="debit" type="measure" />
-                <field name="credit" type="measure" />
                 <field name="amount" type="measure" />
             </pivot>
         </field>
@@ -113,7 +101,7 @@
                 <field name="credit" sum="sum_credit" optional="hide" />
                 <field name="amount" sum="sum_amount" />
                 <field name="amount_final" optional="show" />
-                <field name="currency_id" invisible="1" />
+                <field name="currency_id" column_invisible="1" />
                 <field name="company_id" groups="base.group_multi_company" />
             </tree>
         </field>

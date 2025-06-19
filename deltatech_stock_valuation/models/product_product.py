@@ -9,6 +9,13 @@ from odoo import api, fields, models
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
+    product_valuation_ids = fields.One2many(
+        "product.valuation",
+        "product_id",
+        string="Product Valuations",
+        help="Valuations of this product in different valuation areas and accounts.",
+    )
+
     standard_price = fields.Float(
         company_dependent=False,
         compute="_compute_standard_price",
@@ -16,7 +23,7 @@ class ProductProduct(models.Model):
         search="_search_standard_price",
     )
 
-    @api.depends_context("valuation_area")
+    @api.depends_context("valuation_area", "account")
     @api.depends("company_id")
     def _compute_standard_price(self):
         # valuation_area = self.env.context.get("valuation_area", False)

@@ -15,7 +15,6 @@ class ResCompany(models.Model):
         default="company",
     )
     valuation_lot_level = fields.Boolean(string="Valuation Lot Level", default=False)
-    valuation_area_id = fields.Many2one("valuation.area", string="Valuation Area")
 
     def set_stock_valuation_at_company_level(self):
         self.ensure_one()
@@ -34,8 +33,8 @@ class ResCompany(models.Model):
         domain = [("property_stock_valuation_account_id", "!=", False)]
         categories = self.env["product.category"].search(domain)
         accounts = categories.mapped("property_stock_valuation_account_id")
-        accounts.write({"stock_valuation": True})
-        accounts = self.env["account.account"].search([("stock_valuation", "=", True)])
+        accounts.write({"is_for_stock_valuation": True})
+        accounts = self.env["account.account"].search([("is_for_stock_valuation", "=", True)])
         params = {
             "account_ids": tuple(accounts.ids),
             "valuation_area_id": self.valuation_area_id.id,

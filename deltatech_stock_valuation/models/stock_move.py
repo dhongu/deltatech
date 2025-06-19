@@ -14,8 +14,8 @@ class StockMove(models.Model):
         for line in res:
             product_id = line[2].get("product_id")
             account_id = line[2].get("account_id")
-            stock_valuation = self.env["account.account"].browse(account_id).stock_valuation
-            if product_id and stock_valuation:
+            is_for_stock_valuation = self.env["account.account"].browse(account_id).is_for_stock_valuation
+            if product_id and is_for_stock_valuation:
                 valuation_area_level = self.company_id.valuation_area_level
                 if valuation_area_level == "company":
                     valuation_area = self.company_id.valuation_area_id

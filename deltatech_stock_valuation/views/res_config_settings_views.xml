@@ -12,16 +12,18 @@
                     id="module_deltatech_stock_valuation"
                 >
                     <field name="module_deltatech_stock_valuation" />
-                    <div class="content-group">
-                        <div>
-                            <label for="valuation_area_level" />
-                            <field name="valuation_area_level" />
-                        </div>
-                        <div>
-                            <label for="valuation_area_id" />
-                            <field name="valuation_area_id" />
-                        </div>
+
+
+
+                    <div class="row mt16">
+                        <label for="valuation_area_level" class="col-lg-4 o_light_label" />
+                        <field name="valuation_area_level" />
                     </div>
+                    <div class="row mt16">
+                        <label for="valuation_area_id" class="col-lg-4 o_light_label" />
+                        <field name="valuation_area_id" />
+                    </div>
+
                     <button
                         type="object"
                         name="refresh_stock_valuation"

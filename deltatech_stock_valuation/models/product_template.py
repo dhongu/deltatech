@@ -8,7 +8,7 @@ from odoo import fields, models
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    stock_valuation = fields.Boolean(string="Stock Valuation")
+    product_valuation_ids = fields.One2many("product.valuation", "product_tmpl_id")
 
     def recompute_valuation_amount(self):
         valuations = self.env["product.valuation"]
@@ -19,8 +19,8 @@ class ProductTemplate(models.Model):
                 if not account:
                     continue
 
-                if not account.stock_valuation:
-                    account.stock_valuation = True
+                if not account.is_for_stock_valuation:
+                    account.is_for_stock_valuation = True
 
                 valuation_area = company.valuation_area_id
                 valuations |= self.env["product.valuation"].get_valuation(

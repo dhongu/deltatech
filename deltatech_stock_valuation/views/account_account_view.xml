@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="account.view_account_form" />
         <field name="arch" type="xml">
             <field name="currency_id" position="after">
-                <field name="stock_valuation" />
+                <field name="is_for_stock_valuation" />
             </field>
         </field>
     </record>
