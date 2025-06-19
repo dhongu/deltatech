@@ -51,6 +51,9 @@ class ProductProductLabel(models.TransientModel):
         if model == "stock.lot":
             label_list = self.get_lot_lines(active_ids)
 
+        if model == "stock.quant":
+            label_list = self.get_quant_lines(active_ids)
+
         for item in product_list:
             label_list.append([0, 0, product_list[item]])
 
@@ -177,6 +180,24 @@ class ProductProductLabel(models.TransientModel):
                         "product_id": lot.product_id.id,
                         "quantity": lot.product_qty or 1,
                         "lot": lot.name,
+                    },
+                ]
+            )
+        return product_list
+
+    @api.model
+    def get_quant_lines(self, active_ids):
+        quants = self.env["stock.quant"].browse(active_ids)
+        product_list = []
+        for quant in quants:
+            product_list.append(
+                [
+                    0,
+                    0,
+                    {
+                        "product_id": quant.product_id.id,
+                        "quantity": quant.quantity or 1,
+                        "lot": quant.lot_id.name if quant.lot_id else "",
                     },
                 ]
             )
