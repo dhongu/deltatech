@@ -39,25 +39,7 @@
             </form>
         </field>
     </record>
-    <!--
-        <record id="product_product_label_view_action" model="ir.actions.act_window">
-            <field name="name">Product Labels</field>
-            <field name="res_model">product.product.label</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="product_product_label_view_form"/>
-            <field name="target">new</field>
-        </record>
 
-        <record id="product_product_action_product_product_label" model="ir.values">
-            <field name="model_id" ref="product.model_product_product"/>
-            <field name="name">Product Labels</field>
-            <field name="key2">client_action_multi</field>
-            <field name="value" eval="'ir.actions.act_window,' +str(ref('product_product_label_view_action'))"/>
-            <field name="key">action</field>
-            <field name="model">product.product</field>
-        </record>
-        -->
     <record id="action_action_product_template_label" model="ir.actions.act_window">
         <field name="name">Product Labels</field>
         <field name="res_model">product.product.label</field>
@@ -67,24 +49,7 @@
         <field name="binding_type">report</field>
         <field name="binding_view_types">list,form</field>
     </record>
-    <!--        <act_window-->
-    <!--            id="action_action_product_template_label"-->
-    <!--            name="Product Labels"-->
-    <!--            res_model="product.product.label"-->
-    <!--            binding_model="product.template"-->
-    <!--            binding_view_types="tree,form"-->
-    <!--            target="new"-->
-    <!--            binding_type="report"-->
-    <!--        />-->
-<!--    <act_window-->
-<!--        id="action_action_product_product_label"-->
-<!--        name="Product Labels"-->
-<!--        res_model="product.product.label"-->
-<!--        binding_model="product.product"-->
-<!--        binding_type="report"-->
-<!--        view_mode="form"-->
-<!--        target="new"-->
-<!--    />-->
+
     <record id="action_action_product_product_label" model="ir.actions.act_window">
         <field name="name">Product Labels</field>
         <field name="res_model">product.product.label</field>
@@ -94,15 +59,7 @@
         <field name="binding_type">report</field>
         <field name="binding_view_types">list,form</field>
     </record>
-<!--    <act_window-->
-<!--        id="action_action_sale_order_product_label"-->
-<!--        name="Product Labels"-->
-<!--        res_model="product.product.label"-->
-<!--        binding_model="sale.order"-->
-<!--        binding_type="report"-->
-<!--        view_mode="form"-->
-<!--        target="new"-->
-<!--    />-->
+
     <record id="action_action_sale_order_product_label" model="ir.actions.act_window">
         <field name="name">Product Labels</field>
         <field name="res_model">product.product.label</field>
@@ -112,15 +69,7 @@
         <field name="binding_type">report</field>
         <field name="binding_view_types">list,form</field>
     </record>
-<!--    <act_window-->
-<!--        id="action_action_stock_picking_product_label"-->
-<!--        name="Product Labels"-->
-<!--        res_model="product.product.label"-->
-<!--        binding_model="stock.picking"-->
-<!--        binding_type="report"-->
-<!--        view_mode="form"-->
-<!--        target="new"-->
-<!--    />-->
+
     <record id="action_action_stock_picking_product_label" model="ir.actions.act_window">
         <field name="name">Product Labels</field>
         <field name="res_model">product.product.label</field>
@@ -137,6 +86,16 @@
         <field name="view_mode">form</field>
         <field name="target">new</field>
         <field name="binding_model_id" ref="stock.model_stock_lot" />
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list,form</field>
+    </record>
+
+    <record id="action_action_stock_quant_product_label" model="ir.actions.act_window">
+        <field name="name">Product Labels</field>
+        <field name="res_model">product.product.label</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="stock.model_stock_quant" />
         <field name="binding_type">report</field>
         <field name="binding_view_types">list,form</field>
     </record>
