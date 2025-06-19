@@ -31,7 +31,6 @@ class PurchaseOrderLine(models.Model):
     def _parse_import_data(self, data, import_fields, options):
         return super()._parse_import_data(data, import_fields, options)
 
-
     # def _load_records(self, data_list, update=False):
     #     order = self.env["purchase.order"]
     #     order_id = self.env.context.get("default_order_id", False) or self.env.context.get("active_id", False)
@@ -52,8 +51,6 @@ class PurchaseOrderLine(models.Model):
     #
     #     return super()._load_records(data_list, update)
 
-
-
     @api.model
     def load(self, fields, data):
         order = self.env["purchase.order"]
@@ -67,10 +64,7 @@ class PurchaseOrderLine(models.Model):
                 order_id = data[0][order_index]
                 order = self.env["purchase.order"].browse(order_id)
 
-
-
         if order:
-
             product_index = fields.index("product_id") if "product_id" in fields else -1
             fields.append(".id")
             index_id = fields.index(".id")
@@ -84,20 +78,19 @@ class PurchaseOrderLine(models.Model):
                     # extrage codul din numele produsului care este intre paranteze []
                     if "[" in product_name and "]" in product_name:
                         product_code = product_name.split("[")[-1].split("]")[0].strip()
-                        product = self.env["product.product"].search([('default_code', '=', product_code)], limit=1)
+                        product = self.env["product.product"].search([("default_code", "=", product_code)], limit=1)
                     if not product:
                         product_name = product_name.split("[")[0].strip()
-                        product = self.env["product.product"].search([('name', '=', product_name)], limit=1)
+                        product = self.env["product.product"].search([("name", "=", product_name)], limit=1)
 
                     if not product:
                         data.remove(record)
                         continue
                     if product:
-                        line  = order.order_line.filtered(lambda l: l.product_id.id == product.id)
+                        line = order.order_line.filtered(lambda l: l.product_id.id == product.id)
                         if line:
                             record[index_id] = str(line.id)
                         else:
                             data.remove(record)
-
 
         return super().load(fields, data)
