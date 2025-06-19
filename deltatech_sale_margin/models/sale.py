@@ -109,6 +109,25 @@ class SaleOrderLine(models.Model):
                 line.check_sale_price()
         return res
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("purchase_price", False) and vals.get("price_unit", False):
+                get_param = self.env["ir.config_parameter"].sudo().get_param
+                margin_limit = safe_eval(get_param("sale.margin_limit", "0"))
+                check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
+                margin = (vals["price_unit"] - vals["purchase_price"]) / vals["price_unit"] * 100
+                if (
+                    margin < margin_limit
+                    and not check_on_validate
+                    and not self.env.user.has_group("deltatech_sale_margin.group_sale_below_purchase_price")
+                ):
+                    raise UserError(
+                        _("You can not sell below the purchase price: {}").format(vals.get("name", "not found"))
+                    )
+        res = super().create(vals_list)
+        return res
+
     def check_sale_price(self):
         res = {}
         # daca in context este ignore_price_check atunci nu se verifica pretul
