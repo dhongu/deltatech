@@ -89,4 +89,14 @@
         <field name="binding_type">report</field>
         <field name="binding_view_types">list,form</field>
     </record>
+
+    <record id="action_action_stock_quant_product_label" model="ir.actions.act_window">
+        <field name="name">Product Labels</field>
+        <field name="res_model">product.product.label</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="stock.model_stock_quant" />
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list,form</field>
+    </record>
 </odoo>
