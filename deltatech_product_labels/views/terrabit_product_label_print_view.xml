@@ -12,7 +12,7 @@
                         <field name="pricelist_id" options="{'no_create_edit': True}" />
                         <field
                             name="layout_id"
-                            domain="[('model', '=', 'product.product.label')]"
+                            domain="[('binding_model_id', '=', 'product.product.label')]"
                             context="{'default_model':'product.product.label'}"
                         />
                         <field name="print_only_lots" />
