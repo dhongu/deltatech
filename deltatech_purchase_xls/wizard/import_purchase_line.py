@@ -134,8 +134,10 @@ class ImportPurchaseLine(models.TransientModel):
             ]
         purchase_lines = self.env["purchase.order.line"].create(lines)
         purchase_lines._compute_tax_id()
-        if "price" not in self.fields_list:
-            purchase_lines._onchange_quantity()
+        # TODO: de refacut s-a schimbat functia
+
+        # if "price" not in self.fields_list:
+        #     purchase_lines._onchange_quantity()
 
     def search_product(self, code=False):
         """
