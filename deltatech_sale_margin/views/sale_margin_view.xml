@@ -62,12 +62,15 @@
         <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line_form" />
         <field name="arch" type="xml">
 
-            <xpath expr="//field[@name='purchase_price']" position="attributes">
-                <attribute name="force_save">1</attribute>
-                <t groups="deltatech_sale_margin.group_sale_margin">
-                    <attribute name="readonly">1</attribute>
-                </t>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='purchase_price']" position="attributes">
+
+                <attribute name="readonly">1</attribute>
+                <attribute name="groups">!deltatech_sale_margin.group_sale_margin</attribute>
             </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="after">
+                <field name="purchase_price" groups="deltatech_sale_margin.group_sale_margin" />
+            </xpath>
+
 
             <xpath expr="//field[@name='margin']" position="attributes">
                 <t groups="deltatech_sale_margin.group_sale_margin">
@@ -91,7 +94,7 @@
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="attributes">
-                    <attribute name="readonly">not parent.can_change_price</attribute>
+                <attribute name="readonly">not parent.can_change_price</attribute>
             </xpath>
             <xpath expr="//field[@name='order_line']/tree//field[@name='price_unit']" position="attributes">
                 <attribute name="readonly">not parent.can_change_price</attribute>
