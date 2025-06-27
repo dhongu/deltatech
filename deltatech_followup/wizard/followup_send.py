@@ -68,6 +68,7 @@ class FollowupSendWizard(models.TransientModel):
                                 amount_tax=invoice.amount_tax,
                                 amount_total=invoice.amount_total,
                                 amount_due=invoice.amount_residual_signed,
+                                currency=invoice.currency_id.name,
                             )
                             invoices_content += crt_row
                             partner_debit += invoice.amount_residual
