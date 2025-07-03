@@ -12,11 +12,15 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     def _send_order_confirmation_mail(self):
+        res = super()._send_order_confirmation_mail()
         if not getattr(threading.current_thread(), "testing", False) and not self.env.registry.in_test_mode():
             sales = self.filtered(
                 lambda o: o.company_id.sale_order_sms_post and (o.partner_id.mobile or o.partner_id.phone)
             )
             for sale in sales:
+                if sale.state in ["draft", "sale", "cancel"]:
+                    continue
+
                 # Sudo as the user has not always the right to read this sms template.
                 template = sale.company_id.sudo().sale_order_sms_post_template_id
                 sale.with_context(mail_notify_author=True)._message_sms_with_template(
@@ -24,7 +28,7 @@ class SaleOrder(models.Model):
                     partner_ids=sale.partner_id.ids,
                     put_in_queue=False,
                 )
-        return super()._send_order_confirmation_mail()
+        return res
 
     def action_confirm(self):
         res = super().action_confirm()
@@ -33,6 +37,8 @@ class SaleOrder(models.Model):
                 lambda p: p.company_id.sale_order_sms_confirm and (p.partner_id.mobile or p.partner_id.phone)
             )
             for sale in sales:
+                if sale.state != "sale":
+                    continue
                 # Sudo as the user has not always the right to read this sms template.
                 template = sale.company_id.sudo().sale_order_sms_confirm_template_id
                 sale.with_context(mail_notify_author=True)._message_sms_with_template(
