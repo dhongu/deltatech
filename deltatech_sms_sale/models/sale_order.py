@@ -45,11 +45,12 @@ class SaleOrder(models.Model):
             return res
 
         sale_ids = sales.ids
-        dbname = self.env.cr.dbname  # salvăm numele bazei de date
+        dbname = self.env.cr.dbname
+        context = self.env.context.copy()
 
         def _send_sms_after_commit():
             with db_connect(dbname).cursor() as cr:
-                env = Environment(cr, SUPERUSER_ID, {})  # recreăm env complet izolat
+                env = Environment(cr, SUPERUSER_ID, context)  # recreăm env complet izolat
                 sales_post = env["sale.order"].browse(sale_ids)
                 for sale in sales_post:
                     if sale.state != "sale":
