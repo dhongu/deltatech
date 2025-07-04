@@ -32,18 +32,36 @@ class SaleOrder(models.Model):
 
     def action_confirm(self):
         res = super().action_confirm()
-        if not getattr(threading.current_thread(), "testing", False) and not self.env.registry.in_test_mode():
-            sales = self.filtered(
-                lambda p: p.company_id.sale_order_sms_confirm and (p.partner_id.mobile or p.partner_id.phone)
-            )
-            for sale in sales:
+
+        if getattr(threading.current_thread(), "testing", False) or self.env.registry.in_test_mode():
+            return res
+
+        sales = self.filtered(
+            lambda p: p.company_id.sale_order_sms_confirm and (p.partner_id.mobile or p.partner_id.phone)
+        ).filtered(lambda s: s.state == "sale")
+
+        if not sales:
+            return res
+
+        # Salvăm informațiile minime pentru postcommit
+        sale_ids = sales.ids
+
+
+        def _send_sms_after_commit():
+            # recreăm env valid după commit
+            env = self.env.registry(self.env.cr.dbname).env()
+            sales_post = env["sale.order"].browse(sale_ids)
+
+            for sale in sales_post:
                 if sale.state != "sale":
                     continue
-                # Sudo as the user has not always the right to read this sms template.
                 template = sale.company_id.sudo().sale_order_sms_confirm_template_id
                 sale.with_context(mail_notify_author=True)._message_sms_with_template(
                     template=template,
                     partner_ids=sale.partner_id.ids,
                     put_in_queue=False,
                 )
+
+        self.env.cr.postcommit.add(_send_sms_after_commit)
         return res
+
