@@ -9,6 +9,6 @@ class AccountPayment(models.Model):
     def _seek_for_lines(self):
         liquidity_lines, counterpart_lines, writeoff_lines = super()._seek_for_lines()
         for line in self.move_id.line_ids:
-            if line.account_id == self.journal_id.account_cash_advances_id:
+            if line.account_id == self.expenses_deduction_id.expense_journal_id.default_account_id:
                 liquidity_lines += line
         return liquidity_lines, counterpart_lines, writeoff_lines

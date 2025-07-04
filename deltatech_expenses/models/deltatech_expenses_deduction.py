@@ -146,6 +146,7 @@ class DeltatechExpensesDeduction(models.Model):
         # states={"draft": [("readonly", False)]},
         default=_default_journal,
     )
+    expense_journal_id = fields.Many2one("account.journal", string="Expense Journal")
 
     journal_diem_id = fields.Many2one(
         "account.journal",
@@ -274,7 +275,7 @@ class DeltatechExpensesDeduction(models.Model):
                 name = expenses.number
 
             if expenses.advance:
-                account = expenses.journal_id.account_cash_advances_id
+                account = expenses.expense_journal_id.default_account_id
                 # statement = self.get_statement(expenses.date_advance)
                 # values = {
                 #     "amount": -expenses.advance,
@@ -373,10 +374,9 @@ class DeltatechExpensesDeduction(models.Model):
                     "date": line.date,
                     "partner_type": "supplier",
                     "partner_id": partner_id.id,
-                    "journal_id": expenses.journal_id.id,
+                    "journal_id": expenses.expense_journal_id.id,
                     # "payment_method_id": payment_methods and payment_methods[0].id or False,
                     "amount": line.tax_amount + line.price_subtotal,
-                    # "destination_account_id": expenses.journal_id.account_cash_advances_id.id,
                     "expenses_deduction_id": expenses.id,
                 }
                 payments |= self.env["account.payment"].create(payment_value)
@@ -391,19 +391,19 @@ class DeltatechExpensesDeduction(models.Model):
                         #     # payment.journal_id.payment_debit_account_id,
                         #     # payment.journal_id.payment_credit_account_id,
                         # ):
-                        payment_line.account_id = payment.journal_id.account_cash_advances_id
+                        payment_line.account_id = expenses.expense_journal_id.default_account_id
             # payments.with_context(add_statement_line=False).action_post()
             payments.with_context().action_post()
 
             move_lines = self.env["account.move.line"]
             for voucher in vouchers:
                 for aml in voucher.line_ids:
-                    if aml.account_id.account_type == "payable":
+                    if aml.account_id.account_type == "liability_payable":
                         move_lines |= aml
 
             for payment in payments:
                 for aml in payment.move_id.line_ids:
-                    if aml.account_id.account_type == "payable":
+                    if aml.account_id.account_type == "liability_payable":
                         move_lines |= aml
 
             move_lines.reconcile()
@@ -415,46 +415,46 @@ class DeltatechExpensesDeduction(models.Model):
             line_ids = []
 
             if expenses.difference:
-                account = expenses.journal_id.account_cash_advances_id
-                # statement = self.get_statement(expenses.date_expense)
-                # if expenses.advance:
-                #     values = {
-                #         "amount": -expenses.difference + expenses.amount_vouchers,
-                #         "date": expenses.date_expense,
-                #         "partner_id": expenses.employee_id.id,
-                #         "statement_id": statement.id,
-                #         "journal_id": expenses.journal_id.id,
-                #         "ref": expenses.number,
-                #         "expenses_deduction_id": expenses.id,
-                #         "payment_ref": _("Deferenta Avans"),
-                #         "counterpart_account_id": account.id,
-                #         "backup_counterpart_account_id": account.id,
-                #     }
-                #     self.env["account.bank.statement.line"].with_context(counterpart_account_id=account.id).create(
-                #         values
-                #     )
-                amount = -expenses.difference + expenses.amount_vouchers
-
+                account = expenses.expense_journal_id.default_account_id
+                # amount = -expenses.difference + expenses.amount_vouchers
+                amount = abs(expenses.difference)
+                if amount > 0:
+                    value_lines = [
+                        {
+                            "partner_id": expenses.employee_id.id,
+                            "account_id": account.id,
+                            "name": _("Deferenta Avans"),
+                            "credit": amount,
+                        },
+                        {
+                            "partner_id": expenses.employee_id.id,
+                            "account_id": expenses.journal_id.default_account_id.id,
+                            "name": _("Deferenta Avans"),
+                            "debit": amount,
+                        },
+                    ]
+                else:
+                    value_lines = [
+                        {
+                            "partner_id": expenses.employee_id.id,
+                            "account_id": account.id,
+                            "name": _("Deferenta Avans"),
+                            "debit": amount,
+                        },
+                        {
+                            "partner_id": expenses.employee_id.id,
+                            "account_id": expenses.journal_id.default_account_id.id,
+                            "name": _("Deferenta Avans"),
+                            "credit": amount,
+                        },
+                    ]
                 value = {
                     "journal_id": expenses.journal_id.id,
                     "date": expenses.date_advance,
                     "ref": expenses.number,
                     "expenses_deduction_id": expenses.id,
                 }
-                value_lines = [
-                    {
-                        "partner_id": expenses.employee_id.id,
-                        "account_id": account.id,
-                        "name": _("Deferenta Avans"),
-                        "credit": amount,
-                    },
-                    {
-                        "partner_id": expenses.employee_id.id,
-                        "account_id": expenses.journal_id.default_account_id.id,
-                        "name": _("Deferenta Avans"),
-                        "debit": amount,
-                    },
-                ]
+
                 value["line_ids"] = [(0, 0, x) for x in value_lines]
                 move = self.env["account.move"].create(value)
                 move._post()
@@ -474,7 +474,7 @@ class DeltatechExpensesDeduction(models.Model):
                     "name": _("Diurna"),
                     "debit": 0.0,
                     "credit": expenses.total_diem,
-                    "account_id": expenses.journal_id.account_cash_advances_id.id,  # 542
+                    "account_id": expenses.expense_journal_id.default_account_id.id,  # 542
                     "journal_id": expenses.journal_diem_id.id,
                     "partner_id": expenses.employee_id.id,
                     "date": expenses.date_expense,
