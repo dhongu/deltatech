@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='loss_account_id']" position="after">
 
-                 <field name="account_cash_advances_id" invidibel="type != 'cash'" />
+<!--                 <field name="account_cash_advances_id" invidibel="type != 'cash'" />-->
 
             </xpath>
         </field>
