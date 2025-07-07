@@ -65,32 +65,51 @@ class PurchaseOrderLine(models.Model):
                 order = self.env["purchase.order"].browse(order_id)
 
         if order:
-            product_index = fields.index("product_id") if "product_id" in fields else -1
-            fields.append(".id")
-            index_id = fields.index(".id")
-            for record in data:
-                record.append("")
-
-            if product_index != -1:
+            if order.order_line:
+                product_index = fields.index("product_id") if "product_id" in fields else -1
+                fields.append(".id")
+                index_id = fields.index(".id")
                 for record in data:
-                    product_name = record[product_index]
-                    product = self.env["product.product"]
-                    # extrage codul din numele produsului care este intre paranteze []
-                    if "[" in product_name and "]" in product_name:
-                        product_code = product_name.split("[")[-1].split("]")[0].strip()
-                        product = self.env["product.product"].search([("default_code", "=", product_code)], limit=1)
-                    if not product:
-                        product_name = product_name.split("[")[0].strip()
-                        product = self.env["product.product"].search([("name", "=", product_name)], limit=1)
+                    record.append("")
 
-                    if not product:
-                        data.remove(record)
-                        continue
-                    if product:
-                        line = order.order_line.filtered(lambda l: l.product_id.id == product.id)
-                        if line:
-                            record[index_id] = str(line.id)
-                        else:
+                if product_index != -1:
+                    for record in data:
+                        product_name = record[product_index]
+                        product = self.env["product.product"]
+                        # extrage codul din numele produsului care este intre paranteze []
+                        if "[" in product_name and "]" in product_name:
+                            product_code = product_name.split("[")[-1].split("]")[0].strip()
+                            product = self.env["product.product"].search([("default_code", "=", product_code)], limit=1)
+                        if not product:
+                            product_name = product_name.split("[")[0].strip()
+                            product = self.env["product.product"].search([("name", "=", product_name)], limit=1)
+
+                        if not product:
                             data.remove(record)
+                            continue
+                        if product:
+                            line = order.order_line.filtered(lambda l: l.product_id.id == product.id)
+                            if line:
+                                record[index_id] = str(line.id)
+                            else:
+                                data.remove(record)
+            else:
+                # product_index = fields.index("product_id") if "product_id" in fields else -1
+                # for record in data:
+                #     product_name = record[product_index]
+                #     product = self.env["product.product"]
+                #     # extrage codul din numele produsului care este intre paranteze []
+                #     if "[" in product_name and "]" in product_name:
+                #         product_code = product_name.split("[")[-1].split("]")[0].strip()
+                #         product = self.env["product.product"].search([("default_code", "=", product_code)], limit=1)
+                #     if product_name.is_digit():
+                #         product = self.env["product.product"].search([("default_code", "=", product_name)], limit=1)
+                #         if not product:
+                #             product = self.env["product.product"].search([("barcode", "=", product_name)], limit=1)
+
+                # din teste pare ca nu trebuie cautat produsul separat dupa cod de bare/referinta
+                fields.append("order_id")
+                for record in data:
+                    record.append(order.name)
 
         return super().load(fields, data)
