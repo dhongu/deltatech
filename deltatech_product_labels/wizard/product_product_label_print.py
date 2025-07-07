@@ -5,13 +5,14 @@ import base64
 
 from reportlab.graphics.barcode import createBarcodeDrawing
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.osv import expression
 
 
 class ProductProductLabel(models.TransientModel):
     _name = "product.product.label"
     _description = "product.product.label"
+    _inherit = ["barcodes.barcode_events_mixin"]
 
     layout_id = fields.Many2one("ir.actions.report", string="Layout", required=True)
     label_lines = fields.One2many("product.product.label.line", "label_id", string="Labels")
@@ -268,6 +269,48 @@ class ProductProductLabel(models.TransientModel):
     def onchange_pricelist(self):
         for label in self:
             label.label_lines._compute_price()
+
+    # barcode functions
+    def on_barcode_scanned(self, barcode):
+        product = self.env["product.product"].search([("barcode", "=", barcode)])
+
+        if not product:
+            product = self.env["product.product"].search([("default_code", "=", barcode)])
+        if product:
+            res = self._add_product(product)
+        else:
+            message = _("There is no product with barcode %s") % barcode
+            res = {"warning": {"title": _("Error"), "type": "danger", "message": message}}
+
+        return res
+
+    def _add_product(self, product, qty=1.0):
+        label_line = self.label_lines.filtered(lambda r: r.product_id.id == product.id)
+        if label_line:
+            label_line.quantity += qty
+            message = _("The %(product_name)s product quantity was set to %(product_qty)s") % {
+                "product_name": product.name,
+                "product_qty": label_line.quantity,
+            }
+            res = {"warning": {"title": _("Info"), "type": "success", "message": message}}
+        else:
+            self.label_lines = [
+                (
+                    0,
+                    0,
+                    {
+                        "product_id": product.id,
+                        "quantity": 1,
+                    },
+                )
+            ]
+            message = _("The %(product_name)s product quantity was set to %(product_qty)s") % {
+                "product_name": product.name,
+                "product_qty": 1,
+            }
+            res = {"warning": {"title": _("Info"), "type": "success", "message": message}}
+        self.label_lines._compute_price()
+        return res
 
 
 class ProductProductLabelLine(models.TransientModel):
