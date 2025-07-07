@@ -2,11 +2,11 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo.api import Environment
-from odoo.sql_db import db_connect
 import threading
 
-from odoo import models, SUPERUSER_ID
+from odoo import SUPERUSER_ID, models
+from odoo.api import Environment
+from odoo.sql_db import db_connect
 
 
 class SaleOrder(models.Model):
