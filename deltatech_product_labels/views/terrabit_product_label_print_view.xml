@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <form string="Product Labels">
                 <separator string="Label" />
+                <field name="_barcode_scanned" widget="barcode_handler" />
                 <group>
                     <group>
                         <field name="warehouse_id" options="{'no_create_edit': True}" />
