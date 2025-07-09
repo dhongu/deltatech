@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, models
+from odoo.tools.safe_eval import safe_eval
 
 
 class ProductProduct(models.Model):
@@ -32,6 +33,7 @@ class ProductProduct(models.Model):
                             .sudo()
                             .get_param("deltatech_auto_reorder_rule.use_auto_instead_of_manual_rules", default=False)
                         )
+                        use_auto_rules = safe_eval(use_auto_rules)
                         values.append(
                             {
                                 "product_id": record.id,
