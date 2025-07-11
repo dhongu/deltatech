@@ -49,8 +49,8 @@ class SaleOrder(models.Model):
         self.set_phase("send_email")
         return res
 
-    def action_cancel(self):
-        res = super().action_cancel()
+    def _action_cancel(self):
+        res = super()._action_cancel()
         self.set_phase("canceled")
         return res
 
@@ -87,5 +87,5 @@ class SaleOrder(models.Model):
                 if self.phase_id.confirmed and order.state == "draft":
                     order.with_context(skip_phase_update=True).action_confirm()
                 if self.phase_id.canceled and order.state != "cancel":
-                    order.with_context(skip_phase_update=True).action_cancel()
+                    order.with_context(skip_phase_update=True)._action_cancel()
         return res
