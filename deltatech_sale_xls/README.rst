@@ -1,6 +1,6 @@
-======================
-Deltatech Purchase XLS
-======================
+==================
+Deltatech Sale XLS
+==================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -13,18 +13,22 @@ Deltatech Purchase XLS
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
-    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
-    :alt: License: AGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_purchase_xls
+.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_xls
     :alt: dhongu/deltatech
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2|
 
-- Features:
+Features
+========
 
-  - Import purchase line from Excel
+- 🚀 **Order Lines at the Top of Sale Orders** The module adds an "Order
+  Lines" section at the top of each sale order, making it easy to view
+  and manage all related lines in one place.
+- 📥 **Import Purchase Lines from Excel** Effortlessly import purchase
+  order lines directly from Excel files using Odoo's standard import
+  tool, allowing quick bulk uploads and updates for each specific sale
+  order.
 
 **Table of contents**
 
@@ -46,19 +50,19 @@ Authors
 -------
 
 * Terrabit
-* Dorin Hongu
+* Voicu Stefan
 
 Maintainers
 -----------
 
-.. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
-    :target: https://github.com/dhongu
-    :alt: dhongu
+.. |maintainer-VoicuStefan2001| image:: https://github.com/VoicuStefan2001.png?size=40px
+    :target: https://github.com/VoicuStefan2001
+    :alt: VoicuStefan2001
 
 Current maintainer:
 
-|maintainer-dhongu| 
+|maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_purchase_xls>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_xls>`_ project on GitHub.
 
 You are welcome to contribute.

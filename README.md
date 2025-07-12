@@ -45,7 +45,7 @@ addon | version | maintainers | summary
 [deltatech_data_sheet](deltatech_data_sheet/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Data Sheet
 [deltatech_data_sheet_website](deltatech_data_sheet_website/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Data Sheet
 [deltatech_dc](deltatech_dc/) | 17.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Print Declaration of Conformity
-[deltatech_delivery_status](deltatech_delivery_status/) | 17.0.2.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Carrier status on picking
+[deltatech_delivery_status](deltatech_delivery_status/) | 17.0.2.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Carrier status on picking
 [deltatech_download](deltatech_download/) | 17.0.0.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generare fisier
 [deltatech_dropshipping](deltatech_dropshipping/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Delivery address in picking
 [deltatech_dummy_queue_job](deltatech_dummy_queue_job/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Dummy Queue Job
