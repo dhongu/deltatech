@@ -55,8 +55,10 @@ class StockPicking(models.Model):
     def _action_done(self):
         res = super()._action_done()
         for picking in self:
-            if picking.state == "done" and not picking.carrier_id:
-                picking.write({"delivery_state": "delivered"})
+            if picking.state == "done":
+                carrier_id = picking.carrier_id or picking.sale_id.carrier_id
+                if not carrier_id:
+                    picking.write({"delivery_state": "delivered"})
         return res
 
     @api.depends("move_type", "move_ids.state", "move_ids.picking_id", "postponed")
