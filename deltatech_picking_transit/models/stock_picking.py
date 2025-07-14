@@ -147,6 +147,14 @@ class StockPicking(models.Model):
                         lambda x: x.product_id == move.product_id
                     )
                     if not other_moves:
+                        if picking.source_transfer_id.backorder_ids:
+                            for backorder in picking.source_transfer_id.backorder_ids:
+                                other_moves = backorder.move_ids_without_package.filtered(
+                                    lambda x: x.product_id == move.product_id
+                                )
+                                if other_moves:
+                                    break
+                    if not other_moves:
                         raise UserError(
                             _("You cannot validate the picking because the product %s is not from the source picking")
                             % move.product_id.display_name
