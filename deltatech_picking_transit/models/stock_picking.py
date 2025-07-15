@@ -147,8 +147,13 @@ class StockPicking(models.Model):
                         lambda x: x.product_id == move.product_id
                     )
                     if not other_moves:
-                        if picking.source_transfer_id.backorder_ids:
-                            for backorder in picking.source_transfer_id.backorder_ids:
+                        possible_picking = self.env["stock.picking"]
+                        picking_now = picking.source_transfer_id
+                        while picking_now.backorder_ids:
+                            picking_now = picking_now.backorder_ids[0]
+                            possible_picking |= picking_now
+                        if possible_picking:
+                            for backorder in possible_picking:
                                 other_moves = backorder.move_ids_without_package.filtered(
                                     lambda x: x.product_id == move.product_id
                                 )
