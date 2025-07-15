@@ -38,4 +38,9 @@ class StockPicking(models.Model):
                     if picking.sale_id:
                         picking.sale_id.set_phase("pre_advice")
 
+            if vals["delivery_state"] == "refused":
+                for picking in self:
+                    if picking.sale_id:
+                        picking.sale_id.set_phase("refused")
+
         return super().write(vals)

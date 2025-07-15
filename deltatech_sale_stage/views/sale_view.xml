@@ -23,6 +23,7 @@
                         <field name="pre_advice" />
                         <field name="shipped" />
                         <field name="delivered" />
+                        <field name="refused" />
                         <field name="invoiced" />
                         <field name="paid" />
                         <field name="canceled" />
@@ -47,6 +48,7 @@
                     <field name="pre_advice" />
                     <field name="shipped" />
                     <field name="delivered" />
+                    <field name="refused" />
                     <field name="invoiced" />
                     <field name="paid" />
                     <field name="canceled" />
