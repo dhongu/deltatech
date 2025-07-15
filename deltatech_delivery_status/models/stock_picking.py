@@ -35,6 +35,7 @@ class StockPicking(models.Model):
             ("in_warehouse", "In Carrier Warehouse"),  # colet in depozitul curierului
             ("in_delivery", "In delivery"),  # coletul este in livrare
             ("delivered", "Delivered"),  # coletul a fost livrat
+            ("refused", "Refused"),  # coletul a fost refuzat
         ],
         string="Delivery State",
         default="draft",
