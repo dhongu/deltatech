@@ -28,6 +28,7 @@ class StockPicking(models.Model):
             if vals["delivery_state"] in ["in_transit", "in_warehouse", "in_delivery"]:
                 for picking in self:
                     if picking.sale_id:
+                        picking.sale_id.phase_id = False
                         picking.sale_id.set_phase("shipped")
             if vals["delivery_state"] == "delivered":
                 for picking in self:
@@ -41,6 +42,7 @@ class StockPicking(models.Model):
             if vals["delivery_state"] == "refused":
                 for picking in self:
                     if picking.sale_id:
+                        picking.sale_id.phase_id = False
                         picking.sale_id.set_phase("refused")
 
         return super().write(vals)
