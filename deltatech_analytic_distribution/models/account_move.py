@@ -8,7 +8,7 @@ class AccountMove(models.Model):
     def action_post(self):
         res = super().action_post()
         is_validation_enabled = self.env.company.analytic_distribution_validation_enabled
-        if is_validation_enabled and self.move_type in ["in_invoice", "in_refund", "in_receipt"]:
+        if is_validation_enabled and self.move_type in ["in_invoice", "in_refund"]:
             for line in self.invoice_line_ids:
                 if not line.analytic_distribution:
                     raise ValidationError(_("Analytic distribution is required for all invoice lines."))
