@@ -418,7 +418,7 @@ class DeltatechExpensesDeduction(models.Model):
                 account = expenses.expense_journal_id.default_account_id
                 # amount = -expenses.difference + expenses.amount_vouchers
                 amount = abs(expenses.difference)
-                if amount > 0:
+                if expenses.difference < 0:
                     value_lines = [
                         {
                             "partner_id": expenses.employee_id.id,
