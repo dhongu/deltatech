@@ -5,9 +5,9 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
-            <group name="sale_info_group" position="inside">
-                <field name="currency_rate_custom" />
-            </group>
+            <xpath expr="//field[@name='fiscal_position_id']" position="after">
+                <field name="currency_rate_custom"  invisible="company_currency_id==currency_id"  />
+            </xpath>
         </field>
     </record>
 </odoo>
