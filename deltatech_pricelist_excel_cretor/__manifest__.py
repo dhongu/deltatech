@@ -1,6 +1,6 @@
 {
     "name": "Create excel with a pricelist",
-    "version": "17.0.0.0.0",
+    "version": "17.0.0.0.1",
     "author": "Voicu Stefan, Terrabit",
     "website": "https://www.terrabit.ro",
     "summary": "Let's you generate an excel with all products based on a pricelist",
