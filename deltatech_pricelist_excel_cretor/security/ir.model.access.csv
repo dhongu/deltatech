@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+deltatech_pricelist_excel_cretor.access_pricelist_excel_wizard,access_pricelist_excel_wizard,deltatech_pricelist_excel_cretor.model_pricelist_excel_wizard,base.group_user,1,1,1,1
