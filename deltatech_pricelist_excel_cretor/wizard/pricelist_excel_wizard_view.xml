@@ -7,6 +7,7 @@
                 <group>
                     <field name="price_list_id" />
                     <field name="partner_id" />
+                    <field name="price_without_discounts" />
                 </group>
                 <footer>
                     <button string="Create Excel" type="object" name="do_compute" class="btn-primary" />

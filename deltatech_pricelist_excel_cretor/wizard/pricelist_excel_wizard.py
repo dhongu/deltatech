@@ -4,6 +4,7 @@ import xlsxwriter
 
 from odoo import _, fields, models
 from odoo.exceptions import UserError
+from datetime import date
 
 
 class PricelistExcelWizard(models.TransientModel):
@@ -12,6 +13,7 @@ class PricelistExcelWizard(models.TransientModel):
 
     price_list_id = fields.Many2one("product.pricelist", string="Price List", required=True)
     partner_id = fields.Many2one("res.partner", string="Partner")
+    price_without_discounts = fields.Boolean(string="Price with Discounts", help="If checked, there will be another price on 1/1/2000.")
     # file_data = fields.Binary("File", readonly=True)
     # file_name = fields.Char("File Name", readonly=True)
 
@@ -30,6 +32,8 @@ class PricelistExcelWizard(models.TransientModel):
 
         # Write headers
         headers = ["Product Name", "Default Code", "Sale Price"]
+        if self.price_without_discounts:
+            headers.append("Price without Discounts")
         for col, header in enumerate(headers):
             sheet.write(0, col, header)
 
@@ -42,6 +46,11 @@ class PricelistExcelWizard(models.TransientModel):
             sheet.write(row, 0, product.with_context(display_default_code=False).display_name)
             sheet.write(row, 1, product.default_code or "")
             sheet.write(row, 2, price, decimal_format)
+            if self.price_without_discounts:
+                price_without_discounts = self.price_list_id._get_product_price(
+                    product, 1, currency=self.price_list_id.currency_id, partner=self.partner_id, date=date(2000, 1, 1)
+                )
+                sheet.write(row, 3, price_without_discounts, decimal_format)
             row += 1
 
         # Close workbook and reset the stream
