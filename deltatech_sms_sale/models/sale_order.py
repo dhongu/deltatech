@@ -18,17 +18,28 @@ class SaleOrder(models.Model):
             sales = self.filtered(
                 lambda o: o.company_id.sale_order_sms_post and (o.partner_id.mobile or o.partner_id.phone)
             )
-            for sale in sales:
-                if sale.state in ["draft", "sale", "cancel"]:
-                    continue
 
-                # Sudo as the user has not always the right to read this sms template.
-                template = sale.company_id.sudo().sale_order_sms_post_template_id
-                sale.with_context(mail_notify_author=True)._message_sms_with_template(
-                    template=template,
-                    partner_ids=sale.partner_id.ids,
-                    put_in_queue=False,
-                )
+            sale_ids = sales.ids
+            dbname = self.env.cr.dbname
+            context = self.env.context.copy()
+
+            def _send_sms_after_commit():
+                with db_connect(dbname).cursor() as cr:
+                    env = Environment(cr, SUPERUSER_ID, context)
+                    sales = env["sale.order"].browse(sale_ids)
+                    for sale in sales:
+                        if sale.state in ["draft", "sale", "cancel"]:
+                            continue
+
+                        # Sudo as the user has not always the right to read this sms template.
+                        template = sale.company_id.sudo().sale_order_sms_post_template_id
+                        sale.with_context(mail_notify_author=True)._message_sms_with_template(
+                            template=template,
+                            partner_ids=sale.partner_id.ids,
+                            put_in_queue=False,
+                        )
+
+            self.env.cr.postcommit.add(_send_sms_after_commit)
         return res
 
     def action_confirm(self):
