@@ -1,10 +1,10 @@
 import io
+from datetime import date
 
 import xlsxwriter
 
 from odoo import _, fields, models
 from odoo.exceptions import UserError
-from datetime import date
 
 
 class PricelistExcelWizard(models.TransientModel):
@@ -13,7 +13,9 @@ class PricelistExcelWizard(models.TransientModel):
 
     price_list_id = fields.Many2one("product.pricelist", string="Price List", required=True)
     partner_id = fields.Many2one("res.partner", string="Partner")
-    price_without_discounts = fields.Boolean(string="Price with Discounts", help="If checked, there will be another price on 1/1/2000.")
+    price_without_discounts = fields.Boolean(
+        string="Price with Discounts", help="If checked, there will be another price on 1/1/2000."
+    )
     # file_data = fields.Binary("File", readonly=True)
     # file_name = fields.Char("File Name", readonly=True)
 

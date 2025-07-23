@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='fiscal_position_id']" position="after">
-                <field name="currency_rate_custom"  invisible="company_currency_id==currency_id"  />
+                <field name="currency_rate_custom" invisible="company_currency_id==currency_id" />
             </xpath>
         </field>
     </record>
