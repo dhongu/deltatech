@@ -31,7 +31,7 @@ class ProductProduct(models.Model):
                         use_auto_rules = (
                             self.env["ir.config_parameter"]
                             .sudo()
-                            .get_param("deltatech_auto_reorder_rule.use_auto_instead_of_manual_rules", default=False)
+                            .get_param("deltatech_auto_reorder_rule.use_auto_instead_of_manual_rules", default="False")
                         )
                         use_auto_rules = safe_eval(use_auto_rules)
                         values.append(
