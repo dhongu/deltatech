@@ -1,0 +1,79 @@
+<odoo>
+    <record id="view_pos_order_time_period_wizard_form" model="ir.ui.view">
+        <field name="name">pos.order.time.period.wizard.form</field>
+        <field name="model">pos.order.time.period.wizard</field>
+        <field name="arch" type="xml">
+            <form string="POS Order Time Period Wizard">
+                    <group name="date_range1" string="First Period">
+                        <field
+                        name="start_date_1"
+                        string="Date"
+                        widget="daterange"
+                        options="{'end_date_field': 'end_date_1'}"
+                    />
+                        <field name="end_date_1" invisible="1" />
+
+                    </group>
+<!--                    <group>-->
+<!--                        <field name="start_date_1"/>-->
+<!--                        <field name="end_date_1"/>-->
+<!--                    </group>-->
+                    <group name="date_range2" string="Second Period">
+                        <field
+                        name="start_date_2"
+                        string="Date"
+                        widget="daterange"
+                        options="{'end_date_field': 'end_date_2'}"
+                    />
+                        <field name="end_date_2" invisible="1" />
+
+                    </group>
+<!--                    <group>-->
+<!--                        <field name="start_date_2"/>-->
+<!--                        <field name="end_date_2"/>-->
+<!--                    </group>-->
+                <footer>
+                    <button string="Compute" type="object" name="do_compute" class="btn-primary" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pos_order_time_period_wizard" model="ir.actions.act_window">
+        <field name="name">POS Order Time Period Wizard</field>
+        <field name="res_model">pos.order.time.period.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="menu_pos_order_time_period_wizard"
+        name="Time Period Wizard"
+        parent="point_of_sale.menu_point_rep"
+        action="action_pos_order_time_period_wizard"
+        sequence="10"
+    />
+
+    <record id="view_pos_order_time_period_report_pivot" model="ir.ui.view">
+        <field name="name">pos.order.time.period.report.pivot</field>
+        <field name="model">pos.order.time.period.report</field>
+        <field name="arch" type="xml">
+            <pivot string="POS Order Time Period Report">
+                <field name="time_period" type="col" />
+                <field name="config_id" type="row" />
+                <field name="order_id" type="measure" />
+                <field name="product_qty" type="measure" />
+                <field name="price_total" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_pos_order_time_period_report" model="ir.actions.act_window">
+        <field name="name">POS Order Time Period Report</field>
+        <field name="res_model">pos.order.time.period.report</field>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_pos_order_time_period_report_pivot" />
+        <field name="target">current</field>
+    </record>
+</odoo>
