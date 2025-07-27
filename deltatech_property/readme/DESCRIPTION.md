@@ -1,3 +1,0 @@
-Features:
-
-- Property management system
