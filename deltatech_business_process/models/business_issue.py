@@ -111,6 +111,9 @@ class BusinessIssue(models.Model):
 
     closed_date = fields.Date(string="Closed Date")
     closed_by_id = fields.Many2one(string="Closed by", comodel_name="res.partner")
+    company_id = fields.Many2one(
+        "res.company", string="Company", related="project_id.company_id", store=True, readonly=True
+    )
 
     @api.model_create_multi
     def create(self, vals_list):
