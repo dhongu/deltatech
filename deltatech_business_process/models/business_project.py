@@ -67,6 +67,7 @@ class BusinessProject(models.Model):
         string="Main Attachments",
         help="Attachments that don't come from a message.",
     )
+    company_id = fields.Many2one("res.company", "Company", default=False)
 
     @api.model
     def _get_attachments_search_domain(self, model, res_ids):

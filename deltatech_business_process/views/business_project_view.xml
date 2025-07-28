@@ -74,6 +74,7 @@
 
                     <group>
                         <group string="Identification">
+                            <field name="company_id" />
                             <field name="code" />
                             <field name="customer_id" />
                             <field name="project_manager_id" />
