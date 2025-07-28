@@ -24,6 +24,7 @@ class RecordType(models.Model):
         "record.type.default.values", "record_type_id", string="Default Values", copy=True
     )
     route_ids = fields.Many2many("stock.route", "Routes")
+    company_id = fields.Many2one("res.company", "Company", default=False)
 
 
 class SaleOrderTypeDefaultValues(models.Model):
