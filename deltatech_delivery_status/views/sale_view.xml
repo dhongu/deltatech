@@ -32,7 +32,7 @@
     <record id="action_postpone_delivery" model="ir.actions.server">
         <field name="name">Postpone Delivery</field>
         <field name="model_id" ref="sale.model_sale_order"/>
-        <field name="binding_model_id" ref="sale.model_sale_order"/>
+
         <field name="state">code</field>
         <field name="code">
             action = record.postpone_delivery()
@@ -41,7 +41,7 @@
     <record id="action_release_delivery" model="ir.actions.server">
         <field name="name">Release Delivery</field>
         <field name="model_id" ref="sale.model_sale_order"/>
-        <field name="binding_model_id" ref="sale.model_sale_order"/>
+
         <field name="state">code</field>
         <field name="code">
             action = record.release_delivery()
