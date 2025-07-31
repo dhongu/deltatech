@@ -4,3 +4,5 @@
 from . import stock_picking
 from . import sale
 from . import sale_team
+from . import payment_provider
+from . import payment_transaction
