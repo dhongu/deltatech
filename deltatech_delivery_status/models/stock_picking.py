@@ -33,8 +33,9 @@ class StockPicking(models.Model):
             ("pre_advice", "Pre advice"),  # awb generat
             ("in_transit", "In Transit"),  # colet ridicat de curier
             ("in_warehouse", "In Carrier Warehouse"),  # colet in depozitul curierului
-            ("in_delivery", "In delivery"),  # coletul este livrare
-            ("delivered", "Delivered"),
+            ("in_delivery", "In delivery"),  # coletul este in livrare
+            ("delivered", "Delivered"),  # coletul a fost livrat
+            ("refused", "Refused"),  # coletul a fost refuzat
         ],
         string="Delivery State",
         default="draft",
@@ -55,8 +56,10 @@ class StockPicking(models.Model):
     def _action_done(self):
         res = super()._action_done()
         for picking in self:
-            if picking.state == "done" and not picking.carrier_id:
-                picking.write({"delivery_state": "delivered"})
+            if picking.state == "done":
+                carrier_id = picking.carrier_id or picking.sale_id.carrier_id
+                if not carrier_id:
+                    picking.write({"delivery_state": "delivered"})
         return res
 
     @api.depends("move_type", "move_ids.state", "move_ids.picking_id", "postponed")
