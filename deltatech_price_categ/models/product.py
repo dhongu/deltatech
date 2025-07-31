@@ -41,7 +41,7 @@ class ProductTemplate(models.Model):
         string="Base Price",
         default="last_purchase_price",
     )
-
+    # campurile acesta trebuie sa fie dependente de companie !!!
     percent_bronze = fields.Float(string="Bronze Percent")
     percent_copper = fields.Float(string="Copper Percent")
     percent_silver = fields.Float(string="Silver Percent")
