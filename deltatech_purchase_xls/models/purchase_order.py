@@ -18,8 +18,8 @@ class PurchaseOrder(models.Model):
             "type": "ir.actions.act_window",
             "name": "Purchase Order Lines",
             "res_model": "purchase.order.line",
-            "view_mode": "tree,form",
-            "views": [(tree_view_id, "tree")],
+            "view_mode": "list,form",
+            "views": [(tree_view_id, "list")],
             "domain": [("order_id", "=", self.id)],
             "context": {"default_order_id": self.id, "create": True, "edit": True},
         }
