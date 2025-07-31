@@ -21,6 +21,7 @@ class SaleOrderPhase(models.Model):
     pre_advice = fields.Boolean()  # comanda a fost preavizata (a fsot facut awb-uil)
     shipped = fields.Boolean()  # comanda a fost expediata
     delivered = fields.Boolean()  # comanda a fost livrata
+    refused = fields.Boolean()  # comanda a fost refuzata
     invoiced = fields.Boolean()  # comanda a fost facturata
     paid = fields.Boolean()  # comanda a fost platita
     canceled = fields.Boolean()  # comanda a fost anulata
