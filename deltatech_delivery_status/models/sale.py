@@ -36,10 +36,12 @@ class SaleOrder(models.Model):
     def _action_confirm(self):
         res = super()._action_confirm()
         for order in self:
+            tx = order.sudo().transaction_ids._get_last()
+            if not tx and order.sudo().transaction_ids:
+                tx = order.sudo().transaction_ids[-1]
+            if tx and tx.provider_id.postponed_delivery:
+                order.postpone_delivery()
             if order.team_id.postpone_payment_transfer:
-                tx = order.sudo().transaction_ids._get_last()
-                if not tx and order.sudo().transaction_ids:
-                    tx = order.sudo().transaction_ids[-1]
                 if tx and tx.provider_id.custom_mode == "wire_transfer":
                     order.postpone_delivery()
 
