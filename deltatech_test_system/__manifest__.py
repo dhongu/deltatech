@@ -15,7 +15,7 @@
     "data": [
         # "views/templates.xml",
         "views/res_config_settings_view.xml",
-        'views/ir_module_module_view.xml',
+        "views/ir_module_module_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",

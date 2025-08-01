@@ -7,12 +7,12 @@
             <field name="inherit_id" ref="base.module_view_kanban" />
             <field name="arch" type="xml">
                 <xpath expr="//templates" position="before">
-                    <field name="database_is_neutralized"  />
+                    <field name="database_is_neutralized" />
                 </xpath>
-                <xpath expr="//a[@name='button_uninstall_wizard']" position="attributes" >
+                <xpath expr="//a[@name='button_uninstall_wizard']" position="attributes">
                     <attribute name="invisible">not database_is_neutralized</attribute>
                 </xpath>
-                <xpath expr="//button[@name='button_immediate_install']" position="attributes" >
+                <xpath expr="//button[@name='button_immediate_install']" position="attributes">
                     <attribute name="invisible">state != 'uninstalled' or not database_is_neutralized</attribute>
                 </xpath>
             </field>
@@ -24,12 +24,14 @@
             <field name="inherit_id" ref="base.module_form" />
             <field name="arch" type="xml">
                  <xpath expr="//button[@name='button_immediate_install']" position="before">
-                    <field name="database_is_neutralized" invisible="1"/>
+                    <field name="database_is_neutralized" invisible="1" />
                 </xpath>
-                <xpath expr="//button[@name='button_immediate_install']" position="attributes" >
-                    <attribute name="invisible">to_buy or state != 'uninstalled' or not database_is_neutralized</attribute>
+                <xpath expr="//button[@name='button_immediate_install']" position="attributes">
+                    <attribute
+                    name="invisible"
+                >to_buy or state != 'uninstalled' or not database_is_neutralized</attribute>
                 </xpath>
-                <xpath expr="//button[@name='button_uninstall_wizard']" position="attributes" >
+                <xpath expr="//button[@name='button_uninstall_wizard']" position="attributes">
                     <attribute name="invisible">state != 'installed' or not database_is_neutralized</attribute>
                 </xpath>
             </field>

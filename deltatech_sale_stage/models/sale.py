@@ -57,8 +57,12 @@ class SaleOrder(models.Model):
     def set_phase(self, phase_step, ignore_sequence=False):
         if self.env.context.get("skip_phase_update", False):
             return
-        domain = [(phase_step, "=", True)]
+        if phase_step not in self.env["sale.order.phase"]._fields:
+            domain = [("code", "=", phase_step)]
+        else:
+            domain = [(phase_step, "=", True)]
         phases = self.env["sale.order.phase"].search(domain)
+
         if not phases:
             return
         for order in self:
@@ -86,7 +90,7 @@ class SaleOrder(models.Model):
         if "phase_id" in vals:
             for order in self:
                 if order.phase_id.action_id:
-                    order.phase_id.action_id.with_context(active_id=order.id, active_model='sale.order').run()
+                    order.phase_id.action_id.with_context(active_id=order.id, active_model="sale.order").run()
                 if order.phase_id.confirmed and order.state == "draft":
                     order.with_context(skip_phase_update=True).action_confirm()
                 if order.phase_id.canceled and order.state != "cancel":
