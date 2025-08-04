@@ -12,6 +12,17 @@ _logger = logging.getLogger(__name__)
 class QueueJob(models.Model):
     _inherit = "queue.job"
 
+    @api.model
+    def _run_pending_jobs(self, limit=10):
+        limit_jobs = self.env["ir.config_parameter"].sudo().get_param("queue_job.limit_jobs", limit)
+        limit_jobs = int(limit_jobs)
+        jobs = self.search([("state", "=", "pending")], limit=limit_jobs)
+        for job in jobs:
+            try:
+                job.perform()
+            except Exception as e:
+                job.set_failed(e)
+
     def start_cron_trigger(self):
         domain = [("queue_job_runner", "=", True)]
         crons = self.env["ir.cron"].sudo().with_context(active_test=False).search(domain)
