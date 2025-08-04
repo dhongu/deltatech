@@ -1,0 +1,13 @@
+<odoo>
+    <record id="view_order_product_pivot_inherit" model="ir.ui.view">
+        <field name="name">sale.view_order_product_pivot.inherit</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_pivot" />
+        <field name="arch" type="xml">
+            <!-- Example: Add a new field to the pivot view -->
+            <xpath expr="//field[@name='price_subtotal']" position="after">
+                <field name="order_reference" type="measure" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
