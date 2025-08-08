@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+
+     <template
+        id="product_warehouse_distribution"
+        inherit_id="website_sale.product"
+        active="True"
+        customize_show="True"
+        name="Alternative code"
+    >
+
+            <xpath expr="//p[@t-field='product.description_sale']" position="before">
+                <t t-set="product_warehouse_distribution" t-value="product.sudo().get_warehouse_stock_distribution()" />
+                <span class="fw-bold">
+                    In stock availability
+                </span>
+                <div t-foreach="product_warehouse_distribution" t-as="warehouse_distribution">
+                    <div class="o_warehouse_stock_distribution">
+                        <span t-esc="warehouse_distribution['warehouse']" />:
+                        <t t-if="warehouse_distribution['badge'] == 'green'">
+                            <span class="badge bg-success" t-esc="warehouse_distribution['quantity']" />
+                        </t>
+                        <t t-if="warehouse_distribution['badge'] == 'grey'">
+                            <span class="badge bg-secondary" t-esc="warehouse_distribution['quantity']" />
+                        </t>
+                        <t t-if="warehouse_distribution['badge'] == 'red'">
+                            <span class="badge bg-danger" t-esc="warehouse_distribution['quantity']" />
+                        </t>
+                    </div>
+                </div>
+        </xpath>
+    </template>
+
+</odoo>
