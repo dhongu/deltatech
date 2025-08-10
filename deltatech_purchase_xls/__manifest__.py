@@ -3,22 +3,20 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Purchase XLS",
-    "summary": "Import/export purchase line from/to Excel",
-    "author": "Terrabit, Dorin Hongu",
-    "version": "17.0.1.0.9",
+    "name": "Deltatech Purchase XLS - Enhanced",
+    "summary": "Enhanced list view for purchase orders with vendor pricelist integration",
+    "author": "Terrabit, Dorin Hongu, Enhanced by Custom Development",
+    "version": "17.0.2.0.0",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
     "category": "Purchase",
     "depends": ["purchase_stock"],
     "data": [
-        "wizard/import_purchase_line_view.xml",
-        "wizard/export_purchase_line_view.xml",
         "security/ir.model.access.csv",
         "views/purchase_order_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
-    "development_status": "Mature",
+    "development_status": "Beta",
     "maintainers": ["dhongu"],
 }
