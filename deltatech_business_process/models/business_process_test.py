@@ -66,6 +66,9 @@ class BusinessProcessTest(models.Model):
         inverse_name="process_test_id",
         copy=True,
     )
+    company_id = fields.Many2one(
+        "res.company", string="Company", related="process_id.company_id", store=True, readonly=True
+    )
 
     @api.depends("test_step_ids.result")
     def _compute_completion_test(self):

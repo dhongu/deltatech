@@ -70,6 +70,10 @@ class BusinessProcessStepTest(models.Model):
 
     issue_ids = fields.One2many("business.issue", "step_test_id", string="Issues")
 
+    company_id = fields.Many2one(
+        "res.company", string="Company", related="process_id.company_id", store=True, readonly=True
+    )
+
     @api.depends("issue_ids")
     def _compute_count_issues(self):
         for record in self:
