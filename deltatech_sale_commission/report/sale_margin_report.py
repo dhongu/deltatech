@@ -320,11 +320,11 @@ class SaleMarginReport(models.Model):
         return True
 
     # Adăugați metoda _read_group_select pentru a personaliza calculul la grupare
-    def _read_group_select(self, aggregate_spec: str, query: Query) -> tuple[SQL, list[str]]:
+    def _read_group_select(self, aggregate_spec: str, query: Query) -> SQL:
         if aggregate_spec == "markup:avg":
             # Calculează indicatorul de supliment din valorile agregate de vânzări și stoc
-            sale_val_sql, sale_val_params = self._read_group_select("sale_val:sum", query)
-            stock_val_sql, stock_val_params = self._read_group_select("stock_val:sum", query)
+            sale_val_sql = self._read_group_select("sale_val:sum", query)
+            stock_val_sql = self._read_group_select("stock_val:sum", query)
             sql_expr = SQL(
                 "CASE WHEN %s = 0 THEN 0 ELSE 100 * (%s - %s) / %s END",
                 stock_val_sql,
@@ -332,12 +332,12 @@ class SaleMarginReport(models.Model):
                 stock_val_sql,
                 stock_val_sql,
             )
-            return sql_expr, sale_val_params + stock_val_params + stock_val_params
+            return sql_expr
 
         elif aggregate_spec == "profit_margin:avg":
             # Calculează indicatorul de profit din valorile agregate de vânzări și stoc
-            sale_val_sql, sale_val_params = self._read_group_select("sale_val:sum", query)
-            stock_val_sql, stock_val_params = self._read_group_select("stock_val:sum", query)
+            sale_val_sql = self._read_group_select("sale_val:sum", query)
+            stock_val_sql = self._read_group_select("stock_val:sum", query)
             sql_expr = SQL(
                 "CASE WHEN %s = 0 THEN 0 ELSE 100 * (%s - %s) / %s END",
                 sale_val_sql,
@@ -345,6 +345,6 @@ class SaleMarginReport(models.Model):
                 stock_val_sql,
                 sale_val_sql,
             )
-            return sql_expr, sale_val_params + sale_val_params + stock_val_params + sale_val_params
+            return sql_expr
 
         return super()._read_group_select(aggregate_spec, query)
