@@ -246,12 +246,12 @@
         <field name="act_window_id" ref="action_sale_margin_report" />
     </record>
 
-    <record model="ir.actions.act_window.view" id="action_sale_margin_report_list">
+<!--    <record model="ir.actions.act_window.view" id="action_sale_margin_report_list">
         <field name="sequence" eval="2" />
         <field name="view_mode">list</field>
         <field name="view_id" ref="view_sale_margin_report_list" />
         <field name="act_window_id" ref="action_sale_margin_report" />
-    </record>
+    </record>-->
 
     <menuitem action="action_sale_margin_report" id="menu_sale_margin_report_list" parent="sale.menu_sale_report" />
 
