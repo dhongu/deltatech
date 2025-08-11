@@ -170,6 +170,9 @@ class BusinessProcess(models.Model):
     module_type = fields.Selection(
         [("standard", "Standard"), ("custom", "Custom"), ("implementor", "Implementor")], string="Module type"
     )
+    company_id = fields.Many2one(
+        "res.company", string="Company", related="project_id.company_id", store=True, readonly=True
+    )
 
     @api.model_create_multi
     def create(self, vals_list):
