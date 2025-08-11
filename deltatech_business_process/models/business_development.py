@@ -88,6 +88,10 @@ class BusinessDevelopment(models.Model):
     development_duration = fields.Float(string="Development duration")
     note = fields.Html(string="Note")
 
+    company_id = fields.Many2one(
+        "res.company", string="Company", related="project_id.company_id", store=True, readonly=True
+    )
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
