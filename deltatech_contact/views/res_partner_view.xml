@@ -12,8 +12,8 @@
                 <xpath expr="//div[hasclass('o_address_format')]" position="after">
                     <label for="id_nr" string="Card ID Number" invisible="is_company==True or type!='contact'" />
                     <div class="o_row" invisible="is_company==True or type!='contact'">
-                        <field name="id_series" placeholder="XX" />
-                        <field name="id_nr" placeholder="123456" />
+                        <field name="id_series" placeholder="Series" />
+                        <field name="id_nr" placeholder="Number" />
                     </div>
                     <label for="id_issued_by" string="Card ID Issued" invisible="is_company==True or type!='contact'" />
                     <div class="o_row" invisible="is_company==True or type!='contact'">
