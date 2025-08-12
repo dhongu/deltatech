@@ -11,7 +11,7 @@
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale"],
     "data": [
-        'views/product_attribute_views.xml',
+        "views/product_attribute_views.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
