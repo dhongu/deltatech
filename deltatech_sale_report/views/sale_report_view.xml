@@ -7,6 +7,8 @@
             <!-- Example: Add a new field to the pivot view -->
             <xpath expr="//field[@name='price_subtotal']" position="after">
                 <field name="order_reference" type="measure" />
+                <field name="transport_value" type="measure" />
+                <field name="price_total_without_delivery" type="measure" />
             </xpath>
         </field>
     </record>
