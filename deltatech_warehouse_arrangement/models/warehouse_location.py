@@ -35,12 +35,16 @@ class WarehouseLocationStorehouse(models.Model):
         for rec in self:
             rec.full_name = rec.location_id.name or "" + "/" + rec.name
 
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for rec in self:
-            name = f"{rec.name} ({rec.full_name})"
-            result.append((rec.id, name))
-        return result
+            rec.display_name = f"{rec.name} ({rec.full_name})"
+
+    # def name_get(self):
+    #     result = []
+    #     for rec in self:
+    #         name = f"{rec.name} ({rec.full_name})"
+    #         result.append((rec.id, name))
+    #     return result
 
 
 class WarehouseLocationZone(models.Model):
@@ -64,12 +68,16 @@ class WarehouseLocationZone(models.Model):
                 + rec.name
             )
 
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for rec in self:
-            name = f"{rec.name} ({rec.full_name})"
-            result.append((rec.id, name))
-        return result
+            rec.display_name = f"{rec.name} ({rec.full_name})"
+
+    # def name_get(self):
+    #     result = []
+    #     for rec in self:
+    #         name = f"{rec.name} ({rec.full_name})"
+    #         result.append((rec.id, name))
+    #     return result
 
 
 class WarehouseLocationShelf(models.Model):
@@ -96,12 +104,16 @@ class WarehouseLocationShelf(models.Model):
                 + rec.name
             )
 
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for rec in self:
-            name = f"{rec.name} ({rec.full_name})"
-            result.append((rec.id, name))
-        return result
+            rec.display_name = f"{rec.name} ({rec.full_name})"
+
+    # def name_get(self):
+    #     result = []
+    #     for rec in self:
+    #         name = f"{rec.name} ({rec.full_name})"
+    #         result.append((rec.id, name))
+    #     return result
 
 
 class WarehouseLocationSection(models.Model):
@@ -131,12 +143,16 @@ class WarehouseLocationSection(models.Model):
                 + rec.name
             )
 
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for rec in self:
-            name = f"{rec.name} ({rec.full_name})"
-            result.append((rec.id, name))
-        return result
+            rec.display_name = f"{rec.name} ({rec.full_name})"
+
+    # def name_get(self):
+    #     result = []
+    #     for rec in self:
+    #         name = f"{rec.name} ({rec.full_name})"
+    #         result.append((rec.id, name))
+    #     return result
 
 
 class WarehouseLocationRack(models.Model):
@@ -170,9 +186,13 @@ class WarehouseLocationRack(models.Model):
                 + rec.name
             )
 
-    def name_get(self):
-        result = []
+    def _compute_display_name(self):
         for rec in self:
-            name = f"{rec.name} ({rec.full_name})"
-            result.append((rec.id, name))
-        return result
+            rec.display_name = f"{rec.name} ({rec.full_name})"
+
+    # def name_get(self):
+    #     result = []
+    #     for rec in self:
+    #         name = f"{rec.name} ({rec.full_name})"
+    #         result.append((rec.id, name))
+    #     return result
