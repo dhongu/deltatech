@@ -63,6 +63,11 @@ class InvoiceFollowup(models.Model):
         help="Mail template to use. You have to use a Partner model template.",
     )
     code = fields.Char("Code", help="Code. Can be used in cron job to run only selected followups")
+    use_customer_currency = fields.Boolean(
+        "Use customer currency",
+        default=False,
+        help="If checked, the currency of the customer will be used, " "otherwise the currency of the company",
+    )
 
     @api.model
     def is_match(self, date):
