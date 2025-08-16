@@ -14,8 +14,11 @@
                     </div>
                     <div class="o_setting_right_pane">
                         <label for="database_is_neutralized" />
-                        <div class="text-muted">
+                        <div class="text-muted" invisible="not database_is_neutralized">
                             It is a test system
+                        </div>
+                        <div class="text-muted" invisible="database_is_neutralized">
+                            It is a productive system
                         </div>
                     </div>
 
