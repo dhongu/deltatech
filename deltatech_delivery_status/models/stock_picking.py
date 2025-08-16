@@ -31,11 +31,13 @@ class StockPicking(models.Model):
             ("draft", "Draft"),
             ("ready_in_warehouse", "Ready in warehouse"),  # coletul este in depozit
             ("pre_advice", "Pre advice"),  # awb generat
-            ("in_transit", "In Transit"),  # colet ridicat de curier
+            ("in_transit", "In Transit"),  # colet ridicat de curier defi a fsot facuta expedierea
             ("in_warehouse", "In Carrier Warehouse"),  # colet in depozitul curierului
             ("in_delivery", "In delivery"),  # coletul este in livrare
             ("delivered", "Delivered"),  # coletul a fost livrat
             ("refused", "Refused"),  # coletul a fost refuzat
+            # ("return_by_sender", "Return by Sender"),  # coletul a fost returnat la cererea expeditorului
+            # ("cancelled", "Cancelled"),  # coletul a fost anulat
         ],
         string="Delivery State",
         default="draft",
