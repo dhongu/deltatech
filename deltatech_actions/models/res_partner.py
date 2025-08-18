@@ -8,7 +8,12 @@ _logger = logging.getLogger(__name__)
 class ResPartnerMergeCron(models.Model):
     _inherit = "res.partner"
 
-    def _cron_merge_duplicate_contacts(self, limit=5):
+    def _compute_vies_valid(self):
+        if self.env.context.get("skip_vies_check"):
+            return
+        return super()._compute_vies_valid()
+
+    def _cron_merge_duplicate_contacts(self, limit=10):
         MergeWizard = self.env["base.partner.merge.automatic.wizard"]
         need_retrigger = False
         # Găsește grupuri de persoane duplicate după email
@@ -49,8 +54,8 @@ class ResPartnerMergeCron(models.Model):
             self.env.ref("deltatech_actions.ir_cron_merge_contacts")._trigger()
 
 
-    def _cron_merge_duplicate_companies(self, limit=5):
-        MergeWizard = self.env["base.partner.merge.automatic.wizard"]
+    def _cron_merge_duplicate_companies(self, limit=10):
+        MergeWizard = self.env["base.partner.merge.automatic.wizard"].with_context(skip_vies_check=True)
         need_retrigger = False
         # Găsește grupuri de companii duplicate după CUI
         self.env.cr.execute(
@@ -58,7 +63,7 @@ class ResPartnerMergeCron(models.Model):
             SELECT vat, array_agg(id) AS partner_ids
             FROM res_partner
             WHERE vat IS NOT NULL
-              AND vat != ''
+              AND vat not in  ('','0','-')
               AND active = TRUE
               AND is_company = TRUE
               AND parent_id IS NULL
@@ -77,7 +82,7 @@ class ResPartnerMergeCron(models.Model):
             partners = self.env["res.partner"].browse(ids).exists()
             if len(partners) <= 1:
                 continue
-
+            partners = partners.with_context(skip_vies_check=True)
             main = partners[0]  # păstrăm prima companie ca principală
             secundar = partners[1]
 
