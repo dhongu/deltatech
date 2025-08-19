@@ -57,7 +57,7 @@
             <field name="arch" type="xml">
                 <search string="Search">
 
-                    <filter name="date" date="date" default_period="month" />
+                    <filter name="filter_date" date="date" default_period="month" />
 
                     <filter name='quotations' string="Quotations" domain="[('state','=','draft')]" />
                     <filter name='Sales' string="Sales" domain="[('state','not in',('draft','cancel'))]" />

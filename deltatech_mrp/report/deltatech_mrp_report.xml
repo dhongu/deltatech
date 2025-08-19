@@ -79,7 +79,7 @@
             <field name="arch" type="xml">
                 <search string="Production Analysis">
 
-                    <filter name="date" date="date" default_period="month-1" />
+                    <filter name="filter_date" date="date" default_period="month-1" />
 
                     <field name="product_id" />
                     <field name="lot_producing_id" />
