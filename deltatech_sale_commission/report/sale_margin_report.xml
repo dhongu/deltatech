@@ -134,7 +134,7 @@
         <field name="arch" type="xml">
             <search string="Search">
 
-                <filter name="date" date="date" default_period="month-1" />
+                <filter name="filter_date" date="date" default_period="month-1" />
 
                 <filter name="filter_today" string="Today" domain="[('date', '>=', context_today())]" />
 
