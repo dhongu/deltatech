@@ -8,4 +8,4 @@ from odoo import fields, models
 class StockValuationLayer(models.Model):
     _inherit = "stock.valuation.layer"
 
-    l10n_ro_valued_type = fields.Char()  # se completeaza in l10n_ro_stock_account
+    l10n_ro_valued_type = fields.Selection(selection_add=[])  # se completeaza in l10n_ro_stock_account
