@@ -12,8 +12,16 @@
                 <xpath expr="//a[@name='button_uninstall_wizard']" position="attributes">
                     <attribute name="invisible">not database_is_neutralized</attribute>
                 </xpath>
+
                 <xpath expr="//button[@name='button_immediate_install']" position="attributes">
                     <attribute name="invisible">state != 'uninstalled' or not database_is_neutralized</attribute>
+                </xpath>
+                <xpath expr="//button[@name='button_immediate_install']" position="after">
+                    <div invisible="database_is_neutralized">
+                        <span invisible="state != 'uninstalled'" class="text-success">Is installed</span>
+                        <span invisible="state == 'uninstalled'"  class="text-muted">Is not installed</span>
+                    </div>
+
                 </xpath>
             </field>
         </record>
