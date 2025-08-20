@@ -1,6 +1,6 @@
 import logging
 
-from odoo import fields, models
+from odoo import models
 
 _logger = logging.getLogger(__name__)
 
@@ -28,7 +28,7 @@ class ResPartnerMergeCron(models.Model):
             HAVING count(*) > 1
             LIMIT %s
         """,
-            (limit+1,),
+            (limit + 1,),
         )
         duplicates = self.env.cr.fetchall()
         if len(duplicates) > limit:
@@ -53,7 +53,6 @@ class ResPartnerMergeCron(models.Model):
         if need_retrigger:
             self.env.ref("deltatech_actions.ir_cron_merge_contacts")._trigger()
 
-
     def _cron_merge_duplicate_companies(self, limit=10):
         MergeWizard = self.env["base.partner.merge.automatic.wizard"].with_context(skip_vies_check=True)
         need_retrigger = False
@@ -71,7 +70,7 @@ class ResPartnerMergeCron(models.Model):
             HAVING count(*) > 1
             LIMIT %s
         """,
-            (limit+1,),
+            (limit + 1,),
         )
         duplicates = self.env.cr.fetchall()
         if len(duplicates) > limit:
