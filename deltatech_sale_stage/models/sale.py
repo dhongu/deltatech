@@ -5,7 +5,8 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-
+import logging
+_logger = logging.getLogger(__name__)
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
@@ -89,8 +90,12 @@ class SaleOrder(models.Model):
         res = super().write(vals)
         if "phase_id" in vals:
             for order in self:
+                order = order.with_context(active_id=order.id, active_model="sale.order")
                 if order.phase_id.action_id:
-                    order.phase_id.action_id.with_context(active_id=order.id, active_model="sale.order").run()
+                    try:
+                        order.phase_id.action_id.run()
+                    except Exception as e:
+                        _logger.error(e)
                 if order.phase_id.confirmed and order.state == "draft":
                     order.with_context(skip_phase_update=True).action_confirm()
                 if order.phase_id.canceled and order.state != "cancel":
