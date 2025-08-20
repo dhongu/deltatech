@@ -19,7 +19,7 @@
                 <xpath expr="//button[@name='button_immediate_install']" position="after">
                     <div invisible="database_is_neutralized">
                         <span invisible="state != 'uninstalled'" class="text-success">Is installed</span>
-                        <span invisible="state == 'uninstalled'"  class="text-muted">Is not installed</span>
+                        <span invisible="state == 'uninstalled'" class="text-muted">Is not installed</span>
                     </div>
 
                 </xpath>

@@ -338,7 +338,8 @@ class DeltatechExpensesDeduction(models.Model):
 
             for line in expenses.expenses_line_ids:
                 partner_id = line.partner_id or partner_generic
-
+                if not partner_id:
+                    raise UserError(_("You must select a supplier for all lines."))
                 if line.type == "expenses":
                     voucher_value = {
                         "partner_id": partner_id.id,
