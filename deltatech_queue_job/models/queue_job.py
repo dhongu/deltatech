@@ -64,7 +64,7 @@ class QueueJob(models.Model):
         return self.browse(row and row[0])
 
     def process_jobs(self):
-        for job in self.filtered(lambda j: j.state == "pending"):
+        for job in self.filtered(lambda j: j.state in ["pending","enqueued"]):
             job._process()
 
     @api.model
