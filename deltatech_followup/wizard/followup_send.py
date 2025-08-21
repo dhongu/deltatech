@@ -12,6 +12,15 @@ class FollowupSendWizard(models.TransientModel):
     _name = "followup.send.wizard"
     _description = "Followup Send Wizard"
 
+    def get_amount_residual(self, followup, invoice):
+        if followup.use_customer_currency:
+            if invoice.move_type == "out_refund":
+                return -1 * invoice.amount_residual
+            else:
+                return invoice.amount_residual
+        else:
+            return invoice.amount_residual_signed
+
     @api.model
     def run_followup(self, codes=False):
         # run by cron job
@@ -53,10 +62,12 @@ class FollowupSendWizard(models.TransientModel):
                             # add invoice
                             invoices_to_process.append(invoice)
                         if invoice.payment_state in ["not_paid", "partial"]:
-                            partner_all_debit += invoice.amount_residual_signed
+                            partner_all_debit += self.get_amount_residual(followup, invoice)
                             if invoice.invoice_date_due < fields.Date.today():
-                                partner_due_debit += invoice.amount_residual_signed
+                                partner_due_debit += self.get_amount_residual(followup, invoice)
                     if invoices_to_process:
+                        if followup.use_customer_currency:
+                            inv_currency = invoices_to_process[0].currency_id
                         invoices_content = ""
                         for invoice in invoices_to_process:
                             crt_row = Template(followup.invoice_html).substitute(
@@ -110,6 +121,7 @@ class FollowupSendWizard(models.TransientModel):
                             body = body.replace("$total_debit", f"{partner_debit:,.2f}")
                             body = body.replace("$total_all_debit", f"{partner_all_debit:,.2f}")
                             body = body.replace("$total_due_debit", f"{partner_due_debit:,.2f}")
+                            body = body.replace("$currency", inv_currency.name)
                             body = html.unescape(body)
                             email_values = {
                                 "body_html": body,
