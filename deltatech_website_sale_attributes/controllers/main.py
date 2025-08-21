@@ -41,7 +41,7 @@ class WebsiteSaleAttribute(WebsiteSale):
                 response.qcontext.update(categories=categories)
         else:
             domain = [("visibility", "=", "visible")]
-            value_ids = request.env["`product.attribute.value`"].search(domain)
+            value_ids = request.env["product.attribute.value"].search(domain)
 
         response.qcontext.update(value_ids=value_ids)
 
