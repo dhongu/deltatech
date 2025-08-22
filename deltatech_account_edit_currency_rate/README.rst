@@ -1,6 +1,6 @@
-===================================
-Deltatech Select Journal - Obsolete
-===================================
+============================
+Deltatech Edit Currency Rate
+============================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,19 +14,12 @@ Deltatech Select Journal - Obsolete
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_select_journal
+    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_account_edit_currency_rate
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
 
 - Features:
-
-  - Selectie jurnal si termen de plata in momentul generarii facturii
-    din comanda de vanzare
-  - la stergerea unui produs din lista unei comenzi de vanzare se sterge
-    si produsul 'avans' daca nu a fost facturat
-  - cursul valutar se poate seta in wizard-ul de selectie jurnal
-  - configurare jurnal de stornare (in jurnal)
 
 **Table of contents**
 
@@ -61,6 +54,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_select_journal>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_account_edit_currency_rate>`_ project on GitHub.
 
 You are welcome to contribute.
