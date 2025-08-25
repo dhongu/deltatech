@@ -24,7 +24,7 @@
                         </group>
                     </group>
                     <footer>
-                        <button name="add_history" string="_Add" type="object" class="oe_highlight" />
+                        <button name="add_history" string="Add" type="object" class="oe_highlight" />
                         or
                         <button string="Cancel" class="oe_link" special="cancel" />
                     </footer>
