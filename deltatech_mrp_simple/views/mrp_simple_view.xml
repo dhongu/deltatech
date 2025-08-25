@@ -73,6 +73,7 @@
                                 invisible="auto_create_sale==False"
                                 required="auto_create_sale==True"
                             />
+                            <field name="final_product_id" invisible="auto_create_sale==False" />
                             <field
                                 name="final_product_name"
                                 invisible="auto_create_sale==False"
