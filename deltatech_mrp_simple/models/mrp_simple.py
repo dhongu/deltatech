@@ -40,6 +40,7 @@ class MRPSimple(models.Model):
     final_product_qty = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1, copy=False)
     final_product_category = fields.Many2one("product.category", string="Category for final product", copy=False)
     final_product_uom_id = fields.Many2one("uom.uom", "Unit of Measure", copy=False)
+    final_product_id = fields.Many2one("product.product", "Final Product", copy=False)
 
     def do_transfer(self):
         picking_type_consume = self.picking_type_consume
@@ -129,7 +130,13 @@ class MRPSimple(models.Model):
         return move
 
     def create_final_product(self):
-        if self.final_product_name:
+        if self.final_product_id:
+            standard_price, list_price = self.get_final_product_prices()
+            self.final_product_id.with_context(disable_auto_svl=True).write(
+                {"standard_price": standard_price, "list_price": list_price}
+            )
+            return self.final_product_id.id
+        elif self.final_product_name:
             standard_price, list_price = self.get_final_product_prices()
             vals = {
                 "type": "product",
@@ -171,7 +178,9 @@ class MRPSimple(models.Model):
                 "product_id": product_id,
                 "quantity": self.final_product_qty,
                 "price_unit": standard_price,
-                "uom_id": self.final_product_uom_id.id,
+                "uom_id": self.final_product_uom_id.id
+                if not self.final_product_id
+                else self.final_product_id.uom_id.id,
             }
             self.product_in_ids.create(vals)
 
@@ -186,8 +195,11 @@ class MRPSimple(models.Model):
             vals = {
                 "order_id": sale_order.id,
                 "product_id": product_id,
+                "name": self.final_product_name,
                 "product_uom_qty": self.final_product_qty,
-                "product_uom": self.final_product_uom_id.id,
+                "product_uom": self.final_product_uom_id.id
+                if not self.final_product_id
+                else self.final_product_id.uom_id.id,
             }
             sale_order.order_line.create(vals)
             self.sale_order_id = sale_order
