@@ -63,6 +63,7 @@ addon | version | maintainers | summary
 [deltatech_invoice_number](deltatech_invoice_number/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Renumbering invoice
 [deltatech_invoice_payment](deltatech_invoice_payment/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show payments from invoice
 [deltatech_invoice_picking](deltatech_invoice_picking/) | 17.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Facturare livrari
+[deltatech_invoice_picking_automatically](deltatech_invoice_picking_automatically/) | 17.0.0.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generate invoice automatically from picking after validation
 [deltatech_invoice_product_filter](deltatech_invoice_product_filter/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Searching invoice using product
 [deltatech_invoice_receipt](deltatech_invoice_receipt/) | 17.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Create receipt form invoice
 [deltatech_invoice_report](deltatech_invoice_report/) | 17.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Invoice Report
@@ -78,7 +79,7 @@ addon | version | maintainers | summary
 [deltatech_mrp](deltatech_mrp/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Extension
 [deltatech_mrp_bom](deltatech_mrp_bom/) | 17.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Bom
 [deltatech_mrp_cost](deltatech_mrp_cost/) | 17.0.2.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Cost
-[deltatech_mrp_simple](deltatech_mrp_simple/) | 17.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Simple production
+[deltatech_mrp_simple](deltatech_mrp_simple/) | 17.0.1.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Simple production
 [deltatech_mrp_validation_date](deltatech_mrp_validation_date/) | 17.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Validation date on production order
 [deltatech_no_quick_create](deltatech_no_quick_create/) | 17.0.2.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Disable quick_create
 [deltatech_notification_sound](deltatech_notification_sound/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Notification Sound

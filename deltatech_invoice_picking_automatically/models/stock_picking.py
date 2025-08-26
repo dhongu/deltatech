@@ -2,7 +2,6 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from ast import literal_eval
 
 from odoo import fields, models
 
@@ -13,10 +12,8 @@ class StockPickingType(models.Model):
     create_invoice_automatically = fields.Boolean(string="Create Invoice Automatically")
 
 
-
 class StockPicking(models.Model):
     _inherit = "stock.picking"
-
 
     def button_validate(self):
         res = super().button_validate()

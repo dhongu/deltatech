@@ -9,13 +9,11 @@
     "website": "https://www.terrabit.ro",
     "summary": "Generate invoice automatically from picking after validation",
     "category": "Sales",
-    "depends": [
-        "sale_stock"
-    ],
+    "depends": ["sale_stock"],
     "price": 5.00,
     "currency": "EUR",
     "license": "LGPL-3",
-    "data":["views/stock_picking_view.xml"],
+    "data": ["views/stock_picking_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Beta",
