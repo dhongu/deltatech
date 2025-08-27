@@ -78,8 +78,8 @@ msgid ""
 "quantities or correct your stock with an inventory adjustment."
 msgstr ""
 "Ha elegido evitar el stock negativo. Quedan %s unidades de %s en la "
-"ubicación %s, lote %s, pero desea transferir %s unidades. Por favor, ajuste "
-"sus cantidades o corrija su stock con un ajuste de inventario."
+"ubicación %s, pero desea transferir %s unidades. Por favor, ajuste sus "
+"cantidades o corrija su stock con un ajuste de inventario."
 
 #. module: deltatech_stock_negative
 #: code:addons/deltatech_stock_negative/models/stock.py:0
