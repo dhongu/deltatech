@@ -370,41 +370,115 @@ ul.auto-toc {
 !! source digest: sha256:0c05f9b832894bd70d7416c435511f36ee89c6d960d9cab8735536aa65f4f50e
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_delivery_status"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<div class="section" id="deltatech-delivery-status-1">
+<h1>Deltatech Delivery Status</h1>
+<p>This module extends the functionality of the delivery system in Odoo to
+provide enhanced tracking and status management for shipments.</p>
+<div class="section" id="features">
+<h2>Features</h2>
 <ul class="simple">
-<li>Features:<ul>
-<li>delivery status</li>
-<li>Stare livare</li>
-</ul>
-</li>
-</ul>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
-</ul>
-</li>
+<li>Adds detailed delivery status tracking to stock pickings</li>
+<li>Integrates carrier status information with sales orders</li>
+<li>Provides delivery status management within sales teams</li>
+<li>Extends payment providers with delivery status information</li>
+<li>Supports tracking of delivery packages through carriers</li>
+<li>Enables monitoring of delivery status throughout the logistics process</li>
+<li>Improves communication between sales, warehouse, and customers
+regarding shipment status</li>
+<li>Centralizes delivery information for better visibility across the
+organization</li>
 </ul>
 </div>
+<div class="section" id="delivery-blocking-features">
+<h2>Delivery Blocking Features</h2>
+<ul class="simple">
+<li><strong>Manual Delivery Blocking</strong>: Allows users to manually postpone
+deliveries by marking pickings as postponed</li>
+<li><strong>Payment Provider Based Blocking</strong>: Automatically postpones
+deliveries based on payment provider configuration<ul>
+<li>Each payment provider can be configured with the “Postponed
+Delivery” option</li>
+<li>When enabled, deliveries are automatically blocked until payment
+confirmation</li>
+<li>Once payment is confirmed, the system automatically releases the
+blocked deliveries</li>
+</ul>
+</li>
+<li><strong>Sales Team Configuration</strong>: Sales teams can be configured to
+postpone deliveries for specific payment methods<ul>
+<li>Special handling for wire transfers, allowing businesses to verify
+payment before shipping</li>
+</ul>
+</li>
+<li><strong>Order-level Management</strong>: Provides functions to postpone or release
+deliveries at the sales order level</li>
+<li><strong>Status Visibility</strong>: Shows the postponed status on orders and
+pickings for better operational awareness</li>
+</ul>
+</div>
+<div class="section" id="delivery-state-tracking">
+<h2>Delivery State Tracking</h2>
+<p>The module introduces a comprehensive <tt class="docutils literal">delivery_state</tt> field on stock
+pickings that tracks the package’s journey through the entire logistics
+process:</p>
+<ul class="simple">
+<li><strong>Draft</strong>: Initial state when the delivery is just created</li>
+<li><strong>Ready in warehouse</strong>: The package is prepared and waiting in the
+company’s warehouse</li>
+<li><strong>Pre advice</strong>: The delivery note/AWB has been generated but the
+carrier hasn’t picked up the package yet</li>
+<li><strong>In Transit</strong>: The package has been picked up by the carrier and is
+on its way</li>
+<li><strong>In Carrier Warehouse</strong>: The package has arrived at the carrier’s
+sorting facility/warehouse</li>
+<li><strong>In delivery</strong>: The package is out for final delivery to the customer</li>
+<li><strong>Delivered</strong>: The package has been successfully delivered to the
+customer</li>
+</ul>
+<p>This granular state tracking provides several benefits:</p>
+<ul class="simple">
+<li>Allows customer service to give precise information about delivery
+status</li>
+<li>Helps identify bottlenecks in the logistics process</li>
+<li>Enables better coordination between warehouse operations and delivery
+carriers</li>
+<li>Provides data for analytics on delivery performance and efficiency</li>
+<li>Improves customer experience with more accurate delivery status
+information</li>
+</ul>
+<p>The module also adds an <tt class="docutils literal">available_state</tt> field that visually
+indicates the availability status of products in pickings:</p>
+<ul class="simple">
+<li><strong>Available</strong>: All products are available and ready for delivery</li>
+<li><strong>Partially available</strong>: Some products are available, but not all</li>
+<li><strong>Unavailable</strong>: None of the products are available yet</li>
+</ul>
+<p>This module is essential for businesses that need to closely monitor the
+status of their deliveries and want to provide accurate tracking
+information to their customers. It enhances the standard Odoo delivery
+system by adding more granular status tracking, payment-dependent
+delivery control, and better integration between the sales, warehouse,
+and payment processes.</p>
+<p><strong>Table of contents</strong></p>
+</div>
+</div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_delivery_status">dhongu/deltatech</a> project on GitHub.</p>
