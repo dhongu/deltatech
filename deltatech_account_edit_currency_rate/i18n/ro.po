@@ -1,0 +1,79 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_select_journal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-25 10:04+0000\n"
+"PO-Revision-Date: 2022-10-25 10:04+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_select_journal
+#: model:ir.model,name:deltatech_select_journal.model_res_currency
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: deltatech_select_journal
+#: model:ir.model.fields,field_description:deltatech_select_journal.field_sale_advance_payment_inv__currency_rate
+msgid "Currency Rate"
+msgstr "Curs valutar"
+
+#. module: deltatech_select_journal
+#: model:ir.model.fields,field_description:deltatech_select_journal.field_account_bank_statement_line__currency_rate_custom
+#: model:ir.model.fields,field_description:deltatech_select_journal.field_account_move__currency_rate_custom
+#: model:ir.model.fields,field_description:deltatech_select_journal.field_account_payment__currency_rate_custom
+msgid "Currency Rate Custom"
+msgstr "Curs valutar"
+
+#. module: deltatech_select_journal
+#: model:ir.model.fields,field_description:deltatech_select_journal.field_sale_advance_payment_inv__is_currency_rate_custom
+msgid "Custom currency rate"
+msgstr "Alt curs valutar"
+
+#. module: deltatech_select_journal
+#: code:addons/deltatech_select_journal/wizard/sale_make_invoice_advance.py:0
+#, python-format
+msgid "Down payment of %s%%"
+msgstr "Avans %s%%"
+
+#. module: deltatech_select_journal
+#: model:ir.model.fields,field_description:deltatech_select_journal.field_sale_advance_payment_inv__journal_id
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: deltatech_select_journal
+#: model:ir.model,name:deltatech_select_journal.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_select_journal
+#: model:ir.model.fields,field_description:deltatech_select_journal.field_sale_advance_payment_inv__order_id
+msgid "Order"
+msgstr "Comanda"
+
+#. module: deltatech_select_journal
+#: model:ir.model.fields,field_description:deltatech_select_journal.field_sale_advance_payment_inv__payment_term_id
+msgid "Payment Terms"
+msgstr "Termen plată"
+
+#. module: deltatech_select_journal
+#: model:ir.model,name:deltatech_select_journal.model_sale_advance_payment_inv
+msgid "Sales Advance Payment Invoice"
+msgstr "Factura Vânzare cu Plată în Avans"
+
+#. module: deltatech_select_journal
+#: model:ir.model,name:deltatech_select_journal.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_select_journal
+#: model:ir.model,name:deltatech_select_journal.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linie comandă vânzare"
