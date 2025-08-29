@@ -22,10 +22,11 @@ addon | version | maintainers | summary
 [deltatech_account_analytic](deltatech_account_analytic/) | 18.0.0.0.4 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Analytic lines enhancements
 [deltatech_account_edi_ub_advice](deltatech_account_edi_ub_advice/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL despatch advice
 [deltatech_account_edi_ubl_gln](deltatech_account_edi_ubl_gln/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL GLN
+[deltatech_account_edit_currency_rate](deltatech_account_edit_currency_rate/) | 17.0.1.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Edit the currency rate on the invoice
 [deltatech_account_restrict_date](deltatech_account_restrict_date/) | 18.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict certain operations depending on date
 [deltatech_actions](deltatech_actions/) | 18.0.0.0.7 |  | Cleaning and other actions
 [deltatech_agreement_management](deltatech_agreement_management/) | 18.0.0.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage agreements numbers, date, state
-[deltatech_alternative](deltatech_alternative/) | 18.0.2.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes
+[deltatech_alternative](deltatech_alternative/) | 18.0.2.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes
 [deltatech_alternative_website](deltatech_alternative_website/) | 18.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show alternative code in website
 [deltatech_analytic_distribution](deltatech_analytic_distribution/) | 18.0.0.0.2 |  | Analytic distribution
 [deltatech_auto_reorder_rule](deltatech_auto_reorder_rule/) | 18.0.0.1.3 |  | Auto create reorder rule
@@ -162,7 +163,7 @@ addon | version | maintainers | summary
 [deltatech_select_journal](deltatech_select_journal/) | 18.0.1.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Selectie jurnal
 [deltatech_sms](deltatech_sms/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Send SMS to custom endpoint
 [deltatech_sms_sale](deltatech_sms_sale/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | send SMS at sale order confirmation
-[deltatech_stock_account](deltatech_stock_account/) | 18.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Stock Account Extension
+[deltatech_stock_account](deltatech_stock_account/) | 18.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Stock Account Extension
 [deltatech_stock_analytic](deltatech_stock_analytic/) | 18.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Create analytic lines from stock moves
 [deltatech_stock_close](deltatech_stock_close/) | 18.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Close stock operations at date
 [deltatech_stock_date](deltatech_stock_date/) | 18.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Obsolete use l10n_ro_stock_account_date
