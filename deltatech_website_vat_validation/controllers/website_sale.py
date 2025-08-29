@@ -2,6 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+from odoo import _
 from odoo.http import request
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
@@ -12,20 +13,23 @@ class WebsiteSaleVATValidation(WebsiteSale):
         error = dict()
         error_message = []
 
-        if data.get("vat"):
-            data["vat"] = data.get("vat").strip()
+        for field in ["vat", "email", "phone"]:
+            if field in data and data.get(field):
+                data[field] = data.get(field).strip()
 
         standard_error, standard_error_message = super().checkout_form_validate(mode, all_form_values, data)
 
         error.update(standard_error)
         error_message += standard_error_message
-        vat = data.get("vat", False)
-        if vat and "vat" not in error:
-            partner = request.env["res.users"].browse(request.uid).partner_id
-            domain = [("vat", "=", vat), ("id", "!=", partner.id), ("parent_id", "=", False)]
-            partner_vat = request.env["res.partner"].search(domain, limit=1)
-            if partner_vat:
-                error["vat"] = "error"
-                error_message.append("VAT already exist")
+        partner = request.env["res.users"].browse(request.uid).partner_id
+
+        for field in ["vat", "email", "phone"]:
+            value = data.get(field, False)
+            if value and field not in error:
+                domain = [(field, "=", value), ("id", "!=", partner.id), ("parent_id", "=", False)]
+                partner_exists = request.env["res.partner"].search(domain, limit=1)
+                if partner_exists:
+                    error[field] = "error"
+                    error_message.append(_(f"An other partner already exists with the same {value}"))
 
         return error, error_message
