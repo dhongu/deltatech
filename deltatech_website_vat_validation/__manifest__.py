@@ -8,7 +8,6 @@
     "version": "17.0.0.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-
     "license": "OPL-1",
     "category": "Generic Modules",
     "depends": ["website_sale", "phone_validation"],
