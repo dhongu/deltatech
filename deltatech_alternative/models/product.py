@@ -40,28 +40,41 @@ class ProductTemplate(models.Model):
             code = "; ".join(codes)
             product.alternative_code = code
 
+    @api.model
+    def name_search(self, name="", args=None, operator="ilike", limit=100) -> list[tuple[int, str]]:
+        res = super().name_search(name=name, args=args, operator=operator, limit=limit)
+        if len(res) >= limit:
+            return res
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        if name and safe_eval(get_param("alternative.search_name", "False")):
+            domain = [("name", operator, name)]
+            alternatives = self.env["product.alternative"].search(domain, limit=limit)
+            product_tmpl_ids = alternatives.mapped("product_tmpl_id")
+
+            res += [(p.id, p.display_name) for p in product_tmpl_ids]
+        return res
+
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
+    # def _name_search nu mai exista in 18.0
+
     @api.model
-    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
-        res = super()._name_search(name, domain=domain, operator=operator, limit=limit, order=order)
+    def name_search(self, name="", args=None, operator="ilike", limit=100) -> list[tuple[int, str]]:
+        res = super().name_search(name=name, args=args, operator=operator, limit=limit)
+        if len(res) >= limit:
+            return res
         get_param = self.env["ir.config_parameter"].sudo().get_param
-        res_ids = list(res)
         if name and safe_eval(get_param("alternative.search_name", "False")):
             domain = [("name", operator, name)]
             alternatives = self.env["product.alternative"].search(domain, limit=limit)
-            if alternatives:
-                product_tmpl_ids = alternatives.mapped("product_tmpl_id")
-                product_ids = self._search(
-                    [("product_tmpl_id", "in", product_tmpl_ids.ids)],
-                    limit=limit,
-                    order=order,
-                )
-                res_ids.extend(list(product_ids))
+            product_tmpl_ids = alternatives.mapped("product_tmpl_id")
+            if product_tmpl_ids:
+                product_ids = self.search([("product_tmpl_id", "in", product_tmpl_ids.ids)], limit=limit)
+                res += [(p.id, p.name) for p in product_ids]
 
-        return res_ids
+        return res
 
 
 class ProductAlternative(models.Model):

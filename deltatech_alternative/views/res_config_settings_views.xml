@@ -8,7 +8,16 @@
 
 
             <xpath expr="//setting[@id='sell_purchase_uom']" position="after">
-
+                <setting
+                    id="alternative_search"
+                    name="alternative_search"
+                    help="Enable searching for alternative products by searching in product name."
+                >
+                    <field name="alternative_search" />
+                    <field name="alternative_limit" placeholder="Search limit" />
+                    <field name="alternative_length_min" placeholder="Search minim length code" />
+                </setting>
+<!--
                 <div class="col-12 col-lg-6 o_setting_box">
                     <div class="o_setting_left_pane">
                         <field name="alternative_search" />
@@ -30,7 +39,7 @@
                         <field name="alternative_length_min" />
                         <div class="text-muted">Search minim length code  .</div>
                     </div>
-                </div>
+                </div>-->
 <!--                <div class="col-12 col-lg-6 o_setting_box">
                     <div class="o_setting_left_pane">
                         <field name="catalog_search" />
