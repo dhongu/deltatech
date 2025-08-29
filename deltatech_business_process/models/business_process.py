@@ -3,6 +3,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.osv import expression
 
 
 class BusinessProcess(models.Model):
@@ -321,21 +322,33 @@ class BusinessProcess(models.Model):
 
         return super()._load_records(data_list, update)
 
+    # todo: de verificat
     @api.model
-    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
-        args = domain or []
-        project_id = self.env.context.get("default_project_id", False)
-        local_domain = [("code", "=", name)]
-        if project_id:
-            local_domain.append(("project_id", "=", project_id))
-        ids = list(self._search(local_domain + args, limit=limit, order=order))
+    def name_search(self, name="", args=None, operator="ilike", limit=100):
+        if not name:
+            return super().name_search(name, args, operator, limit)
+        domain = args or []
+        processes = self.search_fetch(
+            expression.AND([domain, [("code", operator, name)]]), ["display_name"], limit=limit
+        )
+        return [(process.id, process.display_name) for process in processes.sudo()]
 
-        search_domain = [("name", operator, name)]
-        if ids:
-            search_domain.append(("id", "not in", ids))
-        ids += list(self._search(search_domain + args, limit=limit))
-
-        return ids
+    # nu mai exista in 18.0  def _name_search
+    # @api.model
+    # def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
+    #     args = domain or []
+    #     project_id = self.env.context.get("default_project_id", False)
+    #     local_domain = [("code", "=", name)]
+    #     if project_id:
+    #         local_domain.append(("project_id", "=", project_id))
+    #     ids = list(self._search(local_domain + args, limit=limit, order=order))
+    #
+    #     search_domain = [("name", operator, name)]
+    #     if ids:
+    #         search_domain.append(("id", "not in", ids))
+    #     ids += list(self._search(search_domain + args, limit=limit))
+    #
+    #     return ids
 
     def _start_test(self, scope):
         for process in self:
