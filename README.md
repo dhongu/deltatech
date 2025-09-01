@@ -106,6 +106,7 @@ addon | version | maintainers | summary
 [deltatech_price_change](deltatech_price_change/) | 17.0.1.1.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Price Change
 [deltatech_price_modify_reception](deltatech_price_modify_reception/) | 17.0.1.0.2 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) | Editarea pretului de lista la receptie
 [deltatech_pricelist_add_category](deltatech_pricelist_add_category/) | 17.0.0.0.2 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | You can add a public category to the products in price list
+[deltatech_pricelist_line_viewer](deltatech_pricelist_line_viewer/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Creates a tree view for the lines of a price list for search and management
 [deltatech_pricelist_vat_cost](deltatech_pricelist_vat_cost/) | 17.0.0.0.2 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Base pricelist on cost with vat
 [deltatech_print_bf](deltatech_print_bf/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Print Invoice to ECR
 [deltatech_product_catalog](deltatech_product_catalog/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | This module helps to print the catalog of the multi products
@@ -120,8 +121,6 @@ addon | version | maintainers | summary
 [deltatech_product_margin](deltatech_product_margin/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product margin and trade markup
 [deltatech_product_trade_markup](deltatech_product_trade_markup/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product trade markup
 [deltatech_promissory_note](deltatech_promissory_note/) | 17.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage Promissory Note
-[deltatech_property](deltatech_property/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Property Management
-[deltatech_property_agreement](deltatech_property_agreement/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage property agreements
 [deltatech_purchase_confirmation_reminder](deltatech_purchase_confirmation_reminder/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | This module will create an activity on the puchase order
 [deltatech_purchase_discount](deltatech_purchase_discount/) | 17.0.1.0.4 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Discount in purchase order line
 [deltatech_purchase_picking_status](deltatech_purchase_picking_status/) | 17.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Get purchase status from pickings
@@ -174,18 +173,18 @@ addon | version | maintainers | summary
 [deltatech_select_journal](deltatech_select_journal/) | 17.0.1.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Selectie jurnal
 [deltatech_sms](deltatech_sms/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Send SMS to custom endpoint
 [deltatech_sms_sale](deltatech_sms_sale/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | send SMS at sale order confirmation
-[deltatech_stock_account](deltatech_stock_account/) | 17.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Stock Account Extension
+[deltatech_stock_account](deltatech_stock_account/) | 17.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Stock Account Extension
 [deltatech_stock_analytic](deltatech_stock_analytic/) | 17.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Create analytic lines from stock moves
 [deltatech_stock_count_zero](deltatech_stock_count_zero/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Will write 0 on the line of invetory ajustment when you reqest a count with empty so the difference will be counted instantly
 [deltatech_stock_date](deltatech_stock_date/) | 17.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Obsolete use l10n_ro_stock_account_date
 [deltatech_stock_delivery](deltatech_stock_delivery/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Adding button in invoice for display reception or delivery
-[deltatech_stock_inventory](deltatech_stock_inventory/) | 17.0.2.3.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Inventory Old Method
+[deltatech_stock_inventory](deltatech_stock_inventory/) | 17.0.2.3.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Inventory Old Method
 [deltatech_stock_inventory_product_display](deltatech_stock_inventory_product_display/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Adds product display button on sales and invoices to see the stock of the products in the order
 [deltatech_stock_negative](deltatech_stock_negative/) | 17.0.2.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Negative stocks are not allowed
 [deltatech_stock_report](deltatech_stock_report/) | 17.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report with positions from picking lists
 [deltatech_stock_reseller](deltatech_stock_reseller/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report report reseller
 [deltatech_stock_sn](deltatech_stock_sn/) | 17.0.1.0.0 |  | Stock Serial Number
-[deltatech_test_system](deltatech_test_system/) | 17.0.0.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Set system status: test or production
+[deltatech_test_system](deltatech_test_system/) | 17.0.0.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Set system status: test or production
 [deltatech_transfer_product_to_product](deltatech_transfer_product_to_product/) | 17.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Helps to transfer x quantity of product A and replace it with product B
 [deltatech_utils](deltatech_utils/) | 17.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Utils
 [deltatech_vendor_stock](deltatech_vendor_stock/) | 17.0.1.1.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vendor stock availability
@@ -220,6 +219,7 @@ addon | version | maintainers | summary
 [deltatech_website_snippet_attribute_filter](deltatech_website_snippet_attribute_filter/) | 17.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Attribute Values Filter Snippet
 [deltatech_website_stock_availability](deltatech_website_stock_availability/) | 17.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Stock Availability and lead time
 [deltatech_website_texture_attributes](deltatech_website_texture_attributes/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Attribute with image for texture
+[deltatech_website_vat_validation](deltatech_website_vat_validation/) | 17.0.0.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | VAT Validation
 [deltatech_website_warehouse_stock](deltatech_website_warehouse_stock/) | 17.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | eCommerce Warehouse Stock
 [deltatech_widget_fontawesome](deltatech_widget_fontawesome/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Font Awesome Widget
 [deltatech_work_days_report](deltatech_work_days_report/) | 17.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | A report for every day of the month for each employee
