@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_pricelist_view_inherited" model="ir.ui.view">
+        <field name="name">product.pricelist.form.header.button</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view" />
+        <field name="arch" type="xml">
+            <sheet position="inside">
+                    <!--                <button name="action_view_lines" type="object" class="oe_stat_button" string="Pricelist Lines"/>-->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_lines" type="object" class="oe_stat_button" icon="fa-list-ul">
+                            <span>Pricelist Lines</span>
+                        </button>
+                    </div>
+            </sheet>
+        </field>
+    </record>
+
+    <record id="product_pricelist_item_view_search_inherit" model="ir.ui.view">
+        <field name="name">product.pricelist.item.search.inherit</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="inherit_id" ref="product.product_pricelist_item_view_search" />
+        <field name="arch" type="xml">
+            <!-- Example: Add a filter after the existing filters -->
+            <field name="pricelist_id" position="before">
+<!--                <field string="Product" name="product_id" />-->
+                    <field name="product_tmpl_id" />
+                    <field name="min_quantity" />
+                    <field name="categ_id" />
+            </field>
+        </field>
+    </record>
+
+
+    <record id="product_pricelist_lines_view" model="ir.ui.view">
+        <field name="name">product.pricelist.item.tree</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="pricelist_id" />
+                <field name="product_tmpl_id" string="Products" required="1" />
+                <!--                <field name="product_id" string="Variants" groups="product.group_product_variant"-->
+                <!--                       domain="[('product_tmpl_id', '=', product_tmpl_id)]" options="{'no_create':1}"/>-->
+                <field name="min_quantity" />
+                <field name="fixed_price" string="Price" />
+                <field name="currency_id" optional="hide" />
+                <field name="date_start" />
+                <field name="date_end" />
+                <field name="base" optional="hide" />
+                <field name="applied_on" optional="hide" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>
