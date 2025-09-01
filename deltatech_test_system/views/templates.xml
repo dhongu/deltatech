@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <template id="notification_banner"  name="Notification Banner" inherit_id="web.layout" active="True">
         <xpath expr="//body" position="inside">
             <div>
@@ -22,8 +21,4 @@
             </div>
         </xpath>
     </template>
-
-
-
-
 </odoo>
