@@ -1,50 +1,30 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="test_ribbon" inherit_id="web.layout">
-
-
+    <template id="notification_banner" name="Notification Banner" inherit_id="web.layout" active="True">
         <xpath expr="//body" position="inside">
-            <t
-                t-set="database_is_neutralized"
-                t-value="request.env['ir.config_parameter'].sudo().get_param('database.is_neutralized',False)"
-            />
-            <div
-                t-if="database_is_neutralized"
-                style="text-align: center;  color: #FFFFFF; background-color: #D0442C;   position: relative;
-                      display: block;      font-size: 16px;"
-            >
-                <span>
-                    This is a test database.
+            <div>
+                 <t
+                    t-set="database_notification_banner"
+                    t-value="request.env['ir.config_parameter'].sudo().get_param('database_notification_banner',False)"
+                />
+
+                <span
+                    t-if="database_notification_banner"
+                    id="oe_notification_banner"
+                    t-attf-style="
+                        text-align: center;
+                        color: #FFFFFF;
+                        background-color: #D0442C;
+                        position: relative;
+                        display: block;
+                        font-size: 16px;
+                       "
+                >
+                    <t
+                        t-out="database_notification_banner"
+                    >Some functionalities may run in restricted mode. Please check the support contract payment!</t>
                 </span>
             </div>
-
-
-
-            <div
-                t-if="database_is_neutralized"
-                style="width: 400px;
-                            bottom: 55px;
-                            right: -100px;
-                            font-size: 40px;
-                            text-align: center;
-                            padding: 10px;
-                            line-height: 30px;
-                            color: #f0f0f0;
-                            transform: rotate(-45deg);
-                            position: fixed;
-                            box-shadow: 0 0 3px rgb(0 0 0 / 30%);
-                            background: #D0442C;
-                            opacity: 0.6;
-                            pointer-events: none;
-                            text-transform: uppercase;
-                            z-index: 9999;"
-            >
-
-                <span>test</span>
-            </div>
         </xpath>
-
-
     </template>
-
 </odoo>
