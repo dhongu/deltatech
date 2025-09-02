@@ -45,13 +45,19 @@ class ProductTemplate(models.Model):
         res = super().name_search(name=name, args=args, operator=operator, limit=limit)
         if len(res) >= limit:
             return res
+        left = limit - len(res)
+
         get_param = self.env["ir.config_parameter"].sudo().get_param
         if name and safe_eval(get_param("alternative.search_name", "False")):
             domain = [("name", operator, name)]
-            alternatives = self.env["product.alternative"].search(domain, limit=limit)
+            alternatives = self.env["product.alternative"].search(domain, limit=left)
             product_tmpl_ids = alternatives.mapped("product_tmpl_id")
-
+            current_ids = {r[0] for r in res}
+            product_tmpl_ids = product_tmpl_ids.filtered(lambda p: p.id not in current_ids)
+            product_tmpl_ids = product_tmpl_ids[:left]
             res += [(p.id, p.display_name) for p in product_tmpl_ids]
+        if limit:
+            res = res[:limit]
         return res
 
 
@@ -65,15 +71,21 @@ class ProductProduct(models.Model):
         res = super().name_search(name=name, args=args, operator=operator, limit=limit)
         if len(res) >= limit:
             return res
+        left = limit - len(res)
         get_param = self.env["ir.config_parameter"].sudo().get_param
         if name and safe_eval(get_param("alternative.search_name", "False")):
             domain = [("name", operator, name)]
-            alternatives = self.env["product.alternative"].search(domain, limit=limit)
+            alternatives = self.env["product.alternative"].search(domain, limit=left)
             product_tmpl_ids = alternatives.mapped("product_tmpl_id")
-            if product_tmpl_ids:
-                product_ids = self.search([("product_tmpl_id", "in", product_tmpl_ids.ids)], limit=limit)
-                res += [(p.id, p.name) for p in product_ids]
 
+            variants = product_tmpl_ids.mapped("product_variant_ids")
+            current_ids = {r[0] for r in res}
+            variants = variants.filtered(lambda p: p.id not in current_ids)
+            variants = variants[:left]
+
+            res += [(p.id, p.name) for p in variants]
+        if limit:
+            res = res[:limit]
         return res
 
 
