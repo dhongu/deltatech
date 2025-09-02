@@ -40,7 +40,7 @@ class TestAccountInvoiceView(TransactionCase):
             {
                 "name": "Test Account",
                 "code": "TEST",
-                "company_id": self.company.id,
+                # "company_id": self.company.id,
             }
         )
 
