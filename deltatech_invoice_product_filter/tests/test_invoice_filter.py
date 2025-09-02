@@ -58,7 +58,7 @@ class TestAccountInvoiceView(TransactionCase):
                             "quantity": 1,
                             "name": "Test A",
                             "price_unit": 1.0,
-                            "account_id": self.account.id,
+                            # "account_id": self.account.id,
                         },
                     )
                 ],
