@@ -62,19 +62,32 @@ class ProductTemplate(models.Model):
         create_product_product = self.env.context.get("create_product_product", False)
         if not create_product_product:
             for vals in vals_list:
-                if "default_code" not in vals or vals["default_code"] in [
-                    "/",
-                    "",
-                    False,
-                ]:
-                    categ_id = vals.get("categ_id")
-                    if categ_id:
-                        categ = self.env["product.category"].browse(categ_id)
-                        default_code = vals.get("default_code", False)
-                        barcode = vals.get("barcode", False)
-                        values = self.env["product.template"].get_new_code(categ, default_code, barcode)
-                        vals.update(values)
-
+                categ_id = vals.get("categ_id")
+                if categ_id:
+                    categ = self.env["product.category"].browse(categ_id)
+                    default_code = vals.get("default_code", False)
+                    barcode = vals.get("barcode", False)
+                    values = self.env["product.template"].get_new_code(categ, default_code, barcode)
+                    if categ.sequence_id and (
+                        "default_code" not in vals
+                        or vals["default_code"]
+                        in [
+                            "/",
+                            "",
+                            False,
+                        ]
+                    ):
+                        vals["default_code"] = values["default_code"]
+                    if categ.generate_barcode and (
+                        "barcode" not in vals
+                        or vals["barcode"]
+                        in [
+                            "/",
+                            "",
+                            False,
+                        ]
+                    ):
+                        vals["barcode"] = values["barcode"]
         return super().create(vals_list)
 
     def force_new_code(self):
