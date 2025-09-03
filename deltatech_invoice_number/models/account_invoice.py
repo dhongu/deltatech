@@ -17,6 +17,23 @@ class AccountInvoice(models.Model):
             res = {"warning": {"title": _("Warning"), "message": msg}}
             return res
 
+    def action_post(self):
+        """
+        Do not post invoice with wrong date
+        :return: False if date is wrong, super() otherwise
+        """
+        for move in self:
+            if move.journal_id and move.journal_id.restrict_date:
+                msg = move.check_data(journal_id=move.journal_id.id, invoice_date=move.invoice_date)
+                if msg != "":
+                    self.env["bus.bus"]._sendone(
+                        self.env.user.partner_id,
+                        "simple_notification",
+                        {"type": "danger", "title": _("Date error"), "message": msg},
+                    )
+                    return False
+        return super().action_post()
+
     # todo: numerotarea nu se mai face in functie de secventa din jurnal
     def action_get_number(self):
         for invoice in self:

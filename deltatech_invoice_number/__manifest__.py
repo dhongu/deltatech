@@ -5,7 +5,7 @@
 {
     "name": "Invoice Number",
     "summary": "Renumbering invoice",
-    "version": "18.0.1.0.1",
+    "version": "18.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
