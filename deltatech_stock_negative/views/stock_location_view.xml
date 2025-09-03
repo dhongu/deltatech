@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <field name="usage" position="before">
                     <field name="allow_negative_stock" />
+                    <field name="check_serial_no" />
                 </field>
             </field>
         </record>

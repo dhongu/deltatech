@@ -12,6 +12,13 @@ class StockQuant(models.Model):
     def _get_available_quantity(
         self, product_id, location_id, lot_id=None, package_id=None, owner_id=None, strict=False, allow_negative=False
     ):
+        if (
+            location_id
+            and not location_id.allow_negative_stock
+            and not location_id.check_serial_no
+            and product_id.tracking == "serial"
+        ):
+            lot_id = None
         res = super()._get_available_quantity(
             product_id=product_id,
             location_id=location_id,
@@ -21,7 +28,9 @@ class StockQuant(models.Model):
             strict=strict,
             allow_negative=allow_negative,
         )
-        company = self.company_id or self.env.company
+        company = self.mapped("company_id") or self.env.company
+        if len(company) > 1:
+            raise UserError(_("You cannot search for available quantity across several companies."))
         if not company.no_negative_stock:
             return res
 
