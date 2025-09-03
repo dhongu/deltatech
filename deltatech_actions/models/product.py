@@ -23,7 +23,7 @@ class ProductProduct(models.Model):
             FROM product_product pp
             LEFT JOIN stock_warehouse_orderpoint swo ON pp.id = swo.product_id
             LEFT JOIN product_template pt ON pp.product_tmpl_id = pt.id
-            WHERE swo.product_id IS NULL AND pt.detailed_type = 'product';
+            WHERE swo.product_id IS NULL AND pt.is_storable;
         """
         self.env.cr.execute(sql)
         product_ids = [x[0] for x in self.env.cr.fetchall()]
