@@ -48,6 +48,8 @@
             <field name="name">Location Stock Quant Report</field>
             <field name="res_model">stock.quant.report.value</field>
             <field name="view_mode">list,pivot</field>
+            <field name="view_id" ref="deltatech_stock_reseller.view_stock_quant_report_value_tree" />
+            <field name="search_view_id" ref="deltatech_stock_reseller.view_stock_quant_report_report_filter" />
         </record>
 
 
