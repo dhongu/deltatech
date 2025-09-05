@@ -54,9 +54,9 @@ class AccountPaymentTermRateWizard(models.TransientModel):
             first_rate = {
                 "value": "percent",
                 "value_amount": self.advance,
-                "days": 0,
-                "day_of_the_month": self.day_of_the_month,
-                "option": "day_after_invoice_date",
+                "nb_days": 0,
+                "days_next_month": self.day_of_the_month,
+                "delay_type": "days_after",
             }
             line_ids.append((0, 0, first_rate))
 
@@ -67,18 +67,18 @@ class AccountPaymentTermRateWizard(models.TransientModel):
                 norm_rate = {
                     "value": "percent",
                     "value_amount": float_round(rest, 6, rounding_method="DOWN"),
-                    "days": 30 * x,
-                    "day_of_the_month": self.day_of_the_month,
-                    "option": "day_after_invoice_date",
+                    "nb_days": 30 * x,
+                    "days_next_month": self.day_of_the_month,
+                    "delay_type": "days_after",
                 }
                 line_ids.append((0, 0, norm_rate))
         else:
             first_rate = {
                 "value": "fixed",
                 "value_amount": self.advance,
-                "days": 0,
-                "day_of_the_month": self.day_of_the_month,
-                "option": "day_after_invoice_date",
+                "nb_days": 0,
+                "days_next_month": self.day_of_the_month,
+                "delay_type": "days_after",
             }
             line_ids.append((0, 0, first_rate))
 
@@ -86,9 +86,9 @@ class AccountPaymentTermRateWizard(models.TransientModel):
                 norm_rate = {
                     "value": "fixed",
                     "value_amount": self.rate_value,
-                    "days": 30 * x,
-                    "day_of_the_month": self.day_of_the_month,
-                    "option": "day_after_invoice_date",
+                    "nb_days": 30 * x,
+                    "days_next_month": self.day_of_the_month,
+                    "delay_type": "days_after",
                 }
                 line_ids.append((0, 0, norm_rate))
 
@@ -96,10 +96,10 @@ class AccountPaymentTermRateWizard(models.TransientModel):
             0,
             0,
             {
-                "value": "balance",
-                "days": 30 * (self.rate),
-                "day_of_the_month": self.day_of_the_month,
-                "option": "day_after_invoice_date",
+                "value": "percent",
+                "nb_days": 30 * (self.rate),
+                "days_next_month": self.day_of_the_month,
+                "delay_type": "days_after",
             },
         )
 
