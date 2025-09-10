@@ -4,7 +4,7 @@
 {
     "name": "MRP Cost",
     "summary": "MRP Cost",
-    "version": "17.0.2.0.5",
+    "version": "17.0.2.1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",
