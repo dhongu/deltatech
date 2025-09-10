@@ -1,4 +1,4 @@
-# ©  2025 Deltatech
+# © 2025 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
@@ -29,9 +29,10 @@ class ReportBomStructure(models.AbstractModel):
                     bom_cost = bom[cost['field']]
                     uom_name = _('Fixed')
                 else:
-                    bom_cost = bom[cost['field']] *  bom.duration
+                    bom_cost = bom[cost['field']] *  bom.global_duration
                     uom_name = _('Minutes')
                 operations.append({
+
                     'type': 'operation',
                     'index': f"{index}{operation_index}",
                     'level': level or 0,
@@ -40,7 +41,7 @@ class ReportBomStructure(models.AbstractModel):
                     'link_model': 'mrp.bom',
                     'name': cost['name'],
                     'uom_name': uom_name,
-                    'quantity': bom.duration * 60,
+                    'quantity': bom.global_duration * 60,
                     'bom_cost': currency_round(bom_cost),
                     'prod_cost': currency_round(bom_cost * qty),
                     'currency_id': company.currency_id.id,

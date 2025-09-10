@@ -19,9 +19,9 @@
                                 <field name="salary_contributions" />
                             </group>
                             <group>
-                                <label for="duration" />
+                                <label for="global_duration" />
                                 <div>
-                                    <field name="duration" widget="float_time" class="oe_inline" />
+                                    <field name="global_duration" widget="float_time" class="oe_inline" />
                                     hours
                                 </div>
                             </group>

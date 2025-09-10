@@ -13,9 +13,9 @@ class ProductProduct(models.Model):
         price =  super()._compute_bom_price(bom, boms_to_recompute=boms_to_recompute, byproduct_bom=byproduct_bom)
         costs = (
             bom.overhead_amount
-            + bom.utility_consumption * bom.duration
-            + bom.net_salary_rate * bom.duration
-            + bom.salary_contributions * bom.duration
+            + bom.utility_consumption * bom.global_duration
+            + bom.net_salary_rate * bom.global_duration
+            + bom.salary_contributions * bom.global_duration
         )
         if costs:
             price += costs / bom.product_qty

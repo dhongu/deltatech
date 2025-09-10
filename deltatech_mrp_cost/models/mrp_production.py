@@ -12,13 +12,31 @@ class MrpProduction(models.Model):
     amount = fields.Float(digits="Account", string="Production Amount", compute="_compute_amount")
     calculate_price = fields.Float(digits="Account", string="Calculate Price", compute="_compute_amount")
 
-    duration = fields.Float(string="Duration")
+    global_duration = fields.Float(string="Global Duration")
 
     overhead_amount = fields.Float(string="Overhead", default="0.0")
-
     utility_consumption = fields.Float(string="Utility consumption", help="Utilities consumption per hour")
     net_salary_rate = fields.Float(string="Net Salary Rate")
     salary_contributions = fields.Float(string="Salary Contributions")
+
+
+
+
+    def _compute_duration_expected(self):
+        res =  super()._compute_duration_expected()
+        for production in self:
+            if  production.duration_expected:
+                production.duration_expected = production.bom_id.global_duration
+        return res
+
+
+    def _compute_duration(self):
+        res = super()._compute_duration()
+        for production in self:
+            if production.duration:
+                production.duration = production.bom_id.global_duration
+        return res
+
 
     def _compute_amount(self):
         for production in self:
@@ -30,9 +48,9 @@ class MrpProduction(models.Model):
                 product_qty = production.product_qty
                 amount += (
                     production.overhead_amount
-                    + production.utility_consumption * production.duration
-                    + production.net_salary_rate * production.duration
-                    + production.salary_contributions * production.duration
+                    + production.utility_consumption * production.global_duration
+                    + production.net_salary_rate * production.global_duration
+                    + production.salary_contributions * production.global_duration
                 )
 
                 calculate_price = amount / product_qty
@@ -48,27 +66,45 @@ class MrpProduction(models.Model):
         if self.product_qty:
             costs = (
                 self.overhead_amount
-                + self.utility_consumption * self.duration
-                + self.net_salary_rate * self.duration
-                + self.salary_contributions * self.duration
+                + self.utility_consumption * self.global_duration
+                + self.net_salary_rate * self.global_duration
+                + self.salary_contributions * self.global_duration
             )
             if costs:
                 self.extra_cost = costs / self.product_qty
 
         return super()._cal_price(consumed_moves)
 
-    @api.model
-    def create(self, vals_list):
-        bom_id = vals_list.get("bom_id")
-        if bom_id:
-            bom = self.env["mrp.bom"].browse(bom_id)
-            vals_list["overhead_amount"] = bom.overhead_amount
-            vals_list["utility_consumption"] = bom.utility_consumption
-            vals_list["net_salary_rate"] = bom.net_salary_rate
-            vals_list["salary_contributions"] = bom.salary_contributions
-            vals_list["duration"] = vals_list["product_qty"] / bom.product_qty * bom.duration
+    # @api.model
+    # def create(self, vals_list):
+    #     bom_id = vals_list.get("bom_id")
+    #     if bom_id:
+    #         bom = self.env["mrp.bom"].browse(bom_id)
+    #         vals_list["overhead_amount"] = bom.overhead_amount
+    #         vals_list["utility_consumption"] = bom.utility_consumption
+    #         vals_list["net_salary_rate"] = bom.net_salary_rate
+    #         vals_list["salary_contributions"] = bom.salary_contributions
+    #         vals_list["global_duration"] = vals_list["product_qty"] / bom.product_qty * bom.global_duration
+    #
+    #     return super().create(vals_list)
 
-        return super().create(vals_list)
+    @api.depends(  'bom_id', 'product_id', 'product_qty' )
+    def onchange_bom_product_qty_id(self):
+        if self.bom_id:
+            bom  = self.bom_id
+            self.overhead_amount = bom.overhead_amount
+            self.utility_consumption = bom.utility_consumption
+            self.net_salary_rate = bom.net_salary_rate
+            self.salary_contributions = bom.salary_contributions
+            self.global_duration =  self.product_qty / bom.product_qty * bom.global_duration
+
+    def _compute_move_raw_ids(self):
+        res =  super()._compute_move_raw_ids()
+        for production in self:
+            production.onchange_bom_product_qty_id()
+
+        return res
+
 
     # def action_confirm(self):
     #     # Call the original method
@@ -79,5 +115,8 @@ class MrpProduction(models.Model):
     #         self.utility_consumption = self.product_qty / self.bom_id.product_qty * self.bom_id.utility_consumption
     #         self.net_salary_rate = self.product_qty / self.bom_id.product_qty * self.bom_id.net_salary_rate
     #         self.salary_contributions = self.product_qty / self.bom_id.product_qty * self.bom_id.salary_contributions
-    #         self.duration = self.product_qty / self.bom_id.product_qty * self.bom_id.duration
+    #         self.global_duration = self.product_qty / self.bom_id.product_qty * self.bom_id.global_duration
     #     return res
+
+
+
