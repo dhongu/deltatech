@@ -1,10 +1,10 @@
-# ©  2008-2021 Deltatech
+# © 2008-2021 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
-# See README.rst file on addons root folder for license details
+# See README.rst file on the addons root folder for license details
 
 {
     "name": "Products Alternative",
-    "version": "18.0.2.1.0",
+    "version": "18.0.2.1.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Alternative product codes",
