@@ -5,7 +5,7 @@
     "name": "Deltatech Actions",
     "category": "Other",
     "summary": "Cleaning and other actions",
-    "version": "18.0.0.0.7",
+    "version": "18.0.0.0.9",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
