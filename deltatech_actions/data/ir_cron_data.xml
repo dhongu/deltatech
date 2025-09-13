@@ -104,4 +104,35 @@ model.cron_clean_old_messages(limit=5000, pattern="%", max_date_days=90, dry_run
         <field name="active" eval="False" />
     </record>
 
+    <record id="ir_cron_merge_contacts" model="ir.cron">
+      <field name="name">Merge duplicate contacts by email</field>
+      <field name="model_id" ref="base.model_res_partner" />
+      <field name="state">code</field>
+      <field name="code">model._cron_merge_duplicate_contacts(limit=10)</field>
+      <field name="interval_number">1</field>
+      <field name="interval_type">days</field>
+      <field name="active">False</field>
+    </record>
+
+
+    <record id="ir_cron_merge_companies" model="ir.cron">
+        <field name="name">Merge duplicate companies by VAT</field>
+        <field name="model_id" ref="base.model_res_partner" />
+        <field name="state">code</field>
+        <field name="code">model._cron_merge_duplicate_companies(limit=10)</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">False</field>
+    </record>
+
+    <record id="cron_normalize_company_names" model="ir.cron">
+        <field name="name">Normalize company names</field>
+        <field name="model_id" ref="base.model_res_partner" />
+        <field name="state">code</field>
+        <field name="code">model.cron_normalize_company_names()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">False</field>
+    </record>
+
 </odoo>
