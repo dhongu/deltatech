@@ -70,8 +70,6 @@ msgstr "Preț calculat"
 msgid "Costs"
 msgstr "Costuri"
 
-
-
 #. module: deltatech_mrp_cost
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
 msgid "Finished Products"

@@ -19,16 +19,12 @@ class MrpProduction(models.Model):
     net_salary_rate = fields.Float(string="Net Salary Rate")
     salary_contributions = fields.Float(string="Salary Contributions")
 
-
-
-
     def _compute_duration_expected(self):
-        res =  super()._compute_duration_expected()
+        res = super()._compute_duration_expected()
         for production in self:
-            if  production.duration_expected:
+            if production.duration_expected:
                 production.duration_expected = production.bom_id.global_duration
         return res
-
 
     def _compute_duration(self):
         res = super()._compute_duration()
@@ -36,7 +32,6 @@ class MrpProduction(models.Model):
             if production.duration:
                 production.duration = production.bom_id.global_duration
         return res
-
 
     def _compute_amount(self):
         for production in self:
@@ -88,23 +83,22 @@ class MrpProduction(models.Model):
     #
     #     return super().create(vals_list)
 
-    @api.depends(  'bom_id', 'product_id', 'product_qty' )
+    @api.depends("bom_id", "product_id", "product_qty")
     def onchange_bom_product_qty_id(self):
         if self.bom_id:
-            bom  = self.bom_id
+            bom = self.bom_id
             self.overhead_amount = bom.overhead_amount
             self.utility_consumption = bom.utility_consumption
             self.net_salary_rate = bom.net_salary_rate
             self.salary_contributions = bom.salary_contributions
-            self.global_duration =  self.product_qty / bom.product_qty * bom.global_duration
+            self.global_duration = self.product_qty / bom.product_qty * bom.global_duration
 
     def _compute_move_raw_ids(self):
-        res =  super()._compute_move_raw_ids()
+        res = super()._compute_move_raw_ids()
         for production in self:
             production.onchange_bom_product_qty_id()
 
         return res
-
 
     # def action_confirm(self):
     #     # Call the original method
@@ -117,6 +111,3 @@ class MrpProduction(models.Model):
     #         self.salary_contributions = self.product_qty / self.bom_id.product_qty * self.bom_id.salary_contributions
     #         self.global_duration = self.product_qty / self.bom_id.product_qty * self.bom_id.global_duration
     #     return res
-
-
-
