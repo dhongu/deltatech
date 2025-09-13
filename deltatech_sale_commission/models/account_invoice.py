@@ -81,13 +81,18 @@ class AccountInvoiceLine(models.Model):
             ("sale_line_id", "in", self.sale_line_ids.ids),
             ("state", "=", "done"),
         ]
-        moves = self.env["stock.move"].search(domain)
+        if self.move_type == "out_invoice":
+            domain.append(("location_dest_usage", "=", "customer"))
+        elif self.move_type == "out_refund":
+            domain.append(("location_dest_usage", "=", "internal"))
 
+        moves = self.env["stock.move"].search(domain)
         mrp_mod = self.env["ir.module.module"].search([("name", "=", "mrp"), ("state", "=", "installed")])
         if mrp_mod and self.product_id.bom_count:
             bom = self.product_id.bom_ids.filtered(lambda b: b.type == "phantom")
             if bom:
                 purchase_price = 0
+                moved_qty = 0
                 for move in moves:
                     # get total value from svls
                     move_layers = move.with_context(active_test=False).mapped("stock_valuation_layer_ids")
@@ -95,23 +100,15 @@ class AccountInvoiceLine(models.Model):
                     for layer in move_layers:
                         move_price += layer.value
                     purchase_price += abs(move_price)
-                    # for a kit return, the number of moves linked to SO lines is increased by the size of the kit,
-                    # so we have to adjust
-                    kit_length = len(bom.bom_line_ids)
-                move_length = len(moves)
-                if kit_length != move_length and self.move_id.move_type == "out_refund":
-                    # if kit_length != move_length:
-                    factor = move_length / kit_length
-                    purchase_price = purchase_price / factor
-                # total value from svls computed, must divide by product qty
-                if self.quantity:
-                    purchase_price = purchase_price / self.quantity
+                    moved_qty += move.product_uom_qty
+                kit_length = len(bom.bom_line_ids)
+                # avoid bom computations if moves == bom lines
+                if len(moves) == kit_length:
+                    purchase_price = purchase_price / abs(self.quantity)
+                else:
+                    # compute price per bom
+                    purchase_price = self.get_bom_price(moves, bom)
 
-                    # for bom_line in bom.bom_line_ids:
-                    #     if bom_line.product_id != move.product_id:
-                    #         continue
-                    #     price_unit_comp = move.mapped("stock_valuation_layer_ids").mapped("unit_cost")
-                    #     purchase_price += sum(price_unit_comp) * bom_line.product_qty
         else:
             # preluare pret in svl
             svls = moves.mapped("stock_valuation_layer_ids")
@@ -124,6 +121,26 @@ class AccountInvoiceLine(models.Model):
         if not purchase_price:
             purchase_price = self.product_id.standard_price
         return purchase_price
+
+    def get_bom_price(self, moves, bom):
+        if self.env.context.get("picking_ids"):
+            moves_to_check = moves.filtered(lambda m: m.picking_id.id in self.env.context.get("picking_ids"))
+            move_layers = moves_to_check.with_context(active_test=False).mapped("stock_valuation_layer_ids")
+            if move_layers:
+                return abs(sum(layer.value for layer in move_layers)) / abs(self.quantity)
+
+        bom_price = 0
+        for line in bom.bom_line_ids:
+            bom_line_moves = moves.filtered(lambda m: m.product_id == line.product_id)
+            product_value = 0
+            product_qty = 0
+            for bom_line_move in bom_line_moves:
+                move_layers = bom_line_move.with_context(active_test=False).mapped("stock_valuation_layer_ids")
+                for layer in move_layers:
+                    product_value += layer.value
+                product_qty += bom_line_move.product_uom_qty
+            bom_price += product_value / product_qty * line.product_qty
+        return bom_price
 
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
     def _compute_purchase_price(self):

@@ -42,7 +42,7 @@ class StockQuantReport(models.TransientModel):
         lines_values = []
 
         for product in products:
-            price_reseller = self.pricelist_id.get_product_price(product, product.free_qty, None)
+            price_reseller = self.pricelist_id._get_product_price(product, product.free_qty)
             qty_text = False
             if self.show_thresholds and product.free_qty > 0.0:
                 if (
