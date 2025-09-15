@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import api, models
+from odoo import _, api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -104,19 +104,19 @@ class ResPartnerMergeCron(models.Model):
         """Normalizează numele companiilor în loturi pentru performanță"""
 
         # Găsește toate companiile care au nevoie de normalizare
-        query_count = """
-                      SELECT COUNT(*)
-                      FROM res_partner
-                      WHERE is_company = true
-                        AND (
-                          name ~* '.*\s+srl\s*$' OR
-                name ~* '.*\s+s\.?\s*r\.?\s*l\.?\s*$' OR
-                name ~* '.*\s+sa\s*$' OR
-                name ~* '.*\s+s\.?\s*a\.?\s*$' OR
-                name ~* '.*\s+pfa\s*$' OR
-                name ~* '.*\s+ii\s*$'
-                          ) \
-                      """
+        query_count = r"""
+              SELECT COUNT(*)
+              FROM res_partner
+              WHERE is_company = true
+                AND (
+                    name ~* '.*\s+srl\s*$' OR
+                    name ~* '.*\s+s\.?\s*r\.?\s*l\.?\s*$' OR
+                    name ~* '.*\s+sa\s*$' OR
+                    name ~* '.*\s+s\.?\s*a\.?\s*$' OR
+                    name ~* '.*\s+pfa\s*$' OR
+                    name ~* '.*\s+ii\s*$'
+                  )
+              """
 
         self.env.cr.execute(query_count)
         total_companies = self.env.cr.fetchone()[0]
@@ -125,59 +125,49 @@ class ResPartnerMergeCron(models.Model):
             _logger.info("Nu sunt companii care să necesite normalizare")
             return 0
 
-        _logger.info(f"Se vor normaliza {total_companies} companii în loturi de {batch_size}")
-
         offset = 0
         total_updated = 0
 
-        while offset < total_companies:
-            # Procesează un lot
-            query_update = """
-                           UPDATE res_partner
-                           SET name = CASE
-                                          WHEN name ~* '.*\s+srl\s*$' THEN REGEXP_REPLACE(name, '\s+srl\s*$', ' S.R.L.', 'i')
-                                          WHEN name ~* '.*\s+s\.?\s*r\.?\s*l\.?\s*$' THEN REGEXP_REPLACE(name, '\s+s\.?\s*r\.?\s*l\.?\s*$', ' S.R.L.', 'i')
-                                          WHEN name ~* '.*\s+sa\s*$' THEN REGEXP_REPLACE(name, '\s+sa\s*$', ' S.A.', 'i')
-                                          WHEN name ~* '.*\s+s\.?\s*a\.?\s*$' THEN REGEXP_REPLACE(name, '\s+s\.?\s*a\.?\s*$', ' S.A.', 'i')
-                                          WHEN name ~* '.*\s+pfa\s*$' THEN REGEXP_REPLACE(name, '\s+pfa\s*$', ' P.F.A.', 'i')
-                                          WHEN name ~* '.*\s+ii\s*$' THEN REGEXP_REPLACE(name, '\s+ii\s*$', ' I.I.', 'i')
-                                          ELSE name
-                               END
-                           WHERE id IN (SELECT id \
-                                        FROM res_partner \
-                                        WHERE is_company = true \
-                                          AND ( \
-                                            name ~* '.*\s+srl\s*$' OR
-                        name ~* '.*\s+s\.?\s*r\.?\s*l\.?\s*$' OR
-                        name ~* '.*\s+sa\s*$' OR
-                        name ~* '.*\s+s\.?\s*a\.?\s*$' OR
-                        name ~* '.*\s+pfa\s*$' OR
-                        name ~* '.*\s+ii\s*$' \
-                                            ) \
-                                        ORDER BY id
-                               LIMIT %s \
-                           OFFSET %s ) \
-                           """
+        # noqa: W1401
+        query_update = r"""
+           UPDATE res_partner
+           SET name = CASE
+                          WHEN name ~* '.*\s+srl\s*$' THEN REGEXP_REPLACE(name, '\s+srl\s*$', ' S.R.L.', 'i')
+                          WHEN name ~* '.*\s+s\.?\s*r\.?\s*l\.?\s*$' THEN REGEXP_REPLACE(name, '\s+s\.?\s*r\.?\s*l\.?\s*$', ' S.R.L.', 'i')
+                          WHEN name ~* '.*\s+sa\s*$' THEN REGEXP_REPLACE(name, '\s+sa\s*$', ' S.A.', 'i')
+                          WHEN name ~* '.*\s+s\.?\s*a\.?\s*$' THEN REGEXP_REPLACE(name, '\s+s\.?\s*a\.?\s*$', ' S.A.', 'i')
+                          WHEN name ~* '.*\s+pfa\s*$' THEN REGEXP_REPLACE(name, '\s+pfa\s*$', ' P.F.A.', 'i')
+                          WHEN name ~* '.*\s+ii\s*$' THEN REGEXP_REPLACE(name, '\s+ii\s*$', ' I.I.', 'i')
+                          ELSE name
+               END
+           WHERE id IN (SELECT id
+                        FROM res_partner
+                        WHERE is_company = true
+                          AND (
+                            name ~* '.*\s+srl\s*$' OR
+                            name ~* '.*\s+s\.?\s*r\.?\s*l\.?\s*$' OR
+                            name ~* '.*\s+sa\s*$' OR
+                            name ~* '.*\s+s\.?\s*a\.?\s*$' OR
+                            name ~* '.*\s+pfa\s*$' OR
+                            name ~* '.*\s+ii\s*$'
+                            )
+                        ORDER BY id
+               LIMIT %s
+           OFFSET %s )
+                       """
 
-            try:
-                self.env.cr.execute(query_update, [batch_size, offset])
-                batch_updated = self.env.cr.rowcount
-                total_updated += batch_updated
+        try:
+            self.env.cr.execute(query_update, [batch_size, offset])
+            batch_updated = self.env.cr.rowcount
+            total_updated += batch_updated
 
-                _logger.info(
-                    f"Procesate {offset + batch_size}/{total_companies} companii, actualizate {batch_updated} în acest lot"
-                )
+            _logger.info(
+                f"Procesate {offset + batch_size}/{total_companies} companii, actualizate {batch_updated} în acest lot"
+            )
 
-                # Commit pentru fiecare lot
-                self.env.cr.commit()
+        except Exception as e:
+            _logger.error(_(f"Eroare la procesarea lotului {offset}-{offset + batch_size}: {e}"))
 
-            except Exception as e:
-                _logger.error(f"Eroare la procesarea lotului {offset}-{offset + batch_size}: {e}")
-                self.env.cr.rollback()
-
-            offset += batch_size
-
-        _logger.info(f"Finalizat: {total_updated} companii au fost normalizate din {total_companies} total")
         return total_updated
 
     @api.model
@@ -190,14 +180,14 @@ class ResPartnerMergeCron(models.Model):
 
             # Creează un mesaj în log
             if updated_count > 0:
-                message = f"Cron job: Au fost normalizate {updated_count} nume de companii"
+                message = _(f"Cron job: Au fost normalizate {updated_count} nume de companii")
                 _logger.info(message)
 
                 # Opțional: trimite notificare către administrator
                 admin_users = self.env["res.users"].search([("groups_id", "in", self.env.ref("base.group_system").id)])
                 if admin_users:
                     for admin in admin_users:
-                        admin.partner_id.message_post(body=message, subject="Normalizare companii - Cron Job")
+                        admin.partner_id.message_post(body=message, subject=_("Normalizare companii - Cron Job"))
             else:
                 _logger.info("Cron job: Nu au fost găsite companii care să necesite normalizare")
 
@@ -209,6 +199,6 @@ class ResPartnerMergeCron(models.Model):
             if admin_users:
                 for admin in admin_users:
                     admin.partner_id.message_post(
-                        body=f"Eroare în normalizarea companiilor: {e}",
-                        subject="EROARE - Normalizare companii - Cron Job",
+                        body=_(f"Eroare în normalizarea companiilor: {e}"),
+                        subject=_("EROARE - Normalizare companii - Cron Job"),
                     )
