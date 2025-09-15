@@ -109,6 +109,11 @@
                                         groups="account.group_account_user"
                                         optional="hide"
                                     />
+                                     <field name="analytic_distribution" widget="analytic_distribution"
+                                       groups="analytic.group_analytic_accounting"
+                                       optional="show"
+                                       options="{ 'account_field': 'account_id', 'force_applicability': 'optional'}"
+                                       />
                                     <field name="type" />
                                     <field name="state" optional="hide" />
                                     <field name="currency_id" invisible="1" />
