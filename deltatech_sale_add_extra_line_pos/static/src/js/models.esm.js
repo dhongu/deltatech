@@ -42,7 +42,7 @@ patch(Order.prototype, {
                 extra_line = line;
             }
         }
-        if (extra_line !== false) {
+        if (extra_line) {
             extra_line.set_quantity(qty);
         } else {
             options = {quantity: qty};
