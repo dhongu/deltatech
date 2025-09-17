@@ -363,7 +363,7 @@ class DeltatechExpensesDeduction(models.Model):
                                     "price_unit": line.price_subtotal,
                                     "tax_ids": [(6, 0, line.tax_ids.ids)],
                                     "account_id": line.expense_account_id.id,
-                                    "analytic_distribution": line.analytic_distribution
+                                    "analytic_distribution": line.analytic_distribution,
                                 },
                             )
                         ],
@@ -560,7 +560,6 @@ class DeltatechExpensesDeductionLine(models.Model):
     )
 
     state = fields.Selection(related="expenses_deduction_id.state")
-
 
     @api.model
     def _get_currency(self):

@@ -10,7 +10,6 @@
     "website": "https://www.terrabit.ro",
     "depends": ["sale"],
     "license": "OPL-1",
-
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],

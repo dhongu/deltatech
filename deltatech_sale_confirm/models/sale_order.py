@@ -5,7 +5,7 @@
 
 import logging
 
-from odoo import _, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -21,3 +21,13 @@ class SaleOrder(models.Model):
             if not lines:
                 raise UserError(_("You cannot confirm an order without products."))
         return super()._action_confirm()
+
+
+class SaleOrderLine(models.Model):
+    _inherit = "sale.order.line"
+
+    is_discount_line = fields.Boolean(compute="_compute_is_discount_line")
+
+    def _compute_is_discount_line(self):
+        for line in self:
+            line.is_discount_line = line._is_discount_line()
