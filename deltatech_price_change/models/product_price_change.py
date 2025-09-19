@@ -161,7 +161,12 @@ class ProductPriceChange(models.Model):
             for line in change.line_ids:
                 if line.product_id and not line.price_change_id.use_product_template:
                     # delete lines with the same product variant if found
-                    domain = [("pricelist_id", "=", line.pricelist_id.id), ("product_id", "=", line.product_id.id)]
+                    domain = [
+                        ("pricelist_id", "=", line.pricelist_id.id),
+                        ("product_id", "=", line.product_id.id),
+                        ('date_start','=', line.pricelist_date_start),
+                        ('date_end','=', line.pricelist_date_end),
+                    ]
                     to_delete_lines = self.env["product.pricelist.item"].search(domain)
                     to_delete_lines.unlink()
                     price_list_vals = {
@@ -180,6 +185,8 @@ class ProductPriceChange(models.Model):
                     domain = [
                         ("pricelist_id", "=", line.pricelist_id.id),
                         ("product_tmpl_id", "=", line.product_template_id.id),
+                        ('date_start', '=', line.pricelist_date_start),
+                        ('date_end', '=', line.pricelist_date_end),
                     ]
                     to_delete_lines = self.env["product.pricelist.item"].search(domain)
                     to_delete_lines.unlink()
