@@ -3,7 +3,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-from odoo.osv import expression
+from odoo.fields import Domain
 
 
 class BusinessProcess(models.Model):
@@ -328,9 +328,7 @@ class BusinessProcess(models.Model):
         if not name:
             return super().name_search(name, args, operator, limit)
         domain = args or []
-        processes = self.search_fetch(
-            expression.AND([domain, [("code", operator, name)]]), ["display_name"], limit=limit
-        )
+        processes = self.search_fetch(Domain.AND([domain, [("code", operator, name)]]), ["display_name"], limit=limit)
         return [(process.id, process.display_name) for process in processes.sudo()]
 
     # nu mai exista in 18.0  def _name_search

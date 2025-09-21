@@ -440,7 +440,7 @@
         <field name="state">code</field>
         <field name="code">action = records.button_install_modules()</field>
         <field name="binding_model_id" ref="model_business_process" />
-        <field name="groups_id" eval="[(4, ref('base.group_system'))]" />
+        <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
     </record>
 
 </odoo>
