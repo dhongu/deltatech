@@ -1,0 +1,99 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_product_list
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-23 09:14+0000\n"
+"PO-Revision-Date: 2024-05-23 09:14+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_product_list
+#: model:ir.model.fields,field_description:deltatech_product_list.field_product_list__active
+msgid "Active"
+msgstr "Activ"
+
+#. module: deltatech_product_list
+#: model_terms:ir.ui.view,arch_db:deltatech_product_list.view_product_list_form
+msgid "Archived"
+msgstr "Arhivat"
+
+#. module: deltatech_product_list
+#: model:ir.model.fields,field_description:deltatech_product_list.field_product_list__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_product_list
+#: model:ir.model.fields,field_description:deltatech_product_list.field_product_list__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_product_list
+#: model:ir.model.fields,field_description:deltatech_product_list.field_product_list__create_date
+msgid "Created on"
+msgstr "Creat pe"
+
+#. module: deltatech_product_list
+#: model:ir.model.fields,field_description:deltatech_product_list.field_product_list__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_product_list
+#: model_terms:ir.ui.view,arch_db:deltatech_product_list.view_product_list_form
+msgid "Filter"
+msgstr "Filtru"
+
+#. module: deltatech_product_list
+#: model:ir.model.fields,field_description:deltatech_product_list.field_product_list__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_product_list
+#: model:ir.model.fields,field_description:deltatech_product_list.field_product_list____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare pe"
+
+#. module: deltatech_product_list
+#: model:ir.model.fields,field_description:deltatech_product_list.field_product_list__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: deltatech_product_list
+#: model:ir.model.fields,field_description:deltatech_product_list.field_product_list__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_product_list
+#: model:ir.model.fields,field_description:deltatech_product_list.field_product_list__limit
+msgid "Limit"
+msgstr "Limită"
+
+#. module: deltatech_product_list
+#: model:ir.model.fields,field_description:deltatech_product_list.field_product_list__name
+#: model_terms:ir.ui.view,arch_db:deltatech_product_list.view_product_list_form
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_product_list
+#: model:ir.actions.act_window,name:deltatech_product_list.action_product_list
+#: model:ir.model,name:deltatech_product_list.model_product_list
+#: model:ir.ui.menu,name:deltatech_product_list.menu_product_list
+msgid "Product List"
+msgstr "Listă produse"
+
+#. module: deltatech_product_list
+#: model:ir.model.fields,field_description:deltatech_product_list.field_product_list__products_domain
+msgid "Products"
+msgstr "Produse"
+
+#. module: deltatech_product_list
+#: model_terms:ir.ui.view,arch_db:deltatech_product_list.view_product_list_form
+msgid "Select product"
+msgstr "Selectați produs"
