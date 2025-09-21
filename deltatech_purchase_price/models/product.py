@@ -79,7 +79,7 @@ class SupplierInfo(models.Model):
     def update_last_purchase_price(self):
         date = self._context.get("date") or fields.Date.today()
         for item in self:
-            from_uom = item.product_uom or item.product_tmpl_id.uom_id
+            from_uom = item.product_uom_id or item.product_tmpl_id.uom_id
             to_uom = item.product_tmpl_id.uom_id
             if not from_uom or not to_uom:
                 raise UserError(
