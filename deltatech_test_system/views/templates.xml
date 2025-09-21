@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="notification_banner" name="Notification Banner" inherit_id="web.layout" active="True">
+        <xpath expr="//body" position="inside">
+            <div>
+                 <t
+                    t-set="database_notification_banner"
+                    t-value="request.env['ir.config_parameter'].sudo().get_param('database_notification_banner',False)"
+                />
+
+                <span
+                    t-if="database_notification_banner"
+                    id="oe_notification_banner"
+                    t-attf-style="
+                        text-align: center;
+                        color: #FFFFFF;
+                        background-color: #D0442C;
+                        position: relative;
+                        display: block;
+                        font-size: 16px;
+                       "
+                >
+                    <t
+                        t-out="database_notification_banner"
+                    >Some functionalities may run in restricted mode. Please check the support contract payment!</t>
+                </span>
+            </div>
+        </xpath>
+    </template>
+</odoo>
