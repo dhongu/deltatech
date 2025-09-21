@@ -39,9 +39,12 @@
                 <field name="name" />
                 <field name="transaction_type" />
                 <field name="area_id" />
-                <group expand="0" string="More">
-                    <field name="area_id" />
+
+                <group>
+                    <filter string="Area" name="group_by_area" domain="" context="{'group_by':'area_id'}" />
                 </group>
+
+
             </search>
         </field>
     </record>
