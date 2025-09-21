@@ -12,6 +12,15 @@ This repository hosts official terrabit modules.
 List of Modules
 ---------------
 [//]: # (addons)
+
+Available addons
+----------------
+addon | version | maintainers | summary
+--- | --- | --- | ---
+[deltatech_business_process](deltatech_business_process/) | 19.0.1.4.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Business process
+[deltatech_contact](deltatech_contact/) | 19.0.1.4.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | New fields in partner
+[deltatech_no_quick_create](deltatech_no_quick_create/) | 19.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Disable quick_create
+
 [//]: # (end addons)
 
 
