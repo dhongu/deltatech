@@ -1,0 +1,253 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_record_type
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-30 14:30+0000\n"
+"PO-Revision-Date: 2025-01-30 14:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type__user_ids
+msgid "Allowed Users"
+msgstr "Utilizatori permisi"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type_default_values__field_type__boolean
+msgid "Boolean"
+msgstr ""
+
+#. module: deltatech_record_type
+#: model:res.groups,name:deltatech_record_type.group_confirm_order_without_record_type
+msgid "Can Confirm Orders Without Record Type"
+msgstr "Poate confirma comenzi fără tip comandă"
+
+#. module: deltatech_record_type
+#: model_terms:ir.ui.view,arch_db:deltatech_record_type.res_config_settings_view_form
+msgid "Can confirm orders without record type"
+msgstr "Poate confirma comenzi fără tip comandă"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type_default_values__field_type__char
+msgid "Char"
+msgstr ""
+
+#. module: deltatech_record_type
+#: model:ir.model,name:deltatech_record_type.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_res_config_settings__group_confirm_order_without_record_type
+msgid "Confirmed without record type"
+msgstr "Confirmat fără tip comandă"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type__create_uid
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type_default_values__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type__create_date
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type_default_values__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type__default_values_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_record_type.view_record_type_form
+msgid "Default Values"
+msgstr "Valori implicite"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type__display_name
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type_default_values__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type_default_values__field_id
+msgid "Field"
+msgstr "Câmp"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type_default_values__field_name
+msgid "Field Name"
+msgstr "Nume câmp"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type_default_values__field_type
+msgid "Field Type"
+msgstr "Tip câmp"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type_default_values__field_value
+msgid "Field Value"
+msgstr "Valoare câmp"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type__id
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type_default_values__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_record_type
+#: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type_default_values__field_type__id
+msgid "Id"
+msgstr ""
+
+#. module: deltatech_record_type
+#: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type__model__account_move
+msgid "Invoice"
+msgstr ""
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_account_bank_statement_line__invoice_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_account_move__invoice_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_account_payment__invoice_type
+msgid "Invoice Type"
+msgstr "Tip Factura"
+
+#. module: deltatech_record_type
+#: model:ir.actions.act_window,name:deltatech_record_type.action_invoice_type
+#: model:ir.ui.menu,name:deltatech_record_type.menu_invoice_order_type
+msgid "Invoice Types"
+msgstr "Tipuri factură"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_purchase_order__journal_id
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: deltatech_record_type
+#: model:ir.model,name:deltatech_record_type.model_account_move
+msgid "Journal Entry"
+msgstr "Înregistrare jurnal"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type__write_uid
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type_default_values__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type__write_date
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type_default_values__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type__model
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type_default_values__model_id
+msgid "Model"
+msgstr ""
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_purchase_order__po_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_sale_order__so_type
+#: model_terms:ir.ui.view,arch_db:deltatech_record_type.view_saleorder_type_filter
+msgid "Order Type"
+msgstr "Tip comandă"
+
+#. module: deltatech_record_type
+#: model:ir.actions.act_window,name:deltatech_record_type.action_purchase_order_type
+#: model:ir.actions.act_window,name:deltatech_record_type.action_sale_order_type
+#: model:ir.ui.menu,name:deltatech_record_type.menu_purchase_order_type
+#: model:ir.ui.menu,name:deltatech_record_type.menu_sale_order_type
+msgid "Order Types"
+msgstr "Tipuri comandă"
+
+#. module: deltatech_record_type
+#: model:ir.model,name:deltatech_record_type.model_purchase_order
+#: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type__model__purchase_order
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"
+
+#. module: deltatech_record_type
+#: model:ir.model,name:deltatech_record_type.model_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type_default_values__record_type_id
+#: model_terms:ir.ui.view,arch_db:deltatech_record_type.view_record_type_form
+msgid "Record Type"
+msgstr "Tip înregistrare"
+
+#. module: deltatech_record_type
+#: model:ir.actions.act_window,name:deltatech_record_type.action_record_type
+msgid "Record Types"
+msgstr "Tipuri înregistrare"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type_default_values__value_ref
+msgid "Related"
+msgstr ""
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_record_type__route_ids
+msgid "Route"
+msgstr ""
+
+#. module: deltatech_record_type
+#: model_terms:ir.ui.view,arch_db:deltatech_record_type.view_record_type_form
+msgid "Routes"
+msgstr ""
+
+#. module: deltatech_record_type
+#: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type__model__sale_order
+msgid "Sale Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_record_type
+#: model:ir.model,name:deltatech_record_type.model_record_type_default_values
+msgid "Sale Order Type Default Values"
+msgstr "Valori implicite tip comandă de vânzare"
+
+#. module: deltatech_record_type
+#: model:ir.model,name:deltatech_record_type.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_record_type
+#: model:ir.model,name:deltatech_record_type.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linie comenzi de vânzare"
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_account_bank_statement_line__show_invoice_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_account_move__show_invoice_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_account_payment__show_invoice_type
+msgid "Show Invoice Type"
+msgstr ""
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_purchase_order__show_po_type
+msgid "Show Po Type"
+msgstr ""
+
+#. module: deltatech_record_type
+#: model:ir.model.fields,field_description:deltatech_record_type.field_sale_order__show_so_type
+msgid "Show So Type"
+msgstr ""
+
+#. module: deltatech_record_type
+#. odoo-python
+#: code:addons/deltatech_record_type/models/sale.py:0
+#, python-format
+msgid ""
+"You do not have the rights to confirm an order without specifying an Order "
+"Type."
+msgstr ""
+"Nu aveți drepturi pentru a confirma o comandă fără a specifica un tip de "
+"comandă."

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_purchase_order_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="before">
+                <field name="show_po_type" invisible="1" />
+                <field
+                    name="po_type"
+                    readonly="state!='draft'"
+                    options="{'no_create':True}"
+                    domain="[('model', '=', 'purchase.order')]"
+                    invisible="not show_po_type"
+                />
+            </field>
+            <field name="fiscal_position_id" position="after">
+                <field name="journal_id" />
+            </field>
+        </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="action_purchase_order_type">
+        <field name="name">Order Types</field>
+        <field name="res_model">record.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'default_model':'purchase.order'}</field>
+        <field name="domain">[('model', '=', 'purchase.order')]</field>
+    </record>
+
+     <menuitem
+        id="menu_purchase_order_type"
+        name="Order Types"
+        parent="purchase.menu_purchase_config"
+        action="action_purchase_order_type"
+    />
+
+
+</odoo>
