@@ -8,6 +8,7 @@ import logging
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
+
 _logger = logging.getLogger(__name__)
 
 
