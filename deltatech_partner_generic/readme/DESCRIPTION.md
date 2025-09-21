@@ -1,0 +1,3 @@
+Features:
+
+- defining generic partner
