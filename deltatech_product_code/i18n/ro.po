@@ -1,0 +1,77 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_product_code
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-23 09:05+0000\n"
+"PO-Revision-Date: 2024-05-23 09:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_product_code
+#: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__barcode_random
+msgid "Barcode Random"
+msgstr "Cod de bare aleator"
+
+#. module: deltatech_product_code
+#: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__sequence_id
+msgid "Code Sequence"
+msgstr "Secvență cod"
+
+#. module: deltatech_product_code
+#: model:ir.actions.server,name:deltatech_product_code.action_find_duplicate
+msgid "Find Duplicate"
+msgstr "Găsește duplicat"
+
+#. module: deltatech_product_code
+#: model:ir.actions.server,name:deltatech_product_code.action_force_new_code
+msgid "Force new internal code"
+msgstr "Forțează un nou cod intern"
+
+#. module: deltatech_product_code
+#: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__generate_barcode
+msgid "Generate Barcode"
+msgstr "Generează cod de bare"
+
+#. module: deltatech_product_code
+#: model:ir.model.constraint,message:deltatech_product_code.constraint_product_template_name_code
+msgid "Internal Reference already exists !"
+msgstr "Referința internă există deja!"
+
+#. module: deltatech_product_code
+#: model_terms:ir.ui.view,arch_db:deltatech_product_code.product_normal_form_view
+#: model_terms:ir.ui.view,arch_db:deltatech_product_code.product_template_only_form_view
+msgid "New internal code"
+msgstr ""
+
+#. module: deltatech_product_code
+#: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__prefix_barcode
+msgid "Prefix Barcode"
+msgstr ""
+
+#. module: deltatech_product_code
+#: model:ir.model,name:deltatech_product_code.model_product_template
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_product_code
+#: model:ir.model,name:deltatech_product_code.model_product_category
+msgid "Product Category"
+msgstr "Categorie produs"
+
+#. module: deltatech_product_code
+#: model:ir.model,name:deltatech_product_code.model_product_product
+msgid "Product Variant"
+msgstr "Variantă produs"
+
+#. module: deltatech_product_code
+#: model_terms:ir.ui.view,arch_db:deltatech_product_code.product_category_form_view
+msgid "Products"
+msgstr ""
