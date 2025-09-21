@@ -164,8 +164,8 @@ class ProductPriceChange(models.Model):
                     domain = [
                         ("pricelist_id", "=", line.pricelist_id.id),
                         ("product_id", "=", line.product_id.id),
-                        ('date_start','=', line.pricelist_date_start),
-                        ('date_end','=', line.pricelist_date_end),
+                        ("date_start", "=", line.pricelist_date_start),
+                        ("date_end", "=", line.pricelist_date_end),
                     ]
                     to_delete_lines = self.env["product.pricelist.item"].search(domain)
                     to_delete_lines.unlink()
@@ -185,8 +185,8 @@ class ProductPriceChange(models.Model):
                     domain = [
                         ("pricelist_id", "=", line.pricelist_id.id),
                         ("product_tmpl_id", "=", line.product_template_id.id),
-                        ('date_start', '=', line.pricelist_date_start),
-                        ('date_end', '=', line.pricelist_date_end),
+                        ("date_start", "=", line.pricelist_date_start),
+                        ("date_end", "=", line.pricelist_date_end),
                     ]
                     to_delete_lines = self.env["product.pricelist.item"].search(domain)
                     to_delete_lines.unlink()

@@ -24,7 +24,7 @@ addon | version | maintainers | summary
 [deltatech_account_edi_ubl_gln](deltatech_account_edi_ubl_gln/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL GLN
 [deltatech_account_edit_currency_rate](deltatech_account_edit_currency_rate/) | 17.0.1.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Edit the currency rate on the invoice
 [deltatech_account_restrict_date](deltatech_account_restrict_date/) | 17.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict certain operations depending on date
-[deltatech_actions](deltatech_actions/) | 17.0.0.0.8 |  | Cleaning and other actions
+[deltatech_actions](deltatech_actions/) | 17.0.0.0.9 |  | Cleaning and other actions
 [deltatech_agreement_management](deltatech_agreement_management/) | 17.0.0.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage agreements numbers, date, state
 [deltatech_alternative](deltatech_alternative/) | 17.0.2.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes
 [deltatech_alternative_website](deltatech_alternative_website/) | 17.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show alternative code in website
@@ -50,7 +50,7 @@ addon | version | maintainers | summary
 [deltatech_download](deltatech_download/) | 17.0.0.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generare fisier
 [deltatech_dropshipping](deltatech_dropshipping/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Delivery address in picking
 [deltatech_dummy_queue_job](deltatech_dummy_queue_job/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Dummy Queue Job
-[deltatech_expenses](deltatech_expenses/) | 17.0.2.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Expenses Deduction & Disposition of Cashing
+[deltatech_expenses](deltatech_expenses/) | 17.0.2.2.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Expenses Deduction & Disposition of Cashing
 [deltatech_fast_purchase](deltatech_fast_purchase/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Achizitie rapida
 [deltatech_fast_sale](deltatech_fast_sale/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vanzare rapida
 [deltatech_fleet](deltatech_fleet/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vehicle, route, map sheet
@@ -78,7 +78,7 @@ addon | version | maintainers | summary
 [deltatech_move_negative_stock](deltatech_move_negative_stock/) | 17.0.1.1.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Replenish negative stock from other location
 [deltatech_mrp](deltatech_mrp/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Extension
 [deltatech_mrp_bom](deltatech_mrp_bom/) | 17.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Bom
-[deltatech_mrp_cost](deltatech_mrp_cost/) | 17.0.2.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Cost
+[deltatech_mrp_cost](deltatech_mrp_cost/) | 17.0.2.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Cost
 [deltatech_mrp_simple](deltatech_mrp_simple/) | 17.0.1.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Simple production
 [deltatech_mrp_validation_date](deltatech_mrp_validation_date/) | 17.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Validation date on production order
 [deltatech_no_quick_create](deltatech_no_quick_create/) | 17.0.2.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Disable quick_create
@@ -145,6 +145,7 @@ addon | version | maintainers | summary
 [deltatech_sale_add_extra_line](deltatech_sale_add_extra_line/) | 17.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Add Extra Line
 [deltatech_sale_add_extra_line_pos](deltatech_sale_add_extra_line_pos/) | 17.0.0.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | POS Add Extra Line
 [deltatech_sale_commission](deltatech_sale_commission/) | 17.0.1.4.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Compute sale commission
+[deltatech_sale_confirm](deltatech_sale_confirm/) | 17.0.1.4.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Confirm
 [deltatech_sale_contact](deltatech_sale_contact/) | 17.0.1.0.21 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Limit contacts insale order
 [deltatech_sale_cost_product](deltatech_sale_cost_product/) | 17.0.0.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Cost on Order
 [deltatech_sale_currency](deltatech_sale_currency/) | 17.0.0.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Currency

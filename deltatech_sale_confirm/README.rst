@@ -1,5 +1,5 @@
 ============
-Sale Contact
+Sale Confirm
 ============
 
 ..
@@ -10,18 +10,36 @@ Sale Contact
    !! source digest: sha256:98f4f6b17eb8889c0ee3060c70c1c712a6552225a502b558dcd9e4313372ff59
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_contact
+    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_confirm
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
 
+Ensures data integrity by blocking the confirmation of Sales Orders that
+do not contain any actual product lines. This helps prevent accidental
+confirmations of orders that only include delivery charges, discounts,
+or otherwise lack real products.
+
 - Features:
 
-  - Limitare selectare contacte
+  - Prevents confirming a sales order without product lines
+  - Works seamlessly with the standard Sales Order confirmation flow
+  - Provides clear user feedback when confirmation is not allowed
+  - Zero configuration; lightweight and safe to adopt
+
+- Usage:
+
+  - Install the module and use Sales Orders as usual
+  - If an order has no real product lines, the confirmation action will
+    be blocked with an explanatory message
+
+- Compatibility:
+
+  - Designed to work with standard Odoo Sales workflows
 
 **Table of contents**
 
@@ -56,6 +74,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_contact>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_confirm>`_ project on GitHub.
 
 You are welcome to contribute.

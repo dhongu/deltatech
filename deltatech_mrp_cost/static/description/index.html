@@ -370,12 +370,56 @@ ul.auto-toc {
 !! source digest: sha256:ef423fa1bcb9e5c81dc51435a4ac27399504bf4b75c121ee4db567e055ac5d88
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/17.0/deltatech_mrp_cost"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<p>-## Manufacturing Cost Management</p>
+<p>This module extends Odoo’s Manufacturing (MRP) functionality by adding
+comprehensive cost calculation and tracking capabilities for production
+orders.</p>
+<div class="section" id="key-features">
+<h1>Key Features:</h1>
 <ul class="simple">
-<li>Features:<ul>
-<li>adaugare de costuri suplimentare in comanda de productie</li>
+<li><strong>Additional Cost Fields</strong>: Adds overhead costs, utility consumption,
+net salary rates, and salary contributions to both Bills of Materials
+(BOM) and Manufacturing Orders</li>
+<li><strong>Cost Calculation</strong>: Automatically calculates total production costs
+including:<ul>
+<li>Raw materials costs</li>
+<li>Overhead amounts</li>
+<li>Utility consumption based on duration</li>
+<li>Labor costs (net salary + contributions)</li>
 </ul>
 </li>
+<li><strong>Cost Categories</strong>: Supports categorized cost tracking:<ul>
+<li>Raw materials</li>
+<li>Semi-finished products</li>
+<li>Packaging materials</li>
 </ul>
+</li>
+<li><strong>Production Duration</strong>: Tracks production time and applies time-based
+costs</li>
+<li><strong>Real-time Cost Updates</strong>: Automatically updates production order
+costs when BOM is selected</li>
+<li><strong>Cost Analysis Views</strong>: Provides detailed cost breakdown and analysis
+reports</li>
+<li><strong>Price Calculation</strong>: Computes actual production prices based on
+consumed materials and additional costs</li>
+</ul>
+</div>
+<div class="section" id="benefits">
+<h1>Benefits:</h1>
+<ul class="simple">
+<li><strong>Accurate Costing</strong>: Get precise production costs including all
+direct and indirect expenses</li>
+<li><strong>Better Pricing</strong>: Make informed pricing decisions based on real
+production costs</li>
+<li><strong>Cost Control</strong>: Monitor and control manufacturing costs effectively</li>
+<li><strong>Financial Reporting</strong>: Enhanced cost reporting and analysis
+capabilities</li>
+<li><strong>Process Optimization</strong>: Identify cost optimization opportunities
+through detailed cost breakdowns</li>
+</ul>
+<p>The module integrates seamlessly with Odoo’s standard MRP workflow while
+providing advanced cost management features essential for manufacturing
+businesses.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -388,26 +432,27 @@ ul.auto-toc {
 </ul>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h2><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h2>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h2><a class="toc-backref" href="#toc-entry-2">Credits</a></h2>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h3><a class="toc-backref" href="#toc-entry-3">Authors</a></h3>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h3><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h3>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/17.0/deltatech_mrp_cost">dhongu/deltatech</a> project on GitHub.</p>
 <p>You are welcome to contribute.</p>
+</div>
 </div>
 </div>
 </div>
