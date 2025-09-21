@@ -1,0 +1,183 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="view_business_project_tree" model="ir.ui.view">
+        <field name="name">Business project</field>
+        <field name="model">business.project</field>
+        <field name="arch" type="xml">
+            <list sample="1">
+                <field name="code" />
+                <field name="name" />
+                <field name='state' widget="badge" decoration-success="state == 'running'  " />
+            </list>
+        </field>
+    </record>
+    <record id="view_business_project_form" model="ir.ui.view">
+        <field name="name">Business project</field>
+        <field name="model">business.project</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="calculate_total_project_duration"
+                        string="Get Duration"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        options="{'clickable': '1'}"
+                        statusbar_visible="preparation,exploitation,realization,deployment,running"
+                    />
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+
+                        <button class="oe_stat_button" type="object" name="action_view_processes" icon="fa-cogs">
+                            <field name="count_processes" widget="statinfo" string="Processes" />
+                        </button>
+                        <button class="oe_stat_button" type="object" name="action_view_step" icon="fa-cog">
+                            <field name="count_steps" widget="statinfo" string="Steps" />
+                        </button>
+
+                        <button class="oe_stat_button" type="object" name="action_view_developments" icon="fa-code">
+                            <field name="count_developments" widget="statinfo" string="Developments" />
+                        </button>
+                        <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-file-text-o">
+                            <field string="Documents" name="doc_count" widget="statinfo" />
+                        </button>
+
+
+                        <button
+                            class="oe_stat_button"
+                            type="object"
+                            name="action_view_issue"
+                            icon="fa-exclamation-triangle"
+                        >
+                            <field name="count_issues" widget="statinfo" string="Issues" />
+                        </button>
+                    </div>
+                    <field name="logo" widget="image" class="oe_avatar" />
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name" class="oe_inline" />
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Identification">
+                            <field name="code" />
+                            <field name="customer_id" />
+                            <field name="project_manager_id" />
+                            <field name="total_project_duration" widget="float_time" />
+                            <field name="project_type" groups="base.group_system" />
+                        </group>
+
+                        <group string="Dates">
+                            <field name="date_start" />
+                            <field name="date_go_live" />
+                        </group>
+
+
+                    </group>
+                </sheet>
+  <chatter />
+            </form>
+        </field>
+    </record>
+
+    <record id="view_business_project_filter" model="ir.ui.view">
+        <field name="name">Business project</field>
+        <field name="model">business.project</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code" />
+                <field name="name" />
+
+            </search>
+        </field>
+    </record>
+
+    <record id="view_business_project_kanban" model="ir.ui.view">
+        <field name="name">Business project</field>
+        <field name="model">business.project</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="id" />
+                <field name="name" />
+                <field name="date_start" />
+                <field name="date_go_live" />
+                <field name="count_processes" />
+                <templates>
+                    <t t-name="card" class="flex-row p-1">
+                        <aside class="o_kanban_image">
+                            <field
+                                name="logo"
+                                alt="Logo"
+                                widget="image"
+                                options="{ 'img_class': 'object-fit-contain'}"
+                            />
+                        </aside>
+                        <main cclass="ms-4 mt-1 ml-5">
+                                <field class="fw-bold fs-5" name="name" />
+                            <div t-if="record.date_start.raw_value" class="text-muted o_row">
+                                    <span class="fa fa-clock-o mr-2" title="Dates" />
+                                    <field class="ms-1" name="date_start" />
+                                    <i
+                                    t-if="record.date_go_live.raw_value and record.date_start.raw_value"
+                                    class="fa fa-long-arrow-right mx-2 oe_read_only"
+                                    aria-label="Arrow icon"
+                                    title="Arrow"
+                                />
+                                    <field name="date_go_live" />
+                                </div>
+                        </main>
+                         <footer class="pt-0">
+                            <field name="activity_ids" widget="kanban_activity" />
+
+                        </footer>
+                    </t>
+
+
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_business_project_calendar" model="ir.ui.view">
+        <field name="name">Business project</field>
+        <field name="model">business.project</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date_start" date_stop="date_go_live" mode="week" color="customer_id" string="Project">
+                <field name="name" />
+                <field name="customer_id" filters="1" />
+            </calendar>
+        </field>
+    </record>
+
+
+    <record id="action_business_project" model="ir.actions.act_window">
+        <field name="name">Business project</field>
+        <field name="res_model">business.project</field>
+        <field name="view_mode">kanban,list,form,calendar</field>
+    </record>
+
+    <record id="action_download_excel_report" model="ir.actions.server">
+        <field name="name">Download Excel Report</field>
+        <field name="model_id" ref="model_business_project" />
+        <field name="binding_model_id" ref="model_business_project" />
+        <field name="state">code</field>
+        <field name="code">action = model.action_download_excel_report()</field>
+    </record>
+
+    <menuitem
+        name="Projects"
+        id="menu_business_project"
+        action="action_business_project"
+        parent="menu_business_process_main"
+        sequence="10"
+    />
+
+</odoo>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+        <record id="groups_privilege_business_process" model="res.groups.privilege">
+            <field name="name">Business process</field>
+        </record>
+
+
+<!--        <record id="module_category_business_process" model="ir.module.category">-->
+<!--            <field name="name">Business process</field>-->
+<!--        </record>-->
+
+        <record id="group_business_end_user" model="res.groups">
+            <field name="name">End User</field>
+            <field name="privilege_id" ref="groups_privilege_business_process" />
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+            <field name="user_ids" eval="[(4, ref('base.user_root'))]" />
+        </record>
+
+        <record id="group_business_process_responsible" model="res.groups">
+            <field name="name">Process Responsible</field>
+            <field name="privilege_id" ref="groups_privilege_business_process" />
+            <field name="implied_ids" eval="[(4, ref('group_business_end_user'))]" />
+            <field name="user_ids" eval="[(4, ref('base.user_root'))]" />
+        </record>
+
+
+        <record id="group_business_process_manager" model="res.groups">
+            <field name="name">Business Admin</field>
+            <field name="privilege_id" ref="groups_privilege_business_process" />
+            <field name="implied_ids" eval="[(4, ref('group_business_process_responsible'))]" />
+            <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
+        </record>
+
+    <record model="ir.rule" id="business_project_comp_rule">
+        <field name="name">Business project multi-company</field>
+        <field name="model_id" ref="model_business_project" />
+        <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="business_process_comp_rule">
+        <field name="name">Business process multi-company</field>
+        <field name="model_id" ref="model_business_process" />
+        <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="business_process_test_comp_rule">
+        <field name="name">Business process test multi-company</field>
+        <field name="model_id" ref="model_business_process_test" />
+        <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="business_process_step_test_comp_rule">
+        <field name="name">Business process step test multi-company</field>
+        <field name="model_id" ref="model_business_process_step_test" />
+        <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="business_process_step_comp_rule">
+        <field name="name">Business process step multi-company</field>
+        <field name="model_id" ref="model_business_process_step" />
+        <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="business_development_comp_rule">
+        <field name="name">Business development multi-company</field>
+        <field name="model_id" ref="model_business_development" />
+        <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="business_issue_comp_rule">
+        <field name="name">Business issue multi-company</field>
+        <field name="model_id" ref="model_business_issue" />
+        <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+    </record>
+
+
+
+</odoo>
