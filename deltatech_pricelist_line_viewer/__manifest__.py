@@ -1,6 +1,6 @@
 {
     "name": "Price List Line Viewer",
-    "version": "17.0.0.0.0",
+    "version": "17.0.0.0.1",
     "author": "Voicu Stefan, Terrabit",
     "website": "https://www.terrabit.ro",
     "summary": "Creates a tree view for the lines of a price list for search and management",
@@ -8,6 +8,7 @@
     "depends": ["sale_management", "product"],
     "data": [
         "views/product_pricelist_view.xml",
+        "data/security_groups.xml",
     ],
     "license": "OPL-1",
     "images": ["static/description/main_screenshot.png"],
