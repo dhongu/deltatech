@@ -5,7 +5,7 @@
 {
     "name": "Expenses Deduction",
     "summary": "Expenses Deduction & Disposition of Cashing",
-    "version": "18.0.2.0.4",
+    "version": "18.0.2.2.0",
     "category": "Accounting & Finance",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
