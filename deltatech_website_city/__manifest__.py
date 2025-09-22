@@ -5,14 +5,15 @@
     "name": "Website City",
     "category": "Website/Website",
     "summary": "City extension",
-    "version": "18.0.1.0.6",
+    "version": "18.0.1.1.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
     "depends": ["portal", "website_sale", "base_address_extended"],
     "data": [
-        "views/portal.xml",
+        # "views/portal.xml",
         "views/website_address.xml",
+        "data/ir_model_fields.xml",
     ],
     "price": 5.00,
     "currency": "EUR",
@@ -23,6 +24,7 @@
     "assets": {
         "web.assets_frontend": [
             "deltatech_website_city/static/src/js/website_sale.esm.js",
+            # "deltatech_website_city/static/src/js/portal.esm.js",  #todo in lucru
         ],
     },
 }
