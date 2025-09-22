@@ -3,9 +3,10 @@
 
         <template id="report_dc">
             <t t-call="web.html_container">
-                <t t-foreach="docs" t-as="o">
+
                     <t t-call="web.external_layout">
                         <div class="page">
+                            <t t-foreach="docs" t-as="o">
                             <h3>
                                 <span>Declaration of Conformity:</span>
                                     <span t-field="o.name" />
@@ -86,10 +87,11 @@
                             <br />
                             <br />
                             <div>F(PP 7.5/4.4.6-01)03</div>
-
+                            <hr style="margin-top: 10px;" />
+</t>
                         </div>
                     </t>
-                </t>
+
             </t>
         </template>
         <template id="report_dc_lot">
