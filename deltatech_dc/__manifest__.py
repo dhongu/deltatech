@@ -5,7 +5,7 @@
 {
     "name": "Declaration of Conformity",
     "summary": "Print Declaration of Conformity",
-    "version": "18.0.1.0.6",
+    "version": "18.0.1.0.7",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
