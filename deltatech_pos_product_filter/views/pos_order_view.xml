@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_pos_order_filter" model="ir.ui.view">
+        <field name="name">pos.order.search.view</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_filter" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="lines" string="Product" filter_domain="[('lines.product_id', 'ilike', self)]" />
+            </field>
+        </field>
+    </record>
+</odoo>
