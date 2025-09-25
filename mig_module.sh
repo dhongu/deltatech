@@ -12,7 +12,7 @@ git checkout -b 18.0-mig-$module
 # Verifică dacă există patch-uri de aplicat
 patches=$(git format-patch --keep-subject --stdout origin/18.0..origin/17.0 -- $module)
 if [ -z "$patches" ]; then
-    echo "Atenție: Nu există patch-uri pentru modulul $module între origin/19.0 și origin/18.0"
+    echo "Atenție: Nu există patch-uri pentru modulul $module între origin/18.0 și origin/17.0"
     exit 0
 fi
 
