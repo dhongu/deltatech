@@ -5,7 +5,7 @@
 {
     "name": "POS Order Product Filter",
     "summary": "Searching pos order using product",
-    "version": "17.0.1.0.0",
+    "version": "18.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
