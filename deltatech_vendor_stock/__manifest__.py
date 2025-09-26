@@ -6,7 +6,7 @@
 {
     "name": "Vendor Stock",
     "summary": "Vendor stock availability",
-    "version": "17.0.1.1.4",
+    "version": "17.0.1.1.5",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
@@ -15,10 +15,11 @@
         "sale_stock",
     ],
     "license": "OPL-1",
-    "data": ["views/product_supplierinfo_view.xml", "views/sale_view.xml"],
+    "data": ["views/product_supplierinfo_view.xml", "views/sale_view.xml", "views/res_config_settings_view.xml"],
     "assets": {
         "web.assets_backend": [
             "deltatech_vendor_stock/static/src/xml/**/*",
+            "deltatech_vendor_stock/static/src/js/**/*",
         ],
     },
     "images": ["static/description/main_screenshot.png"],

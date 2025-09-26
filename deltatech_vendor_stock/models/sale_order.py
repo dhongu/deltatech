@@ -23,6 +23,22 @@ class SaleOrderLine(models.Model):
 
     warehouse_stock = fields.Text(string="Stock/WH", compute="_compute_warehouse_stocks")
 
+    def _get_stock_colors(self):
+        """Get stock colors from system parameters"""
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        return {
+            "color_fulfilled": get_param("deltatech_vendor_stock.color_fulfilled", "#28a745"),
+            "color_fulfilled_no_free_qty": get_param("deltatech_vendor_stock.color_fulfilled_no_free_qty", "#17a2b8"),
+            "color_not_fulfilled": get_param("deltatech_vendor_stock.color_not_fulfilled", "#dc3545"),
+            "color_vendor_available": get_param("deltatech_vendor_stock.color_vendor_available", "#ffc107"),
+            "color_default": get_param("deltatech_vendor_stock.color_default", "#007bff"),
+        }
+
+    @api.model
+    def get_stock_colors(self):
+        """Get stock colors from system parameters - API method"""
+        return self._get_stock_colors()
+
     def _compute_warehouse_stocks(self):
         warehouses = self.env["stock.warehouse"].search([])
         if len(warehouses) == 1:

@@ -6,3 +6,4 @@
 from . import product_supplierinfo
 from . import sale_order
 from . import product
+from . import res_config_settings
