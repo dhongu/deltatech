@@ -139,7 +139,8 @@ class AccountInvoiceLine(models.Model):
                 for layer in move_layers:
                     product_value += layer.value
                 product_qty += bom_line_move.product_uom_qty
-            bom_price += product_value / product_qty * line.product_qty
+            if product_qty and line.product_qty:
+                bom_price += product_value / product_qty * line.product_qty
         return bom_price
 
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
