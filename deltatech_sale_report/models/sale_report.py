@@ -15,6 +15,7 @@ class SaleReport(models.Model):
         string="Price Total Without Delivery",
         readonly=True,
     )
+    first_supplier_id = fields.Many2one("res.partner", string="First Supplier", readonly=True, group_operator="count")
 
     def _select_additional_fields(self):
         res = super()._select_additional_fields()
@@ -24,6 +25,10 @@ class SaleReport(models.Model):
         res["is_delivery"] = " l.is_delivery"
         res["transport_value"] = "CASE WHEN l.is_delivery THEN l.price_total ELSE 0 END"
         res["price_total_without_delivery"] = "CASE WHEN NOT l.is_delivery THEN l.price_total ELSE 0 END"
+        res["first_supplier_id"] = (
+            " (SELECT seller.partner_id FROM product_supplierinfo seller WHERE seller.product_tmpl_id = p.product_tmpl_id AND seller.partner_id IS NOT NULL ORDER BY seller.sequence LIMIT 1)"
+        )
+
         return res
 
     # def _select_sale(self):
@@ -35,7 +40,7 @@ class SaleReport(models.Model):
     def _group_by_sale(self):
         # Extend the original _group_by_sale method to include partner_email
         group_by_ = super()._group_by_sale()
-        group_by_ += ", partner.email, l.is_delivery, l.price_total"
+        group_by_ += ", partner.email, l.is_delivery, l.price_total, first_supplier_id"
         return group_by_
 
     # Adăugați metoda _read_group_select pentru a personaliza calculul la grupare

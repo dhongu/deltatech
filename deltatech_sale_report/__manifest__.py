@@ -4,7 +4,7 @@
 {
     "name": "Sale Report Additional Info",
     "summary": "Sale Report Additional Info",
-    "version": "17.0.0.0.4",
+    "version": "17.0.0.0.5",
     "author": "Terrabit, Voicu Stefa",
     "website": "https://www.terrabit.ro",
     "depends": ["sale"],
