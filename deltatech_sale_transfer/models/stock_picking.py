@@ -24,7 +24,7 @@ class StockPicking(models.Model):
                         for stock_move_line in move_line_ids:
                             stock_move_line.write({"quantity": stock_move_line.product_uom_qty})
                     else:
-                        move.write({"quantity_done": move.product_uom_qty})
+                        move.write({"quantity": move.product_uom_qty})
                 else:
                     move.unlink()
             picking._action_done()
