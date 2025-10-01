@@ -1,7 +1,7 @@
 /** @odoo-module **/
 
-import websiteSaleAddress from "@website_sale/js/address";
 import {rpc} from "@web/core/network/rpc";
+import websiteSaleAddress from "@website_sale/js/address";
 
 websiteSaleAddress.include({
     events: Object.assign({}, websiteSaleAddress.prototype.events, {

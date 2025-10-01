@@ -28,7 +28,6 @@ portalDetails.include({
                 option.setAttribute("data-code", item[2]);
                 this.elementCities.appendChild(option);
             });
-        } else {
         }
     },
 });
