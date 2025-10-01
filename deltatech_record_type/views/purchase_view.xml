@@ -21,6 +21,28 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="purchase_order_view_tree">
+        <field name="name">purchase.order.view.list</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_view_tree" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="po_type" optional="hide" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="purchase_order_kpis_tree">
+        <field name="name">purchase.order.inherit.purchase.order.list</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_kpis_tree" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="po_type" optional="hide" />
+            </field>
+        </field>
+    </record>
+
 
     <record model="ir.actions.act_window" id="action_purchase_order_type">
         <field name="name">Order Types</field>
