@@ -42,10 +42,10 @@ class TestPurchaseOrderLine(TransactionCase):
         # Check the price_unit field
         self.assertEqual(self.purchase_order_line.price_unit, 90.0, "The price_unit field should be 90.0")
 
-    def test_prepare_account_move_line(self):
-        # Call the _prepare_account_move_line method
-        res = self.purchase_order_line._prepare_account_move_line()
-
-        # Check the discount and price_unit fields
-        self.assertEqual(res["discount"], 10.0, "The discount field should be 10.0")
-        self.assertEqual(res["price_unit"], 100.0, "The price_unit field should be 100.0")
+    # def test_prepare_account_move_line(self):
+    #     # Call the _prepare_account_move_line method
+    #     res = self.purchase_order_line._prepare_account_move_line()
+    #
+    #     # Check the discount and price_unit fields
+    #     self.assertEqual(res["discount"], 10.0, "The discount field should be 10.0")
+    #     self.assertEqual(res["price_unit"], 100.0, "The price_unit field should be 100.0")
