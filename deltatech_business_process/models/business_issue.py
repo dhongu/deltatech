@@ -127,7 +127,7 @@ class BusinessIssue(models.Model):
     def send_issue_mail(self):
         for item in self:
             today = date.today().strftime("%Y-%m-%d")
-            item.sudo().message_post(body=self.env._(f"Date of approval: {today}"))
+            item.sudo().message_post(body=self.env._("Date of approval: {today}", today=today))
             template = self.env.ref("deltatech_business_process.email_template_issue_submitted")
             self.env["mail.template"].browse(template.id).send_mail(item.id, force_send=True)
 

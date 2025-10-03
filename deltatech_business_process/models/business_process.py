@@ -356,7 +356,7 @@ class BusinessProcess(models.Model):
                 if scope == "internal":
                     test = self.env["business.process.test"].create(
                         {
-                            "name": self.env._("Internal Test %s") % process.code if process.code else process.name,
+                            "name": self.env._("Internal Test %s", process.code if process.code else process.name),
                             "process_id": process.id,
                             "tester_id": self.responsible_id.id,
                             "scope": scope,
@@ -365,7 +365,7 @@ class BusinessProcess(models.Model):
                 else:
                     test = self.env["business.process.test"].create(
                         {
-                            "name": self.env._("Test %s") % process.code if process.code else process.name,
+                            "name": self.env._("Test %s", process.code if process.code else process.name),
                             "process_id": process.id,
                             "scope": scope,
                         }
