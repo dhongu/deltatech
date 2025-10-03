@@ -3,7 +3,7 @@
 
 from datetime import datetime
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class BusinessProcessTest(models.Model):
@@ -104,7 +104,7 @@ class BusinessProcessTest(models.Model):
     def attachment_tree_view(self):
         domain = self.get_attachment_domain()
         return {
-            "name": _("Attachments"),
+            "name": self.env._("Attachments"),
             "domain": domain,
             "res_model": "ir.attachment",
             "type": "ir.actions.act_window",
@@ -117,7 +117,7 @@ class BusinessProcessTest(models.Model):
     def _onchange_process_id(self):
         if self.process_id:
             if not self.name:
-                self.name = _("Testing %s") % self.process_id.name
+                self.name = self.env._("Testing %s") % self.process_id.name
             self.test_step_ids = [(5, 0, 0)]
             for step in self.process_id.step_ids:
                 self.test_step_ids = [
