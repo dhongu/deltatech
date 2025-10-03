@@ -1,7 +1,7 @@
 # ©  2008-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
@@ -24,7 +24,7 @@ class StockPicking(models.Model):
     postponed = fields.Boolean(
         string="Postponed",
         tracking=True,
-        default=_default_postponed,
+        default=lambda self: self._default_postponed(),
     )
     delivery_state = fields.Selection(
         [
@@ -85,7 +85,7 @@ class StockPicking(models.Model):
     def button_validate(self):
         for picking in self:
             if picking.postponed:
-                raise UserError(_("The transfer %s is postponed") % picking.name)
+                raise UserError(self.env._("The transfer %s is postponed") % picking.name)
 
         return super().button_validate()
 
