@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
@@ -83,7 +83,7 @@ class SupplierInfo(models.Model):
             to_uom = item.product_tmpl_id.uom_id
             if not from_uom or not to_uom:
                 raise UserError(
-                    _("You cannot update the supplier price here. Please edit the supplier info separately")
+                    self.env._("You cannot update the supplier price here. Please edit the supplier info separately")
                 )
             price = from_uom._compute_price(item.price, to_uom)
 
