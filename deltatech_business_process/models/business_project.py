@@ -5,7 +5,7 @@ import io
 
 import xlsxwriter
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 # from odoo.tools import date_utils
@@ -156,7 +156,7 @@ class BusinessProject(models.Model):
     def attachment_tree_view(self):
         domain = self.get_attachment_domain()
         return {
-            "name": _("Attachments"),
+            "name": self.env._("Attachments"),
             "domain": domain,
             "res_model": "ir.attachment",
             "type": "ir.actions.act_window",
@@ -288,7 +288,7 @@ class BusinessProject(models.Model):
     def action_download_excel_report(self):
         active_id = self.env.context.get("active_id")
         if not active_id:
-            raise UserError(_("No active project found."))
+            raise UserError(self.env._("No active project found."))
 
         project = self.browse(active_id)
         excel_data = project.generate_excel_report()

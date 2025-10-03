@@ -1,7 +1,7 @@
 # ©  2023 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.fields import Domain
 
@@ -299,7 +299,7 @@ class BusinessProcess(models.Model):
     def attachment_tree_view(self):
         domain = self.get_attachment_domain()
         return {
-            "name": _("Attachments"),
+            "name": self.env._("Attachments"),
             "domain": domain,
             "res_model": "ir.attachment",
             "type": "ir.actions.act_window",
@@ -356,7 +356,7 @@ class BusinessProcess(models.Model):
                 if scope == "internal":
                     test = self.env["business.process.test"].create(
                         {
-                            "name": _("Internal Test %s") % process.code if process.code else process.name,
+                            "name": self.env._("Internal Test %s") % process.code if process.code else process.name,
                             "process_id": process.id,
                             "tester_id": self.responsible_id.id,
                             "scope": scope,
@@ -365,7 +365,7 @@ class BusinessProcess(models.Model):
                 else:
                     test = self.env["business.process.test"].create(
                         {
-                            "name": _("Test %s") % process.code if process.code else process.name,
+                            "name": self.env._("Test %s") % process.code if process.code else process.name,
                             "process_id": process.id,
                             "scope": scope,
                         }
@@ -428,7 +428,7 @@ class BusinessProcess(models.Model):
         found_modules = False
         for record in self:
             if record.project_id.project_type != "local":
-                raise UserError(_("Only local projects can install modules"))
+                raise UserError(self.env._("Only local projects can install modules"))
             modules_to_install = record.module_ids.filtered(lambda m: m.state != "installed")
             if not modules_to_install:
                 continue
@@ -440,7 +440,7 @@ class BusinessProcess(models.Model):
                 "type": "ir.actions.client",
                 "tag": "display_notification",
                 "params": {
-                    "title": _("Warning"),
+                    "title": self.env._("Warning"),
                     "type": "warning",
                     "message": "No modules to install found",
                     "sticky": False,
@@ -452,7 +452,7 @@ class BusinessProcess(models.Model):
                 "type": "ir.actions.client",
                 "tag": "display_notification",
                 "params": {
-                    "title": _("Success"),
+                    "title": self.env._("Success"),
                     "type": "success",
                     "message": "Modules installed successfully",
                     "sticky": False,

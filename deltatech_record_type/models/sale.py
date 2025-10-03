@@ -1,4 +1,4 @@
-from odoo import _, api, exceptions, fields, models
+from odoo import api, exceptions, fields, models
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -18,7 +18,7 @@ class SaleOrder(models.Model):
             ):
                 if not order.so_type:
                     raise exceptions.UserError(
-                        _("You do not have the rights to confirm an order without specifying an Order Type.")
+                        self.env._("You do not have the rights to confirm an order without specifying an Order Type.")
                     )
         return super().action_confirm()
 

@@ -5,7 +5,7 @@
 import base64
 import json
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 
@@ -29,7 +29,7 @@ class BusinessProcessImport(models.TransientModel):
             project = process[0].project_id
 
         if not project:
-            raise UserError(_("No project selected!"))
+            raise UserError(self.env._("No project selected!"))
 
         data = base64.b64decode(self.data_file.decode("utf-8"))
         data = json.loads(data)

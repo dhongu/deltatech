@@ -1,0 +1,90 @@
+name: Publish Odoo modules to PyPI
+
+on:
+  # Publicare automată la crearea unui tag
+  push:
+    tags:
+      - '19.0'
+
+  # Opțional: permite rularea manuală a workflow-ului
+  workflow_dispatch:
+    inputs:
+      publish_all:
+        description: 'Publish all modules?'
+        required: true
+        default: 'true'
+        type: boolean
+      specific_modules:
+        description: 'Comma-separated list of modules to publish (if publish_all is false)'
+        required: false
+        type: string
+
+jobs:
+  find-modules:
+    runs-on: ubuntu-latest
+    outputs:
+      modules: ${{ steps.find-modules.outputs.modules }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find all Odoo modules
+        id: find-modules
+        run: |
+          # Găsește toate directoarele care conțin un fișier __manifest__.py (module Odoo)
+          modules=$(find . -maxdepth 1 -type d -not -path "*/\.*" -not -path "." -exec test -e {}"/__manifest__.py" \; -print | sed 's|^\./||' | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "modules=$modules" >> $GITHUB_OUTPUT
+          echo "Found modules: $modules"
+
+  publish:
+    needs: find-modules
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        module: ${{ fromJson(needs.find-modules.outputs.modules) }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine whool
+
+      - name: Verifică dacă modulul ar trebui publicat
+        id: should-publish
+        run: |
+          PUBLISH_ALL="${{ github.event.inputs.publish_all || 'true' }}"
+          SPECIFIC_MODULES="${{ github.event.inputs.specific_modules }}"
+
+          if [ "$PUBLISH_ALL" = "true" ]; then
+            echo "should_publish=true" >> $GITHUB_OUTPUT
+          elif [ -n "$SPECIFIC_MODULES" ]; then
+            MODULES_LIST=$(echo "$SPECIFIC_MODULES" | tr ',' '\n')
+            if echo "$MODULES_LIST" | grep -q "^${{ matrix.module }}$"; then
+              echo "should_publish=true" >> $GITHUB_OUTPUT
+            else
+              echo "should_publish=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "should_publish=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build package
+        if: steps.should-publish.outputs.should_publish == 'true'
+        run: |
+          cd ${{ matrix.module }}
+          python -m build
+
+      - name: Publish to PyPI
+        if: steps.should-publish.outputs.should_publish == 'true'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: ${{ matrix.module }}/dist/
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          skip-existing: true

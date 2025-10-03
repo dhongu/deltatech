@@ -3,7 +3,7 @@
 
 from datetime import date
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -127,7 +127,7 @@ class BusinessIssue(models.Model):
     def send_issue_mail(self):
         for item in self:
             today = date.today().strftime("%Y-%m-%d")
-            item.sudo().message_post(body=f"Date of approval: {today}")
+            item.sudo().message_post(body=self.env._(f"Date of approval: {today}"))
             template = self.env.ref("deltatech_business_process.email_template_issue_submitted")
             self.env["mail.template"].browse(template.id).send_mail(item.id, force_send=True)
 
@@ -163,7 +163,7 @@ class BusinessIssue(models.Model):
         for issue in self:
             if issue.step_test_id:
                 if issue.step_test_id.process_test_id.state == "done":
-                    raise UserError(_("This test is completed."))
+                    raise UserError(self.env._("This test is completed."))
                 issue.process_id = issue.step_test_id.process_id
                 issue.raise_by_id = issue.step_test_id.process_test_id.tester_id
 
@@ -183,9 +183,13 @@ class BusinessIssue(models.Model):
     def button_solved(self):
         for issue in self:
             if not issue.solution_date:
-                raise UserError(_("The field Solution Date is required, please complete it to change status to Solved"))
+                raise UserError(
+                    self.env._("The field Solution Date is required, please complete it to change status to Solved")
+                )
             if not issue.solution:
-                raise UserError(_("The field Solution is required, please complete it to change status to Solved"))
+                raise UserError(
+                    self.env._("The field Solution is required, please complete it to change status to Solved")
+                )
         self.write({"state": "solved"})
 
         self._add_followers()
@@ -197,7 +201,9 @@ class BusinessIssue(models.Model):
     def button_done(self):
         for issue in self:
             if not issue.closed_date:
-                raise UserError(_("The field Closed Date is required, please complete it to change status to Closed"))
+                raise UserError(
+                    self.env._("The field Closed Date is required, please complete it to change status to Closed")
+                )
             if not issue.closed_by_id:
                 issue.closed_by_id = self.env.user.partner_id
 

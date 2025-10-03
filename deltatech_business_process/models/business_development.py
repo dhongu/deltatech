@@ -109,7 +109,7 @@ class BusinessDevelopment(models.Model):
             and self.project_id.project_manager_id
         ):
             today = date.today().strftime("%Y-%m-%d")
-            self.sudo().message_post(body=f"Date of approval: {today}")
+            self.sudo().message_post(body=self.env._(f"Date of approval: {today}"))
             template = self.env.ref("deltatech_business_process.email_template_development_approved")
             self.env["mail.template"].browse(template.id).send_mail(self.id, force_send=True)
 

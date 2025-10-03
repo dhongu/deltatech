@@ -5,7 +5,7 @@
 
 import time
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -38,7 +38,7 @@ class Partner(models.Model):
         for contact in self:
             res = res and self.check_single_cnp(contact.cnp)
         if not res:
-            raise ValidationError(_("CNP invalid"))
+            raise ValidationError(self.env._("CNP invalid"))
 
     def _get_cnp_checksum(self, cnp):
         key = "279146358279"
