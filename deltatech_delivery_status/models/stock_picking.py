@@ -85,7 +85,7 @@ class StockPicking(models.Model):
     def button_validate(self):
         for picking in self:
             if picking.postponed:
-                raise UserError(self.env._("The transfer %s is postponed") % picking.name)
+                raise UserError(self.env._("The transfer %s is postponed", picking.name))
 
         return super().button_validate()
 

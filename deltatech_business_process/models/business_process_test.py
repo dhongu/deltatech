@@ -117,7 +117,7 @@ class BusinessProcessTest(models.Model):
     def _onchange_process_id(self):
         if self.process_id:
             if not self.name:
-                self.name = self.env._("Testing %s") % self.process_id.name
+                self.name = self.env._("Testing %s", self.process_id.name)
             self.test_step_ids = [(5, 0, 0)]
             for step in self.process_id.step_ids:
                 self.test_step_ids = [
