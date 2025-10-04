@@ -6,7 +6,6 @@
 from odoo import fields, models
 from odoo.exceptions import UserError
 from odoo.tools.float_utils import float_compare
-from odoo.tools.translate import _
 
 
 class StockPicking(models.Model):
@@ -29,7 +28,7 @@ class PurchaseOrder(models.Model):
                 if picking.state == "confirmed":
                     picking.action_assign()
                     if picking.state != "assigned":
-                        raise UserError(_("The stock transfer cannot be validated!"))
+                        raise UserError(self.env._("The stock transfer cannot be validated!"))
                 if picking.state == "assigned":
                     picking.write({"notice": False, "origin": purchase_order.partner_ref})
                     for move_line in picking.move_ids:

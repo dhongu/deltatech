@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import UserError
 
 
@@ -25,7 +25,7 @@ class AccountInvoice(models.Model):
                     "tag": "display_notification",
                     "params": {
                         "title": "Confirm purchase order",
-                        "message": "Please confirm purchase order before posting invoice",
+                        "message": self.env._("Please confirm purchase order before posting invoice"),
                         "sticky": True,
                         "next": {"type": "ir.actions.act_window_close"},
                     },
@@ -48,7 +48,7 @@ class AccountInvoice(models.Model):
                 continue
 
             if not invoice.invoice_date:
-                raise UserError(_("Please enter invoice date"))
+                raise UserError(self.env._("Please enter invoice date"))
             # exista o comanda de achizitie legata de aceasta factura ?
             purchase_order = self.env["purchase.order"]
             for line in invoice.invoice_line_ids:
@@ -112,7 +112,7 @@ class AccountInvoice(models.Model):
                         + purchase_order.name
                         + "</a>"
                     )
-                    message = _("The purchase order %s was generated.") % link
+                    message = self.env._("The purchase order %s was generated.", link)
                     invoice.message_post(body=message)
 
     def get_purchase_from_invoice(self):
