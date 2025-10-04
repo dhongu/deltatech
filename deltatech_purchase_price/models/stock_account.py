@@ -50,8 +50,7 @@ class StockMove(models.Model):
             if update_standard_price:
                 self.product_id.with_context(disable_auto_svl=True).write({"standard_price": price_unit})
 
-    def product_price_update_before_done(self, forced_qty=None):
-        res = super().product_price_update_before_done(forced_qty)
+    def _action_done(self, cancel_backorder=False):
         for move in self.filtered(lambda move: move._is_in()):
             move.update_prices()
-        return res
+        return super()._action_done(cancel_backorder)
