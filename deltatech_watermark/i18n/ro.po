@@ -1,0 +1,50 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_watermark
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-31 08:06+0000\n"
+"PO-Revision-Date: 2024-05-31 08:06+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_watermark
+#: model_terms:ir.ui.view,arch_db:deltatech_watermark.res_config_settings_view_form
+msgid ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
+"specific.\" role=\"img\" aria-label=\"Values set here are company-"
+"specific.\" groups=\"base.group_multi_company\"/>"
+msgstr ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Valorile setate aici sunt "
+"specifice companiei.\" role=\"img\" aria-label=\"Valorile setate aici sunt "
+"specifice companiei.\" groups=\"base.group_multi_company\"/>"
+
+#. module: deltatech_watermark
+#: model:ir.model,name:deltatech_watermark.model_res_company
+msgid "Companies"
+msgstr "Companii"
+
+#. module: deltatech_watermark
+#: model:ir.model,name:deltatech_watermark.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_watermark
+#: model_terms:ir.ui.view,arch_db:deltatech_watermark.res_config_settings_view_form
+msgid "If set, the watermark can be used on the website or in documents."
+msgstr ""
+"Dacă este setat, watermark-ul va putea fi utilizată pe site-ul web sau în "
+"documente."
+
+#. module: deltatech_watermark
+#: model:ir.model.fields,field_description:deltatech_watermark.field_res_company__watermark_image
+#: model:ir.model.fields,field_description:deltatech_watermark.field_res_config_settings__watermark_image
+msgid "Watermark image"
+msgstr "Imagine watermark"
