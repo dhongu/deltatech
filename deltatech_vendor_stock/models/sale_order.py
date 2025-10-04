@@ -41,19 +41,19 @@ class SaleOrderLine(models.Model):
                         )
                         if not use_only_main_location:
                             qty = product.with_context(warehouse=warehouse.id)._compute_quantities_dict(
-                                self._context.get("lot_id"),
-                                self._context.get("owner_id"),
-                                self._context.get("package_id"),
-                                self._context.get("from_date"),
-                                self._context.get("to_date"),
+                                self.env.context.get("lot_id"),
+                                self.env.context.get("owner_id"),
+                                self.env.context.get("package_id"),
+                                self.env.context.get("from_date"),
+                                self.env.context.get("to_date"),
                             )
                         else:
                             qty = product.with_context(location=warehouse.lot_stock_id.id)._compute_quantities_dict(
-                                self._context.get("lot_id"),
-                                self._context.get("owner_id"),
-                                self._context.get("package_id"),
-                                self._context.get("from_date"),
-                                self._context.get("to_date"),
+                                self.env.context.get("lot_id"),
+                                self.env.context.get("owner_id"),
+                                self.env.context.get("package_id"),
+                                self.env.context.get("from_date"),
+                                self.env.context.get("to_date"),
                             )
 
                         quantity_in_warehouse = qty[product.id]["qty_available"]

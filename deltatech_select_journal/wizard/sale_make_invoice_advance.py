@@ -18,8 +18,8 @@ class SaleAdvancePaymentInv(models.TransientModel):
     @api.model
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
-        if self._context.get("active_ids"):
-            order = self.env["sale.order"].browse(self._context.get("active_ids"))[0]
+        if self.env.context.get("active_ids"):
+            order = self.env["sale.order"].browse(self.env.context.get("active_ids"))[0]
             defaults["order_id"] = order.id
             if "payment_term_id" in fields_list:
                 defaults["payment_term_id"] = order.payment_term_id.id
@@ -36,7 +36,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
             if "journal_id" in fields_list:
                 journal = order.journal_id or order.team_id.journal_id
                 if not journal:
-                    company_id = self._context.get("company_id", self.env.user.company_id.id)
+                    company_id = self.env.context.get("company_id", self.env.user.company_id.id)
                     domain = [("type", "=", "sale"), ("company_id", "=", company_id)]
                     journal = self.env["account.journal"].search(domain, limit=1)
                 if journal:
@@ -96,7 +96,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
                     # price_unit_saleorder = to_currency.with_context(currency_rate=self.currency_rate)._convert(
                     #     self.fixed_amount, from_currency, invoice.company_id, date_eval
                     # )
-                    # sale_orders = self.env["sale.order"].browse(self._context.get("active_ids", []))
+                    # sale_orders = self.env["sale.order"].browse(self.env.context.get("active_ids", []))
                     # order_line_downpayment = False
                     # for order in sale_orders:
                     #     order_lines = order.order_line

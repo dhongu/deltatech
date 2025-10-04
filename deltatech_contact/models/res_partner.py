@@ -21,7 +21,7 @@ class Partner(models.Model):
 
     # @api.model
     # def _fields_view_get(self, view_id=None, view_type="form", toolbar=False, submenu=False):
-    #     if (not view_id) and (view_type == "form") and self._context.get("simple_form"):
+    #     if (not view_id) and (view_type == "form") and self.env.context.get("simple_form"):
     #         view_id = self.env.ref("base.view_partner_simple_form").id
     #     res = super(Partner, self)._fields_view_get(
     #         view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu
