@@ -6,7 +6,7 @@
 {
     "name": "Price Category ",
     "summary": "Price List: Bronze Silver and Gold in product",
-    "version": "18.0.1.0.1",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Stock",
