@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<odoo>
+    <template id="report_invoice_document_weight" inherit_id="account.report_invoice_document" priority="100">
+        <xpath expr="//p[@name='payment_communication']" position="after">
+            <div t-if="o.weight">
+                <strong>Gross weight:</strong>
+                <span t-field="o.weight" />
+                <br />
+                <strong>New weight:</strong>
+                <span t-field="o.weight_net" />
+            </div>
+        </xpath>
+    </template>
+</odoo>
