@@ -17,7 +17,7 @@ class StockPicking(models.Model):
 
     @api.model
     def _default_postponed(self):
-        picking_type = self.env["stock.picking.type"].browse(self._context.get("default_picking_type_id"))
+        picking_type = self.env["stock.picking.type"].browse(self.env.context.get("default_picking_type_id"))
 
         return picking_type.postponed
 
