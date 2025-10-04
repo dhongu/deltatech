@@ -41,8 +41,8 @@ class ProductTemplate(models.Model):
             product.alternative_code = code
 
     @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100) -> list[tuple[int, str]]:
-        res = super().name_search(name=name, args=args, operator=operator, limit=limit)
+    def name_search(self, name="", domain=None, operator="ilike", limit=100):
+        res = super().name_search(name=name, domain=domain, operator=operator, limit=limit)
         if len(res) >= limit:
             return res
         left = limit - len(res)
@@ -67,8 +67,8 @@ class ProductProduct(models.Model):
     # def _name_search nu mai exista in 18.0
 
     @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100) -> list[tuple[int, str]]:
-        res = super().name_search(name=name, args=args, operator=operator, limit=limit)
+    def name_search(self, name="", domain=None, operator="ilike", limit=100):
+        res = super().name_search(name=name, domain=domain, operator=operator, limit=limit)
         if len(res) >= limit:
             return res
         left = limit - len(res)
