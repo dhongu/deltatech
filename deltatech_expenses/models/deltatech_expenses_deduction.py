@@ -20,16 +20,16 @@ class DeltatechExpensesDeduction(models.Model):
 
     @api.model
     def _default_journal(self):
-        if self._context.get("default_journal_id", False):
-            return self.env["account.journal"].browse(self._context.get("default_journal_id"))
+        if self.env.context.get("default_journal_id", False):
+            return self.env["account.journal"].browse(self.env.context.get("default_journal_id"))
 
         domain = [("type", "=", "cash"), ("company_id", "=", self.env.company.id)]
         return self.env["account.journal"].search(domain, limit=1)
 
     @api.model
     def _default_journal_diem(self):
-        if self._context.get("default_journal_diem_id", False):
-            return self.env["account.journal"].browse(self._context.get("default_journal_diem_id"))
+        if self.env.context.get("default_journal_diem_id", False):
+            return self.env["account.journal"].browse(self.env.context.get("default_journal_diem_id"))
 
         domain = [("type", "=", "general"), ("company_id", "=", self.env.company.id)]
         return self.env["account.journal"].search(domain, limit=1)
@@ -563,14 +563,14 @@ class DeltatechExpensesDeductionLine(models.Model):
 
     @api.model
     def _get_currency(self):
-        journal = self.env["account.journal"].browse(self._context.get("journal_id", False))
+        journal = self.env["account.journal"].browse(self.env.context.get("journal_id", False))
         if journal.currency_id:
             return journal.currency_id.id
         return self.env.user.company_id.currency_id.id
 
     @api.model
     def _get_company(self):
-        return self._context.get("company_id", self.env.user.company_id.id)
+        return self.env.context.get("company_id", self.env.user.company_id.id)
 
     @api.depends("amount", "tax_ids")
     def _compute_subtotal(self):
