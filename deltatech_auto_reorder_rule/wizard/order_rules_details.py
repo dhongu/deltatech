@@ -15,7 +15,7 @@ class OrderRulesDetailsWizard(models.TransientModel):
     )
 
     def do_create(self):
-        product_template = self.env["product.template"].browse(self._context.get("active_id"))
+        product_template = self.env["product.template"].browse(self.env.context.get("active_id"))
         routes = self.env["stock.route"].search(
             [
                 ("use_this_for_auto_rules", "=", True),
