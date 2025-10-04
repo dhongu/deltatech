@@ -37,15 +37,17 @@ jobs:
         include:
           - container: ghcr.io/oca/oca-ci/py3.10-odoo19.0:latest
             name: test with Odoo
+
     services:
       postgres:
-        image: postgres:12.0
+        image: postgres:13
         env:
           POSTGRES_USER: odoo
           POSTGRES_PASSWORD: odoo
           POSTGRES_DB: odoo
         ports:
           - 5432:5432
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -71,4 +73,3 @@ jobs:
 #      - name: Update .pot files
 #        run: oca_export_and_push_pot https://x-access-token:${{ secrets.GIT_PUSH_TOKEN }}@github.com/${{ github.repository }}
 #        if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'dhongu' }}
-
