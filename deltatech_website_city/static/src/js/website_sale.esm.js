@@ -13,7 +13,42 @@ websiteSaleAddress.include({
         this.elementCountry = this.addressForm.country_id;
         this.elementCities = this.addressForm.city_id;
         this.elementState = this.addressForm.state_id;
+
+        // Reordonăm câmpurile: țară → județ → localitate → stradă
+        this._reorderAddressFields();
+
+        // Verificăm la start dacă trebuie ascuns city
+        this._toggleCityFields();
+
         return this._super.apply(this, arguments);
+    },
+
+    _reorderAddressFields() {
+        const divStreet = document.getElementById("div_street");
+        const divCountry = document.getElementById("div_country");
+        const divState = document.getElementById("div_state");
+        const divCityId = document.getElementById("div_city_id");
+        const divCity = document.getElementById("div_city");
+
+        if (divStreet && divCountry && divState) {
+            divCity.parentNode.insertBefore(divCountry, divCity);
+            divCity.parentNode.insertBefore(divState, divCity);
+
+            if (divCityId) {
+                divCity.parentNode.insertBefore(divCityId, divCity);
+            }
+        }
+    },
+
+    _toggleCityFields() {
+        // Dacă city_id are opțiuni și valoare, ascundem city (input text)
+        if (this.elementCities && this.elementCities.options.length > 1) {
+            this._hideInput("city");
+            this._showInput("city_id");
+        } else {
+            this._hideInput("city_id");
+            this._showInput("city");
+        }
     },
 
     async _onChangeState() {
@@ -31,11 +66,11 @@ websiteSaleAddress.include({
                 option.setAttribute("data-code", item[2]);
                 this.elementCities.appendChild(option);
             });
-            this._hideInput("city");
-            this._showInput("city_id");
+            // This._hideInput("city");
+            // this._showInput("city_id");
         } else {
-            this._hideInput("city_id");
-            this._showInput("city");
+            // This._hideInput("city_id");
+            // this._showInput("city");
         }
     },
 
@@ -49,5 +84,7 @@ websiteSaleAddress.include({
 
     async _changeCountry() {
         await this._super(...arguments);
+        // După schimbarea țării, verificăm din nou vizibilitatea
+        this._toggleCityFields();
     },
 });
