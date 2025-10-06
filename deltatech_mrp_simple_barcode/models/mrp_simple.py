@@ -21,6 +21,8 @@ class MRPSimple(models.Model):
                 "quantity": qty,
             }
             self.product_out_ids.new(vals)
+            existing_line = self.product_out_ids.filtered(lambda r: r.product_id.id == product.id)
+            existing_line.onchange_product_id()
             message = _("The %s product was added") % (product.name)
             res = {"warning": {"title": _("Info"), "type": "notification", "message": message}}
         return res
