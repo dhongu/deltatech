@@ -1,0 +1,12 @@
+<odoo>
+    <record id="your_module_view_mrp_simple_form_inherit" model="ir.ui.view">
+        <field name="name">mrp.simple.form.inherit</field>
+        <field name="model">mrp.simple</field>
+        <field name="inherit_id" ref="deltatech_mrp_simple.view_mrp_simple_form" />
+        <field name="arch" type="xml">
+            <form position="inside">
+                <field name="_barcode_scanned" widget="barcode_handler" />
+            </form>
+        </field>
+    </record>
+</odoo>
