@@ -32,7 +32,7 @@ class WebsiteSaleCity(WebsiteSale):
     def _parse_form_data(self, form_data):
         city_id = form_data.get("city_id")
         if city_id:
-            form_data["city"] = request.env["res.city"].browse(int(city_id)).name
+            form_data["city"] = request.env["res.city"].sudo().browse(int(city_id)).name
         return super()._parse_form_data(form_data)
 
     def _prepare_address_form_values(self, order_sudo, partner_sudo, address_type, **kwargs):
@@ -62,5 +62,5 @@ class WebsiteSaleCity(WebsiteSale):
     )
     def state_infos(self, state, **kw):
         return dict(
-            cities=[(st.id, st.name, st.zipcode or "") for st in state.get_website_sale_cities()],
+            cities=[(st.id, st.display_name, st.zipcode or "") for st in state.get_website_sale_cities()],
         )
