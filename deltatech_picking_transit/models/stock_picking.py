@@ -11,6 +11,7 @@ class StockPicking(models.Model):
     sub_location_existent = fields.Boolean(default=False, compute="_compute_sub_location_existent")
     second_transfer_created = fields.Boolean(default=False)
     source_transfer_id = fields.Many2one("stock.picking")
+    destionation_transfer_id = fields.Many2one("stock.picking")
     create_second_transfer_automatically = fields.Boolean(
         string="Create Second Transfer Automatically",
         related="picking_type_id.auto_second_transfer",
@@ -47,6 +48,7 @@ class StockPicking(models.Model):
             message = _("This transfer was generated from %s.") % picking.name
             new_picking.message_post(body=message)
             new_picking.source_transfer_id = picking.id
+            picking.destionation_transfer_id = new_picking.id
             message = _("Transfer %s was generated.") % new_picking.name
 
             picking.message_post(body=message)
