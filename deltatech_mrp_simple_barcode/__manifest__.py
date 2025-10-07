@@ -3,7 +3,7 @@
 {
     "name": "Simple MRP barcode",
     "summary": "Simple production",
-    "version": "17.0.0.0.0",
+    "version": "17.0.0.0.1",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",
