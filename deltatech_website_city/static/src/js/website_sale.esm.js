@@ -15,13 +15,52 @@ WebsiteSale.include({
         this.elementState = document.querySelector("select[name='state_id']");
         this.elemenCountry = document.querySelector("select[name='country_id']");
 
+        this.divCity = document.querySelector(".div_city");
+        this.divCityId = document.querySelector(".div_city_id");
+
+        // Reordonăm câmpurile: țară → județ → localitate → stradă
+        this._reorderAddressFields();
+
+        // Verificăm la start dacă trebuie ascuns city
+        this._toggleCityFields();
+
         return this._super.apply(this, arguments);
     },
+
+    _reorderAddressFields() {
+        const divStreet = document.querySelector(".div_street");
+        const divCountry = document.querySelector(".div_country");
+        const divState = document.querySelector(".div_state");
+        const divCityId = this.divCityId;
+        const divCity = this.divCity;
+
+        if (divStreet && divCountry && divState) {
+            divCity.parentNode.insertBefore(divCountry, divCity);
+            divCity.parentNode.insertBefore(divState, divCity);
+
+            if (divCityId) {
+                divCity.parentNode.insertBefore(divCityId, divCity);
+            }
+        }
+    },
+
+    _toggleCityFields() {
+        // Dacă city_id are opțiuni și valoare, ascundem city (input text)
+        if (this.divCityId && this.divCity) {
+            if (this.elementCities && this.elementCities.options.length > 1) {
+                this.divCityId.classList.remove("d-none");
+                this.divCity.classList.add("d-none");
+            } else {
+                this.divCityId.classList.add("d-none");
+                this.divCity.classList.remove("d-none");
+            }
+        }
+    },
+
     _changeOption: function (selectCheck, rpcRoute, place, selectElement) {
         if (!selectCheck) {
-            return;
+            return this._toggleCityFields();
         }
-
         return this.rpc(rpcRoute, {}).then((data) => {
             const data_place = data[place];
             if (data_place && data_place.length !== 0) {
@@ -33,11 +72,8 @@ WebsiteSale.include({
                     opt.setAttribute("data-code", item[2]);
                     selectElement.appendChild(opt);
                 });
-                selectElement.parentElement.style.display = "block";
-            } else {
-                selectElement.value = "";
-                selectElement.parentElement.style.display = "none";
             }
+            this._toggleCityFields();
         });
     },
     _onChangeState: function () {
@@ -55,13 +91,6 @@ WebsiteSale.include({
 
     _onChangeCountry: function () {
         return this._super.apply(this, arguments).then(() => {
-            // Const selectedCountry = ev.currentTarget.options[ev.currentTarget.selectedIndex].getAttribute("code");
-            const cityInput = document.querySelector(".form-control[name='city']");
-
-            if (cityInput.value) {
-                cityInput.value = "";
-            }
-            this.cityBlock.classList.add("d-none");
             return this._onChangeState();
         });
     },

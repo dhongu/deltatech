@@ -26,5 +26,5 @@ class CustomerPortalCity(CustomerPortal):
     )
     def state_infos(self, state, **kw):
         return dict(
-            cities=[(st.id, st.name, st.zipcode or "") for st in state.get_website_sale_cities()],
+            cities=[(st.id, st.display_name, st.zipcode or "") for st in state.get_website_sale_cities()],
         )
