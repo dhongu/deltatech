@@ -1,5 +1,5 @@
 /** @odoo-module **/
-import {jsonrpc} from "@web/core/network/rpc_service";
+import {jsonrpc} from "@web/core/network/rpc";
 import {registry} from "@web/core/registry";
 
 const DEFAULT_COLORS = {
