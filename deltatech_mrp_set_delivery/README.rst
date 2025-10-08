@@ -1,6 +1,6 @@
-================
-MRP Set Delivery
-================
+============================================
+Deltatech restrict incomplete set deliveries
+============================================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -10,7 +10,7 @@ MRP Set Delivery
    !! source digest: sha256:5cd49bfc84b50798b464c6bf59dc8794a7c45e1a931820cbc69d30eb46eca1a2
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
@@ -19,7 +19,8 @@ MRP Set Delivery
 
 |badge1| |badge2|
 
-- Features: restrict incomplete set deliveries if configured in phantom bom
+- Features: restrict incomplete set deliveries if configured in phantom
+  bom
 
 **Table of contents**
 
@@ -46,14 +47,14 @@ Authors
 Maintainers
 -----------
 
-.. |maintainer-dhongu| image:: https://github.com/danila12.png?size=40px
+.. |maintainer-danila12| image:: https://github.com/danila12.png?size=40px
     :target: https://github.com/danila12
     :alt: danila12
 
 Current maintainer:
 
-|maintainer-danila12|
+|maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_mrp_bom>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_mrp_set_delivery>`_ project on GitHub.
 
 You are welcome to contribute.

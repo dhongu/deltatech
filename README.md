@@ -18,7 +18,7 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [deltatech](deltatech/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generic module
-[deltatech_account](deltatech_account/) | 18.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account
+[deltatech_account](deltatech_account/) | 18.0.2.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account
 [deltatech_account_analytic](deltatech_account_analytic/) | 18.0.0.0.4 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Analytic lines enhancements
 [deltatech_account_edi_ub_advice](deltatech_account_edi_ub_advice/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL despatch advice
 [deltatech_account_edi_ubl_gln](deltatech_account_edi_ubl_gln/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Account UBL GLN
@@ -78,7 +78,9 @@ addon | version | maintainers | summary
 [deltatech_mrp_bom](deltatech_mrp_bom/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Bom
 [deltatech_mrp_concentration](deltatech_mrp_concentration/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Concentration
 [deltatech_mrp_cost](deltatech_mrp_cost/) | 18.0.2.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Cost
+[deltatech_mrp_set_delivery](deltatech_mrp_set_delivery/) | 18.0.0.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Can restrict incomplete set deliveries
 [deltatech_mrp_simple](deltatech_mrp_simple/) | 18.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Simple production
+[deltatech_mrp_simple_barcode](deltatech_mrp_simple_barcode/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Simple production
 [deltatech_mrp_validation_date](deltatech_mrp_validation_date/) | 18.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Validation date on production order
 [deltatech_no_quick_create](deltatech_no_quick_create/) | 18.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Disable quick_create
 [deltatech_notification_sound](deltatech_notification_sound/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Notification Sound
@@ -97,13 +99,14 @@ addon | version | maintainers | summary
 [deltatech_picking_services](deltatech_picking_services/) | 18.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Service lines in pickings
 [deltatech_picking_split](deltatech_picking_split/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Picking Manual Backorder
 [deltatech_picking_transit](deltatech_picking_transit/) | 18.0.0.0.9 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Automate internal transfer from transit location
-[deltatech_pos_product_filter](deltatech_pos_product_filter/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Searching pos order using product
+[deltatech_pos_product_filter](deltatech_pos_product_filter/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Searching pos order using product
 [deltatech_price_categ](deltatech_price_categ/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Price List: Bronze Silver and Gold in product
 [deltatech_price_change](deltatech_price_change/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Price Change
 [deltatech_price_modify_reception](deltatech_price_modify_reception/) | 18.0.1.0.2 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) | Editarea pretului de lista la receptie
 [deltatech_pricelist](deltatech_pricelist/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Price list currency
 [deltatech_pricelist_add_category](deltatech_pricelist_add_category/) | 18.0.0.0.2 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | You can add a public category to the products in price list
-[deltatech_pricelist_vat_cost](deltatech_pricelist_vat_cost/) | 18.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Base pricelist on cost with vat
+[deltatech_pricelist_line_viewer](deltatech_pricelist_line_viewer/) | 18.0.0.0.2 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Creates a list view for the lines of a price list for search and management
+[deltatech_pricelist_vat_cost](deltatech_pricelist_vat_cost/) | 18.0.0.0.2 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Base pricelist on cost with vat
 [deltatech_print_bf](deltatech_print_bf/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Print Invoice to ECR
 [deltatech_product_catalog](deltatech_product_catalog/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | This module helps to print the catalog of the multi products
 [deltatech_product_category](deltatech_product_category/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Products Category
@@ -128,17 +131,18 @@ addon | version | maintainers | summary
 [deltatech_queue_job](deltatech_queue_job/) | 18.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Queue Job
 [deltatech_ral](deltatech_ral/) | 18.0.1.0.3 |  | RAL
 [deltatech_reccurent_task_activity](deltatech_reccurent_task_activity/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Will automatically create an activity at the creation of the recurring task
-[deltatech_reception_note](deltatech_reception_note/) | 18.0.0.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Batch reception note
-[deltatech_record_type](deltatech_record_type/) | 18.0.1.1.11 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Manage multiple record types
+[deltatech_reception_note](deltatech_reception_note/) | 18.0.0.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Batch reception note
+[deltatech_record_type](deltatech_record_type/) | 18.0.1.1.12 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Manage multiple record types
 [deltatech_replenish](deltatech_replenish/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Replenish
 [deltatech_report_packaging](deltatech_report_packaging/) | 18.0.1.0.4 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report Packaging
 [deltatech_report_prn](deltatech_report_prn/) | 18.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Raport PRN
+[deltatech_reset_en_names](deltatech_reset_en_names/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Will set the en names of the product templates to the names of the currently used language of the user
 [deltatech_restricted_access](deltatech_restricted_access/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Restricted Access
 [deltatech_sale](deltatech_sale/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Extension Obsolete
 [deltatech_sale_activity_report](deltatech_sale_activity_report/) | 18.0.0.0.5 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Adds a last modified field to the sale order
 [deltatech_sale_activity_search](deltatech_sale_activity_search/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Adds a field with the active activity types on that sale order
 [deltatech_sale_add_extra_line](deltatech_sale_add_extra_line/) | 18.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Add Extra Line
-[deltatech_sale_add_extra_line_pos](deltatech_sale_add_extra_line_pos/) | 18.0.0.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | POS Add Extra Line
+[deltatech_sale_add_extra_line_pos](deltatech_sale_add_extra_line_pos/) | 18.0.0.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | POS Add Extra Line
 [deltatech_sale_commission](deltatech_sale_commission/) | 18.0.1.4.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Compute sale commission
 [deltatech_sale_contact](deltatech_sale_contact/) | 18.0.1.0.21 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Limit contacts insale order
 [deltatech_sale_cost_product](deltatech_sale_cost_product/) | 18.0.0.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Cost on Order
@@ -165,7 +169,7 @@ addon | version | maintainers | summary
 [deltatech_saleorder_search](deltatech_saleorder_search/) | 18.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Search sale order by partner e-mail, phone, mobile
 [deltatech_saleorder_type](deltatech_saleorder_type/) | 18.0.1.0.1 |  | Manage multiple sale order types
 [deltatech_select_journal](deltatech_select_journal/) | 18.0.1.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Selectie jurnal
-[deltatech_sms](deltatech_sms/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Send SMS to custom endpoint
+[deltatech_sms](deltatech_sms/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Send SMS to custom endpoint
 [deltatech_sms_sale](deltatech_sms_sale/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | send SMS at sale order confirmation
 [deltatech_stock_account](deltatech_stock_account/) | 18.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Stock Account Extension
 [deltatech_stock_analytic](deltatech_stock_analytic/) | 18.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Create analytic lines from stock moves
@@ -183,7 +187,7 @@ addon | version | maintainers | summary
 [deltatech_test_system](deltatech_test_system/) | 18.0.0.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Set system status: test or production
 [deltatech_transfer_product_to_product](deltatech_transfer_product_to_product/) | 18.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Helps to transfer x quantity of product A and replace it with product B
 [deltatech_utils](deltatech_utils/) | 18.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Utils
-[deltatech_vendor_stock](deltatech_vendor_stock/) | 18.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vendor stock availability
+[deltatech_vendor_stock](deltatech_vendor_stock/) | 18.0.1.1.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vendor stock availability
 [deltatech_warehouse](deltatech_warehouse/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Warehouse
 [deltatech_warehouse_access](deltatech_warehouse_access/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Warehouse Access
 [deltatech_warehouse_arrangement](deltatech_warehouse_arrangement/) | 18.0.0.1.2 |  | Manages warehouse locations, parallel to standard Odoo locations
@@ -194,7 +198,7 @@ addon | version | maintainers | summary
 [deltatech_website_breadcrumb](deltatech_website_breadcrumb/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce extension Category Breadcrumb
 [deltatech_website_category](deltatech_website_category/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Public category
 [deltatech_website_checkout_confirm](deltatech_website_checkout_confirm/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce extension
-[deltatech_website_city](deltatech_website_city/) | 18.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | City extension
+[deltatech_website_city](deltatech_website_city/) | 18.0.1.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | City extension
 [deltatech_website_country](deltatech_website_country/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce extension
 [deltatech_website_delivery_address](deltatech_website_delivery_address/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Default delivery address
 [deltatech_website_delivery_and_payment](deltatech_website_delivery_and_payment/) | 18.0.2.1.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Delivery and Payment constrains
@@ -208,11 +212,12 @@ addon | version | maintainers | summary
 [deltatech_website_sale_sort](deltatech_website_sale_sort/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Additional sorting criteria
 [deltatech_website_sale_status](deltatech_website_sale_status/) | 18.0.2.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Additional filters sales orders by status
 [deltatech_website_sale_wishlist](deltatech_website_sale_wishlist/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce wishlist
-[deltatech_website_short_description](deltatech_website_short_description/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce short description
+[deltatech_website_short_description](deltatech_website_short_description/) | 18.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce short description
 [deltatech_website_snippet_attribute_filter](deltatech_website_snippet_attribute_filter/) | 18.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Attribute Values Filter Snippet
 [deltatech_website_stock_availability](deltatech_website_stock_availability/) | 18.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Stock Availability and lead time
 [deltatech_website_texture_attributes](deltatech_website_texture_attributes/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Attribute with image for texture
 [deltatech_website_vat_validation](deltatech_website_vat_validation/) | 18.0.0.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | VAT Validation
+[deltatech_website_warehouse_stock](deltatech_website_warehouse_stock/) | 18.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | eCommerce Warehouse Stock
 [deltatech_widget_fontawesome](deltatech_widget_fontawesome/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Font Awesome Widget
 
 [//]: # (end addons)

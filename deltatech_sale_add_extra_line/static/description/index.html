@@ -370,46 +370,99 @@ ul.auto-toc {
 !! source digest: sha256:c062bc9c14aec836be0e0e0622364b98825b7133ec9c7093f624fe57f88ddb88
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Production/Stable" src="https://img.shields.io/badge/maturity-Production%2FStable-green.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/licence-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_sale_add_extra_line"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<div class="section" id="sale-add-extra-line-module">
+<h1>Sale Add Extra Line Module</h1>
+<p>The <strong>deltatech_sale_add_extra_line</strong> module is an Odoo addon that
+provides automated functionality for adding extra product lines to sale
+orders based on the products being sold.</p>
+<div class="section" id="features">
+<h2>Features</h2>
 <ul class="simple">
-<li>Features:<ul>
-<li>Automatically adds an extra line for configured products in sale
-order</li>
-<li>The product added in the extra line can be configured in the product
-template</li>
-<li>The unit price of the extra line is computed from the percent
-configured in the product. If the percent is zero, the price will be
-the list price of the added product</li>
-</ul>
-</li>
-</ul>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
-</ul>
-</li>
+<li><strong>Automatic Extra Line Addition</strong>: Automatically adds an extra line
+for configured products in sale orders</li>
+<li><strong>Product Configuration</strong>: The product added in the extra line can be
+configured in the product template</li>
+<li><strong>Smart Price Calculation</strong>: The unit price of the extra line is
+computed from the percent configured in the product. If the percent is
+zero, the price will be the list price of the added product</li>
+<li><strong>Quantity-based Calculation</strong>: The quantity of the extra product is
+calculated based on the quantity of the main product and a
+configurable multiplier</li>
+<li><strong>Point of Sale Integration</strong>: Works seamlessly with both regular sale
+orders and Point of Sale transactions</li>
 </ul>
 </div>
+<div class="section" id="how-it-works">
+<h2>How It Works</h2>
+<ol class="arabic simple">
+<li><strong>Product Configuration</strong>: In the product template, you can
+configure:<ul>
+<li>An extra product that should be automatically added</li>
+<li>A percentage for price calculation</li>
+<li>A quantity multiplier for the extra product</li>
+</ul>
+</li>
+<li><strong>Automatic Addition</strong>: When a product with extra product
+configuration is added to a sale order, the system automatically:<ul>
+<li>Adds the configured extra product as a new line</li>
+<li>Calculates the appropriate quantity based on the main product
+quantity</li>
+<li>Sets the price based on the configured percentage or list price</li>
+</ul>
+</li>
+<li><strong>Dynamic Updates</strong>: When quantities of main products are modified,
+the extra product quantities are automatically recalculated and
+updated accordingly</li>
+</ol>
+</div>
+<div class="section" id="use-cases">
+<h2>Use Cases</h2>
+<p>This module is particularly useful for:</p>
+<ul class="simple">
+<li><strong>Service Charges</strong>: Automatically adding service fees based on
+product sales</li>
+<li><strong>Mandatory Accessories</strong>: Adding required accessories or
+complementary products</li>
+<li><strong>Packaging Materials</strong>: Adding packaging costs based on product
+quantities</li>
+<li><strong>Installation Services</strong>: Adding installation or setup services for
+certain products</li>
+<li><strong>Warranty Extensions</strong>: Automatically including warranty products</li>
+</ul>
+</div>
+<div class="section" id="technical-implementation">
+<h2>Technical Implementation</h2>
+<p>The module extends the standard Odoo sale order functionality by:</p>
+<ul class="simple">
+<li>Adding fields to product templates for extra product configuration</li>
+<li>Overriding sale order line creation methods to trigger extra line
+addition</li>
+<li>Implementing quantity and price calculation logic</li>
+<li>Providing Point of Sale integration through JavaScript patches</li>
+</ul>
+<p>This automation helps businesses ensure consistency in their sales
+processes and reduces manual errors when adding related products or
+services to customer orders.</p>
+<p><strong>Table of contents</strong></p>
+</div>
+</div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_sale_add_extra_line">dhongu/deltatech</a> project on GitHub.</p>
