@@ -3,7 +3,7 @@
     "version": "18.0.0.0.2",
     "author": "Voicu Stefan, Terrabit",
     "website": "https://www.terrabit.ro",
-    "summary": "Creates a tree view for the lines of a price list for search and management",
+    "summary": "Creates a list view for the lines of a price list for search and management",
     "category": "Sales",
     "depends": ["sale_management", "product"],
     "data": [
