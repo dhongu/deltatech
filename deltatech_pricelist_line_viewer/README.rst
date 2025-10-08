@@ -1,6 +1,6 @@
-=======================
-Price List add Category
-=======================
+======================
+Price List Line Viewer
+======================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,16 +14,21 @@ Price List add Category
     :target: https://odoo-community.org/page/development-status
     :alt: Alpha
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_pricelist_add_category
+    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_pricelist_line_viewer
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
 
 Features:
 
-- Gives you the possibility to add a category to a pricelist's products.
-- This is done by opening the action menu on the pricelist and selecting
-  "Open Pricelist Wizard".
+- Adds a box button at the top of the price list form view, if you press
+  it it will open a tree view with all the price list rules of that
+  price list.
+- Permits searching and filtering of the lines on the tree view for
+  easier access and management.
+- Added the tehnical group "Permit pricelist editing" this will allow a
+  user to edit a price list and its lines without giving them sale admin
+  privileges.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -63,6 +68,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_pricelist_add_category>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_pricelist_line_viewer>`_ project on GitHub.
 
 You are welcome to contribute.
