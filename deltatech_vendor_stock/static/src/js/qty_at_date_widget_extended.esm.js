@@ -1,8 +1,8 @@
 /** @odoo-module **/
 
 import {QtyAtDateWidget} from "@sale_stock/widgets/qty_at_date_widget";
-import {patch} from "@web/core/utils/patch";
 import {onWillStart} from "@odoo/owl";
+import {patch} from "@web/core/utils/patch";
 import {useService} from "@web/core/utils/hooks";
 
 const DEFAULT_COLORS = {
