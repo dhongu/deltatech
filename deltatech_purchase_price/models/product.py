@@ -98,10 +98,12 @@ class SupplierInfo(models.Model):
     def write(self, vals):
         res = super().write(vals)
         if "price" in vals:
-            self.update_last_purchase_price()
+            if not self.env.context.get("from_po_confirmation"):
+                self.update_last_purchase_price()
         return res
 
     def create(self, vals_list):
         res = super().create(vals_list)
-        res.update_last_purchase_price()
+        if not self.env.context.get("from_po_confirmation"):
+            res.update_last_purchase_price()
         return res
