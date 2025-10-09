@@ -3,9 +3,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Restricted Access Obsolete",
+    "name": "Restricted Access",
     "summary": "Restricted Access",
-    "version": "18.0.1.0.2",
+    "version": "18.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",

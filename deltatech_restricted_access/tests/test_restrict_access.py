@@ -14,8 +14,8 @@ class TestProductCategory(TransactionCase):
         )
         self.unrestricted_user = self.env["res.users"].create(
             {
-                "name": "Unrestricted User",
-                "login": "unrestricted_user",
+                "name": "Restricted User",
+                "login": "restricted_user",
                 "password": "password",
                 "groups_id": [(6, 0, [self.env.ref("deltatech_restricted_access.group_edit_sensible_data").id])],
             }
@@ -45,8 +45,8 @@ class TestStockLocation(TransactionCase):
         )
         self.unrestricted_user = self.env["res.users"].create(
             {
-                "name": "Unrestricted User",
-                "login": "unrestricted_user",
+                "name": "Restricted User",
+                "login": "restricted_user",
                 "password": "password",
                 "groups_id": [(6, 0, [self.env.ref("deltatech_restricted_access.group_edit_sensible_data").id])],
             }

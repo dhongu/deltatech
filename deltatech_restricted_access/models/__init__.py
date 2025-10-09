@@ -3,6 +3,6 @@
 # See README.rst file on addons root folder for license details
 
 
-# from . import product_category
-# from . import stock_location
-# from . import uom
+from . import product_category
+from . import stock_location
+from . import uom
