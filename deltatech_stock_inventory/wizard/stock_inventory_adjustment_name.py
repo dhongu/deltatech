@@ -17,4 +17,4 @@ class StockInventoryAdjustmentName(models.TransientModel):
                 inventory_name = quant.inventory_id.name
         return inventory_name
 
-    inventory_adjustment_name = fields.Char(default=_default_inventory_adjustment_name)
+    inventory_adjustment_name = fields.Char(default=lambda self: self._default_inventory_adjustment_name())

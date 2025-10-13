@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 
@@ -19,7 +19,7 @@ class ProductReplenish(models.TransientModel):
         domain = [("group_id", "=", self.group_id.id), ("state", "=", "done")]
         move_ids = self.env["stock.move"].search(domain, limit=1)
         if move_ids:
-            raise UserError(_("The replenishment has already been done for this group."))
+            raise UserError(self.env._("The replenishment has already been done for this group."))
 
         values = {
             "warehouse_id": self.warehouse_id,

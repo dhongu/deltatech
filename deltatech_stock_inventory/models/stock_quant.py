@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -39,7 +39,7 @@ class StockQuant(models.Model):
                 inventory = quant.inventory_id
 
             if quant.inventory_id != inventory:
-                raise UserError(_("The selected items are in different inventories"))
+                raise UserError(self.env._("The selected items are in different inventories"))
             if not quant.inventory_line_id:
                 line_values = {
                     "inventory_id": inventory.id,
@@ -68,7 +68,7 @@ class StockQuant(models.Model):
                 not self.env.user.has_group("deltatech_stock_inventory.group_view_inventory_button")
                 and quant.inventory_diff_quantity
             ):
-                raise UserError(_("Your user cannot update product quantities"))
+                raise UserError(self.env._("Your user cannot update product quantities"))
         # for quant in self:
         #     quant.last_inventory_date = fields.Date.today()
         #     if quant.product_id:
@@ -85,7 +85,7 @@ class StockQuant(models.Model):
         if inventory:
             date = inventory.date
             values = {"date": date, "state": "done"}
-            if inventory.name in ("/", _("New")):
+            if inventory.name in ("/", self.env._("New")):
                 sequence = self.env.ref("deltatech_stock_inventory.sequence_inventory_doc")
                 if sequence:
                     values["name"] = sequence.next_by_id()
@@ -102,7 +102,7 @@ class StockQuant(models.Model):
             and not self.env.user.has_group("deltatech_stock_inventory.group_view_inventory_button")
             and self.quantity != vals["inventory_quantity"]
         ):
-            raise UserError(_("Your user cannot update product quantities"))
+            raise UserError(self.env._("Your user cannot update product quantities"))
         res = super().write(vals)
         if "inventory_quantity" in vals and not self.env.context.get("apply_inventory", False):
             for quant in self:
@@ -119,7 +119,7 @@ class StockQuant(models.Model):
             if "inventory_quantity" in values and not self.env.user.has_group(
                 "deltatech_stock_inventory.group_view_inventory_button"
             ):
-                raise UserError(_("Your user cannot update product quantities"))
+                raise UserError(self.env._("Your user cannot update product quantities"))
         return super().create(vals_list)
 
     def _get_inventory_move_values(self, qty, location_id, location_dest_id, package_id=False, package_dest_id=False):
@@ -170,5 +170,8 @@ class StockQuant(models.Model):
 
         for quant in self:
             quant.product_id.product_tmpl_id.message_post(
-                body=_(f"Quantity {quant.quantity} at location {quant.location_id.name} was confirmed.")
+                body=self.env._(
+                    "Quantity %(quant)s %(location) at location was confirmed.",
+                    {"quant": quant.quantity, "location": quant.location_id.name},
+                )
             )

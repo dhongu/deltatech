@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -34,14 +34,14 @@ class StockInventoryMerge(models.TransientModel):
     def merge_inventory(self):
         active_ids = self.env.context.get("active_ids", False)
         if not active_ids:
-            raise UserError(_("You must select at least two inventory documents"))
+            raise UserError(self.env._("You must select at least two inventory documents"))
         inventories = self.env["stock.inventory"].browse(active_ids)
         if len(inventories) < 2:
-            raise UserError(_("You must select at least two inventory documents"))
+            raise UserError(self.env._("You must select at least two inventory documents"))
 
         not_done = inventories.filtered(lambda s: s.state != "done")
         if not_done:
-            raise UserError(_("All inventories must be in done state to be merged"))
+            raise UserError(self.env._("All inventories must be in done state to be merged"))
 
         # create inventory
         if not self.name or self.name == "/":
@@ -77,13 +77,16 @@ class StockInventoryMerge(models.TransientModel):
             old_inventory_names.append(inventory.name)
             inventory.with_context(merge_inventory=True).unlink()
 
-        message = _("User %(user_name)s has merged inventories %(inventory_names)s") % {
-            "user_name": self.env.user.name,
-            "inventory_names": ", ".join(old_inventory_names),
-        }
+        message = self.env._(
+            "User %(user_name)s has merged inventories %(inventory_names)s",
+            {
+                "user_name": self.env.user.name,
+                "inventory_names": ", ".join(old_inventory_names),
+            },
+        )
         result_inventory.message_post(body=message)
         action = {
-            "name": _("Merged inventory"),
+            "name": self.env._("Merged inventory"),
             "type": "ir.actions.act_window",
             "view_mode": "form",
             "views": [(False, "form")],

@@ -1,13 +1,11 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.tools import float_compare, float_is_zero
 from odoo.tools.misc import OrderedSet
 from odoo.tools.safe_eval import safe_eval
-
-from odoo.addons.base.models.ir_model import MODULE_UNINSTALL_FLAG
 
 
 class Inventory(models.Model):
@@ -19,7 +17,7 @@ class Inventory(models.Model):
     name = fields.Char(
         "Inventory Reference",
         required=True,
-        default=lambda self: _("New"),
+        default=lambda self: self.env._("New"),
     )
     date = fields.Datetime(
         "Inventory Date",
@@ -102,24 +100,24 @@ class Inventory(models.Model):
                 self.location_ids = warehouse.lot_stock_id
 
     def copy_data(self, default=None):
-        name = _("%s (copy)") % (self.name)
+        name = self.env._("%s (copy)", self.name)
         default = dict(default or {}, name=name)
         return super().copy_data(default)
 
-    def unlink(self):
-        for inventory in self:
-            if (
-                inventory.state not in ("draft", "cancel")
-                and not self.env.context.get(MODULE_UNINSTALL_FLAG, False)
-                and not self.env.context.get("merge_inventory", False)
-            ):
-                raise UserError(
-                    _(
-                        "You can only delete a draft inventory adjustment. "
-                        "If the inventory adjustment is not done, you can cancel it."
-                    )
-                )
-        return super().unlink()
+    # def unlink(self):
+    #     for inventory in self:
+    #         if (
+    #             inventory.state not in ("draft", "cancel")
+    #             and not self.env.context.get(MODULE_UNINSTALL_FLAG, False)
+    #             and not self.env.context.get("merge_inventory", False)
+    #         ):
+    #             raise UserError(
+    #                 self.env._(
+    #                     "You can only delete a draft inventory adjustment. "
+    #                     "If the inventory adjustment is not done, you can cancel it."
+    #                 )
+    #             )
+    #     return super().unlink()
 
     def action_validate(self):
         if not self.exists():
@@ -127,7 +125,7 @@ class Inventory(models.Model):
         self.ensure_one()
         if self.state != "confirm":
             raise UserError(
-                _(
+                self.env._(
                     "You can't validate the inventory '%s', maybe this inventory "
                     "has been already validated or isn't ready.",
                     self.name,
@@ -150,7 +148,7 @@ class Inventory(models.Model):
             ]
             wiz = self.env["stock.track.confirmation"].create({"inventory_id": self.id, "tracking_line_ids": wiz_lines})
             return {
-                "name": _("Tracked Products in Inventory Adjustment"),
+                "name": self.env._("Tracked Products in Inventory Adjustment"),
                 "type": "ir.actions.act_window",
                 "view_mode": "form",
                 "views": [(False, "form")],
@@ -176,11 +174,11 @@ class Inventory(models.Model):
         )
         if negative:
             raise UserError(
-                _(
+                self.env._(
                     "You cannot set a negative product quantity in an inventory line:\n\t"
                     "%(product_name)s - qty: %(product_qty)s",
-                )
-                % {"product_name": negative.product_id.display_name, "product_qty": negative.product_qty}
+                ),
+                {"product_name": negative.product_id.display_name, "product_qty": negative.product_qty},
             )
         self.action_check()
         self.write({"state": "done", "date": self.date})
@@ -223,7 +221,7 @@ class Inventory(models.Model):
         move_ids._action_done()
         move_ids = self.mapped("move_ids").filtered(lambda move: move.state != "done")
         if move_ids:
-            raise UserError(_("Some products have not been moved. Please check the inventory moves."))
+            raise UserError(self.env._("Some products have not been moved. Please check the inventory moves."))
         return True
 
     def action_check(self):
@@ -284,7 +282,7 @@ class Inventory(models.Model):
         action = {
             "type": "ir.actions.act_window",
             "view_mode": "list",
-            "name": _("Inventory Lines"),
+            "name": self.env._("Inventory Lines"),
             "res_model": "stock.inventory.line",
         }
         context = {
@@ -322,7 +320,7 @@ class Inventory(models.Model):
         self.ensure_one()
         domain = [("move_id", "in", self.move_ids.ids)]
         action = {
-            "name": _("Product Moves"),
+            "name": self.env._("Product Moves"),
             "type": "ir.actions.act_window",
             "res_model": "stock.move.line",
             "view_type": "list",
@@ -753,7 +751,7 @@ class InventoryLine(models.Model):
             )
             if lines_count[key] > 1:
                 raise UserError(
-                    _(
+                    self.env._(
                         "There is already one inventory adjustment line for this product,"
                         " you should rather modify this one instead of creating a new one."
                     )
@@ -767,14 +765,14 @@ class InventoryLine(models.Model):
         for line in self:
             if not line.product_id.is_storable:
                 raise ValidationError(
-                    _("You can only adjust storable products.")
+                    self.env._("You can only adjust storable products.")
                     + f"\n\n{line.product_id.display_name} -> {line.product_id.type}"
                 )
 
     def _get_move_values(self, qty, location_id, location_dest_id, out):
         self.ensure_one()
         return {
-            "name": _("INV:") + (self.inventory_id.name or ""),
+            "name": self.env._("INV:") + (self.inventory_id.name or ""),
             "product_id": self.product_id.id,
             "product_uom": self.product_uom_id.id,
             "product_uom_qty": qty,
@@ -884,7 +882,7 @@ class InventoryLine(models.Model):
             raise NotImplementedError()
         if not self.env.context.get("default_inventory_id"):
             raise NotImplementedError(
-                _(
+                self.env._(
                     "Unsupported search on %s outside of an Inventory Adjustment",
                     "difference_qty",
                 )
@@ -904,7 +902,7 @@ class InventoryLine(models.Model):
                 raise NotImplementedError()
         if not self.env.context.get("default_inventory_id"):
             raise NotImplementedError(
-                _(
+                self.env._(
                     "Unsupported search on %s outside of an Inventory Adjustment",
                     "outdated",
                 )

@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -41,7 +41,7 @@ class ProductTemplate(models.Model):
 
     def _compute_warehouse_stocks(self):
         display_free_quantity = self.env.context.get("display_free_quantity", False)
-        warehouses = self.env["stock.warehouse"].search([])
+        warehouses = self.env["stock.warehouse"].search([("company_id", "=", self.env.company.id)], order="name")
         if len(warehouses) == 1:
             self.warehouse_stock = False
             return
@@ -202,7 +202,7 @@ class ProductTemplate(models.Model):
                         vals.append(value)
             # else:
             #     raise UserError(
-            #         _(f"No location can be fount for product {product.name}. Check product stock configuration")
+            #         self.env._(f"No location can be fount for product {product.name}. Check product stock configuration")
             #     )
         if vals:
             self.env["stock.putaway.rule"].create(vals)
@@ -237,7 +237,7 @@ class ProductTemplate(models.Model):
                 }
                 values.append(value)
             else:
-                raise UserError(_(f"No putaway rule found for {product.name}"))
+                raise UserError(self.env._("No putaway rule found for %s", product.name))
         if values:
             picking_type = self.env.ref("stock.picking_type_internal")
             picking_values = {
