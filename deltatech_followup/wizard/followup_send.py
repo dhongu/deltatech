@@ -66,6 +66,7 @@ class FollowupSendWizard(models.TransientModel):
                             if invoice.invoice_date_due < fields.Date.today():
                                 partner_due_debit += self.get_amount_residual(followup, invoice)
                     if invoices_to_process:
+                        inv_currency = invoices_to_process[0].company_id.currency_id
                         if followup.use_customer_currency:
                             inv_currency = invoices_to_process[0].currency_id
                         invoices_content = ""

@@ -80,18 +80,18 @@ WebsiteSale.include({
         });
     },
     _onChangeState: function () {
-        // if (this.elementState.value === "" && this.elemenCountry.value !== "") {
+        // If (this.elementState.value === "" && this.elemenCountry.value !== "") {
         //     this.elementState.options[1].selected = true;
         // }
         const state = this.elementState.value;
-        if (state){
-           const rpcRoute = `/shop/state_infos/${state}`;
-        return this.autoFormat.length ? this._changeOption(state, rpcRoute, "cities", this.elementCities) : undefined;
+        if (state) {
+            const rpcRoute = `/shop/state_infos/${state}`;
+            return this.autoFormat.length
+                ? this._changeOption(state, rpcRoute, "cities", this.elementCities)
+                : undefined;
         }
-        else {
-            this.elementCities.innerHTML = "";
-            this._toggleCityFields();
-        }
+        this.elementCities.innerHTML = "";
+        this._toggleCityFields();
     },
 
     _onChangeCity: function () {
@@ -99,7 +99,6 @@ WebsiteSale.include({
     },
 
     _onChangeCountry: function () {
-
         return this._super.apply(this, arguments).then(() => {
             return this._onChangeState();
         });
