@@ -142,20 +142,21 @@ class Inventory(models.Model):
             and li.prod_lot_id
         )
         if inventory_lines and not lines:
-            wiz_lines = [
-                (0, 0, {"product_id": product.id, "tracking": product.tracking})
-                for product in inventory_lines.mapped("product_id")
-            ]
-            wiz = self.env["stock.track.confirmation"].create({"inventory_id": self.id, "tracking_line_ids": wiz_lines})
-            return {
-                "name": self.env._("Tracked Products in Inventory Adjustment"),
-                "type": "ir.actions.act_window",
-                "view_mode": "form",
-                "views": [(False, "form")],
-                "res_model": "stock.track.confirmation",
-                "target": "new",
-                "res_id": wiz.id,
-            }
+            raise UserError(self.env._("No lines"))
+        #     wiz_lines = [
+        #         (0, 0, {"product_id": product.id, "tracking": product.tracking})
+        #         for product in inventory_lines.mapped("product_id")
+        #     ]
+        #     wiz = self.env["stock.track.confirmation"].create({"inventory_id": self.id, "tracking_line_ids": wiz_lines})
+        #     return {
+        #         "name": self.env._("Tracked Products in Inventory Adjustment"),
+        #         "type": "ir.actions.act_window",
+        #         "view_mode": "form",
+        #         "views": [(False, "form")],
+        #         "res_model": "stock.track.confirmation",
+        #         "target": "new",
+        #         "res_id": wiz.id,
+        #     }
         quants = self.line_ids.get_quants()
         self._action_done()
         self.line_ids._check_company()
