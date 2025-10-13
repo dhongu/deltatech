@@ -195,26 +195,6 @@ class Inventory(models.Model):
 
         # archive old SVL's and write new svl if checked
         # TODO: test and correct with storage stock sheet
-        if self.archive_svl:
-            # archive old svls
-            products = self.line_ids.product_id.ids
-            svls = self.env["stock.valuation.layer"].search([("product_id", "in", products)])
-            svls.write({"active": False})
-            # check if l10n_ro_stock_account installed
-            is_l10n_ro = False
-            svl_model = self.env["stock.valuation.layer"]
-            if hasattr(svl_model, "l10n_ro_account_id"):
-                is_l10n_ro = True
-            for line in self.line_ids:
-                if not is_l10n_ro:
-                    move = line.create_inventory_in_move()
-                    line.create_inventory_in_svl(move)
-                else:
-                    old_svl_val, old_svl_qty = line.get_old_svl_value()
-                    move_out = line.create_inventory_out_move(old_svl_qty)
-                    line.create_inventory_out_svl(move_out, old_svl_val)
-                    move_in = line.create_inventory_in_move()
-                    line.with_context(is_l10n_ro=True).create_inventory_in_svl(move_in)
 
         move_ids = self.mapped("move_ids").filtered(lambda move: move.state != "done")
         move_ids.picked = True
@@ -911,22 +891,6 @@ class InventoryLine(models.Model):
         line_ids = lines.filtered(lambda line: line.outdated == value).ids
         return [("id", "in", line_ids)]
 
-    # archive svl functions
-    def get_old_svl_value(self):
-        """
-        Get existing SVLs value, qty
-        :return: old value, old quantity
-        """
-        domain = [("product_id", "=", self.product_id.id), ("l10n_ro_location_dest_id", "=", self.location_id.id)]
-        in_svls = self.env["stock.valuation.layer"].with_context(active_test=False).search(domain)
-        in_svls_value = sum(in_svls.mapped("value"))
-        in_svls_quantity = sum(in_svls.mapped("quantity"))
-        domain = [("product_id", "=", self.product_id.id), ("l10n_ro_location_id", "=", self.location_id.id)]
-        out_svls = self.env["stock.valuation.layer"].with_context(active_test=False).search(domain)
-        out_svls_value = sum(out_svls.mapped("value"))
-        out_svls_quantity = sum(out_svls.mapped("quantity"))
-        return in_svls_value - out_svls_value, in_svls_quantity - out_svls_quantity
-
     def create_inventory_out_move(self, svl_qty):
         """
         Creates a move from line location to inventory location
@@ -949,40 +913,6 @@ class InventoryLine(models.Model):
         move = self.env["stock.move"].create(values)
         return move
 
-    def create_inventory_out_svl(self, move_id, svl_value):
-        """
-        Creates a svl for the inventory move
-        :param move_id: move to link to svl
-        :param svl_value: total value to move
-        :return: created svls
-        """
-        if move_id.product_uom_qty:
-            unit_cost = svl_value / move_id.product_uom_qty
-        else:
-            unit_cost = 0
-        svl_vals = {
-            "active": False,
-            "company_id": self.company_id.id,
-            "currency_id": self.company_id.currency_id.id,
-            "product_id": self.product_id.id,
-            "stock_move_id": move_id.id,
-            # "quantity": -1 * move_id.product_uom_qty,
-            "quantity": -1 * self.theoretical_qty,
-            "unit_cost": unit_cost,
-            "value": -1 * svl_value,
-            "remaining_value": 0,
-            "remaining_qty": 0,
-            "description": self.product_id.name + " -fix value",
-        }
-        if self.env.context.get("is_l10n_ro", False):
-            accounts = self.product_id.product_tmpl_id._get_product_accounts()
-            svl_vals["l10n_ro_account_id"] = accounts["stock_valuation"].id
-            svl_vals["l10n_ro_valued_type"] = "internal_transfer"
-            if self.prod_lot_id:
-                svl_vals["l10n_ro_lot_ids"] = [(4, self.prod_lot_id.id)]
-        svl = self.env["stock.valuation.layer"].create(svl_vals)
-        return svl
-
     def create_inventory_in_move(self):
         """
         Creates a move from inventory location to line location. Theoretical quantity is used, because a new move
@@ -1004,33 +934,3 @@ class InventoryLine(models.Model):
         }
         move = self.env["stock.move"].create(values)
         return move
-
-    def create_inventory_in_svl(self, move_id):
-        """
-        Creates a svl for the inventory move. Theoretical quantity is used, because a new svl will be created
-        by the inventory line's move for the difference (if exists)
-        :param move_id: move to link to svl
-        :return: created svls
-        """
-        svl_vals = {
-            "active": True,
-            "company_id": self.company_id.id,
-            "currency_id": self.company_id.currency_id.id,
-            "product_id": self.product_id.id,
-            "stock_move_id": move_id.id,
-            "quantity": self.theoretical_qty,
-            "unit_cost": self.standard_price,
-            "value": self.theoretical_qty * self.standard_price,
-            "remaining_value": self.product_qty * self.standard_price,
-            "remaining_qty": self.theoretical_qty,
-            "description": self.product_id.name + " -fix value",
-        }
-        if self.env.context.get("is_l10n_ro", False):
-            accounts = self.product_id.product_tmpl_id._get_product_accounts()
-            svl_vals["l10n_ro_account_id"] = accounts["stock_valuation"].id
-            # svl_vals["l10n_ro_valued_type"] = "vasile"
-            # svl_vals["l10n_ro_valued_type"] = "inventory_return"
-            if self.prod_lot_id:
-                svl_vals["l10n_ro_lot_ids"] = [(4, self.prod_lot_id.id)]
-        svl = self.env["stock.valuation.layer"].create(svl_vals)
-        return svl
