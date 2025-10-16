@@ -4,13 +4,13 @@
 
 {
     "name": "Deltatech",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Generic module",
     "category": "Tools",
     "depends": ["web", "base"],
-    "data": ["views/base_view.xml"],
+    "data": ["views/base_view.xml", "views/ir_rule_view.xml"],
     "license": "OPL-1",
     "images": ["images/main_screenshot.png"],
     "development_status": "Mature",
