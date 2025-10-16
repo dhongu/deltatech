@@ -1,6 +1,6 @@
-===================
-Sale Add Extra Line
-===================
+=======================
+Purchase Add Extra Line
+=======================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17,7 +17,7 @@ Sale Add Extra Line
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_add_extra_line
+    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_purchase_add_extra_line
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -25,7 +25,7 @@ Sale Add Extra Line
 - Features:
 
   - Automatically adds an extra line for configured products in sale
-    order
+    purchase
   - The product added in the extra line can be configured in the product
     template
   - The unit price of the extra line is computed from the percent
@@ -65,6 +65,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_add_extra_line>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_purchase_add_extra_line>`_ project on GitHub.
 
 You are welcome to contribute.

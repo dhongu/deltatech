@@ -55,7 +55,7 @@ addon | version | maintainers | summary
 [deltatech_fast_sale](deltatech_fast_sale/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vanzare rapida
 [deltatech_fleet](deltatech_fleet/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vehicle, route, map sheet
 [deltatech_fleet_geo](deltatech_fleet_geo/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Fleet Geographical Information
-[deltatech_followup](deltatech_followup/) | 17.0.0.0.8 |  | Simple invoice followup, with automatic e-mails
+[deltatech_followup](deltatech_followup/) | 17.0.0.0.9 |  | Simple invoice followup, with automatic e-mails
 [deltatech_generic_partner_restriction](deltatech_generic_partner_restriction/) | 17.0.2.0.0 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) | Generic Partner restriction
 [deltatech_gln](deltatech_gln/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Partner Global Location Number
 [deltatech_invoice_color](deltatech_invoice_color/) | 17.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Colors Invoice Lines
@@ -122,6 +122,7 @@ addon | version | maintainers | summary
 [deltatech_product_margin](deltatech_product_margin/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product margin and trade markup
 [deltatech_product_trade_markup](deltatech_product_trade_markup/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product trade markup
 [deltatech_promissory_note](deltatech_promissory_note/) | 17.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage Promissory Note
+[deltatech_purchase_add_extra_line](deltatech_purchase_add_extra_line/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Purchase Add Extra Line
 [deltatech_purchase_confirmation_reminder](deltatech_purchase_confirmation_reminder/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | This module will create an activity on the puchase order
 [deltatech_purchase_discount](deltatech_purchase_discount/) | 17.0.1.0.4 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Discount in purchase order line
 [deltatech_purchase_picking_status](deltatech_purchase_picking_status/) | 17.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Get purchase status from pickings
