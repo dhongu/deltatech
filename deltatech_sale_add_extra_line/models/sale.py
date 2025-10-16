@@ -80,7 +80,7 @@ class SaleOrderLine(models.Model):
                         "product_uom_qty": line.product_uom_qty * (line.product_id.extra_qty or 1.0),
                         "product_id": line.product_id.extra_product_id.id,
                         "state": "draft",
-                        "order_id": self.order_id.id,
+                        "order_id": line.order_id.id,
                         "sequence": line.sequence + 1,
                         "line_uuid": new_uuid,
                     }
