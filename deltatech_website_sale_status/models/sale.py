@@ -65,6 +65,9 @@ class SaleOrder(models.Model):
                     if picking.state in ["waiting", "confirmed"]:
                         order.stage = "waiting"
 
+                if order.stage == "to_be_delivery" and not order.picking_ids:
+                    order.stage = "waiting"
+
                 # if all pickings are delivered, sale order must be delivered
                 # without backorder, not all quantities are delivered but all pickings are done
                 if order.picking_ids:
