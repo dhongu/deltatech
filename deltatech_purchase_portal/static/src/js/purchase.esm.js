@@ -2,7 +2,7 @@
 import PublicWidget from "@web/legacy/js/public/public_widget";
 
 function debounce(fn, delay) {
-    let t;
+    let t = 0;
     return function (...args) {
         clearTimeout(t);
         t = setTimeout(() => fn.apply(this, args), delay);
