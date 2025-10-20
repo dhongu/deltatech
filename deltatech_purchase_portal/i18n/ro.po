@@ -38,7 +38,9 @@ msgstr "<span>Acceptat în numele:</span>"
 #. module: deltatech_purchase_portal
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_portal.portal_my_purchase_order
 msgid "<span>By signing this RFQ, I agree to the following terms:</span>"
-msgstr "<span>Prin semnarea acestei cereri de ofertă, sunt de acord cu următorii termeni:</span>"
+msgstr ""
+"<span>Prin semnarea acestei cereri de ofertă, sunt de acord cu următorii "
+"termeni:</span>"
 
 #. module: deltatech_purchase_portal
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_portal.portal_my_purchase_order
@@ -133,7 +135,8 @@ msgstr "Semnat la"
 #: code:addons/deltatech_purchase_portal/controllers/portal.py:0
 #, python-format
 msgid "The RFQ is not in a state requiring vendor signature."
-msgstr "Cererea de ofertă nu este într-o stare care necesită semnătura furnizorului."
+msgstr ""
+"Cererea de ofertă nu este într-o stare care necesită semnătura furnizorului."
 
 #. module: deltatech_purchase_portal
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_portal.portal_my_purchase_order

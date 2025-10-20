@@ -4,7 +4,7 @@
 {
     "name": "Purchase Portal",
     "summary": "Purchase order portal access for your vendors",
-    "version": "17.0.1.0.1",
+    "version": "18.0.1.0.1",
     "category": "Purchase",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",

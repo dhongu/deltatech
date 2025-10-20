@@ -9,7 +9,7 @@
                         class="btn btn-secondary btn-block o_print_btn"
                         t-att-href="order.get_portal_url(query_string='&amp;update=True')"
                         title="Edit"
-                    ><i class="fa fa-edit me-1"/>Edit
+                    ><i class="fa fa-edit me-1" />Edit
                     </a>
                 </div>
 
@@ -22,7 +22,7 @@
                         data-bs-target="#modalaccept_rfq"
                         href="#"
                         title="Accept &amp; Sign"
-                    ><i class="fa fa-check me-1"/>Accept &amp; Sign
+                    ><i class="fa fa-check me-1" />Accept &amp; Sign
                     </a>
                 </div>
             </div>
@@ -37,10 +37,10 @@
                         t-att-data-token="order.access_token"
                         class="js_accept_json modal-content js_website_submit_form"
                     >
-                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
                         <header class="modal-header">
                             <h4 class="modal-title">Validate RFQ</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                         </header>
                         <main class="modal-body" id="sign-dialog">
                             <p>
@@ -48,18 +48,16 @@
                                 <ul>
                                     <li>
                                         <span>Accepted on the behalf of:</span>
-                                        <b
-                                            t-field="order.partner_id.commercial_partner_id"
-                                        />
+                                        <b t-field="order.partner_id.commercial_partner_id" />
                                     </li>
                                     <li>
                                         <span>For an amount of:</span>
-                                        <b t-field="order.amount_total"/>
+                                        <b t-field="order.amount_total" />
                                     </li>
                                 </ul>
                             </p>
                             <t t-call="portal.signature_form">
-                                <t t-set="call_url" t-value="order.get_portal_url(suffix='/accept')"/>
+                                <t t-set="call_url" t-value="order.get_portal_url(suffix='/accept')" />
                                 <t
                                     t-set="default_name"
                                     t-value="order.partner_id.name or order.partner_id.commercial_partner_id.name"
@@ -89,7 +87,7 @@
         <xpath expr="//table[@id='purchase_order_table']//td[@id='product_name']//span" position="after">
             <t t-if="update_dates">
                 <div class="d-flex align-items-start gap-2">
-                    <img t-att-src="image_data_uri(resize_to_48(line.product_id.image_1024))" alt="Product"/>
+                    <img t-att-src="image_data_uri(resize_to_48(line.product_id.image_1024))" alt="Product" />
                     <textarea
                         class="form-control flex-grow-1 o-purchase-product-name"
                         rows="3"
@@ -99,7 +97,7 @@
                         t-att-data-line-id="line.id"
                         t-att-placeholder="'Add description (multiline)'"
                     >
-                        <t t-esc="line.name or ''"/>
+                        <t t-esc="line.name or ''" />
                     </textarea>
                 </div>
             </t>
@@ -124,14 +122,19 @@
     </template>
 
     <!-- New: Toolbar in edit mode to exit back to display mode -->
-    <template id="portal_my_purchase_order_update_date_toggle"
-              inherit_id="purchase.portal_my_purchase_order_update_date">
+    <template
+        id="portal_my_purchase_order_update_date_toggle"
+        inherit_id="purchase.portal_my_purchase_order_update_date"
+    >
         <xpath expr="//div[hasclass('o_download_pdf')]" position="after">
             <div class="btn-toolbar flex-sm-nowrap" t-if="order.state == 'sent'">
                 <div class="btn-group flex-grow-1 mb-1 me-1">
-                    <a class="btn btn-secondary btn-block o_print_btn" t-att-href="order.get_portal_url()"
-                       title="Display">
-                        <i class="fa fa-eye me-1"/>Display
+                    <a
+                        class="btn btn-secondary btn-block o_print_btn"
+                        t-att-href="order.get_portal_url()"
+                        title="Display"
+                    >
+                        <i class="fa fa-eye me-1" />Display
                     </a>
                 </div>
             </div>
