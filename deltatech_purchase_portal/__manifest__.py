@@ -11,12 +11,11 @@
     "depends": ["purchase", "portal"],
     "license": "LGPL-3",
     "data": ["views/portal_templates.xml"],
-    'assets': {
-        'web.assets_frontend': [
-            'deltatech_purchase_portal/static/src/js/purchase.esm.js',
+    "assets": {
+        "web.assets_frontend": [
+            "deltatech_purchase_portal/static/src/js/purchase.esm.js",
         ],
     },
-
     "development_status": "Beta",
     "maintainers": ["danila12"],
     "images": ["static/description/main_screenshot.png"],

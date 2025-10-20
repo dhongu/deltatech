@@ -1,13 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <template id="portal_my_purchase_order" inherit_id="purchase.portal_my_purchase_order">
         <xpath expr="//div[hasclass('o_download_pdf')]" position="after">
-            <div class=" btn-toolbar flex-sm-nowrap">
-              <div class="btn-group flex-grow-1 mb-1">
-                  <a class="btn btn-secondary btn-block o_print_btn"
-                     t-att-href="order.get_portal_url(query_string='&amp;update=True')"
-                     title="Edit" ><i class="fa fa-edit"/>Edit</a>
+            <div class=" btn-toolbar flex-sm-nowrap" t-if="order.state == 'sent'">
+              <div class="btn-group flex-grow-1 mb-1 me-1">
+                  <a
+                        class="btn btn-secondary btn-block o_print_btn"
+                        t-att-href="order.get_portal_url(query_string='&amp;update=True')"
+                        title="Edit"
+                    ><i class="fa fa-edit" />Edit</a>
+              </div>
+              <div class="btn-group flex-grow-1 mb-1" t-if="not order.signed_on">
+                  <a
+                        role="button"
+                        class="btn btn-primary btn-block"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalaccept_rfq"
+                        href="#"
+                        title="Accept &amp; Sign"
+                    ><i class="fa fa-check" />Accept &amp; Sign</a>
+              </div>
+          </div>
+
+          <!-- Modal for RFQ Accept & Sign similar to Sales -->
+          <div role="dialog" class="modal fade" id="modalaccept_rfq">
+              <div class="modal-dialog">
+                  <form
+                        id="accept_rfq"
+                        method="POST"
+                        t-att-data-order-id="order.id"
+                        t-att-data-token="order.access_token"
+                        class="js_accept_json modal-content js_website_submit_form"
+                    >
+                      <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                      <header class="modal-header">
+                          <h4 class="modal-title">Validate RFQ</h4>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                      </header>
+                      <main class="modal-body" id="sign-dialog">
+                          <p>
+                              <span>By signing this RFQ, I agree to the following terms:</span>
+                              <ul>
+                                  <li>
+                                      <span>Accepted on the behalf of:</span> <b
+                                            t-field="order.partner_id.commercial_partner_id"
+                                        />
+                                  </li>
+                                  <li>
+                                      <span>For an amount of:</span> <b t-field="order.amount_total" />
+                                  </li>
+                              </ul>
+                          </p>
+                          <t t-call="portal.signature_form">
+                              <t t-set="call_url" t-value="order.get_portal_url(suffix='/accept')" />
+                              <t
+                                    t-set="default_name"
+                                    t-value="order.partner_id.name or order.partner_id.commercial_partner_id.name"
+                                />
+                          </t>
+                      </main>
+                  </form>
               </div>
           </div>
         </xpath>
@@ -17,45 +70,44 @@
      <template id="purchase_order_portal_content" inherit_id="purchase.purchase_order_portal_content">
         <xpath expr="//table[@id='purchase_order_table']//tr" position="inside">
             <th t-if="update_dates" class="text-end">Price Unit</th>
-<!--            <th t-if="update_dates" class="text-start">Description</th>-->
         </xpath>
+
+         <xpath expr="//table[@id='purchase_order_table']//td[@id='product_name']//span" position="attributes">
+            <attribute name="t-if">not update_dates</attribute>
+         </xpath>
 
          <xpath expr="//table[@id='purchase_order_table']//td[@id='product_name']//span" position="after">
              <t t-if="update_dates">
                 <textarea
-                        class="form-control o-purchase-product-name"
-                        rows="3"
-                        t-att-data-access-token="order.access_token"
-                        t-att-data-order-id="order.id"
-                        t-att-data-line-id="line.id"
-                        t-att-placeholder="'Add description (multiline)'">
-                    <t t-esc="line.name or ''"/>
+                    class="form-control d-inline-block align-middle ms-2 o-purchase-product-name"
+                    style="width: calc(100% - 60px);"
+                    rows="3"
+                    t-att-data-access-token="order.access_token"
+                    t-att-data-order-id="order.id"
+                    t-att-data-line-id="line.id"
+                    t-att-placeholder="'Add description (multiline)'"
+                >
+                    <t t-esc="line.name or ''" />
                 </textarea>
             </t>
          </xpath>
 
          <xpath expr="//table[@id='purchase_order_table']//tbody//tr" position="inside">
             <td t-if="update_dates" class="text-end">
-                <input type="number" step="0.01" min="0"
-                        class="form-control text-end o-purchase-price"
-                        t-att-data-access-token="order.access_token"
-                        t-att-data-order-id="order.id"
-                        t-att-data-line-id="line.id"
-                        t-att-value="line.price_unit"
-                        t-att-placeholder="line.price_unit"
-                    />
+                <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    class="form-control text-end o-purchase-price"
+                    t-att-data-access-token="order.access_token"
+                    t-att-data-order-id="order.id"
+                    t-att-data-line-id="line.id"
+                    t-att-value="line.price_unit"
+                    t-att-placeholder="line.price_unit"
+                />
             </td>
-<!--            <td t-if="update_dates" class="text-start">-->
-<!--                <input type="text"-->
-<!--                        class="form-control o-purchase-note"-->
-<!--                        t-att-data-access-token="order.access_token"-->
-<!--                        t-att-data-order-id="order.id"-->
-<!--                        t-att-data-line-id="line.id"-->
-<!--                        t-att-value="line.name or ''"-->
-<!--                        t-att-placeholder="'Add description'"-->
-<!--                    />-->
-<!--            </td>-->
+
          </xpath>
-     </template>
+    </template>
 
 </odoo>
