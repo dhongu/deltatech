@@ -4,7 +4,7 @@
     <template id="portal_my_purchase_order" inherit_id="purchase.portal_my_purchase_order">
         <xpath expr="//div[hasclass('o_download_pdf')]" position="after">
             <div class=" btn-toolbar flex-sm-nowrap" t-if="order.state == 'sent'">
-                <div class="btn-group flex-grow-1 mb-1 me-1" t-if="not update_dates">
+                <div class="btn-group flex-grow-1 mb-1 me-1" t-if="not request.params.get('update')">
                     <a
                         class="btn btn-secondary btn-block o_print_btn"
                         t-att-href="order.get_portal_url(query_string='&amp;update=True')"
