@@ -76,20 +76,25 @@
             <attribute name="t-if">not update_dates</attribute>
          </xpath>
 
+         <xpath expr="//table[@id='purchase_order_table']//td[@id='product_name']//img" position="attributes">
+            <attribute name="t-if">not update_dates</attribute>
+         </xpath>
+
          <xpath expr="//table[@id='purchase_order_table']//td[@id='product_name']//span" position="after">
              <t t-if="update_dates">
-                <textarea
-                    class="form-control d-inline-block align-middle ms-2 o-purchase-product-name"
-                    style="width: calc(100% - 60px);"
-                    rows="3"
-                    t-att-data-access-token="order.access_token"
-                    t-att-data-order-id="order.id"
-                    t-att-data-line-id="line.id"
-                    t-att-placeholder="'Add description (multiline)'"
-                >
-                    <t t-esc="line.name or ''" />
-                </textarea>
-            </t>
+                 <div class="d-flex align-items-start gap-2">
+                     <img t-att-src="image_data_uri(resize_to_48(line.product_id.image_1024))" alt="Product"/>
+                     <textarea
+                         class="form-control flex-grow-1 o-purchase-product-name"
+                         rows="3"
+                         style="resize: vertical;"
+                         t-att-data-access-token="order.access_token"
+                         t-att-data-order-id="order.id"
+                         t-att-data-line-id="line.id"
+                         t-att-placeholder="'Add description (multiline)'"
+                     ><t t-esc="line.name or ''" /></textarea>
+                 </div>
+             </t>
          </xpath>
 
          <xpath expr="//table[@id='purchase_order_table']//tbody//tr" position="inside">
