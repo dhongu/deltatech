@@ -9,7 +9,7 @@
                         class="btn btn-secondary btn-block o_print_btn"
                         t-att-href="order.get_portal_url(query_string='&amp;update=True')"
                         title="Edit"
-                    ><i class="fa fa-edit"/>Edit
+                    ><i class="fa fa-edit me-1"/>Edit
                     </a>
                 </div>
 
@@ -22,7 +22,7 @@
                         data-bs-target="#modalaccept_rfq"
                         href="#"
                         title="Accept &amp; Sign"
-                    ><i class="fa fa-check"/>Accept &amp; Sign
+                    ><i class="fa fa-check me-1"/>Accept &amp; Sign
                     </a>
                 </div>
             </div>
@@ -131,7 +131,7 @@
                 <div class="btn-group flex-grow-1 mb-1 me-1">
                     <a class="btn btn-secondary btn-block o_print_btn" t-att-href="order.get_portal_url()"
                        title="Display">
-                        <i class="fa fa-eye"/>Display
+                        <i class="fa fa-eye me-1"/>Display
                     </a>
                 </div>
             </div>
