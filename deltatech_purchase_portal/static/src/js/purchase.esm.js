@@ -22,7 +22,8 @@ export const PurchasePrice = PublicWidget.Widget.extend({
         return this._super(...arguments);
     },
     _onChange() {
-        const accessToken = this.el.dataset.accessToken || this.el.dataset.access_token || this.el.getAttribute("data-access-token");
+        const accessToken =
+            this.el.dataset.accessToken || this.el.dataset.access_token || this.el.getAttribute("data-access-token");
         const orderId = this.el.dataset.orderId || this.el.getAttribute("data-order-id");
         const lineId = this.el.dataset.lineId || this.el.getAttribute("data-line-id");
         const value = this.el.value;
@@ -46,7 +47,8 @@ export const PurchaseProductName = PublicWidget.Widget.extend({
         return this._super(...arguments);
     },
     _onChange() {
-        const accessToken = this.el.dataset.accessToken || this.el.dataset.access_token || this.el.getAttribute("data-access-token");
+        const accessToken =
+            this.el.dataset.accessToken || this.el.dataset.access_token || this.el.getAttribute("data-access-token");
         const orderId = this.el.dataset.orderId || this.el.getAttribute("data-order-id");
         const lineId = this.el.dataset.lineId || this.el.getAttribute("data-line-id");
         const value = this.el.value;
