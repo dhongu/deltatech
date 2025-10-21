@@ -93,4 +93,5 @@ class SaleOrderLine(models.Model):
                 if line.product_id.extra_percent:
                     extra_line_id.price_unit = line.price_unit * (line.product_id.extra_percent or 0.0) / 100.0
                 else:
-                    extra_line_id.price_unit = line.product_id.extra_product_id.lst_price
+                    if line.product_id.extra_product_id.lst_price:
+                        extra_line_id.price_unit = line.product_id.extra_product_id.lst_price
