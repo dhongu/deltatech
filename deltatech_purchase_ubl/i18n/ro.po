@@ -1,0 +1,133 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * deltatech_purchase_ubl
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-21 00:00+0000\n"
+"PO-Revision-Date: 2025-10-21 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Romanian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
+"Language: ro\n"
+
+#. python field label
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__data_file
+msgid "XML File"
+msgstr "Fisier XML"
+
+#. python field label
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__filename
+msgid "Filename"
+msgstr "Nume fisier"
+
+#. python field label
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__update_prices
+msgid "Update vendor prices"
+msgstr "Actualizeaza preturile furnizorului"
+
+#. python field label
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__validate_receipt
+msgid "Validate receipt from XML"
+msgstr "Valideaza receptia dupa XML"
+
+#. python field label
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__create_bill
+msgid "Create vendor bill"
+msgstr "Genereaza factura de achizitie"
+
+#. wizard title
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
+msgid "Import UBL XML"
+msgstr "Import UBL XML"
+
+#. buttons
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
+msgid "Import"
+msgstr "Importa"
+
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
+msgid "Close"
+msgstr "Inchide"
+
+#. action
+#: model:ir.actions.act_window,name:deltatech_purchase_ubl.action_purchase_ubl_import_wizard
+msgid "Import UBL"
+msgstr "Import UBL"
+
+#. model description
+#: model:ir.model,name:deltatech_purchase_ubl.model_purchase_ubl_import_wizard
+msgid "Import UBL XML for Vendor Invoice/Receipt"
+msgstr "Import UBL XML pentru factura furnizor / receptie"
+
+#. python exceptions and logs
+#: code:addons/deltatech/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:35
+#, python-format
+msgid "Invalid XML: %s"
+msgstr "XML invalid: %s"
+
+#: code:addons/deltatech/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:106
+msgid "Unknown vendor"
+msgstr "Furnizor necunoscut"
+
+#: code:addons/deltatech/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:266
+msgid "Please select an XML file."
+msgstr "Selectati un fisier XML."
+
+#: code:addons/deltatech/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:302
+#, python-format
+msgid "Receipt updated: %s"
+msgstr "Receptie actualizata: %s"
+
+#: code:addons/deltatech/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:304
+msgid "No receipt found to validate."
+msgstr "Nu am gasit nicio receptie pentru validare."
+
+#: code:addons/deltatech/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:314
+#, python-format
+msgid "Warning: The supplier in the XML (%s) differs from the order supplier (%s)."
+msgstr "Atentie: Furnizorul din XML (%s) difera de furnizorul comenzii (%s)."
+
+#: code:addons/deltatech/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:315
+#, python-format
+msgid "Vendor: %s (%s)"
+msgstr "Furnizor: %s (%s)"
+
+#: code:addons/deltatech/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:316
+#, python-format
+msgid "Order: %s | XML Reference: %s"
+msgstr "Comanda: %s | Referinta XML: %s"
+
+#: code:addons/deltatech/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:318
+msgid "Updated prices:\n"
+msgstr "Preturi actualizate:\n"
+
+#: code:addons/deltatech/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:320
+#, python-format
+msgid "Unmatched lines in the order: %s"
+msgstr "Linii neidentificate in comanda: %s"
+
+#: code:addons/deltatech/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:324
+#, python-format
+msgid "Vendor bill created: %s"
+msgstr "Factura generata: %s"
+
+#: code:addons/deltatech/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:265
+msgid "The stock transfer cannot be validated!"
+msgstr "Transferul de stoc nu poate fi validat!"
+
+
+#: code:addons/deltatech/deltatech_purchase_ubl/models/auto_import.py:53
+#, python-format
+msgid "Auto-imported UBL from attachment %s"
+msgstr "Import UBL automat din atasamentul %s"
+
+#: code:addons/deltatech/deltatech_purchase_ubl/models/auto_import.py:57
+#, python-format
+msgid "Failed to auto-import UBL: %s"
+msgstr "Eroare la importul automat UBL: %s"
