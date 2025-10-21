@@ -12,6 +12,28 @@ from odoo.addons.purchase.controllers.portal import CustomerPortal as PurchasePo
 
 
 class VendorPurchasePortal(PurchasePortal):
+    @http.route(["/my/purchase/<int:order_id>/update_pickup"], type="json", auth="public", website=True)
+    def portal_my_purchase_order_update_pickup(self, order_id=None, access_token=None, partner_pickup_address_id=None, **kw):
+        try:
+            order_sudo = self._document_check_access("purchase.order", order_id, access_token=access_token)
+        except (AccessError, MissingError):
+            return Response(status=403)
+        if order_sudo.state != "sent":
+            return Response(status=403)
+        # validate the address belongs to the vendor's commercial partner
+        if not partner_pickup_address_id:
+            return Response(status=400)
+        try:
+            addr_id = int(partner_pickup_address_id)
+        except Exception:
+            return Response(status=400)
+        vendor = order_sudo.partner_id.commercial_partner_id
+        allowed_ids = set(vendor.child_ids.ids or [vendor.id])
+        if addr_id not in allowed_ids:
+            return Response(status=403)
+        order_sudo.sudo().write({"partner_pickup_address_id": addr_id})
+        return Response(status=204)
+
     @http.route(["/my/purchase/<int:order_id>/update_price_note"], type="json", auth="public", website=True)
     def portal_my_purchase_order_update_price_note(self, order_id=None, access_token=None, **kw):
         """Allow the vendor to update price_unit and vendor_note on purchase order lines via portal.

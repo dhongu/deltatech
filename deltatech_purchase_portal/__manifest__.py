@@ -10,7 +10,10 @@
     "website": "https://www.terrabit.ro",
     "depends": ["purchase", "portal"],
     "license": "LGPL-3",
-    "data": ["views/portal_templates.xml"],
+    "data": [
+        "views/portal_templates.xml",
+        "views/purchase_view.xml",
+    ],
     "assets": {
         "web.assets_frontend": [
             "deltatech_purchase_portal/static/src/js/purchase.esm.js",

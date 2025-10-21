@@ -74,6 +74,31 @@
 
 
     <template id="purchase_order_portal_content" inherit_id="purchase.purchase_order_portal_content">
+        <xpath expr="//div[@id='po_date']" position="after">
+            <div class="row">
+                <div class="col-lg-6">
+                    <strong class="d-block mb-1">Pickup Address:</strong>
+                    <t t-if="not update_dates">
+                        <div t-field="order.partner_pickup_address_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                    </t>
+                    <t t-if="update_dates">
+                        <select
+                            class="form-select o-purchase-pickup"
+                            t-att-data-access-token="order.access_token"
+                            t-att-data-order-id="order.id"
+                        >
+                            <t t-set="vendor" t-value="order.partner_id.commercial_partner_id"/>
+                            <t t-set="addresses" t-value="vendor.child_ids or vendor"/>
+                            <t t-foreach="addresses" t-as="addr">
+                                <option t-att-value="addr.id" t-att-selected="'selected' if addr.id == order.partner_pickup_address_id.id else None">
+                                    <t t-esc="addr.display_name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </t>
+                </div>
+            </div>
+        </xpath>
         <xpath expr="//table[@id='purchase_order_table']//tr" position="inside">
             <th t-if="update_dates" class="text-end">Price Unit</th>
         </xpath>

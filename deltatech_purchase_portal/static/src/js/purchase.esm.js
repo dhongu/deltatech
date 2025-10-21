@@ -61,3 +61,26 @@ export const PurchaseProductName = PublicWidget.Widget.extend({
 
 PublicWidget.registry.PurchasePrice = PurchasePrice;
 PublicWidget.registry.PurchaseProductName = PurchaseProductName;
+
+export const PurchasePickup = PublicWidget.Widget.extend({
+    selector: ".o-purchase-pickup",
+    init() {
+        this._super(...arguments);
+        this.rpc = this.bindService("rpc");
+    },
+    start() {
+        this.el.addEventListener("change", this._onChange.bind(this));
+        return this._super(...arguments);
+    },
+    _onChange() {
+        const accessToken =
+            this.el.dataset.accessToken || this.el.dataset.access_token || this.el.getAttribute("data-access-token");
+        const orderId = this.el.dataset.orderId || this.el.getAttribute("data-order-id");
+        const value = this.el.value;
+        if (!orderId || !accessToken || !value) return;
+        const payload = { partner_pickup_address_id: value };
+        this.rpc(`/my/purchase/${orderId}/update_pickup?access_token=${accessToken}`, payload);
+    },
+});
+
+PublicWidget.registry.PurchasePickup = PurchasePickup;
