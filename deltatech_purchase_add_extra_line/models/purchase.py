@@ -36,6 +36,8 @@ class PurchaseOrderLine(models.Model):
 
     def check_extra_product(self):
         for line in self:
+            if line.order_id.state not in ["draft", "sent"]:
+                continue
             if line.product_id.extra_product_id:
                 extra_product = line.product_id.extra_product_id
                 extra_line_id = self.order_id.order_line.filtered(
