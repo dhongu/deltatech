@@ -26,6 +26,9 @@ class PurchaseUblImportWizard(models.TransientModel):
     validate_receipt = fields.Boolean(string="Validate receipt from XML", default=False)
     create_bill = fields.Boolean(string="Create vendor bill", default=True)
 
+    # Stores the created vendor bill to allow opening it from the wizard
+    bill_id = fields.Many2one('account.move', string='Vendor Bill', readonly=True)
+
     log = fields.Text(readonly=True)
 
     def _is_ubl_invoice(self, content: bytes) -> bool:
@@ -281,18 +284,13 @@ class PurchaseUblImportWizard(models.TransientModel):
         else:
             SupplierInfo.create(values)
 
-    def _find_receipt(self, partner, order_ref, order=False):
+    def _find_receipt(self,   order):
         Picking = self.env["stock.picking"]
         domain = [
-            ("picking_type_id.code", "=", "incoming"),
+            ("purchase_id", "=", order.id),
             ("state", "in", ["assigned", "confirmed", "waiting", "ready"]),
         ]
-        if partner:
-            domain.append(("partner_id", "=", partner.id))
-        if order:
-            domain.append(("origin", "=", order.name))
-        elif order_ref:
-            domain.append(("origin", "ilike", order_ref))
+
         pickings = Picking.search(domain, limit=1, order="id desc")
         return pickings
 
@@ -358,41 +356,58 @@ class PurchaseUblImportWizard(models.TransientModel):
         )
         return tax
 
-    def _create_vendor_bill(self, header, partner, mapped_lines, order=False):
-        Move = self.env["account.move"]
-        currency = self.env["res.currency"].search([("name", "=", header.get("currency") or "RON")], limit=1)
-        inv_partner = order.partner_id if order else partner
-        origin = order.name if order else header.get("order_ref")
-        move_vals = {
-            "move_type": "in_invoice",
-            "partner_id": inv_partner.id,
-            "invoice_date": header.get("issue_date"),
-            "invoice_payment_term_id": False,
-            "invoice_date_due": header.get("due_date"),
-            "ref": header.get("invoice_id"),
-            "invoice_origin": origin,
-            "currency_id": currency.id,
-            "invoice_line_ids": [],
-        }
-        line_vals = []
-        for ml in mapped_lines:
-            tax = self._get_tax(inv_partner, ml.get("tax_percent", 0.0))
-            line_vals.append(
-                (
-                    0,
-                    0,
-                    {
-                        "product_id": ml["product"].id if ml.get("product") else False,
-                        "name": ml.get("name") or ml.get("code") or "/",
-                        "quantity": ml.get("qty", 0.0),
-                        "price_unit": ml.get("price", 0.0),
-                        "tax_ids": [(6, 0, tax.ids)] if tax else False,
-                    },
-                )
-            )
-        move_vals["invoice_line_ids"] = line_vals
-        bill = Move.create(move_vals)
-        return bill
+    def _create_vendor_bill(self, xml_invoice,  order):
+
+        old_invoice= order.invoice_ids
+        action = order.action_create_invoice()
+        new_invoice = order.invoice_ids - old_invoice
+        if new_invoice:
+            origin = xml_invoice.get("order_ref")
+            invoice_date = xml_invoice.get("issue_date")
+            ref = xml_invoice.get("invoice_id")
+            due_date = xml_invoice.get("due_date")
+
+            new_invoice.write({
+                "invoice_origin": origin,
+                "invoice_date": invoice_date,
+                "ref": ref,
+                "invoice_due_date":due_date
+            })
+
+        # Move = self.env["account.move"]
+        # currency = self.env["res.currency"].search([("name", "=", header.get("currency") or "RON")], limit=1)
+        # inv_partner = order.partner_id if order else partner
+        # origin = order.name if order else header.get("order_ref")
+        # move_vals = {
+        #     "move_type": "in_invoice",
+        #     "partner_id": inv_partner.id,
+        #     "invoice_date": header.get("issue_date"),
+        #     "invoice_payment_term_id": False,
+        #     "invoice_date_due": header.get("due_date"),
+        #     "ref": header.get("invoice_id"),
+        #     "invoice_origin": origin,
+        #     "currency_id": currency.id,
+        #     "invoice_line_ids": [],
+        # }
+        # line_vals = []
+        # for ml in mapped_lines:
+        #     tax = self._get_tax(inv_partner, ml.get("tax_percent", 0.0))
+        #     line_vals.append(
+        #         (
+        #             0,
+        #             0,
+        #             {
+        #                 "product_id": ml["product"].id if ml.get("product") else False,
+        #                 "name": ml.get("name") or ml.get("code") or "/",
+        #                 "quantity": ml.get("qty", 0.0),
+        #                 "price_unit": ml.get("price", 0.0),
+        #                 "tax_ids": [(6, 0, tax.ids)] if tax else False,
+        #             },
+        #         )
+        #     )
+        # move_vals["invoice_line_ids"] = line_vals
+        # bill = Move.create(move_vals)
+        return new_invoice
 
     def action_import(self):
         self.ensure_one()
@@ -482,7 +497,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         # Validate receipt
         pick_log = ""
         if self.validate_receipt:
-            picking = self._find_receipt(partner, invoice_xml.get("order_ref"), order=order)
+            picking = self._find_receipt( order)
             if picking:
                 line_map = {ml.get("product").id: ml.get("qty", 0.0) for ml in mapped_lines if ml.get("product")}
                 self._validate_receipt_quantities(picking, line_map, order=order)
@@ -492,7 +507,9 @@ class PurchaseUblImportWizard(models.TransientModel):
 
         bill = False
         if self.create_bill:
-            bill = self._create_vendor_bill(invoice_xml, partner, mapped_lines, order=order)
+            bill = self._create_vendor_bill(invoice_xml, order)
+            # store for quick access from the wizard button
+            self.bill_id = bill and bill.id or False
 
         # Build messages
         messages = []
@@ -531,3 +548,15 @@ class PurchaseUblImportWizard(models.TransientModel):
             "target": "new",
         }
         return action
+
+    def action_view_vendor_bill(self):
+        self.ensure_one()
+        # Open the vendor bill(s) from the related purchase order context
+        ctx = self.env.context or {}
+        order = False
+        if ctx.get("active_model") == "purchase.order" and ctx.get("active_id"):
+            order = self.env["purchase.order"].browse(ctx.get("active_id"))
+        if not order:
+            return {"type": "ir.actions.act_window_close"}
+        invoices = self.bill_id if self.bill_id else False
+        return order.action_view_invoice(invoices=invoices)

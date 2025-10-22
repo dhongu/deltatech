@@ -209,6 +209,11 @@ msgid "Vendor: %s (%s)"
 msgstr "Furnizor: %s (%s)"
 
 #. module: deltatech_purchase_ubl
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
+msgid "View Vendor Bill"
+msgstr "Vezi factura furnizor"
+
+#. module: deltatech_purchase_ubl
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:0
 #, python-format
