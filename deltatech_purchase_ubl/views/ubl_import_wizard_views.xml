@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="view_purchase_ubl_import_wizard" model="ir.ui.view">
         <field name="name">purchase.ubl.import.wizard.form</field>
@@ -6,20 +6,23 @@
         <field name="arch" type="xml">
             <form string="Import UBL XML" create="false" edit="false">
                 <group>
-                    <field name="data_file" filename="filename"/>
-                    <field name="filename" invisible="1"/>
+                    <group>
+                        <field name="data_file" filename="filename" />
+                        <field name="filename" invisible="1" />
+                    </group>
+                    <group>
+                        <field name="update_prices" />
+                        <field name="validate_receipt" />
+                        <field name="create_bill" />
+                    </group>
+
                 </group>
-                <group>
-                    <field name="update_prices"/>
-                    <field name="validate_receipt"/>
-                    <field name="create_bill"/>
-                </group>
-                <group>
-                    <field name="log" nolabel="1" readonly="1" widget="text"/>
-                </group>
+
+                <field name="log" nolabel="1" readonly="1" widget="text" />
+
                 <footer>
-                    <button name="action_import" type="object" string="Import" class="btn-primary"/>
-                    <button special="cancel" string="Close"/>
+                    <button name="action_import" type="object" string="Import" class="btn-primary" />
+                    <button special="cancel" string="Close" />
                 </footer>
             </form>
         </field>
@@ -30,7 +33,7 @@
         <field name="res_model">purchase.ubl.import.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
-        <field name="view_id" ref="view_purchase_ubl_import_wizard"/>
+        <field name="view_id" ref="view_purchase_ubl_import_wizard" />
         <field name="context">{"default_update_prices": True, "default_create_bill": True}</field>
     </record>
 
@@ -38,10 +41,15 @@
     <record id="purchase_order_form_view_inherit_ubl_button" model="ir.ui.view">
         <field name="name">purchase.order.form.ubl.button</field>
         <field name="model">purchase.order</field>
-        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
-                <button name="%(action_purchase_ubl_import_wizard)d" type="action" string="Import UBL" class="btn-secondary"/>
+                <button
+                    name="%(action_purchase_ubl_import_wizard)d"
+                    type="action"
+                    string="Import UBL"
+                    class="btn-secondary"
+                />
             </xpath>
         </field>
     </record>

@@ -3,7 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 import base64
-from odoo import api, models
+
+from odoo import models
 
 
 class PurchaseOrder(models.Model):
@@ -48,13 +49,15 @@ class PurchaseOrder(models.Model):
 
                 # Run the wizard headlessly in PO context
                 try:
-                    wiz = self.env["purchase.ubl.import.wizard"].create({
-                        "data_file": attachment.datas,
-                        "filename": attachment.name,
-                        "update_prices": True,
-                        "validate_receipt": True,
-                        "create_bill": True,
-                    })
+                    wiz = self.env["purchase.ubl.import.wizard"].create(
+                        {
+                            "data_file": attachment.datas,
+                            "filename": attachment.name,
+                            "update_prices": True,
+                            "validate_receipt": True,
+                            "create_bill": True,
+                        }
+                    )
                     wiz = wiz.with_context(active_model="purchase.order", active_id=order.id)
                     wiz.action_import()
                     # Optional: post log on PO for traceability
