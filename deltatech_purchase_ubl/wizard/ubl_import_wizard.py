@@ -2,11 +2,11 @@
 # Dorin Hongu <dhongu(@)gmail(.)com>
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
 import base64
 import xml.etree.ElementTree as ET
 
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 NS = {
     "inv": "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
@@ -108,8 +108,21 @@ class PurchaseUblImportWizard(models.TransientModel):
             qty = inv_line.findtext("cbc:InvoicedQuantity", namespaces=NS)
             price = inv_line.findtext("cac:Price/cbc:PriceAmount", namespaces=NS)
             line_total = inv_line.findtext("cbc:LineExtensionAmount", namespaces=NS)
-            item_code = inv_line.findtext("cac:SellersItemIdentification/cbc:ID", namespaces=NS)
-            name = inv_line.findtext("cac:Item/cbc:Name", namespaces=NS) or inv_line.findtext("cac:Item/cbc:Description", namespaces=NS)
+            item_code = inv_line.findtext(
+                "cac:Item/cac:SellersItemIdentification/cbc:ID", namespaces=NS
+            ) or inv_line.findtext("cac:SellersItemIdentification/cbc:ID", namespaces=NS)
+            # Extract barcode from StandardItemIdentification, schemeID="0160" (GS1/EAN)
+            std_id_el = inv_line.find("cac:Item/cac:StandardItemIdentification/cbc:ID", namespaces=NS)
+            barcode_val = None
+            if std_id_el is not None:
+                scheme_id = std_id_el.get("schemeID") if hasattr(std_id_el, "get") else None
+                # Prefer when schemeID is 0160, but accept any value present in this tag if scheme missing
+                if not scheme_id or scheme_id == "0160":
+                    barcode_val = std_id_el.text
+
+            name = inv_line.findtext("cac:Item/cbc:Name", namespaces=NS) or inv_line.findtext(
+                "cac:Item/cbc:Description", namespaces=NS
+            )
             tax_percent = inv_line.findtext("cac:Item/cac:ClassifiedTaxCategory/cbc:Percent", namespaces=NS)
             unit = inv_line.find("cbc:InvoicedQuantity", namespaces=NS)
             unit_code = unit.get("unitCode") if unit is not None else False
@@ -123,6 +136,7 @@ class PurchaseUblImportWizard(models.TransientModel):
             lines.append(
                 {
                     "code": (item_code or "").strip(),
+                    "barcode": (barcode_val or "").strip(),
                     "name": (name or "").strip(),
                     "qty": _to_float(qty),
                     "price": _to_float(price),
@@ -154,66 +168,90 @@ class PurchaseUblImportWizard(models.TransientModel):
         if not partner and name:
             partner = Partner.search([("name", "ilike", name)], limit=1)
         if not partner:
-            partner = Partner.create({
-                "name": name or _("Unknown vendor"),
-                "vat": normalized_vat or False,
-                "supplier_rank": 1,
-                "is_company": True,
-            })
+            partner = Partner.create(
+                {
+                    "name": name or _("Unknown vendor"),
+                    "vat": normalized_vat or False,
+                    "supplier_rank": 1,
+                    "is_company": True,
+                }
+            )
         return partner
 
-    def _match_product(self, supplier, code, name):
+    def _match_product(self, supplier, code, name, barcode=None):
         Product = self.env["product.product"]
         SupplierInfo = self.env["product.supplierinfo"]
         product = False
         code = (code or "").strip()
-        if supplier and code:
-            sinfo = SupplierInfo.search([
-                ("name", "=", supplier.id),
-                ("product_code", "=", code),
-            ], limit=1)
+        barcode = (barcode or "").strip()
+
+        # Try explicit barcode from XML first
+        if barcode:
+            product = Product.search([("barcode", "=", barcode)], limit=1)
+
+        if not product and supplier and code:
+            sinfo = SupplierInfo.search(
+                [
+                    ("partner_id", "=", supplier.id),
+                    ("product_code", "=", code),
+                ],
+                limit=1,
+            )
             if sinfo and sinfo.product_tmpl_id.product_variant_id:
                 product = sinfo.product_tmpl_id.product_variant_id
         if not product and code:
             product = Product.search([("default_code", "=", code)], limit=1)
+
+        # Fallback: sometimes supplier code is actually barcode digits
         if not product and code and code.isdigit():
             product = Product.search([("barcode", "=", code)], limit=1)
         if not product and name:
             product = Product.search([("name", "=", name)], limit=1)
+
         return product
 
-    def _match_product_on_order(self, order, partner, code, name):
+    def _match_product_on_order(self, order, partner, code, name, barcode=None):
         """
         Restrict product matching to products present on the given purchase order.
         Matching priority within the order:
-        1) Supplier code (product.supplierinfo.product_code) for the order's vendor
-        2) Product default_code
-        3) Product barcode (only if code is numeric)
-        4) Product name exact match
+        1) Product barcode (from XML StandardItemIdentification)
+        2) Supplier code (product.supplierinfo.product_code) for the order's vendor
+        3) Product default_code
+        4) Product barcode (when code itself is numeric)
+        5) Product name exact match
         """
         if not order:
             return False
         code = (code or "").strip()
+        barcode = (barcode or "").strip()
         # Build quick access lists
         order_lines = order.order_line
-        # 1) Supplier code for this vendor
+
+        # 1) barcode from XML within order lines
+        if barcode:
+            for line in order_lines:
+                if (line.product_id.barcode or "").strip() == barcode:
+                    return line.product_id
+
+        # 2) Supplier code for this vendor
         if partner and code:
             for line in order_lines:
                 tmpl = line.product_id.product_tmpl_id
                 for sinfo in tmpl.seller_ids:
-                    if sinfo.name.id == partner.id and (sinfo.product_code or "").strip() == code:
+                    if sinfo.partner_id.id == partner.id and (sinfo.product_code or "").strip() == code:
                         return line.product_id
-        # 2) default_code within order lines
+        # 3) default_code within order lines
         if code:
             for line in order_lines:
                 if (line.product_id.default_code or "").strip() == code:
                     return line.product_id
-        # 3) barcode within order lines
+
+        # 4) barcode when code is numeric
         if code and code.isdigit():
             for line in order_lines:
                 if (line.product_id.barcode or "").strip() == code:
                     return line.product_id
-        # 4) product name exact match
+        # 5) product name exact match
         if name:
             for line in order_lines:
                 if (line.product_id.name or "").strip() == (name or "").strip():
@@ -222,17 +260,21 @@ class PurchaseUblImportWizard(models.TransientModel):
 
     def _update_supplier_price(self, supplier, product, price, currency):
         SupplierInfo = self.env["product.supplierinfo"]
-        sinfo = SupplierInfo.search([
-            ("name", "=", supplier.id),
-            ("product_tmpl_id", "=", product.product_tmpl_id.id),
-        ], limit=1)
+        sinfo = SupplierInfo.search(
+            [
+                ("partner_id", "=", supplier.id),
+                ("product_tmpl_id", "=", product.product_tmpl_id.id),
+            ],
+            limit=1,
+        )
         values = {
-            "name": supplier.id,
+            "partner_id": supplier.id,
             "product_tmpl_id": product.product_tmpl_id.id,
             "product_id": product.id,
             "product_code": product.default_code or False,
             "price": price,
             "currency_id": self.env["res.currency"].search([("name", "=", currency or "RON")], limit=1).id,
+            "delay": 1,
         }
         if sinfo:
             sinfo.write(values)
@@ -241,7 +283,10 @@ class PurchaseUblImportWizard(models.TransientModel):
 
     def _find_receipt(self, partner, order_ref, order=False):
         Picking = self.env["stock.picking"]
-        domain = [("picking_type_id.code", "=", "incoming"), ("state", "in", ["assigned", "confirmed", "waiting", "ready"]) ]
+        domain = [
+            ("picking_type_id.code", "=", "incoming"),
+            ("state", "in", ["assigned", "confirmed", "waiting", "ready"]),
+        ]
         if partner:
             domain.append(("partner_id", "=", partner.id))
         if order:
@@ -265,10 +310,12 @@ class PurchaseUblImportWizard(models.TransientModel):
                     raise UserError(_("The stock transfer cannot be validated!"))
             if picking.state == "assigned":
                 # Update header fields to mirror receipt_to_stock
-                picking.write({
-                    "notice": False,
-                    "origin": order.partner_ref or order.name,
-                })
+                picking.write(
+                    {
+                        "notice": False,
+                        "origin": order.partner_ref or order.name,
+                    }
+                )
                 # Set done quantities from XML map only for matched products
                 for move in picking.move_ids:
                     qty = line_map.get(move.product_id.id, 0.0)
@@ -300,17 +347,20 @@ class PurchaseUblImportWizard(models.TransientModel):
         AccountTax = self.env["account.tax"]
         company = self.env.company
         # Try to find purchase tax by percentage
-        tax = AccountTax.search([
-            ("type_tax_use", "in", ["purchase", "none"]),
-            ("amount", "=", percent),
-            ("company_id", "=", company.id),
-            ("price_include", "in", [True, False]),
-        ], limit=1)
+        tax = AccountTax.search(
+            [
+                ("type_tax_use", "in", ["purchase", "none"]),
+                ("amount", "=", percent),
+                ("company_id", "=", company.id),
+                ("price_include", "in", [True, False]),
+            ],
+            limit=1,
+        )
         return tax
 
     def _create_vendor_bill(self, header, partner, mapped_lines, order=False):
         Move = self.env["account.move"]
-        currency = self.env["res.currency"].search([( "name", "=", header.get("currency") or "RON")], limit=1)
+        currency = self.env["res.currency"].search([("name", "=", header.get("currency") or "RON")], limit=1)
         inv_partner = order.partner_id if order else partner
         origin = order.name if order else header.get("order_ref")
         move_vals = {
@@ -327,13 +377,19 @@ class PurchaseUblImportWizard(models.TransientModel):
         line_vals = []
         for ml in mapped_lines:
             tax = self._get_tax(inv_partner, ml.get("tax_percent", 0.0))
-            line_vals.append((0, 0, {
-                "product_id": ml["product"].id if ml.get("product") else False,
-                "name": ml.get("name") or ml.get("code") or "/",
-                "quantity": ml.get("qty", 0.0),
-                "price_unit": ml.get("price", 0.0),
-                "tax_ids": [(6, 0, tax.ids)] if tax else False,
-            }))
+            line_vals.append(
+                (
+                    0,
+                    0,
+                    {
+                        "product_id": ml["product"].id if ml.get("product") else False,
+                        "name": ml.get("name") or ml.get("code") or "/",
+                        "quantity": ml.get("qty", 0.0),
+                        "price_unit": ml.get("price", 0.0),
+                        "tax_ids": [(6, 0, tax.ids)] if tax else False,
+                    },
+                )
+            )
         move_vals["invoice_line_ids"] = line_vals
         bill = Move.create(move_vals)
         return bill
@@ -343,7 +399,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         if not self.data_file:
             raise UserError(_("Please select an XML file."))
         content = base64.b64decode(self.data_file)
-        header = self._parse_xml(content)
+        invoice_xml = self._parse_xml(content)
 
         # Determine context order if any
         order = False
@@ -351,29 +407,82 @@ class PurchaseUblImportWizard(models.TransientModel):
             order = self.env["purchase.order"].browse(self.env.context.get("active_id"))
 
         # Determine supplier: prefer order's vendor if order provided
-        xml_partner = self._find_or_create_supplier(header.get("supplier_vat"), header.get("supplier_name"))
+        xml_partner = self._find_or_create_supplier(invoice_xml.get("supplier_vat"), invoice_xml.get("supplier_name"))
         partner = order.partner_id if order else xml_partner
 
         mapped_lines = []
         updated = []
         not_found = []
-        for ln in header["lines"]:
-            if order:
-                product = self._match_product_on_order(order, partner, ln.get("code"), ln.get("name"))
+        for ln in invoice_xml["lines"]:
+            # If order has lines, restrict match to the order; otherwise match globally
+            if order and order.order_line:
+                product = self._match_product_on_order(
+                    order, partner, ln.get("code"), ln.get("name"), ln.get("barcode")
+                )
             else:
-                product = self._match_product(partner, ln.get("code"), ln.get("name"))
-            if not product and order:
-                not_found.append((ln.get("code") or ln.get("name") or "/"))
+                product = self._match_product(partner, ln.get("code"), ln.get("name"), ln.get("barcode"))
+            if not product:
+                not_found.append(ln.get("code") or ln.get("name") or "/")
             ln_map = {**ln, "product": product}
             mapped_lines.append(ln_map)
             if self.update_prices and product:
-                self._update_supplier_price(partner, product, ln.get("price", 0.0), header.get("currency"))
-                updated.append(f"{product.display_name}: {ln.get('price')} {header.get('currency')}")
+                self._update_supplier_price(partner, product, ln.get("price", 0.0), invoice_xml.get("currency"))
+                updated.append(f"{product.display_name}: {ln.get('price')} {invoice_xml.get('currency')}")
+
+        # If the purchase order has no lines, add products from the XML as order lines
+        added_count = 0
+        if order and not order.order_line:
+            POL = self.env["purchase.order.line"]
+            for ml in mapped_lines:
+                product = ml.get("product")
+                if not product:
+                    continue
+                vals = {
+                    "order_id": order.id,
+                    "product_id": product.id,
+                    "name": ml.get("name") or product.display_name,
+                    "product_qty": ml.get("qty", 0.0) or 0.0,
+                    "price_unit": ml.get("price", 0.0) or 0.0,
+                    "product_uom": product.uom_po_id.id or product.uom_id.id,
+                    "date_planned": fields.Datetime.now(),
+                }
+                POL.create(vals)
+                added_count += 1
+
+        # If the purchase order already has lines, update their quantities and prices from XML
+        updated_lines_count = 0
+        if order and order.order_line:
+            # Build a product->list of xml lines map to support duplicates
+            xml_map = {}
+            for ml in mapped_lines:
+                product = ml.get("product")
+                if not product:
+                    continue
+                xml_map.setdefault(product.id, []).append(ml)
+            # Iterate existing order lines and update when a matching XML line exists
+            for line in order.order_line:
+                lines_for_prod = xml_map.get(line.product_id.id)
+                if not lines_for_prod:
+                    continue
+                xml_ln = lines_for_prod.pop(0)
+                vals = {}
+                qty = xml_ln.get("qty")
+                if qty is not None:
+                    vals["product_qty"] = qty
+                price = xml_ln.get("price")
+                if price is not None:
+                    vals["price_unit"] = price
+                # Optionally update description with XML name/code when empty
+                if not line.name and (xml_ln.get("name") or xml_ln.get("code")):
+                    vals["name"] = xml_ln.get("name") or xml_ln.get("code")
+                if vals:
+                    line.write(vals)
+                    updated_lines_count += 1
 
         # Validate receipt
         pick_log = ""
         if self.validate_receipt:
-            picking = self._find_receipt(partner, header.get("order_ref"), order=order)
+            picking = self._find_receipt(partner, invoice_xml.get("order_ref"), order=order)
             if picking:
                 line_map = {ml.get("product").id: ml.get("qty", 0.0) for ml in mapped_lines if ml.get("product")}
                 self._validate_receipt_quantities(picking, line_map, order=order)
@@ -383,19 +492,30 @@ class PurchaseUblImportWizard(models.TransientModel):
 
         bill = False
         if self.create_bill:
-            bill = self._create_vendor_bill(header, partner, mapped_lines, order=order)
+            bill = self._create_vendor_bill(invoice_xml, partner, mapped_lines, order=order)
 
         # Build messages
         messages = []
         # warn if XML supplier differs from order supplier
         if order and xml_partner and xml_partner.id != partner.id:
-            messages.append(_("Warning: The supplier in the XML (%s) differs from the order supplier (%s).") % (xml_partner.display_name, partner.display_name))
+            messages.append(
+                _("Warning: The supplier in the XML (%s) differs from the order supplier (%s).")
+                % (xml_partner.display_name, partner.display_name)
+            )
         messages.append(_("Vendor: %s (%s)") % (partner.display_name, partner.vat or "-"))
-        messages.append(_("Order: %s | XML Reference: %s") % ((order.name if order else "-"), (header.get("order_ref") or "-")))
+        messages.append(
+            _("Order: %s | XML Reference: %s") % ((order.name if order else "-"), (invoice_xml.get("order_ref") or "-"))
+        )
         if updated:
             messages.append(_("Updated prices:\n") + "\n".join(updated))
+        if order and "updated_lines_count" in locals() and updated_lines_count:
+            messages.append(_("Updated %s purchase order lines from XML.") % updated_lines_count)
+        if order and added_count:
+            messages.append(_("Added %s lines to the purchase order from XML.") % added_count)
         if order and not_found:
             messages.append(_("Unmatched lines in the order: %s") % ", ".join(not_found))
+        elif not_found:
+            messages.append(_("Unmatched products in XML: %s") % ", ".join(not_found))
         if pick_log:
             messages.append(pick_log)
         if bill:
