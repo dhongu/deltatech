@@ -27,7 +27,7 @@ class PurchaseUblImportWizard(models.TransientModel):
     create_bill = fields.Boolean(string="Create vendor bill", default=True)
 
     # Stores the created vendor bill to allow opening it from the wizard
-    bill_id = fields.Many2one('account.move', string='Vendor Bill', readonly=True)
+    bill_id = fields.Many2one("account.move", string="Vendor Bill", readonly=True)
 
     log = fields.Text(readonly=True)
 
@@ -160,26 +160,6 @@ class PurchaseUblImportWizard(models.TransientModel):
             "lines": lines,
         }
 
-    def _find_or_create_supplier(self, vat, name):
-        Partner = self.env["res.partner"]
-        normalized_vat = (vat or "").replace(" ", "").upper()
-        partner = False
-        if normalized_vat:
-            # Allow formats like RO123, 123, RO 123
-            number = normalized_vat.replace("RO", "").replace(" ", "")
-            partner = Partner.search([("vat", "in", [normalized_vat, f"RO{number}", number])], limit=1)
-        if not partner and name:
-            partner = Partner.search([("name", "ilike", name)], limit=1)
-        if not partner:
-            partner = Partner.create(
-                {
-                    "name": name or _("Unknown vendor"),
-                    "vat": normalized_vat or False,
-                    "supplier_rank": 1,
-                    "is_company": True,
-                }
-            )
-        return partner
 
     def _match_product(self, supplier, code, name, barcode=None):
         Product = self.env["product.product"]
@@ -284,7 +264,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         else:
             SupplierInfo.create(values)
 
-    def _find_receipt(self,   order):
+    def _find_receipt(self, order):
         Picking = self.env["stock.picking"]
         domain = [
             ("purchase_id", "=", order.id),
@@ -341,25 +321,11 @@ class PurchaseUblImportWizard(models.TransientModel):
             wiz.with_context(skip_backorder=True).process()
         return True
 
-    def _get_tax(self, partner, percent):
-        AccountTax = self.env["account.tax"]
-        company = self.env.company
-        # Try to find purchase tax by percentage
-        tax = AccountTax.search(
-            [
-                ("type_tax_use", "in", ["purchase", "none"]),
-                ("amount", "=", percent),
-                ("company_id", "=", company.id),
-                ("price_include", "in", [True, False]),
-            ],
-            limit=1,
-        )
-        return tax
 
-    def _create_vendor_bill(self, xml_invoice,  order):
 
-        old_invoice= order.invoice_ids
-        action = order.action_create_invoice()
+    def _create_vendor_bill(self, xml_invoice, order):
+        old_invoice = order.invoice_ids
+        order.action_create_invoice()
         new_invoice = order.invoice_ids - old_invoice
         if new_invoice:
             origin = xml_invoice.get("order_ref")
@@ -367,46 +333,10 @@ class PurchaseUblImportWizard(models.TransientModel):
             ref = xml_invoice.get("invoice_id")
             due_date = xml_invoice.get("due_date")
 
-            new_invoice.write({
-                "invoice_origin": origin,
-                "invoice_date": invoice_date,
-                "ref": ref,
-                "invoice_due_date":due_date
-            })
+            new_invoice.write(
+                {"invoice_origin": origin, "invoice_date": invoice_date, "ref": ref, "invoice_date_due": due_date}
+            )
 
-        # Move = self.env["account.move"]
-        # currency = self.env["res.currency"].search([("name", "=", header.get("currency") or "RON")], limit=1)
-        # inv_partner = order.partner_id if order else partner
-        # origin = order.name if order else header.get("order_ref")
-        # move_vals = {
-        #     "move_type": "in_invoice",
-        #     "partner_id": inv_partner.id,
-        #     "invoice_date": header.get("issue_date"),
-        #     "invoice_payment_term_id": False,
-        #     "invoice_date_due": header.get("due_date"),
-        #     "ref": header.get("invoice_id"),
-        #     "invoice_origin": origin,
-        #     "currency_id": currency.id,
-        #     "invoice_line_ids": [],
-        # }
-        # line_vals = []
-        # for ml in mapped_lines:
-        #     tax = self._get_tax(inv_partner, ml.get("tax_percent", 0.0))
-        #     line_vals.append(
-        #         (
-        #             0,
-        #             0,
-        #             {
-        #                 "product_id": ml["product"].id if ml.get("product") else False,
-        #                 "name": ml.get("name") or ml.get("code") or "/",
-        #                 "quantity": ml.get("qty", 0.0),
-        #                 "price_unit": ml.get("price", 0.0),
-        #                 "tax_ids": [(6, 0, tax.ids)] if tax else False,
-        #             },
-        #         )
-        #     )
-        # move_vals["invoice_line_ids"] = line_vals
-        # bill = Move.create(move_vals)
         return new_invoice
 
     def action_import(self):
@@ -422,8 +352,11 @@ class PurchaseUblImportWizard(models.TransientModel):
             order = self.env["purchase.order"].browse(self.env.context.get("active_id"))
 
         # Determine supplier: prefer order's vendor if order provided
-        xml_partner = self._find_or_create_supplier(invoice_xml.get("supplier_vat"), invoice_xml.get("supplier_name"))
-        partner = order.partner_id if order else xml_partner
+        partner = order.partner_id
+        supplier_vat =  invoice_xml.get("supplier_vat")
+        if supplier_vat != partner.vat:
+            self.log = "Error: The supplier in the XML (%s) differs from the order supplier (%s)." % (supplier_vat, partner.vat)
+            return
 
         mapped_lines = []
         updated = []
@@ -497,7 +430,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         # Validate receipt
         pick_log = ""
         if self.validate_receipt:
-            picking = self._find_receipt( order)
+            picking = self._find_receipt(order)
             if picking:
                 line_map = {ml.get("product").id: ml.get("qty", 0.0) for ml in mapped_lines if ml.get("product")}
                 self._validate_receipt_quantities(picking, line_map, order=order)
@@ -513,12 +446,7 @@ class PurchaseUblImportWizard(models.TransientModel):
 
         # Build messages
         messages = []
-        # warn if XML supplier differs from order supplier
-        if order and xml_partner and xml_partner.id != partner.id:
-            messages.append(
-                _("Warning: The supplier in the XML (%s) differs from the order supplier (%s).")
-                % (xml_partner.display_name, partner.display_name)
-            )
+
         messages.append(_("Vendor: %s (%s)") % (partner.display_name, partner.vat or "-"))
         messages.append(
             _("Order: %s | XML Reference: %s") % ((order.name if order else "-"), (invoice_xml.get("order_ref") or "-"))
@@ -536,7 +464,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         if pick_log:
             messages.append(pick_log)
         if bill:
-            messages.append(_("Vendor bill created: %s") % (bill.name or bill.ref or ""))
+            messages.append(_("Vendor bill created: %s") % ( bill.ref or ""))
 
         self.log = "\n".join(messages)
 
