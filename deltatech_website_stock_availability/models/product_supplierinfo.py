@@ -8,4 +8,4 @@ from odoo import fields, models
 class ProductSupplierinfo(models.Model):
     _inherit = "product.supplierinfo"
 
-    delay = fields.Float(digits=(4, 2))
+    delay = fields.Float(digits=(4, 2))   # Lead time in days si ore ????
