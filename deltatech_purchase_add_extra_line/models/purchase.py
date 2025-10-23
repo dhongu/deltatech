@@ -10,6 +10,16 @@ from odoo import api, fields, models
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
+
+    def action_rfq_send(self):
+        self.order_line.with_context(backend=True).check_extra_product()
+        return super().action_rfq_send()
+
+    def print_quotation(self):
+        self.order_line.with_context(backend=True).check_extra_product()
+        return super().print_quotation()
+
+
     @api.onchange("order_line")
     def onchange_order_line(self):
         """
