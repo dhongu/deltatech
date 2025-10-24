@@ -19,25 +19,7 @@ Report Layout
 
 |badge1| |badge2|
 
-Overview
-
-This module provides two alternative report layouts for Odoo 18 (Style 1 and Style 2). It extends the QWeb external layout used by all PDF reports and adds branded headers/footers, cleaner typography, and consistent spacing across documents.
-
-Key features
-------------
-- Two selectable layouts: Style1 and Style2, registered under Settings > Technical > Reporting > Report Layouts.
-- Custom SCSS per style to control fonts, colors, tables, and spacing.
-- Works with Odoo's standard reports (invoices, sales, purchase, delivery slips, etc.) out of the box.
-- Easy to extend via QWeb inheritance for project-specific branding.
-
-How to use
-----------
-- Choose the desired layout in General Settings > Companies > Document Layout, or via Technical > Reporting > Report Layouts by selecting Style1 or Style2.
-- If needed, override the SCSS files in your own addon or theme to adapt colors and typography.
-
-Compatibility
--------------
-- Tested on Odoo 18. Styles are loaded through the web.report_assets_common bundle.
+Features:
 
 **Table of contents**
 
