@@ -57,7 +57,7 @@ class SaleOrderLine(models.Model):
     def unlink(self):
         for line in self:
             if line.product_id.extra_product_id:
-                extra_line_id = self.order_id.order_line.filtered(
+                extra_line_id = line.order_id.order_line.filtered(
                     lambda l: line.line_uuid is not False and l.line_uuid == line.line_uuid and l.id != line.id
                 )
                 if extra_line_id:
@@ -68,30 +68,32 @@ class SaleOrderLine(models.Model):
         for line in self:
             if line.order_id.state not in ["draft", "sent"]:
                 continue
-            if line.product_id.extra_product_id:
-                extra_line_id = self.order_id.order_line.filtered(
-                    lambda l: line.line_uuid is not False and l.line_uuid == line.line_uuid and l.id != line.id
-                )
-                if not extra_line_id:
-                    new_uuid = str(uuid.uuid4())
-                    values = {
-                        "product_uom_qty": line.product_uom_qty * (line.product_id.extra_qty or 1.0),
-                        "product_id": line.product_id.extra_product_id.id,
-                        "state": "draft",
-                        "order_id": line.order_id.id,
-                        "sequence": line.sequence + 1,
-                        "line_uuid": new_uuid,
-                    }
-                    backend = self.env.context.get("backend", False)
-                    if backend:
-                        extra_line_id = line.order_id.order_line.new(values)
-                    else:
-                        extra_line_id = line.order_id.order_line.create(values)
-                    line.line_uuid = new_uuid
-
-                extra_line_id.product_uom_qty = line.product_uom_qty * (line.product_id.extra_qty or 1.0)
-                if line.product_id.extra_percent:
-                    extra_line_id.price_unit = line.price_unit * (line.product_id.extra_percent or 0.0) / 100.0
+            if not line.product_id.extra_product_id:
+                continue
+            extra_line_id = line.order_id.order_line.filtered(
+                lambda l: line.line_uuid is not False and l.line_uuid == line.line_uuid and l.id != line.id
+            )
+            if not extra_line_id:
+                new_uuid = str(uuid.uuid4())
+                values = {
+                    "product_uom_qty": line.product_uom_qty * (line.product_id.extra_qty or 1.0),
+                    "product_id": line.product_id.extra_product_id.id,
+                    "state": "draft",
+                    "order_id": line.order_id.id,
+                    "sequence": line.sequence + 1,
+                    "line_uuid": new_uuid,
+                }
+                backend = self.env.context.get("backend", False)
+                if backend:
+                    extra_line_id = line.order_id.order_line.new(values)
                 else:
-                    if line.product_id.extra_product_id.lst_price:
-                        extra_line_id.price_unit = line.product_id.extra_product_id.lst_price
+                    extra_line_id = line.order_id.order_line.create(values)
+                line.line_uuid = new_uuid
+            product_uom_qty = line.product_uom_qty * (line.product_id.extra_qty or 1.0)
+            if product_uom_qty != extra_line_id.product_uom_qty:
+                extra_line_id.product_uom_qty = product_uom_qty
+            if line.product_id.extra_percent:
+                extra_line_id.price_unit = line.price_unit * (line.product_id.extra_percent or 0.0) / 100.0
+            else:
+                if line.product_id.extra_product_id.lst_price:
+                    extra_line_id.price_unit = line.product_id.extra_product_id.lst_price
