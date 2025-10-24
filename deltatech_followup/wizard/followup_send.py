@@ -69,6 +69,19 @@ class FollowupSendWizard(models.TransientModel):
                         inv_currency = invoices_to_process[0].company_id.currency_id
                         if followup.use_customer_currency:
                             inv_currency = invoices_to_process[0].currency_id
+                        # Do not send mail if total_due_debit is within configured margin
+                        due_margin = followup.amount_margin
+                        if abs(partner_due_debit) <= due_margin:
+                            # Skip sending follow-up within the margin
+                            partner.message_post(
+                                body=(
+                                    f"Follow-up not sent: total due debit ({partner_due_debit:,.2f} {inv_currency.name}) "
+                                    f"is within the configured margin ({due_margin:,.2f} {inv_currency.name})."
+                                ),
+                                message_type="comment",
+                                subtype_xmlid="mail.mt_note",
+                            )
+                            continue
                         invoices_content = ""
                         for invoice in invoices_to_process:
                             crt_row = Template(followup.invoice_html).substitute(

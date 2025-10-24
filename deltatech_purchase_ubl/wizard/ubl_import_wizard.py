@@ -88,7 +88,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         try:
             root = ET.fromstring(content)
         except ET.ParseError as e:
-            raise UserError(_("Invalid XML: %s") % e)
+            raise UserError(_("Invalid XML: %(error)s") % {"error": str(e)}) from e
 
         # Header
         invoice_id = root.findtext("cbc:ID", namespaces=NS)
@@ -159,7 +159,6 @@ class PurchaseUblImportWizard(models.TransientModel):
             "supplier_name": (supplier_name or "").strip(),
             "lines": lines,
         }
-
 
     def _match_product(self, supplier, code, name, barcode=None):
         Product = self.env["product.product"]
@@ -321,8 +320,6 @@ class PurchaseUblImportWizard(models.TransientModel):
             wiz.with_context(skip_backorder=True).process()
         return True
 
-
-
     def _create_vendor_bill(self, xml_invoice, order):
         old_invoice = order.invoice_ids
         order.action_create_invoice()
@@ -353,9 +350,11 @@ class PurchaseUblImportWizard(models.TransientModel):
 
         # Determine supplier: prefer order's vendor if order provided
         partner = order.partner_id
-        supplier_vat =  invoice_xml.get("supplier_vat")
+        supplier_vat = invoice_xml.get("supplier_vat")
         if supplier_vat != partner.vat:
-            self.log = "Error: The supplier in the XML (%s) differs from the order supplier (%s)." % (supplier_vat, partner.vat)
+            self.log = _(
+                "Error: The supplier in the XML (%(xml_vat)s) differs from the order supplier (%(po_vat)s)."
+            ) % {"xml_vat": supplier_vat or "-", "po_vat": partner.vat or "-"}
             return
 
         mapped_lines = []
@@ -434,7 +433,7 @@ class PurchaseUblImportWizard(models.TransientModel):
             if picking:
                 line_map = {ml.get("product").id: ml.get("qty", 0.0) for ml in mapped_lines if ml.get("product")}
                 self._validate_receipt_quantities(picking, line_map, order=order)
-                pick_log = _("Receipt updated: %s") % picking.name
+                pick_log = _("Receipt updated: %(picking)s") % {"picking": picking.name}
             else:
                 pick_log = _("No receipt found to validate.")
 
@@ -447,24 +446,25 @@ class PurchaseUblImportWizard(models.TransientModel):
         # Build messages
         messages = []
 
-        messages.append(_("Vendor: %s (%s)") % (partner.display_name, partner.vat or "-"))
+        messages.append(_("Vendor: %(name)s (%(vat)s)") % {"name": partner.display_name, "vat": partner.vat or "-"})
         messages.append(
-            _("Order: %s | XML Reference: %s") % ((order.name if order else "-"), (invoice_xml.get("order_ref") or "-"))
+            _("Order: %(order)s | XML Reference: %(xml_ref)s")
+            % {"order": (order.name if order else "-"), "xml_ref": (invoice_xml.get("order_ref") or "-")}
         )
         if updated:
             messages.append(_("Updated prices:\n") + "\n".join(updated))
         if order and "updated_lines_count" in locals() and updated_lines_count:
-            messages.append(_("Updated %s purchase order lines from XML.") % updated_lines_count)
+            messages.append(_("Updated %(count)s purchase order lines from XML.") % {"count": updated_lines_count})
         if order and added_count:
-            messages.append(_("Added %s lines to the purchase order from XML.") % added_count)
+            messages.append(_("Added %(count)s lines to the purchase order from XML.") % {"count": added_count})
         if order and not_found:
-            messages.append(_("Unmatched lines in the order: %s") % ", ".join(not_found))
+            messages.append(_("Unmatched lines in the order: %(items)s") % {"items": ", ".join(not_found)})
         elif not_found:
-            messages.append(_("Unmatched products in XML: %s") % ", ".join(not_found))
+            messages.append(_("Unmatched products in XML: %(items)s") % {"items": ", ".join(not_found)})
         if pick_log:
             messages.append(pick_log)
         if bill:
-            messages.append(_("Vendor bill created: %s") % ( bill.ref or ""))
+            messages.append(_("Vendor bill created: %(ref)s") % {"ref": (bill.ref or "")})
 
         self.log = "\n".join(messages)
 
