@@ -1,6 +1,6 @@
-===
-RAL
-===
+=============
+Report Layout
+=============
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -10,36 +10,16 @@ RAL
    !! source digest: sha256:be36ff23f55ade4d737341fe0bc4579cec436d2528f20921d9b8dd9c53b22f31
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Mature
+    :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_ral
+    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_report_layout
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
 
 Features:
-
-- Allows the selection of a pigment (RAL) in production order.
-- The pigment is a material which have code that starts with RAL.
-- If in BOM it is used the pigment RAL 0000 it will be replaced with the
-  pigment from production order.
-- The batch will be created automatically upon order confirmation and
-  will have the pigment from production order.
-
-Instruction:
-
-- Create the product "Dummy RAL" and set it's internal reference to "RAL
-  0000".
-- In the BOM a the product that uses pigments set the "Dummy RAL" as a
-  component (WITHOUT SELECTING A VARIANT).
-- In the final product should have a colour type attribute
-- Create the pigment products with internal reference "RAL color" where
-  you substitute 'color' with the name of the of the option from the
-  attribute of the final product (e.g. RAL White, RAL Rose etc.)
-- When creating the production order for a variant the dummy RAL product
-  will be replaced with the corresponding RAL pigment.
 
 **Table of contents**
 
@@ -66,6 +46,6 @@ Authors
 Maintainers
 -----------
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_ral>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_report_layout>`_ project on GitHub.
 
 You are welcome to contribute.
