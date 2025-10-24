@@ -88,7 +88,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         try:
             root = ET.fromstring(content)
         except ET.ParseError as e:
-            raise UserError(_("Invalid XML: %s") % e)
+            raise UserError(_("Invalid XML: %s") % e) from e
 
         # Header
         invoice_id = root.findtext("cbc:ID", namespaces=NS)
@@ -159,7 +159,6 @@ class PurchaseUblImportWizard(models.TransientModel):
             "supplier_name": (supplier_name or "").strip(),
             "lines": lines,
         }
-
 
     def _match_product(self, supplier, code, name, barcode=None):
         Product = self.env["product.product"]
@@ -321,8 +320,6 @@ class PurchaseUblImportWizard(models.TransientModel):
             wiz.with_context(skip_backorder=True).process()
         return True
 
-
-
     def _create_vendor_bill(self, xml_invoice, order):
         old_invoice = order.invoice_ids
         order.action_create_invoice()
@@ -353,9 +350,11 @@ class PurchaseUblImportWizard(models.TransientModel):
 
         # Determine supplier: prefer order's vendor if order provided
         partner = order.partner_id
-        supplier_vat =  invoice_xml.get("supplier_vat")
+        supplier_vat = invoice_xml.get("supplier_vat")
         if supplier_vat != partner.vat:
-            self.log = "Error: The supplier in the XML (%s) differs from the order supplier (%s)." % (supplier_vat, partner.vat)
+            self.log = (
+                f"Error: The supplier in the XML ({supplier_vat}) differs from the order supplier ({partner.vat})."
+            )
             return
 
         mapped_lines = []
@@ -464,7 +463,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         if pick_log:
             messages.append(pick_log)
         if bill:
-            messages.append(_("Vendor bill created: %s") % ( bill.ref or ""))
+            messages.append(_("Vendor bill created: %s") % (bill.ref or ""))
 
         self.log = "\n".join(messages)
 

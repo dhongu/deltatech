@@ -10,7 +10,6 @@ from odoo import api, fields, models
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
-
     def action_rfq_send(self):
         self.order_line.with_context(backend=True).check_extra_product()
         return super().action_rfq_send()
@@ -18,7 +17,6 @@ class PurchaseOrder(models.Model):
     def print_quotation(self):
         self.order_line.with_context(backend=True).check_extra_product()
         return super().print_quotation()
-
 
     @api.onchange("order_line")
     def onchange_order_line(self):
@@ -34,14 +32,12 @@ class PurchaseOrderLine(models.Model):
 
     line_uuid = fields.Char()
 
-
     @api.model_create_multi
     def create(self, vals_list):
         res = super().create(vals_list)
         for line in res:
             line.check_extra_product()
         return res
-
 
     def unlink(self):
         for line in self:
@@ -80,7 +76,7 @@ class PurchaseOrderLine(models.Model):
                 else:
                     extra_line_id = line.order_id.order_line.create(values)
                 line.line_uuid = new_uuid
-            product_qty =  line.product_qty * (line.product_id.extra_qty or 1.0)
+            product_qty = line.product_qty * (line.product_id.extra_qty or 1.0)
             if product_qty != extra_line_id.product_qty:
                 extra_line_id.product_qty = product_qty
             if line.product_id.extra_percent:
