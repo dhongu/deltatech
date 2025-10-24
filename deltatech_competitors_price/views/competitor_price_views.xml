@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+        <!-- Tree and form views for competitor price lines -->
+        <record id="view_deltatech_competitor_price_tree" model="ir.ui.view">
+            <field name="name">deltatech.competitor.price.tree</field>
+            <field name="model">deltatech.competitor.price</field>
+            <field name="arch" type="xml">
+                <list editable="bottom" string="Competitor Prices">
+                    <field name="competitor_name" />
+                    <field name="product_url" />
+                    <field name="last_price" />
+                    <field name="currency_id" />
+                    <field name="last_fetch" />
+                    <field name="fetch_status" />
+                    <field name="auto_fetch" />
+                    <button name="action_fetch_price" type="object" string="Fetch" class="oe_link" />
+                </list>
+            </field>
+        </record>
+
+        <record id="view_deltatech_competitor_price_form" model="ir.ui.view">
+            <field name="name">deltatech.competitor.price.form</field>
+            <field name="model">deltatech.competitor.price</field>
+            <field name="arch" type="xml">
+                <form string="Competitor Price">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="product_tmpl_id" />
+                                <field name="competitor_name" />
+                                <field name="product_url" />
+                            </group>
+                            <group>
+                                <field name="last_price" />
+                                <field name="currency_id" />
+                                <field name="last_fetch" />
+                                <field name="auto_fetch" />
+                            </group>
+                        </group>
+                        <group>
+                            <field name="fetch_status" widget="text" />
+                        </group>
+                        <footer>
+                            <button name="action_fetch_price" type="object" string="Fetch Now" class="btn-primary" />
+                            <button string="Close" class="btn-secondary" special="cancel" />
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Inherit product template form to add a new tab -->
+        <record id="product_template_form_inherit_competitor_prices" model="ir.ui.view">
+            <field name="name">product.template.form.inherit.competitor.prices</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Competitor Prices" name="deltatech_competitor_prices">
+                       <field name="competitor_price_ids">
+                            <list editable="bottom" string="Competitor Prices" create="1" delete="1">
+                                <field name="competitor_name" />
+                                <field name="product_url" />
+                                <field name="last_price" />
+                                <field name="currency_id" optional="hidden" />
+                                <field name="last_fetch" />
+                                <field name="fetch_status" />
+                                <field name="auto_fetch" optional="hidden" />
+                                <button name="action_fetch_price" type="object" string="Fetch" class="oe_link" />
+                            </list>
+                       </field>
+
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+
+
+</odoo>
