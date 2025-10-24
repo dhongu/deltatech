@@ -33,6 +33,8 @@
                                 <field name="relative_days" />
                                 <field name="only_open" />
                                 <field name="with_refunds" />
+                                <field name="use_customer_currency" />
+                                <field name="amount_margin" />
                             </group>
                             <group>
                                 <field name="mail_template" />
