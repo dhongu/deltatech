@@ -1,3 +1,5 @@
 # generated from manifests external_dependencies
+extruct
 phonenumbers
 unidecode
+w3lib
