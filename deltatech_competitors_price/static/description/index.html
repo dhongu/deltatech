@@ -370,34 +370,144 @@ ul.auto-toc {
 !! source digest: sha256:f0192dc41b40b362e2d3cbf1303b6d4f81376b19313eef8b90cdfe0db4d3132c
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_competitors_price"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
+<div class="section" id="deltatech-competitors-price-1">
+<h1>Deltatech Competitors Price</h1>
+<p>Track competitors’ product prices directly on the product form and fetch
+current prices on demand (or via future automation).</p>
+<div class="section" id="overview">
+<h2>Overview</h2>
+<p>This module adds a new tab on Product Template where you can register
+competitor product URLs and retrieve their latest public price. It is
+designed to help sales and purchasing teams quickly compare your product
+pricing against selected competitors.</p>
+</div>
+<div class="section" id="key-features">
+<h2>Key Features</h2>
 <ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<li>Competitor lines on product template with:<ul>
+<li>Competitor name</li>
+<li>Product URL on competitor website</li>
+<li>Last fetched price and currency</li>
+<li>Last fetch timestamp and status message</li>
+<li>Auto Fetch flag (for potential scheduled jobs)</li>
 </ul>
 </li>
+<li>On‑demand fetching:<ul>
+<li>A per‑line “Fetch” button</li>
+<li>A product‑level button “Aducere pret concurenta” to fetch all lines
+at once</li>
+</ul>
+</li>
+<li>Robust price extraction:<ul>
+<li>First tries structured data (JSON‑LD / Microdata) via <tt class="docutils literal">extruct</tt>
+when available</li>
+<li>Falls back to HTML heuristics using <tt class="docutils literal">lxml</tt> selectors</li>
+</ul>
+</li>
+<li>Graceful error handling with clear status stored per line</li>
 </ul>
 </div>
+<div class="section" id="how-it-works">
+<h2>How It Works</h2>
+<ol class="arabic simple">
+<li>When you press “Fetch” (on a line) or the product button, the module
+performs an HTTP GET to the competitor URL using a browser‑like
+User‑Agent.</li>
+<li>If <tt class="docutils literal">extruct</tt> is installed, the module attempts to parse
+JSON‑LD/Microdata and extract price and currency
+(Offer/AggregateOffer patterns).</li>
+<li>If no structured data price is found, it tries common HTML selectors
+(meta tags and elements whose class/name suggests price) using
+<tt class="docutils literal">lxml</tt>.</li>
+<li>The found price is written on the line, together with the fetch
+timestamp and an “OK” status. If a currency code is detected and
+exists in your DB (e.g., EUR, USD), the line’s currency is updated
+accordingly.</li>
+<li>If nothing can be extracted, the line gets a clear status (e.g.,
+“Price not found on page”).</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h2>Usage</h2>
+<ul class="simple">
+<li>Open any Product (Product Template) and go to the “Competitor Prices”
+tab.</li>
+<li>Add one or more competitor lines:<ul>
+<li>Competitor: e.g., “Altex”</li>
+<li>Product URL: the full URL of the competitor’s product page</li>
+</ul>
+</li>
+<li>Click “Fetch” on a line to update just that entry, or use the
+product‑level button to fetch all lines.</li>
+</ul>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies</h2>
+<p>Python libraries used at runtime:</p>
+<ul class="simple">
+<li><tt class="docutils literal">requests</tt></li>
+<li><tt class="docutils literal">lxml</tt></li>
+<li>Optional: <tt class="docutils literal">extruct</tt> and <tt class="docutils literal">w3lib</tt> for structured data
+(JSON‑LD/Microdata) parsing</li>
+</ul>
+<p>If <tt class="docutils literal">extruct</tt> is not installed, the module still works via HTML
+fallback.</p>
+</div>
+<div class="section" id="security-access">
+<h2>Security &amp; Access</h2>
+<ul class="simple">
+<li>Internal users (base.group_user) can read/create/write/delete
+competitor lines by default. Adapt access rules to your needs.</li>
+</ul>
+</div>
+<div class="section" id="notes-limitations">
+<h2>Notes &amp; Limitations</h2>
+<ul class="simple">
+<li>Competitor websites vary widely. While structured data improves
+accuracy, some pages may hide or obfuscate prices; heuristic
+extraction may fail. Site‑specific selectors can be added if needed.</li>
+<li>Automatic/scheduled fetching (cron) is not enabled by default but can
+be added easily later, using the provided <tt class="docutils literal">auto_fetch</tt> flag to mark
+lines eligible for periodic updates.</li>
+</ul>
+</div>
+<div class="section" id="testing">
+<h2>Testing</h2>
+<p>The module ships with an Odoo test suite which mocks HTTP requests to
+ensure deterministic results:</p>
+<ul class="simple">
+<li>Validates JSON‑LD/Microdata extraction path</li>
+<li>Validates HTML fallback via meta tags</li>
+<li>Validates proper error handling and product‑level action</li>
+</ul>
+<p>Run with a disposable DB, for example:</p>
+<pre class="literal-block">
+./odoo/odoo-bin -c odoo18.conf -d o18_test -i deltatech_competitors_price --test-tags=deltatech_competitors_price --stop-after-init
+</pre>
+</div>
+<div class="section" id="license">
+<h2>License</h2>
+<p>OPL-1</p>
+<p><strong>Table of contents</strong></p>
+</div>
+</div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_competitors_price">dhongu/deltatech</a> project on GitHub.</p>
 <p>You are welcome to contribute.</p>
 </div>
