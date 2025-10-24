@@ -136,6 +136,7 @@ addon | version | maintainers | summary
 [deltatech_reception_note](deltatech_reception_note/) | 18.0.0.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Batch reception note
 [deltatech_record_type](deltatech_record_type/) | 18.0.1.1.12 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Manage multiple record types
 [deltatech_replenish](deltatech_replenish/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Replenish
+[deltatech_report_layout](deltatech_report_layout/) | 18.0.0.0.0 |  | Customized report layouts
 [deltatech_report_packaging](deltatech_report_packaging/) | 18.0.1.0.4 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report Packaging
 [deltatech_report_prn](deltatech_report_prn/) | 18.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Raport PRN
 [deltatech_reset_en_names](deltatech_reset_en_names/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Will set the en names of the product templates to the names of the currently used language of the user
@@ -198,7 +199,7 @@ addon | version | maintainers | summary
 [deltatech_website_access_design](deltatech_website_access_design/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Access for web designer
 [deltatech_website_blog](deltatech_website_blog/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Blog Extension
 [deltatech_website_breadcrumb](deltatech_website_breadcrumb/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce extension Category Breadcrumb
-[deltatech_website_category](deltatech_website_category/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Public category
+[deltatech_website_category](deltatech_website_category/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Public category
 [deltatech_website_checkout_confirm](deltatech_website_checkout_confirm/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce extension
 [deltatech_website_city](deltatech_website_city/) | 18.0.1.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | City extension
 [deltatech_website_country](deltatech_website_country/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce extension
