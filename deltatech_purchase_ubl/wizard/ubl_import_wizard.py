@@ -446,9 +446,10 @@ class PurchaseUblImportWizard(models.TransientModel):
         # Build messages
         messages = []
 
-        messages.append(_("Vendor: %s (%s)") % (partner.display_name, partner.vat or "-"))
+        messages.append(_("Vendor: %(name)s (%(vat)s)") % {"name": partner.display_name, "vat": partner.vat or "-"})
         messages.append(
-            _("Order: %s | XML Reference: %s") % ((order.name if order else "-"), (invoice_xml.get("order_ref") or "-"))
+            _("Order: %(order)s | XML Reference: %(ref)s")
+            % {"order": (order.name if order else "-"), "ref": (invoice_xml.get("order_ref") or "-")}
         )
         if updated:
             messages.append(_("Updated prices:\n") + "\n".join(updated))
