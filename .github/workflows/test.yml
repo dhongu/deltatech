@@ -63,10 +63,20 @@ jobs:
 
       - name: Initialize test db
         run: oca_init_test_database
-      - name: Run tests
+
+      - name: Run tests and generate coverage report
+        # You may need to adjust 'oca_run_tests' or the preceding commands
+        # to ensure it generates a file like coverage.xml
         run: oca_run_tests
 
-      - name: Upload test results to Codecov
+      - name: Upload code coverage to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/codecov-action@v4  # <-- New action to upload coverage file
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          # The action will automatically search for common coverage files (e.g., coverage.xml)
+
+      - name: Upload test results to Codecov (Pass/Fail)
         if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1
         with:
