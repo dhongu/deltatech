@@ -2,13 +2,13 @@
 
 {
     "name": "Product Labels",
-    "version": "18.0.1.1.3",
+    "version": "18.0.1.1.4",
     "category": "Stock",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "AGPL-3",
     "summary": "Print Labels on Products",
-    "depends": ["product", "sale"],
+    "depends": ["product", "sale", "stock"],
     "data": [
         "views/report_product_labels.xml",
         "views/terrabit_product_label_print_view.xml",
