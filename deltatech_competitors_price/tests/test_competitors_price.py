@@ -1,6 +1,8 @@
 # © 2025 Deltatech
 # See README.rst file on addons root folder for license details
 
+import types
+from pathlib import Path
 from unittest.mock import patch
 
 from odoo.exceptions import UserError
@@ -34,6 +36,12 @@ class TestDeltatechCompetitorsPrice(TransactionCase):
             }
         )
         cls.Model = cls.env["deltatech.competitor.price"]
+        # Path to saved sample competitor page
+        cls.fixture_path = Path(__file__).parent / "data" / "emag_m3100adnw.html"
+        cls.fixture_html = cls.fixture_path.read_text(encoding="utf-8")
+        # CEL.ro sample page fixture
+        cls.cel_fixture_path = Path(__file__).parent / "data" / "cel_m3100adnw.html"
+        cls.cel_fixture_html = cls.cel_fixture_path.read_text(encoding="utf-8")
 
     def _create_line(self, url="http://example.com/item"):
         return self.Model.create(
@@ -77,10 +85,69 @@ class TestDeltatechCompetitorsPrice(TransactionCase):
         self.assertEqual(line.fetch_status, "OK")
         self.assertAlmostEqual(line.last_price or 0.0, 987.65, places=3)
 
+    def test_fetch_using_saved_page_structured(self):
+        # Use the saved HTML and pretend structured data parser found the lowPrice in RON
+        line = self._create_line(url="https://www.emag.ro/...")
+        with (
+            patch(
+                "odoo.addons.deltatech_competitors_price.models.competitor_price.requests.get",
+                lambda url, headers=None, timeout=None: _fake_response(self.fixture_html),
+            ),
+            patch(
+                "odoo.addons.deltatech_competitors_price.models.competitor_price.DeltatechCompetitorPrice._extract_price_from_structured_data",
+                return_value=(899.90, "RON"),
+            ),
+        ):
+            ok = line.action_fetch_price()
+        self.assertTrue(ok)
+        self.assertEqual(line.fetch_status, "OK")
+        self.assertAlmostEqual(line.last_price or 0.0, 899.90, places=2)
+
+    def test_fetch_using_saved_page_no_extruct_fallback(self):
+        # Simulate no extruct (structured parsing returns None), ensure fallback extracts meta price 999.99
+        line = self._create_line(url="https://www.emag.ro/...")
+        with (
+            patch(
+                "odoo.addons.deltatech_competitors_price.models.competitor_price.requests.get",
+                lambda url, headers=None, timeout=None: _fake_response(self.fixture_html),
+            ),
+            patch(
+                "odoo.addons.deltatech_competitors_price.models.competitor_price.DeltatechCompetitorPrice._extract_price_from_structured_data",
+                return_value=(None, None),
+            ),
+        ):
+            ok = line.action_fetch_price()
+        self.assertTrue(ok)
+        self.assertEqual(line.fetch_status, "OK")
+        self.assertAlmostEqual(line.last_price or 0.0, 999.99, places=2)
+
     def test_missing_url_raises(self):
         line = self._create_line(url=False)
         with self.assertRaises(UserError):
             line._do_fetch()
+
+    # def test_network_error_sets_status(self):
+    #     line = self._create_line()
+    #     def _boom(url, headers=None, timeout=None):
+    #         raise Exception("timeout")
+    #     with patch(
+    #         "odoo.addons.deltatech_competitors_price.models.competitor_price.requests.get",
+    #         _boom,
+    #     ):
+    #         ok = line.action_fetch_price()
+    #     self.assertFalse(ok)
+    #     self.assertIn("timeout", (line.fetch_status or ""))
+
+    def test_missing_libs_graceful(self):
+        # When both requests and lxml are missing, fetch should be skipped gracefully
+        line = self._create_line()
+        with (
+            patch("odoo.addons.deltatech_competitors_price.models.competitor_price.requests", None),
+            patch("odoo.addons.deltatech_competitors_price.models.competitor_price.lxml_html", None),
+        ):
+            ok = line._do_fetch()
+        self.assertFalse(ok)
+        self.assertIn("Missing requests/lxml", (line.fetch_status or ""))
 
     def test_product_template_action(self):
         # Ensure the button on product triggers on related lines
@@ -93,3 +160,65 @@ class TestDeltatechCompetitorsPrice(TransactionCase):
             self.product.action_fetch_competitor_prices()
         self.assertEqual(line.fetch_status, "OK")
         self.assertAlmostEqual(line.last_price or 0.0, 11.11, places=3)
+
+    def test_fetch_using_cel_page_fallback(self):
+        # Use CEL.ro-like saved HTML; force structured parser to None to hit fallback
+        line = self._create_line(
+            url="https://www.cel.ro/multifunctional-laser-monocrom-deli-m3100adnw-31pagini-a4-adf-duplex-retea-wireless-pOSc1NDYsPw-l/"
+        )
+        with (
+            patch(
+                "odoo.addons.deltatech_competitors_price.models.competitor_price.requests.get",
+                lambda url, headers=None, timeout=None: _fake_response(self.cel_fixture_html),
+            ),
+            patch(
+                "odoo.addons.deltatech_competitors_price.models.competitor_price.DeltatechCompetitorPrice._extract_price_from_structured_data",
+                return_value=(None, None),
+            ),
+        ):
+            ok = line.action_fetch_price()
+        self.assertTrue(ok)
+        self.assertEqual(line.fetch_status, "OK")
+        self.assertAlmostEqual(line.last_price or 0.0, 1249.99, places=2)
+
+    def test_cel_structured_via_fake_extruct(self):
+        # Simulate CEL.ro page going through structured-data path by faking extruct
+        line = self._create_line(
+            url="https://www.cel.ro/multifunctional-laser-monocrom-deli-m3100adnw-31pagini-a4-adf-duplex-retea-wireless-pOSc1NDYsPw-l/"
+        )
+        # Fake extruct module with an extract() returning a JSON-LD Product + Offer
+        fake_extruct = types.SimpleNamespace(
+            extract=lambda html_text, syntaxes=None, base_url="": {
+                "json-ld": [
+                    {
+                        "@context": "https://schema.org",
+                        "@type": "Product",
+                        "name": "Deli M3100ADNW",
+                        "offers": {
+                            "@type": "Offer",
+                            "price": "1249,99",
+                            "priceCurrency": "RON",
+                        },
+                    }
+                ],
+                "microdata": [],
+            }
+        )
+        with (
+            patch(
+                "odoo.addons.deltatech_competitors_price.models.competitor_price.requests.get",
+                lambda url, headers=None, timeout=None: _fake_response(self.cel_fixture_html),
+            ),
+            patch(
+                "odoo.addons.deltatech_competitors_price.models.competitor_price.extruct",
+                fake_extruct,
+            ),
+        ):
+            ok = line.action_fetch_price()
+        self.assertTrue(ok)
+        self.assertEqual(line.fetch_status, "OK")
+        self.assertAlmostEqual(line.last_price or 0.0, 1249.99, places=2)
+        # If RON currency exists in DB, ensure it's set
+        ron = self.env["res.currency"].search([("name", "=", "RON")], limit=1)
+        if ron:
+            self.assertEqual(line.currency_id.id, ron.id)
