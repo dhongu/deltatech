@@ -67,9 +67,21 @@ jobs:
         run: oca_init_test_database
       - name: Run tests
         run: oca_run_tests
-      - uses: codecov/codecov-action@v4
+
+      - name: Upload code coverage to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/codecov-action@v4  # <-- New action to upload coverage file
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          # The action will automatically search for common coverage files (e.g., coverage.xml)
+
+      - name: Upload test results to Codecov (Pass/Fail)
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+
 #      - name: Update .pot files
 #        run: oca_export_and_push_pot https://x-access-token:${{ secrets.GIT_PUSH_TOKEN }}@github.com/${{ github.repository }}
 #        if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'dhongu' }}
