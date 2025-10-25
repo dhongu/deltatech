@@ -583,11 +583,7 @@ class InventoryLine(models.Model):
     def _onchange_quantity_context(self):
         if self.product_id:
             self.product_uom_id = self.product_id.uom_id
-        if (
-            self.product_id
-            and self.location_id
-            and self.product_id.uom_id.category_id == self.product_uom_id.category_id
-        ):  # TDE FIXME: last part added because crash
+        if self.product_id and self.location_id:  # TDE FIXME: last part added because crash
             theoretical_qty = self.product_id.get_theoretical_quantity(
                 self.product_id.id,
                 self.location_id.id,
