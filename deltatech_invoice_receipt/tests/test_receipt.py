@@ -23,7 +23,6 @@ class TestAccountInvoice(TransactionCase):
                 "name": "Test Product",
                 "is_storable": True,
                 "uom_id": self.uom_unit.id,
-                "uom_po_id": self.uom_unit.id,
             }
         )
 
@@ -65,7 +64,7 @@ class TestAccountInvoice(TransactionCase):
                 "order_id": purchase_order.id,
                 "product_id": self.product.id,
                 "product_qty": 5,
-                "product_uom": self.uom_unit.id,
+                "product_uom_id": self.uom_unit.id,
                 "price_unit": 100,
                 "name": "Test Product",
             }
@@ -121,7 +120,7 @@ class TestAccountInvoice(TransactionCase):
                 "order_id": purchase_order.id,
                 "product_id": self.product.id,
                 "product_qty": 5,
-                "product_uom": self.uom_unit.id,
+                "product_uom_id": self.uom_unit.id,
                 "price_unit": 100,
                 "name": "Test Product",
             }
@@ -155,7 +154,6 @@ class TestStockPicking(TransactionCase):
                 "name": "Test Product",
                 "is_storable": True,
                 "uom_id": self.uom_unit.id,
-                "uom_po_id": self.uom_unit.id,
             }
         )
 
@@ -173,9 +171,8 @@ class TestStockPicking(TransactionCase):
                 "order_id": purchase_order.id,
                 "product_id": self.product.id,
                 "product_qty": -5,
-                "product_uom": self.uom_unit.id,
+                "product_uom_id": self.uom_unit.id,
                 "price_unit": 100,
-                "name": "Test Product",
             }
         )
 

@@ -88,18 +88,19 @@ class PurchaseOrderLine(models.Model):
         price_unit = self._get_stock_move_price_unit()
         outgoing_moves, incoming_moves = self._get_outgoing_incoming_moves()
         for move in outgoing_moves:
-            qty -= move.product_uom._compute_quantity(move.product_uom_qty, self.product_uom, rounding_method="HALF-UP")
+            qty -= move.product_uom_id._compute_quantity(
+                move.product_uom_qty, self.product_uom_id, rounding_method="HALF-UP"
+            )
         for move in incoming_moves:
-            qty += move.product_uom._compute_quantity(move.product_uom_qty, self.product_uom, rounding_method="HALF-UP")
+            qty += move.product_uom_id._compute_quantity(
+                move.product_uom_qty, self.product_uom_id, rounding_method="HALF-UP"
+            )
         description_picking = self.product_id.with_context(
             lang=self.order_id.dest_address_id.lang or self.env.user.lang
         )._get_description(self.order_id.picking_type_id)
         template = {
-            # truncate to 2000 to avoid triggering index limit error
-            # TODO: remove index in master?
-            "name": (self.name or "")[:2000],
             "product_id": self.product_id.id,
-            "product_uom": self.product_uom.id,
+            # "product_uom_id": self.product_uom_id.id,
             "date": self.order_id.date_order,
             "location_dest_id": self.order_id.partner_id.property_stock_supplier.id,
             "location_id": self.order_id._get_destination_location(),
@@ -111,7 +112,6 @@ class PurchaseOrderLine(models.Model):
             "company_id": self.order_id.company_id.id,
             "price_unit": price_unit,
             "picking_type_id": self.order_id.picking_type_id.return_picking_type_id.id,
-            "group_id": self.order_id.group_id.id,
             "origin": self.order_id.name,
             "to_refund": True,
             "description_picking": description_picking,
@@ -128,11 +128,11 @@ class PurchaseOrderLine(models.Model):
             "warehouse_id": self.order_id.picking_type_id.warehouse_id.id,
         }
         diff_quantity = self.product_qty + qty
-        if float_compare(diff_quantity, 0.0, precision_rounding=self.product_uom.rounding) < 0:
-            po_line_uom = self.product_uom
+        if float_compare(diff_quantity, 0.0, precision_rounding=self.product_uom_id.rounding) < 0:
+            po_line_uom = self.product_uom_id
             quant_uom = self.product_id.uom_id
             product_uom_qty, product_uom = po_line_uom._adjust_uom_quantities(-diff_quantity, quant_uom)
             template["product_uom_qty"] = product_uom_qty
-            template["product_uom"] = product_uom.id
+            # template["product_uom_id"] = product_uom.id
             res.append(template)
         return res

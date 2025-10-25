@@ -83,12 +83,12 @@ class AccountInvoice(models.Model):
                             "date_planned": invoice.invoice_date,
                             "sequence": line.sequence,
                             "product_id": line.product_id.id,
-                            "product_uom": line.product_uom_id.id,
+                            "product_uom_id": line.product_uom_id.id,
                             "name": line.name,
                             "price_unit": line.price_unit,
                             "product_qty": line.quantity,
                             #  'discount': line.discount,  #
-                            "taxes_id": [(6, 0, line.tax_ids.ids)],
+                            "tax_ids": [(6, 0, line.tax_ids.ids)],
                         }
                     )
                     line.write(
