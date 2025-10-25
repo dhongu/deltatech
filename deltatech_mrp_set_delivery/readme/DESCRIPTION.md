@@ -1,0 +1,1 @@
+- Features: restrict incomplete set deliveries if configured in phantom bom

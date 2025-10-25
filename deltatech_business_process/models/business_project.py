@@ -41,7 +41,7 @@ class BusinessProject(models.Model):
     count_processes = fields.Integer(string="Count Processes", compute="_compute_count_processes")
     count_issues = fields.Integer(string="Count Issues", compute="_compute_count_issues")
     count_steps = fields.Integer(string="Steps", compute="_compute_count_steps")
-    count_developments = fields.Integer(string="Developments", compute="_compute_count_developments")
+    count_developments = fields.Integer(string="Count Developments", compute="_compute_count_developments")
 
     responsible_id = fields.Many2one(
         string="Responsible",

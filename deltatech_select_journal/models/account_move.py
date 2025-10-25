@@ -55,8 +55,8 @@ class AccountMove(models.Model):
 class Currency(models.Model):
     _inherit = "res.currency"
 
-    def _convert(self, from_amount, to_currency, company, date, round=True):
-        if self._context.get("currency_rate"):
+    def _convert(self, from_amount, to_currency, company, date, round=True):  # noqa: W0622
+        if self.env.context.get("currency_rate"):
             self, to_currency = self or to_currency, to_currency or self
             assert self, "convert amount from unknown currency"
             assert to_currency, "convert amount to unknown currency"
@@ -66,7 +66,7 @@ class Currency(models.Model):
             if self == to_currency:
                 to_amount = from_amount
             else:
-                to_amount = from_amount * self._context["currency_rate"]
+                to_amount = from_amount * self.env.context["currency_rate"]
             return to_currency.round(to_amount) if round else to_amount
 
         return super()._convert(from_amount, to_currency, company, date, round=round)

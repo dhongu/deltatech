@@ -44,7 +44,7 @@ class ProductTemplate(models.Model):
 
         currency = self.env.user.company_id.currency_id
         company = self.env.user.company_id
-        date = self._context.get("date") or fields.Date.today()
+        date = self.env.context.get("date") or fields.Date.today()
 
         for product in self:
             if product.trade_markup:
@@ -77,7 +77,7 @@ class SupplierInfo(models.Model):
     _inherit = "product.supplierinfo"
 
     def update_last_purchase_price(self):
-        date = self._context.get("date") or fields.Date.today()
+        date = self.env.context.get("date") or fields.Date.today()
         for item in self:
             from_uom = item.product_uom or item.product_tmpl_id.uom_id
             to_uom = item.product_tmpl_id.uom_id
@@ -98,10 +98,12 @@ class SupplierInfo(models.Model):
     def write(self, vals):
         res = super().write(vals)
         if "price" in vals:
-            self.update_last_purchase_price()
+            if not self.env.context.get("from_po_confirmation"):
+                self.update_last_purchase_price()
         return res
 
     def create(self, vals_list):
         res = super().create(vals_list)
-        res.update_last_purchase_price()
+        if not self.env.context.get("from_po_confirmation"):
+            res.update_last_purchase_price()
         return res

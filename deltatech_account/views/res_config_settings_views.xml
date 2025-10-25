@@ -9,22 +9,14 @@
                 <attribute name="string">Accounting</attribute>
             </app>
              <xpath expr="//block[@name='fiscal_localization_setting_container']" position="inside">
-                <div class="col-xs-12 col-md-6 o_setting_box" groups="base.group_no_one">
-                    <div class="o_setting_left_pane">
-                        <field name="use_anglo_saxon" />
+                <setting id="use_anglo_saxon_setting" groups="base.group_no_one" company_dependent="1">
+                    <field name="use_anglo_saxon" />
+                    <div class="content-group">
+                        <div class="text-muted">
+                            Record cost of goods sold in your journal entries
+                        </div>
                     </div>
-                    <div class="o_setting_right_pane">
-                        <label for="use_anglo_saxon" />
-                        <span
-                            class="fa fa-lg fa-building-o"
-                            title="Values set here are company-specific."
-                            role="img"
-                            aria-label="Values set here are company-specific."
-                            groups="base.group_multi_company"
-                        />
-                        <div class="text-muted">Record cost of goods sold in your journal entries</div>
-                    </div>
-                </div>
+                </setting>
             </xpath>
 
         </field>

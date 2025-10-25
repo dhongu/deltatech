@@ -109,6 +109,13 @@
                                         groups="account.group_account_user"
                                         optional="hide"
                                     />
+                                     <field
+                                        name="analytic_distribution"
+                                        widget="analytic_distribution"
+                                        groups="analytic.group_analytic_accounting"
+                                        optional="show"
+                                        options="{ 'account_field': 'account_id', 'force_applicability': 'optional'}"
+                                    />
                                     <field name="type" />
                                     <field name="state" optional="hide" />
                                     <field name="currency_id" invisible="1" />
@@ -186,6 +193,7 @@
                         <page string="Other information">
                             <group>
                                 <field name="journal_id" widget="selection" />
+                                <field name="expense_journal_id" widget="selection" />
                                 <field name="journal_diem_id" widget="selection" />
                                 <field name="company_id" groups="base.group_multi_company" />
                                 <field name="currency_id" invisible="1" />

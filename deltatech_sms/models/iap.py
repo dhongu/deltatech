@@ -18,7 +18,8 @@ class IapAccount(models.Model):
     # endpoint = fields.Char()
 
     sms_provider = fields.Selection(
-        [("4pay", "SMS 4Pay"), ("wapi", "SMS Wapi")], string="SMS Provider", required=True, default="4pay"
+        [("4pay", "SMS 4Pay"), ("wapi", "SMS Wapi")],
+        string="SMS Provider",
     )
     sms_secret = fields.Char(string="SMS Secret")
     sms_gateway = fields.Char(string="SMS Gateway")

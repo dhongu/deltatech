@@ -5,7 +5,7 @@
 {
     "name": "Deltatech SMS",
     "summary": "Send SMS to custom endpoint",
-    "version": "18.0.1.0.1",
+    "version": "18.0.1.0.2",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Extra Tools",

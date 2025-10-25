@@ -17,6 +17,7 @@ class PurchaseOrder(models.Model):
             return super()._add_supplier_to_product()
 
     def button_confirm(self):
+        self = self.with_context(from_po_confirmation=True)
         res = super().button_confirm()
         get_param = self.env["ir.config_parameter"].sudo().get_param
         force_price = safe_eval(get_param("purchase.force_price_at_validation", "False"))

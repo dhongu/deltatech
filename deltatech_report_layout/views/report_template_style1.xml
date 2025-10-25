@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template id="external_layout_style1">
+        <div t-attf-class="header o_company_#{company.id}_layout">
+            <div class="row mb8">
+                <div class="col-4">
+                    <img
+                        t-if="company.logo"
+                        class="o_company_logo_big"
+                        t-att-src="image_data_uri(company.logo)"
+                        alt="Logo"
+                    />
+                </div>
+                <div class="col-8 text-end mb4">
+                    <div name="company_address" class="mb4">
+                        <ul class="list-unstyled" name="company_address_list">
+                            <li t-if="company.is_company_details_empty"><span
+                                    t-field="company.partner_id"
+                                    t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                                >
+                                <div
+                                        class="bg-light border-1 rounded h-100 d-flex flex-column align-items-center justify-content-center p-4 w-100 opacity-75 text-muted text-center"
+                                    >
+                                    <strong>Company address block</strong>
+                                    <div>Contains the company address.</div>
+                                </div>
+                            </span></li>
+                            <li t-else="">
+                                <span t-field="company.company_details">
+                                    <div
+                                        class="bg-light border-1 rounded h-100 d-flex flex-column align-items-center justify-content-center p-4 w-100 opacity-75 text-muted text-center"
+                                    >
+                                        <strong>Company details block</strong>
+                                        <div>Contains the company details.</div>
+                                    </div>
+                                </span>
+                            </li>
+                            <li t-if="not forced_vat" />
+                            <li t-else="">
+                                <t t-esc="company.country_id.vat_label or 'Tax ID'">Tax ID</t>:
+                                <span t-esc="forced_vat">US12345671</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <t
+            t-set="layout_background_url"
+            t-value="'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else
+                '/base/static/img/demo_logo_report.png' if company.layout_background == 'Demo logo' else ''"
+        />
+        <div
+            t-attf-class="article o_report_layout_style1 o_table_style1 o_company_#{company.id}_layout o_snail_mail {{'o_report_layout_background' if company.layout_background != 'Blank' else ''}}"
+            t-attf-style="{{ 'background-image: url(%s);' % layout_background_url if layout_background_url else '' }}"
+            t-att-data-oe-model="o and o._name"
+            t-att-data-oe-id="o and o.id"
+            t-att-data-oe-lang="o and o.env.context.get('lang')"
+        >
+            <t t-call="web.address_layout" />
+            <h2 t-out="layout_document_title" />
+            <t t-out="0" />
+        </div>
+
+        <div t-attf-class="footer o_company_#{company.id}_layout {{report_type != 'pdf' and 'mt-auto'}}">
+            <div
+                class="o_footer_content"
+                t-attf-class="{{'d-flex' if is_html_empty(company.report_header) else 'row' }} o_footer_content border-top pt-2"
+            >
+                <div
+                    t-attf-class="{{'flex-grow-1' if is_html_empty(company.report_header) else 'col-8'}} {{'me-2' if is_html_empty(company.report_header) and report_type == 'pdf' else ''}}"
+                >
+                    <span t-field="company.report_footer" />
+                </div>
+                <div t-attf-class="{{'' if is_html_empty(company.report_header) else 'col-4'}} text-end">
+                    <strong
+                        t-if="not is_html_empty(company.report_header)"
+                        t-field="company.report_header"
+                        class="o_company_tagline"
+                    >Company tagline</strong>
+                    <span
+                        t-if="report_type == 'pdf' and display_name_in_footer"
+                        class="text-muted"
+                        t-out="str(o.name) + ', '"
+                    >(document name)</span>
+                    <span
+                        t-if="report_type == 'pdf'"
+                        t-attf-class="text-muted {{'text-nowrap' if is_html_empty(company.report_header) else ''}}"
+                    >Page <span class="page" /> / <span class="topage" /></span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+
+
+
+
+    <template id="external_layout_style1_css" inherit_id="web.styles_company_report">
+        <xpath expr="//t[@t-elif]" position="before">
+            <t t-elif="layout == 'deltatech_report_layout.external_layout_style1'">
+                  &amp;.o_report_layout_style1 {
+                    thead th, #total .o_total td {
+                        background-color: mix(white, <t t-esc='secondary' />, 92%);
+                    }
+                    #total .o_total td {
+                        background-color: <t t-esc='primary' />;
+
+                        strong {
+                            color: preview-color-contrast(<t t-esc='primary' />);
+                        }
+                    }
+                }
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

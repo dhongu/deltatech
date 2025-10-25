@@ -23,7 +23,7 @@ class TestPurchaseOrder(TransactionCase):
         # Create a purchase order
         self.purchase_order = self.PurchaseOrder.create(
             {
-                "partner_id": self.env.ref("base.res_partner_1").id,
+                "partner_id": self.env.ref("base.res_partner_12").id,
                 "date_order": fields.Date.today(),
                 "order_line": [
                     (

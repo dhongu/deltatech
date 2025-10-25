@@ -1,68 +1,90 @@
 /** @odoo-module **/
-import {WebsiteSale} from "@website_sale/js/website_sale";
 
-WebsiteSale.include({
-    events: Object.assign({}, WebsiteSale.prototype.events, {
+import {rpc} from "@web/core/network/rpc";
+import websiteSaleAddress from "@website_sale/js/address";
+
+websiteSaleAddress.include({
+    events: Object.assign({}, websiteSaleAddress.prototype.events, {
         "change select[name='state_id']": "_onChangeState",
         "change select[name='city_id']": "_onChangeCity",
     }),
-    start: function () {
-        this.elementCities = document.querySelector("select[name='city_id']");
-        this.cityBlock = document.querySelector(".div_city");
-        this.zipBlock = document.querySelector(".div_zip");
 
-        this.autoFormat = document.querySelector(".checkout_autoformat");
-        this.elementState = document.querySelector("select[name='state_id']");
-        this.elemenCountry = document.querySelector("select[name='country_id']");
+    start: function () {
+        this.elementCountry = this.addressForm.country_id;
+        this.elementCities = this.addressForm.city_id;
+        this.elementState = this.addressForm.state_id;
+
+        // Reordonăm câmpurile: țară → județ → localitate → stradă
+        this._reorderAddressFields();
+
+        // Verificăm la start dacă trebuie ascuns city
+        this._toggleCityFields();
 
         return this._super.apply(this, arguments);
     },
-    _changeOption: function (selectCheck, rpcRoute, place, selectElement) {
-        if (!selectCheck) {
-            return;
-        }
 
-        return this.rpc(rpcRoute, {}).then((data) => {
-            const data_place = data[place];
-            if (data_place && data_place.length !== 0) {
-                selectElement.innerHTML = "";
-                data[place].forEach((item) => {
-                    const opt = document.createElement("option");
-                    opt.textContent = item[1];
-                    opt.value = item[0];
-                    opt.setAttribute("data-code", item[2]);
-                    selectElement.appendChild(opt);
-                });
-                selectElement.parentElement.style.display = "block";
-            } else {
-                selectElement.value = "";
-                selectElement.parentElement.style.display = "none";
+    _reorderAddressFields() {
+        const divStreet = document.getElementById("div_street");
+        const divCountry = document.getElementById("div_country");
+        const divState = document.getElementById("div_state");
+        const divCityId = document.getElementById("div_city_id");
+        const divCity = document.getElementById("div_city");
+
+        if (divStreet && divCountry && divState) {
+            divCity.parentNode.insertBefore(divCountry, divCity);
+            divCity.parentNode.insertBefore(divState, divCity);
+
+            if (divCityId) {
+                divCity.parentNode.insertBefore(divCityId, divCity);
             }
-        });
-    },
-    _onChangeState: function () {
-        if (this.elementState.value === "" && this.elemenCountry.value !== "") {
-            this.elementState.options[1].selected = true;
         }
-        const state = this.elementState.value;
-        const rpcRoute = `/shop/state_infos/${state}`;
-        return this.autoFormat.length ? this._changeOption(state, rpcRoute, "cities", this.elementCities) : undefined;
     },
 
-    _onChangeCity: function () {
-        // Todo: de completat codul postal in functie de oras
+    _toggleCityFields() {
+        // Dacă city_id are opțiuni și valoare, ascundem city (input text)
+        if (this.elementCities && this.elementCities.options.length > 1) {
+            this._hideInput("city");
+            this._showInput("city_id");
+        } else {
+            this._hideInput("city_id");
+            this._showInput("city");
+        }
     },
 
-    _onChangeCountry: function () {
-        return this._super.apply(this, arguments).then(() => {
-            // Const selectedCountry = ev.currentTarget.options[ev.currentTarget.selectedIndex].getAttribute("code");
-            const cityInput = document.querySelector(".form-control[name='city']");
+    async _onChangeState() {
+        await this._super(...arguments);
+        const stateId = this.elementState.value;
+        let choices = [];
+        if (stateId) {
+            const data = await rpc(`/shop/state_infos/${this.elementState.value}`, {});
+            choices = data.cities;
+        }
+        this.elementCities.options.length = 1;
+        if (choices.length) {
+            choices.forEach((item) => {
+                const option = new Option(item[1], item[0]);
+                option.setAttribute("data-code", item[2]);
+                this.elementCities.appendChild(option);
+            });
+            // This._hideInput("city");
+            // this._showInput("city_id");
+        } else {
+            // This._hideInput("city_id");
+            // this._showInput("city");
+        }
+    },
 
-            if (cityInput.value) {
-                cityInput.value = "";
-            }
-            this.cityBlock.classList.add("d-none");
-            return this._onChangeState();
-        });
+    async _onChangeCity() {
+        // Const cityId = this.elementState.value;
+        const cityInput = this.addressForm.city;
+        if (cityInput.value) {
+            cityInput.value = "";
+        }
+    },
+
+    async _changeCountry() {
+        await this._super(...arguments);
+        // După schimbarea țării, verificăm din nou vizibilitatea
+        this._toggleCityFields();
     },
 });

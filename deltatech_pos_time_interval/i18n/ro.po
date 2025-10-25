@@ -1,0 +1,252 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_pos_time_interval
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-23 08:13+0000\n"
+"PO-Revision-Date: 2025-07-23 08:13+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__average_price
+msgid "Average Price"
+msgstr "Pret Mediu"
+
+#. module: deltatech_pos_time_interval
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_time_interval.view_pos_order_time_period_wizard_form
+msgid "Cancel"
+msgstr "Anulare"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields.selection,name:deltatech_pos_time_interval.selection__pos_order_time_period_report__state__cancel
+msgid "Cancelled"
+msgstr "Anulat"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_pos_time_interval
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_time_interval.view_pos_order_time_period_wizard_form
+msgid "Compute"
+msgstr "Calculează"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__create_uid
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__create_date
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__partner_id
+msgid "Customer"
+msgstr "Client"
+
+#. module: deltatech_pos_time_interval
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_time_interval.view_pos_order_time_period_wizard_form
+msgid "Date"
+msgstr "Dată"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__delay_validation
+msgid "Delay Validation"
+msgstr ""
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__display_name
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_wizard__end_date_1
+msgid "End Date Interval 1"
+msgstr ""
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_wizard__end_date_2
+msgid "End Date Interval 2"
+msgstr ""
+
+#. module: deltatech_pos_time_interval
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_time_interval.view_pos_order_time_period_wizard_form
+msgid "First Period"
+msgstr "Prima Perioadă"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__id
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__invoiced
+#: model:ir.model.fields.selection,name:deltatech_pos_time_interval.selection__pos_order_time_period_report__state__invoiced
+msgid "Invoiced"
+msgstr "Facturat"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__journal_id
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__write_uid
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__write_date
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__margin
+msgid "Margin"
+msgstr "Marjă"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields.selection,name:deltatech_pos_time_interval.selection__pos_order_time_period_report__state__draft
+msgid "New"
+msgstr "Nou"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__order_id
+msgid "Order"
+msgstr "Comandă"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__date
+msgid "Order Date"
+msgstr "Dată Comandă"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.actions.act_window,name:deltatech_pos_time_interval.action_pos_order_time_period_report
+#: model:ir.model,name:deltatech_pos_time_interval.model_pos_order_time_period_report
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_time_interval.view_pos_order_time_period_report_pivot
+msgid "POS Order Time Period Report"
+msgstr ""
+
+#. module: deltatech_pos_time_interval
+#: model:ir.actions.act_window,name:deltatech_pos_time_interval.action_pos_order_time_period_wizard
+#: model:ir.model,name:deltatech_pos_time_interval.model_pos_order_time_period_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_time_interval.view_pos_order_time_period_wizard_form
+msgid "POS Order Time Period Wizard"
+msgstr ""
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields.selection,name:deltatech_pos_time_interval.selection__pos_order_time_period_report__state__paid
+msgid "Paid"
+msgstr "Platit"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__config_id
+msgid "Point of Sale"
+msgstr "Punct de Vânzare"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields.selection,name:deltatech_pos_time_interval.selection__pos_order_time_period_report__state__done
+msgid "Posted"
+msgstr ""
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__pricelist_id
+msgid "Pricelist"
+msgstr "Listă Prețuri"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__product_id
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__product_categ_id
+msgid "Product Category"
+msgstr "Categorie Produs"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__product_qty
+msgid "Product Quantity"
+msgstr "Cantitate Produs"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__product_tmpl_id
+msgid "Product Template"
+msgstr "Sablon Produs"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__nbr_lines
+msgid "Sale Line Count"
+msgstr "Numar linii vânzare"
+
+#. module: deltatech_pos_time_interval
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_time_interval.view_pos_order_time_period_wizard_form
+msgid "Second Period"
+msgstr "Perioada a doua"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__session_id
+msgid "Session"
+msgstr "Sesiune"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_wizard__start_date_1
+msgid "Start Date Interval 1"
+msgstr ""
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_wizard__start_date_2
+msgid "Start Date Interval 2"
+msgstr ""
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__state
+msgid "Status"
+msgstr "Stare"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__price_sub_total
+msgid "Subtotal w/o discount"
+msgstr "Subtotal fără reducere"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__time_period
+msgid "Time Period"
+msgstr "Perioadă timp"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.ui.menu,name:deltatech_pos_time_interval.menu_pos_order_time_period_wizard
+msgid "Time Period Wizard"
+msgstr "Asistent Perioadă de Timp"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__total_discount
+msgid "Total Discount"
+msgstr "Total reducere"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__price_total
+msgid "Total Price"
+msgstr "Pret Total"
+
+#. module: deltatech_pos_time_interval
+#: model:ir.model.fields,field_description:deltatech_pos_time_interval.field_pos_order_time_period_report__user_id
+msgid "User"
+msgstr "Utilizator"

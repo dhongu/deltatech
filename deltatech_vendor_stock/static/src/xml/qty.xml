@@ -3,18 +3,19 @@
 
     <t t-name="qtyAtDate" t-inherit="sale_stock.QtyAtDate" t-inherit-mode="extension" owl="1">
         <xpath expr="//a" position="replace">
-            <t t-set="text_color">text-primary</t>
+            <t t-set="stock_colors" t-value="stockColors or {}" />
+            <t t-set="icon_color" t-value="stock_colors.color_default or '#007bff'" />
 
-            <t t-if="calcData.will_be_fulfilled ">
-                <t t-set="text_color">text-success</t>
+            <t t-if="calcData.will_be_fulfilled">
+                <t t-set="icon_color" t-value="stock_colors.color_fulfilled or '#28a745'" />
                 <t t-if="!props.record.data.free_qty_today">
-                    <t t-set="text_color">text-info</t>
+                    <t t-set="icon_color" t-value="stock_colors.color_fulfilled_no_free_qty or '#17a2b8'" />
                 </t>
             </t>
             <t t-else="">
-                <t t-set="text_color">text-danger</t>
+                <t t-set="icon_color" t-value="stock_colors.color_not_fulfilled or '#dc3545'" />
                 <t t-if="props.record.data.vendor_qty_available">
-                    <t t-set="text_color">text-warning</t>
+                    <t t-set="icon_color" t-value="stock_colors.color_vendor_available or '#ffc107'" />
                 </t>
             </t>
 
@@ -22,7 +23,8 @@
                 t-att-tabindex="props.record.data.display_qty_widget ? '0' : '-1'"
                 t-att-class="!props.record.data.display_qty_widget ? 'invisible' : ''"
                 t-on-click="showPopup"
-                t-attf-class="fa fa-area-chart cursor-pointer {{ text_color }}"
+                t-att-style="'color: ' + icon_color"
+                class="fa fa-area-chart cursor-pointer"
             />
         </xpath>
     </t>

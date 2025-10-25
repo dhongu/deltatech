@@ -68,7 +68,7 @@ class StorageSheet(models.TransientModel):
                     "date_to": fields.Date.to_string(self.date_to),
                     "datetime_from": fields.Datetime.to_string(datetime_from),
                     "datetime_to": fields.Datetime.to_string(datetime_to),
-                    "tz": self._context.get("tz") or self.env.user.tz or "UTC",
+                    "tz": self.env.context.get("tz") or self.env.user.tz or "UTC",
                 }
                 _logger.info("start query_select_sold_init %s", location.name)
                 query_select_sold_init = """

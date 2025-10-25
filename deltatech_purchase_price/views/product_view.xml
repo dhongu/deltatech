@@ -6,7 +6,12 @@
         <field name="inherit_id" ref="product.product_template_form_view" />
         <field name="arch" type="xml">
             <field name="categ_id" position="before">
-                <field name="last_purchase_price" />
+                <field
+                    name="last_purchase_price"
+                    groups="base.group_user"
+                    decoration-success="last_purchase_price &lt;= standard_price"
+                    decoration-danger="last_purchase_price &gt; standard_price"
+                />
             </field>
         </field>
     </record>
