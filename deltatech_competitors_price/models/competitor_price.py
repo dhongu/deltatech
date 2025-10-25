@@ -156,12 +156,10 @@ class DeltatechCompetitorPrice(models.Model):
             if not val:
                 continue
             txt = (val if isinstance(val, str) else str(val)).strip()
-            # Remove currency symbols and thousands separators, keep decimal separator
-            # Replace comma decimal with dot if likely
+            # Remove currency symbols and normalize whitespace
             cleaned = (
                 txt.replace("\xa0", " ")
                 .replace("RON", "")
-                .replace("lei", "")
                 .replace("Lei", "")
                 .replace("lei", "")
                 .replace("€", "")
@@ -169,10 +167,23 @@ class DeltatechCompetitorPrice(models.Model):
                 .replace("$", "")
                 .strip()
             )
-            # Keep digits, dot and comma
+            # Keep only digits and separators to simplify parsing
             keep = "".join(ch for ch in cleaned if ch.isdigit() or ch in ",.")
-            if keep.count(",") == 1 and keep.count(".") == 0:
+            # Normalize thousands/decimal separators for common European/US styles
+            if "," in keep and "." in keep:
+                # If both present, decide which is decimal by the rightmost separator
+                last_comma = keep.rfind(",")
+                last_dot = keep.rfind(".")
+                if last_comma > last_dot:
+                    # comma is decimal, dots are thousands → remove dots, turn comma to dot
+                    keep = keep.replace(".", "").replace(",", ".")
+                else:
+                    # dot is decimal, commas are thousands → remove commas
+                    keep = keep.replace(",", "")
+            elif "," in keep and "." not in keep:
+                # Only comma present, treat as decimal
                 keep = keep.replace(",", ".")
+            # else: only dot present or only digits
             try:
                 return float(keep)
             except Exception:
@@ -246,9 +257,13 @@ class DeltatechCompetitorPrice(models.Model):
             return False
 
     def action_fetch_price(self):
+        """
+        Fetch prices for each record and return True only if all fetches succeeded.
+        """
+        results = []
         for rec in self:
-            rec._do_fetch()
-        return True
+            results.append(rec._do_fetch())
+        return all(results)
 
 
 class ProductTemplate(models.Model):
