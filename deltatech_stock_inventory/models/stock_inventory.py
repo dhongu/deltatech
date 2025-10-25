@@ -488,7 +488,7 @@ class InventoryLine(models.Model):
                 return f"[('is_storable', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id), ('id', 'in', {inventory.product_ids.ids})]"  # noqa E501
         return "[('is_storable', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id)]"
 
-    is_editable = fields.Boolean(help="Technical field to restrict editing.")
+    is_editable = fields.Boolean(compute="_compute_is_editable", help="Technical field to restrict editing.")
     is_price_editable = fields.Boolean(
         compute="_compute_is_price_editable", help="Technical field to restrict price editing."
     )

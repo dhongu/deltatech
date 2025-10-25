@@ -41,8 +41,10 @@ class ProductTemplate(models.Model):
 
     def _compute_warehouse_stocks(self):
         display_free_quantity = self.env.context.get("display_free_quantity", False)
-        warehouses = self.env["stock.warehouse"].search([])
+        # Consider only warehouses belonging to the current company to avoid multi-company leakage
+        warehouses = self.env["stock.warehouse"].search([("company_id", "=", self.env.company.id)])
         if len(warehouses) == 1:
+            # With a single warehouse in the current company, do not display the breakdown
             self.warehouse_stock = False
             return
 

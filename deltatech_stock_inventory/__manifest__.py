@@ -5,7 +5,7 @@
 {
     "name": "Stock Inventory",
     "summary": "Inventory Old Method",
-    "version": "18.0.2.3.5",
+    "version": "18.0.2.3.6",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
@@ -13,6 +13,8 @@
         # "deltatech_stock_date",  # de ce trebuie asta?
         "stock",
         "stock_account",
+        "purchase_stock",
+        "sale_stock",
     ],
     "license": "OPL-1",
     "data": [
