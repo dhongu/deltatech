@@ -20,14 +20,6 @@ class ProductCategory(models.Model):
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    # _sql_constraints = [
-    #     (
-    #         "name_code",
-    #         "unique (default_code,active,company_id)",
-    #         "Internal Reference already exists !",
-    #     ),
-    # ]
-
     _name_code_unique = models.Constraint(
         "unique (default_code,active,company_id)",
         "Internal Reference already exists !",
