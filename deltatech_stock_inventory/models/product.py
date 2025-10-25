@@ -228,7 +228,6 @@ class ProductTemplate(models.Model):
                     "company_id": self.company_id or self.env.user.company_id.id,
                     "date": fields.Datetime.now(),
                     "product_id": product.id,
-                    "name": product.display_name,
                     "location_id": location_id.id,
                     "location_dest_id": location_dest_id.id,
                     "product_uom": product.uom_id.id,
@@ -244,7 +243,7 @@ class ProductTemplate(models.Model):
                 "picking_type_id": picking_type.id,
                 "location_id": location_id.id,
                 "location_dest_id": location_dest_id.id,
-                "move_ids_without_package": [(0, 0, line_vals) for line_vals in values],
+                "move_ids": [(0, 0, line_vals) for line_vals in values],
             }
             picking = self.env["stock.picking"].create(picking_values)
             picking.action_confirm()
@@ -276,7 +275,7 @@ class ProductProduct(models.Model):
 
         location_id = self.env["stock.location"].browse(location_id)
         lot_id = self.env["stock.lot"].browse(lot_id)
-        package_id = self.env["stock.quant.package"].browse(package_id)
+        package_id = self.env["stock.package"].browse(package_id)
         owner_id = self.env["res.partner"].browse(owner_id)
         to_uom = self.env["uom.uom"].browse(to_uom)
         quants = self.env["stock.quant"]._gather(

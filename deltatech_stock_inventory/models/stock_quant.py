@@ -127,7 +127,7 @@ class StockQuant(models.Model):
             qty, location_id, location_dest_id, package_id=package_id, package_dest_id=package_dest_id
         )
         values["inventory_id"] = self.inventory_id.id
-        values["name"] = self.inventory_note or values["name"]
+        # values["name"] = self.inventory_note or values.get("name", False)
         return values
 
     @api.model
@@ -172,6 +172,7 @@ class StockQuant(models.Model):
             quant.product_id.product_tmpl_id.message_post(
                 body=self.env._(
                     "Quantity %(quant)s %(location) at location was confirmed.",
-                    {"quant": quant.quantity, "location": quant.location_id.name},
+                    quant=quant.quantity,
+                    location=quant.location_id.name,
                 )
             )

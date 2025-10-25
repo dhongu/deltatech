@@ -34,7 +34,7 @@ class TestStockInventory(TransactionCase):
                     "name": "Inv user",
                     "login": "invUser",
                     "email": "inv@odoo.com",
-                    "groups_id": [(6, 0, [group_inventory_user.id, group_stock_manager.id])],
+                    "group_ids": [(6, 0, [group_inventory_user.id, group_stock_manager.id])],
                 }
             )
         )
