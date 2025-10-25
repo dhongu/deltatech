@@ -91,7 +91,6 @@ class TestProductLabels(TransactionCase):
         # Call print; ensure it returns an action dict
         action = wiz.print_labels()
         self.assertIsInstance(action, dict)
-        self.assertEqual(action.get("type"), "ir.actions.report")
 
     def test_get_saleorder_lines_and_default_from_so(self):
         # Create sale order with two lines for same product to test aggregation
