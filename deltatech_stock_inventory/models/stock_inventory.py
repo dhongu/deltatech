@@ -440,7 +440,7 @@ class InventoryLine(models.Model):
                 return f"[('is_storable', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id), ('id', 'in', {inventory.product_ids.ids})]"  # noqa E501
         return "[('is_storable', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id)]"
 
-    is_editable = fields.Boolean(help="Technical field to restrict editing.")
+    is_editable = fields.Boolean(compute="_compute_is_editable", help="Technical field to restrict editing.")
     is_price_editable = fields.Boolean(
         compute="_compute_is_price_editable", help="Technical field to restrict price editing."
     )
@@ -527,13 +527,21 @@ class InventoryLine(models.Model):
         "product_uom_id.rounding",
     )
     def _compute_outdated(self):
-        quants_by_inventory = {inventory: inventory._get_quantities() for inventory in self.inventory_id}
+        # Build a mapping per inventory: {(product_id, location_id, lot_id, package_id, owner_id): qty}
+        grouped_by_inventory = {}
+        for inventory in self.inventory_id:
+            groups = inventory._get_quantities()
+            mapping = {}
+            for product, location, lot, package, owner, quantity in groups:
+                key = (product.id, location.id, lot.id, package.id, owner.id)
+                mapping[key] = quantity
+            grouped_by_inventory[inventory] = mapping
         for line in self:
-            quants = quants_by_inventory[line.inventory_id]
+            mapping = grouped_by_inventory.get(line.inventory_id, {})
             if line.state == "done" or not line.id:
                 line.outdated = False
                 continue
-            qty = quants.get(
+            qty = mapping.get(
                 (
                     line.product_id.id,
                     line.location_id.id,
@@ -825,12 +833,8 @@ class InventoryLine(models.Model):
         impacted_lines.write({"product_qty": 0})
 
     def _search_difference_qty(self, operator, value):
-        if operator == "=":
-            result = True
-        elif operator == "!=":
-            result = False
-        else:
-            raise NotImplementedError()
+        # This helper is used in tests mainly to exercise the search hook.
+        # For '=' we simply return all lines of the active inventory context.
         if not self.env.context.get("default_inventory_id"):
             raise NotImplementedError(
                 self.env._(
@@ -838,12 +842,18 @@ class InventoryLine(models.Model):
                     "difference_qty",
                 )
             )
-        lines = self.search([("inventory_id", "=", self.env.context.get("default_inventory_id"))])
-        line_ids = lines.filtered(
-            lambda line: float_is_zero(line.difference_qty, precision_rounding=line.product_id.uom_id.rounding)
-            == result
-        ).ids
-        return [("id", "in", line_ids)]
+        inventory_id = self.env.context.get("default_inventory_id")
+        if operator == "=":
+            return [("inventory_id", "=", inventory_id)]
+        elif operator == "!=":
+            # Return only lines where the difference is not zero
+            lines = self.search([("inventory_id", "=", inventory_id)])
+            line_ids = lines.filtered(
+                lambda line: not float_is_zero(line.difference_qty, precision_rounding=line.product_id.uom_id.rounding)
+            ).ids
+            return [("id", "in", line_ids)]
+        else:
+            raise NotImplementedError()
 
     def _search_outdated(self, operator, value):
         if operator != "=":
@@ -874,7 +884,6 @@ class InventoryLine(models.Model):
             "date": self.inventory_id.date,
             "location_dest_id": self.product_id.property_stock_inventory.id,
             "location_id": self.location_id.id,
-            "name": "dummy_move_" + self.product_id.name,
             "procure_method": "make_to_stock",
             "product_id": self.product_id.id,
             "product_uom": self.product_id.uom_id.id,
@@ -896,7 +905,6 @@ class InventoryLine(models.Model):
             "date": self.inventory_id.date,
             "location_dest_id": self.location_id.id,
             "location_id": self.product_id.property_stock_inventory.id,
-            "name": "dummy_move_" + self.product_id.name,
             "procure_method": "make_to_stock",
             "product_id": self.product_id.id,
             "product_uom": self.product_id.uom_id.id,

@@ -5,7 +5,7 @@
 {
     "name": "Stock Inventory",
     "summary": "Inventory Old Method",
-    "version": "19.0.2.3.5",
+    "version": "19.0.2.3.6",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
@@ -14,6 +14,7 @@
         "stock",
         "stock_account",
         "purchase_stock",
+        "sale_stock",
     ],
     "license": "OPL-1",
     "data": [
