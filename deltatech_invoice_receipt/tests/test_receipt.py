@@ -23,7 +23,6 @@ class TestAccountInvoice(TransactionCase):
                 "name": "Test Product",
                 "is_storable": True,
                 "uom_id": self.uom_unit.id,
-                "uom_po_id": self.uom_unit.id,
             }
         )
 
@@ -155,7 +154,6 @@ class TestStockPicking(TransactionCase):
                 "name": "Test Product",
                 "is_storable": True,
                 "uom_id": self.uom_unit.id,
-                "uom_po_id": self.uom_unit.id,
             }
         )
 
