@@ -13,6 +13,7 @@
         "account_edi",
         "sale",
         "product",
+        "stock",
     ],
     "data": [
         "data/ir_cron_data.xml",
