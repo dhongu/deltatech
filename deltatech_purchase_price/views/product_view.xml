@@ -8,6 +8,7 @@
             <field name="categ_id" position="before">
                 <field
                     name="last_purchase_price"
+                    groups="base.group_user"
                     decoration-success="last_purchase_price &lt;= standard_price"
                     decoration-danger="last_purchase_price &gt; standard_price"
                 />
