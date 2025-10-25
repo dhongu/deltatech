@@ -29,6 +29,6 @@
         <field name="target">new</field>
         <field name="binding_model_id" ref="model_stock_inventory" />
         <field name="binding_view_types">list,form</field>
-        <field name="groups_id" eval="[(4, ref('deltatech_stock_inventory.group_merge_inventory'))]" />
+        <field name="group_ids" eval="[(4, ref('deltatech_stock_inventory.group_merge_inventory'))]" />
     </record>
 </odoo>

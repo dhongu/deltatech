@@ -79,10 +79,8 @@ class StockInventoryMerge(models.TransientModel):
 
         message = self.env._(
             "User %(user_name)s has merged inventories %(inventory_names)s",
-            {
-                "user_name": self.env.user.name,
-                "inventory_names": ", ".join(old_inventory_names),
-            },
+            user_name=self.env.user.name,
+            inventory_names=", ".join(old_inventory_names),
         )
         result_inventory.message_post(body=message)
         action = {

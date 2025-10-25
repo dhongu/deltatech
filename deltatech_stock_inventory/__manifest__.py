@@ -13,6 +13,7 @@
         # "deltatech_stock_date",  # de ce trebuie asta?
         "stock",
         "stock_account",
+        "purchase_stock",
     ],
     "license": "OPL-1",
     "data": [

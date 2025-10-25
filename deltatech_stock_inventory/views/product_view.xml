@@ -49,7 +49,7 @@
                         name="%(deltatech_stock_inventory.action_stock_confirm_inventory)d"
                         type="action"
                     />
-                       <button string="Update Stock" name="action_update_quantity_on_hand" type="object" />
+<!--                       <button string="Update Stock" name="action_update_quantity_on_hand" type="object" />-->
 
                     </header>
                     <sheet>

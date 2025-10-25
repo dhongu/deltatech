@@ -2,9 +2,7 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
-from odoo.osv import expression
 from odoo.tools import float_compare, float_is_zero
-from odoo.tools.misc import OrderedSet
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -338,29 +336,12 @@ class Inventory(models.Model):
             domain.append(("product_id.active", "=", True))
 
         if self.product_ids:
-            domain = expression.AND([domain, [("product_id", "in", self.product_ids.ids)]])
+            domain = fields.Domain.AND([domain, [("product_id", "in", self.product_ids.ids)]])
 
-        fields = [
-            "product_id",
-            "location_id",
-            "lot_id",
-            "package_id",
-            "owner_id",
-            "quantity:sum",
-        ]
         group_by = ["product_id", "location_id", "lot_id", "package_id", "owner_id"]
 
-        quants = self.env["stock.quant"].read_group(domain, fields, group_by, lazy=False)
-        return {
-            (
-                quant["product_id"] and quant["product_id"][0] or False,
-                quant["location_id"] and quant["location_id"][0] or False,
-                quant["lot_id"] and quant["lot_id"][0] or False,
-                quant["package_id"] and quant["package_id"][0] or False,
-                quant["owner_id"] and quant["owner_id"][0] or False,
-            ): quant["quantity"]
-            for quant in quants
-        }
+        quants = self.env["stock.quant"]._read_group(domain, group_by, aggregates=("quantity:sum",))
+        return quants
 
     def _get_exhausted_inventory_lines_vals(self, non_exhausted_set):
         """Return the values of the inventory lines to create if the user
@@ -417,29 +398,22 @@ class Inventory(models.Model):
         self.ensure_one()
         quants_groups = self._get_quantities()
         vals = []
-        product_ids = OrderedSet()
-        for (
-            product_id,
-            location_id,
-            lot_id,
-            package_id,
-            owner_id,
-        ), quantity in quants_groups.items():
+        product_ids = self.env["product.product"]
+        for product, location, lot, package, owner, quantity in quants_groups:
             line_values = {
                 "inventory_id": self.id,
                 "product_qty": 0 if self.prefill_counted_quantity == "zero" else quantity,
                 "theoretical_qty": quantity,
-                "prod_lot_id": lot_id,
-                "partner_id": owner_id,
-                "product_id": product_id,
-                "location_id": location_id,
-                "package_id": package_id,
+                "prod_lot_id": lot.id,
+                "partner_id": owner.id,
+                "product_id": product.id,
+                "location_id": location.id,
+                "package_id": package.id,
+                "product_uom_id": product.uom_id.id,
             }
-            product_ids.add(product_id)
+            product_ids |= product
             vals.append(line_values)
-        product_id_to_product = dict(zip(product_ids, self.env["product.product"].browse(product_ids), strict=False))
-        for val in vals:
-            val["product_uom_id"] = product_id_to_product[val["product_id"]].product_tmpl_id.uom_id.id
+
         if self.exhausted:
             vals += self._get_exhausted_inventory_lines_vals({(loc["product_id"], loc["location_id"]) for loc in vals})
         return vals
@@ -497,7 +471,7 @@ class InventoryLine(models.Model):
         required=True,
     )
     package_id = fields.Many2one(
-        "stock.quant.package",
+        "stock.package",
         "Pack",
         index=True,
         check_company=True,
@@ -609,11 +583,7 @@ class InventoryLine(models.Model):
     def _onchange_quantity_context(self):
         if self.product_id:
             self.product_uom_id = self.product_id.uom_id
-        if (
-            self.product_id
-            and self.location_id
-            and self.product_id.uom_id.category_id == self.product_uom_id.category_id
-        ):  # TDE FIXME: last part added because crash
+        if self.product_id and self.location_id:  # TDE FIXME: last part added because crash
             theoretical_qty = self.product_id.get_theoretical_quantity(
                 self.product_id.id,
                 self.location_id.id,
@@ -718,19 +688,19 @@ class InventoryLine(models.Model):
             "inventory_id",
         ]
         lines_count = {}
-        for group in self.read_group(domain, ["product_id"], groupby_fields, lazy=False):
-            key = tuple(group[field] and group[field][0] for field in groupby_fields)
-            lines_count[key] = group["__count"]
+        for group in self._read_group(domain, groupby=groupby_fields, aggregates=("__count",)):
+            key = group[:6]
+            lines_count[key] = group[6]
         for line in self:
             key = (
-                line.product_id.id,
-                line.location_id.id,
-                line.partner_id.id,
-                line.package_id.id,
-                line.prod_lot_id.id,
-                line.inventory_id.id,
+                line.product_id,
+                line.location_id,
+                line.partner_id,
+                line.package_id,
+                line.prod_lot_id,
+                line.inventory_id,
             )
-            if lines_count[key] > 1:
+            if lines_count.get(key, 0) > 1:
                 raise UserError(
                     self.env._(
                         "There is already one inventory adjustment line for this product,"
@@ -753,7 +723,7 @@ class InventoryLine(models.Model):
     def _get_move_values(self, qty, location_id, location_dest_id, out):
         self.ensure_one()
         return {
-            "name": self.env._("INV:") + (self.inventory_id.name or ""),
+            # "name": self.env._("INV:") + (self.inventory_id.name or ""),
             "product_id": self.product_id.id,
             "product_uom": self.product_uom_id.id,
             "product_uom_qty": qty,
