@@ -33,7 +33,7 @@
         "wizard/export_business_process_view.xml",
         "wizard/import_business_process_view.xml",
     ],
-    "development_status": "Beta",
+    "development_status": "Mature",
     "images": ["static/description/main_screenshot.png"],
     "maintainers": ["dhongu"],
     "application": True,

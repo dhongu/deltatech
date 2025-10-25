@@ -3,10 +3,24 @@
 
 
 import base64
+import html as _html
 import json
+
+# Helper to normalize descriptions coming from JSON (may contain HTML)
+import re
 
 from odoo import fields, models
 from odoo.exceptions import UserError
+
+
+def _normalize_description(value):
+    if not value:
+        return ""
+    if isinstance(value, str):
+        # Strip HTML tags and unescape entities
+        text = _html.unescape(re.sub(r"<[^>]*>", "", value))
+        return text.strip()
+    return str(value)
 
 
 class BusinessProcessImport(models.TransientModel):
@@ -85,7 +99,7 @@ class BusinessProcessImport(models.TransientModel):
                     {
                         "name": process_data["name"],
                         "code": process_data["code"],
-                        "description": process_data["description"],
+                        "description": _normalize_description(process_data.get("description")),
                         "area_id": area.id,
                         "process_group_id": process_group.id,
                         "project_id": project.id,
@@ -125,7 +139,7 @@ class BusinessProcessImport(models.TransientModel):
                     {
                         "name": process_data["name"],
                         "code": process_data["code"],
-                        "description": process_data["description"],
+                        "description": _normalize_description(process_data.get("description")),
                         "area_id": area.id,
                         "process_group_id": process_group.id,
                         "responsible_id": responsible.id,
