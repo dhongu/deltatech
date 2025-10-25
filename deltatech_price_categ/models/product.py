@@ -157,17 +157,11 @@ class ProductTemplate(models.Model):
         self,
         combination=False,
         product_id=False,
-        add_qty=1,
-        parent_combination=False,
+        add_qty=1.0,
+        uom_id=False,
         only_template=False,
     ):
-        combination_info = super()._get_combination_info(
-            combination=combination,
-            product_id=product_id,
-            add_qty=add_qty,
-            parent_combination=parent_combination,
-            only_template=only_template,
-        )
+        combination_info = super()._get_combination_info(combination, product_id, add_qty, uom_id, only_template)
 
         combination_info["web_list_price"] = combination_info["list_price"]
 

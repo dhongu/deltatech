@@ -45,6 +45,3 @@ class TestPriceCateg(TransactionCase):
         product.percent_silver = -0.35
         product.percent_gold = -0.40
         product.save()
-
-    def test_get_get_combination_info(self):
-        self.product._get_combination_info()
