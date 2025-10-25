@@ -196,7 +196,7 @@ class ProductTemplate(models.Model):
                         lambda loc_in: loc_in.location_in_id == location_source
                     ):
                         value = {
-                            "company_id": product.company_id or self.env.user.company_id.id,
+                            "company_id": product.company_id.id or self.env.user.company_id.id,
                             "product_id": product_variant.id,
                             "location_in_id": location_source.id,
                             "location_out_id": location_dest.id,
@@ -227,7 +227,7 @@ class ProductTemplate(models.Model):
                 quants = self.env["stock.quant"]._gather(product, location_id)
                 qty = sum(quants.mapped("quantity"))
                 value = {
-                    "company_id": self.company_id or self.env.user.company_id.id,
+                    "company_id": (self.company_id.id or self.env.user.company_id.id),
                     "date": fields.Datetime.now(),
                     "product_id": product.id,
                     "name": product.display_name,
