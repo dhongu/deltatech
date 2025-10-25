@@ -75,10 +75,13 @@ class BusinessProject(models.Model):
 
     def _compute_attachment_ids(self):
         for project in self:
+            # Start with attachments directly on the project and those from chatter messages
             domain = project._get_attachments_search_domain(project._name, project.ids)
             attachments = self.env["ir.attachment"].search(domain)
             attachments |= project.mapped("message_ids.attachment_ids")
-            field_name = [
+
+            # Collect attachments from related records (processes, steps, tests, developments, issues)
+            related_paths = [
                 "process_ids",
                 "process_ids.step_ids",
                 "process_ids.test_ids",
@@ -87,11 +90,18 @@ class BusinessProject(models.Model):
                 "process_ids.test_ids.test_step_ids",
                 "process_ids.test_ids.test_step_ids.issue_ids",
             ]
-            for field in field_name:
-                if "attachment_ids" in project.mapped(field):
-                    attachments |= project.mapped(field).mapped("attachment_ids")
-                if "message_ids" in project.mapped(field):
-                    attachments |= project.mapped(field).mapped("message_ids.attachment_ids")
+            for path in related_paths:
+                recs = project.mapped(path)
+                if not recs:
+                    continue
+                # Attachments directly linked via res_model/res_id on related records
+                attachments |= self.env["ir.attachment"].search(
+                    [("res_model", "=", recs._name), ("res_id", "in", recs.ids)]
+                )
+                # Attachments from messages on related records (if they support chatter)
+                if "message_ids" in recs._fields:
+                    attachments |= recs.mapped("message_ids.attachment_ids")
+
             project.attachment_ids = attachments
 
     @api.model_create_multi
@@ -115,11 +125,13 @@ class BusinessProject(models.Model):
 
     def _compute_count_steps(self):
         for project in self:
-            project.count_steps = sum(process.count_steps for process in project.process_ids)
+            # Count steps directly from related processes to avoid relying on process.count_steps cache
+            project.count_steps = len(project.process_ids.mapped("step_ids"))
 
     def _compute_count_developments(self):
         for project in self:
-            developments = self.env["business.development"].search([("project_id", "=", self.id)])
+            # Use project.id inside the loop to avoid accidental use of self in multi-record environments
+            developments = self.env["business.development"].search([("project_id", "=", project.id)])
             project.count_developments = len(developments)
 
     def action_view_processes(self):
