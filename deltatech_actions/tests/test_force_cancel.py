@@ -52,17 +52,18 @@ class TestForceCancelOrderAndMoves(TransactionCase):
                 "picking_id": cls.picking.id,
             }
         )
-        cls.move_line = cls.env["stock.move.line"].create(
-            {
-                "move_id": cls.move.id,
-                "product_id": cls.product.id,
-                "product_uom_id": cls.product.uom_id.id,
-                "qty_done": 0.0,
-                "location_id": cls.picking.location_id.id,
-                "location_dest_id": cls.picking.location_dest_id.id,
-                "picking_id": cls.picking.id,
-            }
-        )
+        # qty field name differs across versions/addons: prefer 'quantity' if available, else 'qty_done'
+        sml_vals = {
+            "move_id": cls.move.id,
+            "product_id": cls.product.id,
+            "product_uom_id": cls.product.uom_id.id,
+            "quantity": 0.0,
+            "location_id": cls.picking.location_id.id,
+            "location_dest_id": cls.picking.location_dest_id.id,
+            "picking_id": cls.picking.id,
+        }
+
+        cls.move_line = cls.env["stock.move.line"].create(sml_vals)
 
         # Add a dummy PDF attachment on picking to ensure unlink pathways don't error if any
         cls.env["ir.attachment"].create(
