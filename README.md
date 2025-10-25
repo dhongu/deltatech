@@ -26,7 +26,7 @@ addon | version | maintainers | summary
 [deltatech_account_restrict_date](deltatech_account_restrict_date/) | 18.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Restrict certain operations depending on date
 [deltatech_actions](deltatech_actions/) | 18.0.0.0.9 |  | Cleaning and other actions
 [deltatech_agreement_management](deltatech_agreement_management/) | 18.0.0.0.3 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage agreements numbers, date, state
-[deltatech_alternative](deltatech_alternative/) | 18.0.2.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes
+[deltatech_alternative](deltatech_alternative/) | 18.0.2.1.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Alternative product codes
 [deltatech_alternative_website](deltatech_alternative_website/) | 18.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show alternative code in website
 [deltatech_analytic_distribution](deltatech_analytic_distribution/) | 18.0.0.0.2 |  | Analytic distribution
 [deltatech_auto_reorder_rule](deltatech_auto_reorder_rule/) | 18.0.0.1.3 |  | Auto create reorder rule
@@ -126,7 +126,7 @@ addon | version | maintainers | summary
 [deltatech_purchase_confirmation_reminder](deltatech_purchase_confirmation_reminder/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | This module will create an activity on the puchase order
 [deltatech_purchase_discount](deltatech_purchase_discount/) | 18.0.1.0.4 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Discount in purchase order line
 [deltatech_purchase_picking_status](deltatech_purchase_picking_status/) | 18.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Get purchase status from pickings
-[deltatech_purchase_price](deltatech_purchase_price/) | 18.0.1.2.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Update vendor price after reception
+[deltatech_purchase_price](deltatech_purchase_price/) | 18.0.1.2.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Update vendor price after reception
 [deltatech_purchase_price_history](deltatech_purchase_price_history/) | 18.0.0.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | View minim, maxim and average purchase price from the last 12 months in product template
 [deltatech_purchase_refund](deltatech_purchase_refund/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generare factura storno pentru retururi
 [deltatech_purchase_stock](deltatech_purchase_stock/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Purchase Stock
@@ -183,7 +183,7 @@ addon | version | maintainers | summary
 [deltatech_stock_delivery](deltatech_stock_delivery/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Adding button in invoice for display reception or delivery
 [deltatech_stock_inventory](deltatech_stock_inventory/) | 18.0.2.3.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Inventory Old Method
 [deltatech_stock_inventory_product_display](deltatech_stock_inventory_product_display/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Adds product display button on sales and invoices to see the stock of the products in the order
-[deltatech_stock_negative](deltatech_stock_negative/) | 18.0.2.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Negative stocks are not allowed
+[deltatech_stock_negative](deltatech_stock_negative/) | 18.0.2.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Negative stocks are not allowed
 [deltatech_stock_report](deltatech_stock_report/) | 18.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report with positions from picking lists
 [deltatech_stock_reseller](deltatech_stock_reseller/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report report reseller
 [deltatech_stock_sn](deltatech_stock_sn/) | 18.0.1.0.0 |  | Stock Serial Number

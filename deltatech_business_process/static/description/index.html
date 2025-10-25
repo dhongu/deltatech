@@ -369,22 +369,136 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:8ac89d98e61112d32a971674739d574f074f0f24f530bc01c868d0f26faa92d2
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_business_process"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_business_process"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<p>Business Process Management for Odoo</p>
+<p>This module helps you structure and execute business implementation
+projects in Odoo. It introduces Projects, Business Processes and their
+Steps, along with Testing and Issue tracking flows so teams can design,
+validate and deliver processes in a controlled way.</p>
+<p>Key features</p>
 <ul class="simple">
-<li>Features:</li>
-<li>Adds the app “Business Process” to the menu</li>
-<li>Can create projects for different purposes</li>
-<li>For each project, you can create processes with steps</li>
-<li>For each process you can generate tests to be executed by the users</li>
-<li>Permits export(From business process list view action menu) with
-different options(tests, responsible, customer, support) as JSON</li>
-<li>Can import the JSON file on the Project form action menu</li>
-<li>Can crate Zones that serves as category for each business process</li>
-<li><em>IMPORTANT!</em> when importing/exporting make sure the name for the
-responsible/customer responsible/support are the same in <em>BOTH</em>
-databases or the import will create duplicate contacts(if one contact
-is missing in the second DB it will pe created with the name from the
-first)</li>
+<li>Project workspace: manage implementation projects, phases and overall
+progress.</li>
+<li>Business Processes: define processes per project, grouped by business
+area and optionally by process group.</li>
+<li>Steps: break down each process into ordered steps with responsible
+parties and related transactions.</li>
+<li>Testing: create Internal, Integration and User Acceptance Tests that
+mirror the process steps and track execution status and results per
+step.</li>
+<li>Issues: log issues against a process or a specific test step, follow
+up through states, and close with validations.</li>
+<li>Developments: link development items to processes and/or projects to
+track required customizations.</li>
+<li>Attachments: quick access to all related documents across project,
+processes, steps, tests and issues.</li>
+<li>Reports: print Business Process and Process Test reports;
+export/import processes as JSON for reuse.</li>
+</ul>
+<p>Data model at a glance</p>
+<ul class="simple">
+<li>business.project: the project container; aggregates processes, issues,
+developments and attachments; can generate an Excel summary report.</li>
+<li>business.process: the core entity describing a process within a
+project; has steps, tests, developments and computed counters.</li>
+<li>business.process.step: an ordered activity in a process; can reference
+a business transaction and a responsible partner.</li>
+<li>business.process.test: a test instance for a process (scope:
+internal/integration/user_acceptance); auto-generates step tests;
+tracks progress and completion.</li>
+<li>business.process.step.test: mirrors a process step for a specific
+test; records dates, result (draft/passed/failed) and observations;
+counts linked issues.</li>
+<li>business.issue: issues discovered during testing or execution;
+life‑cycle from draft → open/allocated → solved/in_test →
+closed/reopened; integrates with followers and email.</li>
+<li>business.development (+ type): reference developments linked to
+processes/projects; can contribute to project duration.</li>
+<li>business.area and business.process.group: classify processes by area
+and group.</li>
+</ul>
+<p>Typical workflows</p>
+<ol class="arabic simple">
+<li>Design</li>
+</ol>
+<ul class="simple">
+<li>Create a Project, define Business Areas and (optionally) Process
+Groups.</li>
+<li>Add Business Processes and their Steps; set responsibles and expected
+durations.</li>
+</ul>
+<ol class="arabic simple" start="2">
+<li>Testing</li>
+</ol>
+<ul class="simple">
+<li>Start tests from a process (internal/integration/UAT). The module
+creates corresponding test records and step tests.</li>
+<li>Run tests, record results per step, and raise issues directly on the
+affected step test.</li>
+<li>Closing issues can automatically mark a step test as passed when no
+other issues remain open for that step test.</li>
+</ul>
+<ol class="arabic simple" start="3">
+<li>Go‑live</li>
+</ol>
+<ul class="simple">
+<li>When all required tests are done, move the process to Ready and then
+to Production.</li>
+</ul>
+<p>Export/Import</p>
+<ul class="simple">
+<li>From the Business Processes list view, export processes as JSON. You
+can choose to include tests, responsible, customer and support info.</li>
+<li>On the Project form, import a previously exported JSON to bootstrap a
+project.</li>
+<li>Important: for smooth import across databases, ensure the names for
+Responsible/Customer Responsible/Support are consistent; otherwise new
+contacts may be created during import if they do not exist.</li>
+</ul>
+<p>Attachments and counts</p>
+<ul class="simple">
+<li>Project and Process records compute document counts and provide an
+Attachment smart button that opens a consolidated view of attachments
+related to the record and its tests.</li>
+</ul>
+<p>Excel report</p>
+<ul class="simple">
+<li>From a Project, generate an Excel summary that groups processes by
+Area and aggregates configuration/instruction/testing/data‑migration
+durations, highlighting processes with zero total duration.</li>
+</ul>
+<p>Security and chatter</p>
+<ul class="simple">
+<li>Most records inherit mail.thread/activity to enable followers, logging
+and notifications. Key participants (responsibles, testers, step
+responsibles, customer contacts) are subscribed automatically during
+actions where relevant.</li>
+</ul>
+<p>Installation</p>
+<ul class="simple">
+<li>Dependencies: base, mail.</li>
+<li>Install the module like any standard Odoo addon and ensure sequences
+and email templates from data files are loaded.</li>
+</ul>
+<p>Configuration tips</p>
+<ul class="simple">
+<li>Define Business Areas and Process Groups first to better organize
+processes.</li>
+<li>For local projects, you can use the Install Modules button on a
+process to (optionally) install selected modules; remote projects are
+blocked by design.</li>
+</ul>
+<p>Compatibility</p>
+<ul class="simple">
+<li>Designed for Odoo 19.0.</li>
+</ul>
+<p>Maintainers</p>
+<ul class="simple">
+<li>Terrabit, Dorin Hongu</li>
+</ul>
+<p>License</p>
+<ul class="simple">
+<li>OPL-1. See README.rst at the addons root for license details.</li>
 </ul>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
