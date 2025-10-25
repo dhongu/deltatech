@@ -185,7 +185,6 @@ class TestProductLabels(TransactionCase):
                 "move_id": move.id,
                 "product_id": self.stock_product.id,
                 "product_uom_id": self.stock_product.uom_id.id,
-                "qty_done": 0.0,
                 "picking_id": picking.id,
                 "location_id": self.loc_stock.id,
                 "location_dest_id": self.loc_stock.id,
