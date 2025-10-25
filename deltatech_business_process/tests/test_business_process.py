@@ -1,6 +1,7 @@
 # © 2025 Deltatech
 # See README.rst file on addons root folder for license details
 
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 
@@ -140,3 +141,102 @@ class TestBusinessProcess(TransactionCase):
         # Searching by a non-matching code should return empty or other results not ours
         res2 = self.env["business.process"].name_search("NONEXISTENT-CODE")
         self.assertTrue(all(r[0] != self.process.id for r in res2))
+
+    def test_action_view_acceptance_tests_behaviour(self):
+        # Initially, no acceptance tests; calling action should auto-create one and return correct action
+        self.process.count_acceptance_tests = 0  # ensure branch
+        action = self.process.action_view_acceptance_tests()
+        self.assertIsInstance(action, dict)
+        # After the call, there should be at least one acceptance test
+        tests = self.env["business.process.test"].search(
+            [
+                ("process_id", "=", self.process.id),
+                ("scope", "=", "user_acceptance"),
+            ]
+        )
+        self.assertGreaterEqual(len(tests), 1)
+
+    def test_attachment_domain_and_doc_count(self):
+        Attachment = self.env["ir.attachment"].sudo()
+        # Attachment directly on process
+        p_att = Attachment.create(
+            {
+                "name": "p.txt",
+                "res_model": "business.process",
+                "res_id": self.process.id,
+                "datas": "Y29udGVudA==",
+                "mimetype": "text/plain",
+            }
+        )
+        # Create a test and attach to it
+        test = self.env["business.process.test"].create(
+            {
+                "name": "UAT",
+                "process_id": self.process.id,
+                "scope": "user_acceptance",
+            }
+        )
+        t_att = Attachment.create(
+            {
+                "name": "t.txt",
+                "res_model": test._name,
+                "res_id": test.id,
+                "datas": "Y29udGVudA==",
+                "mimetype": "text/plain",
+            }
+        )
+        domain = self.process.get_attachment_domain()
+        # Both attachments should match the domain filter (OR of process and tests)
+        matches = Attachment.search(domain)
+        self.assertIn(p_att, matches)
+        self.assertIn(t_att, matches)
+        self.process._compute_attached_docs_count()
+        self.assertGreaterEqual(self.process.doc_count, 1)
+        act = self.process.attachment_tree_view()
+        self.assertEqual(act.get("res_model"), "ir.attachment")
+        self.assertEqual(act.get("type"), "ir.actions.act_window")
+
+    def test_state_transition_buttons(self):
+        # start design sets state and possibly date_start_bbp
+        self.process.button_start_design()
+        self.assertEqual(self.process.state, "design")
+        self.assertTrue(self.process.date_start_bbp)
+        # start test moves to test and sets end date/completion if not set
+        self.process.date_end_bbp = False
+        self.process.completion_bbp = 0.0
+        self.process.button_start_test()
+        self.assertEqual(self.process.state, "test")
+        self.assertTrue(self.process.date_end_bbp)
+        self.assertEqual(self.process.completion_bbp, 100.0)
+        # end test -> ready
+        self.process.button_end_test()
+        self.assertEqual(self.process.state, "ready")
+        # go live -> production
+        self.process.button_go_live()
+        self.assertEqual(self.process.state, "production")
+        # back to draft
+        self.process.button_draft()
+        self.assertEqual(self.process.state, "draft")
+        # abandon
+        self.process.button_abandon()
+        self.assertEqual(self.process.state, "abandoned")
+
+    def test_start_tests_helpers_create_tests(self):
+        # Ensure no tests exist of these scopes
+        self.env["business.process.test"].search([("process_id", "=", self.process.id)]).unlink()
+        self.process.start_internal_test()
+        self.process.start_integration_test()
+        self.process.start_user_acceptance_test()
+        scopes = self.env["business.process.test"].search([("process_id", "=", self.process.id)]).mapped("scope")
+        for s in ("internal", "integration", "user_acceptance"):
+            self.assertIn(s, scopes)
+
+    def test_button_install_modules_constraints(self):
+        # Not local project -> should raise
+        with self.assertRaises(UserError):
+            self.process.button_install_modules()
+        # Make project local and ensure it returns a notification when no modules pending
+        self.process.project_id.project_type = "local"
+        notif = self.process.button_install_modules()
+        self.assertIsInstance(notif, dict)
+        self.assertEqual(notif.get("type"), "ir.actions.client")
