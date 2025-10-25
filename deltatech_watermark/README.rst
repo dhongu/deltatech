@@ -13,11 +13,11 @@ Watermark
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_watermark
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_watermark
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -40,7 +40,7 @@ Usage
 
 |image1|
 
-.. |image1| image:: https://raw.githubusercontent.com/dhongu/deltatech/18.0/deltatech_watermark/static/description/settings.png
+.. |image1| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_watermark/static/description/settings.png
 
 Bug Tracker
 ===========
@@ -70,6 +70,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_watermark>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_watermark>`_ project on GitHub.
 
 You are welcome to contribute.
