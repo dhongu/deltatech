@@ -127,7 +127,7 @@ class StockQuant(models.Model):
             qty, location_id, location_dest_id, package_id=package_id, package_dest_id=package_dest_id
         )
         values["inventory_id"] = self.inventory_id.id
-        values["name"] = self.inventory_note or values["name"]
+        # values["name"] = self.inventory_note or values.get("name", False)
         return values
 
     @api.model

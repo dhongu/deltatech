@@ -90,7 +90,7 @@
         </field>
     </record>
 
-    <record id="stock_inventory_line_search" model="ir.ui.view">
+ <!--   <record id="stock_inventory_line_search" model="ir.ui.view">
         <field name="name">stock.inventory.line.search</field>
         <field name="model">stock.inventory.line</field>
         <field name="arch" type="xml">
@@ -150,7 +150,7 @@
             </search>
         </field>
     </record>
-
+-->
     <record id="view_inventory_tree" model="ir.ui.view">
         <field name="name">stock.inventory.list</field>
         <field name="model">stock.inventory</field>
@@ -344,8 +344,8 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">stock.inventory</field>
         <field name="view_mode">list,kanban,form</field>
-        <field name="view_id" ref="view_inventory_tree" />
-        <field name="search_view_id" ref="view_inventory_filter" />
+<!--        <field name="view_id" ref="view_inventory_tree" />-->
+<!--        <field name="search_view_id" ref="view_inventory_filter" />-->
         <field name="help" type="html">
             <p class="o_view_nocontent_barcode_scanner">
                 Want to speed up your inventory counts? Try our Barcode app
