@@ -7,7 +7,7 @@
 Deltatech
 =========================
 
-This repository hosts official terrabit modules.
+This repository hosts official Terrabit modules.
 
 List of Modules
 ---------------
