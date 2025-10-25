@@ -1,5 +1,4 @@
-# ©  2023 Deltatech
+# © 2025 Deltatech
 # See README.rst file on addons root folder for license details
 
-
-from . import test_bp
+from . import test_business_process
