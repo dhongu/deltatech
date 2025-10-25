@@ -369,7 +369,7 @@ class DeltatechExpensesDeduction(models.Model):
                         ],
                     }
                     vouchers |= self.env["account.move"].create(voucher_value)
-                # payment_methods = expenses.journal_id.outbound_payment_method_line_ids
+                payment_methods = expenses.journal_id.outbound_payment_method_line_ids
 
                 payment_value = {
                     "payment_type": "outbound",
@@ -377,7 +377,7 @@ class DeltatechExpensesDeduction(models.Model):
                     "partner_type": "supplier",
                     "partner_id": partner_id.id,
                     "journal_id": expenses.expense_journal_id.id,
-                    # "payment_method_id": payment_methods and payment_methods[0].id or False,
+                    "payment_method_id": payment_methods and payment_methods[0].id or False,
                     "amount": line.tax_amount + line.price_subtotal,
                     "expenses_deduction_id": expenses.id,
                 }
