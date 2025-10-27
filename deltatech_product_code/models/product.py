@@ -60,7 +60,8 @@ class ProductTemplate(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         create_product_product = self.env.context.get("create_product_product", False)
-        if not create_product_product:
+        product_product_with_code = self.env.context.get("product_procut_with_code", False)
+        if not create_product_product and not product_product_with_code:
             for vals in vals_list:
                 categ_id = vals.get("categ_id")
                 if categ_id:
@@ -131,6 +132,7 @@ class ProductProduct(models.Model):
                     barcode = vals.get("barcode", False)
                     values = self.env["product.template"].get_new_code(categ, default_code, barcode)
                     vals.update(values)
+                    self = self.with_context(product_procut_with_code=True)
 
         return super().create(vals_list)
 
