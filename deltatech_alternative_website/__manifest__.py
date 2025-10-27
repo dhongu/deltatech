@@ -6,7 +6,7 @@
 {
     "name": "Website alternative code",
     "summary": "Show alternative code in website",
-    "version": "18.0.1.0.7",
+    "version": "18.0.1.0.8",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
@@ -17,7 +17,8 @@
     "depends": ["website", "website_sale", "deltatech_alternative"],
     "data": [
         # "views/product_catalog_view.xml",
-        "views/templates.xml"
+        "views/templates.xml",
+        "security/ir.model.access.csv",
     ],
     "images": ["images/main_screenshot.png"],
     "development_status": "Mature",
