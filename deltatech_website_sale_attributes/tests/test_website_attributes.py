@@ -21,46 +21,52 @@ class TestStockWebsiteAAttribute(HttpCase):
         ProductAttribute = cls.env["product.attribute"]
         ProductAttributeValue = cls.env["product.attribute.value"]
 
-        cls.attribute = ProductAttribute.create({
-            "name": "Test Attr",
-            # using 'no_variant' keeps a single template variant; easier for tests
-            "create_variant": "no_variant",
-        })
-        cls.value_visible = ProductAttributeValue.create({
-            "name": "Visible",
-            "attribute_id": cls.attribute.id,
-            "visibility": "visible",
-        })
-        cls.value_hidden = ProductAttributeValue.create({
-            "name": "Hidden",
-            "attribute_id": cls.attribute.id,
-            "visibility": "hidden",
-        })
+        cls.attribute = ProductAttribute.create(
+            {
+                "name": "Test Attr",
+                # using 'no_variant' keeps a single template variant; easier for tests
+                "create_variant": "no_variant",
+            }
+        )
+        cls.value_visible = ProductAttributeValue.create(
+            {
+                "name": "Visible",
+                "attribute_id": cls.attribute.id,
+                "visibility": "visible",
+            }
+        )
+        cls.value_hidden = ProductAttributeValue.create(
+            {
+                "name": "Hidden",
+                "attribute_id": cls.attribute.id,
+                "visibility": "hidden",
+            }
+        )
 
-        cls.product = ProductTemplate.create({
-            "name": "Test Product",
-            "attribute_line_ids": [
-                (
-                    0,
-                    0,
-                    {
-                        "attribute_id": cls.attribute.id,
-                        "value_ids": [(6, 0, [cls.value_visible.id, cls.value_hidden.id])],
-                    },
-                )
-            ],
-        })
+        cls.product = ProductTemplate.create(
+            {
+                "name": "Test Product",
+                "attribute_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "attribute_id": cls.attribute.id,
+                            "value_ids": [(6, 0, [cls.value_visible.id, cls.value_hidden.id])],
+                        },
+                    )
+                ],
+            }
+        )
 
         # Fetch the generated product.template.attribute.value records (v17-safe)
-        ptavs = cls.env["product.template.attribute.value"].search([
-            ("product_tmpl_id", "=", cls.product.id),
-        ])
-        cls.ptav_visible = ptavs.filtered(
-            lambda r: r.product_attribute_value_id.id == cls.value_visible.id
+        ptavs = cls.env["product.template.attribute.value"].search(
+            [
+                ("product_tmpl_id", "=", cls.product.id),
+            ]
         )
-        cls.ptav_hidden = ptavs.filtered(
-            lambda r: r.product_attribute_value_id.id == cls.value_hidden.id
-        )
+        cls.ptav_visible = ptavs.filtered(lambda r: r.product_attribute_value_id.id == cls.value_visible.id)
+        cls.ptav_hidden = ptavs.filtered(lambda r: r.product_attribute_value_id.id == cls.value_hidden.id)
 
     def test_call_shop(self):
         # Basic smoke test: the shop page should load

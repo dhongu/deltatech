@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 
 class ProductTemplateAttributeValue(models.Model):
@@ -19,7 +19,9 @@ class ProductTemplateAttributeValue(models.Model):
     @api.depends("product_attribute_value_id.visibility")
     def _compute_website_visible(self):
         for rec in self:
-            rec.website_visible = bool(rec.product_attribute_value_id and rec.product_attribute_value_id.visibility == "visible")
+            rec.website_visible = bool(
+                rec.product_attribute_value_id and rec.product_attribute_value_id.visibility == "visible"
+            )
 
     def _only_active(self):
         res = super()._only_active()
