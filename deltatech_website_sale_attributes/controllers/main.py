@@ -17,27 +17,28 @@ class WebsiteSaleAttribute(WebsiteSale):
     def shop(self, page=0, category=None, search="", ppg=False, **post):
         response = super().shop(page, category, search, ppg, **post)
 
-        if category and search:
-            # attrib_values = response.qcontext.get("attrib_values")
-            category = response.qcontext.get("category")
-            # domain = self._get_search_domain(search, category, attrib_values)
-            domain = request.env.context.get("shop_search_domain", [])
+        # Normalize values coming from super's rendering context
+        qctx = response.qcontext
+        q_category = qctx.get("category")
+        q_search = qctx.get("search") or search or post.get("search")
+        attrib_values = qctx.get("attrib_values")
 
-            # value_ids = request.env["product.attribute.value"]
-            # products = response.qcontext.get("products")
+        if q_category or q_search:
+            # Try to reuse domain computed during super().shop, else recompute
+            domain = request.env.context.get("shop_search_domain")
+            if domain is None:
+                domain = self._get_search_domain(q_search or "", q_category, attrib_values)
+
             products = request.env["product.template"].with_context(prefetch_fields=False).search(domain)
 
-            domain = [("product_tmpl_id", "in", products.ids)]
-            attribute_lines = request.env["product.template.attribute.line"].search(domain)
+            ptal_domain = [("product_tmpl_id", "in", products.ids)]
+            attribute_lines = request.env["product.template.attribute.line"].search(ptal_domain)
 
             value_ids = attribute_lines.mapped("value_ids")
-            # domain = [("pav_attribute_line_ids", "in", attribute_lines.ids)]
-            # value_ids = request.env["product.attribute.value"].search(domain)
 
-            if category:
-                # se ascund restul de caterorii
-                # categories = request.env['product.public.category'].search([('id','child_of',category.id)])
-                categories = category
+            if q_category:
+                # hide other categories; keep current category context
+                categories = q_category
                 response.qcontext.update(categories=categories)
         else:
             domain = [("visibility", "=", "visible")]

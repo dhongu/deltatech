@@ -2,10 +2,10 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    "name": "eCommerce Attribute values ",
+    "name": "eCommerce Attribute Values",
     "category": "Website",
     "summary": "Attribute values for products displayed",
-    "version": "17.0.1.0.1",
+    "version": "17.0.1.0.2",
     "license": "LGPL-3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
