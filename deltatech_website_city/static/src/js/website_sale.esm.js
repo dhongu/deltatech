@@ -14,6 +14,8 @@ websiteSaleAddress.include({
         this.elementCities = this.addressForm.city_id;
         this.elementState = this.addressForm.state_id;
 
+        this._changeCountry();
+
         // Reordonăm câmpurile: țară → județ → localitate → stradă
         this._reorderAddressFields();
 
@@ -44,10 +46,27 @@ websiteSaleAddress.include({
         // Dacă city_id are opțiuni și valoare, ascundem city (input text)
         if (this.elementCities && this.elementCities.options.length > 1) {
             this._hideInput("city");
+            // Sincronizare atribute pentru validare HTML5
+            this.addressForm.city.disabled = true;
+            this.addressForm.city.removeAttribute("required");
+            this.addressForm.city.classList.remove("is-invalid");
+            this.addressForm.city.value = this.addressForm.city.value || "";
+
             this._showInput("city_id");
+            this.addressForm.city_id.disabled = false;
+            this.addressForm.city_id.setAttribute("required", "");
+            this.addressForm.city_id.classList.remove("is-invalid");
         } else {
             this._hideInput("city_id");
+            this.addressForm.city_id.disabled = true;
+            this.addressForm.city_id.removeAttribute("required");
+            this.addressForm.city_id.classList.remove("is-invalid");
+            this.addressForm.city_id.value = this.addressForm.city_id.value || "";
+
             this._showInput("city");
+            this.addressForm.city.disabled = false;
+            this.addressForm.city.setAttribute("required", "");
+            this.addressForm.city.classList.remove("is-invalid");
         }
     },
 
@@ -72,6 +91,7 @@ websiteSaleAddress.include({
             // This._hideInput("city_id");
             // this._showInput("city");
         }
+        this._toggleCityFields();
     },
 
     async _onChangeCity() {
