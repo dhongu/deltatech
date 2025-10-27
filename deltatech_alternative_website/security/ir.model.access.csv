@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_product_alternative_public,Product alternative public,model_product_alternative,base.group_public,1,0,0,0
+access_product_alternative_public,Product alternative public,deltatech_alternative.model_product_alternative,base.group_public,1,0,0,0
