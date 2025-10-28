@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+        <!--    purchase.order phase views and actions    -->
+        <record id="view_purchase_order_phase_form" model="ir.ui.view">
+            <field name="name">purchase.order.phase.form</field>
+            <field name="model">purchase.order.phase</field>
+            <field eval="50" name="priority" />
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="sequence" />
+                            <field name="code" />
+                            <field name="color" widget="color_picker" />
+                        </group>
+
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="view_purchase_order_phase_tree" model="ir.ui.view">
+            <field name="name">purchase.order.phase.tree</field>
+            <field name="model">purchase.order.phase</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sequence" widget="handle" />
+                    <field name="name" />
+                    <field name="code" optional="show" />
+                </tree>
+            </field>
+        </record>
+        <record id="action_purchase_order_phase" model="ir.actions.act_window">
+            <field name="name">purchase Order phase</field>
+            <field name="res_model">purchase.order.phase</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+        id="menu_purchase_order_phase"
+        name="Purchase Order Phase"
+        parent="purchase.menu_purchase_config"
+        sequence="200"
+        action="action_purchase_order_phase"
+    />
+
+
+
+</odoo>
