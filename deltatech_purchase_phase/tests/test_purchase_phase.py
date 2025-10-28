@@ -73,7 +73,6 @@ class TestPurchasePhase(TransactionCase):
         # Call helper which should create phase if missing and set it
         self.po.set_phase(code)
 
-
         created = self.PurchaseOrderPhase.search([("code", "=", code)], limit=1)
         self.assertTrue(created, "set_phase must auto-create missing phase by code")
         self.assertEqual(created.name, code, "Auto-created phase name should default to the provided code")
