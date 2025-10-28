@@ -59,6 +59,15 @@ class TestStockWebsiteAAttribute(HttpCase):
             }
         )
 
+        # Create a public category and assign the product to it (to test category page)
+        ProductPublicCategory = cls.env["product.public.category"]
+        cls.category = ProductPublicCategory.create(
+            {
+                "name": "Test Category",
+            }
+        )
+        cls.product.write({"public_categ_ids": [(6, 0, [cls.category.id])]})
+
         # Fetch the generated product.template.attribute.value records (v17-safe)
         ptavs = cls.env["product.template.attribute.value"].search(
             [
@@ -72,6 +81,26 @@ class TestStockWebsiteAAttribute(HttpCase):
         # Basic smoke test: the shop page should load
         resp = self.url_open("/shop")
         self.assertTrue(resp, "Expected a response when opening /shop")
+
+    def test_shop_category_page_displays(self):
+        # Open the shop page filtered by the created public category
+        # Prefer the query param variant to avoid relying on slug utils in tests
+        url = f"/shop?category={self.category.id}"
+        resp = self.url_open(url)
+        self.assertTrue(resp, f"Expected a response when opening {url}")
+        # Try to assert the category name is present in the rendered page
+        try:
+            content = resp.text
+        except Exception:
+            try:
+                content = resp.content.decode()
+            except Exception:
+                content = str(resp)
+        self.assertIn(
+            self.category.name,
+            content,
+            "The category name should be displayed on the shop page when filtering by category.",
+        )
 
     def test_website_visible_flag_computed(self):
         # Ensure the computed field reflects the underlying value visibility
