@@ -15,7 +15,6 @@
                             <field name="code" />
                             <field name="color" widget="color_picker" />
                         </group>
-
                     </group>
                 </form>
             </field>
