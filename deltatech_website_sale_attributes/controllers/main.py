@@ -6,20 +6,20 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class WebsiteSaleAttribute(WebsiteSale):
-
     @http.route()
     def shop(self, page=0, category=None, search="", ppg=False, **post):
         response = super().shop(page, category, search, ppg, **post)
 
         if category and search:
             # Folosim domeniul construit de WebsiteSale pentru product.template
-            pt_domain = request.env.context.get("shop_search_domain", []) or []
+            website = request.env["website"].get_current_website()
+            website_domain = website.website_domain()
 
             # Traducem domeniul pentru modelul product.template.attribute.value
             def _to_ptav(dom):
                 res = []
                 for term in dom:
-                    if isinstance(term, (list, tuple)):
+                    if isinstance(term, list | tuple):
                         if len(term) == 3:
                             field, op, val = term
                             # Dacă e deja pe o cale, doar prefixăm cu product_tmpl_id.
@@ -38,10 +38,12 @@ class WebsiteSaleAttribute(WebsiteSale):
                         res.append(term)
                 return res
 
-            ptav_domain = expression.AND([
-                _to_ptav(pt_domain),
-                [("website_visible", "=", True)],
-            ])
+            ptav_domain = expression.AND(
+                [
+                    _to_ptav(website_domain),
+                    [("website_visible", "=", True)],
+                ]
+            )
 
             # Obținem valorile distincte prin read_group (evită materializarea tuturor produselor)
             groups = request.env["product.template.attribute.value"].read_group(
@@ -50,11 +52,9 @@ class WebsiteSaleAttribute(WebsiteSale):
                 groupby=["product_attribute_value_id"],
                 lazy=False,
             )
-            value_ids = request.env["product.attribute.value"].browse([
-                g["product_attribute_value_id"][0]
-                for g in groups
-                if g.get("product_attribute_value_id")
-            ])
+            value_ids = request.env["product.attribute.value"].browse(
+                [g["product_attribute_value_id"][0] for g in groups if g.get("product_attribute_value_id")]
+            )
 
             if category:
                 # se ascund restul de categorii (păstrăm logica existentă)
@@ -66,5 +66,3 @@ class WebsiteSaleAttribute(WebsiteSale):
 
         response.qcontext.update(value_ids=value_ids)
         return response
-
-

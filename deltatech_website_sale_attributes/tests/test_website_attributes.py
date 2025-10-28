@@ -102,6 +102,33 @@ class TestStockWebsiteAAttribute(HttpCase):
             "The category name should be displayed on the shop page when filtering by category.",
         )
 
+    def test_shop_category_and_search_page_displays(self):
+        # Open the shop page filtered by both category and a search term, to hit the `if category and search` branch
+        from urllib.parse import quote_plus
+
+        search_term = self.product.name
+        url = f"/shop?category={self.category.id}&search={quote_plus(search_term)}"
+        resp = self.url_open(url)
+        self.assertTrue(resp, f"Expected a response when opening {url}")
+        # Assert both the category and the product name appear in the page content
+        try:
+            content = resp.text
+        except Exception:
+            try:
+                content = resp.content.decode()
+            except Exception:
+                content = str(resp)
+        self.assertIn(
+            self.category.name,
+            content,
+            "Category name should be displayed when filtering by category + search.",
+        )
+        self.assertIn(
+            self.product.name,
+            content,
+            "Product name should be present when filtering by category + search.",
+        )
+
     def test_website_visible_flag_computed(self):
         # Ensure the computed field reflects the underlying value visibility
         self.assertTrue(

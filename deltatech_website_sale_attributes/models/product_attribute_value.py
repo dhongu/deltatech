@@ -8,4 +8,6 @@ from odoo import fields, models
 class ProductAttributeValue(models.Model):
     _inherit = "product.attribute.value"
 
-    visibility = fields.Selection(selection=[("visible", "Visible"), ("hidden", "Hidden")], default="visible",  index=True)
+    visibility = fields.Selection(
+        selection=[("visible", "Visible"), ("hidden", "Hidden")], default="visible", index=True
+    )
