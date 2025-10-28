@@ -25,9 +25,11 @@ class SaleOrderActivityRecord(models.Model):
         [
             ("placed", "Placed"),  # comanda plasta pe website
             ("in_process", "In Process"),  # comanda in procesare de catre agentul de vanzare
+            ("rfq", "Request for Quotation"),  # oferta trimisa furnizorului
             ("waiting", "Waiting availability"),  # nu sunt in stoc toate produsele din comanda
             ("postponed", "Postponed"),  # livrarea a fost amanata
             ("to_be_delivery", "To Be Delivery"),  # comanda este de livrat
+            ("pre_advice", "Pre advice"),  # awb generat
             ("in_delivery", "In Delivery"),  # marfa a fost predata la curier
             ("delivered", "Delivered"),  # comanda a fost livrata la client
             ("canceled", "Canceled"),

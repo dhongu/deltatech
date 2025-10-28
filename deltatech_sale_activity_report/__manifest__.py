@@ -1,6 +1,6 @@
 {
     "name": "Sale Order Last Modified",
-    "version": "17.0.0.0.5",
+    "version": "17.0.0.0.6",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Sales",

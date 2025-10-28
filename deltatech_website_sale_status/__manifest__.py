@@ -5,11 +5,11 @@
     "name": "eCommerce Sale Order status",
     "category": "Website",
     "summary": "Additional filters sales orders by status ",
-    "version": "17.0.2.0.5",
+    "version": "17.0.2.0.6",
     "license": "OPL-1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "depends": ["portal", "website_sale_stock", "deltatech_delivery_status", "sale_stock"],
+    "depends": ["portal", "website_sale_stock", "deltatech_delivery_status", "sale_stock", "sale_purchase"],
     "data": [
         "views/sale_view.xml",
         "views/templates.xml",
