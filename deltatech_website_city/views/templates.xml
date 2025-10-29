@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="address" inherit_id="website_sale.address">
+    <template id="address_form_fields" inherit_id="portal.address_form_fields">
         <div id="div_city" position="before">
+
             <div id="div_city_id" class="col-lg-6 mb-3">
                 <label class="col-form-label" for="city_id">City</label>
 
