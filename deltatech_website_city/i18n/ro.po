@@ -1,0 +1,32 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_website_city
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-06 16:25+0000\n"
+"PO-Revision-Date: 2025-10-06 16:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_website_city
+#: model_terms:ir.ui.view,arch_db:deltatech_website_city.address
+msgid "<option value=\"\">City...</option>"
+msgstr "<option value=\"\">Localitate...</option>"
+
+#. module: deltatech_website_city
+#: model:ir.model.fields,field_description:deltatech_website_city.field_res_country_state__city_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_website_city.address
+msgid "City"
+msgstr "Localitate"
+
+#. module: deltatech_website_city
+#: model:ir.model,name:deltatech_website_city.model_res_country_state
+msgid "Country state"
+msgstr "Județ"

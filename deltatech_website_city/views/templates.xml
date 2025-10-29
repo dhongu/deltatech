@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="address_form_fields" inherit_id="portal.address_form_fields">
+        <div id="div_city" position="before">
+
+            <div id="div_city_id" class="col-lg-6 mb-3">
+                <label class="col-form-label" for="city_id">City</label>
+
+                <select id="city_id" name="city_id" class="form-select" data-init="1">
+                    <option value="">City...</option>
+                    <t t-foreach="state_cities" t-as="city">
+                        <option t-att-value="city.id" t-att-selected="city.id == partner_sudo.city_id.id">
+                            <t t-out="city.name" />
+                        </option>
+                    </t>
+                </select>
+            </div>
+        </div>
+    </template>
+</odoo>
