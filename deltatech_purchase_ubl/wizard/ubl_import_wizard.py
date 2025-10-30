@@ -24,12 +24,124 @@ class PurchaseUblImportWizard(models.TransientModel):
 
     update_prices = fields.Boolean(string="Update vendor prices", default=True)
     validate_receipt = fields.Boolean(string="Validate receipt from XML", default=False)
-    create_bill = fields.Boolean(string="Create vendor bill", default=True)
+    create_bill = fields.Boolean(string="Create vendor bill", default=False)
+    create_missing_products = fields.Boolean(string="Create missing products", default=True)
 
     # Stores the created vendor bill to allow opening it from the wizard
     bill_id = fields.Many2one("account.move", string="Vendor Bill", readonly=True)
 
     log = fields.Text(readonly=True)
+
+    # ------------------------------------------------------------
+    # Helpers
+    # ------------------------------------------------------------
+    def _resolve_currency(self, code):
+        """Resolve a currency by ISO code or fall back to the company currency.
+        Always returns a valid res.currency record.
+        """
+        Currency = self.env["res.currency"]
+        name = (code or "").upper()
+        cur = Currency.search([("name", "=", name)], limit=1)
+        if not cur:
+            # Fallback to company currency to avoid null constraint errors
+            cur = self.env.company.currency_id
+        return cur
+
+    def _uom_from_ubl(self, unit_code):
+        """Map common UBL unit codes to Odoo uom.uom.
+        If code unknown, fallback to Unit(s).
+        Known codes examples:
+          - C62/H87: unit(s)
+          - KGM: kilogram
+          - LTR: litre
+          - MTR: meter
+          - HUR: hour
+          - PCE: piece (map to unit)
+        """
+        Uom = self.env["uom.uom"]
+        code = (unit_code or "").upper()
+        # try via XML IDs from base uom module
+        xml_ids = {
+            "C62": "uom.product_uom_unit",
+            "H87": "uom.product_uom_unit",
+            "PCE": "uom.product_uom_unit",
+            "KGM": "uom.product_uom_kgm",
+            "LTR": "uom.product_uom_litre",
+            "MTR": "uom.product_uom_meter",
+            "HUR": "uom.product_uom_hour",
+        }
+        xid = xml_ids.get(code)
+        if xid:
+            rec = self.env.ref(xid, raise_if_not_found=False)
+            if rec:
+                return rec
+        # Heuristics
+        if code in {"C62", "H87", "PCE", "PCS", "UNT", "BUC"}:
+            rec = self.env.ref("uom.product_uom_unit", raise_if_not_found=False)
+            if rec:
+                return rec
+        if code in {"KG", "KGM"}:
+            rec = self.env.ref("uom.product_uom_kgm", raise_if_not_found=False)
+            if rec:
+                return rec
+        if code in {"L", "LTR"}:
+            rec = self.env.ref("uom.product_uom_litre", raise_if_not_found=False)
+            if rec:
+                return rec
+        if code in {"M", "MTR"}:
+            rec = self.env.ref("uom.product_uom_meter", raise_if_not_found=False)
+            if rec:
+                return rec
+        if code in {"H", "HUR"}:
+            rec = self.env.ref("uom.product_uom_hour", raise_if_not_found=False)
+            if rec:
+                return rec
+        # Last resort: reference unit from Unit category
+        ref = Uom.search([("uom_type", "=", "reference"), ("category_id.measure_type", "=", "unit")], limit=1)
+        return ref or Uom.search([], limit=1)
+
+    def _create_product_from_xml_line(self, supplier, line_vals, currency):
+        """Create a storable product based on an XML invoice line and link supplierinfo.
+        - supplier: res.partner (vendor)
+        - line_vals: dict with keys code, barcode, name, unit_code, price
+        - currency: code like RON/EUR
+        Returns product.product record.
+        """
+        Product = self.env["product.product"]
+        SupplierInfo = self.env["product.supplierinfo"]
+        self.env["res.currency"]
+
+        name = (line_vals.get("name") or line_vals.get("code") or "New Product").strip()
+        code = (line_vals.get("code") or "").strip() or False
+        barcode = (line_vals.get("barcode") or "").strip() or False
+        uom = self._uom_from_ubl(line_vals.get("unit_code"))
+
+        product = Product.create(
+            {
+                "name": name,
+                "type": "product",
+                "purchase_ok": True,
+                "sale_ok": False,
+                "default_code": code or False,
+                "barcode": barcode or False,
+                "uom_id": uom.id,
+                "uom_po_id": uom.id,
+            }
+        )
+        # Create supplierinfo with provided vendor code and price
+        cur = self._resolve_currency(currency)
+        SupplierInfo.create(
+            {
+                "partner_id": supplier.id,
+                "product_tmpl_id": product.product_tmpl_id.id,
+                "product_id": product.id,
+                "product_code": code or False,
+                "price": line_vals.get("price") or 0.0,
+                "currency_id": cur.id,
+                "delay": 1,
+            }
+        )
+        return product
 
     def _is_ubl_invoice(self, content: bytes) -> bool:
         """Quickly check if provided XML bytes look like an UBL Invoice.
@@ -255,7 +367,7 @@ class PurchaseUblImportWizard(models.TransientModel):
             "product_id": product.id,
             "product_code": product.default_code or False,
             "price": price,
-            "currency_id": self.env["res.currency"].search([("name", "=", currency or "RON")], limit=1).id,
+            "currency_id": self._resolve_currency(currency).id,
             "delay": 1,
         }
         if sinfo:
@@ -360,6 +472,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         mapped_lines = []
         updated = []
         not_found = []
+        created = []
         for ln in invoice_xml["lines"]:
             # If order has lines, restrict match to the order; otherwise match globally
             if order and order.order_line:
@@ -368,7 +481,15 @@ class PurchaseUblImportWizard(models.TransientModel):
                 )
             else:
                 product = self._match_product(partner, ln.get("code"), ln.get("name"), ln.get("barcode"))
-            if not product:
+            # Optionally create missing product
+            if not product and self.create_missing_products:
+                try:
+                    product = self._create_product_from_xml_line(partner, ln, invoice_xml.get("currency"))
+                    created.append(product.display_name)
+                except Exception:
+                    # If creation fails, keep track as not found and continue
+                    not_found.append(ln.get("code") or ln.get("name") or "/")
+            elif not product:
                 not_found.append(ln.get("code") or ln.get("name") or "/")
             ln_map = {**ln, "product": product}
             mapped_lines.append(ln_map)
@@ -453,6 +574,8 @@ class PurchaseUblImportWizard(models.TransientModel):
         )
         if updated:
             messages.append(_("Updated prices:\n") + "\n".join(updated))
+        if created:
+            messages.append(_("Created products:\n") + "\n".join(created))
         if order and "updated_lines_count" in locals() and updated_lines_count:
             messages.append(_("Updated %s purchase order lines from XML.") % updated_lines_count)
         if order and added_count:

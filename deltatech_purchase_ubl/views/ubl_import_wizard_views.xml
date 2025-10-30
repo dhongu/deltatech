@@ -15,6 +15,7 @@
                         <field name="update_prices" />
                         <field name="validate_receipt" />
                         <field name="create_bill" />
+                        <field name="create_missing_products" />
                     </group>
 
                 </group>
