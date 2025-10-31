@@ -125,7 +125,7 @@ msgstr "Expediat"
 #. module: deltatech_purchase_phase
 #: model:ir.model,name:deltatech_purchase_phase.model_stock_picking
 msgid "Transfer"
-msgstr "Transfer"
+msgstr ""
 
 #. module: deltatech_purchase_phase
 #: model:ir.actions.act_window,name:deltatech_purchase_phase.action_purchase_order_phase
