@@ -4,8 +4,8 @@
             <field name="name">Delete Product Chatter Messages</field>
             <field name="category_id" ref="base.module_category_product" />
             <field
-                name="comment"
-            >Allows deleting chatter messages on Product Template and Product Variant records.</field>
+            name="comment"
+        >Allows deleting chatter messages on Product Template and Product Variant records.</field>
             <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
         </record>
 </odoo>
