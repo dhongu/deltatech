@@ -25,7 +25,7 @@ jobs:
           TARGET_BRANCH: "17.0"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          EXISTING_PR=$(gh pr list --head "$NEW_BRANCH" --base "$TARGET_BRANCH" --state open --json number -q '.[0].number' 2>/dev/null)
+          EXISTING_PR=$(gh pr list --head "$NEW_BRANCH" --base "$TARGET_BRANCH" --state open | grep -Eo '#[0-9]+' | head -n1 | tr -d '#')
           if [ -n "$EXISTING_PR" ]; then
             echo "PR already exists: #$EXISTING_PR"
             echo "PR_NUM=$EXISTING_PR" >> $GITHUB_OUTPUT
