@@ -462,11 +462,11 @@ class PurchaseUblImportWizard(models.TransientModel):
         # Determine supplier: prefer order's vendor if order provided
         partner = order.partner_id
         supplier_vat = invoice_xml.get("supplier_vat")
-        if supplier_vat != partner.vat:
-            self.log = (
-                f"Error: The supplier in the XML ({supplier_vat}) differs from the order supplier ({partner.vat})."
-            )
-            return
+        vat_mismatch_warning = False
+        if supplier_vat and partner.vat and supplier_vat != partner.vat:
+            # Do not block the import when launched from a specific PO: the order's vendor is authoritative.
+            # Keep a warning to be shown in the log so users are aware of the mismatch.
+            vat_mismatch_warning = True
 
         mapped_lines = []
         updated = []
@@ -571,6 +571,13 @@ class PurchaseUblImportWizard(models.TransientModel):
             _("Order: %(order)s | XML Reference: %(ref)s")
             % {"order": (order.name if order else "-"), "ref": (invoice_xml.get("order_ref") or "-")}
         )
+        if vat_mismatch_warning:
+            messages.append(
+                _(
+                    "Warning: Supplier VAT in XML (%(xml_vat)s) differs from order supplier (%(po_vat)s). Proceeded with order's vendor."
+                )
+                % {"xml_vat": supplier_vat or "-", "po_vat": partner.vat or "-"}
+            )
         if updated:
             messages.append(_("Updated prices:\n") + "\n".join(updated))
         if created:
