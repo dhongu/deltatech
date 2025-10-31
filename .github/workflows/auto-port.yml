@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           # Necesită un token cu permisiuni de scriere/PR (PAT_TOKEN)
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ github.token }}
           fetch-depth: 0 # Obține toată istoria pentru cherry-pick
 
       - name: Configure Git User
@@ -62,7 +62,7 @@ jobs:
         if: steps.determine_branch.outputs.target_branch != ''
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           # Ia lista de commits din PR cu gh (oids spațiate pe o singură linie)
           COMMITS=$(gh pr view "$PR_NUMBER" --json commits -q '.commits[].oid' | tr '\n' ' ' || true)
@@ -129,7 +129,7 @@ jobs:
           TARGET_BRANCH: ${{ steps.determine_branch.outputs.target_branch }}
           PORT_BRANCH: ${{ steps.cherry_pick.outputs.port_branch }}
           PR_TITLE: ${{ github.event.pull_request.title }}
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           git push origin "$PORT_BRANCH"
 
