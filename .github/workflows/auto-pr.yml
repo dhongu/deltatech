@@ -1,0 +1,61 @@
+name: Auto PR for 17.0 Branches
+
+on:
+  create:
+    branches:
+      - '17.0*'   # orice branch care începe cu 17.0
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if PR already exists
+        id: check_pr
+        env:
+          NEW_BRANCH: ${{ github.ref_name }}
+          TARGET_BRANCH: "17.0"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          EXISTING_PR=$(gh pr list --head "$NEW_BRANCH" --base "$TARGET_BRANCH" --state open --json url -q '.[0].url')
+          if [ -n "$EXISTING_PR" ]; then
+            echo "PR already exists: $EXISTING_PR"
+            echo "PR_URL=$EXISTING_PR" >> $GITHUB_OUTPUT
+          else
+            echo "PR_URL=" >> $GITHUB_OUTPUT
+
+      - name: Create PR to 17.0
+        id: create_pr
+        if: steps.check_pr.outputs.PR_URL == ''
+        env:
+          NEW_BRANCH: ${{ github.ref_name }}
+          TARGET_BRANCH: "17.0"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_URL=$(gh pr create \
+            --base "$TARGET_BRANCH" \
+            --head "$NEW_BRANCH" \
+            --title "Auto PR: $NEW_BRANCH -> $TARGET_BRANCH" \
+            --body "PR creat automat pentru branch-ul $NEW_BRANCH" \
+            --json url -q '.url')
+
+          echo "PR_URL=$PR_URL" >> $GITHUB_OUTPUT
+          echo "Created PR: $PR_URL"
+
+
+      - name: Comment on PR
+        if: steps.check_pr.outputs.PR_URL != '' || steps.create_pr.outputs.PR_URL != ''
+        env:
+          PR_URL: ${{ steps.check_pr.outputs.PR_URL || steps.create_pr.outputs.PR_URL }}
+          NEW_BRANCH: ${{ github.ref_name }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment "$PR_URL" --body "PR creat automat pentru branch-ul $NEW_BRANCH. Verifică modificările și testează înainte de merge."

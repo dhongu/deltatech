@@ -1,42 +1,39 @@
 name: Auto Port 17.0 to 18.0
 
-# 1. DECLANSARE: Rulează când un PR este închis (merged)
-# Doar pe branch-ul 17.0 (portare către 18.0)
 on:
   pull_request:
     types: [closed]
     branches:
       - 17.0
 
-# Evită execuții simultane pentru același PR și aceeași bază
 concurrency:
   group: auto-port-${{ github.base_ref }}-${{ github.event.pull_request.number }}
   cancel-in-progress: false
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   auto_cherry_pick:
     runs-on: ubuntu-latest
-    # Rulează doar dacă PR-ul a fost fuzionat (merged)
     if: github.event.pull_request.merged == true
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          # Necesită un token cu permisiuni de scriere/PR (PAT_TOKEN)
           token: ${{ github.token }}
-          fetch-depth: 0 # Obține toată istoria pentru cherry-pick
+          fetch-depth: 0
 
       - name: Configure Git User
         run: |
           git config user.name "GitHub Actions Bot (Porting)"
           git config user.email "actions-bot@users.noreply.github.com"
 
-      # 2. DETERMINAREA BRANCH-ULUI ȚINTĂ (DESTINAȚIE)
       - name: Determine Target Branch
         id: determine_branch
         run: |
-          # Branch curent: 17.0 -> 18.0
           if [ "${{ github.base_ref }}" = "17.0" ]; then
             echo "target_branch=18.0" >> "$GITHUB_OUTPUT"
             echo "base_branch=17.0" >> "$GITHUB_OUTPUT"
@@ -64,26 +61,25 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           GITHUB_TOKEN: ${{ github.token }}
         run: |
-          # Ia lista de commits din PR cu gh (oids spațiate pe o singură linie)
           COMMITS=$(gh pr view "$PR_NUMBER" --json commits -q '.commits[].oid' | tr '\n' ' ' || true)
           if [ -n "$COMMITS" ]; then
             echo "list=$COMMITS" >> "$GITHUB_OUTPUT"
           else
-            # Fallback: folosește merge_commit_sha; poate necesita -m 1 dacă e merge commit
             COMMIT_HASH=$(jq -r '.pull_request.merge_commit_sha' "$GITHUB_EVENT_PATH")
             echo "list=$COMMIT_HASH" >> "$GITHUB_OUTPUT"
           fi
 
-      # 3. ÎNCERCAREA CHERRY-PICK
       - name: Attempt Cherry-Pick on Target Branch
         id: cherry_pick
         if: steps.determine_branch.outputs.target_branch != ''
         env:
           TARGET_BRANCH: ${{ steps.determine_branch.outputs.target_branch }}
         run: |
-          PORT_BRANCH="port-${{ github.event.pull_request.number }}-to-$TARGET_BRANCH"
+          SOURCE_BRANCH="${{ github.event.pull_request.head.ref }}"
+          CLEAN_NAME=$(echo "${SOURCE_BRANCH}" | sed 's#[^a-zA-Z0-9._-]#-#g')
+          PORT_BRANCH="${TARGET_BRANCH}-port-${CLEAN_NAME}"
 
-          # Creează branch-ul de porting pe baza branch-ului țintă
+          echo "Creating port branch: $PORT_BRANCH"
           git checkout -b "$PORT_BRANCH" "$TARGET_BRANCH"
 
           STATUS=success
@@ -114,14 +110,12 @@ jobs:
             echo "status=success" >> "$GITHUB_OUTPUT"
             echo "port_branch=$PORT_BRANCH" >> "$GITHUB_OUTPUT"
           else
-            # 4. În caz de conflict, anulează operațiunea
             git cherry-pick --abort || true
             echo "status=conflict" >> "$GITHUB_OUTPUT"
             echo "::error::Conflict detected during cherry-pick on $TARGET_BRANCH. Manual porting required."
             echo "::notice file=.github/workflows/auto-port.yml::Conflict: Manual porting required on $TARGET_BRANCH"
           fi
 
-      # 5. ÎMPINGERE ȘI CREARE PR (DOAR LA SUCCES FĂRĂ CONFLICTE)
       - name: Push Branch and Create PR (On Success)
         if: steps.cherry_pick.outputs.status == 'success'
         env:
@@ -134,7 +128,9 @@ jobs:
           git push origin "$PORT_BRANCH"
 
           BODY=$(printf "Automat portat din PR #%s fuzionat în %s.\n\nNOTĂ: PR creat automat; necesită review și testare.\n" "${{ github.event.pull_request.number }}" "$BASE_BRANCH")
-          # Creează automat PR-ul folosind GitHub CLI
+
           gh pr create --base "$TARGET_BRANCH" --head "$PORT_BRANCH" \
              --title "Porting: $PR_TITLE (from $BASE_BRANCH)" \
              --body "$BODY"
+
+          echo "::notice title=Auto Port::$PR_TITLE portat din $BASE_BRANCH către $TARGET_BRANCH"
