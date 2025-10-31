@@ -1,6 +1,6 @@
-==========================
-Deltatech Sale Order Stage
-==========================
+==============================
+Deltatech Purchase Order Stage
+==============================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,15 +14,15 @@ Deltatech Sale Order Stage
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_stage
+    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_purchase_phase
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
 
 Features:
 
-- Additional field in the sales order to specify the phase in which the
-  order is
+- Additional field in the purchase order to specify the phase in which
+  the order is
 
 **Table of contents**
 
@@ -57,6 +57,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_sale_stage>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_purchase_phase>`_ project on GitHub.
 
 You are welcome to contribute.
