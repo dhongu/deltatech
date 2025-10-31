@@ -109,7 +109,6 @@ class PurchaseUblImportWizard(models.TransientModel):
         """
         Product = self.env["product.product"]
         SupplierInfo = self.env["product.supplierinfo"]
-        self.env["res.currency"]
 
         name = (line_vals.get("name") or line_vals.get("code") or "New Product").strip()
         code = (line_vals.get("code") or "").strip() or False
