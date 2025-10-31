@@ -131,6 +131,3 @@ class TestProcessAttachmentsForPost(TransactionCase):
         # A log message should have been posted on the PO
         last_msg = self.po.message_ids.sorted(key=lambda m: m.id)[-1] if self.po.message_ids else False
         self.assertTrue(last_msg, "A log message should be posted on the PO")
-
-
-

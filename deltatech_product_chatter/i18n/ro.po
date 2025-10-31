@@ -21,8 +21,8 @@ msgid ""
 "Allows deleting chatter messages on Product Template and Product Variant "
 "records."
 msgstr ""
-"Permite ștergerea mesajelor din chatter pe înregistrările de Șablon produs și "
-"Variantă produs."
+"Permite ștergerea mesajelor din chatter pe înregistrările de Șablon produs "
+"și Variantă produs."
 
 #. module: deltatech_product_chatter
 #: model:res.groups,name:deltatech_product_chatter.group_delete_product_chatter
