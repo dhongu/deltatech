@@ -571,6 +571,13 @@ class PurchaseUblImportWizard(models.TransientModel):
             _("Order: %(order)s | XML Reference: %(ref)s")
             % {"order": (order.name if order else "-"), "ref": (invoice_xml.get("order_ref") or "-")}
         )
+        if vat_mismatch_warning:
+            messages.append(
+                _(
+                    "Warning: Supplier VAT in XML (%(xml_vat)s) differs from order supplier (%(po_vat)s). Proceeded with order's vendor."
+                )
+                % {"xml_vat": supplier_vat or "-", "po_vat": partner.vat or "-"}
+            )
         if updated:
             messages.append(_("Updated prices:\n") + "\n".join(updated))
         if created:
