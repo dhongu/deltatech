@@ -372,40 +372,217 @@ ul.auto-toc {
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_expenses"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
 <p>Features:</p>
 <ul class="simple">
-<li>Introducerea decontului de cheltuieli intr-un document distict ce
-genereaza automat chitante de achizitie</li>
-<li>Validarea documentului duce la generarea notelor contabile de avans si
-inegistrarea platilor</li>
+<li>Introducerea decontului de cheltuieli într-un document distinct care
+generează automat chitanțe de achiziție</li>
+<li>Validarea documentului duce la generarea notelor contabile de avans și
+înregistrarea plăților</li>
 </ul>
-<p>In registrul de numerat trebue completat campul Cash advances cu 542.</p>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
+<p>Configurare:</p>
 <ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<li>În registrul de numerar trebuie completat câmpul “Cash advances” cu
+542.</li>
 </ul>
-</li>
+<div class="section" id="exemplu-de-testare-decontarea-cheltuielilor-din-avans">
+<h1>Exemplu de Testare: Decontarea Cheltuielilor din Avans</h1>
+<div class="section" id="obiectivul-testului">
+<h2>🎯 Obiectivul Testului</h2>
+<p>Decontarea corectă a unui avans de <strong>1.000 RON</strong>, cu cheltuieli totale
+de <strong>800 RON</strong>, rezultând în <strong>restituirea diferenței</strong> de <strong>200 RON</strong>
+de către angajat.</p>
+</div>
+<div class="section" id="pasii-de-testare-scenariu">
+<h2>⚙️ Pașii de Testare (Scenariu)</h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="32%" />
+<col width="36%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Pas</th>
+<th class="head">Acțiune Utilizator
+(Tester)</th>
+<th class="head">Rezultat Așteptat
+(Verificare)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><strong>1. Acordare
+Avans</strong></td>
+<td>Se înregistrează
+acordarea unui avans
+de 1.000 RON
+angajatului X.</td>
+<td>Soldul contului <strong>542</strong>
+(Avansuri de decontat)
+crește cu 1.000 RON.</td>
+</tr>
+<tr><td><strong>2. Creare Decont</strong></td>
+<td>Angajatul X inițiază
+un nou decont,
+făcând referire la
+avansul primit.</td>
+<td>Decontul preia automat
+valoarea avansului de
+1.000 RON.</td>
+</tr>
+<tr><td><strong>3. Introducere
+Cheltuieli</strong></td>
+<td>Se introduc
+cheltuielile: Cazare
+(500 RON, TVA
+inclus) și Transport
+(300 RON, TVA
+inclus).</td>
+<td>Total cheltuieli =
+<strong>800 RON</strong>. Se
+calculează corect
+TVA-ul deductibil.</td>
+</tr>
+<tr><td><strong>4. Validare
+Calcul</strong></td>
+<td>Se verifică automat
+calculul diferenței.</td>
+<td><strong>Avans (1.000) -
+Cheltuieli (800) =
+Diferență de restituit
+(200 RON)</strong>.</td>
+</tr>
+<tr><td><strong>5. Aprobare
+Decont</strong></td>
+<td>Decontul este trimis
+și aprobat de toți
+factorii
+decizionali.</td>
+<td>Statutul decontului se
+schimbă în
+“<strong>Aprobat/Decontat</strong>”.</td>
+</tr>
+<tr><td><strong>6. Restituire
+Avans</strong></td>
+<td>Angajatul restituie
+diferența de 200 RON
+(înregistrare la
+Casierie/Bancă).</td>
+<td>Se generează documentul
+de încasare
+(Chitanță/Dispoziție de
+Încasare).</td>
+</tr>
+<tr><td><strong>7. Contabilizare
+Finală</strong></td>
+<td>Sistemul
+contabilizează
+decontul și
+restituirea.</td>
+<td>Contul <strong>542</strong> al
+angajatului se închide
+(Sold <strong>0</strong>).</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr class="docutils" />
+<div class="section" id="note-contabile-aferente">
+<h2>📝 Note Contabile Aferente</h2>
+<p>Acestea sunt notele contabile așteptate pentru a testa închiderea
+corectă a avansului (Contul 542 - Avansuri de decontat):</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="15%" />
+<col width="19%" />
+<col width="19%" />
+<col width="15%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Nr. Crt.</th>
+<th class="head">Operațiune</th>
+<th class="head">Cont Debitor</th>
+<th class="head">Cont Creditor</th>
+<th class="head">Suma (RON)</th>
+<th class="head">Explicație</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><strong>1</strong></td>
+<td>Acordare
+Avans</td>
+<td><strong>542</strong>
+(Avans X)</td>
+<td><strong>5311/5121</strong>
+(Casa/Banca)</td>
+<td>1.000</td>
+<td>Acordarea
+avansului.</td>
+</tr>
+<tr><td><strong>2</strong></td>
+<td>Decontare
+Cheltuieli</td>
+<td><strong>6xx</strong>
+(Cheltuieli)</td>
+<td><strong>542</strong>
+(Avans X)</td>
+<td>672.27</td>
+<td>Valoarea
+cheltuielilor
+fără TVA (ex:
+800 -
+127.73).</td>
+</tr>
+<tr><td>&nbsp;</td>
+<td>&nbsp;</td>
+<td><strong>4426</strong> (TVA
+Deductibil)</td>
+<td><strong>542</strong>
+(Avans X)</td>
+<td>127.73</td>
+<td>TVA aferent
+cheltuielilor
+(ex: 19%).</td>
+</tr>
+<tr><td><strong>3</strong></td>
+<td>Restituire
+Sold</td>
+<td><strong>5311/5121</strong>
+(Casa/Banca)</td>
+<td><strong>542</strong>
+(Avans X)</td>
+<td>200</td>
+<td>Diferența
+restituită de
+angajat.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Verificare Sold Final Cont 542 (Avans X):</strong></p>
+<ul class="simple">
+<li><strong>Total Debitor:</strong> 1.000 RON</li>
+<li><strong>Total Creditor:</strong> 800 RON (Cheltuieli) + 200 RON (Restituire) =
+1.000 RON</li>
+<li><strong>Sold Final:</strong> 1.000 (D) - 1.000 (C) = <strong>0 RON (Corect)</strong></li>
 </ul>
+<p><strong>Table of contents</strong></p>
+</div>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_expenses">dhongu/deltatech</a> project on GitHub.</p>

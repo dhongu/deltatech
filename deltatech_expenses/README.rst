@@ -21,12 +21,106 @@ Expenses Deduction
 
 Features:
 
-- Introducerea decontului de cheltuieli intr-un document distict ce
-  genereaza automat chitante de achizitie
-- Validarea documentului duce la generarea notelor contabile de avans si
-  inegistrarea platilor
+- Introducerea decontului de cheltuieli într-un document distinct care
+  generează automat chitanțe de achiziție
+- Validarea documentului duce la generarea notelor contabile de avans și
+  înregistrarea plăților
 
-In registrul de numerat trebue completat campul Cash advances cu 542.
+Configurare:
+
+- În registrul de numerar trebuie completat câmpul "Cash advances" cu
+  542.
+
+Exemplu de Testare: Decontarea Cheltuielilor din Avans
+======================================================
+
+🎯 Obiectivul Testului
+----------------------
+
+Decontarea corectă a unui avans de **1.000 RON**, cu cheltuieli totale
+de **800 RON**, rezultând în **restituirea diferenței** de **200 RON**
+de către angajat.
+
+⚙️ Pașii de Testare (Scenariu)
+------------------------------
+
++----------------------+----------------------+-------------------------+
+| Pas                  | Acțiune Utilizator   | Rezultat Așteptat       |
+|                      | (Tester)             | (Verificare)            |
++======================+======================+=========================+
+| **1. Acordare        | Se înregistrează     | Soldul contului **542** |
+| Avans**              | acordarea unui avans | (Avansuri de decontat)  |
+|                      | de 1.000 RON         | crește cu 1.000 RON.    |
+|                      | angajatului X.       |                         |
++----------------------+----------------------+-------------------------+
+| **2. Creare Decont** | Angajatul X inițiază | Decontul preia automat  |
+|                      | un nou decont,       | valoarea avansului de   |
+|                      | făcând referire la   | 1.000 RON.              |
+|                      | avansul primit.      |                         |
++----------------------+----------------------+-------------------------+
+| **3. Introducere     | Se introduc          | Total cheltuieli =      |
+| Cheltuieli**         | cheltuielile: Cazare | **800 RON**. Se         |
+|                      | (500 RON, TVA        | calculează corect       |
+|                      | inclus) și Transport | TVA-ul deductibil.      |
+|                      | (300 RON, TVA        |                         |
+|                      | inclus).             |                         |
++----------------------+----------------------+-------------------------+
+| **4. Validare        | Se verifică automat  | **Avans (1.000) -       |
+| Calcul**             | calculul diferenței. | Cheltuieli (800) =      |
+|                      |                      | Diferență de restituit  |
+|                      |                      | (200 RON)**.            |
++----------------------+----------------------+-------------------------+
+| **5. Aprobare        | Decontul este trimis | Statutul decontului se  |
+| Decont**             | și aprobat de toți   | schimbă în              |
+|                      | factorii             | "**Aprobat/Decontat**". |
+|                      | decizionali.         |                         |
++----------------------+----------------------+-------------------------+
+| **6. Restituire      | Angajatul restituie  | Se generează documentul |
+| Avans**              | diferența de 200 RON | de încasare             |
+|                      | (înregistrare la     | (Chitanță/Dispoziție de |
+|                      | Casierie/Bancă).     | Încasare).              |
++----------------------+----------------------+-------------------------+
+| **7. Contabilizare   | Sistemul             | Contul **542** al       |
+| Finală**             | contabilizează       | angajatului se închide  |
+|                      | decontul și          | (Sold **0**).           |
+|                      | restituirea.         |                         |
++----------------------+----------------------+-------------------------+
+
+--------------
+
+📝 Note Contabile Aferente
+--------------------------
+
+Acestea sunt notele contabile așteptate pentru a testa închiderea
+corectă a avansului (Contul 542 - Avansuri de decontat):
+
++----------+------------+---------------+---------------+------------+---------------+
+| Nr. Crt. | Operațiune | Cont Debitor  | Cont Creditor | Suma (RON) | Explicație    |
++==========+============+===============+===============+============+===============+
+| **1**    | Acordare   | **542**       | **5311/5121** | 1.000      | Acordarea     |
+|          | Avans      | (Avans X)     | (Casa/Banca)  |            | avansului.    |
++----------+------------+---------------+---------------+------------+---------------+
+| **2**    | Decontare  | **6xx**       | **542**       | 672.27     | Valoarea      |
+|          | Cheltuieli | (Cheltuieli)  | (Avans X)     |            | cheltuielilor |
+|          |            |               |               |            | fără TVA (ex: |
+|          |            |               |               |            | 800 -         |
+|          |            |               |               |            | 127.73).      |
++----------+------------+---------------+---------------+------------+---------------+
+|          |            | **4426** (TVA | **542**       | 127.73     | TVA aferent   |
+|          |            | Deductibil)   | (Avans X)     |            | cheltuielilor |
+|          |            |               |               |            | (ex: 19%).    |
++----------+------------+---------------+---------------+------------+---------------+
+| **3**    | Restituire | **5311/5121** | **542**       | 200        | Diferența     |
+|          | Sold       | (Casa/Banca)  | (Avans X)     |            | restituită de |
+|          |            |               |               |            | angajat.      |
++----------+------------+---------------+---------------+------------+---------------+
+
+**Verificare Sold Final Cont 542 (Avans X):**
+
+- **Total Debitor:** 1.000 RON
+- **Total Creditor:** 800 RON (Cheltuieli) + 200 RON (Restituire) =
+  1.000 RON
+- **Sold Final:** 1.000 (D) - 1.000 (C) = **0 RON (Corect)**
 
 **Table of contents**
 
