@@ -164,13 +164,15 @@ class BusinessProcessTest(models.Model):
                 test.process_id.write({"status_integration_test": "in_progress"})
             elif test.scope == "user_acceptance":
                 test.process_id.write({"status_user_acceptance_test": "in_progress"})
-            if not self.tester_id:
-                self.tester_id = self.env.user.partner_id
-            for step in self.test_step_ids:
+            if not test.tester_id:
+                test.tester_id = self.env.user.partner_id
+            for step in test.test_step_ids:
                 if not step.responsible_id:
-                    step.responsible_id = self.tester_id
-            for steps in self.test_step_ids:
+                    step.responsible_id = test.tester_id
+            for steps in test.test_step_ids:
                 steps.write({"test_started": True})
+        # Subscribe followers after tester/responsibles are established
+        self._add_followers()
 
     def action_wait(self):
         self.ensure_one()
@@ -218,14 +220,16 @@ class BusinessProcessTest(models.Model):
         self.write({"state": "draft"})
 
     def _add_followers(self):
-        for process in self:
-            followers = self.env["res.partner"]
-            if process.tester_id not in process.message_partner_ids:
-                followers |= process.tester_id
-            for step in process.test_step_ids:
-                if step.responsible_id not in process.message_partner_ids:
-                    followers |= step.responsible_id
-            process.message_subscribe(followers.ids)
+        for test in self:
+            partners = self.env["res.partner"]
+            # Always consider tester and step responsibles
+            if test.tester_id:
+                partners |= test.tester_id
+            partners |= test.test_step_ids.mapped("responsible_id")
+            # Exclude already subscribed partners
+            partners -= test.message_partner_ids
+            if partners:
+                test.message_subscribe(partner_ids=partners.ids)
 
     @api.onchange("completion_test")
     def _onchange_completion_test(self):
