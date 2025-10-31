@@ -46,7 +46,7 @@ jobs:
             --head "$NEW_BRANCH" \
             --title "Auto PR: $NEW_BRANCH -> $TARGET_BRANCH" \
             --body "PR creat automat pentru branch-ul $NEW_BRANCH" \
-            --json url -q '.url')
+            )
 
           echo "PR_URL=$PR_URL" >> $GITHUB_OUTPUT
           echo "Created PR: $PR_URL"
