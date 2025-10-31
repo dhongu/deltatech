@@ -118,7 +118,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         product = Product.create(
             {
                 "name": name,
-                "type": "product",
+                "is_storable": True,
                 "purchase_ok": True,
                 "sale_ok": False,
                 "default_code": code or False,
@@ -462,11 +462,11 @@ class PurchaseUblImportWizard(models.TransientModel):
         # Determine supplier: prefer order's vendor if order provided
         partner = order.partner_id
         supplier_vat = invoice_xml.get("supplier_vat")
-        if supplier_vat != partner.vat:
-            self.log = (
-                f"Error: The supplier in the XML ({supplier_vat}) differs from the order supplier ({partner.vat})."
-            )
-            return
+        vat_mismatch_warning = False
+        if supplier_vat and partner.vat and supplier_vat != partner.vat:
+            # Do not block the import when launched from a specific PO: the order's vendor is authoritative.
+            # Keep a warning to be shown in the log so users are aware of the mismatch.
+            vat_mismatch_warning = True
 
         mapped_lines = []
         updated = []

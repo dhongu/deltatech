@@ -93,7 +93,7 @@ class TestProcessAttachmentsForPost(TransactionCase):
             {
                 "name": "Vendor SRL",
                 "is_company": True,
-                "vat": "RO12345678",
+                "vat": "RO123456789",
                 "supplier_rank": 1,
             }
         )

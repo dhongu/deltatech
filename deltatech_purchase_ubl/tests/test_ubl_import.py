@@ -20,7 +20,7 @@ def _xml_invoice(
     invoice_id="INV-001",
     currency="RON",
     order_ref="PO001",
-    supplier_vat="RO12345678",
+    supplier_vat="RO123456789",
     supplier_name="Vendor SRL",
     lines=None,
 ):
@@ -94,7 +94,7 @@ class TestPurchaseUblImport(TransactionCase):
             {
                 "name": "Vendor SRL",
                 "is_company": True,
-                "vat": "RO12345678",
+                "vat": "RO123456789",
                 "supplier_rank": 1,
             }
         )
@@ -176,7 +176,7 @@ class TestPurchaseUblImport(TransactionCase):
             {
                 "name": "Existing",
                 "default_code": "VEND-EXIST",
-                "type": "product",
+                "is_storable": True,
                 "uom_id": kg_uom.id,
                 "uom_po_id": kg_uom.id,
                 "purchase_ok": True,
