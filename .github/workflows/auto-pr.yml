@@ -31,6 +31,7 @@ jobs:
             echo "PR_URL=$EXISTING_PR" >> $GITHUB_OUTPUT
           else
             echo "PR_URL=" >> $GITHUB_OUTPUT
+          fi
 
       - name: Create PR to 17.0
         id: create_pr
@@ -50,12 +51,22 @@ jobs:
           echo "PR_URL=$PR_URL" >> $GITHUB_OUTPUT
           echo "Created PR: $PR_URL"
 
-
       - name: Comment on PR
-        if: steps.check_pr.outputs.PR_URL != '' || steps.create_pr.outputs.PR_URL != ''
         env:
-          PR_URL: ${{ steps.check_pr.outputs.PR_URL || steps.create_pr.outputs.PR_URL }}
+          CHECK_PR_URL: ${{ steps.check_pr.outputs.PR_URL }}
+          CREATE_PR_URL: ${{ steps.create_pr.outputs.PR_URL }}
           NEW_BRANCH: ${{ github.ref_name }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr comment "$PR_URL" --body "PR creat automat pentru branch-ul $NEW_BRANCH. Verifică modificările și testează înainte de merge."
+          # Determină ce PR URL să folosești
+          if [ -n "$CHECK_PR_URL" ]; then
+            PR_URL="$CHECK_PR_URL"
+          else
+            PR_URL="$CREATE_PR_URL"
+          fi
+
+          if [ -n "$PR_URL" ]; then
+            gh pr comment "$PR_URL" --body "PR creat automat pentru branch-ul $NEW_BRANCH. Verifică modificările și testează înainte de merge."
+          else
+            echo "Nu există PR pentru comentariu."
+          fi
