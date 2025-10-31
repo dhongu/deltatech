@@ -31,6 +31,7 @@ jobs:
             echo "PR_NUM=$EXISTING_PR" >> $GITHUB_OUTPUT
           else
             echo "PR_NUM=" >> $GITHUB_OUTPUT
+          fi
 
       - name: Create PR to 17.0
         id: create_pr
