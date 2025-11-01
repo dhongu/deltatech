@@ -44,13 +44,13 @@ class StockPickingReport(models.Model):
     def _select(self):
         select_str = """
             SELECT min(sm.id) as id, sp.id as picking_id,
-            sp.partner_id, rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date,  sp.company_id,
+            sp.partner_id, rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date_done,  sp.company_id,
             pt.categ_id, sm.product_id,  pt.uom_id as product_uom,
             sm.location_id,sm.location_dest_id,sl.usage as dest_usage, sum(pt.weight*sm.product_qty) as product_weight,
             CASE WHEN sl.usage='internal' THEN sum(sm.product_qty) ELSE -1*sum(sm.product_qty) END as product_qty,
 
-            COALESCE(abs(SUM(svl.value)/COALESCE(sum(sm.product_qty),1)), avg(sm.price_unit)) as price,
-            COALESCE((SUM(svl.value)),sum(sm.product_qty*sm.price_unit)) as amount
+            COALESCE(abs(SUM(sm.value)/COALESCE(sum(sm.product_qty),1)), avg(sm.price_unit)) as price,
+            COALESCE((SUM(sm.value)),sum(sm.product_qty*sm.price_unit)) as amount
         """
         return select_str
 
@@ -60,16 +60,6 @@ class StockPickingReport(models.Model):
             LEFT JOIN res_partner as rp ON rp.id = sp.partner_id
             LEFT JOIN stock_move as sm ON sp.id = sm.picking_id
 
-            INNER JOIN stock_valuation_layer AS svl ON svl.stock_move_id = sm.id and
-              (
-              svl.l10n_ro_valued_type != 'internal_transfer' or
-               (svl.l10n_ro_valued_type = 'internal_transfer' and sm.quantity > 0 )
-              )
-
-           /*
-            LEFT JOIN stock_quant_move_rel ON sm.id = stock_quant_move_rel.move_id
-            LEFT JOIN stock_quant as sq ON stock_quant_move_rel.quant_id = sq.id
-           */
             LEFT JOIN product_product as pp ON  sm.product_id = pp.id
             LEFT JOIN product_template as pt ON  pp.product_tmpl_id = pt.id
             LEFT JOIN stock_location sl on sm.location_dest_id = sl.id
@@ -78,7 +68,7 @@ class StockPickingReport(models.Model):
 
     def _group_by(self):
         group_by_str = """
-            GROUP BY sp.id, sp.partner_id,rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date,
+            GROUP BY sp.id, sp.partner_id,rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date_done,
             sp.company_id,
             pt.categ_id, sm.product_id,  pt.uom_id ,
             sm.location_id,sm.location_dest_id,sl.usage

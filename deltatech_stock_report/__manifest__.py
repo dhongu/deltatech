@@ -5,13 +5,12 @@
 {
     "name": "Stock Reports",
     "summary": "Report with positions from picking lists",
-    "version": "18.0.1.0.3",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
     "depends": [
         "stock_account",
-        "l10n_ro_stock_account",
     ],
     "license": "AGPL-3",
     "data": [
