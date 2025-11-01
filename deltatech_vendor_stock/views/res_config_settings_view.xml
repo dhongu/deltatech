@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form_deltatech_vendor_stock" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.deltatech.vendor.stock</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="40" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='quotation_order_setting_container']" position="inside">
+                <div class="w-100 row">
+                    <div class="w-50 row">
+                        <span class="d-block w-75 py-2">Color when stock will be fulfilled</span>
+                        <field name="stock_color_fulfilled" class="d-block w-25 p-0 m-0" widget="color" />
+                    </div>
+                    <div class="w-50 row">
+                        <span class="d-block w-75 py-2">Color when fulfilled but no free qty today</span>
+                        <field name="stock_color_fulfilled_no_free_qty" class="d-block w-25 p-0 m-0" widget="color" />
+                    </div>
+
+
+                    <div class="w-50 row">
+                        <span class="d-block w-75 py-2">Color when not fulfilled</span>
+                        <field name="stock_color_not_fulfilled" class="d-block w-25 p-0 m-0" widget="color" />
+                    </div>
+                    <div class="w-50 row">
+                        <span class="d-block w-75 py-2">Color when vendor qty is available</span>
+                        <field name="stock_color_vendor_available" class="d-block w-25 p-0 m-0" widget="color" />
+                    </div>
+                    <div class="w-50 row">
+                        <span class="d-block w-75 py-2">Default color</span>
+                        <field name="stock_color_default" class="d-block w-25 p-0 m-0" widget="color" />
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
