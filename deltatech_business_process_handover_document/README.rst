@@ -14,18 +14,37 @@ Business process handover document
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_business_process_handover_document
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_business_process_handover_document
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
 
 Feature:
 
-- Can generate the handover document for the business process from
-  business project.
-- The module supports english and romanian languages.
-- The document is generated in PDF format.
-- 
+- Generate the handover document for a business process directly from a
+  Business Project.
+- Captures provider/recipient companies, their representatives, testers,
+  and the list of project developments.
+- Available in English and Romanian.
+- Produces a PDF (QWeb) using an A4 paper format.
+- Accessible from the Business Project via the Print menu: "Handover
+  Document".
+
+Usage:
+
+1. Open a Business Project.
+2. Fill in Provider/Recipient information and Testers.
+3. Make sure developments are linked to the project.
+4. Click Print > Handover Document to generate the PDF.
+
+Dependencies:
+
+- deltatech_business_process
+
+Notes:
+
+- The report action is named
+  ``deltatech_business_process_handover_document.action_report_verbal_process``.
 
 **Table of contents**
 
@@ -60,6 +79,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_business_process_handover_document>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_business_process_handover_document>`_ project on GitHub.
 
 You are welcome to contribute.

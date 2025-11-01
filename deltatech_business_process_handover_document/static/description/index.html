@@ -369,14 +369,33 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:e746bfee1fbe1c212af1a2c575931bae51e31786f9af2f5869323a09a75d8d05
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_business_process_handover_document"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_business_process_handover_document"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
 <p>Feature:</p>
 <ul class="simple">
-<li>Can generate the handover document for the business process from
-business project.</li>
-<li>The module supports english and romanian languages.</li>
-<li>The document is generated in PDF format.</li>
-<li></li>
+<li>Generate the handover document for a business process directly from a
+Business Project.</li>
+<li>Captures provider/recipient companies, their representatives, testers,
+and the list of project developments.</li>
+<li>Available in English and Romanian.</li>
+<li>Produces a PDF (QWeb) using an A4 paper format.</li>
+<li>Accessible from the Business Project via the Print menu: “Handover
+Document”.</li>
+</ul>
+<p>Usage:</p>
+<ol class="arabic simple">
+<li>Open a Business Project.</li>
+<li>Fill in Provider/Recipient information and Testers.</li>
+<li>Make sure developments are linked to the project.</li>
+<li>Click Print &gt; Handover Document to generate the PDF.</li>
+</ol>
+<p>Dependencies:</p>
+<ul class="simple">
+<li>deltatech_business_process</li>
+</ul>
+<p>Notes:</p>
+<ul class="simple">
+<li>The report action is named
+<tt class="docutils literal">deltatech_business_process_handover_document.action_report_verbal_process</tt>.</li>
 </ul>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
@@ -408,7 +427,7 @@ In case of trouble, please check there if your issue has already been reported.<
 <h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/VoicuStefan2001"><img alt="VoicuStefan2001" src="https://github.com/VoicuStefan2001.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_business_process_handover_document">dhongu/deltatech</a> project on GitHub.</p>
+<p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_business_process_handover_document">dhongu/deltatech</a> project on GitHub.</p>
 <p>You are welcome to contribute.</p>
 </div>
 </div>
