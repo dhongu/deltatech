@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class SaleOrder(models.Model):
@@ -24,7 +24,7 @@ class SaleOrder(models.Model):
         return {
             "res_id": mrp_id,
             "target": "current",
-            "name": _("Simple production"),
+            "name": self.env._("Simple production"),
             "view_type": "form",
             "view_mode": "form",
             "res_model": "mrp.simple",

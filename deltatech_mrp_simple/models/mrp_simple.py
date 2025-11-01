@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
@@ -168,7 +168,7 @@ class MRPSimple(models.Model):
         if self.auto_create_sale:
             product_id = self.create_final_product()
             if not product_id:
-                raise UserError(_("Error creating final product!"))
+                raise UserError(self.env._("Error creating final product!"))
             standard_price = 0.0
             for line in self.product_out_ids:
                 standard_price += line.price_unit * line.quantity
@@ -209,7 +209,7 @@ class MRPSimple(models.Model):
         return {
             "res_id": self.consume_id.id,
             "target": "current",
-            "name": _("Consume"),
+            "name": self.env._("Consume"),
             "view_type": "form",
             "view_mode": "form",
             "res_model": "stock.picking",
@@ -223,7 +223,7 @@ class MRPSimple(models.Model):
         return {
             "res_id": self.receipt_id.id,
             "target": "current",
-            "name": _("Receipt"),
+            "name": self.env._("Receipt"),
             "view_type": "form",
             "view_mode": "form",
             "res_model": "stock.picking",
@@ -242,12 +242,12 @@ class MRPSimple(models.Model):
 
     def create_picking_lines_in(self, picking_in):
         if not self.product_in_ids:
-            raise UserError(_("You need at least one final product"))
+            raise UserError(self.env._("You need at least one final product"))
         for line in self.product_in_ids:
             params = self.env["ir.config_parameter"].sudo()
             allow_zero = safe_eval(params.get_param("deltatech_mrp_simple.allow_zero_cost", False))
             if not line.price_unit and not allow_zero:
-                raise UserError(_("Price 0 for result product!"))
+                raise UserError(self.env._("Price 0 for result product!"))
             if line.product_id.type != "service":
                 self.add_picking_line(
                     picking=picking_in,
@@ -273,7 +273,7 @@ class MRPSimple(models.Model):
         view = self.env.ref("deltatech_mrp_simple.multi_add_view_form")
         wiz = self.env["add.multi.mrp.lines"].create({"simple_mrp_id": self.id})
         return {
-            "name": _("Add lines"),
+            "name": self.env._("Add lines"),
             "type": "ir.actions.act_window",
             "view_type": "form",
             "view_mode": "form",
