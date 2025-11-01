@@ -46,9 +46,9 @@ class TestInvoice(TransactionCase):
         self.picking = po.picking_ids[0]
 
         # se confirma primirea produselor
-        for move_line in self.picking.move_line_ids:
-            if move_line.product_id == self.product_a:
-                move_line.write({"product_packaging_qty": 10})
+        for move in self.picking.move_ids:
+            if move.product_id == self.product_a:
+                move._set_quantity_done(10)
 
         # se valideaza primirea
         self.picking.button_validate()
