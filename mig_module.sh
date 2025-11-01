@@ -31,4 +31,4 @@ git commit -m "[IMP] $module: pre-commit stuff"  --no-verify  # it is important 
 
 echo "Migrarea pentru modulul $module s-a finalizat cu succes!"
 
-git push
+git push --set-upstream origin 19.0-mig-$module
