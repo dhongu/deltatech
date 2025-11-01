@@ -3,7 +3,6 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools.translate import _
 
 
 class DeltatechExpensesDeduction(models.Model):
@@ -134,7 +133,7 @@ class DeltatechExpensesDeduction(models.Model):
         string="Currency",
         readonly=True,
         required=True,
-        default=_default_currency,
+        default=lambda self: self._default_currency(),
         compute="_compute_currency",
     )
 
@@ -144,14 +143,14 @@ class DeltatechExpensesDeduction(models.Model):
         required=True,
         readonly=True,
         # states={"draft": [("readonly", False)]},
-        default=_default_journal,
+        default=lambda self: self._default_journal(),
     )
     expense_journal_id = fields.Many2one("account.journal", string="Expense Journal")
 
     journal_diem_id = fields.Many2one(
         "account.journal",
         string="Diem Journal",
-        default=_default_journal_diem,
+        default=lambda self: self._default_journal_diem(),
     )
 
     account_diem_id = fields.Many2one(
@@ -160,7 +159,7 @@ class DeltatechExpensesDeduction(models.Model):
         required=True,
         readonly=True,
         # states={"draft": [("readonly", False)], "advance": [("readonly", False)]},
-        default=_default_account_diem,
+        default=lambda self: self._default_account_diem(),
     )
 
     move_id = fields.Many2one("account.move", string="Account Entry", readonly=True)
@@ -214,7 +213,7 @@ class DeltatechExpensesDeduction(models.Model):
     def unlink(self):
         for t in self:
             if t.state not in ("draft", "cancel"):
-                raise UserError(_("Cannot delete Expenses Deduction(s) which are already done."))
+                raise UserError(self.env._("Cannot delete Expenses Deduction(s) which are already done."))
         return super().unlink()
 
     def invalidate_expenses(self):
@@ -300,13 +299,13 @@ class DeltatechExpensesDeduction(models.Model):
                     {
                         "partner_id": expenses.employee_id.id,
                         "account_id": account.id,
-                        "name": _("Avans"),
+                        "name": self.env._("Avans"),
                         "debit": expenses.advance,
                     },
                     {
                         "partner_id": expenses.employee_id.id,
                         "account_id": expenses.journal_id.default_account_id.id,
-                        "name": _("Avans"),
+                        "name": self.env._("Avans"),
                         "credit": expenses.advance,
                     },
                 ]
@@ -339,7 +338,7 @@ class DeltatechExpensesDeduction(models.Model):
             for line in expenses.expenses_line_ids:
                 partner_id = line.partner_id or partner_generic
                 if not partner_id:
-                    raise UserError(_("You must select a supplier for all lines."))
+                    raise UserError(self.env._("You must select a supplier for all lines."))
                 if line.type == "expenses":
                     voucher_value = {
                         "partner_id": partner_id.id,
@@ -425,13 +424,13 @@ class DeltatechExpensesDeduction(models.Model):
                         {
                             "partner_id": expenses.employee_id.id,
                             "account_id": account.id,
-                            "name": _("Deferenta Avans"),
+                            "name": self.env._("Deferenta Avans"),
                             "credit": amount,
                         },
                         {
                             "partner_id": expenses.employee_id.id,
                             "account_id": expenses.journal_id.default_account_id.id,
-                            "name": _("Deferenta Avans"),
+                            "name": self.env._("Deferenta Avans"),
                             "debit": amount,
                         },
                     ]
@@ -440,13 +439,13 @@ class DeltatechExpensesDeduction(models.Model):
                         {
                             "partner_id": expenses.employee_id.id,
                             "account_id": account.id,
-                            "name": _("Deferenta Avans"),
+                            "name": self.env._("Deferenta Avans"),
                             "debit": amount,
                         },
                         {
                             "partner_id": expenses.employee_id.id,
                             "account_id": expenses.journal_id.default_account_id.id,
-                            "name": _("Deferenta Avans"),
+                            "name": self.env._("Deferenta Avans"),
                             "credit": amount,
                         },
                     ]
@@ -463,7 +462,7 @@ class DeltatechExpensesDeduction(models.Model):
 
             if expenses.total_diem:
                 move_line_dr = {
-                    "name": _("Diurna"),
+                    "name": self.env._("Diurna"),
                     "debit": expenses.total_diem,
                     "credit": 0.0,
                     "account_id": expenses.account_diem_id.id,
@@ -473,7 +472,7 @@ class DeltatechExpensesDeduction(models.Model):
                     "date_maturity": expenses.date_expense,
                 }
                 move_line_cr = {
-                    "name": _("Diurna"),
+                    "name": self.env._("Diurna"),
                     "debit": 0.0,
                     "credit": expenses.total_diem,
                     "account_id": expenses.expense_journal_id.default_account_id.id,  # 542
@@ -556,7 +555,7 @@ class DeltatechExpensesDeductionLine(models.Model):
     )
 
     expense_account_id = fields.Many2one(
-        "account.account", default=_default_expense_account, string="Default Expense Account"
+        "account.account", default=lambda self: self._default_expense_account(), string="Default Expense Account"
     )
 
     state = fields.Selection(related="expenses_deduction_id.state")
