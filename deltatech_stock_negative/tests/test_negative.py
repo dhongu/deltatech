@@ -7,7 +7,7 @@ class TestNegative(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         group_stock_multi_locations = cls.env.ref("stock.group_stock_multi_locations")
-        cls.env.user.write({"groups_id": [(4, group_stock_multi_locations.id, 0)]})
+        cls.env.user.write({"group_ids": [(4, group_stock_multi_locations.id, 0)]})
         cls.env.company.no_negative_stock = True
 
         cls.uom_unit = cls.env.ref("uom.product_uom_unit")
@@ -41,7 +41,6 @@ class TestNegative(TransactionCase):
         )
         move = self.env["stock.move"].create(
             {
-                "name": "test_negative",
                 "location_id": self.stock_location.id,
                 "location_dest_id": self.pack_location.id,
                 "product_id": self.product.id,
@@ -60,7 +59,6 @@ class TestNegative(TransactionCase):
         )
         move = self.env["stock.move"].create(
             {
-                "name": "test_negative",
                 "location_id": self.stock_location.id,
                 "location_dest_id": self.pack_location.id,
                 "product_id": self.product.id,
@@ -85,7 +83,6 @@ class TestNegative(TransactionCase):
         )
         move = self.env["stock.move"].create(
             {
-                "name": "test_negative",
                 "location_id": self.stock_location.id,
                 "location_dest_id": self.pack_location.id,
                 "product_id": self.product_lot.id,
@@ -108,7 +105,6 @@ class TestNegative(TransactionCase):
         )
         move = self.env["stock.move"].create(
             {
-                "name": "test_negative",
                 "location_id": self.stock_location.id,
                 "location_dest_id": self.pack_location.id,
                 "product_id": self.product_lot.id,
@@ -126,7 +122,7 @@ class TestNegative(TransactionCase):
         self.assertRegex(cm.exception.args[0], "avoid negative stock")
 
     def test_allow_positive_package(self):
-        package = self.env["stock.quant.package"].create({"name": "test_package"})
+        package = self.env["stock.package"].create({"name": "test_package"})
         self.env["stock.quant"]._update_available_quantity(
             product_id=self.product,
             location_id=self.stock_location,
@@ -135,7 +131,6 @@ class TestNegative(TransactionCase):
         )
         move = self.env["stock.move"].create(
             {
-                "name": "test_negative",
                 "location_id": self.stock_location.id,
                 "location_dest_id": self.pack_location.id,
                 "product_id": self.product.id,
@@ -149,7 +144,7 @@ class TestNegative(TransactionCase):
         move._action_done()
 
     def test_prevent_negative_package(self):
-        package = self.env["stock.quant.package"].create({"name": "test_package"})
+        package = self.env["stock.package"].create({"name": "test_package"})
         self.env["stock.quant"]._update_available_quantity(
             product_id=self.product,
             location_id=self.stock_location,
@@ -158,7 +153,6 @@ class TestNegative(TransactionCase):
         )
         move = self.env["stock.move"].create(
             {
-                "name": "test_negative",
                 "location_id": self.stock_location.id,
                 "location_dest_id": self.pack_location.id,
                 "product_id": self.product.id,
