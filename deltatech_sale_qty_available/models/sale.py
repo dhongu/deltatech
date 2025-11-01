@@ -83,9 +83,9 @@ class SaleOrderLine(models.Model):
     def _compute_qty_available_text(self):
         for line in self:
             product = line.product_id
-            if line.route_id:
+            if line.route_ids:
                 location = False
-                for pull in line.route_id.rule_ids:
+                for pull in line.route_ids.rule_ids:
                     location = pull.location_src_id
                 if location:
                     product = line.product_id.with_context(location=location.id)
