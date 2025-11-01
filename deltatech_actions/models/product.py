@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import _, api, models
+from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -29,4 +29,4 @@ class ProductProduct(models.Model):
         product_ids = [x[0] for x in self.env.cr.fetchall()]
         products = self.browse(product_ids)
         products.create_rule()
-        _logger.info(_(f"Created {len(product_ids)} missing rules"))
+        _logger.info(self.env._("Created %s missing rules", len(product_ids)))

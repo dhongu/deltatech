@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import _, api, models
+from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -166,7 +166,7 @@ class ResPartnerMergeCron(models.Model):
             )
 
         except Exception as e:
-            _logger.error(_(f"Eroare la procesarea lotului {offset}-{offset + batch_size}: {e}"))
+            _logger.error(f"Eroare la procesarea lotului {offset}-{offset + batch_size}: {e}")
 
         return total_updated
 
@@ -180,14 +180,16 @@ class ResPartnerMergeCron(models.Model):
 
             # Creează un mesaj în log
             if updated_count > 0:
-                message = _(f"Cron job: Au fost normalizate {updated_count} nume de companii")
+                message = self.env._("Cron job: Au fost normalizate %s nume de companii", updated_count)
                 _logger.info(message)
 
                 # Opțional: trimite notificare către administrator
-                admin_users = self.env["res.users"].search([("groups_id", "in", self.env.ref("base.group_system").id)])
+                admin_users = self.env["res.users"].search([("groups_ids", "in", self.env.ref("base.group_system").id)])
                 if admin_users:
                     for admin in admin_users:
-                        admin.partner_id.message_post(body=message, subject=_("Normalizare companii - Cron Job"))
+                        admin.partner_id.message_post(
+                            body=message, subject=self.env._("Normalizare companii - Cron Job")
+                        )
             else:
                 _logger.info("Cron job: Nu au fost găsite companii care să necesite normalizare")
 
@@ -195,10 +197,10 @@ class ResPartnerMergeCron(models.Model):
             _logger.error(f"Eroare în cron job pentru normalizarea companiilor: {e}")
 
             # Notifică administratorul despre eroare
-            admin_users = self.env["res.users"].search([("groups_id", "in", self.env.ref("base.group_system").id)])
+            admin_users = self.env["res.users"].search([("groups_ids", "in", self.env.ref("base.group_system").id)])
             if admin_users:
                 for admin in admin_users:
                     admin.partner_id.message_post(
-                        body=_(f"Eroare în normalizarea companiilor: {e}"),
-                        subject=_("EROARE - Normalizare companii - Cron Job"),
+                        body=self.env._("Eroare în normalizarea companiilor: %s", e),
+                        subject=self.env._("EROARE - Normalizare companii - Cron Job"),
                     )
