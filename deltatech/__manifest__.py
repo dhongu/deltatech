@@ -1,0 +1,18 @@
+# ©  2008-2021 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+{
+    "name": "Deltatech",
+    "version": "19.0.1.0.1",
+    "author": "Terrabit, Dorin Hongu",
+    "website": "https://www.terrabit.ro",
+    "summary": "Generic module",
+    "category": "Tools",
+    "depends": ["web", "base"],
+    "data": ["views/base_view.xml", "views/ir_rule_view.xml"],
+    "license": "OPL-1",
+    "images": ["images/main_screenshot.png"],
+    "development_status": "Mature",
+    "maintainers": ["dhongu"],
+}
