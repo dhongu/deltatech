@@ -16,7 +16,7 @@ class PurchaseOrder(models.Model):
                 if picking.state == "confirmed":
                     picking.action_assign()
                     if picking.state != "assigned":
-                        raise UserError(_("The stock transfer cannot be validated!"))
+                        raise UserError(self.env._("The stock transfer cannot be validated!"))
                 if picking.state == "assigned":
                     picking.write(
                         {
