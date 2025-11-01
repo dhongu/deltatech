@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import UserError
 
 
@@ -27,7 +27,7 @@ class AccountInvoice(models.Model):
                             pickings |= move.picking_id
 
         if not pickings:
-            raise UserError(_("This invoice has no deliveries"))
+            raise UserError(self.env._("This invoice has no deliveries"))
 
         action = self.env["ir.actions.actions"]._for_xml_id("stock.action_picking_tree_all")
 

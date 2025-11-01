@@ -5,7 +5,7 @@
 {
     "name": "Invoice Delivery / Reception",
     "summary": "Adding button in invoice for display reception or delivery",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
