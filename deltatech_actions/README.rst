@@ -14,7 +14,7 @@ Deltatech Actions
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_actions
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_actions
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -58,6 +58,6 @@ Authors
 Maintainers
 -----------
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_actions>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_actions>`_ project on GitHub.
 
 You are welcome to contribute.
