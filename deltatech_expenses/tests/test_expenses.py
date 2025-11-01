@@ -20,6 +20,16 @@ class TestExpenses(TransactionCase):
         )
         # Create accounts: Cash (5311), Cash advances (542), Expense (6xx)
 
+        if not cash_journal:
+            cash_journal = cls.env["account.journal"].create(
+                {
+                    "name": "Cash",
+                    "code": "CASH",
+                    "type": "cash",
+                    "company_id": cls.company.id,
+                }
+            )
+
         cls.acc_cash = cash_journal.default_account_id
 
         cls.acc_542 = cls.env["account.account"].create(
