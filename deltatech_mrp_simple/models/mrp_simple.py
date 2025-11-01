@@ -53,7 +53,7 @@ class MRPSimple(models.Model):
             .create(
                 {
                     "picking_type_id": picking_type_receipt_production.id,
-                    "date": self.date,
+                    "date_done": self.date,
                 }
             )
         )
@@ -62,7 +62,7 @@ class MRPSimple(models.Model):
         picking_out = (
             self.env["stock.picking"]
             .with_context(**context)
-            .create({"picking_type_id": picking_type_consume.id, "date": self.date})
+            .create({"picking_type_id": picking_type_consume.id, "date_done": self.date})
         )
 
         self.create_sale()
@@ -118,7 +118,6 @@ class MRPSimple(models.Model):
                 "product_uom": uom.id,
                 "product_uom_qty": quantity,
                 # 'quantity_done': quantity,  # o fi bine >???
-                "name": product.name,
                 "picking_id": picking.id,
                 "price_unit": price_unit,
                 "location_id": picking.picking_type_id.default_location_src_id.id,
@@ -198,7 +197,7 @@ class MRPSimple(models.Model):
                 "product_id": product_id,
                 "name": self.final_product_name,
                 "product_uom_qty": self.final_product_qty,
-                "product_uom": self.final_product_uom_id.id
+                "product_uom_id": self.final_product_uom_id.id
                 if not self.final_product_id
                 else self.final_product_id.uom_id.id,
             }

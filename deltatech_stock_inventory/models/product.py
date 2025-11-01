@@ -18,13 +18,10 @@ class ProductWarehouseLocation(models.Model):
     loc_shelf = fields.Char("Shelf Name", size=16)
     loc_case = fields.Char("Case Name", size=16)
 
-    _sql_constraints = [
-        (
-            "product_product_uniq",
-            "unique(product_id, warehouse_id)",
-            "Warehouse must be unique per product!",
-        ),
-    ]
+    _product_product_uniq = models.Constraint(
+        "unique(product_id, warehouse_id)",
+        "Warehouse must be unique per product!",
+    )
 
 
 class ProductTemplate(models.Model):

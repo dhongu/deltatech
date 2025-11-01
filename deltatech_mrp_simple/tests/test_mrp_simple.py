@@ -106,7 +106,7 @@ class TestMRPSimple(TransactionCase):
         mrp.validation_consume = True
         mrp.auto_create_sale = True
         mrp.final_product_name = "Test Finish Product"
-        mrp.final_product_category = self.env.ref("product.product_category_all")
+        mrp.final_product_category = self.env.ref("product.product_category_goods")
         mrp.final_product_uom_id = self.env.ref("uom.product_uom_unit")
         mrp.partner_id = self.partner
 
