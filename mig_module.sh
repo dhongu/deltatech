@@ -30,3 +30,5 @@ git add -A
 git commit -m "[IMP] $module: pre-commit stuff"  --no-verify  # it is important to do all formatting in one commit the first time
 
 echo "Migrarea pentru modulul $module s-a finalizat cu succes!"
+
+git push
