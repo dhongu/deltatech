@@ -184,7 +184,7 @@ class ResPartnerMergeCron(models.Model):
                 _logger.info(message)
 
                 # Opțional: trimite notificare către administrator
-                admin_users = self.env["res.users"].search([("groups_ids", "in", self.env.ref("base.group_system").id)])
+                admin_users = self.env["res.users"].search([("group_ids", "in", self.env.ref("base.group_system").id)])
                 if admin_users:
                     for admin in admin_users:
                         admin.partner_id.message_post(
@@ -197,7 +197,7 @@ class ResPartnerMergeCron(models.Model):
             _logger.error(f"Eroare în cron job pentru normalizarea companiilor: {e}")
 
             # Notifică administratorul despre eroare
-            admin_users = self.env["res.users"].search([("groups_ids", "in", self.env.ref("base.group_system").id)])
+            admin_users = self.env["res.users"].search([("group_ids", "in", self.env.ref("base.group_system").id)])
             if admin_users:
                 for admin in admin_users:
                     admin.partner_id.message_post(

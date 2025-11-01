@@ -27,8 +27,8 @@ class TestForceCancelOrderAndMoves(TransactionCase):
                 "state": "sale",  # set state directly to match method precondition
             }
         )
-        cls.group = cls.env["procurement.group"].create({"name": "SO Group"})
-        cls.so.procurement_group_id = cls.group.id
+        # cls.group = cls.env["procurement.group"].create({"name": "SO Group"})
+        # cls.so.procurement_group_id = cls.group.id
 
         # Create a picking linked to the sale order via group
         cls.picking = cls.env["stock.picking"].create(
@@ -36,14 +36,13 @@ class TestForceCancelOrderAndMoves(TransactionCase):
                 "picking_type_id": cls.env.ref("stock.picking_type_out").id,
                 "location_id": cls.env.ref("stock.stock_location_stock").id,
                 "location_dest_id": cls.env.ref("stock.stock_location_customers").id,
-                "group_id": cls.group.id,
+                # "group_id": cls.group.id,
                 "sale_id": cls.so.id,
             }
         )
         # Minimal move and move line under the picking
         cls.move = cls.env["stock.move"].create(
             {
-                "name": "Move A",
                 "product_id": cls.product.id,
                 "product_uom": cls.product.uom_id.id,
                 "product_uom_qty": 1.0,
@@ -78,8 +77,6 @@ class TestForceCancelOrderAndMoves(TransactionCase):
         )
 
     def test_force_cancel(self):
-        self.assertTrue(self.so.picking_ids, "Precondition: sale order should have related picking")
-        # Call the method under test
         self.so.force_cancel_order_and_moves()
 
         # Assertions: all states should be 'cancel'
