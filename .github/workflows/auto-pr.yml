@@ -1,0 +1,72 @@
+name: Auto PR for 19.0 Branches
+
+on:
+  create:
+    branches:
+      - '19.0*'   # orice branch care începe cu 19.0
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if PR already exists
+        id: check_pr
+        env:
+          NEW_BRANCH: ${{ github.ref_name }}
+          TARGET_BRANCH: "19.0"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          EXISTING_PR=$(gh pr list --head "$NEW_BRANCH" --base "$TARGET_BRANCH" --state open | grep -Eo '#[0-9]+' | head -n1 | tr -d '#')
+          if [ -n "$EXISTING_PR" ]; then
+            echo "PR already exists: #$EXISTING_PR"
+            echo "PR_NUM=$EXISTING_PR" >> $GITHUB_OUTPUT
+          else
+            echo "PR_NUM=" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create PR to 19.0
+        id: create_pr
+        if: steps.check_pr.outputs.PR_NUM == ''
+        env:
+          NEW_BRANCH: ${{ github.ref_name }}
+          TARGET_BRANCH: "19.0"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Creează PR și obține numărul
+          PR_NUM=$(gh pr create \
+            --base "$TARGET_BRANCH" \
+            --head "$NEW_BRANCH" \
+            --title "[$TARGET_BRANCH] $NEW_BRANCH " \
+            --body "PR creat automat pentru branch-ul $NEW_BRANCH" | awk '{print $2}' | tr -d '#')
+
+          echo "PR_NUM=$PR_NUM" >> $GITHUB_OUTPUT
+          echo "Created PR #$PR_NUM"
+
+      - name: Comment on PR
+        env:
+          CHECK_PR_NUM: ${{ steps.check_pr.outputs.PR_NUM }}
+          CREATE_PR_NUM: ${{ steps.create_pr.outputs.PR_NUM }}
+          NEW_BRANCH: ${{ github.ref_name }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Determină ce PR număr să folosești
+          if [ -n "$CHECK_PR_NUM" ]; then
+            PR_NUM="$CHECK_PR_NUM"
+          else
+            PR_NUM="$CREATE_PR_NUM"
+          fi
+
+          if [ -n "$PR_NUM" ]; then
+            gh pr comment "$PR_NUM" --body "PR creat automat pentru branch-ul $NEW_BRANCH. Verifică modificările și testează înainte de merge."
+          else
+            echo "Nu există PR pentru comentariu."
+          fi
