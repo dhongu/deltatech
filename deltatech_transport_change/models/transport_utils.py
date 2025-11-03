@@ -202,6 +202,7 @@ def git_commit_push(file_path, message, repo):
     Utilizează credențialele din `transport.repo` dacă sunt setate.
     Acceptă fie o cale de fișier (str), fie o listă/tuplu de căi.
     În plus: include automat și `__manifest__.py` al modulului țintă și îi incrementează versiunea înainte de commit.
+    Asigură-te că modificările sunt făcute pe branch-ul specificat în `repo.repo_branch` (creează/atașează dacă e necesar).
     """
     if git is None:
         # GitPython nu este instalat
@@ -225,7 +226,7 @@ def git_commit_push(file_path, message, repo):
             module_path = get_module_path(repo.module_name)
             manifest_path = os.path.join(module_path, "__manifest__.py")
             # bump version înainte de stage
-            changed, _ = _bump_manifest_version_inplace(manifest_path)
+            _bump_manifest_version_inplace(manifest_path)
             if manifest_path not in file_paths:
                 file_paths.append(manifest_path)
     except Exception:
@@ -238,6 +239,65 @@ def git_commit_push(file_path, message, repo):
     except Exception as e:
         raise Exception(f"Nu s-a găsit un repository Git valid pentru {repo_dir}: {e}") from e
 
+    # Determină branch-ul țintă
+    target_branch = getattr(repo, "repo_branch", None)
+    if not target_branch or not isinstance(target_branch, str):
+        # dacă nu e definit, încercăm să folosim branch-ul curent; dacă nu, oprim cu mesaj clar
+        try:
+            target_branch = g.active_branch.name
+        except Exception as e:
+            raise Exception(
+                "Branch-ul țintă nu este setat în configurarea repo și repository-ul este în detached HEAD; setează 'Branch' în Transport Repo."
+            ) from e
+
+    # Asigură `origin` și sincronizare minimală
+    remote = None
+    try:
+        remote = g.remote("origin")
+    except Exception:
+        remote = None
+    if remote is None:
+        # dacă nu există origin și avem o adresă, îl creăm
+        repo_url = getattr(repo, "repo_url", None)
+        if repo_url:
+            remote = g.create_remote("origin", repo_url)
+        else:
+            # fără remote, vom face doar commit local pe branch-ul țintă
+            remote = None
+
+    # Fetch origin dacă există, pentru a vedea ramurile remote
+    if remote is not None:
+        try:
+            remote.fetch()
+        except Exception:
+            # ignorăm eșecurile de fetch (offline etc.)
+            pass
+
+    # Comută pe branch-ul țintă (creează dacă e nevoie)
+    try:
+        # vezi dacă există local
+        if target_branch in [h.name for h in g.heads]:
+            g.git.checkout(target_branch)
+        else:
+            # încearcă să creezi din remote dacă există
+            remote_ref = None
+            if remote is not None:
+                for r in remote.refs:
+                    if r.name.endswith(f"/{target_branch}"):
+                        remote_ref = r
+                        break
+            if remote_ref is not None:
+                new_head = g.create_head(target_branch, remote_ref)
+                new_head.set_tracking_branch(remote_ref)
+                new_head.checkout()
+            else:
+                # creează din HEAD curent (detached sau alt branch)
+                new_head = g.create_head(target_branch)
+                new_head.checkout()
+    except Exception as e:
+        # dacă checkout eșuează, nu continuăm cu stage/commit
+        raise Exception(f"Nu s-a putut comuta pe branch-ul '{target_branch}': {e}") from e
+
     # Stage files (relativ la working tree)
     rels = [os.path.relpath(p, g.working_tree_dir) for p in file_paths]
     g.index.add(rels)
@@ -247,21 +307,27 @@ def git_commit_push(file_path, message, repo):
         g.index.commit(message)
         # Push
         try:
-            remote_name = "origin"
-            branch = repo.repo_branch or g.active_branch.name
-            remote = g.remote(remote_name)
-            # Alegem metoda pe baza tipului de credentiale
-            if getattr(repo, "credential_type", False) == "ssh" and getattr(repo, "ssh_key", False):
-                _push_with_ssh_key(g, remote, branch, repo.ssh_key)
-            elif (
-                getattr(repo, "credential_type", False) == "https"
-                and getattr(repo, "username", False)
-                and getattr(repo, "password", False)
-            ):
-                _push_with_https(g, remote, branch, repo.username, repo.password)
-            else:
-                # fără credențiale explicite — încercăm push normal
-                remote.push(refspec=f"HEAD:{branch}")
+            if remote is not None:
+                # Alegem metoda pe baza tipului de credentiale și ne asigurăm că push-ul merge în branch-ul țintă
+                if getattr(repo, "credential_type", False) == "ssh" and getattr(repo, "ssh_key", False):
+                    _push_with_ssh_key(g, remote, target_branch, repo.ssh_key)
+                elif (
+                    getattr(repo, "credential_type", False) == "https"
+                    and getattr(repo, "username", False)
+                    and getattr(repo, "password", False)
+                ):
+                    _push_with_https(g, remote, target_branch, repo.username, repo.password)
+                else:
+                    # Verificăm dacă upstream este setat; dacă nu, folosim --set-upstream
+                    try:
+                        tracking = g.head.reference.tracking_branch()
+                    except Exception:
+                        tracking = None
+                    if tracking is None:
+                        # primul push setează upstream
+                        g.git.push("--set-upstream", remote.name, target_branch)
+                    else:
+                        remote.push(refspec=f"HEAD:{target_branch}")
         except Exception:
             # ignorăm eșecurile de push; commit local rămâne
             pass
