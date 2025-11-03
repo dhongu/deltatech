@@ -1,0 +1,64 @@
+<odoo>
+    <record id="view_transport_config_tree" model="ir.ui.view">
+        <field name="name">transport.config.tree</field>
+        <field name="model">transport.config</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="last_export"/>
+                <field name="repo_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_transport_config_form" model="ir.ui.view">
+        <field name="name">transport.config.form</field>
+        <field name="model">transport.config</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button string="Generate File" type="object" name="action_export_csv" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="model_id"/>
+                        <field name="model_name" invisible="1"/>
+                        <field name="field_ids" widget="many2many_tags" options="{'no_quick_create': True}"/>
+                        <field name="domain" widget="domain" options="{'model': 'model_name', 'in_dialog': true}"/>
+                        <field name="last_export"/>
+                    </group>
+                    <group>
+                        <field name="repo_id"/>
+                    </group>
+
+                    <footer>
+                        <button string="Export CSV" type="object" name="action_export_csv" class="btn-primary"/>
+                    </footer>
+                </sheet>
+                 <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Window action and menu under Settings/Technical -->
+    <record id="action_transport_config" model="ir.actions.act_window">
+        <field name="name">Transport Config</field>
+        <field name="res_model">transport.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_transport_root" name="Transport" parent="base.menu_custom" sequence="90"/>
+    <menuitem id="menu_transport_config" name="Configurations" parent="menu_transport_root" action="action_transport_config" sequence="10"/>
+
+    <!-- Server action to export selected configs from list view -->
+    <record id="server_action_transport_config_export" model="ir.actions.server">
+        <field name="name">Export CSV</field>
+        <field name="model_id" ref="model_transport_config"/>
+        <field name="binding_model_id" ref="model_transport_config"/>
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">records.action_export_csv()</field>
+    </record>
+</odoo>

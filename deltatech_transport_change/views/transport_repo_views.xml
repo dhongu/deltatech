@@ -1,0 +1,45 @@
+<odoo>
+    <record id="view_transport_repo_tree" model="ir.ui.view">
+        <field name="name">transport.repo.tree</field>
+        <field name="model">transport.repo</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="module_name"/>
+                <field name="repo_url"/>
+                <field name="repo_branch"/>
+                <field name="credential_type"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_transport_repo_form" model="ir.ui.view">
+        <field name="name">transport.repo.form</field>
+        <field name="model">transport.repo</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="module_name"/>
+                        <field name="repo_url"/>
+                        <field name="repo_branch"/>
+                        <field name="credential_type"/>
+                        <field name="ssh_key"/>
+                        <field name="username"/>
+                        <field name="password" password="True"/>
+                        <field name="repo_local_path"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_transport_repo" model="ir.actions.act_window">
+        <field name="name">Transport Repos</field>
+        <field name="res_model">transport.repo</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_transport_repo" name="Repositories" parent="menu_transport_root" action="action_transport_repo" sequence="20"/>
+</odoo>
