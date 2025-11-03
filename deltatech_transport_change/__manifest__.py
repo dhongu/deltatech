@@ -10,7 +10,7 @@
         "mail",
     ],
     "external_dependencies": {
-        "python": ["git"],
+        "python": ["GitPython"],
     },
     "data": [
         "security/ir.model.access.csv",
