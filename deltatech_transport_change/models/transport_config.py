@@ -26,7 +26,6 @@ class TransportConfig(models.Model):
     )
 
     domain = fields.Char(string="Domain", help="Expression list, e.g. [('company_id','=',1)]")
-    export_path = fields.Char(string="Export Path", required=True)
     last_export = fields.Datetime(string="Last Export")
     repo_id = fields.Many2one("transport.repo", string="Git Repository")
 
@@ -72,7 +71,8 @@ class TransportConfig(models.Model):
             raise UserError("Nu există înregistrări pentru domeniul dat.")
 
         # Field selection via Many2many is mandatory
-        field_names = self.field_ids.mapped("name")
+        # Ensure we don't duplicate the 'id' column; it will be generated as External ID
+        field_names = [n for n in self.field_ids.mapped("name") if n != "id"]
         if not field_names:
             raise UserError("Nu ai specificat câmpurile pentru export.")
 
@@ -81,10 +81,17 @@ class TransportConfig(models.Model):
 
         buf = io.StringIO()
         writer = csv.writer(buf)
-        writer.writerow(field_names)
+        # First column must be External ID (Odoo export convention uses header 'id')
+        header = ["id"] + field_names
+        writer.writerow(header)
+
+        # Precompute external ids mapping for efficiency
+        ext_map = records.get_external_id()
 
         for rec in records:
-            row = []
+            # External ID or fallback to model,id
+            ext_id = ext_map.get(rec.id) or f"{rec._name},{rec.id}"
+            row = [ext_id]
             for f in field_names:
                 if not hasattr(rec, f):
                     row.append("")
@@ -98,11 +105,7 @@ class TransportConfig(models.Model):
         csv_data = buf.getvalue()
 
         # Attach CSV to chatter for easy access
-        default_filename = f"{self.model_id.model}.csv"
-        # If export_path provided, use it as filename; enforce .csv
-        target_filename = (self.export_path or default_filename).strip()
-        if not target_filename.lower().endswith(".csv"):
-            target_filename = f"{target_filename}.csv"
+        target_filename = f"{self.model_id.model}.csv"
 
         attachment = self.env["ir.attachment"].create(
             {

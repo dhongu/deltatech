@@ -4,7 +4,7 @@ DeltaTech Transport Change is an Odoo technical module designed to manage the ex
 
 Key Features
 
-Export Configuration to CSV/XML: Easily export selected models, fields, and records with optional domain filters, triggered from a form button or list server action.
+Export Configuration to CSV/XML: Easily export selected models, fields, and records with optional domain filters, triggered from a form button or list server action. The first column in the generated CSV is always the External ID (`id`) of each record, ensuring reliable re-import and cross-environment consistency.
 
 Mapping of Relationships: Automatically converts many2one and many2many relational fields to XMLID references for reliable transport.
 

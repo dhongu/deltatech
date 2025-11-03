@@ -1,6 +1,6 @@
 {
     "name": "DeltaTech Transport Change",
-    "version": "19.0.0.0.6",
+    "version": "19.0.0.0.8",
     "category": "Technical",
     "summary": "Export configuration changes to CSV and manage transport through Git",
     "author": "Terrabit, Dorin Hongu",
