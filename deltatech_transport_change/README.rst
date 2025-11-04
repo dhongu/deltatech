@@ -1,6 +1,6 @@
-=====================
-Deltatech Test System
-=====================
+==========================
+DeltaTech Transport Change
+==========================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -10,19 +10,54 @@ Deltatech Test System
    !! source digest: sha256:982abfd31ff888f76f37b07f22409af6191b38d5f8ae1f5366d619d64a194fdb
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Production/Stable
+    :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_test_system
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_transport_change
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
 
-Features:
+DeltaTech Transport Change
 
-- can neutralizes the DB in settings and adds a permanent banner up top
-  to know the DB is a test DB
+DeltaTech Transport Change is an Odoo technical module designed to
+manage the export of configuration changes and transport them between
+environments (Development → Staging → Production) in a structured and
+version-controlled manner. The module provides a functionality similar
+to SAP transport requests, allowing system administrators and
+consultants to track, export, and migrate configuration data safely.
+
+Key Features
+
+Export Configuration to CSV/XML: Easily export selected models, fields,
+and records with optional domain filters, triggered from a form button
+or list server action. The first column in the generated CSV is always
+the External ID (``id``) of each record, ensuring reliable re-import and
+cross-environment consistency.
+
+Mapping of Relationships: Automatically converts many2one and many2many
+relational fields to XMLID references for reliable transport.
+
+Repo Integration: Stores information about client modules, Git
+repository URLs, branches, and credentials to facilitate
+version-controlled deployment.
+
+Git Automation: Supports automatic commit and optional push of exported
+configuration files to the repository.
+
+Environment Transport: Enables safe migration of configuration changes
+from Development to Staging and Production environments.
+
+Extensible & Configurable: Add new models, fields, and export
+configurations without modifying the module core.
+
+Use Case
+
+Ideal for clients with multiple Odoo instances where configuration
+changes need to be applied consistently and traceably across
+environments. Helps maintain reproducibility, auditability, and version
+control for technical configuration data.
 
 **Table of contents**
 
@@ -49,14 +84,6 @@ Authors
 Maintainers
 -----------
 
-.. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
-    :target: https://github.com/dhongu
-    :alt: dhongu
-
-Current maintainer:
-
-|maintainer-dhongu| 
-
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_test_system>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_transport_change>`_ project on GitHub.
 
 You are welcome to contribute.
