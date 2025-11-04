@@ -68,6 +68,11 @@ class InvoiceFollowup(models.Model):
         default=False,
         help="If checked, the currency of the customer will be used, " "otherwise the currency of the company",
     )
+    amount_margin = fields.Float(
+        "Amount margin",
+        default=1.0,
+        help="Amount margin. " "If total due debit is lower than this margin, the followup will be skipped",
+    )
 
     @api.model
     def is_match(self, date):
