@@ -19,50 +19,18 @@ class TestTransportExport(TransactionCase):
     @unittest.skipIf(git is None, "GitPython not installed; skip Git-related tests")
     def setUp(self):  # noqa: D401
         super().setUp()
-        # Create a temporary fake module folder that will act as `deltatech_test`
-        self.temp_dir = tempfile.mkdtemp(prefix="odoo_transport_test_")
+        # Prepare HTTPS token-based repo configuration (dummy URL; we won't actually push)
         self.module_name = "deltatech_test"
-        self.module_path = os.path.join(self.temp_dir, self.module_name)
-        os.makedirs(self.module_path, exist_ok=True)
-        os.makedirs(os.path.join(self.module_path, "data"), exist_ok=True)
-        # Minimal manifest
-        manifest_content = "{'name': 'deltatech_test',\n'version': '1.0.0.0.0',\n'depends': ['base'],\n'data': [],\n}\n"
-        with open(os.path.join(self.module_path, "__manifest__.py"), "w", encoding="utf-8") as f:
-            f.write(manifest_content)
-
-        # Initialize a local git repository in the temp module
-        self.repo = git.Repo.init(self.module_path)
-        # Configure identity (required by git for commits)
-        with self.repo.config_writer() as cw:
-            cw.set_value("user", "name", "Odoo Test")
-            cw.set_value("user", "email", "odoo@test.local")
-        # Stage and initial commit
-        self.repo.index.add(["__manifest__.py"])
-        self.repo.index.commit("Initial commit for test module")
-
-        # Create and checkout to a different branch than the target to ensure switch happens
-        other_branch = self.repo.create_head("other_branch")
-        other_branch.checkout()
-
-        # Target branch we want the exporter to use
         self.target_branch = "test_branch"
-
-        # Patch get_module_path so that our module name resolves to the temp path
-        self.get_module_path_patcher = patch(
-            "odoo.modules.module.get_module_path",
-            side_effect=self._patched_get_module_path,
-        )
-        self.get_module_path_patcher.start()
-
-        # Create a repo configuration record
         self.repo_rec = self.env["transport.repo"].create(
             {
                 "name": "Test Repo",
                 "module_name": self.module_name,
-                # No remote URL -> commit local only
-                "repo_url": "",
+                "repo_url": "https://example.com/org/repo.git",
                 "repo_branch": self.target_branch,
-                "credential_type": "ssh",
+                "credential_type": "https",
+                "username": "user",
+                "password": "token",
             }
         )
 
@@ -87,10 +55,81 @@ class TestTransportExport(TransactionCase):
             }
         )
 
+        # ===== Test repo and module path setup (temp clone simulation) =====
+        self._orig_rmtree = shutil.rmtree
+        self.temp_dir = tempfile.mkdtemp(prefix="odoo_transport_test_")
+
+        # Prevent export cleanup from removing our temp dir; keep other deletions intact
+        def _no_rmtree(path, *args, **kwargs):
+            abs_path = os.path.abspath(path)
+            if abs_path in (os.path.abspath(self.temp_dir), os.path.abspath(self.module_path)):
+                return
+            return self._orig_rmtree(path, *args, **kwargs)
+
+        shutil.rmtree = _no_rmtree
+        # Create module structure inside temp dir
+        self.module_path = os.path.join(self.temp_dir, self.module_name)
+        os.makedirs(os.path.join(self.module_path, "data"), exist_ok=True)
+        # Minimal manifest
+        manifest_path = os.path.join(self.module_path, "__manifest__.py")
+        with open(manifest_path, "w", encoding="utf-8") as mf:
+            mf.write("""
+{
+    "name":
+    "Test",
+    "version": "19.0.0.0.1",
+    "data": [],
+}
+        """)
+        # Init a git repo at temp root (as clone root), commit initial state, and create/checkout target branch
+        self.repo = git.Repo.init(self.temp_dir)
+        self.repo.git.add(A=True)
+        self.repo.index.commit("init test repo")
+        # create branch if not exists
+        if self.target_branch not in [h.name for h in self.repo.heads]:
+            self.repo.create_head(self.target_branch)
+        self.repo.git.checkout(self.target_branch)
+
+        # Patch clone_to_temp on TransportRepo to return our temp repo and commit_and_push to be local only
+        # Patch clone_to_temp and commit_and_push using dotted path targets (avoid importing the model class here)
+        self.clone_patcher = patch(
+            "odoo.addons.deltatech_transport_change.models.transport_repo.TransportRepo.clone_to_temp",
+            autospec=True,
+            return_value=(self.temp_dir, self.repo),
+        )
+        self.clone_patcher.start()
+
+        def _local_commit_and_push(self_repo, repo_obj, commit_message):
+            repo_obj.git.add(A=True)
+            if repo_obj.is_dirty(index=True, working_tree=True, untracked_files=True):
+                repo_obj.index.commit(commit_message)
+            # no push in tests
+
+        self.commit_patcher = patch(
+            "odoo.addons.deltatech_transport_change.models.transport_repo.TransportRepo.commit_and_push",
+            autospec=True,
+            side_effect=_local_commit_and_push,
+        )
+        self.commit_patcher.start()
+
     def tearDown(self):  # noqa: D401
-        # Stop the patcher and cleanup temp directory
+        # Stop the patchers and cleanup temp directory
         try:
             self.get_module_path_patcher.stop()
+        except Exception:
+            pass
+        try:
+            self.clone_patcher.stop()
+        except Exception:
+            pass
+        try:
+            self.commit_patcher.stop()
+        except Exception:
+            pass
+        # restore shutil.rmtree
+        try:
+            if hasattr(self, "_orig_rmtree"):
+                shutil.rmtree = self._orig_rmtree
         except Exception:
             pass
         try:
@@ -131,8 +170,8 @@ class TestTransportExport(TransactionCase):
             manifest_txt = f.read()
         self.assertIn(expected_rel, manifest_txt)
 
-        # Git repo should now be on the target branch
-        repo = git.Repo(self.module_path)
+        # Git repo should now be on the target branch (repo is initialized at temp root)
+        repo = git.Repo(self.temp_dir)
         self.assertEqual(repo.active_branch.name, self.target_branch)
 
         # And last commit should include our CSV (at least the working tree is clean and file tracked)
