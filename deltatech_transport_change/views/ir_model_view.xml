@@ -1,0 +1,24 @@
+<odoo>
+    <!-- Add a checkbox on ir.model to mark configuration models -->
+    <record id="view_ir_model_form_transport_flag" model="ir.ui.view">
+        <field name="name">ir.model.form.configuration.flag</field>
+        <field name="model">ir.model</field>
+        <field name="inherit_id" ref="base.view_model_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='transient']" position="after">
+                <field name="is_config_model" groups="base.group_system"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_ir_model_tree_transport_flag" model="ir.ui.view">
+        <field name="name">ir.model.tree.configuration.flag</field>
+        <field name="model">ir.model</field>
+        <field name="inherit_id" ref="base.view_model_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field name="is_config_model" optional="hide" groups="base.group_system"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
