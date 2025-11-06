@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 import {QtyAtDateWidget} from "@sale_stock/widgets/qty_at_date_widget";
 import {onWillStart} from "@odoo/owl";
 import {patch} from "@web/core/utils/patch";
