@@ -1,4 +1,3 @@
-/** @odoo-module **/
 import {jsonrpc} from "@web/core/network/rpc";
 import {registry} from "@web/core/registry";
 
