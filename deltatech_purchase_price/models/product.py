@@ -61,12 +61,11 @@ class ProductTemplate(models.Model):
                         trade_markup = (list_price - product.last_purchase_price) / product.last_purchase_price * 100
                         product.trade_markup = trade_markup
                 list_price = product.last_purchase_price * (1 + product.trade_markup / 100)
-                list_price_tax = 0
                 if any(tax.price_include for tax in product.taxes_id):
-                    list_price_tax = product.taxes_id.with_context(force_price_include=False)._compute_amount(
-                        list_price, 1
-                    )
-                list_price = list_price + list_price_tax
+                    list_price_tax = product.taxes_id.compute_all(list_price, quantity=1, handle_price_include=False)[
+                        "total_included"
+                    ]
+                    list_price = list_price_tax
 
                 list_price = currency._convert(list_price, product.currency_id, company, date)
                 list_price_round = safe_eval(get_param("sale.list_price_round", "2"))
