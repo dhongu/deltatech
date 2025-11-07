@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Server action to open composer with a single aggregated email for selected POs -->
+    <record id="action_purchase_compose_batch_email" model="ir.actions.server">
+        <field name="name">Send Email</field>
+        <field name="model_id" ref="purchase.model_purchase_order" />
+        <field name="binding_model_id" ref="purchase.model_purchase_order" />
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_compose_batch_email()</field>
+    </record>
+
+
+</odoo>
