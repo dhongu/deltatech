@@ -66,7 +66,6 @@ class TestProcurementPerSalesTeam(TransactionCase):
                     ("location_src_id", "=", warehouse.lot_stock_id.id),
                     ("location_dest_id.usage", "=", "customer"),
                 ],
-                limit=1,
             )
             if delivery_rule:
                 delivery_rule.write({"procure_method": "mts_else_mto"})
