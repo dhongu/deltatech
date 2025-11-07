@@ -72,22 +72,25 @@ class TestProcurementPerSalesTeam(TransactionCase):
                 delivery_rule.write({"procure_method": "mts_else_mto"})
 
         # Create a reordering rule (min/max) for the product to ensure scheduler can plan purchases too
-        warehouse = env["stock.warehouse"].search([("company_id", "=", cls.company.id)], limit=1)
-        if not warehouse:
-            warehouse = env.ref("stock.warehouse0", raise_if_not_found=False)
-        if warehouse:
-            env["stock.warehouse.orderpoint"].create(
-                {
-                    "name": "OP Test Product",
-                    "company_id": cls.company.id,
-                    "warehouse_id": warehouse.id,
-                    "location_id": warehouse.lot_stock_id.id,
-                    "product_id": cls.product.id,
-                    "product_min_qty": 0.0,
-                    "product_max_qty": 10.0,
-                    "qty_multiple": 1.0,
-                }
-            )
+        # warehouse = env["stock.warehouse"].search([("company_id", "=", cls.company.id)], limit=1)
+        # if not warehouse:
+        #     warehouse = env.ref("stock.warehouse0", raise_if_not_found=False)
+        # if warehouse:
+        #     env["stock.warehouse.orderpoint"].create(
+        #         {
+        #             "name": "OP Test Product",
+        #             "company_id": cls.company.id,
+        #             "warehouse_id": warehouse.id,
+        #             "location_id": warehouse.lot_stock_id.id,
+        #             "product_id": cls.product.id,
+        #             "product_min_qty": 0.0,
+        #             "product_max_qty": 10.0,
+        #             "qty_multiple": 1.0,
+        #         }
+        #     )
+
+        orderpoint = env["stock.warehouse.orderpoint"].search([("product_id", "=", cls.product.id)], limit=1)
+        orderpoint.unlink()
 
         # Customers
         cls.customer = env["res.partner"].create(
@@ -147,17 +150,17 @@ class TestProcurementPerSalesTeam(TransactionCase):
         self._confirm_and_run_procurements(self.so_a1, self.so_a2, self.so_b1, self.so_b2)
 
         # Fetch POs for our vendor
-        pos = self.env["purchase.order"].search(
+        orders = self.env["purchase.order"].search(
             [
                 ("partner_id", "=", self.vendor.id),
                 ("state", "=", "draft"),
             ]
         )
         # Expect 2 POs: one for Team A and one for Team B
-        self.assertEqual(len(pos), 2, "Expected exactly 2 draft POs (one per team)")
+        self.assertEqual(len(orders), 2, "Expected exactly 2 draft POs (one per team)")
 
-        po_team_a = pos.filtered(lambda p: p.team_id == self.team_a)
-        po_team_b = pos.filtered(lambda p: p.team_id == self.team_b)
+        po_team_a = orders.filtered(lambda p: p.team_id == self.team_a)
+        po_team_b = orders.filtered(lambda p: p.team_id == self.team_b)
         self.assertEqual(len(po_team_a), 1, "Expected one PO for Team A")
         self.assertEqual(len(po_team_b), 1, "Expected one PO for Team B")
 
