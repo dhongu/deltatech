@@ -112,7 +112,7 @@
                                 >
                                     <field name="step_id" column_invisible="1" />
                                     <field name="name" />
-                                    <field name="transaction_id" />
+<!--                                    <field name="transaction_id" />-->
                                     <field name="description" optional="hide" />
                                     <field name="data_used" />
                                     <field name="data_result" />
