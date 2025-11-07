@@ -1,0 +1,8 @@
+# © 2025 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+from . import sale_order
+from . import procurement_group
+from . import stock_rule
+from . import purchase_order
