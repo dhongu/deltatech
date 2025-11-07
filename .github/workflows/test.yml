@@ -7,6 +7,10 @@ on:
   push:
     branches:
       - "18.0"
+  workflow_run:
+      workflows: ["Auto PR for 18.0 Branches"]
+      types:
+        - completed
 
 
 jobs:
