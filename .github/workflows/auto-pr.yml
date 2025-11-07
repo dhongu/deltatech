@@ -41,26 +41,15 @@ jobs:
           TARGET_BRANCH: "18.0"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Obține primul commit al branch-ului relativ la 18.0
-          FIRST_COMMIT=$(git rev-list "$TARGET_BRANCH"..HEAD --reverse | head -n1)
-
-          # Titlul PR = prima linie a commit-ului
-          PR_TITLE=$(git log -1 --format=%s "$FIRST_COMMIT")
-
-          # Body PR = mesajul complet al commit-ului
-          PR_BODY=$(git log -1 --format=%b "$FIRST_COMMIT")
-          PR_BODY="PR creat automat pentru branch-ul $NEW_BRANCH\n\n$PR_BODY"
-
           # Creează PR și obține numărul
           PR_NUM=$(gh pr create \
             --base "$TARGET_BRANCH" \
             --head "$NEW_BRANCH" \
-            --title "[$TARGET_BRANCH] $PR_TITLE" \
-            --body "$PR_BODY" | awk '{print $2}' | tr -d '#')
+            --title "[$TARGET_BRANCH] $NEW_BRANCH " \
+            --body "PR creat automat pentru branch-ul $NEW_BRANCH" | awk '{print $2}' | tr -d '#')
 
           echo "PR_NUM=$PR_NUM" >> $GITHUB_OUTPUT
           echo "Created PR #$PR_NUM"
-
 
       - name: Comment on PR
         env:
