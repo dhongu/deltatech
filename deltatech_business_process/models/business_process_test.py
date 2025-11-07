@@ -159,11 +159,11 @@ class BusinessProcessTest(models.Model):
             test_step_ids.write({"date_start": date_start})
             test.write({"date_start": date_start})
             if test.scope == "internal":
-                test.process_id.write({"status_internal_test": "in_progress"})
+                test.process_id.sudo().write({"status_internal_test": "in_progress"})
             elif test.scope == "integration":
-                test.process_id.write({"status_integration_test": "in_progress"})
+                test.process_id.sudo().write({"status_integration_test": "in_progress"})
             elif test.scope == "user_acceptance":
-                test.process_id.write({"status_user_acceptance_test": "in_progress"})
+                test.process_id.sudo().write({"status_user_acceptance_test": "in_progress"})
             if not test.tester_id:
                 test.tester_id = self.env.user.partner_id
             for step in test.test_step_ids:
@@ -196,11 +196,11 @@ class BusinessProcessTest(models.Model):
             test_step_ids.write({"result": "passed"})
             test.write({"date_end": date_end})
             if test.scope == "internal":
-                test.process_id.write({"status_internal_test": "done"})
+                test.process_id.sudo().write({"status_internal_test": "done"})
             elif test.scope == "integration":
-                test.process_id.write({"status_integration_test": "done"})
+                test.process_id.sudo().write({"status_integration_test": "done"})
             elif test.scope == "user_acceptance":
-                test.process_id.write({"status_user_acceptance_test": "done"})
+                test.process_id.sudo().write({"status_user_acceptance_test": "done"})
 
         # verifica daca toate testele sunt done
         for process in self.mapped("process_id"):
@@ -209,11 +209,11 @@ class BusinessProcessTest(models.Model):
                 and process.status_integration_test == "done"
                 and process.status_user_acceptance_test == "done"
             ):
-                process.write({"state": "ready"})
+                process.sudo().write({"state": "ready"})
             else:
                 tests = process.test_ids.filtered(lambda x: x.state != "done")
                 if not tests:
-                    process.write({"state": "ready"})
+                    process.sudo().write({"state": "ready"})
 
     def action_draft(self):
         self.ensure_one()
