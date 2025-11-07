@@ -39,6 +39,8 @@ class StockQuant(models.Model):
             return res
         if self.env.context.get("active_model") == "purchase.order" and location_id.usage == "internal":
             return res
+        if self.env.context.get("inventory_mode"):
+            return res
         if location_id and not location_id.allow_negative_stock and res < 0.0 and location_id.usage == "internal":
             err = _(
                 "You have chosen to avoid negative stock. %(lot_qty)s pieces of %(product_name)s"
