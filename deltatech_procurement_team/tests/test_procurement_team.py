@@ -72,20 +72,22 @@ class TestProcurementPerSalesTeam(TransactionCase):
                 delivery_rule.write({"procure_method": "mts_else_mto"})
 
         # Create a reordering rule (min/max) for the product to ensure scheduler can plan purchases too
-        # warehouse = env['stock.warehouse'].search([('company_id', '=', cls.company.id)], limit=1)
-        # if not warehouse:
-        #     warehouse = env.ref('stock.warehouse0', raise_if_not_found=False)
-        # if warehouse:
-        #     env['stock.warehouse.orderpoint'].create({
-        #         'name': 'OP Test Product',
-        #         'company_id': cls.company.id,
-        #         'warehouse_id': warehouse.id,
-        #         'location_id': warehouse.lot_stock_id.id,
-        #         'product_id': cls.product.id,
-        #         'product_min_qty': 0.0,
-        #         'product_max_qty': 10.0,
-        #         'qty_multiple': 1.0,
-        #     })
+        warehouse = env["stock.warehouse"].search([("company_id", "=", cls.company.id)], limit=1)
+        if not warehouse:
+            warehouse = env.ref("stock.warehouse0", raise_if_not_found=False)
+        if warehouse:
+            env["stock.warehouse.orderpoint"].create(
+                {
+                    "name": "OP Test Product",
+                    "company_id": cls.company.id,
+                    "warehouse_id": warehouse.id,
+                    "location_id": warehouse.lot_stock_id.id,
+                    "product_id": cls.product.id,
+                    "product_min_qty": 0.0,
+                    "product_max_qty": 10.0,
+                    "qty_multiple": 1.0,
+                }
+            )
 
         # Customers
         cls.customer = env["res.partner"].create(
