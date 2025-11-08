@@ -13,7 +13,7 @@
         "stock_account",
         "l10n_ro_stock_account",
     ],
-    "license": "OPL-1",
+    "license": "AGPL-3",
     "data": [
         "security/ir.model.access.csv",
         "report/stock_picking_report.xml",
