@@ -55,16 +55,37 @@ class StockPickingReport(models.Model):
         return select_str
 
     def _from(self):
-        from_str = """
+        # Make join conditions compatible when l10n_ro_stock_account is not installed.
+        # If the column svl.l10n_ro_valued_type exists, we apply the Romanian-specific
+        # internal transfer filter; otherwise, we keep a simple join.
+        self.env.cr.execute(
+            """
+                SELECT 1
+                FROM information_schema.columns
+                WHERE table_name = 'stock_valuation_layer'
+                  AND column_name = 'l10n_ro_valued_type'
+            """
+        )
+        has_l10n_ro = bool(self.env.cr.fetchone())
+
+        valued_filter = (
+            """
+              and (
+                svl.l10n_ro_valued_type != 'internal_transfer' or
+                (svl.l10n_ro_valued_type = 'internal_transfer' and sm.quantity > 0 )
+              )
+            """
+            if has_l10n_ro
+            else ""
+        )
+
+        from_str = f"""
             FROM stock_picking as sp
             LEFT JOIN res_partner as rp ON rp.id = sp.partner_id
             LEFT JOIN stock_move as sm ON sp.id = sm.picking_id
 
-            INNER JOIN stock_valuation_layer AS svl ON svl.stock_move_id = sm.id and
-              (
-              svl.l10n_ro_valued_type != 'internal_transfer' or
-               (svl.l10n_ro_valued_type = 'internal_transfer' and sm.quantity > 0 )
-              )
+            INNER JOIN stock_valuation_layer AS svl ON svl.stock_move_id = sm.id
+            {valued_filter}
 
            /*
             LEFT JOIN stock_quant_move_rel ON sm.id = stock_quant_move_rel.move_id
