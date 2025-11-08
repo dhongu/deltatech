@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- Wizard view -->
+        <record id="view_purchase_send_xlsx_wizard_form" model="ir.ui.view">
+            <field name="name">purchase.send.xlsx.wizard.form</field>
+            <field name="model">purchase.send.xlsx.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Send Purchase Orders">
+                    <group>
+                        <field name="purchase_ids" readonly="1" widget="many2many_tags" />
+                    </group>
+                    <group>
+                        <field name="template_id" />
+                        <field name="email_to" placeholder="email1@example.com, email2@example.com" />
+                        <field name="subject" />
+                    </group>
+                    <group>
+                        <field name="body_html" nolabel="1" />
+                    </group>
+                    <group>
+                        <field name="attach_combined_xlsx" />
+                        <field name="attach_order_pdfs" />
+                    </group>
+                    <footer>
+                        <button name="action_send" type="object" string="Send" class="btn-primary" />
+                        <button string="Cancel" class="btn-secondary" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Window action for wizard -->
+        <record id="action_purchase_send_xlsx_wizard" model="ir.actions.act_window">
+            <field name="name">Send Purchase Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.send.xlsx.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_purchase_send_xlsx_wizard_form" />
+            <field name="target">new</field>
+            <field name="context">{"default_purchase_ids": [(6, 0, active_ids)]}</field>
+            <field name="binding_model_id" ref="purchase.model_purchase_order" />
+            <field name="binding_view_types">list</field>
+        </record>
+    </data>
+</odoo>
