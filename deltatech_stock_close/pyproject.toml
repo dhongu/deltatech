@@ -10,5 +10,5 @@ name = "odoo-addon-deltatech-stock-close"
 
 [project.optional-dependencies]
 odoo = [
-    "deltatech_contact @ git+https://github.com/OCA/l10n-romania.git@18.0#egg=l10n_ro_stock_report",
+    "l10n_ro_stock_report @ git+https://github.com/OCA/l10n-romania.git@18.0#egg=l10n_ro_stock_report",
 ]

@@ -9,5 +9,5 @@ name = "odoo-addon-deltatech-stock-date"
 
 [project.optional-dependencies]
 odoo = [
-    "deltatech_contact @ git+https://github.com/OCA/l10n-romania.git@18.0#egg=l10n_ro_stock_account_date",
+    "l10n_ro_stock_account_date @ git+https://github.com/OCA/l10n-romania.git@18.0#egg=l10n_ro_stock_account_date",
 ]
