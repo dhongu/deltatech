@@ -6,3 +6,10 @@ build-backend = "whool.buildapi"
 
 [project]
 name = "odoo-addon-deltatech-queue-job"
+
+
+
+[project.optional-dependencies]
+odoo = [
+    "deltatech_contact @ git+https://github.com/OCA/queue.git@18.0#egg=queue_job_cron_jobrunner",
+]
