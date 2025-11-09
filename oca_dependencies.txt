@@ -1,6 +1,1 @@
 # See https://github.com/OCA/odoo-community.org/blob/master/website/Contribution/CONTRIBUTING.rst#oca_dependencies-txt
-
-
-odoo-addon-queue-job-cron-jobrunner>=18.0.0.0.0.0,<19.0.0.0.0.0
-odoo-addon-l10n-ro-stock-account-date>=18.0.0.0.0.0,<19.0.0.0.0.0
-odoo-addon-l10n_ro-stock-report>=18.0.0.0.0.0,<19.0.0.0.0.0
