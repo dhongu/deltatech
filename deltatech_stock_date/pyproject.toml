@@ -7,10 +7,5 @@ build-backend = "whool.buildapi"
 [project]
 name = "odoo-addon-deltatech-stock-date"
 dependencies = [
-    "odoo-addon-l10n_ro_stock_account_date @ git+https://github.com/OCA/l10n-romania.git@18.0#subdirectory=l10n_ro_stock_account_date",
-]
-
-[project.optional-dependencies]
-odoo = [
-    "odoo-addon-l10n_ro_stock_account_date @ git+https://github.com/OCA/l10n-romania.git@18.0#subdirectory=l10n_ro_stock_account_date",
+    "odoo-addon-l10n-ro-stock-account-date @ git+https://github.com/OCA/l10n-romania.git@18.0#subdirectory=l10n_ro_stock_account_date",
 ]

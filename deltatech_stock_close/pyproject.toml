@@ -9,9 +9,3 @@ name = "odoo-addon-deltatech-stock-close"
 dependencies = [
     "odoo-addon-l10n-ro-stock-report @ git+https://github.com/OCA/l10n-romania.git@18.0#subdirectory=l10n_ro_stock_report",
 ]
-
-
-[project.optional-dependencies]
-odoo = [
-    "odoo-addon-l10n-ro-stock-report @ git+https://github.com/OCA/l10n-romania.git@18.0#subdirectory=l10n_ro_stock_report",
-]
