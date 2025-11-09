@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="mail_template_purchase_send_xlsx" model="mail.template">
+        <field name="name">Purchase Orders: Send with XLSX</field>
+        <!-- In Odoo 18, email templates use QWeb body -->
+        <field name="model_id" ref="model_purchase_send_xlsx_wizard" />
+        <!-- Keep a simple subject; the wizard may override via email_values -->
+        <field name="subject">Purchase Orders</field>
+
+        <field name="body_html" type="html">
+            <div>
+                <p>Hello,</p>
+                <p>Please find attached the selected purchase orders and an XLSX summary.</p>
+                <p>
+                    <strong>Orders:</strong>
+                    <ul>
+                        <t t-foreach="object.purchase_ids" t-as="po">
+                            <li>
+                                <t t-esc="po.name" /> — <t t-esc="po.partner_id.display_name or ''" />
+                            </li>
+                        </t>
+                    </ul>
+                </p>
+                <p>Thank you.</p>
+            </div>
+        </field>
+        <field name="auto_delete" eval="True" />
+    </record>
+</odoo>
