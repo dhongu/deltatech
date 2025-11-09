@@ -248,12 +248,12 @@ class BusinessProcess(models.Model):
         }
         action = self.env.ref("deltatech_business_process.business_process_test_action_form").sudo().read()[0]
         action.update(
-                {
-                    "res_id": test.id,
-                    "view_mode": "form",
-                    "context": context,
-                }
-            )
+            {
+                "res_id": test.id,
+                "view_mode": "form",
+                "context": context,
+            }
+        )
         return action
         # domain = [("process_id", "=", self.id), ("scope", "=", "user_acceptance")]
         # context = {
@@ -367,21 +367,25 @@ class BusinessProcess(models.Model):
 
             if scope == "internal":
                 test = self.env["business.process.test"].create(
-                        {
-                            "name": self.env._("Internal Test %s", process.code if process.code else process.name),
-                            "process_id": process.id,
-                            "tester_id": self.responsible_id.id,
-                            "scope": scope,
-                        }
-                    )
+                    {
+                        "name": self.env._("Internal Test %s", process.code if process.code else process.name),
+                        "process_id": process.id,
+                        "tester_id": self.responsible_id.id,
+                        "scope": scope,
+                    }
+                )
             else:
                 test = self.env["business.process.test"].create(
-                        {
-                            "name": self.env._("Test %s #%s", process.code if process.code else process.name,1 if not tests else len(tests)+1),
-                            "process_id": process.id,
-                            "scope": scope,
-                        }
-                    )
+                    {
+                        "name": self.env._(
+                            "Test %s #%s",
+                            process.code if process.code else process.name,
+                            1 if not tests else len(tests) + 1,
+                        ),
+                        "process_id": process.id,
+                        "scope": scope,
+                    }
+                )
             test._onchange_process_id()
             return test
 

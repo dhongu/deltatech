@@ -2000,10 +2000,6 @@ msgstr "Pornire test de integrare"
 msgid "Start Internal Test"
 msgstr "Pornire test implementator"
 
-#. module: deltatech_business_process
-#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
-msgid "Start Test"
-msgstr "Pornire test"
 
 #. module: deltatech_business_process
 #: model:ir.actions.server,name:deltatech_business_process.action_start_user_acceptance_test
