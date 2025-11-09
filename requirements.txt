@@ -1,5 +1,7 @@
 # generated from manifests external_dependencies
 extruct
+l10n_ro_stock_account_date @ git+https://github.com/OCA/l10n-romania.git@18.0#egg=l10n_ro_stock_account_date
+l10n_ro_stock_report @ git+https://github.com/OCA/l10n-romania.git@18.0#egg=l10n_ro_stock_report
 phonenumbers
 unidecode
 w3lib
