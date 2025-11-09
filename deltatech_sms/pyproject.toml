@@ -6,3 +6,4 @@ build-backend = "whool.buildapi"
 
 [project]
 name = "odoo-addon-deltatech-sms"
+dependencies = ["unidecode"]
