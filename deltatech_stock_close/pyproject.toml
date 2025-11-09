@@ -7,11 +7,11 @@ build-backend = "whool.buildapi"
 [project]
 name = "odoo-addon-deltatech-stock-close"
 dependencies = [
-    "l10n_ro_stock_report @ git+https://github.com/OCA/l10n-romania.git@18.0#egg=l10n_ro_stock_report",
+    "l10n_ro_stock_report @ git+https://github.com/OCA/l10n-romania.git@18.0#subdirectory=l10n_ro_stock_report",
 ]
 
 
 [project.optional-dependencies]
 odoo = [
-    "l10n_ro_stock_report @ git+https://github.com/OCA/l10n-romania.git@18.0#egg=l10n_ro_stock_report",
+    "l10n_ro_stock_report @ git+https://github.com/OCA/l10n-romania.git@18.0#subdirectory=l10n_ro_stock_report",
 ]
