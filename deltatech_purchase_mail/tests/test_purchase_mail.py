@@ -43,7 +43,7 @@ class TestDeltatechPurchaseMail(TransactionCase):
                 "name": cls.product_1.display_name,
                 "product_qty": 3,
                 "price_unit": 10.0,
-                "product_uom": cls.product_1.uom_id.id,
+                "product_uom_id": cls.product_1.uom_id.id,
                 "date_planned": fields.Datetime.now(),
             }
         )
@@ -61,7 +61,7 @@ class TestDeltatechPurchaseMail(TransactionCase):
                 "name": cls.product_2.display_name,
                 "product_qty": 5,
                 "price_unit": 20.5,
-                "product_uom": cls.product_2.uom_id.id,
+                "product_uom_id": cls.product_2.uom_id.id,
                 "date_planned": fields.Datetime.now(),
             }
         )

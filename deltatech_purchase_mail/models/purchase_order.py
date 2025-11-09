@@ -5,9 +5,10 @@ import base64
 from datetime import datetime
 from io import BytesIO
 
+import xlsxwriter
+
 from odoo import _, models
 from odoo.exceptions import UserError
-from odoo.tools.misc import xlsxwriter
 
 
 class PurchaseOrder(models.Model):
