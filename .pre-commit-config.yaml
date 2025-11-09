@@ -27,6 +27,17 @@ default_language_version:
 repos:
   - repo: local
     hooks:
+      - id: update-pyproject-name
+        name: Update pyproject.toml project name
+        # NU mai folositi 'python' sau 'python3' aici
+        entry: scripts/update_pyproject_name.py
+        # Schimbati la 'python'
+        language: python
+        files: 'pyproject\.toml$'
+        pass_filenames: false
+        # Specificati dependentele aici pentru un mediu izolat
+        additional_dependencies: ["tomli", "tomli-w"]
+
       # These files are most likely copier diff rejection junks; if found,
       # review them manually, fix the problem (if needed) and remove them
       - id: forbidden-files

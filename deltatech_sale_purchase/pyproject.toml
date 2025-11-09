@@ -1,3 +1,8 @@
 [build-system]
-requires = ["whool"]
+requires = [
+    "whool",
+]
 build-backend = "whool.buildapi"
+
+[project]
+name = "odoo-addon-deltatech-sale-purchase"
