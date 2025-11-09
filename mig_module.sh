@@ -6,7 +6,7 @@ if [ -z "$module" ]; then
     echo "Eroare: Trebuie să furnizezi numele modulului ca argument"
     exit 1
 fi
-
+git fetch
 git checkout -b 19.0-mig-$module
 
 # Verifică dacă există patch-uri de aplicat
