@@ -4,6 +4,7 @@
         <field name="model_id" ref="model_business_development" />
         <field name="subject">Development Approved</field>
         <field name="partner_to">{{object.project_id.project_manager_id.id}}</field>
+        <field name="use_default_to">False</field>
         <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
                 <p>
@@ -33,6 +34,7 @@
         <field name="model_id" ref="model_business_issue" />
         <field name="subject">Issue Submitted</field>
         <field name="partner_to">{{object.project_id.project_manager_id.id}}</field>
+        <field name="use_default_to">False</field>
         <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
                 <p>
