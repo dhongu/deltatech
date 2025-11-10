@@ -36,7 +36,7 @@ class AccountMoveLine(models.Model):
                 diff = fields.Date.from_string(aml.payment_date) - fields.Date.from_string(aml.date)
                 aml.payment_days = diff.days
 
-    @api.depends("date", "full_reconcile_id")
+    @api.depends("date", "full_reconcile_id", "move_id.payment_state")
     def _compute_payment_days_simple(self):
         for aml in self:
             try:
