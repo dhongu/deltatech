@@ -225,6 +225,8 @@ class BusinessProcessTest(models.Model):
             # Always consider tester and step responsibles
             if test.tester_id:
                 partners |= test.tester_id
+            if test.process_id and test.process_id.project_id:
+                partners |= test.process_id.project_id.project_manager_id
             partners |= test.test_step_ids.mapped("responsible_id")
             # Exclude already subscribed partners
             partners -= test.message_partner_ids
