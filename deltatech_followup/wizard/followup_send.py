@@ -107,34 +107,35 @@ class FollowupSendWizard(models.TransientModel):
                                 override_partner_id = int(override_value)
                             except ValueError:
                                 override_partner_id = None
-                        if "[invoices]" in followup.mail_template.body_html:
                             # todo: de corectat metoda de transmitere email
-                            mail_values = followup.mail_template.with_context(
-                                template_preview_lang=partner.lang
-                            )._generate_template(
-                                [partner.id],
-                                [
-                                    "subject",
-                                    "body_html",
-                                    "email_from",
-                                    "email_to",
-                                    "partner_to",
-                                    "email_cc",
-                                    "reply_to",
-                                    "scheduled_date",
-                                ],
-                            )
-                            new_body = mail_values[partner.id]["body_html"]
-                            body = new_body.replace("[invoices]", invoices_content)
-                            body = body.replace("${object.name}", partner.name)
-                            body = body.replace("$total_debit", f"{partner_debit:,.2f}")
-                            body = body.replace("$total_all_debit", f"{partner_all_debit:,.2f}")
-                            body = body.replace("$total_due_debit", f"{partner_due_debit:,.2f}")
-                            body = body.replace("$currency", inv_currency.name)
-                            body = html.unescape(body)
-                            email_values = {
-                                "body_html": body,
-                            }
+                        mail_values = followup.mail_template.with_context(
+                            template_preview_lang=partner.lang
+                        )._generate_template(
+                            [partner.id],
+                            [
+                                "subject",
+                                "body_html",
+                                "email_from",
+                                "email_to",
+                                "partner_to",
+                                "email_cc",
+                                "reply_to",
+                                "scheduled_date",
+                            ],
+                        )
+                        new_body = mail_values[partner.id]["body_html"]
+
+                        body = new_body.replace("${object.name}", partner.name)
+                        body = body.replace("$total_debit", f"{partner_debit:,.2f}")
+                        body = body.replace("$total_all_debit", f"{partner_all_debit:,.2f}")
+                        body = body.replace("$total_due_debit", f"{partner_due_debit:,.2f}")
+                        body = body.replace("$currency", inv_currency.name)
+                        if "[invoices]" in followup.mail_template.body_html:
+                            body = body.replace("[invoices]", invoices_content)
+                        body = html.unescape(body)
+                        email_values = {
+                            "body_html": body,
+                        }
                         # Always override recipients when a valid system parameter is set
                         if override_partner_id:
                             email_values["recipient_ids"] = [(6, 0, [override_partner_id])]
