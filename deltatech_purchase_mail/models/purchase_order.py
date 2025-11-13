@@ -7,7 +7,7 @@ from io import BytesIO
 
 import xlsxwriter
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import UserError
 
 
@@ -18,7 +18,7 @@ class PurchaseOrder(models.Model):
     def _build_xlsx(self):
         """Build a combined XLSX for the current recordset of purchase orders (self)."""
         if not xlsxwriter:
-            raise UserError(_("XlsxWriter is required to generate XLSX files."))
+            raise UserError(self.env._("XlsxWriter is required to generate XLSX files."))
         output = BytesIO()
         workbook = xlsxwriter.Workbook(output, {"in_memory": True})
         sheet = workbook.add_worksheet("Purchase Orders")
@@ -28,11 +28,11 @@ class PurchaseOrder(models.Model):
         qty_fmt = workbook.add_format({"num_format": "0.00"})
         # Headers
         headers = [
-            _("Order"),
-            _("Product Code"),
-            _("Product Description"),
-            _("Quantity"),
-            _("Price"),
+            self.env._("Order"),
+            self.env._("Product Code"),
+            self.env._("Product Description"),
+            self.env._("Quantity"),
+            self.env._("Price"),
         ]
         for idx, h in enumerate(headers):
             sheet.write(0, idx, h, head)
@@ -102,13 +102,13 @@ class PurchaseOrder(models.Model):
         if len(partners) == 1 and partners.email:
             wiz_vals["email_to"] = partners.email
         else:
-            raise UserError(_("You must select exactly one vendor to send the email to."))
+            raise UserError(self.env._("You must select exactly one vendor to send the email to."))
         wiz = Wizard.create(wiz_vals)
 
         # Before composing, mark RFQs as sent by posting a message on each PO
         for po in pos:
             po.with_context(mark_rfq_as_sent=True).message_post(
-                body=_("RFQ prepared for sending by email (batch compose)."),
+                body=self.env._("RFQ prepared for sending by email (batch compose)."),
                 message_type="comment",
                 subtype_xmlid="mail.mt_note",
             )
@@ -144,7 +144,7 @@ class PurchaseOrder(models.Model):
         }
         return {
             "type": "ir.actions.act_window",
-            "name": _("Compose Email"),
+            "name": self.env._("Compose Email"),
             "res_model": "mail.compose.message",
             "view_mode": "form",
             "target": "new",
