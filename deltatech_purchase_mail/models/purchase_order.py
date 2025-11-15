@@ -28,6 +28,8 @@ class PurchaseOrder(models.Model):
         # Headers
         headers = [
             _("Order"),
+            _("Origin"),
+            _("Reference"),
             _("Product Code"),
             _("Product Description"),
             _("Quantity"),
@@ -38,12 +40,20 @@ class PurchaseOrder(models.Model):
         row = 1
         for po in self:
             for line in po.order_line:
+                default_code = line.product_id.default_code or ""
+                name = line.name or (line.product_id.display_name or "")
+                supplier = line.product_id.seller_ids.filtered(lambda s: s.partner_id == po.partner_id)
+                if supplier:
+                    default_code = supplier.product_code or default_code
+                    name = supplier.product_name or name
+
                 sheet.write(row, 0, po.name or "")
-                sheet.write(row, 1, line.product_id.default_code or "")
-                sheet.write(row, 2, line.name or (line.product_id.display_name or ""))
-                sheet.write_number(row, 3, line.product_qty or 0.0, qty_fmt)
-                # Unit price: taxes excluded price_unit
-                sheet.write_number(row, 4, line.price_unit or 0.0, num)
+                sheet.write(row, 1, po.orign or "")
+                sheet.write(row, 2, po.partner_ref or "")
+                (sheet.write(row, 3, default_code),)
+                (sheet.write(row, 4, name),)
+                sheet.write_number(row, 5, line.product_qty or 0.0, qty_fmt)
+                sheet.write_number(row, 6, line.price_unit or 0.0, num)
                 row += 1
         # autosize simple
         for col, width in enumerate([18, 18, 50, 12, 12]):
@@ -66,14 +76,26 @@ class PurchaseOrder(models.Model):
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 )
             )
+
         # 2) PDF for each PO
         if attach_order_pdfs:
-            report = self.env.ref("purchase.action_report_purchase_order")
-            # Render each PO separately to have distinct filenames
-            for po in self:
-                pdf_bytes, _ = report._render_qweb_pdf(report.id, [po.id])
-                fname = "{}.pdf".format(po.name.replace("/", "-"))
-                attachments.append((fname, pdf_bytes, "application/pdf"))
+            # cauta toate pdf-urile din comenzi
+            domain = [
+                ("res_model", "=", "purchase.order"),
+                ("res_id", "in", self.ids),
+                ("mimetype", "=", "application/pdf"),
+            ]
+            existing_attachments = self.env["ir.attachment"].search(domain)
+            for att in existing_attachments:
+                attachments.append((att.name, att.raw, att.mimetype))
+
+            if not existing_attachments:
+                report = self.env.ref("purchase.action_report_purchase_order")
+                # Render each PO separately to have distinct filenames
+                for po in self:
+                    pdf_bytes, _ = report._render_qweb_pdf(report.id, [po.id])
+                    fname = "{}.pdf".format(po.name.replace("/", "-"))
+                    attachments.append((fname, pdf_bytes, "application/pdf"))
 
         return attachments
 
