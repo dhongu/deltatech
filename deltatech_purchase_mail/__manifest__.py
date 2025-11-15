@@ -4,7 +4,7 @@
 {
     "name": "Purchase: Send Multi Orders by Email with XLSX",
     "summary": "Select multiple purchase orders and send an email with XLSX summary and attached PDFs",
-    "version": "17.0.1.1.0",
+    "version": "17.0.1.1.1",
     "author": "Deltatech, Terrabit",
     "license": "LGPL-3",
     "category": "Purchases",
