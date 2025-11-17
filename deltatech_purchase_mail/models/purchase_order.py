@@ -48,7 +48,7 @@ class PurchaseOrder(models.Model):
                     name = supplier.product_name or name
 
                 sheet.write(row, 0, po.name or "")
-                sheet.write(row, 1, po.orign or "")
+                sheet.write(row, 1, po.origin or "")
                 sheet.write(row, 2, po.partner_ref or "")
                 (sheet.write(row, 3, default_code),)
                 (sheet.write(row, 4, name),)
