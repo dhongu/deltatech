@@ -98,7 +98,8 @@
                     </group>
                     <field name="note" />
                 </sheet>
-                 <div class="oe_chatter" />
+                <!-- Chatter -->
+                <chatter reload_on_attachment="True" />
             </form>
         </field>
     </record>
