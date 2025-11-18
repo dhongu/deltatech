@@ -1,8 +1,9 @@
-- Features:
+# Website Sale Attributes
 
-  - Afisare valori atribute in functie de produsele determinate
+This module enhances the product attribute display in the e-commerce website by:
 
-in website_sale.products_attributes after: \<t t-foreach="attributes" t-as="a"\> add \<t t-set="a_value_ids"
-t-value="a.value_ids.filtered(lambda v: v.id in value_ids.ids)"/\>
+- Displaying attribute values based on determined products
+- Filtering attribute values to show only those that are relevant to the currently available products
+- Optimizing the attribute selection experience for customers
 
-replace t-foreach="a.value_ids. with t-foreach="a_value_ids.
+The module modifies the default Odoo behavior by filtering attribute values in the website_sale.products_attributes template to show only relevant options.
