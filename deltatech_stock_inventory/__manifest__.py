@@ -5,7 +5,7 @@
 {
     "name": "Stock Inventory",
     "summary": "Inventory Old Method",
-    "version": "17.0.2.3.8",
+    "version": "17.0.2.3.9",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
