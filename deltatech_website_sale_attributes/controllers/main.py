@@ -1,47 +1,68 @@
 from odoo import http
 from odoo.http import request
+from odoo.osv import expression
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class WebsiteSaleAttribute(WebsiteSale):
-    def _get_search_domain(self, search, category, attrib_values, search_in_description=True):
-        # Store used domain in context to be reused after
-        domain = super()._get_search_domain(
-            search, category, attrib_values, search_in_description=search_in_description
-        )
-        request.update_context(shop_search_domain=domain)
-        return domain
-
     @http.route()
     def shop(self, page=0, category=None, search="", ppg=False, **post):
         response = super().shop(page, category, search, ppg, **post)
 
         if category and search:
-            # attrib_values = response.qcontext.get("attrib_values")
-            category = response.qcontext.get("category")
-            # domain = self._get_search_domain(search, category, attrib_values)
-            domain = request.env.context.get("shop_search_domain", [])
+            # Folosim domeniul construit de WebsiteSale pentru product.template
+            website = request.env["website"].get_current_website()
+            website_domain = website.website_domain()
 
-            # value_ids = request.env["product.attribute.value"]
-            # products = response.qcontext.get("products")
-            products = request.env["product.template"].with_context(prefetch_fields=False).search(domain)
+            # Traducem domeniul pentru modelul product.template.attribute.value
+            def _to_ptav(dom):
+                res = []
+                for term in dom:
+                    if isinstance(term, list | tuple):
+                        if len(term) == 3:
+                            field, op, val = term
+                            # Dacă e deja pe o cale, doar prefixăm cu product_tmpl_id.
+                            if field.startswith("product_tmpl_id."):
+                                res.append((field, op, val))
+                            elif field == "id":
+                                # Filtru direct pe ID-ul template-ului
+                                res.append(("product_tmpl_id", op, val))
+                            else:
+                                res.append((f"product_tmpl_id.{field}", op, val))
+                        else:
+                            # termeni necanonici, lăsăm neschimbați
+                            res.append(term)
+                    else:
+                        # operatori logici | & !
+                        res.append(term)
+                return res
 
-            domain = [("product_tmpl_id", "in", products.ids)]
-            attribute_lines = request.env["product.template.attribute.line"].search(domain)
+            ptav_domain = expression.AND(
+                [
+                    _to_ptav(website_domain),
+                    [("website_visible", "=", True)],
+                ]
+            )
 
-            value_ids = attribute_lines.mapped("value_ids")
-            # domain = [("pav_attribute_line_ids", "in", attribute_lines.ids)]
-            # value_ids = request.env["product.attribute.value"].search(domain)
+            # Obținem valorile distincte prin read_group (evită materializarea tuturor produselor)
+            groups = request.env["product.template.attribute.value"].read_group(
+                domain=ptav_domain,
+                fields=["product_attribute_value_id"],
+                groupby=["product_attribute_value_id"],
+                lazy=False,
+            )
+            value_ids = request.env["product.attribute.value"].browse(
+                [g["product_attribute_value_id"][0] for g in groups if g.get("product_attribute_value_id")]
+            )
 
             if category:
-                # se ascund restul de caterorii
-                # categories = request.env['product.public.category'].search([('id','child_of',category.id)])
-                categories = category
+                # se ascund restul de categorii (păstrăm logica existentă)
+                categories = response.qcontext.get("category")
                 response.qcontext.update(categories=categories)
         else:
-            value_ids = request.env["product.attribute.value"].search([])
+            domain = [("visibility", "=", "visible")]
+            value_ids = request.env["product.attribute.value"].search(domain)
 
         response.qcontext.update(value_ids=value_ids)
-
         return response

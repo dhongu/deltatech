@@ -1,6 +1,6 @@
-# ©  2008-2021 Deltatech
+# ©  2025 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from . import controllers
-from . import models
+from . import product_attribute_value
+from . import product_template_attribute_value
