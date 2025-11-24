@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_order_form_inherit_deltatech_requisition" model="ir.ui.view">
+        <field name="name">sale.order.form.deltatech.purchase.requisition</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_create_rfq"
+                        string="Create RFQ"
+                        type="object"
+                        class="btn-secondary"
+                        groups="purchase.group_purchase_user"
+                        invisible="not state in ('draft','sent')"/>
+            </xpath>
+            <xpath expr="//sheet//div[@name='button_box']" position="inside">
+                <button name="action_view_rfq"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-shopping-basket"
+                        invisible = "not rfq_count" >
+
+                    <field name="rfq_count" widget="statinfo" string="RFQs"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>
