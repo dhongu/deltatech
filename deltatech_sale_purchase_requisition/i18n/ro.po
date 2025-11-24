@@ -1,0 +1,84 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_purchase_requisition
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-24 16:34+0000\n"
+"PO-Revision-Date: 2025-11-24 16:34+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_sale_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_purchase_requisition.view_order_form_inherit_deltatech_requisition
+msgid "Create RFQ"
+msgstr "Creează CdO"
+
+#. module: deltatech_sale_purchase_requisition
+#: model:ir.model.fields,field_description:deltatech_sale_purchase_requisition.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_purchase_requisition.field_sale_order__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_sale_purchase_requisition
+#: model:ir.model.fields,field_description:deltatech_sale_purchase_requisition.field_purchase_order__id
+#: model:ir.model.fields,field_description:deltatech_sale_purchase_requisition.field_sale_order__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_sale_purchase_requisition
+#. odoo-python
+#: code:addons/deltatech_sale_purchase_requisition/models/sale_order.py:0
+msgid ""
+"No eligible line for purchase (products without purchase_ok or quantity <= "
+"0)."
+msgstr ""
+"Nicio linie eligibilă pentru achiziție (produse fără purchase_ok sau "
+"cantitate <= 0)."
+
+#. module: deltatech_sale_purchase_requisition
+#: model:ir.model,name:deltatech_sale_purchase_requisition.model_purchase_order
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"
+
+#. module: deltatech_sale_purchase_requisition
+#: model:ir.model.fields,field_description:deltatech_sale_purchase_requisition.field_sale_order__rfq_ids
+msgid "RFQ"
+msgstr "CdO"
+
+#. module: deltatech_sale_purchase_requisition
+#: model:ir.model.fields,field_description:deltatech_sale_purchase_requisition.field_sale_order__rfq_count
+msgid "RFQ Count"
+msgstr "Număr CdO"
+
+#. module: deltatech_sale_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_purchase_requisition.view_order_form_inherit_deltatech_requisition
+msgid "RFQs"
+msgstr "CdO-uri"
+
+#. module: deltatech_sale_purchase_requisition
+#: model:ir.model.fields,help:deltatech_sale_purchase_requisition.field_purchase_order__quote_id
+msgid "Related quote from which this RFQ/PO was initiated."
+msgstr "Cotația aferentă din care a fost inițiat acest CdO/CO."
+
+#. module: deltatech_sale_purchase_requisition
+#: model:ir.model.fields,field_description:deltatech_sale_purchase_requisition.field_purchase_order__quote_id
+msgid "Sale Quote"
+msgstr "Cotație de vânzare"
+
+#. module: deltatech_sale_purchase_requisition
+#: model:ir.model,name:deltatech_sale_purchase_requisition.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_sale_purchase_requisition
+#. odoo-python
+#: code:addons/deltatech_sale_purchase_requisition/models/sale_order.py:0
+msgid "There are no lines on this quotation."
+msgstr "Nu există linii în această cotație."
