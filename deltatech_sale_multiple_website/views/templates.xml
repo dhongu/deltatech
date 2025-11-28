@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="product_qty_restrictions" inherit_id="website_sale.product" name="Product Qty Restrictions">
+        <xpath expr="//div[@id='product_option_block']" position="after">
+            <div t-if="product.qty_multiple and product.qty_multiple &gt; 1 or product.qty_minim and product.qty_minim &gt; 1" 
+                 class="text-muted mt-2" id="product_qty_restrictions">
+                <span t-if="product.qty_minim and product.qty_minim &gt; 1" class="me-3">
+                    <i class="fa fa-cube me-1"/>
+                    <span>Min: <t t-esc="product.qty_minim"/></span>
+                    <a href="#" tabindex="0" role="button"
+                       class="ms-1 text-muted qty-info-popover"
+                       data-bs-toggle="popover"
+                       data-bs-trigger="focus"
+                       data-bs-placement="top"
+                       title="Cantitate minima"
+                       t-att-data-bs-content="'Cantitatea minima pentru comanda este %s unitati.' % product.qty_minim">
+                        <i class="fa fa-info-circle"/>
+                    </a>
+                </span>
+                <span t-if="product.qty_multiple and product.qty_multiple &gt; 1">
+                    <i class="fa fa-th-large me-1"/>
+                    <span>Multiplu: <t t-esc="product.qty_multiple"/></span>
+                    <a href="#" tabindex="0" role="button"
+                       class="ms-1 text-muted qty-info-popover"
+                       data-bs-toggle="popover"
+                       data-bs-trigger="focus"
+                       data-bs-placement="top"
+                       title="Multiplu cantitate"
+                       t-att-data-bs-content="'Cantitatea trebuie sa fie multiplu de %s (ex: %s, %s, %s...)' % (product.qty_multiple, product.qty_multiple, product.qty_multiple*2, product.qty_multiple*3)">
+                        <i class="fa fa-info-circle"/>
+                    </a>
+                </span>
+            </div>
+        </xpath>
+    </template>
+    
+    <template
+        id="cart_line_description_following_lines"
+        inherit_id="website_sale.cart_line_description_following_lines"
+        name="Cart Product Qty Restrictions"
+    >
+        <xpath expr="//div" position="after">
+            <div t-if="line.product_id.qty_multiple and line.product_id.qty_multiple &gt; 1 or line.product_id.qty_minim and line.product_id.qty_minim &gt; 1"
+                 class="text-muted small">
+                <span t-if="line.product_id.qty_minim and line.product_id.qty_minim &gt; 1" class="me-2">
+                    <i class="fa fa-cube me-1"/>Min: <t t-esc="line.product_id.qty_minim"/>
+                </span>
+                <span t-if="line.product_id.qty_multiple and line.product_id.qty_multiple &gt; 1">
+                    <i class="fa fa-th-large me-1"/>x<t t-esc="line.product_id.qty_multiple"/>
+                </span>
+            </div>
+        </xpath>
+    </template>
+</odoo>
