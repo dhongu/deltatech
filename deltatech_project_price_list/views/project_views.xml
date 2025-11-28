@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add Pricelist field on Project form -->
+    <record id="project_project_view_form_simplified_inherit_pricelist" model="ir.ui.view">
+        <field name="name">project.project.view.form.simplified.inherit.pricelist</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
+        <field name="priority">26</field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_settings_container')]" position="inside">
+                <div class="col-lg-12 d-flex flex-column flex-sm-row align-items-baseline">
+                    <label for="pricelist_id"/>
+                    <field name="pricelist_id" class="ms-1"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Also add the Pricelist field in the extended (edit) project form from sale_project -->
+    <record id="project_project_view_edit_inherit_pricelist" model="ir.ui.view">
+        <field name="name">project.project.view.edit.inherit.pricelist</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="sale_project.view_edit_project_inherit_form"/>
+        <field name="priority">26</field>
+        <field name="arch" type="xml">
+            <!-- Place after customer on the Settings page; visible only when billable and not a template -->
+
+            <xpath expr="//page[@name='settings']//field[@name='allow_billable']" position="after">
+                <div invisible="not allow_billable" class="text-muted">
+                    The pricelist to use for billable tasks and timesheets.
+                    <field name="pricelist_id" nolabel="1" class="w-auto"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>
