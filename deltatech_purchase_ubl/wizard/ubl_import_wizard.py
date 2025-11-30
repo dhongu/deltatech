@@ -171,13 +171,11 @@ class PurchaseUblImportWizard(models.TransientModel):
         res = super().default_get(fields_list)
         ctx = self.env.context or {}
         if ctx.get("active_model") == "purchase.order" and ctx.get("active_id"):
-            Attachment = self.env["ir.attachment"]
+            Attachment = self.env["ir.attachment"].sudo()
             domain = [
                 ("res_model", "=", "purchase.order"),
                 ("res_id", "=", ctx.get("active_id")),
-                "|",
                 ("mimetype", "in", ["application/xml", "text/xml"]),
-                ("name", "ilike", ".xml"),
             ]
             attachments = Attachment.search(domain, order="id desc")
             for att in attachments:
