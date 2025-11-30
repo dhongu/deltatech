@@ -6,18 +6,17 @@ publicWidget.registry.QtyInfoPopover = publicWidget.Widget.extend({
     selector: "#product_qty_restrictions",
 
     start: function () {
-        var self = this;
-        // Use Bootstrap from window object (loaded by Odoo)
-        var Popover = window.Popover || (window.bootstrap && window.bootstrap.Popover);
+        // Initialize popovers using Bootstrap if available
+        const Popover = window.Popover || (window.bootstrap && window.bootstrap.Popover);
         if (Popover) {
             this.$(".qty-info-popover").each(function () {
+                /* eslint-disable no-new */
                 new Popover(this);
+                /* eslint-enable no-new */
             });
-        } else {
+        } else if (this.$(".qty-info-popover").popover) {
             // Fallback: use jQuery popover if available
-            if (this.$(".qty-info-popover").popover) {
-                this.$(".qty-info-popover").popover();
-            }
+            this.$(".qty-info-popover").popover();
         }
         return this._super.apply(this, arguments);
     },
