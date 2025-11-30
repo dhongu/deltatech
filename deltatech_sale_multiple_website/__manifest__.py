@@ -13,7 +13,7 @@
     "data": ["views/templates.xml", "views/product_view.xml"],
     "assets": {
         "web.assets_frontend": [
-            "deltatech_sale_multiple_website/static/src/js/qty_popover.js",
+            "deltatech_sale_multiple_website/static/src/js/qty_popover.esm.js",
         ],
     },
     "images": ["images/main_screenshot.png"],
