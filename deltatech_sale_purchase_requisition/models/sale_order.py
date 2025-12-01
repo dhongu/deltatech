@@ -4,7 +4,6 @@
 
 from odoo import fields, models
 from odoo.exceptions import UserError
-from odoo.tools.translate import _
 
 
 class SaleOrder(models.Model):
@@ -25,7 +24,7 @@ class SaleOrder(models.Model):
         """
         self.ensure_one()
         if not self.order_line:
-            raise UserError(_("There are no lines on this quotation."))
+            raise UserError(self.env._("There are no lines on this quotation."))
 
         # Prepare default order lines from SO lines
         default_lines = []
@@ -52,7 +51,9 @@ class SaleOrder(models.Model):
             )
 
         if not default_lines:
-            raise UserError(_("No eligible line for purchase (products without purchase_ok or quantity <= 0)."))
+            raise UserError(
+                self.env._("No eligible line for purchase (products without purchase_ok or quantity <= 0).")
+            )
 
         action = self.env.ref("purchase.purchase_form_action").read()[0]
         action.update(
