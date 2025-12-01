@@ -6,7 +6,7 @@ import base64
 from reportlab.graphics.barcode import createBarcodeDrawing
 
 from odoo import api, fields, models
-from odoo.osv import expression
+from odoo.fields import Domain
 
 
 class ProductProductLabel(models.TransientModel):
@@ -90,7 +90,7 @@ class ProductProductLabel(models.TransientModel):
                 domain = [("product_id", "=", product.id)]
                 if self.warehouse_id:
                     location_id = self.warehouse_id.lot_stock_id
-                    domain = expression.AND([[("location_id", "child_of", location_id.id)], domain])
+                    domain = Domain.AND([[("location_id", "child_of", location_id.id)], domain])
                 quants = self.env["stock.quant"].search(domain)
                 for quant in quants:
                     if quant.location_id.usage == "internal" and quant.lot_id:

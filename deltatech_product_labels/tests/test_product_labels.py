@@ -170,7 +170,6 @@ class TestProductLabels(TransactionCase):
         )
         move = self.env["stock.move"].create(
             {
-                "name": "M1",
                 "product_id": self.stock_product.id,
                 "product_uom": self.stock_product.uom_id.id,
                 "product_uom_qty": 1.0,
