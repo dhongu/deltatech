@@ -6,15 +6,15 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_form_view" />
             <field name="arch" type="xml">
-                <header position="inside">
-                    <button
-                    class="oe_stat_button"
-                    name="website_publish_button"
-                    string="Publish"
-                    type="object"
-                    icon="fa-globe"
-                />
-                </header>
+<!--                <header position="inside">-->
+<!--                    <button-->
+<!--                    class="oe_stat_button"-->
+<!--                    name="website_publish_button"-->
+<!--                    string="Publish"-->
+<!--                    type="object"-->
+<!--                    icon="fa-globe"-->
+<!--                />-->
+<!--                </header>-->
                 <page name="sales" position="inside">
                     <group>
                         <group string="Website description">
