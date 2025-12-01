@@ -2,8 +2,8 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, fields, models
-from odoo.osv import expression
+from odoo import fields, models
+from odoo.fields import Domain
 
 
 class AccountInvoice(models.Model):
@@ -27,26 +27,26 @@ class AccountInvoice(models.Model):
             pickings |= purchase_orders.mapped("picking_ids")
             if self.message_main_attachment_id.ids:
                 subdomains = [("id", "in", self.message_main_attachment_id.ids)]
-                domain = expression.OR([subdomains, domain])
+                domain = Domain.OR([subdomains, domain])
             if sale_orders:
                 subdomains = [
                     ("res_model", "=", "sale.order"),
                     ("res_id", "in", sale_orders.ids),
                 ]
-                domain = expression.OR([subdomains, domain])
+                domain = Domain.OR([subdomains, domain])
             if purchase_orders:
                 subdomains = [
                     ("res_model", "=", "purchase.order"),
                     ("res_id", "in", purchase_orders.ids),
                 ]
-                domain = expression.OR([subdomains, domain])
+                domain = Domain.OR([subdomains, domain])
 
             if pickings:
                 subdomains = [
                     ("res_model", "=", "stock.picking"),
                     ("res_id", "in", pickings.ids),
                 ]
-                domain = expression.OR([subdomains, domain])
+                domain = Domain.OR([subdomains, domain])
 
         return domain
 
@@ -58,7 +58,7 @@ class AccountInvoice(models.Model):
     def attachment_tree_view(self):
         domain = self.get_attachment_domain()
         return {
-            "name": _("Attachments"),
+            "name": self.env._("Attachments"),
             "domain": domain,
             "res_model": "ir.attachment",
             "type": "ir.actions.act_window",

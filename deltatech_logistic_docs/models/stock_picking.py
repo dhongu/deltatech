@@ -2,8 +2,8 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, fields, models
-from odoo.osv import expression
+from odoo import fields, models
+from odoo.fields import Domain
 
 
 class StockPicking(models.Model):
@@ -20,25 +20,25 @@ class StockPicking(models.Model):
                 ("res_model", "=", "sale.order"),
                 ("res_id", "=", picking.sale_id.id),
             ]
-            domain = expression.OR([subdomains, domain])
+            domain = Domain.OR([subdomains, domain])
             subdomains = [("id", "in", picking.sale_id.invoice_ids.message_main_attachment_id.ids)]
-            domain = expression.OR([subdomains, domain])
+            domain = Domain.OR([subdomains, domain])
             invoice_ids += picking.sale_id.sudo().invoice_ids.ids
         if picking.purchase_id:
             subdomains = [
                 ("res_model", "=", "purchase.order"),
                 ("res_id", "=", picking.purchase_id.id),
             ]
-            domain = expression.OR([subdomains, domain])
+            domain = Domain.OR([subdomains, domain])
             subdomains = [("id", "in", picking.sale_id.invoice_ids.message_main_attachment_id.ids)]
-            domain = expression.OR([subdomains, domain])
+            domain = Domain.OR([subdomains, domain])
             invoice_ids += picking.purchase_id.sudo().invoice_ids.ids
         if invoice_ids:
             subdomains = [
                 ("res_model", "=", "account.move"),
                 ("res_id", "=", invoice_ids),
             ]
-            domain = expression.OR([subdomains, domain])
+            domain = Domain.OR([subdomains, domain])
 
         return domain
 
@@ -50,7 +50,7 @@ class StockPicking(models.Model):
     def attachment_tree_view(self):
         domain = self.get_attachment_domain()
         return {
-            "name": _("Attachments"),
+            "name": self.env._("Attachments"),
             "domain": domain,
             "res_model": "ir.attachment",
             "type": "ir.actions.act_window",

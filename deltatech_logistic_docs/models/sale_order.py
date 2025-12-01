@@ -2,8 +2,8 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, fields, models
-from odoo.osv import expression
+from odoo import fields, models
+from odoo.fields import Domain
 
 
 class SaleOrder(models.Model):
@@ -18,15 +18,15 @@ class SaleOrder(models.Model):
                 ("res_model", "=", "stock.picking"),
                 ("res_id", "in", self.picking_ids.ids),
             ]
-            domain = expression.OR([subdomains, domain])
+            domain = Domain.OR([subdomains, domain])
         if self.invoice_ids:
             subdomains = [
                 ("res_model", "=", "account.move"),
                 ("res_id", "in", self.invoice_ids.ids),
             ]
-            domain = expression.OR([subdomains, domain])
+            domain = Domain.OR([subdomains, domain])
             subdomains = [("id", "in", self.invoice_ids.message_main_attachment_id.ids)]
-            domain = expression.OR([subdomains, domain])
+            domain = Domain.OR([subdomains, domain])
         return domain
 
     def _compute_attached_docs_count(self):
@@ -37,7 +37,7 @@ class SaleOrder(models.Model):
     def attachment_tree_view(self):
         domain = self.get_attachment_domain()
         return {
-            "name": _("Attachments"),
+            "name": self.env._("Attachments"),
             "domain": domain,
             "res_model": "ir.attachment",
             "type": "ir.actions.act_window",
