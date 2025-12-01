@@ -1,0 +1,79 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_logistic_docs
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-20 09:58+0000\n"
+"PO-Revision-Date: 2024-05-20 09:58+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_logistic_docs
+#: model:ir.model,name:deltatech_logistic_docs.model_ir_attachment
+msgid "Attachment"
+msgstr "Atașament"
+
+#. module: deltatech_logistic_docs
+#. odoo-python
+#: code:addons/deltatech_logistic_docs/models/account_invoice.py:0
+#: code:addons/deltatech_logistic_docs/models/purchase_order.py:0
+#: code:addons/deltatech_logistic_docs/models/sale_order.py:0
+#: code:addons/deltatech_logistic_docs/models/stock_picking.py:0
+#, python-format
+msgid "Attachments"
+msgstr "Atașamente"
+
+#. module: deltatech_logistic_docs
+#: model_terms:ir.ui.view,arch_db:deltatech_logistic_docs.purchase_order_form
+#: model_terms:ir.ui.view,arch_db:deltatech_logistic_docs.view_move_form
+#: model_terms:ir.ui.view,arch_db:deltatech_logistic_docs.view_order_form
+#: model_terms:ir.ui.view,arch_db:deltatech_logistic_docs.view_picking_form
+msgid "Documents"
+msgstr "Documente"
+
+#. module: deltatech_logistic_docs
+#: model_terms:ir.ui.view,arch_db:deltatech_logistic_docs.view_document_file_kanban
+msgid "Download"
+msgstr "Descarcă"
+
+#. module: deltatech_logistic_docs
+#: model:ir.model,name:deltatech_logistic_docs.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_logistic_docs
+#: model:ir.model.fields,field_description:deltatech_logistic_docs.field_account_bank_statement_line__doc_count
+#: model:ir.model.fields,field_description:deltatech_logistic_docs.field_account_move__doc_count
+#: model:ir.model.fields,field_description:deltatech_logistic_docs.field_account_payment__doc_count
+#: model:ir.model.fields,field_description:deltatech_logistic_docs.field_purchase_order__doc_count
+#: model:ir.model.fields,field_description:deltatech_logistic_docs.field_sale_order__doc_count
+#: model:ir.model.fields,field_description:deltatech_logistic_docs.field_stock_picking__doc_count
+msgid "Number of documents attached"
+msgstr "Numărul de documente atașate"
+
+#. module: deltatech_logistic_docs
+#: model:ir.model,name:deltatech_logistic_docs.model_purchase_order
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"
+
+#. module: deltatech_logistic_docs
+#: model:ir.model,name:deltatech_logistic_docs.model_ir_actions_report
+msgid "Report Action"
+msgstr "Acțiune raport"
+
+#. module: deltatech_logistic_docs
+#: model:ir.model,name:deltatech_logistic_docs.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_logistic_docs
+#: model:ir.model,name:deltatech_logistic_docs.model_stock_picking
+msgid "Transfer"
+msgstr ""
