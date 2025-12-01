@@ -5,7 +5,7 @@
     "name": "eCommerce Sale Short Description",
     "category": "Website",
     "summary": "eCommerce short description",
-    "version": "18.0.1.0.3",
+    "version": "19.0.1.0.3",
     "license": "OPL-1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
