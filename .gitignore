@@ -54,3 +54,8 @@ docs/_build/
 target/
 
 .*
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
