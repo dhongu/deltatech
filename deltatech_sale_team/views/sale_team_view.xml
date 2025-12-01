@@ -13,7 +13,8 @@
             </group>
         </field>
     </record>
-    <record id="crm_team_view_kanban_dashboard" model="ir.ui.view">
+
+  <!--  <record id="crm_team_view_kanban_dashboard" model="ir.ui.view">
         <field name="name">crm.team.kanban</field>
         <field name="model">crm.team</field>
         <field name="inherit_id" ref="sales_team.crm_team_view_kanban_dashboard" />
@@ -50,5 +51,5 @@
                 </xpath>
 
         </field>
-    </record>
+    </record>-->
 </odoo>
