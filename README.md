@@ -37,6 +37,7 @@ addon | version | maintainers | summary
 [deltatech_partner_generic](deltatech_partner_generic/) | 19.0.1.0.0 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Gneric partner
 [deltatech_price_categ](deltatech_price_categ/) | 19.0.1.0.1 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Price List: Bronze Silver and Gold in product
 [deltatech_product_code](deltatech_product_code/) | 19.0.1.0.4 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Product codification internal
+[deltatech_product_labels](deltatech_product_labels/) | 19.0.1.1.4 |  | Print Labels on Products
 [deltatech_product_list](deltatech_product_list/) | 19.0.1.0.1 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Define products lists
 [deltatech_product_trade_markup](deltatech_product_trade_markup/) | 19.0.1.0.1 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Product trade markup
 [deltatech_project_price_list](deltatech_project_price_list/) | 19.0.1.0.0 |  | Project-level pricelist used when creating Sales Orders from a project
