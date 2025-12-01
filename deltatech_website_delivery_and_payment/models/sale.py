@@ -12,6 +12,9 @@ class SaleOrder(models.Model):
         weight = self._get_estimated_weight()
         carriers = carriers.filtered(lambda c: not c.weight_min or c.weight_min <= weight)
         carriers = carriers.filtered(lambda c: not c.weight_max or c.weight_max >= weight)
+        # Further restrict carriers based on partner labels, if configured
+        partner = self.partner_id.commercial_partner_id
+        carriers = carriers.filtered(lambda c: not c.restrict_label_ids or not c.is_restricted(partner))
         return carriers
 
     def _check_carrier_quotation(self, force_carrier_id=None, keep_carrier=False):

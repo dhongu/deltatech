@@ -35,4 +35,9 @@ class PaymentAcquirer(models.Model):
                 label_ids = list(set(order.partner_id.category_id.ids) & set(provider.restrict_label_ids.ids))
                 if label_ids:
                     compatible_providers -= provider
+
+            # If the order has a selected delivery carrier with allowed providers, intersect
+            carrier = order.carrier_id
+            if carrier and carrier.acquirer_allowed_ids:
+                compatible_providers = compatible_providers & carrier.acquirer_allowed_ids
         return compatible_providers
