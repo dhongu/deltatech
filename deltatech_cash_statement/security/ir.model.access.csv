@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_cash_update_balances,access_account_cash_update_balances,model_account_cash_update_balances,base.group_user,1,1,1,1
