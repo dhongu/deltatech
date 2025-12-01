@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="report_product_product_label" model="ir.actions.report">
+        <field name="name">Product Label - etichete PDF</field>
+        <field name="model">product.product.label</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">deltatech_product_labels.product_product_label</field>
+        <field name="report_file">deltatech_product_labels.product_product_label</field>
+        <field name="binding_model_id" ref="deltatech_product_labels.model_product_product_label" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="report_product_product_label_100x50" model="ir.actions.report">
+        <field name="name">Product Label - etichete 100x50 PDF</field>
+        <field name="model">product.product.label</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">deltatech_product_labels.product_product_label_100x50</field>
+        <field name="report_file">deltatech_product_labels.product_product_label_100x50</field>
+        <field name="binding_model_id" ref="deltatech_product_labels.model_product_product_label" />
+        <field name="binding_type">report</field>
+    </record>
+    <template id="label_layout">
+        <t t-call="web.html_container">
+            <div class="page">
+                <style>
+                    .product_label {
+                    page-break-inside: avoid;
+                    border: ridge;
+                    overflow: hidden;
+                    border-width: thin;
+                    line-height: initial;
+                    text-overflow: ellipsis;
+                    }
+                    .col-xs-4 {
+                    padding-left: 1px;
+                    padding-right: 1px;
+                    }
+                </style>
+                <div class="article">
+                    <t t-raw="0" />
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="set_barcode">
+        <t t-set="code" t-value="line.product_id.barcode or line.product_id.default_code" />
+        <t t-if="code">
+            <t t-set="image_barcode" t-value="'data:image/png;base64,%s' % line.barcode_image" />
+            <style>
+                .barcode
+                <t t-esc="line.product_id.id" />
+                {
+                background-repeat: no-repeat;
+                width: 100%;
+                height: 100%;
+                background-size : 100% 100%;
+                background-image: url(
+                <t t-esc="image_barcode" />
+                )
+                }
+            </style>
+        </t>
+    </template>
+    <template id="product_product_label">
+        <t t-call="deltatech_product_labels.label_layout">
+            <t t-foreach="docs" t-as="label">
+                <t t-foreach="label.label_lines" t-as="line">
+                    <t t-call="deltatech_product_labels.set_barcode" />
+                    <t t-foreach="range(int(line.quantity))" t-as="range_line">
+                        <div class='product_label'>
+                            <strong t-field="line.product_id.display_name" />
+                            <t t-set="code" t-value="line.product_id.barcode or line.product_id.default_code" />
+                            <span t-if="code">
+                                <img t-att-class="'barcode%s' % line.product_id.id" />
+                                <span t-esc="code" />
+                            </span>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+    <template id="product_product_label_100x50">
+        <t t-call="deltatech_product_labels.label_layout">
+            <t t-foreach="docs" t-as="label">
+                <t t-foreach="label.label_lines" t-as="line">
+                    <t t-call="deltatech_product_labels.set_barcode" />
+                    <t t-foreach="range(int(line.quantity))" t-as="range_line">
+                        <div class='product_label' style=" width:10cm;height:5cm ">
+                            <strong t-field="line.product_id.display_name" />
+                            <t t-set="code" t-value="line.product_id.barcode or line.product_id.default_code" />
+                            <span t-if="code">
+                                <img t-att-class="'barcode%s' % line.product_id.id" style="width:8cm; height:2cm" />
+                                <span t-esc="code" />
+                            </span>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
