@@ -136,18 +136,18 @@
 
                 <filter name="filter_date" date="date" default_period="month-1" />
 
-                <filter name="filter_today" string="Today" domain="[('date', '>=', context_today())]" />
+                <filter name="filter_today" string="Today" domain="[('date', '&gt;=', 'now')]" />
 
                 <filter
                     name="filter_yesterday"
                     string="Yesterday"
-                    domain="[('date', '>=', (context_today() - datetime.timedelta(days=1)))]"
+                    domain="[('date', '&gt;=', '-1d')]"
                 />
 
                 <filter
                     name="filter_last_week"
                     string="Last 7 Days"
-                    domain="[('date', '>=', (context_today() - datetime.timedelta(days=7)))]"
+                    domain="[('date', '&gt;=', '-7d')]"
                 />
                 <separator />
 
@@ -219,18 +219,18 @@
             <!-- Add your customizations here -->
             <filter name="filter_date" position="after">
                 <separator />
-                <filter name="filter_today" string="Today" domain="[('date', '>=', context_today())]" />
+                <filter name="filter_today" string="Today" domain="[('date', '&gt;=', 'now')]" />
 
                 <filter
                     name="filter_yesterday"
                     string="Yesterday"
-                    domain="[('date', '>=', (context_today() - datetime.timedelta(days=1)))]"
+                    domain="[('date', '&gt;=', '-1d')]"
                 />
 
                 <filter
                     name="filter_last_week"
                     string="Last 7 Days"
-                    domain="[('date', '>=', (context_today() - datetime.timedelta(days=7)))]"
+                    domain="[('date', '&gt;=', '-7d')]"
                 />
             </filter>
             <filter name="company" position="after">

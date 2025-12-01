@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -213,4 +213,4 @@ class AccountInvoiceLine(models.Model):
                     else:
                         price_unit = invoice_line.price_unit
                     if 0 < price_unit < invoice_line.purchase_price and invoice_line.move_id.state in ["draft"]:
-                        raise UserError(_("You can not sell below the purchase price."))
+                        raise UserError(self.env._("You can not sell below the purchase price."))
