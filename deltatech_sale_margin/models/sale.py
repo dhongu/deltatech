@@ -70,7 +70,7 @@ class SaleOrderLine(models.Model):
     #     else:
     #         return False
 
-    def change_price_or_product(self, res):
+    def change_price_or_product(self, res=None):
         #
         if not res:
             res = {}
@@ -90,8 +90,8 @@ class SaleOrderLine(models.Model):
 
     @api.onchange("product_id")
     def _onchange_product_id_warning(self):
-        res = super()._onchange_product_id_warning() or {}
-        res = self.change_price_or_product(res)
+        # res = super()._onchange_product_id_warning() or {}
+        res = self.change_price_or_product()
         return res
 
     @api.onchange("price_unit")
