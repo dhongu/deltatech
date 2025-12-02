@@ -23,7 +23,7 @@ class TestSaleOrder(TransactionCase):
         # Create a sale order with one order line
         self.sale_order = self.env["sale.order"].create(
             {
-                "partner_id": self.env.ref("base.res_partner_1").id,
+                "partner_id": self.partner.id,
             }
         )
         self.sale_order_line = self.env["sale.order.line"].create(
