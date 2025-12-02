@@ -9,7 +9,7 @@ class SaleOrderLine(models.Model):
 
     commission = fields.Float(string="Commission", default=0.0)
 
-    @api.depends("product_id", "company_id", "currency_id", "product_uom")
+    @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
     def _compute_purchase_price(self):
         product_id = self.env["ir.config_parameter"].sudo().get_param("sale.default_deposit_product_id")
         res = super()._compute_purchase_price()
