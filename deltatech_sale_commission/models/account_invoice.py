@@ -95,11 +95,12 @@ class AccountInvoiceLine(models.Model):
                 moved_qty = 0
                 for move in moves:
                     # get total value from svls
-                    move_layers = move.with_context(active_test=False).mapped("stock_valuation_layer_ids")
-                    move_price = 0
-                    for layer in move_layers:
-                        move_price += layer.value
-                    purchase_price += abs(move_price)
+                    # move_layers = move.with_context(active_test=False).mapped("stock_valuation_layer_ids")
+                    # move_price = 0
+                    # for layer in move_layers:
+                    #     move_price += layer.value
+                    # purchase_price += abs(move_price)
+                    purchase_price += abs(move.value)
                     moved_qty += move.product_uom_qty
                 kit_length = len(bom.bom_line_ids)
                 # avoid bom computations if moves == bom lines
@@ -111,12 +112,16 @@ class AccountInvoiceLine(models.Model):
 
         else:
             # preluare pret in svl
-            svls = moves.mapped("stock_valuation_layer_ids")
-            price_unit_list = svls.mapped("unit_cost")
-            if not price_unit_list:
-                price_unit_list = moves.mapped("price_unit")  # preturile din livare sunt negative
-            if price_unit_list:
-                purchase_price = abs(sum(price_unit_list)) / len(price_unit_list)
+            move_value = sum(moves.mapped("value"))
+            move_quantity = sum(moves.mapped("quantity"))
+            if move_quantity:
+                purchase_price = move_value / move_quantity
+            # svls = moves.mapped("stock_valuation_layer_ids")
+            # price_unit_list = svls.mapped("unit_cost")
+            # if not price_unit_list:
+            #     price_unit_list = moves.mapped("price_unit")  # preturile din livare sunt negative
+            # if price_unit_list:
+            #     purchase_price = abs(sum(price_unit_list)) / len(price_unit_list)
 
         if not purchase_price:
             purchase_price = self.product_id.standard_price
@@ -125,9 +130,10 @@ class AccountInvoiceLine(models.Model):
     def get_bom_price(self, moves, bom):
         if self.env.context.get("picking_ids"):
             moves_to_check = moves.filtered(lambda m: m.picking_id.id in self.env.context.get("picking_ids"))
-            move_layers = moves_to_check.with_context(active_test=False).mapped("stock_valuation_layer_ids")
-            if move_layers:
-                return abs(sum(layer.value for layer in move_layers)) / abs(self.quantity)
+            return abs(sum(move.value for move in moves_to_check)) / abs(self.quantity)
+            # move_layers = moves_to_check.with_context(active_test=False).mapped("stock_valuation_layer_ids")
+            # if move_layers:
+            #     return abs(sum(layer.value for layer in move_layers)) / abs(self.quantity)
 
         bom_price = 0
         for line in bom.bom_line_ids:
@@ -135,9 +141,10 @@ class AccountInvoiceLine(models.Model):
             product_value = 0
             product_qty = 0
             for bom_line_move in bom_line_moves:
-                move_layers = bom_line_move.with_context(active_test=False).mapped("stock_valuation_layer_ids")
-                for layer in move_layers:
-                    product_value += layer.value
+                # move_layers = bom_line_move.with_context(active_test=False).mapped("stock_valuation_layer_ids")
+                # for layer in move_layers:
+                #     product_value += layer.value
+                product_value += bom_line_move.value
                 product_qty += bom_line_move.product_uom_qty
             if product_qty and line.product_qty:
                 bom_price += product_value / product_qty * line.product_qty
