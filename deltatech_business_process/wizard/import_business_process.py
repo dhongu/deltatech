@@ -47,7 +47,8 @@ class BusinessProcessImport(models.TransientModel):
 
         data = base64.b64decode(self.data_file.decode("utf-8"))
         data = json.loads(data)
-        for process_data in data:
+        self.import_developments(data, project)
+        for process_data in data["processes"]:
             area = self.env["business.area"]
             if process_data["area"]:
                 area = self.env["business.area"].search([("name", "=", process_data["area"])], limit=1)
@@ -156,7 +157,7 @@ class BusinessProcessImport(models.TransientModel):
             self.import_modules(process_data, process)
             self.import_steps(process_data, process)
             self.import_test(process_data, process)
-
+        self.import_issues(data, project)
         self.write({"state": "choose"})
         return {
             "type": "ir.actions.act_window",
@@ -167,6 +168,141 @@ class BusinessProcessImport(models.TransientModel):
             "views": [(False, "form")],
             "target": "new",
         }
+
+    def import_developments(self, data, project):
+        for development_data in data["developments"]:
+            area = self.env["business.area"]
+            type_dev = self.env["business.development.type"]
+            if development_data["area"]:
+                area = self.env["business.area"].search([("name", "=", development_data["area"])], limit=1)
+                if not area:
+                    area = self.env["business.area"].create({"name": development_data["area"]})
+            if development_data["type"]:
+                type_dev = self.env["business.development.type"].search(
+                    [("name", "=", development_data["type"])], limit=1
+                )
+                if not type_dev:
+                    type_dev = self.env["business.development.type"].create({"name": development_data["type"]})
+            domain = [("code", "=", development_data["code"]), ("project_id", "=", project.id)]
+            development = self.env["business.development"].search(domain, limit=1)
+            if not development:
+                self.env["business.development"].create(
+                    {
+                        "name": development_data["name"],
+                        "code": development_data["code"],
+                        "description": development_data.get("description"),
+                        "area_id": area.id,
+                        "type_id": type_dev.id,
+                        "project_id": project.id,
+                        "approved": development_data["approved"],
+                        "state": development_data["state"],
+                        "date_start_fs": development_data["date_start_fs"],
+                        "date_end_fs": development_data["date_end_fs"],
+                        "completion_fs": development_data["completion_fs"],
+                        "effort_fs": development_data["effort_fs"],
+                        "date_start_dev": development_data["date_start_dev"],
+                        "date_end_dev": development_data["date_end_dev"],
+                        "completion_dev": development_data["completion_dev"],
+                        "effort_dev": development_data["effort_dev"],
+                        "date_start_test": development_data["date_start_test"],
+                        "date_end_test": development_data["date_end_test"],
+                        "completion_test": development_data["completion_test"],
+                        "effort_test": development_data["effort_test"],
+                        "development_duration": development_data["development_duration"],
+                        "note": development_data["note"],
+                    }
+                )
+            else:
+                development.write(
+                    {
+                        "name": development_data["name"],
+                        "code": development_data["code"],
+                        "description": development_data.get("description"),
+                        "area_id": area.id,
+                        "type_id": type_dev.id,
+                        "approved": development_data["approved"],
+                        "state": development_data["state"],
+                        "date_start_fs": development_data["date_start_fs"],
+                        "date_end_fs": development_data["date_end_fs"],
+                        "completion_fs": development_data["completion_fs"],
+                        "effort_fs": development_data["effort_fs"],
+                        "date_start_dev": development_data["date_start_dev"],
+                        "date_end_dev": development_data["date_end_dev"],
+                        "completion_dev": development_data["completion_dev"],
+                        "effort_dev": development_data["effort_dev"],
+                        "date_start_test": development_data["date_start_test"],
+                        "date_end_test": development_data["date_end_test"],
+                        "completion_test": development_data["completion_test"],
+                        "effort_test": development_data["effort_test"],
+                        "development_duration": development_data["development_duration"],
+                        "note": development_data["note"],
+                    }
+                )
+
+    def import_issues(self, data, project):
+        for issue in data["issues"]:
+            area = self.env["business.area"]
+            if issue["area"]:
+                area = self.env["business.area"].search([("name", "=", issue["area"])], limit=1)
+                if not area:
+                    area = self.env["business.area"].create({"name": issue["area"]})
+            domain = [("code", "=", issue["code"]), ("project_id", "=", project.id)]
+            issue_rec = self.env["business.issue"].search(domain, limit=1)
+            process = self.env["business.process"]
+            if issue["process"]:
+                process = self.env["business.process"].search(
+                    [("name", "=", issue["process"]), ("project_id", "=", project.id)], limit=1
+                )
+            step_test = self.env["business.process.step.test"]
+            if issue["step_test"]:
+                if not issue["process"]:
+                    raise UserError("We have steps on issues without process")
+                step_test = self.env["business.process.step.test"].search(
+                    [("name", "=", issue["step_test"]), ("process_id", "=", process.id)],
+                    limit=1,
+                )
+            if not issue_rec:
+                issue_rec = self.env["business.issue"].create(
+                    {
+                        "name": issue["name"],
+                        "code": issue["code"],
+                        "description": issue.get("description"),
+                        "project_id": project.id,
+                        "process_id": process.id,
+                        "step_test_id": step_test.id,
+                        "category": issue["category"],
+                        "open_date": issue["open_date"],
+                        "date_estimated": issue["date_estimated"],
+                        "solution": issue["solution"],
+                        "solution_date": issue["solution_date"],
+                        "closed_date": issue["closed_date"],
+                        "area_id": area.id,
+                        "state": issue["state"],
+                        "severity": issue["severity"],
+                    }
+                )
+            else:
+                issue_rec.write(
+                    {
+                        "name": issue["name"],
+                        "code": issue["code"],
+                        "description": issue.get("description"),
+                        "project_id": project.id,
+                        "process_id": process.id,
+                        "step_test_id": step_test.id,
+                        "category": issue["category"],
+                        "open_date": issue["open_date"],
+                        "date_estimated": issue["date_estimated"],
+                        "solution": issue["solution"],
+                        "solution_date": issue["solution_date"],
+                        "closed_date": issue["closed_date"],
+                        "area_id": area.id,
+                        "state": issue["state"],
+                        "severity": issue["severity"],
+                    }
+                )
+            if step_test:
+                step_test.issue_ids = [(4, issue_rec.id)]
 
     def import_modules(self, process_data, process):
         if "include_modules" in process_data and process_data["include_modules"]:
@@ -193,7 +329,7 @@ class BusinessProcessImport(models.TransientModel):
             domain = [("code", "=", step_data["code"]), ("process_id", "=", process.id)]
             step = self.env["business.process.step"].search(domain, limit=1)
             if not step:
-                self.env["business.process.step"].create(
+                step = self.env["business.process.step"].create(
                     {
                         "name": step_data["name"],
                         "code": step_data["code"],
@@ -218,6 +354,18 @@ class BusinessProcessImport(models.TransientModel):
                         "process_id": process.id,
                     }
                 )
+            for development in step_data.get("development_ids", []):
+                development_rec = self.env["business.development"].search(
+                    [("code", "=", development), ("project_id", "=", process.project_id.id)], limit=1
+                )
+                if development_rec:
+                    step.development_ids = [(4, development_rec.id)]
+                else:
+                    development_rec = self.env["business.development"].search(
+                        [("name", "=", development), ("project_id", "=", process.project_id.id)], limit=1
+                    )
+                    if development_rec:
+                        step.development_ids = [(4, development_rec.id)]
 
     def import_test(self, process_data, process):
         if process_data["include_tests"]:
