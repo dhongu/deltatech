@@ -113,7 +113,7 @@
         <field name="name">sale.margin.report.pivot</field>
         <field name="model">sale.margin.report</field>
         <field name="arch" type="xml">
-            <pivot string="Sale margin report">
+            <pivot>
                 <field name="categ_id" type="row" />
                 <field name="date" type="row" />
                 <!--                <field name="product_uom_qty" type="measure" />-->
@@ -132,7 +132,7 @@
         <field name="model">sale.margin.report</field>
         <field name="type">search</field>
         <field name="arch" type="xml">
-            <search string="Search">
+            <search>
 
                 <filter name="filter_date" date="date" default_period="month-1" />
 
@@ -164,11 +164,11 @@
                 <field name="invoice_id" />
                 <field name="journal_id" />
 
-                <group expand="0" string="Extended Filters...">
+                <group>
                     <field name="categ_id" />
                     <field name="company_id" groups="base.group_multi_company" />
                 </group>
-                <group expand="1" string="Group By...">
+                <group>
                     <filter string="Salesperson" name="user" context="{'group_by':'user_id'}" />
                     <filter string="Partner" name="customer" context="{'group_by':'partner_id'}" />
                     <filter
