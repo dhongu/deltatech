@@ -3,113 +3,93 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
     def show_order_lines(self):
-        """Override to show order lines in the XLS report."""
+        """Open enhanced view of order lines with vendor pricelist integration."""
         self.ensure_one()
 
-        tree_view_id = self.env.ref("deltatech_purchase_xls.purchase_order_line_tree").id
-        return {
+        action = {
             "type": "ir.actions.act_window",
-            "name": "Purchase Order Lines",
+            "name": f"Purchase Order Lines - {self.name}",
             "res_model": "purchase.order.line",
             "view_mode": "tree,form",
-            "views": [(tree_view_id, "tree")],
+            "views": [(self.env.ref("deltatech_purchase_xls.purchase_order_line_tree_enhanced").id, "tree")],
             "domain": [("order_id", "=", self.id)],
-            "context": {"default_order_id": self.id, "create": True, "edit": True},
+            "context": {
+                "default_order_id": self.id,
+                "create": True,
+                "edit": True,
+                "search_default_order_id": self.id,
+            },
         }
+        return action
 
 
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
 
-    def _parse_import_data(self, data, import_fields, options):
-        return super()._parse_import_data(data, import_fields, options)
+    partner_ref = fields.Char(
+        string="Vendor Product Code",
+        help="Vendor's product code/reference for this product",
+        compute="_compute_partner_ref",
+        store=True,
+        readonly=False
+    )
 
-    # def _load_records(self, data_list, update=False):
-    #     order = self.env["purchase.order"]
-    #     order_id = self.env.context.get("default_order_id", False) or self.env.context.get("active_id", False)
-    #     if order_id:
-    #         order = self.env["purchase.order"].browse(order_id)
-    #     if order:
-    #
-    #         for data in data_list:
-    #
-    #             product_id = data["values"].get("product_id", "")
-    #
-    #
-    #             line = order.order_line.filtered(lambda l: l.product_id.id == product_id)
-    #             if line:
-    #                 data["values"]["id"] = str(line[0].id)
-    #
-    #
-    #
-    #     return super()._load_records(data_list, update)
-
-    @api.model
-    def load(self, fields, data):
-        order = self.env["purchase.order"]
-        order_id = self.env.context.get("default_order_id", False) or self.env.context.get("active_id", False)
-        if order_id:
-            order = self.env["purchase.order"].browse(order_id)
-
-        if not order:
-            order_index = fields.index.get("order_id", False)
-            if order_index:
-                order_id = data[0][order_index]
-                order = self.env["purchase.order"].browse(order_id)
-
-        if order:
-            if order.order_line:
-                product_index = fields.index("product_id") if "product_id" in fields else -1
-                fields.append(".id")
-                index_id = fields.index(".id")
-                for record in data:
-                    record.append("")
-
-                if product_index != -1:
-                    for record in data:
-                        product_name = record[product_index]
-                        product = self.env["product.product"]
-                        # extrage codul din numele produsului care este intre paranteze []
-                        if "[" in product_name and "]" in product_name:
-                            product_code = product_name.split("[")[-1].split("]")[0].strip()
-                            product = self.env["product.product"].search([("default_code", "=", product_code)], limit=1)
-                        if not product:
-                            product_name = product_name.split("[")[0].strip()
-                            product = self.env["product.product"].search([("name", "=", product_name)], limit=1)
-
-                        if not product:
-                            data.remove(record)
-                            continue
-                        if product:
-                            line = order.order_line.filtered(lambda l: l.product_id.id == product.id)
-                            if line:
-                                record[index_id] = str(line.id)
-                            else:
-                                data.remove(record)
+    @api.depends('product_id', 'order_id.partner_id')
+    def _compute_partner_ref(self):
+        """Automatically populate vendor code from vendor pricelist."""
+        for line in self:
+            if line.product_id and line.order_id.partner_id:
+                # Search for vendor pricelist entry
+                supplier_info = self.env['product.supplierinfo'].search([
+                    ('product_tmpl_id', '=', line.product_id.product_tmpl_id.id),
+                    ('partner_id', '=', line.order_id.partner_id.id),
+                ], limit=1, order='min_qty ASC')
+                
+                if supplier_info:
+                    line.partner_ref = supplier_info.product_code or supplier_info.product_name
+                else:
+                    # Fallback to product default code
+                    line.partner_ref = line.product_id.default_code or ''
             else:
-                # product_index = fields.index("product_id") if "product_id" in fields else -1
-                # for record in data:
-                #     product_name = record[product_index]
-                #     product = self.env["product.product"]
-                #     # extrage codul din numele produsului care este intre paranteze []
-                #     if "[" in product_name and "]" in product_name:
-                #         product_code = product_name.split("[")[-1].split("]")[0].strip()
-                #         product = self.env["product.product"].search([("default_code", "=", product_code)], limit=1)
-                #     if product_name.is_digit():
-                #         product = self.env["product.product"].search([("default_code", "=", product_name)], limit=1)
-                #         if not product:
-                #             product = self.env["product.product"].search([("barcode", "=", product_name)], limit=1)
+                line.partner_ref = ''
 
-                # din teste pare ca nu trebuie cautat produsul separat dupa cod de bare/referinta
-                fields.append("order_id")
-                for record in data:
-                    record.append(order.name)
+    @api.onchange('product_id')
+    def _onchange_product_id_vendor_info(self):
+        """Update price and vendor code when product changes."""
+        if self.product_id and self.order_id.partner_id:
+            # Get vendor pricelist info
+            supplier_info = self.env['product.supplierinfo'].search([
+                ('product_tmpl_id', '=', self.product_id.product_tmpl_id.id),
+                ('partner_id', '=', self.order_id.partner_id.id),
+                ('min_qty', '<=', self.product_qty or 1),
+            ], limit=1, order='min_qty DESC')
+            
+            if supplier_info:
+                self.partner_ref = supplier_info.product_code or supplier_info.product_name
+                # Update price if found in vendor pricelist
+                if supplier_info.price > 0:
+                    self.price_unit = supplier_info.price
 
-        return super().load(fields, data)
+    def get_vendor_pricelist_info(self):
+        """Get vendor pricelist information for this line."""
+        self.ensure_one()
+        if not self.product_id or not self.order_id.partner_id:
+            return {}
+            
+        supplier_info = self.env['product.supplierinfo'].search([
+            ('product_tmpl_id', '=', self.product_id.product_tmpl_id.id),
+            ('partner_id', '=', self.order_id.partner_id.id),
+        ], order='min_qty ASC')
+        
+        return {
+            'supplier_infos': supplier_info,
+            'vendor_codes': supplier_info.mapped('product_code'),
+            'vendor_names': supplier_info.mapped('product_name'),
+        }
