@@ -1,0 +1,23 @@
+<odoo>
+    <record id="set_user_acceptance_to_draft" model="ir.actions.server">
+        <field name="name">Set User Accept. Draft</field>
+        <field name="model_id" ref="model_business_process" />
+        <field name="binding_model_id" ref="model_business_process" />
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+records.write({'status_user_acceptance_test': 'not_started'})
+        </field>
+    </record>
+
+    <record id="set_internal_to_draft" model="ir.actions.server">
+        <field name="name">Set Internal Draft</field>
+        <field name="model_id" ref="model_business_process" />
+        <field name="binding_model_id" ref="model_business_process" />
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+records.write({'status_internal_test': 'not_started'})
+        </field>
+    </record>
+</odoo>
