@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 import logging
-from datetime import time, timedelta
+from datetime import datetime, time, timedelta
 
 from odoo import api, fields, models
 from odoo.tools.float_utils import float_round
@@ -71,9 +71,7 @@ class ProductProduct(models.Model):
     visit_count = fields.Integer(string="Visits", store=True)
 
     def _update_statistics(self):
-        date_from = fields.Datetime.to_string(
-            fields.datetime.combine(fields.datetime.now() - timedelta(days=365), time.min)
-        )
+        date_from = fields.Datetime.to_string(datetime.combine(datetime.now() - timedelta(days=365), time.min))
 
         done_states = self.env["sale.report"]._get_done_states()
 
