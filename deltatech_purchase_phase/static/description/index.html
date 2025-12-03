@@ -369,11 +369,101 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:aa832e267edd87dbd945bb13194ec811be1b24e042717123a15941af477b9596
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Production/Stable" src="https://img.shields.io/badge/maturity-Production%2FStable-green.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/17.0/deltatech_purchase_phase"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<p>Features:</p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Production/Stable" src="https://img.shields.io/badge/maturity-Production%2FStable-green.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_purchase_phase"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<p>Overview</p>
+<p>This module adds a lightweight phase/stage tracking on purchase orders.
+It introduces configurable phases and keeps the current phase on each
+<tt class="docutils literal">purchase.order</tt>, with optional automatic transitions aligned with
+Odoo’s document <tt class="docutils literal">state</tt>.</p>
+<p>Key features</p>
 <ul class="simple">
-<li>Additional field in the purchase order to specify the phase in which
-the order is</li>
+<li>Phase on Purchase Orders<ul>
+<li>New field <tt class="docutils literal">phase_id</tt> on <tt class="docutils literal">purchase.order</tt> (tracked in the
+chatter) to indicate the current phase of the document.</li>
+<li>Helper field <tt class="docutils literal">phase_ids</tt> (Many2many with compute/inverse) to
+enable flexible UI widgets and search domains that expect a
+multi-value relation, while still storing a single effective phase
+via <tt class="docutils literal">phase_id</tt>.</li>
+</ul>
+</li>
+<li>Automatic phase changes<ul>
+<li>When the RFQ is sent (<tt class="docutils literal">state = sent</tt>), the phase is set to the
+phase with code <tt class="docutils literal">rfq</tt>.</li>
+<li>When the PO is confirmed (<tt class="docutils literal">state = purchase</tt>), the phase is set to
+the phase with code <tt class="docutils literal">purchase_confirm</tt>.</li>
+<li>If a referenced phase code does not exist, it will be created on the
+fly with the same code and name.</li>
+</ul>
+</li>
+<li>Manual control and auditing<ul>
+<li>Users can manually change the phase on the Purchase Order form.</li>
+<li>Changes to <tt class="docutils literal">phase_id</tt> are tracked for auditability.</li>
+</ul>
+</li>
+</ul>
+<p>Configuration</p>
+<ol class="arabic simple">
+<li>Go to: Purchase → Configuration → Purchase Order Phases</li>
+<li>Create or adjust the phases you need:<ul>
+<li>Code: unique technical key (e.g., <tt class="docutils literal">draft</tt>, <tt class="docutils literal">rfq</tt>,
+<tt class="docutils literal">purchase_confirm</tt>, <tt class="docutils literal">done</tt>).</li>
+<li>Name: human-readable label shown to users.</li>
+</ul>
+</li>
+</ol>
+<p>Usage</p>
+<ul class="simple">
+<li>Open any Purchase Order and set the Phase. The field is tracked in the
+chatter.</li>
+<li>On sending an RFQ or confirming the order, the phase may update
+automatically as described above. You can still override it manually
+afterwards.</li>
+<li>For data loads or special flows where you want to skip auto-updates,
+pass context <tt class="docutils literal">{&quot;skip_phase_update&quot;: True}</tt> to writes on
+<tt class="docutils literal">purchase.order</tt>.</li>
+</ul>
+<p>Technical notes</p>
+<ul class="simple">
+<li>Models/fields<ul>
+<li><tt class="docutils literal">purchase.order</tt>:<ul>
+<li><tt class="docutils literal">phase_id = <span class="pre">fields.Many2one(&quot;purchase.order.phase&quot;,</span> tracking=True, copy=False)</tt></li>
+<li><tt class="docutils literal">phase_ids = <span class="pre">fields.Many2many(&quot;purchase.order.phase&quot;,</span> <span class="pre">compute=...,</span> <span class="pre">inverse=...)</span></tt>
+The compute mirrors <tt class="docutils literal">phase_id</tt> to a single-item M2M; the inverse
+writes back the first selected phase into <tt class="docutils literal">phase_id</tt>.</li>
+</ul>
+</li>
+<li>Helper API: <tt class="docutils literal">set_phase(code)</tt> sets/creates the phase by its
+<tt class="docutils literal">code</tt> and writes it on the current order(s).</li>
+</ul>
+</li>
+<li>Behavior hooks<ul>
+<li><tt class="docutils literal">write()</tt> override updates the phase when <tt class="docutils literal">state</tt> transitions to
+<tt class="docutils literal">sent</tt> or <tt class="docutils literal">purchase</tt>.</li>
+<li>Context key <tt class="docutils literal">skip_phase_update</tt> prevents automatic changes during
+programmatic writes.</li>
+</ul>
+</li>
+</ul>
+<p>Dependencies and compatibility</p>
+<ul class="simple">
+<li>Depends on <tt class="docutils literal">purchase_stock</tt> (Odoo 18)</li>
+<li>Designed to be non-invasive: it does not alter the standard state
+machine of Purchase Orders; it only adds complementary phase tracking.</li>
+</ul>
+<p>Limitations and extensions</p>
+<ul class="simple">
+<li>Out of the box, automatic transitions are defined for <tt class="docutils literal">rfq</tt> and
+<tt class="docutils literal">purchase_confirm</tt>. You can extend this behavior via studio, server
+actions, or small Python overrides to cover additional states (e.g.,
+<tt class="docutils literal">done</tt>, <tt class="docutils literal">cancel</tt>).</li>
+</ul>
+<p>Licensing</p>
+<ul class="simple">
+<li>License: OPL-1 (see addon root README for details)</li>
+</ul>
+<p>Credits</p>
+<ul class="simple">
+<li>Author/Maintainer: Dorin Hongu (&#64; Terrabit / Deltatech)</li>
 </ul>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
@@ -405,7 +495,7 @@ In case of trouble, please check there if your issue has already been reported.<
 <h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/17.0/deltatech_purchase_phase">dhongu/deltatech</a> project on GitHub.</p>
+<p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_purchase_phase">dhongu/deltatech</a> project on GitHub.</p>
 <p>You are welcome to contribute.</p>
 </div>
 </div>
