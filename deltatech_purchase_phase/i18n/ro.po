@@ -1,0 +1,133 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_purchase_phase
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-28 10:49+0000\n"
+"PO-Revision-Date: 2025-10-28 10:49+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_purchase_phase
+#: model:ir.model.fields,field_description:deltatech_purchase_phase.field_purchase_order_phase__action_id
+msgid "Action"
+msgstr "Acțiune"
+
+#. module: deltatech_purchase_phase
+#: model:ir.model.fields,field_description:deltatech_purchase_phase.field_purchase_order_phase__code
+msgid "Code"
+msgstr "Cod"
+
+#. module: deltatech_purchase_phase
+#: model:ir.model.fields,field_description:deltatech_purchase_phase.field_purchase_order_phase__color
+msgid "Color"
+msgstr "Culoare"
+
+#. module: deltatech_purchase_phase
+#: model:ir.model.fields,field_description:deltatech_purchase_phase.field_purchase_order_phase__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_purchase_phase
+#: model:ir.model.fields,field_description:deltatech_purchase_phase.field_purchase_order_phase__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_purchase_phase
+#: model:purchase.order.phase,name:deltatech_purchase_phase.purchase_order_phase_delivered
+msgid "Delivered"
+msgstr "Livrat"
+
+#. module: deltatech_purchase_phase
+#: model:ir.model.fields,field_description:deltatech_purchase_phase.field_purchase_order_phase__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_purchase_phase
+#: model:ir.model.fields,field_description:deltatech_purchase_phase.field_purchase_order_phase__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_purchase_phase
+#: model:ir.model.fields,field_description:deltatech_purchase_phase.field_purchase_order_phase__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_purchase_phase
+#: model:ir.model.fields,field_description:deltatech_purchase_phase.field_purchase_order_phase__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_purchase_phase
+#: model:ir.model.fields,field_description:deltatech_purchase_phase.field_purchase_order_phase__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_purchase_phase
+#: model:ir.model.fields,field_description:deltatech_purchase_phase.field_purchase_order__phase_id
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_phase.purchase_order_form
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_phase.purchase_order_view_tree
+msgid "Phase"
+msgstr "Fază"
+
+#. module: deltatech_purchase_phase
+#: model:ir.model.fields,field_description:deltatech_purchase_phase.field_purchase_order__phase_ids
+msgid "Phases"
+msgstr "Faze"
+
+#. module: deltatech_purchase_phase
+#: model:purchase.order.phase,name:deltatech_purchase_phase.purchase_order_phase_pre_advice
+msgid "Pre Advice"
+msgstr "AWB Emis"
+
+#. module: deltatech_purchase_phase
+#: model:purchase.order.phase,name:deltatech_purchase_phase.purchase_order_phase_purchase_confirm
+msgid "Purchase Confirmed"
+msgstr "Confirmare achiziție"
+
+#. module: deltatech_purchase_phase
+#: model:ir.model,name:deltatech_purchase_phase.model_purchase_order
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"
+
+#. module: deltatech_purchase_phase
+#: model:ir.ui.menu,name:deltatech_purchase_phase.menu_purchase_order_phase
+msgid "Purchase Order Phase"
+msgstr ""
+
+#. module: deltatech_purchase_phase
+#: model:ir.model,name:deltatech_purchase_phase.model_purchase_order_phase
+msgid "PurchaseOrderPhase"
+msgstr ""
+
+#. module: deltatech_purchase_phase
+#: model:purchase.order.phase,name:deltatech_purchase_phase.purchase_order_phase_rfq
+msgid "RFQ"
+msgstr "Cerere de ofertă"
+
+#. module: deltatech_purchase_phase
+#: model:ir.model.fields,field_description:deltatech_purchase_phase.field_purchase_order_phase__sequence
+msgid "Sequence"
+msgstr "Secvență"
+
+#. module: deltatech_purchase_phase
+#: model:purchase.order.phase,name:deltatech_purchase_phase.purchase_order_phase_shipped
+msgid "Shipped"
+msgstr "Expediat"
+
+#. module: deltatech_purchase_phase
+#: model:ir.model,name:deltatech_purchase_phase.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: deltatech_purchase_phase
+#: model:ir.actions.act_window,name:deltatech_purchase_phase.action_purchase_order_phase
+msgid "purchase Order phase"
+msgstr "Fază comandă de achiziție"
