@@ -4,53 +4,66 @@
             <field name="name">business.process.export</field>
             <field name="model">business.process.export</field>
             <field name="arch" type="xml">
-                <form string="Export business process">
+                <form string="Export Business Process">
                     <field name="state" invisible="1" />
                     <field name="name" invisible="1" />
-                    <div invisible="state!='choose'">
-                        <div>
-                    <p>Export selected business processes</p>
-                        <group string="Processes" colspan="2">
-                            <field name="include_process_state" />
-                            <field name="include_modules" />
-                        </group>
-                        <group string="Tests" expand="0" colspan="4" col="4">
-                            <field name="include_tests" />
 
-                        </group>
-                    </div>
-                    <div>
-                        <group string="Contacts">
-                            <field name="include_responsible" />
+                    <sheet>
+                        <div invisible="state!='choose'">
+                            <div class="oe_title">
+                                <h2>Export selected business processes</h2>
+                                <p class="text-muted">Choose what information to include in the exported file.</p>
+                            </div>
 
+                            <notebook>
+                                <page string="Options">
+                                    <group string="General" col="2">
+                                        <group>
+                                            <field name="include_process_state" />
+                                            <field name="include_tests" />
+                                            <field name="include_issues" />
+                                        </group>
+                                        <group>
+                                            <field name="include_modules" />
+                                            <field name="include_durations" />
+                                            <field name="include_developments" />
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Contacts">
+                                    <group string="Responsible Parties" col="2">
+                                        <group>
+                                            <field name="include_responsible" />
+                                            <field name="include_customer_responsible" />
+                                        </group>
+                                        <group>
+                                            <field name="include_approved_by" />
+                                            <field name="include_support" />
+                                        </group>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </div>
 
-                            <field name="include_customer_responsible" />
-
-
-                            <field name="include_approved_by" />
-
-                            <field name="include_support" />
-
-                            <field name="include_durations" />
-                        </group>
-                    </div>
-                    </div>
-                    <div invisible="state!='get'">
-
-                        <h2>Export Complete</h2>
-                        <p>Here is the exported file: <field name="data_file" readonly="1" filename="name" /></p>
-
-                    </div>
+                        <div invisible="state!='get'">
+                            <group>
+                                <h2>Export Complete</h2>
+                                <p class="text-muted">Your file is ready. Click to download:
+                                <field name="data_file" readonly="1" filename="name" class="oe_inline" no_label="1" />
+                                </p>
+                            </group>
+                        </div>
+                    </sheet>
 
                     <footer invisible="state!='choose'">
-                        <button name="do_export" string="Apply" type="object" class="oe_highlight" />
+                        <button name="do_export" string="Export" type="object" class="oe_highlight" />
                         or
                         <button string="Cancel" class="oe_link" special="cancel" />
                     </footer>
                     <footer invisible="state!='get'">
                         <button name="do_back" string="Back" type="object" />
                         or
-                        <button string="Cancel" class="oe_link" special="cancel" />
+                        <button string="Close" class="oe_link" special="cancel" />
                     </footer>
 
                 </form>
