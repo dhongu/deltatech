@@ -43,7 +43,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      * Configurează validarea inițială
      */
     _setupValidation: function () {
-        const countrySelect = this.el.querySelector('#o_country_id') || this.el.querySelector('#country_id');
+        const countrySelect = this._getCountrySelect();
         if (countrySelect) {
             this._updateFieldsRequirement(countrySelect.value);
         }
@@ -59,6 +59,49 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
             companySection.addEventListener('shown.bs.collapse', () => this._updateFieldsRequirement());
             companySection.addEventListener('hidden.bs.collapse', () => this._updateFieldsRequirement());
         }
+        
+        // Initialize Bootstrap tooltips on labels with data-bs-toggle="tooltip"
+        this._initTooltips();
+    },
+    
+    /**
+     * Initialize Bootstrap 5 tooltips
+     */
+    _initTooltips: function () {
+        const tooltipElements = this.el.querySelectorAll('[data-bs-toggle="tooltip"]');
+        tooltipElements.forEach((el) => {
+            // Check if Bootstrap Tooltip is available
+            if (window.bootstrap && window.bootstrap.Tooltip) {
+                new window.bootstrap.Tooltip(el);
+            }
+        });
+    },
+
+    /**
+     * Helper to find country select element (works with both checkout and portal)
+     */
+    _getCountrySelect: function () {
+        return this.el.querySelector('#o_country_id') || 
+               this.el.querySelector('#country_id') || 
+               this.el.querySelector('select[name="country_id"]');
+    },
+
+    /**
+     * Helper to find VAT input element
+     */
+    _getVatInput: function () {
+        return this.el.querySelector('#o_vat') || 
+               this.el.querySelector('#vat') || 
+               this.el.querySelector('input[name="vat"]');
+    },
+
+    /**
+     * Helper to find company name input element
+     */
+    _getCompanyInput: function () {
+        return this.el.querySelector('#o_company_name') || 
+               this.el.querySelector('#company_name') || 
+               this.el.querySelector('input[name="company_name"]');
     },
 
     /**
@@ -66,9 +109,17 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      */
     _onVatBlur: async function (ev) {
         const vatInput = ev.currentTarget;
-        const countrySelect = this.el.querySelector('#o_country_id') || this.el.querySelector('#country_id');
+        const countrySelect = this._getCountrySelect();
         const selectedOption = countrySelect ? countrySelect.options[countrySelect.selectedIndex] : null;
-        const countryCode = selectedOption ? selectedOption.getAttribute('code') : null;
+        // Try to get country code from 'code' attribute or from option text
+        let countryCode = selectedOption ? selectedOption.getAttribute('code') : null;
+        // Fallback: check if Romania is selected by name
+        if (!countryCode && selectedOption) {
+            const optionText = selectedOption.text.toLowerCase();
+            if (optionText.includes('romania') || optionText.includes('românia')) {
+                countryCode = 'RO';
+            }
+        }
         const vat = vatInput.value.trim();
 
         // Verificăm dacă arată a CUI românesc dar țara nu e România
@@ -121,9 +172,9 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         feedback.className = 'form-text text-info d-block o_vat_feedback o_select_romania_hint';
         feedback.innerHTML = `
             <i class="fa fa-lightbulb-o me-1"></i>
-            <strong>Sugestie:</strong> Selectați <strong>România</strong> ca țară pentru auto-completare din ANAF
+            <strong>${_t("Hint")}:</strong> ${_t("Select")} <strong>${_t("Romania")}</strong> ${_t("as your country for ANAF auto-fill")}
             <button type="button" class="btn btn-sm btn-outline-primary ms-2 o_select_romania_btn">
-                <i class="fa fa-flag me-1"></i>Selectează România
+                <i class="fa fa-flag me-1"></i>${_t("Select Romania")}
             </button>
         `;
         
@@ -136,9 +187,11 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
             selectRoBtn.addEventListener('click', async (e) => {
                 e.preventDefault();
                 
-                // Găsește opțiunea România
+                // Găsește opțiunea România (by code attribute or by text)
                 for (let option of countrySelect.options) {
-                    if (option.getAttribute('code') === 'RO') {
+                    const code = option.getAttribute('code');
+                    const text = option.text.toLowerCase();
+                    if (code === 'RO' || text.includes('romania') || text.includes('românia')) {
                         countrySelect.value = option.value;
                         // Trigger change pentru a actualiza UI și state-urile
                         countrySelect.dispatchEvent(new Event('change', { bubbles: true }));
@@ -177,9 +230,16 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      */
     _onVatInput: function (ev) {
         const vatInput = ev.currentTarget;
-        const countrySelect = this.el.querySelector('#o_country_id') || this.el.querySelector('#country_id');
+        const countrySelect = this._getCountrySelect();
         const selectedOption = countrySelect ? countrySelect.options[countrySelect.selectedIndex] : null;
-        const countryCode = selectedOption ? selectedOption.getAttribute('code') : null;
+        let countryCode = selectedOption ? selectedOption.getAttribute('code') : null;
+        // Fallback: check if Romania is selected by name
+        if (!countryCode && selectedOption) {
+            const optionText = selectedOption.text.toLowerCase();
+            if (optionText.includes('romania') || optionText.includes('românia')) {
+                countryCode = 'RO';
+            }
+        }
 
         if (countryCode === 'RO') {
             // Elimină caracterele invalide în timp ce utilizatorul scrie
@@ -211,7 +271,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         this._updateFieldsRequirement(countrySelect.value);
         
         // Resetează mesajele de eroare existente
-        const vatInput = this.el.querySelector('#o_vat') || this.el.querySelector('#vat');
+        const vatInput = this._getVatInput();
         if (vatInput) {
             this._clearValidationFeedback(vatInput);
         }
@@ -231,9 +291,16 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      */
     _onCompanyNameBlur: function (ev) {
         const companyInput = ev.currentTarget;
-        const countrySelect = this.el.querySelector('#o_country_id') || this.el.querySelector('#country_id');
+        const countrySelect = this._getCountrySelect();
         const selectedOption = countrySelect ? countrySelect.options[countrySelect.selectedIndex] : null;
-        const countryCode = selectedOption ? selectedOption.getAttribute('code') : null;
+        let countryCode = selectedOption ? selectedOption.getAttribute('code') : null;
+        // Fallback: check if Romania is selected by name
+        if (!countryCode && selectedOption) {
+            const optionText = selectedOption.text.toLowerCase();
+            if (optionText.includes('romania') || optionText.includes('românia')) {
+                countryCode = 'RO';
+            }
+        }
 
         if (countryCode === 'RO' && companyInput.value.trim()) {
             this._validateCompanyName(companyInput);
@@ -303,39 +370,39 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      * Completează formularul cu datele din ANAF
      */
     _fillFormWithAnafData: function (data) {
-        // Company Name
-        const companyInput = this.el.querySelector('#o_company_name') || this.el.querySelector('#company_name');
+        // Company Name - use helper
+        const companyInput = this._getCompanyInput();
         if (companyInput && data.company_name && !companyInput.value.trim()) {
             companyInput.value = data.company_name;
             this._showValidationSuccess(companyInput);
         }
 
-        // Street
-        const streetInput = this.el.querySelector('#o_street') || this.el.querySelector('#street');
+        // Street - fallback to name attribute
+        const streetInput = this.el.querySelector('#o_street') || this.el.querySelector('#street') || this.el.querySelector('[name="street"]');
         if (streetInput && data.street && !streetInput.value.trim()) {
             streetInput.value = data.street;
         }
 
-        // Street2
-        const street2Input = this.el.querySelector('#o_street2') || this.el.querySelector('#street2');
+        // Street2 - fallback to name attribute
+        const street2Input = this.el.querySelector('#o_street2') || this.el.querySelector('#street2') || this.el.querySelector('[name="street2"]');
         if (street2Input && data.street2 && !street2Input.value.trim()) {
             street2Input.value = data.street2;
         }
 
-        // City
-        const cityInput = this.el.querySelector('#o_city') || this.el.querySelector('#city');
+        // City - fallback to name attribute
+        const cityInput = this.el.querySelector('#o_city') || this.el.querySelector('#city') || this.el.querySelector('[name="city"]');
         if (cityInput && data.city && !cityInput.value.trim()) {
             cityInput.value = data.city;
         }
 
-        // Zip Code
-        const zipInput = this.el.querySelector('#o_zip') || this.el.querySelector('#zipcode');
+        // Zip Code - fallback to name attribute
+        const zipInput = this.el.querySelector('#o_zip') || this.el.querySelector('#zipcode') || this.el.querySelector('[name="zipcode"]');
         if (zipInput && data.zip && !zipInput.value.trim()) {
             zipInput.value = data.zip;
         }
 
-        // State/Province
-        const stateSelect = this.el.querySelector('#o_state_id') || this.el.querySelector('#state_id');
+        // State/Province - fallback to name attribute
+        const stateSelect = this.el.querySelector('#o_state_id') || this.el.querySelector('#state_id') || this.el.querySelector('[name="state_id"]');
         if (stateSelect && data.state_id) {
             // Setează valoarea dacă există opțiunea
             for (let option of stateSelect.options) {
@@ -348,8 +415,8 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
             }
         }
 
-        // Phone (doar dacă e gol)
-        const phoneInput = this.el.querySelector('#o_phone') || this.el.querySelector('#phone');
+        // Phone (doar dacă e gol) - fallback to name attribute
+        const phoneInput = this.el.querySelector('#o_phone') || this.el.querySelector('#phone') || this.el.querySelector('[name="phone"]');
         if (phoneInput && data.phone && !phoneInput.value.trim()) {
             phoneInput.value = data.phone;
         }
@@ -360,18 +427,26 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      * Dacă unul din câmpuri e completat, celălalt devine obligatoriu
      */
     _updateFieldsRequirement: function (countryId) {
-        const countrySelect = this.el.querySelector('#o_country_id') || this.el.querySelector('#country_id');
+        const countrySelect = this._getCountrySelect();
         const selectedOption = countrySelect ? countrySelect.options[countrySelect.selectedIndex] : null;
-        const countryCode = selectedOption ? selectedOption.getAttribute('code') : null;
+        let countryCode = selectedOption ? selectedOption.getAttribute('code') : null;
+        // Fallback: check if Romania is selected by name
+        if (!countryCode && selectedOption) {
+            const optionText = selectedOption.text.toLowerCase();
+            if (optionText.includes('romania') || optionText.includes('românia')) {
+                countryCode = 'RO';
+            }
+        }
         
-        const vatInput = this.el.querySelector('#o_vat') || this.el.querySelector('#vat');
-        const companyInput = this.el.querySelector('#o_company_name') || this.el.querySelector('#company_name');
+        const vatInput = this._getVatInput();
+        const companyInput = this._getCompanyInput();
         const invoiceCheckbox = this.el.querySelector('#o_invoice_company');
         const companySection = this.el.querySelector('#o_company_section_collapse');
-        const showVat = this.el.querySelector('#div_vat') || this.el.querySelector('[name="vat"]');
+        const showVat = this.el.querySelector('#div_vat') || this.el.querySelector('[name="vat"]') || vatInput;
 
         // If invoice on company is not checked or section is collapsed, keep fields optional
-        const sectionVisible = companySection ? companySection.classList.contains('show') : (invoiceCheckbox ? invoiceCheckbox.checked : false);
+        // On portal/POS ticket page, there's no toggle - always show
+        const sectionVisible = companySection ? companySection.classList.contains('show') : (invoiceCheckbox ? invoiceCheckbox.checked : true);
         if (!sectionVisible) {
             if (vatInput) {
                 vatInput.removeAttribute('required');

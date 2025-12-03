@@ -118,6 +118,21 @@
     font-weight: var(--bs-body-font-weight, 400); // Odoo font weight
 }
 
+// === Icon tooltip interactiv ===
+.o_tooltip_icon {
+    cursor: pointer;
+    color: var(--bs-info, #0dcaf0);
+    margin-left: 0.35rem;
+    font-size: 0.85em;
+    opacity: 0.8;
+    transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+    
+    &:hover, &:focus {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
 // === Animații smooth - Bootstrap standard ===
 .form-control,
 .o_vat_feedback {
@@ -130,11 +145,38 @@
     .o_company_data_section {
         // Spacing ajustat pe mobile - folosim Bootstrap utilities
         border-left-width: 2px;
+        
+        // Header mai compact pe mobile
+        .o_company_header_icon {
+            font-size: 0.875rem;
+        }
     }
     
     .o_vat_feedback,
     .o_company_help_text {
         font-size: 0.8125rem; // Bootstrap small text pe mobile
+    }
+    
+    // Hint pentru România - layout vertical pe mobile
+    .o_select_romania_hint {
+        padding: 0.5rem;
+        
+        .o_select_romania_btn {
+            display: block;
+            width: 100%;
+            margin-top: 0.5rem;
+            margin-left: 0 !important;
+        }
+    }
+}
+
+// Tablet specific adjustments
+@media (min-width: 577px) and (max-width: 991px) {
+    .o_select_romania_hint {
+        .o_select_romania_btn {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+        }
     }
 }
 
