@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="purchase_order_phase_rfq" model="purchase.order.phase">
+        <field name="name">RFQ</field>
+        <field name="sequence" eval="1" />
+        <field name="code">rfq</field>
+        <field name="color" eval="1" />
+    </record>
+
+    <record id="purchase_order_phase_purchase_confirm" model="purchase.order.phase">
+        <field name="name">Purchase Confirmed</field>
+        <field name="sequence" eval="2" />
+        <field name="code">purchase_confirm</field>
+        <field name="color" eval="2" />
+    </record>
+
+    <record id="purchase_order_phase_pre_advice" model="purchase.order.phase">
+        <field name="name">Pre Advice</field>
+        <field name="sequence" eval="3" />
+        <field name="code">pre_advice</field>
+        <field name="color" eval="3" />
+    </record>
+
+    <record id="purchase_order_phase_shipped" model="purchase.order.phase">
+        <field name="name">Shipped</field>
+        <field name="sequence" eval="4" />
+        <field name="code">shipped</field>
+        <field name="color" eval="4" />
+    </record>
+
+    <record id="purchase_order_phase_delivered" model="purchase.order.phase">
+        <field name="name">Delivered</field>
+        <field name="sequence" eval="5" />
+        <field name="code">delivered</field>
+        <field name="color" eval="5" />
+    </record>
+
+</odoo>
