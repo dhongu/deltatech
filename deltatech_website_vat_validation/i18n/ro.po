@@ -1,0 +1,55 @@
+# Translation of Odoo Module: deltatech_website_vat_validation
+# Language: Romanian (ro)
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: deltatech_website_vat_validation\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-03 00:00+0000\n"
+"PO-Revision-Date: 2025-12-03 00:00+0000\n"
+"Last-Translator: Terrabit <helpdesk@terrabit.ro>\n"
+"Language-Team: Romanian\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2;\n"
+
+#. module: deltatech_website_vat_validation
+#: model_terms:ir.ui.view,arch_db:deltatech_website_vat_validation.address_vat_required
+msgid "Company Name"
+msgstr "Nume Companie"
+
+#. module: deltatech_website_vat_validation
+#: model_terms:ir.ui.view,arch_db:deltatech_website_vat_validation.address_vat_required
+msgid "Invoice to company"
+msgstr "Facturez pe firmă"
+
+#. module: deltatech_website_vat_validation
+#: model_terms:ir.ui.view,arch_db:deltatech_website_vat_validation.address_vat_required
+msgid "VAT Number"
+msgstr "CUI (Cod Unic de Înregistrare)"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/controllers/portal.py:0
+#, python-format
+msgid "The VAT number contains invalid characters."
+msgstr "CUI-ul conține caractere invalide."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/controllers/portal.py:0
+#, python-format
+msgid "The VAT number is too short or too long."
+msgstr "CUI-ul este prea scurt sau prea lung."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/controllers/portal.py:0
+#, python-format
+msgid "Romanian VAT numbers should not start with zero."
+msgstr "CUI-urile românești nu ar trebui să înceapă cu zero."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/controllers/portal.py:0
+#, python-format
+msgid "Please select Romania to validate your VAT via ANAF."
+msgstr "Selectați România pentru a valida CUI prin ANAF."

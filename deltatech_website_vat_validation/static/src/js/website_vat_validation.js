@@ -11,6 +11,7 @@
 
 import publicWidget from "@web/legacy/js/public/public_widget";
 import { rpc } from "@web/core/network/rpc";
+import { _t } from "@web/core/l10n/translation";
 
 publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     selector: '.oe_website_sale, .o_portal_details',
@@ -265,8 +266,8 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         if (vatNumber.length < 6) {
             // CUI-uri foarte scurte probabil nu există
             this._showValidationWarning(
-                vatInput, 
-                'CUI-ul pare incomplet. Un CUI valid are de obicei 6-10 cifre.'
+                vatInput,
+                _t("The VAT number seems incomplete. A valid number usually has 6–10 digits.")
             );
             return;
         }
@@ -281,7 +282,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
 
             if (result.success && result.data) {
                 this._fillFormWithAnafData(result.data);
-                this._showValidationSuccess(vatInput, 'Date completate din ANAF ✓');
+                this._showValidationSuccess(vatInput, _t("Data retrieved from ANAF ✓"));
             } else if (result.error) {
                 // Afișează eroarea prietenos
                 this._showValidationWarning(vatInput, result.error);
@@ -290,8 +291,8 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
             console.error('ANAF lookup error:', error);
             // Eroare de rețea sau server
             this._showValidationWarning(
-                vatInput, 
-                'Nu s-a putut verifica CUI-ul. Puteți continua manual.'
+                vatInput,
+                _t("Couldn’t verify the VAT number. You can continue manually.")
             );
         } finally {
             this._hideLoadingIndicator(vatInput);
@@ -462,7 +463,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         if (invalidChars.test(vat)) {
             this._showValidationError(
                 vatInput,
-                'CUI-ul nu poate conține caractere speciale. Introduceți doar cifre (ex: 12345678).'
+                _t("The VAT number cannot contain special characters. Please enter digits only (e.g., 12345678).")
             );
             return false;
         }
@@ -474,7 +475,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         if (!/^\d+$/.test(vatNumber)) {
             this._showValidationError(
                 vatInput,
-                'CUI-ul trebuie să conțină doar cifre. Exemplu: 12345678'
+                _t("The VAT number must contain digits only. Example: 12345678")
             );
             return false;
         }
@@ -483,7 +484,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         if (vatNumber.length < 2) {
             this._showValidationError(
                 vatInput,
-                'CUI-ul este prea scurt. Trebuie să aibă minimum 2 cifre.'
+                _t("The VAT number is too short. It must have at least 2 digits.")
             );
             return false;
         }
@@ -492,7 +493,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         if (vatNumber.length > 10) {
             this._showValidationError(
                 vatInput,
-                'CUI-ul este prea lung. Maximum 10 cifre sunt permise.'
+                _t("The VAT number is too long. A maximum of 10 digits are allowed.")
             );
             return false;
         }
@@ -501,7 +502,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         if (vatNumber.startsWith('0')) {
             this._showValidationError(
                 vatInput,
-                'CUI-ul nu poate începe cu 0. Verificați dacă l-ați introdus corect.'
+                _t("Romanian VAT numbers cannot start with 0. Please check the value.")
             );
             return false;
         }
@@ -528,7 +529,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         if (invalidPatterns.test(value)) {
             this._showValidationError(
                 companyInput,
-                'Vă rugăm introduceți numele complet al companiei (ex: SC EXAMPLE SRL).'
+                _t("Please enter the full company name (e.g., SC EXAMPLE SRL).")
             );
             return false;
         }
@@ -537,7 +538,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         if (value.length < 3) {
             this._showValidationError(
                 companyInput,
-                'Numele companiei trebuie să aibă cel puțin 3 caractere.'
+                _t("The company name must have at least 3 characters.")
             );
             return false;
         }
