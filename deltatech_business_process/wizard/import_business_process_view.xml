@@ -4,26 +4,39 @@
             <field name="name">business.process.import</field>
             <field name="model">business.process.import</field>
             <field name="arch" type="xml">
-                <form string="Import business process">
+                <form string="Import Business Process">
                     <field name="state" invisible="1" />
                     <field name="name" invisible="1" />
-                    <div invisible="state!='choose'">
-                        <p>Import business processes from file</p>
-                    </div>
-                    <div invisible="state!='get'">
-                        <p>The imported file: <field name="data_file" filename="name" /></p>
 
-                    </div>
+                    <sheet>
+                        <div invisible="state!='get'">
+                            <div class="oe_title">
+                                <h2>Import business processes from a file</h2>
+                                <p class="text-muted">Choose the JSON file you exported earlier, then click Import.</p>
+                            </div>
+                            <group>
+                                <field name="data_file" filename="name" class="oe_inline" no_label="1" />
+                            </group>
+                        </div>
+
+                        <div invisible="state!='choose'">
+                            <group>
+                                <h2>File Selected</h2>
+                                <p class="text-muted">The selected file will be processed:</p>
+                                <field name="data_file" readonly="1" filename="name" class="oe_inline" no_label="1" />
+                            </group>
+                        </div>
+                    </sheet>
 
                     <footer invisible="state!='get'">
-                        <button name="do_import" string="Apply" type="object" class="oe_highlight" />
+                        <button name="do_import" string="Import" type="object" class="oe_highlight" />
                         or
                         <button string="Cancel" class="oe_link" special="cancel" />
                     </footer>
                     <footer invisible="state!='choose'">
                         <button name="do_back" string="Back" type="object" />
                         or
-                        <button string="Cancel" class="oe_link" special="cancel" />
+                        <button string="Close" class="oe_link" special="cancel" />
                     </footer>
 
                 </form>

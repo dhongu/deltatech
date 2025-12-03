@@ -5,7 +5,7 @@
 {
     "name": "Business process",
     "summary": "Business process",
-    "version": "19.0.1.4.7",
+    "version": "19.0.1.4.8",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
@@ -32,6 +32,7 @@
         "data/email_templates.xml",
         "wizard/export_business_process_view.xml",
         "wizard/import_business_process_view.xml",
+        "data/data.xml",
     ],
     "development_status": "Mature",
     "images": ["static/description/main_screenshot.png"],

@@ -22,6 +22,8 @@ class BusinessProcessExport(models.TransientModel):
     include_durations = fields.Boolean(string="Include Durations?")
     include_process_state = fields.Boolean(string="Include Process State?")
     include_modules = fields.Boolean(string="Include Modules?")
+    include_issues = fields.Boolean(string="Include Issues?")
+    include_developments = fields.Boolean(string="Include Developments?")
     state = fields.Selection([("choose", "choose"), ("get", "get")], default="choose")  # choose period  # get the file
 
     def do_export(self):
@@ -29,7 +31,62 @@ class BusinessProcessExport(models.TransientModel):
         active_model = self.env.context.get("active_model", "business.process")
         business_processes = self.env[active_model].browse(active_ids)
         # generez un json cu datele din business_processes si din pasii de process
-        data = []
+        data = {"developments": [], "issues": [], "processes": []}
+
+        if self.include_developments:
+            projects = business_processes.mapped("project_id")
+            project_ids = projects.ids
+            developments = self.env["business.development"].search([("project_id", "in", project_ids)])
+            for development in developments:
+                development_data = {
+                    "name": development.name,
+                    "code": development.code,
+                    "description": development.description,
+                    "area": development.area_id.name,
+                    "type": development.type_id.name,
+                    "approved": development.approved,
+                    "state": development.state,
+                    "date_start_fs": development.date_start_fs,
+                    "date_end_fs": development.date_end_fs,
+                    "completion_fs": development.completion_fs,
+                    "effort_fs": development.effort_fs,
+                    "date_start_dev": development.date_start_dev,
+                    "date_end_dev": development.date_end_dev,
+                    "completion_dev": development.completion_dev,
+                    "effort_dev": development.effort_dev,
+                    "date_start_test": development.date_start_test,
+                    "date_end_test": development.date_end_test,
+                    "completion_test": development.completion_test,
+                    "effort_test": development.effort_test,
+                    "development_duration": development.development_duration,
+                    "note": development.note,
+                }
+                data["developments"].append(development_data)
+
+        if self.include_issues:
+            projects = business_processes.mapped("project_id")
+            project_ids = projects.ids
+            issues = self.env["business.issue"].search([("project_id", "in", project_ids)])
+            for issue in issues:
+                issue_data = {
+                    "name": issue.name,
+                    "code": issue.code,
+                    "description": issue.description,
+                    "project": issue.project_id.name,
+                    "process": issue.process_id.name,
+                    "step_test": issue.step_test_id.name,
+                    "category": issue.category,
+                    "open_date": issue.open_date,
+                    "date_estimated": issue.date_estimated,
+                    "solution": issue.solution,
+                    "solution_date": issue.solution_date,
+                    "closed_date": issue.closed_date,
+                    "area": issue.area_id.name,
+                    "state": issue.state,
+                    "severity": issue.severity,
+                }
+                data["issues"].append(issue_data)
+
         for process in business_processes:
             process_data = {
                 "name": process.name,
@@ -82,7 +139,11 @@ class BusinessProcessExport(models.TransientModel):
                     "sequence": step.sequence,
                     "transaction": step.transaction_id.name,
                     "details": step.details,
+                    "development_ids": [],
                 }
+                if self.include_developments:
+                    for step_development in step.development_ids:
+                        step_data["development_ids"].append(step_development.code or step_development.name)
                 process_data["steps"].append(step_data)
             if self.include_tests:
                 process_data["status_internal_test"] = process.status_internal_test
@@ -113,7 +174,8 @@ class BusinessProcessExport(models.TransientModel):
                         test_data["test_steps"].append(test_step_data)
 
                     process_data["tests"].append(test_data)
-            data.append(process_data)
+
+            data["processes"].append(process_data)
 
         json_data = json.dumps(data, indent=4, sort_keys=True, default=str)
         self.write(
