@@ -18,6 +18,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         'blur #o_vat': '_onVatBlur',
         'input #o_vat': '_onVatInput',
         'change #o_country_id': '_onCountryChange',
+        'change #o_invoice_company': '_onInvoiceCompanyToggle',
         'blur #o_company_name': '_onCompanyNameBlur',
         'input #o_company_name': '_onCompanyNameInput',
         // Portal events
@@ -44,6 +45,18 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         const countrySelect = this.el.querySelector('#o_country_id') || this.el.querySelector('#country_id');
         if (countrySelect) {
             this._updateFieldsRequirement(countrySelect.value);
+        }
+        // Ensure collapse initial state matches switch
+        const companySection = this.el.querySelector('#o_company_section_collapse');
+        const invoiceCheckbox = this.el.querySelector('#o_invoice_company');
+        if (companySection && invoiceCheckbox) {
+            // If switch is checked, show collapse
+            if (invoiceCheckbox.checked && !companySection.classList.contains('show')) {
+                companySection.classList.add('show');
+            }
+            // Listen to Bootstrap collapse events to recompute requirements
+            companySection.addEventListener('shown.bs.collapse', () => this._updateFieldsRequirement());
+            companySection.addEventListener('hidden.bs.collapse', () => this._updateFieldsRequirement());
         }
     },
 
@@ -204,6 +217,15 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     },
 
     /**
+     * Toggle company section visibility and requirements
+     */
+    _onInvoiceCompanyToggle: function (ev) {
+        // Collapse is handled by Bootstrap via data attributes; just recompute requirements
+        // Recompute requirements based on toggle
+        this._updateFieldsRequirement();
+    },
+
+    /**
      * Event handler pentru blur pe câmpul Company Name
      */
     _onCompanyNameBlur: function (ev) {
@@ -343,7 +365,24 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         
         const vatInput = this.el.querySelector('#o_vat') || this.el.querySelector('#vat');
         const companyInput = this.el.querySelector('#o_company_name') || this.el.querySelector('#company_name');
+        const invoiceCheckbox = this.el.querySelector('#o_invoice_company');
+        const companySection = this.el.querySelector('#o_company_section_collapse');
         const showVat = this.el.querySelector('#div_vat') || this.el.querySelector('[name="vat"]');
+
+        // If invoice on company is not checked or section is collapsed, keep fields optional
+        const sectionVisible = companySection ? companySection.classList.contains('show') : (invoiceCheckbox ? invoiceCheckbox.checked : false);
+        if (!sectionVisible) {
+            if (vatInput) {
+                vatInput.removeAttribute('required');
+                vatInput.classList.remove('o_interdependent_required');
+                this._updateLabelRequired(vatInput, false);
+            }
+            if (companyInput) {
+                companyInput.removeAttribute('required');
+                this._updateLabelRequired(companyInput, false);
+            }
+            return;
+        }
 
         if (countryCode === 'RO' && showVat) {
             // Pentru România, câmpurile sunt interdependente

@@ -25,6 +25,16 @@
     }
 }
 
+// Expand/collapse animation for company section
+// Smooth collapse visuals rely on Bootstrap's collapse; keep subtle opacity
+#o_company_section_collapse.collapse {
+    transition: opacity 0.15s ease-in-out;
+    opacity: 0;
+}
+#o_company_section_collapse.collapse.show {
+    opacity: 1;
+}
+
 // === Validare input-uri (feedback vizual) ===
 .vat-input {
     // Moștenim complet stilurile .form-control de la Bootstrap

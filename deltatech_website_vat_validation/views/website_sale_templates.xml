@@ -2,11 +2,27 @@
 <odoo>
     <!-- Inherit checkout address form pentru validare CUI în România -->
     <template id="address_vat_required" inherit_id="website_sale.address">
+        <!-- Checkbox: Facturez pe firmă -->
+        <xpath expr="//div[@id='company_name_div']" position="before">
+            <div class="mb-2">
+                <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="o_invoice_company" name="invoice_company"
+                              data-bs-toggle="collapse" data-bs-target=".o-company-collapse" aria-expanded="false"/>
+                    <label class="form-check-label" for="o_invoice_company">
+                        <i class="fa fa-file-text-o text-muted me-1"></i>
+                        Facturez pe firmă
+                    </label>
+                </div>
+                <small class="form-text text-muted">
+                    Dacă activați, completați câmpurile de firmă. Pentru România, CUI poate completa automat detaliile.
+                </small>
+            </div>
+        </xpath>
         
         <!-- Wrap secțiunea Date Companie într-un card sugestiv -->
         <xpath expr="//div[@id='company_name_div']" position="before">
             <!-- Card header pentru secțiunea de date companie (doar pentru RO) -->
-            <div t-if="country.code == 'RO'" class="o_company_data_section p-3 mb-3">
+            <div t-if="country.code == 'RO'" class="o_company_data_section p-3 mb-3 o-company-collapse collapse">
                 <div class="d-flex align-items-center mb-2">
                     <i class="fa fa-building o_company_header_icon me-2"></i>
                     <strong class="text-muted">Date Companie (Opțional)</strong>
@@ -16,6 +32,14 @@
                     Completați doar dacă doriți factură pe firmă. Ambele câmpuri devin obligatorii dacă completați unul dintre ele.
                 </small>
             </div>
+        </xpath>
+
+        <!-- Setăm collapse pe containerele câmpurilor pentru a respecta toggle-ul -->
+        <xpath expr="//div[@id='company_name_div']" position="attributes">
+            <attribute name="class" add="collapse o-company-collapse" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='div_vat']" position="attributes">
+            <attribute name="class" add="collapse o-company-collapse" separator=" "/>
         </xpath>
         
         <!-- Îmbunătățim label-ul pentru Nume Companie -->
