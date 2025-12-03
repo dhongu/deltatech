@@ -31,7 +31,12 @@ class PurchaseOrder(models.Model):
                     if picking.state != "assigned":
                         raise UserError(_("The stock transfer cannot be validated!"))
                 if picking.state == "assigned":
-                    picking.write({"notice": False, "origin": purchase_order.partner_ref})
+                    field_notice = False
+                    if "notice" in self.env["stock.picking"]._fields:
+                        field_notice = "notice"
+                    if "l10n_ro_notice" in self.env["stock.picking"]._fields:
+                        field_notice = "l10n_ro_notice"
+                    picking.write({field_notice: False, "origin": purchase_order.partner_ref})
                     for move_line in picking.move_ids:
                         if move_line.product_uom_qty > 0 and move_line.quantity == 0:
                             move_line.write({"quantity": move_line.product_uom_qty})

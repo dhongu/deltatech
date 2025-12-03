@@ -396,9 +396,15 @@ class PurchaseUblImportWizard(models.TransientModel):
                     raise UserError(_("The stock transfer cannot be validated!"))
             if picking.state == "assigned":
                 # Update header fields to mirror receipt_to_stock
+                field_notice = False
+                if "notice" in self.env["stock.picking"]._fields:
+                    field_notice = "notice"
+                if "l10n_ro_notice" in self.env["stock.picking"]._fields:
+                    field_notice = "l10n_ro_notice"
+
                 picking.write(
                     {
-                        "notice": False,
+                        field_notice: False,
                         "origin": order.partner_ref or order.name,
                     }
                 )
