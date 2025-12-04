@@ -97,8 +97,13 @@ class TestBusinessProcessImportExport(TransactionCase):
         # Decode and parse JSON
         raw = base64.b64decode(wiz.data_file).decode("utf-8")
         data = json.loads(raw)
-        self.assertTrue(isinstance(data, list) and data)
-        rec = data[0]
+        # Accept both legacy dict payload and new list payload
+        if isinstance(data, dict):
+            processes = data.get("processes", [])
+        else:
+            processes = data
+        self.assertTrue(isinstance(processes, list) and processes)
+        rec = processes[0]
         # Basics present
         self.assertEqual(rec["name"], self.process.name)
         self.assertEqual(rec["code"], self.process.code)
@@ -162,7 +167,15 @@ class TestBusinessProcessImportExport(TransactionCase):
         import_wiz1.do_import()
         # Modify export JSON to change a description and re-import to ensure update path is taken
         raw = json.loads(base64.b64decode(payload).decode("utf-8"))
-        raw[0]["description"] = "Updated description"
+        # Handle both list and dict root formats
+        if isinstance(raw, list):
+            raw[0]["description"] = "Updated description"
+        elif isinstance(raw, dict):
+            if raw.get("processes"):
+                raw["processes"][0]["description"] = "Updated description"
+            else:
+                # Fallback: ensure processes key exists
+                raw["processes"] = []
         modified_payload = base64.b64encode(json.dumps(raw).encode("utf-8"))
         import_wiz2 = (
             self.env["business.process.import"]
