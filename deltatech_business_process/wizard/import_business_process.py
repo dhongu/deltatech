@@ -100,7 +100,7 @@ class BusinessProcessImport(models.TransientModel):
                     {
                         "name": process_data["name"],
                         "code": process_data["code"],
-                        "description": process_data["description"],
+                        "description": _normalize_description(process_data.get("description")),
                         "area_id": area.id,
                         "process_group_id": process_group.id,
                         "project_id": project.id,
@@ -140,7 +140,7 @@ class BusinessProcessImport(models.TransientModel):
                     {
                         "name": process_data["name"],
                         "code": process_data["code"],
-                        "description": process_data["description"],
+                        "description": _normalize_description(process_data.get("description")),
                         "area_id": area.id,
                         "process_group_id": process_group.id,
                         "responsible_id": responsible.id,
@@ -256,7 +256,7 @@ class BusinessProcessImport(models.TransientModel):
             step_test = self.env["business.process.step.test"]
             if issue["step_test"]:
                 if not issue["process"]:
-                    raise UserError("We have steps on issues without process")
+                    raise UserError(_("We have steps on issues without process"))
                 step_test = self.env["business.process.step.test"].search(
                     [("name", "=", issue["step_test"]), ("process_id", "=", process.id)],
                     limit=1,
