@@ -6,7 +6,7 @@ import logging
 
 import requests
 
-from odoo import http, fields
+from odoo import fields, http
 from odoo.http import request
 
 _logger = logging.getLogger(__name__)
@@ -31,10 +31,10 @@ class AnafLookupController(http.Controller):
     def anaf_lookup(self, vat=None, **kwargs):
         """
         Endpoint AJAX pentru căutarea datelor companiei în ANAF
-        
+
         Args:
             vat (str): CUI-ul companiei (cu sau fără prefix RO)
-            
+
         Returns:
             dict: Datele companiei sau eroare
         """
@@ -50,7 +50,7 @@ class AnafLookupController(http.Controller):
 
         # Curăță CUI-ul
         vat = vat.strip().upper().replace(" ", "")
-        
+
         # Elimină prefixul RO dacă există
         vat_number = vat.replace("RO", "")
 
@@ -82,7 +82,7 @@ class AnafLookupController(http.Controller):
 
             # Construim răspunsul
             company_name = general_data.get("denumire", "").strip()
-            
+
             # Determinăm dacă e plătitor de TVA
             is_vat_subjected = vat_data.get("scpTVA", False)
             vat_prefix = "RO" if is_vat_subjected else ""
@@ -95,7 +95,7 @@ class AnafLookupController(http.Controller):
                     street += " Nr. " + address_data.get("dnumar_Strada", "").strip()
 
             street2 = address_data.get("ddetalii_Adresa", "").strip().title()
-            
+
             # Procesăm orașul
             city = address_data.get("ddenumire_Localitate", "").strip()
             city = self._clean_city_name(city)
@@ -103,28 +103,42 @@ class AnafLookupController(http.Controller):
             # Procesăm județul
             state_name = address_data.get("ddenumire_Judet", "").strip()
             state_code = address_data.get("dcod_JudetAuto", "")
-            
+
             # Căutăm ID-ul județului
             state_id = False
             if state_code:
-                state = request.env["res.country.state"].sudo().search([
-                    ("code", "=", state_code),
-                    ("country_id.code", "=", "RO"),
-                ], limit=1)
+                state = (
+                    request.env["res.country.state"]
+                    .sudo()
+                    .search(
+                        [
+                            ("code", "=", state_code),
+                            ("country_id.code", "=", "RO"),
+                        ],
+                        limit=1,
+                    )
+                )
                 if state:
                     state_id = state.id
 
             if not state_id and state_name:
-                state = request.env["res.country.state"].sudo().search([
-                    ("name", "ilike", state_name),
-                    ("country_id.code", "=", "RO"),
-                ], limit=1)
+                state = (
+                    request.env["res.country.state"]
+                    .sudo()
+                    .search(
+                        [
+                            ("name", "ilike", state_name),
+                            ("country_id.code", "=", "RO"),
+                        ],
+                        limit=1,
+                    )
+                )
                 if state:
                     state_id = state.id
 
             # Cod poștal
             zip_code = address_data.get("dcod_Postal", "").strip()
-            
+
             # Telefon (dacă există)
             phone = general_data.get("telefon", "").strip()
 
@@ -143,11 +157,7 @@ class AnafLookupController(http.Controller):
                 "status": general_data.get("stare_inregistrare", ""),
             }
 
-            _logger.info(
-                "ANAF lookup successful for CUI %s: %s",
-                vat_number,
-                company_name
-            )
+            _logger.info("ANAF lookup successful for CUI %s: %s", vat_number, company_name)
 
         except Exception as e:
             _logger.error("ANAF lookup error for CUI %s: %s", vat_number, str(e))
@@ -158,10 +168,10 @@ class AnafLookupController(http.Controller):
     def _get_anaf_data(self, vat_number):
         """
         Interogare directă API ANAF
-        
+
         Args:
             vat_number (str): CUI fără prefix RO
-            
+
         Returns:
             tuple: (error_message, result_dict)
         """
@@ -169,35 +179,30 @@ class AnafLookupController(http.Controller):
             # Pregătim datele pentru request
             today = fields.Date.to_string(fields.Date.today())
             json_data = [{"cui": int(vat_number), "data": today}]
-            
+
             headers = {
                 "User-Agent": "Mozilla/5.0 (compatible; OdooBot/1.0)",
                 "Content-Type": "application/json",
             }
-            
+
             # Facem request-ul
-            response = requests.post(
-                ANAF_URL,
-                json=json_data,
-                headers=headers,
-                timeout=30
-            )
-            
+            response = requests.post(ANAF_URL, json=json_data, headers=headers, timeout=30)
+
             if response.status_code == 404:
                 return "CUI-ul nu a fost găsit în registrul ANAF. Verificați dacă este corect.", {}
-            
+
             if response.status_code == 500:
                 return "Serviciul ANAF este temporar indisponibil. Încercați mai târziu.", {}
-            
+
             if response.status_code == 503:
                 return "Serviciul ANAF este în mentenanță. Încercați mai târziu.", {}
-                
+
             if response.status_code != 200:
                 return f"Serviciul ANAF nu răspunde (cod {response.status_code}). Încercați mai târziu.", {}
-            
+
             if response.headers.get("content-type", "").startswith("application/json"):
                 data = response.json()
-                
+
                 if data.get("found") and len(data["found"]) > 0:
                     return "", data["found"][0]
                 elif data.get("notFound") and len(data["notFound"]) > 0:
@@ -206,12 +211,12 @@ class AnafLookupController(http.Controller):
                     return "CUI-ul nu a fost găsit. Poate fi un CUI nou, neînregistrat încă în ANAF.", {}
             else:
                 return "Răspuns neașteptat de la ANAF. Încercați din nou.", {}
-                
+
         except requests.Timeout:
             return "Conexiunea cu ANAF a expirat. Verificați conexiunea la internet și încercați din nou.", {}
         except requests.ConnectionError:
             return "Nu s-a putut conecta la ANAF. Verificați conexiunea la internet.", {}
-        except requests.RequestException as e:
+        except requests.RequestException:
             return "Eroare de comunicare cu ANAF. Încercați din nou.", {}
         except ValueError:
             return "CUI invalid. Introduceți doar cifre.", {}
@@ -225,11 +230,11 @@ class AnafLookupController(http.Controller):
         """
         if not city:
             return ""
-            
+
         city = city.upper()
         remove_prefixes = ["MUNICIPIUL", "MUN.", "MUN", "ORAȘ", "ORȘ.", "ORȘ", "JUD.", "JUD"]
-        
+
         for prefix in remove_prefixes:
             city = city.replace(prefix, "")
-        
+
         return city.strip().title()

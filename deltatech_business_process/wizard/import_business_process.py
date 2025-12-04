@@ -256,7 +256,7 @@ class BusinessProcessImport(models.TransientModel):
             step_test = self.env["business.process.step.test"]
             if issue["step_test"]:
                 if not issue["process"]:
-                    raise UserError("We have steps on issues without process")
+                    raise UserError(_("We have steps on issues without process"))
                 step_test = self.env["business.process.step.test"].search(
                     [("name", "=", issue["step_test"]), ("process_id", "=", process.id)],
                     limit=1,

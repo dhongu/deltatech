@@ -88,10 +88,10 @@ class CustomerPortalVATValidation(CustomerPortal):
     def _validate_romanian_vat_format(self, vat):
         """
         Validează formatul CUI-ului românesc
-        
+
         Args:
             vat (str): CUI-ul de validat
-            
+
         Returns:
             str or False: Mesaj de eroare sau False dacă validarea reușește
         """
