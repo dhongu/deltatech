@@ -18,7 +18,7 @@
     "assets": {
         "web.assets_frontend": [
             "deltatech_website_vat_validation/static/src/scss/website_vat_validation.scss",
-            "deltatech_website_vat_validation/static/src/js/website_vat_validation.js",
+            "deltatech_website_vat_validation/static/src/js/website_vat_validation.esm.js",
         ],
     },
     "images": ["static/description/main_screenshot.png"],
