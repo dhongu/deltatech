@@ -11,7 +11,7 @@ from odoo.addons.sale.controllers import portal
 class CustomerPortal(portal.CustomerPortal):
     def _prepare_portal_layout_values(self):
         values = super()._prepare_portal_layout_values()
-        if "show_order_fiter" in request.context:
+        if "show_order_fiter" in request.env.context:
             searchbar_filters = {
                 "open_order": {"label": _("Open Orders"), "domain": [("stage", "not in", ["delivered", "cancel"])]},
                 "all": {"label": _("All"), "domain": []},
