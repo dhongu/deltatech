@@ -47,24 +47,18 @@
             <attribute name="class" add="collapse o-company-collapse" separator=" " />
         </xpath>
 
-        <!-- Îmbunătățim label-ul pentru Nume Companie -->
-        <xpath expr="//div[@id='company_name_div']//label[@for='o_company_name']" priority="99" position="replace">
-            <label class="col-form-label" for="o_company_name">
-                <t t-if="country.code == 'RO'">
-                    <i class="fa fa-building text-muted me-1" />Nume Companie
-                </t>
-                <t t-else="">Company Name</t>
-            </label>
+        <!-- Îmbunătățim label-ul pentru Nume Companie - adăugăm icon -->
+        <xpath expr="//div[@id='company_name_div']//label[@for='o_company_name']" position="inside">
+            <t t-if="country.code == 'RO'">
+                <i class="fa fa-building text-muted me-1" />
+            </t>
         </xpath>
 
-        <!-- Îmbunătățim label-ul pentru CUI/VAT -->
-        <xpath expr="//div[@id='div_vat']//label[@for='o_vat']" priority="99" position="replace">
-            <label class="col-form-label" for="o_vat">
-                <t t-if="country.code == 'RO'">
-                    <i class="fa fa-hashtag text-muted me-1" />CUI (Cod Unic de Înregistrare)
-                </t>
-                <t t-else=""><t t-out="vat_label" /></t>
-            </label>
+        <!-- Îmbunătățim label-ul pentru CUI/VAT - adăugăm icon -->
+        <xpath expr="//div[@id='div_vat']//label[@for='o_vat']" position="inside">
+            <t t-if="country.code == 'RO'">
+                <i class="fa fa-hashtag text-muted me-1" />
+            </t>
         </xpath>
 
         <!-- Adăugăm placeholder și clase pentru Nume Companie -->
