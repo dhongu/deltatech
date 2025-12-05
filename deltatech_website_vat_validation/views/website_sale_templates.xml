@@ -48,7 +48,7 @@
         </xpath>
 
         <!-- Îmbunătățim label-ul pentru Nume Companie -->
-        <xpath expr="//div[@id='company_name_div']//label[@for='o_company_name']" position="replace">
+        <xpath expr="//div[@id='company_name_div']//label[@for='o_company_name']" position="replace" priority="99">
             <label class="col-form-label" for="o_company_name">
                 <t t-if="country.code == 'RO'">
                     <i class="fa fa-building text-muted me-1"></i>Nume Companie
@@ -58,7 +58,7 @@
         </xpath>
 
         <!-- Îmbunătățim label-ul pentru CUI/VAT -->
-        <xpath expr="//div[@id='div_vat']//label[@for='o_vat']" position="replace">
+        <xpath expr="//div[@id='div_vat']//label[@for='o_vat']" position="replace" priority="99">
             <label class="col-form-label" for="o_vat">
                 <t t-if="country.code == 'RO'">
                     <i class="fa fa-hashtag text-muted me-1"></i>CUI (Cod Unic de Înregistrare)
