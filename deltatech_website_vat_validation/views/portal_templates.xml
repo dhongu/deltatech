@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!-- Inherit portal details FIELDS form pentru validare CUI în România -->
     <!-- Câmpurile sunt în portal.portal_my_details_fields, nu în portal_my_details -->
@@ -8,16 +8,18 @@
         <!-- Trebuie să găsim div-ul părinte, nu input-ul -->
         <xpath expr="//div[.//input[@name='company_name']]" position="before">
             <t t-if="partner.country_id.code == 'RO' or not partner.country_id">
-                <div class="clearfix d-xl-none"/>
+                <div class="clearfix d-xl-none" />
                 <div class="col-12 mb-2">
                     <div class="o_company_data_section p-2 p-md-3">
                         <div class="d-flex align-items-center mb-1 mb-md-2">
-                            <i class="fa fa-building o_company_header_icon me-2" aria-hidden="true"></i>
+                            <i class="fa fa-building o_company_header_icon me-2" aria-hidden="true" />
                             <strong class="text-muted small">Company Data (Optional)</strong>
                         </div>
                         <small class="form-text text-muted o_company_help_text d-block">
-                            <i class="fa fa-info-circle" aria-hidden="true"></i>
-                            <span class="d-none d-sm-inline">Fill in only if you want an invoice on company. Both fields become mandatory if you fill in one of them.</span>
+                            <i class="fa fa-info-circle" aria-hidden="true" />
+                            <span
+                                class="d-none d-sm-inline"
+                            >Fill in only if you want an invoice on company. Both fields become mandatory if you fill in one of them.</span>
                             <span class="d-inline d-sm-none">For company invoice, fill both fields.</span>
                         </small>
                     </div>
@@ -27,42 +29,50 @@
 
         <!-- Adăugăm icon cu tooltip după label-ul Company Name -->
         <xpath expr="//label[@for='company_name']" position="inside">
-            <i class="fa fa-info-circle o_tooltip_icon ms-1"
-               role="button"
-               tabindex="0"
-               aria-label="Help"
-               data-bs-toggle="tooltip"
-               data-bs-placement="top"
-               data-bs-trigger="click hover focus"
-               title="Enter the full registered company name as it appears in official documents (e.g., SC EXAMPLE SRL)"></i>
+            <i
+                class="fa fa-info-circle o_tooltip_icon ms-1"
+                role="button"
+                tabindex="0"
+                aria-label="Help"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                data-bs-trigger="click hover focus"
+                title="Enter the full registered company name as it appears in official documents (e.g., SC EXAMPLE SRL)"
+            />
         </xpath>
 
         <!-- Adăugăm placeholder și clase pentru Nume Companie -->
         <xpath expr="//input[@name='company_name']" position="attributes">
             <attribute name="placeholder">Ex: SC EXAMPLE SRL</attribute>
-            <attribute name="class" add="o_company_name_input" separator=" "/>
+            <attribute name="class" add="o_company_name_input" separator=" " />
             <attribute name="id">company_name</attribute>
             <attribute name="autocomplete">organization</attribute>
         </xpath>
 
         <!-- Adăugăm icon cu tooltip după label-ul VAT Number -->
         <xpath expr="//label[@for='vat']" position="inside">
-            <i class="fa fa-info-circle o_tooltip_icon ms-1"
-               role="button"
-               tabindex="0"
-               aria-label="Help"
-               data-bs-toggle="tooltip"
-               data-bs-placement="top"
-               data-bs-trigger="click hover focus"
-               title="Romanian VAT (CUI): 2-10 digits. Example: 12345678 or RO12345678. Data will be auto-filled from ANAF."></i>
+            <i
+                class="fa fa-info-circle o_tooltip_icon ms-1"
+                role="button"
+                tabindex="0"
+                aria-label="Help"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                data-bs-trigger="click hover focus"
+                title="Romanian VAT (CUI): 2-10 digits. Example: 12345678 or RO12345678. Data will be auto-filled from ANAF."
+            />
         </xpath>
 
         <!-- Adăugăm validare, placeholder și clase pentru CUI -->
         <xpath expr="//input[@name='vat']" position="attributes">
             <attribute name="placeholder">Ex: 12345678</attribute>
-            <attribute name="t-att-pattern">'(RO)?[0-9]{2,10}' if partner.country_id.code == 'RO' or not partner.country_id else None</attribute>
-            <attribute name="t-att-title">'CUI: 2-10 digits, optionally prefixed with RO' if partner.country_id.code == 'RO' or not partner.country_id else None</attribute>
-            <attribute name="class" add="vat-input o_vat_input" separator=" "/>
+            <attribute
+                name="t-att-pattern"
+            >'(RO)?[0-9]{2,10}' if partner.country_id.code == 'RO' or not partner.country_id else None</attribute>
+            <attribute
+                name="t-att-title"
+            >'CUI: 2-10 digits, optionally prefixed with RO' if partner.country_id.code == 'RO' or not partner.country_id else None</attribute>
+            <attribute name="class" add="vat-input o_vat_input" separator=" " />
             <attribute name="id">vat</attribute>
             <attribute name="inputmode">numeric</attribute>
             <attribute name="autocomplete">off</attribute>
@@ -80,10 +90,12 @@
         <!-- Use a simpler XPath that matches the t element with any t-foreach attribute -->
         <xpath expr="//select[@name='country_id']/t" position="replace">
             <t t-foreach="countries or []" t-as="country">
-                <option t-att-value="country.id"
-                        t-att-code="country.code"
-                        t-att-selected="country.id == int(country_id) if country_id else country.id == partner.country_id.id">
-                    <t t-esc="country.name"/>
+                <option
+                    t-att-value="country.id"
+                    t-att-code="country.code"
+                    t-att-selected="country.id == int(country_id) if country_id else country.id == partner.country_id.id"
+                >
+                    <t t-esc="country.name" />
                 </option>
             </t>
         </xpath>

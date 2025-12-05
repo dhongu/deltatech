@@ -10,28 +10,28 @@
  */
 
 import publicWidget from "@web/legacy/js/public/public_widget";
-import { rpc } from "@web/core/network/rpc";
-import { _t } from "@web/core/l10n/translation";
+import {rpc} from "@web/core/network/rpc";
+import {_t} from "@web/core/l10n/translation";
 
 publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
-    selector: '.oe_website_sale, .o_portal_details',
+    selector: ".oe_website_sale, .o_portal_details",
     events: {
-        'blur #o_vat': '_onVatBlur',
-        'input #o_vat': '_onVatInput',
-        'change #o_country_id': '_onCountryChange',
-        'change #o_invoice_company': '_onInvoiceCompanyToggle',
-        'blur #o_company_name': '_onCompanyNameBlur',
-        'input #o_company_name': '_onCompanyNameInput',
+        "blur #o_vat": "_onVatBlur",
+        "input #o_vat": "_onVatInput",
+        "change #o_country_id": "_onCountryChange",
+        "change #o_invoice_company": "_onInvoiceCompanyToggle",
+        "blur #o_company_name": "_onCompanyNameBlur",
+        "input #o_company_name": "_onCompanyNameInput",
         // Portal events
-        'blur #vat': '_onVatBlur',
-        'input #vat': '_onVatInput',
-        'blur #company_name': '_onCompanyNameBlur',
-        'input #company_name': '_onCompanyNameInput',
-        'change #country_id': '_onCountryChange',
-        'blur input[name="email"]': '_onEmailBlur',
-        'input input[name="email"]': '_onEmailInput',
-        'blur input[name="phone"]': '_onPhoneBlur',
-        'input input[name="phone"]': '_onPhoneInput',
+        "blur #vat": "_onVatBlur",
+        "input #vat": "_onVatInput",
+        "blur #company_name": "_onCompanyNameBlur",
+        "input #company_name": "_onCompanyNameInput",
+        "change #country_id": "_onCountryChange",
+        'blur input[name="email"]': "_onEmailBlur",
+        'input input[name="email"]': "_onEmailInput",
+        'blur input[name="phone"]': "_onPhoneBlur",
+        'input input[name="phone"]': "_onPhoneInput",
     },
 
     /**
@@ -52,14 +52,14 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
             this._updateFieldsRequirement();
         }
         // Ensure collapse initial state matches switch
-        const invoiceCheckbox = this.el.querySelector('#o_invoice_company');
-        const companySections = this.el.querySelectorAll('#o_company_section_collapse, .o-company-collapse');
+        const invoiceCheckbox = this.el.querySelector("#o_invoice_company");
+        const companySections = this.el.querySelectorAll("#o_company_section_collapse, .o-company-collapse");
         if (companySections.length && invoiceCheckbox) {
             this._setCompanySectionVisibility(invoiceCheckbox.checked);
             // Listen to Bootstrap collapse events to recompute requirements
             companySections.forEach((section) => {
-                section.addEventListener('shown.bs.collapse', () => this._updateFieldsRequirement());
-                section.addEventListener('hidden.bs.collapse', () => this._updateFieldsRequirement());
+                section.addEventListener("shown.bs.collapse", () => this._updateFieldsRequirement());
+                section.addEventListener("hidden.bs.collapse", () => this._updateFieldsRequirement());
             });
         }
 
@@ -84,13 +84,13 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      * Show/hide company collapses and sync toggle state
      */
     _setCompanySectionVisibility: function (shouldShow) {
-        const invoiceCheckbox = this.el.querySelector('#o_invoice_company');
-        const companySections = this.el.querySelectorAll('#o_company_section_collapse, .o-company-collapse');
+        const invoiceCheckbox = this.el.querySelector("#o_invoice_company");
+        const companySections = this.el.querySelectorAll("#o_company_section_collapse, .o-company-collapse");
         companySections.forEach((section) => {
-            section.classList.toggle('show', shouldShow);
+            section.classList.toggle("show", shouldShow);
         });
         if (invoiceCheckbox) {
-            invoiceCheckbox.setAttribute('aria-expanded', shouldShow ? 'true' : 'false');
+            invoiceCheckbox.setAttribute("aria-expanded", shouldShow ? "true" : "false");
             invoiceCheckbox.checked = shouldShow;
         }
     },
@@ -99,41 +99,47 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      * Helper to find country select element (works with both checkout and portal)
      */
     _getCountrySelect: function () {
-        return this.el.querySelector('#o_country_id') ||
-               this.el.querySelector('#country_id') ||
-               this.el.querySelector('select[name="country_id"]');
+        return (
+            this.el.querySelector("#o_country_id") ||
+            this.el.querySelector("#country_id") ||
+            this.el.querySelector('select[name="country_id"]')
+        );
     },
 
     /**
      * Helper to find VAT input element
      */
     _getVatInput: function () {
-        return this.el.querySelector('#o_vat') ||
-               this.el.querySelector('#vat') ||
-               this.el.querySelector('input[name="vat"]');
+        return (
+            this.el.querySelector("#o_vat") ||
+            this.el.querySelector("#vat") ||
+            this.el.querySelector('input[name="vat"]')
+        );
     },
 
     /**
      * Helper to find email input element
      */
     _getEmailInput: function () {
-        return this.el.querySelector('#email') || this.el.querySelector('input[name="email"]');
+        return this.el.querySelector("#email") || this.el.querySelector('input[name="email"]');
     },
 
     /**
      * Helper to find phone input element
      */
     _getPhoneInput: function () {
-        return this.el.querySelector('#phone') || this.el.querySelector('input[name="phone"]');
+        return this.el.querySelector("#phone") || this.el.querySelector('input[name="phone"]');
     },
 
     /**
      * Helper to find company name input element
      */
     _getCompanyInput: function () {
-        return this.el.querySelector('#o_company_name') ||
-               this.el.querySelector('#company_name') ||
-               this.el.querySelector('input[name="company_name"]');
+        return (
+            this.el.querySelector("#o_company_name") ||
+            this.el.querySelector("#company_name") ||
+            this.el.querySelector('input[name="company_name"]')
+        );
     },
 
     /**
@@ -144,23 +150,23 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         const countrySelect = this._getCountrySelect();
         const selectedOption = countrySelect ? countrySelect.options[countrySelect.selectedIndex] : null;
         // Try to get country code from 'code' attribute or from option text
-        let countryCode = selectedOption ? selectedOption.getAttribute('code') : null;
+        let countryCode = selectedOption ? selectedOption.getAttribute("code") : null;
         // Fallback: check if Romania is selected by name
         if (!countryCode && selectedOption) {
             const optionText = selectedOption.text.toLowerCase();
-            if (optionText.includes('romania') || optionText.includes('românia')) {
-                countryCode = 'RO';
+            if (optionText.includes("romania") || optionText.includes("românia")) {
+                countryCode = "RO";
             }
         }
         const vat = vatInput.value.trim();
 
         // Verificăm dacă arată a CUI românesc dar țara nu e România
-        if (vat && this._looksLikeRomanianVat(vat) && countryCode !== 'RO') {
+        if (vat && this._looksLikeRomanianVat(vat) && countryCode !== "RO") {
             this._showSelectRomaniaHint(vatInput, countrySelect);
             return;
         }
 
-        if (countryCode === 'RO') {
+        if (countryCode === "RO") {
             const isValid = this._validateRomanianVat(vatInput);
 
             // Dacă validarea formatului e OK, interogăm ANAF
@@ -181,7 +187,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         vat = vat.toUpperCase().trim();
 
         // Dacă începe cu RO, e clar românesc
-        if (vat.startsWith('RO')) return true;
+        if (vat.startsWith("RO")) return true;
 
         // Dacă e format doar din cifre și are 2-10 caractere, probabil e CUI
         if (/^\d{2,10}$/.test(vat)) return true;
@@ -196,15 +202,17 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         this._clearValidationFeedback(vatInput);
 
         // Adaugă border albastru pentru atenție
-        vatInput.classList.add('border-info');
-        vatInput.classList.remove('is-invalid', 'is-valid');
+        vatInput.classList.add("border-info");
+        vatInput.classList.remove("is-invalid", "is-valid");
 
         // Creează mesajul de hint
-        const feedback = document.createElement('div');
-        feedback.className = 'form-text text-info d-block o_vat_feedback o_select_romania_hint';
+        const feedback = document.createElement("div");
+        feedback.className = "form-text text-info d-block o_vat_feedback o_select_romania_hint";
         feedback.innerHTML = `
             <i class="fa fa-lightbulb-o me-1"></i>
-            <strong>${_t("Hint")}:</strong> ${_t("Select")} <strong>${_t("Romania")}</strong> ${_t("as your country for ANAF auto-fill")}
+            <strong>${_t("Hint")}:</strong> ${_t("Select")} <strong>${_t("Romania")}</strong> ${_t(
+            "as your country for ANAF auto-fill"
+        )}
             <button type="button" class="btn btn-sm btn-outline-primary ms-2 o_select_romania_btn">
                 <i class="fa fa-flag me-1"></i>${_t("Select Romania")}
             </button>
@@ -214,26 +222,26 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         vatInput.parentNode.insertBefore(feedback, vatInput.nextSibling);
 
         // Adaugă event pe buton pentru a selecta România automat
-        const selectRoBtn = feedback.querySelector('.o_select_romania_btn');
+        const selectRoBtn = feedback.querySelector(".o_select_romania_btn");
         if (selectRoBtn && countrySelect) {
-            selectRoBtn.addEventListener('click', async (e) => {
+            selectRoBtn.addEventListener("click", async (e) => {
                 e.preventDefault();
 
                 // Găsește opțiunea România (by code attribute or by text)
-                for (let option of countrySelect.options) {
-                    const code = option.getAttribute('code');
+                for (const option of countrySelect.options) {
+                    const code = option.getAttribute("code");
                     const text = option.text.toLowerCase();
-                    if (code === 'RO' || text.includes('romania') || text.includes('românia')) {
+                    if (code === "RO" || text.includes("romania") || text.includes("românia")) {
                         countrySelect.value = option.value;
                         // Trigger change pentru a actualiza UI și state-urile
-                        countrySelect.dispatchEvent(new Event('change', { bubbles: true }));
+                        countrySelect.dispatchEvent(new Event("change", {bubbles: true}));
 
                         // Scroll la țară pentru vizibilitate
-                        countrySelect.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        countrySelect.scrollIntoView({behavior: "smooth", block: "center"});
 
                         // După selectarea țării, revalidează și fă lookup ANAF
                         setTimeout(async () => {
-                            vatInput.classList.remove('border-info');
+                            vatInput.classList.remove("border-info");
                             this._clearValidationFeedback(vatInput);
                             const isValid = this._validateRomanianVat(vatInput);
                             if (isValid && vatInput.value.trim().length >= 2) {
@@ -249,10 +257,10 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
 
         // Highlight dropdown-ul țării
         if (countrySelect) {
-            countrySelect.classList.add('border-info', 'o_country_highlight');
+            countrySelect.classList.add("border-info", "o_country_highlight");
             // Elimină highlight-ul după 3 secunde
             setTimeout(() => {
-                countrySelect.classList.remove('border-info', 'o_country_highlight');
+                countrySelect.classList.remove("border-info", "o_country_highlight");
             }, 3000);
         }
     },
@@ -264,27 +272,27 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         const vatInput = ev.currentTarget;
         const countrySelect = this._getCountrySelect();
         const selectedOption = countrySelect ? countrySelect.options[countrySelect.selectedIndex] : null;
-        let countryCode = selectedOption ? selectedOption.getAttribute('code') : null;
+        let countryCode = selectedOption ? selectedOption.getAttribute("code") : null;
         // Fallback: check if Romania is selected by name
         if (!countryCode && selectedOption) {
             const optionText = selectedOption.text.toLowerCase();
-            if (optionText.includes('romania') || optionText.includes('românia')) {
-                countryCode = 'RO';
+            if (optionText.includes("romania") || optionText.includes("românia")) {
+                countryCode = "RO";
             }
         }
 
-        if (countryCode === 'RO') {
+        if (countryCode === "RO") {
             // Elimină caracterele invalide în timp ce utilizatorul scrie
             let value = vatInput.value.toUpperCase();
 
             // Permite doar RO urmat de cifre sau doar cifre
-            value = value.replace(/[^RO0-9]/g, '');
+            value = value.replace(/[^RO0-9]/g, "");
 
             // Dacă începe cu RO, păstrează doar o dată
-            if (value.startsWith('RO')) {
+            if (value.startsWith("RO")) {
                 const roCount = (value.match(/RO/g) || []).length;
                 if (roCount > 1) {
-                    value = 'RO' + value.replace(/RO/g, '');
+                    value = "RO" + value.replace(/RO/g, "");
                 }
             }
 
@@ -298,8 +306,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     /**
      * Event handler pentru schimbarea țării
      */
-    _onCountryChange: function (ev) {
-        const countrySelect = ev.currentTarget;
+    _onCountryChange: function () {
         this._updateFieldsRequirement();
 
         // Resetează mesajele de eroare existente
@@ -324,16 +331,16 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         const companyInput = ev.currentTarget;
         const countrySelect = this._getCountrySelect();
         const selectedOption = countrySelect ? countrySelect.options[countrySelect.selectedIndex] : null;
-        let countryCode = selectedOption ? selectedOption.getAttribute('code') : null;
+        let countryCode = selectedOption ? selectedOption.getAttribute("code") : null;
         // Fallback: check if Romania is selected by name
         if (!countryCode && selectedOption) {
             const optionText = selectedOption.text.toLowerCase();
-            if (optionText.includes('romania') || optionText.includes('românia')) {
-                countryCode = 'RO';
+            if (optionText.includes("romania") || optionText.includes("românia")) {
+                countryCode = "RO";
             }
         }
 
-        if (countryCode === 'RO' && companyInput.value.trim()) {
+        if (countryCode === "RO" && companyInput.value.trim()) {
             this._validateCompanyName(companyInput);
         }
 
@@ -344,7 +351,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     /**
      * Event handler pentru input pe câmpul Company Name
      */
-    _onCompanyNameInput: function (ev) {
+    _onCompanyNameInput: function () {
         // Actualizează cerințele câmpurilor când utilizatorul scrie
         this._updateFieldsRequirement();
     },
@@ -377,11 +384,11 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         const phoneInput = this._getPhoneInput();
         const countrySelect = this._getCountrySelect();
         const selectedOption = countrySelect ? countrySelect.options[countrySelect.selectedIndex] : null;
-        let countryCode = selectedOption ? selectedOption.getAttribute('code') : null;
+        let countryCode = selectedOption ? selectedOption.getAttribute("code") : null;
         if (!countryCode && selectedOption) {
             const optionText = selectedOption.text.toLowerCase();
-            if (optionText.includes('romania') || optionText.includes('românia')) {
-                countryCode = 'RO';
+            if (optionText.includes("romania") || optionText.includes("românia")) {
+                countryCode = "RO";
             }
         }
 
@@ -411,7 +418,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         }
 
         // Verifică dacă CUI-ul pare valid înainte de a interoga ANAF
-        const vatNumber = vat.toUpperCase().replace(/^RO/, '');
+        const vatNumber = vat.toUpperCase().replace(/^RO/, "");
         if (vatNumber.length < 6) {
             // CUI-uri foarte scurte probabil nu există
             this._showValidationWarning(
@@ -437,12 +444,9 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
                 this._showValidationWarning(vatInput, result.error);
             }
         } catch (error) {
-            console.error('ANAF lookup error:', error);
+            console.error("ANAF lookup error:", error);
             // Eroare de rețea sau server
-            this._showValidationWarning(
-                vatInput,
-                _t("Couldn’t verify the VAT number. You can continue manually.")
-            );
+            this._showValidationWarning(vatInput, _t("Couldn’t verify the VAT number. You can continue manually."));
         } finally {
             this._hideLoadingIndicator(vatInput);
         }
@@ -460,45 +464,63 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         }
 
         // Street - fallback to name attribute
-        const streetInput = this.el.querySelector('#o_street') || this.el.querySelector('#street') || this.el.querySelector('[name="street"]');
+        const streetInput =
+            this.el.querySelector("#o_street") ||
+            this.el.querySelector("#street") ||
+            this.el.querySelector('[name="street"]');
         if (streetInput && data.street && !streetInput.value.trim()) {
             streetInput.value = data.street;
         }
 
         // Street2 - fallback to name attribute
-        const street2Input = this.el.querySelector('#o_street2') || this.el.querySelector('#street2') || this.el.querySelector('[name="street2"]');
+        const street2Input =
+            this.el.querySelector("#o_street2") ||
+            this.el.querySelector("#street2") ||
+            this.el.querySelector('[name="street2"]');
         if (street2Input && data.street2 && !street2Input.value.trim()) {
             street2Input.value = data.street2;
         }
 
         // City - fallback to name attribute
-        const cityInput = this.el.querySelector('#o_city') || this.el.querySelector('#city') || this.el.querySelector('[name="city"]');
+        const cityInput =
+            this.el.querySelector("#o_city") ||
+            this.el.querySelector("#city") ||
+            this.el.querySelector('[name="city"]');
         if (cityInput && data.city && !cityInput.value.trim()) {
             cityInput.value = data.city;
         }
 
         // Zip Code - fallback to name attribute
-        const zipInput = this.el.querySelector('#o_zip') || this.el.querySelector('#zipcode') || this.el.querySelector('[name="zipcode"]');
+        const zipInput =
+            this.el.querySelector("#o_zip") ||
+            this.el.querySelector("#zipcode") ||
+            this.el.querySelector('[name="zipcode"]');
         if (zipInput && data.zip && !zipInput.value.trim()) {
             zipInput.value = data.zip;
         }
 
         // State/Province - fallback to name attribute
-        const stateSelect = this.el.querySelector('#o_state_id') || this.el.querySelector('#state_id') || this.el.querySelector('[name="state_id"]');
+        const stateSelect =
+            this.el.querySelector("#o_state_id") ||
+            this.el.querySelector("#state_id") ||
+            this.el.querySelector('[name="state_id"]');
         if (stateSelect && data.state_id) {
             // Setează valoarea dacă există opțiunea
-            for (let option of stateSelect.options) {
+            for (const option of stateSelect.options) {
                 if (parseInt(option.value) === data.state_id) {
                     stateSelect.value = option.value;
                     // Trigger change event pentru a actualiza UI-ul
-                    stateSelect.dispatchEvent(new Event('change', { bubbles: true }));
+                    stateSelect.dispatchEvent(new Event("change", {bubbles: true}));
                     break;
                 }
             }
         }
 
         // Phone (doar dacă e gol) - fallback to name attribute
-        const phoneInput = this.el.querySelector('#o_phone') || this.el.querySelector('#phone') || this.el.querySelector('[name="phone"]');
+        const phoneInput =
+            this.el.querySelector("#o_phone") ||
+            this.el.querySelector("#phone") ||
+            this.el.querySelector('[name="phone"]');
         if (phoneInput && data.phone && !phoneInput.value.trim()) {
             phoneInput.value = data.phone;
         }
@@ -511,75 +533,77 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     _updateFieldsRequirement: function () {
         const countrySelect = this._getCountrySelect();
         const selectedOption = countrySelect ? countrySelect.options[countrySelect.selectedIndex] : null;
-        let countryCode = selectedOption ? selectedOption.getAttribute('code') : null;
+        let countryCode = selectedOption ? selectedOption.getAttribute("code") : null;
         // Fallback: check if Romania is selected by name
         if (!countryCode && selectedOption) {
             const optionText = selectedOption.text.toLowerCase();
-            if (optionText.includes('romania') || optionText.includes('românia')) {
-                countryCode = 'RO';
+            if (optionText.includes("romania") || optionText.includes("românia")) {
+                countryCode = "RO";
             }
         }
 
         const vatInput = this._getVatInput();
         const companyInput = this._getCompanyInput();
-        const invoiceCheckbox = this.el.querySelector('#o_invoice_company');
-        const companySections = this.el.querySelectorAll('#o_company_section_collapse, .o-company-collapse');
-        const showVat = this.el.querySelector('#div_vat') || this.el.querySelector('[name="vat"]') || vatInput;
+        const invoiceCheckbox = this.el.querySelector("#o_invoice_company");
+        const companySections = this.el.querySelectorAll("#o_company_section_collapse, .o-company-collapse");
+        const showVat = this.el.querySelector("#div_vat") || this.el.querySelector('[name="vat"]') || vatInput;
 
         // If invoice on company is not checked or section is collapsed, keep fields optional
         // On portal/POS ticket page, there's no toggle - always show
         const sectionVisible = companySections.length
             ? Array.from(companySections).some(
-                  (section) => section.classList.contains('show') || section.classList.contains('collapsing')
+                  (section) => section.classList.contains("show") || section.classList.contains("collapsing")
               )
-            : (invoiceCheckbox ? invoiceCheckbox.checked : true);
+            : invoiceCheckbox
+            ? invoiceCheckbox.checked
+            : true;
         if (!sectionVisible) {
             if (vatInput) {
-                vatInput.removeAttribute('required');
-                vatInput.classList.remove('o_interdependent_required');
+                vatInput.removeAttribute("required");
+                vatInput.classList.remove("o_interdependent_required");
                 this._updateLabelRequired(vatInput, false);
             }
             if (companyInput) {
-                companyInput.removeAttribute('required');
+                companyInput.removeAttribute("required");
                 this._updateLabelRequired(companyInput, false);
             }
             return;
         }
 
-        if (countryCode === 'RO' && showVat) {
+        if (countryCode === "RO" && showVat) {
             // Pentru România, câmpurile sunt interdependente
             // Dacă unul e completat, celălalt devine obligatoriu
-            const vatValue = vatInput ? vatInput.value.trim() : '';
-            const companyValue = companyInput ? companyInput.value.trim() : '';
+            const vatValue = vatInput ? vatInput.value.trim() : "";
+            const companyValue = companyInput ? companyInput.value.trim() : "";
 
             if (vatValue && companyInput) {
                 // Dacă CUI e completat, Nume Companie devine obligatoriu
-                companyInput.setAttribute('required', 'required');
+                companyInput.setAttribute("required", "required");
                 this._updateLabelRequired(companyInput, true);
             } else if (companyInput) {
-                companyInput.removeAttribute('required');
+                companyInput.removeAttribute("required");
                 this._updateLabelRequired(companyInput, false);
             }
 
             if (companyValue && vatInput) {
                 // Dacă Nume Companie e completat, CUI devine obligatoriu
-                vatInput.setAttribute('required', 'required');
-                vatInput.classList.add('o_interdependent_required');
+                vatInput.setAttribute("required", "required");
+                vatInput.classList.add("o_interdependent_required");
                 this._updateLabelRequired(vatInput, true);
             } else if (vatInput) {
-                vatInput.removeAttribute('required');
-                vatInput.classList.remove('o_interdependent_required');
+                vatInput.removeAttribute("required");
+                vatInput.classList.remove("o_interdependent_required");
                 this._updateLabelRequired(vatInput, false);
             }
         } else {
             // Pentru alte țări, câmpurile rămân opționale
             if (vatInput) {
-                vatInput.removeAttribute('required');
-                vatInput.classList.remove('o_interdependent_required');
+                vatInput.removeAttribute("required");
+                vatInput.classList.remove("o_interdependent_required");
                 this._updateLabelRequired(vatInput, false);
             }
             if (companyInput) {
-                companyInput.removeAttribute('required');
+                companyInput.removeAttribute("required");
                 this._updateLabelRequired(companyInput, false);
             }
         }
@@ -597,9 +621,9 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
 
         if (label) {
             if (isRequired) {
-                label.classList.add('o_required_label');
+                label.classList.add("o_required_label");
             } else {
-                label.classList.remove('o_required_label');
+                label.classList.remove("o_required_label");
             }
         }
     },
@@ -608,7 +632,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      * Validează email-ul local (regex simplu)
      */
     _validateEmail: function (emailInput) {
-        const value = (emailInput.value || '').trim();
+        const value = (emailInput.value || "").trim();
 
         if (!value) {
             // Lăsăm serverul să decidă dacă e obligatoriu
@@ -630,27 +654,27 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      * Validează telefonul local (lungime + format de bază)
      */
     _validatePhone: function (phoneInput, countryCode) {
-        const raw = (phoneInput.value || '').trim();
+        const raw = (phoneInput.value || "").trim();
         if (!raw) {
             this._clearValidationFeedback(phoneInput);
             return true;
         }
 
         // Permite +, cifre, spații, -, paranteze
-        const sanitized = raw.replace(/[^\d+]/g, '');
+        const sanitized = raw.replace(/[^\d+]/g, "");
         // Elimină plusul dacă apare de mai multe ori
         const plusCount = (sanitized.match(/\+/g) || []).length;
-        const normalized = plusCount > 1 ? sanitized.replace(/\+/g, '') : sanitized;
+        const normalized = plusCount > 1 ? sanitized.replace(/\+/g, "") : sanitized;
 
         // Heuristic: minim 6 cifre
-        const digits = normalized.replace(/\D/g, '');
+        const digits = normalized.replace(/\D/g, "");
         if (digits.length < 6) {
             this._showValidationError(phoneInput, _t("Phone number is too short."));
             return false;
         }
 
         // Dacă țara e RO și nu începe cu +40/0, indică format recomandat
-        if (countryCode === 'RO' && !normalized.startsWith('+40') && !normalized.startsWith('0')) {
+        if (countryCode === "RO" && !normalized.startsWith("+40") && !normalized.startsWith("0")) {
             this._showValidationWarning(
                 phoneInput,
                 _t("For Romania, start the number with +40 or 0 for a valid format.")
@@ -675,7 +699,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         }
 
         // Elimină spațiile
-        vat = vat.replace(/\s/g, '');
+        vat = vat.replace(/\s/g, "");
 
         // Verifică caractere invalide
         const invalidChars = /[-._,;:!@#$%^&*()+={}\[\]|\\<>?\/~`'"]/;
@@ -688,37 +712,28 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         }
 
         // Elimină prefixul RO dacă există
-        const vatNumber = vat.replace(/^RO/, '');
+        const vatNumber = vat.replace(/^RO/, "");
 
         // Verifică dacă sunt doar cifre
         if (!/^\d+$/.test(vatNumber)) {
-            this._showValidationError(
-                vatInput,
-                _t("The VAT number must contain digits only. Example: 12345678")
-            );
+            this._showValidationError(vatInput, _t("The VAT number must contain digits only. Example: 12345678"));
             return false;
         }
 
         // Verifică lungimea minimă
         if (vatNumber.length < 2) {
-            this._showValidationError(
-                vatInput,
-                _t("The VAT number is too short. It must have at least 2 digits.")
-            );
+            this._showValidationError(vatInput, _t("The VAT number is too short. It must have at least 2 digits."));
             return false;
         }
 
         // Verifică lungimea maximă
         if (vatNumber.length > 10) {
-            this._showValidationError(
-                vatInput,
-                _t("The VAT number is too long. A maximum of 10 digits are allowed.")
-            );
+            this._showValidationError(vatInput, _t("The VAT number is too long. A maximum of 10 digits are allowed."));
             return false;
         }
 
         // Verifică dacă nu începe cu 0
-        if (vatNumber.startsWith('0')) {
+        if (vatNumber.startsWith("0")) {
             this._showValidationError(
                 vatInput,
                 _t("Romanian VAT numbers cannot start with 0. Please check the value.")
@@ -746,19 +761,13 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         // Verifică caractere invalide comune
         const invalidPatterns = /^[-._\s]+$/;
         if (invalidPatterns.test(value)) {
-            this._showValidationError(
-                companyInput,
-                _t("Please enter the full company name (e.g., SC EXAMPLE SRL).")
-            );
+            this._showValidationError(companyInput, _t("Please enter the full company name (e.g., SC EXAMPLE SRL)."));
             return false;
         }
 
         // Verifică lungime minimă
         if (value.length < 3) {
-            this._showValidationError(
-                companyInput,
-                _t("The company name must have at least 3 characters.")
-            );
+            this._showValidationError(companyInput, _t("The company name must have at least 3 characters."));
             return false;
         }
 
@@ -772,20 +781,20 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      */
     _showLoadingIndicator: function (input) {
         // Adaugă clasă pentru styling
-        input.classList.add('o_anaf_loading');
+        input.classList.add("o_anaf_loading");
 
         // Creează spinner
-        let spinner = input.parentNode.querySelector('.o_anaf_spinner');
+        let spinner = input.parentNode.querySelector(".o_anaf_spinner");
         if (!spinner) {
-            spinner = document.createElement('span');
-            spinner.className = 'o_anaf_spinner position-absolute';
+            spinner = document.createElement("span");
+            spinner.className = "o_anaf_spinner position-absolute";
             spinner.innerHTML = '<i class="fa fa-spinner fa-spin text-muted"></i>';
-            spinner.style.cssText = 'right: 10px; top: 50%; transform: translateY(-50%);';
+            spinner.style.cssText = "right: 10px; top: 50%; transform: translateY(-50%);";
 
             // Asigură-ne că parent-ul are position relative
             const parent = input.parentNode;
-            if (getComputedStyle(parent).position === 'static') {
-                parent.style.position = 'relative';
+            if (getComputedStyle(parent).position === "static") {
+                parent.style.position = "relative";
             }
 
             parent.appendChild(spinner);
@@ -796,9 +805,9 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      * Ascunde indicator de loading
      */
     _hideLoadingIndicator: function (input) {
-        input.classList.remove('o_anaf_loading');
+        input.classList.remove("o_anaf_loading");
 
-        const spinner = input.parentNode.querySelector('.o_anaf_spinner');
+        const spinner = input.parentNode.querySelector(".o_anaf_spinner");
         if (spinner) {
             spinner.remove();
         }
@@ -811,12 +820,12 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         this._clearValidationFeedback(input);
 
         // Adaugă clasa de eroare Bootstrap
-        input.classList.add('is-invalid');
-        input.classList.remove('is-valid');
+        input.classList.add("is-invalid");
+        input.classList.remove("is-valid");
 
         // Creează elementul de feedback
-        const feedback = document.createElement('div');
-        feedback.className = 'invalid-feedback d-block o_vat_feedback';
+        const feedback = document.createElement("div");
+        feedback.className = "invalid-feedback d-block o_vat_feedback";
         feedback.innerHTML = '<i class="fa fa-exclamation-circle me-1"></i>' + message;
 
         // Inserează după input
@@ -830,13 +839,13 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         this._clearValidationFeedback(input);
 
         // Adaugă clasa de succes Bootstrap
-        input.classList.add('is-valid');
-        input.classList.remove('is-invalid');
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
 
         // Dacă avem mesaj, afișează-l
         if (message) {
-            const feedback = document.createElement('div');
-            feedback.className = 'valid-feedback d-block o_vat_feedback';
+            const feedback = document.createElement("div");
+            feedback.className = "valid-feedback d-block o_vat_feedback";
             feedback.innerHTML = '<i class="fa fa-check-circle me-1"></i>' + message;
             input.parentNode.insertBefore(feedback, input.nextSibling);
         }
@@ -849,12 +858,12 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         this._clearValidationFeedback(input);
 
         // Păstrează is-valid pentru că formatul e OK
-        input.classList.add('is-valid');
-        input.classList.remove('is-invalid');
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
 
         // Creează elementul de warning
-        const feedback = document.createElement('div');
-        feedback.className = 'form-text text-warning d-block o_vat_feedback';
+        const feedback = document.createElement("div");
+        feedback.className = "form-text text-warning d-block o_vat_feedback";
         feedback.innerHTML = '<i class="fa fa-exclamation-triangle me-1"></i>' + message;
 
         input.parentNode.insertBefore(feedback, input.nextSibling);
@@ -864,11 +873,11 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      * Elimină mesajele de validare existente
      */
     _clearValidationFeedback: function (input) {
-        input.classList.remove('is-invalid', 'is-valid', 'border-info');
+        input.classList.remove("is-invalid", "is-valid", "border-info");
 
         // Elimină toate mesajele de feedback existente
-        const feedbacks = input.parentNode.querySelectorAll('.o_vat_feedback, .invalid-feedback, .valid-feedback');
-        feedbacks.forEach(fb => fb.remove());
+        const feedbacks = input.parentNode.querySelectorAll(".o_vat_feedback, .invalid-feedback, .valid-feedback");
+        feedbacks.forEach((fb) => fb.remove());
     },
 });
 

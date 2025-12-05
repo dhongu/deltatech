@@ -66,7 +66,9 @@ class WebsiteSaleVATValidation(WebsiteSale):
                 # Validare nume companie
                 if not company_name or len(company_name) < 3:
                     error["company_name"] = "error"
-                    error_message.append(_("Pentru România, numele companiei este obligatoriu și trebuie să aibă cel puțin 3 caractere."))
+                    error_message.append(
+                        _("Pentru România, numele companiei este obligatoriu și trebuie să aibă cel puțin 3 caractere.")
+                    )
                 elif re.match(r"^[-._\s]+$", company_name):
                     error["company_name"] = "error"
                     error_message.append(_("Vă rugăm introduceți numele complet al companiei (ex: SC EXAMPLE SRL)."))

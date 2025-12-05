@@ -127,7 +127,8 @@
     opacity: 0.8;
     transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
         opacity: 1;
         transform: scale(1.1);
     }
@@ -201,7 +202,8 @@
 }
 
 @keyframes pulse-border {
-    0%, 100% {
+    0%,
+    100% {
         border-color: var(--bs-info, #0dcaf0);
         box-shadow: 0 0 0 0 rgba(var(--bs-info-rgb, 13, 202, 240), 0.4);
     }
@@ -219,6 +221,10 @@
 }
 
 @keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
 }

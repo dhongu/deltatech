@@ -5,9 +5,10 @@
 import re
 
 from odoo import _
-from odoo.addons.phone_validation.tools import phone_validation
 from odoo.exceptions import UserError
 from odoo.tools import email_normalize
+
+from odoo.addons.phone_validation.tools import phone_validation
 
 
 def normalize_vat(vat, country=None):

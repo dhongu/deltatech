@@ -6,7 +6,7 @@ import logging
 
 import requests
 
-from odoo import http, fields
+from odoo import fields, http
 from odoo.http import request
 
 _logger = logging.getLogger(__name__)
@@ -107,18 +107,32 @@ class AnafLookupController(http.Controller):
             # Căutăm ID-ul județului
             state_id = False
             if state_code:
-                state = request.env["res.country.state"].sudo().search([
-                    ("code", "=", state_code),
-                    ("country_id.code", "=", "RO"),
-                ], limit=1)
+                state = (
+                    request.env["res.country.state"]
+                    .sudo()
+                    .search(
+                        [
+                            ("code", "=", state_code),
+                            ("country_id.code", "=", "RO"),
+                        ],
+                        limit=1,
+                    )
+                )
                 if state:
                     state_id = state.id
 
             if not state_id and state_name:
-                state = request.env["res.country.state"].sudo().search([
-                    ("name", "ilike", state_name),
-                    ("country_id.code", "=", "RO"),
-                ], limit=1)
+                state = (
+                    request.env["res.country.state"]
+                    .sudo()
+                    .search(
+                        [
+                            ("name", "ilike", state_name),
+                            ("country_id.code", "=", "RO"),
+                        ],
+                        limit=1,
+                    )
+                )
                 if state:
                     state_id = state.id
 
@@ -143,11 +157,7 @@ class AnafLookupController(http.Controller):
                 "status": general_data.get("stare_inregistrare", ""),
             }
 
-            _logger.info(
-                "ANAF lookup successful for CUI %s: %s",
-                vat_number,
-                company_name
-            )
+            _logger.info("ANAF lookup successful for CUI %s: %s", vat_number, company_name)
 
         except Exception as e:
             _logger.error("ANAF lookup error for CUI %s: %s", vat_number, str(e))
@@ -176,12 +186,7 @@ class AnafLookupController(http.Controller):
             }
 
             # Facem request-ul
-            response = requests.post(
-                ANAF_URL,
-                json=json_data,
-                headers=headers,
-                timeout=30
-            )
+            response = requests.post(ANAF_URL, json=json_data, headers=headers, timeout=30)
 
             if response.status_code == 404:
                 return "CUI-ul nu a fost găsit în registrul ANAF. Verificați dacă este corect.", {}
@@ -211,7 +216,7 @@ class AnafLookupController(http.Controller):
             return "Conexiunea cu ANAF a expirat. Verificați conexiunea la internet și încercați din nou.", {}
         except requests.ConnectionError:
             return "Nu s-a putut conecta la ANAF. Verificați conexiunea la internet.", {}
-        except requests.RequestException as e:
+        except requests.RequestException:
             return "Eroare de comunicare cu ANAF. Încercați din nou.", {}
         except ValueError:
             return "CUI invalid. Introduceți doar cifre.", {}
