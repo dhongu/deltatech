@@ -13,9 +13,13 @@
     "license": "LGPL-3",
     "assets": {
         "web.assets_backend": [
+            "deltatech_notification_sound/static/src/js/**/*",
             "deltatech_notification_sound/static/src/xml/**/*",
         ],
     },
+    "data": [
+        "views/res_users_views.xml",
+    ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["dhongu"],
