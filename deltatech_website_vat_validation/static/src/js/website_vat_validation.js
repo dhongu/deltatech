@@ -52,16 +52,15 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
             this._updateFieldsRequirement(countrySelect.value);
         }
         // Ensure collapse initial state matches switch
-        const companySection = this.el.querySelector('#o_company_section_collapse');
         const invoiceCheckbox = this.el.querySelector('#o_invoice_company');
-        if (companySection && invoiceCheckbox) {
-            // If switch is checked, show collapse
-            if (invoiceCheckbox.checked && !companySection.classList.contains('show')) {
-                companySection.classList.add('show');
-            }
+        const companySections = this.el.querySelectorAll('#o_company_section_collapse, .o-company-collapse');
+        if (companySections.length && invoiceCheckbox) {
+            this._setCompanySectionVisibility(invoiceCheckbox.checked);
             // Listen to Bootstrap collapse events to recompute requirements
-            companySection.addEventListener('shown.bs.collapse', () => this._updateFieldsRequirement());
-            companySection.addEventListener('hidden.bs.collapse', () => this._updateFieldsRequirement());
+            companySections.forEach((section) => {
+                section.addEventListener('shown.bs.collapse', () => this._updateFieldsRequirement());
+                section.addEventListener('hidden.bs.collapse', () => this._updateFieldsRequirement());
+            });
         }
         
         // Initialize Bootstrap tooltips on labels with data-bs-toggle="tooltip"
@@ -81,6 +80,21 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         });
     },
 
+    /**
+     * Show/hide company collapses and sync toggle state
+     */
+    _setCompanySectionVisibility: function (shouldShow) {
+        const invoiceCheckbox = this.el.querySelector('#o_invoice_company');
+        const companySections = this.el.querySelectorAll('#o_company_section_collapse, .o-company-collapse');
+        companySections.forEach((section) => {
+            section.classList.toggle('show', shouldShow);
+        });
+        if (invoiceCheckbox) {
+            invoiceCheckbox.setAttribute('aria-expanded', shouldShow ? 'true' : 'false');
+            invoiceCheckbox.checked = shouldShow;
+        }
+    },
+    
     /**
      * Helper to find country select element (works with both checkout and portal)
      */
@@ -299,8 +313,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      * Toggle company section visibility and requirements
      */
     _onInvoiceCompanyToggle: function (ev) {
-        // Collapse is handled by Bootstrap via data attributes; just recompute requirements
-        // Recompute requirements based on toggle
+        this._setCompanySectionVisibility(ev.currentTarget.checked);
         this._updateFieldsRequirement();
     },
 
@@ -510,12 +523,16 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         const vatInput = this._getVatInput();
         const companyInput = this._getCompanyInput();
         const invoiceCheckbox = this.el.querySelector('#o_invoice_company');
-        const companySection = this.el.querySelector('#o_company_section_collapse');
+        const companySections = this.el.querySelectorAll('#o_company_section_collapse, .o-company-collapse');
         const showVat = this.el.querySelector('#div_vat') || this.el.querySelector('[name="vat"]') || vatInput;
 
         // If invoice on company is not checked or section is collapsed, keep fields optional
         // On portal/POS ticket page, there's no toggle - always show
-        const sectionVisible = companySection ? companySection.classList.contains('show') : (invoiceCheckbox ? invoiceCheckbox.checked : true);
+        const sectionVisible = companySections.length
+            ? Array.from(companySections).some(
+                  (section) => section.classList.contains('show') || section.classList.contains('collapsing')
+              )
+            : (invoiceCheckbox ? invoiceCheckbox.checked : true);
         if (!sectionVisible) {
             if (vatInput) {
                 vatInput.removeAttribute('required');
