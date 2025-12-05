@@ -3,7 +3,7 @@
     <!-- Inherit portal details FIELDS form pentru validare CUI în România -->
     <!-- Câmpurile sunt în portal.portal_my_details_fields, nu în portal_my_details -->
     <template id="portal_my_details_vat_required" inherit_id="portal.portal_my_details_fields" priority="99">
-        
+
         <!-- Adăugăm card sugestiv ÎNAINTE de div-ul care conține company_name -->
         <!-- Trebuie să găsim div-ul părinte, nu input-ul -->
         <xpath expr="//div[.//input[@name='company_name']]" position="before">
@@ -24,19 +24,19 @@
                 </div>
             </t>
         </xpath>
-        
+
         <!-- Adăugăm icon cu tooltip după label-ul Company Name -->
         <xpath expr="//label[@for='company_name']" position="inside">
-            <i class="fa fa-info-circle o_tooltip_icon ms-1" 
-               role="button" 
+            <i class="fa fa-info-circle o_tooltip_icon ms-1"
+               role="button"
                tabindex="0"
                aria-label="Help"
-               data-bs-toggle="tooltip" 
+               data-bs-toggle="tooltip"
                data-bs-placement="top"
                data-bs-trigger="click hover focus"
                title="Enter the full registered company name as it appears in official documents (e.g., SC EXAMPLE SRL)"></i>
         </xpath>
-        
+
         <!-- Adăugăm placeholder și clase pentru Nume Companie -->
         <xpath expr="//input[@name='company_name']" position="attributes">
             <attribute name="placeholder">Ex: SC EXAMPLE SRL</attribute>
@@ -44,19 +44,19 @@
             <attribute name="id">company_name</attribute>
             <attribute name="autocomplete">organization</attribute>
         </xpath>
-        
+
         <!-- Adăugăm icon cu tooltip după label-ul VAT Number -->
         <xpath expr="//label[@for='vat']" position="inside">
-            <i class="fa fa-info-circle o_tooltip_icon ms-1" 
-               role="button" 
+            <i class="fa fa-info-circle o_tooltip_icon ms-1"
+               role="button"
                tabindex="0"
                aria-label="Help"
-               data-bs-toggle="tooltip" 
+               data-bs-toggle="tooltip"
                data-bs-placement="top"
                data-bs-trigger="click hover focus"
                title="Romanian VAT (CUI): 2-10 digits. Example: 12345678 or RO12345678. Data will be auto-filled from ANAF."></i>
         </xpath>
-        
+
         <!-- Adăugăm validare, placeholder și clase pentru CUI -->
         <xpath expr="//input[@name='vat']" position="attributes">
             <attribute name="placeholder">Ex: 12345678</attribute>
@@ -67,20 +67,20 @@
             <attribute name="inputmode">numeric</attribute>
             <attribute name="autocomplete">off</attribute>
         </xpath>
-        
+
         <!-- Adăugăm ID pe select-ul țării pentru JS -->
         <xpath expr="//select[@name='country_id']" position="attributes">
             <attribute name="id">country_id</attribute>
         </xpath>
-        
+
     </template>
-    
+
     <!-- Înlocuim opțiunile țărilor pentru a adăuga atributul code -->
     <template id="portal_my_details_country_code" inherit_id="portal.portal_my_details_fields" priority="99">
         <!-- Use a simpler XPath that matches the t element with any t-foreach attribute -->
         <xpath expr="//select[@name='country_id']/t" position="replace">
             <t t-foreach="countries or []" t-as="country">
-                <option t-att-value="country.id" 
+                <option t-att-value="country.id"
                         t-att-code="country.code"
                         t-att-selected="country.id == int(country_id) if country_id else country.id == partner.country_id.id">
                     <t t-esc="country.name"/>

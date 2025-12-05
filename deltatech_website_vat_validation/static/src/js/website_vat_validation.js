@@ -3,7 +3,7 @@
  * © 2008-2021 Deltatech
  * Dorin Hongu <dhongu(@)gmail(.)com>
  * See README.rst file on addons root folder for license details
- * 
+ *
  * Frontend validation for Romanian VAT (CUI) in website checkout
  * With ANAF auto-fill functionality
  * Follows Odoo standard JavaScript patterns and Bootstrap 5 validation
@@ -62,11 +62,11 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
                 section.addEventListener('hidden.bs.collapse', () => this._updateFieldsRequirement());
             });
         }
-        
+
         // Initialize Bootstrap tooltips on labels with data-bs-toggle="tooltip"
         this._initTooltips();
     },
-    
+
     /**
      * Initialize Bootstrap 5 tooltips
      */
@@ -94,13 +94,13 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
             invoiceCheckbox.checked = shouldShow;
         }
     },
-    
+
     /**
      * Helper to find country select element (works with both checkout and portal)
      */
     _getCountrySelect: function () {
-        return this.el.querySelector('#o_country_id') || 
-               this.el.querySelector('#country_id') || 
+        return this.el.querySelector('#o_country_id') ||
+               this.el.querySelector('#country_id') ||
                this.el.querySelector('select[name="country_id"]');
     },
 
@@ -108,8 +108,8 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      * Helper to find VAT input element
      */
     _getVatInput: function () {
-        return this.el.querySelector('#o_vat') || 
-               this.el.querySelector('#vat') || 
+        return this.el.querySelector('#o_vat') ||
+               this.el.querySelector('#vat') ||
                this.el.querySelector('input[name="vat"]');
     },
 
@@ -131,8 +131,8 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      * Helper to find company name input element
      */
     _getCompanyInput: function () {
-        return this.el.querySelector('#o_company_name') || 
-               this.el.querySelector('#company_name') || 
+        return this.el.querySelector('#o_company_name') ||
+               this.el.querySelector('#company_name') ||
                this.el.querySelector('input[name="company_name"]');
     },
 
@@ -162,13 +162,13 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
 
         if (countryCode === 'RO') {
             const isValid = this._validateRomanianVat(vatInput);
-            
+
             // Dacă validarea formatului e OK, interogăm ANAF
             if (isValid && vat.length >= 2) {
                 await this._lookupAnaf(vatInput);
             }
         }
-        
+
         // Actualizează cerințele câmpurilor
         this._updateFieldsRequirement();
     },
@@ -179,13 +179,13 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     _looksLikeRomanianVat: function (vat) {
         if (!vat) return false;
         vat = vat.toUpperCase().trim();
-        
+
         // Dacă începe cu RO, e clar românesc
         if (vat.startsWith('RO')) return true;
-        
+
         // Dacă e format doar din cifre și are 2-10 caractere, probabil e CUI
         if (/^\d{2,10}$/.test(vat)) return true;
-        
+
         return false;
     },
 
@@ -194,11 +194,11 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      */
     _showSelectRomaniaHint: function (vatInput, countrySelect) {
         this._clearValidationFeedback(vatInput);
-        
+
         // Adaugă border albastru pentru atenție
         vatInput.classList.add('border-info');
         vatInput.classList.remove('is-invalid', 'is-valid');
-        
+
         // Creează mesajul de hint
         const feedback = document.createElement('div');
         feedback.className = 'form-text text-info d-block o_vat_feedback o_select_romania_hint';
@@ -209,16 +209,16 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
                 <i class="fa fa-flag me-1"></i>${_t("Select Romania")}
             </button>
         `;
-        
+
         // Inserează după input
         vatInput.parentNode.insertBefore(feedback, vatInput.nextSibling);
-        
+
         // Adaugă event pe buton pentru a selecta România automat
         const selectRoBtn = feedback.querySelector('.o_select_romania_btn');
         if (selectRoBtn && countrySelect) {
             selectRoBtn.addEventListener('click', async (e) => {
                 e.preventDefault();
-                
+
                 // Găsește opțiunea România (by code attribute or by text)
                 for (let option of countrySelect.options) {
                     const code = option.getAttribute('code');
@@ -227,10 +227,10 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
                         countrySelect.value = option.value;
                         // Trigger change pentru a actualiza UI și state-urile
                         countrySelect.dispatchEvent(new Event('change', { bubbles: true }));
-                        
+
                         // Scroll la țară pentru vizibilitate
                         countrySelect.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        
+
                         // După selectarea țării, revalidează și fă lookup ANAF
                         setTimeout(async () => {
                             vatInput.classList.remove('border-info');
@@ -240,13 +240,13 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
                                 await this._lookupAnaf(vatInput);
                             }
                         }, 300);
-                        
+
                         break;
                     }
                 }
             });
         }
-        
+
         // Highlight dropdown-ul țării
         if (countrySelect) {
             countrySelect.classList.add('border-info', 'o_country_highlight');
@@ -276,10 +276,10 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         if (countryCode === 'RO') {
             // Elimină caracterele invalide în timp ce utilizatorul scrie
             let value = vatInput.value.toUpperCase();
-            
+
             // Permite doar RO urmat de cifre sau doar cifre
             value = value.replace(/[^RO0-9]/g, '');
-            
+
             // Dacă începe cu RO, păstrează doar o dată
             if (value.startsWith('RO')) {
                 const roCount = (value.match(/RO/g) || []).length;
@@ -287,10 +287,10 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
                     value = 'RO' + value.replace(/RO/g, '');
                 }
             }
-            
+
             vatInput.value = value;
         }
-        
+
         // Actualizează cerințele câmpurilor
         this._updateFieldsRequirement();
     },
@@ -301,7 +301,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     _onCountryChange: function (ev) {
         const countrySelect = ev.currentTarget;
         this._updateFieldsRequirement(countrySelect.value);
-        
+
         // Resetează mesajele de eroare existente
         const vatInput = this._getVatInput();
         if (vatInput) {
@@ -336,7 +336,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         if (countryCode === 'RO' && companyInput.value.trim()) {
             this._validateCompanyName(companyInput);
         }
-        
+
         // Actualizează cerințele câmpurilor
         this._updateFieldsRequirement();
     },
@@ -405,7 +405,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      */
     _lookupAnaf: async function (vatInput) {
         const vat = vatInput.value.trim();
-        
+
         if (!vat || vat.length < 2) {
             return;
         }
@@ -519,7 +519,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
                 countryCode = 'RO';
             }
         }
-        
+
         const vatInput = this._getVatInput();
         const companyInput = this._getCompanyInput();
         const invoiceCheckbox = this.el.querySelector('#o_invoice_company');
@@ -590,11 +590,11 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      */
     _updateLabelRequired: function (input, isRequired) {
         if (!input) return;
-        
+
         // Găsește label-ul asociat
         const inputId = input.id;
         const label = this.el.querySelector(`label[for="${inputId}"]`);
-        
+
         if (label) {
             if (isRequired) {
                 label.classList.add('o_required_label');
@@ -667,16 +667,16 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      */
     _validateRomanianVat: function (vatInput) {
         let vat = vatInput.value.trim().toUpperCase();
-        
+
         // Dacă e gol și nu e obligatoriu, e valid
         if (!vat) {
             this._clearValidationFeedback(vatInput);
             return false;
         }
-        
+
         // Elimină spațiile
         vat = vat.replace(/\s/g, '');
-        
+
         // Verifică caractere invalide
         const invalidChars = /[-._,;:!@#$%^&*()+={}\[\]|\\<>?\/~`'"]/;
         if (invalidChars.test(vat)) {
@@ -689,7 +689,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
 
         // Elimină prefixul RO dacă există
         const vatNumber = vat.replace(/^RO/, '');
-        
+
         // Verifică dacă sunt doar cifre
         if (!/^\d+$/.test(vatNumber)) {
             this._showValidationError(
@@ -736,13 +736,13 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      */
     _validateCompanyName: function (companyInput) {
         const value = companyInput.value.trim();
-        
+
         // Dacă e gol și nu e obligatoriu, e valid
         if (!value) {
             this._clearValidationFeedback(companyInput);
             return false;
         }
-        
+
         // Verifică caractere invalide comune
         const invalidPatterns = /^[-._\s]+$/;
         if (invalidPatterns.test(value)) {
@@ -773,7 +773,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     _showLoadingIndicator: function (input) {
         // Adaugă clasă pentru styling
         input.classList.add('o_anaf_loading');
-        
+
         // Creează spinner
         let spinner = input.parentNode.querySelector('.o_anaf_spinner');
         if (!spinner) {
@@ -781,13 +781,13 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
             spinner.className = 'o_anaf_spinner position-absolute';
             spinner.innerHTML = '<i class="fa fa-spinner fa-spin text-muted"></i>';
             spinner.style.cssText = 'right: 10px; top: 50%; transform: translateY(-50%);';
-            
+
             // Asigură-ne că parent-ul are position relative
             const parent = input.parentNode;
             if (getComputedStyle(parent).position === 'static') {
                 parent.style.position = 'relative';
             }
-            
+
             parent.appendChild(spinner);
         }
     },
@@ -797,7 +797,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      */
     _hideLoadingIndicator: function (input) {
         input.classList.remove('o_anaf_loading');
-        
+
         const spinner = input.parentNode.querySelector('.o_anaf_spinner');
         if (spinner) {
             spinner.remove();
@@ -809,16 +809,16 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      */
     _showValidationError: function (input, message) {
         this._clearValidationFeedback(input);
-        
+
         // Adaugă clasa de eroare Bootstrap
         input.classList.add('is-invalid');
         input.classList.remove('is-valid');
-        
+
         // Creează elementul de feedback
         const feedback = document.createElement('div');
         feedback.className = 'invalid-feedback d-block o_vat_feedback';
         feedback.innerHTML = '<i class="fa fa-exclamation-circle me-1"></i>' + message;
-        
+
         // Inserează după input
         input.parentNode.insertBefore(feedback, input.nextSibling);
     },
@@ -828,11 +828,11 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      */
     _showValidationSuccess: function (input, message) {
         this._clearValidationFeedback(input);
-        
+
         // Adaugă clasa de succes Bootstrap
         input.classList.add('is-valid');
         input.classList.remove('is-invalid');
-        
+
         // Dacă avem mesaj, afișează-l
         if (message) {
             const feedback = document.createElement('div');
@@ -847,16 +847,16 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      */
     _showValidationWarning: function (input, message) {
         this._clearValidationFeedback(input);
-        
+
         // Păstrează is-valid pentru că formatul e OK
         input.classList.add('is-valid');
         input.classList.remove('is-invalid');
-        
+
         // Creează elementul de warning
         const feedback = document.createElement('div');
         feedback.className = 'form-text text-warning d-block o_vat_feedback';
         feedback.innerHTML = '<i class="fa fa-exclamation-triangle me-1"></i>' + message;
-        
+
         input.parentNode.insertBefore(feedback, input.nextSibling);
     },
 
@@ -865,7 +865,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      */
     _clearValidationFeedback: function (input) {
         input.classList.remove('is-invalid', 'is-valid', 'border-info');
-        
+
         // Elimină toate mesajele de feedback existente
         const feedbacks = input.parentNode.querySelectorAll('.o_vat_feedback, .invalid-feedback, .valid-feedback');
         feedbacks.forEach(fb => fb.remove());

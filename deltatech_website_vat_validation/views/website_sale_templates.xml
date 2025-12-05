@@ -23,7 +23,7 @@
                 </small>
             </div>
         </xpath>
-        
+
         <!-- Wrap secțiunea Date Companie într-un card sugestiv -->
         <xpath expr="//div[@id='company_name_div']" position="before">
             <!-- Card header pentru secțiunea de date companie (doar pentru RO) -->
@@ -46,7 +46,7 @@
         <xpath expr="//div[@id='div_vat']" position="attributes">
             <attribute name="class" add="collapse o-company-collapse" separator=" "/>
         </xpath>
-        
+
         <!-- Îmbunătățim label-ul pentru Nume Companie -->
         <xpath expr="//div[@id='company_name_div']//label[@for='o_company_name']" position="replace">
             <label class="col-form-label" for="o_company_name">
@@ -56,7 +56,7 @@
                 <t t-else="">Company Name</t>
             </label>
         </xpath>
-        
+
         <!-- Îmbunătățim label-ul pentru CUI/VAT -->
         <xpath expr="//div[@id='div_vat']//label[@for='o_vat']" position="replace">
             <label class="col-form-label" for="o_vat">
@@ -66,13 +66,13 @@
                 <t t-else=""><t t-out="vat_label"/></t>
             </label>
         </xpath>
-        
+
         <!-- Adăugăm placeholder și clase pentru Nume Companie -->
         <xpath expr="//input[@id='o_company_name']" position="attributes">
             <attribute name="placeholder">Ex: SC EXAMPLE SRL</attribute>
             <attribute name="class" add="o_company_name_input" separator=" "/>
         </xpath>
-        
+
         <!-- Adăugăm validare, placeholder și clase pentru CUI -->
         <xpath expr="//input[@id='o_vat']" position="attributes">
             <attribute name="placeholder">Ex: 12345678 sau RO12345678</attribute>
@@ -80,7 +80,7 @@
             <attribute name="t-att-title">'CUI-ul trebuie să conțină doar cifre (2-10 cifre, opțional prefixat cu RO)' if country.code == 'RO' else None</attribute>
             <attribute name="class" add="vat-input o_vat_input" separator=" "/>
         </xpath>
-        
+
         <!-- Adăugăm help text detaliat pentru CUI românesc -->
         <xpath expr="//div[@id='div_vat']" position="inside">
             <small t-if="country.code == 'RO'" class="form-text text-muted o_company_help_text mt-1">
@@ -88,7 +88,7 @@
                 Introduceți CUI-ul companiei (doar cifre, 2-10 caractere). Exemplu: <strong>12345678</strong> sau <strong>RO12345678</strong>
             </small>
         </xpath>
-        
+
     </template>
 
 </odoo>
