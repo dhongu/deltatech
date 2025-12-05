@@ -49,7 +49,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     _setupValidation: function () {
         const countrySelect = this._getCountrySelect();
         if (countrySelect) {
-            this._updateFieldsRequirement(countrySelect.value);
+            this._updateFieldsRequirement();
         }
         // Ensure collapse initial state matches switch
         const invoiceCheckbox = this.el.querySelector('#o_invoice_company');
@@ -300,7 +300,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      */
     _onCountryChange: function (ev) {
         const countrySelect = ev.currentTarget;
-        this._updateFieldsRequirement(countrySelect.value);
+        this._updateFieldsRequirement();
 
         // Resetează mesajele de eroare existente
         const vatInput = this._getVatInput();
@@ -352,7 +352,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     /**
      * Event handler pentru blur pe email
      */
-    _onEmailBlur: function (ev) {
+    _onEmailBlur: function () {
         const emailInput = this._getEmailInput();
         if (emailInput) {
             this._validateEmail(emailInput);
@@ -508,7 +508,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      * Actualizează cerințele câmpurilor în funcție de țară și valorile existente
      * Dacă unul din câmpuri e completat, celălalt devine obligatoriu
      */
-    _updateFieldsRequirement: function (countryId) {
+    _updateFieldsRequirement: function () {
         const countrySelect = this._getCountrySelect();
         const selectedOption = countrySelect ? countrySelect.options[countrySelect.selectedIndex] : null;
         let countryCode = selectedOption ? selectedOption.getAttribute('code') : null;
