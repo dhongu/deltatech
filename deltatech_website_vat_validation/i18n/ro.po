@@ -1,0 +1,180 @@
+# Translation of Odoo Module: deltatech_website_vat_validation
+# Language: Romanian (ro)
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: deltatech_website_vat_validation\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-03 00:00+0000\n"
+"PO-Revision-Date: 2025-12-03 00:00+0000\n"
+"Last-Translator: Terrabit <helpdesk@terrabit.ro>\n"
+"Language-Team: Romanian\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2;\n"
+
+#. module: deltatech_website_vat_validation
+#: model_terms:ir.ui.view,arch_db:deltatech_website_vat_validation.address_vat_required
+msgid "Company Name"
+msgstr "Nume Companie"
+
+#. module: deltatech_website_vat_validation
+#: model_terms:ir.ui.view,arch_db:deltatech_website_vat_validation.address_vat_required
+msgid "Invoice to company"
+msgstr "Facturez pe firmă"
+
+#. module: deltatech_website_vat_validation
+#: model_terms:ir.ui.view,arch_db:deltatech_website_vat_validation.address_vat_required
+msgid "VAT Number"
+msgstr "CUI (Cod Unic de Înregistrare)"
+
+#. module: deltatech_website_vat_validation
+#: model_terms:ir.ui.view,arch_db:deltatech_website_vat_validation.portal_my_details_vat_required
+msgid "Company Data (Optional)"
+msgstr "Date Companie (Opțional)"
+
+#. module: deltatech_website_vat_validation
+#: model_terms:ir.ui.view,arch_db:deltatech_website_vat_validation.portal_my_details_vat_required
+msgid "Fill in only if you want an invoice on company. Both fields become mandatory if you fill in one of them."
+msgstr "Completați doar dacă doriți factură pe firmă. Ambele câmpuri devin obligatorii dacă completați unul dintre ele."
+
+#. module: deltatech_website_vat_validation
+#: model_terms:ir.ui.view,arch_db:deltatech_website_vat_validation.portal_my_details_vat_required
+msgid "Enter the company VAT (digits only, 2-10 characters). Example:"
+msgstr "Introduceți CUI-ul companiei (doar cifre, 2-10 caractere). Exemplu:"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/controllers/portal.py:0
+#, python-format
+msgid "The VAT number contains invalid characters."
+msgstr "CUI-ul conține caractere invalide."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/controllers/portal.py:0
+#, python-format
+msgid "The VAT number is too short or too long."
+msgstr "CUI-ul este prea scurt sau prea lung."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/controllers/portal.py:0
+#, python-format
+msgid "Romanian VAT numbers should not start with zero."
+msgstr "CUI-urile românești nu ar trebui să înceapă cu zero."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/controllers/portal.py:0
+#, python-format
+msgid "Please select Romania to validate your VAT via ANAF."
+msgstr "Selectați România pentru a valida CUI prin ANAF."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "The VAT number seems incomplete. A valid number usually has 6–10 digits."
+msgstr "CUI-ul pare incomplet. Un CUI valid are de obicei 6-10 cifre."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Data retrieved from ANAF ✓"
+msgstr "Date completate din ANAF ✓"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Couldn't verify the VAT number. You can continue manually."
+msgstr "Nu s-a putut verifica CUI-ul. Puteți continua manual."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "The VAT number cannot contain special characters. Please enter digits only (e.g., 12345678)."
+msgstr "CUI-ul nu poate conține caractere speciale. Introduceți doar cifre (ex: 12345678)."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "The VAT number must contain digits only. Example: 12345678"
+msgstr "CUI-ul trebuie să conțină doar cifre. Exemplu: 12345678"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "The VAT number is too short. It must have at least 2 digits."
+msgstr "CUI-ul este prea scurt. Trebuie să aibă minimum 2 cifre."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "The VAT number is too long. A maximum of 10 digits are allowed."
+msgstr "CUI-ul este prea lung. Maximum 10 cifre sunt permise."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Romanian VAT numbers cannot start with 0. Please check the value."
+msgstr "CUI-ul nu poate începe cu 0. Verificați dacă l-ați introdus corect."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Please enter the full company name (e.g., SC EXAMPLE SRL)."
+msgstr "Vă rugăm introduceți numele complet al companiei (ex: SC EXAMPLE SRL)."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "The company name must have at least 3 characters."
+msgstr "Numele companiei trebuie să aibă cel puțin 3 caractere."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Hint"
+msgstr "Sugestie"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Select"
+msgstr "Selectați"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Romania"
+msgstr "România"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "as your country for ANAF auto-fill"
+msgstr "ca țară pentru auto-completare din ANAF"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Select Romania"
+msgstr "Selectează România"
+
+#. module: deltatech_website_vat_validation
+#: model_terms:ir.ui.view,arch_db:deltatech_website_vat_validation.portal_my_details_vat_required
+msgid "For company invoice, fill both fields."
+msgstr "Pentru factură pe firmă, completați ambele câmpuri."
+
+#. module: deltatech_website_vat_validation
+#: model_terms:ir.ui.view,arch_db:deltatech_website_vat_validation.portal_my_details_vat_required
+msgid "VAT: 2-10 digits. Ex:"
+msgstr "CUI: 2-10 cifre. Ex:"
+
+#. module: deltatech_website_vat_validation
+#: model_terms:ir.ui.view,arch_db:deltatech_website_vat_validation.portal_my_details_vat_required
+msgid "Enter the full registered company name as it appears in official documents (e.g., SC EXAMPLE SRL)"
+msgstr "Introduceți denumirea completă a firmei așa cum apare în documentele oficiale (ex: SC EXAMPLE SRL)"
+
+#. module: deltatech_website_vat_validation
+#: model_terms:ir.ui.view,arch_db:deltatech_website_vat_validation.portal_my_details_vat_required
+msgid "Romanian VAT (CUI): 2-10 digits. Example: 12345678 or RO12345678. Data will be auto-filled from ANAF."
+msgstr "CUI românesc: 2-10 cifre. Exemplu: 12345678 sau RO12345678. Datele vor fi completate automat din ANAF."
