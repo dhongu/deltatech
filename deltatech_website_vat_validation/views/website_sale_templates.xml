@@ -81,7 +81,8 @@
         <xpath expr="//div[@id='div_vat']" position="inside">
             <small t-if="country.code == 'RO'" class="form-text text-muted o_company_help_text mt-1">
                 <i class="fa fa-info-circle text-info" />
-                Enter the company VAT number (digits only, 2-10 characters). Example: <strong>12345678</strong> or <strong>RO12345678</strong>.
+                Enter the company VAT number (digits only, 2-10 characters). Example: <strong
+                >12345678</strong> or <strong>RO12345678</strong>.
             </small>
         </xpath>
 

@@ -7,7 +7,10 @@
                 class="text-muted mt-2"
                 id="product_qty_restrictions"
             >
-                <span t-if="hasattr(product, 'qty_minim') and product.qty_minim and product.qty_minim &gt; 1" class="me-3">
+                <span
+                    t-if="hasattr(product, 'qty_minim') and product.qty_minim and product.qty_minim &gt; 1"
+                    class="me-3"
+                >
                     <i class="fa fa-cube me-1" />
                     <span>Min: <t t-esc="product.qty_minim" /></span>
                     <a
@@ -55,10 +58,15 @@
                 t-if="hasattr(line.product_id, 'qty_multiple') and line.product_id.qty_multiple and line.product_id.qty_multiple &gt; 1 or hasattr(line.product_id, 'qty_minim') and line.product_id.qty_minim and line.product_id.qty_minim &gt; 1"
                 class="text-muted small"
             >
-                <span t-if="hasattr(line.product_id, 'qty_minim') and line.product_id.qty_minim and line.product_id.qty_minim &gt; 1" class="me-2">
+                <span
+                    t-if="hasattr(line.product_id, 'qty_minim') and line.product_id.qty_minim and line.product_id.qty_minim &gt; 1"
+                    class="me-2"
+                >
                     <i class="fa fa-cube me-1" />Min: <t t-esc="line.product_id.qty_minim" />
                 </span>
-                <span t-if="hasattr(line.product_id, 'qty_multiple') and line.product_id.qty_multiple and line.product_id.qty_multiple &gt; 1">
+                <span
+                    t-if="hasattr(line.product_id, 'qty_multiple') and line.product_id.qty_multiple and line.product_id.qty_multiple &gt; 1"
+                >
                     <i class="fa fa-th-large me-1" />x<t t-esc="line.product_id.qty_multiple" />
                 </span>
             </div>
