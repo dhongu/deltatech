@@ -226,7 +226,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
                 for (const option of countrySelect.options) {
                     const code = option.getAttribute("code");
                     const text = option.text.toLowerCase();
-                    if (code === "RO" || text.includes("romania") || text.includes("românia")) {
+                    if (code === "RO" || text.includes("romania")) {
                         countrySelect.value = option.value;
                         countrySelect.dispatchEvent(new Event("change", { bubbles: true }));
                         countrySelect.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -585,7 +585,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      * Valideaza telefonul local (lungime + format de baza).
      */
     _validatePhone: function (phoneInput, countryCode) {
-        const raw = (phoneInput?.value || "").trim();
+        const raw = ((phoneInput && phoneInput.value) || "").trim();
         if (!raw) {
             if (phoneInput) {
                 this._clearValidationFeedback(phoneInput);
