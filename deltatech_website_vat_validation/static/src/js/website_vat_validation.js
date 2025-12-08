@@ -10,8 +10,8 @@
  */
 
 import publicWidget from "@web/legacy/js/public/public_widget";
-import { rpc } from "@web/core/network/rpc";
-import { _t } from "@web/core/l10n/translation";
+import {rpc} from "@web/core/network/rpc";
+import {_t} from "@web/core/l10n/translation";
 
 publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     selector: ".oe_website_sale, .o_portal_details",
@@ -228,8 +228,8 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
                     const text = option.text.toLowerCase();
                     if (code === "RO" || text.includes("romania")) {
                         countrySelect.value = option.value;
-                        countrySelect.dispatchEvent(new Event("change", { bubbles: true }));
-                        countrySelect.scrollIntoView({ behavior: "smooth", block: "center" });
+                        countrySelect.dispatchEvent(new Event("change", {bubbles: true}));
+                        countrySelect.scrollIntoView({behavior: "smooth", block: "center"});
 
                         setTimeout(async () => {
                             vatInput.classList.remove("border-info");
@@ -396,10 +396,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         } catch (error) {
             console.error("ANAF lookup error:", error);
             // Daca interogarea ANAF esueaza, afisam un mesaj bland si lasam utilizatorul sa continue manual
-            this._showValidationWarning(
-                vatInput,
-                _t("Couldn't verify the VAT number. You can continue manually.")
-            );
+            this._showValidationWarning(vatInput, _t("Couldn't verify the VAT number. You can continue manually."));
         } finally {
             this._hideLoadingIndicator(vatInput);
         }
@@ -455,7 +452,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
             for (const option of stateSelect.options) {
                 if (parseInt(option.value, 10) === data.state_id) {
                     stateSelect.value = option.value;
-                    stateSelect.dispatchEvent(new Event("change", { bubbles: true }));
+                    stateSelect.dispatchEvent(new Event("change", {bubbles: true}));
                     break;
                 }
             }
