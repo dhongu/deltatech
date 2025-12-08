@@ -1,6 +1,6 @@
 # ©  2008-2021 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
-# See README.rst file on addons root folder for license details
+# Vezi fisierul README.rst din radacina addon-ului pentru detalii despre licenta
 
 import re
 
@@ -64,16 +64,16 @@ class CustomerPortalVATValidation(CustomerPortal):
                 if not company_name or len(company_name) < 3:
                     error["company_name"] = "error"
                     error_message.append(
-                        _("Pentru România, numele companiei este obligatoriu și trebuie să aibă cel puțin 3 caractere.")
+                        _("For Romania, the company name is required and must have at least 3 characters.")
                     )
                 elif re.match(r"^[-._\s]+$", company_name):
                     error["company_name"] = "error"
-                    error_message.append(_("Vă rugăm introduceți numele complet al companiei (ex: SC EXAMPLE SRL)."))
+                    error_message.append(_("Please enter the full legal company name (e.g., SC EXAMPLE SRL)."))
 
                 # Validare CUI obligatoriu
                 if not vat:
                     error["vat"] = "error"
-                    error_message.append(_("Pentru România, CUI-ul este obligatoriu pentru persoane juridice."))
+                    error_message.append(_("For Romania, the VAT number is mandatory for companies."))
                 else:
                     # Validare format CUI
                     vat_error = validate_vat(vat, country)
@@ -120,10 +120,10 @@ class CustomerPortalVATValidation(CustomerPortal):
                 if partner_exists:
                     error[field] = "error"
                     if field == "vat":
-                        error_message.append(_("Un alt partener există deja cu CUI-ul %s") % value)
+                        error_message.append(_("Another partner already exists with the VAT number %s.") % value)
                     elif field == "email":
-                        error_message.append(_("Un alt partener există deja cu emailul %s") % value)
+                        error_message.append(_("Another partner already exists with the email %s.") % value)
                     elif field == "phone":
-                        error_message.append(_("Un alt partener există deja cu telefonul %s") % value)
+                        error_message.append(_("Another partner already exists with the phone number %s.") % value)
 
         return error, error_message
