@@ -395,6 +395,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
             }
         } catch (error) {
             console.error("ANAF lookup error:", error);
+            // Daca interogarea ANAF esueaza, afisam un mesaj bland si lasam utilizatorul sa continue manual
             this._showValidationWarning(
                 vatInput,
                 _t("Couldn't verify the VAT number. You can continue manually.")
