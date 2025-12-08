@@ -1,6 +1,6 @@
 # ©  2008-2021 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
-# See README.rst file on addons root folder for license details
+# Vezi fisierul README.rst din radacina addon-ului pentru detalii despre licenta
 
 {
     "name": "Website VAT Validation",
@@ -10,7 +10,12 @@
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
     "category": "Generic Modules",
-    "depends": ["website_sale", "phone_validation", "portal"],
+    "depends": [
+        "website_sale",
+        "phone_validation",
+        "portal",
+        "l10n_ro_partner_create_by_vat",
+    ],
     "data": [
         "views/website_sale_templates.xml",
         "views/portal_templates.xml",
@@ -24,4 +29,6 @@
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
+    "installable": True,
+    "application": True,
 }

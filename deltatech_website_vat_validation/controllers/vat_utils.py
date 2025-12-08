@@ -1,6 +1,6 @@
-# ©  2008-2024 Deltatech
+# ¶¸  2008-2024 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com>
-# See README.rst file on addons root folder for license details
+# Vezi fisierul README.rst din radacina addon-ului pentru detalii despre licenta
 
 import re
 
@@ -12,14 +12,14 @@ from odoo.addons.phone_validation.tools import phone_validation
 
 
 def normalize_vat(vat, country=None):
-    """Normalize VAT by trimming spaces, uppercasing and adding RO prefix when missing."""
+    """Normalizeaza CUI-ul prin eliminarea spatiilor, transformarea in majuscule si adaugarea prefixului RO daca lipseste."""
     if not vat:
         return ""
 
     normalized = vat.strip().upper().replace(" ", "")
 
     if country and country.code == "RO":
-        # Accept bare digits by prefixing RO
+        # Acceptam siruri formate din cifre si adaugam prefixul RO
         if normalized.isdigit():
             normalized = f"RO{normalized}"
         elif normalized.startswith("RO"):
@@ -29,7 +29,7 @@ def normalize_vat(vat, country=None):
 
 
 def validate_vat(vat, country=None):
-    """Return error message if VAT is invalid for the given country, otherwise False."""
+    """Returneaza mesaj de eroare daca CUI-ul este invalid pentru tara primita, altfel False."""
     if not vat:
         return False
 
@@ -40,7 +40,7 @@ def validate_vat(vat, country=None):
 
 
 def _validate_romanian_vat(vat):
-    """Validate Romanian CUI format + checksum."""
+    """Valideaza formatul si cifra de control pentru CUI-ul romanesc."""
     vat = vat.strip().upper()
 
     if vat.startswith("RO"):
@@ -50,12 +50,11 @@ def _validate_romanian_vat(vat):
 
     if not number.isdigit():
         return _(
-            "CUI-ul trebuie să conțină doar cifre după prefixul RO (opțional). "
-            "Format corect: 12345678 sau RO12345678"
+            "The VAT number must contain digits only after the optional RO prefix. Example: 12345678 or RO12345678."
         )
 
     if len(number) < 2 or len(number) > 10:
-        return _("CUI-ul trebuie să aibă între 2 și 10 cifre.")
+        return _("The VAT number must have between 2 and 10 digits.")
 
     base, check_digit = number[:-1], int(number[-1])
     factors = [7, 5, 3, 2, 1, 7, 5, 3, 2]
@@ -65,22 +64,24 @@ def _validate_romanian_vat(vat):
     computed = 0 if remainder == 10 else remainder
 
     if computed != check_digit:
-        return _("CUI invalid: cifra de control nu corespunde.")
+        return _("Invalid VAT number: the checksum digit does not match.")
 
-    # Forbid special chars (defensive, though digits check above covers most)
+    # Interzicem caractere speciale suplimentare fata de cifre
     if re.search(r"[^0-9]", number):
-        return _("CUI-ul trebuie să conțină doar cifre.")
+        return _("The VAT number must contain digits only.")
 
     return False
 
 
 def normalize_email(email):
+    """Normalizeaza email-ul prin utilizarea helper-ului Odoo."""
     if not email:
         return ""
     return email_normalize(email) or ""
 
 
 def normalize_phone(phone):
+    """Normalizeaza telefonul prin eliminarea simbolurilor evidente."""
     if not phone:
         return ""
     phone_clean = re.sub(r"[\\s().-]", "", phone)
@@ -90,17 +91,17 @@ def normalize_phone(phone):
 
 
 def validate_email(email):
-    """Return (normalized_email, error_message)."""
+    """Returneaza (email_normalizat, mesaj_de_eroare)."""
     if not email:
         return "", False
     normalized = email_normalize(email)
     if not normalized:
-        return "", _("Adresa de email nu este validă.")
+        return "", _("The email address is not valid.")
     return normalized, False
 
 
 def validate_phone(phone, country=None):
-    """Return (sanitized_phone, error_message)."""
+    """Returneaza (telefon_normalizat, mesaj_de_eroare)."""
     if not phone:
         return "", False
 
@@ -119,5 +120,5 @@ def validate_phone(phone, country=None):
         sanitized = False
 
     if not sanitized:
-        return "", _("Numărul de telefon nu este valid.")
+        return "", _("The phone number is not valid.")
     return sanitized, False

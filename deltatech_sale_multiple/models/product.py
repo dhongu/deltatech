@@ -28,15 +28,15 @@ class ProductTemplate(models.Model):
         help="The minim sale quantity will.  If it is 0, the exact quantity will be used.",
     )
 
-    @api.depends("product_variant_ids", "product_variant_ids.qty_multiple")
+    @api.depends("product_variant_ids", "product_variant_ids.qty_multiple", "product_variant_ids.qty_minim")
     def _compute_qty_multiple(self):
         unique_variants = self.filtered(lambda template: len(template.product_variant_ids) == 1)
         for template in unique_variants:
             template.qty_multiple = template.product_variant_ids.qty_multiple
             template.qty_minim = template.product_variant_ids.qty_minim
         for template in self - unique_variants:
-            template.qty_multiple = "-1"
-            template.qty_minim = "-1"
+            template.qty_multiple = 1.0
+            template.qty_minim = 1.0
 
     def _inverse_qty_multiple(self):
         for product in self:

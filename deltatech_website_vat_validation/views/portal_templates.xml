@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!-- Inherit portal details FIELDS form pentru validare CUI în România -->
-    <!-- Câmpurile sunt în portal.portal_my_details_fields, nu în portal_my_details -->
+    <!-- Mostenim template-ul portal_my_details_fields pentru validarea CUI in Romania -->
+    <!-- Campurile sunt in portal.portal_my_details_fields, nu in portal_my_details -->
     <template id="portal_my_details_vat_required" inherit_id="portal.portal_my_details_fields" priority="99">
 
         <!-- Adăugăm card sugestiv ÎNAINTE de div-ul care conține company_name -->
@@ -87,7 +87,7 @@
 
     <!-- Înlocuim opțiunile țărilor pentru a adăuga atributul code -->
     <template id="portal_my_details_country_code" inherit_id="portal.portal_my_details_fields" priority="99">
-        <!-- Use a simpler XPath that matches the t element with any t-foreach attribute -->
+        <!-- Folosim un XPath simplu care surprinde elementul t cu orice t-foreach -->
         <xpath expr="//select[@name='country_id']/t" position="replace">
             <t t-foreach="countries or []" t-as="country">
                 <option
