@@ -6,3 +6,6 @@ build-backend = "whool.buildapi"
 
 [project]
 name = "odoo-addon-deltatech-website-vat-validation"
+dependencies = [
+    "odoo-addon-l10n_ro_partner_create_by_vat>=18.0.0.0,<18.1",
+]

@@ -1,6 +1,6 @@
 # ©  2008-2021 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
-# See README.rst file on addons root folder for license details
+# Vezi fisierul README.rst din radacina addon-ului pentru detalii despre licenta
 
 
 from . import website_sale
