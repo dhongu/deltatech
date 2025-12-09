@@ -113,10 +113,11 @@ class CustomerPortalVATValidation(CustomerPortal):
         }
 
         # Validare duplicate pentru VAT, email, phone (pe toți partenerii, nu doar top-level)
+        partner_model = request.env["res.partner"].sudo()
         for field, (value, domain_field) in duplicates_fields.items():
             if value and field not in error:
                 domain = [(domain_field, "=", value), ("id", "!=", partner.id)]
-                partner_exists = request.env["res.partner"].search(domain, limit=1)
+                partner_exists = partner_model.search(domain, limit=1)
                 if partner_exists:
                     error[field] = "error"
                     if field == "vat":

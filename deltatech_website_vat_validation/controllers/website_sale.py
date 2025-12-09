@@ -4,10 +4,11 @@
 
 import re
 
-from odoo import _
+from odoo import _, http
 from odoo.http import request
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
+from odoo.tools import email_normalize
 
 from .vat_utils import (
     normalize_email,
@@ -116,10 +117,11 @@ class WebsiteSaleVATValidation(WebsiteSale):
         }
 
         # Validare duplicate pentru VAT, email, phone (pe toți partenerii, nu doar top-level)
+        partner_model = request.env["res.partner"].sudo()
         for field, (value, domain_field) in duplicates_fields.items():
             if value and field not in error:
                 domain = [(domain_field, "=", value), ("id", "!=", partner.id)]
-                partner_exists = request.env["res.partner"].search(domain, limit=1)
+                partner_exists = partner_model.search(domain, limit=1)
                 if partner_exists:
                     error[field] = "error"
                     if field == "vat":
@@ -130,3 +132,142 @@ class WebsiteSaleVATValidation(WebsiteSale):
                         error_message.append(_("Another partner already exists with the phone number %s.") % value)
 
         return error, error_message
+
+    # ------------------------------------------------------------------
+    # Address form (anonymous checkout): enforce duplicate check too
+    # ------------------------------------------------------------------
+    def _validate_address_values(
+        self,
+        address_values,
+        partner_sudo,
+        address_type,
+        use_delivery_as_billing,
+        required_fields,
+        is_main_address,
+        **kwargs,
+    ):
+        """Extend standard validation to block duplicate partners in anonymous checkout."""
+        invalid_fields, missing_fields, error_messages = super()._validate_address_values(
+            address_values,
+            partner_sudo,
+            address_type,
+            use_delivery_as_billing,
+            required_fields,
+            is_main_address,
+            **kwargs,
+        )
+
+        # Only check duplicates when creating a new main address (anonymous cart).
+        if partner_sudo:
+            return invalid_fields, missing_fields, error_messages
+
+        country = None
+        if address_values.get("country_id"):
+            country = request.env["res.country"].browse(int(address_values["country_id"]))
+
+        vat_val = normalize_vat(address_values.get("vat"), country)
+        email_val = normalize_email(address_values.get("email"))
+
+        phone_val = ""
+        if address_values.get("phone"):
+            phone_normalized, phone_error = validate_phone(address_values.get("phone"), country)
+            if phone_error:
+                invalid_fields.add("phone")
+                error_messages.append(phone_error)
+            phone_val = phone_normalized
+
+        duplicate_found = False
+        partner_model = request.env["res.partner"].sudo().with_context(active_test=False)
+
+        # VAT duplicate
+        if vat_val and "vat" not in invalid_fields:
+            dup = partner_model.search([("vat", "=", vat_val)], limit=1)
+            if dup:
+                invalid_fields.add("vat")
+                duplicate_found = True
+
+        # Email duplicate (try normalized + raw)
+        if email_val and "email" not in invalid_fields:
+            dup_email = partner_model.search(
+                ["|", ("email_normalized", "=", email_val), ("email", "=", address_values.get("email"))],
+                limit=1,
+            )
+            if dup_email:
+                invalid_fields.add("email")
+                duplicate_found = True
+
+        # Phone duplicate (try sanitized + raw)
+        if phone_val and "phone" not in invalid_fields:
+            dup_phone = partner_model.search(
+                ["|", ("phone_sanitized", "=", phone_val), ("phone", "=", address_values.get("phone"))],
+                limit=1,
+            )
+            if dup_phone:
+                invalid_fields.add("phone")
+                duplicate_found = True
+
+        if duplicate_found:
+            generic_msg = _("An account with these details already exists. Please sign in or request an access link.")
+            if generic_msg not in error_messages:
+                error_messages.append(generic_msg)
+
+        return invalid_fields, missing_fields, error_messages
+
+    # ------------------------------------------------------------------
+    # Send portal access / reset link for existing partner
+    # ------------------------------------------------------------------
+    @http.route(
+        "/shop/send_portal_access",
+        type="json",
+        auth="public",
+        website=True,
+        methods=["POST"],
+    )
+    def send_portal_access(self, email=None, **_kwargs):
+        email_norm = email_normalize(email or "")
+        if not email_norm:
+            return {"success": False, "message": _("Please enter a valid email.")}
+
+        partner = (
+            request.env["res.partner"]
+            .sudo()
+            .with_context(active_test=False)
+            .search(
+                [
+                    "|",
+                    ("email_normalized", "=", email_norm),
+                    ("email", "=", email),
+                ],
+                limit=1,
+            )
+        )
+        if not partner:
+            return {"success": False, "message": _("No customer found with this email.")}
+
+        user = (
+            partner.user_ids.filtered(lambda u: u.share)[:1]
+            or request.env["res.users"].sudo().search([("login", "=", email_norm)], limit=1)
+        )
+
+        if not user:
+            group_portal = request.env.ref("base.group_portal")
+            user = request.env["res.users"].sudo().create(
+                {
+                    "name": partner.name or email_norm,
+                    "login": email_norm,
+                    "email": email_norm,
+                    "partner_id": partner.id,
+                    "groups_id": [(6, 0, [group_portal.id])],
+                }
+            )
+
+        # Trimite emailul standard de reset/parolă
+        try:
+            user.action_reset_password()
+        except Exception as exc:
+            return {"success": False, "message": _("Could not send the access email: %s") % exc}
+
+        return {
+            "success": True,
+            "message": _("We sent an access link to %s. Please check your inbox/spam.") % email_norm,
+        }

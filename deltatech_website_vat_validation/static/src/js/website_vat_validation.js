@@ -13,6 +13,9 @@ import publicWidget from "@web/legacy/js/public/public_widget";
 import {rpc} from "@web/core/network/rpc";
 import {_t} from "@web/core/l10n/translation";
 
+const DUPLICATE_HINT_CLASS = "o_duplicate_hint";
+const DUPLICATE_GLOBAL_MARKER = "o_duplicate_global_cta";
+
 publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     selector: ".oe_website_sale, .o_portal_details",
     events: {
@@ -32,6 +35,8 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         'input input[name="email"]': "_onEmailInput",
         'blur input[name="phone"]': "_onPhoneBlur",
         'input input[name="phone"]': "_onPhoneInput",
+        "click .o_duplicate_send_link": "_onSendAccessLink",
+        "click .o_duplicate_global_send_link": "_onSendAccessLink",
     },
 
     /**
@@ -40,6 +45,9 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     start: function () {
         return this._super.apply(this, arguments).then(() => {
             this._setupValidation();
+            this._injectGlobalDuplicateCTA();
+        // În caz că alerta se randărează cu întârziere, mai încercăm o dată după un scurt delay
+        setTimeout(() => this._injectGlobalDuplicateCTA(), 200);
         });
     },
 
@@ -76,6 +84,9 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
                 new window.bootstrap.Tooltip(el);
             }
         });
+
+        // Ștergem eventualele hint-uri vechi de duplicate
+        this._clearDuplicateHints();
     },
 
     /**
@@ -146,6 +157,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     _onVatBlur: async function (ev) {
         const vatInput = ev.currentTarget;
         const vat = vatInput.value;
+        this._clearDuplicateHints();
         const countrySelect = this._getCountrySelect();
         const selectedOption = countrySelect ? countrySelect.options[countrySelect.selectedIndex] : null;
         let countryCode = selectedOption ? selectedOption.getAttribute("code") : null;
@@ -324,6 +336,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     _onEmailBlur: function () {
         const emailInput = this._getEmailInput();
         if (emailInput) {
+            this._clearDuplicateHints();
             this._validateEmail(emailInput);
         }
     },
@@ -349,6 +362,7 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         if (!countryCode && selectedOption && this._matchesRomaniaLabel(selectedOption.text)) {
             countryCode = "RO";
         }
+        this._clearDuplicateHints();
         this._validatePhone(phoneInput, countryCode);
     },
 
@@ -737,6 +751,10 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         feedback.className = "invalid-feedback d-block o_vat_feedback";
         feedback.innerHTML = '<i class="fa fa-exclamation-circle me-1"></i>' + message;
         input.parentNode.insertBefore(feedback, input.nextSibling);
+        // Dacă mesajul de eroare este un hint de duplicate, îl afișăm compact sub câmp
+        if (message && message.toLowerCase().includes("already exists")) {
+            this._showDuplicateHint(input, message);
+        }
     },
 
     /**
@@ -778,6 +796,121 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         input.classList.remove("is-invalid", "is-valid", "border-info");
         const feedbacks = input.parentNode.querySelectorAll(".o_vat_feedback, .invalid-feedback, .valid-feedback");
         feedbacks.forEach((fb) => fb.remove());
+
+        // Ștergem hint-urile de duplicate de pe câmp
+        this._removeHintsFor(input);
+    },
+
+    // ----------------------------------------------------------
+    // Duplicate hints (UX)
+    // ----------------------------------------------------------
+    /**
+     * Arată un hint compact sub câmpul invalid, cu CTA de login.
+     */
+    _showDuplicateHint: function (inputEl, message) {
+        if (!inputEl) {
+            return;
+        }
+        this._removeHintsFor(inputEl);
+        const hint = document.createElement("div");
+        hint.className = `form-text text-danger mt-1 ${DUPLICATE_HINT_CLASS}`;
+        hint.innerHTML = `
+            <i class="fa fa-exclamation-circle me-1"></i>
+            ${message}
+            <a class="btn btn-link btn-sm p-0 ms-1 o_duplicate_login_link" href="/web/login?redirect=/shop/checkout">
+                ${_t("Sign in")}
+            </a>
+            <button type="button" class="btn btn-outline-primary btn-sm ms-2 o_duplicate_send_link">
+                ${_t("Send access link")}
+            </button>
+            <span class="o_duplicate_status ms-2 text-muted"></span>
+        `;
+        inputEl.insertAdjacentElement("afterend", hint);
+    },
+
+    _removeHintsFor: function (inputEl) {
+        if (!inputEl || !inputEl.parentNode) {
+            return;
+        }
+        let sibling = inputEl.nextElementSibling;
+        while (sibling && sibling.classList.contains(DUPLICATE_HINT_CLASS)) {
+            const toRemove = sibling;
+            sibling = sibling.nextElementSibling;
+            toRemove.remove();
+        }
+    },
+
+    _clearDuplicateHints: function () {
+        this.el.querySelectorAll(`.${DUPLICATE_HINT_CLASS}`).forEach((node) => node.remove());
+    },
+
+    /**
+     * Trimite link de acces (invitație/reset) prin RPC.
+     */
+    _onSendAccessLink: async function (ev) {
+        ev.preventDefault();
+        const hint =
+            ev.currentTarget.closest(`.${DUPLICATE_HINT_CLASS}`) ||
+            ev.currentTarget.closest(`.${DUPLICATE_GLOBAL_MARKER}`);
+        const statusEl = hint ? hint.querySelector(".o_duplicate_status") : null;
+        const emailInput = this._getEmailInput();
+        const email = emailInput ? emailInput.value.trim() : "";
+        if (!email) {
+            if (statusEl) {
+                statusEl.className = "o_duplicate_status text-danger ms-2";
+                statusEl.textContent = _t("Please enter your email above.");
+            }
+            return;
+        }
+        this._sendAccessLink(email, statusEl);
+    },
+
+    async _sendAccessLink(email, statusEl) {
+        if (statusEl) {
+            statusEl.className = "o_duplicate_status text-muted ms-2";
+            statusEl.textContent = _t("Sending...");
+        }
+        try {
+            const res = await rpc("/shop/send_portal_access", {email});
+            if (statusEl) {
+                statusEl.className = res.success
+                    ? "o_duplicate_status text-success ms-2"
+                    : "o_duplicate_status text-danger ms-2";
+                statusEl.textContent = res.message || "";
+            }
+        } catch (_e) {
+            if (statusEl) {
+                statusEl.className = "o_duplicate_status text-danger ms-2";
+                statusEl.textContent = _t("Could not send the link. Try again.");
+            }
+        }
+    },
+
+    /**
+     * Injectează CTA global în alerta standard de erori (sus).
+     */
+    _injectGlobalDuplicateCTA: function () {
+        // Rulează doar pe paginile cu formular (email prezent)
+        const emailInput = this._getEmailInput();
+        if (!emailInput) {
+            return;
+        }
+
+        const alerts = this.el.querySelectorAll(".alert.alert-danger, .o_website_sale .alert.alert-danger");
+        alerts.forEach((alertBox) => {
+            if (alertBox.querySelector(`.${DUPLICATE_GLOBAL_MARKER}`)) {
+                return;
+            }
+            const container = document.createElement("div");
+            container.className = `mt-2 ${DUPLICATE_GLOBAL_MARKER}`;
+            container.innerHTML = `
+                <button type="button" class="btn btn-outline-primary btn-sm o_duplicate_global_send_link">
+                    ${_t("Send access link")}
+                </button>
+                <span class="o_duplicate_status ms-2 text-muted"></span>
+            `;
+            alertBox.appendChild(container);
+        });
     },
 });
 
