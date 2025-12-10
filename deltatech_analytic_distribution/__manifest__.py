@@ -5,7 +5,7 @@
     "name": "Deltatech Analytic distribution enforcer",
     "category": "Accounting",
     "summary": "Analytic distribution",
-    "version": "18.0.0.0.2",
+    "version": "19.0.0.0.2",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
