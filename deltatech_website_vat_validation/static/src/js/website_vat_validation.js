@@ -15,6 +15,7 @@ import {_t} from "@web/core/l10n/translation";
 
 const DUPLICATE_HINT_CLASS = "o_duplicate_hint";
 const DUPLICATE_GLOBAL_MARKER = "o_duplicate_global_cta";
+const DUPLICATE_SUMMARY_CLASS = "o_duplicate_summary";
 
 publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     selector: ".oe_website_sale, .o_portal_details",
@@ -46,8 +47,9 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         return this._super.apply(this, arguments).then(() => {
             this._setupValidation();
             this._injectGlobalDuplicateCTA();
-        // În caz că alerta se randărează cu întârziere, mai încercăm o dată după un scurt delay
-        setTimeout(() => this._injectGlobalDuplicateCTA(), 200);
+            // În caz că alerta se randărează cu întârziere, mai încercăm o dată după un scurt delay
+            setTimeout(() => this._injectGlobalDuplicateCTA(), 200);
+            this._observeAlerts();
         });
     },
 
@@ -404,13 +406,16 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
             if (result.success && result.data) {
                 this._fillFormWithAnafData(result.data);
                 this._showValidationSuccess(vatInput, _t("Data retrieved from ANAF."));
+                this._markAnafStatus(true, vatInput, result.data.vat || vat);
             } else if (result.error) {
                 this._showValidationWarning(vatInput, result.error);
+                this._markAnafStatus(false, vatInput);
             }
         } catch (error) {
             console.error("ANAF lookup error:", error);
             // Daca interogarea ANAF esueaza, afisam un mesaj bland si lasam utilizatorul sa continue manual
             this._showValidationWarning(vatInput, _t("Couldn't verify the VAT number. You can continue manually."));
+            this._markAnafStatus(false, vatInput);
         } finally {
             this._hideLoadingIndicator(vatInput);
         }
@@ -801,6 +806,33 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
         this._removeHintsFor(input);
     },
 
+    /**
+     * Marchează în formular faptul că ANAF a răspuns cu succes (pentru server-side).
+     */
+    _markAnafStatus: function (isSuccess, vatInput, vatValue) {
+        const form = vatInput && vatInput.form;
+        if (!form) {
+            return;
+        }
+        let flag = form.querySelector('input[name="anaf_ok"]');
+        if (!flag) {
+            flag = document.createElement("input");
+            flag.type = "hidden";
+            flag.name = "anaf_ok";
+            form.appendChild(flag);
+        }
+        flag.value = isSuccess ? "1" : "";
+
+        let vatField = form.querySelector('input[name="anaf_vat"]');
+        if (!vatField) {
+            vatField = document.createElement("input");
+            vatField.type = "hidden";
+            vatField.name = "anaf_vat";
+            form.appendChild(vatField);
+        }
+        vatField.value = isSuccess && vatValue ? vatValue : "";
+    },
+
     // ----------------------------------------------------------
     // Duplicate hints (UX)
     // ----------------------------------------------------------
@@ -849,16 +881,29 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
      */
     _onSendAccessLink: async function (ev) {
         ev.preventDefault();
-        const hint =
-            ev.currentTarget.closest(`.${DUPLICATE_HINT_CLASS}`) ||
-            ev.currentTarget.closest(`.${DUPLICATE_GLOBAL_MARKER}`);
-        const statusEl = hint ? hint.querySelector(".o_duplicate_status") : null;
+        const btn = ev.currentTarget;
+        const container = btn.closest(`.${DUPLICATE_GLOBAL_MARKER}`) || 
+                          btn.closest(`.${DUPLICATE_HINT_CLASS}`);
+        const statusContainer = container ? container.querySelector(".o_duplicate_status_container") : null;
+        const statusEl = statusContainer ? statusContainer.querySelector(".o_duplicate_status") : 
+                         (container ? container.querySelector(".o_duplicate_status") : null);
+        
         const emailInput = this._getEmailInput();
         const email = emailInput ? emailInput.value.trim() : "";
+        
         if (!email) {
             if (statusEl) {
-                statusEl.className = "o_duplicate_status text-danger ms-2";
-                statusEl.textContent = _t("Please enter your email above.");
+                statusEl.className = "o_duplicate_status";
+                statusEl.innerHTML = `
+                    <div class="alert alert-warning py-2 px-3 mb-0 d-inline-flex align-items-center">
+                        <i class="fa fa-exclamation-triangle me-2"></i>
+                        <span>${_t("Please enter your email address in the form above.")}</span>
+                    </div>
+                `;
+            }
+            if (emailInput) {
+                emailInput.focus();
+                emailInput.classList.add("is-invalid");
             }
             return;
         }
@@ -866,22 +911,56 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
     },
 
     async _sendAccessLink(email, statusEl) {
+        const statusContainer = statusEl ? statusEl.closest(".o_duplicate_status_container") || statusEl.parentNode : null;
+        
         if (statusEl) {
-            statusEl.className = "o_duplicate_status text-muted ms-2";
-            statusEl.textContent = _t("Sending...");
+            statusEl.className = "o_duplicate_status";
+            statusEl.innerHTML = `<i class="fa fa-spinner fa-spin me-1"></i>${_t("Sending email...")}`;
         }
+        
+        // Dezactivăm butonul în timpul trimiterii
+        const sendBtn = statusContainer ? statusContainer.parentNode.querySelector(".o_duplicate_global_send_link") : null;
+        if (sendBtn) {
+            sendBtn.disabled = true;
+            sendBtn.classList.add("disabled");
+        }
+        
         try {
             const res = await rpc("/shop/send_portal_access", {email});
             if (statusEl) {
-                statusEl.className = res.success
-                    ? "o_duplicate_status text-success ms-2"
-                    : "o_duplicate_status text-danger ms-2";
-                statusEl.textContent = res.message || "";
+                if (res.success) {
+                    statusEl.className = "o_duplicate_status";
+                    statusEl.innerHTML = `
+                        <div class="alert alert-success py-2 px-3 mb-0 d-inline-flex align-items-center">
+                            <i class="fa fa-check-circle me-2"></i>
+                            <span>${res.message || _t("Email sent successfully! Check your inbox.")}</span>
+                        </div>
+                    `;
+                } else {
+                    statusEl.className = "o_duplicate_status";
+                    statusEl.innerHTML = `
+                        <div class="alert alert-danger py-2 px-3 mb-0 d-inline-flex align-items-center">
+                            <i class="fa fa-exclamation-circle me-2"></i>
+                            <span>${res.message || _t("Could not send the email.")}</span>
+                        </div>
+                    `;
+                }
             }
         } catch (_e) {
             if (statusEl) {
-                statusEl.className = "o_duplicate_status text-danger ms-2";
-                statusEl.textContent = _t("Could not send the link. Try again.");
+                statusEl.className = "o_duplicate_status";
+                statusEl.innerHTML = `
+                    <div class="alert alert-danger py-2 px-3 mb-0 d-inline-flex align-items-center">
+                        <i class="fa fa-exclamation-circle me-2"></i>
+                        <span>${_t("Could not send the link. Please try again.")}</span>
+                    </div>
+                `;
+            }
+        } finally {
+            // Reactivăm butonul
+            if (sendBtn) {
+                sendBtn.disabled = false;
+                sendBtn.classList.remove("disabled");
             }
         }
     },
@@ -896,21 +975,275 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
             return;
         }
 
-        const alerts = this.el.querySelectorAll(".alert.alert-danger, .o_website_sale .alert.alert-danger");
+        // Căutăm div-ul #errors din Odoo 18 (conține h5.text-danger)
+        const errorsDiv = this.el.querySelector("#errors");
+        if (errorsDiv && errorsDiv.children.length > 0) {
+            this._transformErrorsDiv(errorsDiv);
+        }
+
+        // Căutăm și alertele clasice
+        const alerts = this.el.querySelectorAll(".alert.alert-danger, .alert.alert-warning, .o_website_sale .alert.alert-danger");
         alerts.forEach((alertBox) => {
+            // Verificăm dacă conține mesaje de duplicate
+            const alertText = alertBox.textContent || "";
+            const isDuplicateAlert = alertText.includes("Another partner already exists") || 
+                                     alertText.includes("already exists with the");
+            
+            if (!isDuplicateAlert) {
+                return;
+            }
+
+            // Simplificăm mesajele dacă există duplicate
+            this._simplifyDuplicateAlert(alertBox);
+
+            // Injectăm CTA
             if (alertBox.querySelector(`.${DUPLICATE_GLOBAL_MARKER}`)) {
                 return;
             }
-            const container = document.createElement("div");
-            container.className = `mt-2 ${DUPLICATE_GLOBAL_MARKER}`;
-            container.innerHTML = `
-                <button type="button" class="btn btn-outline-primary btn-sm o_duplicate_global_send_link">
-                    ${_t("Send access link")}
-                </button>
-                <span class="o_duplicate_status ms-2 text-muted"></span>
-            `;
-            alertBox.appendChild(container);
+
+            this._appendCTAButtons(alertBox);
         });
+    },
+
+    /**
+     * Transformă div-ul #errors din Odoo 18 într-o alertă profesională.
+     */
+    _transformErrorsDiv: function(errorsDiv) {
+        const errorMessages = Array.from(errorsDiv.querySelectorAll("h5.text-danger, .text-danger"));
+        const errorTexts = errorMessages.map(el => el.textContent || "").filter(t => t);
+        
+        // Verificăm dacă există mesaje de duplicate
+        const fullText = errorTexts.join(" ");
+        const isDuplicateError = fullText.includes("Another partner already exists") || 
+                                  fullText.includes("already exists with the");
+        
+        if (!isDuplicateError) {
+            return;
+        }
+
+        // Ascundem butonul standard "Already have an account? Sign in" pentru a evita duplicarea
+        this._hideStandardSignInPrompt();
+
+        // Extragem ce câmpuri sunt duplicate
+        const duplicateFields = [];
+        if (fullText.includes("VAT number") || fullText.includes("CUI")) {
+            duplicateFields.push(_t("VAT/CUI"));
+        }
+        if (fullText.includes("email")) {
+            duplicateFields.push(_t("Email"));
+        }
+        if (fullText.includes("phone number")) {
+            duplicateFields.push(_t("Phone"));
+        }
+
+        // Transformăm div-ul într-o alertă profesională
+        errorsDiv.className = "alert alert-warning o_duplicate_alert mb-3";
+        errorsDiv.innerHTML = "";
+
+        // Container principal cu icon
+        const container = document.createElement("div");
+        container.className = "d-flex align-items-start gap-3";
+
+        // Icon mare
+        const iconDiv = document.createElement("div");
+        iconDiv.className = "o_duplicate_icon flex-shrink-0";
+        iconDiv.innerHTML = '<i class="fa fa-user-circle fa-2x text-warning"></i>';
+        container.appendChild(iconDiv);
+
+        // Conținut
+        const contentDiv = document.createElement("div");
+        contentDiv.className = "flex-grow-1";
+
+        // Titlu
+        const title = document.createElement("h6");
+        title.className = "alert-heading mb-1 fw-bold";
+        title.innerHTML = '<i class="fa fa-exclamation-triangle me-1"></i>' + _t("Existing data found");
+        contentDiv.appendChild(title);
+
+        // Mesaj explicativ
+        const message = document.createElement("p");
+        message.className = "mb-2 small";
+        if (duplicateFields.length > 0) {
+            message.textContent = _t("We found existing data matching yours: ") + duplicateFields.join(", ") + ". ";
+        } else {
+            message.textContent = _t("We found existing data matching yours. ");
+        }
+        contentDiv.appendChild(message);
+
+        // Instrucțiuni
+        const instructions = document.createElement("p");
+        instructions.className = "mb-3 small text-muted";
+        instructions.textContent = _t("If you have an account, please sign in. Otherwise, click 'Get access link' to receive a login link by email.");
+        contentDiv.appendChild(instructions);
+
+        container.appendChild(contentDiv);
+        errorsDiv.appendChild(container);
+
+        // Adăugăm butoanele CTA
+        this._appendCTAButtons(errorsDiv);
+    },
+
+    /**
+     * Ascunde prompt-ul standard "Already have an account? Sign in" din Odoo.
+     */
+    _hideStandardSignInPrompt: function() {
+        // Selectorul exact pentru div-ul din Odoo: div.float-end în #div_email_public
+        const emailPublicDiv = this.el.querySelector("#div_email_public");
+        if (emailPublicDiv) {
+            const signInDiv = emailPublicDiv.querySelector('.float-end');
+            if (signInDiv && signInDiv.textContent.includes("Already have an account")) {
+                signInDiv.style.display = "none";
+                signInDiv.classList.add("o_hidden_by_duplicate_alert");
+            }
+        }
+        
+        // Fallback: căutăm orice element care conține exact acest text
+        const allDivs = this.el.querySelectorAll('div.float-end, div.align-items-center');
+        allDivs.forEach(el => {
+            const text = (el.textContent || "").trim();
+            if (text.includes("Already have an account") && text.includes("Sign in")) {
+                el.style.display = "none";
+                el.classList.add("o_hidden_by_duplicate_alert");
+            }
+        });
+    },
+
+    /**
+     * Adaugă butoanele CTA într-un container de alertă.
+     */
+    _appendCTAButtons: function(alertBox) {
+        if (alertBox.querySelector(`.${DUPLICATE_GLOBAL_MARKER}`)) {
+            return;
+        }
+
+        const emailInput = this._getEmailInput();
+        const currentEmail = emailInput ? emailInput.value.trim() : "";
+        const emailDisplay = currentEmail ? `<code class="mx-1">${currentEmail}</code>` : "";
+
+        const container = document.createElement("div");
+        container.className = `${DUPLICATE_GLOBAL_MARKER} o_duplicate_cta_container mt-3 pt-3 border-top`;
+        
+        container.innerHTML = `
+            <div class="d-flex flex-column flex-sm-row gap-2 align-items-stretch align-items-sm-center">
+                <a href="/web/login?redirect=/shop/checkout" class="btn btn-outline-primary">
+                    <i class="fa fa-sign-in me-1"></i>${_t("I have an account - Sign in")}
+                </a>
+                <span class="text-muted d-none d-sm-inline">${_t("or")}</span>
+                <button type="button" class="btn btn-primary o_duplicate_global_send_link">
+                    <i class="fa fa-envelope me-1"></i>${_t("Get access link by email")}
+                </button>
+            </div>
+            <div class="o_duplicate_status_container mt-2">
+                <small class="o_duplicate_status text-muted">
+                    ${currentEmail ? '<i class="fa fa-info-circle me-1"></i>' + _t("An access link will be sent to") + emailDisplay : ""}
+                </small>
+            </div>
+        `;
+        alertBox.appendChild(container);
+    },
+
+    /**
+     * Simplifică mesajele duplicate într-un singur rezumat, mai curat.
+     */
+    _simplifyDuplicateAlert: function (alertBox) {
+        if (!alertBox) {
+            return false;
+        }
+
+        // Găsim noduri sau texte care conțin mesajele de dublură
+        const alertText = alertBox.textContent || "";
+        const containsDuplicateText = alertText.includes("Another partner already exists") || 
+                                       alertText.includes("already exists with the");
+        
+        // Dacă nu există duplicate detectate în textul alertei, nu intervenim
+        if (!containsDuplicateText) {
+            return false;
+        }
+
+        // Ascundem butonul standard "Already have an account? Sign in"
+        this._hideStandardSignInPrompt();
+
+        // Extragem ce câmpuri sunt duplicate
+        const duplicateFields = [];
+        if (alertText.includes("VAT number") || alertText.includes("CUI")) {
+            duplicateFields.push(_t("VAT/CUI"));
+        }
+        if (alertText.includes("email")) {
+            duplicateFields.push(_t("Email"));
+        }
+        if (alertText.includes("phone number")) {
+            duplicateFields.push(_t("Phone"));
+        }
+
+        // Curățăm conținutul alertei pentru a evita zgomotul vizual
+        alertBox.innerHTML = "";
+        alertBox.className = "alert alert-warning o_duplicate_alert mb-3";
+
+        // Container principal cu icon
+        const container = document.createElement("div");
+        container.className = "d-flex align-items-start gap-3";
+
+        // Icon mare
+        const iconDiv = document.createElement("div");
+        iconDiv.className = "o_duplicate_icon flex-shrink-0";
+        iconDiv.innerHTML = '<i class="fa fa-user-circle fa-2x text-warning"></i>';
+        container.appendChild(iconDiv);
+
+        // Conținut
+        const contentDiv = document.createElement("div");
+        contentDiv.className = "flex-grow-1";
+
+        // Titlu
+        const title = document.createElement("h6");
+        title.className = "alert-heading mb-1 fw-bold";
+        title.innerHTML = '<i class="fa fa-exclamation-triangle me-1"></i>' + _t("Existing data found");
+        contentDiv.appendChild(title);
+
+        // Mesaj explicativ
+        const message = document.createElement("p");
+        message.className = "mb-2 small";
+        if (duplicateFields.length > 0) {
+            message.textContent = _t("We found existing data matching yours: ") + duplicateFields.join(", ") + ". ";
+        } else {
+            message.textContent = _t("We found existing data matching yours. ");
+        }
+        contentDiv.appendChild(message);
+
+        // Instrucțiuni
+        const instructions = document.createElement("p");
+        instructions.className = "mb-3 small text-muted";
+        instructions.textContent = _t("If you have an account, please sign in. Otherwise, click 'Get access link' to receive a login link by email.");
+        contentDiv.appendChild(instructions);
+
+        container.appendChild(contentDiv);
+        alertBox.appendChild(container);
+
+        return true;
+    },
+
+    /**
+     * Observă adăugarea de alerte noi și injectează CTA/rezumat.
+     */
+    _observeAlerts: function () {
+        // Observăm atât body-ul cât și div-ul #errors specific
+        const errorsDiv = this.el.querySelector("#errors");
+        
+        const callback = () => {
+            // Folosim un mic delay pentru a ne asigura că DOM-ul este actualizat
+            setTimeout(() => this._injectGlobalDuplicateCTA(), 50);
+        };
+        
+        const observer = new MutationObserver(callback);
+        observer.observe(document.body, {childList: true, subtree: true});
+        
+        // Observăm specific div-ul #errors dacă există
+        if (errorsDiv) {
+            const errorsObserver = new MutationObserver(callback);
+            errorsObserver.observe(errorsDiv, {childList: true, subtree: true, characterData: true});
+            this._errorsObserver = errorsObserver;
+        }
+        
+        this._alertsObserver = observer;
     },
 });
 

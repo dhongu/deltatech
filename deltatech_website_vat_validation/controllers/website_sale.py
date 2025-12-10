@@ -61,6 +61,8 @@ class WebsiteSaleVATValidation(WebsiteSale):
             # Verifică dacă sunt completate câmpurile B2B (show_vat)
             company_name = data.get("company_name", "").strip()
             vat = data.get("vat", "").strip()
+            anaf_ok = str(data.get("anaf_ok") or "").strip() == "1"
+            anaf_vat = normalize_vat(data.get("anaf_vat"), country)
 
             # Dacă utilizatorul completează oricare din câmpurile de companie, le cerem pe amândouă
             if company_name or vat:
@@ -81,6 +83,9 @@ class WebsiteSaleVATValidation(WebsiteSale):
                 else:
                     # Validare format CUI
                     vat_error = validate_vat(vat, country)
+                    # Dacă ANAF a răspuns ok pentru acest VAT, permitem și fără checksum
+                    if vat_error and anaf_ok and anaf_vat and anaf_vat == normalize_vat(vat, country):
+                        vat_error = False
                     if vat_error:
                         error["vat"] = "error"
                         error_message.append(vat_error)
@@ -110,14 +115,17 @@ class WebsiteSaleVATValidation(WebsiteSale):
         email_for_dup = email_normalized or normalize_email(data.get("email"))
         phone_for_dup = phone_normalized or normalize_phone(data.get("phone"))
 
+        partner_model = request.env["res.partner"].sudo()
+        email_field = "email_normalized" if "email_normalized" in partner_model._fields else "email"
+        phone_field = "phone_sanitized" if "phone_sanitized" in partner_model._fields else "phone"
+
         duplicates_fields = {
             "vat": (vat_normalized, "vat"),
-            "email": (email_for_dup, "email_normalized"),
-            "phone": (phone_for_dup, "phone_sanitized"),
+            "email": (email_for_dup, email_field),
+            "phone": (phone_for_dup, phone_field),
         }
 
         # Validare duplicate pentru VAT, email, phone (pe toți partenerii, nu doar top-level)
-        partner_model = request.env["res.partner"].sudo()
         for field, (value, domain_field) in duplicates_fields.items():
             if value and field not in error:
                 domain = [(domain_field, "=", value), ("id", "!=", partner.id)]
@@ -125,16 +133,25 @@ class WebsiteSaleVATValidation(WebsiteSale):
                 if partner_exists:
                     error[field] = "error"
                     if field == "vat":
-                        error_message.append(_("Another partner already exists with the VAT number %s.") % value)
+                        error_message.append(
+                            _("Another partner already exists with the VAT number %s. Please sign in or request an access link.")  # noqa: B950
+                            % value
+                        )
                     elif field == "email":
-                        error_message.append(_("Another partner already exists with the email %s.") % value)
+                        error_message.append(
+                            _("Another partner already exists with the email %s. Please sign in or request an access link, or use a different email.")  # noqa: B950
+                            % value
+                        )
                     elif field == "phone":
-                        error_message.append(_("Another partner already exists with the phone number %s.") % value)
+                        error_message.append(
+                            _("Another partner already exists with the phone number %s. Please sign in or request an access link, or use a different phone number.")  # noqa: B950
+                            % value
+                        )
 
         return error, error_message
 
     # ------------------------------------------------------------------
-    # Address form (anonymous checkout): enforce duplicate check too
+    # Address form (checkout 18.0): duplicate + RO validations with messages
     # ------------------------------------------------------------------
     def _validate_address_values(
         self,
@@ -146,7 +163,12 @@ class WebsiteSaleVATValidation(WebsiteSale):
         is_main_address,
         **kwargs,
     ):
-        """Extend standard validation to block duplicate partners in anonymous checkout."""
+        """
+        Extend standard validation to:
+        - normalize + validate VAT/email/phone
+        - apply RO rules (company name + VAT together)
+        - block duplicates with explicit messages
+        """
         invalid_fields, missing_fields, error_messages = super()._validate_address_values(
             address_values,
             partner_sudo,
@@ -157,59 +179,108 @@ class WebsiteSaleVATValidation(WebsiteSale):
             **kwargs,
         )
 
-        # Only check duplicates when creating a new main address (anonymous cart).
-        if partner_sudo:
-            return invalid_fields, missing_fields, error_messages
-
         country = None
-        if address_values.get("country_id"):
-            country = request.env["res.country"].browse(int(address_values["country_id"]))
+        country_id = address_values.get("country_id")
+        if country_id:
+            country = request.env["res.country"].browse(int(country_id))
 
-        vat_val = normalize_vat(address_values.get("vat"), country)
-        email_val = normalize_email(address_values.get("email"))
+        # Trim basic inputs
+        for field in ["vat", "email", "phone", "company_name"]:
+            if address_values.get(field):
+                address_values[field] = address_values[field].strip()
 
-        phone_val = ""
-        if address_values.get("phone"):
+        # Normalize VAT
+        vat_normalized = normalize_vat(address_values.get("vat"), country)
+        if vat_normalized:
+            address_values["vat"] = vat_normalized
+
+        # Romania-specific checks: company + VAT together, format CUI
+        if country and country.code == "RO":
+            company_name = address_values.get("company_name", "")
+            vat_val = address_values.get("vat", "")
+            # În parse_form_data, câmpurile non-model ajung în kwargs; le citim și din kwargs și din address_values
+            anaf_ok = str(kwargs.get("anaf_ok") or address_values.get("anaf_ok") or "").strip() == "1"
+            anaf_vat = normalize_vat(kwargs.get("anaf_vat") or address_values.get("anaf_vat"), country)
+            if company_name or vat_val:
+                if not company_name or len(company_name) < 3 or re.match(r"^[-._\\s]+$", company_name):
+                    invalid_fields.add("company_name")
+                    error_messages.append(
+                        _("For Romania, the company name is required and must have at least 3 characters.")
+                    )
+
+                if not vat_val:
+                    invalid_fields.add("vat")
+                    error_messages.append(_("For Romania, the VAT number is mandatory for companies."))
+                else:
+                    vat_error = validate_vat(vat_val, country)
+                    # Dacă ANAF a răspuns ok pentru acest VAT, permitem și fără checksum
+                    if vat_error and anaf_ok and anaf_vat and anaf_vat == normalize_vat(vat_val, country):
+                        vat_error = False
+                    if vat_error:
+                        invalid_fields.add("vat")
+                        error_messages.append(vat_error)
+
+        # Email validation + normalization
+        email_normalized, email_error = ("", False)
+        if "email" not in invalid_fields:
+            email_normalized, email_error = validate_email(address_values.get("email"))
+            if email_error:
+                invalid_fields.add("email")
+                error_messages.append(email_error)
+        if email_normalized:
+            address_values["email"] = email_normalized
+
+        # Phone validation + normalization
+        phone_normalized, phone_error = ("", False)
+        if "phone" not in invalid_fields:
             phone_normalized, phone_error = validate_phone(address_values.get("phone"), country)
             if phone_error:
                 invalid_fields.add("phone")
                 error_messages.append(phone_error)
-            phone_val = phone_normalized
+        if phone_normalized:
+            address_values["phone"] = phone_normalized
 
-        duplicate_found = False
+        # Prepare values for duplicate check
+        vat_for_dup = normalize_vat(address_values.get("vat"), country)
+        email_for_dup = email_normalized or normalize_email(address_values.get("email"))
+        phone_for_dup = phone_normalized or normalize_phone(address_values.get("phone"))
+
+        # Exclude current partner (public partner or logged partner) from duplicate search
+        current_partner_id = partner_sudo.id if partner_sudo else request.env.user.partner_id.id
         partner_model = request.env["res.partner"].sudo().with_context(active_test=False)
+        email_field = "email_normalized" if "email_normalized" in partner_model._fields else "email"
+        phone_field = "phone_sanitized" if "phone_sanitized" in partner_model._fields else "phone"
 
-        # VAT duplicate
-        if vat_val and "vat" not in invalid_fields:
-            dup = partner_model.search([("vat", "=", vat_val)], limit=1)
-            if dup:
-                invalid_fields.add("vat")
-                duplicate_found = True
+        duplicates_fields = {
+            "vat": (vat_for_dup, "vat"),
+            "email": (email_for_dup, email_field),
+            "phone": (phone_for_dup, phone_field),
+        }
 
-        # Email duplicate (try normalized + raw)
-        if email_val and "email" not in invalid_fields:
-            dup_email = partner_model.search(
-                ["|", ("email_normalized", "=", email_val), ("email", "=", address_values.get("email"))],
-                limit=1,
-            )
-            if dup_email:
-                invalid_fields.add("email")
-                duplicate_found = True
+        for field, (value, domain_field) in duplicates_fields.items():
+            if value and field not in invalid_fields:
+                domain = [(domain_field, "=", value)]
+                if current_partner_id:
+                    domain.append(("id", "!=", current_partner_id))
 
-        # Phone duplicate (try sanitized + raw)
-        if phone_val and "phone" not in invalid_fields:
-            dup_phone = partner_model.search(
-                ["|", ("phone_sanitized", "=", phone_val), ("phone", "=", address_values.get("phone"))],
-                limit=1,
-            )
-            if dup_phone:
-                invalid_fields.add("phone")
-                duplicate_found = True
-
-        if duplicate_found:
-            generic_msg = _("An account with these details already exists. Please sign in or request an access link.")
-            if generic_msg not in error_messages:
-                error_messages.append(generic_msg)
+                partner_exists = partner_model.search(domain, limit=1)
+                if partner_exists:
+                    invalid_fields.add(field)
+                    if field == "vat":
+                        error_messages.append(
+                            _("Another partner already exists with the VAT number %s. Please sign in or request an access link.")  # noqa: B950
+                            % value
+                        )
+                    elif field == "email":
+                        error_messages.append(
+                            _("Another partner already exists with the email %s. Please sign in or request an access link, or use a different email.")  # noqa: B950
+                            % value
+                        )
+                    elif field == "phone":
+                        error_messages.append(
+                            _("Another partner already exists with the phone number %s. Please sign in or request an access link, or use a different phone number.")  # noqa: B950
+                            % value
+                        )
 
         return invalid_fields, missing_fields, error_messages
 
