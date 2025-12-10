@@ -32,7 +32,6 @@ class ProductProduct(models.Model):
                                 "product_id": record.id,
                                 "product_min_qty": 0,
                                 "product_max_qty": 0,
-                                "qty_multiple": 0,
                                 "trigger": "manual",
                                 "route_id": route,
                                 "location_id": warehouse.lot_stock_id.id,
