@@ -671,14 +671,6 @@ publicWidget.registry.WebsiteVatValidation = publicWidget.Widget.extend({
             return false;
         }
 
-        if (vatNumber.startsWith("0")) {
-            this._showValidationError(
-                vatInput,
-                _t("Romanian VAT numbers cannot start with 0. Please check the value.")
-            );
-            return false;
-        }
-
         this._showValidationSuccess(vatInput);
         return true;
     },

@@ -37,10 +37,11 @@ class CustomerPortalVATValidation(CustomerPortal):
 
         # Obține țara selectată
         country_raw = data.get("country_id")
-        if country_raw:
-            country_id_str = str(country_raw).strip()
-            if country_id_str.isdigit():
-                country = request.env["res.country"].browse(int(country_id_str))
+        if country_raw is not None:
+            if isinstance(country_raw, int):
+                country = request.env["res.country"].browse(country_raw)
+            elif isinstance(country_raw, str) and country_raw.strip().isdigit():
+                country = request.env["res.country"].browse(int(country_raw.strip()))
             else:
                 country = partner.country_id
         else:
@@ -108,8 +109,8 @@ class CustomerPortalVATValidation(CustomerPortal):
 
         duplicates_fields = {
             "vat": (vat_normalized, "vat"),
-            "email": (email_for_dup, "email_normalized"),
-            "phone": (phone_for_dup, "phone_sanitized"),
+            "email": (email_for_dup, "email"),
+            "phone": (phone_for_dup, "phone"),
         }
 
         # Validare duplicate pentru VAT, email, phone (pe toți partenerii, nu doar top-level)

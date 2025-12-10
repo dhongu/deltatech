@@ -234,4 +234,4 @@ Maintainer
 ----------
 [![terrabit](https://github.com/terrabit-ro.png?size=64px)](https://terrabit.ro)
 
-This modules is maintained by the Terrabit.
+These modules are maintained by Terrabit.

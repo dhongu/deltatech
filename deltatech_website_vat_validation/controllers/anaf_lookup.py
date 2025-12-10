@@ -26,6 +26,11 @@ class AnafLookupController(http.Controller):
     def anaf_lookup(self, vat=None, **kwargs):
         """
         Endpoint AJAX pentru cautarea datelor companiei in ANAF.
+        
+        Note: This endpoint is public and should be protected with rate limiting
+        (e.g., using a reverse proxy like nginx limit_req or Odoo's ir.http rate limiting)
+        to prevent abuse and DoS attacks. The ANAF API timeout is set in the
+        l10n_ro_partner_create_by_vat module (currently 30s, recommended 10s).
         """
         result = {
             "success": False,
@@ -79,7 +84,7 @@ class AnafLookupController(http.Controller):
             )
         except Exception as exc:
             _logger.exception("ANAF lookup error for VAT %s", vat_number)
-            result["error"] = _("ANAF lookup error: %s") % exc
+            result["error"] = _("Could not retrieve company data from ANAF. Please try again later or enter manually.")
 
         return result
 

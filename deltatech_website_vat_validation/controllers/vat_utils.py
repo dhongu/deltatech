@@ -1,4 +1,4 @@
-# ¶¸  2008-2024 Deltatech
+# ©  2008-2024 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com>
 # Vezi fisierul README.rst din radacina addon-ului pentru detalii despre licenta
 
@@ -65,10 +65,6 @@ def _validate_romanian_vat(vat):
 
     if computed != check_digit:
         return _("Invalid VAT number: the checksum digit does not match.")
-
-    # Interzicem caractere speciale suplimentare fata de cifre
-    if re.search(r"[^0-9]", number):
-        return _("The VAT number must contain digits only.")
 
     return False
 

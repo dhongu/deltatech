@@ -35,8 +35,8 @@ class ProductTemplate(models.Model):
             template.qty_multiple = template.product_variant_ids.qty_multiple
             template.qty_minim = template.product_variant_ids.qty_minim
         for template in self - unique_variants:
-            template.qty_multiple = 1.0
-            template.qty_minim = 1.0
+            template.qty_multiple = -1.0
+            template.qty_minim = -1.0
 
     def _inverse_qty_multiple(self):
         for product in self:

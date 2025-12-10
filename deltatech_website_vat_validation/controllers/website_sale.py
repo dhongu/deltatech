@@ -35,10 +35,11 @@ class WebsiteSaleVATValidation(WebsiteSale):
         # Obține țara selectată
         country = None
         country_raw = data.get("country_id")
-        if country_raw:
-            country_id_str = str(country_raw).strip()
-            if country_id_str.isdigit():
-                country = request.env["res.country"].browse(int(country_id_str))
+        if country_raw is not None:
+            if isinstance(country_raw, int):
+                country = request.env["res.country"].browse(country_raw)
+            elif isinstance(country_raw, str) and country_raw.strip().isdigit():
+                country = request.env["res.country"].browse(int(country_raw.strip()))
 
         # Curăță spațiile din câmpuri
         for field in ["vat", "email", "phone"]:
@@ -116,13 +117,11 @@ class WebsiteSaleVATValidation(WebsiteSale):
         phone_for_dup = phone_normalized or normalize_phone(data.get("phone"))
 
         partner_model = request.env["res.partner"].sudo()
-        email_field = "email_normalized" if "email_normalized" in partner_model._fields else "email"
-        phone_field = "phone_sanitized" if "phone_sanitized" in partner_model._fields else "phone"
 
         duplicates_fields = {
             "vat": (vat_normalized, "vat"),
-            "email": (email_for_dup, email_field),
-            "phone": (phone_for_dup, phone_field),
+            "email": (email_for_dup, "email"),
+            "phone": (phone_for_dup, "phone"),
         }
 
         # Validare duplicate pentru VAT, email, phone (pe toți partenerii, nu doar top-level)
@@ -181,8 +180,11 @@ class WebsiteSaleVATValidation(WebsiteSale):
 
         country = None
         country_id = address_values.get("country_id")
-        if country_id:
-            country = request.env["res.country"].browse(int(country_id))
+        if country_id is not None:
+            if isinstance(country_id, int):
+                country = request.env["res.country"].browse(country_id)
+            elif isinstance(country_id, (str, bytes)) and str(country_id).strip().isdigit():
+                country = request.env["res.country"].browse(int(str(country_id).strip()))
 
         # Trim basic inputs
         for field in ["vat", "email", "phone", "company_name"]:
@@ -248,13 +250,11 @@ class WebsiteSaleVATValidation(WebsiteSale):
         # Exclude current partner (public partner or logged partner) from duplicate search
         current_partner_id = partner_sudo.id if partner_sudo else request.env.user.partner_id.id
         partner_model = request.env["res.partner"].sudo().with_context(active_test=False)
-        email_field = "email_normalized" if "email_normalized" in partner_model._fields else "email"
-        phone_field = "phone_sanitized" if "phone_sanitized" in partner_model._fields else "phone"
 
         duplicates_fields = {
             "vat": (vat_for_dup, "vat"),
-            "email": (email_for_dup, email_field),
-            "phone": (phone_for_dup, phone_field),
+            "email": (email_for_dup, "email"),
+            "phone": (phone_for_dup, "phone"),
         }
 
         for field, (value, domain_field) in duplicates_fields.items():

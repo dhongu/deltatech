@@ -304,3 +304,157 @@ msgstr "CUI: 2-10 cifre. Ex:"
 #, python-format
 msgid "as your country for ANAF auto-fill"
 msgstr "ca țară pentru auto-completare din ANAF"
+
+#. module: deltatech_website_vat_validation
+msgid "Could not retrieve company data from ANAF. Please try again later or enter manually."
+msgstr "Nu s-au putut prelua datele companiei din ANAF. Încercați din nou mai târziu sau introduceți manual."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Please enter your email address in the form above."
+msgstr "Vă rugăm să introduceți adresa de email în formularul de mai sus."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Sending email..."
+msgstr "Se trimite emailul..."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Email sent successfully! Check your inbox."
+msgstr "Email trimis cu succes! Verificați căsuța de email."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Could not send the email."
+msgstr "Nu s-a putut trimite emailul."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Could not send the link. Please try again."
+msgstr "Nu s-a putut trimite linkul. Încercați din nou."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Existing data found"
+msgstr "Date existente găsite"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "We found existing data matching yours: "
+msgstr "Am găsit date existente care corespund cu ale dumneavoastră: "
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "We found existing data matching yours. "
+msgstr "Am găsit date existente care corespund cu ale dumneavoastră. "
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "If you have an account, please sign in. Otherwise, click 'Get access link' to receive a login link by email."
+msgstr "Dacă aveți cont, vă rugăm să vă autentificați. Altfel, faceți clic pe 'Obține link de acces' pentru a primi un link de autentificare prin email."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "I have an account - Sign in"
+msgstr "Am cont - Autentificare"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Get access link by email"
+msgstr "Obține link de acces prin email"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "An access link will be sent to"
+msgstr "Un link de acces va fi trimis la"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "or"
+msgstr "sau"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Sign in"
+msgstr "Autentificare"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Send access link"
+msgstr "Trimite link de acces"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "VAT/CUI"
+msgstr "VAT/CUI"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Email"
+msgstr "Email"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Phone"
+msgstr "Telefon"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+#, python-format
+msgid "Please enter a valid email."
+msgstr "Vă rugăm să introduceți o adresă de email validă."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+#, python-format
+msgid "No customer found with this email."
+msgstr "Nu s-a găsit niciun client cu acest email."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+#, python-format
+msgid "Could not send the access email: %s"
+msgstr "Nu s-a putut trimite emailul de acces: %s"
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+#, python-format
+msgid "We sent an access link to %s. Please check your inbox/spam."
+msgstr "Am trimis un link de acces la %s. Verificați căsuța de email/spam."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Invalid email format."
+msgstr "Format de email invalid."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "Phone number is too short."
+msgstr "Numărul de telefon este prea scurt."
+
+#. module: deltatech_website_vat_validation
+#: code:addons/deltatech_website_vat_validation/static/src/js/website_vat_validation.js:0
+#, python-format
+msgid "For Romania, start the number with +40 or 0 for a valid format."
+msgstr "Pentru România, începeți numărul cu +40 sau 0 pentru un format valid."

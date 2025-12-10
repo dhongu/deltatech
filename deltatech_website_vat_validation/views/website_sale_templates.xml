@@ -13,6 +13,7 @@
                         name="invoice_company"
                         data-bs-toggle="collapse"
                         data-bs-target=".o-company-collapse"
+                        aria-controls="o_company_section_collapse"
                         t-att-checked="'checked' if partner_sudo.company_name or partner_sudo.vat or partner_sudo.is_company else None"
                         t-att-aria-expanded="'true' if partner_sudo.company_name or partner_sudo.vat or partner_sudo.is_company else 'false'"
                     />
@@ -27,13 +28,13 @@
         <!-- Incadram sectiunea pentru date companie intr-un card sugestiv -->
         <xpath expr="//div[@id='company_name_div']" position="before">
             <!-- Card pentru date companie (doar Romania) -->
-            <div t-if="country.code == 'RO'" class="o_company_data_section p-3 mb-3 o-company-collapse collapse">
+            <div t-if="country.code == 'RO'" id="o_company_section_collapse" class="o_company_data_section p-3 mb-3 o-company-collapse collapse" aria-labelledby="o_company_data_title">
                 <div class="d-flex align-items-center mb-2">
-                    <i class="fa fa-building o_company_header_icon me-2" />
-                    <strong class="text-muted">Company Data (Optional)</strong>
+                    <i class="fa fa-building o_company_header_icon me-2" aria-hidden="true" />
+                    <strong id="o_company_data_title" class="text-muted">Company Data (Optional)</strong>
                 </div>
                 <small class="form-text text-muted o_company_help_text">
-                    <i class="fa fa-info-circle" />
+                    <i class="fa fa-info-circle" aria-hidden="true" />
                     Fill this section only if you need an invoice on company. Both fields become mandatory if you fill one of them.
                 </small>
             </div>
@@ -50,14 +51,14 @@
         <!-- Adaugam icon langa label pentru Nume Companie -->
         <xpath expr="//div[@id='company_name_div']//label[@for='o_company_name']" position="inside">
             <t t-if="country.code == 'RO'">
-                <i class="fa fa-building text-muted me-1" />
+                <i class="fa fa-building text-muted me-1" aria-hidden="true" />
             </t>
         </xpath>
 
         <!-- Adaugam icon langa label pentru CUI/VAT -->
         <xpath expr="//div[@id='div_vat']//label[@for='o_vat']" position="inside">
             <t t-if="country.code == 'RO'">
-                <i class="fa fa-hashtag text-muted me-1" />
+                <i class="fa fa-hashtag text-muted me-1" aria-hidden="true" />
             </t>
         </xpath>
 
@@ -80,7 +81,7 @@
         <!-- Afisam help text pentru CUI romanesc -->
         <xpath expr="//div[@id='div_vat']" position="inside">
             <small t-if="country.code == 'RO'" class="form-text text-muted o_company_help_text mt-1">
-                <i class="fa fa-info-circle text-info" />
+                <i class="fa fa-info-circle text-info" aria-hidden="true" />
                 Enter the company VAT number (digits only, 2-10 characters). Example: <strong
                 >12345678</strong> or <strong>RO12345678</strong>.
             </small>
