@@ -22,10 +22,8 @@
             <xpath expr="//search" position="inside">
                 <field name="category_group_type" />
                 <field name="category_group_class" />
-                <group expand="1" string="Group By...">
-                    <filter name="group_by_type" context="{'group_by' : 'category_group_type'}" />
-                    <filter name="group_by_class" context="{'group_by' : 'category_group_class'}" />
-                </group>
+                    <filter name="group_by_type" string="Category Type" context="{'group_by' : 'category_group_type'}" />
+                    <filter name="group_by_class" string="Category Class" context="{'group_by' : 'category_group_class'}" />
             </xpath>
         </field>
     </record>

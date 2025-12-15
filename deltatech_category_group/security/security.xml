@@ -3,8 +3,8 @@
     <!--Grup for managing category types-->
     <record id="category_group_manager" model="res.groups">
         <field name="name">Manage category groups</field>
-        <field name="category_id" ref="base.module_category_hidden" />
-        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
+<!--        <field name="category_id" ref="base.module_category_hidden" />-->
+        <field name="implied_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
     </record>
 
 </odoo>
