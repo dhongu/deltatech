@@ -125,40 +125,27 @@ class ProductProduct(models.Model):
         for vals in vals_list:
             if "default_code" not in vals or vals["default_code"] in ["/", "", False]:
                 categ_id = vals.get("categ_id")
+                #categoria in product.product apare la crearea din campuri legate de product.product, ex pe linie de vanzare
                 if categ_id:
                     categ = self.env["product.category"].browse(categ_id)
                     default_code = vals.get("default_code", False)
                     barcode = vals.get("barcode", False)
                     values = self.env["product.template"].get_new_code(categ, default_code, barcode)
                     vals.update(values)
-                    # self = self.with_context(product_procut_with_code=True)
                 elif "product_tmpl_id" in vals and vals.get("product_tmpl_id"):
-                    # if len(vals_list) > 1:
+                    # daca se creaza variante din tempalte ele nu o sa aiba categorie asa ca testam pe template daca are categorie de generare coduri
                     template = self.env["product.template"].browse(vals.get("product_tmpl_id"))
+                    force_code_template=False
+                    if template.attribute_line_ids and len(vals_list)==1:#daca sunt atribute si se genereaza o singura varianta o sa incerce sa faca sanitize si se sterge referinta
+                        force_code_template=True
                     categ = template.categ_id
                     if categ:  # nu cred ca poate sa fie fata dar prefer sa nu aflu
                         values = self.env["product.template"].get_new_code(
                                 categ, vals.get("default_code", False), vals.get("barcode", False)
                             )
+                        if force_code_template:
+                            template.write(values)
                         vals.update(values)
-                        # self = self.with_context(product_procut_with_code=True)
-                    # elif "product_template_attribute_value_ids" in vals:
-                    #     template_attribute_value_ids = vals.get("product_template_attribute_value_ids", [])
-                    #
-                    #     for template_attribute_value_id in template_attribute_value_ids:
-                    #         attribute_value_id = template_attribute_value_id[2]
-                    #         if attribute_value_id:
-                    #             attribute = self.env["product.attribute.value"].browse(attribute_value_id)
-                    #             if attribute and attribute.attribute_id.create_variant in ["dynamic"]:
-                    #                 template = self.env["product.template"].browse(vals.get("product_tmpl_id"))
-                    #                 categ = template.categ_id
-                    #                 if categ:
-                    #                     values = self.env["product.template"].get_new_code(
-                    #                         categ, vals.get("default_code", False), vals.get("barcode", False)
-                    #                     )
-                    #                     vals.update(values)
-                    #                     self = self.with_context(product_procut_with_code=True)
-                    #                     break
         return super().create(vals_list)
 
     def button_new_code(self):
