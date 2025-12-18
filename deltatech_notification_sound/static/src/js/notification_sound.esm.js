@@ -10,7 +10,7 @@ const SOUND_MAP = {
     info: "/deltatech_notification_sound/static/src/sounds/bell.wav",
 };
 
-let ENABLED_CACHE = false;
+let ENABLED_CACHE = true;
 let ENABLED_PROMISE = false;
 
 async function fetchEnabledOnce() {
@@ -47,10 +47,9 @@ async function playSound(url) {
 }
 
 async function maybePlay(props) {
+    if (!props || !props.type) return;
     const url = SOUND_MAP[props.type];
-    if (!url) {
-        return;
-    }
+    if (!url) return;
     const enabled = await fetchEnabledOnce();
     if (!enabled) return;
     await playSound(url);
@@ -68,7 +67,7 @@ patch(Notification.prototype, {
             maybePlay(this.props);
         });
         onWillUpdateProps((nextProps) => {
-            maybePlay(this.rpc, nextProps);
+            maybePlay(nextProps);
         });
     },
 });
