@@ -1,2 +1,4 @@
-# ©  2020 Deltatech
+# ©  2020-2025 Deltatech
 # See README.rst file on addons root folder for license details
+
+from . import models
