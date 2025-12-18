@@ -3,15 +3,11 @@
     <record id="view_users_form_inherit_notification_sound" model="ir.ui.view">
         <field name="name">res.users.form.notification.sound</field>
         <field name="model">res.users</field>
-        <field name="inherit_id" ref="base.view_users_form_simple_modif" />
+        <field name="inherit_id" ref="base.view_users_form" />
         <field name="arch" type="xml">
-            <!-- Add the toggle in Preferences, near the language selector -->
-            <xpath expr="//page[@name='preferences_page']//group[@name='preferences']" position="inside">
-                <group>
-                    <field name="notification_sound_enabled" />
-                </group>
-
-            </xpath>
+            <group name="messaging" position="inside">
+                <field name="notification_sound_enabled" />
+            </group>
         </field>
     </record>
 </odoo>
