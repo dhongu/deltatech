@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="view_location_generic" name="Warehouse Map - Location">
+        <t t-call="web.layout">
+            <t t-set="title">Warehouse Map</t>
+            <div class="o_web_client" style="padding:16px;">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <t t-if="location and location.location_id">
+                        <a
+                            t-att-href="'/deltatech/warehouse_map/location/%d' % location.location_id.id"
+                            class="btn btn-secondary"
+                        >&#8592; Back
+                        </a>
+                    </t>
+                    <h1 class="m-0">
+                        <span
+                            t-esc="location and (location.complete_name or location.display_name) or 'Warehouse Map'"
+                        />
+                    </h1>
+                </div>
+                <t t-if="not location.child_ids">
+                    <div class="alert alert-info">There are no sub-locations for this location.</div>
+                </t>
+
+                <!-- CSS minimal pentru layout fără dependență pe Bootstrap -->
+                <style>
+                    .dw-row { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-bottom: 1px solid #e9ecef; }
+                    .dw-name { flex: 0 0 auto; min-width: 110px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+                    .dw-count { color: #6c757d; font-size: 12px; margin-left: 8px; }
+                    .dw-bar { flex: 1 1 auto; overflow: hidden; height: 22px; border-radius: 4px; background: #e9ecef; display: flex; align-items: stretch; }
+                    .dw-seg { display: block; height: 100%; position: relative; text-decoration: none; box-sizing: border-box; border-right: 1px solid rgba(0,0,0,.08); border-left: 1px solid rgba(255,255,255,.2); min-width: 1px; }
+                    .dw-bar .dw-seg:last-child { border-right: 0; }
+                    .dw-fill { width: 100%; height: 100%; opacity: .9; }
+                    .bg-success { background: #198754; }
+                    .bg-warning { background: #ffc107; }
+                    .bg-danger { background: #dc3545; }
+                    /* Creștere contrast text în celule */
+                    .dw-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; font-size: 11px; font-weight: 600; color: #fff; text-shadow: 0 0 2px rgba(0,0,0,.85), 0 0 4px rgba(0,0,0,.6); }
+                    .dw-label > span { background: rgba(0,0,0,.35); padding: 0 6px; border-radius: 3px; line-height: 1.2; }
+                    .dw-seg.bg-warning .dw-label { color: #111; text-shadow: 0 1px 1px rgba(255,255,255,.85), 0 0 1px rgba(255,255,255,.7); }
+                    .dw-seg.bg-warning .dw-label > span { background: rgba(255,255,255,.75); }
+                    .dw-seg.bg-success .dw-label, .dw-seg.bg-danger .dw-label { color: #fff; }
+                </style>
+
+                <t t-if="location.child_ids">
+                    <t t-foreach="location.child_ids" t-as="child">
+                        <div class="dw-row">
+                            <div class="dw-name">
+                                <a t-att-href="'/deltatech/warehouse_map/location/%d' % child.id"><t
+                                        t-esc="child.name"
+                                    /></a>
+                                <span class="dw-count">
+                                    <t t-set="maxp" t-value="child.max_products or 0" />
+                                    <t t-set="curr" t-value="child.current_products or 0" />
+                                    <t t-esc="'%s/%s' % (curr, maxp)" />
+                                </span>
+                            </div>
+                            <div class="dw-bar">
+                                <t t-if="child.child_ids">
+                                    <!-- Segmente egale pentru fiecare sub-locație (fără ponderare după capacitate) -->
+                                    <t t-foreach="child.child_ids" t-as="gc">
+                                        <t t-set="grat" t-value="(gc.occupancy_ratio or 0.0) * 100" />
+                                        <t
+                                            t-set="gclass"
+                                            t-value="'bg-success' if grat &lt; 60 else ('bg-warning' if grat &lt; 90 else 'bg-danger')"
+                                        />
+                                        <a
+                                            t-att-href="'/deltatech/warehouse_map/location/%d' % gc.id"
+                                            t-att-class="'dw-seg ' + gclass"
+                                            style="flex: 1 1 0%; border-top: 1px solid rgba(0,0,0,.1); border-bottom: 1px solid rgba(0,0,0,.1);"
+                                        >
+                                            <div class="dw-fill" t-att-class="gclass" />
+                                            <div class="dw-label">
+                                                <span><t t-esc="gc.name" /> <t
+                                                        t-esc="'(%s/%s)' % (gc.current_products or 0, gc.max_products or 0)"
+                                                    /></span>
+                                            </div>
+                                        </a>
+                                    </t>
+                                </t>
+                                <t t-if="not child.child_ids">
+                                    <t t-set="ratio" t-value="(child.occupancy_ratio or 0.0) * 100" />
+                                    <t
+                                        t-set="bar_class"
+                                        t-value="'bg-success' if ratio &lt; 60 else ('bg-warning' if ratio &lt; 90 else 'bg-danger')"
+                                    />
+                                    <div t-att-class="'dw-fill ' + bar_class" style="width:100%;" />
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+
+
+
+            </div>
+        </t>
+    </template>
+
+</odoo>
