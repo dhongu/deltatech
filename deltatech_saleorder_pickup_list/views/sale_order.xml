@@ -89,9 +89,18 @@
                             <th class="text-left" />
                             <th class="text-left">Description</th>
                             <th class="text-right">Quantity</th>
-                            <th class="text-center">Raft</th>
-                            <th class="text-center">Rând</th>
-                            <th class="text-center">Cutie</th>
+                            <th
+                                class="text-center"
+                                groups="deltatech_stock_inventory.group_show_manual_location_fields"
+                            >Raft</th>
+                            <th
+                                class="text-center"
+                                groups="deltatech_stock_inventory.group_show_manual_location_fields"
+                            >Rând</th>
+                            <th
+                                class="text-center"
+                                groups="deltatech_stock_inventory.group_show_manual_location_fields"
+                            >Cutie</th>
                         </tr>
                     </thead>
                     <tbody class="sale_tbody">
@@ -115,13 +124,22 @@
                                         <span t-field="line.product_uom_qty" />
                                         <span t-field="line.product_uom" groups="uom.group_uom" />
                                     </td>
-                                    <td class="text-center">
+                                    <td
+                                        class="text-center"
+                                        groups="deltatech_stock_inventory.group_show_manual_location_fields"
+                                    >
                                         <span t-field="line.product_id.loc_rack" />
                                     </td>
-                                    <td class="text-center">
+                                    <td
+                                        class="text-center"
+                                        groups="deltatech_stock_inventory.group_show_manual_location_fields"
+                                    >
                                         <span t-field="line.product_id.loc_row" />
                                     </td>
-                                    <td class="text-center">
+                                    <td
+                                        class="text-center"
+                                        groups="deltatech_stock_inventory.group_show_manual_location_fields"
+                                    >
                                         <span t-field="line.product_id.loc_case" />
                                     </td>
                                 </t>
