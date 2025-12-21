@@ -55,7 +55,7 @@ addon | version | maintainers | summary
 [deltatech_fast_sale](deltatech_fast_sale/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vanzare rapida
 [deltatech_fleet](deltatech_fleet/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Vehicle, route, map sheet
 [deltatech_fleet_geo](deltatech_fleet_geo/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Fleet Geographical Information
-[deltatech_followup](deltatech_followup/) | 17.0.0.0.9 |  | Simple invoice followup, with automatic e-mails
+[deltatech_followup](deltatech_followup/) | 17.0.0.1.2 |  | Simple invoice followup, with automatic e-mails
 [deltatech_generic_partner_restriction](deltatech_generic_partner_restriction/) | 17.0.2.0.0 | [![cojocariudaniel1](https://github.com/cojocariudaniel1.png?size=30px)](https://github.com/cojocariudaniel1) | Generic Partner restriction
 [deltatech_gln](deltatech_gln/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Partner Global Location Number
 [deltatech_invoice_color](deltatech_invoice_color/) | 17.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Colors Invoice Lines
@@ -126,6 +126,7 @@ addon | version | maintainers | summary
 [deltatech_purchase_add_extra_line](deltatech_purchase_add_extra_line/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Purchase Add Extra Line
 [deltatech_purchase_confirmation_reminder](deltatech_purchase_confirmation_reminder/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | This module will create an activity on the puchase order
 [deltatech_purchase_discount](deltatech_purchase_discount/) | 17.0.1.0.4 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Discount in purchase order line
+[deltatech_purchase_mail](deltatech_purchase_mail/) | 17.0.1.1.1 |  | Select multiple purchase orders and send an email with XLSX summary and attached PDFs
 [deltatech_purchase_phase](deltatech_purchase_phase/) | 17.0.1.2.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Purchase Order Stage
 [deltatech_purchase_picking_status](deltatech_purchase_picking_status/) | 17.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Get purchase status from pickings
 [deltatech_purchase_price](deltatech_purchase_price/) | 17.0.1.2.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Update vendor price after reception
@@ -134,6 +135,7 @@ addon | version | maintainers | summary
 [deltatech_purchase_stock](deltatech_purchase_stock/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Purchase Stock
 [deltatech_purchase_ubl](deltatech_purchase_ubl/) | 17.0.0.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Import UBL XML vendor invoices to update prices, validate receipts, and create vendor bills
 [deltatech_purchase_xls](deltatech_purchase_xls/) | 17.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Import/export purchase line from/to Excel
+[deltatech_putaway_strategy](deltatech_putaway_strategy/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Location capacities and enhanced putaway strategy for Inventory
 [deltatech_queue_job](deltatech_queue_job/) | 17.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Queue Job
 [deltatech_ral](deltatech_ral/) | 17.0.1.0.3 |  | RAL
 [deltatech_reccurent_task_activity](deltatech_reccurent_task_activity/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Will automatically create an activity at the creation of the recurring task
@@ -162,7 +164,7 @@ addon | version | maintainers | summary
 [deltatech_sale_multiple_website](deltatech_sale_multiple_website/) | 17.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Quantity multiple on website
 [deltatech_sale_pallet](deltatech_sale_pallet/) | 17.0.1.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale pallet
 [deltatech_sale_pallet_website](deltatech_sale_pallet_website/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale pallet
-[deltatech_sale_payment](deltatech_sale_payment/) | 17.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Payment button in sale order
+[deltatech_sale_payment](deltatech_sale_payment/) | 17.0.1.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Payment button in sale order
 [deltatech_sale_phone](deltatech_sale_phone/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show partner phone in sale order
 [deltatech_sale_picking_status](deltatech_sale_picking_status/) | 17.0.1.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Get sale order status from pickings
 [deltatech_sale_purchase](deltatech_sale_purchase/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Purchase
@@ -184,7 +186,7 @@ addon | version | maintainers | summary
 [deltatech_stock_count_zero](deltatech_stock_count_zero/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Will write 0 on the line of invetory ajustment when you reqest a count with empty so the difference will be counted instantly
 [deltatech_stock_date](deltatech_stock_date/) | 17.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Obsolete use l10n_ro_stock_account_date
 [deltatech_stock_delivery](deltatech_stock_delivery/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Adding button in invoice for display reception or delivery
-[deltatech_stock_inventory](deltatech_stock_inventory/) | 17.0.2.3.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Inventory Old Method
+[deltatech_stock_inventory](deltatech_stock_inventory/) | 17.0.2.4.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Inventory Old Method
 [deltatech_stock_inventory_product_display](deltatech_stock_inventory_product_display/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Adds product display button on sales and invoices to see the stock of the products in the order
 [deltatech_stock_negative](deltatech_stock_negative/) | 17.0.2.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Negative stocks are not allowed
 [deltatech_stock_report](deltatech_stock_report/) | 17.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report with positions from picking lists
@@ -197,6 +199,7 @@ addon | version | maintainers | summary
 [deltatech_warehouse](deltatech_warehouse/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Warehouse
 [deltatech_warehouse_access](deltatech_warehouse_access/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Warehouse Access
 [deltatech_warehouse_arrangement](deltatech_warehouse_arrangement/) | 17.0.0.1.1 |  | Manages warehouse locations, parallel to standard Odoo locations
+[deltatech_warehouse_map](deltatech_warehouse_map/) | 17.0.1.0.0 |  | Visual warehouse map: navigate locations by hierarchy (levels, lines, racks, shelves, cells)
 [deltatech_warranty](deltatech_warranty/) | 17.0.1.0.0 |  | Warranty field in product, report for sale order
 [deltatech_watermark](deltatech_watermark/) | 17.0.3.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Watermark field
 [deltatech_watermark_report](deltatech_watermark_report/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Watermark in report

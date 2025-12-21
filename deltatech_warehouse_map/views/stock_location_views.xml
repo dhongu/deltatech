@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Button in list (tree) view to open the map for the selected location -->
+    <record id="view_stock_location_tree_inherit_deltatech_map" model="ir.ui.view">
+        <field name="name">stock.location.tree.deltatech.map</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_tree2" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <button name="action_open_map" type="object" string="Map" class="btn btn-secondary btn-sm" />
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Smart button on form to open the map -->
+    <record id="view_stock_location_form_inherit_deltatech_map" model="ir.ui.view">
+        <field name="name">stock.location.form.deltatech.map</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_map" type="object" class="oe_stat_button" icon="fa-th" string="Open Map" />
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>
