@@ -10,7 +10,6 @@
     "data": [
         "views/templates.xml",
         "views/stock_location_views.xml",
-        "data/stock_location_data.xml",
     ],
     "development_status": "Beta",
 }

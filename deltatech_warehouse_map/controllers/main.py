@@ -53,8 +53,6 @@ class WarehouseMapController(http.Controller):
         if not location:
             return request.not_found()
 
-
-
         action = request.env["ir.actions.actions"].sudo()._for_xml_id("stock.location_open_quants")
         action["domain"] = [("location_id", "child_of", [location.id])]
         action["context"] = {"search_default_productgroup": 1}
