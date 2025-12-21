@@ -1,5 +1,4 @@
 from odoo import api, fields, models
-from odoo.tools.float_utils import float_compare
 
 
 class StockLocation(models.Model):
@@ -97,56 +96,6 @@ class StockLocation(models.Model):
             if (self.current_products + quantity) > self.max_products_leaf:
                 return False
 
-        # Repetăm verificările standard de categorie de stoc, în caz că modulul de bază
-        # le apelează din _check_can_be_used; aici doar păstrăm compatibilitatea.
-        if self.storage_category_id:
-            # Copiat minimal din standard pentru siguranță la pachete
-            forecast_weight = self.forecast_weight
-            if package:
-                package_smls = self.env["stock.move.line"].search(
-                    [
-                        ("package_id", "=", package.id),
-                        ("state", "not in", ("done", "cancel")),
-                        ("location_dest_id", "=", self.id),
-                    ]
-                )
-                if self.storage_category_id.max_weight < forecast_weight + sum(
-                    package_smls.mapped(lambda sml: sml.quantity_product_uom * sml.product_id.weight)
-                ):
-                    return False
-                package_capacity = self.storage_category_id.package_capacity_ids.filtered(
-                    lambda pc: pc.package_type_id == package.package_type_id
-                )
-                if package_capacity and location_qty >= package_capacity.quantity:
-                    return False
-            else:
-                if self.storage_category_id.max_weight < forecast_weight + product.weight * quantity:
-                    return False
-                product_capacity = self.storage_category_id.product_capacity_ids.filtered(
-                    lambda pc: pc.product_id == product
-                )
-                if product_capacity and location_qty >= product_capacity.quantity:
-                    return False
-                if product_capacity and quantity + location_qty > product_capacity.quantity:
-                    return False
-            positive_quant = self.quant_ids.filtered(
-                lambda q: float_compare(q.quantity, 0, precision_rounding=q.product_id.uom_id.rounding) > 0
-            )
-            if self.storage_category_id.allow_new_product == "empty" and positive_quant:
-                return False
-            if self.storage_category_id.allow_new_product == "same":
-                product = product or self._context.get("products")
-                if (positive_quant and positive_quant.product_id != product) or len(product) > 1:
-                    return False
-                if self.env["stock.move.line"].search_count(
-                    [
-                        ("product_id", "!=", product.id),
-                        ("state", "not in", ("done", "cancel")),
-                        ("location_dest_id", "=", self.id),
-                    ],
-                    limit=1,
-                ):
-                    return False
         return True
 
     def _get_putaway_strategy(self, product, quantity=0, package=None, packaging=None, additional_qty=None):
@@ -156,7 +105,7 @@ class StockLocation(models.Model):
         if putaway_location == self and putaway_location.child_ids:
             for child in self.child_ids:
                 putaway_location = child._get_putaway_strategy(product, quantity, package, packaging, additional_qty)
-                if putaway_location._check_can_be_used(product, quantity, package, packaging, additional_qty):
+                if putaway_location._check_can_be_used(product, quantity, package):
                     if not putaway_location.current_products:  # preferă locațiile goale
                         break
         return putaway_location
