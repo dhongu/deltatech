@@ -16,10 +16,11 @@ class StockLocation(models.Model):
         help="Maximum number of products allowed in this location (sum of children for non-leaf locations).",
     )
 
-    current_products = fields.Integer(
-        string="Current products",
+    current_products = fields.Float(
+        string="Current quantity",
         compute="_compute_warehouse_occupancy",
-        help="Current number of products. For leaves, computed from stock quants (distinct products with quantity > 0). For non-leaves, sum of children.",
+        help="Current quantity on hand. For leaves, computed as the sum of quantities from stock quants (quantity > 0). For non-leaves, sum of children.",
+        digits=(16, 2),
     )
 
     occupancy_ratio = fields.Float(
@@ -40,17 +41,18 @@ class StockLocation(models.Model):
             else:
                 # Leaf: capacity from manual field
                 max_products = int(loc.max_products_leaf or 0)
-                # Current products: count distinct products in quants with qty > 0 at this location
+                # Current quantity: sum of quantities in quants with qty > 0 at this location
                 domain = [("location_id", "=", loc.id), ("quantity", ">", 0)]
-                groups = Quant.read_group(domain, ["product_id"], ["product_id"])  # distinct products
-                current_products = len(groups)
+                # read_group sum quantity
+                res = Quant.read_group(domain, ["quantity:sum"], [])
+                current_products = (res and res[0].get("quantity")) or 0.0
 
             ratio = 0.0
             if max_products and max_products > 0:
                 ratio = min(1.0, max(0.0, (current_products or 0) / float(max_products)))
 
             loc.max_products = max_products
-            loc.current_products = current_products
+            loc.current_products = float(current_products or 0.0)
             loc.occupancy_ratio = ratio
 
     def action_open_map(self):
