@@ -6,13 +6,11 @@
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
     "category": "Inventory/Inventory",
-    "depends": ["stock", "web"],
+    "depends": ["stock", "web", "deltatech_putaway_strategy"],
     "data": [
-        "views/menu.xml",
         "views/templates.xml",
         "views/stock_location_views.xml",
         "data/stock_location_data.xml",
     ],
-    "assets": {},
-    "installable": True,
+    "development_status": "Beta",
 }

@@ -44,3 +44,20 @@ class WarehouseMapController(http.Controller):
                 "breakdown": breakdown,
             },
         )
+
+    @http.route("/deltatech/warehouse_map/location_open_quants/<int:loc_id>", type="http", auth="user")
+    def location_open_quants(self, loc_id, **kwargs):
+        # Afișare generică: pentru o locație selectată, afișează copiii pe linii,
+        # iar pentru fiecare copil afișează copiii lui pe o a doua linie (defalcare).
+        location = request.env["stock.location"].sudo().browse(loc_id).exists()
+        if not location:
+            return request.not_found()
+
+
+
+        action = request.env["ir.actions.actions"].sudo()._for_xml_id("stock.location_open_quants")
+        action["domain"] = [("location_id", "child_of", [location.id])]
+        action["context"] = {"search_default_productgroup": 1}
+        action["name"] = f"Current Stock in {location.display_name}"
+
+        return action
