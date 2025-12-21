@@ -1,180 +1,228 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="view_location_generic" name="Warehouse Map - Location">
+    <template id="location_recursive_node" name="Location Recursive Node">
+        <div t-attf-class="dw-node-unit depth-#{depth}">
+            <t t-set="ratio" t-value="(node.occupancy_ratio or 0.0) * 100" />
+            <t
+                t-set="st_class"
+                t-value="'st-success' if ratio &lt; 60 else ('st-warning' if ratio &lt; 90 else 'st-danger')"
+            />
+
+            <div
+                class="dw-box-header"
+                t-attf-title="Locație: #{node.display_name} &#10;Grad Ocupare: #{'%.1f' % ratio}% &#10;Stoc: #{node.current_products} / #{node.max_products or '∞'}"
+            >
+
+                <div class="dw-progress-bg" />
+                <div t-attf-class="dw-progress-fill {{ st_class }}" t-attf-style="width: {{ '%.0f' % ratio }}%;" />
+
+                <div class="dw-box-content">
+                    <span class="dw-node-stats">
+                        <a t-attf-href="/web#action=stock.location_open_quants&amp;active_id={{ node.id }}">
+                            <t t-esc="'%.0f' % ratio" />%
+                        </a>
+                    </span>
+
+                    <span class="dw-node-name">
+                        <a t-att-href="'/deltatech/warehouse_map/location/%d' % node.id">
+                            <t t-esc="node.name" />
+                        </a>
+                    </span>
+
+                    <span class="dw-node-qty">
+                         <t t-esc="node.current_products" />
+                    </span>
+                </div>
+            </div>
+
+            <t t-if="node.child_ids">
+                <div class="dw-box-children-row">
+                    <t t-foreach="node.child_ids" t-as="child">
+                        <t t-call="deltatech_warehouse_map.location_recursive_node">
+                            <t t-set="node" t-value="child" />
+                            <t t-set="depth" t-value="depth + 1" />
+                        </t>
+                    </t>
+                </div>
+            </t>
+        </div>
+    </template>
+
+    <template id="view_location_generic" name="Warehouse Map - Final Tri-Info">
         <t t-call="web.layout">
-            <t t-set="title">Warehouse Map - <t t-esc="location.name" /></t>
+            <t t-set="title">Harta Depozit - <t t-esc="location.name" /></t>
 
             <style>
-                .o_map_container { padding: 20px; background-color: #ffffff; min-height: 100vh; font-family: sans-serif; }
-                .dw-row { display: flex; align-items: center; gap: 16px; padding: 10px 0; border-bottom: 1px solid #eee; }
-
-                /* Panoul lateral stânga */
-                .dw-name-section { flex: 0 0 160px; min-width: 160px; }
-                .dw-location-link { font-weight: 700; color: #008784; text-decoration: none; font-size: 14px; display: block; }
-
-                /* Containerul principal al barei */
-                .dw-bar-container {
-                    flex: 1; height: 65px; background: #f0f2f5;
-                    border-radius: 4px; display: flex; overflow: hidden;
-                    border: 1px solid #ccc;
+                /* Layout General al Paginii */
+                .o_map_page {
+                    padding: 25px;
+                    background-color: #f8f9fa;
+                    min-height: 100vh;
+                    overflow-x: auto;
+                    font-family: 'Segoe UI', sans-serif;
                 }
 
-                /* Segmente egale */
-                .dw-seg {
-                    flex: 1 1 0%; position: relative; border-right: 1px solid rgba(0,0,0,0.1);
-                    text-decoration: none !important; transition: all 0.2s;
-                    border: 1px solid #ccc;
+                /* Header-ul de navigare Odoo-style */
+                .map-main-header {
+                    background: #fff;
+                    padding: 15px 25px;
+                    border-radius: 8px;
+                    margin-bottom: 25px;
+                    border-bottom: 3px solid #008784;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
                 }
-                .dw-seg:last-child { border-right: none; }
-                .dw-seg:hover { filter: brightness(0.9); z-index: 5; }
 
-                /* Fill-ul de progres */
-                .dw-fill-bg { position: absolute; inset: 0; opacity: 0.1; }
-                .dw-progress-indicator { position: absolute; left: 0; bottom: 0; top: 0; }
-
-                /* Eticheta cu 3 linii */
-                .dw-label {
-                    position: absolute; inset: 0; display: flex; flex-direction: column;
-                    align-items: center; justify-content: center; z-index: 5; pointer-events: none;
-                    gap: 1px;
+                /* Container unitate nod */
+                .dw-node-unit {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1 1 0%;
+                    min-width: 0;
                 }
-                .label-line {
-                    background: rgba(255,255,255,0.8); padding: 1px 5px; border-radius: 3px;
-                    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 90%;
-                }
-                .ln-name { font-size: 11px; font-weight: 800; color: #000; text-transform: uppercase; }
-                .ln-pct { font-size: 10px; font-weight: 700; color: #333; }
-                .ln-qty { font-size: 10px; font-weight: 600; color: #555; border: 1px solid rgba(0,0,0,0.1); }
 
-                /* Culori Status */
+                /* DREPTUNGHIUL DE SUS (Header locație) */
+                .dw-box-header {
+                    position: relative;
+                    height: 30px;
+                    border: 1px solid #adb5bd;
+                    background: #dee2e6;
+                    overflow: hidden;
+                    display: flex;
+                    align-items: center;
+                    transition: all 0.2s ease;
+                    z-index: 10;
+                    container-type: inline-size;
+                    cursor: pointer;
+                }
+
+                /* Efect de ridicare la Hover */
+                .dw-box-header:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    z-index: 100;
+                    border-color: #333;
+                }
+
+                /* Straturi Progress Bar */
+                .dw-progress-bg { position: absolute; inset: 0; background: #e9ecef; z-index: 1; }
+                .dw-progress-fill { position: absolute; left: 0; top: 0; bottom: 0; z-index: 2; transition: width 0.4s ease; }
+
+                /* Aranjare Text: Stânga-Centru-Dreapta */
+                .dw-box-content {
+                    position: absolute;
+                    inset: 0;
+                    z-index: 3;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 0 6px;
+                }
+
+                /* Stiluri elemente text (capsule albe transparente) */
+                .dw-node-name a, .dw-node-stats a, .dw-node-qty {
+                    font-weight: 800;
+                    color: #000 !important;
+                    font-size: 10px;
+                    background: rgba(255,255,255,0.7);
+                    padding: 1px 4px;
+                    border-radius: 2px;
+                    text-decoration: none;
+                    white-space: nowrap;
+                }
+
+                .dw-node-name {
+                    flex: 1 1 auto;
+                    text-align: center;
+                    overflow: hidden; /* Hide text if exceeds space */
+                    padding: 0 5px;
+                }
+
+                .dw-node-stats, .dw-node-qty { flex: 0 0 auto; z-index: 4; }
+                .dw-node-stats a { font-size: 9px; background: rgba(255,255,255,0.85); }
+                .dw-node-qty { font-size: 9px; font-weight: 900; }
+
+                /* LOGICĂ ASCUNDERE AUTOMATĂ (Container Queries) */
+                @container (max-width: 85px) { .dw-node-qty { display: none !important; } }
+                @container (max-width: 60px) { .dw-node-stats { display: none !important; } }
+                @container (max-width: 25px) { .dw-node-name { display: none !important; } }
+
+                /* Reafișare conținut la hover (pentru celule foarte mici) */
+                .dw-box-header:hover .dw-box-content {
+                    display: flex !important;
+                    background: rgba(255,255,255,0.2);
+                }
+                .dw-box-header:hover .dw-node-name,
+                .dw-box-header:hover .dw-node-stats,
+                .dw-box-header:hover .dw-node-qty { display: block !important; }
+
+                /* DREPTUNGHIUL DE JOS (Zona Copiilor) */
+                .dw-box-children-row {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: nowrap; /* Toți copiii pe un singur rând */
+                    gap: 2px;
+                    padding: 3px;
+                    background: #fff;
+                    border: 1px solid #adb5bd;
+                    border-top: none;
+                    flex: 1;
+                }
+
+                /* Culori Status Progres */
                 .st-success { background-color: #28a745 !important; }
                 .st-warning { background-color: #ffc107 !important; }
                 .st-danger { background-color: #dc3545 !important; }
 
-                /* Tabel Stoc Leaf */
-                .stock-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-                .stock-table th { background: #f8f9fa; padding: 8px; border-bottom: 2px solid #dee2e6; text-align: left; font-size: 12px; }
-                .stock-table td { padding: 8px; border-bottom: 1px solid #eee; font-size: 13px; }
+                /* Distanțare nivel 0 */
+                .depth-0 { margin-bottom: 30px; }
             </style>
 
-            <div class="o_map_container">
-                <div class="d-flex align-items-center mb-4 border-bottom pb-3">
-                    <t t-if="location and location.location_id">
+            <div class="o_map_page">
+                <div class="map-main-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="m-0 fw-bold"><t t-esc="location.display_name" /></h4>
+                        <small class="text-muted">Vizualizare ierarhică depozit</small>
+                    </div>
+                    <t t-if="location.location_id">
                         <a
                             t-att-href="'/deltatech/warehouse_map/location/%d' % location.location_id.id"
-                            class="btn btn-sm btn-secondary me-3 text-white"
-                        >← Înapoi</a>
+                            class="btn btn-sm btn-outline-secondary fw-bold"
+                        >← Înapoi la Părinte</a>
                     </t>
-                    <h2 class="m-0 h4 text-dark"><t t-esc="location.display_name" /></h2>
-                    <div class="ms-auto">
-                        <a
-                            href="#"
-                            class="btn btn-sm btn-outline-secondary"
-                            t-attf-onclick="if (window.opener) { window.close(); } else { window.location.href = '/web'; } return false;"
-                        >Închide</a>
-                    </div>
                 </div>
 
-                <t t-if="location.child_ids">
-                    <t t-foreach="location.child_ids" t-as="child">
-                        <div class="dw-row">
-                            <div class="dw-name-section">
-                                <a
-                                    class="dw-location-link"
-                                    t-att-href="'/deltatech/warehouse_map/location/%d' % child.id"
-                                >
-                                    <t t-esc="child.name" />
-                                </a>
-                                <small class="text-muted">Total: <t t-esc="child.current_products" /> / <t
-                                        t-esc="child.max_products or '∞'"
-                                    /></small>
-                            </div>
-
-                            <div class="dw-bar-container">
-                                <t t-if="child.child_ids">
-                                    <t t-foreach="child.child_ids" t-as="gc">
-                                        <t t-set="grat" t-value="(gc.occupancy_ratio or 0.0) * 100" />
-                                        <t
-                                            t-set="st_class"
-                                            t-value="'st-success' if grat &lt; 60 else ('st-warning' if grat &lt; 90 else 'st-danger')"
-                                        />
-
-                                        <a
-                                            t-attf-href="/web#action=stock.location_open_quants&amp;active_id={{ gc.id }}"
-                                            class="dw-seg"
-                                            t-att-title="gc.display_name"
-                                        >
-
-                                            <div t-attf-class="dw-fill-bg {{ st_class }}" />
-                                            <div
-                                                t-attf-class="dw-progress-indicator {{ st_class }}"
-                                                t-attf-style="width: {{ '%.0f' % grat }}%;"
-                                            />
-
-                                            <div class="dw-label">
-                                                <span class="label-line ln-name"><t t-esc="gc.name" /></span>
-                                                <span class="label-line ln-pct"><t t-esc="'%.0f' % grat" />%</span>
-                                                <span class="label-line ln-qty">
-                                                    <t t-esc="gc.current_products or 0" /> / <t
-                                                        t-esc="gc.max_products or '∞'"
-                                                    />
-                                                </span>
-                                            </div>
-                                        </a>
-                                    </t>
-                                </t>
-
-                                <t t-if="not child.child_ids">
-                                    <t t-set="grat" t-value="(child.occupancy_ratio or 0.0) * 100" />
-                                    <t
-                                        t-set="st_class"
-                                        t-value="'st-success' if grat &lt; 60 else ('st-warning' if grat &lt; 90 else 'st-danger')"
-                                    />
-                                    <div class="dw-seg" style="border:none;">
-                                        <div t-attf-class="dw-fill-bg {{ st_class }}" />
-                                        <div
-                                            t-attf-class="dw-progress-indicator {{ st_class }}"
-                                            t-attf-style="width: {{ '%.0f' % grat }}%;"
-                                        />
-                                        <div class="dw-label">
-                                            <span class="label-line ln-name"><t t-esc="child.name" /></span>
-                                            <span class="label-line ln-pct"><t t-esc="'%.0f' % grat" />%</span>
-                                            <span class="label-line ln-qty">
-                                                <t t-esc="child.current_products or 0" /> / <t
-                                                    t-esc="child.max_products or 0"
-                                                />
-                                            </span>
-                                        </div>
-                                    </div>
-                                </t>
-                            </div>
-                        </div>
+                <div class="d-flex flex-column">
+                    <t t-if="location.child_ids">
+                        <t t-foreach="location.child_ids" t-as="first_child">
+                            <t t-call="deltatech_warehouse_map.location_recursive_node">
+                                <t t-set="node" t-value="first_child" />
+                                <t t-set="depth" t-value="0" />
+                            </t>
+                        </t>
                     </t>
-                </t>
+                </div>
 
                 <t t-if="not location.child_ids">
-                    <div class="mt-4 border rounded p-3">
-                        <h6 class="text-uppercase fw-bold text-muted mb-3">Produse în această locație</h6>
-                        <table class="stock-table">
-                            <thead>
-                                <tr>
-                                    <th>Produs</th>
-                                    <th>Lot/Serial</th>
-                                    <th class="text-end">Cantitate</th>
-                                    <th class="text-end">Rezervat</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-foreach="quants" t-as="q">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-dark text-white fw-bold">Produse în această locație</div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-hover m-0">
+                                <thead class="table-light text-uppercase" style="font-size: 0.8rem;">
                                     <tr>
-                                        <td><strong><t t-esc="q.product_id.display_name" /></strong></td>
-                                        <td><t t-esc="q.lot_id.name or '-'" /></td>
-                                        <td class="text-end text-success fw-bold"><t t-esc="q.quantity" /></td>
-                                        <td class="text-end text-muted"><t t-esc="q.reserved_quantity" /></td>
+                                        <th class="ps-3">Referință / Produs</th>
+                                        <th class="text-end pe-3">Cantitate Disponibilă</th>
                                     </tr>
-                                </t>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="quants" t-as="q">
+                                        <tr>
+                                            <td class="ps-3"><t t-esc="q.product_id.display_name" /></td>
+                                            <td class="text-end pe-3 fw-bold text-primary"><t t-esc="q.quantity" /></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </t>
             </div>
