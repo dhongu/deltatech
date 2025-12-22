@@ -101,11 +101,35 @@ class StockLocation(models.Model):
     def _get_putaway_strategy(self, product, quantity=0, package=None, packaging=None, additional_qty=None):
         putaway_location = super()._get_putaway_strategy(product, quantity, package, packaging, additional_qty)
 
-        # Dacă a ales locația curentă care are copii, încercăm să coborâm pe copii
-        if putaway_location == self and putaway_location.child_ids:
-            for child in self.child_ids:
-                putaway_location = child._get_putaway_strategy(product, quantity, package, packaging, additional_qty)
-                if putaway_location._check_can_be_used(product, quantity, package):
-                    if not putaway_location.current_products:  # preferă locațiile goale
-                        break
+        if putaway_location == self and self.child_ids:
+            quants = self.env["stock.quant"].search(
+                [
+                    ("product_id", "=", product.id),
+                    ("location_id", "child_of", self.id),
+                    ("location_id.usage", "=", "internal"),
+                    ("quantity", ">", 0),
+                ]
+            )
+
+            for quant in quants.sorted(key=lambda q: q.location_id.complete_name):
+                candidate = quant.location_id
+                if candidate._check_can_be_used(product, quantity, package):
+                    return candidate
+
+            leaf_locations = self.env["stock.location"].search(
+                [
+                    ("id", "child_of", self.id),
+                    ("child_ids", "=", False),  # Esențial: găsește doar capătul ierarhiei
+                    ("usage", "=", "internal"),
+                    ("id", "!=", self.id),  # Excludem nodul curent
+                ],
+                order="complete_name asc",
+            )
+
+            for leaf in leaf_locations:
+                if leaf._check_can_be_used(product, quantity, package):
+                    if not leaf.quant_ids.filtered(lambda q: q.quantity > 0):
+                        return leaf
+                    putaway_location = leaf
+                    break
         return putaway_location
