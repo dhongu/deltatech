@@ -23,7 +23,7 @@
                         <field name="operation_ids">
                             <list editable="bottom">
                                 <field name="operation_id" />
-                                <field name="duration" widget="float_time"/>
+                                <field name="duration" widget="float_time" />
                             </list>
                         </field>
                     </page>
