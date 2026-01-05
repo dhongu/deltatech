@@ -10,9 +10,6 @@
             <xpath expr="//sheet//group" position="inside">
                 <group string="Capacity">
                     <field name="max_products_leaf" />
-                    <field name="max_products" readonly="1" />
-                    <field name="current_products" readonly="1" />
-                    <field name="occupancy_ratio" readonly="1" />
                 </group>
             </xpath>
 
