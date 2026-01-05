@@ -33,7 +33,7 @@ addon | version | maintainers | summary
 [deltatech_average_payment_period](deltatech_average_payment_period/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Computes average duration of cash accounting
 [deltatech_backup_attachment](deltatech_backup_attachment/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Backup attachments for selected file type
 [deltatech_batch_transfer](deltatech_batch_transfer/) | 18.0.0.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Batch transfer improvements
-[deltatech_business_process](deltatech_business_process/) | 18.0.1.4.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Business process
+[deltatech_business_process](deltatech_business_process/) | 18.0.1.4.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Business process
 [deltatech_business_process_documentation](deltatech_business_process_documentation/) | 18.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Business process documentation
 [deltatech_business_process_handover_document](deltatech_business_process_handover_document/) | 18.0.0.0.2 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Business process handover document
 [deltatech_card_payment](deltatech_card_payment/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Payment Method Card
@@ -73,7 +73,7 @@ addon | version | maintainers | summary
 [deltatech_logistic_docs](deltatech_logistic_docs/) | 18.0.1.0.3 |  | Logistic Documents
 [deltatech_lot](deltatech_lot/) | 18.0.1.0.3 |  | Generate/Select lot
 [deltatech_mail](deltatech_mail/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Mail Substitution
-[deltatech_maintenance](deltatech_maintenance/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Maintenance Extension
+[deltatech_maintenance](deltatech_maintenance/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Maintenance Extension
 [deltatech_move_negative_stock](deltatech_move_negative_stock/) | 18.0.1.1.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Replenish negative stock from other location
 [deltatech_mrp](deltatech_mrp/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Extension
 [deltatech_mrp_bom](deltatech_mrp_bom/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Bom
@@ -84,7 +84,7 @@ addon | version | maintainers | summary
 [deltatech_mrp_simple_barcode](deltatech_mrp_simple_barcode/) | 18.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Simple production
 [deltatech_mrp_validation_date](deltatech_mrp_validation_date/) | 18.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Validation date on production order
 [deltatech_no_quick_create](deltatech_no_quick_create/) | 18.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Disable quick_create
-[deltatech_notification_sound](deltatech_notification_sound/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Notification Sound
+[deltatech_notification_sound](deltatech_notification_sound/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Notification Sound
 [deltatech_packaging](deltatech_packaging/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Packaging
 [deltatech_partner_discount](deltatech_partner_discount/) | 18.0.1.0.0 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Creates a discount field on partner and alerts the user on invoice
 [deltatech_partner_generic](deltatech_partner_generic/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Gneric partner
@@ -210,6 +210,7 @@ addon | version | maintainers | summary
 [deltatech_website_delivery_address](deltatech_website_delivery_address/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Default delivery address
 [deltatech_website_delivery_and_payment](deltatech_website_delivery_and_payment/) | 18.0.2.1.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Delivery and Payment constrains
 [deltatech_website_disable_fuzzy_search](deltatech_website_disable_fuzzy_search/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Disable Fuzzy Search
+[deltatech_website_fixed_price](deltatech_website_fixed_price/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Display the cut off price for fixed pricelist rule if the price is lower than the list price
 [deltatech_website_phone_validation](deltatech_website_phone_validation/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Phone Validation
 [deltatech_website_price_without_tax](deltatech_website_price_without_tax/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Display Product Price Without Tax
 [deltatech_website_product_code](deltatech_website_product_code/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Display product by code in eCommerce
