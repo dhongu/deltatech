@@ -101,7 +101,8 @@ class StockLocation(models.Model):
 
     def _get_putaway_strategy(self, product, quantity=0, package=None, packaging=None, additional_qty=None):
         putaway_location = super()._get_putaway_strategy(product, quantity, package, packaging, additional_qty)
-
+        if self.env.context.get("putaway_location_standard"):
+            return putaway_location
         if putaway_location == self and self.child_ids:
             quants = self.env["stock.quant"].search(
                 [
