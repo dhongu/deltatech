@@ -27,6 +27,7 @@ class StockLocation(models.Model):
             "from stock quants (quantity > 0). For non-leaves, sum of children."
         ),
         digits=(16, 2),
+        recursive=True,
     )
 
     occupancy_ratio = fields.Float(
