@@ -1,8 +1,9 @@
 # ©  2008-2022  Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models
 from markupsafe import Markup
+
+from odoo import api, fields, models
 
 
 class StockPicking(models.Model):
@@ -23,9 +24,7 @@ class StockPicking(models.Model):
                     f"{picking.display_name}</a>"
                 )
                 picking.request_id.message_post(
-                    body=Markup(
-                        f"Created stock picking {link} for this maintenance request."
-                    ),
+                    body=Markup(f"Created stock picking {link} for this maintenance request."),
                     message_type="comment",
                     subtype_xmlid="mail.mt_note",
                 )

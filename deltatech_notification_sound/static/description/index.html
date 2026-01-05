@@ -370,9 +370,76 @@ ul.auto-toc {
 !! source digest: sha256:341eb0716a000d347b84fd29b417ad704e3a9a2bfb5e2eee9f09cbba293ca89d
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/licence-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_notification_sound"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<p>Overview: Adds audible feedback to Odoo backend notifications so
+operators are alerted instantly without watching the screen.</p>
 <p>Features:</p>
 <ul class="simple">
-<li>adding sounds when you get errors to notify the operator</li>
+<li>Plays different sounds depending on notification type:<ul>
+<li>Success → notify.wav</li>
+<li>Warning → exclamation.wav</li>
+<li>Error (danger) → error.wav</li>
+<li>Info → bell.wav</li>
+</ul>
+</li>
+<li>Seamless integration with the backend (no extra UI); patches the OWL
+component <tt class="docutils literal">web.NotificationWowl</tt>.</li>
+<li>Assets are loaded via <tt class="docutils literal">web.assets_backend</tt> (JS + XML + sounds).</li>
+<li>Per‑user toggle in Preferences: each user can enable/disable
+notification sounds from their profile.</li>
+</ul>
+<p>How it works (technical):</p>
+<ul class="simple">
+<li>Frontend logic is handled in JS
+(<tt class="docutils literal">static/src/js/notification_sound.js</tt>) by patching the Notification
+OWL component and using OWL hooks (<tt class="docutils literal">onMounted</tt>,
+<tt class="docutils literal">onWillUpdateProps</tt>) to play a sound when a notification
+appears/updates.</li>
+<li>The module reads the user preference via the Odoo RPC service:<ul>
+<li><tt class="docutils literal">const result = await <span class="pre">rpc(&quot;/web/session/get_session_info&quot;);</span></tt></li>
+<li>The module caches the boolean
+<tt class="docutils literal">result.user_context.notification_sound_enabled</tt> so only one RPC
+is performed per page load.</li>
+</ul>
+</li>
+<li>Backend exposes the preference through:<ul>
+<li>new field <tt class="docutils literal">res.users.notification_sound_enabled</tt> (default True)</li>
+<li><tt class="docutils literal">ir.http.session_info()</tt> enriched to include the flag in
+<tt class="docutils literal">user_context</tt>.</li>
+</ul>
+</li>
+<li>Sound files live under <tt class="docutils literal">static/src/sounds/</tt> and can be replaced if
+desired.</li>
+</ul>
+<p>Installation &amp; Usage:</p>
+<ol class="arabic simple">
+<li>Install the module like any other addon.</li>
+<li>Use Odoo normally; when a backend notification pops
+(success/warning/error/info), a short sound plays automatically.</li>
+<li>To disable sounds for your account, open Settings → Users → Your user
+→ Preferences and uncheck “Enable notification sounds”. Reload the
+page to refresh the session preference.</li>
+</ol>
+<p>Compatibility:</p>
+<ul class="simple">
+<li>Odoo 18 (web backend).</li>
+<li>Modern desktop browsers. Note: Browser auto‑play policies may require
+at least one prior user interaction with the page before sounds can
+play.</li>
+</ul>
+<p>Troubleshooting / Notes:</p>
+<ul class="simple">
+<li>If your browser blocks auto‑play, the first notification may be silent
+until you interact (click/keypress) on the page.</li>
+<li>After changing the preference, reload the page so the cached value and
+session info are refreshed.</li>
+<li>Mobile browsers may mute auto‑played audio by default.</li>
+</ul>
+<p>Credits:</p>
+<ul class="simple">
+<li>Author: Terrabit, Dorin Hongu</li>
+<li>Maintainer: dhongu</li>
+<li>License: LGPL‑3</li>
+<li>Website: <a class="reference external" href="https://www.terrabit.ro">https://www.terrabit.ro</a></li>
 </ul>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
