@@ -17,6 +17,7 @@ class StockLocation(models.Model):
         string="Max products",
         compute="_compute_warehouse_occupancy",
         help="Maximum number of products allowed in this location (sum of children for non-leaf locations).",
+        recursive=True,
     )
 
     current_products = fields.Float(
@@ -35,6 +36,7 @@ class StockLocation(models.Model):
         compute="_compute_warehouse_occupancy",
         help="Occupancy ratio = current/max. 0 when max is 0.",
         digits=(16, 4),
+        recursive=True,
     )
 
     @api.depends(
