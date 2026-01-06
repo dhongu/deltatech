@@ -91,6 +91,9 @@ class StockLocation(models.Model):
 
     def _check_can_be_used(self, product, quantity=0, package=None, location_qty=0):
         can_be_used = super()._check_can_be_used(product, quantity, package, location_qty)
+        if self.env.context.get("putaway_location_standard"):
+            return can_be_used
+
         if not can_be_used:
             return False
 
