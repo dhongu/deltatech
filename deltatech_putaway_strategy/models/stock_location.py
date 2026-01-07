@@ -64,11 +64,10 @@ class StockLocation(models.Model):
         if leaves:
             sums = Quant._read_group(
                 [("location_id", "in", leaves.ids), ("quantity", ">", 0)],
-                ["quantity:sum"],
                 ["location_id"],
-                lazy=False,
+                ["quantity:sum"],
             )
-            qty_by_loc = {rec["location_id"][0]: rec.get("quantity", 0.0) for rec in sums}
+            qty_by_loc = {location.id: qty for location, qty in sums}
 
         for leaf in leaves:
             max_p = int(leaf.max_products_leaf or 0)
