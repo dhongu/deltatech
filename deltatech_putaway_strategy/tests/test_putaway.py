@@ -38,7 +38,7 @@ class TestPutawayStrategy(TransactionCase):
         self.product = self.Product.create(
             {
                 "name": "Test Product",
-                "type": "product",
+                "is_storable": True,
             }
         )
 
