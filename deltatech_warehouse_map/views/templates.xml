@@ -30,7 +30,9 @@
                     </span>
 
                     <span class="dw-node-qty">
-                         <t t-esc="node.current_products" />
+                        <a t-attf-href="/web#action=stock.location_open_quants&amp;active_id={{ node.id }}">
+                            <t t-esc="node.current_products" />
+                        </a>
                     </span>
                 </div>
             </div>
@@ -50,7 +52,7 @@
 
     <template id="view_location_generic" name="Warehouse Map - Final Tri-Info">
         <t t-call="web.layout">
-            <t t-set="title">Harta Depozit - <t t-esc="location.name" /></t>
+            <t t-set="title">Hartă Depozit - <t t-esc="location.name" /></t>
 
             <style>
                 /* Layout General al Paginii */
@@ -174,7 +176,8 @@
                 .st-danger { background-color: #dc3545 !important; }
 
                 /* Distanțare nivel 0 */
-                .depth-0 { margin-bottom: 30px; }
+                .depth-0 { margin-bottom: 5px; }
+                .gap-3 { gap: 1rem !important; }
             </style>
 
             <div class="o_map_page">
@@ -191,7 +194,7 @@
                     </t>
                 </div>
 
-                <div class="d-flex flex-column">
+                <div class="d-flex flex-column gap-3">
                     <t t-if="location.child_ids">
                         <t t-foreach="location.child_ids" t-as="first_child">
                             <t t-call="deltatech_warehouse_map.location_recursive_node">
