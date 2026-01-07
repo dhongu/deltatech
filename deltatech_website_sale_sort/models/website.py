@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import _, models
+from odoo import models
 
 _logger = logging.getLogger(__name__)
 
@@ -16,11 +16,11 @@ class Website(models.Model):
         sort_mapping = super()._get_product_sort_mapping()
 
         sort_mapping += [
-            ("sales_count2 desc", _("Best sellers")),
-            ("visit_count desc", _("Most Visited")),
-            ("rating_count2 desc", _("Reviews")),
-            ("rating_avg2 desc", _("Best Review")),
-            ("in_stock desc", _("Availability")),
+            ("sales_count2 desc", self.env._("Best sellers")),
+            ("visit_count desc", self.env._("Most Visited")),
+            ("rating_count2 desc", self.env._("Reviews")),
+            ("rating_avg2 desc", self.env._("Best Review")),
+            ("in_stock desc", self.env._("Availability")),
         ]
 
         return sort_mapping
