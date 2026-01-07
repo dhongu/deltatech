@@ -62,7 +62,7 @@ class StockLocation(models.Model):
 
         qty_by_loc = {}
         if leaves:
-            sums = Quant.read_group(
+            sums = Quant._read_group(
                 [("location_id", "in", leaves.ids), ("quantity", ">", 0)],
                 ["quantity:sum"],
                 ["location_id"],
