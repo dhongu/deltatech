@@ -38,7 +38,14 @@ class TestPutawayStrategy(TransactionCase):
         self.product = self.Product.create(
             {
                 "name": "Test Product",
-                "type": "product",
+                "is_storable": True,
+            }
+        )
+        # Creează un produs simplu
+        self.product2 = self.Product.create(
+            {
+                "name": "Test Product2",
+                "is_storable": True,
             }
         )
 
@@ -61,6 +68,9 @@ class TestPutawayStrategy(TransactionCase):
         self.assertFalse(self.loc2._check_can_be_used(self.product, quantity=4))
 
     def test_get_putaway_prefers_empty_child(self):
-        # Putaway pe părinte cu qty 1 ar trebui să aleagă L1 (goală) înaintea lui L2 (ocupată)
+        # Trebuie sa determina locatia in care deja exista acest produs
         dest = self.parent_loc._get_putaway_strategy(self.product, quantity=1)
+        self.assertEqual(dest.id, self.loc2.id)
+        # Putaway pe părinte cu qty 1 ar trebui să aleagă L1 (goală) înaintea lui L2 (ocupată)
+        dest = self.parent_loc._get_putaway_strategy(self.product2, quantity=1)
         self.assertEqual(dest.id, self.loc1.id)

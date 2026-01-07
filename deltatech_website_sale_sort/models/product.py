@@ -31,15 +31,15 @@ class ProductTemplate(models.Model):
             ("res_id", "in", self.ids),
             ("consumed", "=", True),
         ]
-        read_group_res = self.env["rating.rating"].read_group(
-            domain, ["rating:avg"], groupby=["res_id"], lazy=False
+        read_group_res = self.env["rating.rating"]._read_group(
+            domain, ["res_id"], ["rating:avg"]
         )  # force average on rating column
         mapping = {
-            item["res_id"]: {
-                "rating_count": item["__count"],
-                "rating_avg": item["rating"],
+            res_id.id: {
+                "rating_count": count,
+                "rating_avg": rating,
             }
-            for item in read_group_res
+            for res_id, count, rating in read_group_res
         }
 
         for record in self:
@@ -81,20 +81,19 @@ class ProductProduct(models.Model):
             ("date", ">=", date_from),
         ]
 
-        results = self.env["sale.report"].read_group(domain, ["product_id", "product_uom_qty"], ["product_id"])
+        results = self.env["sale.report"]._read_group(domain, ["product_id"], ["product_uom_qty:sum"])
 
-        sale_mapping = {item["product_id"]: {"sales_count": item["product_uom_qty"]} for item in results}
+        sale_mapping = {product.id: sales_count for product, sales_count in results}
 
-        results = self.env["website.track"].read_group(
+        results = self.env["website.track"]._read_group(
             domain=[("product_id", "!=", False)],
-            fields=["product_id", "id:count_distinct"],
             groupby=["product_id"],
-            lazy=False,
+            aggregates=["__count"],
         )
-        visit_mapping = {item["product_id"]: {"visit_count": item["__count"]} for item in results}
+        visit_mapping = {product.id: visit_count for product, visit_count in results}
 
         for product in self:
-            visit_count = visit_mapping.get(product.id, {}).get("visit_count", 0)
+            visit_count = visit_mapping.get(product.id, 0)
             sales_count2 = float_round(
                 sale_mapping.get(product.id, 0),
                 precision_rounding=product.uom_id.rounding,
