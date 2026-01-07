@@ -11,7 +11,7 @@ class WarehouseMapController(http.Controller):
             "deltatech_warehouse_map.view_location_generic",
             {
                 "location": stock,
-                "children": stock and stock.child_ids.sorted(key=lambda l: l.name) or [],
+                "children": stock.child_ids if stock else [],
             },
         )
 
@@ -23,25 +23,22 @@ class WarehouseMapController(http.Controller):
         if not location:
             return request.not_found()
 
-        children = request.env["stock.location"].sudo().search([("location_id", "=", location.id)], order="name")
+        # Pre-fetch children
+        children = request.env["stock.location"].sudo().search([("location_id", "=", location.id)])
 
-        # Preluăm pentru fiecare copil lista de nepoți (următorul nivel)
-        # folosim IDs ca chei pentru robusteză în template (dict lookups)
-        breakdown = []  # list of tuples (child_id, grandchildren)
-        if children:
-            grandchildren_by_parent = {
-                child.id: request.env["stock.location"].sudo().search([("location_id", "=", child.id)], order="name")
-                for child in children
-            }
-            empty_rs = request.env["stock.location"].sudo()
-            breakdown = [(child.id, grandchildren_by_parent.get(child.id, empty_rs)) for child in children]
+        quants = request.env["stock.quant"].sudo()
+        if not children:
+            quants = request.env["stock.quant"].sudo().search([("location_id", "=", location.id), ("quantity", ">", 0)])
+        else:
+            # Pre-fetch fields to avoid multiple queries in template
+            children.read(["name", "display_name", "current_products", "max_products", "occupancy_ratio", "child_ids"])
 
         return request.render(
             "deltatech_warehouse_map.view_location_generic",
             {
                 "location": location,
                 "children": children,
-                "breakdown": breakdown,
+                "quants": quants,
             },
         )
 
