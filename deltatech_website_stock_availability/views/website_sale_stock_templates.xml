@@ -4,7 +4,7 @@
 
     <template
         id="website_sale_stock_product"
-        inherit_id="website_sale.product"
+        inherit_id="website_sale.cta_wrapper_boxed"
         priority="4"
         active="True"
         customize_show="True"
@@ -18,7 +18,7 @@
 
      <template
         id="website_sale_stock_product_lead_time"
-        inherit_id="website_sale.product"
+        inherit_id="website_sale.cta_wrapper_boxed"
         priority="5"
         active="True"
         customize_show="True"
