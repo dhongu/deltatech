@@ -32,7 +32,7 @@ class ProductTemplate(models.Model):
         combination_info["lead_time"] = 0
         if combination_info["product_id"]:
             product = self.env["product.product"].sudo().browse(combination_info["product_id"])
-            company_lead_time = self.env.company.po_lead
+            company_lead_time = 0
             supplier_lead_time = product.seller_ids and product.seller_ids[0].delay or 0
             availability_vendor = product.seller_ids and product.seller_ids[0].qty_available or 0
 

@@ -5,6 +5,8 @@
 
 from odoo.tests.common import TransactionCase
 
+from odoo.addons.website_sale.tests.common import MockRequest
+
 
 class TestProduct(TransactionCase):
     def setUp(self):
@@ -73,6 +75,8 @@ class TestProduct(TransactionCase):
     #     product = self.product_c
     #     self.assertIsNotNone(product.availability_text)
 
-    # def test_get_combination_info(self):
-    #     product = self.product_b.product_tmpl_id.with_context(website_sale_stock_get_quantity=True)
-    #     product._get_combination_info(product_id=self.product_b.id)
+    def test_get_combination_info(self):
+        website = self.env["website"].create({"name": "Test Website"})
+        with MockRequest(self.env, website=website):
+            product = self.product_b.product_tmpl_id.with_context(website_sale_stock_get_quantity=True)
+            product._get_combination_info(product_id=self.product_b.id)
