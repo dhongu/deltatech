@@ -5,7 +5,7 @@
 {
     "name": "Stock Account Extension",
     "summary": "Stock Account Extension",
-    "version": "18.0.1.0.5",
+    "version": "19.0.1.0.5",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
