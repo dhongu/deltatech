@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding='UTF-8' ?>
+<odoo>
+    <record id="view_move_form_expiry" model="ir.ui.view">
+        <field name="name">stock.production.lot.form</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="product_expiry.view_move_form_expiry" />
+        <field name="arch" type="xml">
+            <field name="expiration_date" position="before">
+                <field name="production_date" />
+            </field>
+        </field>
+    </record>
+</odoo>
