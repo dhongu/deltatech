@@ -3,8 +3,7 @@
 
     <record id="group_change_product_price" model="res.groups">
         <field name="name">Change Product Price</field>
-        <field name="category_id" ref="base.module_category_hidden" />
-        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
+        <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
     </record>
 
 </odoo>
