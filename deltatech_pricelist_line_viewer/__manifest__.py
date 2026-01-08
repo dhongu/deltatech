@@ -1,6 +1,6 @@
 {
     "name": "Price List Line Viewer",
-    "version": "18.0.0.0.2",
+    "version": "19.0.0.0.2",
     "author": "Voicu Stefan, Terrabit",
     "website": "https://www.terrabit.ro",
     "summary": "Creates a list view for the lines of a price list for search and management",
