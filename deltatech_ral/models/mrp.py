@@ -16,10 +16,13 @@ class MrpProduction(models.Model):
 
     @api.onchange("product_id")
     def _onchange_product_id(self):
-        res = super()._onchange_product_id()
+        if hasattr(super(), "_onchange_product_id"):
+            res = super()._onchange_product_id()
+        else:
+            res = False
         # determinare produs RAL in functie de atributul culoare pe care il are produsul selectat
 
-        attribute_values_ids = self.product_id.product_template_variant_value_ids.mapped("product_attribute_value_id")
+        attribute_values_ids = self.product_id.product_template_attribute_value_ids.mapped("product_attribute_value_id")
 
         if attribute_values_ids:
             color = attribute_values_ids.filtered(lambda x: x.attribute_id.display_type == "color")
@@ -39,8 +42,9 @@ class MrpProduction(models.Model):
 
     def action_generate_serial(self):
         res = super().action_generate_serial()
-        if self.lot_producing_id and self.ral_id:
-            self.lot_producing_id.write({"ral_id": self.ral_id.id})
+        if self.ral_id:
+            for lot in self.lot_producing_ids:
+                lot.write({"ral_id": self.ral_id.id})
         return res
 
     @api.onchange("ral_id")

@@ -1,3 +1,4 @@
+from odoo import Command
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
@@ -96,12 +97,11 @@ class TestRal(TransactionCase):
                 "product_qty": 1.0,
             }
         )
-        # Simulăm generarea de serial (action_generate_serial de obicei face mai multe, dar aici verificăm logica din override)
-        # Odoo 17+ foloseste lot_producing_id
+        # Simulăm generarea de serial
         lot = self.env["stock.lot"].create(
             {"name": "LOT001", "product_id": self.product_finished_variant.id, "company_id": self.env.company.id}
         )
-        production.lot_producing_id = lot
+        production.lot_producing_ids = [Command.link(lot.id)]
         production.action_generate_serial()
 
         self.assertEqual(lot.ral_id.id, self.product_ral_red.id, "RAL ar fi trebuit propagat către lot")
