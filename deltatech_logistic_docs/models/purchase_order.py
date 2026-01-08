@@ -13,10 +13,19 @@ class PurchaseOrder(models.Model):
 
     def get_attachment_domain(self):
         domain = [("res_model", "=", "purchase.order"), ("res_id", "=", self.id)]
-        if self.picking_ids:
+
+        # In unele instalații, legătura dintre PO și picking poate fi prin câmpul purchase_id
+        # (nu doar prin picking_ids). Pentru robustețe, agregăm ambele surse.
+        pickings = self.picking_ids
+        # include explicit toate pickings legate prin purchase_id
+        extra_pickings = self.env["stock.picking"].search([("purchase_id", "=", self.id)])
+        if extra_pickings:
+            pickings |= extra_pickings
+
+        if pickings:
             subdomains = [
                 ("res_model", "=", "stock.picking"),
-                ("res_id", "in", self.picking_ids.ids),
+                ("res_id", "in", pickings.ids),
             ]
             domain = Domain.OR([subdomains, domain])
         if self.invoice_ids:
