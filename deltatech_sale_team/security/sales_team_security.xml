@@ -13,31 +13,31 @@
             <field name="name">Sales Team Invoices</field>
             <field ref="account.model_account_move" name="model_id" />
             <field name="domain_force">['|', ('team_id', '=', user.sale_team_id.id), ('team_id', '=', False)]</field>
-            <field name="group_ids" eval="[(4, ref('group_sale_team_manager'))]" />
+            <field name="groups" eval="[(4, ref('group_sale_team_manager'))]" />
         </record>
         <record id="account_invoice_personal_rule" model="ir.rule">
             <field name="name">Personal Invoices</field>
             <field ref="account.model_account_move" name="model_id" />
             <field name="domain_force">['|',('user_id','=',user.id),('user_id','=',False)]</field>
-            <field name="group_ids" eval="[(4, ref('sales_team.group_sale_salesman'))]" />
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]" />
         </record>
         <record id="account_invoice_see_all" model="ir.rule">
             <field name="name">All Invoices</field>
             <field ref="account.model_account_move" name="model_id" />
             <field name="domain_force">[(1,'=',1)]</field>
-            <field name="group_ids" eval="[(4, ref('sales_team.group_sale_salesman_all_leads'))]" />
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman_all_leads'))]" />
         </record>
         <record id="sale_order_team_rule" model="ir.rule">
             <field name="name">Sales Team Orders</field>
             <field ref="sale.model_sale_order" name="model_id" />
             <field name="domain_force">['|', ('team_id', '=', user.sale_team_id.id), ('team_id', '=', False)]</field>
-            <field name="group_ids" eval="[(4, ref('group_sale_team_manager'))]" />
+            <field name="groups" eval="[(4, ref('group_sale_team_manager'))]" />
         </record>
         <record id="sale_order_report_team_rule" model="ir.rule">
             <field name="name">Sales Team Orders Analysis</field>
             <field ref="sale.model_sale_report" name="model_id" />
             <field name="domain_force">['|', ('team_id', '=', user.sale_team_id.id), ('team_id', '=', False)]</field>
-            <field name="group_ids" eval="[(4, ref('group_sale_team_manager'))]" />
+            <field name="groups" eval="[(4, ref('group_sale_team_manager'))]" />
         </record>
         <record id="sale_order_line_team_rule" model="ir.rule">
             <field name="name">Sales Team Order Lines</field>
@@ -45,7 +45,7 @@
             <field name="domain_force">
                 ['|', ('order_id.team_id', '=', user.sale_team_id.id), ('order_id.team_id', '=', False)]
             </field>
-            <field name="group_ids" eval="[(4, ref('group_sale_team_manager'))]" />
+            <field name="groups" eval="[(4, ref('group_sale_team_manager'))]" />
         </record>
 <!--        <record id="res_partner_team_rule" model="ir.rule">
             <field name="name">Sales Team Partners</field>
@@ -79,7 +79,7 @@
             <field name="name">Own Sales Teams</field>
             <field ref="sales_team.model_crm_team" name="model_id" />
             <field name="domain_force">[('id', '=', user.sale_team_id.id)]</field>
-            <field name="group_ids" eval="[(4, ref('group_sale_team_manager'))]" />
+            <field name="groups" eval="[(4, ref('group_sale_team_manager'))]" />
         </record>
         <record id="res_partner_personal_rule" model="ir.rule">
             <field name="name">Personal Partners</field>
@@ -88,13 +88,13 @@
                 ['|', ('message_follower_ids', 'in', user.partner_id.ids), '|', ('id', '=', user.partner_id.id), '|',
                 ('user_id', '=', user.id), ('user_id', '=', False)]
             </field>
-            <field name="group_ids" eval="[(4, ref('sales_team.group_sale_salesman'))]" />
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]" />
         </record>
         <record id="res_partner_manager_rule" model="ir.rule">
             <field name="name">All Public Partners</field>
             <field ref="sale.model_res_partner" name="model_id" />
             <field name="domain_force">['|', ('type', '!=', 'private'), ('type', '=', False)]</field>
-            <field name="group_ids" eval="[(4, ref('sales_team.group_sale_manager'))]" />
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_manager'))]" />
         </record>
     </data>
 </odoo>
