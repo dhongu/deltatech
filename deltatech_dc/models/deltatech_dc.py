@@ -37,7 +37,7 @@ class DeltatechDC(models.Model):
 
     def _compute_display_name(self):
         for dc in self:
-            dc.display_name = dc.product_id + " (" + dc.name + "/" + dc.date + ")"
+            dc.display_name = f"{dc.product_id.display_name} ({dc.name}/{dc.date})"
 
     @api.model_create_multi
     def create(self, vals_list):

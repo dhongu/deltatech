@@ -13,6 +13,7 @@ class TestDC(TransactionCase):
         self.product_a = self.env["product.product"].create(
             {
                 "name": "Test A",
+                "is_storable": True,
             }
         )
 
