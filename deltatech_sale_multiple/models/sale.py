@@ -15,7 +15,7 @@ class SaleOrderLine(models.Model):
         if qty is None:
             qty = 0
 
-        if product.qty_multiple and product.qty_multiple != 1:
+        if product and product.qty_multiple and product.qty_multiple != 1:
             qty_multiple = product.qty_multiple
             remainder = qty % qty_multiple
 
@@ -32,7 +32,7 @@ class SaleOrderLine(models.Model):
 
     @api.onchange("product_uom_qty", "product_id")
     def _onchange_product_uom_qty(self):
-        product_uom = self.product_uom or self.product_id.uom_id
+        product_uom = self.product_uom_id or self.product_id.uom_id
         self.product_uom_qty = self.fix_qty_multiple(self.product_id, product_uom, self.product_uom_qty)
         # super(SaleOrderLine, self)._onchange_product_uom_qty()
 
@@ -42,10 +42,10 @@ class SaleOrderLine(models.Model):
                 product = self.env["product.product"].browse(vals["product_id"])
             else:
                 product = self.product_id
-            if "product_uom" in vals:
-                product_uom = self.env["uom.uom"].browse(vals["product_uom"])
+            if "product_uom_id" in vals:
+                product_uom = self.env["uom.uom"].browse(vals["product_uom_id"])
             else:
-                product_uom = self.product_uom
+                product_uom = self.product_uom_id
             vals["product_uom_qty"] = self.fix_qty_multiple(product, product_uom, vals["product_uom_qty"])
 
         return super().write(vals)
