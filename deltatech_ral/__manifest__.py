@@ -4,7 +4,7 @@
 {
     "name": "RAL",
     "summary": "RAL",
-    "version": "18.0.1.0.3",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
