@@ -15,7 +15,7 @@
     ],
     "assets": {
         "web.assets_frontend": [
-            "deltatech_website_stock_availability/static/src/js/variant_mixin.esm.js",
+            "deltatech_website_stock_availability/static/src/js/**/*",
             "deltatech_website_stock_availability/static/src/xml/**/*",
             "deltatech_website_stock_availability/static/src/scss/**/*",
         ],
