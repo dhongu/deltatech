@@ -86,7 +86,8 @@ SELECT s.id, s.id as production_id,
     pt.categ_id,
     to_date(to_char(s.date_start, 'MM-dd-YYYY'::text), 'MM-dd-YYYY'::text) AS date,
 
-    s.product_id, lot_producing_id,
+    s.product_id,
+    null as lot_producing_id,
     pt.uom_id AS product_uom,
     sum((s.product_qty / u.factor)) AS product_qty,
     sum(sub_prod_ef.product_qty_ef) AS product_qty_ef,
@@ -110,10 +111,10 @@ SELECT s.id, s.id as production_id,
      LEFT JOIN uom_uom u ON ((u.id = s.product_uom_id)))
      LEFT JOIN ( SELECT sm.production_id,
             sum(sm.product_qty) AS product_qty_ef,
-            sum(svl.value) AS product_val_ef,
+            sum(sm.value) AS product_val_ef,
             sm.procure_method
            FROM  stock_move sm
-            LEFT JOIN stock_valuation_layer svl on sm.id = svl.stock_move_id
+
 
           WHERE ((sm.state)::text = 'done'::text)
           GROUP BY sm.production_id, sm.procure_method) sub_prod_ef ON ((sub_prod_ef.production_id = s.id)))
@@ -121,13 +122,13 @@ SELECT s.id, s.id as production_id,
 left join (
 SELECT
     sm.raw_material_production_id AS production_id,
-   SUM (-svl.value) AS consumed_val,
-      CASE WHEN pc.cost_categ='semi' THEN SUM (-svl.value) else 0.0 end as  consumed_sem_val,
-      CASE WHEN pc.cost_categ='pak' THEN SUM (-svl.value) else 0.0 end as  consumed_pak_val,
-      CASE WHEN pc.cost_categ='raw' THEN SUM (-svl.value) else 0.0 end as  consumed_raw_val
+   SUM (-sm.value) AS consumed_val,
+      CASE WHEN pc.cost_categ='semi' THEN SUM (-sm.value) else 0.0 end as  consumed_sem_val,
+      CASE WHEN pc.cost_categ='pak' THEN SUM (-sm.value) else 0.0 end as  consumed_pak_val,
+      CASE WHEN pc.cost_categ='raw' THEN SUM (-sm.value) else 0.0 end as  consumed_raw_val
     FROM
         stock_move sm
-        LEFT JOIN stock_valuation_layer svl on sm.id = svl.stock_move_id
+
         LEFT JOIN product_product pr ON pr.id = sm.product_id
         LEFT JOIN product_template pt ON pt.id = pr.product_tmpl_id
         LEFT JOIN product_category pc ON pc.id = pt.categ_id
