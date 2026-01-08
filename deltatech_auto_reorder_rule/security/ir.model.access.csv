@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+deltatech_auto_reorder_rule.access_order_rules_details_wizard,access_order_rules_details_wizard,deltatech_auto_reorder_rule.model_order_rules_details_wizard,base.group_user,1,1,1,1

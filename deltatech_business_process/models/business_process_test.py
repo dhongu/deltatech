@@ -159,11 +159,14 @@ class BusinessProcessTest(models.Model):
             test_step_ids.write({"date_start": date_start})
             test.write({"date_start": date_start})
             if test.scope == "internal":
-                test.process_id.sudo().write({"status_internal_test": "in_progress"})
+                if test.process_id.sudo().status_internal_test != "done":
+                    test.process_id.sudo().write({"status_internal_test": "in_progress"})
             elif test.scope == "integration":
-                test.process_id.sudo().write({"status_integration_test": "in_progress"})
+                if test.process_id.sudo().status_integration_test != "done":
+                    test.process_id.sudo().write({"status_integration_test": "in_progress"})
             elif test.scope == "user_acceptance":
-                test.process_id.sudo().write({"status_user_acceptance_test": "in_progress"})
+                if test.process_id.sudo().status_user_acceptance_test != "done":
+                    test.process_id.sudo().write({"status_user_acceptance_test": "in_progress"})
             if not test.tester_id:
                 test.tester_id = self.env.user.partner_id
             for step in test.test_step_ids:
