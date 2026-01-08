@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+<odoo>
+    <!-- Define the report template -->
+    <template id="report_dc_warranty_certificate">
+
+        <!-- Call the basic layout template -->
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <style>
+                    .small {
+                    font-size: 10px;
+                    line-height: 1.2; /* Adjust this value to make the space between lines smaller */
+                    }
+                    .center-text {
+                    text-align: center;
+                    }
+                </style>
+                <!--                <strong t-field="o.company_id.partner_id.name" />-->
+                <h2 class="center-text">
+                    <span>Warranty Certificate</span>
+                </h2>
+                <div class="center-text">
+                    <span>Annex of invoice:
+                        <span t-field="o.name" />
+                    </span>
+                </div>
+                <br />
+                <br />
+
+                <br />
+
+                <br />
+
+                <br />
+
+                <br />
+                We,&#160;<span t-field="o.company_id.partner_id.name" />with registration certificate (number), Unique
+                Registration Code (number), as a distributor, we provide a warranty for the following products:
+                <table class="table-bordered" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th
+                                style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                            >
+                                Product
+                            </th>
+                            <th
+                                style="background-color:#e0e0e0; font-weight:bold; text-align: center; vertical-align: middle;"
+                            >
+                                Warranty Period(months)
+                            </th>
+                        </tr>
+                    </thead>
+                    <t t-set="counter" t-value="0" />
+
+                    <t t-foreach="o.invoice_line_ids" t-as="move">
+                        <t t-set="counter" t-value="counter + 1" />
+                        <t t-if="move.display_type == 'product'">
+                            <tr>
+                                <td>
+                                    <strong t-esc="move.product_id.name" />
+                                </td>
+
+                                <td>
+                                    <strong t-esc="move.product_id.warranty" />
+                                </td>
+                            </tr>
+                        </t>
+                    </t>
+                </table>
+            </t>
+        </t>
+    </template>
+</odoo>
