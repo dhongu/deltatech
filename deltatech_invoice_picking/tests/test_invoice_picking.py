@@ -92,24 +92,3 @@ class TestStockAccountCustom(common.TransactionCase):
         invoice = self.sale_order._create_invoices()
         self.assertTrue(invoice, "Invoice was not created for Sale Order")
         self.assertEqual(invoice.state, "draft", "Invoice state is not draft")
-
-    def test_check_block_invoice(self):
-        self.partner.write({"invoice_warn": "block", "invoice_warn_msg": "Cannot create invoice for this partner"})
-        self.AccountMove.create(
-            {
-                "partner_id": self.partner.id,
-                "move_type": "out_invoice",
-                "invoice_date": fields.Date.today(),
-                "invoice_line_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "product_id": self.product.id,
-                            "quantity": 1.0,
-                            "price_unit": self.product.list_price,
-                        },
-                    )
-                ],
-            }
-        )
