@@ -12,7 +12,7 @@ class MrpProduction(models.Model):
     amount = fields.Float(digits="Account", string="Production Amount", compute="_compute_amount")
     calculate_price = fields.Float(digits="Account", string="Calculate Price", compute="_compute_amount")
 
-    duration = fields.Float(string="Duration")
+    duration_cost = fields.Float(string="Duration")
 
     overhead_amount = fields.Float(string="Overhead", default="0.0")
 
@@ -30,16 +30,16 @@ class MrpProduction(models.Model):
                 product_qty = production.product_qty
                 amount += (
                     production.overhead_amount
-                    + production.utility_consumption * production.duration
-                    + production.net_salary_rate * production.duration
-                    + production.salary_contributions * production.duration
+                    + production.utility_consumption * production.duration_cost
+                    + production.net_salary_rate * production.duration_cost
+                    + production.salary_contributions * production.duration_cost
                 )
 
                 calculate_price = amount / product_qty
                 production.calculate_price = calculate_price
                 production.amount = amount
             else:
-                amount = sum(production.move_finished_ids.mapped("stock_valuation_layer_ids.value"))
+                amount = sum(production.move_finished_ids.mapped("value"))
                 calculate_price = amount / production.qty_produced
                 production.calculate_price = calculate_price
                 production.amount = amount
@@ -48,9 +48,9 @@ class MrpProduction(models.Model):
         if self.product_qty:
             costs = (
                 self.overhead_amount
-                + self.utility_consumption * self.duration
-                + self.net_salary_rate * self.duration
-                + self.salary_contributions * self.duration
+                + self.utility_consumption * self.duration_cost
+                + self.net_salary_rate * self.duration_cost
+                + self.salary_contributions * self.duration_cost
             )
             if costs:
                 self.extra_cost = costs / self.product_qty
@@ -67,7 +67,14 @@ class MrpProduction(models.Model):
                 vals["utility_consumption"] = bom.utility_consumption
                 vals["net_salary_rate"] = bom.net_salary_rate
                 vals["salary_contributions"] = bom.salary_contributions
-                vals["duration"] = vals["product_qty"] / bom.product_qty * bom.duration
+                if bom.product_qty:
+                    product_qty = vals.get("product_qty")
+                    if product_qty is None:
+                        # try to get from product_uom_qty (sometimes used in MO)
+                        product_qty = vals.get("product_uom_qty", 0.0)
+                    vals["duration_cost"] = product_qty / bom.product_qty * bom.duration
+
+                # print(f"DEBUG: bom_id={bom_id}, product_qty={vals.get('product_qty')}, duration={vals.get('duration_cost')}")
 
         return super().create(vals_list)
 
