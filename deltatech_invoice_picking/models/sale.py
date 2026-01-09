@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 
@@ -29,7 +29,7 @@ class SaleOrderLine(models.Model):
                     elif move.picking_id.picking_type_code == "incoming":
                         qty -= move.quantity
                     else:
-                        raise UserError(_("You cannot invoice this type of transfer: %s") % move.picking_id)
+                        raise UserError(self.env._("You cannot invoice this type of transfer: %s") % move.picking_id)
                 if abs(qty) > abs(invoice_original_qty):  # probabil set. De verificat
                     qty = invoice_original_qty
                 invoice_line.update({"quantity": qty})
