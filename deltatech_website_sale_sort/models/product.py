@@ -32,10 +32,10 @@ class ProductTemplate(models.Model):
             ("consumed", "=", True),
         ]
         read_group_res = self.env["rating.rating"]._read_group(
-            domain, ["res_id"], ["rating:avg"]
+            domain, ["res_id"], ["__count", "rating:avg"]
         )  # force average on rating column
         mapping = {
-            res_id.id: {
+            res_id: {
                 "rating_count": count,
                 "rating_avg": rating,
             }
