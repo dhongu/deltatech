@@ -4,7 +4,7 @@
 {
     "name": "List View Select Text",
     "summary": "List View Select Text",
-    "version": "18.0.1.0.1",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",

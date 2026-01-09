@@ -1,6 +1,6 @@
 import {WebsiteSale} from "@website_sale/interactions/website_sale";
-import {renderToFragment} from "@web/core/utils/render";
 import {patch} from "@web/core/utils/patch";
+import {renderToFragment} from "@web/core/utils/render";
 
 patch(WebsiteSale.prototype, {
     _onChangeCombination() {
