@@ -2,7 +2,7 @@
 # See LICENSE file for full copyright and licensing details.
 
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 
@@ -26,7 +26,7 @@ class StockPickingBatch(models.Model):
     def action_create_invoice(self):
         for batch in self:
             if batch.state != "done":
-                raise UserError(_("You cannot invoice unconfirmed batches (%s)") % batch.name)
+                raise UserError(self.env._("You cannot invoice unconfirmed batches (%s)") % batch.name)
             if batch.picking_type_id.code == "outgoing":
                 # check if pickings are already invoiced and remove invoiced pickings from list
                 pickings = batch.picking_ids
@@ -46,4 +46,6 @@ class StockPickingBatch(models.Model):
                 self.invoiced = True
                 return result
             else:
-                raise UserError(_("You cannot invoice this type of batches: (%s)") % batch.picking_type_id.code)
+                raise UserError(
+                    self.env._("You cannot invoice this type of batches: (%s)") % batch.picking_type_id.code
+                )

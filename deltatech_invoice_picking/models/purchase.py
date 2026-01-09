@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import UserError
 
 
@@ -26,7 +26,7 @@ class PurchaseOrderLine(models.Model):
                     elif move.picking_id.picking_type_code == "outgoing":
                         qty -= move.quantity
                     else:
-                        raise UserError(_("You cannot invoice this type of transfer: %s") % move.picking_id)
+                        raise UserError(self.env._("You cannot invoice this type of transfer: %s") % move.picking_id)
                 res.update({"quantity": qty})
                 return res
             else:

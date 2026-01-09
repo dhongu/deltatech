@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -143,7 +143,7 @@ class AccountMoveLine(models.Model):
                 and line.display_type == "product"
                 and line.move_id.move_type in ["out_invoice", "out_refund", "in_invoice", "in_refund"]
             ):
-                raise UserError(_("You cannot change this line, the move was generated from pickings"))
+                raise UserError(self.env._("You cannot change this line, the move was generated from pickings"))
 
     def unlink(self):
         for line in self:
@@ -156,5 +156,5 @@ class AccountMoveLine(models.Model):
                 and line.quantity > 0.0
             ):
                 if "unlink_all" not in self.env.context:
-                    raise UserError(_("You cannot delete lines, the move was generated from pickings"))
+                    raise UserError(self.env._("You cannot delete lines, the move was generated from pickings"))
         return super().unlink()

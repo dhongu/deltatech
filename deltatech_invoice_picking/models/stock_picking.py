@@ -5,7 +5,7 @@
 
 from ast import literal_eval
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 
@@ -26,7 +26,7 @@ class StockPicking(models.Model):
     def action_create_invoice(self):
         for picking in self:
             if picking.state != "done":
-                raise UserError(_("You cannot invoice unconfirmed pickings (%s)") % picking.name)
+                raise UserError(self.env._("You cannot invoice unconfirmed pickings (%s)") % picking.name)
         action = self.env["ir.actions.actions"]._for_xml_id("sale.action_view_sale_advance_payment_inv")
         context = literal_eval(action.get("context", "{}"))
         context.update(
@@ -44,8 +44,8 @@ class StockPicking(models.Model):
     def action_create_supplier_invoice(self):
         for picking in self:
             if picking.state != "done":
-                raise UserError(_("You cannot invoice unconfirmed pickings (%s)") % picking.name)
+                raise UserError(self.env._("You cannot invoice unconfirmed pickings (%s)") % picking.name)
             if not picking.supplier_invoice_number:
-                raise UserError(_("Please enter supplier invoice number"))
+                raise UserError(self.env._("Please enter supplier invoice number"))
             picking.purchase_id.write({"partner_ref": picking.supplier_invoice_number})
         return self.purchase_id.with_context(receipt_picking_ids=self.ids).action_create_invoice()
