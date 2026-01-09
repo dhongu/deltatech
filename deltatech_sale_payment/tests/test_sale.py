@@ -1,9 +1,11 @@
-from datetime import date
+from unittest.mock import patch
 
+from odoo import fields
 from odoo.exceptions import UserError
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import TransactionCase, tagged
 
 
+@tagged("post_install", "-at_install")
 class TestSaleOrderPayment(TransactionCase):
     def setUp(self):
         super().setUp()
@@ -20,6 +22,7 @@ class TestSaleOrderPayment(TransactionCase):
             {
                 "name": "Test Product",
                 "list_price": 100.0,
+                "is_storable": True,
             }
         )
 
@@ -41,69 +44,123 @@ class TestSaleOrderPayment(TransactionCase):
             }
         )
 
-        # Create a payment journal
-        self.payment_journal = self.env["account.journal"].create(
+        # Create a payment provider
+        self.provider = self.env["payment.provider"].create(
             {
-                "name": "Test Journal",
-                "type": "bank",
-                "code": "TJ",
+                "name": "Test Provider",
+                "code": "none",
+                "is_published": True,
+                "state": "test",
             }
         )
+        self.payment_method = self.env["payment.method"].search([], limit=1)
 
-    def test_compute_payment(self):
+    def test_01_compute_payment_without(self):
         self.sale_order._compute_payment()
         self.assertEqual(self.sale_order.payment_status, "without", "Initial payment status should be 'without'")
 
-    # @mock.patch('odoo.http.request', autospec=True)
-    # def test_action_payment_link(self, mock_request):
-    #     # Mock the environment for the request object
-    #     mock_request.env = self.env
-    #     mock_request.env.su = True
-    #     mock_request.httprequest = mock.Mock()
-    #
-    #     payment_link_action = self.sale_order.action_payment_link()
-    #     self.assertIn('url', payment_link_action, "Payment link action should return a URL")
+    def test_02_action_payment_link(self):
+        with patch(
+            "odoo.addons.payment.models.payment_link_wizard.PaymentLinkWizard._get_additional_link_values",
+            return_value={},
+        ):
+            payment_link_action = self.sale_order.action_payment_link()
+            self.assertIn("url", payment_link_action, "Payment link action should return a URL")
 
-    # def test_sale_confirm_payment(self):
-    #     # Create a sale.confirm.payment wizard
-    #     wizard = self.env['sale.confirm.payment'].with_context(active_id=self.sale_order.id).create({
-    #         'provider_id': self.env['payment.provider'].create({'name': 'Test Provider'}).id,
-    #         'amount': 100.0,
-    #         'currency_id': self.env.ref('base.USD').id,
-    #         'payment_date': date.today(),
-    #     })
-    #
-    #     self.assertEqual(wizard.currency_id.id, self.sale_order.currency_id.id,
-    #                      "Currency should match the sale order's currency")
-    #
-    #     # Set default journal in context to avoid null journal_id issue
-    #     with self.env.cr.savepoint():
-    #         wizard = wizard.with_context(default_journal_id=self.payment_journal.id)
-    #         wizard.do_confirm()
-    #
-    #     self.sale_order._compute_payment()
-    #     self.assertEqual(self.sale_order.payment_status, 'done', "Payment status should be 'done' after confirmation")
+    def test_03_sale_confirm_payment(self):
+        # Create a sale.confirm.payment wizard
+        wizard = (
+            self.env["sale.confirm.payment"]
+            .with_context(active_id=self.sale_order.id)
+            .create(
+                {
+                    "provider_id": self.provider.id,
+                    "payment_method_id": self.payment_method.id,
+                    "amount": 100.0,
+                    "payment_date": fields.Date.today(),
+                }
+            )
+        )
 
-    def test_invalid_confirm_payment(self):
+        self.assertEqual(
+            wizard.currency_id.id, self.sale_order.currency_id.id, "Currency should match the sale order's currency"
+        )
+
+        wizard.do_confirm()
+
+        self.sale_order._compute_payment()
+        self.assertEqual(self.sale_order.payment_status, "done", "Payment status should be 'done' after confirmation")
+        self.assertEqual(self.sale_order.payment_amount, 100.0)
+
+    def test_04_invalid_confirm_payment(self):
         with self.assertRaises(UserError):
             wizard = (
                 self.env["sale.confirm.payment"]
                 .with_context(active_id=self.sale_order.id)
                 .create(
                     {
-                        "provider_id": self.env["payment.provider"].create({"name": "Test Provider"}).id,
+                        "provider_id": self.provider.id,
+                        "payment_method_id": self.payment_method.id,
                         "amount": -100.0,
-                        "currency_id": self.env.ref("base.USD").id,
-                        "payment_date": date.today(),
+                        "payment_date": fields.Date.today(),
                     }
                 )
             )
             wizard.do_confirm()
 
-    def test_default_get(self):
-        wizard = self.env["sale.confirm.payment"].with_context(active_id=self.sale_order.id).default_get([])
+    def test_05_default_get(self):
+        wizard_vals = (
+            self.env["sale.confirm.payment"].with_context(active_id=self.sale_order.id).default_get(["currency_id"])
+        )
         self.assertEqual(
-            wizard["currency_id"],
+            wizard_vals["currency_id"],
             self.sale_order.currency_id.id,
             "Default currency should match the sale order's currency",
         )
+
+    def test_06_partial_payment(self):
+        wizard = (
+            self.env["sale.confirm.payment"]
+            .with_context(active_id=self.sale_order.id)
+            .create(
+                {
+                    "provider_id": self.provider.id,
+                    "payment_method_id": self.payment_method.id,
+                    "amount": 50.0,
+                    "payment_date": fields.Date.today(),
+                }
+            )
+        )
+        wizard.do_confirm()
+        self.sale_order._compute_payment()
+        self.assertEqual(self.sale_order.payment_status, "partial")
+
+    def test_07_initiated_payment(self):
+        self.env["payment.transaction"].create(
+            {
+                "amount": 100.0,
+                "provider_id": self.provider.id,
+                "payment_method_id": self.payment_method.id,
+                "partner_id": self.partner.id,
+                "sale_order_ids": [(4, self.sale_order.id)],
+                "currency_id": self.sale_order.currency_id.id,
+                "state": "draft",
+            }
+        )
+        self.sale_order._compute_payment()
+        self.assertEqual(self.sale_order.payment_status, "initiated")
+
+    def test_08_authorized_payment(self):
+        self.env["payment.transaction"].create(
+            {
+                "amount": 100.0,
+                "provider_id": self.provider.id,
+                "payment_method_id": self.payment_method.id,
+                "partner_id": self.partner.id,
+                "sale_order_ids": [(4, self.sale_order.id)],
+                "currency_id": self.sale_order.currency_id.id,
+                "state": "authorized",
+            }
+        )
+        self.sale_order._compute_payment()
+        self.assertEqual(self.sale_order.payment_status, "authorized")
