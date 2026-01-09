@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -37,7 +37,7 @@ class SaleOrder(models.Model):
     @api.onchange("phase_id")
     def onchange_phase_id(self):
         if self.phase_id.invoiced and self.invoice_status == "invoiced":
-            raise UserError(_("The order was not invoiced"))
+            raise UserError(self.env._("The order was not invoiced"))
 
     def action_confirm(self):
         res = super().action_confirm()

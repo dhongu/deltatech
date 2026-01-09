@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 
@@ -15,7 +15,7 @@ class SaleOrder(models.Model):
             if picking.state not in ["done", "cancel"]:
                 picking.action_assign()  # verifica disponibilitate
                 if not all(move.state == "assigned" for move in picking.move_ids):
-                    raise UserError(_("Not all products are available."))
+                    raise UserError(self.env._("Not all products are available."))
 
     def action_button_confirm_to_invoice(self):
         if self.state in ["draft", "sent"]:
