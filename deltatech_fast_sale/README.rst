@@ -14,7 +14,7 @@ Fast Sale
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_fast_sale
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_fast_sale
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -57,6 +57,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_fast_sale>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_fast_sale>`_ project on GitHub.
 
 You are welcome to contribute.
