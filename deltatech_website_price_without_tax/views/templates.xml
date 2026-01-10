@@ -2,13 +2,13 @@
 <odoo>
 
     <template
-        if="base_unit_price"
+        id="base_unit_price_without_tax"
         inherit_id="website_sale.base_unit_price"
         name="Base Unit Price without tax"
         customize_show="True"
         priority="100"
     >
-        <xpath expr="//" position="inside">
+        <xpath expr="." position="inside">
 
                 <t t-if="combination_info.get('base_unit_price_without_tax')">
                     <span>Base Unit Price without tax</span>
