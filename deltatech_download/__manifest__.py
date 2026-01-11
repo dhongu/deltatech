@@ -4,7 +4,7 @@
 
 {
     "name": "Download File",
-    "version": "18.0.0.1.2",
+    "version": "19.0.0.1.2",
     "author": "Terrabit,Dorin Hongu",
     "summary": "Generare fisier",
     "website": "https://www.terrabit.ro",
