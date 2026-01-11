@@ -1,0 +1,84 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_pallet
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-30 07:09+0000\n"
+"PO-Revision-Date: 2024-05-30 07:09+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_sale_pallet
+#: model:ir.model,name:deltatech_sale_pallet.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_sale_pallet
+#: model:ir.model.fields,field_description:deltatech_sale_pallet.field_product_category__pallet
+msgid "Pallet"
+msgstr "Palet"
+
+#. module: deltatech_sale_pallet
+#: model:ir.model.fields,field_description:deltatech_sale_pallet.field_product_product__pallet_price
+#: model:ir.model.fields,field_description:deltatech_sale_pallet.field_product_template__pallet_price
+msgid "Pallet Price"
+msgstr "Preț palet"
+
+#. module: deltatech_sale_pallet
+#: model:ir.model.fields,field_description:deltatech_sale_pallet.field_product_product__pallet_product_id
+#: model:ir.model.fields,field_description:deltatech_sale_pallet.field_product_template__pallet_product_id
+msgid "Pallet Product"
+msgstr "Produs palet"
+
+#. module: deltatech_sale_pallet
+#: model:ir.model.fields,field_description:deltatech_sale_pallet.field_product_product__pallet_qty_min
+#: model:ir.model.fields,field_description:deltatech_sale_pallet.field_product_template__pallet_qty_min
+msgid "Pallet Qty Min"
+msgstr "Cantitate minimă palet"
+
+#. module: deltatech_sale_pallet
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_pallet.product_template_form_view
+msgid "Palletizing"
+msgstr "Paletizare"
+
+#. module: deltatech_sale_pallet
+#: model:ir.model.fields,field_description:deltatech_sale_pallet.field_sale_report__price_unit
+msgid "Price Unit"
+msgstr "Unitate preț"
+
+#. module: deltatech_sale_pallet
+#: model:ir.model,name:deltatech_sale_pallet.model_product_template
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_sale_pallet
+#: model:ir.model,name:deltatech_sale_pallet.model_product_category
+msgid "Product Category"
+msgstr "Categorie produs"
+
+#. module: deltatech_sale_pallet
+#: model:ir.model,name:deltatech_sale_pallet.model_sale_report
+msgid "Sales Analysis Report"
+msgstr "Raport de analiză a vânzărilor"
+
+#. module: deltatech_sale_pallet
+#: model:ir.model,name:deltatech_sale_pallet.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_sale_pallet
+#: model:ir.model,name:deltatech_sale_pallet.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linie comandă vânzare"
+
+#. module: deltatech_sale_pallet
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_pallet.view_move_form
+msgid "Show pallets status"
+msgstr "Afișează starea paleților"
