@@ -26,7 +26,7 @@ async function fetchEnabledOnce() {
             const result = await rpc("/web/session/get_session_info");
             const enabledFromServer = result.user_context.notification_sound_enabled;
             ENABLED_CACHE = enabledFromServer;
-        } catch (_) {
+        } catch {
             // Fail open: if we can't determine, default to true to preserve previous behavior
             ENABLED_CACHE = true;
         }
@@ -41,7 +41,7 @@ async function playSound(url) {
         audio.preload = "auto";
         // Some browsers block autoplay; ignore errors silently
         await audio.play();
-    } catch (_) {
+    } catch {
         // Ignore errors
     }
 }
