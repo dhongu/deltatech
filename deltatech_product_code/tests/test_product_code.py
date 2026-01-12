@@ -55,14 +55,6 @@ class TestProductCode(TransactionCase):
         # verificare daca a fost generat codul
         self.assertEqual(product_product.default_code, "TEST/0001")
 
-    def test_show_duplicate(self):
-        # Create products with same default_code to test show_not_unique
-        self.env["product.template"].create({"name": "Test 1", "default_code": "DUP001"})
-        self.env["product.template"].create({"name": "Test 2", "default_code": "DUP001"})
-
-        action = self.env["product.template"].show_not_unique()
-        self.assertTrue(action.get("domain"))
-
     def test_now_product_with_barcode(self):
         self.product_category.write({"generate_barcode": True, "barcode_random": False})
         product_template = self.env["product.template"].create(

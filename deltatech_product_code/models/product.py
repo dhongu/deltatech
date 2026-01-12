@@ -125,7 +125,7 @@ class ProductProduct(models.Model):
         for vals in vals_list:
             if "default_code" not in vals or vals["default_code"] in ["/", "", False]:
                 categ_id = vals.get("categ_id")
-                #categoria in product.product apare la crearea din campuri legate de product.product, ex pe linie de vanzare
+                # categoria in product.product apare la crearea din campuri legate de product.product, ex pe linie de vanzare
                 if categ_id:
                     categ = self.env["product.category"].browse(categ_id)
                     default_code = vals.get("default_code", False)
@@ -135,14 +135,16 @@ class ProductProduct(models.Model):
                 elif "product_tmpl_id" in vals and vals.get("product_tmpl_id"):
                     # daca se creaza variante din tempalte ele nu o sa aiba categorie asa ca testam pe template daca are categorie de generare coduri
                     template = self.env["product.template"].browse(vals.get("product_tmpl_id"))
-                    force_code_template=False
-                    if template.attribute_line_ids and len(vals_list)==1:#daca sunt atribute si se genereaza o singura varianta o sa incerce sa faca sanitize si se sterge referinta
-                        force_code_template=True
+                    force_code_template = False
+                    if (
+                        template.attribute_line_ids and len(vals_list) == 1
+                    ):  # daca sunt atribute si se genereaza o singura varianta o sa incerce sa faca sanitize si se sterge referinta
+                        force_code_template = True
                     categ = template.categ_id
                     if categ:  # nu cred ca poate sa fie fata dar prefer sa nu aflu
                         values = self.env["product.template"].get_new_code(
-                                categ, vals.get("default_code", False), vals.get("barcode", False)
-                            )
+                            categ, vals.get("default_code", False), vals.get("barcode", False)
+                        )
                         if force_code_template:
                             template.write(values)
                         vals.update(values)
