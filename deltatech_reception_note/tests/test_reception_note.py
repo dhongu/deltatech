@@ -9,8 +9,8 @@ class TestPurchaseOrderReceptionType(TransactionCase):
         self.PurchaseOrderLine = self.env["purchase.order.line"]
         self.ReceptionNoteCreate = self.env["reception.note.create"]
         self.Product = self.env["product.product"]
-        self.Partner = self.env.ref("base.res_partner_1")
-        self.PickingType = self.env.ref("stock.picking_type_in")
+        self.Partner = self.env["res.partner"].create({"name": "Test Partner"})
+        self.PickingType = self.env["stock.picking.type"].search([("code", "=", "incoming")], limit=1)
 
         # Create a product
         self.product = self.Product.create(
