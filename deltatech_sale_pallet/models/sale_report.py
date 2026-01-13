@@ -2,9 +2,9 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-import re
 
-from odoo import api, fields, models
+from odoo import fields, models
+from odoo.tools import SQL
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -28,45 +28,17 @@ class SaleReport(models.Model):
         """
         return additional_fields_info
 
-    @api.model
-    def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-        new_fields = []
-        new_fields += fields
-
-        price_unit_field = next((field for field in fields if re.search(r"\bprice_unit\b", field)), False)
-        amount_field = next(
-            (field for field in fields if re.search(r"\buntaxed_amount_invoiced\b", field)),
-            False,
-        )
-        qty_field = next((field for field in fields if re.search(r"\bqty_invoiced\b", field)), False)
-
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        price_coef = safe_eval(get_param("sale_pallet.price_coef", "1"))
-
-        if price_unit_field:
-            # new_fields.remove('payment_days')
-            if not amount_field:
-                new_fields.append("untaxed_amount_invoiced")
-            if not qty_field:
-                new_fields.append("qty_invoiced")
-
-        res = super().read_group(
-            domain,
-            new_fields,
-            groupby,
-            offset=offset,
-            limit=limit,
-            orderby=orderby,
-            lazy=lazy,
-        )
-
-        if price_unit_field:
-            for line in res:
-                amount = line.get("untaxed_amount_invoiced", 0.0)
-                qty = line.get("qty_invoiced", 0.0)
-                if amount and qty:
-                    line["price_unit"] = price_coef * amount / qty
-                else:
-                    line["price_unit"] = 0.0
-
-        return res
+    def _read_group_select(self, aggregate_spec, query):
+        if aggregate_spec == "price_unit:avg":
+            get_param = self.env["ir.config_parameter"].sudo().get_param
+            price_coef = safe_eval(get_param("sale_pallet.price_coef", "1"))
+            untaxed_amount_invoiced_sum = self._read_group_select("untaxed_amount_invoiced:sum", query)
+            qty_invoiced_sum = self._read_group_select("qty_invoiced:sum", query)
+            return SQL(
+                "CASE WHEN %s = 0 THEN 0 ELSE %s * %s / %s END",
+                qty_invoiced_sum,
+                price_coef,
+                untaxed_amount_invoiced_sum,
+                qty_invoiced_sum,
+            )
+        return super()._read_group_select(aggregate_spec, query)

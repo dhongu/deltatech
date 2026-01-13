@@ -81,4 +81,4 @@ class TestSale(TransactionCase):
 
         SaleReport.browse(1)
 
-        SaleReport.read_group([("state", "=", "sale")], ["product_id", "qty_invoiced"], ["product_id"])
+        SaleReport._read_group([("state", "=", "sale")], ["product_id"], ["qty_invoiced:sum"])
