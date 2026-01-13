@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<odoo>
+
+    <record id="mail_template_sale_feedback" model="mail.template">
+        <field name="name">Invoice: request feedback</field>
+        <field name="model_id" ref="sale.model_account_move" />
+        <field name="subject">${object.company_id.name} (Ref ${object.name or 'n/a' })</field>
+        <field name="email_from">${(object.user_id.email_formatted or user.email_formatted) | safe}</field>
+        <field name="partner_to">${object.partner_id.id}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 12px;">
+                    Dear
+                    <t t-if="object.partner_id.parent_id">
+                        <t t-esc="object.partner_id.parent_id.name" />
+                        <t t-esc="' (' + object.partner_id.name + ')'" />
+                    </t>
+                    <t t-else="">
+                        <t t-esc="object.partner_id.name" />
+                    </t>
+                    ,
+                </p>
+                <p>
+                    Please take a moment to rate our products related to the invoice "<strong t-out="object.name" />"
+                </p>
+                <br />
+                <div style="margin: 0px; padding: 0px;">
+                    <t t-foreach="object.invoice_line_ids" t-as="line">
+
+                        <t t-if="line.display_type in ['line_section', 'line_note']">
+                            <table width="100%" style="color: #454748; font-size: 12px; border-collapse: collapse;">
+                                <tr>
+                                    <td colspan="4">
+                                        <t t-if="line.display_type == 'line_section'">
+                                            <strong t-out="line.name" />
+                                        </t>
+                                        <t t-elif="line.display_type == 'line_note'">
+                                            <i t-out="line.name" />
+                                        </t>
+                                    </td>
+                                </tr>
+                            </table>
+                        </t>
+                        <t t-else="">
+                            <t t-set="access_token" t-value="line.rating_get_access_token()" />
+
+
+                            <table
+                                t-attf-width="100%"
+                                style="color: #454748; font-size: 12px; border-collapse: collapse;"
+                            >
+                                <tr>
+                                    <td style="width: 100px;">
+                                        <img
+                                            t-att-src="'/web/image/product.product/' + str(line.product_id.id) + '/image_128'"
+                                            style="width: 64px; height: 64px; object-fit: contain;"
+                                            alt="Product image"
+                                        />
+                                    </td>
+                                    <td align="left">
+                                        <a t-att-href="line.product_id.website_url">
+                                            <t t-esc="line.product_id.name" />
+                                        </a>
+                                    </td>
+                                    <td width="15%" align="center">
+                                        <t t-esc="line.quantity" />
+                                    </td>
+                                    <td style="font-size: 10px;">
+                                        <table style="width:100%;text-align:center;">
+                                            <tr>
+                                                <td>
+                                                    <a t-att-href="'/rate/' + access_token + '/5'">
+                                                        <img
+                                                            alt="Satisfied"
+                                                            src="/rating/static/src/img/rating_5.png"
+                                                            title="Satisfied"
+                                                        />
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a t-att-href="'/rate/' + access_token + '/3'">
+                                                        <img
+                                                            alt="Not satisfied"
+                                                            src="/rating/static/src/img/rating_3.png"
+                                                            title="Not satisfied"
+                                                        />
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a t-att-href="'/rate/' + access_token + '/1'">
+                                                        <img
+                                                            alt="Highly Dissatisfied"
+                                                            src="/rating/static/src/img/rating_1.png"
+                                                            title="Highly Dissatisfied"
+                                                        />
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </t>
+                    </t>
+                </div>
+
+
+            </div>
+        </field>
+
+
+        <field name="lang">${object.partner_id.lang}</field>
+        <field name="auto_delete" eval="True" />
+    </record>
+
+</odoo>
