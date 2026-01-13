@@ -14,7 +14,7 @@
 #         self.product = self.env["product.product"].create(
 #             {
 #                 "name": "Test Product",
-#                 "is_storable": True,
+#                 "type": "product",
 #                 "standard_price": 100,
 #                 "list_price": 150,
 #             }
@@ -156,8 +156,7 @@
 #
 #         # Attempt to create another move in the original picking, expecting an error
 #         with self.assertRaises(
-#             UserError, msg="You can't add another move to this picking because
-#             the second transfer is already created."
+#             UserError, msg="You can't add another move to this picking because the second transfer is already created."
 #         ):
 #             self.env["stock.move"].create(
 #                 {
