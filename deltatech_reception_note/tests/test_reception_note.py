@@ -35,7 +35,7 @@ class TestPurchaseOrderReceptionType(TransactionCase):
                             "product_id": self.product.id,
                             "name": self.product.name,
                             "product_qty": 10,
-                            "product_uom": self.product.uom_id.id,
+                            "product_uom_id": self.product.uom_id.id,
                             "price_unit": 100,
                         },
                     )
@@ -60,7 +60,7 @@ class TestPurchaseOrderReceptionType(TransactionCase):
                             "product_id": self.product.id,
                             "name": self.product.name,
                             "product_qty": 10,
-                            "product_uom": self.product.uom_id.id,
+                            "product_uom_id": self.product.uom_id.id,
                             "price_unit": 100,
                         },
                     )
@@ -87,7 +87,7 @@ class TestPurchaseOrderReceptionType(TransactionCase):
                             "product_id": self.product.id,
                             "name": self.product.name,
                             "product_qty": 10,
-                            "product_uom": self.product.uom_id.id,
+                            "product_uom_id": self.product.uom_id.id,
                             "price_unit": 100,
                         },
                     )
@@ -114,7 +114,7 @@ class TestPurchaseOrderReceptionType(TransactionCase):
                             "product_id": self.product.id,
                             "name": self.product.name,
                             "product_qty": 10,
-                            "product_uom": self.product.uom_id.id,
+                            "product_uom_id": self.product.uom_id.id,
                             "price_unit": 100,
                         },
                     )
@@ -135,7 +135,7 @@ class TestPurchaseOrderReceptionType(TransactionCase):
                             "product_id": self.product.id,
                             "name": self.product.name,
                             "product_qty": 5,
-                            "product_uom": self.product.uom_id.id,
+                            "product_uom_id": self.product.uom_id.id,
                             "price_unit": 100,
                         },
                     )
@@ -164,7 +164,7 @@ class TestPurchaseOrderReceptionType(TransactionCase):
                             "product_id": self.product.id,
                             "name": self.product.name,
                             "product_qty": 10,
-                            "product_uom": self.product.uom_id.id,
+                            "product_uom_id": self.product.uom_id.id,
                             "price_unit": 100,
                         },
                     )

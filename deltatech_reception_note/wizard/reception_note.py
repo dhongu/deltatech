@@ -37,9 +37,9 @@ class ReceptionNoteCreate(models.TransientModel):
                             "product_id": line.product_id.id,
                             "name": line.name,
                             "product_qty": line.product_qty,
-                            "product_uom": line.product_uom.id,
+                            "product_uom_id": line.product_uom_id.id,
                             "price_unit": line.price_unit,
-                            "taxes_id": line.taxes_id,
+                            "tax_ids": [(6, 0, line.tax_ids.ids)],
                         }
                         new_line = self.env["purchase.order.line"].create(line_vals)
                         new_line.write({"product_qty": diff})
