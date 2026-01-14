@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class StockLocation(models.Model):
@@ -39,12 +39,6 @@ class StockLocation(models.Model):
         recursive=True,
     )
 
-    @api.depends(
-        "child_ids",
-        "child_ids.max_products_leaf",
-        "child_ids.max_products",
-        "child_ids.current_products",
-    )
     def _compute_warehouse_occupancy(self):
         """Optimized compute using batched read_group and bottom-up aggregation.
 
@@ -93,6 +87,10 @@ class StockLocation(models.Model):
         can_be_used = super()._check_can_be_used(product, quantity, package, location_qty)
         if self.env.context.get("putaway_location_standard"):
             return can_be_used
+
+        exclude_location = self.env.context.get("exclude_location", self.env["stock.location"])
+        if self in exclude_location:
+            return False
 
         if not can_be_used:
             return False
