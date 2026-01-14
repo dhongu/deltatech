@@ -21,6 +21,7 @@
         "security/security.xml",
         "security/ir.model.access.csv",
         "data/data.xml",
+        "views/res_config_settings_view.xml",
         "views/stock_inventory_views.xml",
         "wizard/stock_confirm_inventory_view.xml",
         "views/product_view.xml",
