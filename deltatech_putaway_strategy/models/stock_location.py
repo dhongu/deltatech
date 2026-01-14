@@ -89,20 +89,20 @@ class StockLocation(models.Model):
                 loc.current_products = cur_p
                 loc.occupancy_ratio = ratio
 
-    def _check_can_be_used(self, product, quantity=0, package=None, location_qty=0):
-        can_be_used = super()._check_can_be_used(product, quantity, package, location_qty)
-        if self.env.context.get("putaway_location_standard"):
-            return can_be_used
-
-        if not can_be_used:
-            return False
-
-        if self.max_products_leaf:
-            # Capacitate pe frunză: nu depășim max_products_leaf
-            if (self.current_products + quantity) > self.max_products_leaf:
-                return False
-
-        return True
+    # def _check_can_be_used(self, product, quantity=0, package=None, location_qty=0):
+    #     can_be_used = super()._check_can_be_used(product, quantity, package, location_qty)
+    #     if self.env.context.get("putaway_location_standard"):
+    #         return can_be_used
+    #
+    #     if not can_be_used:
+    #         return False
+    #
+    #     if self.max_products_leaf:
+    #         # Capacitate pe frunză: nu depășim max_products_leaf
+    #         if (self.current_products + quantity) > self.max_products_leaf:
+    #             return False
+    #
+    #     return True
 
     def _get_putaway_strategy(self, product, quantity=0, package=None, packaging=None, additional_qty=None):
         putaway_location = super()._get_putaway_strategy(product, quantity, package, packaging, additional_qty)

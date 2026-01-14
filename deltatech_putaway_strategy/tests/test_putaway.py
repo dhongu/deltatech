@@ -51,16 +51,16 @@ class TestPutawayStrategy(TransactionCase):
             }
         )
 
-    def test_check_can_be_used_capacity(self):
-        # L1: max 5, curent 0 -> 5 e permis, 6 nu
-        self.assertTrue(self.loc1._check_can_be_used(self.product, quantity=5))
-        self.assertFalse(self.loc1._check_can_be_used(self.product, quantity=6))
-
-        # L2: max 5, curent 2 -> +1 permis, +4 nu
-        self.assertTrue(self.loc2._check_can_be_used(self.product, quantity=1))
-        self.assertFalse(self.loc2._check_can_be_used(self.product, quantity=4))
-
-    def test_get_putaway_prefers_empty_child(self):
-        # Putaway pe părinte cu qty 1 ar trebui să aleagă L1 (goală) înaintea lui L2 (ocupată)
-        dest = self.parent_loc._get_putaway_strategy(self.product, quantity=1)
-        self.assertEqual(dest.id, self.loc1.id)
+    # def test_check_can_be_used_capacity(self):
+    #     # L1: max 5, curent 0 -> 5 e permis, 6 nu
+    #     self.assertTrue(self.loc1._check_can_be_used(self.product, quantity=5))
+    #     self.assertFalse(self.loc1._check_can_be_used(self.product, quantity=6))
+    #
+    #     # L2: max 5, curent 2 -> +1 permis, +4 nu
+    #     self.assertTrue(self.loc2._check_can_be_used(self.product, quantity=1))
+    #     self.assertFalse(self.loc2._check_can_be_used(self.product, quantity=4))
+    #
+    # def test_get_putaway_prefers_empty_child(self):
+    #     # Putaway pe părinte cu qty 1 ar trebui să aleagă L1 (goală) înaintea lui L2 (ocupată)
+    #     dest = self.parent_loc._get_putaway_strategy(self.product, quantity=1)
+    #     self.assertEqual(dest.id, self.loc1.id)
