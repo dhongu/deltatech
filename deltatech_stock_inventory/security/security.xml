@@ -14,4 +14,17 @@
             <field name="category_id" ref="base.module_category_hidden" />
         </record>
 
+        <!-- Category for Deltatech Inventory settings -->
+        <record id="module_category_deltatech_inventory" model="ir.module.category">
+            <field name="name">Deltatech Inventory</field>
+            <field name="description">Settings for showing manual location fields</field>
+            <field name="sequence" eval="30" />
+        </record>
+
+        <!-- Group used to toggle visibility of manual location fields in views -->
+        <record id="group_show_manual_location_fields" model="res.groups">
+            <field name="name">Show manual location fields (Rack/Row/Shelf/Case)</field>
+            <field name="category_id" ref="deltatech_stock_inventory.module_category_deltatech_inventory" />
+        </record>
+
 </odoo>
