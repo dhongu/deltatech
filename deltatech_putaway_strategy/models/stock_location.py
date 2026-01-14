@@ -99,7 +99,7 @@ class StockLocation(models.Model):
 
         if self.max_products_leaf:
             # Capacitate pe frunză: nu depășim max_products_leaf
-            if (self.current_products + quantity) > self.max_products_leaf:
+            if self.current_products >= self.max_products_leaf:
                 return False
 
         return True
