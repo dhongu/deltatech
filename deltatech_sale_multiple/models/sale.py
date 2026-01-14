@@ -15,6 +15,9 @@ class SaleOrderLine(models.Model):
         if qty is None:
             qty = 0
 
+        if qty <= 0:
+            return qty
+
         if product.qty_multiple and product.qty_multiple != 1:
             qty_multiple = product.qty_multiple
             remainder = qty % qty_multiple
