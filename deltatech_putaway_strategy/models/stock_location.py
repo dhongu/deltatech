@@ -106,11 +106,11 @@ class StockLocation(models.Model):
         putaway_location = super()._get_putaway_strategy(product, quantity, package, packaging, additional_qty)
         if self.env.context.get("putaway_location_standard"):
             return putaway_location
-        if putaway_location == self and self.child_ids:
+        if putaway_location.child_ids:
             quants = self.env["stock.quant"].search(
                 [
                     ("product_id", "=", product.id),
-                    ("location_id", "child_of", self.id),
+                    ("location_id", "child_of", putaway_location.id),
                     ("location_id.usage", "=", "internal"),
                     ("quantity", ">", 0),
                 ]
@@ -123,10 +123,10 @@ class StockLocation(models.Model):
 
             leaf_locations = self.env["stock.location"].search(
                 [
-                    ("id", "child_of", self.id),
+                    ("id", "child_of", putaway_location.id),
                     ("child_ids", "=", False),  # Esențial: găsește doar capătul ierarhiei
                     ("usage", "=", "internal"),
-                    ("id", "!=", self.id),  # Excludem nodul curent
+                    ("id", "!=", putaway_location.id),  # Excludem nodul curent
                 ],
                 order="complete_name asc",
             )
