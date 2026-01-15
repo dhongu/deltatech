@@ -21,8 +21,9 @@ class SaleConfirmPayment(models.TransientModel):
     @api.onchange("provider_id")
     def _onchange_provider_id(self):
         if self.provider_id:
-            payment_method_line = self.provider_id.payment_method_ids[0]
-            self.payment_method_id = payment_method_line.id
+            if self.provider_id.payment_method_ids:
+                payment_method_line = self.provider_id.payment_method_ids[0]
+                self.payment_method_id = payment_method_line.id
 
     @api.model
     def default_get(self, fields_list):
