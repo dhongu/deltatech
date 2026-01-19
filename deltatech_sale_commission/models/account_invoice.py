@@ -31,6 +31,7 @@ class AccountInvoiceLine(models.Model):
     )
 
     commission = fields.Float(string="Commission", default=0.0)
+    commission_paid = fields.Boolean(string="Commission Paid", default=False)
 
     @api.depends("sale_line_ids")
     def _compute_sale_user_id(self):
