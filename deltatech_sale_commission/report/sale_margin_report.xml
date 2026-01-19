@@ -7,6 +7,15 @@
         <field name="type">list</field>
         <field name="arch" type="xml">
             <list create="false">
+                <header>
+                    <button
+                        name="action_set_commission_paid"
+                        aria-label="Set Paid"
+                        string="Set Paid"
+                        type="object"
+                        icon="fa-check"
+                    />
+                </header>
                 <field name="date" column_invisible="True" />
                 <field name="due_date" />
                 <field name="payment_term_id" />
@@ -20,6 +29,7 @@
                 <field name="sale_val" sum="Sale value" />
                 <field name="stock_val" sum="Stock value" />
                 <field name="profit_val" sum="Profit" />
+                <field name="commission_paid" />
                 <field name="company_id" column_invisible="1" groups="base.group_multi_company" />
                 <field name="move_type" column_invisible="True" />
                 <field name="state" column_invisible="True" />
@@ -55,6 +65,7 @@
                         <group>
                             <field name="commission_computed" />
                             <field name="commission" />
+                            <field name="commission_paid" />
                         </group>
                         <group name="managers">
                             <field name="manager_user_id" />
@@ -75,6 +86,15 @@
         <field name="type">list</field>
         <field name="arch" type="xml">
             <list delete="false" create="false">
+                <header>
+                    <button
+                        name="action_set_commission_paid"
+                        aria-label="Set Paid"
+                        string="Set Paid"
+                        type="object"
+                        icon="fa-check"
+                    />
+                </header>
                 <field name="date" column_invisible="1" />
                 <field name="due_date" />
                 <field name="payment_term_id" />
@@ -92,6 +112,7 @@
                 <field name="profit_val" sum="Profit" />
                 <field name="commission_computed" sum="Commission Computed" />
                 <field name="commission" sum="Commission" />
+                <field name="commission_paid" optional="show" />
                 <field name="markup" optional="hide" />
                 <field name="payment_state" optional="hide" />
                 <field name="profit_margin" optional="hide" />
@@ -157,6 +178,13 @@
                 <filter string="My Sales" name="mysale" domain="[('user_id','=',uid)]" />
                 <filter string="Paid" name="paid" domain="[('payment_state','=','paid')]" />
                 <filter string="Open" name="open" domain="[('payment_state','!=','paid')]" />
+                <separator />
+                <filter
+                    string="Commission Not Paid"
+                    name="commission_not_paid"
+                    domain="[('commission_paid','=',False)]"
+                />
+                <filter string="Commission Paid" name="commission_paid" domain="[('commission_paid','=',True)]" />
                 <field name="partner_id" />
                 <field name="commercial_partner_id" />
                 <field name="product_id" />
@@ -181,6 +209,11 @@
                     <filter string="Category of Product" name="category" context="{'group_by':'categ_id'}" />
                     <filter string="Account" name="account" context="{'group_by':'account_id'}" />
                     <filter string="Status" name="status" context="{'group_by':'state'}" />
+                    <filter
+                        string="Commission Paid"
+                        name="group_by_commission_paid"
+                        context="{'group_by':'commission_paid'}"
+                    />
                     <!--
                     <filter string="Period"   context="{'group_by':'period_id'}"/>
                     -->
