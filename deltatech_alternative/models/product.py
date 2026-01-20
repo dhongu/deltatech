@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
+from odoo.osv import expression
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -60,6 +61,18 @@ class ProductTemplate(models.Model):
             res = res[:limit]
         return res
 
+    @api.model
+    def _search_display_name(self, operator, value):
+        domain = super()._search_display_name(operator, value)
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        if value and safe_eval(get_param("alternative.search_name", "False")):
+            alternative_domain = [("alternative_ids.name", operator, value)]
+            if operator in expression.NEGATIVE_TERM_OPERATORS:
+                domain = expression.AND([domain, alternative_domain])
+            else:
+                domain = expression.OR([domain, alternative_domain])
+        return domain
+
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
@@ -87,6 +100,18 @@ class ProductProduct(models.Model):
         if limit:
             res = res[:limit]
         return res
+
+    @api.model
+    def _search_display_name(self, operator, value):
+        domain = super()._search_display_name(operator, value)
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        if value and safe_eval(get_param("alternative.search_name", "False")):
+            alternative_domain = [("alternative_ids.name", operator, value)]
+            if operator in expression.NEGATIVE_TERM_OPERATORS:
+                domain = expression.AND([domain, alternative_domain])
+            else:
+                domain = expression.OR([domain, alternative_domain])
+        return domain
 
 
 class ProductAlternative(models.Model):
