@@ -165,7 +165,7 @@ class BusinessProcess(models.Model):
     duration_for_completion = fields.Float(string="Total duration", compute="_compute_duration_for_completion")
 
     implementation_stage = fields.Selection(
-        [("first_stage", "First stage"), ("second_stage", "Second stage")],
+        [("first_stage", "First stage"), ("second_stage", "Second stage"), ("start", "Start")],
         string="Implementation stage",
     )
     module_type = fields.Selection(
