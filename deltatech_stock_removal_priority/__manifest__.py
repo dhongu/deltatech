@@ -10,6 +10,7 @@
     "category": "Warehouse",
     "depends": ["stock"],
     "data": ["data/stock_data.xml"],
+    "development_status": "Beta",
     "license": "AGPL-3",
     "installable": True,
     "application": False,
