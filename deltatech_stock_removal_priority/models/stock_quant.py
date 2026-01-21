@@ -11,7 +11,7 @@ class StockQuant(models.Model):
         compute="_compute_removal_priority", store=True, string="Removal Priority", default=1
     )
 
-    @api.depends("product_id", "location_id", "location_id.removal_priority")
+    @api.depends("product_id", "location_id")
     def _compute_removal_priority(self):
         internal_quants = self.filtered(lambda q: q.location_id.usage == "internal")
         (self - internal_quants).removal_priority = 0
@@ -21,20 +21,20 @@ class StockQuant(models.Model):
             if putaway_rule:
                 quant.removal_priority = putaway_rule.sequence
             else:
-                quant.removal_priority = quant.location_id.removal_priority
+                quant.removal_priority = 0
 
     @api.model
     def _get_removal_strategy_domain_order(self, domain, removal_strategy, qty):
         if removal_strategy == "priority":
             domain = domain + [("removal_priority", ">", 0)]
-            return domain, "priority, complete_name, id"
+            return domain, "removal_priority, location_id, id"
         return super()._get_removal_strategy_domain_order(domain, removal_strategy, qty)
 
     def _get_removal_strategy_sort_key(self, removal_strategy):
         key, reverse = super()._get_removal_strategy_sort_key(removal_strategy)
         if removal_strategy == "priority":
 
-            def key(q):
-                return q.removal_priority, q.location_id.complete_name, -q.id
+            def key(quant):
+                return quant.removal_priority, quant.location_id.complete_name, quant.id
 
         return key, reverse
