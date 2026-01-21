@@ -26,7 +26,7 @@
                 <field name="partner_id" column_invisible="True" />
                 <field name="commercial_partner_id" column_invisible="True" />
                 <field name="product_uom_qty" sum="Qty" />
-                <field name="company_currency_id" column_invisible="1"/>
+                <field name="company_currency_id" column_invisible="1" />
                 <field name="sale_val" sum="Sale value" />
                 <field name="stock_val" sum="Stock value" />
                 <field name="profit_val" sum="Profit" />
@@ -107,8 +107,8 @@
                 <field name="due_date" />
                 <field name="product_uom_qty" sum="Qty" />
                 <field name="purchase_price" optional="hide" />
-                <field name="company_currency_id" column_invisible="1"/>
-                <field name="sale_val" sum="Sale value"/>
+                <field name="company_currency_id" column_invisible="1" />
+                <field name="sale_val" sum="Sale value" />
                 <field name="stock_val" sum="Stock value" />
                 <field name="profit_val" sum="Profit" />
                 <field name="commission_computed" sum="Commission Computed" />
