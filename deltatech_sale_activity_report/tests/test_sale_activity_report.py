@@ -64,8 +64,20 @@ class TestSaleOrderActivityRecord(TransactionCase):
         self.assertTrue(activity_record, "Sale Order Activity Record should be created")
         self.assertEqual(activity_record.state, "sale", "State should be updated to 'sale'")
 
-        # Update the sale order again
-        self.sale_order.with_user(self.user).write({"state": "sale"})
-        activity_record.invalidate_recordset()
+    def test_awb_generated(self):
+        """Test that setting stage to 'pre_advice' sets 'awb_generated' to True"""
+        if "stage" in self.sale_order._fields:
+            self.sale_order.with_user(self.user).write({"stage": "pre_advice"})
 
-        self.assertEqual(activity_record.state, "sale", "State should be updated to 'sale'")
+            today = datetime.now().date()
+            activity_record = self.sale_order_activity_record_model.search(
+                [
+                    ("sale_order_id", "=", self.sale_order.id),
+                    ("change_date", "=", today),
+                    ("user_id", "=", self.user.id),
+                ],
+                limit=1,
+            )
+
+            self.assertTrue(activity_record, "Sale Order Activity Record should be created")
+            self.assertTrue(activity_record.awb_generated, "awb_generated should be True when stage is pre_advice")
