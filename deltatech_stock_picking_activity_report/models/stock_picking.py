@@ -1,6 +1,7 @@
-import re
 import logging
+import re
 from datetime import datetime
+
 from odoo import models
 
 _logger = logging.getLogger(__name__)
@@ -233,14 +234,14 @@ class StockPicking(models.Model):
             for line in picking.move_ids_without_package:
                 counted_product_number += line.quantity
             if picking.picking_type_id.code == "outgoing":
-                log_context["exit_product_number"]=counted_product_number
+                log_context["exit_product_number"] = counted_product_number
                 self.with_context(**log_context)._log_activity("Button Clicked: Validate")
             if picking.picking_type_id.code == "incoming":
-                log_context["entry_product_number"]=counted_product_number
+                log_context["entry_product_number"] = counted_product_number
                 self.with_context(**log_context)._log_activity("Button Clicked: Validate")
             if picking.picking_type_id.code == "internal":
-                log_context["internal_product_number"]=counted_product_number
-                self.with_context(log_context)._log_activity("Button Clicked: Validate")
+                log_context["internal_product_number"] = counted_product_number
+                self.with_context(**log_context)._log_activity("Button Clicked: Validate")
         return res
 
     def action_cancel(self):

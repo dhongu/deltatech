@@ -1,6 +1,6 @@
 # models/sale_order.py
-import re
 import logging
+import re
 from datetime import datetime
 
 from odoo import models
