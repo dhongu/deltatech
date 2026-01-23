@@ -5,18 +5,20 @@ class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
 
     def _apply_putaway_strategy(self):
-        res = super()._apply_putaway_strategy()
-        new_lines = self.env["stock.move.line"]
-        exclude_location = self.env.context.get("exclude_location", self.env["stock.location"])
-        for line in self:
-            if line.location_dest_id.max_products_leaf:
-                # se mai pot pune
-                qty_available = line.location_dest_id.max_products_leaf - line.location_dest_id.current_products
-                if qty_available < line.quantity:
-                    exclude_location = exclude_location | line.location_dest_id
-                    rest = line.quantity - qty_available
-                    line.quantity = qty_available
-                    new_lines += line.copy({"quantity": rest, "location_dest_id": line.move_id.location_dest_id.id})
-        if new_lines:
-            new_lines.with_context(exclude_location=exclude_location)._apply_putaway_strategy()
-        return res
+        # Suprascriem pentru a gestiona ocuparea temporară în timpul batch-ului
+        if self._context.get("avoid_putaway_rules") or not self:
+            return super()._apply_putaway_strategy()
+
+        # Dacă avem mai mult de o linie, procesăm cu urmărirea ocupării
+        if len(self) > 1:
+            temp_occupancy = dict(self.env.context.get("putaway_additional_qty", {}))
+            for sml in self:
+                # Actualizăm contextul cu ocuparea temporară acumulată
+                sml_with_context = sml.with_context(putaway_additional_qty=temp_occupancy)
+                super(StockMoveLine, sml_with_context)._apply_putaway_strategy()
+                # După ce s-a aplicat strategia, actualizăm ocuparea temporară cu noua destinație
+                loc_id = sml.location_dest_id.id
+                qty = sml.product_uom_id._compute_quantity(sml.quantity, sml.product_id.uom_id)
+                temp_occupancy[loc_id] = temp_occupancy.get(loc_id, 0.0) + qty
+        else:
+            return super()._apply_putaway_strategy()
