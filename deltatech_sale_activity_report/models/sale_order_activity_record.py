@@ -37,3 +37,7 @@ class SaleOrderActivityRecord(models.Model):
         ],
         string="Stage",
     )
+    awb_generated = fields.Boolean(string="AWB Generated")
+    chatter_message = fields.Boolean(string="Chatter Message")
+    tags_changed = fields.Boolean(string="Tags Changed")
+    activity_log = fields.Text(string="Activity Log")

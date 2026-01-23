@@ -1,4 +1,3 @@
-# models/sale_order.py
 import logging
 import re
 from datetime import datetime
@@ -8,8 +7,8 @@ from odoo import models
 _logger = logging.getLogger(__name__)
 
 
-class SaleOrder(models.Model):
-    _inherit = "sale.order"
+class StockPicking(models.Model):
+    _inherit = "stock.picking"
 
     def _log_activity(self, log_msg):
         try:
@@ -17,15 +16,14 @@ class SaleOrder(models.Model):
                 today = datetime.now().date()
                 now = datetime.now().strftime("%H:%M:%S")
                 full_log_msg = f"{now} - {log_msg}\n"
-                for order in self:
-                    # search with sudo to ensure we find records even if current user has limited access
-                    order_id = order.id
+                for picking in self:
+                    picking_id = picking.id
                     existing_record = (
-                        self.env["sale.order.activity.record"]
+                        self.env["stock.picking.activity.record"]
                         .sudo()
                         .search(
                             [
-                                ("sale_order_id", "=", order_id),
+                                ("picking_id", "=", picking_id),
                                 ("change_date", "=", today),
                                 ("user_id", "=", self.env.user.id),
                             ],
@@ -34,58 +32,73 @@ class SaleOrder(models.Model):
                     )
 
                     vals = {
-                        "state": order.state,
-                        "stage": order.stage,
+                        "state": picking.state,
                     }
 
                     if not existing_record:
                         vals.update(
                             {
-                                "sale_order_id": order_id,
+                                "picking_id": picking_id,
                                 "change_date": today,
                                 "user_id": self.env.user.id,
                                 "activity_log": full_log_msg,
                             }
                         )
-                        if self.env.context.get("generated_awb", False):
-                            vals.update({"awb_generated": True})
                         if self.env.context.get("chatter_message", False):
                             vals.update({"chatter_message": True})
-                        if self.env.context.get("tags_changed", False):
-                            vals.update({"tags_changed": True})
-                        self.env["sale.order.activity.record"].sudo().create(vals)
+                        if self.env.context.get("exit_product_number", False):
+                            vals.update({"exit_product_number": self.env.context.get("exit_product_number")})
+                        if self.env.context.get("entry_product_number", False):
+                            vals.update({"entry_product_number": self.env.context.get("entry_product_number")})
+                        if self.env.context.get("internal_product_number", False):
+                            vals.update({"internal_product_number": self.env.context.get("internal_product_number")})
+                        if self.env.context.get("has_validated", False):
+                            vals.update({"has_validated": True})
+                        self.env["stock.picking.activity.record"].sudo().create(vals)
                     else:
                         new_log = (existing_record.activity_log or "") + full_log_msg
                         vals["activity_log"] = new_log
-                        if self.env.context.get("generated_awb", False):
-                            vals["awb_generated"] = True
                         if self.env.context.get("chatter_message", False):
                             vals.update({"chatter_message": True})
-                        if self.env.context.get("tags_changed", False):
-                            vals.update({"tags_changed": True})
+                        if self.env.context.get("exit_product_number", False):
+                            vals.update(
+                                {
+                                    "exit_product_number": existing_record.exit_product_number
+                                    + self.env.context.get("exit_product_number")
+                                }
+                            )
+                        if self.env.context.get("entry_product_number", False):
+                            vals.update(
+                                {
+                                    "entry_product_number": existing_record.entry_product_number
+                                    + self.env.context.get("entry_product_number")
+                                }
+                            )
+                        if self.env.context.get("internal_product_number", False):
+                            vals.update(
+                                {
+                                    "internal_product_number": existing_record.internal_product_number
+                                    + self.env.context.get("internal_product_number")
+                                }
+                            )
+                        if self.env.context.get("has_validated", False):
+                            vals.update({"has_validated": True})
                         existing_record.sudo().write(vals)
         except Exception:
             _logger.exception("Error while logging activity")
 
     def write(self, vals):
-        # Prepare readable log before write to capture old values
         try:
             if self.env.user.has_group("base.group_user") and self.env.user.login != "__system__":
                 fields_info = self.fields_get(list(vals.keys()))
-                for order in self:
+                for picking in self:
                     changes = []
                     log_context = {}
                     for field_name, new_val in vals.items():
                         field_label = fields_info.get(field_name, {}).get("string", field_name)
                         field_type = fields_info.get(field_name, {}).get("type")
-                        old_val = order[field_name]
+                        old_val = picking[field_name]
 
-                        if field_name == "stage" and new_val == "pre_advice":
-                            log_context["generated_awb"] = True
-                        if field_name == "tag_ids":
-                            log_context["tags_changed"] = True
-
-                        # Simple formatting for old/new values
                         def format_val(val, f_type, f_name):
                             if not val:
                                 return "None"
@@ -101,7 +114,6 @@ class SaleOrder(models.Model):
                                 selection = fields_info[f_name].get("selection", [])
                                 return dict(selection).get(val, val)
                             elif f_type in ["one2many", "many2many"]:
-                                # Handle Odoo command list for x2many fields
                                 formatted_commands = []
                                 target_model_name = fields_info[f_name]["relation"]
                                 target_model = self.env[target_model_name]
@@ -152,26 +164,24 @@ class SaleOrder(models.Model):
                                         data = command[2]
                                         line = target_model.browse(line_id)
                                         name_part = line.display_name or f"ID {line_id}"
-
                                         readable_data = []
                                         for fname, fval in data.items():
                                             f_info = target_fields_info.get(fname, {})
                                             flabel = f_info.get("string", fname)
                                             f_type = f_info.get("type")
                                             readable_data.append(f"{flabel}: {format_sub_val(fval, f_type, fname)}")
-
                                         formatted_commands.append(f"Update {name_part}: [{', '.join(readable_data)}]")
                                     elif cmd_type == 2:  # DELETE
                                         line_id = command[1]
                                         line = target_model.browse(line_id)
                                         name_part = line.display_name or f"ID {line_id}"
                                         formatted_commands.append(f"Delete {name_part}")
-                                    elif cmd_type == 3:  # UNLINK (remove from relation, but don't delete)
+                                    elif cmd_type == 3:  # UNLINK
                                         line_id = command[1]
                                         line = target_model.browse(line_id)
                                         name_part = line.display_name or f"ID {line_id}"
                                         formatted_commands.append(f"Remove {name_part}")
-                                    elif cmd_type == 4:  # LINK (add existing)
+                                    elif cmd_type == 4:  # LINK
                                         line_id = command[1]
                                         line = target_model.browse(line_id)
                                         name_part = line.display_name or f"ID {line_id}"
@@ -184,17 +194,14 @@ class SaleOrder(models.Model):
 
                             return str(val)
 
-                        if field_name == "shipment_info":
-                            changes.append("Shipment Info updated")
-                        else:
-                            old_val_str = format_val(old_val, field_type, field_name)
-                            new_val_str = format_val(new_val, field_type, field_name)
+                        old_val_str = format_val(old_val, field_type, field_name)
+                        new_val_str = format_val(new_val, field_type, field_name)
 
-                            if old_val_str != new_val_str:
-                                changes.append(f"{field_label}: {old_val_str} -> {new_val_str}")
+                        if old_val_str != new_val_str:
+                            changes.append(f"{field_label}: {old_val_str} -> {new_val_str}")
 
                     if changes:
-                        order.with_context(**log_context)._log_activity("Updated: " + ", ".join(changes))
+                        picking.with_context(**log_context)._log_activity("Updated: " + ", ".join(changes))
         except Exception:
             _logger.exception("Error while logging activity in write")
 
@@ -204,7 +211,6 @@ class SaleOrder(models.Model):
         res = super().message_post(**kwargs)
         body = kwargs.get("body", "")
         if body:
-            # Clean HTML tags
             clean_body = re.sub("<.*?>", "", body)
             if clean_body.strip():
                 self.with_context(chatter_message=True)._log_activity(f"Message: {clean_body.strip()}")
@@ -215,27 +221,30 @@ class SaleOrder(models.Model):
         self._log_activity("Button Clicked: Confirm")
         return res
 
+    def action_assign(self):
+        res = super().action_assign()
+        self._log_activity("Button Clicked: Check Availability")
+        return res
+
+    def button_validate(self):
+        res = super().button_validate()
+        for picking in self:
+            counted_product_number = 0
+            log_context = {"has_validated": True}
+            for line in picking.move_ids_without_package:
+                counted_product_number += line.quantity
+            if picking.picking_type_id.code == "outgoing":
+                log_context["exit_product_number"] = counted_product_number
+                self.with_context(**log_context)._log_activity("Button Clicked: Validate")
+            if picking.picking_type_id.code == "incoming":
+                log_context["entry_product_number"] = counted_product_number
+                self.with_context(**log_context)._log_activity("Button Clicked: Validate")
+            if picking.picking_type_id.code == "internal":
+                log_context["internal_product_number"] = counted_product_number
+                self.with_context(**log_context)._log_activity("Button Clicked: Validate")
+        return res
+
     def action_cancel(self):
         res = super().action_cancel()
         self._log_activity("Button Clicked: Cancel")
-        return res
-
-    def action_draft(self):
-        res = super().action_draft()
-        self._log_activity("Button Clicked: Set to Quotation")
-        return res
-
-    def action_lock(self):
-        res = super().action_lock()
-        self._log_activity("Button Clicked: Lock")
-        return res
-
-    def action_unlock(self):
-        res = super().action_unlock()
-        self._log_activity("Button Clicked: Unlock")
-        return res
-
-    def action_quotation_send(self):
-        res = super().action_quotation_send()
-        self._log_activity("Button Clicked: Send by Email")
         return res
