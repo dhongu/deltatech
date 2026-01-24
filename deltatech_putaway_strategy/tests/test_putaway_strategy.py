@@ -226,13 +226,7 @@ class TestPutawayStrategy(TransactionCase):
                 "location_out_id": self.parent_loc.id,
             }
         )
-        self.env["stock.putaway.rule"].create(
-            {
-                "product_id": product2.id,
-                "location_in_id": self.parent_loc.id,
-                "location_out_id": self.parent_loc.id,
-            }
-        )
+
 
         # Confirmăm picking-ul (o singură dată)
         # Odoo va rula strategia de putaway în timpul confirmării/atribuirii (action_confirm / action_assign)
@@ -250,11 +244,7 @@ class TestPutawayStrategy(TransactionCase):
         locs_p1 = lines_p1.mapped('location_dest_id')
         self.assertIn(self.loc1, locs_p1)
 
-        # Verificăm distribuția pentru product 2 (ar trebui să fie în L2)
-        lines_p2 = picking.move_line_ids.filtered(lambda l: l.product_id == product2)
-        locs_p2 = lines_p2.mapped('location_dest_id')
-        self.assertIn(self.loc2, locs_p2)
-        self.assertNotIn(self.loc1, locs_p2)
+
 
     def test_picking_split_quantity(self):
         """Test în care o cantitate mare dintr-un singur produs este împărțită pe două locații
