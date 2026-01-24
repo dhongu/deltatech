@@ -32,7 +32,7 @@ class StockMoveLine(models.Model):
     def _split_by_putaway_capacity(self):
         # Logica de splitare a liniilor care depășesc capacitatea locației
         is_split = False
-
+        exclude_location = self.env.context.get("exclude_location", self.env["stock.location"])
         for line in self:
             if line.location_dest_id.max_products_leaf:
 
@@ -42,6 +42,8 @@ class StockMoveLine(models.Model):
                 qty_available = line.location_dest_id.max_products_leaf - occupied
 
                 if qty_available < line.quantity:
+                    # Excludem locația curentă din următoarea căutare de locație
+                    exclude_location += line.location_dest_id
                     if qty_available > 0:
                         is_split = True
                         rest = line.quantity - qty_available
@@ -49,11 +51,10 @@ class StockMoveLine(models.Model):
                         line.write({"quantity": qty_available})
                         # Pregătim o linie nouă pentru restul cantității
                         new_line = line.copy({
-
                             "quantity": rest,
                             "location_dest_id": line.move_id.location_dest_id.id,
                         })
-                        new_line._apply_putaway_strategy()
+                        new_line.with_context(exclude_location=exclude_location)._apply_putaway_strategy()
                         new_line._split_by_putaway_capacity()
 
 
