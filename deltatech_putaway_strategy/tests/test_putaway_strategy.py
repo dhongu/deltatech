@@ -42,8 +42,6 @@ class TestPutawayStrategy(TransactionCase):
             }
         )
 
-
-
         # Creează un produs simplu
         self.product = self.Product.create(
             {
@@ -227,7 +225,6 @@ class TestPutawayStrategy(TransactionCase):
             }
         )
 
-
         # Confirmăm picking-ul (o singură dată)
         # Odoo va rula strategia de putaway în timpul confirmării/atribuirii (action_confirm / action_assign)
         picking.action_confirm()
@@ -241,10 +238,8 @@ class TestPutawayStrategy(TransactionCase):
         # In Odoo 17, ordinea poate varia. Verificăm că sunt în locații diferite dacă L1 e plină.
 
         # Verificăm că locațiile sunt cele așteptate
-        locs_p1 = lines_p1.mapped('location_dest_id')
+        locs_p1 = lines_p1.mapped("location_dest_id")
         self.assertIn(self.loc1, locs_p1)
-
-
 
     def test_picking_split_quantity(self):
         """Test în care o cantitate mare dintr-un singur produs este împărțită pe două locații
