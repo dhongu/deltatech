@@ -58,7 +58,7 @@ class PurchaseUblImportWizard(models.TransientModel):
           - HUR: hour
           - PCE: piece (map to unit)
         """
-        Uom = self.env["uom.uom"]
+
         code = (unit_code or "").upper()
         # try via XML IDs from base uom module
         xml_ids = {
@@ -69,36 +69,17 @@ class PurchaseUblImportWizard(models.TransientModel):
             "LTR": "uom.product_uom_litre",
             "MTR": "uom.product_uom_meter",
             "HUR": "uom.product_uom_hour",
+            "SET": "uom.product_uom_set",
         }
         xid = xml_ids.get(code)
         if xid:
             rec = self.env.ref(xid, raise_if_not_found=False)
             if rec:
                 return rec
-        # Heuristics
-        if code in {"C62", "H87", "PCE", "PCS", "UNT", "BUC"}:
-            rec = self.env.ref("uom.product_uom_unit", raise_if_not_found=False)
-            if rec:
-                return rec
-        if code in {"KG", "KGM"}:
-            rec = self.env.ref("uom.product_uom_kgm", raise_if_not_found=False)
-            if rec:
-                return rec
-        if code in {"L", "LTR"}:
-            rec = self.env.ref("uom.product_uom_litre", raise_if_not_found=False)
-            if rec:
-                return rec
-        if code in {"M", "MTR"}:
-            rec = self.env.ref("uom.product_uom_meter", raise_if_not_found=False)
-            if rec:
-                return rec
-        if code in {"H", "HUR"}:
-            rec = self.env.ref("uom.product_uom_hour", raise_if_not_found=False)
-            if rec:
-                return rec
-        # Last resort: reference unit from Unit category
-        ref = Uom.search([("uom_type", "=", "reference"), ("category_id.measure_type", "=", "unit")], limit=1)
-        return ref or Uom.search([], limit=1)
+
+        rec = self.env.ref("uom.product_uom_unit", raise_if_not_found=True)
+
+        return rec
 
     def _create_product_from_xml_line(self, supplier, line_vals, currency):
         """Create a storable product based on an XML invoice line and link supplierinfo.
@@ -286,20 +267,20 @@ class PurchaseUblImportWizard(models.TransientModel):
             sinfo = SupplierInfo.search(
                 [
                     ("partner_id", "=", supplier.id),
-                    ("product_code", "=", code),
+                    ("product_code", "=ilike", code),
                 ],
                 limit=1,
             )
             if sinfo and sinfo.product_tmpl_id.product_variant_id:
                 product = sinfo.product_tmpl_id.product_variant_id
         if not product and code:
-            product = Product.search([("default_code", "=", code)], limit=1)
+            product = Product.search([("default_code", "=ilike", code)], limit=1)
 
         # Fallback: sometimes supplier code is actually barcode digits
         if not product and code and code.isdigit():
             product = Product.search([("barcode", "=", code)], limit=1)
         if not product and name:
-            product = Product.search([("name", "=", name)], limit=1)
+            product = Product.search([("name", "=ilike", name)], limit=1)
 
         return product
 
@@ -398,9 +379,15 @@ class PurchaseUblImportWizard(models.TransientModel):
                     raise UserError(_("The stock transfer cannot be validated!"))
             if picking.state == "assigned":
                 # Update header fields to mirror receipt_to_stock
+                field_notice = False
+                if "notice" in self.env["stock.picking"]._fields:
+                    field_notice = "notice"
+                if "l10n_ro_notice" in self.env["stock.picking"]._fields:
+                    field_notice = "l10n_ro_notice"
+
                 picking.write(
                     {
-                        "notice": False,
+                        field_notice: False,
                         "origin": order.partner_ref or order.name,
                     }
                 )
@@ -482,12 +469,14 @@ class PurchaseUblImportWizard(models.TransientModel):
                 product = self._match_product(partner, ln.get("code"), ln.get("name"), ln.get("barcode"))
             # Optionally create missing product
             if not product and self.create_missing_products:
-                try:
-                    product = self._create_product_from_xml_line(partner, ln, invoice_xml.get("currency"))
-                    created.append(product.display_name)
-                except Exception:
-                    # If creation fails, keep track as not found and continue
-                    not_found.append(ln.get("code") or ln.get("name") or "/")
+                product = self._create_product_from_xml_line(partner, ln, invoice_xml.get("currency"))
+                created.append(product.display_name)
+                # try:
+                #     product = self._create_product_from_xml_line(partner, ln, invoice_xml.get("currency"))
+                #     created.append(product.display_name)
+                # except Exception:
+                #     # If creation fails, keep track as not found and continue
+                #     not_found.append(ln.get("code") or ln.get("name") or "/")
             elif not product:
                 not_found.append(ln.get("code") or ln.get("name") or "/")
             ln_map = {**ln, "product": product}
