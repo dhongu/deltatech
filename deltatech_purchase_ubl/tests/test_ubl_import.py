@@ -141,7 +141,7 @@ class TestPurchaseUblImport(TransactionCase):
         wiz = self._run_wizard(xml, self.po)
 
         # Product created with default_code and correct UoM
-        product = self.env["product.product"].search([("default_code", "=", "VEND-NEW")], limit=1)
+        product = self.env["product.product"].search([("name", "=", "New From UBL")], limit=1)
         self.assertTrue(product, "Product should be created from UBL line")
         self.assertEqual(product.uom_id, self.env.ref("uom.product_uom_kgm"))
 
