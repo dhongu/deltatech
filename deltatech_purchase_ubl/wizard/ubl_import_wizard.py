@@ -102,7 +102,6 @@ class PurchaseUblImportWizard(models.TransientModel):
                 "is_storable": True,
                 "purchase_ok": True,
                 "sale_ok": False,
-                "default_code": code or False,
                 "barcode": barcode or False,
                 "uom_id": uom.id,
                 "uom_po_id": uom.id,
@@ -332,7 +331,7 @@ class PurchaseUblImportWizard(models.TransientModel):
                     return line.product_id
         return False
 
-    def _update_supplier_price(self, supplier, product, price, currency):
+    def _update_supplier_price(self, supplier, product, code, price, currency):
         SupplierInfo = self.env["product.supplierinfo"]
         sinfo = SupplierInfo.search(
             [
@@ -345,7 +344,7 @@ class PurchaseUblImportWizard(models.TransientModel):
             "partner_id": supplier.id,
             "product_tmpl_id": product.product_tmpl_id.id,
             "product_id": product.id,
-            "product_code": product.default_code or False,
+            "product_code": code,
             "price": price,
             "currency_id": self._resolve_currency(currency).id,
             "delay": 1,
@@ -482,7 +481,9 @@ class PurchaseUblImportWizard(models.TransientModel):
             ln_map = {**ln, "product": product}
             mapped_lines.append(ln_map)
             if self.update_prices and product:
-                self._update_supplier_price(partner, product, ln.get("price", 0.0), invoice_xml.get("currency"))
+                self._update_supplier_price(
+                    partner, product, ln.get("code"), ln.get("price", 0.0), invoice_xml.get("currency")
+                )
                 updated.append(f"{product.display_name}: {ln.get('price')} {invoice_xml.get('currency')}")
 
         # If the purchase order has no lines, add products from the XML as order lines
