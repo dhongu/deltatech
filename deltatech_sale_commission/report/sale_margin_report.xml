@@ -240,8 +240,8 @@
         <field name="view_id" ref="view_sale_margin_report_list" />
         <field name="search_view_id" ref="view_sale_margin_report_filter" />
         <field name="help">This report performs analysis on your invoices.</field>
-        <field name="context">{"search_default_date":1,
-            'search_default_product':1,'group_by_no_leaf':1,'group_by':['user_id']}
+        <field name="context">{"search_default_filter_date": 1,
+            'search_default_product': 1, 'group_by_no_leaf': 1, 'group_by': ['user_id']}
         </field>
     </record>
 
@@ -296,7 +296,7 @@
         <field name="view_mode">list,form</field>
         <field name="view_id" ref="view_sale_margin_report_commission_list" />
         <field name="search_view_id" ref="view_sale_margin_report_filter" />
-        <field name="context">{"search_default_date":1, 'search_default_paid':1}</field>
+        <field name="context">{"search_default_filter_date": 1, 'search_default_paid': 1}</field>
         <field name="domain">[('move_type','in',['out_invoice','out_refund','out_receipt'])]</field>
     </record>
 
