@@ -8,7 +8,7 @@
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing/Manufacturing",
-    "depends": ["sale_margin"],
+    "depends": ["sale_margin", "mrp"],
     "license": "OPL-1",
     "data": [],
     "application": False,
