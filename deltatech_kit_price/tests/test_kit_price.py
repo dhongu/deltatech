@@ -17,6 +17,11 @@ class TestKitPrice(TransactionCase):
         )
         self.kit_product = self.env["product.product"].create({"name": "Kit Product", "type": "product"})
 
+        # Delete any reordering rules that might have been created automatically
+        self.env["stock.warehouse.orderpoint"].search(
+            [("product_id", "in", [self.component_a.id, self.component_b.id, self.kit_product.id])]
+        ).unlink()
+
         self.bom = self.env["mrp.bom"].create(
             {
                 "product_tmpl_id": self.kit_product.product_tmpl_id.id,
