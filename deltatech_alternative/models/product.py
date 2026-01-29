@@ -54,7 +54,7 @@ class ProductTemplate(models.Model):
             alternatives = self.env["product.alternative"].search(domain, limit=left)
             product_tmpl_ids = alternatives.mapped("product_tmpl_id")
             current_ids = {r[0] for r in res}
-            product_tmpl_ids = product_tmpl_ids.filtered(lambda p: p.id not in current_ids)
+            product_tmpl_ids = product_tmpl_ids.filtered(lambda p: p.id not in current_ids and p.active)
             product_tmpl_ids = product_tmpl_ids[:left]
             res += [(p.id, p.display_name) for p in product_tmpl_ids]
         if limit:
@@ -66,7 +66,7 @@ class ProductTemplate(models.Model):
         domain = super()._search_display_name(operator, value)
         get_param = self.env["ir.config_parameter"].sudo().get_param
         if value and safe_eval(get_param("alternative.search_name", "False")):
-            alternative_domain = [("alternative_ids.name", operator, value)]
+            alternative_domain = [("alternative_ids.name", operator, value), ("active", "=", True)]
             if operator in expression.NEGATIVE_TERM_OPERATORS:
                 domain = expression.AND([domain, alternative_domain])
             else:
@@ -93,7 +93,7 @@ class ProductProduct(models.Model):
 
             variants = product_tmpl_ids.mapped("product_variant_ids")
             current_ids = {r[0] for r in res}
-            variants = variants.filtered(lambda p: p.id not in current_ids)
+            variants = variants.filtered(lambda p: p.id not in current_ids and p.active)
             variants = variants[:left]
 
             res += [(p.id, p.name) for p in variants]
@@ -106,7 +106,7 @@ class ProductProduct(models.Model):
         domain = super()._search_display_name(operator, value)
         get_param = self.env["ir.config_parameter"].sudo().get_param
         if value and safe_eval(get_param("alternative.search_name", "False")):
-            alternative_domain = [("alternative_ids.name", operator, value)]
+            alternative_domain = [("alternative_ids.name", operator, value), ("active", "=", True)]
             if operator in expression.NEGATIVE_TERM_OPERATORS:
                 domain = expression.AND([domain, alternative_domain])
             else:
