@@ -1,4 +1,5 @@
 from odoo import fields, models
+from odoo.tools.convert import safe_eval
 
 
 class StockLocation(models.Model):
@@ -199,8 +200,12 @@ class StockLocation(models.Model):
             return putaway_location
 
         # Dacă am găsit o locație
+        # de adauga un paramentru de sistem pentru a cauta o sublocatie
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        search_sublocation =  self.env["ir.config_parameter"].sudo().get_param("deltatech_putaway_strategy.search_sublocation", "False")
+        search_sublocation = safe_eval(search_sublocation)
 
-        if putaway_location.child_ids:
+        if search_sublocation and putaway_location.child_ids:
             quants = self.env["stock.quant"].search(
                 [
                     ("product_id", "=", product.id),

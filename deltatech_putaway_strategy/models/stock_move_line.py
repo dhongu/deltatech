@@ -1,4 +1,5 @@
-from odoo import models
+from odoo import _, models
+from odoo.exceptions import UserError
 
 
 class StockMove(models.Model):
@@ -9,6 +10,22 @@ class StockMove(models.Model):
         # Apelăm splitarea pe toate liniile de mișcare implicate
         # Facem o buclă până când nu mai sunt necesare splitări
         self.move_line_ids._split_by_putaway_capacity()
+        return res
+
+    def _action_done(self, cancel_backorder=False):
+        res = super()._action_done(cancel_backorder=cancel_backorder)
+        for move in res:
+            if move.location_dest_id.usage == "internal" and move.location_dest_id.max_products_leaf:
+                move.location_dest_id._compute_warehouse_occupancy()
+                if move.location_dest_id.current_products > move.location_dest_id.max_products_leaf:
+                    raise UserError(
+                        _(
+                            "Location %s is over capacity (%s > %s)",
+                            move.location_dest_id.display_name,
+                            move.location_dest_id.current_products,
+                            move.location_dest_id.max_products_leaf,
+                        )
+                    )
         return res
 
 
