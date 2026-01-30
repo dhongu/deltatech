@@ -24,7 +24,7 @@ class TestPutawayValidation(TransactionCase):
         self.product = self.Product.create(
             {
                 "name": "Validation Product",
-                "type": "product",
+                "is_storable": True,
             }
         )
 
