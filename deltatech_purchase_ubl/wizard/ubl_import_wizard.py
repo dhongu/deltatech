@@ -270,8 +270,11 @@ class PurchaseUblImportWizard(models.TransientModel):
                 ],
                 limit=1,
             )
-            if sinfo and sinfo.product_tmpl_id.product_variant_id:
-                product = sinfo.product_tmpl_id.product_variant_id
+            if sinfo:
+                if sinfo.product_id:
+                    product = sinfo.product_id
+                else:
+                    product = sinfo.product_tmpl_id.product_variant_id
         if not product and code:
             product = Product.search([("default_code", "=ilike", code)], limit=1)
 
