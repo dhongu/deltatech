@@ -49,7 +49,7 @@ class SaleOrder(models.Model):
             payment_status = "without"
 
             provider = self.env["payment.provider"]
-            all_transactions = order.sudo().transaction_ids
+            all_transactions = order.sudo().transaction_ids.sorted(lambda a: a.id)
             if all_transactions:
                 provider = all_transactions[-1].provider_id
 
@@ -76,7 +76,7 @@ class SaleOrder(models.Model):
                 payment_status = "without"
                 if order.transaction_ids:
                     payment_status = "initiated"
-                    for transaction in all_transactions:
+                    for transaction in all_transactions.sorted(lambda a: a.id):
                         provider = transaction.provider_id
 
                     authorized_transaction_ids = order.transaction_ids.filtered(lambda t: t.state == "authorized")
