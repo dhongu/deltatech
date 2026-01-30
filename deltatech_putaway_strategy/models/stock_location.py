@@ -1,4 +1,5 @@
 from odoo import fields, models
+from odoo.tools.convert import safe_eval
 
 
 class StockLocation(models.Model):
@@ -179,7 +180,6 @@ class StockLocation(models.Model):
             planned_qty = self.planned_products
 
             # Adăugăm cantitatea din context (putaway_additional_qty) dacă există
-            # Odoo stock_move_line._apply_putaway_strategy trimite additional_qty în apelul _get_putaway_strategy
             context_additional_qty = self.env.context.get("putaway_additional_qty")
             if context_additional_qty is None:
                 context_additional_qty = self.env.context.get("additional_qty")
@@ -189,7 +189,7 @@ class StockLocation(models.Model):
             elif isinstance(context_additional_qty, int | float):
                 planned_qty += context_additional_qty
 
-            if (self.current_products + planned_qty + quantity) > self.max_products_leaf:
+            if (self.current_products + planned_qty) >= self.max_products_leaf:
                 return False
 
         return True
@@ -200,8 +200,13 @@ class StockLocation(models.Model):
             return putaway_location
 
         # Dacă am găsit o locație
+        # de adauga un paramentru de sistem pentru a cauta o sublocatie
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        search_sublocation = get_param("deltatech_putaway_strategy.search_sublocation", "False")
 
-        if putaway_location.child_ids:
+        search_sublocation = safe_eval(search_sublocation)
+
+        if search_sublocation and putaway_location.child_ids:
             quants = self.env["stock.quant"].search(
                 [
                     ("product_id", "=", product.id),
@@ -213,6 +218,7 @@ class StockLocation(models.Model):
 
             for quant in quants.sorted(key=lambda q: q.location_id.complete_name):
                 candidate = quant.location_id
+                # Transmitem contextul pentru a vedea ocuparea temporară
                 if candidate._check_can_be_used(product, quantity, package):
                     return candidate
 
@@ -227,9 +233,11 @@ class StockLocation(models.Model):
             )
 
             for leaf in leaf_locations:
+                # Transmitem contextul pentru a vedea ocuparea temporară
                 if leaf._check_can_be_used(product, quantity, package):
-                    if not leaf.quant_ids.filtered(lambda q: q.quantity > 0):
-                        return leaf
-                    putaway_location = leaf
-                    break
+                    return leaf
+            # Daca nici o locatie nu e disponibila (toate pline), returnam originalul putaway_location
+            # sau prima frunza daca vrem sa fortam macar o locatie interna.
+            # Pentru a respecta ideea de "plin", returnam putaway_location si lasam splitarea sa se ocupe
+            # sau super() sa decida.
         return putaway_location
