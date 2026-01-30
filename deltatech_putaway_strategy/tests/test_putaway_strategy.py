@@ -233,7 +233,7 @@ class TestPutawayStrategy(TransactionCase):
         # Verificăm distribuția pentru product 1 (ar trebui să fie în L1)
         # Atenție: strategia de putaway s-ar putea să fi ales L2 dacă L1 părea ocupată din vreun motiv,
         # dar cu curățarea făcută și capacitate 2, Move 1 (qty 2) ar trebui să meargă în L1.
-        lines_p1 = picking.move_line_ids.filtered(lambda l: l.product_id == self.product)
+        picking.move_line_ids.filtered(lambda l: l.product_id == self.product)
         # self.assertTrue(all(l.location_dest_id == self.loc1 for l in lines_p1), "Primul produs ar trebui să fie în L1")
         # In Odoo 17, ordinea poate varia. Verificăm că sunt în locații diferite dacă L1 e plină.
 
@@ -248,11 +248,13 @@ class TestPutawayStrategy(TransactionCase):
 
         # L1 este plină (max 5, punem 5)
         self.loc1.write({"max_products_leaf": 5})
-        self.Quant.create({
-            "product_id": self.product.id,
-            "location_id": self.loc1.id,
-            "quantity": 5.0,
-        })
+        self.Quant.create(
+            {
+                "product_id": self.product.id,
+                "location_id": self.loc1.id,
+                "quantity": 5.0,
+            }
+        )
         self.loc1._compute_warehouse_occupancy()
 
         # Regula de putaway trimite către parent_loc -> loc1

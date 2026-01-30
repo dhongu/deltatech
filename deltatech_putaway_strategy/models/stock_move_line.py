@@ -20,10 +20,10 @@ class StockMove(models.Model):
                 if move.location_dest_id.current_products > move.location_dest_id.max_products_leaf:
                     raise UserError(
                         _(
-                            "Location %s is over capacity (%s > %s)",
-                            move.location_dest_id.display_name,
-                            move.location_dest_id.current_products,
-                            move.location_dest_id.max_products_leaf,
+                            "Location %(location)s is over capacity (%(current)s > %(max)s)",
+                            location=move.location_dest_id.display_name,
+                            current=move.location_dest_id.current_products,
+                            max=move.location_dest_id.max_products_leaf,
                         )
                     )
         return res

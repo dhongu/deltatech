@@ -202,7 +202,8 @@ class StockLocation(models.Model):
         # Dacă am găsit o locație
         # de adauga un paramentru de sistem pentru a cauta o sublocatie
         get_param = self.env["ir.config_parameter"].sudo().get_param
-        search_sublocation =  self.env["ir.config_parameter"].sudo().get_param("deltatech_putaway_strategy.search_sublocation", "False")
+        search_sublocation = get_param("deltatech_putaway_strategy.search_sublocation", "False")
+
         search_sublocation = safe_eval(search_sublocation)
 
         if search_sublocation and putaway_location.child_ids:
