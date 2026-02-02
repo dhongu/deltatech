@@ -9,6 +9,7 @@
     "depends": ["stock"],
     "data": [
         "views/stock_location_views.xml",
+        "views/stock_picking_type_views.xml",
     ],
     "development_status": "Beta",
     "maintainers": ["dhongu"],

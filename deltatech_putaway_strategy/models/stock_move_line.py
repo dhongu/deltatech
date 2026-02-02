@@ -32,18 +32,13 @@ class StockMove(models.Model):
 class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
 
-    # def _apply_putaway_strategy(self):
-    #     # Suprascriem pentru a gestiona ocuparea temporară în timpul batch-ului
-    #     if self._context.get("avoid_putaway_rules") or not self:
-    #         return super()._apply_putaway_strategy()
-    #
-    #     # În Odoo 17, procesăm liniile una câte una pentru a putea folosi un context actualizat între linii
-    #     additional_qty = dict(self.env.context.get("putaway_additional_qty", {}))
-    #     for line in self:
-    #         line.with_context(putaway_additional_qty=additional_qty, avoid_putaway_rules=True)._apply_putaway_strategy_one()
-    #         # Actualizăm ocuparea pentru următoarea linie
-    #         qty = line.product_uom_id._compute_quantity(line.quantity, line.product_id.uom_id)
-    #         additional_qty[line.location_dest_id.id] = additional_qty.get(line.location_dest_id.id, 0.0) + qty
+    def _apply_putaway_strategy(self):
+        if self._context.get("avoid_putaway_rules") or not self:
+            return super()._apply_putaway_strategy()
+        if any(self.mapped("picking_type_id.avoid_putaway_rules")):
+            return super(StockMoveLine, self.with_context(avoid_putaway_rules=True))._apply_putaway_strategy()
+
+        return super()._apply_putaway_strategy()
 
     def _split_by_putaway_capacity(self):
         # Logica de splitare a liniilor care depășesc capacitatea locației
