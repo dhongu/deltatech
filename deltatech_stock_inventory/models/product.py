@@ -52,7 +52,10 @@ class ProductTemplate(models.Model):
             warehouse_stock_lines = []
             for warehouse in warehouses:
                 if warehouse.lot_stock_id.usage == "internal":
-                    qty = product.with_context(warehouse_id=warehouse.id)._compute_quantities_dict()
+                    if warehouse.kanban_display_stock == "main":
+                        qty = self.with_context(location=warehouse.lot_stock_id.id)._compute_quantities_dict()
+                    else:
+                        qty = product.with_context(warehouse_id=warehouse.id)._compute_quantities_dict()
                     if display_free_quantity:
                         quantity_in_warehouse = qty[product.id]["qty_available"] - qty[product.id]["outgoing_qty"]
                         if quantity_in_warehouse:
