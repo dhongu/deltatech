@@ -1,5 +1,10 @@
 from odoo import _, models
 from odoo.exceptions import UserError
+import logging
+
+
+_logger = logging.getLogger(__name__)
+
 
 
 class StockMove(models.Model):
@@ -9,7 +14,9 @@ class StockMove(models.Model):
         res = super()._action_assign(force_qty=force_qty)
         # Apelăm splitarea pe toate liniile de mișcare implicate
         # Facem o buclă până când nu mai sunt necesare splitări
-        self.move_line_ids._split_by_putaway_capacity()
+        is_split = self.move_line_ids._split_by_putaway_capacity()
+        if is_split:
+            self.with_context(avoid_putaway_rules=False)._action_assign()
         return res
 
     def _action_done(self, cancel_backorder=False):
@@ -48,35 +55,59 @@ class StockMoveLine(models.Model):
     def _split_by_putaway_capacity(self):
         # Logica de splitare a liniilor care depășesc capacitatea locației
         is_split = False
-        exclude_location = self.env.context.get("exclude_location", self.env["stock.location"])
+        # exclude_location = self.env.context.get("exclude_location", self.env["stock.location"])
         for line in self:
+            new_line  = self.env["stock.move.line"]
             if line.location_dest_id.max_products_leaf:
                 # Spațiul ocupat deja (fizic + planificat în DB)
+                line.location_dest_id._compute_planned_products()
                 occupied = line.location_dest_id.current_products + line.location_dest_id.planned_products
 
                 qty_available = line.location_dest_id.max_products_leaf - occupied
 
-                if qty_available < line.quantity:
-                    # Excludem locația curentă din următoarea căutare de locație
-                    exclude_location += line.location_dest_id
-                    if qty_available > 0:
-                        is_split = True
-                        rest = line.quantity - qty_available
-                        # Ajustăm linia curentă la capacitatea maximă a locației
-                        line.write({"quantity": qty_available})
-                        # Pregătim o linie nouă pentru restul cantității
-                        new_line = line.copy(
-                            {
-                                "quantity": rest,
-                                "location_dest_id": line.move_id.location_dest_id.id,
-                            }
-                        )
-                        # Re-aplicăm strategia de putaway pe noua linie, excluzând locațiile pline
-                        new_line.with_context(exclude_location=exclude_location)._apply_putaway_strategy()
+                if qty_available < 0:
+                    is_split = True
+                    rest = line.quantity - line.location_dest_id.max_products_leaf
+                    line.write({"quantity": line.location_dest_id.max_products_leaf})
+                    new_line = line.copy(
+                        {
+                            "quantity": rest,
+                            "location_dest_id": line.move_id.location_dest_id.id,
+                        }
+                    )
+                    continue
 
-                        # Dacă locația destinație a noii linii este aceeași cu cea a liniei curente,
-                        # înseamnă că nu s-a găsit o altă locație prin putaway strategy și riscăm buclă infinită.
-                        if new_line.location_dest_id != line.location_dest_id:
-                            new_line._split_by_putaway_capacity()
+                if qty_available < line.quantity  :
+                    # Excludem locația curentă din următoarea căutare de locație
+                    # exclude_location += line.location_dest_id
+
+                    is_split = True
+                    rest = line.quantity - qty_available
+                    # Ajustăm linia curentă la capacitatea maximă a locației
+                    line.write({"quantity": qty_available})
+                    # Pregătim o linie nouă pentru restul cantității
+                    new_line = line.copy(
+                        {
+                            "quantity": rest,
+                            "location_dest_id": line.move_id.location_dest_id.id,
+                        }
+                    )
+
+
+                        # # Re-aplicăm strategia de putaway pe noua linie, excluzând locațiile pline
+                        # new_line.with_context(exclude_location=exclude_location)._apply_putaway_strategy()
+                        #
+                        # # Dacă locația destinație a noii linii este aceeași cu cea a liniei curente,
+                        # # înseamnă că nu s-a găsit o altă locație prin putaway strategy și riscăm buclă infinită.
+                        # if new_line.location_dest_id != line.location_dest_id:
+                        #     new_line._split_by_putaway_capacity()
+        if is_split:
+            _logger.info(new_line.location_dest_id.display_name + " capacity exceeded. Split performed.")
 
         return is_split
+
+    # def write(self, vals):
+    #     if vals.get("quantity"):
+    #         self._split_by_putaway_capacity()
+    #     return super().write(vals)
+
