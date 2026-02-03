@@ -69,7 +69,7 @@ class StockMoveLine(models.Model):
                     is_split = True
                     rest = line.quantity - line.location_dest_id.max_products_leaf
                     line.write({"quantity": line.location_dest_id.max_products_leaf})
-                    new_line = line.copy(
+                    line.copy(
                         {
                             "quantity": rest,
                             "location_dest_id": line.move_id.location_dest_id.id,
@@ -86,7 +86,7 @@ class StockMoveLine(models.Model):
                     # Ajustăm linia curentă la capacitatea maximă a locației
                     line.write({"quantity": qty_available})
                     # Pregătim o linie nouă pentru restul cantității
-                    new_line = line.copy(
+                    line.copy(
                         {
                             "quantity": rest,
                             "location_dest_id": line.move_id.location_dest_id.id,
@@ -101,8 +101,7 @@ class StockMoveLine(models.Model):
                         # # înseamnă că nu s-a găsit o altă locație prin putaway strategy și riscăm buclă infinită.
                         # if new_line.location_dest_id != line.location_dest_id:
                         #     new_line._split_by_putaway_capacity()
-        if is_split:
-            _logger.info(new_line.location_dest_id.display_name + " capacity exceeded. Split performed.")
+
 
         return is_split
 
