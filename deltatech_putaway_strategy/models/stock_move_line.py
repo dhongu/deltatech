@@ -60,7 +60,6 @@ class StockMoveLine(models.Model):
         # exclude_location = self.env.context.get("exclude_location", self.env["stock.location"])
 
         for line in self:
-
             if line.location_dest_id.max_products_leaf:
                 # Spațiul ocupat deja (fizic + planificat în DB)
                 line.location_dest_id._compute_planned_products()
