@@ -26,7 +26,7 @@ class StockQuant(models.Model):
     @api.model
     def _get_removal_strategy_domain_order(self, domain, removal_strategy, qty):
         if removal_strategy == "priority":
-            domain = domain + [("removal_priority", ">", 0)]
+            domain = domain + [("removal_priority", ">=", 0)]
             return domain, "removal_priority, location_id, id"
         return super()._get_removal_strategy_domain_order(domain, removal_strategy, qty)
 

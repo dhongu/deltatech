@@ -13,9 +13,12 @@ class StockMove(models.Model):
         res = super()._action_assign(force_qty=force_qty)
         # Apelăm splitarea pe toate liniile de mișcare implicate
         # Facem o buclă până când nu mai sunt necesare splitări
-        is_split = self.move_line_ids._split_by_putaway_capacity()
+        processed_lines = self.env.context.get("processed_lines", self.env["stock.move.line"])
+        lines_to_process = self.move_line_ids - processed_lines
+        is_split = lines_to_process._split_by_putaway_capacity()
         if is_split:
-            self.with_context(avoid_putaway_rules=False)._action_assign()
+            processed_lines |= lines_to_process
+            self.with_context(processed_lines=processed_lines)._action_assign()
         return res
 
     def _action_done(self, cancel_backorder=False):
@@ -55,8 +58,9 @@ class StockMoveLine(models.Model):
         # Logica de splitare a liniilor care depășesc capacitatea locației
         is_split = False
         # exclude_location = self.env.context.get("exclude_location", self.env["stock.location"])
+
         for line in self:
-            self.env["stock.move.line"]
+
             if line.location_dest_id.max_products_leaf:
                 # Spațiul ocupat deja (fizic + planificat în DB)
                 line.location_dest_id._compute_planned_products()
