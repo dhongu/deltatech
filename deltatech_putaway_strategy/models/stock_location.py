@@ -52,7 +52,7 @@ class StockLocation(models.Model):
     )
 
     def _compute_planned_products(self):
-        Move = self.env["stock.move"].sudo()
+        self.env["stock.move"].sudo()
         MoveLine = self.env["stock.move.line"].sudo()
         if not self:
             return

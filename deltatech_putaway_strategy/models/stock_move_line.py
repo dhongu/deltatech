@@ -1,10 +1,9 @@
-from odoo import _, models
-from odoo.exceptions import UserError
 import logging
 
+from odoo import _, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
-
 
 
 class StockMove(models.Model):
@@ -57,7 +56,7 @@ class StockMoveLine(models.Model):
         is_split = False
         # exclude_location = self.env.context.get("exclude_location", self.env["stock.location"])
         for line in self:
-            new_line  = self.env["stock.move.line"]
+            self.env["stock.move.line"]
             if line.location_dest_id.max_products_leaf:
                 # Spațiul ocupat deja (fizic + planificat în DB)
                 line.location_dest_id._compute_planned_products()
@@ -66,18 +65,17 @@ class StockMoveLine(models.Model):
                 qty_available = line.location_dest_id.max_products_leaf - occupied
 
                 if qty_available < 0:
-                    is_split = True
-                    rest = line.quantity - line.location_dest_id.max_products_leaf
-                    line.write({"quantity": line.location_dest_id.max_products_leaf})
-                    line.copy(
-                        {
-                            "quantity": rest,
-                            "location_dest_id": line.move_id.location_dest_id.id,
-                        }
-                    )
+                    # locatia aleasa nu mai este disponibila
+                    if line.location_dest_id != line.move_id.location_dest_id:
+                        is_split = True
+                        line.write(
+                            {
+                                "location_dest_id": line.move_id.location_dest_id.id,
+                            }
+                        )
                     continue
 
-                if qty_available < line.quantity  :
+                if qty_available < line.quantity:
                     # Excludem locația curentă din următoarea căutare de locație
                     # exclude_location += line.location_dest_id
 
@@ -93,15 +91,13 @@ class StockMoveLine(models.Model):
                         }
                     )
 
-
-                        # # Re-aplicăm strategia de putaway pe noua linie, excluzând locațiile pline
-                        # new_line.with_context(exclude_location=exclude_location)._apply_putaway_strategy()
-                        #
-                        # # Dacă locația destinație a noii linii este aceeași cu cea a liniei curente,
-                        # # înseamnă că nu s-a găsit o altă locație prin putaway strategy și riscăm buclă infinită.
-                        # if new_line.location_dest_id != line.location_dest_id:
-                        #     new_line._split_by_putaway_capacity()
-
+                    # # Re-aplicăm strategia de putaway pe noua linie, excluzând locațiile pline
+                    # new_line.with_context(exclude_location=exclude_location)._apply_putaway_strategy()
+                    #
+                    # # Dacă locația destinație a noii linii este aceeași cu cea a liniei curente,
+                    # # înseamnă că nu s-a găsit o altă locație prin putaway strategy și riscăm buclă infinită.
+                    # if new_line.location_dest_id != line.location_dest_id:
+                    #     new_line._split_by_putaway_capacity()
 
         return is_split
 
@@ -109,4 +105,3 @@ class StockMoveLine(models.Model):
     #     if vals.get("quantity"):
     #         self._split_by_putaway_capacity()
     #     return super().write(vals)
-
