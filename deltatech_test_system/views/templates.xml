@@ -9,7 +9,7 @@
                 />
 
                 <span
-                    t-if="database_notification_banner"
+                    t-if="database_notification_banner and request.env.user.has_group('base.group_user')"
                     id="oe_notification_banner"
                     t-attf-style="
                         text-align: center;
