@@ -89,7 +89,7 @@ class StockLocation(models.Model):
                 planned_qty_by_loc[loc_id] = rec.get("quantity", 0.0)
 
         # Alocăm rezultatele pentru locațiile frunză
-        for leaf in self.filtered(lambda l: not l.child_ids):
+        for leaf in leaves:
             leaf.planned_products = float(planned_qty_by_loc.get(leaf.id, 0.0))
 
         rest.planned_products = 0.0
