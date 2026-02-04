@@ -123,5 +123,3 @@ class StockMoveLine(models.Model):
             new_lines.with_context(exclude_location=exclude_location)._apply_putaway_strategy()
             to_reprocess |= new_lines
         return is_split, to_reprocess
-
-
