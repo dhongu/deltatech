@@ -6,7 +6,7 @@
 {
     "name": "Deltatech Test System",
     "summary": "Set system status: test or production",
-    "version": "18.0.0.0.8",
+    "version": "18.0.0.0.9",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Tools",
