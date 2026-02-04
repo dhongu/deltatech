@@ -1,4 +1,5 @@
 import logging
+import time
 
 from odoo import _, models
 from odoo.exceptions import UserError
@@ -10,6 +11,10 @@ class StockMove(models.Model):
     _inherit = "stock.move"
 
     def _action_assign(self, force_qty=False):
+        """Suprascrie atribuirea pentru a aplica automat splitarea liniilor de mișcare
+        în funcție de capacitatea locațiilor de destinație.
+        """
+        start_time = time.time()
         res = super()._action_assign(force_qty=force_qty)
         # Apelăm splitarea pe toate liniile de mișcare implicate
         # Facem o buclă până când nu mai sunt necesare splitări
@@ -20,17 +25,25 @@ class StockMove(models.Model):
             _logger.info("Processing %d move lines", len(lines_to_process))
             is_split, to_reprocess = lines_to_process._split_by_putaway_capacity()
             if is_split:
+                # Dacă am făcut split, verificăm să nu fi intrat într-o buclă infinită
                 if lines_to_process == to_reprocess:
                     raise UserError(_("Cannot assign move lines to locations"))
                 lines_to_process = to_reprocess
             else:
                 lines_to_process = False
+
+        # Curățăm liniile care au rămas cu cantitate zero în urma splitării
         lines_with_zero_qty = self.move_line_ids.filtered(lambda line: line.quantity == 0)
         if lines_with_zero_qty:
             lines_with_zero_qty.unlink()
+
+        _logger.info("_action_assign executed in %.3f seconds", time.time() - start_time)
         return res
 
     def _action_done(self, cancel_backorder=False):
+        """La finalizarea mișcării, verificăm încă o dată dacă nu s-a depășit capacitatea.
+        Aceasta este o ultimă barieră de siguranță împotriva depășirii limitelor.
+        """
         res = super()._action_done(cancel_backorder=cancel_backorder)
         for move in res:
             if move.location_dest_id.usage == "internal" and move.location_dest_id.max_products_leaf:

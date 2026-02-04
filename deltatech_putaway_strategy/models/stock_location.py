@@ -52,6 +52,11 @@ class StockLocation(models.Model):
     )
 
     def _compute_planned_products(self):
+        """Calculează cantitatea planificată prin agregarea liniilor de mișcare de stoc (stock.move.line).
+        Sunt luate în calcul doar liniile care nu sunt în stările 'done' (finalizat) sau 'cancel' (anulat).
+        """
+        if not self:
+            return
         self.env["stock.move"].sudo()
         MoveLine = self.env["stock.move.line"].sudo()
         if not self:
@@ -123,11 +128,9 @@ class StockLocation(models.Model):
                 loc.planned_products = sum(child.planned_products for child in loc.child_ids)
 
     def _compute_warehouse_occupancy(self):
-        """Optimized compute using batched read_group and bottom-up aggregation.
-
-        - For leaf locations: perform a single read_group over all leaves in the batch
-          to fetch current quantities from stock.quant (quantity > 0)
-        - For parent locations: aggregate values from children in memory.
+        """Calcul optimizat al ocupării depozitului folosind batch read_group.
+        - Pentru locații frunză: preia cantitățile actuale din stock.quant (unde qty > 0).
+        - Pentru locații părinte: agregă valorile din copii în memorie.
         """
         Quant = self.env["stock.quant"].sudo()
 
@@ -167,10 +170,14 @@ class StockLocation(models.Model):
                 loc.occupancy_ratio = ratio
 
     def _check_can_be_used(self, product, quantity=0, package=None, location_qty=0):
+        """Extinde verificarea standard a locației pentru a include limitările de capacitate definite pe frunze.
+        Verifică atât stocul fizic actual cât și pe cel planificat (incoming).
+        """
         can_be_used = super()._check_can_be_used(product, quantity, package, location_qty)
         if self.env.context.get("putaway_location_standard"):
             return can_be_used
 
+        # Excludem locațiile marcate în context (de exemplu, cele care s-au umplut în timpul aceleiași operațiuni)
         exclude_location = self.env.context.get("exclude_location", self.env["stock.location"])
         if self in exclude_location:
             return False
@@ -179,23 +186,13 @@ class StockLocation(models.Model):
             return False
 
         if self.max_products_leaf:
-            # daca celula e ecupata
+            # Verificăm dacă locația este deja plină la nivel de stoc fizic
             if self.current_products >= self.max_products_leaf:
                 return False
-            # Capacitate pe frunză: nu depășim max_products_leaf
-            # Luăm în calcul atât stocul actual cât și cel planificat
-            self._compute_planned_products()
+
+            # Verificăm capacitatea luând în calcul și marfa planificată să ajungă în această locație
+            # Folosim valoarea calculată în batch (din cache-ul Odoo) pentru performanță
             planned_qty = self.planned_products
-
-            # # Adăugăm cantitatea din context (putaway_additional_qty) dacă există
-            # context_additional_qty = self.env.context.get("putaway_additional_qty")
-            # if context_additional_qty is None:
-            #     context_additional_qty = self.env.context.get("additional_qty")
-
-            # if isinstance(context_additional_qty, dict):
-            #     planned_qty += context_additional_qty.get(self.id, 0.0)
-            # elif isinstance(context_additional_qty, int | float):
-            #     planned_qty += context_additional_qty
 
             if (self.current_products + planned_qty) >= self.max_products_leaf:
                 return False
@@ -203,6 +200,9 @@ class StockLocation(models.Model):
         return True
 
     def _get_putaway_strategy(self, product, quantity=0, package=None, packaging=None, additional_qty=None):
+        """Suprascrie strategia de putaway pentru a căuta automat sub-locații disponibile
+        dacă locația de destinație configurată este plină sau are copii.
+        """
         putaway_location = super()._get_putaway_strategy(product, quantity, package, packaging, additional_qty)
         if self.env.context.get("putaway_location_standard"):
             return putaway_location
@@ -215,6 +215,7 @@ class StockLocation(models.Model):
         search_sublocation = safe_eval(search_sublocation)
 
         if search_sublocation and putaway_location.child_ids:
+            # Încercăm mai întâi locațiile unde există deja același produs
             quants = self.env["stock.quant"].search(
                 [
                     ("product_id", "=", product.id),
@@ -230,6 +231,7 @@ class StockLocation(models.Model):
                 if candidate._check_can_be_used(product, quantity, package):
                     return candidate
 
+            # Dacă nu am găsit o locație cu același produs, căutăm orice locație frunză disponibilă
             leaf_locations = self.env["stock.location"].search(
                 [
                     ("id", "child_of", putaway_location.id),
@@ -244,8 +246,5 @@ class StockLocation(models.Model):
                 # Transmitem contextul pentru a vedea ocuparea temporară
                 if leaf._check_can_be_used(product, quantity, package):
                     return leaf
-            # Daca nici o locatie nu e disponibila (toate pline), returnam originalul putaway_location
-            # sau prima frunza daca vrem sa fortam macar o locatie interna.
-            # Pentru a respecta ideea de "plin", returnam putaway_location si lasam splitarea sa se ocupe
-            # sau super() sa decida.
+
         return putaway_location
