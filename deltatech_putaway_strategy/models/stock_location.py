@@ -57,16 +57,13 @@ class StockLocation(models.Model):
         """
         if not self:
             return
-        self.env["stock.move"].sudo()
         MoveLine = self.env["stock.move.line"].sudo()
-
-        # Identificăm locațiile care nu au copii (frunze) pentru a face agregarea SQL
-        # Optimizare: calculăm doar pentru locațiile care au capacitate setată
         leaves = self.filtered(lambda l: l.max_products_leaf)
         rest = self - leaves
 
         planned_qty_by_loc = {}
         if leaves:
+            # Deci trebuie să adăugăm move_lines care au dest_id = LEAF1 dar move.dest_id != LEAF1
             domain = [
                 ("location_dest_id", "in", leaves.ids),
                 ("state", "not in", ["done", "cancel"]),
