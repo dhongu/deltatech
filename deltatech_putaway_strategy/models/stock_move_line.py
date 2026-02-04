@@ -65,8 +65,6 @@ class StockMove(models.Model):
 class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
 
-
-
     def _split_by_putaway_capacity(self):
         """Verifică fiecare linie de mișcare dacă încape în locația de destinație.
         Dacă nu încape, linia este splitată:
@@ -152,5 +150,3 @@ class StockMoveLine(models.Model):
 
         _logger.info("_split_by_putaway_capacity executed in %.3f seconds", time.time() - start_time)
         return is_split, to_reprocess
-
-
