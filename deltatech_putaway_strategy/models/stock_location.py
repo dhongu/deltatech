@@ -57,7 +57,9 @@ class StockLocation(models.Model):
         """
         if not self:
             return
+        self.env["stock.move"].sudo()
         MoveLine = self.env["stock.move.line"].sudo()
+
         leaves = self.filtered(lambda l: l.max_products_leaf)
         rest = self - leaves
 
@@ -89,11 +91,9 @@ class StockLocation(models.Model):
         rest.planned_products = 0.0
 
     def _compute_warehouse_occupancy(self):
-        """Optimized compute using batched read_group and bottom-up aggregation.
-
-        - For leaf locations: perform a single read_group over all leaves in the batch
-          to fetch current quantities from stock.quant (quantity > 0)
-        - For parent locations: aggregate values from children in memory.
+        """Calcul optimizat al ocupării depozitului folosind batch read_group.
+        - Pentru locații frunză: preia cantitățile actuale din stock.quant (unde qty > 0).
+        - Pentru locații părinte: agregă valorile din copii în memorie.
         """
         Quant = self.env["stock.quant"].sudo()
 
@@ -152,9 +152,9 @@ class StockLocation(models.Model):
             # Verificăm dacă locația este deja plină la nivel de stoc fizic
             if self.current_products >= self.max_products_leaf:
                 return False
-            # Capacitate pe frunză: nu depășim max_products_leaf
-            # Luăm în calcul atât stocul actual cât și cel planificat
-            self._compute_planned_products()
+
+            # Verificăm capacitatea luând în calcul și marfa planificată să ajungă în această locație
+            # Folosim valoarea calculată în batch (din cache-ul Odoo) pentru performanță
             planned_qty = self.planned_products
 
             if (self.current_products + planned_qty) >= self.max_products_leaf:
@@ -178,6 +178,7 @@ class StockLocation(models.Model):
         search_sublocation = safe_eval(search_sublocation)
 
         if search_sublocation and putaway_location.child_ids:
+            # Încercăm mai întâi locațiile unde există deja același produs
             quants = self.env["stock.quant"].search(
                 [
                     ("product_id", "=", product.id),
