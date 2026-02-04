@@ -17,6 +17,7 @@ This module extends Odoo Inventory locations with simple capacity tracking and e
   - Respects capacity on leaf locations when suggesting destinations.
   - Automatically splits move lines if a destination location reaches its maximum capacity.
   - Prefers empty child locations when possible (if search sublocation is enabled).
+  - Optimized rule lookup with database indexes on `product_id` and `sequence` for `stock.putaway.rule`.
   - Keeps full compatibility with Odoo’s storage category rules (max weight, product/pack capacities, allow new product rules, etc.).
 
 ## Usage
