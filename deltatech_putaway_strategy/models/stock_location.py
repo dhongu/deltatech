@@ -52,7 +52,7 @@ class StockLocation(models.Model):
     )
 
     def _compute_planned_products(self):
-        Move = self.env["stock.move"].sudo()
+        self.env["stock.move"].sudo()
         MoveLine = self.env["stock.move.line"].sudo()
         if not self:
             return
@@ -67,19 +67,19 @@ class StockLocation(models.Model):
             # Dar cel mai sigur este să ne uităm la move_line-urile care nu sunt încă 'done' sau 'cancel'
 
             # 1. Cantități din stock.move (pentru cele care nu au încă move lines detaliate sau sunt în stare de așteptare)
-            planned_sums = Move.read_group(
-                [
-                    ("location_dest_id", "in", leaves.ids),
-                    ("state", "not in", ["done", "cancel"]),
-                    ("location_id", "!=", "location_dest_id"),
-                ],
-                ["product_uom_qty:sum"],
-                ["location_dest_id"],
-                lazy=False,
-            )
-            for rec in planned_sums:
-                loc_id = rec["location_dest_id"][0]
-                planned_qty_by_loc[loc_id] = planned_qty_by_loc.get(loc_id, 0.0) + rec.get("product_uom_qty", 0.0)
+            # planned_sums = Move.read_group(
+            #     [
+            #         ("location_dest_id", "in", leaves.ids),
+            #         ("state", "not in", ["done", "cancel"]),
+            #         ("location_id", "!=", "location_dest_id"),
+            #     ],
+            #     ["product_uom_qty:sum"],
+            #     ["location_dest_id"],
+            #     lazy=False,
+            # )
+            # for rec in planned_sums:
+            #     loc_id = rec["location_dest_id"][0]
+            #     planned_qty_by_loc[loc_id] = planned_qty_by_loc.get(loc_id, 0.0) + rec.get("product_uom_qty", 0.0)
 
             # 2. Cantități din stock.move.line (pentru cele care au deja locații de destinație specifice)
             # Dacă un move are move_lines, product_uom_qty din move s-ar putea să fie redundant sau să includă aceste linii.
@@ -97,12 +97,16 @@ class StockLocation(models.Model):
             # Dacă move are dest_id = LEAF1, el apare în planned_sums pentru LEAF1.
 
             # Deci trebuie să adăugăm move_lines care au dest_id = LEAF1 dar move.dest_id != LEAF1
+            domain = [
+                ("location_dest_id", "in", leaves.ids),
+                ("state", "not in", ["done", "cancel"]),
+            ]
+            exclude_move_line_id = self.env.context.get("exclude_move_line_id")
+            if exclude_move_line_id:
+                domain.append(("id", "!=", exclude_move_line_id))
+
             ml_sums = MoveLine.read_group(
-                [
-                    ("location_dest_id", "in", leaves.ids),
-                    ("state", "not in", ["done", "cancel"]),
-                    ("move_id.location_dest_id", "not in", leaves.ids),  # Evităm dubla numărare
-                ],
+                domain,
                 ["quantity:sum"],
                 ["location_dest_id"],
                 lazy=False,
@@ -175,19 +179,23 @@ class StockLocation(models.Model):
             return False
 
         if self.max_products_leaf:
+            # daca celula e ecupata
+            if self.current_products >= self.max_products_leaf:
+                return False
             # Capacitate pe frunză: nu depășim max_products_leaf
             # Luăm în calcul atât stocul actual cât și cel planificat
+            self._compute_planned_products()
             planned_qty = self.planned_products
 
-            # Adăugăm cantitatea din context (putaway_additional_qty) dacă există
-            context_additional_qty = self.env.context.get("putaway_additional_qty")
-            if context_additional_qty is None:
-                context_additional_qty = self.env.context.get("additional_qty")
+            # # Adăugăm cantitatea din context (putaway_additional_qty) dacă există
+            # context_additional_qty = self.env.context.get("putaway_additional_qty")
+            # if context_additional_qty is None:
+            #     context_additional_qty = self.env.context.get("additional_qty")
 
-            if isinstance(context_additional_qty, dict):
-                planned_qty += context_additional_qty.get(self.id, 0.0)
-            elif isinstance(context_additional_qty, int | float):
-                planned_qty += context_additional_qty
+            # if isinstance(context_additional_qty, dict):
+            #     planned_qty += context_additional_qty.get(self.id, 0.0)
+            # elif isinstance(context_additional_qty, int | float):
+            #     planned_qty += context_additional_qty
 
             if (self.current_products + planned_qty) >= self.max_products_leaf:
                 return False
