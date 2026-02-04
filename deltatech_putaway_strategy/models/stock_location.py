@@ -52,51 +52,16 @@ class StockLocation(models.Model):
     )
 
     def _compute_planned_products(self):
-        self.env["stock.move"].sudo()
-        MoveLine = self.env["stock.move.line"].sudo()
         if not self:
             return
+        self.env["stock.move"].sudo()
+        MoveLine = self.env["stock.move.line"].sudo()
 
         leaves = self.filtered(lambda l: not l.child_ids)
         parents = self - leaves
 
         planned_qty_by_loc = {}
         if leaves:
-            # Mișcări de stoc care nu sunt finalizate (planificate)
-            # Luăm în calcul atât stock.move cât și stock.move.line care nu au move_id sau sunt legate de move-uri active
-            # Dar cel mai sigur este să ne uităm la move_line-urile care nu sunt încă 'done' sau 'cancel'
-
-            # 1. Cantități din stock.move (pentru cele care nu au încă move lines detaliate sau sunt în stare de așteptare)
-            # planned_sums = Move.read_group(
-            #     [
-            #         ("location_dest_id", "in", leaves.ids),
-            #         ("state", "not in", ["done", "cancel"]),
-            #         ("location_id", "!=", "location_dest_id"),
-            #     ],
-            #     ["product_uom_qty:sum"],
-            #     ["location_dest_id"],
-            #     lazy=False,
-            # )
-            # for rec in planned_sums:
-            #     loc_id = rec["location_dest_id"][0]
-            #     planned_qty_by_loc[loc_id] = planned_qty_by_loc.get(loc_id, 0.0) + rec.get("product_uom_qty", 0.0)
-
-            # 2. Cantități din stock.move.line (pentru cele care au deja locații de destinație specifice)
-            # Dacă un move are move_lines, product_uom_qty din move s-ar putea să fie redundant sau să includă aceste linii.
-            # În Odoo 17, stock.move.product_uom_qty este cererea totală.
-            # Când facem action_assign, se creează move_lines.
-            # Dacă folosim și move și move_line, riscăm dubla numărare dacă move.location_dest_id este aceeași cu move_line.location_dest_id.
-
-            # Strategie mai bună:
-            # - Mișcările (moves) care au destinația într-o locație frunză sunt luate în calcul prin move.product_uom_qty.
-            # - Move line-urile care au destinația într-o locație frunză (și al căror move are destinația în altă parte, ex: părinte)
-            #   trebuie adunate, iar din move-ul părinte trebuie scăzut ce a fost deja distribuit în frunze.
-
-            # Dar metoda read_group pe move deja filtrează după location_dest_id.
-            # Dacă move are dest_id = PARENT, el nu apare în planned_sums pentru LEAVES.
-            # Dacă move are dest_id = LEAF1, el apare în planned_sums pentru LEAF1.
-
-            # Deci trebuie să adăugăm move_lines care au dest_id = LEAF1 dar move.dest_id != LEAF1
             domain = [
                 ("location_dest_id", "in", leaves.ids),
                 ("state", "not in", ["done", "cancel"]),
@@ -113,7 +78,7 @@ class StockLocation(models.Model):
             )
             for rec in ml_sums:
                 loc_id = rec["location_dest_id"][0]
-                planned_qty_by_loc[loc_id] = planned_qty_by_loc.get(loc_id, 0.0) + rec.get("quantity", 0.0)
+                planned_qty_by_loc[loc_id] = rec.get("quantity", 0.0)
 
         for leaf in leaves:
             leaf.planned_products = float(planned_qty_by_loc.get(leaf.id, 0.0))
@@ -184,18 +149,9 @@ class StockLocation(models.Model):
                 return False
             # Capacitate pe frunză: nu depășim max_products_leaf
             # Luăm în calcul atât stocul actual cât și cel planificat
-            self._compute_planned_products()
+
+            # self._compute_planned_products()  # Evităm apelul direct care forțează recalcularea ineficientă
             planned_qty = self.planned_products
-
-            # # Adăugăm cantitatea din context (putaway_additional_qty) dacă există
-            # context_additional_qty = self.env.context.get("putaway_additional_qty")
-            # if context_additional_qty is None:
-            #     context_additional_qty = self.env.context.get("additional_qty")
-
-            # if isinstance(context_additional_qty, dict):
-            #     planned_qty += context_additional_qty.get(self.id, 0.0)
-            # elif isinstance(context_additional_qty, int | float):
-            #     planned_qty += context_additional_qty
 
             if (self.current_products + planned_qty) >= self.max_products_leaf:
                 return False
@@ -207,12 +163,13 @@ class StockLocation(models.Model):
         if self.env.context.get("putaway_location_standard"):
             return putaway_location
 
-        # Dacă am găsit o locație
-        # de adauga un paramentru de sistem pentru a cauta o sublocatie
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        search_sublocation = get_param("deltatech_putaway_strategy.search_sublocation", "False")
-
-        search_sublocation = safe_eval(search_sublocation)
+        # Caching config parameter
+        search_sublocation = self.env.context.get("putaway_search_sublocation")
+        if search_sublocation is None:
+            get_param = self.env["ir.config_parameter"].sudo().get_param
+            search_sublocation = get_param("deltatech_putaway_strategy.search_sublocation", "False")
+            search_sublocation = safe_eval(search_sublocation)
+            self = self.with_context(putaway_search_sublocation=search_sublocation)
 
         if search_sublocation and putaway_location.child_ids:
             quants = self.env["stock.quant"].search(
@@ -239,6 +196,9 @@ class StockLocation(models.Model):
                 ],
                 order="complete_name asc",
             )
+            # leaf_locations._compute_warehouse_occupancy()
+            # leaf_locations._compute_planned_products()
+            leaf_locations.read(["current_products", "planned_products"])
 
             for leaf in leaf_locations:
                 # Transmitem contextul pentru a vedea ocuparea temporară
