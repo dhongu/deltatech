@@ -4,7 +4,7 @@
 {
     "name": "Stock Removal Location by Priority",
     "summary": "Stock Removal Location by Priority",
-    "version": "17.0.1.0.2",
+    "version": "17.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
