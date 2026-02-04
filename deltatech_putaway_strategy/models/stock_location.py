@@ -173,7 +173,7 @@ class StockLocation(models.Model):
 
         exclude_location = self.env.context.get("exclude_location", self.env["stock.location"])
         if self in exclude_location:
-             return False
+            return False
 
         if not can_be_used:
             return False

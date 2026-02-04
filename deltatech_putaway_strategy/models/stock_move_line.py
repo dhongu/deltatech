@@ -1,6 +1,6 @@
 import logging
 
-from odoo import _,api, models
+from odoo import _, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -117,7 +117,7 @@ class StockMoveLine(models.Model):
                     )
                     continue
 
-                if qty_available  and qty_available < line.quantity:
+                if qty_available and qty_available < line.quantity:
                     # Excludem locația curentă din următoarea căutare de locație
                     exclude_location += line.location_dest_id
 
