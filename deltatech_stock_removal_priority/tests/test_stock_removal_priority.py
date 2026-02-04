@@ -20,22 +20,31 @@ class TestStockRemovalPriority(TransactionCase):
 
         cls.loc_1 = cls.env["stock.location"].create({"name": "Loc 1", "location_id": cls.stock_location.id})
         cls.loc_2 = cls.env["stock.location"].create({"name": "Loc 2", "location_id": cls.stock_location.id})
+        cls.loc_3 = cls.env["stock.location"].create({"name": "Loc 3", "location_id": cls.stock_location.id})
+        cls.env["stock.putaway.rule"].create(
+            [
+                {
+                    "product_id": cls.product.id,
+                    "location_in_id": cls.loc_1.id,
+                    "location_out_id": cls.loc_2.id,
+                    "sequence": 5,
+                },
+                {
+                    "category_id": cls.product.categ_id.id,
+                    "location_in_id": cls.loc_1.id,
+                    "location_out_id": cls.loc_3.id,
+                    "sequence": 7,
+                },
+            ]
+        )
 
     def test_01_quant_priority_from_putaway(self):
         """Test ca prioritatea cuantului este luata din regula de putaway"""
         # Cream o regula de putaway
-        self.env["stock.putaway.rule"].create(
-            {
-                "product_id": self.product.id,
-                "location_in_id": self.loc_1.id,
-                "location_out_id": self.loc_2.id,
-                "sequence": 5,
-            }
-        )
 
         # Cream un cuant
         quant = self.env["stock.quant"].create(
-            {"product_id": self.product.id, "location_id": self.loc_1.id, "inventory_quantity": 10}
+            {"product_id": self.product.id, "location_id": self.loc_2.id, "inventory_quantity": 10}
         )
         quant.action_apply_inventory()
 
@@ -44,12 +53,6 @@ class TestStockRemovalPriority(TransactionCase):
 
     def test_02_removal_strategy_priority(self):
         """Test strategia de eliminare 'Priority'"""
-        # Verificam ca metoda de domain order returneaza valorile asteptate
-        # domain = [("product_id", "=", self.product.id)]
-        # new_domain, order = self.env["stock.quant"]._get_removal_strategy_domain_order(domain, "priority", 100)
-        #
-        # self.assertIn(("removal_priority", ">", 0), new_domain)
-        # self.assertEqual(order, "removal_priority, location_id, id")
 
         # Verificam sort_key
         key, reverse = self.env["stock.quant"]._get_removal_strategy_sort_key("priority")
@@ -67,3 +70,15 @@ class TestStockRemovalPriority(TransactionCase):
 
         # q2 are prioritate mai mica (deci mai importanta), deci ar trebui sa fie primul
         self.assertLess(key(q2), key(q1))
+
+    def test_03_quant_priority_from_category_putaway(self):
+        """Daca nu exista regula pe produs, se foloseste regula pe categorie."""
+
+        # Cream un cuant fara sa existe o regula pe produs
+        quant = self.env["stock.quant"].create(
+            {"product_id": self.product.id, "location_id": self.loc_3.id, "inventory_quantity": 3}
+        )
+        quant.action_apply_inventory()
+
+        # Ar trebui sa ia prioritatea din regula pe categorie (7)
+        self.assertEqual(quant.removal_priority, 7)
