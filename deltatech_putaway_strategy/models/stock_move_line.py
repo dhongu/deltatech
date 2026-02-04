@@ -50,28 +50,7 @@ class StockMove(models.Model):
 class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
 
-    # def _apply_putaway_strategy(self):
-    #     # Suprascriem pentru a gestiona ocuparea temporară în timpul batch-ului
-    #     if self._context.get("avoid_putaway_rules") or not self:
-    #         return super()._apply_putaway_strategy()
-    #
-    #     # În Odoo 17, procesăm liniile una câte una pentru a putea folosi un context actualizat între linii
-    #     additional_qty = dict(self.env.context.get("putaway_additional_qty", {}))
-    #     for line in self:
-    #         line.with_context(putaway_additional_qty=additional_qty, avoid_putaway_rules=True)._apply_putaway_strategy_one()
-    #         # Actualizăm ocuparea pentru următoarea linie
-    #         qty = line.product_uom_id._compute_quantity(line.quantity, line.product_id.uom_id)
-    #         additional_qty[line.location_dest_id.id] = additional_qty.get(line.location_dest_id.id, 0.0) + qty
 
-    # @api.model_create_multi
-    # def create(self, vals_list):
-    #     for vals in vals_list:
-    #         location_id = vals.get("location_dest_id")
-    #         location = self.env["stock.location"].browse(location_id)
-    #         quantity = vals.get("quantity", 0.0)
-    #         if location.max_products_leaf and quantity > location.max_products_leaf:
-    #             vals["quantity"] = location.max_products_leaf
-    #     return super().create(vals_list)
 
     def _split_by_putaway_capacity(self):
         # Logica de splitare a liniilor care depășesc capacitatea locației
@@ -81,19 +60,6 @@ class StockMoveLine(models.Model):
         new_lines = self.env["stock.move.line"]
         for line in self:
             if line.location_dest_id.max_products_leaf:
-                # if line.quantity > line.location_dest_id.max_products_leaf:
-                #     exclude_location += line.location_dest_id
-                #     rest = line.quantity - line.location_dest_id.max_products_leaf
-                #     line.write({"quantity": line.location_dest_id.max_products_leaf})
-                #     to_reprocess |= line
-                #     new_lines |= line.copy(
-                #         {
-                #             "quantity": rest,
-                #             "location_dest_id": line.move_id.location_dest_id.id,
-                #         }
-                #     )
-                #     is_split = True
-                #     continue
 
                 # Spațiul ocupat deja (fizic + planificat în DB)
                 line.location_dest_id.with_context(exclude_move_line_id=line.id)._compute_planned_products()
@@ -133,20 +99,7 @@ class StockMoveLine(models.Model):
                         }
                     )
 
-                    # # Re-aplicăm strategia de putaway pe noua linie, excluzând locațiile pline
-                    # new_line.with_context(exclude_location=exclude_location)._apply_putaway_strategy()
-                    #
-                    # # Dacă locația destinație a noii linii este aceeași cu cea a liniei curente,
-                    # # înseamnă că nu s-a găsit o altă locație prin putaway strategy și riscăm buclă infinită.
-                    # if new_line.location_dest_id != line.location_dest_id:
-                    #     new_line._split_by_putaway_capacity()
-
         if new_lines:
             new_lines.with_context(exclude_location=exclude_location)._apply_putaway_strategy()
             to_reprocess |= new_lines
         return is_split, to_reprocess
-
-    # def write(self, vals):
-    #     if vals.get("quantity"):
-    #         self._split_by_putaway_capacity()
-    #     return super().write(vals)
