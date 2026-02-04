@@ -71,8 +71,6 @@ class StockMoveLine(models.Model):
 
         return super()._apply_putaway_strategy()
 
-
-
     def _split_by_putaway_capacity(self):
         # Logica de splitare a liniilor care depășesc capacitatea locației
         is_split = False
