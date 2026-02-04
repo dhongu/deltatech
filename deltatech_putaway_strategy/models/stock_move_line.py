@@ -50,8 +50,6 @@ class StockMove(models.Model):
 class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
 
-
-
     def _split_by_putaway_capacity(self):
         # Logica de splitare a liniilor care depășesc capacitatea locației
         is_split = False
@@ -60,7 +58,6 @@ class StockMoveLine(models.Model):
         new_lines = self.env["stock.move.line"]
         for line in self:
             if line.location_dest_id.max_products_leaf:
-
                 # Spațiul ocupat deja (fizic + planificat în DB)
                 line.location_dest_id.with_context(exclude_move_line_id=line.id)._compute_planned_products()
                 occupied = line.location_dest_id.current_products + line.location_dest_id.planned_products
