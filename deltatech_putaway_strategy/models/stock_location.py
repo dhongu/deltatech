@@ -97,11 +97,16 @@ class StockLocation(models.Model):
             # Dacă move are dest_id = LEAF1, el apare în planned_sums pentru LEAF1.
 
             # Deci trebuie să adăugăm move_lines care au dest_id = LEAF1 dar move.dest_id != LEAF1
+            domain = [
+                ("location_dest_id", "in", leaves.ids),
+                ("state", "not in", ["done", "cancel"]),
+            ]
+            exclude_move_line_id = self.env.context.get("exclude_move_line_id")
+            if exclude_move_line_id:
+                domain.append(("id", "!=", exclude_move_line_id))
+
             ml_sums = MoveLine.read_group(
-                [
-                    ("location_dest_id", "in", leaves.ids),
-                    ("state", "not in", ["done", "cancel"]),
-                ],
+                domain,
                 ["quantity:sum"],
                 ["location_dest_id"],
                 lazy=False,
@@ -166,14 +171,17 @@ class StockLocation(models.Model):
         if self.env.context.get("putaway_location_standard"):
             return can_be_used
 
-        # exclude_location = self.env.context.get("exclude_location", self.env["stock.location"])
-        # if self in exclude_location:
-        #     return False
+        exclude_location = self.env.context.get("exclude_location", self.env["stock.location"])
+        if self in exclude_location:
+             return False
 
         if not can_be_used:
             return False
 
         if self.max_products_leaf:
+            # daca celula e ecupata
+            if self.current_products >= self.max_products_leaf:
+                return False
             # Capacitate pe frunză: nu depășim max_products_leaf
             # Luăm în calcul atât stocul actual cât și cel planificat
             self._compute_planned_products()
