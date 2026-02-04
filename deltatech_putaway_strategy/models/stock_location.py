@@ -61,8 +61,9 @@ class StockLocation(models.Model):
         MoveLine = self.env["stock.move.line"].sudo()
 
         # Identificăm locațiile care nu au copii (frunze) pentru a face agregarea SQL
-        leaves = self.filtered(lambda l: not l.child_ids)
-        parents = self - leaves
+        # Optimizare: calculăm doar pentru locațiile care au capacitate setată
+        leaves = self.filtered(lambda l:  l.max_products_leaf)
+        rest = self - leaves
 
         planned_qty_by_loc = {}
         if leaves:
@@ -70,10 +71,11 @@ class StockLocation(models.Model):
                 ("location_dest_id", "in", leaves.ids),
                 ("state", "not in", ["done", "cancel"]),
             ]
-            # Permitem excluderea unei linii specifice (util în timpul procesului de splitare)
-            exclude_move_line_id = self.env.context.get("exclude_move_line_id")
-            if exclude_move_line_id:
-                domain.append(("id", "!=", exclude_move_line_id))
+            # Permitem excluderea unor linii specifice (util în timpul procesului de splitare)
+
+            exclude_move_line_ids = self.env.context.get("exclude_move_line_ids")
+            if exclude_move_line_ids:
+                domain.append(("id", "not in", exclude_move_line_ids))
 
             # Agregăm cantitățile direct din baza de date pentru performanță
             ml_sums = MoveLine.read_group(
@@ -87,13 +89,10 @@ class StockLocation(models.Model):
                 planned_qty_by_loc[loc_id] = rec.get("quantity", 0.0)
 
         # Alocăm rezultatele pentru locațiile frunză
-        for leaf in leaves:
+        for leaf in self.filtered(lambda l: not l.child_ids):
             leaf.planned_products = float(planned_qty_by_loc.get(leaf.id, 0.0))
 
-        # Pentru locațiile părinte, calculăm suma recursiv de jos în sus (bottom-up)
-        if parents:
-            for loc in parents.sorted(key=lambda l: len((l.parent_path or "").split("/")), reverse=True):
-                loc.planned_products = sum(child.planned_products for child in loc.child_ids)
+        rest.planned_products = 0.0
 
     def _compute_warehouse_occupancy(self):
         """Calcul optimizat al ocupării depozitului folosind batch read_group.

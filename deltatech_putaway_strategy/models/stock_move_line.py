@@ -14,7 +14,10 @@ class StockMove(models.Model):
         """Suprascrie atribuirea pentru a aplica automat splitarea liniilor de mișcare
         în funcție de capacitatea locațiilor de destinație.
         """
+        start_time = time.time()
         res = super()._action_assign(force_qty=force_qty)
+        if not self:
+            return res
         # Procesăm liniile într-o buclă pentru a gestiona splitările succesive
         # (când o locație alternativă se umple și ea)
         lines_to_process = self.move_line_ids
@@ -34,6 +37,8 @@ class StockMove(models.Model):
         lines_with_zero_qty = self.move_line_ids.filtered(lambda line: line.quantity == 0)
         if lines_with_zero_qty:
             lines_with_zero_qty.unlink()
+
+        _logger.info("_action_assign executed in %.3f seconds", time.time() - start_time)
         return res
 
     def _action_done(self, cancel_backorder=False):
@@ -68,28 +73,46 @@ class StockMoveLine(models.Model):
         - Partea care încape rămâne în locația curentă.
         - Partea care depășește capacitatea este trimisă către o nouă căutare de locație prin putaway strategy.
         """
+        start_time = time.time()
         is_split = False
         exclude_location = self.env.context.get("exclude_location", self.env["stock.location"])
         to_reprocess = self.env["stock.move.line"]
         new_lines = self.env["stock.move.line"]
+
+        # Prefetch în batch pentru toate locațiile implicate
+        # Folosim contextul pentru a exclude liniile curente din calculul planned_products
+        # pentru a avea o imagine a ocupării de către ALTE linii înainte de procesarea curentă.
+        locations = self.location_dest_id
+        locations.with_context(exclude_move_line_ids=self.ids).read(
+            ["current_products", "planned_products", "max_products_leaf"]
+        )
+
+        # Dicționar pentru a urmări ajustările locale (delta) în timpul buclei
+        # (necesar dacă mai multe linii din batch merg în aceeași locație)
+        local_adjustments = {}
+
         for line in self:
-            if line.location_dest_id.max_products_leaf:
+            loc = line.location_dest_id.with_context(exclude_move_line_ids=self.ids)
+            if not loc.max_products_leaf:
+                continue
 
-                # Recalculăm cantitatea planificată pentru locația destinație, excluzând linia curentă
-                # (pentru a vedea spațiul ocupat de ceilalți fără a ne număra pe noi înșine)
-                line.location_dest_id.with_context(exclude_move_line_id=line.id)._compute_planned_products()
-                occupied = line.location_dest_id.current_products + line.location_dest_id.planned_products
+            # 'planned_products' NU conține 'line_qty' (pentru că am folosit exclude_move_line_ids în read)
+            others_occupied = loc.current_products + loc.planned_products
 
-                qty_available = line.location_dest_id.max_products_leaf - occupied
+            # Adăugăm ajustările făcute de liniile procesate anterior în această buclă
+            adjustment = local_adjustments.get(loc.id, 0.0)
 
-                if qty_available < 0:
-                    # Locația este deja plină sau depășită de alte mișcări
-                    _logger.warning("Location %s is not available anymore", line.location_dest_id.display_name)
-                    exclude_location += line.location_dest_id
-                    is_split = True
-                    rest = line.quantity
+            occupied_total = others_occupied + adjustment
+            qty_available = loc.max_products_leaf - occupied_total
+
+            if qty_available <= 0:
+                # Locația este deja plină sau depășită de alte mișcări
+                _logger.warning("Location %s is not available anymore", loc.display_name)
+                exclude_location += loc
+                is_split = True
+                rest = line.quantity
+                if rest > 0:
                     line.write({"quantity": 0})
-
                     # Creăm o copie a liniei pe care o vom trimite la o altă locație
                     new_lines |= line.copy(
                         {
@@ -97,28 +120,37 @@ class StockMoveLine(models.Model):
                             "location_dest_id": line.move_id.location_dest_id.id,
                         }
                     )
-                    continue
+                continue
 
-                if qty_available and qty_available < line.quantity:
-                    # Locația poate primi doar o parte din cantitate
-                    exclude_location += line.location_dest_id
+            if qty_available < line.quantity:
+                # Locația poate primi doar o parte din cantitate
+                exclude_location += loc
 
-                    is_split = True
-                    rest = line.quantity - qty_available
-                    # Ajustăm linia curentă la spațiul disponibil
-                    line.write({"quantity": qty_available})
-                    # Creăm o linie nouă pentru restul cantității, care va căuta altă locație
-                    new_lines |= line.copy(
-                        {
-                            "quantity": rest,
-                            "location_dest_id": line.move_id.location_dest_id.id,
-                        }
-                    )
+                is_split = True
+                rest = line.quantity - qty_available
+                # Ajustăm linia curentă la spațiul disponibil
+                line.write({"quantity": qty_available})
+
+                # Actualizăm ajustarea locală: consumăm exact qty_available
+                local_adjustments[loc.id] = adjustment + qty_available
+
+                # Creăm o linie nouă pentru restul cantității, care va căuta altă locație
+                new_lines |= line.copy(
+                    {
+                        "quantity": rest,
+                        "location_dest_id": line.move_id.location_dest_id.id,
+                    }
+                )
+            else:
+                # Linia încape complet, actualizăm delta pentru următoarele linii din același batch
+                local_adjustments[loc.id] = adjustment + line.quantity
 
         if new_lines:
             # Pentru noile linii generate, reaplicăm strategia de putaway excluzând locațiile deja pline
             new_lines.with_context(exclude_location=exclude_location)._apply_putaway_strategy()
             to_reprocess |= new_lines
+
+        _logger.info("_split_by_putaway_capacity executed in %.3f seconds", time.time() - start_time)
         return is_split, to_reprocess
 
 
