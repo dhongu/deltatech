@@ -81,20 +81,6 @@ class StockMoveLine(models.Model):
         new_lines = self.env["stock.move.line"]
         for line in self:
             if line.location_dest_id.max_products_leaf:
-                # if line.quantity > line.location_dest_id.max_products_leaf:
-                #     exclude_location += line.location_dest_id
-                #     rest = line.quantity - line.location_dest_id.max_products_leaf
-                #     line.write({"quantity": line.location_dest_id.max_products_leaf})
-                #     to_reprocess |= line
-                #     new_lines |= line.copy(
-                #         {
-                #             "quantity": rest,
-                #             "location_dest_id": line.move_id.location_dest_id.id,
-                #         }
-                #     )
-                #     is_split = True
-                #     continue
-
                 # Spațiul ocupat deja (fizic + planificat în DB)
                 line.location_dest_id.with_context(exclude_move_line_id=line.id)._compute_planned_products()
                 occupied = line.location_dest_id.current_products + line.location_dest_id.planned_products

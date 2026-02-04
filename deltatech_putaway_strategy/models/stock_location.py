@@ -59,15 +59,13 @@ class StockLocation(models.Model):
             return
         self.env["stock.move"].sudo()
         MoveLine = self.env["stock.move.line"].sudo()
-        if not self:
-            return
 
-        leaves = self.filtered(lambda l: not l.child_ids)
-        parents = self - leaves
+        leaves = self.filtered(lambda l: l.max_products_leaf)
+        rest = self - leaves
 
         planned_qty_by_loc = {}
         if leaves:
-
+            # Deci trebuie să adăugăm move_lines care au dest_id = LEAF1 dar move.dest_id != LEAF1
             domain = [
                 ("location_dest_id", "in", leaves.ids),
                 ("state", "not in", ["done", "cancel"]),
@@ -84,14 +82,13 @@ class StockLocation(models.Model):
             )
             for rec in ml_sums:
                 loc_id = rec["location_dest_id"][0]
-                planned_qty_by_loc[loc_id] = planned_qty_by_loc.get(loc_id, 0.0) + rec.get("quantity", 0.0)
+                planned_qty_by_loc[loc_id] = rec.get("quantity", 0.0)
 
+        # Alocăm rezultatele pentru locațiile frunză
         for leaf in leaves:
             leaf.planned_products = float(planned_qty_by_loc.get(leaf.id, 0.0))
 
-        if parents:
-            for loc in parents.sorted(key=lambda l: len((l.parent_path or "").split("/")), reverse=True):
-                loc.planned_products = sum(child.planned_products for child in loc.child_ids)
+        rest.planned_products = 0.0
 
     def _compute_warehouse_occupancy(self):
         """Calcul optimizat al ocupării depozitului folosind batch read_group.
