@@ -58,7 +58,7 @@ class StockLocation(models.Model):
         if not self:
             return
         MoveLine = self.env["stock.move.line"].sudo()
-        leaves = self.filtered(lambda l:  l.max_products_leaf)
+        leaves = self.filtered(lambda l: l.max_products_leaf)
         rest = self - leaves
 
         planned_qty_by_loc = {}
