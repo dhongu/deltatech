@@ -134,7 +134,7 @@
                             name="action_view_acceptance_tests"
                             icon="fa-stethoscope"
                         >
-                            <field name="count_acceptance_tests" widget="statinfo" string="Acceptance Tests" />
+                            <field name="count_acceptance_tests" widget="statinfo" string="Start Test" />
                         </button>
                         <button class="oe_stat_button" type="object" name="action_view_developments" icon="fa-code">
                             <field name="count_developments" widget="statinfo" string="Developments" />
@@ -207,8 +207,8 @@
                                     <field name="process_id" column_invisible="1" />
                                     <field name="state" column_invisible="1" />
                                     <field name="name" />
-                                    <field name="transaction_id" optional="show" />
-                                    <field name="transaction_type" optional="hide" />
+<!--                                    <field name="transaction_id" optional="show" />-->
+<!--                                    <field name="transaction_type" optional="hide" />-->
                                     <field name="responsible_id" />
                                     <field name="development_ids" widget="many2many_tags" optional="hide" />
                                 </list>
@@ -413,7 +413,7 @@
         <field name="name">Start Internal Test</field>
         <field name="model_id" ref="model_business_process" />
         <field name="state">code</field>
-        <field name="code">action = records.start_internal_test()</field>
+        <field name="code">action = records.sudo().start_internal_test()</field>
         <field name="binding_model_id" ref="model_business_process" />
     </record>
 
@@ -422,7 +422,7 @@
         <field name="name">Start Integration Test</field>
         <field name="model_id" ref="model_business_process" />
         <field name="state">code</field>
-        <field name="code">action = records.start_integration_test()</field>
+        <field name="code">action = records.sudo().start_integration_test()</field>
         <field name="binding_model_id" ref="model_business_process" />
     </record>
 
@@ -438,7 +438,7 @@
         <field name="name">Install Modules for Selected Processes</field>
         <field name="model_id" ref="model_business_process" />
         <field name="state">code</field>
-        <field name="code">action = records.button_install_modules()</field>
+        <field name="code">action = records.sudo().button_install_modules()</field>
         <field name="binding_model_id" ref="model_business_process" />
         <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
     </record>

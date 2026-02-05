@@ -1,0 +1,498 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
+<title>Deltatech Project Pricelist</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: gray; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic, pre.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="deltatech-project-pricelist">
+<h1 class="title">Deltatech Project Pricelist</h1>
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! This file is generated by oca-gen-addon-readme !!
+!! changes will be overwritten.                   !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! source digest: sha256:4f11bb1488fcef5e66f0da35e52a46a0c71a3d4714c7e637f9b03bbb2a5f545c
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/license-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_project_price_list"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<div class="section" id="deltatech-project-pricelist-1">
+<h1>Deltatech Project Pricelist</h1>
+<p>Project-level pricelist used when creating Sales Orders from a project
+or a task. Built for Odoo 19.</p>
+<div class="section" id="purpose">
+<h2>Purpose</h2>
+<p>Allow project managers to define a default pricelist on each project so
+that any Sales Order created from that project (or from one of its
+tasks) automatically uses the correct pricelist. This avoids manual
+selection mistakes and keeps pricing consistent.</p>
+</div>
+<div class="section" id="key-features">
+<h2>Key Features</h2>
+<ul class="simple">
+<li>New field on projects: <tt class="docutils literal">Pricelist</tt>
+(<tt class="docutils literal">project.project.pricelist_id</tt>).</li>
+<li>Project Sales Orders action injects <tt class="docutils literal">default_pricelist_id</tt> so new
+quotations are prefilled with the project’s pricelist.</li>
+<li>When opening a quotation form from a project or task,
+<tt class="docutils literal">sale.order.default_get</tt> proposes the project’s pricelist before
+save.</li>
+<li>Server-side safety: during <tt class="docutils literal">sale.order.create</tt>, if a Sales Order is
+created from a project/task and no pricelist is provided, the
+project’s pricelist is applied.</li>
+<li>Explicit pricelist chosen by the user or provided via context is never
+overridden.</li>
+</ul>
+</div>
+<div class="section" id="ui-views">
+<h2>UI/Views</h2>
+<ul class="simple">
+<li>Project form (simplified): displays the <tt class="docutils literal">Pricelist</tt> field in the
+settings section.</li>
+<li>Project edit view inherited from <tt class="docutils literal">sale_project</tt>: shows the
+<tt class="docutils literal">Pricelist</tt> on the Settings page (visible when the project is
+billable and not a template).</li>
+</ul>
+</div>
+<div class="section" id="compatibility">
+<h2>Compatibility</h2>
+<ul class="simple">
+<li>Odoo 19.</li>
+</ul>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies</h2>
+<ul class="simple">
+<li><tt class="docutils literal">sale_project</tt> (Project ↔ Sales integration).</li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h2>Installation</h2>
+<ol class="arabic simple">
+<li>Ensure your <tt class="docutils literal">addons_path</tt> includes this module’s directory.</li>
+<li>Install the module:</li>
+</ol>
+<pre class="literal-block">
+./odoo/odoo-bin -c odoo18.conf -d o19_playground -i deltatech_project_price_list --stop-after-init
+</pre>
+</div>
+<div class="section" id="usage">
+<h2>Usage</h2>
+<ol class="arabic simple">
+<li>Open a Project and set the <tt class="docutils literal">Pricelist</tt> field.</li>
+<li>Create a quotation from the project’s Sales Orders smart button, or
+from a task in that project.</li>
+<li>The quotation’s <tt class="docutils literal">Pricelist</tt> will be prefilled with the project’s
+pricelist and pricing will follow it.</li>
+</ol>
+</div>
+<div class="section" id="tests">
+<h2>Tests</h2>
+<p>Automated tests cover:</p>
+<ul class="simple">
+<li>Action context injection (<tt class="docutils literal">default_pricelist_id</tt>) from the project.</li>
+<li><tt class="docutils literal">sale.order.create</tt> applying the project pricelist (project/task
+flows).</li>
+<li><tt class="docutils literal">default_get</tt> proposing the project pricelist when opening the SO
+form from project/task.</li>
+<li>Respect of an explicit pricelist provided by the user/context.</li>
+</ul>
+<p>Run tests (on a disposable DB):</p>
+<pre class="literal-block">
+./odoo/odoo-bin -c odoo18.conf -d o19_test -i deltatech_project_price_list --test-tags=deltatech_project_price_list --stop-after-init
+</pre>
+</div>
+<div class="section" id="license">
+<h2>License</h2>
+<p>LGPL-3.</p>
+<p><strong>Table of contents</strong></p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="bug-tracker">
+<h3><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h3>
+<p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
+In case of trouble, please check there if your issue has already been reported.</p>
+<p>Do not contact contributors directly about support or help with technical issues.</p>
+</div>
+<div class="section" id="credits">
+<h3><a class="toc-backref" href="#toc-entry-2">Credits</a></h3>
+<div class="section" id="authors">
+<h4><a class="toc-backref" href="#toc-entry-3">Authors</a></h4>
+<ul class="simple">
+<li>Terrabit</li>
+<li>Dorin Hongu</li>
+</ul>
+</div>
+<div class="section" id="maintainers">
+<h4><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h4>
+<p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_project_price_list">dhongu/deltatech</a> project on GitHub.</p>
+<p>You are welcome to contribute.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+
+access_general_agreement_user,access_general_agreement,model_general_agreement,group_agreement_user,1,1,0,0
+access_general_agreement_type_user,access_general_agreement_type,model_general_agreement_type,group_agreement_user,1,0,0,0
+
+access_general_agreement_manager,access_general_agreement,model_general_agreement,group_agreement_manager,1,1,1,1
+access_general_agreement_type_manager,access_general_agreement_type,model_general_agreement_type,group_agreement_manager,1,1,1,1
+
+access_general_agreement_public,access_general_agreement,model_general_agreement,group_agreement_manager,0,0,0,0
+access_general_agreement_type_public,access_general_agreement_type,model_general_agreement_type,group_agreement_manager,0,0,0,0

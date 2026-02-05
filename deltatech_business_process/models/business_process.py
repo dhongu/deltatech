@@ -165,7 +165,7 @@ class BusinessProcess(models.Model):
     duration_for_completion = fields.Float(string="Total duration", compute="_compute_duration_for_completion")
 
     implementation_stage = fields.Selection(
-        [("first_stage", "First stage"), ("second_stage", "Second stage")],
+        [("first_stage", "First stage"), ("second_stage", "Second stage"), ("start", "Start")],
         string="Implementation stage",
     )
     module_type = fields.Selection(
@@ -241,34 +241,46 @@ class BusinessProcess(models.Model):
         return action
 
     def action_view_acceptance_tests(self):
-        if not self.count_acceptance_tests:
-            self.start_user_acceptance_test()
-        domain = [("process_id", "=", self.id), ("scope", "=", "user_acceptance")]
+        test = self.start_user_acceptance_test()
         context = {
             "default_process_id": self.id,
             "default_scope": "user_acceptance",
         }
-        tests = self.env["business.process.test"].search(domain)
-        if len(tests) == 1:
-            action = self.env.ref("deltatech_business_process.business_process_test_action_form").sudo().read()[0]
-            action.update(
-                {
-                    "res_id": tests.id,
-                    "view_mode": "form",
-                    "context": context,
-                }
-            )
-        else:
-            action = self.env["ir.actions.actions"]._for_xml_id(
-                "deltatech_business_process.action_business_process_test"
-            )
-            action.update(
-                {
-                    "domain": domain,
-                    "context": context,
-                }
-            )
+        action = self.env.ref("deltatech_business_process.business_process_test_action_form").sudo().read()[0]
+        action.update(
+            {
+                "res_id": test.id,
+                "view_mode": "form",
+                "context": context,
+            }
+        )
         return action
+        # domain = [("process_id", "=", self.id), ("scope", "=", "user_acceptance")]
+        # context = {
+        #     "default_process_id": self.id,
+        #     "default_scope": "user_acceptance",
+        # }
+        # tests = self.env["business.process.test"].search(domain)
+        # if len(tests) == 1:
+        #     action = self.env.ref("deltatech_business_process.business_process_test_action_form").sudo().read()[0]
+        #     action.update(
+        #         {
+        #             "res_id": tests.id,
+        #             "view_mode": "form",
+        #             "context": context,
+        #         }
+        #     )
+        # else:
+        #     action = self.env["ir.actions.actions"]._for_xml_id(
+        #         "deltatech_business_process.action_business_process_test"
+        #     )
+        #     action.update(
+        #         {
+        #             "domain": domain,
+        #             "context": context,
+        #         }
+        #     )
+        # return action
 
     def action_view_developments(self):
         domain = [("id", "=", self.development_ids.ids)]
@@ -351,26 +363,31 @@ class BusinessProcess(models.Model):
     def _start_test(self, scope):
         for process in self:
             domain = [("process_id", "=", process.id), ("scope", "=", scope)]
-            test = self.env["business.process.test"].search(domain, limit=1)
-            if not test:
-                if scope == "internal":
-                    test = self.env["business.process.test"].create(
-                        {
-                            "name": self.env._("Internal Test %s", process.code if process.code else process.name),
-                            "process_id": process.id,
-                            "tester_id": self.responsible_id.id,
-                            "scope": scope,
-                        }
-                    )
-                else:
-                    test = self.env["business.process.test"].create(
-                        {
-                            "name": self.env._("Test %s", process.code if process.code else process.name),
-                            "process_id": process.id,
-                            "scope": scope,
-                        }
-                    )
-                test._onchange_process_id()
+            tests = self.env["business.process.test"].search(domain)
+
+            if scope == "internal":
+                test = self.env["business.process.test"].create(
+                    {
+                        "name": self.env._("Internal Test %s", process.code if process.code else process.name),
+                        "process_id": process.id,
+                        "tester_id": self.responsible_id.id,
+                        "scope": scope,
+                    }
+                )
+            else:
+                test = self.env["business.process.test"].create(
+                    {
+                        "name": self.env._(
+                            "Test %s #%s",
+                            process.code if process.code else process.name,
+                            1 if not tests else len(tests) + 1,
+                        ),
+                        "process_id": process.id,
+                        "scope": scope,
+                    }
+                )
+            test._onchange_process_id()
+            return test
 
     def _add_followers(self):
         for process in self:
@@ -422,7 +439,7 @@ class BusinessProcess(models.Model):
         self._start_test("integration")
 
     def start_user_acceptance_test(self):
-        self._start_test("user_acceptance")
+        return self.sudo()._start_test("user_acceptance")
 
     def button_install_modules(self):
         found_modules = False
