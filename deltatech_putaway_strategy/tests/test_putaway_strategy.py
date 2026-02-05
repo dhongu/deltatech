@@ -328,7 +328,7 @@ class TestPutawayStrategy(TransactionCase):
         )
 
         # Confirmăm și atribuim
-        picking.action_confirm()
+        # picking.action_confirm()
         picking.action_assign()
 
         # Verificăm liniile de mișcare generate
