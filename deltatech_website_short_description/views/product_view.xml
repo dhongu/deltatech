@@ -29,4 +29,15 @@
             </field>
         </record>
 
+        <record id="action_website_publish_product_template" model="ir.actions.server">
+            <field name="name">Publish on Website</field>
+            <field name="model_id" ref="product.model_product_template" />
+            <field name="binding_model_id" ref="product.model_product_template" />
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = records.action_website_publish()
+            </field>
+        </record>
+
 </odoo>
