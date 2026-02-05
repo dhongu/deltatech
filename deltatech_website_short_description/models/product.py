@@ -15,4 +15,9 @@ class ProductTemplate(models.Model):
         translate=html_translate,
     )
 
+    def action_website_publish(self):
+        for record in self:
+            if not record.website_published:
+                record.website_publish_button()
+
     # mai este si website_meta_description = fields.Text("Website meta description", translate=True)
