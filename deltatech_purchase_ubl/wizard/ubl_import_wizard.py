@@ -263,18 +263,23 @@ class PurchaseUblImportWizard(models.TransientModel):
             product = Product.search([("barcode", "=", barcode)], limit=1)
 
         if not product and supplier and code:
-            sinfo = SupplierInfo.search(
-                [
-                    ("partner_id", "=", supplier.id),
-                    ("product_code", "=ilike", code),
-                ],
-                limit=1,
-            )
+            domain = [("partner_id", "=", supplier.id), ("product_code", "=ilike", code)]
+            sinfo = SupplierInfo.search(domain, limit=1)
             if sinfo:
                 if sinfo.product_id:
                     product = sinfo.product_id
                 else:
                     product = sinfo.product_tmpl_id.product_variant_id
+
+        if not product and supplier and name:
+            domain = [("partner_id", "=", supplier.id), ("product_name", "=ilike", code)]
+            sinfo = SupplierInfo.search(domain, limit=1)
+            if sinfo:
+                if sinfo.product_id:
+                    product = sinfo.product_id
+                else:
+                    product = sinfo.product_tmpl_id.product_variant_id
+
         if not product and code:
             product = Product.search([("default_code", "=ilike", code)], limit=1)
 
@@ -282,7 +287,9 @@ class PurchaseUblImportWizard(models.TransientModel):
         if not product and code and code.isdigit():
             product = Product.search([("barcode", "=", code)], limit=1)
         if not product and name:
-            product = Product.search([("name", "=ilike", name)], limit=1)
+            products = Product.search([("name", "=ilike", name)], limit=2)
+            if len(products) == 1:
+                product = products[0]
 
         return product
 
