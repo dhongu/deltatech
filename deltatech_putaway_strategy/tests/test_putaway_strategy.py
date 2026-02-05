@@ -46,7 +46,7 @@ class TestPutawayStrategy(TransactionCase):
         self.product = self.Product.create(
             {
                 "name": "Test Product",
-                "is_storable": True,
+                "type": "product",
             }
         )
         self.env["stock.putaway.rule"].create(
@@ -160,7 +160,7 @@ class TestPutawayStrategy(TransactionCase):
         product2 = self.Product.create(
             {
                 "name": "Test Product 2",
-                "is_storable": True,
+                "type": "product",
             }
         )
 
@@ -328,7 +328,7 @@ class TestPutawayStrategy(TransactionCase):
         )
 
         # Confirmăm și atribuim
-        picking.action_confirm()
+        # picking.action_confirm()
         picking.action_assign()
 
         # Verificăm liniile de mișcare generate
