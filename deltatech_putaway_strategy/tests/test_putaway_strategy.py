@@ -46,7 +46,7 @@ class TestPutawayStrategy(TransactionCase):
         self.product = self.Product.create(
             {
                 "name": "Test Product",
-                "type": "product",
+                "is_storable": True,
             }
         )
         self.env["stock.putaway.rule"].create(
@@ -160,7 +160,7 @@ class TestPutawayStrategy(TransactionCase):
         product2 = self.Product.create(
             {
                 "name": "Test Product 2",
-                "type": "product",
+                "is_storable": True,
             }
         )
 

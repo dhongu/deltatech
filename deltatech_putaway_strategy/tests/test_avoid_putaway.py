@@ -28,7 +28,7 @@ class TestAvoidPutaway(TransactionCase):
         self.product = self.Product.create(
             {
                 "name": "Test Avoid Putaway Product",
-                "type": "product",
+                "is_storable": True,
             }
         )
 
