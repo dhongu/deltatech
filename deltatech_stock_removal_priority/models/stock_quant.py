@@ -2,6 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 from odoo import api, fields, models
+from odoo.osv import expression
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -44,6 +45,10 @@ class StockQuant(models.Model):
 
     @api.model
     def _get_removal_strategy_domain_order(self, domain, removal_strategy, qty):
+        exclude_location_ids = self.env.context.get("exclude_location_ids")
+        if exclude_location_ids:
+            domain = expression.AND([domain, [("location_id", "not in", exclude_location_ids)]])
+
         if removal_strategy == "priority":
             # domain = domain + [("removal_priority", ">=", 0)]
             return domain, "removal_priority, location_id, id"

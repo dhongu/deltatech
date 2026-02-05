@@ -1,5 +1,4 @@
 import logging
-import time
 
 from odoo import _, models
 from odoo.exceptions import UserError
@@ -15,7 +14,22 @@ class StockMove(models.Model):
         în funcție de capacitatea locațiilor de destinație.
         """
 
+        pickings = self.mapped("picking_id")
+
+        if pickings:
+            # Luăm în considerare doar tipurile OUT (livrări)
+            pickings_out = pickings.filtered(lambda p: p.picking_type_id.code == "outgoing")
+            if any(pickings_out.mapped("picking_type_id.avoid_root_location_on_reservation")):
+                exclude_location_ids = pickings_out.mapped("location_id").ids
+                self = self.with_context(exclude_location_ids=exclude_location_ids)
+
         res = super()._action_assign(force_qty=force_qty)
+        if self._context.get("avoid_putaway_rules"):
+            return res
+
+        if any(pickings.mapped("picking_type_id.avoid_putaway_rules")):
+            return res
+
         # Apelăm splitarea pe toate liniile de mișcare implicate
         # Facem o buclă până când nu mai sunt necesare splitări
 
