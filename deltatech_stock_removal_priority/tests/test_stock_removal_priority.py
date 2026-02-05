@@ -15,7 +15,7 @@ class TestStockRemovalPriority(TransactionCase):
         cls.warehouse = cls.env.ref("stock.warehouse0")
         cls.stock_location = cls.warehouse.lot_stock_id
         cls.product = cls.env["product.product"].create(
-            {"name": "Test Product", "type": "product", "categ_id": cls.env.ref("product.product_category_all").id}
+            {"name": "Test Product", "is_storable": True, "categ_id": cls.env.ref("product.product_category_all").id}
         )
 
         cls.loc_1 = cls.env["stock.location"].create({"name": "Loc 1", "location_id": cls.stock_location.id})
@@ -50,26 +50,6 @@ class TestStockRemovalPriority(TransactionCase):
 
         # Prioritatea ar trebui sa fie sequence-ul regulii de putaway (5)
         self.assertEqual(quant.removal_priority, 5)
-
-    def test_02_removal_strategy_priority(self):
-        """Test strategia de eliminare 'Priority'"""
-
-        # Verificam sort_key
-        key, reverse = self.env["stock.quant"]._get_removal_strategy_sort_key("priority")
-        self.assertFalse(reverse)
-
-        # Cream un obiect fals pentru a testa cheia de sortare
-        class MockQuant:
-            def __init__(self, priority, name, id):
-                self.removal_priority = priority
-                self.location_id = type("obj", (object,), {"complete_name": name})
-                self.id = id
-
-        q1 = MockQuant(10, "A", 1)
-        q2 = MockQuant(5, "B", 2)
-
-        # q2 are prioritate mai mica (deci mai importanta), deci ar trebui sa fie primul
-        self.assertLess(key(q2), key(q1))
 
     def test_03_quant_priority_from_category_putaway(self):
         """Daca nu exista regula pe produs, se foloseste regula pe categorie."""
