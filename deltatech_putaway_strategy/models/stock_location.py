@@ -30,6 +30,7 @@ class StockLocation(models.Model):
         ),
         digits=(16, 2),
         recursive=True,
+        compute_sudo=True
     )
 
     planned_products = fields.Float(
@@ -41,6 +42,7 @@ class StockLocation(models.Model):
         ),
         digits=(16, 2),
         recursive=True,
+        compute_sudo=True
     )
 
     occupancy_ratio = fields.Float(
@@ -49,6 +51,7 @@ class StockLocation(models.Model):
         help="Occupancy ratio = current/max. 0 when max is 0.",
         digits=(16, 4),
         recursive=True,
+        compute_sudo=True
     )
 
     def _compute_planned_products(self):

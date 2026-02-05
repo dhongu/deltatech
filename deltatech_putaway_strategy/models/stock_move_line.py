@@ -14,7 +14,7 @@ class StockMove(models.Model):
         """Suprascrie atribuirea pentru a aplica automat splitarea liniilor de mișcare
         în funcție de capacitatea locațiilor de destinație.
         """
-        start_time = time.time()
+
         res = super()._action_assign(force_qty=force_qty)
         # Apelăm splitarea pe toate liniile de mișcare implicate
         # Facem o buclă până când nu mai sunt necesare splitări
@@ -37,7 +37,6 @@ class StockMove(models.Model):
         if lines_with_zero_qty:
             lines_with_zero_qty.unlink()
 
-        _logger.info("_action_assign executed in %.3f seconds", time.time() - start_time)
         return res
 
     def _action_done(self, cancel_backorder=False):
@@ -80,7 +79,7 @@ class StockMoveLine(models.Model):
         for line in self:
             if line.location_dest_id.max_products_leaf:
                 # Spațiul ocupat deja (fizic + planificat în DB)
-                line.location_dest_id.with_context(exclude_move_line_id=line.id)._compute_planned_products()
+                line.location_dest_id.with_context(exclude_move_line_id=line.id).sudo()._compute_planned_products()
                 occupied = line.location_dest_id.current_products + line.location_dest_id.planned_products
 
                 qty_available = line.location_dest_id.max_products_leaf - occupied
