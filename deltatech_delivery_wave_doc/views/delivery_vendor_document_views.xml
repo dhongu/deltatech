@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+  <record id="view_delivery_vendor_document_form" model="ir.ui.view">
+    <field name="name">delivery.vendor.document.form</field>
+    <field name="model">delivery.vendor.document</field>
+    <field name="arch" type="xml">
+      <form string="Vendor Delivery Document">
+        <header>
+          <button
+                        name="action_generate_wave"
+                        type="object"
+                        string="Generate Wave"
+                        class="btn-primary"
+                        attrs="{'invisible': [('state','!=','draft')]}"
+                    />
+          <button
+                        name="action_open_import_wizard"
+                        type="object"
+                        string="Import Lines"
+                        class="btn-secondary"
+                        attrs="{'invisible': [('state','!=','draft')]}"
+                    />
+          <field name="state" widget="statusbar" statusbar_visible="draft,processed" />
+        </header>
+        <sheet>
+          <group>
+            <field name="name" readonly="1" />
+            <field name="partner_id" />
+            <field name="date" />
+            <field name="document_no" />
+            <field name="company_id" />
+          </group>
+          <group>
+            <field name="picking_type_id" />
+            <field name="responsible_id" />
+            <field name="allow_excess" />
+          </group>
+          <notebook>
+            <page string="Lines">
+              <field name="line_ids">
+                <tree editable="bottom">
+                  <field name="product_id" />
+                  <field name="name" />
+                  <field name="quantity" />
+                  <field name="product_uom" />
+                  <field name="price_unit" />
+                </tree>
+              </field>
+            </page>
+            <page string="Wave" attrs="{'invisible': [('wave_id','=',False)]}">
+              <field name="wave_id" readonly="1" />
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_delivery_vendor_document_tree" model="ir.ui.view">
+    <field name="name">delivery.vendor.document.tree</field>
+    <field name="model">delivery.vendor.document</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name" />
+        <field name="partner_id" />
+        <field name="document_no" />
+        <field name="date" />
+        <field name="state" />
+      </tree>
+    </field>
+  </record>
+
+  <record id="action_delivery_vendor_document" model="ir.actions.act_window">
+    <field name="name">Vendor Delivery Documents</field>
+    <field name="res_model">delivery.vendor.document</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+
+  <!-- Wizard: Import Lines -->
+  <record id="view_delivery_document_import_wizard_form" model="ir.ui.view">
+    <field name="name">delivery.vendor.document.import.wizard.form</field>
+    <field name="model">delivery.vendor.document.import.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Import Lines">
+        <group>
+          <field name="file" filename="filename" />
+          <field name="filename" />
+          <field name="file_type" />
+          <field name="product_match_by" />
+          <field name="delimiter" attrs="{'invisible': [('file_type','!=','csv')]}" />
+        </group>
+        <separator string="Expected columns" />
+        <label string="Required: product, quantity. Optional: uom, price_unit, name." />
+        <footer>
+          <button string="Cancel" class="btn-secondary" special="cancel" />
+          <button string="Import" type="object" name="action_import" class="btn-primary" />
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_delivery_document_import_wizard" model="ir.actions.act_window">
+    <field name="name">Import Lines</field>
+    <field name="res_model">delivery.vendor.document.import.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+  </record>
+
+  <menuitem
+        id="menu_delivery_vendor_root"
+        name="Vendor Deliveries"
+        parent="stock.menu_stock_warehouse_mgmt"
+        sequence="60"
+    />
+  <menuitem
+        id="menu_delivery_vendor_document"
+        name="Delivery Documents"
+        parent="menu_delivery_vendor_root"
+        action="action_delivery_vendor_document"
+    />
+</odoo>

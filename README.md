@@ -47,6 +47,7 @@ addon | version | maintainers | summary
 [deltatech_data_sheet_website](deltatech_data_sheet_website/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Data Sheet
 [deltatech_dc](deltatech_dc/) | 17.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Print Declaration of Conformity
 [deltatech_delivery_status](deltatech_delivery_status/) | 17.0.2.1.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Carrier status on picking
+[deltatech_delivery_wave_doc](deltatech_delivery_wave_doc/) | 17.0.1.0.0 |  | Document furnizor cu linii ce generează Batch/Wave pe recepții existente
 [deltatech_download](deltatech_download/) | 17.0.0.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generare fisier
 [deltatech_dropshipping](deltatech_dropshipping/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Delivery address in picking
 [deltatech_dummy_queue_job](deltatech_dummy_queue_job/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Dummy Queue Job
@@ -69,6 +70,7 @@ addon | version | maintainers | summary
 [deltatech_invoice_report](deltatech_invoice_report/) | 17.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Invoice Report
 [deltatech_invoice_to_draft](deltatech_invoice_to_draft/) | 17.0.2.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Restricted access to reset account move to draft
 [deltatech_invoice_weight](deltatech_invoice_weight/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Invoice Weight
+[deltatech_kit_price](deltatech_kit_price/) | 17.0.0.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Compute product cost price in sale order line based on kit
 [deltatech_ledger](deltatech_ledger/) | 17.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Deltatech Ledger
 [deltatech_list_view](deltatech_list_view/) | 17.0.1.0.1 |  | List View Select Text
 [deltatech_logistic_docs](deltatech_logistic_docs/) | 17.0.1.0.3 |  | Logistic Documents
@@ -135,7 +137,7 @@ addon | version | maintainers | summary
 [deltatech_purchase_stock](deltatech_purchase_stock/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Purchase Stock
 [deltatech_purchase_ubl](deltatech_purchase_ubl/) | 17.0.0.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Import UBL XML vendor invoices to update prices, validate receipts, and create vendor bills
 [deltatech_purchase_xls](deltatech_purchase_xls/) | 17.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Import/export purchase line from/to Excel
-[deltatech_putaway_strategy](deltatech_putaway_strategy/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Location capacities and enhanced putaway strategy for Inventory
+[deltatech_putaway_strategy](deltatech_putaway_strategy/) | 17.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Location capacities and enhanced putaway strategy for Inventory
 [deltatech_queue_job](deltatech_queue_job/) | 17.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Queue Job
 [deltatech_ral](deltatech_ral/) | 17.0.1.0.3 |  | RAL
 [deltatech_reccurent_task_activity](deltatech_reccurent_task_activity/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Will automatically create an activity at the creation of the recurring task
@@ -190,7 +192,7 @@ addon | version | maintainers | summary
 [deltatech_stock_inventory_product_display](deltatech_stock_inventory_product_display/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Adds product display button on sales and invoices to see the stock of the products in the order
 [deltatech_stock_negative](deltatech_stock_negative/) | 17.0.2.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Negative stocks are not allowed
 [deltatech_stock_picking_activity_report](deltatech_stock_picking_activity_report/) | 17.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Tracks activities and changes on stock pickings
-[deltatech_stock_removal_priority](deltatech_stock_removal_priority/) | 17.0.1.0.0 |  | Stock Removal Location by Priority
+[deltatech_stock_removal_priority](deltatech_stock_removal_priority/) | 17.0.1.0.3 |  | Stock Removal Location by Priority
 [deltatech_stock_report](deltatech_stock_report/) | 17.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report with positions from picking lists
 [deltatech_stock_reseller](deltatech_stock_reseller/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report report reseller
 [deltatech_stock_sn](deltatech_stock_sn/) | 17.0.1.0.0 |  | Stock Serial Number

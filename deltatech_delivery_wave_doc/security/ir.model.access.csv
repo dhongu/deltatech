@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_delivery_vendor_document_user,delivery.vendor.document,model_delivery_vendor_document,stock.group_stock_user,1,1,1,1
+access_delivery_vendor_document_line_user,delivery.vendor.document.line,model_delivery_vendor_document_line,stock.group_stock_user,1,1,1,1
