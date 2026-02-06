@@ -1,6 +1,6 @@
 {
     "name": "Stock Picking Activity Report",
-    "version": "18.0.0.0.1",
+    "version": "18.0.0.0.2",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Inventory",
