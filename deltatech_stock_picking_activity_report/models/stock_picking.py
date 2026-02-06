@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    def _log_activity(self, log_msg):
+    def _log_picking_activity_report(self, log_msg):
         try:
             if self.env.user.has_group("base.group_user") and self.env.user.login != "__system__":
                 today = datetime.now().date()
@@ -201,7 +201,9 @@ class StockPicking(models.Model):
                             changes.append(f"{field_label}: {old_val_str} -> {new_val_str}")
 
                     if changes:
-                        picking.with_context(**log_context)._log_activity("Updated: " + ", ".join(changes))
+                        picking.with_context(**log_context)._log_picking_activity_report(
+                            "Updated: " + ", ".join(changes)
+                        )
         except Exception:
             _logger.exception("Error while logging activity in write")
 
@@ -213,17 +215,17 @@ class StockPicking(models.Model):
         if body:
             clean_body = re.sub("<.*?>", "", body)
             if clean_body.strip():
-                self.with_context(chatter_message=True)._log_activity(f"Message: {clean_body.strip()}")
+                self.with_context(chatter_message=True)._log_picking_activity_report(f"Message: {clean_body.strip()}")
         return res
 
     def action_confirm(self):
         res = super().action_confirm()
-        self._log_activity("Button Clicked: Confirm")
+        self._log_picking_activity_report("Button Clicked: Confirm")
         return res
 
     def action_assign(self):
         res = super().action_assign()
-        self._log_activity("Button Clicked: Check Availability")
+        self._log_picking_activity_report("Button Clicked: Check Availability")
         return res
 
     def button_validate(self):
@@ -235,16 +237,16 @@ class StockPicking(models.Model):
                 counted_product_number += line.quantity
             if picking.picking_type_id.code == "outgoing":
                 log_context["exit_product_number"] = counted_product_number
-                self.with_context(**log_context)._log_activity("Button Clicked: Validate")
+                self.with_context(**log_context)._log_picking_activity_report("Button Clicked: Validate")
             if picking.picking_type_id.code == "incoming":
                 log_context["entry_product_number"] = counted_product_number
-                self.with_context(**log_context)._log_activity("Button Clicked: Validate")
+                self.with_context(**log_context)._log_picking_activity_report("Button Clicked: Validate")
             if picking.picking_type_id.code == "internal":
                 log_context["internal_product_number"] = counted_product_number
-                self.with_context(**log_context)._log_activity("Button Clicked: Validate")
+                self.with_context(**log_context)._log_picking_activity_report("Button Clicked: Validate")
         return res
 
     def action_cancel(self):
         res = super().action_cancel()
-        self._log_activity("Button Clicked: Cancel")
+        self._log_picking_activity_report("Button Clicked: Cancel")
         return res

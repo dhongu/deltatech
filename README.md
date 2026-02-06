@@ -190,7 +190,7 @@ addon | version | maintainers | summary
 [deltatech_stock_inventory](deltatech_stock_inventory/) | 18.0.2.3.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Inventory Old Method
 [deltatech_stock_inventory_product_display](deltatech_stock_inventory_product_display/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Adds product display button on sales and invoices to see the stock of the products in the order
 [deltatech_stock_negative](deltatech_stock_negative/) | 18.0.2.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Negative stocks are not allowed
-[deltatech_stock_picking_activity_report](deltatech_stock_picking_activity_report/) | 18.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Tracks activities and changes on stock pickings
+[deltatech_stock_picking_activity_report](deltatech_stock_picking_activity_report/) | 18.0.0.0.2 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Tracks activities and changes on stock pickings
 [deltatech_stock_report](deltatech_stock_report/) | 18.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report with positions from picking lists
 [deltatech_stock_reseller](deltatech_stock_reseller/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report report reseller
 [deltatech_stock_sn](deltatech_stock_sn/) | 18.0.1.0.0 |  | Stock Serial Number
