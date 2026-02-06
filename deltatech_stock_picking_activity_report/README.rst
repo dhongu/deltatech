@@ -21,9 +21,15 @@ Stock Picking Activity Report
 
 Features:
 
-- logs modification on stock picking
-- counts the number of products validated for statistics
-- access reports in the Stock -> Reports -> Activity Report
+
+- Logs detailed modifications on stock pickings, including field changes
+  and line updates.
+- Captures messages posted in the chatter for a comprehensive activity
+  history.
+- Automatically tracks validation events and categorizes the number of
+  products processed (Incoming, Outgoing, or Internal).
+- Provides an Activity Report accessible via Inventory -> Reporting ->
+  Activity Report for statistical analysis.
 
 **Table of contents**
 
