@@ -93,6 +93,7 @@
                         <group>
                             <field name="chatter_message" />
                             <field name="has_validated" />
+                            <field name="awb_generated" />
                         </group>
                         <group>
                             <field name="entry_product_number" />
