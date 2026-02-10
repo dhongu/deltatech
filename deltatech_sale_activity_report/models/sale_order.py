@@ -35,7 +35,6 @@ class SaleOrder(models.Model):
 
                     vals = {
                         "state": order.state,
-                        "stage": order.stage,
                     }
 
                     if not existing_record:
@@ -53,6 +52,8 @@ class SaleOrder(models.Model):
                             vals.update({"chatter_message": True})
                         if self.env.context.get("tags_changed", False):
                             vals.update({"tags_changed": True})
+                        if self.env.context.get("stage", False):
+                            vals.update({"stage": self.env.context.get("stage")})
                         self.env["sale.order.activity.record"].sudo().create(vals)
                     else:
                         new_log = (existing_record.activity_log or "") + full_log_msg
@@ -63,6 +64,8 @@ class SaleOrder(models.Model):
                             vals.update({"chatter_message": True})
                         if self.env.context.get("tags_changed", False):
                             vals.update({"tags_changed": True})
+                        if self.env.context.get("stage", False):
+                            vals.update({"stage": self.env.context.get("stage")})
                         existing_record.sudo().write(vals)
         except Exception:
             _logger.exception("Error while logging activity")
@@ -82,6 +85,7 @@ class SaleOrder(models.Model):
 
                         if field_name == "stage" and new_val == "pre_advice":
                             log_context["generated_awb"] = True
+                            log_context["stage"] = order.stage
                         if field_name == "tag_ids":
                             log_context["tags_changed"] = True
 
