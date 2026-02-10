@@ -47,26 +47,40 @@ websiteSaleAddress.include({
         if (this.elementCities && this.elementCities.options.length > 1) {
             this._hideInput("city");
             // Sincronizare atribute pentru validare HTML5
-            this.addressForm.city.disabled = true;
-            this.addressForm.city.removeAttribute("required");
-            this.addressForm.city.classList.remove("is-invalid");
-            this.addressForm.city.value = this.addressForm.city.value || "";
+            if (this.addressForm.city) {
+                this.addressForm.city.disabled = true;
+                this.addressForm.city.removeAttribute("required");
+                this.addressForm.city.classList.remove("is-invalid");
+                this.addressForm.city.value = this.addressForm.city.value || "";
+
+                // Sync city text with selected city_id name if city_id has a value
+                const selectedOption = this.elementCities.options[this.elementCities.selectedIndex];
+                if (selectedOption && selectedOption.value) {
+                    this.addressForm.city.value = selectedOption.text;
+                }
+            }
 
             this._showInput("city_id");
-            this.addressForm.city_id.disabled = false;
-            this.addressForm.city_id.setAttribute("required", "");
-            this.addressForm.city_id.classList.remove("is-invalid");
+            if (this.addressForm.city_id) {
+                this.addressForm.city_id.disabled = false;
+                this.addressForm.city_id.setAttribute("required", "");
+                this.addressForm.city_id.classList.remove("is-invalid");
+            }
         } else {
             this._hideInput("city_id");
-            this.addressForm.city_id.disabled = true;
-            this.addressForm.city_id.removeAttribute("required");
-            this.addressForm.city_id.classList.remove("is-invalid");
-            this.addressForm.city_id.value = this.addressForm.city_id.value || "";
+            if (this.addressForm.city_id) {
+                this.addressForm.city_id.disabled = true;
+                this.addressForm.city_id.removeAttribute("required");
+                this.addressForm.city_id.classList.remove("is-invalid");
+                this.addressForm.city_id.value = this.addressForm.city_id.value || "";
+            }
 
             this._showInput("city");
-            this.addressForm.city.disabled = false;
-            this.addressForm.city.setAttribute("required", "");
-            this.addressForm.city.classList.remove("is-invalid");
+            if (this.addressForm.city) {
+                this.addressForm.city.disabled = false;
+                this.addressForm.city.setAttribute("required", "");
+                this.addressForm.city.classList.remove("is-invalid");
+            }
         }
     },
 
@@ -95,10 +109,13 @@ websiteSaleAddress.include({
     },
 
     async _onChangeCity() {
-        // Const cityId = this.elementState.value;
-        const cityInput = this.addressForm.city;
-        if (cityInput.value) {
-            cityInput.value = "";
+        if (this.elementCities && this.addressForm.city) {
+            const selectedOption = this.elementCities.options[this.elementCities.selectedIndex];
+            if (selectedOption && selectedOption.value) {
+                this.addressForm.city.value = selectedOption.text;
+            } else {
+                this.addressForm.city.value = "";
+            }
         }
     },
 
