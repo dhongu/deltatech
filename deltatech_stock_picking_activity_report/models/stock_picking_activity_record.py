@@ -23,6 +23,7 @@ class StockPickingActivityRecord(models.Model):
 
     chatter_message = fields.Boolean(string="Chatter Message")
     has_validated = fields.Boolean(string="Has Validated")
+    awb_generated = fields.Boolean(string="AWB Generated")
     exit_product_number = fields.Float(string="Exit Product Number")
     entry_product_number = fields.Float(string="Entry Product Number")
     internal_product_number = fields.Float(string="Internal Product Number")

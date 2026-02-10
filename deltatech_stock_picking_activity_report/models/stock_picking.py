@@ -54,6 +54,8 @@ class StockPicking(models.Model):
                             vals.update({"internal_product_number": self.env.context.get("internal_product_number")})
                         if self.env.context.get("has_validated", False):
                             vals.update({"has_validated": True})
+                        if self.env.context.get("awb_generated", False):
+                            vals.update({"awb_generated": True})
                         self.env["stock.picking.activity.record"].sudo().create(vals)
                     else:
                         new_log = (existing_record.activity_log or "") + full_log_msg
@@ -83,6 +85,8 @@ class StockPicking(models.Model):
                             )
                         if self.env.context.get("has_validated", False):
                             vals.update({"has_validated": True})
+                        if self.env.context.get("awb_generated", False):
+                            vals.update({"awb_generated": True})
                         existing_record.sudo().write(vals)
         except Exception:
             _logger.exception("Error while logging activity")
@@ -98,6 +102,8 @@ class StockPicking(models.Model):
                         field_label = fields_info.get(field_name, {}).get("string", field_name)
                         field_type = fields_info.get(field_name, {}).get("type")
                         old_val = picking[field_name]
+                        if field_name == "carrier_tracking_ref" and new_val is not False:
+                            log_context["awb_generated"] = True
 
                         def format_val(val, f_type, f_name):
                             if not val:
