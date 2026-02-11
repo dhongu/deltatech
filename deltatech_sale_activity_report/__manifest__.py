@@ -1,11 +1,11 @@
 {
     "name": "Sale Order Last Modified",
-    "version": "17.0.0.0.7",
+    "version": "17.0.0.0.8",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
     "summary": "Adds a last modified field to the sale order",
-    "depends": ["sale", "deltatech_website_sale_status"],
+    "depends": ["sale"],
     "license": "OPL-1",
     "data": [
         "security/ir.model.access.csv",
