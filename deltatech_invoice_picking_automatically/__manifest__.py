@@ -4,7 +4,7 @@
 
 {
     "name": "Invoice Pickings Automatically",
-    "version": "18.0.0.0.1",
+    "version": "18.0.0.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Generate invoice automatically from picking after validation",
