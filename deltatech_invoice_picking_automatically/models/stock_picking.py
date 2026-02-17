@@ -10,6 +10,7 @@ class StockPickingType(models.Model):
     _inherit = "stock.picking.type"
 
     create_invoice_automatically = fields.Boolean(string="Create Invoice Automatically")
+    post_invoice_automatically = fields.Boolean(string="Post Invoice Automatically", default=True)
 
 
 class StockPicking(models.Model):
@@ -24,6 +25,7 @@ class StockPicking(models.Model):
                 sale_orders |= picking.sale_id
         if sale_orders:
             invoices = sale_orders._create_invoices(final=True)
-            invoices.action_post()
+            if picking.picking_type_id.post_invoice_automatically:
+                invoices.action_post()
 
         return res
