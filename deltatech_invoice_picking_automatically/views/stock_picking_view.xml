@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='warehouse_id']" position="after">
                 <field name="create_invoice_automatically" />
+                <field name="post_invoice_automatically" invisible="not create_invoice_automatically" />
             </xpath>
         </field>
     </record>

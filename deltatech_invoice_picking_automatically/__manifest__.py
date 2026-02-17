@@ -9,7 +9,7 @@
     "website": "https://www.terrabit.ro",
     "summary": "Generate invoice automatically from picking after validation",
     "category": "Sales",
-    "depends": ["sale_stock"],
+    "depends": ["stock_account", "sale_stock"],
     "price": 5.00,
     "currency": "EUR",
     "license": "LGPL-3",
