@@ -20,6 +20,8 @@
             <pivot>
                 <field name="user_id" type="row" />
                 <field name="change_date" type="col" interval="day" />
+                <field name="has_validated_count" type="measure" />
+                <field name="chatter_message_count" type="measure" />
             </pivot>
         </field>
     </record>
