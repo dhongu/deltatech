@@ -63,26 +63,11 @@ class StockPicking(models.Model):
                         if self.env.context.get("chatter_message", False):
                             vals.update({"chatter_message": True})
                         if self.env.context.get("exit_product_number", False):
-                            vals.update(
-                                {
-                                    "exit_product_number": existing_record.exit_product_number
-                                    + self.env.context.get("exit_product_number")
-                                }
-                            )
+                            vals.update({"exit_product_number": self.env.context.get("exit_product_number")})
                         if self.env.context.get("entry_product_number", False):
-                            vals.update(
-                                {
-                                    "entry_product_number": existing_record.entry_product_number
-                                    + self.env.context.get("entry_product_number")
-                                }
-                            )
+                            vals.update({"entry_product_number": self.env.context.get("entry_product_number")})
                         if self.env.context.get("internal_product_number", False):
-                            vals.update(
-                                {
-                                    "internal_product_number": existing_record.internal_product_number
-                                    + self.env.context.get("internal_product_number")
-                                }
-                            )
+                            vals.update({"internal_product_number": self.env.context.get("internal_product_number")})
                         if self.env.context.get("has_validated", False):
                             vals.update({"has_validated": True})
                         if self.env.context.get("awb_generated", False):
