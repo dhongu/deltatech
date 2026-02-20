@@ -1,0 +1,15 @@
+{
+    "name": "Product Unique Code",
+    "version": "18.0.1.0.0",
+    "category": "Product",
+    "summary": "Restrict duplicate default_code and barcode including archived products",
+    "author": "Terrabit, Voicu Stefan",
+    "website": "https://www.terrabit.ro",
+    "support": "odoo@terrabit.ro",
+    "license": "OPL-1",
+    "depends": ["product"],
+    "data": ["security/security.xml"],
+    "development_status": "Beta",
+    "maintainers": ["VoicuStefan2001"],
+    "images": ["static/description/main_screenshot.png"],
+}
