@@ -42,7 +42,7 @@ class TestWebsiteCityShopTour(HttpCase):
         cls.product = env["product.product"].create(
             {
                 "name": "Test Product",
-                "type": "consu",
+                "is_storable": True,
                 "list_price": 100.0,
                 "website_published": True,
             }
