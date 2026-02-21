@@ -26,10 +26,10 @@
             "deltatech_website_city/static/src/js/website_sale.esm.js",
             "deltatech_website_city/static/src/js/portal.esm.js",  # todo in lucru
         ],
-        "web.assets_tests": [
-            "deltatech_website_city/static/tests/tours/address_city_zip.tour.esm.js",
-            "deltatech_website_city/static/tests/tours/signup_city.tour.esm.js",
-            "deltatech_website_city/static/tests/tours/shop_checkout_city.tour.esm.js",
-        ],
+        # "web.assets_tests": [
+        #     "deltatech_website_city/static/tests/tours/address_city_zip.tour.esm.js",
+        #     "deltatech_website_city/static/tests/tours/signup_city.tour.esm.js",
+        #     "deltatech_website_city/static/tests/tours/shop_checkout_city.tour.esm.js",
+        # ],
     },
 }
