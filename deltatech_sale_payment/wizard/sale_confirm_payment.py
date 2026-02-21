@@ -110,8 +110,8 @@ class SaleConfirmPayment(models.TransientModel):
             transaction._set_pending()
             if transaction.amount > 0:
                 transaction._set_done()
-            if transaction.provider_id.code not in ["none", "custom", "on_delivery"]:
-                transaction._finalize_post_processing()
+            # if transaction.provider_id.code not in ["none", "custom", "on_delivery"]:
+            # transaction._finalize_post_processing()
 
             # transaction._reconcile_after_transaction_done()
             # transaction.write({'is_post_processed':True})
