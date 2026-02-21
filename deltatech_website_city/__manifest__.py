@@ -15,7 +15,7 @@
         "views/website_address.xml",
         "data/ir_model_fields.xml",
     ],
-    "price": 10.00,
+    "price": 50.00,
     "currency": "EUR",
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
@@ -29,6 +29,7 @@
         "web.assets_tests": [
             "deltatech_website_city/static/tests/tours/address_city_zip.tour.esm.js",
             "deltatech_website_city/static/tests/tours/signup_city.tour.esm.js",
+            # "deltatech_website_city/static/tests/tours/shop_checkout_city.tour.esm.js",
         ],
     },
 }

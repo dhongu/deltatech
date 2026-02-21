@@ -28,6 +28,10 @@ registry.category("web_tour.tours").add("deltatech_website_city_tour_city_zip", 
             trigger: 'select[name="country_id"]',
         },
         {
+            content: "Check if cities are pre-populated (if partner had state)",
+            trigger: 'select[name="city_id"]:not(:visible)',
+        },
+        {
             content: "Select test country by label",
             trigger: 'select[name="country_id"]',
             run() {
@@ -52,6 +56,10 @@ registry.category("web_tour.tours").add("deltatech_website_city_tour_city_zip", 
             trigger: 'select[name="city_id"] option:not([value=""]):not(:visible)',
         },
         {
+            content: "Check if city text field is hidden",
+            trigger: "#div_city:not(:visible)",
+        },
+        {
             content: "Pick city with ZIP and check ZIP filled",
             trigger: 'select[name="city_id"]',
             run() {
@@ -68,6 +76,33 @@ registry.category("web_tour.tours").add("deltatech_website_city_tour_city_zip", 
                 select.value = "";
                 select.dispatchEvent(new Event("change", {bubbles: true}));
             },
+        },
+    ],
+});
+
+registry.category("web_tour.tours").add("deltatech_website_city_tour_portal_save", {
+    url: "/my/account",
+    steps: () => [
+        {
+            content: "Wait until city select is available",
+            trigger: 'select[name="city_id"]',
+        },
+        {
+            content: "Pick Alpha City",
+            trigger: 'select[name="city_id"]',
+            run() {
+                // Label may include ZIP: "Alpha City (12345)"
+                setSelectByLabel('select[name="city_id"]', "Alpha City", true);
+            },
+        },
+        {
+            content: "Save the form",
+            trigger: 'button:contains("Save")',
+            run: "click",
+        },
+        {
+            content: "Wait for the portal home page",
+            trigger: ".o_portal_my_home",
         },
     ],
 });

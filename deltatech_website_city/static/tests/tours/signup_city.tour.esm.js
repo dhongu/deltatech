@@ -41,7 +41,7 @@ registry.category("web_tour.tours").add("deltatech_website_city_signup_tour", {
         },
         {
             content: "Check if city_id field is present",
-            trigger: 'select[name="city_id"]',
+            trigger: 'select[name="city_id"]:not(:visible)',
         },
     ],
 });

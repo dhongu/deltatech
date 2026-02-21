@@ -45,3 +45,29 @@ class TestWebsiteCityTour(HttpCase):
             "deltatech_website_city_tour_city_zip",
             login="admin",
         )
+
+    def test_portal_city_save(self):
+        # Test if city is saved when submitting the portal account form
+        admin_user = self.env.ref("base.user_admin")
+        admin_user.partner_id.write(
+            {
+                "country_id": self.country.id,
+                "state_id": self.state.id,
+                "city_id": False,
+                "city": "Old City",
+            }
+        )
+
+        self.start_tour(
+            "/my/account",
+            "deltatech_website_city_tour_portal_save",
+            login="admin",
+        )
+
+        admin_user.partner_id.invalidate_recordset(["city", "city_id"])
+        self.assertEqual(admin_user.partner_id.city, "Alpha City")
+        # Check if city_id is also set if possible (depends on how Odoo handles it)
+        # In our case, we manually set data['city'] = city.name in the controller,
+        # but the city_id should also be in the values passed to write() because it's in optional_fields.
+        city_alpha = self.env["res.city"].search([("name", "=", "Alpha City")], limit=1)
+        self.assertEqual(admin_user.partner_id.city_id.id, city_alpha.id)
