@@ -91,7 +91,7 @@ class ReportDCInvoicePrint(models.AbstractModel):
             ):
                 if line.product_id in product_with_lots:
                     continue
-                if line.product_id.type != "product":
+                if line.product_id.type == "service":
                     continue
                 domain = [
                     ("product_id", "=", line.product_id.id),
@@ -131,19 +131,29 @@ class ReportDCPickingPrint(models.AbstractModel):
                 for move_line in move.move_line_ids:
                     lot = move_line.lot_id
                     if not lot:
-                        continue
-                    domain = [("lot_id", "=", lot.id)]
-                    dc = self.env["deltatech.dc"].search(domain)
-                    if not dc:
-                        dc = self.env["deltatech.dc"].create(
-                            {
-                                "product_id": lot.product_id.id,
-                                "date": lot.production_date or fields.Date.today(),
-                                "lot_id": lot.id,
-                            }
-                        )
-                    product_with_lots |= lot.product_id
-                    declarations |= dc
+                        domain = [
+                            ("product_id", "=", move.product_id.id),
+                            ("date", "=", picking.date_done or fields.Date.today()),
+                        ]
+                        dc = self.env["deltatech.dc"].search(domain)
+                        if not dc:
+                            dc = self.env["deltatech.dc"].create(
+                                {"product_id": move.product_id.id, "date": picking.date_done or fields.Date.today()}
+                            )
+                        declarations |= dc
+                    else:
+                        domain = [("lot_id", "=", lot.id)]
+                        dc = self.env["deltatech.dc"].search(domain)
+                        if not dc:
+                            dc = self.env["deltatech.dc"].create(
+                                {
+                                    "product_id": lot.product_id.id,
+                                    "date": lot.production_date or fields.Date.today(),
+                                    "lot_id": lot.id,
+                                }
+                            )
+                        product_with_lots |= lot.product_id
+                        declarations |= dc
 
         return {
             "doc_ids": declarations.ids,
