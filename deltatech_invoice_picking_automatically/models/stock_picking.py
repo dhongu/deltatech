@@ -16,16 +16,23 @@ class StockPickingType(models.Model):
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    def button_validate(self):
-        res = super().button_validate()
+    def _action_done(self):
+        res = super()._action_done()
 
         sale_orders = self.env["sale.order"]
         for picking in self:
             if picking.picking_type_id.create_invoice_automatically:
                 sale_orders |= picking.sale_id
         if sale_orders:
+            sale_orders.order_line._compute_qty_delivered()
             invoices = sale_orders._create_invoices(final=True)
-            if picking.picking_type_id.post_invoice_automatically:
-                invoices.action_post()
+            for picking in self:
+                if picking.picking_type_id.post_invoice_automatically:
+                    # we should filter invoices to post only those related to this picking's sale order
+                    # but _create_invoices might group them.
+                    # for simplicity and following previous logic, we post all created invoices
+                    # if at least one picking that triggered invoicing has post_invoice_automatically
+                    invoices.filtered(lambda i: i.state == "draft").action_post()
+                    break
 
         return res
