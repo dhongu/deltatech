@@ -50,7 +50,13 @@ class AccountEdiXmlUBL20(models.AbstractModel):
     def _get_document_template(self, vals):
         res = super()._get_document_template(vals)
         if vals["document_type"] == "invoice":
-            res["cac:DespatchDocumentReference"] = {"cbc:ID": {}}
+            new_res = {}
+            for key, _value in res.items():
+                new_res[key] = res[key]
+                if key == "cac:OrderReference":
+                    new_res["cac:DespatchDocumentReference"] = {"cbc:ID": {}}
+            res = new_res
+
         return res
 
     def _add_invoice_delivery_nodes(self, document_node, vals):
