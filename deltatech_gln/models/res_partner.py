@@ -10,3 +10,4 @@ class Partner(models.Model):
     _inherit = "res.partner"
 
     gln = fields.Char(string="GLN", help="Global Location Number")
+    # in modulul standard campul se numeste gln global_location_number
