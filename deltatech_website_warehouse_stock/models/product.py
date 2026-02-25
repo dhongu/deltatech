@@ -10,13 +10,16 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     def get_warehouse_stock_distribution(self):
-        warehouses = self.env["stock.warehouse"].search([])
+        warehouses = self.env["stock.warehouse"].search([("website_stock_display", "=", True)])
+        threshold = int(
+            self.env["ir.config_parameter"].sudo().get_param("deltatech_website_warehouse_stock.threshold", 10)
+        )
         warehouse_stock_lines = []
         for warehouse in warehouses:
             if warehouse.lot_stock_id.usage == "internal":
                 qty = self.with_context(location=warehouse.lot_stock_id.id)._compute_quantities_dict()
                 quantity_in_warehouse = qty[self.id]["qty_available"] - qty[self.id]["outgoing_qty"]
-                if quantity_in_warehouse > 10:
+                if quantity_in_warehouse > threshold:
                     warehouse_stock_lines.append(
                         {
                             "warehouse": warehouse.name,

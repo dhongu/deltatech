@@ -13,20 +13,39 @@
 
             <xpath expr="//div[@t-field='product.description_ecommerce']" position="before">
                 <t t-set="product_warehouse_distribution" t-value="product.sudo().get_warehouse_stock_distribution()" />
-                <span class="fw-bold">
+                <span id="warehouse_stock_title" class="fw-bold">
                     In stock availability
                 </span>
-                <div t-foreach="product_warehouse_distribution" t-as="warehouse_distribution">
-                    <div class="o_warehouse_stock_distribution">
-                        <span t-esc="warehouse_distribution['warehouse']" />:
+                <div
+                id="warehouse_stock_distribution"
+                t-foreach="product_warehouse_distribution"
+                t-as="warehouse_distribution"
+            >
+                    <div
+                    class="o_warehouse_stock_distribution"
+                    t-attf-id="warehouse_stock_distribution_{{warehouse_distribution_index}}"
+                >
+                        <span id="warehouse_name" t-esc="warehouse_distribution['warehouse']" />:
                         <t t-if="warehouse_distribution['badge'] == 'green'">
-                            <span class="badge bg-success" t-esc="warehouse_distribution['quantity']" />
+                            <span
+                            id="warehouse_stock_qty_available"
+                            class="badge bg-success"
+                            t-esc="warehouse_distribution['quantity']"
+                        />
                         </t>
                         <t t-if="warehouse_distribution['badge'] == 'grey'">
-                            <span class="badge bg-secondary" t-esc="warehouse_distribution['quantity']" />
+                            <span
+                            id="warehouse_stock_qty_low"
+                            class="badge bg-secondary"
+                            t-esc="warehouse_distribution['quantity']"
+                        />
                         </t>
                         <t t-if="warehouse_distribution['badge'] == 'red'">
-                            <span class="badge bg-danger" t-esc="warehouse_distribution['quantity']" />
+                            <span
+                            id="warehouse_stock_qty_out"
+                            class="badge bg-danger"
+                            t-esc="warehouse_distribution['quantity']"
+                        />
                         </t>
                     </div>
                 </div>

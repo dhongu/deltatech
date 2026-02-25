@@ -29,12 +29,24 @@ msgstr ""
 #. module: deltatech_website_warehouse_stock
 #. odoo-python
 #: code:addons/deltatech_website_warehouse_stock/models/product.py:0
+#, python-format
 msgid "Available"
 msgstr "Disponibil"
 
 #. module: deltatech_website_warehouse_stock
+#: model:ir.model,name:deltatech_website_warehouse_stock.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_website_warehouse_stock
+#: model:ir.model.fields,field_description:deltatech_website_warehouse_stock.field_stock_warehouse__website_stock_display
+msgid "Display on Website"
+msgstr "Afișare pe site"
+
+#. module: deltatech_website_warehouse_stock
 #. odoo-python
 #: code:addons/deltatech_website_warehouse_stock/models/product.py:0
+#, python-format
 msgid "Out of stock"
 msgstr "Stoc epuizat"
 
@@ -42,3 +54,27 @@ msgstr "Stoc epuizat"
 #: model:ir.model,name:deltatech_website_warehouse_stock.model_product_template
 msgid "Product"
 msgstr "Produs"
+
+#. module: deltatech_website_warehouse_stock
+#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.res_config_settings_view_form
+msgid "Stock Threshold"
+msgstr "Prag stoc"
+
+#. module: deltatech_website_warehouse_stock
+#: model:ir.model,name:deltatech_website_warehouse_stock.model_stock_warehouse
+msgid "Warehouse"
+msgstr "Depozit"
+
+#. module: deltatech_website_warehouse_stock
+#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.res_config_settings_view_form
+msgid ""
+"Warehouse Stock Display: Threshold for displaying stock as \"Available\".\n"
+"                            This setting is specific to the Warehouse Stock module and controls the individual warehouse availability display on the product page."
+msgstr ""
+"Afișare stoc în depozit: Prag pentru afișarea stocului ca \"Disponibil\".\n"
+"                            Această setare este specifică modulului de stoc în depozit și controlează afișarea disponibilității individuale a depozitului pe pagina produsului."
+
+#. module: deltatech_website_warehouse_stock
+#: model:ir.model.fields,field_description:deltatech_website_warehouse_stock.field_res_config_settings__website_warehouse_stock_threshold
+msgid "Website Warehouse Stock Threshold"
+msgstr "Prag stoc în depozit pentru site"
