@@ -11,7 +11,7 @@ class SaleOrderLine(models.Model):
     def _compute_purchase_price(self):
         res = super()._compute_purchase_price()
         for line in self:
-            if line.product_id.type == "product" and line.product_id.bom_ids:
+            if line.product_id.type == "consu" and line.product_id.bom_ids:
                 bom_id = line.get_available_phantom_bom_id()
                 if bom_id:
                     purchase_price = line.product_id._compute_bom_price(bom_id, boms_to_recompute=False)
@@ -36,6 +36,10 @@ class SaleOrderLine(models.Model):
         bom_ids = self.product_id.bom_ids.filtered(
             lambda bom: bom.type == "phantom" and bom.product_id == self.product_id
         )
+        if not bom_ids:
+            bom_ids = self.product_id.bom_ids.filtered(
+                lambda bom: bom.type == "phantom" and bom.product_tmpl_id == self.product_id.product_tmpl_id
+            )
         if bom_ids:
             return bom_ids[0]
         return False
