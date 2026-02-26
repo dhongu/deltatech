@@ -35,7 +35,7 @@ class AccountEdiXmlUBL20(models.AbstractModel):
     def _add_invoice_header_nodes(self, document_node, vals):
         res = super()._add_invoice_header_nodes(document_node, vals)
         invoice = vals["invoice"]
-        if invoice.type != "out_invoice":
+        if invoice.move_type != "out_invoice":
             return res
         pickings = self.env["stock.picking"]
         for line in invoice.invoice_line_ids:
