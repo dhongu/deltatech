@@ -10,12 +10,12 @@ class TestKitPrice(TransactionCase):
         self.partner = self.env["res.partner"].create({"name": "Test Partner"})
 
         self.component_a = self.env["product.product"].create(
-            {"name": "Component A", "type": "product", "standard_price": 10.0}
+            {"name": "Component A", "type": "consu", "standard_price": 10.0}
         )
         self.component_b = self.env["product.product"].create(
-            {"name": "Component B", "type": "product", "standard_price": 20.0}
+            {"name": "Component B", "type": "consu", "standard_price": 20.0}
         )
-        self.kit_product = self.env["product.product"].create({"name": "Kit Product", "type": "product"})
+        self.kit_product = self.env["product.product"].create({"name": "Kit Product", "type": "consu"})
 
         # Delete any reordering rules that might have been created automatically
         self.env["stock.warehouse.orderpoint"].search(
