@@ -23,7 +23,7 @@ class CustomerPortalCity(CustomerPortal):
                 values["city_id"] = False
         return super().on_account_update(values, partner)
 
-    def details_form_validate(self, data, **kwargs):
+    def details_form_validate(self, data, partner_creation):
         if "country_id" in data:
             request.update_context(portal_form_country_id=data["country_id"])
         if "city_id" in data:
@@ -40,7 +40,7 @@ class CustomerPortalCity(CustomerPortal):
                 # which shouldn't be processed further.
                 _logger.debug("Invalid city ID provided in form data: %s", data.get("city_id"))
 
-        return super().details_form_validate(data, **kwargs)
+        return super().details_form_validate(data, partner_creation)
 
     def _get_mandatory_fields(self):
         # EXTENDS 'portal'
