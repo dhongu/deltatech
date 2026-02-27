@@ -90,7 +90,9 @@ class AccountInvoiceLine(models.Model):
         moves = self.env["stock.move"].search(domain)
         mrp_mod = self.env["ir.module.module"].search([("name", "=", "mrp"), ("state", "=", "installed")])
         if mrp_mod and self.product_id.bom_count:
-            bom = self.product_id.bom_ids.filtered(lambda b: b.type == "phantom")
+            bom = self.product_id.bom_ids.filtered(lambda b: b.type == "phantom" and b.product_id == self.product_id)
+            if not bom:
+                bom = self.product_id.bom_ids.filtered(lambda b: b.type == "phantom")
             if bom:
                 purchase_price = 0
                 moved_qty = 0
