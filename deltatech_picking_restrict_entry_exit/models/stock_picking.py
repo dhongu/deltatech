@@ -1,27 +1,27 @@
-from odoo import _, api, models
+from odoo import _, models
 from odoo.exceptions import UserError
 
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        # this should restrict users from creating delivery/receipts manually, they should only be created from sale/purchase orders
-        for vals in vals_list:
-            # there are users that can create picking without sale/purchase order if they have the group
-            if not self.env.user.has_group("deltatech_picking_restrict_entry_exit.group_picking_restrict_entry_exit"):
-                picking_type = self.env["stock.picking.type"].browse(vals.get("picking_type_id"))
-                # returns and backorders are not restricted because they don't come with sale_id or purchase_id, don't know the back orders is not associated
-                if not vals.get("return_id", False) and not vals.get("backorder_id", False):
-                    if picking_type.code == "outgoing":
-                        if not vals.get("sale_id"):
-                            raise UserError(_("You cannot create an outgoing picking without a source sale order."))
-                    elif picking_type.code == "incoming":
-                        if not vals.get("purchase_id"):
-                            raise UserError(_("You cannot create an incoming picking without a source purchase order."))
-
-        return super().create(vals_list)
+    # @api.model_create_multi
+    # def create(self, vals_list):
+    #     # this should restrict users from creating delivery/receipts manually, they should only be created from sale/purchase orders
+    #     for vals in vals_list:
+    #         # there are users that can create picking without sale/purchase order if they have the group
+    #         if not self.env.user.has_group("deltatech_picking_restrict_entry_exit.group_picking_restrict_entry_exit"):
+    #             picking_type = self.env["stock.picking.type"].browse(vals.get("picking_type_id"))
+    #             # returns and backorders are not restricted because they don't come with sale_id or purchase_id, don't know the back orders is not associated
+    #             if not vals.get("return_id", False) and not vals.get("backorder_id", False):
+    #                 if picking_type.code == "outgoing":
+    #                     if not vals.get("sale_id"):
+    #                         raise UserError(_("You cannot create an outgoing picking without a source sale order."))
+    #                 elif picking_type.code == "incoming":
+    #                     if not vals.get("purchase_id"):
+    #                         raise UserError(_("You cannot create an incoming picking without a source purchase order."))
+    #
+    #     return super().create(vals_list)
 
     # self.env.user.has_group("deltatech_picking_restrict_entry_exit.group_picking_restrict_entry_exit")
     def button_validate(self):
