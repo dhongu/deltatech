@@ -13,7 +13,7 @@
     "price": 5.00,
     "currency": "EUR",
     "license": "LGPL-3",
-    "data": ["views/stock_picking_view.xml"],
+    "data": ["views/stock_picking_view.xml", "data/ir_cron.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Beta",
