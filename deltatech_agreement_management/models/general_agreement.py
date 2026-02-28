@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 
@@ -60,19 +60,19 @@ class GeneralAgreement(models.Model):
     def unlink(self):
         for item in self:
             if item.state != "draft":
-                raise UserError(_("You cannot delete a service agreement which is not draft."))
+                raise UserError(self.env._("You cannot delete a service agreement which is not draft."))
         return super().unlink()
 
     def get_name(self):
         self.ensure_one()
         if not self.type_id or not self.type_id.sequence_id:
-            raise UserError(_("You must provide a type and a type sequence"))
+            raise UserError(self.env._("You must provide a type and a type sequence"))
         self.write({"name": self.type_id.sequence_id.next_by_id()})
 
     def print_agreement(self):
         self.ensure_one()
         if not self.type_id or not self.type_id.print_template_id:
-            raise UserError(_("You must provide a type and a type report template"))
+            raise UserError(self.env._("You must provide a type and a type report template"))
         report = self.type_id.print_template_id.report_action(self)
         return report
 

@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class Partner(models.Model):
@@ -18,7 +18,7 @@ class Partner(models.Model):
     def view_agreements(self):
         self.ensure_one()
         action = {
-            "name": _("Agreement"),
+            "name": self.env._("Agreement"),
             "type": "ir.actions.act_window",
             "view_mode": "list,form",
             "res_model": "general.agreement",
