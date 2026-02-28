@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 
@@ -35,7 +35,7 @@ class PurchaseOrder(models.Model):
             if order.reception_type == "rfq_only":
                 orders -= order
         if not orders:
-            raise UserError(_("Unable to confirm"))
+            raise UserError(self.env._("Unable to confirm"))
 
         res = super(PurchaseOrder, orders).button_confirm()
 
@@ -44,9 +44,9 @@ class PurchaseOrder(models.Model):
                 if order.ignore_quantities:
                     lines = order.reduce_from_rfq()
                     if lines:
-                        message = _("Quantities forced on this reception note:<br />")
+                        message = self.env._("Quantities forced on this reception note:<br />")
                         for line in lines:
-                            message += _(
+                            message += self.env._(
                                 "Product [{product_code}]{product_name}: quantity: {quantity} {uom}<br />"
                             ).format(
                                 product_code=line["product_id"].default_code,
@@ -82,7 +82,7 @@ class PurchaseOrder(models.Model):
             if not rfq_lines:
                 if not self.ignore_quantities:
                     found_errors.append(
-                        _("The product [%(default_code)s]%(name)s is not found in a RFQ")
+                        self.env._("The product [%(default_code)s]%(name)s is not found in a RFQ")
                         % {"default_code": line.product_id.default_code, "name": line.product_id.name}
                     )
 
@@ -96,7 +96,7 @@ class PurchaseOrder(models.Model):
                 if quantity != 0:
                     if not self.ignore_quantities:
                         quantity_errors.append(
-                            _(
+                            self.env._(
                                 "The quantity %(quantity)s of the [%(default_code)s] %(name)s product is not found in a RFQ"
                             )
                             % {
