@@ -21,8 +21,9 @@ class SaleConfirmPayment(models.TransientModel):
     @api.onchange("provider_id")
     def _onchange_provider_id(self):
         if self.provider_id:
-            payment_method_line = self.provider_id.payment_method_ids[0]
-            self.payment_method_id = payment_method_line.id
+            if self.provider_id.payment_method_ids:
+                payment_method_line = self.provider_id.payment_method_ids[0]
+                self.payment_method_id = payment_method_line.id
 
     @api.model
     def default_get(self, fields_list):
@@ -109,8 +110,8 @@ class SaleConfirmPayment(models.TransientModel):
             transaction._set_pending()
             if transaction.amount > 0:
                 transaction._set_done()
-            if transaction.provider_id.code not in ["none", "custom", "on_delivery"]:
-                transaction._finalize_post_processing()
+            # if transaction.provider_id.code not in ["none", "custom", "on_delivery"]:
+            # transaction._finalize_post_processing()
 
             # transaction._reconcile_after_transaction_done()
             # transaction.write({'is_post_processed':True})
