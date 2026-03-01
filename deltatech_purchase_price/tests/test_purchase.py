@@ -103,3 +103,47 @@ class TestPurchase(TransactionCase):
         wizard.partner_id = self.partner_a
         wizard = wizard.save()
         wizard.do_set_trade_markup()
+
+    def test_multi_variant_last_purchase_price(self):
+        # creeaza un atribut de produs
+        attribute = self.env["product.attribute"].create({"name": "Color"})
+        value_red = self.env["product.attribute.value"].create({"name": "Red", "attribute_id": attribute.id})
+        value_blue = self.env["product.attribute.value"].create({"name": "Blue", "attribute_id": attribute.id})
+
+        # creeaza un template cu variante
+        template = self.env["product.template"].create(
+            {
+                "name": "Multi Variant Product",
+                "attribute_line_ids": [
+                    (0, 0, {"attribute_id": attribute.id, "value_ids": [(6, 0, [value_red.id, value_blue.id])]})
+                ],
+            }
+        )
+
+        variants = template.product_variant_ids
+        self.assertEqual(len(variants), 2)
+
+        # setam last_purchase_price pe prima varianta
+        variants[0].last_purchase_price = 100.0
+        # verificam pe template (nu ar trebui sa aiba o valoare unica, ar trebui sa fie default/False)
+        self.assertEqual(template.last_purchase_price, 0.0)
+
+        # setam last_purchase_price pe a doua varianta
+        variants[1].last_purchase_price = 200.0
+
+        # verificam valorile pe variante
+        self.assertEqual(variants[0].last_purchase_price, 100.0)
+        self.assertEqual(variants[1].last_purchase_price, 200.0)
+
+        # verificam SupplierInfo cu varianta specifica
+        supplierinfo = self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.partner_a.id,
+                "product_id": variants[0].id,
+                "product_tmpl_id": template.id,
+                "price": 150.0,
+            }
+        )
+        supplierinfo.update_last_purchase_price()
+        self.assertEqual(variants[0].last_purchase_price, 150.0)
+        self.assertEqual(variants[1].last_purchase_price, 200.0)

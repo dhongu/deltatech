@@ -11,6 +11,7 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     standard_price = fields.Float(tracking=True)
+    last_purchase_price = fields.Float(digits="Product Price", tracking=True)
 
     @api.onchange("last_purchase_price", "trade_markup")
     def onchange_last_purchase_price(self):
@@ -22,7 +23,22 @@ class ProductTemplate(models.Model):
 
     standard_price = fields.Float(tracking=True)
     list_price = fields.Float(tracking=True)
-    last_purchase_price = fields.Float(digits="Product Price", tracking=True)
+    last_purchase_price = fields.Float(
+        digits="Product Price",
+        compute="_compute_last_purchase_price",
+        inverse="_inverse_last_purchase_price",
+        search="_search_last_purchase_price",
+        tracking=True,
+    )
+
+    def _compute_last_purchase_price(self):
+        self._compute_template_field_from_variant_field("last_purchase_price")
+
+    def _inverse_last_purchase_price(self):
+        self._set_product_variant_field("last_purchase_price")
+
+    def _search_last_purchase_price(self, operator, value):
+        return [("product_variant_ids.last_purchase_price", operator, value)]
 
     @api.onchange("list_price")
     def onchange_list_price(self):
@@ -91,8 +107,12 @@ class SupplierInfo(models.Model):
                 company = self.env.user.company_id
                 price = item.currency_id._convert(price, to_currency, company, date)
             if price:
-                item.product_tmpl_id.last_purchase_price = price
-                item.product_tmpl_id.onchange_last_purchase_price()
+                if item.product_id:
+                    item.product_id.last_purchase_price = price
+                    item.product_id.onchange_last_purchase_price()
+                else:
+                    item.product_tmpl_id.last_purchase_price = price
+                    item.product_tmpl_id.onchange_last_purchase_price()
 
     def write(self, vals):
         res = super().write(vals)
