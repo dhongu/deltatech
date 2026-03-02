@@ -371,7 +371,17 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/licence-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_invoice_picking_automatically"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
 <ul class="simple">
-<li>Features:</li>
+<li>Features:<ul>
+<li>Configuration on picking type for automatic invoice creation.</li>
+<li>Configuration on picking type for automatic invoice posting.</li>
+<li>Cron job that automatically generates invoices for pickings marked
+for invoicing.</li>
+<li>Efficiently handles multiple pickings for the same sale order by
+processing them together.</li>
+<li>Error handling: if invoicing fails, the picking is marked as
+‘Failed’ to avoid repeated failed attempts.</li>
+</ul>
+</li>
 </ul>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">

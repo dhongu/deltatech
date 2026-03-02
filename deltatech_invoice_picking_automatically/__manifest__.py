@@ -4,7 +4,7 @@
 
 {
     "name": "Invoice Pickings Automatically",
-    "version": "18.0.0.0.3",
+    "version": "18.0.0.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Generate invoice automatically from picking after validation",
@@ -13,7 +13,7 @@
     "price": 5.00,
     "currency": "EUR",
     "license": "LGPL-3",
-    "data": ["views/stock_picking_view.xml"],
+    "data": ["views/stock_picking_view.xml", "data/ir_cron.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Beta",
