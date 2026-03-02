@@ -63,7 +63,7 @@ addon | version | maintainers | summary
 [deltatech_invoice_number](deltatech_invoice_number/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Renumbering invoice
 [deltatech_invoice_payment](deltatech_invoice_payment/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Show payments from invoice
 [deltatech_invoice_picking](deltatech_invoice_picking/) | 18.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Facturare livrari
-[deltatech_invoice_picking_automatically](deltatech_invoice_picking_automatically/) | 18.0.0.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generate invoice automatically from picking after validation
+[deltatech_invoice_picking_automatically](deltatech_invoice_picking_automatically/) | 18.0.0.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generate invoice automatically from picking after validation
 [deltatech_invoice_product_filter](deltatech_invoice_product_filter/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Searching invoice using product
 [deltatech_invoice_receipt](deltatech_invoice_receipt/) | 18.0.2.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Create receipt form invoice
 [deltatech_invoice_report](deltatech_invoice_report/) | 18.0.1.0.7 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Invoice Report
