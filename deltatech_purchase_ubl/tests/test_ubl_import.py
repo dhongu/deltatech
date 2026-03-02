@@ -220,3 +220,84 @@ class TestPurchaseUblImport(TransactionCase):
         )
         self.assertTrue(sinfo)
         self.assertAlmostEqual(sinfo.price, 9.99, places=2)
+
+    def test_product_match_by_name_no_spaces(self):
+        # Create a product with spaces in name
+        product = self.env["product.product"].create(
+            {
+                "name": "Product With Spaces",
+                "is_storable": True,
+                "purchase_ok": True,
+            }
+        )
+        # XML has name with different spaces
+        xml = _xml_invoice(
+            order_ref=self.po.name,
+            lines=[
+                {
+                    "code": "XYZ",
+                    "name": "Product  With  Spaces",
+                    "qty": "1",
+                    "price": "10.0",
+                    "line_total": "10.0",
+                }
+            ],
+        )
+        self._run_wizard(xml, self.po)
+        pol = self.po.order_line.filtered(lambda l: l.product_id == product)
+        self.assertTrue(pol, "Should match product even if name in XML has different spaces")
+
+    def test_match_product_on_order(self):
+        # Create two products
+        self.env["product.product"].create(
+            {
+                "name": "Product 1",
+                "default_code": "P1",
+                "is_storable": True,
+            }
+        )
+        product_2 = self.env["product.product"].create(
+            {
+                "name": "Product 2",
+                "default_code": "P2",
+                "is_storable": True,
+            }
+        )
+        # Add only product 2 to PO
+        self.env["purchase.order.line"].create(
+            {
+                "order_id": self.po.id,
+                "product_id": product_2.id,
+                "name": product_2.display_name,
+                "product_qty": 1.0,
+                "price_unit": 5.0,
+                "product_uom": product_2.uom_po_id.id,
+                "date_planned": "2025-01-01 00:00:00",
+            }
+        )
+        # XML has a code that matches both P1 (default_code) and P2 (supplier code)
+        # But we want to see if it prefers the one on order if matched there
+        self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.vendor.id,
+                "product_tmpl_id": product_2.product_tmpl_id.id,
+                "product_code": "VEND-P2",
+            }
+        )
+
+        xml = _xml_invoice(
+            order_ref=self.po.name,
+            lines=[
+                {
+                    "code": "VEND-P2",
+                    "name": "Product2",
+                    "qty": "5",
+                    "price": "15.0",
+                    "line_total": "75.0",
+                }
+            ],
+        )
+        self._run_wizard(xml, self.po)
+        self.assertEqual(len(self.po.order_line), 1)
+        self.assertEqual(self.po.order_line.product_id, product_2)
+        self.assertEqual(self.po.order_line.product_qty, 5.0)
