@@ -291,6 +291,9 @@ class PurchaseUblImportWizard(models.TransientModel):
             if len(products) == 1:
                 product = products[0]
 
+        if not product and name:
+            product = Product.search([("name", "=ilike", name.replace(" ", "%"))], limit=1)
+
         return product
 
     def _match_product_on_order(self, order, partner, code, name, barcode=None):
