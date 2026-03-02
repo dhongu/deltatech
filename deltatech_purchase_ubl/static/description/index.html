@@ -370,6 +370,31 @@ ul.auto-toc {
 !! source digest: sha256:0d678704726db2ccc6bd78b656ead5fc53001781b63436492b72b22fc6b72181
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_purchase_ubl"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<p>This module allows importing vendor invoices in UBL XML format to
+automate purchase order management and accounting workflows.</p>
+<p>Key features:</p>
+<ul class="simple">
+<li><strong>Automatic Matching</strong>: Products are matched based on barcode
+(GS1/EAN), supplier code, internal reference, or name.</li>
+<li><strong>Purchase Order Integration</strong>:<ul>
+<li>When launched from a purchase order, it can automatically add
+missing lines or update existing lines with quantities and prices
+from the XML.</li>
+<li>Matches products specifically within the current order to ensure
+accuracy.</li>
+</ul>
+</li>
+<li><strong>Price Management</strong>: Updates supplier prices in the vendor pricelist
+(Supplier Info) directly from the XML data.</li>
+<li><strong>Stock Automation</strong>: Optionally validates the associated stock
+receipt (picking) by matching quantities from the XML.</li>
+<li><strong>Accounting</strong>: Automatically creates and links a vendor bill from the
+purchase order after importing the XML data.</li>
+<li><strong>Missing Products</strong>: Option to automatically create missing products
+using information from the UBL file.</li>
+</ul>
+<p>The module supports standard UBL Invoice namespaces and common unit code
+mappings (C62, KGM, LTR, etc.).</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
