@@ -17,7 +17,7 @@ Stock Removal Location by Priority
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_stock_removal_priority
+    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_stock_removal_priority
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -39,3 +39,16 @@ Do not contact contributors directly about support or help with technical issues
 
 Credits
 =======
+
+Authors
+-------
+
+* Terrabit
+* Dorin Hongu
+
+Maintainers
+-----------
+
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_stock_removal_priority>`_ project on GitHub.
+
+You are welcome to contribute.
