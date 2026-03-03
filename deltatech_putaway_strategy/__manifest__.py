@@ -13,4 +13,5 @@
     ],
     "development_status": "Beta",
     "maintainers": ["dhongu"],
+    "images": ["static/description/main_screenshot.png"],
 }
