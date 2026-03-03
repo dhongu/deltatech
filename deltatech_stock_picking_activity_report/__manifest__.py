@@ -11,7 +11,7 @@
         "security/ir.model.access.csv",
         "views/stock_picking_activity_record_view.xml",
     ],
-    "images": ["static/description/icon.png"],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["VoicuStefan2001"],
 }

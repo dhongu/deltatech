@@ -16,4 +16,5 @@
         # "views/product_view.xml",
     ],
     "development_status": "Mature",
+    "images": ["static/description/main_screenshot.png"],
 }
