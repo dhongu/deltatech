@@ -20,4 +20,5 @@
     ],
     "development_status": "Beta",
     "installable": True,
+    "images": ["static/description/main_screenshot.png"],
 }

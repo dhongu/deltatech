@@ -12,4 +12,5 @@
         "views/stock_location_views.xml",
     ],
     "development_status": "Beta",
+    "images": ["static/description/main_screenshot.png"],
 }

@@ -15,4 +15,5 @@
     ],
     "development_status": "Beta",
     "maintainers": ["VoicuStefan2001"],
+    "images": ["static/description/main_screenshot.png"],
 }
