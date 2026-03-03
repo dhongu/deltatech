@@ -26,7 +26,7 @@
         "security/security.xml",
         "data/data.xml",
     ],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
 }
