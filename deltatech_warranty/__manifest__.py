@@ -15,7 +15,7 @@
         "views/sale_order.xml",
         "views/product_template.xml",
     ],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Beta",
 }
