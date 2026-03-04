@@ -21,7 +21,6 @@ Stock Picking Activity Report
 
 Features:
 
-
 - Logs detailed modifications on stock pickings, including field changes
   and line updates.
 - Captures messages posted in the chatter for a comprehensive activity

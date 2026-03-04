@@ -232,7 +232,7 @@ addon | version | maintainers | summary
 [deltatech_website_stock_availability](deltatech_website_stock_availability/) | 17.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Stock Availability and lead time
 [deltatech_website_texture_attributes](deltatech_website_texture_attributes/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Attribute with image for texture
 [deltatech_website_vat_validation](deltatech_website_vat_validation/) | 17.0.0.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | VAT Validation
-[deltatech_website_warehouse_stock](deltatech_website_warehouse_stock/) | 17.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | eCommerce Warehouse Stock
+[deltatech_website_warehouse_stock](deltatech_website_warehouse_stock/) | 17.0.0.0.2 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | eCommerce Warehouse Stock
 [deltatech_widget_fontawesome](deltatech_widget_fontawesome/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Font Awesome Widget
 
 [//]: # (end addons)
