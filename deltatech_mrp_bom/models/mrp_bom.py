@@ -61,10 +61,7 @@ class MrpBom(models.Model):
 class MrpBomLine(models.Model):
     _inherit = "mrp.bom.line"
 
-
     bom_product_template_attribute_value_ids = fields.Many2many("product.template.attribute.value", copy=True)
-
-
 
     def open_bom(self):
         self.ensure_one()
@@ -81,5 +78,3 @@ class MrpBomLine(models.Model):
                 "nodestroy": True,
                 "type": "ir.actions.act_window",
             }
-
-
