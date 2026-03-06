@@ -8,7 +8,7 @@
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
-    "summary": "Sale Currency",
+    "summary": "This module allows you to manage sales orders in a different currency than the invoice currency.",
     "category": "Sales",
     "depends": [
         "sale",
