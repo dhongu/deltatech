@@ -4,7 +4,7 @@
 
 {
     "name": "Deltatech Sale Currency",
-    "version": "18.0.0.0.0",
+    "version": "19.0.0.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
@@ -15,7 +15,7 @@
         "account",
     ],
     "data": [],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
