@@ -6,7 +6,7 @@
     "version": "18.0.1.0.4",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
-    "support": "odoo@terrabit.ro",
+    "support": "support@terrabit.ro",
     "category": "Purchase",
     "depends": ["purchase"],
     "data": [

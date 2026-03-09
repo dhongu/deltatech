@@ -6,7 +6,7 @@
     "version": "18.0.1.0.3",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
-    "support": "odoo@terrabit.ro",
+    "support": "support@terrabit.ro",
     "category": "Warehouse",
     "depends": ["stock_account", "l10n_ro_stock_report"],
     "data": ["views/stock_report_view.xml"],

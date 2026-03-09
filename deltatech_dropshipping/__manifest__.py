@@ -6,7 +6,7 @@
     "version": "18.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "support": "odoo@terrabit.ro",
+    "support": "support@terrabit.ro",
     "category": "Warehouse",
     "depends": ["stock_dropshipping"],
     "data": ["views/stock_picking_view.xml"],
