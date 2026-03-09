@@ -19,11 +19,49 @@ MRP Bom
 
 |badge1| |badge2|
 
+This module enhances the management of Bills of Materials (BoM) in Odoo
+by introducing a template-based approach for product variants. It
+streamlines the creation and maintenance of complex BoMs by allowing
+users to define a "Base" structure that automatically propagates to
+specific variants, ensuring consistency and reducing manual
+configuration.
+
 - Features:
 
-- adds button for quick access of sub-LDM Functionalitati:
+- **Enhanced Bill of Materials (BoM) Categorization**: Adds a
+  ``Base Type`` field to BoMs with three options:
 
-- adugare buton pentru accesare rapida sub-LDM
+  - ``Normal``: Standard Odoo BoM behavior.
+  - ``Base``: Acts as a master template for a product template, defining
+    the general structure of components.
+  - ``Derived``: Specialized BoMs for specific product variants that
+    inherit and adapt their structure from a ``Base`` BoM.
+
+- **Automated Component Synchronization**: For BoMs marked as
+  ``Derived``, a "Recompute Components" button allows synchronizing
+  components from the ``Base`` BoM of the same product template.
+
+  - The system automatically identifies the correct variant for each
+    component by matching attributes between the main product and the
+    component's template.
+
+- **Manufacturing Order Integration**:
+
+  - When creating a Manufacturing Order, selecting a product variant
+    automatically triggers the creation (if not present) and computation
+    of a ``Derived`` BoM based on the existing ``Base`` BoM.
+  - Before confirming a Manufacturing Order, the system recomputes the
+    ``Derived`` BoM to ensure that all component variants are correctly
+    selected according to the latest attribute configurations.
+
+- **Improved Navigation**: Adds an "Open BoM" button directly on BoM
+  lines, providing instant access to the sub-BoM of any component, which
+  is particularly useful for complex, multi-level manufacturing
+  structures.
+
+- **Attribute Persistence**: Ensures that attribute values on BoM lines
+  remain synchronized when the main product template is changed,
+  maintaining data integrity during configuration updates.
 
 **Table of contents**
 

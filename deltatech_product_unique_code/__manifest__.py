@@ -5,7 +5,7 @@
     "summary": "Restrict duplicate default_code and barcode including archived products",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
-    "support": "odoo@terrabit.ro",
+    "support": "support@terrabit.ro",
     "license": "OPL-1",
     "depends": ["product"],
     "data": ["security/security.xml"],

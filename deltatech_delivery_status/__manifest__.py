@@ -6,7 +6,7 @@
     "version": "18.0.2.1.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "support": "odoo@terrabit.ro",
+    "support": "support@terrabit.ro",
     "category": "Warehouse",
     "depends": ["delivery", "stock", "sales_team", "stock_delivery", "payment"],
     "data": [
