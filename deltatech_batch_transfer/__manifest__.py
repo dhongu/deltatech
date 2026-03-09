@@ -6,7 +6,7 @@
     "version": "18.0.0.0.2",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
-    "support": "odoo@terrabit.ro",
+    "support": "support@terrabit.ro",
     "category": "Stock",
     "external_dependencies": {"python": []},
     "depends": ["stock", "stock_picking_batch", "sale_stock", "purchase_stock"],
