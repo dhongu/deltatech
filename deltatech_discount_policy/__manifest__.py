@@ -4,7 +4,7 @@
     "category": "Sales",
     "summary": "Bring back Odoo 17 discount policy",
     "author": "Terrabit, Voicu Stefan",
-    "support": "odoo@terrabit.ro",
+    "support": "support@terrabit.ro",
     "website": "https://www.terrabit.ro",
     "depends": ["sale", "product"],
     "data": [
