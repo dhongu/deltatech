@@ -272,7 +272,7 @@ class PurchaseUblImportWizard(models.TransientModel):
                     product = sinfo.product_tmpl_id.product_variant_id
 
         if not product and supplier and name:
-            domain = [("partner_id", "=", supplier.id), ("product_name", "=ilike", code)]
+            domain = [("partner_id", "=", supplier.id), ("product_name", "=ilike", name)]
             sinfo = SupplierInfo.search(domain, limit=1)
             if sinfo:
                 if sinfo.product_id:
@@ -299,6 +299,7 @@ class PurchaseUblImportWizard(models.TransientModel):
                   FROM product_template
                   WHERE name ->>%(lang)s IS NOT NULL
                     AND REPLACE(name ->>%(lang)s , ' '  , '') = %(name_without_spaces)s
+                  LIMIT 1
                   """
             self.env.cr.execute(sql, {"name_without_spaces": name_without_spaces, "lang": lang})
             product_id = self.env.cr.fetchone()
