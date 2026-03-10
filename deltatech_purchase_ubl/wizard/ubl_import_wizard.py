@@ -292,7 +292,19 @@ class PurchaseUblImportWizard(models.TransientModel):
                 product = products[0]
 
         if not product and name:
-            product = Product.search([("name", "=ilike", name.replace(" ", "%"))], limit=1)
+            name_without_spaces = name.replace(" ", "")
+            lang = self.env.context.get("lang") or self.env.user.lang
+            sql = """
+                  SELECT id
+                  FROM product_template
+                  WHERE name ->>%(lang)s IS NOT NULL
+                    AND REPLACE(name ->>%(lang)s , ' '  , '') = %(name_without_spaces)s
+                  """
+            self.env.cr.execute(sql, {"name_without_spaces": name_without_spaces, "lang": lang})
+            product_id = self.env.cr.fetchone()
+            if product_id:
+                product_template = self.env["product.template"].browse(product_id[0])
+                product = product_template.product_variant_id
 
         return product
 
