@@ -41,14 +41,18 @@
                 <field name="next_phase_color" />
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
-                <div t-if="record.phase_id.raw_value"
-                     class="o_tag d-inline-flex align-items-center rounded-pill px-2 py-0 fw-bold ms-1"
-                     t-attf-class="o_tag_color_{{record.phase_color.raw_value || 0}}">
+                <div
+                    t-if="record.phase_id.raw_value"
+                    class="o_tag d-inline-flex align-items-center rounded-pill px-2 py-0 fw-bold ms-1"
+                    t-attf-class="o_tag_color_{{record.phase_color.raw_value || 0}}"
+                >
                     <field name="phase_id" />
                 </div>
-                <div t-if="record.next_phase_id.raw_value"
-                     class="o_tag d-inline-flex align-items-center rounded-pill px-2 py-0 fw-bold ms-1 opacity-75"
-                     t-attf-class="o_tag_color_{{record.next_phase_color.raw_value || 0}}">
+                <div
+                    t-if="record.next_phase_id.raw_value"
+                    class="o_tag d-inline-flex align-items-center rounded-pill px-2 py-0 fw-bold ms-1 opacity-75"
+                    t-attf-class="o_tag_color_{{record.next_phase_color.raw_value || 0}}"
+                >
                     <i class="fa fa-long-arrow-right me-1" />
                     <field name="next_phase_id" />
                 </div>
@@ -88,23 +92,30 @@
                                     <field name="name" />
                                 </strong>
                             </div>
-                            <field name="state" widget="badge"
-                                   decoration-success="state == 'done'"
-                                   decoration-info="state not in ('done', 'cancel', 'draft')"
-                                   decoration-muted="state == 'draft'" />
+                            <field
+                                name="state"
+                                widget="badge"
+                                decoration-success="state == 'done'"
+                                decoration-info="state not in ('done', 'cancel', 'draft')"
+                                decoration-muted="state == 'draft'"
+                            />
                         </div>
                         <div class="o_kanban_record_body">
                             <div><field name="origin" /></div>
                             <div><field name="partner_id" /></div>
                             <div class="mt-1">
-                                <div t-if="record.phase_id.raw_value"
-                                     class="o_tag d-inline-flex align-items-center rounded-pill px-2 py-0 fw-bold"
-                                     t-attf-class="o_tag_color_{{record.phase_color.raw_value || 0}}">
+                                <div
+                                    t-if="record.phase_id.raw_value"
+                                    class="o_tag d-inline-flex align-items-center rounded-pill px-2 py-0 fw-bold"
+                                    t-attf-class="o_tag_color_{{record.phase_color.raw_value || 0}}"
+                                >
                                     <field name="phase_id" />
                                 </div>
-                                <div t-if="record.next_phase_id.raw_value"
-                                     class="o_tag d-inline-flex align-items-center rounded-pill px-2 py-0 fw-bold ms-1 opacity-75"
-                                     t-attf-class="o_tag_color_{{record.next_phase_color.raw_value || 0}}">
+                                <div
+                                    t-if="record.next_phase_id.raw_value"
+                                    class="o_tag d-inline-flex align-items-center rounded-pill px-2 py-0 fw-bold ms-1 opacity-75"
+                                    t-attf-class="o_tag_color_{{record.next_phase_color.raw_value || 0}}"
+                                >
                                     <i class="fa fa-long-arrow-right me-1" />
                                     <field name="next_phase_id" />
                                 </div>
@@ -124,10 +135,12 @@
         <field name="context">{'default_group_by': 'phase_id'}</field>
     </record>
 
-    <menuitem id="menu_picking_kanban_stage"
-              name="Pickings by Phase"
-              action="action_picking_kanban_stage"
-              parent="stock.menu_stock_transfers"
-              sequence="25" />
+    <menuitem
+        id="menu_picking_kanban_stage"
+        name="Pickings by Phase"
+        action="action_picking_kanban_stage"
+        parent="stock.menu_stock_transfers"
+        sequence="25"
+    />
 
 </odoo>

@@ -1,4 +1,4 @@
-# ©  2024 Deltatech
+# © 2026 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
@@ -51,7 +51,7 @@ class StockPicking(models.Model):
                             # In this case, maybe they shouldn't be able to move it at all?
                             # For now, let's stick to the route logic.
                             pass
-        return super(StockPicking, self).write(vals)
+        return super().write(vals)
 
     @api.model
     def _read_group_phase_ids(self, phases, domain):

@@ -12,10 +12,19 @@
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='phase_ids']" position="after">
-                <field name="phase_ids" widget="many2many_tags" options="{'color_field': 'color'}"
-                       groups="deltatech_sale_stage_route.group_phase_admin" />
-                <field name="phase_ids" widget="many2many_tags" options="{'color_field': 'color'}" readonly="1"
-                       groups="!deltatech_sale_stage_route.group_phase_admin" />
+                <field
+                    name="phase_ids"
+                    widget="many2many_tags"
+                    options="{'color_field': 'color'}"
+                    groups="deltatech_sale_stage_route.group_phase_admin"
+                />
+                <field
+                    name="phase_ids"
+                    widget="many2many_tags"
+                    options="{'color_field': 'color'}"
+                    readonly="1"
+                    groups="!deltatech_sale_stage_route.group_phase_admin"
+                />
             </xpath>
         </field>
     </record>
@@ -57,9 +66,11 @@
         <field name="context">{'default_group_by': 'phase_id'}</field>
     </record>
 
-    <menuitem id="menu_sale_order_kanban_stage"
-              name="Orders by Phase"
-              action="action_sale_order_kanban_stage"
-              parent="sale.sale_order_menu"
-              sequence="20" />
+    <menuitem
+        id="menu_sale_order_kanban_stage"
+        name="Orders by Phase"
+        action="action_sale_order_kanban_stage"
+        parent="sale.sale_order_menu"
+        sequence="20"
+    />
 </odoo>

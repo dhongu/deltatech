@@ -7,16 +7,23 @@
     >
         <xpath expr="//div[hasclass('o_barcode_partner')]" position="after">
             <t t-set="phase" t-value="env.model.record.phase_id" />
-            <div t-if="phase" class="o_tag o_barcode_phase d-inline-flex align-items-center rounded-pill px-3 py-1 fs-3 fw-bold my-1"
-                 t-attf-class="o_tag_color_{{phase.color or 0}}">
+            <div
+                t-if="phase"
+                class="o_tag o_barcode_phase d-inline-flex align-items-center rounded-pill px-3 py-1 fs-3 fw-bold my-1"
+                t-attf-class="o_tag_color_{{phase.color or 0}}"
+            >
                 <i class="fa fa-info-circle me-2" />
                 <t t-if="phase.display_name" t-esc="phase.display_name" />
                 <t t-elif="Array.isArray(phase)" t-esc="phase[1]" />
                 <t t-elif="typeof phase === 'object'" t-esc="phase.name" />
             </div>
             <t t-set="next_phase" t-value="env.model.record.next_phase_id" />
-            <div t-if="next_phase" class="o_tag o_barcode_phase d-inline-flex align-items-center rounded-pill px-3 py-1 fs-5 fw-bold my-1 ms-2"
-                 t-attf-class="o_tag_color_{{next_phase.color or 0}}" style="opacity: 0.7;">
+            <div
+                t-if="next_phase"
+                class="o_tag o_barcode_phase d-inline-flex align-items-center rounded-pill px-3 py-1 fs-5 fw-bold my-1 ms-2"
+                t-attf-class="o_tag_color_{{next_phase.color or 0}}"
+                style="opacity: 0.7;"
+            >
                 <i class="fa fa-arrow-right me-2" />
                 <t t-esc="next_phase.display_name" />
             </div>
