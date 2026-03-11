@@ -11,7 +11,7 @@
     "website": "https://www.terrabit.ro",
     "summary": "Sale Order Stage Route",
     "category": "Sales",
-    "depends": ["deltatech_sale_stage"],
+    "depends": ["deltatech_sale_stage", "stock_barcode"],
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",

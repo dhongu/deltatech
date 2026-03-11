@@ -20,10 +20,10 @@ class StockPicking(models.Model):
         readonly=False,
         group_expand="_read_group_phase_ids",
     )
-    phase_color = fields.Integer(related="phase_id.color")
+    phase_color = fields.Integer(related="phase_id.color", string="Phase Color")
     phase_ids = fields.Many2many("sale.order.phase", string="Phases", related="sale_id.phase_ids")
     next_phase_id = fields.Many2one("sale.order.phase", string="Next Phase", compute="_compute_next_phase_id")
-    next_phase_color = fields.Integer(related="next_phase_id.color")
+    next_phase_color = fields.Integer(related="next_phase_id.color", string="Next Phase Color")
 
     def write(self, vals):
         if "phase_id" in vals:
