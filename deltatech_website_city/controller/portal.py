@@ -23,7 +23,7 @@ class CustomerPortalCity(CustomerPortal):
                 values["city_id"] = False
         return super().on_account_update(values, partner)
 
-    def details_form_validate(self, data, partner_creation):
+    def details_form_validate(self, data, partner_creation=False):
         if "country_id" in data:
             request.update_context(portal_form_country_id=data["country_id"])
         if "city_id" in data:
