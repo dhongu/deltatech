@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_sale_order_stage_route_form" model="ir.ui.view">
+        <field name="name">sale.order.stage.route.form</field>
+        <field name="model">sale.order.stage.route</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                    <notebook>
+                        <page string="Stages">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="phase_id" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_sale_order_stage_route_tree" model="ir.ui.view">
+        <field name="name">sale.order.stage.route.tree</field>
+        <field name="model">sale.order.stage.route</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+            </list>
+        </field>
+    </record>
+
+    <record id="action_sale_order_stage_route" model="ir.actions.act_window">
+        <field name="name">Stage Routes</field>
+        <field name="res_model">sale.order.stage.route</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_sale_order_stage_route"
+        action="action_sale_order_stage_route"
+        parent="sale.menu_sale_config"
+        sequence="20"
+    />
+</odoo>
