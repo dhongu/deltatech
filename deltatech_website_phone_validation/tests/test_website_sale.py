@@ -24,7 +24,7 @@ class TestWebsiteSalePhoneValidation(TransactionCase):
         # MockRequest is needed because the controller uses request.env
         with MockRequest(self.env):
             invalid_fields, missing_fields, error_messages = self.controller._validate_address_values(
-                address_values,
+                address_values=address_values,
                 partner_sudo=self.env.user.partner_id,
                 address_type="billing",
                 use_delivery_as_billing=False,
@@ -44,7 +44,7 @@ class TestWebsiteSalePhoneValidation(TransactionCase):
         }
         with MockRequest(self.env):
             invalid_fields, missing_fields, error_messages = self.controller._validate_address_values(
-                address_values,
+                address_values=address_values,
                 partner_sudo=self.env.user.partner_id,
                 address_type="billing",
                 use_delivery_as_billing=False,
