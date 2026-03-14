@@ -32,7 +32,7 @@ class WebsiteSaleVATValidation(WebsiteSale):
             is_main_address=is_main_address,
             **_kwargs,
         )
-        partner = partner_sudo or request.env["res.users"].browse(request.uid).partner_id
+        partner = partner_sudo or request.env.user.partner_id
 
         # Integrare ANAF
         if address_values.get("vat") and "vat" not in invalid_fields:
