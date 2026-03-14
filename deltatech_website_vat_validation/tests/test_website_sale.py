@@ -20,7 +20,7 @@ class TestWebsiteSaleVATValidation(TransactionCase):
         self.existing_partner = self.env["res.partner"].create(
             {
                 "name": "Existing Partner",
-                "vat": "RO12345678",
+                "vat": "RO8001011234567",
                 "email": "existing@example.com",
                 "phone": "+40711111111",
                 "country_id": self.country_ro.id,
@@ -30,7 +30,7 @@ class TestWebsiteSaleVATValidation(TransactionCase):
     def test_01_vat_uniqueness(self):
         address_values = {
             "name": "New Partner",
-            "vat": " RO12345678 ",  # Cu spații pentru a testa și striping
+            "vat": " RO8001011234567 ",  # Cu spații pentru a testa și striping
             "country_id": self.country_ro.id,
         }
         with MockRequest(self.env):
