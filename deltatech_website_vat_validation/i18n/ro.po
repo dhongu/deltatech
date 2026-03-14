@@ -1,0 +1,35 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following module:
+# 	* deltatech_website_vat_validation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-14 07:30+0000\n"
+"PO-Revision-Date: 2024-03-14 07:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||(n%100==0)&&(n!=0))?2:1));\n"
+
+#. module: deltatech_website_vat_validation
+#. python-format
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+msgid "An other partner already exists with the same %s"
+msgstr "Un alt partener există deja cu același %s"
+
+#. module: deltatech_website_vat_validation
+#. python-format
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+msgid "The VAT number is not valid according to ANAF"
+msgstr "Codul TVA nu este valid conform ANAF"
+
+#. module: deltatech_website_vat_validation
+#. python-format
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+msgid "The VAT number must contain only digits (after the country code)"
+msgstr "Codul TVA trebuie să conțină doar cifre (după codul țării)"
