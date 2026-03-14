@@ -35,12 +35,11 @@ class TestWebsiteSaleVATValidation(TransactionCase):
         }
         with MockRequest(self.env):
             invalid_fields, missing_fields, error_messages = self.controller._validate_address_values(
-                address_values,
+                address_values=address_values,
                 partner_sudo=self.env["res.partner"].sudo(),  # Nou partener
                 address_type="billing",
                 use_delivery_as_billing=False,
                 required_fields="vat",
-                is_main_address=True,
             )
 
             self.assertIn("vat", invalid_fields)
@@ -54,12 +53,11 @@ class TestWebsiteSaleVATValidation(TransactionCase):
         }
         with MockRequest(self.env):
             invalid_fields, missing_fields, error_messages = self.controller._validate_address_values(
-                address_values,
+                address_values=address_values,
                 partner_sudo=self.env["res.partner"].sudo(),
                 address_type="billing",
                 use_delivery_as_billing=False,
                 required_fields="email",
-                is_main_address=True,
             )
 
             self.assertIn("email", invalid_fields)
@@ -75,12 +73,11 @@ class TestWebsiteSaleVATValidation(TransactionCase):
         }
         with MockRequest(self.env):
             invalid_fields, missing_fields, error_messages = self.controller._validate_address_values(
-                address_values,
+                address_values=address_values,
                 partner_sudo=self.env["res.partner"].sudo(),
                 address_type="billing",
                 use_delivery_as_billing=False,
                 required_fields="phone",
-                is_main_address=True,
             )
 
             self.assertIn("phone", invalid_fields)
@@ -123,12 +120,11 @@ class TestWebsiteSaleVATValidation(TransactionCase):
         with MockRequest(self.env.with_context(anaf_data=anaf_data)):
             # Ne asigurăm că adresa este pentru România
             invalid_fields, missing_fields, error_messages = self.controller._validate_address_values(
-                address_values,
+                address_values=address_values,
                 partner_sudo=self.env["res.partner"].sudo(),
                 address_type="billing",
                 use_delivery_as_billing=False,
                 required_fields="vat",
-                is_main_address=True,
             )
 
             self.assertEqual(address_values.get("name"), "COMPANIA TEST ANAF SRL")
