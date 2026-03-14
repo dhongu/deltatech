@@ -2,6 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+from odoo import _
 from odoo.http import request
 
 from odoo.addons.phone_validation.tools import phone_validation
@@ -45,6 +46,6 @@ class WebsiteSalePhoneValidation(WebsiteSale):
                 )
             except Exception as e:
                 invalid_fields.add("phone")
-                error_messages.append(getattr(e, "name", str(e)))
+                error_messages.append(_("The phone number is not valid: %s", getattr(e, "name", str(e))))
 
         return invalid_fields, missing_fields, error_messages
