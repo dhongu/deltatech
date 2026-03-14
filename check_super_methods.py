@@ -415,9 +415,14 @@ def main(argv=None):
         return 0
 
     registry = {}
-    if args.addons_path and os.path.isdir(args.addons_path):
-        sys.stderr.write(_c("D", f"  [check-super-methods] Indexez {args.addons_path} ...") + "\n")
-        registry = build_global_registry(args.addons_path)
+    if args.addons_path:
+        paths = [p.strip() for p in args.addons_path.split(",") if p.strip()]
+        for p in paths:
+            if os.path.isdir(p):
+                sys.stderr.write(_c("D", f"  [check-super-methods] Indexez {p} ...") + "\n")
+                registry.update(build_global_registry(p))
+            else:
+                logger.debug("Calea addons-path %s nu exista sau nu este director", p)
 
     all_results = []
     for fp in files:

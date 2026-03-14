@@ -63,7 +63,7 @@ repos:
           /test_|
           _test\.py$
         # Opțional, dacă ai addons-ul Odoo local:
-        args: [--addons-path, ./odoo/odoo/addons, ./odoo/addons]
+        args: [--addons-path, "../../odoo/odoo/addons,../../odoo/addons"]
 
   - repo: https://github.com/sbidoul/whool
     rev: v1.2
