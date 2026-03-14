@@ -24,12 +24,12 @@ class WebsiteSaleVATValidation(WebsiteSale):
                 address_values[field] = address_values.get(field).strip()
 
         invalid_fields, missing_fields, error_messages = super()._validate_address_values(
-            address_values,
-            partner_sudo,
-            address_type,
-            use_delivery_as_billing,
-            required_fields,
-            is_main_address,
+            address_values=address_values,
+            partner_sudo=partner_sudo,
+            address_type=address_type,
+            use_delivery_as_billing=use_delivery_as_billing,
+            required_fields=required_fields,
+            is_main_address=is_main_address,
             **_kwargs,
         )
         partner = partner_sudo or request.env["res.users"].browse(request.uid).partner_id
