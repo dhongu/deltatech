@@ -35,3 +35,21 @@ class SaleOrderLine(models.Model):
                 res["price_unit"] = price_unit
 
         return res
+    
+
+    def _get_downpayment_line_price_unit(self, invoices):
+        self.ensure_one()
+        amount = 0.0
+        for line in self.invoice_lines.filtered(
+                lambda l: l.move_id.state == 'posted' and l.move_id not in invoices
+        ):
+            price_unit = line.price_unit
+            if line.currency_id and line.currency_id != self.currency_id:
+                price_unit = line.currency_id._convert(
+                    price_unit,
+                    self.currency_id,
+                    line.company_id,
+                    line.move_id.invoice_date or line.move_id.date or fields.Date.context_today(line),
+                )
+            amount += price_unit if line.move_id.move_type == 'out_invoice' else -price_unit
+        return amount
