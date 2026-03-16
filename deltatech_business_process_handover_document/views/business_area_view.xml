@@ -1,0 +1,12 @@
+<odoo>
+    <record id="view_business_area_form_inherit" model="ir.ui.view">
+        <field name="name">business.area.form.inherit</field>
+        <field name="model">business.area</field>
+        <field name="inherit_id" ref="deltatech_business_process.view_business_area_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="handover_checked" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
