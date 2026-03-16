@@ -11,7 +11,7 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     standard_price = fields.Float(tracking=True)
-    last_purchase_price = fields.Float(digits="Product Price", tracking=True)
+    last_purchase_price = fields.Float(digits="Product Price", tracking=True, company_dependent=True)
 
     @api.onchange("last_purchase_price", "trade_markup")
     def onchange_last_purchase_price(self):
@@ -29,8 +29,10 @@ class ProductTemplate(models.Model):
         inverse="_inverse_last_purchase_price",
         search="_search_last_purchase_price",
         tracking=True,
+        company_dependent=True,
     )
 
+    @api.depends_context("company")
     def _compute_last_purchase_price(self):
         self._compute_template_field_from_variant_field("last_purchase_price")
 
@@ -102,17 +104,17 @@ class SupplierInfo(models.Model):
                 )
             price = from_uom._compute_price(item.price, to_uom)
 
+            company = item.company_id or self.env.company
             if item.currency_id:
-                to_currency = self.env.user.company_id.currency_id
-                company = self.env.user.company_id
+                to_currency = company.currency_id
                 price = item.currency_id._convert(price, to_currency, company, date)
             if price:
                 if item.product_id:
-                    item.product_id.last_purchase_price = price
-                    item.product_id.onchange_last_purchase_price()
+                    item.product_id.with_company(company).last_purchase_price = price
+                    item.product_id.with_company(company).onchange_last_purchase_price()
                 else:
-                    item.product_tmpl_id.last_purchase_price = price
-                    item.product_tmpl_id.onchange_last_purchase_price()
+                    item.product_tmpl_id.with_company(company).last_purchase_price = price
+                    item.product_tmpl_id.with_company(company).onchange_last_purchase_price()
 
     def write(self, vals):
         res = super().write(vals)
