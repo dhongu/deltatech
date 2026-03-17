@@ -59,15 +59,13 @@ class QueueJob(models.Model):
 
         :returns: queue.job record (locked for update)
         """
-        # TODO: This method should respect channel priority and capacity,
-        #       rather than just fetching them by creation date.
         self.env.flush_all()
         self.env.cr.execute(
             """
             SELECT id
             FROM queue_job
-            WHERE  id = %(job_id)s
-             FOR NO KEY UPDATE SKIP LOCKED
+            WHERE id = %(job_id)s
+            FOR NO KEY UPDATE SKIP LOCKED
             """,
             {"job_id": job_id},
         )
@@ -89,6 +87,7 @@ class QueueJob(models.Model):
             at = fields.Datetime.now() + timedelta(minutes=5)
             self._cron_trigger(at)
             need_retrigger = True
+
         for job in jobs[:limit_jobs]:
             job = self._acquire_specific_job(job.id)
             if job and job.state == "pending":
@@ -97,54 +96,34 @@ class QueueJob(models.Model):
                 except Exception as e:
                     _logger.error(f"Error processing job {job.id}: {e}")
                     continue
+
         if need_retrigger:
             _logger.info("Need to retrigger cron job")
             self._cron_trigger()
 
         _logger.info("Job runner finished")
 
-    # @api.model
-    # def _job_runner(self, commit=True):
-    #     job = self._acquire_one_job()
-    #     limit_jobs = self.env["ir.config_parameter"].sudo().get_param("queue_job.limit_jobs")
-    #     if limit_jobs:
-    #         limit_jobs = int(limit_jobs)
-    #     else:
-    #         limit_jobs = 100
-    #
-    #     job_count = 0
-    #     while job:
-    #         job._process(commit=commit)
-    #         job = self._acquire_one_job()
-    #         job_count += 1
-    #         if job_count >= limit_jobs:
-    #             if job:
-    #                 job._ensure_cron_trigger()
-    #                 job._cron_trigger()
-    #             break
-    #     _logger.info("Job runner finished")
-
     @api.model
     def _cron_trigger(self, at=None):
         domain = [("queue_job_runner", "=", True)]
         crones = self.env["ir.cron"].sudo().search(domain)
         res = "nothing"
+
         for cron in crones:
-            domain = [("cron_id", "=", cron.id)]
+            trigger_domain = [("cron_id", "=", cron.id)]
             if at:
-                domain.append(("call_at", "=", at))
-            trigger = self.env["ir.cron.trigger"].search(domain, limit=1)
-            if trigger:
+                trigger_domain.append(("call_at", "=", at))
+            trigger = self.env["ir.cron.trigger"].search(trigger_domain, limit=1)
+
+            if trigger and trigger.call_at >= fields.Datetime.now():
+                # triggerul exista si e in viitor - valid
                 res = "exists"
-                # apelat dupa commit
-                at_trigger = at
-                self.env.cr.postcommit.add(lambda c=cron, a=at_trigger: c._trigger(at=a) if a else c._trigger())
             else:
+                # nu exista SAU e in trecut - retriggeram
                 res = "triggered"
-                if not at:
-                    at = fields.Datetime.now() + timedelta(seconds=5)
-                at_trigger = at
-                self.env.cr.postcommit.add(lambda c=cron, a=at_trigger: c._trigger(at=a))
-                _logger.info(f"CRON trigger for {cron.name} at {at}")
+                # calculam at_trigger local, fara sa modificam parametrul `at`
+                at_trigger = at or fields.Datetime.now() + timedelta(seconds=5)
+                cron._trigger(at=at_trigger)
+                _logger.info(f"CRON trigger scheduled for {cron.name} at {at_trigger}")
 
         return res
