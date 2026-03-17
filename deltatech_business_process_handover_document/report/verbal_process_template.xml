@@ -196,11 +196,14 @@
                                 </t>
                             </t>
                         </t>
-                        <td t-if="total_user_steps > 0">
+                        <td t-if="total_user_steps > 0 and not area.handover_checked">
                             <span t-esc="total_user_steps" />
                         </td>
-                        <td t-if="total_user_steps == 0">
+                        <td t-if="total_user_steps == 0 and not area.handover_checked">
                             <span>0</span>  <!-- Invisible character if no steps -->
+                        </td>
+                        <td t-if="area.handover_checked">
+                            <span>N/A</span>
                         </td>
                     </tr>
 
@@ -228,11 +231,20 @@
                                 t-set="user_acceptance_steps"
                                 t-value="sum(len(test.test_step_ids or []) for test in (process.test_ids or []) if test.scope == 'user_acceptance' and test.state == 'done')"
                             />
-                            <td t-if="user_acceptance_steps > 0" style="text-align: center;">
+                            <td
+                                t-if="user_acceptance_steps > 0 and not area.handover_checked"
+                                style="text-align: center;"
+                            >
                                 <span t-esc="user_acceptance_steps" />
                             </td>
-                            <td t-if="user_acceptance_steps == 0" style="text-align: center;">
+                            <td
+                                t-if="user_acceptance_steps == 0 and not area.handover_checked"
+                                style="text-align: center;"
+                            >
                                 <span>0</span> <!-- Invisible character if no steps -->
+                            </td>
+                            <td t-if="area.handover_checked" style="text-align: center;">
+                                <span>N/A</span>
                             </td>
                         </tr>
                     </t>
