@@ -5,7 +5,7 @@
 {
     "name": "Business process handover document",
     "summary": "Business process handover document",
-    "version": "19.0.0.0.2",
+    "version": "19.0.0.0.3",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
@@ -14,6 +14,7 @@
     "data": [
         "report/paperforat_a4_bp.xml",
         "views/business_project_view.xml",
+        "views/business_area_view.xml",
         "report/verbal_process_report.xml",
         "report/verbal_process_template.xml",
     ],
