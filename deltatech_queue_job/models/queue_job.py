@@ -136,13 +136,15 @@ class QueueJob(models.Model):
             trigger = self.env["ir.cron.trigger"].search(domain, limit=1)
             if trigger:
                 res = "exists"
-                cron._trigger()
+                # apelat dupa commit
+                at_trigger = at
+                self.env.cr.postcommit.add(lambda c=cron, a=at_trigger: c._trigger(at=a) if a else c._trigger())
             else:
                 res = "triggered"
                 if not at:
                     at = fields.Datetime.now() + timedelta(seconds=5)
-                cron._trigger(at=at)
-
+                at_trigger = at
+                self.env.cr.postcommit.add(lambda c=cron, a=at_trigger: c._trigger(at=a))
                 _logger.info(f"CRON trigger for {cron.name} at {at}")
 
         return res
