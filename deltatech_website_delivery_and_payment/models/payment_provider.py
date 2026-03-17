@@ -29,6 +29,9 @@ class PaymentAcquirer(models.Model):
         )
         if sale_order_id:
             order = self.env["sale.order"].browse(sale_order_id)
+            if order.carrier_id and order.carrier_id.acquirer_allowed_ids:
+                compatible_providers &= order.carrier_id.acquirer_allowed_ids
+
             for provider in compatible_providers:
                 if provider.value_limit and order.amount_total > provider.value_limit:
                     compatible_providers -= provider
