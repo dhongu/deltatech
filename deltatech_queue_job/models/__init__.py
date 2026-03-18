@@ -3,3 +3,4 @@
 # See README.rst file on addons root folder for license details
 
 from . import queue_job
+from . import res_config_settings
