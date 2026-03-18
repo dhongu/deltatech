@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.queue.job</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="90" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Queue Job" string="Queue Job" name="deltatech_queue_job" groups="base.group_system">
+                    <block title="Queue Job Processor" name="queue_job_processor">
+                        <setting string="External Processor" help="Configure external cron processor (cron-job.org)">
+                            <div class="content-group">
+                                <div class="mt16">
+                                    <label for="queue_job_processor_api_key" string="API Key" />
+                                    <field name="queue_job_processor_api_key" password="1" class="oe_inline" />
+                                    <button
+                                        name="action_generate_queue_job_processor_api_key"
+                                        type="object"
+                                        string="Generate Key"
+                                        class="btn-link"
+                                        icon="fa-refresh"
+                                    />
+                                </div>
+                                <div class="mt8">
+                                    <label for="queue_job_processor_batch_size" string="Batch Size" />
+                                    <field name="queue_job_processor_batch_size" />
+                                </div>
+                                <div class="mt8">
+                                    <label for="queue_job_processor_max_seconds" string="Max Seconds" />
+                                    <field name="queue_job_processor_max_seconds" />
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_queue_job_config" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'deltatech_queue_job'}</field>
+    </record>
+
+    <menuitem
+        id="menu_queue_job_config"
+        name="Settings"
+        parent="queue_job.menu_queue_job_root"
+        sequence="100"
+        action="action_queue_job_config"
+        groups="base.group_system"
+    />
+</odoo>

@@ -10,9 +10,11 @@
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
     "category": "Others",
-    "depends": ["queue_job_cron_jobrunner"],
+    "depends": ["queue_job", "queue_job_cron_jobrunner"],
     "data": [
         "views/queue_job_views.xml",
+        "views/res_config_settings_views.xml",
+        "data/ir_config_parameter.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,

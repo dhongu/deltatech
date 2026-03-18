@@ -2,9 +2,11 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 import logging
+import threading
+import time
 from datetime import timedelta
 
-from odoo import _, api, fields, models
+from odoo import _, api, fields, models, modules
 
 _logger = logging.getLogger(__name__)
 
@@ -13,15 +15,70 @@ class QueueJob(models.Model):
     _inherit = "queue.job"
 
     @api.model
-    def _run_pending_jobs(self, limit=10):
-        limit_jobs = self.env["ir.config_parameter"].sudo().get_param("queue_job.limit_jobs", limit)
-        limit_jobs = int(limit_jobs)
-        jobs = self.search([("state", "=", "pending")], limit=limit_jobs)
-        for job in jobs:
+    def _api_job_runner(self, batch_size=20, max_seconds=50):
+        """Runner dedicated to External API calls (e.g. cron-job.org)"""
+        start_time = time.time()
+        processed = 0
+        failed = 0
+
+        _logger.info("🚀 Starting queue processing via API - Batch size: %d", batch_size)
+
+        # We acquire one job at a time to respect concurrency and locking
+        job = self._acquire_one_job()
+        while job and processed < batch_size:
+            # Check time budget
+            elapsed = time.time() - start_time
+            if elapsed > max_seconds:
+                _logger.warning("⏱️ Time budget exceeded (%.1fs > %ds), stopping.", elapsed, max_seconds)
+                break
+
             try:
-                job.perform()
+                # Process the job (includes its own internal commit/rollback)
+                job._process(commit=True)
+                processed += 1
             except Exception as e:
-                job.set_failed(e)
+                failed += 1
+                _logger.error("❌ Job %s failed in API runner: %s", job.id, str(e))
+
+            job = self._acquire_one_job()
+
+        return {
+            "processed": processed,
+            "failed": failed,
+            "time_elapsed": round(time.time() - start_time, 2),
+            "pending_remaining": self.search_count([("state", "=", "pending")]),
+        }
+
+    @api.model
+    def _process_api_in_thread(self, dbname, uid, context):
+        """Method to be executed in a separate thread"""
+        with modules.registry.Registry(dbname).cursor() as cr:
+            env = api.Environment(cr, uid, context)
+            try:
+                env["queue.job"]._api_job_runner()
+            except Exception as e:
+                _logger.error("Error in threaded API runner: %s", str(e))
+
+    def action_process_api_thread(self):
+        """Action to trigger API processing in a separate thread"""
+        dbname = self.env.cr.dbname
+        uid = self.env.uid
+        context = self.env.context
+
+        thread = threading.Thread(target=self._process_api_in_thread, args=(dbname, uid, context), daemon=True)
+        thread.start()
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Thread Processing"),
+                "message": _("The API processing has been triggered in a separate thread!"),
+                "type": "success",
+                "sticky": False,
+                "next": {"type": "ir.actions.act_window_close"},
+            },
+        }
 
     def start_cron_trigger(self):
         domain = [("queue_job_runner", "=", True)]
@@ -73,35 +130,21 @@ class QueueJob(models.Model):
         return self.browse(row and row[0])
 
     def process_jobs(self):
-        for job in self.filtered(lambda j: j.state == "pending"):
-            job._process()
+        """Action for manual job processing from UI in background"""
+        # If specific jobs were selected, we could mark them or just trigger the cron.
+        # But for background processing, we just trigger the cron runner.
+        self._ensure_cron_trigger()
 
-    @api.model
-    def _job_runner(self, commit=True):
-        limit_jobs = self.env["ir.config_parameter"].sudo().get_param("queue_job.limit_jobs", "10")
-        limit_jobs = int(limit_jobs)
-        jobs = self.search([("state", "=", "pending")], limit=limit_jobs + 1)
-
-        need_retrigger = False
-        if len(jobs) > limit_jobs:
-            at = fields.Datetime.now() + timedelta(minutes=5)
-            self._cron_trigger(at)
-            need_retrigger = True
-
-        for job in jobs[:limit_jobs]:
-            job = self._acquire_specific_job(job.id)
-            if job and job.state == "pending":
-                try:
-                    job._process(commit=commit)
-                except Exception as e:
-                    _logger.error(f"Error processing job {job.id}: {e}")
-                    continue
-
-        if need_retrigger:
-            _logger.info("Need to retrigger cron job")
-            self._cron_trigger()
-
-        _logger.info("Job runner finished")
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Job Processing Started"),
+                "message": _("The processing of jobs has been triggered in the background."),
+                "type": "success",
+                "sticky": False,
+            },
+        }
 
     @api.model
     def _cron_trigger(self, at=None):
