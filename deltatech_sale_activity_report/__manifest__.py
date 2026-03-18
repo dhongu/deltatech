@@ -1,10 +1,10 @@
 {
-    "name": "Sale Order Last Modified",
-    "version": "17.0.0.0.8",
+    "name": "Sale Order Activity Report",
+    "version": "17.0.1.0.0",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
-    "summary": "Adds a last modified field to the sale order",
+    "summary": "Track and report user activities on Sale Orders",
     "depends": ["sale"],
     "license": "OPL-1",
     "data": [
