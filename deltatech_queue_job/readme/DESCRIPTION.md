@@ -1,12 +1,28 @@
-The module provides specific enhancements to the job queue functionality in Odoo. Here's what this module specifically does: `deltatech_queue_job`
-1. **Better handling of pending jobs**: Implements a specialized method (`_acquire_specific_job`) to acquire a specific job from the queue with optimized locking (`FOR NO KEY UPDATE SKIP LOCKED`).
-2. **Controlled job processing**: Provides robust job processing using database savepoints for isolation and automatic retries for serialization errors.
-3. **Auto-triggering of jobs**: Automatically schedules background processing (via `ir.cron.trigger`) whenever a new job is created or its scheduled time (`eta`) changes.
-4. **User notifications**: Displays notifications when operations are transferred to be executed in the background.
-5. **Error handling**: Improves error management during job processing, logging error information and using database savepoints for isolation.
-6. **CRON integration**: Provides functionality for automatically activating and triggering CRON jobs, including the `start_cron_trigger` method that ensures a job will be executed in the background.
-7. **Batch processing function**: Implements the `process_jobs()` method that allows processing a set of jobs in "pending" state.
-8. **External Processor API**: Adds a secure API endpoint (`/api/v1/queue/process`) for processing jobs via external services (like cron-job.org). This method is distinct from the internal Odoo CRON and allows execution control from outside.
-9. **Threaded Processing**: Adds a button to trigger the API-style processing in a separate background thread directly from the UI.
+The module provides specific enhancements to the job queue functionality in Odoo, focusing on performance, reliability, and flexibility in job execution. Here's a detailed breakdown of the features: `deltatech_queue_job`
 
-This module is particularly useful in scenarios where there is a large volume of jobs that need to be processed efficiently and with improved monitoring.
+### Key Features:
+
+1.  **Optimized Concurrency and Locking**:
+    *   Implements a specialized method (`_acquire_specific_job`) using the `FOR NO KEY UPDATE SKIP LOCKED` SQL clause. This allows multiple workers (internal cron or external API) to process the queue simultaneously without blocking each other, significantly increasing throughput.
+2.  **Robust Transactional Processing**:
+    *   Job execution is wrapped in database savepoints. If a job fails, only its changes are rolled back, preserving the state of the database for subsequent jobs in the same batch.
+    *   Includes automatic handling of typical database concurrency errors (like serialization failures), ensuring jobs are gracefully rescheduled.
+3.  **Flexible Job Runners**:
+    *   **Internal Cron Runner**: An enhanced `_job_runner` that respects configurable limits for batch size and execution time, preventing worker timeouts on platforms like Odoo.sh.
+    *   **External API Runner**: A dedicated endpoint (`/api/v1/queue/process`) designed for external trigger services (e.g., cron-job.org). This allows for processing intervals as frequent as every minute, bypassing the standard 5-minute Odoo cron limitation.
+    *   **Threaded Processing**: Ability to launch an API-style runner in a dedicated background thread directly from the Odoo UI, useful for immediate manual processing without blocking the web interface.
+4.  **Smart Auto-Triggering**:
+    *   Automatically creates cron triggers (`ir.cron.trigger`) whenever a job is created or its scheduled time (`eta`) is updated. This ensures that processing starts as soon as a job becomes eligible, rather than waiting for the next scheduled cron run.
+5.  **Centralized Configuration**:
+    *   A dedicated settings page under `Queue Job > Settings` allows administrators to:
+        *   Generate and manage secure API keys for external access.
+        *   Define `Batch Size` (maximum jobs per run).
+        *   Set `Max Seconds` (time budget per execution) to ensure stability.
+6.  **Enhanced Monitoring and UI**:
+    *   Integrated notifications (Client Actions) that provide real-time feedback when jobs are triggered or processed.
+    *   Improved list views for jobs, including creation dates and easier access to manual processing actions.
+    *   Buttons for "Cron Trigger", "Process", and "Process Background" are always accessible from the job list header.
+
+### Performance Benefits:
+
+This module is essential for high-volume Odoo environments. By decoupling the job runner from the standard Odoo cron schedule and providing optimized database locking, it ensures that your background tasks are processed as fast as possible with minimal overhead and maximum reliability.

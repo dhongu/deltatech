@@ -6,7 +6,7 @@
     "name": "Deltatech  Queue Job Enhancements",
     "summary": "Deltatech Queue Job",
     "author": "Terrabit, Dorin Hongu",
-    "version": "18.0.1.0.4",
+    "version": "18.0.1.1.0",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
     "category": "Others",
@@ -18,6 +18,6 @@
     ],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
-    "development_status": "Alpha",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }

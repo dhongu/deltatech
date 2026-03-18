@@ -111,6 +111,50 @@ class QueueJob(models.Model):
         }
 
     @api.model
+    def _job_runner(self, commit=True):
+        """Short-lived job runner with limit and re-trigger"""
+        batch_size = self.env["ir.config_parameter"].sudo().get_param("queue_job_processor.batch_size", "20")
+        batch_size = int(batch_size)
+        max_seconds = self.env["ir.config_parameter"].sudo().get_param("queue_job_processor.max_seconds", "50")
+        max_seconds = int(max_seconds)
+
+        start_time = time.time()
+
+        # We search with limit+1 to see if we need to re-trigger
+        now = fields.Datetime.now()
+        domain = [("state", "=", "pending"), "|", ("eta", "=", False), ("eta", "<=", now)]
+        jobs = self.search(domain, order="priority, date_created", limit=batch_size + 1)
+
+        need_retrigger = False
+        if len(jobs) > batch_size:
+            need_retrigger = True
+
+        processed_count = 0
+        for job in jobs[:batch_size]:
+            # Check time budget
+            elapsed = time.time() - start_time
+            if elapsed > max_seconds:
+                _logger.warning("⏱️ Time budget exceeded (%.1fs > %ds) in cron runner, stopping.", elapsed, max_seconds)
+                need_retrigger = True
+                break
+
+            # Try to acquire the job exclusively
+            job = self._acquire_specific_job(job.id)
+            if job and job.state == "pending":
+                try:
+                    job._process(commit=commit)
+                    processed_count += 1
+                except Exception as e:
+                    _logger.error("Error processing job %s: %s", job.id, e)
+                    continue
+
+        if need_retrigger:
+            _logger.info("Need to retrigger cron job")
+            self._cron_trigger()
+
+        _logger.info("Job runner finished. Processed %d jobs in %.2fs.", processed_count, time.time() - start_time)
+
+    @api.model
     def _acquire_specific_job(self, job_id):
         """Acquire the next job to be run.
 

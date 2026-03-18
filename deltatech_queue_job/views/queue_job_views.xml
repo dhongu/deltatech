@@ -8,7 +8,12 @@
             <xpath expr="//list" position="inside">
                 <header>
                     <button name="start_cron_trigger" type="object" string="Cron Trigger" display="always" />
-                    <button name="action_process_api_thread" type="object" string="Process (Thread)" display="always" />
+                    <button
+                        name="action_process_api_thread"
+                        type="object"
+                        string="Process Background"
+                        display="always"
+                    />
                     <button name="process_jobs" type="object" string="Process" />
                 </header>
             </xpath>
