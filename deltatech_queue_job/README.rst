@@ -23,32 +23,97 @@ Deltatech  Queue Job Enhancements
 |badge1| |badge2| |badge3|
 
 The module provides specific enhancements to the job queue functionality
-in Odoo. Here's what this module specifically does:
+in Odoo, focusing on performance, reliability, and flexibility in job
+execution. Here's a detailed breakdown of the features:
 ``deltatech_queue_job``
 
-1. **Better handling of pending jobs**: Implements a specialized method
-   () to acquire a specific job from the queue.
-   ``_acquire_specific_job``
-2. **Controlled job processing**: Adds the ability to limit the number
-   of jobs processed in a single execution, using a system configuration
-   parameter (``queue_job.limit_jobs``).
-3. **Auto-triggering of jobs**: When there are more jobs than the
-   configured limit, the module will automatically trigger a new process
-   to handle the remaining jobs.
-4. **User notifications**: Displays notifications when operations are
-   transferred to be executed in the background.
-5. **Error handling**: Improves error management during job processing,
-   logging error information.
-6. **CRON integration**: Provides functionality for automatically
-   activating and triggering CRON jobs, including the method that
-   ensures a job will be executed in the background.
-   ``start_cron_trigger``
-7. **Batch processing function**: Implements the ``process_jobs()``
-   method that allows processing a set of jobs in "pending" state.
+Key Features:
+~~~~~~~~~~~~~
 
-This module is particularly useful in scenarios where there is a large
-volume of jobs that need to be processed efficiently and with improved
-monitoring.
+1. **Optimized Concurrency and Locking**:
+
+   - Implements a specialized method (``_acquire_specific_job``) using
+     the ``FOR NO KEY UPDATE SKIP LOCKED`` SQL clause. This allows
+     multiple workers (internal cron or external API) to process the
+     queue simultaneously without blocking each other, significantly
+     increasing throughput.
+
+2. **Robust Transactional Processing**:
+
+   - Job execution is wrapped in database savepoints. If a job fails,
+     only its changes are rolled back, preserving the state of the
+     database for subsequent jobs in the same batch.
+   - Includes automatic handling of typical database concurrency errors
+     (like serialization failures), ensuring jobs are gracefully
+     rescheduled.
+
+3. **Flexible Job Runners**:
+
+   - **Internal Cron Runner**: An enhanced ``_job_runner`` that respects
+     configurable limits for batch size and execution time, preventing
+     worker timeouts on platforms like Odoo.sh.
+   - **External API Runner**: A dedicated endpoint
+     (``/api/v1/queue/process``) designed for external trigger services
+     (e.g., cron-job.org). This allows for processing intervals as
+     frequent as every minute, bypassing the standard 5-minute Odoo cron
+     limitation.
+   - **Threaded Processing**: Ability to launch an API-style runner in a
+     dedicated background thread directly from the Odoo UI, useful for
+     immediate manual processing without blocking the web interface.
+
+4. **Smart Auto-Triggering**:
+
+   - Automatically creates cron triggers (``ir.cron.trigger``) whenever
+     a job is created or its scheduled time (``eta``) is updated. This
+     ensures that processing starts as soon as a job becomes eligible,
+     rather than waiting for the next scheduled cron run.
+
+5. **Centralized Configuration**:
+
+   - A dedicated settings page under ``Queue Job > Settings`` allows
+     administrators to:
+
+     - Generate and manage secure API keys for external access.
+     - Define ``Batch Size`` (maximum jobs per run).
+     - Set ``Max Seconds`` (time budget per execution) to ensure
+       stability.
+
+6. **Enhanced Monitoring and UI**:
+
+   - Integrated notifications (Client Actions) that provide real-time
+     feedback when jobs are triggered or processed.
+   - Improved list views for jobs, including creation dates and easier
+     access to manual processing actions.
+   - Buttons for "Cron Trigger", "Process", and "Process Background" are
+     always accessible from the job list header.
+
+Optimized for Odoo.sh:
+~~~~~~~~~~~~~~~~~~~~~~
+
+This module is specifically designed to address common challenges on the
+Odoo.sh platform:
+
+- **Bypassing the 5-Minute Cron Limit**: Using an external trigger
+  service (like cron-job.org) via the API endpoint allows for job
+  processing every minute, providing near real-time execution.
+- **Preventing Worker Timeouts**: Configurable time budgets
+  (``Max Seconds``) ensure that the job runner finishes its work
+  gracefully before Odoo.sh kills the worker process, avoiding database
+  inconsistencies.
+- **High Concurrency**: The use of ``SKIP LOCKED`` ensures that multiple
+  workers can process the queue in parallel without deadlocks,
+  maximizing the use of available resources.
+- **Transactional Safety**: Savepoints isolate individual job failures,
+  ensuring that one failing job doesn't roll back the entire batch.
+
+Performance Benefits:
+~~~~~~~~~~~~~~~~~~~~~
+
+This module is essential for high-volume Odoo environments. By
+decoupling the job runner from the standard Odoo cron schedule and
+providing optimized database locking, it ensures that your background
+tasks are processed as fast as possible with minimal overhead and
+maximum reliability.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -59,6 +124,73 @@ monitoring.
 
 .. contents::
    :local:
+
+Usage
+=====
+
+External Job Processor Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To process jobs every minute using an external service like
+`cron-job.org <https://cron-job.org>`__:
+
+1. **Configure API Key**: Go to ``Queue Job`` -> ``Settings`` menu. You
+   can generate a secure key using the **Generate Key** button.
+2. **Configure Batch Settings**: (Optional) Adjust **Batch Size**
+   (default 20) and **Max Seconds** (default 50) directly in the same
+   settings screen.
+3. **Setup cron-job.org**:
+
+   - **URL**: ``https://your-odoo-domain.com/api/v1/queue/process``
+   - **Method**: POST
+   - **Schedule**: Every minute (``* * * * *``)
+   - **Headers**: ``Content-Type: application/json``
+   - **Body**:
+     .. code:: json
+
+        {
+          "jsonrpc": "2.0",
+          "params": {
+            "api_key": "YOUR_SECURE_KEY_HERE"
+          }
+        }
+
+API Endpoints
+~~~~~~~~~~~~~
+
+Process Queue (External)
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+**POST** ``/api/v1/queue/process``
+
+Parameters:
+
+- ``api_key`` (required): Authentication key
+- ``batch_size`` (optional): Maximum number of jobs to process (default:
+  20)
+- ``max_seconds`` (optional): Maximum processing time in seconds
+  (default: 50)
+
+Response:
+
+.. code:: json
+
+   {
+     "status": "success",
+     "processed": 15,
+     "failed": 0,
+     "pending_count": 10,
+     "time_elapsed": 12.34,
+     "timestamp": "2026-03-18 04:40:00"
+   }
+
+Manual Processing
+~~~~~~~~~~~~~~~~~
+
+You can manually trigger job processing from the Queue Job list view
+using the **Process** button (internal cron trigger) or **Process
+(Thread)** (API-style runner in a new thread), or trigger a background
+execution using **Cron Trigger**.
 
 Bug Tracker
 ===========

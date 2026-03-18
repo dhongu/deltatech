@@ -136,10 +136,10 @@ addon | version | maintainers | summary
 [deltatech_purchase_price_history](deltatech_purchase_price_history/) | 18.0.0.0.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | View minim, maxim and average purchase price from the last 12 months in product template
 [deltatech_purchase_refund](deltatech_purchase_refund/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Generare factura storno pentru retururi
 [deltatech_purchase_stock](deltatech_purchase_stock/) | 18.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Purchase Stock
-[deltatech_purchase_ubl](deltatech_purchase_ubl/) | 18.0.0.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Import UBL XML vendor invoices to update prices, validate receipts, and create vendor bills
+[deltatech_purchase_ubl](deltatech_purchase_ubl/) | 18.0.0.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Import UBL XML vendor invoices to update prices, validate receipts, and create vendor bills
 [deltatech_purchase_xls](deltatech_purchase_xls/) | 18.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Import/export purchase line from/to Excel
 [deltatech_putaway_strategy](deltatech_putaway_strategy/) | 18.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Location capacities and enhanced putaway strategy for Inventory
-[deltatech_queue_job](deltatech_queue_job/) | 18.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Queue Job
+[deltatech_queue_job](deltatech_queue_job/) | 18.0.1.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Queue Job
 [deltatech_ral](deltatech_ral/) | 18.0.1.0.3 |  | RAL
 [deltatech_reccurent_task_activity](deltatech_reccurent_task_activity/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Will automatically create an activity at the creation of the recurring task
 [deltatech_reception_note](deltatech_reception_note/) | 18.0.0.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Batch reception note
