@@ -18,6 +18,10 @@ class SaleOrder(models.Model):
             ("does_not_expect", "Does not expect the order"),
             ("200_warranty", "200% warranty"),
             ("not_picked", "Package not picked up by client"),
+            ("b2b_return", "B2B Return"),
+            ("exchange","Exchange"),
+            ("external_tva_restitution", "External TVA Restitution"),
+            ("lost_package", "Lost Package"),
         ],
         string="Return Cause",
     )

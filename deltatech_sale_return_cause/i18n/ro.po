@@ -62,6 +62,26 @@ msgid "Package not picked up by client"
 msgstr "Colet neridicat de client"
 
 #. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__b2b_return
+msgid "B2B Return"
+msgstr "Retur B2B"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__exchange
+msgid "Exchange"
+msgstr "Schimb"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__external_tva_restitution
+msgid "External TVA Restitution"
+msgstr "Restituire TVA extern"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__lost_package
+msgid "Lost Package"
+msgstr "Colet pierdut curier"
+
+#. module: deltatech_sale_return_cause
 #: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_order__return_amount
 msgid "Return Amount"
 msgstr "Valoare retur"
