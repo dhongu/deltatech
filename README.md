@@ -78,7 +78,7 @@ addon | version | maintainers | summary
 [deltatech_maintenance](deltatech_maintenance/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Maintenance Extension
 [deltatech_move_negative_stock](deltatech_move_negative_stock/) | 17.0.1.1.1 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Replenish negative stock from other location
 [deltatech_mrp](deltatech_mrp/) | 17.0.1.0.2 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Extension
-[deltatech_mrp_bom](deltatech_mrp_bom/) | 17.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Bom
+[deltatech_mrp_bom](deltatech_mrp_bom/) | 17.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Bom
 [deltatech_mrp_cost](deltatech_mrp_cost/) | 17.0.2.1.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | MRP Cost
 [deltatech_mrp_simple](deltatech_mrp_simple/) | 17.0.1.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Simple production
 [deltatech_mrp_simple_barcode](deltatech_mrp_simple_barcode/) | 17.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Simple production
@@ -148,7 +148,7 @@ addon | version | maintainers | summary
 [deltatech_reset_en_names](deltatech_reset_en_names/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Will set the en names of the product templates to the names of the currently used language of the user
 [deltatech_restricted_access](deltatech_restricted_access/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Restricted Access
 [deltatech_sale](deltatech_sale/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Extension Obsolete
-[deltatech_sale_activity_report](deltatech_sale_activity_report/) | 17.0.0.0.8 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Adds a last modified field to the sale order
+[deltatech_sale_activity_report](deltatech_sale_activity_report/) | 17.0.1.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Track and report user activities on Sale Orders
 [deltatech_sale_activity_search](deltatech_sale_activity_search/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Adds a field with the active activity types on that sale order
 [deltatech_sale_add_extra_line](deltatech_sale_add_extra_line/) | 17.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Add Extra Line
 [deltatech_sale_add_extra_line_pos](deltatech_sale_add_extra_line_pos/) | 17.0.0.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | POS Add Extra Line
@@ -171,7 +171,7 @@ addon | version | maintainers | summary
 [deltatech_sale_purchase](deltatech_sale_purchase/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Purchase
 [deltatech_sale_qty_available](deltatech_sale_qty_available/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Quantity Available
 [deltatech_sale_report](deltatech_sale_report/) | 17.0.0.0.5 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Sale Report Additional Info
-[deltatech_sale_return_cause](deltatech_sale_return_cause/) | 17.0.0.0.2 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Return Cause
+[deltatech_sale_return_cause](deltatech_sale_return_cause/) | 17.0.0.0.3 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Return Cause
 [deltatech_sale_stage](deltatech_sale_stage/) | 17.0.1.2.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Order Stage
 [deltatech_sale_team](deltatech_sale_team/) | 17.0.1.0.2 |  | Sale Team Access
 [deltatech_sale_transfer](deltatech_sale_transfer/) | 17.0.1.0.2 |  | Sale Prepare Transfer
