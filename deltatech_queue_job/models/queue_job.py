@@ -111,6 +111,42 @@ class QueueJob(models.Model):
         }
 
     @api.model
+    def _acquire_specific_job(self, job_id):
+        """Acquire the next job to be run.
+
+        :returns: queue.job record (locked for update)
+        """
+        self.env.flush_all()
+        self.env.cr.execute(
+            """
+            SELECT id
+            FROM queue_job
+            WHERE id = %(job_id)s
+            FOR NO KEY UPDATE SKIP LOCKED
+            """,
+            {"job_id": job_id},
+        )
+        row = self.env.cr.fetchone()
+        return self.browse(row and row[0])
+
+    def process_jobs(self):
+        """Action for manual job processing from UI in background"""
+        # If specific jobs were selected, we could mark them or just trigger the cron.
+        # But for background processing, we just trigger the cron runner.
+        self._ensure_cron_trigger()
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Job Processing Started"),
+                "message": _("The processing of jobs has been triggered in the background."),
+                "type": "success",
+                "sticky": False,
+            },
+        }
+
+    @api.model
     def _job_runner(self, commit=True):
         """Short-lived job runner with limit and re-trigger"""
         batch_size = self.env["ir.config_parameter"].sudo().get_param("queue_job_processor.batch_size", "20")
@@ -153,42 +189,6 @@ class QueueJob(models.Model):
             self._cron_trigger()
 
         _logger.info("Job runner finished. Processed %d jobs in %.2fs.", processed_count, time.time() - start_time)
-
-    @api.model
-    def _acquire_specific_job(self, job_id):
-        """Acquire the next job to be run.
-
-        :returns: queue.job record (locked for update)
-        """
-        self.env.flush_all()
-        self.env.cr.execute(
-            """
-            SELECT id
-            FROM queue_job
-            WHERE id = %(job_id)s
-            FOR NO KEY UPDATE SKIP LOCKED
-            """,
-            {"job_id": job_id},
-        )
-        row = self.env.cr.fetchone()
-        return self.browse(row and row[0])
-
-    def process_jobs(self):
-        """Action for manual job processing from UI in background"""
-        # If specific jobs were selected, we could mark them or just trigger the cron.
-        # But for background processing, we just trigger the cron runner.
-        self._ensure_cron_trigger()
-
-        return {
-            "type": "ir.actions.client",
-            "tag": "display_notification",
-            "params": {
-                "title": _("Job Processing Started"),
-                "message": _("The processing of jobs has been triggered in the background."),
-                "type": "success",
-                "sticky": False,
-            },
-        }
 
     @api.model
     def _cron_trigger(self, at=None):
