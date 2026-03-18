@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.queue.job</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="90" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Queue Job" string="Queue Job" name="queue_job" groups="base.group_system">
+                    <block title="Queue Job Processor" name="queue_job_processor">
+                        <setting string="External Processor" help="Configure external cron processor (cron-job.org)">
+                            <div class="content-group">
+                                <div class="mt16">
+                                    <label
+                                        for="queue_job_processor_api_key"
+                                        string="API Key"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="queue_job_processor_api_key" class="oe_inline" />
+                                    <button
+                                        name="action_generate_queue_job_processor_api_key"
+                                        type="object"
+                                        string="Generate Key"
+                                        class="btn-link"
+                                        icon="fa-refresh"
+                                    />
+                                </div>
+                                <div class="mt8">
+                                    <label
+                                        for="queue_job_processor_batch_size"
+                                        string="Batch Size"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="queue_job_processor_batch_size" />
+                                </div>
+                                <div class="mt8">
+                                    <label
+                                        for="queue_job_processor_max_seconds"
+                                        string="Max Seconds"
+                                        class="col-lg-3 o_light_label"
+                                    />
+                                    <field name="queue_job_processor_max_seconds" />
+                                </div>
+                                <div class="mt32 ml16">
+                                    <h3>🚀 External Cron Setup (cron-job.org)</h3>
+                                    <ol>
+                                        <li>Create a free account on <a
+                                                href="https://cron-job.org"
+                                                target="_blank"
+                                            >cron-job.org</a></li>
+                                        <li>Create a new cron job with these settings:</li>
+                                        <ul>
+                                            <li><strong>URL:</strong> <code
+                                                >https://your-domain.com/api/v1/queue/process</code></li>
+                                            <li><strong>Method:</strong> POST</li>
+                                            <li><strong>Schedule:</strong> Every minute (<code>* * * * *</code>)</li>
+                                            <li><strong>Headers:</strong> <code
+                                                >Content-Type: application/json</code></li>
+                                            <li><strong>Body:</strong></li>
+                                        </ul>
+                                    </ol>
+                                    <pre
+                                        style="background: #f8f9fa; padding: 10px; border: 1px solid #dee2e6; border-radius: 4px; margin-left: 40px;"
+                                    >{
+    "jsonrpc": "2.0",
+    "params": {
+        "api_key": "YOUR_API_KEY_HERE"
+    }
+}</pre>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_queue_job_config" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'deltatech_queue_job'}</field>
+    </record>
+
+    <menuitem
+        id="menu_queue_job_config"
+        name="Settings"
+        parent="queue_job.menu_queue_job_root"
+        sequence="100"
+        action="action_queue_job_config"
+        groups="base.group_system"
+    />
+</odoo>

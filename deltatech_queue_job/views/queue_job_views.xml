@@ -8,6 +8,12 @@
             <xpath expr="//tree" position="inside">
                 <header>
                     <button name="start_cron_trigger" type="object" string="Cron Trigger" display="always" />
+                    <button
+                        name="action_process_api_thread"
+                        type="object"
+                        string="Process Background"
+                        display="always"
+                    />
                     <button name="process_jobs" type="object" string="Process" />
                 </header>
             </xpath>
@@ -24,6 +30,7 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
                     <button name="start_cron_trigger" type="object" string="Cron Trigger" />
+                    <button name="action_process_api_thread" type="object" string="Process Background" />
                     <button name="process_jobs" type="object" string="Process" />
             </xpath>
         </field>
