@@ -5,8 +5,9 @@
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
             <group name="sales_person" position="inside">
+                    <field name="is_return_amount_readonly" invisible="1" />
                     <field name="return_cause" />
-                    <field name="return_amount" />
+                    <field name="return_amount" readonly="is_return_amount_readonly" />
             </group>
         </field>
     </record>
