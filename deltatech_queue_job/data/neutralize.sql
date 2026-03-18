@@ -1,1 +1,1 @@
-DELETE FROM queue_job;
+update queue_job set state='cancelled' where state in ('pending','enqueued','started');

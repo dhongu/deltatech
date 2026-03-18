@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- API Key Configuration for External Processor -->
+    <record id="queue_processor_api_key" model="ir.config_parameter">
+        <field name="key">queue_job_processor.api_key</field>
+        <field name="value">sk_live_CHANGE_ME_generate_random_key_here_123456789</field>
+    </record>
+
+    <record id="queue_processor_batch_size" model="ir.config_parameter">
+        <field name="key">queue_job_processor.batch_size</field>
+        <field name="value">20</field>
+    </record>
+
+    <record id="queue_processor_max_seconds" model="ir.config_parameter">
+        <field name="key">queue_job_processor.max_seconds</field>
+        <field name="value">50</field>
+    </record>
+
+</odoo>
