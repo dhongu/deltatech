@@ -2,8 +2,8 @@
 
 To process jobs every minute using an external service like [cron-job.org](https://cron-job.org):
 
-1.  **Configure API Key**: Set a secure key in `Settings` -> `Technical` -> `System Parameters` for the key `queue_job_processor.api_key`.
-2.  **Configure Batch Settings**: (Optional) Adjust `queue_job_processor.batch_size` (default 20) and `queue_job_processor.max_seconds` (default 50).
+1.  **Configure API Key**: Go to `Queue Job` -> `Settings` menu. You can generate a secure key using the **Generate Key** button.
+2.  **Configure Batch Settings**: (Optional) Adjust **Batch Size** (default 20) and **Max Seconds** (default 50) directly in the same settings screen.
 3.  **Setup cron-job.org**:
     *   **URL**: `https://your-odoo-domain.com/api/v1/queue/process`
     *   **Method**: POST
