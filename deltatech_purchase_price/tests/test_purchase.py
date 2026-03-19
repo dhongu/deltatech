@@ -104,6 +104,25 @@ class TestPurchase(TransactionCase):
         wizard = wizard.save()
         wizard.do_set_trade_markup()
 
+    def test_multi_company_last_purchase_price(self):
+        # Create another company
+        company_b = self.env["res.company"].create({"name": "Company B"})
+
+        # Set last_purchase_price for the current company (Company A)
+        self.product_a.last_purchase_price = 100.0
+        self.assertEqual(self.product_a.last_purchase_price, 100.0)
+
+        # Check last_purchase_price for Company B (should be 0.0)
+        product_b_company = self.product_a.with_company(company_b)
+        self.assertEqual(product_b_company.last_purchase_price, 0.0)
+
+        # Set last_purchase_price for Company B
+        product_b_company.last_purchase_price = 200.0
+        self.assertEqual(product_b_company.last_purchase_price, 200.0)
+
+        # Check that Company A's value is still 100.0
+        self.assertEqual(self.product_a.last_purchase_price, 100.0)
+
     def test_multi_variant_last_purchase_price(self):
         # creeaza un atribut de produs
         attribute = self.env["product.attribute"].create({"name": "Color"})

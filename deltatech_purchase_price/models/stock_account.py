@@ -21,12 +21,12 @@ class StockMove(models.Model):
             update_standard_price = get_param("purchase.update_standard_price", default="False")
             update_standard_price = safe_eval(update_standard_price)
 
+            company = self.company_id
             price_unit = self.purchase_line_id.with_context(date=self.date)._get_stock_move_price_unit()
-            self.product_id.write({"last_purchase_price": price_unit})
+            self.product_id.with_company(company).write({"last_purchase_price": price_unit})
             self.write({"price_unit": price_unit})  # mai trebuie sa pun o conditie de status ?
             # update price form last receipt
-            from_currency = self.env.user.company_id.currency_id
-            company = self.env.user.company_id
+            from_currency = company.currency_id
             seller_ids = self.product_id.seller_ids or self.product_id.product_tmpl_id.seller_ids
             for seller in seller_ids:
                 if seller.partner_id == self.purchase_line_id.order_id.partner_id.commercial_partner_id and (
@@ -34,7 +34,7 @@ class StockMove(models.Model):
                 ):
                     if seller.min_qty <= 1.0 and seller.date_start is False and seller.date_end is False:
                         # conversia ar trebui deja sa fie facuta de _get_stock_move_price_unit()
-                        to_currency = seller.currency_id or self.env.user.company_id.currency_id
+                        to_currency = seller.currency_id or company.currency_id
                         seller_price_unit = from_currency._convert(
                             price_unit,
                             to_currency,
@@ -46,7 +46,7 @@ class StockMove(models.Model):
                             seller.write({"price": seller_price_unit})
 
             if update_list_price:
-                self.product_id.product_tmpl_id.onchange_last_purchase_price()
+                self.product_id.product_tmpl_id.with_company(company).onchange_last_purchase_price()
 
             # pretul standard se actualizeaza prin rutinele standard. Aici este o fortare pe ultimul pret
             if update_standard_price:
