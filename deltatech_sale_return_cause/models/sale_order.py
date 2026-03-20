@@ -19,13 +19,27 @@ class SaleOrder(models.Model):
             ("200_warranty", "200% warranty"),
             ("not_picked", "Package not picked up by client"),
             ("b2b_return", "B2B Return"),
-            ("exchange","Exchange"),
+            ("exchange", "Exchange"),
             ("external_tva_restitution", "External TVA Restitution"),
             ("lost_package", "Lost Package"),
         ],
         string="Return Cause",
     )
+    return_cause_date = fields.Date(string="Return Cause Date")
     return_amount = fields.Float(string="Return Amount", digits="Product Price", default=0.0)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("return_cause") and not vals.get("return_cause_date"):
+                vals["return_cause_date"] = fields.Date.today()
+        return super().create(vals_list)
+
+    def write(self, vals):
+        if "return_cause" in vals and vals["return_cause"] and not self.return_cause_date:
+            vals["return_cause_date"] = fields.Date.today()
+        return super().write(vals)
+
     is_return_amount_readonly = fields.Boolean(compute="_compute_is_return_amount_readonly")
 
     def _compute_is_return_amount_readonly(self):
