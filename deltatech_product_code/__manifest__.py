@@ -6,7 +6,7 @@
 {
     "name": "Products Code",
     "summary": "Product codification internal",
-    "version": "18.0.1.0.5",
+    "version": "18.0.1.0.6",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
