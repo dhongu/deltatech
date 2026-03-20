@@ -23,13 +23,15 @@ class SaleReport(models.Model):
         string="Return Cause",
         readonly=True,
     )
+    return_cause_date = fields.Date(string="Return Cause Date", readonly=True)
 
     def _select_additional_fields(self):
         res = super()._select_additional_fields()
         res["return_cause"] = "s.return_cause"
+        res["return_cause_date"] = "s.return_cause_date"
         return res
 
     def _group_by_sale(self):
         res = super()._group_by_sale()
-        res += ", s.return_cause"
+        res += ", s.return_cause, s.return_cause_date"
         return res
