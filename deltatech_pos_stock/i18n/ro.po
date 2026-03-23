@@ -45,7 +45,7 @@ msgstr "Configurarea Punctului de Vânzare"
 #. module: deltatech_pos_stock
 #: model_terms:ir.ui.view,arch_db:deltatech_pos_stock.res_config_settings_view_form
 msgid "Product Stock"
-msgstr ""
+msgstr "Stocul produsului"
 
 #. module: deltatech_pos_stock
 #: model:ir.model,name:deltatech_pos_stock.model_product_product
@@ -55,9 +55,9 @@ msgstr "Variantă produs"
 #. module: deltatech_pos_stock
 #: model_terms:ir.ui.view,arch_db:deltatech_pos_stock.res_config_settings_view_form
 msgid "Show price"
-msgstr ""
+msgstr "Afișează prețul"
 
 #. module: deltatech_pos_stock
 #: model_terms:ir.ui.view,arch_db:deltatech_pos_stock.res_config_settings_view_form
 msgid "Show stock"
-msgstr ""
+msgstr "Afișează stocul"
