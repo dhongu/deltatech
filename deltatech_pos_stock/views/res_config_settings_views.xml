@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.deltatech_pos_stock</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='pos_interface_section']" position="inside">
+                <setting
+                    string="Product Stock"
+                    help="Display product stock in the POS interface"
+                    invisible="not pos_config_id"
+                >
+                    <div class="content-group">
+                        <div>
+                            <field name="pos_display_stock" />
+                            <label for="pos_display_stock" string="Show stock" class="fw-normal me-1" />
+                        </div>
+                        <div>
+                            <field name="pos_display_price" />
+                            <label for="pos_display_price" string="Show price" class="fw-normal me-1" />
+                        </div>
+                    </div>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>
