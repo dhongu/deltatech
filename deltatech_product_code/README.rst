@@ -19,16 +19,96 @@ Products Code
 
 |badge1| |badge2|
 
-- Features:
+This module enhances Odoo's product management by providing advanced
+tools for automated internal reference generation, barcode management,
+and data consistency. It is designed for businesses that require strict
+and structured product codification across their entire catalog,
+including complex multi-variant products.
 
-  - Generate product code
-  - Check consistence of product coding
-  - Mass coding of products
+Features:
+
+- **Automated Product Codification**: Automatically generates internal
+  references (``default_code``) for products and variants based on
+  sequences defined at the category level.
+- **Configurable Product Categories**:
+
+  - Assign specific sequences to each product category for consistent
+    internal coding.
+  - Enable or disable automatic barcode generation.
+  - Define custom barcode prefixes.
+  - Choose between random barcode generation or barcodes derived from
+    the internal reference.
+
+- **Uniqueness Enforcement**: Implements a SQL constraint to ensure that
+  the combination of internal reference, active status, and company is
+  unique across all products.
+- **Smart Code Regeneration**:
+
+  - Adds a "New internal code" button on both product templates and
+    product variants forms for manual or forced updates.
+  - Supports a "Force new internal code" server action to mass-update
+    codes for selected records.
+
+- **Duplicate Detection**: Includes a "Find Duplicate" server action
+  accessible from the action menu in product list views (templates and
+  variants), helping you quickly identify and resolve naming conflicts.
+- **Multi-variant Support**: Fully compatible with Odoo's product
+  variant system, ensuring that codes are correctly handled for both
+  templates and individual variants.
+- **Barcode Integration**: Seamlessly integrates with Odoo's barcode
+  nomenclature for sanitizing and validating generated barcodes.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Usage
+=====
+
+To use this module, follow these steps:
+
+Configuration
+~~~~~~~~~~~~~
+
+1. **Product Categories**:
+
+   - Go to **Inventory > Configuration > Product Categories**.
+   - Open a category and look for the **Products** section.
+   - Set a **Code Sequence** to enable automatic internal reference
+     generation for products in this category.
+   - (Optional) Enable **Generate Barcode** and configure **Prefix
+     Barcode** and **Barcode Random** settings.
+
+Usage
+~~~~~
+
+1. **Automatic Coding**:
+
+   - When creating a new product or variant, the **Internal Reference**
+     (``default_code``) and **Barcode** will be automatically generated
+     based on the category settings if left blank.
+
+2. **Manual Code Generation**:
+
+   - On a **Product Template** or **Product Variant** form, use the
+     **New internal code** button in the header to generate a new code
+     based on the category's sequence.
+
+3. **Mass Code Update**:
+
+   - In the **Products** or **Product Variants** list view, select
+     multiple records.
+   - Open the **Action** menu and select **Force new internal code** to
+     regenerate codes for all selected items.
+
+4. **Finding Duplicates**:
+
+   - In the **Products** or **Product Variants** list view, open the
+     **Action** menu and select **Find Duplicate**.
+   - The system will filter the list to show only products that share
+     the same internal reference (considering active status and
+     company).
 
 Bug Tracker
 ===========
