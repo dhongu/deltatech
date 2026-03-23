@@ -1,0 +1,63 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_pos_stock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-23 14:28+0000\n"
+"PO-Revision-Date: 2026-03-23 14:28+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_pos_stock
+#: model:ir.model,name:deltatech_pos_stock.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_pos_stock
+#: model:ir.model.fields,field_description:deltatech_pos_stock.field_pos_config__display_price
+#: model:ir.model.fields,field_description:deltatech_pos_stock.field_res_config_settings__pos_display_price
+msgid "Display Price in POS badge"
+msgstr ""
+
+#. module: deltatech_pos_stock
+#: model:ir.model.fields,field_description:deltatech_pos_stock.field_pos_config__display_stock
+#: model:ir.model.fields,field_description:deltatech_pos_stock.field_res_config_settings__pos_display_stock
+msgid "Display Stock in POS"
+msgstr ""
+
+#. module: deltatech_pos_stock
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_stock.res_config_settings_view_form
+msgid "Display product stock in the POS interface"
+msgstr ""
+
+#. module: deltatech_pos_stock
+#: model:ir.model,name:deltatech_pos_stock.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "Configurarea Punctului de Vânzare"
+
+#. module: deltatech_pos_stock
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_stock.res_config_settings_view_form
+msgid "Product Stock"
+msgstr ""
+
+#. module: deltatech_pos_stock
+#: model:ir.model,name:deltatech_pos_stock.model_product_product
+msgid "Product Variant"
+msgstr "Variantă produs"
+
+#. module: deltatech_pos_stock
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_stock.res_config_settings_view_form
+msgid "Show price"
+msgstr ""
+
+#. module: deltatech_pos_stock
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_stock.res_config_settings_view_form
+msgid "Show stock"
+msgstr ""
