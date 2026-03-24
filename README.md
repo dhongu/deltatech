@@ -44,6 +44,7 @@ addon | version | maintainers | summary
 [deltatech_competitors_price](deltatech_competitors_price/) | 18.0.1.0.0 |  | Track competitors' product prices and fetch on demand
 [deltatech_contact](deltatech_contact/) | 18.0.1.4.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | New fields in partner
 [deltatech_credentials](deltatech_credentials/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Manage credentials for external services
+[deltatech_cron_monitor_webhook](deltatech_cron_monitor_webhook/) | 18.0.1.0.0 |  | Run cron jobs from webhook
 [deltatech_data_sheet](deltatech_data_sheet/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Data Sheet
 [deltatech_data_sheet_website](deltatech_data_sheet_website/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Data Sheet
 [deltatech_dc](deltatech_dc/) | 18.0.1.0.8 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Print Declaration of Conformity
@@ -124,6 +125,7 @@ addon | version | maintainers | summary
 [deltatech_product_labels](deltatech_product_labels/) | 18.0.1.1.4 |  | Print Labels on Products
 [deltatech_product_list](deltatech_product_list/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Define products lists
 [deltatech_product_margin](deltatech_product_margin/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product margin and trade markup
+[deltatech_product_reordering_limit](deltatech_product_reordering_limit/) | 18.0.1.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Custom reordering limits for products
 [deltatech_product_trade_markup](deltatech_product_trade_markup/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Product trade markup
 [deltatech_product_unique_code](deltatech_product_unique_code/) | 18.0.1.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Restrict duplicate default_code and barcode including archived products
 [deltatech_promissory_note](deltatech_promissory_note/) | 18.0.1.0.2 | [![danila12](https://github.com/danila12.png?size=30px)](https://github.com/danila12) | Manage Promissory Note
