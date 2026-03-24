@@ -1,9 +1,13 @@
-Features:
+The **eCommerce Warehouse Stock** module enhances the Odoo website's product pages by displaying real-time stock availability across different warehouses. This feature provides transparency to customers regarding where products are in stock, helping them make informed purchasing decisions based on location and availability.
 
-- Adds the stok of the main stock location of every warehouse to the product template page in website.
-- If the stock is < 0 it will display "Out of stock" on that warehouse.
-- If the stock is 0<x<=10 it will display the stock of the product.
-- If the stock is > 10 it will display "Available" on that warehouse
-- The value 10 is the default value for the stock threshold and it is configurable in site settings
-- The name for the warehouse displayed in warehouse is the same of the name in the warehouse form.
-- There is a check in the warehouse to choose if the stock is displayed in the product template page.
+Features
+========
+
+* **Warehouse Stock Distribution**: Displays a list of warehouses and their respective stock levels for the selected product on the eCommerce product page.
+* **Smart Availability Indicators**:
+    * **Available**: Shown when stock exceeds a configurable threshold (e.g., more than 10 units).
+    * **Exact Count**: Displays the actual quantity when stock is low but positive (e.g., between 1 and 10 units).
+    * **Out of Stock**: Clearly indicates when a product is unavailable at a specific warehouse.
+* **Per-Warehouse Visibility**: Easily toggle which warehouses should have their stock displayed on the website through the warehouse configuration.
+* **Configurable Stock Threshold**: Define a custom threshold in the website settings to control when to show "Available" versus an exact quantity, protecting your specific stock details while still informing customers.
+* **Seamless Integration**: Works directly with Odoo's website and inventory modules, ensuring that stock levels are always up-to-date.
