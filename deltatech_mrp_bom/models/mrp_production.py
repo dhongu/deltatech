@@ -3,11 +3,13 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, models, Command
+from odoo import api, fields, models, Command
 
 
 class MrpProduction(models.Model):
     _inherit = "mrp.production"
+
+    bom_base_type = fields.Selection(related="bom_id.base_type")
 
     def _compute_derived_bom(self):
         for production in self:

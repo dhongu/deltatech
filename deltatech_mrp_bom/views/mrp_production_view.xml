@@ -5,12 +5,15 @@
         <field name="model">mrp.production</field>
         <field name="inherit_id" ref="mrp.mrp_production_form_view" />
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='bom_id']" position="after">
+                <field name="bom_base_type" invisible="1" />
+            </xpath>
             <xpath expr="//header" position="inside">
                 <button
                     name="action_compute_derived_bom"
                     type="object"
                     string="Compute Derived BoM"
-                    invisible="state != 'draft'"
+                    invisible="state != 'draft' or bom_base_type != 'base'"
                 />
             </xpath>
         </field>
