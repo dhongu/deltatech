@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.cron.monitor</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="90" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Cron Monitor" string="Cron Monitor" name="deltatech_cron_monitor_webhook">
+                    <block title="Cron Monitoring Settings" name="cron_monitoring_settings">
+                        <setting string="Webhook Security" help="Global webhook security settings">
+                            <div class="content-group">
+                                <div class="mt16">
+                                    <field name="cron_webhook_verify_signature" class="oe_inline" />
+                                    <label for="cron_webhook_verify_signature" />
+                                </div>
+                                <div class="mt16" invisible="not cron_webhook_verify_signature">
+                                    <label for="cron_webhook_secret" />
+                                    <field name="cron_webhook_secret" password="1" class="oe_inline" />
+                                    <button
+                                        name="action_generate_cron_webhook_secret"
+                                        type="object"
+                                        string="Generate Key"
+                                        class="btn-link"
+                                        icon="fa-refresh"
+                                    />
+                                </div>
+
+                                <div class="mt32 ml16">
+                                    <h3>🚀 External Cron Setup (cron-job.org)</h3>
+                                    <ol>
+                                        <li>Create a free account on <a
+                                                href="https://cron-job.org"
+                                                target="_blank"
+                                            >cron-job.org</a></li>
+                                        <li>Create a new cron job with these settings:</li>
+                                        <ul>
+                                            <li><strong
+                                                >URL:</strong> Copy from the Cron Job (Webhook Configuration tab)</li>
+                                            <li><strong>Method:</strong> POST</li>
+                                            <li><strong>Schedule:</strong> Your desired interval</li>
+                                            <li><strong>Headers:</strong>
+                                                <ul invisible="not cron_webhook_verify_signature">
+                                                    <li><code>X-Signature: YOUR_CALCULATED_SIGNATURE</code></li>
+                                                </ul>
+                                                <ul>
+                                                    <li><code>Content-Type: application/json</code></li>
+                                                </ul>
+                                            </li>
+                                            <li invisible="not cron_webhook_verify_signature"><strong>Body:</strong>
+                                                <pre
+                                                    style="background: #f8f9fa; padding: 10px; border: 1px solid #dee2e6; border-radius: 4px; margin-top: 10px;"
+                                                >{
+    "timestamp": "2024-03-24T12:00:00Z"
+}</pre>
+                                            </li>
+                                        </ul>
+                                    </ol>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>
