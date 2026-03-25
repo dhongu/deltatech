@@ -112,4 +112,3 @@ class TestSaleOrder(common.TransactionCase):
 
         self.sale_order.action_quotation_sent()
         self.assertEqual(self.sale_order.phase_id.send_email, True)
-
