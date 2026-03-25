@@ -17,12 +17,11 @@ class InvoiceFollowup(models.Model):
         [("Invoice date", "Invoice date"), ("Due date", "Due date")],
         default="Due date",
         string="Date field to use",
-        help="The date field from the invoices from which the " "send date will be computed",
+        help="The date field from the invoices from which the send date will be computed",
     )
     relative_days = fields.Integer(
         "Days from",
-        help="Relative days from date field. Can be negative if you want to "
-        "send this followup before the given date",
+        help="Relative days from date field. Can be negative if you want to send this followup before the given date",
     )
     match = fields.Selection(
         [("=", "Equal"), (">=", "Greater or equal")],
@@ -36,7 +35,7 @@ class InvoiceFollowup(models.Model):
     only_open = fields.Boolean(
         "Only open invoices",
         default=True,
-        help="Only open (unpaid) invoices will be " "processed",
+        help="Only open (unpaid) invoices will be processed",
     )
     with_refunds = fields.Boolean(string="Parse refund invoices", default=False, help="Also get refund invoices")
     invoice_html = fields.Html(
@@ -66,12 +65,12 @@ class InvoiceFollowup(models.Model):
     use_customer_currency = fields.Boolean(
         "Use customer currency",
         default=False,
-        help="If checked, the currency of the customer will be used, " "otherwise the currency of the company",
+        help="If checked, the currency of the customer will be used, otherwise the currency of the company",
     )
     amount_margin = fields.Float(
         "Amount margin",
         default=1.0,
-        help="Amount margin. " "If total due debit is lower than this margin, the followup will be skipped",
+        help="Amount margin. If total due debit is lower than this margin, the followup will be skipped",
     )
 
     @api.model
