@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models, Command
+from odoo import Command, api, fields, models
 
 
 class MrpProduction(models.Model):
