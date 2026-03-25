@@ -1,0 +1,37 @@
+<odoo>
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <group name="sales_person" position="inside">
+                    <field name="is_return_amount_readonly" invisible="1" />
+                    <field name="return_cause_id" options="{'no_create': True, 'no_open': True}" />
+                    <field name="return_cause" invisible="return_cause == False" />
+                    <field name="return_amount" readonly="is_return_amount_readonly" />
+            </group>
+        </field>
+    </record>
+
+<!--    <record id="view_sale_order_pivot_inherit" model="ir.ui.view">-->
+<!--        <field name="name">sale.order.pivot.inherit</field>-->
+<!--        <field name="model">sale.order</field>-->
+<!--        <field name="inherit_id" ref="sale.view_sale_order_pivot"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//pivot" position="inside">-->
+<!--                <field name="return_amount" type="measure"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+    <record id="view_order_tree" model="ir.ui.view">
+        <field name="name">sale.order.list.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_tree" />
+        <field name="arch" type="xml">
+            <field name="invoice_status" position="after">
+                <field name="return_cause_id" optional="show" />
+                <field name="return_cause" column_invisible="True" />
+            </field>
+        </field>
+    </record>
+</odoo>
