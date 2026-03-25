@@ -1,6 +1,6 @@
 The module provides specific enhancements to the job queue functionality in Odoo, focusing on performance, reliability, and flexibility in job execution. Here's a detailed breakdown of the features: `deltatech_queue_job`
 
-### Key Features:
+## Key Features:
 
 1.  **Optimized Concurrency and Locking**:
     *   Implements a specialized method (`_acquire_specific_job`) using the `FOR NO KEY UPDATE SKIP LOCKED` SQL clause. This allows multiple workers (internal cron or external API) to process the queue simultaneously without blocking each other, significantly increasing throughput.
@@ -23,7 +23,7 @@ The module provides specific enhancements to the job queue functionality in Odoo
     *   Improved list views for jobs, including creation dates and easier access to manual processing actions.
     *   Buttons for "Cron Trigger", "Process", and "Process Background" are always accessible from the job list header.
 
-### Optimized for Odoo.sh:
+## Optimized for Odoo.sh:
 
 This module is specifically designed to address common challenges on the Odoo.sh platform:
 *   **Bypassing the 5-Minute Cron Limit**: Using an external trigger service (like cron-job.org) via the API endpoint allows for job processing every minute, providing near real-time execution.
@@ -31,6 +31,6 @@ This module is specifically designed to address common challenges on the Odoo.sh
 *   **High Concurrency**: The use of `SKIP LOCKED` ensures that multiple workers can process the queue in parallel without deadlocks, maximizing the use of available resources.
 *   **Transactional Safety**: Savepoints isolate individual job failures, ensuring that one failing job doesn't roll back the entire batch.
 
-### Performance Benefits:
+## Performance Benefits:
 
 This module is essential for high-volume Odoo environments. By decoupling the job runner from the standard Odoo cron schedule and providing optimized database locking, it ensures that your background tasks are processed as fast as possible with minimal overhead and maximum reliability.
