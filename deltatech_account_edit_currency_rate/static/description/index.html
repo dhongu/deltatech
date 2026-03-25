@@ -370,37 +370,53 @@ ul.auto-toc {
 !! source digest: sha256:0734c99841fbbaf6ff52f0272b14da074d39752ea72595db2bbc83a188eb2db7
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Production/Stable" src="https://img.shields.io/badge/maturity-Production%2FStable-green.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_account_edit_currency_rate"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<div class="section" id="features">
+<h1>Features</h1>
+<p>This module allows users to edit the currency exchange rate directly on
+invoice documents. It provides more flexibility when dealing with
+foreign currency invoices that may have a specific exchange rate
+different from the standard daily rate.</p>
+<div class="section" id="key-features">
+<h2>Key Features</h2>
 <ul class="simple">
-<li>Features:</li>
-</ul>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
-</ul>
-</li>
+<li>Manual edit of the currency exchange rate on Customer Invoices and
+Vendor Bills.</li>
+<li>Automatic recalculation of accounting amounts based on the
+user-defined rate.</li>
+<li>Support for multi-currency environments in Odoo.</li>
+<li>Ensures consistency between the invoice document and the recorded
+financial amounts.</li>
 </ul>
 </div>
+<div class="section" id="usage">
+<h2>Usage</h2>
+<ul class="simple">
+<li>Open an invoice in draft state.</li>
+<li>Locate the currency and exchange rate fields.</li>
+<li>Edit the exchange rate as needed.</li>
+<li>The amounts in company currency will be updated according to the new
+rate.</li>
+</ul>
+<p><strong>Table of contents</strong></p>
+</div>
+</div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_account_edit_currency_rate">dhongu/deltatech</a> project on GitHub.</p>
