@@ -13,6 +13,9 @@
             "deltatech_widget_many2one_badge/static/src/js/many2one_badge_field.esm.js",
             "deltatech_widget_many2one_badge/static/src/xml/many2one_badge_field.xml",
         ],
+        "web.assets_unit_tests": [
+            "deltatech_widget_many2one_badge/static/tests/many2one_badge_field.test.esm.js",
+        ],
     },
     "development_status": "Production/Stable",
 }
