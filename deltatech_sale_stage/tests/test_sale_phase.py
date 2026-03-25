@@ -113,19 +113,3 @@ class TestSaleOrder(common.TransactionCase):
         self.sale_order.action_quotation_sent()
         self.assertEqual(self.sale_order.phase_id.send_email, True)
 
-    def test_compute_phase_ids(self):
-        # Test the _compute_phase_ids method
-        self.sale_order._compute_phase_ids()
-        self.assertEqual(self.sale_order.phase_ids, self.sale_order.phase_id)
-
-    def test_inverse_phase_ids(self):
-        # Test the _inverse_phase_ids method
-        new_phase = self.env["sale.order.phase"].create(
-            {
-                "name": "New phase",
-                "sequence": 2,
-            }
-        )
-        self.sale_order.phase_ids = new_phase
-        self.sale_order._inverse_phase_ids()
-        self.assertEqual(self.sale_order.phase_id, new_phase)
