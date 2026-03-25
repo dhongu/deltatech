@@ -13,7 +13,7 @@ Deltatech Stock Close
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
@@ -22,9 +22,30 @@ Deltatech Stock Close
 
 |badge1| |badge2| |badge3|
 
-Features:
+Stock Closing Operations
+========================
 
-- Adds "Active" field in stock.valuation.layer
+This module provides tools for managing stock closing operations at a
+specific date. It helps maintain inventory accuracy by allowing users to
+deactivate valuation layers that are no longer relevant after a certain
+period or when closing the fiscal year.
+
+Key Features
+------------
+
+- Ability to close stock operations as of a given date.
+- Adds an "Active" field in the stock valuation layer for better
+  visibility.
+- Improves reporting performance by filtering out old or closed stock
+  layers.
+- Integration with Romanian localization stock reports.
+
+Usage
+-----
+
+- Go to Inventory > Reporting > Valuation.
+- Select the valuation layers to be closed or deactivated.
+- Mark the records as closed according to your business needs.
 
 **Table of contents**
 

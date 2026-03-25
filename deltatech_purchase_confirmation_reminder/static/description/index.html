@@ -369,36 +369,70 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:40338b2af9d2da0adce874f7cceb199e45d121baf9b41c55b79a2b42b818d307
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/licence-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_purchase_confirmation_reminder"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<p>Features:</p>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/license-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_purchase_confirmation_reminder"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<div class="section" id="purchase-confirmation-activity-reminder">
+<h1>Purchase Confirmation Activity Reminder</h1>
+<p>This module introduces an automated reminder system for purchase order
+confirmations in Odoo. It is designed to help procurement teams track
+pending confirmations from suppliers, ensuring that purchase orders are
+acknowledged and processed in a timely manner.</p>
+</div>
+<div class="section" id="key-features">
+<h1>Key Features</h1>
+<ol class="arabic simple">
+<li><strong>Automated Confirmation Activities</strong>:<ul>
+<li>Automatically creates an <strong>Activity</strong> (Call, Email, or custom) on a
+Purchase Order if it hasn’t been confirmed within a specified
+timeframe.</li>
+<li>Integrates with Odoo’s core <strong>Mail (Discuss)</strong> and <strong>Purchase</strong>
+modules.</li>
 </ul>
 </li>
+<li><strong>Configurable Reminder Rules</strong>:<ul>
+<li>Allows administrators to define the reminder threshold (number of
+days) and the type of activity to be created.</li>
+<li>Features a dedicated settings page for fine-tuning the reminder
+behavior globally.</li>
 </ul>
+</li>
+<li><strong>Procurement Efficiency</strong>:<ul>
+<li>Uses a background cron job to periodically check for unconfirmed
+purchase orders and trigger reminders, reducing manual follow-up
+effort.</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<ol class="arabic simple">
+<li>Navigate to <strong>Purchase &gt; Configuration &gt; Settings</strong>.</li>
+<li>Locate the <strong>Purchase Confirmation Reminder</strong> section and define the
+number of days for the follow-up.</li>
+<li>Create a new <strong>Purchase Order</strong> and send it to the supplier.</li>
+<li>If the supplier does not confirm the order within the defined
+timeframe, the system will automatically create an activity for the
+assigned procurement officer to follow up.</li>
+</ol>
+<p><strong>Table of contents</strong></p>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Voicu Stefan</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/VoicuStefan2001"><img alt="VoicuStefan2001" src="https://github.com/VoicuStefan2001.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_purchase_confirmation_reminder">dhongu/deltatech</a> project on GitHub.</p>

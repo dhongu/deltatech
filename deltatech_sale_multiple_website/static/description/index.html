@@ -369,41 +369,71 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:6466e3bdb3bb0b67df1bbedb3c0098ab8014bf1d0f5ecc9f5ef25a1ef418479a
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/licence-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_sale_multiple_website"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<ul class="simple">
-<li>Features:<ul>
-<li>Sale of multiple quantity</li>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/license-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_sale_multiple_website"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<div class="section" id="ecommerce-qty-multiple-1">
+<h1>eCommerce Qty Multiple</h1>
+<p>This module extends the functionality of sales quantity multiples to the
+eCommerce platform (Odoo Website). It ensures that customers can only
+purchase products in specific quantity increments or meeting a minimum
+quantity requirement.</p>
+</div>
+<div class="section" id="key-features">
+<h1>Key Features</h1>
+<ol class="arabic simple">
+<li><strong>Enforce Quantity Rules on Website</strong>:<ul>
+<li>Integrates with the <tt class="docutils literal">deltatech_sale_multiple</tt> module to apply
+quantity constraints directly in the online store.</li>
+<li>Automatically validates the cart quantities based on the product’s
+defined quantity multiples.</li>
 </ul>
 </li>
+<li><strong>Configurable Enforcement</strong>:<ul>
+<li>Adds a “Check Min Website” option on the product template and
+variant forms.</li>
+<li>Allows shop managers to decide whether the minimum quantity and
+multiples should be strictly enforced on the website.</li>
 </ul>
+</li>
+<li><strong>Enhanced Frontend Experience</strong>:<ul>
+<li>Provides visual feedback to users when they attempt to add an
+invalid quantity to their cart.</li>
+<li>Uses customized JavaScript components to ensure a smooth and
+responsive user interface during product selection.</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<ol class="arabic simple">
+<li>Go to <strong>Sales</strong> or <strong>Inventory &gt; Products</strong>.</li>
+<li>Open a product and go to the <strong>Sales</strong> tab (or wherever quantity
+multiples are defined).</li>
+<li>Set the <strong>Quantity Multiple</strong> and/or <strong>Minimum Quantity</strong>.</li>
+<li>Enable the <strong>Check Min Website</strong> checkbox to enforce these rules in
+the eCommerce shop.</li>
+<li>Customers browsing the website will now be restricted to selecting
+valid quantities for that product.</li>
+</ol>
 <p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
-</ul>
-</li>
-</ul>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_sale_multiple_website">dhongu/deltatech</a> project on GitHub.</p>

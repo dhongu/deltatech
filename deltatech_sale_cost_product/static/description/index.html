@@ -370,37 +370,70 @@ ul.auto-toc {
 !! source digest: sha256:98f4f6b17eb8889c0ee3060c70c1c712a6552225a502b558dcd9e4313372ff59
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Production/Stable" src="https://img.shields.io/badge/maturity-Production%2FStable-green.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_sale_cost_product"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<ul class="simple">
-<li>Features:</li>
-</ul>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<div class="section" id="sale-cost-on-order-and-margin-tracking">
+<h1>Sale Cost on Order and Margin Tracking</h1>
+<p>This module provides specialized tools for monitoring and analyzing the
+costs and margins of sales orders in Odoo. It’s designed for sales
+managers and controllers who need more visibility into the profitability
+of their deals at the order and order-line level.</p>
+</div>
+<div class="section" id="key-features">
+<h1>Key Features</h1>
+<ol class="arabic simple">
+<li><strong>Detailed Cost Visibility</strong>:<ul>
+<li>Adds a dedicated <strong>Purchase Cost</strong> field directly on the Sales
+Order lines.</li>
+<li>Automatically populates the cost based on the product’s current
+cost price at the time the order is created.</li>
 </ul>
 </li>
+<li><strong>Margin Analysis and Hierarchy</strong>:<ul>
+<li>Integrates with Odoo’s standard margin module to provide a clearer
+view of the profit hierarchy across sales teams.</li>
+<li>Allows users to quickly identify low-margin orders or products that
+are being sold below cost.</li>
 </ul>
+</li>
+<li><strong>No-Code Reporting and Server Actions</strong>:<ul>
+<li>Includes pre-configured server actions for mass-updating or
+recalculating costs on multiple sales orders.</li>
+<li>Provides a refined security model to control which users can view
+or modify sensitive cost and margin data.</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<ol class="arabic simple">
+<li>Navigate to <strong>Sales &gt; Orders</strong>.</li>
+<li>Open or create a new <strong>Sales Order</strong> and add a product.</li>
+<li>The <strong>Purchase Cost</strong> field will be visible on the order line,
+showing the unit cost.</li>
+<li>View the calculated <strong>Margin</strong> for each line and the total order
+margin in the order footer.</li>
+<li>Use the search and filter options to identify orders with margins
+below a certain threshold.</li>
+</ol>
+<p><strong>Table of contents</strong></p>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Voicu Stefan</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_sale_cost_product">dhongu/deltatech</a> project on GitHub.</p>

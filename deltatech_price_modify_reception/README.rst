@@ -13,7 +13,7 @@ Price modify at the reception
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
@@ -22,9 +22,34 @@ Price modify at the reception
 
 |badge1| |badge2| |badge3|
 
-- Features:
+Key Features
+============
 
-  - Price modify at reception
+This module provides more flexibility during the stock reception process
+by allowing users to update the list price of products directly from the
+picking view.
+
+Features:
+---------
+
+- Allows manual editing of the list price for products during the
+  reception process.
+- Adds specific fields in the stock picking view to handle price
+  adjustments.
+- Synchronizes the new prices with the product master data upon
+  confirmation.
+- Includes configuration settings to enable or disable this feature as
+  needed.
+
+Usage:
+------
+
+1. Navigate to Inventory > Receipts.
+2. Open a stock picking in "Draft" or "Ready" state.
+3. You will find fields that allow you to modify the product price for
+   the lines being received.
+4. After finalizing the reception, the product prices will be updated in
+   the system based on the entered values.
 
 **Table of contents**
 

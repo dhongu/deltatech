@@ -71,7 +71,7 @@ repos:
       - id: whool-init
 
   - repo: https://github.com/oca/maintainer-tools
-    rev: d5fab7ee87fceee858a3d01048c78a548974d935
+    rev: 71aa4caec15e8c1456b4da19e9f39aa0aa7377a9
     hooks:
       # Use each script's `--help` to understand the args
       - id: oca-gen-addon-readme

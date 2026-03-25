@@ -13,7 +13,7 @@ Deltatech Web Site Blog
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
@@ -22,9 +22,29 @@ Deltatech Web Site Blog
 
 |badge1| |badge2| |badge3|
 
-- Features:
+Key Features
+============
 
-  - sort blogs by posting date
+This module enhances the blog section of the Odoo website by providing
+better sorting and organization of blog posts.
+
+Features:
+---------
+
+- Sorts blog posts by the published date in descending order by default.
+- Ensures that the most recent content is shown first on the blog page.
+- Improves the user experience for readers by making the blog easier to
+  navigate chronologically.
+- Adds better default sorting in the backend for easier blog management.
+
+Usage:
+------
+
+- No special configuration is required.
+- After installation, all blog lists on the website will be sorted based
+  on their publication date.
+- Blog posts with the same publication date will be sorted by their ID
+  in descending order as a fallback.
 
 **Table of contents**
 
