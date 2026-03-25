@@ -137,7 +137,7 @@ addon | version | maintainers | summary
 [deltatech_purchase_ubl](deltatech_purchase_ubl/) | 17.0.0.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Import UBL XML vendor invoices to update prices, validate receipts, and create vendor bills
 [deltatech_purchase_xls](deltatech_purchase_xls/) | 17.0.1.0.9 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Import/export purchase line from/to Excel
 [deltatech_putaway_strategy](deltatech_putaway_strategy/) | 17.0.1.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Location capacities and enhanced putaway strategy for Inventory
-[deltatech_queue_job](deltatech_queue_job/) | 17.0.1.0.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Queue Job
+[deltatech_queue_job](deltatech_queue_job/) | 17.0.1.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Deltatech Queue Job
 [deltatech_ral](deltatech_ral/) | 17.0.1.0.3 |  | RAL
 [deltatech_reccurent_task_activity](deltatech_reccurent_task_activity/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Will automatically create an activity at the creation of the recurring task
 [deltatech_reception_note](deltatech_reception_note/) | 17.0.0.1.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Batch reception note
@@ -172,7 +172,7 @@ addon | version | maintainers | summary
 [deltatech_sale_qty_available](deltatech_sale_qty_available/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Quantity Available
 [deltatech_sale_report](deltatech_sale_report/) | 17.0.0.0.5 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Sale Report Additional Info
 [deltatech_sale_return_cause](deltatech_sale_return_cause/) | 17.0.0.0.7 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Return Cause
-[deltatech_sale_stage](deltatech_sale_stage/) | 17.0.1.2.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Order Stage
+[deltatech_sale_stage](deltatech_sale_stage/) | 17.0.1.2.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Order Stage
 [deltatech_sale_team](deltatech_sale_team/) | 17.0.1.0.2 |  | Sale Team Access
 [deltatech_sale_transfer](deltatech_sale_transfer/) | 17.0.1.0.2 |  | Sale Prepare Transfer
 [deltatech_sale_xls](deltatech_sale_xls/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Import/export sale line from/to Excel
@@ -234,6 +234,7 @@ addon | version | maintainers | summary
 [deltatech_website_vat_validation](deltatech_website_vat_validation/) | 17.0.0.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | VAT Validation
 [deltatech_website_warehouse_stock](deltatech_website_warehouse_stock/) | 17.0.0.0.2 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | eCommerce Warehouse Stock
 [deltatech_widget_fontawesome](deltatech_widget_fontawesome/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Font Awesome Widget
+[deltatech_widget_many2one_badge](deltatech_widget_many2one_badge/) | 17.0.1.0.0 |  | Many2one field widget displayed as colored badge, similar to many2many_tags
 
 [//]: # (end addons)
 

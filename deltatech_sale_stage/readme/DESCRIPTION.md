@@ -1,45 +1,32 @@
-Features:
+This module helps your sales team stay on top of every order by introducing a **customizable phase system** for sale orders.
 
-- Adds a configurable **phase system** for sale orders, allowing back-office teams to track the internal progress of each order through custom-defined stages.
+Instead of relying only on Odoo's standard statuses (Draft, Confirmed, Done), your team can define their own internal phases — such as *Confirmed*, *Prepared*, *Shipped*, *Delivered* — and track exactly where each order stands in your fulfillment process.
 
-- Introduces the `sale.order.phase` model with the following configurable attributes per phase:
-  - **Name** and **sequence** (ordering of phases)
-  - **Color** (displayed as a colored badge in list and form views via the `many2one_badge` widget)
-  - **Code** (used for programmatic phase lookup)
-  - **Boolean flags**: `confirmed`, `send_email`, `pre_advice`, `shipped`, `delivered`, `refused`, `invoiced`, `paid`, `canceled` — each flag marks the semantic meaning of the phase
-  - **Server Action** (`action_id`): an optional `ir.actions.server` that is automatically executed when the order enters this phase
+### Key Business Benefits
 
-- Adds a `phase_id` (Many2one) field on `sale.order`, displayed as a colored badge using the `deltatech_widget_many2one_badge` widget. The phase is tracked in the chatter.
+- **Full visibility for back-office teams**: Each sale order displays its current phase as a colored badge, making it easy to spot orders that need attention at a glance.
 
-- Automatic phase transitions are triggered by standard sale order workflow events:
-  - **Quotation sent** → phase flagged as `send_email`
-  - **Order confirmed** → phase flagged as `confirmed`
-  - **Order cancelled** → phase flagged as `canceled`
-  - **Order invoiced** → phase flagged as `invoiced`
+- **Flexible phase configuration**: Define as many phases as your business needs. Assign each phase a name, a color, and a sequence. Phases are managed from Sales → Configuration → Sale Order Phases.
 
-- The `set_phase(phase_step)` method provides a flexible API for setting the phase:
-  - Accepts either a **boolean flag name** (e.g., `"confirmed"`, `"shipped"`) or a **phase code** (e.g., `"pre_advice"`)
-  - Respects the **sequence order**: a phase is only applied if its sequence is higher than the current phase (unless `ignore_sequence=True` is passed)
-  - If the order has a completed payment transaction, it prefers a phase marked as `paid`
+- **Automatic phase progression**: Phases advance automatically as the order moves through the standard Odoo workflow:
+  - When a quotation is sent to the customer → order moves to the *Sent* phase
+  - When an order is confirmed → order moves to the *Confirmed* phase
+  - When an order is invoiced → order moves to the *Invoiced* phase
+  - When an order is cancelled → order moves to the *Cancelled* phase
 
-- Integration with **stock pickings** (`stock.picking`):
-  - Each operation type (`stock.picking.type`) can have a default `phase_id` assigned; when a picking of that type is validated (`_action_done`), the linked sale order is automatically moved to that phase.
-  - Phase transitions are also triggered by changes to the `delivery_state` field (provided by `deltatech_delivery_status`):
-    - `in_transit`, `in_warehouse`, `in_delivery` → phase flagged as `shipped` (sequence ignored)
-    - `delivered` → phase flagged as `delivered`
-    - `pre_advice` → phase flagged as `pre_advice`
-    - `refused` → phase flagged as `refused` (sequence ignored)
+- **Delivery-driven phase updates**: When a shipment is validated or its delivery status changes (e.g., picked up by courier, delivered to customer, refused), the linked sale order phase is updated automatically — no manual intervention needed.
 
-- When a phase is set manually or automatically, the associated **server action** is executed automatically (with error logging on failure).
+- **Trigger automated actions**: Each phase can have an optional server action attached. When an order enters that phase, the action runs automatically — useful for sending notifications, updating records, or triggering integrations.
 
-- Bidirectional workflow enforcement via `write`:
-  - If a phase marked as `confirmed` is set on a draft order, the order is automatically confirmed.
-  - If a phase marked as `canceled` is set on a non-cancelled order, the order is automatically cancelled.
+- **Enforce order workflow**: If a phase marked as *Confirmed* is manually set on a draft order, the order is automatically confirmed. If a phase marked as *Cancelled* is set, the order is cancelled — keeping your data consistent.
 
-- Adds a **configuration menu** under Sales → Configuration → Sale Order Phase for managing phases.
+- **Search and group by phase**: Filter and group sale orders by phase directly from the list view, making it easy to manage workload and prioritize tasks.
 
-- Extends **list views** (orders and quotations) and the **form view** of `sale.order` to display the current phase as a colored badge.
+### How It Works with Deliveries
 
-- Adds a **search filter** and **group-by option** by phase in the sale order search view.
+Each warehouse operation type (e.g., delivery orders) can have a default phase assigned. When a delivery of that type is validated, the linked sale order automatically advances to that phase. Additionally, real-time courier status updates (via `deltatech_delivery_status`) trigger further phase changes:
 
-- Depends on: `sale_stock`, `deltatech_delivery_status`, `deltatech_widget_many2one_badge`.
+- Parcel picked up / in transit → *Shipped*
+- AWB generated → *Pre-advice*
+- Delivered to customer → *Delivered*
+- Refused by customer → *Refused*
