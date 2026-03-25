@@ -176,7 +176,7 @@ addon | version | maintainers | summary
 [deltatech_sale_qty_available](deltatech_sale_qty_available/) | 18.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Quantity Available
 [deltatech_sale_report](deltatech_sale_report/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Sale Report Additional Info
 [deltatech_sale_return_cause](deltatech_sale_return_cause/) | 18.0.0.0.1 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Return Cause
-[deltatech_sale_stage](deltatech_sale_stage/) | 18.0.1.2.4 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Order Stage
+[deltatech_sale_stage](deltatech_sale_stage/) | 18.0.1.2.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Sale Order Stage
 [deltatech_sale_team](deltatech_sale_team/) | 18.0.1.0.2 |  | Sale Team Access
 [deltatech_sale_transfer](deltatech_sale_transfer/) | 18.0.1.0.1 |  | Sale Prepare Transfer
 [deltatech_sale_xls](deltatech_sale_xls/) | 18.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Import/export sale line from/to Excel
@@ -237,6 +237,7 @@ addon | version | maintainers | summary
 [deltatech_website_vat_validation](deltatech_website_vat_validation/) | 18.0.0.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | VAT Validation
 [deltatech_website_warehouse_stock](deltatech_website_warehouse_stock/) | 18.0.0.0.2 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | eCommerce Warehouse Stock
 [deltatech_widget_fontawesome](deltatech_widget_fontawesome/) | 18.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Font Awesome Widget
+[deltatech_widget_many2one_badge](deltatech_widget_many2one_badge/) | 18.0.1.0.0 |  | Many2one field widget displayed as colored badge, similar to many2many_tags
 
 [//]: # (end addons)
 
