@@ -26,7 +26,7 @@ A custom widget that displays Many2one fields as colored badges, similar
 to ``many2many_tags``.
 
 Features
---------
+========
 
 - ✅ Displays as a colored badge in readonly mode
 - ✅ Click on badge to change color via color picker popover (edit mode)
@@ -37,7 +37,7 @@ Features
 - ✅ Modern rounded badge design
 
 Installation
-------------
+============
 
 1. Copy the ``deltatech_widget_many2one_badge`` folder into your Odoo
    ``addons`` directory
@@ -48,10 +48,11 @@ Installation
 6. Click Install
 
 Usage
------
+=====
 
 1. Make sure the related model has a ``color`` field
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+--------------
 
 .. code:: python
 
@@ -63,7 +64,8 @@ Usage
        color = fields.Integer(string='Color', default=0)
 
 2. Use the widget in your view
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+--------------
 
 .. code:: xml
 
@@ -72,7 +74,8 @@ Usage
           options="{'color_field': 'color'}"/>
 
 3. Available options
-~~~~~~~~~~~~~~~~~~~~
+
+--------------
 
 +-----------------+--------------------------------------+-------------+
 | Option          | Description                          | Default     |
@@ -90,10 +93,10 @@ Usage
           options="{'color_field': 'badge_color'}"/>
 
 Full Example
-------------
+============
 
 Python model
-~~~~~~~~~~~~
+------------
 
 .. code:: python
 
@@ -123,7 +126,7 @@ Python model
        color = fields.Integer(string='Badge Color', default=0)
 
 XML view
-~~~~~~~~
+--------
 
 .. code:: xml
 
@@ -162,7 +165,7 @@ XML view
    </record>
 
 Available Colors
-----------------
+================
 
 Odoo provides 12 predefined colors (indices 0–11):
 
@@ -184,10 +187,10 @@ Index Color
 ===== ===============
 
 Troubleshooting
----------------
+===============
 
 Badge is not colored
-~~~~~~~~~~~~~~~~~~~~
+--------------------
 
 **Problem**: The badge appears but without color.
 
@@ -196,7 +199,7 @@ the field specified in ``color_field``) and that it contains a non-zero
 integer value.
 
 Widget not working after install
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 **Problem**: Module is installed but the widget has no effect.
 
@@ -207,14 +210,14 @@ Widget not working after install
 3. Check the browser console for JavaScript errors
 
 Color not saved after clicking
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------
 
 **Solution**: Ensure the user has write access to the related model
 (e.g. ``my.category``), since the color is saved directly on the related
 record via ``orm.write``.
 
 Contributing
-------------
+============
 
 Contributions are welcome! Please open an issue or pull request on the
 project repository.

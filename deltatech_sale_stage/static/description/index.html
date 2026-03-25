@@ -370,43 +370,212 @@ ul.auto-toc {
 !! source digest: sha256:aa832e267edd87dbd945bb13194ec811be1b24e042717123a15941af477b9596
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Production/Stable" src="https://img.shields.io/badge/maturity-Production%2FStable-green.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_sale_stage"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<p>Features:</p>
+<p>This module helps your sales team stay on top of every order by
+introducing a <strong>customizable phase system</strong> for sale orders.</p>
+<p>Instead of relying only on Odoo’s standard statuses (Draft, Confirmed,
+Done), your team can define their own internal phases — such as
+<em>Confirmed</em>, <em>Prepared</em>, <em>Shipped</em>, <em>Delivered</em> — and track exactly
+where each order stands in your fulfillment process.</p>
+<div class="section" id="key-business-benefits">
+<h1>Key Business Benefits</h1>
 <ul class="simple">
-<li>Additional field in the sales order to specify the phase in which the
-order is</li>
+<li><strong>Full visibility for back-office teams</strong>: Each sale order displays
+its current phase as a colored badge, making it easy to spot orders
+that need attention at a glance.</li>
+<li><strong>Flexible phase configuration</strong>: Define as many phases as your
+business needs. Assign each phase a name, a color, and a sequence.
+Phases are managed from Sales → Configuration → Sale Order Phases.</li>
+<li><strong>Automatic phase progression</strong>: Phases advance automatically as the
+order moves through the standard Odoo workflow:<ul>
+<li>When a quotation is sent to the customer → order moves to the <em>Sent</em>
+phase</li>
+<li>When an order is confirmed → order moves to the <em>Confirmed</em> phase</li>
+<li>When an order is invoiced → order moves to the <em>Invoiced</em> phase</li>
+<li>When an order is cancelled → order moves to the <em>Cancelled</em> phase</li>
+</ul>
+</li>
+<li><strong>Delivery-driven phase updates</strong>: When a shipment is validated or its
+delivery status changes (e.g., picked up by courier, delivered to
+customer, refused), the linked sale order phase is updated
+automatically — no manual intervention needed.</li>
+<li><strong>Trigger automated actions</strong>: Each phase can have an optional server
+action attached. When an order enters that phase, the action runs
+automatically — useful for sending notifications, updating records, or
+triggering integrations.</li>
+<li><strong>Enforce order workflow</strong>: If a phase marked as <em>Confirmed</em> is
+manually set on a draft order, the order is automatically confirmed.
+If a phase marked as <em>Cancelled</em> is set, the order is cancelled —
+keeping your data consistent.</li>
+<li><strong>Search and group by phase</strong>: Filter and group sale orders by phase
+directly from the list view, making it easy to manage workload and
+prioritize tasks.</li>
+</ul>
+</div>
+<div class="section" id="how-it-works-with-deliveries">
+<h1>How It Works with Deliveries</h1>
+<p>Each warehouse operation type (e.g., delivery orders) can have a default
+phase assigned. When a delivery of that type is validated, the linked
+sale order automatically advances to that phase. Additionally, real-time
+courier status updates (via <tt class="docutils literal">deltatech_delivery_status</tt>) trigger
+further phase changes:</p>
+<ul class="simple">
+<li>Parcel picked up / in transit → <em>Shipped</em></li>
+<li>AWB generated → <em>Pre-advice</em></li>
+<li>Delivered to customer → <em>Delivered</em></li>
+<li>Refused by customer → <em>Refused</em></li>
 </ul>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<li><a class="reference internal" href="#usage" id="toc-entry-1">Usage</a><ul>
+<li><a class="reference internal" href="#setting-up-phases" id="toc-entry-2">Setting Up Phases</a></li>
+<li><a class="reference internal" href="#assigning-a-phase-to-a-delivery-operation-type" id="toc-entry-3">Assigning a Phase to a Delivery Operation Type</a></li>
+<li><a class="reference internal" href="#viewing-and-changing-the-phase-on-a-sale-order" id="toc-entry-4">Viewing and Changing the Phase on a Sale Order</a></li>
+<li><a class="reference internal" href="#filtering-and-grouping-by-phase" id="toc-entry-5">Filtering and Grouping by Phase</a></li>
+<li><a class="reference internal" href="#automatic-phase-transitions" id="toc-entry-6">Automatic Phase Transitions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-7">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-8">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-9">Authors</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-10">Maintainers</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="section" id="usage">
+<h2><a class="toc-backref" href="#toc-entry-1">Usage</a></h2>
+<div class="section" id="setting-up-phases">
+<h3><a class="toc-backref" href="#toc-entry-2">Setting Up Phases</a></h3>
+<ol class="arabic simple">
+<li>Go to <strong>Sales → Configuration → Sale Order Phases</strong>.</li>
+<li>Click <strong>New</strong> to create a phase.</li>
+<li>Fill in:<ul>
+<li><strong>Name</strong>: e.g., <em>Confirmed</em>, <em>Prepared</em>, <em>Shipped</em>, <em>Delivered</em></li>
+<li><strong>Sequence</strong>: controls the order in which phases progress (lower =
+earlier)</li>
+<li><strong>Color</strong>: choose a color to visually distinguish the phase in list
+views</li>
+<li><strong>Flags</strong>: check the appropriate flag(s) that describe this phase
+(e.g., <em>Confirmed</em>, <em>Shipped</em>, <em>Delivered</em>, <em>Cancelled</em>)</li>
+<li><strong>Server Action</strong> <em>(optional)</em>: select an action to run
+automatically when an order enters this phase</li>
+</ul>
+</li>
+<li>Save. Repeat for each phase in your fulfillment process.</li>
+</ol>
+</div>
+<hr class="docutils" />
+<div class="section" id="assigning-a-phase-to-a-delivery-operation-type">
+<h3><a class="toc-backref" href="#toc-entry-3">Assigning a Phase to a Delivery Operation Type</a></h3>
+<p>To automatically advance the sale order phase when a delivery is
+validated:</p>
+<ol class="arabic simple">
+<li>Go to <strong>Inventory → Configuration → Operations Types</strong>.</li>
+<li>Open the relevant operation type (e.g., <em>Delivery Orders</em>).</li>
+<li>In the <strong>Phase</strong> field, select the phase that should be applied when
+a delivery of this type is completed.</li>
+<li>Save.</li>
+</ol>
+<p>From now on, when a delivery of that type is validated, the linked sale
+order will automatically move to the selected phase.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="viewing-and-changing-the-phase-on-a-sale-order">
+<h3><a class="toc-backref" href="#toc-entry-4">Viewing and Changing the Phase on a Sale Order</a></h3>
+<ul class="simple">
+<li>The current phase is displayed as a <strong>colored badge</strong> on each sale
+order in the list view and on the order form.</li>
+<li>To change the phase manually, open the sale order form and update the
+<strong>Phase</strong> field.</li>
+<li>Changing the phase to one marked as <em>Confirmed</em> will automatically
+confirm a draft order.</li>
+<li>Changing the phase to one marked as <em>Cancelled</em> will automatically
+cancel the order.</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="filtering-and-grouping-by-phase">
+<h3><a class="toc-backref" href="#toc-entry-5">Filtering and Grouping by Phase</a></h3>
+<p>In the sale orders list view:</p>
+<ul class="simple">
+<li>Use the <strong>Search</strong> bar → <strong>Phase</strong> to filter orders by a specific
+phase.</li>
+<li>Use <strong>Group By → Phase</strong> to organize orders by their current phase.</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="automatic-phase-transitions">
+<h3><a class="toc-backref" href="#toc-entry-6">Automatic Phase Transitions</a></h3>
+<p>The following events trigger automatic phase changes (no manual action
+required):</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Event</th>
+<th class="head">Phase applied</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Quotation sent to customer</td>
+<td>Phase flagged as <em>Send Email</em></td>
+</tr>
+<tr><td>Order confirmed</td>
+<td>Phase flagged as <em>Confirmed</em></td>
+</tr>
+<tr><td>Order invoiced</td>
+<td>Phase flagged as <em>Invoiced</em></td>
+</tr>
+<tr><td>Order cancelled</td>
+<td>Phase flagged as <em>Cancelled</em></td>
+</tr>
+<tr><td>Delivery validated (by operation
+type)</td>
+<td>Phase assigned on the operation
+type</td>
+</tr>
+<tr><td>Courier picks up parcel / in
+transit</td>
+<td>Phase flagged as <em>Shipped</em></td>
+</tr>
+<tr><td>AWB generated</td>
+<td>Phase flagged as <em>Pre-advice</em></td>
+</tr>
+<tr><td>Parcel delivered to customer</td>
+<td>Phase flagged as <em>Delivered</em></td>
+</tr>
+<tr><td>Parcel refused by customer</td>
+<td>Phase flagged as <em>Refused</em></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h2><a class="toc-backref" href="#toc-entry-7">Bug Tracker</a></h2>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h2><a class="toc-backref" href="#toc-entry-8">Credits</a></h2>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h3><a class="toc-backref" href="#toc-entry-9">Authors</a></h3>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h3><a class="toc-backref" href="#toc-entry-10">Maintainers</a></h3>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_sale_stage">dhongu/deltatech</a> project on GitHub.</p>
 <p>You are welcome to contribute.</p>
+</div>
 </div>
 </div>
 </div>
