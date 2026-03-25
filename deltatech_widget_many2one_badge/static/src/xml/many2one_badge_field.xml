@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="deltatech_widget_many2one_badge.ColorPopover" owl="1">
+        <div class="o_tag_popover m-2">
+            <ColorList colors="props.colors" forceExpanded="true" onColorSelected="props.onColorSelected" />
+        </div>
+    </t>
+
+    <t t-name="deltatech_widget_many2one_badge.Many2oneBadgeField" owl="1">
+        <t t-if="props.readonly">
+            <div class="d-flex align-items-center h-100">
+                <span
+                    t-if="value"
+                    t-attf-class="badge rounded-pill o_tag o_tag_color_{{ colorIndex }}"
+                    style="font-size: 100%;"
+                >
+                    <t t-esc="displayName" />
+                </span>
+                <span t-else="" class="text-muted">—</span>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="o_field_many2one_badge d-inline-flex flex-wrap gap-1 align-items-center o_tags_input o_input">
+                <t t-if="value">
+                    <span
+                        t-attf-class="badge rounded-pill o_tag o_tag_color_{{ colorIndex }}"
+                        style="font-size: 100%; cursor: pointer;"
+                        t-on-click="onBadgeClick"
+                    >
+                        <t t-esc="displayName" />
+                        <a class="o_delete ms-1" title="Remove" t-on-click.stop="removeValue">&#215;</a>
+                    </span>
+                </t>
+                <div t-if="!value" class="o_field_many2one_selection d-inline-flex flex-grow-1">
+                    <Many2XAutocomplete
+                        resModel="relation"
+                        fieldString="props.string"
+                        context="autocompleteContext"
+                        getDomain="() => props.domain || []"
+                        update.bind="update"
+                        activeActions="activeActions"
+                        value="''"
+                        placeholder="props.placeholder || ''"
+                    />
+                </div>
+            </div>
+        </t>
+    </t>
+</templates>
