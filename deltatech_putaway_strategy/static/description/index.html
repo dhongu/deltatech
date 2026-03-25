@@ -382,18 +382,27 @@ tracking and enhances the putaway decision logic.</p>
 <li><tt class="docutils literal">Max products</tt>: computed capacity for any location (sum of
 children for non‑leaf locations).</li>
 <li><tt class="docutils literal">Current quantity</tt>: computed on‑hand quantity per location.</li>
+<li><tt class="docutils literal">Planned quantity</tt>: computed incoming quantity per location based
+on pending moves.</li>
 <li><tt class="docutils literal">Occupancy</tt>: computed ratio <tt class="docutils literal">current/max</tt> (clamped to [0, 1]).</li>
 </ul>
 </li>
 <li>Optimized computation for large hierarchies:<ul>
 <li>Single batched <tt class="docutils literal">read_group</tt> on <tt class="docutils literal">stock.quant</tt> for all leaf
 locations in the batch.</li>
+<li>Batched <tt class="docutils literal">read_group</tt> on <tt class="docutils literal">stock.move.line</tt> for planned
+quantities.</li>
 <li>Bottom‑up in‑memory aggregation for parent locations.</li>
 </ul>
 </li>
 <li>Smarter putaway:<ul>
 <li>Respects capacity on leaf locations when suggesting destinations.</li>
-<li>Prefers empty child locations when possible.</li>
+<li>Automatically splits move lines if a destination location reaches
+its maximum capacity.</li>
+<li>Prefers empty child locations when possible (if search sublocation
+is enabled).</li>
+<li>Optimized rule lookup with database indexes on <tt class="docutils literal">product_id</tt> and
+<tt class="docutils literal">sequence</tt> for <tt class="docutils literal">stock.putaway.rule</tt>.</li>
 <li>Keeps full compatibility with Odoo’s storage category rules (max
 weight, product/pack capacities, allow new product rules, etc.).</li>
 </ul>
@@ -426,7 +435,6 @@ from Odoo’s <tt class="docutils literal">_compute_weight</tt>.</li>
 <div class="section" id="compatibility">
 <h2>Compatibility</h2>
 <ul class="simple">
-<li>Odoo 17.0.</li>
 <li>Designed to work alongside modules that display warehouse maps or
 dashboards. The module <tt class="docutils literal">deltatech_warehouse_map</tt> can depend on this
 one to display the capacity and occupancy KPIs.</li>
@@ -435,10 +443,12 @@ one to display the capacity and occupancy KPIs.</li>
 <div class="section" id="tests">
 <h2>Tests</h2>
 <ul class="simple">
-<li>Includes minimal TransactionCase tests that validate:<ul>
+<li>Includes TransactionCase tests that validate:<ul>
 <li>capacity enforcement via <tt class="docutils literal">_check_can_be_used</tt>,</li>
 <li>putaway preference for empty child locations via
-<tt class="docutils literal">_get_putaway_strategy</tt>.</li>
+<tt class="docutils literal">_get_putaway_strategy</tt>,</li>
+<li>automatic splitting of move lines when capacity is reached,</li>
+<li>planned quantity calculations.</li>
 </ul>
 </li>
 </ul>

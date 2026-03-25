@@ -37,18 +37,27 @@ Key features
   - ``Max products``: computed capacity for any location (sum of
     children for non‑leaf locations).
   - ``Current quantity``: computed on‑hand quantity per location.
+  - ``Planned quantity``: computed incoming quantity per location based
+    on pending moves.
   - ``Occupancy``: computed ratio ``current/max`` (clamped to [0, 1]).
 
 - Optimized computation for large hierarchies:
 
   - Single batched ``read_group`` on ``stock.quant`` for all leaf
     locations in the batch.
+  - Batched ``read_group`` on ``stock.move.line`` for planned
+    quantities.
   - Bottom‑up in‑memory aggregation for parent locations.
 
 - Smarter putaway:
 
   - Respects capacity on leaf locations when suggesting destinations.
-  - Prefers empty child locations when possible.
+  - Automatically splits move lines if a destination location reaches
+    its maximum capacity.
+  - Prefers empty child locations when possible (if search sublocation
+    is enabled).
+  - Optimized rule lookup with database indexes on ``product_id`` and
+    ``sequence`` for ``stock.putaway.rule``.
   - Keeps full compatibility with Odoo’s storage category rules (max
     weight, product/pack capacities, allow new product rules, etc.).
 
@@ -76,7 +85,6 @@ Performance notes
 Compatibility
 -------------
 
-- Odoo 17.0.
 - Designed to work alongside modules that display warehouse maps or
   dashboards. The module ``deltatech_warehouse_map`` can depend on this
   one to display the capacity and occupancy KPIs.
@@ -84,11 +92,13 @@ Compatibility
 Tests
 -----
 
-- Includes minimal TransactionCase tests that validate:
+- Includes TransactionCase tests that validate:
 
   - capacity enforcement via ``_check_can_be_used``,
   - putaway preference for empty child locations via
-    ``_get_putaway_strategy``.
+    ``_get_putaway_strategy``,
+  - automatic splitting of move lines when capacity is reached,
+  - planned quantity calculations.
 
 Screenshots
 -----------
