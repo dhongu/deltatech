@@ -370,43 +370,67 @@ ul.auto-toc {
 !! source digest: sha256:6661da7f75fa17774ae82fb35b3e3594569244c38702cad4f300784fe8330d48
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_warehouse_access"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<ul class="simple">
-<li>Features:<ul>
-<li>Adds the Users tab in warehouse configurations,</li>
-<li>Users added to this tab gain access to warehouse operations</li>
-<li>If the tab remains empty everyone maintains access right to the
-warehouse</li>
+<div class="section" id="warehouse-access-1">
+<h1>Warehouse Access</h1>
+<p>This module provides more granular control over warehouse operations by
+restricting access to specific users.</p>
+</div>
+<div class="section" id="features">
+<h1>Features</h1>
+<ol class="arabic simple">
+<li><strong>User-Based Warehouse Restriction</strong>:<ul>
+<li>Adds a dedicated <strong>Users</strong> tab in the Warehouse configuration view.</li>
+<li>Allows administrators to define a list of authorized users for each
+warehouse.</li>
 </ul>
 </li>
+<li><strong>Validation Security</strong>:<ul>
+<li>Prevents unauthorized users from validating stock pickings
+associated with a restricted warehouse.</li>
+<li>Raises a clear <tt class="docutils literal">Access Error</tt> if a user attempts to validate a
+picking without the necessary permissions.</li>
 </ul>
+</li>
+<li><strong>Flexible Access Rules</strong>:<ul>
+<li>If no users are specified in the <strong>Users</strong> tab of a warehouse, the
+default Odoo access rights apply (everyone with stock permissions
+can access it).</li>
+<li>Once at least one user is added, access is strictly limited to the
+defined list.</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<ol class="arabic simple">
+<li>Navigate to <strong>Inventory &gt; Configuration &gt; Warehouses</strong>.</li>
+<li>Open the desired warehouse record.</li>
+<li>Go to the <strong>Users</strong> tab (available in developer mode or for users
+with appropriate technical rights).</li>
+<li>Add the users who should have permission to validate operations for
+this warehouse.</li>
+<li>Save the changes.</li>
+</ol>
 <p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
-</ul>
-</li>
-</ul>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_warehouse_access">dhongu/deltatech</a> project on GitHub.</p>
