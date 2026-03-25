@@ -370,39 +370,69 @@ ul.auto-toc {
 !! source digest: sha256:91246dbb59e1e7c59c92f2fd12762d08e478d3dfa13139fe984904a78bccba6e
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_restricted_access"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<p>Features:</p>
-<ul class="simple">
-<li>Add “Edit sensible data” on the permission page to allow editing of of
-the name for the product category, stock location and uom.</li>
-</ul>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<div class="section" id="accounting-and-valuation-restriction-obsolete">
+<h1>Accounting and Valuation Restriction (Obsolete)</h1>
+<p>IMPORTANT This module is currently considered <strong>Obsolete</strong>. Its core
+functionality has been refined or incorporated into other security and
+valuation modules within the Deltatech suite or Odoo core.</p>
+<p>This module was originally designed to provide specialized access
+control and security restrictions on accounting and inventory valuation
+records. It ensured that sensitive financial data and stock valuation
+entries were only accessible to authorized personnel.</p>
+</div>
+<div class="section" id="key-features">
+<h1>Key Features</h1>
+<ol class="arabic simple">
+<li><strong>Valuation Data Security</strong>:<ul>
+<li>Designed to restrict visibility and editing of stock valuation
+layers and accounting entries related to inventory movements.</li>
+<li>Adds extra security groups to control access to specific financial
+models.</li>
 </ul>
 </li>
+<li><strong>Accounting Constraints</strong>:<ul>
+<li>Integrates with Odoo’s standard accounting module to enforce strict
+data entry rules for valuation-related accounts.</li>
 </ul>
+</li>
+<li><strong>Restricted Data Editing</strong>:<ul>
+<li>Adds an <strong>Edit sensible data</strong> permission to the security settings.</li>
+<li>Restricts the modification of critical fields such as <strong>Product
+Category Name</strong>, <strong>Stock Location Name</strong>, and <strong>Units of Measure
+(UOM)</strong> to only those users with the assigned permission.</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<ol class="arabic simple">
+<li>This module is technical and is typically installed as a dependency
+for legacy Deltatech configurations.</li>
+<li>Go to <strong>Settings &gt; Users &amp; Companies &gt; Users</strong> to manage the specific
+security groups provided by this module.</li>
+<li>Assign the <strong>Edit sensible data</strong> checkbox to authorized users who
+need to modify critical technical data.</li>
+</ol>
+<p><strong>Table of contents</strong></p>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_restricted_access">dhongu/deltatech</a> project on GitHub.</p>
