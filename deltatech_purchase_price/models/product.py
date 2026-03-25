@@ -11,7 +11,7 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     standard_price = fields.Float(tracking=True)
-    last_purchase_price = fields.Float(digits="Product Price", tracking=True, company_dependent=True)
+    last_purchase_price = fields.Float(digits="Product Price", tracking=True)
 
     @api.onchange("last_purchase_price", "trade_markup")
     def onchange_last_purchase_price(self):
@@ -29,7 +29,6 @@ class ProductTemplate(models.Model):
         inverse="_inverse_last_purchase_price",
         search="_search_last_purchase_price",
         tracking=True,
-        company_dependent=True,
     )
 
     @api.depends_context("company")

@@ -19,13 +19,13 @@
 
 
                     <div class="o_row">
-                        <button
-                            name="refresh_invoice_history"
-                            string="Refresh"
-                            type="object"
-                            class="btn-link mb-1 px-0"
-                            icon="fa-refresh"
-                        />
+<!--                        <button-->
+<!--                            name="refresh_invoice_history"-->
+<!--                            string="Refresh"-->
+<!--                            type="object"-->
+<!--                            class="btn-link mb-1 px-0"-->
+<!--                            icon="fa-refresh"-->
+<!--                        />-->
                     </div>
 
                 </page>
