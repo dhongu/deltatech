@@ -11,6 +11,9 @@ overrides:
       - "**/*.esm.js"
     parserOptions:
       sourceType: module
+      ecmaVersion: 2022
+    rules:
+      sort-imports: off
 
 # Globals available in Odoo that shouldn't produce errorings
 globals:
