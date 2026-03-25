@@ -370,35 +370,69 @@ ul.auto-toc {
 !! source digest: sha256:df1dec5c382d2cb04fb73ed54cab75c2d5aacbc47e7ec6643f1ffa1738c5e425
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/license-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_reception_note"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<p>Features:</p>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<div class="section" id="batch-reception-note-management">
+<h1>Batch Reception Note Management</h1>
+<p>This module provides a specialized tool for managing batch reception
+notes within Odoo’s stock and purchase modules. It is designed to
+streamline the process of receiving multiple items or handling bulk
+reception documentation.</p>
+</div>
+<div class="section" id="key-features">
+<h1>Key Features</h1>
+<ol class="arabic simple">
+<li><strong>Batch Reception Processing</strong>:<ul>
+<li>Adds a dedicated wizard for creating and managing reception notes
+in bulk.</li>
+<li>Allows users to group multiple stock pickings or purchase orders
+into a single reception note for easier tracking and documentation.</li>
 </ul>
 </li>
+<li><strong>Integrated Stock Workflow</strong>:<ul>
+<li>Seamlessly integrates with the <tt class="docutils literal">purchase_stock</tt> module to ensure
+consistent data flow between procurement and warehouse operations.</li>
+<li>Provides specialized views and reports for summarized reception
+information.</li>
 </ul>
+</li>
+<li><strong>Enhanced Documentation</strong>:<ul>
+<li>Generates comprehensive reception documents that can be used for
+internal auditing and vendor verification.</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<ol class="arabic simple">
+<li>Navigate to <strong>Purchase &gt; Orders</strong> or <strong>Inventory &gt; Operations &gt;
+Transfers</strong>.</li>
+<li>Select the records you wish to include in a batch reception.</li>
+<li>Use the <strong>Action</strong> menu or the dedicated button (if available) to
+launch the <strong>Reception Note</strong> wizard.</li>
+<li>Configure the note details and confirm to generate the batch
+documentation.</li>
+<li>View and print the resulting reception note for logistical or
+accounting purposes.</li>
+</ol>
+<p><strong>Table of contents</strong></p>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dan Stoica</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_reception_note">dhongu/deltatech</a> project on GitHub.</p>
