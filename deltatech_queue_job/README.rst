@@ -27,8 +27,8 @@ in Odoo, focusing on performance, reliability, and flexibility in job
 execution. Here's a detailed breakdown of the features:
 ``deltatech_queue_job``
 
-Key Features:
--------------
+Key Features
+============
 
 1. **Optimized Concurrency and Locking**:
 
@@ -87,8 +87,8 @@ Key Features:
    - Buttons for "Cron Trigger", "Process", and "Process Background" are
      always accessible from the job list header.
 
-Optimized for Odoo.sh:
-----------------------
+Optimized for Odoo.sh
+=====================
 
 This module is specifically designed to address common challenges on the
 Odoo.sh platform:
@@ -106,8 +106,8 @@ Odoo.sh platform:
 - **Transactional Safety**: Savepoints isolate individual job failures,
   ensuring that one failing job doesn't roll back the entire batch.
 
-Performance Benefits:
----------------------
+Performance Benefits
+====================
 
 This module is essential for high-volume Odoo environments. By
 decoupling the job runner from the standard Odoo cron schedule and
@@ -129,52 +129,46 @@ Usage
 =====
 
 External Job Processor Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To process jobs every minute using an external service like
-`cron-job.org <https://cron-job.org>`__:
+::
 
-1. **Configure API Key**: Go to ``Queue Job`` -> ``Settings`` menu. You
-   can generate a secure key using the **Generate Key** button.
-2. **Configure Batch Settings**: (Optional) Adjust **Batch Size**
-   (default 20) and **Max Seconds** (default 50) directly in the same
-   settings screen.
-3. **Setup cron-job.org**:
 
-   - **URL**: ``https://your-odoo-domain.com/api/v1/queue/process``
-   - **Method**: POST
-   - **Schedule**: Every minute (``* * * * *``)
-   - **Headers**: ``Content-Type: application/json``
-   - **Body**:
-     .. code:: json
+   To process jobs every minute using an external service like [cron-job.org](https://cron-job.org):
 
-        {
-          "jsonrpc": "2.0",
-          "params": {
-            "api_key": "YOUR_SECURE_KEY_HERE"
-          }
-        }
+   1.  **Configure API Key**: Go to `Queue Job` -> `Settings` menu. You can generate a secure key using the **Generate Key** button.
+   2.  **Configure Batch Settings**: (Optional) Adjust **Batch Size** (default 20) and **Max Seconds** (default 50) directly in the same settings screen.
+   3.  **Setup cron-job.org**:
 
-API Endpoints
-~~~~~~~~~~~~~
+       *   **URL**: `https://your-odoo-domain.com/api/v1/queue/process`
+       *   **Method**: POST
+       *   **Schedule**: Every minute (`* * * * *`)
+       *   **Headers**: `Content-Type: application/json`
+       *   **Body**:
 
-Process Queue (External)
-^^^^^^^^^^^^^^^^^^^^^^^^
+       ```json
+       {
+         "jsonrpc": "2.0",
+         "params": {
+           "api_key": "YOUR_SECURE_KEY_HERE"
+         }
+       }
+       ```
 
-**POST** ``/api/v1/queue/process``
+   API Endpoints
+   ~~~~~~~~~~~~~
 
-Parameters:
+   Process Queue (External)
+   ^^^^^^^^^^^^^^^^^^^^^^^^
+   **POST** `/api/v1/queue/process`
 
-- ``api_key`` (required): Authentication key
-- ``batch_size`` (optional): Maximum number of jobs to process (default:
-  20)
-- ``max_seconds`` (optional): Maximum processing time in seconds
-  (default: 50)
+   Parameters:
+   - `api_key` (required): Authentication key
+   - `batch_size` (optional): Maximum number of jobs to process (default: 20)
+   - `max_seconds` (optional): Maximum processing time in seconds (default: 50)
 
-Response:
+   Response:
 
-.. code:: json
-
+   ```json
    {
      "status": "success",
      "processed": 15,
@@ -183,14 +177,11 @@ Response:
      "time_elapsed": 12.34,
      "timestamp": "2026-03-18 04:40:00"
    }
+   ```
 
-Manual Processing
-~~~~~~~~~~~~~~~~~
-
-You can manually trigger job processing from the Queue Job list view
-using the **Process** button (internal cron trigger) or **Process
-(Thread)** (API-style runner in a new thread), or trigger a background
-execution using **Cron Trigger**.
+   Manual Processing
+   ~~~~~~~~~~~~~~~~~
+   You can manually trigger job processing from the Queue Job list view using the **Process** button (internal cron trigger) or **Process (Thread)** (API-style runner in a new thread), or trigger a background execution using **Cron Trigger**.
 
 Bug Tracker
 ===========
