@@ -21,6 +21,11 @@ msgid "200% warranty"
 msgstr "Garantia 200%"
 
 #. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__b2b_return
+msgid "B2B Return"
+msgstr "Retur B2B"
+
+#. module: deltatech_sale_return_cause
 #: model:ir.actions.server,name:deltatech_sale_return_cause.ir_cron_check_and_update_return_amount_ir_actions_server
 #: model:ir.cron,cron_name:deltatech_sale_return_cause.ir_cron_check_and_update_return_amount
 msgid "Check and Update Return Amount"
@@ -42,9 +47,19 @@ msgid "Duplicate order"
 msgstr "Comanda dublata"
 
 #. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__external_tva_restitution
+msgid "External TVA Restitution"
+msgstr "Restituire TVA extern"
+
+#. module: deltatech_sale_return_cause
 #: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__sale_team_mistake
 msgid "Incorrectly advised by Sales"
 msgstr "Consiliat gresit de CC"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__lost_package
+msgid "Lost Package"
+msgstr "Colet pierdut curier"
 
 #. module: deltatech_sale_return_cause
 #: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__not_satisfied
