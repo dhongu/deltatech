@@ -370,27 +370,55 @@ ul.auto-toc {
 !! source digest: sha256:de63ea96db72ec8b3f33cceb3ccf5bff53c46e33e7df0ffcf961a61ccf136ee7
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_move_negative_stock"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<ul class="simple">
-<li>Features:<ul>
-<li>Button in picking to populate a transfer with all negative qty’s
-found in destination location</li>
+<div class="section" id="replenish-negative-stock-1">
+<h1>Replenish Negative Stock</h1>
+<p>This module provides a convenient way to identify and resolve negative
+inventory levels at specific stock locations by automatically populating
+transfers with required quantities from other source locations.</p>
+</div>
+<div class="section" id="key-features">
+<h1>Key Features</h1>
+<ol class="arabic simple">
+<li><strong>Automated Negative Qty Identification</strong>:<ul>
+<li>Adds a dedicated <strong>Replenish Negative</strong> button to the stock picking
+form.</li>
+<li>Automatically identifies all products with a negative quantity in
+the destination location of the current picking.</li>
 </ul>
 </li>
-</ul>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#usage" id="toc-entry-1">Usage</a></li>
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-2">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-3">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-4">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-5">Maintainers</a></li>
+<li><strong>Effortless Transfer Population</strong>:<ul>
+<li>Quickly adds lines to the current transfer for all identified
+negative stock items.</li>
+<li>Populates the move lines with the exact quantities needed to bring
+the destination inventory back to at least zero.</li>
 </ul>
 </li>
+<li><strong>Stock Health Monitoring</strong>:<ul>
+<li>Designed for inventory managers who need to maintain clean,
+non-negative stock records across multiple locations.</li>
+<li>Streamlines the process of internal stock replenishment and
+correction.</li>
 </ul>
+</li>
+</ol>
 </div>
 <div class="section" id="usage">
-<h1><a class="toc-backref" href="#toc-entry-1">Usage</a></h1>
+<h1>Usage</h1>
+<ol class="arabic simple">
+<li>Create or open an internal <strong>Stock Picking</strong> (Transfer).</li>
+<li>Set the <strong>Source Location</strong> and <strong>Destination Location</strong> as needed.</li>
+<li>Click the <strong>Replenish Negative</strong> button (usually located in the
+header or the Operations tab).</li>
+<li>The system will scan the destination location for any negative
+inventory.</li>
+<li>Move lines will be automatically created or updated to include the
+necessary quantities to fix the negative levels.</li>
+<li>Validate the picking as usual to complete the replenishment.</li>
+</ol>
+<p><strong>Table of contents</strong></p>
+</div>
+<div class="section" id="usage-1">
+<h1>Usage</h1>
 <ul class="simple">
 <li><ul class="first">
 <li>Configure your operation type:<ul>
@@ -428,22 +456,22 @@ values have been added</li>
 </ul>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-3">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-4">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dan Stoica</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-5">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/danila12"><img alt="danila12" src="https://github.com/danila12.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_move_negative_stock">dhongu/deltatech</a> project on GitHub.</p>

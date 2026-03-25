@@ -370,38 +370,70 @@ ul.auto-toc {
 !! source digest: sha256:b64a03b61da594a52063d7f6c4746deda8ddcb37c2349580acad10c21c86fcac
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/license-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_website_city"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<p>Features:</p>
-<ul class="simple">
-<li>select city from the list in website</li>
-</ul>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<div class="section" id="city-extension-for-website">
+<h1>City Extension for Website</h1>
+<p>This module enhances the address management system in the Odoo eCommerce
+and Portal areas by providing structured city selection. It’s
+particularly useful for regions where city names need to be validated or
+selected from a predefined list rather than being entered as free text.</p>
+</div>
+<div class="section" id="key-features">
+<h1>Key Features</h1>
+<ol class="arabic simple">
+<li><strong>Structured City Selection</strong>:<ul>
+<li>Replaces the standard free-text city input with a structured
+selection mechanism on the website checkout and portal address
+pages.</li>
+<li>Integrates with the <tt class="docutils literal">base_address_extended</tt> module to leverage
+Odoo’s built-in city management.</li>
 </ul>
 </li>
+<li><strong>Automatic ZIP/Postcode Mapping</strong>:<ul>
+<li>Facilitates automatic population or validation of postal codes
+based on the selected city.</li>
+<li>Reduces user entry errors during the checkout process, leading to
+better delivery accuracy.</li>
 </ul>
+</li>
+<li><strong>Frontend and Portal Integration</strong>:<ul>
+<li>Provides customized JavaScript (ES modules) to handle dynamic
+city/ZIP interactions in the browser.</li>
+<li>Ensures a consistent address entry experience between the public
+website shop and the private customer portal.</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<ol class="arabic simple">
+<li>Navigate to <strong>Contacts &gt; Configuration &gt; Cities</strong> (requires
+<tt class="docutils literal">base_address_extended</tt>).</li>
+<li>Define the list of cities and their corresponding ZIP codes and
+states.</li>
+<li>Go to the website shop and proceed to the checkout address page.</li>
+<li>Users will now be able to select cities from the predefined list, and
+the system will assist with the corresponding address details.</li>
+</ol>
+<p><strong>Table of contents</strong></p>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_website_city">dhongu/deltatech</a> project on GitHub.</p>
