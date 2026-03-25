@@ -6,3 +6,7 @@ build-backend = "whool.buildapi"
 
 [project]
 name = "odoo-addon-deltatech-sale-stage"
+
+dependencies = [
+    "odoo-addon-deltatech-widget-many2one-badge @ git+https://github.com/dhongu/deltatech.git@18.0#subdirectory=deltatech_widget_many2one_badge",
+]
