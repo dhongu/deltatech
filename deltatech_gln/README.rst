@@ -22,7 +22,8 @@ Deltatech Partner GLN - Obsolete
 Partner GLN (Obsolete)
 ======================
 
-.. IMPORTANT::
+Status: Obsolete
+================
 
 This module is currently considered **Obsolete**. Its core functionality
 has been moved to and is now better served by the ``account_add_gln``

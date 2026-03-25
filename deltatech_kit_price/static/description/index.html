@@ -370,36 +370,70 @@ ul.auto-toc {
 !! source digest: sha256:0f51991f513317899a82493f85b68d8395a923ecc7038fe7c7cc71202d0d9866
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_kit_price"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<p>If a product is a kit, the cost price in sale order line is computed
-based on the cost price of the components.</p>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<div class="section" id="deltatech-kit-price-calculation">
+<h1>Deltatech Kit Price Calculation</h1>
+<p>This module provides specialized logic for calculating the cost price of
+kit products directly within sales order lines. It’s designed for
+businesses that sell products composed of multiple components and need
+to track accurate margins based on the individual costs of those
+components.</p>
+</div>
+<div class="section" id="key-features">
+<h1>Key Features</h1>
+<ol class="arabic simple">
+<li><strong>Dynamic Kit Costing</strong>:<ul>
+<li>Automatically computes the cost price of a product in a sales order
+line if that product is configured as a <strong>Kit</strong> in its Bill of
+Materials (BoM).</li>
+<li>Iterates through all components of the kit to aggregate their
+individual costs into a single total for the order line.</li>
 </ul>
 </li>
+<li><strong>Margin Integrity</strong>:<ul>
+<li>Ensures that sales margins are calculated based on the actual
+component costs rather than a static or manually entered cost on
+the kit product itself.</li>
+<li>Provides a more accurate financial picture for sales teams and
+management.</li>
 </ul>
+</li>
+<li><strong>Cross-Module Integration</strong>:<ul>
+<li>Seamlessly integrates with Odoo’s <strong>Sales</strong>, <strong>Manufacturing
+(BoM)</strong>, and <strong>Margin</strong> modules.</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<ol class="arabic simple">
+<li>Configure a product as a <strong>Kit</strong> by creating a Bill of Materials for
+it with the type set to <strong>Kit</strong>.</li>
+<li>Define the cost for each component product included in the kit.</li>
+<li>Create a <strong>Sales Order</strong> and add the kit product to the order lines.</li>
+<li>The system will automatically calculate and display the total cost
+price for the line based on the kit’s components.</li>
+<li>View the resulting margin to ensure profitability.</li>
+</ol>
+<p><strong>Table of contents</strong></p>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dan Stoica</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/danila12"><img alt="danila12" src="https://github.com/danila12.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_kit_price">dhongu/deltatech</a> project on GitHub.</p>
