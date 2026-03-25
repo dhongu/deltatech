@@ -370,38 +370,51 @@ ul.auto-toc {
 !! source digest: sha256:eaf26493846de7adb3393e3dfd0282db16e3ec7dffa4f37c33e6dca09419cfdb
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/license-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_sale_purchase"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<p>Features:</p>
+<div class="section" id="key-features">
+<h1>Key Features</h1>
+<p>This module optimizes the link between sales and purchases by adding
+advanced management features for procurement.</p>
+<div class="section" id="features">
+<h2>Features:</h2>
 <ul class="simple">
-<li>Eliminates product from purchase order when sale order is cancelled</li>
-</ul>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
-</ul>
-</li>
+<li>Automatically removes products from purchase orders when the
+corresponding sales order is cancelled.</li>
+<li>Helps maintain inventory and procurement levels by avoiding
+unnecessary purchases.</li>
+<li>Ensures that canceled sales do not lead to orphan purchase lines.</li>
+<li>Improved synchronization between the sales team and the purchasing
+department.</li>
 </ul>
 </div>
+<div class="section" id="usage">
+<h2>Usage:</h2>
+<ul class="simple">
+<li>When a sales order that has generated a purchase order (via
+procurement rules) is cancelled, the module automatically checks for
+and removes the related items from draft purchase orders.</li>
+<li>It also handles decreases in ordered quantities, updating the purchase
+order lines accordingly.</li>
+</ul>
+<p><strong>Table of contents</strong></p>
+</div>
+</div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_sale_purchase">dhongu/deltatech</a> project on GitHub.</p>
