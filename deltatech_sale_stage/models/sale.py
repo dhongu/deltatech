@@ -15,22 +15,6 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     phase_id = fields.Many2one("sale.order.phase", string="Phase", copy=False, tracking=True)
-    phase_ids = fields.Many2many(
-        "sale.order.phase",
-        string="Phases",
-        readonly=False,
-        compute="_compute_phase_ids",
-        inverse="_inverse_phase_ids",
-    )
-
-    @api.depends("phase_id")
-    def _compute_phase_ids(self):
-        for order in self:
-            order.phase_ids = order.phase_id
-
-    def _inverse_phase_ids(self):
-        for order in self:
-            order.phase_id = order.phase_ids[0] if order.phase_ids else False
 
     def _get_invoice_status(self):
         res = super()._get_invoice_status()

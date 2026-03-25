@@ -8,15 +8,13 @@
 
     <t t-name="deltatech_widget_many2one_badge.Many2oneBadgeField" owl="1">
         <t t-if="props.readonly">
-            <div class="d-flex align-items-center h-100">
+            <div t-if="value" class="d-flex align-items-center h-100">
                 <span
-                    t-if="value"
                     t-attf-class="badge rounded-pill o_tag o_tag_color_{{ colorIndex }}"
                     style="font-size: 100%;"
                 >
                     <t t-esc="displayName" />
                 </span>
-                <span t-else="" class="text-muted">—</span>
             </div>
         </t>
         <t t-else="">
