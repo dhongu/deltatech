@@ -1,8 +1,7 @@
 Accounting and Valuation Restriction (Obsolete)
 ============================================
 
-.. IMPORTANT::
-
+IMPORTANT
    This module is currently considered **Obsolete**. Its core functionality has been refined or incorporated into other security and valuation modules within the Deltatech suite or Odoo core.
 
 This module was originally designed to provide specialized access control and security restrictions on accounting and inventory valuation records. It ensured that sensitive financial data and stock valuation entries were only accessible to authorized personnel.
