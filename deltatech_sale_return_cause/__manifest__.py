@@ -4,7 +4,7 @@
 {
     "name": "Sale Return Cause",
     "summary": "Return Cause",
-    "version": "18.0.0.0.7",
+    "version": "19.0.0.0.7",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
