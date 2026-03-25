@@ -134,14 +134,18 @@ class Inventory(models.Model):
                 )
             )
         inventory_lines = self.line_ids.filtered(
-            lambda li: li.product_id.tracking in ["lot", "serial"]
-            and not li.prod_lot_id
-            and li.theoretical_qty != li.product_qty
+            lambda li: (
+                li.product_id.tracking in ["lot", "serial"]
+                and not li.prod_lot_id
+                and li.theoretical_qty != li.product_qty
+            )
         )
         lines = self.line_ids.filtered(
-            lambda li: float_compare(li.product_qty, 1, precision_rounding=li.product_uom_id.rounding) > 0
-            and li.product_id.tracking == "serial"
-            and li.prod_lot_id
+            lambda li: (
+                float_compare(li.product_qty, 1, precision_rounding=li.product_uom_id.rounding) > 0
+                and li.product_id.tracking == "serial"
+                and li.prod_lot_id
+            )
         )
         if inventory_lines and not lines:
             wiz_lines = [
@@ -889,8 +893,9 @@ class InventoryLine(models.Model):
             )
         lines = self.search([("inventory_id", "=", self.env.context.get("default_inventory_id"))])
         line_ids = lines.filtered(
-            lambda line: float_is_zero(line.difference_qty, precision_rounding=line.product_id.uom_id.rounding)
-            == result
+            lambda line: (
+                float_is_zero(line.difference_qty, precision_rounding=line.product_id.uom_id.rounding) == result
+            )
         ).ids
         return [("id", "in", line_ids)]
 

@@ -31,10 +31,12 @@ class SaleOrder(models.Model):
             if res["quantity"]:
                 line_id.check_extra_product()
                 parent_line_id = self.order_line.filtered(
-                    lambda l: l.line_uuid is not False
-                    and l.line_uuid == line_id.line_uuid
-                    and l.id != line_id.id
-                    and l.product_id.extra_product_id
+                    lambda l: (
+                        l.line_uuid is not False
+                        and l.line_uuid == line_id.line_uuid
+                        and l.id != line_id.id
+                        and l.product_id.extra_product_id
+                    )
                 )
                 if parent_line_id:
                     parent_line_id.check_extra_product()
