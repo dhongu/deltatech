@@ -1,0 +1,6 @@
+<odoo noupdate="1">
+    <record id="param_auto_calculate_return_amount" model="ir.config_parameter">
+        <field name="key">deltatech_sale_return_cause.auto_calculate</field>
+        <field name="value">True</field>
+    </record>
+</odoo>
