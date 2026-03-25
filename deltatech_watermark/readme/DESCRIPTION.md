@@ -25,6 +25,6 @@ Usage
 3.  Upload the desired image or enter the text you wish to use as a watermark.
 4.  Install other modules that depend on this base module (e.g., `deltatech_website_watermark`) to see the watermark applied in specific contexts.
 
-.. WARNING::
+WARNING:
 
    This module provides the necessary fields and configuration but does not apply the watermark by itself. It requires additional extension modules to perform the actual watermarking on specific documents or images.
