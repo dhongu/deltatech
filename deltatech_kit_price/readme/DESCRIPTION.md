@@ -1,1 +1,27 @@
-If a product is a kit, the cost price in sale order line is computed based on the cost price of the components.
+Deltatech Kit Price Calculation
+===============================
+
+This module provides specialized logic for calculating the cost price of kit products directly within sales order lines. It's designed for businesses that sell products composed of multiple components and need to track accurate margins based on the individual costs of those components.
+
+Key Features
+============
+
+1.  **Dynamic Kit Costing**:
+    *   Automatically computes the cost price of a product in a sales order line if that product is configured as a **Kit** in its Bill of Materials (BoM).
+    *   Iterates through all components of the kit to aggregate their individual costs into a single total for the order line.
+
+2.  **Margin Integrity**:
+    *   Ensures that sales margins are calculated based on the actual component costs rather than a static or manually entered cost on the kit product itself.
+    *   Provides a more accurate financial picture for sales teams and management.
+
+3.  **Cross-Module Integration**:
+    *   Seamlessly integrates with Odoo's **Sales**, **Manufacturing (BoM)**, and **Margin** modules.
+
+Usage
+=====
+
+1.  Configure a product as a **Kit** by creating a Bill of Materials for it with the type set to **Kit**.
+2.  Define the cost for each component product included in the kit.
+3.  Create a **Sales Order** and add the kit product to the order lines.
+4.  The system will automatically calculate and display the total cost price for the line based on the kit's components.
+5.  View the resulting margin to ensure profitability.

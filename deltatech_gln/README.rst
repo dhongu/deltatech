@@ -22,9 +22,11 @@ Deltatech Partner GLN - Obsolete
 Partner GLN (Obsolete)
 ======================
 
-.. IMPORTANT:: This module is currently considered **Obsolete**. Its
-core functionality has been moved to and is now better served by the
-``account_add_gln`` module.
+.. IMPORTANT::
+
+This module is currently considered **Obsolete**. Its core functionality
+has been moved to and is now better served by the ``account_add_gln``
+module.
 
 This module was originally designed to provide specialized handling for
 Global Location Numbers (GLN) for partners within Odoo. It ensured that

@@ -1,8 +1,9 @@
 Sale Order Type (Obsolete)
 ==========================
 
-.. IMPORTANT::
-   This module is currently considered **Obsolete**. Its functionality for managing multiple sale order types has been replaced by more modern and integrated record-type management features within the Deltatech suite or Odoo's standard configuration.
+Status: Obsolete
+================
+This module is currently considered **Obsolete**. Its functionality for managing multiple sale order types has been replaced by more modern and integrated record-type management features within the Deltatech suite or Odoo's standard configuration.
 
 This module was originally designed to provide a way to categorize and manage different types of Sales Orders (e.g., Retail, Wholesale, Export). It allowed for different workflows, sequences, or default values to be applied based on the selected order type.
 
