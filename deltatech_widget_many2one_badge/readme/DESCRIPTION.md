@@ -1,7 +1,7 @@
 
 A custom widget  that displays Many2one fields as colored badges, similar to `many2many_tags`.
 
-## Features
+### Features
 
 - ✅ Displays as a colored badge in readonly mode
 - ✅ Click on badge to change color via color picker popover (edit mode)
@@ -11,7 +11,7 @@ A custom widget  that displays Many2one fields as colored badges, similar to `ma
 - ✅ Compatible with all standard Odoo colors (0–11)
 - ✅ Modern rounded badge design
 
-## Installation
+### Installation
 
 1. Copy the `deltatech_widget_many2one_badge` folder into your Odoo `addons` directory
 2. Restart the Odoo server
@@ -20,9 +20,9 @@ A custom widget  that displays Many2one fields as colored badges, similar to `ma
 5. Search for "Many2one Badge Widget"
 6. Click Install
 
-## Usage
+### Usage
 
-### 1. Make sure the related model has a `color` field
+#### 1. Make sure the related model has a `color` field
 
 ```python
 class MyCategory(models.Model):
@@ -33,7 +33,7 @@ class MyCategory(models.Model):
     color = fields.Integer(string='Color', default=0)
 ```
 
-### 2. Use the widget in your view
+#### 2. Use the widget in your view
 
 ```xml
 <field name="category_id"
@@ -41,7 +41,7 @@ class MyCategory(models.Model):
        options="{'color_field': 'color'}"/>
 ```
 
-### 3. Available options
+#### 3. Available options
 
 | Option | Description | Default |
 |---|---|---|
@@ -54,9 +54,9 @@ class MyCategory(models.Model):
        options="{'color_field': 'badge_color'}"/>
 ```
 
-## Full Example
+### Full Example
 
-### Python model
+#### Python model
 
 ```python
 # models/task.py
@@ -85,7 +85,7 @@ class Priority(models.Model):
     color = fields.Integer(string='Badge Color', default=0)
 ```
 
-### XML view
+#### XML view
 
 ```xml
 <record id="view_task_form" model="ir.ui.view">
@@ -123,7 +123,7 @@ class Priority(models.Model):
 </record>
 ```
 
-## Available Colors
+### Available Colors
 
 Odoo provides 12 predefined colors (indices 0–11):
 
@@ -142,15 +142,15 @@ Odoo provides 12 predefined colors (indices 0–11):
 | 10 | Pink |
 | 11 | Brown |
 
-## Troubleshooting
+### Troubleshooting
 
-### Badge is not colored
+#### Badge is not colored
 
 **Problem**: The badge appears but without color.
 
 **Solution**: Make sure the related model has the `color` field (or the field specified in `color_field`) and that it contains a non-zero integer value.
 
-### Widget not working after install
+#### Widget not working after install
 
 **Problem**: Module is installed but the widget has no effect.
 
@@ -159,10 +159,10 @@ Odoo provides 12 predefined colors (indices 0–11):
 2. Restart the Odoo server
 3. Check the browser console for JavaScript errors
 
-### Color not saved after clicking
+#### Color not saved after clicking
 
 **Solution**: Ensure the user has write access to the related model (e.g. `my.category`), since the color is saved directly on the related record via `orm.write`.
 
-## Contributing
+### Contributing
 
 Contributions are welcome! Please open an issue or pull request on the project repository.
