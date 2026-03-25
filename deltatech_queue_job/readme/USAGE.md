@@ -1,27 +1,32 @@
-### External Job Processor Configuration
+External Job Processor Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To process jobs every minute using an external service like [cron-job.org](https://cron-job.org):
 
 1.  **Configure API Key**: Go to `Queue Job` -> `Settings` menu. You can generate a secure key using the **Generate Key** button.
 2.  **Configure Batch Settings**: (Optional) Adjust **Batch Size** (default 20) and **Max Seconds** (default 50) directly in the same settings screen.
 3.  **Setup cron-job.org**:
+
     *   **URL**: `https://your-odoo-domain.com/api/v1/queue/process`
     *   **Method**: POST
     *   **Schedule**: Every minute (`* * * * *`)
     *   **Headers**: `Content-Type: application/json`
     *   **Body**:
-        ```json
-        {
-          "jsonrpc": "2.0",
-          "params": {
-            "api_key": "YOUR_SECURE_KEY_HERE"
-          }
-        }
-        ```
 
-### API Endpoints
+    ```json
+    {
+      "jsonrpc": "2.0",
+      "params": {
+        "api_key": "YOUR_SECURE_KEY_HERE"
+      }
+    }
+    ```
 
-#### Process Queue (External)
+API Endpoints
+~~~~~~~~~~~~~
+
+Process Queue (External)
+^^^^^^^^^^^^^^^^^^^^^^^^
 **POST** `/api/v1/queue/process`
 
 Parameters:
@@ -30,6 +35,7 @@ Parameters:
 - `max_seconds` (optional): Maximum processing time in seconds (default: 50)
 
 Response:
+
 ```json
 {
   "status": "success",
@@ -41,5 +47,6 @@ Response:
 }
 ```
 
-### Manual Processing
+Manual Processing
+~~~~~~~~~~~~~~~~~
 You can manually trigger job processing from the Queue Job list view using the **Process** button (internal cron trigger) or **Process (Thread)** (API-style runner in a new thread), or trigger a background execution using **Cron Trigger**.

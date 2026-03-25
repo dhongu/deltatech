@@ -13,7 +13,7 @@ eCommerce Qty Multiple
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
@@ -22,9 +22,49 @@ eCommerce Qty Multiple
 
 |badge1| |badge2| |badge3|
 
-- Features:
+eCommerce Qty Multiple
+======================
 
-  - Sale of multiple quantity
+This module extends the functionality of sales quantity multiples to the
+eCommerce platform (Odoo Website). It ensures that customers can only
+purchase products in specific quantity increments or meeting a minimum
+quantity requirement.
+
+Key Features
+============
+
+1. **Enforce Quantity Rules on Website**:
+
+   - Integrates with the ``deltatech_sale_multiple`` module to apply
+     quantity constraints directly in the online store.
+   - Automatically validates the cart quantities based on the product's
+     defined quantity multiples.
+
+2. **Configurable Enforcement**:
+
+   - Adds a "Check Min Website" option on the product template and
+     variant forms.
+   - Allows shop managers to decide whether the minimum quantity and
+     multiples should be strictly enforced on the website.
+
+3. **Enhanced Frontend Experience**:
+
+   - Provides visual feedback to users when they attempt to add an
+     invalid quantity to their cart.
+   - Uses customized JavaScript components to ensure a smooth and
+     responsive user interface during product selection.
+
+Usage
+=====
+
+1. Go to **Sales** or **Inventory > Products**.
+2. Open a product and go to the **Sales** tab (or wherever quantity
+   multiples are defined).
+3. Set the **Quantity Multiple** and/or **Minimum Quantity**.
+4. Enable the **Check Min Website** checkbox to enforce these rules in
+   the eCommerce shop.
+5. Customers browsing the website will now be restricted to selecting
+   valid quantities for that product.
 
 **Table of contents**
 

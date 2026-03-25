@@ -369,39 +369,73 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:4c56e53342889eebbd2807ed1824d18b757f97987539edbf631ce59fae1dc2ee
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/licence-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_website_checkout_confirm"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<div class="section" id="features">
-<h1>Features:</h1>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a></li>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/license-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_website_checkout_confirm"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<div class="section" id="ecommerce-checkout-confirmation-enhancement">
+<h1>eCommerce Checkout Confirmation Enhancement</h1>
+<p>This module adds an extra layer of order confirmation to Odoo’s
+eCommerce checkout process. It’s designed for businesses that want to
+ensure customers have a final chance to review their purchase before the
+order is finalized and sent for processing.</p>
+</div>
+<div class="section" id="key-features">
+<h1>Key Features</h1>
+<ol class="arabic simple">
+<li><strong>Mandatory Confirmation Step</strong>:<ul>
+<li>Inserts a dedicated confirmation stage between the payment and the
+final order success page.</li>
+<li>Provides a summary of the order details, allowing the customer to
+perform one last check.</li>
 </ul>
+</li>
+<li><strong>Order Flow Refinement</strong>:<ul>
+<li>Seamlessly integrates with Odoo’s standard <tt class="docutils literal">website_sale</tt>
+checkout flow.</li>
+<li>Ensures that only orders with a confirmed intent from the customer
+reach the backend for fulfillment.</li>
+</ul>
+</li>
+<li><strong>Enhanced User Experience</strong>:<ul>
+<li>Improves customer trust by providing a clear, final order summary
+before concluding the transaction.</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<ol class="arabic simple">
+<li>Navigate to your <strong>Odoo Website</strong>.</li>
+<li>Add items to your cart and proceed to the <strong>Checkout</strong>.</li>
+<li>After selecting the <strong>Payment Method</strong>, you will be presented with a
+final <strong>Order Confirmation</strong> page.</li>
+<li>Review your order and click the <strong>Confirm</strong> button to complete the
+purchase.</li>
+<li>You will then be redirected to the standard “Order Success” page.</li>
+</ol>
+<p><strong>Table of contents</strong></p>
 </div>
 <div class="section" id="bug-tracker">
-<h2><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h2>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h2><a class="toc-backref" href="#toc-entry-2">Credits</a></h2>
-</div>
-</div>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h1>Authors</h1>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h1>Maintainers</h1>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_website_checkout_confirm">dhongu/deltatech</a> project on GitHub.</p>
 <p>You are welcome to contribute.</p>
+</div>
 </div>
 </div>
 </body>

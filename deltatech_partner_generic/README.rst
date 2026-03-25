@@ -13,7 +13,7 @@ Deltatech Generic Partner
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
@@ -22,9 +22,32 @@ Deltatech Generic Partner
 
 |badge1| |badge2| |badge3|
 
-Features:
+Key Features
+============
 
-- defining generic partner
+This module provides an efficient way to manage transactions for generic
+or anonymous partners by allowing the definition of a specific "Generic
+Partner" in the Odoo configuration.
+
+Features:
+---------
+
+- Define a default "Generic Partner" to be used when a specific partner
+  is not required.
+- Automatically handles the selection of this partner in various
+  business flows such as sales and invoicing.
+- Helps simplify data entry for businesses that handle many one-time or
+  anonymous customers.
+- Fully integrated with Odoo's standard accounting and sales settings.
+
+Usage:
+------
+
+1. Navigate to Settings > General Settings > Sales.
+2. Locate the "Generic Partner" configuration section.
+3. Select an existing partner (e.g., "Generic Customer") or create a new
+   one to serve as the default.
+4. This partner will then be used as a fallback in the relevant modules.
 
 **Table of contents**
 

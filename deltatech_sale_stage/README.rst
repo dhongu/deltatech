@@ -19,15 +19,167 @@ Deltatech Sale Order Stage
 
 |badge1| |badge2|
 
-Features:
+This module helps your sales team stay on top of every order by
+introducing a **customizable phase system** for sale orders.
 
-- Additional field in the sales order to specify the phase in which the
-  order is
+Instead of relying only on Odoo's standard statuses (Draft, Confirmed,
+Done), your team can define their own internal phases — such as
+*Confirmed*, *Prepared*, *Shipped*, *Delivered* — and track exactly
+where each order stands in your fulfillment process.
+
+Key Business Benefits
+~~~~~~~~~~~~~~~~~~~~~
+
+- **Full visibility for back-office teams**: Each sale order displays
+  its current phase as a colored badge, making it easy to spot orders
+  that need attention at a glance.
+
+- **Flexible phase configuration**: Define as many phases as your
+  business needs. Assign each phase a name, a color, and a sequence.
+  Phases are managed from Sales → Configuration → Sale Order Phases.
+
+- **Automatic phase progression**: Phases advance automatically as the
+  order moves through the standard Odoo workflow:
+
+  - When a quotation is sent to the customer → order moves to the *Sent*
+    phase
+  - When an order is confirmed → order moves to the *Confirmed* phase
+  - When an order is invoiced → order moves to the *Invoiced* phase
+  - When an order is cancelled → order moves to the *Cancelled* phase
+
+- **Delivery-driven phase updates**: When a shipment is validated or its
+  delivery status changes (e.g., picked up by courier, delivered to
+  customer, refused), the linked sale order phase is updated
+  automatically — no manual intervention needed.
+
+- **Trigger automated actions**: Each phase can have an optional server
+  action attached. When an order enters that phase, the action runs
+  automatically — useful for sending notifications, updating records, or
+  triggering integrations.
+
+- **Enforce order workflow**: If a phase marked as *Confirmed* is
+  manually set on a draft order, the order is automatically confirmed.
+  If a phase marked as *Cancelled* is set, the order is cancelled —
+  keeping your data consistent.
+
+- **Search and group by phase**: Filter and group sale orders by phase
+  directly from the list view, making it easy to manage workload and
+  prioritize tasks.
+
+How It Works with Deliveries
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Each warehouse operation type (e.g., delivery orders) can have a default
+phase assigned. When a delivery of that type is validated, the linked
+sale order automatically advances to that phase. Additionally, real-time
+courier status updates (via ``deltatech_delivery_status``) trigger
+further phase changes:
+
+- Parcel picked up / in transit → *Shipped*
+- AWB generated → *Pre-advice*
+- Delivered to customer → *Delivered*
+- Refused by customer → *Refused*
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Usage
+=====
+
+Setting Up Phases
+-----------------
+
+1. Go to **Sales → Configuration → Sale Order Phases**.
+2. Click **New** to create a phase.
+3. Fill in:
+
+   - **Name**: e.g., *Confirmed*, *Prepared*, *Shipped*, *Delivered*
+   - **Sequence**: controls the order in which phases progress (lower =
+     earlier)
+   - **Color**: choose a color to visually distinguish the phase in list
+     views
+   - **Flags**: check the appropriate flag(s) that describe this phase
+     (e.g., *Confirmed*, *Shipped*, *Delivered*, *Cancelled*)
+   - **Server Action** *(optional)*: select an action to run
+     automatically when an order enters this phase
+
+4. Save. Repeat for each phase in your fulfillment process.
+
+--------------
+
+Assigning a Phase to a Delivery Operation Type
+----------------------------------------------
+
+To automatically advance the sale order phase when a delivery is
+validated:
+
+1. Go to **Inventory → Configuration → Operations Types**.
+2. Open the relevant operation type (e.g., *Delivery Orders*).
+3. In the **Phase** field, select the phase that should be applied when
+   a delivery of this type is completed.
+4. Save.
+
+From now on, when a delivery of that type is validated, the linked sale
+order will automatically move to the selected phase.
+
+--------------
+
+Viewing and Changing the Phase on a Sale Order
+----------------------------------------------
+
+- The current phase is displayed as a **colored badge** on each sale
+  order in the list view and on the order form.
+- To change the phase manually, open the sale order form and update the
+  **Phase** field.
+- Changing the phase to one marked as *Confirmed* will automatically
+  confirm a draft order.
+- Changing the phase to one marked as *Cancelled* will automatically
+  cancel the order.
+
+--------------
+
+Filtering and Grouping by Phase
+-------------------------------
+
+In the sale orders list view:
+
+- Use the **Search** bar → **Phase** to filter orders by a specific
+  phase.
+- Use **Group By → Phase** to organize orders by their current phase.
+
+--------------
+
+Automatic Phase Transitions
+---------------------------
+
+The following events trigger automatic phase changes (no manual action
+required):
+
++----------------------------------+----------------------------------+
+| Event                            | Phase applied                    |
++==================================+==================================+
+| Quotation sent to customer       | Phase flagged as *Send Email*    |
++----------------------------------+----------------------------------+
+| Order confirmed                  | Phase flagged as *Confirmed*     |
++----------------------------------+----------------------------------+
+| Order invoiced                   | Phase flagged as *Invoiced*      |
++----------------------------------+----------------------------------+
+| Order cancelled                  | Phase flagged as *Cancelled*     |
++----------------------------------+----------------------------------+
+| Delivery validated (by operation | Phase assigned on the operation  |
+| type)                            | type                             |
++----------------------------------+----------------------------------+
+| Courier picks up parcel / in     | Phase flagged as *Shipped*       |
+| transit                          |                                  |
++----------------------------------+----------------------------------+
+| AWB generated                    | Phase flagged as *Pre-advice*    |
++----------------------------------+----------------------------------+
+| Parcel delivered to customer     | Phase flagged as *Delivered*     |
++----------------------------------+----------------------------------+
+| Parcel refused by customer       | Phase flagged as *Refused*       |
++----------------------------------+----------------------------------+
 
 Bug Tracker
 ===========

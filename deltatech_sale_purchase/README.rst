@@ -13,7 +13,7 @@ Sale Purchase
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
@@ -22,9 +22,31 @@ Sale Purchase
 
 |badge1| |badge2| |badge3|
 
-Features:
+Key Features
+============
 
-- Eliminates product from purchase order when sale order is cancelled
+This module optimizes the link between sales and purchases by adding
+advanced management features for procurement.
+
+Features:
+---------
+
+- Automatically removes products from purchase orders when the
+  corresponding sales order is cancelled.
+- Helps maintain inventory and procurement levels by avoiding
+  unnecessary purchases.
+- Ensures that canceled sales do not lead to orphan purchase lines.
+- Improved synchronization between the sales team and the purchasing
+  department.
+
+Usage:
+------
+
+- When a sales order that has generated a purchase order (via
+  procurement rules) is cancelled, the module automatically checks for
+  and removes the related items from draft purchase orders.
+- It also handles decreases in ordered quantities, updating the purchase
+  order lines accordingly.
 
 **Table of contents**
 

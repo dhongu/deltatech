@@ -370,38 +370,68 @@ ul.auto-toc {
 !! source digest: sha256:5cd49bfc84b50798b464c6bf59dc8794a7c45e1a931820cbc69d30eb46eca1a2
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_mrp_set_delivery"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<ul class="simple">
-<li>Features: restrict incomplete set deliveries if configured in phantom
-bom</li>
-</ul>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<div class="section" id="restrict-incomplete-set-deliveries">
+<h1>Restrict Incomplete Set Deliveries</h1>
+<p>This module provides a safeguard for the delivery process of products
+sold as sets (Phantom BoM). It is designed to prevent the shipment of
+incomplete sets by ensuring that all components of a defined set are
+available and processed together.</p>
+</div>
+<div class="section" id="key-features">
+<h1>Key Features</h1>
+<ol class="arabic simple">
+<li><strong>Phantom BoM Integration</strong>:<ul>
+<li>Adds a dedicated configuration option to <strong>Phantom Bills of
+Materials (BoM)</strong> to restrict incomplete deliveries.</li>
+<li>Ensures that Odoo’s delivery system treats the components of a
+phantom BoM as an atomic unit for logistical purposes.</li>
 </ul>
 </li>
+<li><strong>Validation Security</strong>:<ul>
+<li>Prevents the validation of a stock picking if it contains only a
+partial set of components for a configured phantom BoM.</li>
+<li>Reduces customer dissatisfaction and return costs by ensuring that
+customers always receive complete product sets.</li>
 </ul>
+</li>
+<li><strong>Manufacturing Awareness</strong>:<ul>
+<li>Integrates with Odoo’s core <strong>Manufacturing (MRP)</strong> and <strong>Inventory
+(Stock)</strong> modules to maintain strict control over set integrity
+during transfers.</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<ol class="arabic simple">
+<li>Navigate to <strong>Manufacturing &gt; Products &gt; Bills of Materials</strong>.</li>
+<li>Open a BoM of type <strong>Phantom</strong>.</li>
+<li>Enable the <strong>Restrict Incomplete Delivery</strong> option (added by the
+module).</li>
+<li>When a sales order or transfer is created for this set, Odoo will now
+prevent the delivery from being validated unless all required
+components for the set are included in the transfer and available.</li>
+</ol>
+<p><strong>Table of contents</strong></p>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dan Stoica</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/danila12"><img alt="danila12" src="https://github.com/danila12.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_mrp_set_delivery">dhongu/deltatech</a> project on GitHub.</p>

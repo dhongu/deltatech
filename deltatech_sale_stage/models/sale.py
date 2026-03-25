@@ -3,30 +3,18 @@
 # See README.rst file on addons root folder for license details
 
 
+import logging
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     phase_id = fields.Many2one("sale.order.phase", string="Phase", copy=False, tracking=True)
-    phase_ids = fields.Many2many(
-        "sale.order.phase",
-        string="Phases",
-        readonly=False,
-        compute="_compute_phase_ids",
-        inverse="_inverse_phase_ids",
-    )
-
-    @api.depends("phase_id")
-    def _compute_phase_ids(self):
-        for order in self:
-            order.phase_ids = order.phase_id
-
-    def _inverse_phase_ids(self):
-        for order in self:
-            order.phase_id = order.phase_ids[0] if order.phase_ids else False
 
     def _get_invoice_status(self):
         res = super()._get_invoice_status()
@@ -57,8 +45,12 @@ class SaleOrder(models.Model):
     def set_phase(self, phase_step, ignore_sequence=False):
         if self.env.context.get("skip_phase_update", False):
             return
-        domain = [(phase_step, "=", True)]
+        if phase_step not in self.env["sale.order.phase"]._fields:
+            domain = [("code", "=", phase_step)]
+        else:
+            domain = [(phase_step, "=", True)]
         phases = self.env["sale.order.phase"].search(domain)
+
         if not phases:
             return
         for order in self:
@@ -85,8 +77,12 @@ class SaleOrder(models.Model):
         res = super().write(vals)
         if "phase_id" in vals:
             for order in self:
+                order = order.with_context(active_id=order.id, active_model="sale.order")
                 if order.phase_id.action_id:
-                    order.phase_id.action_id.with_context(active_id=order.id, active_model="sale.order").run()
+                    try:
+                        order.phase_id.action_id.run()
+                    except Exception as e:
+                        _logger.error(e)
                 if order.phase_id.confirmed and order.state == "draft":
                     order.with_context(skip_phase_update=True).action_confirm()
                 if order.phase_id.canceled and order.state != "cancel":

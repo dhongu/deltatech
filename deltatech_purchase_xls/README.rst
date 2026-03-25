@@ -13,7 +13,7 @@ Deltatech Purchase XLS
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
@@ -22,9 +22,34 @@ Deltatech Purchase XLS
 
 |badge1| |badge2| |badge3|
 
-- Features:
+Key Features
+============
 
-  - Import purchase line from Excel
+This module provides an easy way to manage purchase order lines by
+allowing for import and export via Excel files.
+
+Features:
+---------
+
+- Import purchase order lines directly from Excel files.
+- Export existing purchase order lines to Excel for easier editing or
+  external reporting.
+- Simplifies the process of creating large purchase orders with many
+  items.
+- Provides a flexible and user-friendly interface for handling bulk data
+  in procurement.
+
+Usage:
+------
+
+1. Navigate to Purchase > Orders > Purchase Orders.
+2. Open a purchase order.
+3. You will see new buttons for "Import Lines from Excel" and "Export
+   Lines to Excel".
+4. Use the wizards to upload your file or download the current line
+   details.
+5. This is especially useful for managing long procurement lists from
+   external vendors.
 
 **Table of contents**
 
