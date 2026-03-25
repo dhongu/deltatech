@@ -370,39 +370,67 @@ ul.auto-toc {
 !! source digest: sha256:06399ff53e0880eb46d8c675ddc444a2b288082022b2407c3cb43a1f059d1f10
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Production/Stable" src="https://img.shields.io/badge/maturity-Production%2FStable-green.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_sale_pallet_website"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<p>Features:</p>
-<ul class="simple">
-<li>addon for deltatech_sale_pallet that makes it possible for customers
-to see the price of the order with the pallets price included</li>
-</ul>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<div class="section" id="sale-pallet-website-1">
+<h1>Sale Pallet Website</h1>
+<p>This module extends pallet sales functionality to the Odoo eCommerce
+platform, allowing for better management and display of products sold by
+pallets on the website.</p>
+</div>
+<div class="section" id="key-features">
+<h1>Key Features</h1>
+<ol class="arabic simple">
+<li><strong>Pallet-Specific Displays</strong>:<ul>
+<li>Enhances the website product pages to show information related to
+pallets.</li>
+<li>Optimizes the user experience for bulk purchasing or items
+typically sold on pallets.</li>
+<li>Allows customers to see the total price of their order including
+the cost of the pallets.</li>
 </ul>
 </li>
+<li><strong>Integrated Pallet Logic</strong>:<ul>
+<li>Works in conjunction with the <tt class="docutils literal">deltatech_sale_pallet</tt> module to
+ensure consistent logic between the backend and frontend.</li>
+<li>Handles pallet-related constraints and pricing if applicable during
+the checkout process.</li>
 </ul>
+</li>
+<li><strong>Configurable Categories</strong>:<ul>
+<li>Leverages the “Pallet” flag on product categories to identify which
+items should follow pallet sales logic on the website.</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<ol class="arabic simple">
+<li>Go to <strong>Inventory &gt; Configuration &gt; Product Categories</strong>.</li>
+<li>Open a category and ensure the <strong>Pallet</strong> checkbox is enabled.</li>
+<li>Products within this category will now have enhanced pallet
+information or logic applied on the eCommerce store.</li>
+<li>Browse the website to view how these products are presented to
+customers.</li>
+</ol>
+<p><strong>Table of contents</strong></p>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_sale_pallet_website">dhongu/deltatech</a> project on GitHub.</p>
