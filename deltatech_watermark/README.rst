@@ -65,7 +65,7 @@ Usage
    ``deltatech_website_watermark``) to see the watermark applied in
    specific contexts.
 
-.. WARNING::
+WARNING:
 
 This module provides the necessary fields and configuration but does not
 apply the watermark by itself. It requires additional extension modules
