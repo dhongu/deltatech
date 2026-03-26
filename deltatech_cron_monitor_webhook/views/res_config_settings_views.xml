@@ -12,16 +12,12 @@
                         <setting string="Webhook Security" help="Global webhook security settings">
                             <div class="content-group">
                                 <div class="mt16">
-                                    <field name="cron_webhook_verify_signature" class="oe_inline" />
-                                    <label for="cron_webhook_verify_signature" />
-                                </div>
-                                <div class="mt16" invisible="not cron_webhook_verify_signature">
-                                    <label for="cron_webhook_secret" />
-                                    <field name="cron_webhook_secret" password="1" class="oe_inline" />
+                                    <label for="cron_webhook_token" />
+                                    <field name="cron_webhook_token" password="1" class="oe_inline" />
                                     <button
-                                        name="action_generate_cron_webhook_secret"
+                                        name="action_generate_cron_webhook_token"
                                         type="object"
-                                        string="Generate Key"
+                                        string="Generate Token"
                                         class="btn-link"
                                         icon="fa-refresh"
                                     />
@@ -36,27 +32,32 @@
                                             >cron-job.org</a></li>
                                         <li>Create a new cron job with these settings:</li>
                                         <ul>
-                                            <li><strong
-                                                >URL:</strong> Copy from the Cron Job (Webhook Configuration tab)</li>
-                                            <li><strong>Method:</strong> POST</li>
-                                            <li><strong>Schedule:</strong> Your desired interval</li>
-                                            <li><strong>Headers:</strong>
-                                                <ul invisible="not cron_webhook_verify_signature">
-                                                    <li><code>X-Signature: YOUR_CALCULATED_SIGNATURE</code></li>
-                                                </ul>
-                                                <ul>
-                                                    <li><code>Content-Type: application/json</code></li>
-                                                </ul>
+                                            <li><strong>URL:</strong> Copy from the Cron Job (Webhook Configuration tab)
+                                                <br />
+                                                <small class="text-muted">Or use the global token: <code
+                                                    >https://your-domain.com/cron/webhook/YOUR_CODE?token=GLOBAL_TOKEN</code></small>
                                             </li>
-                                            <li invisible="not cron_webhook_verify_signature"><strong>Body:</strong>
-                                                <pre
-                                                    style="background: #f8f9fa; padding: 10px; border: 1px solid #dee2e6; border-radius: 4px; margin-top: 10px;"
-                                                >{
-    "timestamp": "2024-03-24T12:00:00Z"
-}</pre>
+                                            <li><strong>Method:</strong> POST or GET</li>
+                                            <li><strong>Schedule:</strong> Your desired interval</li>
+                                            <li><strong>Authentication Options (choose ONE):</strong>
+                                                <ul>
+                                                    <li><strong>URL Parameter:</strong> Append <code
+                                                        >?token=YOUR_TOKEN</code> to the URL</li>
+                                                    <li><strong>Header:</strong> Add <code
+                                                        >X-Access-Token: YOUR_TOKEN</code></li>
+                                                    <li><strong
+                                                        >Body (POST only):</strong> Send a JSON with token (requires <code
+                                                        >Content-Type: application/json</code>)</li>
+                                                </ul>
                                             </li>
                                         </ul>
                                     </ol>
+                                    <p class="ml32">Example Body for POST:</p>
+                                    <pre
+                                        style="background: #f8f9fa; padding: 10px; border: 1px solid #dee2e6; border-radius: 4px; margin-left: 40px;"
+                                    >{
+    "token": "YOUR_TOKEN_HERE"
+}</pre>
                                 </div>
                             </div>
                         </setting>

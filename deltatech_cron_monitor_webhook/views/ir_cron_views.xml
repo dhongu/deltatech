@@ -5,18 +5,18 @@
         <field name="model">ir.cron</field>
         <field name="inherit_id" ref="base.ir_cron_view_form" />
         <field name="arch" type="xml">
-            <xpath expr="//sheet" position="inside">
-                <notebook>
+            <xpath expr="//sheet//notebook" position="inside">
+
                     <page string="Webhook Configuration" name="webhook_config">
                         <group>
                             <group>
                                 <field name="enable_webhook" />
-                                <field name="webhook_code" invisible="not enable_webhook" required="enable_webhook" />
+                                <field name="webhook_code" invisible="not enable_webhook" />
                                 <field name="webhook_url" widget="url" invisible="not enable_webhook" />
                             </group>
                         </group>
                     </page>
-                </notebook>
+
             </xpath>
         </field>
     </record>

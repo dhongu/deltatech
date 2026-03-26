@@ -10,16 +10,27 @@ class IrCron(models.Model):
 
     # Webhook Integration
     enable_webhook = fields.Boolean("Enable Webhook", copy=False)
-    webhook_code = fields.Char("Webhook Code", copy=False)
-    _sql_constraints = [("webhook_code_unique", "unique(webhook_code)", "Webhook Code must be unique!")]
+    webhook_code = fields.Char(
+        "Webhook Code",
+        copy=False,
+        help="Unique code for this webhook",
+    )
+    _sql_constraints = [
+        ("webhook_code_unique", "unique(webhook_code)", "Webhook Code must be unique!"),
+    ]
     webhook_url = fields.Char("Webhook URL", compute="_compute_webhook_url")
 
     @api.depends("webhook_code")
     def _compute_webhook_url(self):
-        base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+        ConfigParam = self.env["ir.config_parameter"].sudo()
+        base_url = ConfigParam.get_param("web.base.url")
+        global_token = ConfigParam.get_param("deltatech_cron_monitor_webhook.global_token")
         for cron in self:
             if cron.webhook_code:
-                cron.webhook_url = f"{base_url}/cron/webhook/{cron.webhook_code}"
+                url = f"{base_url}/cron/webhook/{cron.webhook_code}"
+                if global_token:
+                    url += f"?token={global_token}"
+                cron.webhook_url = url
             else:
                 cron.webhook_url = False
 
