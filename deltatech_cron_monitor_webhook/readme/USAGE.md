@@ -36,9 +36,16 @@ You can authenticate using the global token in three ways:
 
 ### 5. Verification
 You can test the integration by clicking **Run now** on cron-job.org or by visiting the Webhook URL in your browser.
-If successful, Odoo will return a `200 OK` response with:
+Odoo will return a JSON response. In case of success, the HTTP status is `200 OK`. In case of error, an appropriate HTTP status code (401, 404, 500) will be returned along with the error details in JSON format.
+
+**Success Response:**
+- `status`: `success`
 - `job_name`: The name of the cron job.
 - `execution_time`: How long it took to run.
 - `timestamp`: The time of execution.
 
-If it fails, check the Odoo logs or the response message (e.g., `Invalid token`, `Invalid webhook code`).
+**Error Response:**
+- `status`: `error`
+- `message`: Description of the error (e.g., `Invalid token`, `Invalid webhook code`, or the Python exception message).
+
+If you receive an error, check the `message` field in the JSON response or the Odoo logs for more details.
