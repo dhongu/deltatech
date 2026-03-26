@@ -1,4 +1,3 @@
-import hashlib
 import hmac
 import json
 import logging
@@ -11,18 +10,12 @@ _logger = logging.getLogger(__name__)
 
 
 class CronWebhookController(http.Controller):
-    def _verify_signature(self, webhook_code, timestamp, signature, secret):
-        if not secret or not signature:
-            return False
-        expected = hmac.new(secret.encode(), f"{webhook_code}{timestamp}".encode(), hashlib.sha256).hexdigest()
-        return hmac.compare_digest(expected, signature)
-
     def _make_json_response(self, data, status=200):
         return request.make_response(
             json.dumps(data, default=str), headers=[("Content-Type", "application/json")], status=status
         )
 
-    @http.route("/cron/webhook/<string:webhook_code>", type="http", auth="none", methods=["POST"], csrf=False)
+    @http.route("/cron/webhook/<string:webhook_code>", type="http", auth="none", methods=["POST", "GET"], csrf=False)
     def trigger_cron(self, webhook_code, **kw):
         # We need to use sudo() and a proper environment since auth is none
         cron = (
@@ -36,25 +29,24 @@ class CronWebhookController(http.Controller):
                 {"status": "error", "message": "Invalid webhook code or disabled"}, status=404
             )
 
-        # JSON data for type='http' needs to be parsed manually if sent as application/json
-        try:
-            params = json.loads(request.httprequest.data) if request.httprequest.data else {}
-        except Exception:
-            params = {}
+        # Verify token
+        token = kw.get("token") or request.httprequest.headers.get("X-Access-Token")
+        if (
+            not token
+            and request.httprequest.method == "POST"
+            and request.httprequest.content_type == "application/json"
+        ):
+            try:
+                data = json.loads(request.httprequest.data)
+                token = data.get("token")
+            except (ValueError, TypeError):
+                _logger.debug("Failed to parse JSON body for token extraction")
 
-        # Verify signature if enabled
-        verify = (
-            request.env["ir.config_parameter"]
-            .sudo()
-            .get_param("deltatech_cron_monitor_webhook.verify_signature", "False")
-            == "True"
+        global_token = (
+            request.env["ir.config_parameter"].sudo().get_param("deltatech_cron_monitor_webhook.global_token")
         )
-        if verify:
-            signature = request.httprequest.headers.get("X-Signature")
-            timestamp = params.get("timestamp", "")
-            secret = request.env["ir.config_parameter"].sudo().get_param("deltatech_cron_monitor_webhook.master_secret")
-            if not self._verify_signature(webhook_code, timestamp, signature, secret):
-                return self._make_json_response({"status": "error", "message": "Invalid signature"}, status=401)
+        if not global_token or not token or not hmac.compare_digest(global_token, token):
+            return self._make_json_response({"status": "error", "message": "Invalid token"}, status=401)
 
         start_time = time.time()
         try:
