@@ -13,7 +13,7 @@ Deltatech Cron Monitor Webhook
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
@@ -23,24 +23,24 @@ Deltatech Cron Monitor Webhook
 |badge1| |badge2| |badge3|
 
 This module provides a simple and secure solution to trigger Odoo cron
-jobs via webhooks.
+jobs via webhooks using a global access token.
 
 Key Features:
 ~~~~~~~~~~~~~
 
 - **Webhook Activation per Cron**: Each scheduled action can be
   configured to allow external triggering.
-- **Unique Webhook Code**: Generate a unique code for each cron to build
-  a dedicated endpoint URL.
-- **HMAC Security**: Protection via HMAC-SHA256 signature using a
-  configurable master secret key.
+- **Unique Webhook Code**: Define a unique code for each cron to build a
+  dedicated endpoint URL.
+- **Global Token Security**: Protection via a global access token
+  (Bearer or Parameter) instead of complex HMAC signatures.
 - **Dedicated Endpoints**:
 
-  - Trigger: ``/cron/webhook/<webhook_code>`` (POST)
+  - Trigger: ``/cron/webhook/<webhook_code>`` (POST/GET)
   - Status: ``/cron/webhook/<webhook_code>/status`` (GET)
 
-- **Easy Configuration**: Global settings allow enabling/disabling
-  signature verification and defining the master key.
+- **Easy Configuration**: A single global token manages access for all
+  enabled webhooks, simplifying integration with external services.
 
 Integration:
 ~~~~~~~~~~~~
@@ -64,13 +64,11 @@ follow these steps:
 1. Global Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Go to **Settings > General Settings** and search for **Cron Monitor**
-   (or scroll to the Cron Monitor section).
-2. Enable **Verify Webhook Signature** if you want to use HMAC security
-   (recommended).
-3. Generate or set a **Master Webhook Secret**. You can use the
-   **Generate Key** button to create a secure random key.
-4. **Save** the settings.
+1. Go to **Settings > General Settings** and search for **Cron
+   Monitor**.
+2. Generate or set a **Global Webhook Token**. You can use the
+   **Generate Token** button to create a secure UUID.
+3. **Save** the settings.
 
 2. Configure the Cron Job
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -81,7 +79,8 @@ follow these steps:
 
    - Check **Enable Webhook**.
    - Provide a unique **Webhook Code** (e.g., ``sync_partners``).
-   - Copy the generated **Webhook URL**.
+   - Copy the generated **Webhook URL** (it already contains the global
+     token for convenience).
 
 3. Setup on cron-job.org
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -89,58 +88,41 @@ follow these steps:
 1. Log in to your `cron-job.org <https://cron-job.org>`__ account.
 2. Click **Create cronjob**.
 3. **URL**: Paste the Webhook URL from Odoo.
-4. **Request Method**: Select ``POST``.
+4. **Request Method**: Select ``GET`` or ``POST``.
 5. **Schedule**: Set your desired interval.
-6. **Headers**:
 
-   - Add ``Content-Type: application/json``.
-   - If signature verification is enabled, add
-     ``X-Signature: YOUR_CALCULATED_SIGNATURE``.
+4. Authentication Options (choose ONE)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-7. **Body** (if signature verification is enabled): Provide a JSON with
-   a ``timestamp``.
-   .. code:: json
+You can authenticate using the global token in three ways:
 
-      {
-        "timestamp": "2024-03-24T12:00:00Z"
-      }
+- **URL Parameter (Recommended)**: Append ``?token=YOUR_TOKEN`` to the
+  URL.
+- **HTTP Header**: Add ``X-Access-Token: YOUR_TOKEN``.
+- **JSON Body (POST only)**: Send a JSON with a ``token`` key (requires
+  ``Content-Type: application/json``).
 
-4. HMAC Signature Calculation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Example of JSON Body:**
 
-The signature is calculated using **HMAC-SHA256** with:
+.. code:: json
 
-- **Message**: Concatenation of ``webhook_code`` and ``timestamp``
-  (e.g., ``sync_partners2024-03-24T12:00:00Z``).
-- **Secret**: The **Master Webhook Secret** configured in Odoo.
-
-**Example of signature generation (Python):**
-
-.. code:: python
-
-   import hmac
-   import hashlib
-
-   webhook_code = "sync_partners"
-   timestamp = "2024-03-24T12:00:00Z"
-   secret = "your_master_secret_here"
-
-   message = f"{webhook_code}{timestamp}"
-   signature = hmac.new(
-       secret.encode(),
-       message.encode(),
-       hashlib.sha256
-   ).hexdigest()
-
-   print(f"X-Signature: {signature}")
+   {
+     "token": "YOUR_GLOBAL_TOKEN_HERE"
+   }
 
 5. Verification
 ~~~~~~~~~~~~~~~
 
-You can test the integration by clicking **Run now** on cron-job.org. If
-successful, Odoo will return a ``200 OK`` response with execution
-details. If it fails, check the Odoo logs for details (e.g., invalid
-signature or execution error).
+You can test the integration by clicking **Run now** on cron-job.org or
+by visiting the Webhook URL in your browser. If successful, Odoo will
+return a ``200 OK`` response with:
+
+- ``job_name``: The name of the cron job.
+- ``execution_time``: How long it took to run.
+- ``timestamp``: The time of execution.
+
+If it fails, check the Odoo logs or the response message (e.g.,
+``Invalid token``, ``Invalid webhook code``).
 
 Bug Tracker
 ===========
