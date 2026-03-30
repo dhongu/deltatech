@@ -38,7 +38,7 @@
                 </td>
                 <td>
                     <b t-out='props.record.data.vendor_qty_available' />
-                    <t t-out='props.record.data.product_uom[1]' />
+                    <t t-if="props.record.data.product_uom_id" t-out='props.record.data.product_uom_id[1]' />
                 </td>
             </tr>
             <tr t-if="props.record.data.other_qty_available">
@@ -47,7 +47,7 @@
                 </td>
                 <td class="text-end">
                     <b t-out='props.record.data.other_qty_available' />
-                    <t t-out='props.record.data.product_uom[1]' />
+                    <t t-if="props.record.data.product_uom_id" t-out='props.record.data.product_uom_id[1]' />
                 </td>
             </tr>
             <tr t-if="props.record.data.warehouse_stock">
