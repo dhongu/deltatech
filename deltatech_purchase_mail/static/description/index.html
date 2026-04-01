@@ -370,34 +370,74 @@ ul.auto-toc {
 !! source digest: sha256:aed6b9f7b91745b119d4fa21a6d08a6acb23b18e789ce9a13118024b26fb14f8
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/license-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_mail"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<div class="section" id="multi-purchase-order-email-with-xlsx-summary">
+<h1>Multi-Purchase Order Email with XLSX Summary</h1>
+<p>This module introduces an advanced email dispatch feature for the Odoo
+Purchase module. It allows procurement teams to select multiple purchase
+orders and send them simultaneously to their respective vendors or
+internal stakeholders, complete with an aggregated XLSX summary and
+individual PDF attachments.</p>
+</div>
+<div class="section" id="key-features">
+<h1>Key Features</h1>
+<ol class="arabic simple">
+<li><strong>Batch Email Dispatch</strong>:<ul>
+<li>Adds a dedicated <strong>Send Multi Orders</strong> action to the Purchase Order
+list view.</li>
+<li>Enables the simultaneous sending of multiple orders, significantly
+reducing manual effort for high-volume procurement operations.</li>
 </ul>
 </li>
+<li><strong>Automated XLSX Summary</strong>:<ul>
+<li>Automatically generates and attaches an Excel (<strong>XLSX</strong>) summary
+containing key details from all selected purchase orders.</li>
+<li>Provides vendors or managers with a clear, aggregated overview of
+the procurement batch.</li>
 </ul>
+</li>
+<li><strong>Individual PDF Attachments</strong>:<ul>
+<li>Ensures that the official PDF reports for each selected purchase
+order are attached to the outgoing email for formal
+acknowledgement.</li>
+</ul>
+</li>
+<li><strong>Customizable Email Templates</strong>:<ul>
+<li>Uses a dedicated mail template that can be easily customized to fit
+corporate communication standards.</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<ol class="arabic simple">
+<li>Navigate to <strong>Purchase &gt; Orders</strong>.</li>
+<li>Select multiple Purchase Orders from the list view using the
+checkboxes.</li>
+<li>Click the <strong>Action</strong> menu and select <strong>Send Multi Orders by Email</strong>.</li>
+<li>Review the email composition wizard, which will already have the XLSX
+summary and PDFs attached.</li>
+<li>Click <strong>Send</strong> to dispatch the communications.</li>
+</ol>
+<p><strong>Table of contents</strong></p>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Deltatech</li>
 <li>Terrabit</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_mail">dhongu/deltatech</a> project on GitHub.</p>
 <p>You are welcome to contribute.</p>
 </div>
