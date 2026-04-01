@@ -370,43 +370,77 @@ ul.auto-toc {
 !! source digest: sha256:97dbdd8e06fd373211146446e1599f6071b07c98b03552a542bbe606a153f29d
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Production/Stable" src="https://img.shields.io/badge/maturity-Production%2FStable-green.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_price_categ"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<ul class="simple">
-<li>Thid module adds 4 new fields in product for 4 categories of price:<ol class="arabic">
-<li>Bronze Price</li>
-<li>Silver Price</li>
-<li>Gold Price</li>
-<li>Platinum price</li>
+<div class="section" id="price-category-1">
+<h1>Price Category</h1>
+<p>This module introduces a tiered pricing system for products in Odoo,
+allowing businesses to define multiple price levels (Bronze, Copper,
+Silver, and Gold) based on configurable percentage markups from a base
+price.</p>
+</div>
+<div class="section" id="key-features">
+<h1>Key Features</h1>
+<ol class="arabic simple">
+<li><strong>Tiered Pricing Structure</strong>:<ul>
+<li>Adds fields for <strong>Bronze</strong>, <strong>Copper</strong>, <strong>Silver</strong>, and <strong>Gold</strong>
+percentage markups on the product template.</li>
+<li>Automatically computes the corresponding prices based on the
+selected base price.</li>
+</ul>
+</li>
+<li><strong>Flexible Base Price Selection</strong>:<ul>
+<li>Choose between <strong>List Price</strong>, <strong>Cost Price</strong>, or <strong>Last Purchase
+Price</strong> as the foundation for markup calculations.</li>
+<li>Handles tax-included or tax-excluded prices gracefully during
+computation.</li>
+</ul>
+</li>
+<li><strong>Pricelist Integration</strong>:<ul>
+<li>Extends Odoo’s standard pricelist items to include these new price
+tiers as base options.</li>
+<li>Allows for dynamic pricing rules that reference the computed
+Bronze, Silver, etc., prices.</li>
+</ul>
+</li>
+<li><strong>Price Issue Monitoring</strong>:<ul>
+<li>Includes a calculated field to detect inconsistencies in the price
+hierarchy (e.g., if a Gold price is higher than a Silver price).</li>
+</ul>
+</li>
 </ol>
-</li>
-</ul>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<ol class="arabic simple">
+<li>Open a <strong>Product Template</strong> and navigate to the <strong>Sales</strong> or
+<strong>Inventory</strong> tab where the new price fields are located.</li>
+<li>Select the <strong>Base Price</strong> method (List Price, Cost, or Last
+Purchase).</li>
+<li>Enter the percentage markups for each tier (Bronze Percent, Silver
+Percent, etc.).</li>
+<li>The system will automatically compute and display the resulting tier
+prices.</li>
+<li>In <strong>Pricelists</strong>, you can now create items that use these calculated
+prices as a base for further discounts or rules.</li>
+</ol>
 <p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
-</ul>
-</li>
-</ul>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_price_categ">dhongu/deltatech</a> project on GitHub.</p>
