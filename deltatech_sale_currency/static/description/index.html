@@ -370,48 +370,70 @@ ul.auto-toc {
 !! source digest: sha256:0734c99841fbbaf6ff52f0272b14da074d39752ea72595db2bbc83a188eb2db7
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Production/Stable" src="https://img.shields.io/badge/maturity-Production%2FStable-green.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_currency"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<ul class="simple">
-<li>Features:<ul>
-<li>Allows managing sales orders in multiple currencies</li>
-<li>Provides the ability to set and display prices in different
-currencies</li>
-<li>Maintains original currency information throughout the sales process</li>
-<li>Handles currency conversion for accounting entries</li>
-<li>Supports currency exchange rate differences when invoicing sales
-orders</li>
-<li>Integrates with both sales and accounting modules</li>
-<li>Improves reporting for sales in multiple currencies</li>
+<div class="section" id="sale-currency-extension">
+<h1>Sale Currency Extension</h1>
+<p>This module provides specialized handling for currency conversion
+between sales orders and their generated invoices. It’s particularly
+useful for businesses that maintain pricelists in one currency (e.g.,
+EUR) but wish to issue invoices in another (e.g., the journal’s currency
+or company’s functional currency like RON).</p>
+</div>
+<div class="section" id="key-features">
+<h1>Key Features</h1>
+<ol class="arabic simple">
+<li><strong>Journal-Based Invoice Currency</strong>:<ul>
+<li>Automatically sets the currency of the generated invoice based on
+the selected sales journal’s currency.</li>
+<li>Overrides Odoo’s default behavior of using the sales order’s
+currency for the invoice.</li>
 </ul>
 </li>
+<li><strong>Automatic Price Conversion</strong>:<ul>
+<li>Converts unit prices from the sales order’s currency to the
+invoice’s currency during the invoicing process.</li>
+<li>Uses the exchange rate valid on the date of the conversion.</li>
+<li>Ensures that financial records in the accounting journal reflect
+the correct values in the desired currency.</li>
 </ul>
+</li>
+<li><strong>Cross-Module Integration</strong>:<ul>
+<li>Seamlessly integrates with both the <strong>Sales</strong> and <strong>Accounting</strong>
+modules to ensure a consistent data flow.</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<ol class="arabic simple">
+<li>Create a <strong>Sales Order</strong> using a pricelist in a specific currency
+(e.g., USD).</li>
+<li>Ensure a <strong>Sales Journal</strong> with a different currency (e.g., EUR) is
+associated with the sales order or configured as the default.</li>
+<li>Confirm the sales order and click <strong>Create Invoice</strong>.</li>
+<li>The system will automatically convert the product prices from USD to
+EUR based on the current exchange rate and set the invoice’s currency
+to EUR.</li>
+</ol>
 <p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
-</ul>
-</li>
-</ul>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_currency">dhongu/deltatech</a> project on GitHub.</p>
