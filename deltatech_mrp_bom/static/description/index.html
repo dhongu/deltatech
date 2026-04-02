@@ -399,6 +399,12 @@ component’s template.</li>
 <li>When creating a Manufacturing Order, selecting a product variant
 automatically triggers the creation (if not present) and computation
 of a <tt class="docutils literal">Derived</tt> BoM based on the existing <tt class="docutils literal">Base</tt> BoM.</li>
+<li>A <strong>“Compute Derived BoM”</strong> button is available in the Manufacturing
+Order (draft state) to manually trigger the creation and calculation
+of the derived BoM from the base BoM.</li>
+<li>The derived BoM is automatically assigned a reference (code) in the
+format <tt class="docutils literal">DX</tt> (e.g., D1, D2), where X represents the variant version
+number for the product template.</li>
 <li>Before confirming a Manufacturing Order, the system recomputes the
 <tt class="docutils literal">Derived</tt> BoM to ensure that all component variants are correctly
 selected according to the latest attribute configurations.</li>

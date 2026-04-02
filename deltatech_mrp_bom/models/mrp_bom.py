@@ -32,6 +32,9 @@ class MrpBom(models.Model):
 
     def recompute_from_base(self):
         for bom in self:
+            if bom.base_type != "derived":
+                continue
+
             domain = [("product_tmpl_id", "=", bom.product_tmpl_id.id), ("base_type", "=", "base")]
             base_bom = self.search(domain, limit=1)
             if base_bom:
