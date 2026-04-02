@@ -47,6 +47,6 @@ class MrpProduction(models.Model):
     def action_confirm(self):
         for production in self:
             if production.bom_id.base_type != "normal":
-                production.bom_id.recompute_from_base()
+                production._compute_derived_bom()
 
         return super().action_confirm()
