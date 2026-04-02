@@ -462,15 +462,25 @@ URL.</li>
 <div class="section" id="verification">
 <h1>5. Verification</h1>
 <p>You can test the integration by clicking <strong>Run now</strong> on cron-job.org or
-by visiting the Webhook URL in your browser. If successful, Odoo will
-return a <tt class="docutils literal">200 OK</tt> response with:</p>
+by visiting the Webhook URL in your browser. Odoo will return a JSON
+response. In case of success, the HTTP status is <tt class="docutils literal">200 OK</tt>. In case of
+error, an appropriate HTTP status code (401, 404, 500) will be returned
+along with the error details in JSON format.</p>
+<p><strong>Success Response:</strong></p>
 <ul class="simple">
+<li><tt class="docutils literal">status</tt>: <tt class="docutils literal">success</tt></li>
 <li><tt class="docutils literal">job_name</tt>: The name of the cron job.</li>
 <li><tt class="docutils literal">execution_time</tt>: How long it took to run.</li>
 <li><tt class="docutils literal">timestamp</tt>: The time of execution.</li>
 </ul>
-<p>If it fails, check the Odoo logs or the response message (e.g.,
-<tt class="docutils literal">Invalid token</tt>, <tt class="docutils literal">Invalid webhook code</tt>).</p>
+<p><strong>Error Response:</strong></p>
+<ul class="simple">
+<li><tt class="docutils literal">status</tt>: <tt class="docutils literal">error</tt></li>
+<li><tt class="docutils literal">message</tt>: Description of the error (e.g., <tt class="docutils literal">Invalid token</tt>,
+<tt class="docutils literal">Invalid webhook code</tt>, or the Python exception message).</li>
+</ul>
+<p>If you receive an error, check the <tt class="docutils literal">message</tt> field in the JSON
+response or the Odoo logs for more details.</p>
 <div class="section" id="bug-tracker">
 <h2>Bug Tracker</h2>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
