@@ -11,11 +11,15 @@ class TestWebsiteStockAvailabilityTour(HttpCase):
         super().setUpClass()
         env = cls.env
 
+        # Ensure a website exists (and is the current one)
+        website = env["website"].search([], limit=1)
+        if not website:
+            website = env["website"].create({"name": "Test Website"})
+        cls.website = website
+
         cls.partner_a = env["res.partner"].create({"name": "Test Vendor"})
 
-        seller_ids = [
-            (0, 0, {"partner_id": cls.partner_a.id, "date_start": "2020-01-01", "delay": 5, "qty_available": 100})
-        ]
+        seller_ids = [(0, 0, {"partner_id": cls.partner_a.id, "date_start": "2020-01-01", "delay": 5})]
 
         cls.product_a = env["product.product"].create(
             {
@@ -44,7 +48,7 @@ class TestWebsiteStockAvailabilityTour(HttpCase):
 
     def test_run_stock_availability_tour(self):
         self.start_tour(
-            "/shop",
+            "/shop?debug=1",
             "deltatech_website_stock_availability_tour",
             login="admin",
         )
