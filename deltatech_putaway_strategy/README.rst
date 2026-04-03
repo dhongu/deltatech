@@ -85,7 +85,6 @@ Performance notes
 Compatibility
 -------------
 
-- Odoo 17.0.
 - Designed to work alongside modules that display warehouse maps or
   dashboards. The module ``deltatech_warehouse_map`` can depend on this
   one to display the capacity and occupancy KPIs.

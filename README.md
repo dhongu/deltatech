@@ -110,6 +110,7 @@ addon | version | maintainers | summary
 [deltatech_website_stock_availability](deltatech_website_stock_availability/) | 19.0.1.0.6 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | eCommerce Stock Availability and lead time
 [deltatech_website_vat_validation](deltatech_website_vat_validation/) | 19.0.0.0.0 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | VAT Validation
 [deltatech_widget_fontawesome](deltatech_widget_fontawesome/) | 19.0.1.0.0 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Font Awesome Widget
+[deltatech_widget_many2one_badge](deltatech_widget_many2one_badge/) | 19.0.1.0.0 |  | Many2one field widget displayed as colored badge, similar to many2many_tags
 
 [//]: # (end addons)
 

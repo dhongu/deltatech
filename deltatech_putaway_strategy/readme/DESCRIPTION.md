@@ -31,7 +31,6 @@ This module extends Odoo Inventory locations with simple capacity tracking and e
 - The occupancy compute reduces SQL calls from O(N) per leaf to O(1) per batch using a single `read_group`, mirroring the efficient pattern from Odoo’s `_compute_weight`.
 
 ## Compatibility
-- Odoo 17.0.
 - Designed to work alongside modules that display warehouse maps or dashboards. The module `deltatech_warehouse_map` can depend on this one to display the capacity and occupancy KPIs.
 
 ## Tests

@@ -10,6 +10,13 @@ class TestWebsiteCityTour(HttpCase):
     def setUpClass(cls):
         super().setUpClass()
         env = cls.env
+
+        # Ensure a website exists (and is the current one)
+        website = env["website"].search([], limit=1)
+        if not website:
+            website = env["website"].create({"name": "Test Website"})
+        cls.website = website
+
         # Prepare minimal geographic data used by the tour selections
         cls.country = env["res.country"].create(
             {"name": "Testland", "code": "XZ", "enforce_cities": True, "zip_required": True, "state_required": True}
@@ -41,7 +48,7 @@ class TestWebsiteCityTour(HttpCase):
     def test_run_city_zip_tour(self):
         # Use admin to access /my/account; the tour will select country/state/city
         self.start_tour(
-            "/my/account",
+            "/my/account?debug=1",
             "deltatech_website_city_tour_city_zip",
             login="admin",
         )
