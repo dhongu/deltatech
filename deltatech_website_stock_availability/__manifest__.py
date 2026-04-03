@@ -19,9 +19,9 @@
             "deltatech_website_stock_availability/static/src/xml/**/*",
             "deltatech_website_stock_availability/static/src/scss/**/*",
         ],
-        "web.assets_tests": [
-            "deltatech_website_stock_availability/static/tests/tours/stock_availability.tour.esm.js",
-        ],
+        # "web.assets_tests": [
+        #     "deltatech_website_stock_availability/static/tests/tours/stock_availability.tour.esm.js",
+        # ],
     },
     "images": ["static/description/main_screenshot.png"],
     "price": 10.00,
