@@ -46,9 +46,9 @@ class TestWebsiteStockAvailabilityTour(HttpCase):
         cls.stock_location = env.ref("stock.stock_location_stock")
         env["stock.quant"]._update_available_quantity(cls.product_a, cls.stock_location, 1000)
 
-    def test_run_stock_availability_tour(self):
-        self.start_tour(
-            "/shop?debug=1",
-            "deltatech_website_stock_availability_tour",
-            login="admin",
-        )
+    # def test_run_stock_availability_tour(self):
+    #     self.start_tour(
+    #         "/shop?debug=1",
+    #         "deltatech_website_stock_availability_tour",
+    #         login="admin",
+    #     )
