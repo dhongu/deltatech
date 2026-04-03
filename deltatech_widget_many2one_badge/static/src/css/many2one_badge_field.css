@@ -1,0 +1,7 @@
+.o_field_many2one_badge .o_tag .o_delete {
+    display: none;
+}
+
+.o_field_many2one_badge .o_tag:hover .o_delete {
+    display: inline;
+}
