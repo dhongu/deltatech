@@ -38,8 +38,10 @@ class ProductTemplate(models.Model):
 
     def _compute_warehouse_stocks(self):
         display_free_quantity = self.env.context.get("display_free_quantity", False)
+        # Consider only warehouses belonging to the current company to avoid multi-company leakage
         warehouses = self.env["stock.warehouse"].search([("company_id", "=", self.env.company.id)], order="name")
         if len(warehouses) == 1:
+            # With a single warehouse in the current company, do not display the breakdown
             self.warehouse_stock = False
             return
 
@@ -47,7 +49,10 @@ class ProductTemplate(models.Model):
             warehouse_stock_lines = []
             for warehouse in warehouses:
                 if warehouse.lot_stock_id.usage == "internal":
-                    qty = product.with_context(warehouse_id=warehouse.id)._compute_quantities_dict()
+                    if warehouse.kanban_display_stock == "main":
+                        qty = self.with_context(location=warehouse.lot_stock_id.id)._compute_quantities_dict()
+                    else:
+                        qty = product.with_context(warehouse_id=warehouse.id)._compute_quantities_dict()
                     if display_free_quantity:
                         quantity_in_warehouse = qty[product.id]["qty_available"] - qty[product.id]["outgoing_qty"]
                         if quantity_in_warehouse:
@@ -191,7 +196,7 @@ class ProductTemplate(models.Model):
                         lambda loc_in: loc_in.location_in_id == location_source
                     ):
                         value = {
-                            "company_id": product.company_id or self.env.user.company_id.id,
+                            "company_id": product.company_id.id or self.env.user.company_id.id,
                             "product_id": product_variant.id,
                             "location_in_id": location_source.id,
                             "location_out_id": location_dest.id,
@@ -222,7 +227,7 @@ class ProductTemplate(models.Model):
                 quants = self.env["stock.quant"]._gather(product, location_id)
                 qty = sum(quants.mapped("quantity"))
                 value = {
-                    "company_id": self.company_id or self.env.user.company_id.id,
+                    "company_id": (self.company_id.id or self.env.user.company_id.id),
                     "date": fields.Datetime.now(),
                     "product_id": product.id,
                     "location_id": location_id.id,
