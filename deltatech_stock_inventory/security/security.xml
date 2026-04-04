@@ -13,4 +13,8 @@
 
         </record>
 
+        <record id="group_show_manual_location_fields" model="res.groups">
+            <field name="name">Show manual location fields (Rack/Row/Shelf/Case)</field>
+        </record>
+
 </odoo>

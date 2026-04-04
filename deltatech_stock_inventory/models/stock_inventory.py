@@ -92,6 +92,7 @@ class Inventory(models.Model):
     def _onchange_company_id(self):
         # If the multilocation group is not active, default the location to the one of the main
         # warehouse.
+
         if not self.env.user.has_groups("stock.group_stock_multi_locations"):
             warehouse = self.env["stock.warehouse"].search([("company_id", "=", self.company_id.id)], limit=1)
             if warehouse:
