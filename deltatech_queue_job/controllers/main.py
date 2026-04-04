@@ -19,7 +19,7 @@ class QueueJobProcessorController(http.Controller):
         request.env["queue.job"]._run_pending_jobs()
         return "Jobs executed"
 
-    @http.route("/api/v1/queue/process", type="json", auth="public", methods=["POST"], csrf=False)
+    @http.route("/api/v1/queue/process", type="jsonrpc", auth="public", methods=["POST"], csrf=False)
     def process_queue_jobs(self, api_key=None, batch_size=None, max_seconds=None, **kw):
         """
         Process pending queue jobs
@@ -99,7 +99,7 @@ class QueueJobProcessorController(http.Controller):
             _logger.error("💥 Fatal error in queue processor API: %s", str(e), exc_info=True)
             return {"jsonrpc": "2.0", "id": None, "result": {"status": "error", "message": str(e), "code": 500}}
 
-    @http.route("/api/v1/queue/stats", type="json", auth="public", methods=["GET", "POST"], csrf=False)
+    @http.route("/api/v1/queue/stats", type="jsonrpc", auth="public", methods=["GET", "POST"], csrf=False)
     def get_queue_stats(self, api_key=None, **kw):
         """
         Get queue statistics
