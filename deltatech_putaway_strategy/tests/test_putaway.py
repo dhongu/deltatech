@@ -68,9 +68,12 @@ class TestPutawayStrategy(TransactionCase):
         self.assertFalse(self.loc2._check_can_be_used(self.product, quantity=4))
 
     def test_get_putaway_prefers_empty_child(self):
+        self.env["ir.config_parameter"].sudo().set_param("deltatech_putaway_strategy.search_sublocation", "True")
         # Trebuie sa determina locatia in care deja exista acest produs
         dest = self.parent_loc._get_putaway_strategy(self.product, quantity=1)
         self.assertEqual(dest.id, self.loc2.id)
         # Putaway pe părinte cu qty 1 ar trebui să aleagă L1 (goală) înaintea lui L2 (ocupată)
+        # dar L2 are deja produsul, deci ar trebui sa fie preferata daca are loc?
+        # In codul actual: cauta intai unde e produsul.
         dest = self.parent_loc._get_putaway_strategy(self.product2, quantity=1)
         self.assertEqual(dest.id, self.loc1.id)
