@@ -33,84 +33,102 @@ Features
 --------
 
 - **Legacy Inventory System**: Restores the functionality of the old
-  stock.inventory model, which was removed in newer Odoo versions
+  stock.inventory model, which was removed in newer Odoo versions.
 - **Enhanced Stock Valuation**:
 
-  - Displays stock price columns in inventory views
-  - Allows updating product cost prices during inventory validation
+  - Displays columns with the stock price in inventory views.
+  - Allows updating product cost prices during inventory validation.
+
+- **Multi-Warehouse Stock Visibility**:
+
+  - Displays stock broken down by warehouse codes directly in the
+    product Kanban view.
+  - Configuration option per warehouse to display total stock or only
+    from the main location.
+
+- **Manual Location Control**:
+
+  - Adds fields for Rack, Row, Shelf, and Case on products and inventory
+    lines.
+  - Fields can be activated/deactivated from inventory settings.
 
 - **Security Controls**:
 
-  - Adds "Can update quantities" security group to restrict who can
-    modify inventory quantities
+  - Adds the "Can update quantities" security group to restrict who can
+    modify inventory quantities.
 
 - **Inventory Price Update**:
 
-  - When system parameter "stock.use_inventory_price" is set to True,
-    the cost price of products (with FIFO evaluation) is updated with
-    the price from inventory lines
-  - This ensures stock valuation generated from inventory uses the
-    specified unit price
+  - When the system parameter "stock.use_inventory_price" is set to
+    True, the cost price of products (with FIFO evaluation) is updated
+    with the price from the inventory lines.
 
 - **Inventory Archiving**:
 
-  - Option to archive old stock valuation layers (SVLs) and create new
-    ones based on inventory counts
-  - Supports compatibility with Romanian accounting modules (l10n_ro)
+  - Option to archive old stock valuation layers (SVL) and create new
+    ones based on inventory counts.
+  - Supports compatibility with Romanian accounting modules (l10n_ro).
 
 - **Barcode Support**:
 
   - Integrated barcode scanning functionality for faster inventory
-    operations
-  - Supports scanning products and lot/serial numbers
+    operations.
+  - Supports scanning products and lot/serial numbers.
 
 - **Enhanced Reporting**:
 
-  - Built-in inventory reports
-  - Detailed views of inventory adjustments
+  - Built-in inventory reports.
+  - Detailed views of inventory adjustments.
 
-- **Inventory Management Features**:
+- **Inventory Management Functions**:
 
-  - Filtering by location, rack, or product
-  - Marking inventory lines as "OK" for verification
-  - Creating new inventories from unverified lines
-  - Prefill counted quantities with current stock or zero
-  - Include exhausted products (with zero quantity)
+  - Filtering by location, rack, or product.
+  - Marking inventory lines as "OK" for verification.
+  - Creating new inventories from unverified lines.
+  - Pre-filling counted quantities with current stock or zero.
+  - Including exhausted products (with zero quantity).
 
 Configuration
 -------------
 
-- Set system parameter "stock.use_inventory_price" to True to enable
-  cost price updates during inventory
+- Set the system parameter "stock.use_inventory_price" to True to enable
+  cost price updates during inventory.
+- Enable "Show manual location fields" in Settings -> Inventory to use
+  manual location fields.
 - The "Can update quantities" security group must be assigned to users
-  who need to update inventory quantities
+  who need to update inventory quantities.
 
 Technical Details
 -----------------
 
 The module implements:
 
-- Complete reimplementation of the stock.inventory model
-- Integration with stock valuation layers for proper accounting
-- Custom views for enhanced inventory operations
-- Barcode scanning capabilities for mobile inventory
-- Compatibility with the Romanian accounting module when installed
-
-Usage
------
-
-1. Create a new inventory from Inventory menu
-2. Configure inventory parameters (locations, products, etc.)
-3. Start the inventory to generate lines based on current stock
-4. Count products and update quantities
-5. Use the "Check" function to verify inventory
-6. Validate inventory to create stock moves and update valuation
-7. Optionally use barcode scanning for faster operations
+- Complete reimplementation of the stock.inventory model.
+- Integration with stock valuation layers (SVL) for proper accounting.
+- Custom views for enhanced inventory operations.
+- Barcode scanning capabilities for mobile inventory.
+- Compatibility with Odoo 19 and Romanian accounting modules.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Usage
+=====
+
+1. Create a new inventory document from the **Inventory** menu.
+2. Configure inventory parameters (locations, products, etc.).
+3. Start the inventory to generate lines based on current stock.
+4. Count products and update quantities in the system.
+5. Use the **Check** function to verify the inventory.
+6. Validate the inventory to create stock moves and update valuation.
+7. Optionally, enable the display of manual location fields
+   (Rack/Row/Shelf/Case) from settings if you are not using "putaway"
+   rules.
+8. View stock broken down by warehouse directly in the product Kanban
+   view.
+9. Use barcode scanning for faster operation.
 
 Bug Tracker
 ===========

@@ -382,48 +382,59 @@ better inventory management and stock valuation control.</p>
 <h2>Features</h2>
 <ul class="simple">
 <li><strong>Legacy Inventory System</strong>: Restores the functionality of the old
-stock.inventory model, which was removed in newer Odoo versions</li>
+stock.inventory model, which was removed in newer Odoo versions.</li>
 <li><strong>Enhanced Stock Valuation</strong>:<ul>
-<li>Displays stock price columns in inventory views</li>
-<li>Allows updating product cost prices during inventory validation</li>
+<li>Displays columns with the stock price in inventory views.</li>
+<li>Allows updating product cost prices during inventory validation.</li>
+</ul>
+</li>
+<li><strong>Multi-Warehouse Stock Visibility</strong>:<ul>
+<li>Displays stock broken down by warehouse codes directly in the
+product Kanban view.</li>
+<li>Configuration option per warehouse to display total stock or only
+from the main location.</li>
+</ul>
+</li>
+<li><strong>Manual Location Control</strong>:<ul>
+<li>Adds fields for Rack, Row, Shelf, and Case on products and inventory
+lines.</li>
+<li>Fields can be activated/deactivated from inventory settings.</li>
 </ul>
 </li>
 <li><strong>Security Controls</strong>:<ul>
-<li>Adds “Can update quantities” security group to restrict who can
-modify inventory quantities</li>
+<li>Adds the “Can update quantities” security group to restrict who can
+modify inventory quantities.</li>
 </ul>
 </li>
 <li><strong>Inventory Price Update</strong>:<ul>
-<li>When system parameter “stock.use_inventory_price” is set to True,
-the cost price of products (with FIFO evaluation) is updated with
-the price from inventory lines</li>
-<li>This ensures stock valuation generated from inventory uses the
-specified unit price</li>
+<li>When the system parameter “stock.use_inventory_price” is set to
+True, the cost price of products (with FIFO evaluation) is updated
+with the price from the inventory lines.</li>
 </ul>
 </li>
 <li><strong>Inventory Archiving</strong>:<ul>
-<li>Option to archive old stock valuation layers (SVLs) and create new
-ones based on inventory counts</li>
-<li>Supports compatibility with Romanian accounting modules (l10n_ro)</li>
+<li>Option to archive old stock valuation layers (SVL) and create new
+ones based on inventory counts.</li>
+<li>Supports compatibility with Romanian accounting modules (l10n_ro).</li>
 </ul>
 </li>
 <li><strong>Barcode Support</strong>:<ul>
 <li>Integrated barcode scanning functionality for faster inventory
-operations</li>
-<li>Supports scanning products and lot/serial numbers</li>
+operations.</li>
+<li>Supports scanning products and lot/serial numbers.</li>
 </ul>
 </li>
 <li><strong>Enhanced Reporting</strong>:<ul>
-<li>Built-in inventory reports</li>
-<li>Detailed views of inventory adjustments</li>
+<li>Built-in inventory reports.</li>
+<li>Detailed views of inventory adjustments.</li>
 </ul>
 </li>
-<li><strong>Inventory Management Features</strong>:<ul>
-<li>Filtering by location, rack, or product</li>
-<li>Marking inventory lines as “OK” for verification</li>
-<li>Creating new inventories from unverified lines</li>
-<li>Prefill counted quantities with current stock or zero</li>
-<li>Include exhausted products (with zero quantity)</li>
+<li><strong>Inventory Management Functions</strong>:<ul>
+<li>Filtering by location, rack, or product.</li>
+<li>Marking inventory lines as “OK” for verification.</li>
+<li>Creating new inventories from unverified lines.</li>
+<li>Pre-filling counted quantities with current stock or zero.</li>
+<li>Including exhausted products (with zero quantity).</li>
 </ul>
 </li>
 </ul>
@@ -431,36 +442,43 @@ operations</li>
 <div class="section" id="configuration">
 <h2>Configuration</h2>
 <ul class="simple">
-<li>Set system parameter “stock.use_inventory_price” to True to enable
-cost price updates during inventory</li>
+<li>Set the system parameter “stock.use_inventory_price” to True to enable
+cost price updates during inventory.</li>
+<li>Enable “Show manual location fields” in Settings -&gt; Inventory to use
+manual location fields.</li>
 <li>The “Can update quantities” security group must be assigned to users
-who need to update inventory quantities</li>
+who need to update inventory quantities.</li>
 </ul>
 </div>
 <div class="section" id="technical-details">
 <h2>Technical Details</h2>
 <p>The module implements:</p>
 <ul class="simple">
-<li>Complete reimplementation of the stock.inventory model</li>
-<li>Integration with stock valuation layers for proper accounting</li>
-<li>Custom views for enhanced inventory operations</li>
-<li>Barcode scanning capabilities for mobile inventory</li>
-<li>Compatibility with the Romanian accounting module when installed</li>
+<li>Complete reimplementation of the stock.inventory model.</li>
+<li>Integration with stock valuation layers (SVL) for proper accounting.</li>
+<li>Custom views for enhanced inventory operations.</li>
+<li>Barcode scanning capabilities for mobile inventory.</li>
+<li>Compatibility with Odoo 19 and Romanian accounting modules.</li>
 </ul>
-</div>
-<div class="section" id="usage">
-<h2>Usage</h2>
-<ol class="arabic simple">
-<li>Create a new inventory from Inventory menu</li>
-<li>Configure inventory parameters (locations, products, etc.)</li>
-<li>Start the inventory to generate lines based on current stock</li>
-<li>Count products and update quantities</li>
-<li>Use the “Check” function to verify inventory</li>
-<li>Validate inventory to create stock moves and update valuation</li>
-<li>Optionally use barcode scanning for faster operations</li>
-</ol>
 <p><strong>Table of contents</strong></p>
 </div>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<ol class="arabic simple">
+<li>Create a new inventory document from the <strong>Inventory</strong> menu.</li>
+<li>Configure inventory parameters (locations, products, etc.).</li>
+<li>Start the inventory to generate lines based on current stock.</li>
+<li>Count products and update quantities in the system.</li>
+<li>Use the <strong>Check</strong> function to verify the inventory.</li>
+<li>Validate the inventory to create stock moves and update valuation.</li>
+<li>Optionally, enable the display of manual location fields
+(Rack/Row/Shelf/Case) from settings if you are not using “putaway”
+rules.</li>
+<li>View stock broken down by warehouse directly in the product Kanban
+view.</li>
+<li>Use barcode scanning for faster operation.</li>
+</ol>
 </div>
 <div class="section" id="bug-tracker">
 <h1>Bug Tracker</h1>
