@@ -1,19 +1,20 @@
 Features
 ========
 
-This module provides a mechanism to automatically set inventory lines to zero when an empty count is requested.
-This is particularly useful during physical inventory counts where items not found should be explicitly marked as zero.
+This module adds an option to automatically set the inventoried quantity to zero when a count is requested.
+This is useful during physical inventory, where items not found must be explicitly marked as zero.
 
 Key Features
 ------------
 
-- Automatically sets the quantity to 0 when the counted quantity is left empty.
-- Simplifies the inventory adjustment process by reducing manual input for missing items.
-- Ensures accurate stock valuation by forcing a zero count when no items are found.
+- Adds the "Set Count to Zero" checkbox in the inventory request wizard.
+- Automatically sets the quantity to 0.0 for the selected inventory lines when the checkbox is enabled.
+- Simplifies the stock adjustment process by reducing manual input for missing items.
 
 Usage
 -----
 
 - Go to Inventory > Operations > Physical Inventory.
-- Start a new inventory count.
-- If a product is not found, leave the counted quantity empty, and the system will treat it as zero.
+- Select the inventory lines and press the "Request Count" (Inventory Request) button.
+- In the wizard that appears, check "Set Count to Zero".
+- Upon confirmation, the system will set the inventoried quantity to zero and apply the adjustment.
