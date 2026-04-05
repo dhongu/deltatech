@@ -369,31 +369,31 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:6ad36b00b055d7f82626ff28f2b9fa831c14c412e688c31ab810e7a33fd973bd
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_stock_count_zero"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_count_zero"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
 <div class="section" id="features">
 <h1>Features</h1>
-<p>This module provides a mechanism to automatically set inventory lines to
-zero when an empty count is requested. This is particularly useful
-during physical inventory counts where items not found should be
-explicitly marked as zero.</p>
+<p>This module adds an option to automatically set the inventoried quantity
+to zero when a count is requested. This is useful during physical
+inventory, where items not found must be explicitly marked as zero.</p>
 <div class="section" id="key-features">
 <h2>Key Features</h2>
 <ul class="simple">
-<li>Automatically sets the quantity to 0 when the counted quantity is left
-empty.</li>
-<li>Simplifies the inventory adjustment process by reducing manual input
-for missing items.</li>
-<li>Ensures accurate stock valuation by forcing a zero count when no items
-are found.</li>
+<li>Adds the “Set Count to Zero” checkbox in the inventory request wizard.</li>
+<li>Automatically sets the quantity to 0.0 for the selected inventory
+lines when the checkbox is enabled.</li>
+<li>Simplifies the stock adjustment process by reducing manual input for
+missing items.</li>
 </ul>
 </div>
 <div class="section" id="usage">
 <h2>Usage</h2>
 <ul class="simple">
 <li>Go to Inventory &gt; Operations &gt; Physical Inventory.</li>
-<li>Start a new inventory count.</li>
-<li>If a product is not found, leave the counted quantity empty, and the
-system will treat it as zero.</li>
+<li>Select the inventory lines and press the “Request Count” (Inventory
+Request) button.</li>
+<li>In the wizard that appears, check “Set Count to Zero”.</li>
+<li>Upon confirmation, the system will set the inventoried quantity to
+zero and apply the adjustment.</li>
 </ul>
 <p><strong>Table of contents</strong></p>
 </div>
@@ -417,7 +417,7 @@ In case of trouble, please check there if your issue has already been reported.<
 <h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/VoicuStefan2001"><img alt="VoicuStefan2001" src="https://github.com/VoicuStefan2001.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_stock_count_zero">dhongu/deltatech</a> project on GitHub.</p>
+<p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_count_zero">dhongu/deltatech</a> project on GitHub.</p>
 <p>You are welcome to contribute.</p>
 </div>
 </div>
