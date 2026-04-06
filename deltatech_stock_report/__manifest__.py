@@ -12,7 +12,7 @@
     "depends": [
         "stock_account",
     ],
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "data": [
         "security/ir.model.access.csv",
         "report/stock_picking_report.xml",
