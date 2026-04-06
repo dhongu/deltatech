@@ -68,7 +68,6 @@
                         <field name="stock_threshold_2" invisible="not show_thresholds" />
                         <field name="stock_threshold_2_text" invisible="not show_thresholds" />
                         <field name="stock_no_threshold_text" invisible="not show_thresholds" />
-                    />
                         <field name="refresh_report" />
                     </group>
                     <footer>
