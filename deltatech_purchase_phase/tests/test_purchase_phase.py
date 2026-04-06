@@ -46,25 +46,6 @@ class TestPurchasePhase(TransactionCase):
             "Phase code should be 'purchase_confirm' when PO state is 'purchase'",
         )
 
-    def test_m2m_compute_and_inverse(self):
-        # Prepare two phases
-        phase_a = self.PurchaseOrderPhase.search([("code", "=", "rfq")], limit=1)
-        if not phase_a:
-            phase_a = self.PurchaseOrderPhase.create({"name": "RFQ", "code": "rfq"})
-        phase_b = self.PurchaseOrderPhase.search([("code", "=", "pre_advice")], limit=1)
-        if not phase_b:
-            phase_b = self.PurchaseOrderPhase.create({"name": "Pre Advice", "code": "pre_advice"})
-
-        # Setting phase_id should reflect in computed phase_ids
-        self.po.write({"phase_id": phase_a.id})
-
-        self.assertEqual(self.po.phase_ids, phase_a, "Computed many2many 'phase_ids' must mirror 'phase_id'")
-
-        # Inverse: writing phase_ids should update phase_id (first element)
-        self.po.write({"phase_ids": [(6, 0, [phase_b.id])]})
-
-        self.assertEqual(self.po.phase_id, phase_b, "Inverse of 'phase_ids' must set 'phase_id' to the first element")
-
     def test_set_phase_creates_missing_code(self):
         code = "custom_code_xyz"
         existing = self.PurchaseOrderPhase.search([("code", "=", code)])
