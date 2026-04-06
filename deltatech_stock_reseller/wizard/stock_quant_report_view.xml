@@ -29,10 +29,8 @@
                 <search string="Search">
                     <field name="product_id" />
                     <field name="categ_id" />
-                    <group string="Group By">
-                        <filter string="Product" name="product" context="{'group_by':'product_id'}" />
-                        <filter string="Category of Product" name="category" context="{'group_by':'categ_id'}" />
-                    </group>
+                    <filter string="Product" name="product" context="{'group_by':'product_id'}" />
+                    <filter string="Category of Product" name="category" context="{'group_by':'categ_id'}" />
                 </search>
             </field>
         </record>
