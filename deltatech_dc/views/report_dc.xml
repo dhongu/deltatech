@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-        <template id="report_dc">
-            <t t-call="web.html_container">
+    <template id="report_dc">
+        <t t-call="web.html_container">
 
-                    <t t-call="web.external_layout">
-                        <div class="page">
-                            <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <t t-foreach="docs" t-as="o">
+                        <div
+                            id="declaration"
+                            style="page-break-inside: avoid;margin-bottom: 15px; padding-bottom: 15px;"
+                        >
                             <h3>
                                 <span>Declaration of Conformity:</span>
-                                    <span t-field="o.name" />
-                                    /
-                                    <span t-field="o.date" />
+                                <span t-field="o.name" />
+                                /
+                                <span t-field="o.date" />
                             </h3>
                             <br />
                             <div>
@@ -28,17 +32,17 @@
                                 <span t-field="res_company.partner_id.street2" />
                                 <span>, declare that the product:</span>
 
-                                    <strong t-field="o.product_id.name" />
-                                    <t t-if="o.lot_id">
-                                        <span>with lot number</span>
+                                <strong t-field="o.product_id.name" />
+                                <t t-if="o.lot_id">
+                                    <span>with lot number</span>
 
-                                        <strong t-field="o.lot_id.name" />
-                                        <t t-if="o.lot_id.use_expiration_date">
-                                           <span>with expiration date</span>
-                                            <strong t-field="o.lot_id.expiration_date" t-options='{"widget": "date"}' />
-                                        </t>
-
+                                    <strong t-field="o.lot_id.name" />
+                                    <t t-if="o.lot_id.use_expiration_date">
+                                        <span>with expiration date</span>
+                                        <strong t-field="o.lot_id.expiration_date" t-options='{"widget": "date"}' />
                                     </t>
+
+                                </t>
 
                                 <span>is made in accordance with:</span>
                             </div>
@@ -65,12 +69,12 @@
                             <div>
                                 <span>and controlled according to Quality Control Plan dated in</span>
 
-                                    <t t-if="o.lot_id.use_expiration_date">
-                                            <strong t-field="o.lot_id.production_date" t-options='{"widget": "date"}' />
-                                        </t>
-                                    <t t-else="">
-                                        <span t-field="o.date" />
-                                    </t>
+                                <t t-if="o.lot_id.use_expiration_date">
+                                    <strong t-field="o.lot_id.production_date" t-options='{"widget": "date"}' />
+                                </t>
+                                <t t-else="">
+                                    <span t-field="o.date" />
+                                </t>
 
                             </div>
                             <br />
@@ -87,22 +91,22 @@
                             <br />
                             <br />
                             <div>F(PP 7.5/4.4.6-01)03</div>
-                            <hr style="margin-top: 10px;" />
-</t>
                         </div>
                     </t>
-
+                </div>
             </t>
-        </template>
-        <template id="report_dc_lot">
-            <t t-call="deltatech_dc.report_dc" />
-        </template>
-        <template id="report_dc_invoice">
-            <t t-call="deltatech_dc.report_dc" />
-        </template>
-        <template id="report_dc_picking">
-            <t t-call="deltatech_dc.report_dc" />
-        </template>
+
+        </t>
+    </template>
+    <template id="report_dc_lot">
+        <t t-call="deltatech_dc.report_dc" />
+    </template>
+    <template id="report_dc_invoice">
+        <t t-call="deltatech_dc.report_dc" />
+    </template>
+    <template id="report_dc_picking">
+        <t t-call="deltatech_dc.report_dc" />
+    </template>
 
 
 </odoo>
