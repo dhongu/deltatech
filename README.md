@@ -26,6 +26,7 @@ addon | version | maintainers | summary
 [deltatech_analytic_distribution](deltatech_analytic_distribution/) | 19.0.0.0.2 |  | Analytic distribution
 [deltatech_auto_reorder_rule](deltatech_auto_reorder_rule/) | 19.0.0.1.3 |  | Auto create reorder rule
 [deltatech_backup_attachment](deltatech_backup_attachment/) | 19.0.1.0.1 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Backup attachments for selected file type
+[deltatech_batch_transfer](deltatech_batch_transfer/) | 19.0.0.0.2 | <a href='https://github.com/danila12'><img src='https://github.com/danila12.png' width='32' height='32' style='border-radius:50%;' alt='danila12'/></a> | Batch transfer improvements
 [deltatech_business_process](deltatech_business_process/) | 19.0.1.4.9 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Business process
 [deltatech_business_process_handover_document](deltatech_business_process_handover_document/) | 19.0.0.0.3 | <a href='https://github.com/VoicuStefan2001'><img src='https://github.com/VoicuStefan2001.png' width='32' height='32' style='border-radius:50%;' alt='VoicuStefan2001'/></a> | Business process handover document
 [deltatech_cash_statement](deltatech_cash_statement/) | 19.0.3.0.0 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Update cash balance
@@ -66,7 +67,7 @@ addon | version | maintainers | summary
 [deltatech_project_price_list](deltatech_project_price_list/) | 19.0.1.0.0 |  | Project-level pricelist used when creating Sales Orders from a project
 [deltatech_purchase_mail](deltatech_purchase_mail/) | 19.0.1.1.0 |  | Select multiple purchase orders and send an email with XLSX summary and attached PDFs
 [deltatech_purchase_price](deltatech_purchase_price/) | 19.0.1.2.5 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Update vendor price after reception
-[deltatech_putaway_strategy](deltatech_putaway_strategy/) | 19.0.1.0.2 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Location capacities and enhanced putaway strategy for Inventory
+[deltatech_putaway_strategy](deltatech_putaway_strategy/) | 19.0.1.0.4 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Location capacities and enhanced putaway strategy for Inventory
 [deltatech_queue_job](deltatech_queue_job/) | 19.0.1.1.0 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Deltatech Queue Job
 [deltatech_ral](deltatech_ral/) | 19.0.1.0.3 |  | RAL
 [deltatech_reception_note](deltatech_reception_note/) | 19.0.0.1.1 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Batch reception note
