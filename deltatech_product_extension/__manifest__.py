@@ -5,7 +5,7 @@
 {
     "name": "Deltatech Products Extension",
     "summary": "New fields in product: Manufacturer  Dimensions, Shelf Life and Unit of Measure for Shelf Life",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
