@@ -7,10 +7,7 @@
             <t t-call="web.external_layout">
                 <div class="page">
                     <t t-foreach="docs" t-as="o">
-                        <div
-                            id="declaration"
-                            style="page-break-inside: avoid;margin-bottom: 15px; padding-bottom: 15px;"
-                        >
+                        <div id="declaration" style="page-break-after: always; page-break-inside: avoid;">
                             <h3>
                                 <span>Declaration of Conformity:</span>
                                 <span t-field="o.name" />
