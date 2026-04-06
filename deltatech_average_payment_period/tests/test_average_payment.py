@@ -74,14 +74,17 @@ class TestAveragePaymentPeriod(common.TransactionCase):
 
     def test_report_average_payment(self):
         # Verificăm că raportul (view-ul SQL) poate fi citit fără erori
-        # Notă: Depinde de datele create anterior, dar fiecare test TransactionCase rulează într-o tranzacție izolată.
-        # Vom rula din nou crearea datelor pentru a fi siguri că avem ceva în raport.
         self.test_average_payment_period()
+        self.env.flush_all()
 
         report_lines = self.env["account.average.payment.report"].search([("partner_id", "=", self.partner.id)])
         self.assertTrue(
             len(report_lines) > 0, "Raportul ar trebui să conțină cel puțin o linie pentru partenerul de test"
         )
+
+        # Verificăm datele din raport
+        for line in report_lines:
+            self.assertEqual(line.payment_days, 10, "Zilele de plată în raport ar trebui să fie 10")
 
         # Verificăm read_group-ul customizat
         group_data = self.env["account.average.payment.report"].read_group(
