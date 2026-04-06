@@ -7,8 +7,7 @@
         <field name="inherit_id" ref="purchase.purchase_order_form" />
         <field name="arch" type="xml">
             <xpath expr="//sheet/group/group" position="inside">
-                <!--                    <field name="phase_id" options="{'color_field': 'color'}" />-->
-                <field name="phase_ids" widget="many2many_tags" options="{'color_field': 'color'}" string="Phase" />
+                <field name="phase_id" widget="many2one_badge" options="{'color_field': 'color'}" />
             </xpath>
         </field>
     </record>
@@ -19,7 +18,7 @@
         <field name="inherit_id" ref="purchase.purchase_order_view_tree" />
         <field name="arch" type="xml">
             <xpath expr="//list" position="inside">
-                <field name="phase_ids" widget="many2many_tags" options="{'color_field': 'color'}" string="Phase" />
+                <field name="phase_id" widget="many2one_badge" options="{'color_field': 'color'}" />
             </xpath>
         </field>
     </record>
