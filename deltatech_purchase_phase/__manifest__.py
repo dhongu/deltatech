@@ -5,13 +5,13 @@
 
 {
     "name": "Deltatech Purchase Order Stage",
-    "version": "18.0.1.2.5",
+    "version": "18.0.1.2.6",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "summary": "Purchase Order Stage",
     "category": "Purchase",
-    "depends": ["purchase_stock"],
+    "depends": ["purchase_stock", "deltatech_widget_many2one_badge"],
     "data": [
         "security/ir.model.access.csv",
         "views/purchase_order_phase_view.xml",
