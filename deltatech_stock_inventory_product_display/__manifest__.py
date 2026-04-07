@@ -5,7 +5,7 @@
 {
     "name": "Stock Inventory Product Display",
     "summary": "Adds product display button on sales and invoices to see the stock of the products in the order",
-    "version": "18.0.0.0.0",
+    "version": "19.0.0.0.0",
     "author": "Terrabit, VoicuStefan2001",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
