@@ -5,7 +5,7 @@
 {
     "name": "Deltatech Sale Order Pickup List",
     "summary": "Pickup list report from sale order",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
