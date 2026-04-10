@@ -6,7 +6,7 @@ import threading
 import time
 from datetime import timedelta
 
-from odoo import _, api, fields, models, modules
+from odoo import api, fields, models, modules
 
 _logger = logging.getLogger(__name__)
 
@@ -72,8 +72,8 @@ class QueueJob(models.Model):
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": _("Thread Processing"),
-                "message": _("The API processing has been triggered in a separate thread!"),
+                "title": self.env._("Thread Processing"),
+                "message": self.env._("The API processing has been triggered in a separate thread!"),
                 "type": "success",
                 "sticky": False,
                 "next": {"type": "ir.actions.act_window_close"},
@@ -89,13 +89,13 @@ class QueueJob(models.Model):
 
         cron_triggered = self._cron_trigger()
         if cron_triggered == "triggered":
-            messages = _("The operation will be executed in the background!")
+            messages = self.env._("The operation will be executed in the background!")
             message_type = "success"
         elif cron_triggered == "exists":
-            messages = _("CRON Trigger already exists")
+            messages = self.env._("CRON Trigger already exists")
             message_type = "warning"
         else:
-            messages = _("No CRON Trigger found")
+            messages = self.env._("No CRON Trigger found")
             message_type = "error"
 
         return {
@@ -139,8 +139,8 @@ class QueueJob(models.Model):
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": _("Job Processing Started"),
-                "message": _("The processing of jobs has been triggered in the background."),
+                "title": self.env._("Job Processing Started"),
+                "message": self.env._("The processing of jobs has been triggered in the background."),
                 "type": "success",
                 "sticky": False,
             },
