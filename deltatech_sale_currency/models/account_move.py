@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -22,7 +22,7 @@ class AccountMove(models.Model):
                     from_currency = line.sale_line_ids.mapped("currency_id")
                     price_unit = line.sale_line_ids.mapped("price_unit")[0]
                 if len(from_currency) > 1:
-                    raise UserError(_("You cannot have multiple currencies in the same invoice line."))
+                    raise UserError(self.env._("You cannot have multiple currencies in the same invoice line."))
 
                 price_unit = from_currency._convert(price_unit, to_currency, company, date_eval)
                 line.price_unit = price_unit
