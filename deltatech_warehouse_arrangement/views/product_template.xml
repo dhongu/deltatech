@@ -6,7 +6,7 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_form_view" />
             <field name="arch" type="xml">
-                <notebook position="inside">
+                <xpath expr="//notebook" position="inside">
                     <page string="Locations">
                         <group name="locations">
                             <field name="loc_storehouse_id" />
@@ -16,7 +16,7 @@
                             <field name="loc_rack_id" domain="[('section_id','=',loc_section_id)]" />
                         </group>
                     </page>
-                </notebook>
+                </xpath>
             </field>
         </record>
 
