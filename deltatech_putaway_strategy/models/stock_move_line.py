@@ -1,7 +1,7 @@
 import logging
 import time
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -27,7 +27,7 @@ class StockMove(models.Model):
             if is_split:
                 # Dacă am făcut split, verificăm să nu fi intrat într-o buclă infinită
                 if lines_to_process == to_reprocess:
-                    raise UserError(_("Cannot assign move lines to locations"))
+                    raise UserError(self.env._("Cannot assign move lines to locations"))
                 lines_to_process = to_reprocess
             else:
                 lines_to_process = False
@@ -50,7 +50,7 @@ class StockMove(models.Model):
                 move.location_dest_id._compute_warehouse_occupancy()
                 if move.location_dest_id.current_products > move.location_dest_id.max_products_leaf:
                     raise UserError(
-                        _(
+                        self.env._(
                             "Location %(location)s is over capacity (%(current)s > %(max)s)",
                             location=move.location_dest_id.display_name,
                             current=move.location_dest_id.current_products,
@@ -64,7 +64,7 @@ class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
 
     def _apply_putaway_strategy(self):
-        if self._context.get("avoid_putaway_rules") or not self:
+        if self.env.context.get("avoid_putaway_rules") or not self:
             return super()._apply_putaway_strategy()
         if any(self.mapped("picking_type_id.avoid_putaway_rules")):
             return super(StockMoveLine, self.with_context(avoid_putaway_rules=True))._apply_putaway_strategy()
