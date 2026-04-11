@@ -71,22 +71,22 @@ class PromissoryNote(models.Model):
     is_last_bo = fields.Boolean("Last note", default=False)
 
     @api.onchange("type")
-    def onchange_type(self):
+    def onchange_type(self) -> None:
         if self.type == "customer":
-            if self.beneficiary_id != self.env.user.company_id.partner_id:
+            if self.beneficiary_id != self.env.company.partner_id:
                 self.issuer_id = self.beneficiary_id
             else:
                 self.issuer_id = False
-            self.beneficiary_id = self.env.user.company_id.partner_id
+            self.beneficiary_id = self.env.company.partner_id
         else:
-            if self.issuer_id != self.env.user.company_id.partner_id:
+            if self.issuer_id != self.env.company.partner_id:
                 self.beneficiary_id = self.issuer_id
             else:
                 self.beneficiary_id = False
-            self.issuer_id = self.env.user.company_id.partner_id
+            self.issuer_id = self.env.company.partner_id
 
     @api.onchange("issuer_id")
-    def onchange_issuer_id(self):
+    def onchange_issuer_id(self) -> None:
         if self.issuer_id and self.issuer_id.bank_ids:
             self.acc_issuer = self.issuer_id.bank_ids[0].acc_number
             self.bank_issuer_id = self.issuer_id.bank_ids[0].bank_id
@@ -94,29 +94,29 @@ class PromissoryNote(models.Model):
             self.acc_issuer = False
 
     @api.onchange("beneficiary_id")
-    def onchange_beneficiary_id(self):
+    def onchange_beneficiary_id(self) -> None:
         if self.issuer_id and self.beneficiary_id.bank_ids:
             self.acc_beneficiary = self.beneficiary_id.bank_ids[0].acc_number
             self.bank_beneficiary_id = self.beneficiary_id.bank_ids[0].bank_id
         else:
             self.acc_beneficiary = False
 
-    def action_not_cashed(self):
+    def action_not_cashed(self) -> None:
         self.write({"state": "not_cashed"})
 
     @api.constrains("amount")
-    def _check_values(self):
+    def _check_values(self) -> None:
         for promissory in self:
             if promissory.amount <= 0.0:
                 raise UserError(_("The <Value> field must be greater than 0!"))
 
-    def _track_subtype(self, init_values):
+    def _track_subtype(self, init_values: dict) -> models.Model:
         self.ensure_one()
         if "state" in init_values and self.state == "cashed":
             return self.env.ref("deltatech_promissory_note.mt_state_cashed")
         return super()._track_subtype(init_values)
 
-    def action_cashed(self):
+    def action_cashed(self) -> None:
         self.write({"state": "cashed"})
         if self.is_last_bo:
             users = self.env["res.users"].search([])
@@ -137,5 +137,5 @@ class PromissoryNote(models.Model):
 
                     _logger.info(f"BO_LOG: mail sent for BO {name}")
 
-    def action_cancel(self):
+    def action_cancel(self) -> None:
         self.write({"state": "cancel"})

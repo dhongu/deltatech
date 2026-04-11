@@ -99,14 +99,17 @@
                     <field name="note" />
                 </sheet>
                 <!-- Chatter -->
-                <chatter reload_on_attachment="True" />
+                <chatter>
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </chatter>
             </form>
         </field>
     </record>
     <record id="view_promissory_note_filter" model="ir.ui.view">
         <field name="name">Promissory Notes</field>
         <field name="model">promissory.note</field>
-        <field name="type">search</field>
         <field name="arch" type="xml">
             <search string="Search">
                 <field name="name" />
@@ -123,7 +126,7 @@
                 <filter name="not_cashed" string="Not Cashed" domain="[('state','=','not_cashed')]" />
                 <filter name="cashed" string="Cashed" domain="[('state','=','cashed')]" />
                 <filter name="cancel" string="Cancelled" domain="[('state','=','cancel')]" />
-                <group expand="1" string="Group By...">
+                <group string="Group By">
                     <filter string="Type" name="group_by_type" context="{'group_by':'type'}" />
                     <filter string="Issuer" name="group_by_issuer" context="{'group_by':'issuer_id'}" />
                     <filter string="Beneficiary" name="group_by_beneficiary" context="{'group_by':'beneficiary_id'}" />
