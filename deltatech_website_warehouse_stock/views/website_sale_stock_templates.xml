@@ -11,7 +11,8 @@
         name="Alternative code"
     >
 
-            <xpath expr="//div[@t-field='product.description_ecommerce']" position="before">
+            <xpath expr="//div[@id='o_wsale_product_details_content']" position="inside">
+                <div class="o_wsale_product_details_content_section">
                 <t t-set="product_warehouse_distribution" t-value="product.sudo().get_warehouse_stock_distribution()" />
                 <span id="warehouse_stock_title" class="fw-bold">
                     In stock availability
@@ -48,6 +49,7 @@
                         />
                     </t>
                     </div>
+                </div>
                 </div>
         </xpath>
     </template>
