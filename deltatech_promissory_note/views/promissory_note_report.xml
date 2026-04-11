@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="action_report_promissory_note" model="ir.actions.report">
+        <field name="name">Promissory Note Bill</field>
+        <field name="model">promissory.note</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">deltatech_promissory_note.report_promissory_note</field>
+        <field name="binding_model_id" ref="model_promissory_note" />
+    </record>
+
+
+    <record id="action_report_promissory_note_content" model="ir.actions.report">
+        <field name="name">Promissory Note Content</field>
+        <field name="model">promissory.note</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">deltatech_promissory_note.report_promissory_note_content</field>
+        <field name="binding_model_id" ref="model_promissory_note" />
+    </record>
+
+
+    <template id="report_promissory_note">
+        <t t-call="web.html_container">
+            <div class="page">
+
+            </div>
+        </t>
+    </template>
+    <template id="report_promissory_note_content">
+        <t t-call="web.html_container">
+            <div class="page">
+
+            </div>
+        </t>
+    </template>
+
+</odoo>

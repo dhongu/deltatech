@@ -1,0 +1,136 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="mt_state_cashed" model="mail.message.subtype">
+        <field name="name">BO Cashed</field>
+        <field name="res_model">promissory.note</field>
+        <field name="default" eval="True" />
+        <field name="description">BO Cashed</field>
+    </record>
+
+    <record id="view_promissory_note_list" model="ir.ui.view">
+        <field name="name">Promissory Notes</field>
+        <field name="model">promissory.note</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="issuer_id" />
+                <field name="beneficiary_id" />
+                <field name="agreement" />
+                <field name="date_due" />
+                <field name="amount" sum="amount" />
+                <field name="currency_id" />
+                <field name="cashed_date" />
+                <field name="is_last_bo" />
+                <field name="cashed_amount" sum="cashed_amount" />
+                <field name="state" />
+                 <field name="activity_exception_decoration" widget="activity_exception" />
+            </list>
+        </field>
+    </record>
+    <record id="view_promissory_note_form" model="ir.ui.view">
+        <field name="name">Promissory Notes</field>
+        <field name="model">promissory.note</field>
+        <field name="arch" type="xml">
+            <form string="Promissory Note">
+                <header>
+                    <button
+                        name="action_cashed"
+                        invisible="state != 'not_cashed'"
+                        type="object"
+                        class="oe_highlight"
+                        string="Set Cashed"
+                    />
+                    <button
+                        name="action_not_cashed"
+                        invisible="state != 'cashed'"
+                        type="object"
+                        class="oe_highlight"
+                        string="Set Not Cashed"
+                    />
+                    <button
+                        name="action_cancel"
+                        invisible="state != 'not_cashed'"
+                        type="object"
+                        class="oe_highlight"
+                        string="Cancel"
+                    />
+                    <field name="state" widget="statusbar" statusbar_visible="not_cashed,cashed,cancel" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Promissory Note" />
+                        <h1>
+                            <field name="name" required="1" readonly="state != 'not_cashed'" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="type" />
+                            <field name="agreement" />
+                            <field name="date_due" readonly="state != 'not_cashed'" />
+                        </group>
+                        <group>
+                            <field name="amount" readonly="state != 'not_cashed'" />
+                            <field name="currency_id" readonly="state != 'not_cashed'" />
+                            <field name="invoice_id" />
+                        </group>
+                        <group>
+                            <field name="cashed_amount" />
+                            <field name="cashed_date" />
+                            <field name="is_last_bo" />
+                        </group>
+                        <group>
+                            <field name="acc_issuer" readonly="state != 'not_cashed'" />
+                            <field name="acc_beneficiary" readonly="state != 'not_cashed'" />
+                        </group>
+                        <group>
+                            <field name="issuer_id" readonly="state != 'not_cashed'" />
+                            <field name="beneficiary_id" readonly="state != 'not_cashed'" />
+                        </group>
+                        <group>
+                            <field name="bank_issuer_id" required="1" readonly="state != 'not_cashed'" />
+                            <field name="bank_beneficiary_id" required="1" readonly="state != 'not_cashed'" />
+                        </group>
+                    </group>
+                    <field name="note" />
+                </sheet>
+                <!-- Chatter -->
+                <chatter>
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </chatter>
+            </form>
+        </field>
+    </record>
+    <record id="view_promissory_note_filter" model="ir.ui.view">
+        <field name="name">Promissory Notes</field>
+        <field name="model">promissory.note</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="name" />
+                <field name="agreement" />
+                <field name="issuer_id" />
+                <field name="beneficiary_id" />
+            </search>
+        </field>
+    </record>
+    <record id="action_promissory_note" model="ir.actions.act_window">
+        <field name="name">Promissory Notes</field>
+        <field name="res_model">promissory.note</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{ 'search_default_not_cashed': 1}</field>
+    </record>
+    <menuitem
+        name="Promissory Notes"
+        id="menu_promissory_note"
+        action="action_promissory_note"
+        parent="account.menu_finance_entries"
+        sequence="100"
+    />
+
+</odoo>
