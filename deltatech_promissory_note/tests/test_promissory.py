@@ -3,10 +3,11 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo.tests import Form
+from odoo.tests import Form, tagged
 from odoo.tests.common import TransactionCase
 
 
+@tagged("post_install", "-at_install", "promissory")
 class TestPromissoryNote(TransactionCase):
     def setUp(self):
         super().setUp()
