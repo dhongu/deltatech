@@ -5,7 +5,7 @@
     "name": "eCommerce Warehouse Stock",
     "category": "Website",
     "summary": "eCommerce Warehouse Stock",
-    "version": "18.0.0.0.2",
+    "version": "19.0.0.0.1",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "depends": ["website", "website_sale_stock"],

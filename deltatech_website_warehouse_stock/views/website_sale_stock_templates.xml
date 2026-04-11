@@ -25,28 +25,28 @@
                     class="o_warehouse_stock_distribution"
                     t-attf-id="warehouse_stock_distribution_{{warehouse_distribution_index}}"
                 >
-                        <span id="warehouse_name" t-esc="warehouse_distribution['warehouse']" />:
-                        <t t-if="warehouse_distribution['badge'] == 'green'">
-                            <span
+                    <span id="warehouse_name" t-out="warehouse_distribution['warehouse']" />:
+                    <t t-if="warehouse_distribution['badge'] == 'green'">
+                        <span
                             id="warehouse_stock_qty_available"
                             class="badge bg-success"
-                            t-esc="warehouse_distribution['quantity']"
+                            t-out="warehouse_distribution['quantity']"
                         />
-                        </t>
-                        <t t-if="warehouse_distribution['badge'] == 'grey'">
-                            <span
+                    </t>
+                    <t t-if="warehouse_distribution['badge'] == 'grey'">
+                        <span
                             id="warehouse_stock_qty_low"
                             class="badge bg-secondary"
-                            t-esc="warehouse_distribution['quantity']"
+                            t-out="warehouse_distribution['quantity']"
                         />
-                        </t>
-                        <t t-if="warehouse_distribution['badge'] == 'red'">
-                            <span
+                    </t>
+                    <t t-if="warehouse_distribution['badge'] == 'red'">
+                        <span
                             id="warehouse_stock_qty_out"
                             class="badge bg-danger"
-                            t-esc="warehouse_distribution['quantity']"
+                            t-out="warehouse_distribution['quantity']"
                         />
-                        </t>
+                    </t>
                     </div>
                 </div>
         </xpath>

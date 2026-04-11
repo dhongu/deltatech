@@ -12,7 +12,7 @@ class ProductTemplate(models.Model):
     def get_warehouse_stock_distribution(self):
         warehouses = self.env["stock.warehouse"].search([("website_stock_display", "=", True)])
         threshold = int(
-            self.env["ir.config_parameter"].sudo().get_param("deltatech_website_warehouse_stock.threshold", 10)
+            self.env["ir.config_parameter"].sudo().get_param("deltatech_website_warehouse_stock.threshold", "10")
         )
         warehouse_stock_lines = []
         for warehouse in warehouses:

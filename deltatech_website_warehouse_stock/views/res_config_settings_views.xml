@@ -7,16 +7,9 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@id='show_availability_setting']/../.." position="after">
 
-                <label for="website_warehouse_stock_threshold" string="Stock Threshold" />
-                <div class="text-muted">
-                    Warehouse Stock Display: Threshold for displaying stock as "Available".
-                    This setting is specific to the Warehouse Stock module and controls the individual warehouse
-                    availability display on the product page.
-                </div>
-
-                <div class="mt16">
+                <setting id="warehouse_stock_threshold_setting" help="Warehouse Stock Display: Threshold for displaying stock as 'Available'. This setting is specific to the Warehouse Stock module and controls the individual warehouse availability display on the product page.">
                     <field name="website_warehouse_stock_threshold" />
-                </div>
+                </setting>
             </xpath>
         </field>
     </record>
