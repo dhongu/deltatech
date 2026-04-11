@@ -26,5 +26,5 @@ The module has been updated to follow Odoo 19 standards and best practices:
 - **Manifest**: Version updated to 19.0.
 - **Python Models**: Added type hints for better code clarity and IDE support.
 - **Configuration**: Updated `res.config.settings` to use the modern `<setting>` tag in XML views, replacing older label/div structures.
-- **QWeb Templates**: Replaced `t-esc` with `t-out` for better security and performance in line with Odoo's latest recommendations. Updated XPath selectors to match Odoo 19's redesigned product page structure (moved distribution info to `o_wsale_product_details_content` inside `o_wsale_product_details_content_section`).
+- **QWeb Templates**: Replaced `t-esc` with `t-out` for better security and performance in line with Odoo's latest recommendations. Updated XPath selectors to match Odoo 19's redesigned product page structure and configuration views (moved distribution info to `o_wsale_product_details_content` inside `o_wsale_product_details_content_section`, and updated configuration XPath to target the new `setting` tag).
 - **Data Types**: Refined system parameter handling (threshold) to ensure consistent data type processing.
