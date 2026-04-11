@@ -127,12 +127,12 @@
                 <filter name="cashed" string="Cashed" domain="[('state','=','cashed')]" />
                 <filter name="cancel" string="Cancelled" domain="[('state','=','cancel')]" />
                 <group string="Group By">
-                    <filter string="Type" name="group_by_type" context="{'group_by':'type'}" />
-                    <filter string="Issuer" name="group_by_issuer" context="{'group_by':'issuer_id'}" />
-                    <filter string="Beneficiary" name="group_by_beneficiary" context="{'group_by':'beneficiary_id'}" />
-                    <filter string="Agreement" name="group_by_agreement" context="{'group_by':'agreement'}" />
-                    <filter string="Currency" name="group_by_currency_id" context="{'group_by':'currency_id'}" />
-                    <filter string="Date Due" name="group_by_date_due" context="{'group_by':'date_due:month'}" />
+                    <filter string="Type" name="group_by_type" context="{'group_by':'type'}"/>
+                    <filter string="Issuer" name="group_by_issuer" context="{'group_by':'issuer_id'}"/>
+                    <filter string="Beneficiary" name="group_by_beneficiary" context="{'group_by':'beneficiary_id'}"/>
+                    <filter string="Agreement" name="group_by_agreement" context="{'group_by':'agreement'}"/>
+                    <filter string="Currency" name="group_by_currency_id" context="{'group_by':'currency_id'}"/>
+                    <filter string="Date Due" name="group_by_date_due" context="{'group_by':'date_due:month'}"/>
                 </group>
             </search>
         </field>
