@@ -5,7 +5,7 @@
     "name": "eCommerce Stock Availability",
     "category": "Website",
     "summary": "eCommerce Stock Availability and lead time",
-    "version": "17.0.1.0.6",
+    "version": "17.0.1.0.7",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["website", "website_sale_stock", "purchase", "deltatech_vendor_stock"],
