@@ -50,7 +50,7 @@
     >
         <xpath expr="//div[hasclass('o_wsale_product_sub')]" position="before">
             <div class="flex-grow-1">
-                <t t-if="product.sudo().free_qty  &gt;   0">
+                <t t-if="product.sudo().qty_available  &gt;   0">
                     <div class="o_immediate_delivery">
                         <span class="badge bg-success">Immediate delivery</span>
                     </div>
