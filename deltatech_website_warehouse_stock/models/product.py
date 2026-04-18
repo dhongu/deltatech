@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, models
+from odoo import models
 
 
 class ProductTemplate(models.Model):
@@ -23,7 +23,7 @@ class ProductTemplate(models.Model):
                     warehouse_stock_lines.append(
                         {
                             "warehouse": warehouse.name,
-                            "quantity": _("Available"),
+                            "quantity": self.env._("Available"),
                             "badge": "green",
                         }
                     )
@@ -39,7 +39,7 @@ class ProductTemplate(models.Model):
                     warehouse_stock_lines.append(
                         {
                             "warehouse": warehouse.name,
-                            "quantity": _("Out of stock"),
+                            "quantity": self.env._("Out of stock"),
                             "badge": "red",
                         }
                     )
