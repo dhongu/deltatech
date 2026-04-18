@@ -5,7 +5,7 @@
 
 import logging
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 # Get the logger
@@ -108,7 +108,7 @@ class PromissoryNote(models.Model):
     def _check_values(self) -> None:
         for promissory in self:
             if promissory.amount <= 0.0:
-                raise UserError(_("The <Value> field must be greater than 0!"))
+                raise UserError(self.env._("The <Value> field must be greater than 0!"))
 
     def _track_subtype(self, init_values: dict) -> models.Model:
         self.ensure_one()
@@ -127,8 +127,8 @@ class PromissoryNote(models.Model):
                     date = self.date_due
                     cashed_amount = self.cashed_amount
                     agreement = self.agreement
-                    subject = _(f"BO - the last - %{name} for {issuer_name} has been cashed")
-                    msg = _(
+                    subject = self.env._(f"BO - the last - %{name} for {issuer_name} has been cashed")
+                    msg = self.env._(
                         f"The last promissory note cashed: {name}, date: {date}. Issuer: {issuer_name}, amount: {cashed_amount}, agreement: {agreement}"
                     )
                     partner_id = user.partner_id.id
