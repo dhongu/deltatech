@@ -16,4 +16,5 @@
         "wizard/payment_forecast_wizard.xml",
     ],
     "development_status": "Beta",
+    "maintainers": ["dhongu"],
 }
