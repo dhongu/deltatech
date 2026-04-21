@@ -16,7 +16,7 @@ class PosOrderLine(models.Model):
 
             # Dacă taxele s-au schimbat prin poziția fiscală, trebuie să adaptăm prețul unitar
             # Odoo core folosește prețul unitar direct, ceea ce e greșit dacă taxele incluse s-au schimbat
-            if original_taxes != new_taxes:
+            if set(original_taxes.ids) != set(new_taxes.ids):
                 res["price_unit"] = self.env["account.tax"]._adapt_price_unit_to_another_taxes(
                     self.price_unit,
                     self.product_id,
