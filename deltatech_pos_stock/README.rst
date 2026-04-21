@@ -13,7 +13,7 @@ Deltatech POS Stock
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
@@ -59,6 +59,14 @@ Authors
 
 Maintainers
 -----------
+
+.. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
+    :target: https://github.com/dhongu
+    :alt: dhongu
+
+Current maintainer:
+
+|maintainer-dhongu| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_pos_stock>`_ project on GitHub.
 
