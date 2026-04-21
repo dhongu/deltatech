@@ -14,4 +14,5 @@
     "application": True,
     "license": "LGPL-3",
     "development_status": "Beta",
+    "maintainers": ["dhongu"],
 }
