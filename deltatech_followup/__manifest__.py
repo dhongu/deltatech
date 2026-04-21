@@ -23,4 +23,5 @@
     "license": "OPL-1",
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Alpha",
+    "maintainers": ["danila12"],
 }
