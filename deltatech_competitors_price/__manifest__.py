@@ -15,5 +15,6 @@
         "views/competitor_price_views.xml",
     ],
     "development_status": "Beta",
+    "maintainers": ["dhongu"],
     "installable": True,
 }
