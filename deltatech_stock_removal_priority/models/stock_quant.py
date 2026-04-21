@@ -47,3 +47,23 @@ class StockQuant(models.Model):
         if removal_strategy == "priority":
             return "removal_priority, location_id, id"
         return super()._get_removal_strategy_order(removal_strategy)
+
+    # @api.model
+    # def _get_removal_strategy_domain_order(self, domain, removal_strategy, qty):
+    #     exclude_location_ids = self.env.context.get("exclude_location_ids")
+    #     if exclude_location_ids:
+    #         domain = expression.AND([domain, [("location_id", "not in", exclude_location_ids)]])
+    #
+    #     if removal_strategy == "priority":
+    #         # domain = domain + [("removal_priority", ">=", 0)]
+    #         return domain, "removal_priority, location_id, id"
+    #     return super()._get_removal_strategy_domain_order(domain, removal_strategy, qty)
+    #
+    # def _get_removal_strategy_sort_key(self, removal_strategy):
+    #     key, reverse = super()._get_removal_strategy_sort_key(removal_strategy)
+    #     if removal_strategy == "priority":
+    #
+    #         def key(quant):
+    #             return quant.removal_priority, quant.location_id.complete_name, quant.id
+    #
+    #     return key, reverse
