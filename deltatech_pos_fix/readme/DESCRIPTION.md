@@ -1,4 +1,4 @@
-# Deltatech POS Fix
+## Deltatech POS Fix
 
 Fix POS total calculation when using tax-included fiscal position mapping.
 
