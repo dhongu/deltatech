@@ -34,6 +34,10 @@ total price to the tax-excluded amount. This module patches the POS to
 handle this recalculation correctly, matching the backend Sales
 behavior.
 
+This fix is applied both in the POS interface (JavaScript) and when
+generating invoices from POS orders (Python), ensuring consistency
+across the entire flow.
+
 Features
 ~~~~~~~~
 
@@ -41,6 +45,8 @@ Features
   fiscal position.
 - Ensures consistency between the Sales module and POS regarding the
   treatment of included taxes.
+- Adapts the unit price on invoice lines generated from POS orders to
+  reflect the correct tax mapping.
 
 Installation
 ~~~~~~~~~~~~
