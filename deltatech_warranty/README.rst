@@ -50,6 +50,17 @@ Authors
 Maintainers
 -----------
 
+.. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
+    :target: https://github.com/dhongu
+    :alt: dhongu
+.. |maintainer-danila12| image:: https://github.com/danila12.png?size=40px
+    :target: https://github.com/danila12
+    :alt: danila12
+
+Current maintainers:
+
+|maintainer-dhongu| |maintainer-danila12| 
+
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_warranty>`_ project on GitHub.
 
 You are welcome to contribute.
