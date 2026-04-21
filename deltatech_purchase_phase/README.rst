@@ -32,10 +32,6 @@ Key features
 
   - New field ``phase_id`` on ``purchase.order`` (tracked in the
     chatter) to indicate the current phase of the document.
-  - Helper field ``phase_ids`` (Many2many with compute/inverse) to
-    enable flexible UI widgets and search domains that expect a
-    multi-value relation, while still storing a single effective phase
-    via ``phase_id``.
 
 - Automatic phase changes
 
@@ -78,9 +74,6 @@ Technical notes
   - ``purchase.order``:
 
     - ``phase_id = fields.Many2one("purchase.order.phase", tracking=True, copy=False)``
-    - ``phase_ids = fields.Many2many("purchase.order.phase", compute=..., inverse=...)``
-      The compute mirrors ``phase_id`` to a single-item M2M; the inverse
-      writes back the first selected phase into ``phase_id``.
 
   - Helper API: ``set_phase(code)`` sets/creates the phase by its
     ``code`` and writes it on the current order(s).
@@ -104,14 +97,6 @@ Limitations and extensions
   ``purchase_confirm``. You can extend this behavior via studio, server
   actions, or small Python overrides to cover additional states (e.g.,
   ``done``, ``cancel``).
-
-Licensing
-
-- License: OPL-1 (see addon root README for details)
-
-Credits
-
-- Author/Maintainer: Dorin Hongu (@ Terrabit / Deltatech)
 
 **Table of contents**
 
