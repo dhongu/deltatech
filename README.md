@@ -198,7 +198,7 @@ addon | version | maintainers | summary
 [deltatech_stock_inventory_product_display](deltatech_stock_inventory_product_display/) | 18.0.0.0.0 | <a href='https://github.com/VoicuStefan2001'><img src='https://github.com/VoicuStefan2001.png' width='32' height='32' style='border-radius:50%;' alt='VoicuStefan2001'/></a> | Adds product display button on sales and invoices to see the stock of the products in the order
 [deltatech_stock_negative](deltatech_stock_negative/) | 18.0.2.0.8 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Negative stocks are not allowed
 [deltatech_stock_picking_activity_report](deltatech_stock_picking_activity_report/) | 18.0.0.0.4 | <a href='https://github.com/VoicuStefan2001'><img src='https://github.com/VoicuStefan2001.png' width='32' height='32' style='border-radius:50%;' alt='VoicuStefan2001'/></a> | Tracks activities and changes on stock pickings
-[deltatech_stock_removal_priority](deltatech_stock_removal_priority/) | 18.0.1.0.0 |  | Stock Removal Location by Priority
+[deltatech_stock_removal_priority](deltatech_stock_removal_priority/) | 18.0.1.0.0 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Stock Removal Location by Priority
 [deltatech_stock_report](deltatech_stock_report/) | 18.0.1.0.3 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Report with positions from picking lists
 [deltatech_stock_reseller](deltatech_stock_reseller/) | 18.0.1.0.2 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Report report reseller
 [deltatech_stock_sn](deltatech_stock_sn/) | 18.0.1.0.0 |  | Stock Serial Number
@@ -209,7 +209,7 @@ addon | version | maintainers | summary
 [deltatech_warehouse](deltatech_warehouse/) | 18.0.1.0.0 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | MRP Warehouse
 [deltatech_warehouse_access](deltatech_warehouse_access/) | 18.0.1.0.0 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Warehouse Access
 [deltatech_warehouse_arrangement](deltatech_warehouse_arrangement/) | 18.0.0.1.2 |  | Manages warehouse locations, parallel to standard Odoo locations
-[deltatech_warehouse_map](deltatech_warehouse_map/) | 18.0.1.0.2 |  | Visual warehouse map: navigate locations by hierarchy (levels, lines, racks, shelves, cells)
+[deltatech_warehouse_map](deltatech_warehouse_map/) | 18.0.1.0.2 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Visual warehouse map: navigate locations by hierarchy (levels, lines, racks, shelves, cells)
 [deltatech_warranty](deltatech_warranty/) | 18.0.1.0.0 |  | Warranty field in product, report for sale order
 [deltatech_watermark](deltatech_watermark/) | 18.0.3.0.0 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Watermark field
 [deltatech_website_access_design](deltatech_website_access_design/) | 18.0.1.0.1 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Access for web designer
@@ -239,7 +239,7 @@ addon | version | maintainers | summary
 [deltatech_website_vat_validation](deltatech_website_vat_validation/) | 18.0.0.0.0 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | VAT Validation
 [deltatech_website_warehouse_stock](deltatech_website_warehouse_stock/) | 18.0.0.0.2 | <a href='https://github.com/VoicuStefan2001'><img src='https://github.com/VoicuStefan2001.png' width='32' height='32' style='border-radius:50%;' alt='VoicuStefan2001'/></a> | eCommerce Warehouse Stock
 [deltatech_widget_fontawesome](deltatech_widget_fontawesome/) | 18.0.1.0.0 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Font Awesome Widget
-[deltatech_widget_many2one_badge](deltatech_widget_many2one_badge/) | 18.0.1.0.0 |  | Many2one field widget displayed as colored badge, similar to many2many_tags
+[deltatech_widget_many2one_badge](deltatech_widget_many2one_badge/) | 18.0.1.0.0 | <a href='https://github.com/dhongu'><img src='https://github.com/dhongu.png' width='32' height='32' style='border-radius:50%;' alt='dhongu'/></a> | Many2one field widget displayed as colored badge, similar to many2many_tags
 
 [//]: # (end addons)
 
