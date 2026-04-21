@@ -14,4 +14,5 @@
     "license": "AGPL-3",
     "installable": True,
     "application": False,
+    "maintainers": ["dhongu"],
 }
