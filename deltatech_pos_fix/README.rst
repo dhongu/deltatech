@@ -23,7 +23,7 @@ Deltatech POS Fix
 |badge1| |badge2| |badge3|
 
 Deltatech POS Fix
-=================
+-----------------
 
 Fix POS total calculation when using tax-included fiscal position
 mapping.
