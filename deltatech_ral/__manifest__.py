@@ -13,5 +13,6 @@
     "data": ["views/stock_view.xml", "views/mrp_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
+    "maintainers": ["dhongu"],
     "installable": True,
 }

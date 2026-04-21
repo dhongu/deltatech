@@ -15,4 +15,5 @@
     "data": ["views/stock_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
+    "maintainers": ["dhongu"],
 }

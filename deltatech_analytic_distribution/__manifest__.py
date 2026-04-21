@@ -16,6 +16,7 @@
         "views/res_config_view.xml",
     ],
     "development_status": "Beta",
+    "maintainers": ["VoicuStefan2001"],
     "installable": True,
     "images": ["static/description/main_screenshot.png"],
 }

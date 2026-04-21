@@ -18,4 +18,5 @@
         "web.assets_web_dark": ["deltatech_list_view/static/src/scss/style_dark.scss"],
     },
     "development_status": "Beta",
+    "maintainers": ["dhongu"],
 }

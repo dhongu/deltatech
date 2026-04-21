@@ -16,5 +16,6 @@
         "views/purchase_order_actions.xml",
     ],
     "development_status": "Beta",
+    "maintainers": ["dhongu"],
     "images": ["static/description/main_screenshot.png"],
 }

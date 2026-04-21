@@ -16,5 +16,6 @@
         # "views/product_view.xml",
     ],
     "development_status": "Mature",
+    "maintainers": ["dhongu"],
     "images": ["static/description/main_screenshot.png"],
 }
