@@ -380,10 +380,6 @@ Odoo’s document <tt class="docutils literal">state</tt>.</p>
 <li>Phase on Purchase Orders<ul>
 <li>New field <tt class="docutils literal">phase_id</tt> on <tt class="docutils literal">purchase.order</tt> (tracked in the
 chatter) to indicate the current phase of the document.</li>
-<li>Helper field <tt class="docutils literal">phase_ids</tt> (Many2many with compute/inverse) to
-enable flexible UI widgets and search domains that expect a
-multi-value relation, while still storing a single effective phase
-via <tt class="docutils literal">phase_id</tt>.</li>
 </ul>
 </li>
 <li>Automatic phase changes<ul>
@@ -427,9 +423,6 @@ pass context <tt class="docutils literal">{&quot;skip_phase_update&quot;: True}<
 <li>Models/fields<ul>
 <li><tt class="docutils literal">purchase.order</tt>:<ul>
 <li><tt class="docutils literal">phase_id = <span class="pre">fields.Many2one(&quot;purchase.order.phase&quot;,</span> tracking=True, copy=False)</tt></li>
-<li><tt class="docutils literal">phase_ids = <span class="pre">fields.Many2many(&quot;purchase.order.phase&quot;,</span> <span class="pre">compute=...,</span> <span class="pre">inverse=...)</span></tt>
-The compute mirrors <tt class="docutils literal">phase_id</tt> to a single-item M2M; the inverse
-writes back the first selected phase into <tt class="docutils literal">phase_id</tt>.</li>
 </ul>
 </li>
 <li>Helper API: <tt class="docutils literal">set_phase(code)</tt> sets/creates the phase by its
@@ -456,14 +449,6 @@ machine of Purchase Orders; it only adds complementary phase tracking.</li>
 <tt class="docutils literal">purchase_confirm</tt>. You can extend this behavior via studio, server
 actions, or small Python overrides to cover additional states (e.g.,
 <tt class="docutils literal">done</tt>, <tt class="docutils literal">cancel</tt>).</li>
-</ul>
-<p>Licensing</p>
-<ul class="simple">
-<li>License: OPL-1 (see addon root README for details)</li>
-</ul>
-<p>Credits</p>
-<ul class="simple">
-<li>Author/Maintainer: Dorin Hongu (&#64; Terrabit / Deltatech)</li>
 </ul>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
