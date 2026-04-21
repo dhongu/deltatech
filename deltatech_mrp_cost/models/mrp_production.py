@@ -67,7 +67,18 @@ class MrpProduction(models.Model):
                 vals["utility_consumption"] = bom.utility_consumption
                 vals["net_salary_rate"] = bom.net_salary_rate
                 vals["salary_contributions"] = bom.salary_contributions
-                vals["duration"] = vals["product_qty"] / bom.product_qty * bom.duration
+                product_qty = vals.get("product_qty")
+                if product_qty is None:
+                    # if product_qty is not in vals, it might be in context or it will be computed
+                    # but we need it for duration.
+                    # We can try to get it from default_get or just assume 1.0 if not found,
+                    # or better, use the bom's product_qty as a base if not specified.
+                    # In Odoo 18 mrp_production, product_qty has a compute but also can be passed.
+                    # If we don't have it, we might not be able to calculate duration correctly here.
+                    # Let's try to get it from defaults if not in vals.
+                    defaults = self.default_get(["product_qty"])
+                    product_qty = vals.get("product_qty", defaults.get("product_qty", 1))
+                vals["duration"] = product_qty / bom.product_qty * bom.duration
 
         return super().create(vals_list)
 
