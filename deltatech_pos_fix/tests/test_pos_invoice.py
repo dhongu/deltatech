@@ -11,7 +11,9 @@ class TestPosInvoice(TransactionCase):
                 "name": "Tax 19%",
                 "amount": 19,
                 "amount_type": "percent",
-                "price_include": True,
+                "price_include_override": "tax_included",
+                "include_base_amount": False,
+                "type_tax_use": "sale",
             }
         )
         self.tax_0 = self.env["account.tax"].create(
