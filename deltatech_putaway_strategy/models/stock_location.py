@@ -1,5 +1,4 @@
 from odoo import fields, models
-from odoo.tools.convert import safe_eval
 
 
 class StockLocation(models.Model):
@@ -179,7 +178,7 @@ class StockLocation(models.Model):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         search_sublocation = get_param("deltatech_putaway_strategy.search_sublocation", "False")
 
-        search_sublocation = safe_eval(search_sublocation)
+        search_sublocation = search_sublocation.strip().lower() in ("true", "1", "yes")
 
         if search_sublocation and putaway_location.child_ids:
             # Încercăm mai întâi locațiile unde există deja același produs

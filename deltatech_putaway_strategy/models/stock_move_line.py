@@ -1,5 +1,4 @@
 import logging
-import time
 
 from odoo import _, models
 from odoo.exceptions import UserError
@@ -14,8 +13,6 @@ class StockMove(models.Model):
         """Suprascrie atribuirea pentru a aplica automat splitarea liniilor de mișcare
         în funcție de capacitatea locațiilor de destinație.
         """
-        start_time = time.time()
-
         pickings = self.mapped("picking_id")
 
         if pickings:
@@ -36,14 +33,19 @@ class StockMove(models.Model):
         # Facem o buclă până când nu mai sunt necesare splitări
 
         lines_to_process = self.move_line_ids
+        max_iterations = 100
+        iteration = 0
 
         while lines_to_process:
-            _logger.info("Processing %d move lines", len(lines_to_process))
+            iteration += 1
+            if iteration > max_iterations:
+                raise UserError(
+                    _("Cannot assign move lines to locations: infinite loop detected after %d iterations")
+                    % max_iterations
+                )
+            _logger.debug("Processing %d move lines (iteration %d)", len(lines_to_process), iteration)
             is_split, to_reprocess = lines_to_process._split_by_putaway_capacity()
             if is_split:
-                # Dacă am făcut split, verificăm să nu fi intrat într-o buclă infinită
-                if lines_to_process == to_reprocess:
-                    raise UserError(_("Cannot assign move lines to locations"))
                 lines_to_process = to_reprocess
             else:
                 lines_to_process = False
@@ -53,7 +55,6 @@ class StockMove(models.Model):
         if lines_with_zero_qty:
             lines_with_zero_qty.unlink()
 
-        _logger.info("_action_assign executed in %.3f seconds", time.time() - start_time)
         return res
 
     def _action_done(self, cancel_backorder=False):
