@@ -18,4 +18,5 @@
         ],
     },
     "development_status": "Production/Stable",
+    "maintainers": ["dhongu"],
 }
