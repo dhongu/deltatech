@@ -4,7 +4,7 @@
 {
     "name": "Purchase Add Extra Line",
     "summary": "Purchase Add Extra Line",
-    "version": "18.0.1.0.1",
+    "version": "18.0.1.0.2",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
