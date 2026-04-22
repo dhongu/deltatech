@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_reordering_report_wizard_view_form" model="ir.ui.view">
+        <field name="name">product.reordering.report.wizard.view.form</field>
+        <field name="model">product.reordering.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Reordering Report">
+                <group invisible="not file">
+                    <field name="filename" invisible="1" />
+                    <field name="file" filename="filename" readonly="1" />
+                </group>
+                <footer invisible="file">
+                    <button name="action_generate_report" string="Generate Excel" type="object" class="btn-primary" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+                <footer invisible="not file">
+                    <button string="Close" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_reordering_report_wizard" model="ir.actions.act_window">
+        <field name="name">Generate Reordering Report</field>
+        <field name="res_model">product.reordering.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="product.model_product_template" />
+        <field name="binding_view_types">list</field>
+    </record>
+</odoo>
