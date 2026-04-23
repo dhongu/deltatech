@@ -1,0 +1,53 @@
+/* Paleta de culori Deltatech */
+
+/* Tonuri Calde */
+.color-galben-sofran {
+    color: #efb144;
+}
+.color-portocaliu-dovleac {
+    color: #eb8018;
+}
+.color-roz-corai {
+    color: #f07f84;
+}
+.color-rosu-portocaliu {
+    color: #ed5e25;
+}
+
+/* Tonuri de Mov si Purpuriu */
+.color-mov-pruna {
+    color: #914e7e;
+}
+.color-purpuriu-inchis {
+    color: #6d2254;
+}
+
+/* Tonuri de Verde si Turcoaz */
+.color-turcoaz-menta {
+    color: #17cab4;
+}
+.color-verde-jad {
+    color: #0da782;
+}
+
+/* Tonuri de Albastru */
+.color-albastru-cer {
+    color: #2fb5ef;
+}
+.color-albastru-regal {
+    color: #1084e9;
+}
+
+.header {
+    background-color: #1084e9;
+    color: white;
+}
+
+.buton-actiune {
+    background-color: #ed5e25;
+    border: 2px solid #6d2254;
+}
+
+.text-accent {
+    color: #0da782;
+}
