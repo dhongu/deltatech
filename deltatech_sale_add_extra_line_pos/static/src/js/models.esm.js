@@ -7,10 +7,14 @@ import {patch} from "@web/core/utils/patch";
 
 patch(PosStore.prototype, {
     async addLineToCurrentOrder(vals, opt = {}, configure = true) {
-        await super.addLineToCurrentOrder(vals, opt, configure);
+        const line = await super.addLineToCurrentOrder(vals, opt, configure);
 
-        const product = vals.product_id;
-        const extra_product_id = product.product_tmpl_id.extra_product_id;
+        let product = vals.product_id;
+        if (typeof product === "number") {
+            product = this.data.models["product.product"].get(product);
+        }
+
+        const extra_product_id = product?.product_tmpl_id?.extra_product_id;
 
         if (extra_product_id) {
             const order = this.get_order();
@@ -21,6 +25,7 @@ patch(PosStore.prototype, {
                 this.addLineToCurrentOrder({product_id: extra_product_id, qty: qty});
             }
         }
+        return line;
     },
 });
 
