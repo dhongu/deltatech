@@ -13,6 +13,7 @@
     "license": "OPL-1",
     "data": ["views/sale_team_view.xml", "security/sales_team_security.xml"],
     "development_status": "Production/Stable",
+    "maintainers": ["dhongu"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
 }

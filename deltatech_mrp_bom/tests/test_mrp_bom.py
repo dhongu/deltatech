@@ -34,6 +34,7 @@ class TestBoM(TestMrpCommon):
         )
         product = Form(self.env["product.template"])
         product.name = "Test Product"
+        product.is_storable = True
         product = product.save()
 
         test_bom.product_tmpl_id = product.id

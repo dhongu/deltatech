@@ -10,7 +10,7 @@ class TestMrpProductionBom(TransactionCase):
         cls.product_tmpl = cls.env["product.template"].create(
             {
                 "name": "Base Product",
-                "type": "product",
+                "is_storable": True,
             }
         )
         # Odoo creează automat o variantă când creăm template-ul.
@@ -18,7 +18,7 @@ class TestMrpProductionBom(TransactionCase):
         cls.component = cls.env["product.product"].create(
             {
                 "name": "Component",
-                "type": "product",
+                "is_storable": True,
             }
         )
         cls.base_bom = cls.env["mrp.bom"].create(
@@ -78,6 +78,7 @@ class TestMrpProductionBom(TransactionCase):
         product_tmpl_v2 = self.env["product.template"].create(
             {
                 "name": "Product V2",
+                "is_storable": True,
                 "attribute_line_ids": [
                     (0, 0, {"attribute_id": attr_color.id, "value_ids": [(6, 0, [attr_val_red.id, attr_val_blue.id])]})
                 ],

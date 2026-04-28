@@ -1,5 +1,4 @@
 import logging
-import time
 
 from odoo import _, models
 from odoo.exceptions import UserError
@@ -14,20 +13,39 @@ class StockMove(models.Model):
         """Suprascrie atribuirea pentru a aplica automat splitarea liniilor de mișcare
         în funcție de capacitatea locațiilor de destinație.
         """
-        start_time = time.time()
+        pickings = self.mapped("picking_id")
+
+        if pickings:
+            # Luăm în considerare doar tipurile OUT (livrări)
+            pickings_out = pickings.filtered(lambda p: p.picking_type_id.code == "outgoing")
+            if any(pickings_out.mapped("picking_type_id.avoid_root_location_on_reservation")):
+                exclude_location_ids = pickings_out.mapped("location_id").ids
+                self = self.with_context(exclude_location_ids=exclude_location_ids)
+
         res = super()._action_assign(force_qty=force_qty)
+        if self._context.get("avoid_putaway_rules"):
+            return res
+
+        if any(pickings.mapped("picking_type_id.avoid_putaway_rules")):
+            return res
+
         # Apelăm splitarea pe toate liniile de mișcare implicate
         # Facem o buclă până când nu mai sunt necesare splitări
 
         lines_to_process = self.move_line_ids
+        max_iterations = 100
+        iteration = 0
 
         while lines_to_process:
-            _logger.info("Processing %d move lines", len(lines_to_process))
+            iteration += 1
+            if iteration > max_iterations:
+                raise UserError(
+                    _("Cannot assign move lines to locations: infinite loop detected after %d iterations")
+                    % max_iterations
+                )
+            _logger.debug("Processing %d move lines (iteration %d)", len(lines_to_process), iteration)
             is_split, to_reprocess = lines_to_process._split_by_putaway_capacity()
             if is_split:
-                # Dacă am făcut split, verificăm să nu fi intrat într-o buclă infinită
-                if lines_to_process == to_reprocess:
-                    raise UserError(_("Cannot assign move lines to locations"))
                 lines_to_process = to_reprocess
             else:
                 lines_to_process = False
@@ -37,7 +55,6 @@ class StockMove(models.Model):
         if lines_with_zero_qty:
             lines_with_zero_qty.unlink()
 
-        _logger.info("_action_assign executed in %.3f seconds", time.time() - start_time)
         return res
 
     def _action_done(self, cancel_backorder=False):
@@ -80,7 +97,7 @@ class StockMoveLine(models.Model):
         for line in self:
             if line.location_dest_id.max_products_leaf:
                 # Spațiul ocupat deja (fizic + planificat în DB)
-                line.location_dest_id.with_context(exclude_move_line_id=line.id)._compute_planned_products()
+                line.location_dest_id.with_context(exclude_move_line_id=line.id).sudo()._compute_planned_products()
                 occupied = line.location_dest_id.current_products + line.location_dest_id.planned_products
 
                 qty_available = line.location_dest_id.max_products_leaf - occupied

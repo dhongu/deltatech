@@ -5,6 +5,7 @@
     "summary": "Fix POS total calculation when using tax-included fiscal position mapping",
     "license": "LGPL-3",
     "development_status": "Production/Stable",
+    "maintainers": ["dhongu"],
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["point_of_sale"],

@@ -24,6 +24,7 @@
         "wizard/lot_set_location.xml",
     ],
     "development_status": "Beta",
+    "maintainers": ["danila12"],
     "installable": True,
     "images": ["static/description/main_screenshot.png"],
 }

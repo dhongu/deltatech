@@ -51,6 +51,13 @@ repos:
         language: fail
         files: '[a-zA-Z0-9_]*/i18n/en\.po$'
 
+      - id: check-history-md
+        name: Check readme/HISTORY.md exists in addon
+        entry: python scripts/check_history_md.py
+        language: python
+        pass_filenames: true
+        types_or: [python, xml]
+
       - id: check-super-methods
         name: Odoo — verificare metode super()
         language: python

@@ -13,5 +13,6 @@
     "license": "OPL-1",
     "data": ["views/sale_order.xml"],
     "development_status": "Production/Stable",
+    "maintainers": ["dhongu", "danila12"],
     "installable": True,
 }

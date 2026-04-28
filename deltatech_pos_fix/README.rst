@@ -23,7 +23,7 @@ Deltatech POS Fix
 |badge1| |badge2| |badge3|
 
 Deltatech POS Fix
-=================
+-----------------
 
 Fix POS total calculation when using tax-included fiscal position
 mapping.
@@ -34,6 +34,10 @@ total price to the tax-excluded amount. This module patches the POS to
 handle this recalculation correctly, matching the backend Sales
 behavior.
 
+This fix is applied both in the POS interface (JavaScript) and when
+generating invoices from POS orders (Python), ensuring consistency
+across the entire flow.
+
 Features
 ~~~~~~~~
 
@@ -41,6 +45,8 @@ Features
   fiscal position.
 - Ensures consistency between the Sales module and POS regarding the
   treatment of included taxes.
+- Adapts the unit price on invoice lines generated from POS orders to
+  reflect the correct tax mapping.
 
 Installation
 ~~~~~~~~~~~~
@@ -73,6 +79,14 @@ Authors
 
 Maintainers
 -----------
+
+.. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
+    :target: https://github.com/dhongu
+    :alt: dhongu
+
+Current maintainer:
+
+|maintainer-dhongu| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_pos_fix>`_ project on GitHub.
 
