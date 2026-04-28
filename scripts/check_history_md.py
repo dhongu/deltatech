@@ -2,6 +2,7 @@
 """Check that each modified Odoo addon has a readme/HISTORY.md file
 and that the manifest version is mentioned in it."""
 
+import argparse
 import ast
 import logging
 import re
@@ -45,10 +46,21 @@ def check_version_in_history(history_path: Path, version: str) -> bool:
 
 def main() -> int:
     logging.basicConfig(level=logging.WARNING, format="%(message)s")
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--error",
+        action="store_true",
+        default=False,
+        help="Return exit code 1 (error) instead of 0 (warning) when checks fail.",
+    )
+    args, file_args = parser.parse_known_args()
+
     repo_root = Path.cwd()
     checked = set()
+    has_issues = False
 
-    for arg in sys.argv[1:]:
+    for arg in file_args:
         file_path = Path(arg).resolve()
         addon = find_addon_root(file_path, repo_root)
         if addon is None:
@@ -61,11 +73,13 @@ def main() -> int:
         history = addon / "readme" / "HISTORY.md"
         if not history.exists():
             _logger.warning("WARNING: %s — lipsește readme/HISTORY.md", addon_rel)
+            has_issues = True
             continue
 
         version = get_manifest_version(addon)
         if not version:
             _logger.warning("WARNING: %s — nu s-a putut citi versiunea din __manifest__.py", addon_rel)
+            has_issues = True
             continue
 
         if not check_version_in_history(history, version):
@@ -74,8 +88,9 @@ def main() -> int:
                 addon_rel,
                 version,
             )
+            has_issues = True
 
-    return 0
+    return 1 if (args.error and has_issues) else 0
 
 
 if __name__ == "__main__":
