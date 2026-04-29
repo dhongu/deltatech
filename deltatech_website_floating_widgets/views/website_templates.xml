@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="floating_widgets" inherit_id="website.layout">
+        <xpath expr="//div[@id='wrapwrap']" position="after">
+            <t
+                t-set="floating_widgets"
+                t-value="request.env['website.floating.widget'].sudo().search([('active', '=', True)])"
+            />
+            <div class="s_floating_widgets" t-if="floating_widgets">
+                <t t-foreach="floating_widgets" t-as="widget">
+                    <a
+                        t-att-href="widget.get_link()"
+                        t-att-title="widget.name"
+                        t-attf-class="s_floating_widget_item shape_#{widget.button_shape} #{not widget.display_on_desktop and 'd-lg-none' or ''} #{not widget.display_on_mobile and 'd-none d-lg-flex' or 'd-flex'}"
+                        t-attf-style="background-color: #{widget.background_color}; color: #{widget.text_color};"
+                    >
+                        <i t-attf-class="fa #{widget.icon}" />
+                    </a>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>
