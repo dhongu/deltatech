@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="products_attributes" inherit_id="website_sale.products_attributes">
+        <!-- Dezactivare cache pentru a permite filtrarea dinamică -->
+        <xpath expr="//t[@t-cache='a,attrib_set']" position="attributes">
+            <attribute name="t-cache">None</attribute>
+        </xpath>
+
+        <!-- Filtrare pentru select -->
+        <xpath expr="//select[@name='attribute_value']/*[@t-foreach]" position="attributes">
+            <attribute
+                name="t-foreach"
+            >a.value_ids.filtered(lambda v: not active_attribute_value_ids or v.id in active_attribute_value_ids)</attribute>
+        </xpath>
+
+        <!-- Filtrare pentru radio, pills, multi -->
+        <xpath
+            expr="//div[contains(@t-elif, 'radio') or contains(@t-elif, 'pills') or contains(@t-elif, 'multi')]/*[@t-foreach]"
+            position="attributes"
+        >
+            <attribute
+                name="t-foreach"
+            >a.value_ids.filtered(lambda v: not active_attribute_value_ids or v.id in active_attribute_value_ids)</attribute>
+        </xpath>
+
+<!--        &lt;!&ndash; Filtrare pentru texture (din deltatech_website_texture_attributes) &ndash;&gt;-->
+<!--        <xpath expr="//t[@t-if=&quot;a.display_type == 'texture'&quot;]/t[@t-foreach]" position="attributes">-->
+<!--            <attribute name="t-foreach">a.value_ids.filtered(lambda v: not active_attribute_value_ids or v.id in active_attribute_value_ids)</attribute>-->
+<!--        </xpath>-->
+    </template>
+
+    <template id="o_wsale_offcanvas" inherit_id="website_sale.o_wsale_offcanvas">
+        <!-- Dezactivare cache pentru a permite filtrarea dinamică în offcanvas -->
+        <xpath expr="//t[@t-cache='a,attrib_set']" position="attributes">
+            <attribute name="t-cache">None</attribute>
+        </xpath>
+
+        <!-- Filtrare pentru radio, pills, select, multi în offcanvas -->
+        <xpath
+            expr="//div[contains(@t-elif, 'radio') or contains(@t-elif, 'pills') or contains(@t-elif, 'select') or contains(@t-elif, 'multi')]/*[@t-foreach]"
+            position="attributes"
+        >
+            <attribute
+                name="t-foreach"
+            >a.value_ids.filtered(lambda v: not active_attribute_value_ids or v.id in active_attribute_value_ids)</attribute>
+        </xpath>
+    </template>
+
+    <template id="o_wsale_offcanvas_color_attribute" inherit_id="website_sale.o_wsale_offcanvas_color_attribute">
+        <xpath expr="//*[@t-foreach]" position="attributes">
+            <attribute
+                name="t-foreach"
+            >a.value_ids.filtered(lambda v: not active_attribute_value_ids or v.id in active_attribute_value_ids)</attribute>
+        </xpath>
+    </template>
+</odoo>
