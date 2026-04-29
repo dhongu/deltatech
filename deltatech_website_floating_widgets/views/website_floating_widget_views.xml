@@ -65,7 +65,7 @@
     <menuitem
         id="menu_website_floating_widget"
         name="Floating Widgets"
-        parent="website.menu_website_global_configuration"
+        parent="website.menu_site"
         action="website_floating_widget_action"
         sequence="90"
     />
