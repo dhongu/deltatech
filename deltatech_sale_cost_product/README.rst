@@ -19,9 +19,6 @@ Deltatech Sale Cost on Order
 
 |badge1| |badge2|
 
-Sale Cost on Order and Margin Tracking
-======================================
-
 This module provides specialized tools for monitoring and analyzing the
 costs and margins of sales orders in Odoo. It's designed for sales
 managers and controllers who need more visibility into the profitability
@@ -51,6 +48,11 @@ Key Features
    - Provides a refined security model to control which users can view
      or modify sensitive cost and margin data.
 
+**Table of contents**
+
+.. contents::
+   :local:
+
 Usage
 =====
 
@@ -62,11 +64,6 @@ Usage
    margin in the order footer.
 5. Use the search and filter options to identify orders with margins
    below a certain threshold.
-
-**Table of contents**
-
-.. contents::
-   :local:
 
 Bug Tracker
 ===========
