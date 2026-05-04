@@ -14,7 +14,7 @@ Deltatech Warehouse Arrangement
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_warehouse_arrangement
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_warehouse_arrangement
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -48,6 +48,6 @@ Authors
 Maintainers
 -----------
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_warehouse_arrangement>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_warehouse_arrangement>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -14,10 +14,28 @@ eCommerce Warehouse Stock
     :target: https://odoo-community.org/page/development-status
     :alt: Alpha
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_website_warehouse_stock
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_warehouse_stock
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
+
+This module enhances the eCommerce experience by providing real-time
+stock availability for each warehouse directly on the product page.
+Customers can see if a product is in stock, low on stock, or unavailable
+at specific locations, helping them make informed purchasing decisions
+based on warehouse proximity or availability.
+
+While Odoo 18/19 introduced a standard "Click & Collect" feature with a
+map-based store selector, this module provides a complementary,
+high-visibility approach:
+
+- **Direct visibility**: Stock status is displayed statically on the
+  product page, eliminating the need for clicks or popups.
+- **Stock Thresholds**: Uses configurable thresholds to display
+  "Available" instead of exact numbers for high stock levels, protecting
+  inventory data and brand image.
+- **Simplified Setup**: Enable stock display per warehouse with a single
+  checkbox, without complex shipping method configurations.
 
 Features:
 
@@ -32,6 +50,37 @@ Features:
   name in the warehouse form.
 - There is a check in the warehouse to choose if the stock is displayed
   in the product template page.
+
+Future Development & Integration: This module is specifically designed
+to function as an **informative addon** that complements the standard
+Odoo 18/19 "Click & Collect" (``website_sale_collect``) feature. While
+the standard Odoo flow is optimized for the checkout process (map
+selector, pickup point selection), this module adds value by providing:
+
+- **Instant Awareness**: Customers see stock distribution before even
+  starting the checkout process.
+- **Data Protection**: Prevents competitors from knowing exact stock
+  levels via the threshold system.
+- **Enhanced UX**: Reduces friction by providing all necessary
+  availability data directly on the product page.
+
+Migration to Odoo 19: The module has been updated to follow Odoo 19
+standards and best practices:
+
+- **Manifest**: Version updated to 19.0.
+- **Python Models**: Added type hints for better code clarity and IDE
+  support.
+- **Configuration**: Updated ``res.config.settings`` to use the modern
+  ``<setting>`` tag in XML views, replacing older label/div structures.
+- **QWeb Templates**: Replaced ``t-esc`` with ``t-out`` for better
+  security and performance in line with Odoo's latest recommendations.
+  Updated XPath selectors to match Odoo 19's redesigned product page
+  structure and configuration views (moved distribution info to
+  ``o_wsale_product_details_content`` inside
+  ``o_wsale_product_details_content_section``, and updated configuration
+  XPath to target the new ``setting`` tag).
+- **Data Types**: Refined system parameter handling (threshold) to
+  ensure consistent data type processing.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -71,6 +120,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_website_warehouse_stock>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_warehouse_stock>`_ project on GitHub.
 
 You are welcome to contribute.
