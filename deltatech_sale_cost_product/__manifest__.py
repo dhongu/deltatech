@@ -16,4 +16,5 @@
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
+    "test": ["tests/test_sale_cost_product.py"],
 }
