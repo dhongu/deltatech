@@ -369,7 +369,24 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:1ba4fc682f4447ea94ec41d24aa04c050d702a2ccca51ed8f8c65c4bb2604c08
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Alpha" src="https://img.shields.io/badge/maturity-Alpha-red.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_website_warehouse_stock"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Alpha" src="https://img.shields.io/badge/maturity-Alpha-red.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_warehouse_stock"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
+<p>This module enhances the eCommerce experience by providing real-time
+stock availability for each warehouse directly on the product page.
+Customers can see if a product is in stock, low on stock, or unavailable
+at specific locations, helping them make informed purchasing decisions
+based on warehouse proximity or availability.</p>
+<p>While Odoo 18/19 introduced a standard “Click &amp; Collect” feature with a
+map-based store selector, this module provides a complementary,
+high-visibility approach:</p>
+<ul class="simple">
+<li><strong>Direct visibility</strong>: Stock status is displayed statically on the
+product page, eliminating the need for clicks or popups.</li>
+<li><strong>Stock Thresholds</strong>: Uses configurable thresholds to display
+“Available” instead of exact numbers for high stock levels, protecting
+inventory data and brand image.</li>
+<li><strong>Simplified Setup</strong>: Enable stock display per warehouse with a single
+checkbox, without complex shipping method configurations.</li>
+</ul>
 <p>Features:</p>
 <ul class="simple">
 <li>Adds the stok of the main stock location of every warehouse to the
@@ -383,6 +400,37 @@ configurable in site settings</li>
 name in the warehouse form.</li>
 <li>There is a check in the warehouse to choose if the stock is displayed
 in the product template page.</li>
+</ul>
+<p>Future Development &amp; Integration: This module is specifically designed
+to function as an <strong>informative addon</strong> that complements the standard
+Odoo 18/19 “Click &amp; Collect” (<tt class="docutils literal">website_sale_collect</tt>) feature. While
+the standard Odoo flow is optimized for the checkout process (map
+selector, pickup point selection), this module adds value by providing:</p>
+<ul class="simple">
+<li><strong>Instant Awareness</strong>: Customers see stock distribution before even
+starting the checkout process.</li>
+<li><strong>Data Protection</strong>: Prevents competitors from knowing exact stock
+levels via the threshold system.</li>
+<li><strong>Enhanced UX</strong>: Reduces friction by providing all necessary
+availability data directly on the product page.</li>
+</ul>
+<p>Migration to Odoo 19: The module has been updated to follow Odoo 19
+standards and best practices:</p>
+<ul class="simple">
+<li><strong>Manifest</strong>: Version updated to 19.0.</li>
+<li><strong>Python Models</strong>: Added type hints for better code clarity and IDE
+support.</li>
+<li><strong>Configuration</strong>: Updated <tt class="docutils literal">res.config.settings</tt> to use the modern
+<tt class="docutils literal">&lt;setting&gt;</tt> tag in XML views, replacing older label/div structures.</li>
+<li><strong>QWeb Templates</strong>: Replaced <tt class="docutils literal"><span class="pre">t-esc</span></tt> with <tt class="docutils literal"><span class="pre">t-out</span></tt> for better
+security and performance in line with Odoo’s latest recommendations.
+Updated XPath selectors to match Odoo 19’s redesigned product page
+structure and configuration views (moved distribution info to
+<tt class="docutils literal">o_wsale_product_details_content</tt> inside
+<tt class="docutils literal">o_wsale_product_details_content_section</tt>, and updated configuration
+XPath to target the new <tt class="docutils literal">setting</tt> tag).</li>
+<li><strong>Data Types</strong>: Refined system parameter handling (threshold) to
+ensure consistent data type processing.</li>
 </ul>
 <div class="admonition important">
 <p class="first admonition-title">Important</p>
@@ -420,7 +468,7 @@ In case of trouble, please check there if your issue has already been reported.<
 <h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/VoicuStefan2001"><img alt="VoicuStefan2001" src="https://github.com/VoicuStefan2001.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_website_warehouse_stock">dhongu/deltatech</a> project on GitHub.</p>
+<p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_warehouse_stock">dhongu/deltatech</a> project on GitHub.</p>
 <p>You are welcome to contribute.</p>
 </div>
 </div>
