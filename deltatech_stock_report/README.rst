@@ -54,7 +54,7 @@ Maintainers
 
 Current maintainer:
 
-|maintainer-dhongu|
+|maintainer-dhongu| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_report>`_ project on GitHub.
 
