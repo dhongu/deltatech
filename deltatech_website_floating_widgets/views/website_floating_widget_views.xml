@@ -11,6 +11,7 @@
                 <field name="icon" />
                 <field name="type" />
                 <field name="link" />
+                <field name="new_tab" />
                 <field name="button_shape" />
                 <field name="display_on_desktop" />
                 <field name="display_on_mobile" />
@@ -35,6 +36,7 @@
                             </div>
                             <field name="type" />
                             <field name="link" />
+                            <field name="new_tab" />
                         </group>
                         <group>
                             <field name="sequence" />
