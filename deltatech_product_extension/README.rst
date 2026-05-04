@@ -98,7 +98,7 @@ Maintainers
 
 Current maintainer:
 
-|maintainer-dhongu|
+|maintainer-dhongu| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_extension>`_ project on GitHub.
 
