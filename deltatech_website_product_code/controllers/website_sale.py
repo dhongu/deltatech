@@ -27,7 +27,7 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
             raise request.not_found()
         return self.product(product, **kwargs)
 
-    @http.route(["/shop/products-json"], type="json", auth="public", website=True, sitemap=False)
+    @http.route(["/shop/products-json"], type="jsonrpc", auth="public", website=True, sitemap=False)
     def products_json_by_code(self, search="", vat="", **kwargs):
         res = self._search_products_by_code(search, vat)
         return res
@@ -65,7 +65,6 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
             .sudo()
             .search([("name", "=", "deltatech_alternative"), ("state", "=", "installed")])
         )
-        pricelist = request.website._get_current_pricelist()
         base_url = request.env["ir.config_parameter"].sudo().get_param("web.base.url")
 
         # filtrare dupa furnizor
@@ -85,7 +84,7 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
         for product in filtred_products:
             if product.is_published:
                 combination_info = product.with_context(display_default_code=False)._get_combination_info(
-                    pricelist=pricelist
+                    only_template=True
                 )
                 values = {
                     "name": combination_info["display_name"],
