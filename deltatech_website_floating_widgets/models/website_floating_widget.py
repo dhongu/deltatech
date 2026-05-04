@@ -40,6 +40,7 @@ class WebsiteFloatingWidget(models.Model):
     )
     icon_preview = fields.Html(string="Preview", compute="_compute_icon_preview")
     link = fields.Char(string="Link", required=True)
+    new_tab = fields.Boolean(string="Open in new tab", default=False)
     type = fields.Selection(
         [("url", "URL"), ("phone", "Phone"), ("email", "Email")], string="Type", default="url", required=True
     )
