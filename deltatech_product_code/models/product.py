@@ -120,38 +120,37 @@ class ProductProduct(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if "default_code" not in vals or vals["default_code"] in ["/", "", False]:
-                categ_id = vals.get("categ_id")
-                # categoria in product.product apare la crearea din campuri legate de product.product, ex pe linie de vanzare
-                if categ_id:
-                    categ = self.env["product.category"].browse(categ_id)
-                    default_code = vals.get("default_code", False)
-                    barcode = vals.get("barcode", False)
-                    values = self.env["product.template"].get_new_code(categ, default_code, barcode)
-                    vals.update(values)
-                elif "product_tmpl_id" in vals and vals.get("product_tmpl_id"):
-                    # daca se creaza variante din tempalte ele nu o sa aiba categorie asa ca testam pe template daca are categorie de generare coduri
-                    template = self.env["product.template"].browse(vals.get("product_tmpl_id"))
-                    force_code_template = False
-                    if (
-                        template.attribute_line_ids and len(vals_list) == 1 and not template.default_code
-                    ):  # daca sunt atribute si se genereaza o singura varianta o sa incerce sa faca sanitize si se sterge referinta
-                        force_code_template = True
-                    categ = template.categ_id
-                    ignore_code_template = False
-                    dynamic_attributes = template.attribute_line_ids.filtered(
-                        lambda x: x.attribute_id.create_variant == "dynamic"
-                    )
-                    if any(len(dynamic_attribute.value_ids) > 1 for dynamic_attribute in dynamic_attributes):
-                        ignore_code_template = True
-                    if categ:  # nu cred ca poate sa fie fata dar prefer sa nu aflu
-                        if not template.default_code or ignore_code_template:
-                            values = self.env["product.template"].get_new_code(
-                                categ, vals.get("default_code", False), vals.get("barcode", False)
-                            )
-                            if force_code_template:
-                                template.write(values)
-                            vals.update(values)
+            categ_id = vals.get("categ_id")
+            # categoria in product.product apare la crearea din campuri legate de product.product, ex pe linie de vanzare
+            if categ_id:
+                categ = self.env["product.category"].browse(categ_id)
+                default_code = vals.get("default_code", False)
+                barcode = vals.get("barcode", False)
+                values = self.env["product.template"].get_new_code(categ, default_code, barcode)
+                vals.update(values)
+            elif "product_tmpl_id" in vals and vals.get("product_tmpl_id"):
+                # daca se creaza variante din tempalte ele nu o sa aiba categorie asa ca testam pe template daca are categorie de generare coduri
+                template = self.env["product.template"].browse(vals.get("product_tmpl_id"))
+                force_code_template = False
+                if (
+                    template.attribute_line_ids and len(vals_list) == 1 and not template.default_code
+                ):  # daca sunt atribute si se genereaza o singura varianta o sa incerce sa faca sanitize si se sterge referinta
+                    force_code_template = True
+                categ = template.categ_id
+                ignore_code_template = False
+                dynamic_attributes = template.attribute_line_ids.filtered(
+                    lambda x: x.attribute_id.create_variant == "dynamic"
+                )
+                if any(len(dynamic_attribute.value_ids) > 1 for dynamic_attribute in dynamic_attributes):
+                    ignore_code_template = True
+                if categ:  # nu cred ca poate sa fie fata dar prefer sa nu aflu
+                    if not template.default_code or ignore_code_template:
+                        values = self.env["product.template"].get_new_code(
+                            categ, vals.get("default_code", False), vals.get("barcode", False)
+                        )
+                        if force_code_template:
+                            template.write(values)
+                        vals.update(values)
         return super().create(vals_list)
 
     def button_new_code(self):

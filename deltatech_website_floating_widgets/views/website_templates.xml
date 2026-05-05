@@ -11,6 +11,8 @@
                     <a
                         t-att-href="widget.get_link()"
                         t-att-title="widget.name"
+                        t-att-target="widget.new_tab and '_blank' or None"
+                        t-att-rel="widget.new_tab and 'noopener' or None"
                         t-attf-class="s_floating_widget_item shape_#{widget.button_shape} #{not widget.display_on_desktop and 'd-lg-none' or ''} #{not widget.display_on_mobile and 'd-none d-lg-flex' or 'd-flex'}"
                         t-attf-style="background-color: #{widget.background_color}; color: #{widget.text_color};"
                     >
