@@ -66,7 +66,7 @@ class TestStockWebsiteAAttribute(HttpCase):
                 "name": "Test Category",
             }
         )
-        cls.product.write({"public_categ_ids": [(6, 0, [cls.category.id])]})
+        cls.product.write({"public_categ_ids": [(6, 0, [cls.category.id])], "is_published": True})
 
         # Fetch the generated product.template.attribute.value records (v17-safe)
         ptavs = cls.env["product.template.attribute.value"].search(
