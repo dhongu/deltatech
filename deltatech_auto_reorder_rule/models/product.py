@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, models
+from odoo.tools.safe_eval import safe_eval
 
 
 class ProductProduct(models.Model):
@@ -27,13 +28,19 @@ class ProductProduct(models.Model):
                 values = []
                 for warehouse in warehouses:
                     if warehouse.lot_stock_id.usage == "internal":
+                        use_auto_rules = (
+                            self.env["ir.config_parameter"]
+                            .sudo()
+                            .get_param("deltatech_auto_reorder_rule.use_auto_instead_of_manual_rules", default="False")
+                        )
+                        use_auto_rules = safe_eval(use_auto_rules)
                         values.append(
                             {
                                 "product_id": record.id,
                                 "product_min_qty": 0,
                                 "product_max_qty": 0,
                                 "qty_multiple": 0,
-                                "trigger": "manual",
+                                "trigger": "manual" if not use_auto_rules else "auto",
                                 "route_id": route,
                                 "location_id": warehouse.lot_stock_id.id,
                             }
