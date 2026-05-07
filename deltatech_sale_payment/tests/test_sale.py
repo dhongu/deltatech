@@ -127,6 +127,14 @@ class TestSaleOrderPayment(TransactionCase):
         # Clean transactions for next assertions
         self.sale_order.write({"transaction_ids": [(5, 0, 0)]})
 
+    def test_compute_payment_cancelled(self):
+        # Cancelled transaction -> cancelled status
+        self._create_transaction(amount=10.0, state="cancel")
+        self.sale_order._compute_payment()
+        self.assertEqual(self.sale_order.payment_status, "cancelled")
+        self.assertEqual(self.sale_order.payment_amount, 0.0)
+        self.assertEqual(self.sale_order.provider_id, self.provider)
+
     # def test_compute_payment_partial_and_done(self):
     #     # Partial: done transaction less than order total
     #     self._create_transaction(amount=50.0, state="done", provider=self.provider)

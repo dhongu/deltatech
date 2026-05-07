@@ -104,7 +104,7 @@ class SaleConfirmPayment(models.TransientModel):
 
     def do_confirm(self):
         self.do_add_payment()
-        transaction = self.transaction_id
+        transaction = self.transaction_id.sudo()
         if transaction.state != "done" and transaction.amount:
             transaction = transaction.with_context(payment_date=self.payment_date)
             transaction._set_pending()
