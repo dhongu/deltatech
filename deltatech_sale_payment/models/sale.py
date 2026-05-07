@@ -17,6 +17,7 @@ class SaleOrder(models.Model):
             ("authorized", "Authorized"),
             ("partial", "Partial"),
             ("done", "Done"),
+            ("cancelled", "Cancelled"),
         ],
         default="without",
         compute="_compute_payment",
@@ -76,6 +77,11 @@ class SaleOrder(models.Model):
                 payment_status = "without"
                 if order.transaction_ids:
                     payment_status = "initiated"
+
+                    cancel_tx = order.transaction_ids.filtered(lambda t: t.state == "cancel")
+                    if cancel_tx:
+                        payment_status = "cancelled"
+
                     for transaction in all_transactions.sorted(lambda a: a.id):
                         provider = transaction.provider_id
 
