@@ -8,6 +8,7 @@ import {Many2XAutocomplete} from "@web/views/fields/relational_utils";
 import {registry} from "@web/core/registry";
 import {usePopover} from "@web/core/popover/popover_hook";
 import {useService} from "@web/core/utils/hooks";
+import {getFieldDomain} from "@web/model/relational_model/utils";
 
 class Many2oneBadgeColorPopover extends Component {
     static template = "deltatech_widget_many2one_badge.ColorPopover";
@@ -83,6 +84,10 @@ export class Many2oneBadgeField extends Component {
 
     get activeActions() {
         return {create: false, createEdit: false, write: true};
+    }
+
+    getDomain() {
+        return getFieldDomain(this.props.record, this.props.name, this.props.domain);
     }
 
     async onBadgeClick(ev) {
