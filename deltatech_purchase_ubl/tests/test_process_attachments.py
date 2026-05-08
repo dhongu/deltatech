@@ -40,7 +40,7 @@ def _xml_invoice(
     line_xml = []
     for l in lines:
         std_id = (
-            f"<cac:StandardItemIdentification><cbc:ID schemeID=\"0160\">{l.get('barcode','')}</cbc:ID></cac:StandardItemIdentification>"
+            f'<cac:StandardItemIdentification><cbc:ID schemeID="0160">{l.get("barcode", "")}</cbc:ID></cac:StandardItemIdentification>'
             if l.get("barcode")
             else ""
         )
@@ -48,24 +48,24 @@ def _xml_invoice(
             f"""
             <cac:InvoiceLine>
                 <cbc:ID>1</cbc:ID>
-                <cbc:InvoicedQuantity unitCode=\"{l.get('unit_code','C62')}\">{l.get('qty','1')}</cbc:InvoicedQuantity>
-                <cbc:LineExtensionAmount currencyID=\"{currency}\">{l.get('line_total','0')}</cbc:LineExtensionAmount>
+                <cbc:InvoicedQuantity unitCode=\"{l.get("unit_code", "C62")}\">{l.get("qty", "1")}</cbc:InvoicedQuantity>
+                <cbc:LineExtensionAmount currencyID=\"{currency}\">{l.get("line_total", "0")}</cbc:LineExtensionAmount>
                 <cac:Price>
-                    <cbc:PriceAmount currencyID=\"{currency}\">{l.get('price','0')}</cbc:PriceAmount>
+                    <cbc:PriceAmount currencyID=\"{currency}\">{l.get("price", "0")}</cbc:PriceAmount>
                 </cac:Price>
                 <cac:Item>
-                    <cac:SellersItemIdentification><cbc:ID>{l.get('code','')}</cbc:ID></cac:SellersItemIdentification>
+                    <cac:SellersItemIdentification><cbc:ID>{l.get("code", "")}</cbc:ID></cac:SellersItemIdentification>
                     {std_id}
-                    <cbc:Name>{l.get('name','')}</cbc:Name>
+                    <cbc:Name>{l.get("name", "")}</cbc:Name>
                     <cac:ClassifiedTaxCategory>
-                        <cbc:Percent>{l.get('tax','0')}</cbc:Percent>
+                        <cbc:Percent>{l.get("tax", "0")}</cbc:Percent>
                     </cac:ClassifiedTaxCategory>
                 </cac:Item>
             </cac:InvoiceLine>
             """
         )
     xml = f"""
-        <inv:Invoice xmlns:inv=\"{UBL_NS['inv']}\" xmlns:cac=\"{UBL_NS['cac']}\" xmlns:cbc=\"{UBL_NS['cbc']}\">
+        <inv:Invoice xmlns:inv=\"{UBL_NS["inv"]}\" xmlns:cac=\"{UBL_NS["cac"]}\" xmlns:cbc=\"{UBL_NS["cbc"]}\">
             <cbc:ID>{invoice_id}</cbc:ID>
             <cbc:IssueDate>2025-01-01</cbc:IssueDate>
             <cbc:DueDate>2025-01-30</cbc:DueDate>
@@ -77,7 +77,7 @@ def _xml_invoice(
                     <cac:PartyLegalEntity><cbc:RegistrationName>{supplier_name}</cbc:RegistrationName></cac:PartyLegalEntity>
                 </cac:Party>
             </cac:AccountingSupplierParty>
-            {''.join(line_xml)}
+            {"".join(line_xml)}
         </inv:Invoice>
     """
     return dedent(xml).strip().encode()
