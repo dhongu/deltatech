@@ -31,38 +31,55 @@ class AccountAveragePaymentReport(models.Model):
     payment_days_simple = fields.Float("Plain payment days", readonly=True, aggregator="avg")
 
     @api.model
-    def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-        new_fields = []
-        new_fields += fields
+    def _read_group(
+        self,
+        domain: list,
+        groupby: list[str] = (),
+        aggregates: list[str] = (),
+        having: list = (),
+        offset: int = 0,
+        limit: int | None = None,
+        order: str | None = None,
+    ) -> list[tuple]:
+        new_aggregates = list(aggregates)
 
-        if "payment_days" in fields:
-            # new_fields.remove('payment_days')
-            if "weight" not in new_fields:
-                new_fields.append("weight")
-            if "amount" not in new_fields:
-                new_fields.append("amount")
+        # Check if 'payment_days' is in aggregates (either as 'payment_days' or 'payment_days:avg')
+        payment_days_agg = [agg for agg in aggregates if agg.split(":")[0] == "payment_days"]
 
-        res = super().read_group(
-            domain,
-            new_fields,
-            groupby,
-            offset=offset,
-            limit=limit,
-            orderby=orderby,
-            lazy=lazy,
-        )
+        if payment_days_agg:
+            if "weight:sum" not in new_aggregates:
+                new_aggregates.append("weight:sum")
+            if "amount:sum" not in new_aggregates:
+                new_aggregates.append("amount:sum")
 
-        # new_res = self.read_group(cr, uid, domain, new_fields, groupby, offset, limit, context, orderby, lazy)
-        if "payment_days" in fields:
-            for line in res:
-                weight = line.get("weight", 0.0)
-                amount = line.get("amount", 0.0)
-                if line["amount"] != 0.0 and weight and amount:
-                    line["payment_days"] = weight / amount
-                else:
-                    line["payment_days"] = 0.0
-                if line["payment_days"] < 0.0:
-                    line["payment_days"] = abs(line["payment_days"])
+        res = super()._read_group(domain, groupby, new_aggregates, having, offset, limit, order)
+
+        if payment_days_agg:
+            # res is a list of tuples: (group_values..., aggregate_values...)
+            # We need to find the indices of payment_days, weight, and amount in the result tuples.
+
+            # Result tuple structure: groupby values followed by aggregate values
+            offset_agg = len(groupby)
+            try:
+                pd_idx = offset_agg + aggregates.index(payment_days_agg[0])
+                weight_idx = offset_agg + new_aggregates.index("weight:sum")
+                amount_idx = offset_agg + new_aggregates.index("amount:sum")
+
+                new_res = []
+                for row in res:
+                    row_list = list(row)
+                    weight = row_list[weight_idx] or 0.0
+                    amount = row_list[amount_idx] or 0.0
+                    if amount != 0.0:
+                        payment_days = weight / amount
+                    else:
+                        payment_days = 0.0
+                    row_list[pd_idx] = abs(payment_days)
+                    # Omit the extra aggregates we added if they weren't requested
+                    new_res.append(tuple(row_list[: offset_agg + len(aggregates)]))
+                return new_res
+            except (ValueError, IndexError):
+                return res
 
         return res
 
