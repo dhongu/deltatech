@@ -15,7 +15,7 @@ class ProductProduct(models.Model):
             website = self.env["website"].get_current_website()
             if website.prevent_zero_price_sale:
                 price = self._get_contextual_price()
-                cost_price = self.product_tmpl_id._get_cost_price_for_comparison(self, website)
+                cost_price = self.product_tmpl_id.sudo()._get_cost_price_for_comparison(self, website)
                 if float_compare(price, cost_price, precision_rounding=website.currency_id.rounding) < 0:
                     return False
         return res
@@ -26,7 +26,7 @@ class ProductProduct(models.Model):
             website = self.env["website"].get_current_website()
             if website.prevent_zero_price_sale:
                 price = self._get_contextual_price()
-                cost_price = self.product_tmpl_id._get_cost_price_for_comparison(self, website)
+                cost_price = self.product_tmpl_id.sudo()._get_cost_price_for_comparison(self, website)
                 if float_compare(price, cost_price, precision_rounding=website.currency_id.rounding) < 0:
                     return self.env.user.has_group("base.group_system")
         return res
