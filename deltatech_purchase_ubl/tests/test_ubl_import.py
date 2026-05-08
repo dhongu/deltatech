@@ -178,7 +178,6 @@ class TestPurchaseUblImport(TransactionCase):
                 "default_code": "VEND-EXIST",
                 "is_storable": True,
                 "uom_id": kg_uom.id,
-                "uom_po_id": kg_uom.id,
                 "purchase_ok": True,
             }
         )
@@ -190,7 +189,7 @@ class TestPurchaseUblImport(TransactionCase):
                 "name": product.display_name,
                 "product_qty": 1.0,
                 "price_unit": 5.0,
-                "product_uom": product.uom_po_id.id,
+                "product_uom": product.uom_id.id,
                 "date_planned": "2025-01-01 00:00:00",
             }
         )
@@ -271,7 +270,7 @@ class TestPurchaseUblImport(TransactionCase):
                 "name": product_2.display_name,
                 "product_qty": 1.0,
                 "price_unit": 5.0,
-                "product_uom": product_2.uom_po_id.id,
+                "product_uom": product_2.uom_id.id,
                 "date_planned": "2025-01-01 00:00:00",
             }
         )

@@ -30,8 +30,8 @@ class AccountMove(models.Model):
                                 company,
                                 fields.Date.today(),
                             )
-                            if line.product_id.product_tmpl_id.uom_po_id != line.product_uom_id:
-                                default_uom = line.product_id.product_tmpl_id.uom_po_id
+                            if line.product_id.product_tmpl_id.uom_id != line.product_uom_id:
+                                default_uom = line.product_id.product_tmpl_id.uom_id
                                 seller_price_unit = line.product_uom._compute_price(seller_price_unit, default_uom)
                             seller.write({"price": seller_price_unit})
         return res
