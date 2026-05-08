@@ -1,6 +1,5 @@
-from odoo import http
+from odoo import fields, http
 from odoo.http import request
-from odoo.osv import expression
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
@@ -38,23 +37,20 @@ class WebsiteSaleAttribute(WebsiteSale):
                         res.append(term)
                 return res
 
-            ptav_domain = expression.AND(
+            ptav_domain = fields.Domain.AND(
                 [
                     _to_ptav(website_domain),
                     [("website_visible", "=", True)],
                 ]
             )
 
-            # Obținem valorile distincte prin read_group (evită materializarea tuturor produselor)
-            groups = request.env["product.template.attribute.value"].read_group(
+            # Obținem valorile distincte prin _read_group (evită materializarea tuturor produselor)
+            groups = request.env["product.template.attribute.value"]._read_group(
                 domain=ptav_domain,
-                fields=["product_attribute_value_id"],
                 groupby=["product_attribute_value_id"],
-                lazy=False,
+                aggregates=[],
             )
-            value_ids = request.env["product.attribute.value"].browse(
-                [g["product_attribute_value_id"][0] for g in groups if g.get("product_attribute_value_id")]
-            )
+            value_ids = request.env["product.attribute.value"].browse([g[0].id for g in groups if g[0]])
 
             if category:
                 # se ascund restul de categorii (păstrăm logica existentă)
