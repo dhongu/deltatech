@@ -189,7 +189,7 @@ class TestPurchaseUblImport(TransactionCase):
                 "name": product.display_name,
                 "product_qty": 1.0,
                 "price_unit": 5.0,
-                "product_uom": product.uom_id.id,
+                "product_uom_id": product.uom_id.id,
                 "date_planned": "2025-01-01 00:00:00",
             }
         )
@@ -270,7 +270,7 @@ class TestPurchaseUblImport(TransactionCase):
                 "name": product_2.display_name,
                 "product_qty": 1.0,
                 "price_unit": 5.0,
-                "product_uom": product_2.uom_id.id,
+                "product_uom_id": product_2.uom_id.id,
                 "date_planned": "2025-01-01 00:00:00",
             }
         )

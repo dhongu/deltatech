@@ -525,7 +525,7 @@ class PurchaseUblImportWizard(models.TransientModel):
                     "name": ml.get("name") or product.display_name,
                     "product_qty": ml.get("qty", 0.0) or 0.0,
                     "price_unit": ml.get("price", 0.0) or 0.0,
-                    "product_uom": product.uom_id.id,
+                    "product_uom_id": product.uom_id.id,
                     "date_planned": fields.Datetime.now(),
                 }
                 POL.create(vals)
