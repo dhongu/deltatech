@@ -86,8 +86,8 @@ class TestAveragePaymentPeriod(common.TransactionCase):
         for line in report_lines:
             self.assertEqual(line.payment_days, 10, "Zilele de plată în raport ar trebui să fie 10")
 
-        # Verificăm read_group-ul customizat
-        group_data = self.env["account.average.payment.report"].read_group(
-            [("partner_id", "=", self.partner.id)], ["payment_days", "amount"], ["partner_id"]
+        # Verificăm _read_group-ul customizat
+        group_data = self.env["account.average.payment.report"]._read_group(
+            [("partner_id", "=", self.partner.id)], ["partner_id"], ["payment_days:avg"]
         )
-        self.assertEqual(group_data[0]["payment_days"], 10.0, "Media zilelor de plată în raport ar trebui să fie 10.0")
+        self.assertEqual(group_data[0][1], 10.0, "Media zilelor de plată în raport ar trebui să fie 10.0")
