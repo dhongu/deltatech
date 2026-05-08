@@ -17,6 +17,7 @@
             "deltatech_widget_many2one_badge/static/tests/many2one_badge_field.test.esm.js",
         ],
     },
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }

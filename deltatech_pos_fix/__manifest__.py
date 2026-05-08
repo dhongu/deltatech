@@ -13,5 +13,6 @@
     "assets": {
         "point_of_sale._assets_pos": ["deltatech_pos_fix/static/src/app/models/pos_order_line.esm.js"],
     },
+    "images": ["static/description/main_screenshot.png"],
     "installable": True,
 }
