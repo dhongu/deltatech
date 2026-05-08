@@ -60,8 +60,11 @@ class TestSaleOrderPayment(TransactionCase):
                     "code": "manual",
                     # image is required; any valid non-empty base64 string works for tests
                     "image": "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+                    "support_manual_capture": "full_only",
                 }
             )
+        else:
+            self.payment_method.support_manual_capture = "full_only"
 
         self.provider = self.env["payment.provider"].create(
             {
