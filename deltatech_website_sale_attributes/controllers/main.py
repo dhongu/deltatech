@@ -1,6 +1,5 @@
-from odoo import http
+from odoo import fields, http
 from odoo.http import request
-from odoo.osv import expression
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
@@ -38,7 +37,7 @@ class WebsiteSaleAttribute(WebsiteSale):
                         res.append(term)
                 return res
 
-            ptav_domain = expression.AND(
+            ptav_domain = fields.Domain.AND(
                 [
                     _to_ptav(website_domain),
                     [("website_visible", "=", True)],
