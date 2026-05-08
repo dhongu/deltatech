@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="remove_newest_sort_final" inherit_id="website_sale.sort" name="Remove Newest Sorting">
+        <xpath expr="//t[@t-foreach='website_sale_sortable']//a" position="replace">
+            <t t-set="sort_label" t-value="sortby[1]"/>
+            <t t-if="sort_label not in ['Newest Arrivals', 'Ultimele intrări','Sortează după cele mai recente', 'Last Arrivals']">
+                <a role="menuitem"
+                   rel="noindex,nofollow"
+                   t-att-href="keep(order=sortby[0])"
+                   t-attf-class="dropdown-item {{_current_sort == sortby[0] and 'active'}}">
+                    <span t-out="sortby[1]"/>
+                </a>
+            </t>
+        </xpath>
+    </template>
+</odoo>
