@@ -29,7 +29,6 @@ class SaleOrder(models.Model):
             {
                 "res_id": self.id,
                 "res_model": "sale.order",
-                "description": self.name,
                 "amount": self.amount_total - sum(self.invoice_ids.mapped("amount_total")),
                 "currency_id": self.currency_id.id,
                 "partner_id": self.partner_id.id,
