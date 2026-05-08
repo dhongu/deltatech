@@ -12,7 +12,7 @@ class ProductTemplate(models.Model):
     def _get_cost_price_for_comparison(self, product_or_template, website, date=None):
         if not date:
             date = fields.Date.context_today(self)
-        cost_price = product_or_template.standard_price
+        cost_price = product_or_template.sudo().standard_price
 
         # Check if cost price should include tax or not
         # and if the website price (res['price']) is with or without tax
@@ -54,7 +54,7 @@ class ProductTemplate(models.Model):
 
         if website.prevent_zero_price_sale:
             price = res["price"]
-            cost_price = self._get_cost_price_for_comparison(product_or_template, website, date)
+            cost_price = self.sudo()._get_cost_price_for_comparison(product_or_template, website, date)
 
             if float_compare(price, cost_price, precision_rounding=website.currency_id.rounding) < 0:
                 res["prevent_zero_price_sale"] = True
@@ -67,7 +67,7 @@ class ProductTemplate(models.Model):
             website = self.env["website"].get_current_website()
             if website.prevent_zero_price_sale:
                 price = self._get_contextual_price()
-                cost_price = self._get_cost_price_for_comparison(self, website)
+                cost_price = self.sudo()._get_cost_price_for_comparison(self, website)
                 if float_compare(price, cost_price, precision_rounding=website.currency_id.rounding) < 0:
                     return False
         return res
