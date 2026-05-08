@@ -2,12 +2,20 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, models
+from odoo import _, api, models
 from odoo.exceptions import UserError
 
 
 class StockQuant(models.Model):
     _inherit = "stock.quant"
+
+    @api.model
+    def _quant_tasks(self):
+        return super(StockQuant, self.with_context(skip_negative_check=True))._quant_tasks()
+
+    @api.model
+    def _clean_reservations(self):
+        return super(StockQuant, self.with_context(skip_negative_check=True))._clean_reservations()
 
     def _get_available_quantity(
         self, product_id, location_id, lot_id=None, package_id=None, owner_id=None, strict=False, allow_negative=False
@@ -40,6 +48,8 @@ class StockQuant(models.Model):
         if self.env.context.get("active_model") == "purchase.order" and location_id.usage == "internal":
             return res
         if self.env.context.get("inventory_mode"):
+            return res
+        if self.env.context.get("skip_negative_check"):
             return res
         if location_id and not location_id.allow_negative_stock and res < 0.0 and location_id.usage == "internal":
             err = _(
