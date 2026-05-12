@@ -11,6 +11,7 @@ class StockPicking(models.Model):
     sub_location_existent = fields.Boolean(default=False, compute="_compute_sub_location_existent")
     second_transfer_created = fields.Boolean(default=False)
     source_transfer_id = fields.Many2one("stock.picking")
+    destionation_transfer_id = fields.Many2one("stock.picking")
     create_second_transfer_automatically = fields.Boolean(
         string="Create Second Transfer Automatically",
         related="picking_type_id.auto_second_transfer",
@@ -48,6 +49,7 @@ class StockPicking(models.Model):
                 message = _("This transfer was generated from %s.") % picking.name
                 new_picking.message_post(body=message)
                 new_picking.source_transfer_id = picking.id
+                picking.destionation_transfer_id = new_picking.id
                 message = _("Transfer %s was generated.") % new_picking.name
 
                 picking.message_post(body=message)
@@ -148,6 +150,19 @@ class StockPicking(models.Model):
                     other_moves = picking.source_transfer_id.move_ids_without_package.filtered(
                         lambda x: x.product_id == move.product_id
                     )
+                    if not other_moves:
+                        possible_picking = self.env["stock.picking"]
+                        picking_now = picking.source_transfer_id
+                        while picking_now.backorder_ids:
+                            picking_now = picking_now.backorder_ids[0]
+                            possible_picking |= picking_now
+                        if possible_picking:
+                            for backorder in possible_picking:
+                                other_moves = backorder.move_ids_without_package.filtered(
+                                    lambda x: x.product_id == move.product_id
+                                )
+                                if other_moves:
+                                    break
                     if not other_moves:
                         raise UserError(
                             _("You cannot validate the picking because the product %s is not from the source picking")
