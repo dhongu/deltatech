@@ -9,7 +9,11 @@
     "website": "https://www.terrabit.ro",
     "summary": "Generic module",
     "category": "Tools",
+<<<<<<< HEAD
     "depends": ["web", "base"],
+=======
+    "depends": ["web", "base","website_sale"],
+>>>>>>> c76e110 ([19.0][ADD] added module deltatech_website_rmv_sort_new)
     "data": ["views/rmv_sort_new.xml"],
     "license": "OPL-1",
     "images": ["images/main_screenshot.png"],
