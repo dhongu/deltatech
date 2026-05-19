@@ -64,8 +64,7 @@ class PurchaseOrderLine(models.Model):
                 values = {
                     "product_qty": line.product_qty * (line.product_id.extra_qty or 1.0),
                     "product_id": extra_product.id,
-                    "product_uom": extra_product.uom_id.id,
-                    "state": "draft",
+                    "product_uom_id": extra_product.uom_id.id,
                     "order_id": line.order_id.id,
                     "sequence": line.sequence + 1,
                     "line_uuid": new_uuid,
