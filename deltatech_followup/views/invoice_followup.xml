@@ -57,7 +57,7 @@
         name="Followups"
         id="menu_invoice_followup"
         action="action_invoice_followup"
-        parent="account.account_management_menu"
+        parent="account.menu_finance_configuration"
     />
          <record id="action_send_followup" model="ir.actions.server">
             <field name="name">Send now</field>
