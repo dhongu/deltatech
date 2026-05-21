@@ -1,6 +1,8 @@
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 
+@tagged("deltatech_ledger", "post_install", "-at_install")
 class TestLedger(TransactionCase):
     def test_create_ledger_entry(self):
         Ledger = self.env["ledger.ledger"]

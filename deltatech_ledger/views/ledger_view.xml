@@ -72,26 +72,15 @@
                     <field name="name" />
                     <field name="record_date" />
                     <field name="document_number" />
-                    <filter string="Active" name="default_filter_active" domain="[('state','=','active')]" />
                     <field name="place_of_origin" />
                     <field name="record_short_description" />
                     <field name="record_type" />
+                    <filter string="Active" name="default_filter_active" domain="[('state','=','active')]" />
                     <filter string="Entry" name="filter_entry" domain="[('record_type','=','entry')]" />
                     <filter string="Exit" name="filter_exit" domain="[('record_type','=','exit')]" />
-                    <group expand="0" string="Group By">
-                        <filter
-                        string="Record Type"
-                        name="groupby_record_type"
-                        domain="[]"
-                        context="{'group_by':'record_type'}"
-                    />
-                        <filter
-                        string="Contact"
-                        name="groupby_contact"
-                        domain="[]"
-                        context="{'group_by':'contact_id'}"
-                    />
-                    </group>
+                    <separator/>
+                    <filter string="Record Type" name="groupby_record_type" domain="[]" context="{'group_by':'record_type'}"/>
+                    <filter string="Contact" name="groupby_contact" domain="[]" context="{'group_by':'contact_id'}"/>
                 </search>
             </field>
         </record>
