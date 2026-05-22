@@ -45,15 +45,17 @@ def migrate(cr, version):
           AND NOT EXISTS (
               SELECT 1
               FROM stock_picking sp
+              JOIN stock_picking_type spt ON spt.id = sp.picking_type_id
               WHERE sp.sale_id = so.id
-                AND sp.picking_type_code = 'outgoing'
+                AND spt.code = 'outgoing'
                 AND sp.state NOT IN ('done', 'cancel')
           )
           AND EXISTS (
               SELECT 1
               FROM stock_picking sp
+              JOIN stock_picking_type spt ON spt.id = sp.picking_type_id
               WHERE sp.sale_id = so.id
-                AND sp.picking_type_code = 'outgoing'
+                AND spt.code = 'outgoing'
           )
     """)
     )
@@ -71,9 +73,10 @@ def migrate(cr, version):
           AND EXISTS (
               SELECT 1
               FROM stock_picking sp
+              JOIN stock_picking_type spt ON spt.id = sp.picking_type_id
               JOIN stock_move sm ON sm.picking_id = sp.id
               WHERE sp.sale_id = so.id
-                AND sp.picking_type_code = 'outgoing'
+                AND spt.code = 'outgoing'
                 AND sp.state NOT IN ('done', 'cancel')
               GROUP BY sp.id
               HAVING bool_and(sm.quantity >= sm.product_uom_qty)
@@ -93,9 +96,10 @@ def migrate(cr, version):
           AND EXISTS (
               SELECT 1
               FROM stock_picking sp
+              JOIN stock_picking_type spt ON spt.id = sp.picking_type_id
               JOIN stock_move sm ON sm.picking_id = sp.id
               WHERE sp.sale_id = so.id
-                AND sp.picking_type_code = 'outgoing'
+                AND spt.code = 'outgoing'
                 AND sp.state NOT IN ('done', 'cancel')
                 AND sm.quantity > 0
           )
