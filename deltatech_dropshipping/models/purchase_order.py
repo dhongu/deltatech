@@ -41,13 +41,13 @@ class PurchaseOrder(models.Model):
                     sale_price = taxes_s["total_excluded"]
 
                     if purchase_price > sale_price:
-                        diff = purchase_price - sale_price
+                        diff = round(purchase_price - sale_price, 2)
                         warnings.append(
                             _(
                                 "<li><strong>%(product)s</strong>: Purchase %(purchase)s > Sale %(sale)s (Diff: %(diff)s)</li>",
                                 product=line.product_id.display_name,
-                                purchase=purchase_price,
-                                sale=sale_price,
+                                purchase=round(purchase_price, 2),
+                                sale=round(sale_price, 2),
                                 diff=diff,
                             )
                         )
