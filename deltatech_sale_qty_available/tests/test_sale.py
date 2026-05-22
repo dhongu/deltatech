@@ -2,121 +2,151 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-
-from odoo.tests import Form
+from odoo.tests import Form, tagged
 from odoo.tests.common import TransactionCase
 
 
-class TestSale(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.partner_a = self.env["res.partner"].create({"name": "Test"})
+@tagged("post_install", "-at_install")
+class TestSaleQtyAvailable(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env.ref("base.EUR").active = True
 
-        seller_ids = [(0, 0, {"partner_id": self.partner_a.id})]
-        self.product_a = self.env["product.product"].create(
+        country = cls.env.ref("base.ro")
+        state = cls.env.ref("base.RO_B")
+        cls.partner = cls.env["res.partner"].create(
             {
-                "name": "Test A",
+                "name": "Test Partner",
+                "country_id": country.id,
+                "state_id": state.id,
+                "city": "București",
+                "street": "Str. Test 1",
+                "zip": "010000",
+            }
+        )
+        seller = [(0, 0, {"partner_id": cls.partner.id})]
+        cls.product_a = cls.env["product.product"].create(
+            {
+                "name": "Product A",
                 "is_storable": True,
                 "standard_price": 100,
                 "list_price": 150,
-                "seller_ids": seller_ids,
+                "seller_ids": seller,
             }
         )
-        self.product_b = self.env["product.product"].create(
+        cls.product_b = cls.env["product.product"].create(
             {
-                "name": "Test B",
+                "name": "Product B",
                 "is_storable": True,
                 "standard_price": 70,
-                "list_price": 150,
-                "seller_ids": seller_ids,
+                "list_price": 120,
+                "seller_ids": seller,
             }
         )
+        cls.stock_location = cls.env.ref("stock.stock_location_stock")
 
-        self.stock_location = self.env.ref("stock.stock_location_stock")
-        self.env["stock.quant"]._update_available_quantity(self.product_a, self.stock_location, 1000)
-        self.env["stock.quant"]._update_available_quantity(self.product_b, self.stock_location, 1000)
+    def _add_stock(self, product, qty):
+        self.env["stock.quant"]._update_available_quantity(product, self.stock_location, qty)
 
-        # inv_line_a = {
-        #     "product_id": self.product_a.id,
-        #     "product_qty": 10000,
-        #     "location_id": self.stock_location.id,
-        # }
-        # inv_line_b = {
-        #     "product_id": self.product_b.id,
-        #     "product_qty": 10000,
-        #     "location_id": self.stock_location.id,
-        # }
-        # inventory = self.env["stock.inventory"].create(
-        #     {
-        #         "name": "Inv. productserial1",
-        #         "line_ids": [
-        #             (0, 0, inv_line_a),
-        #             (0, 0, inv_line_b),
-        #         ],
-        #     }
-        # )
-        # inventory.action_start()
-        # inventory.action_validate()
-
-    def test_sale_picking_policy_direct(self):
+    def _make_order(self, lines, picking_policy="direct"):
         so = Form(self.env["sale.order"])
-        so.partner_id = self.partner_a
+        so.partner_id = self.partner
+        so.picking_policy = picking_policy
+        for product, qty in lines:
+            with so.order_line.new() as line:
+                line.product_id = product
+                line.product_uom_qty = qty
+        return so.save()
 
-        with so.order_line.new() as so_line:
-            so_line.product_id = self.product_a
-            so_line.product_uom_qty = 100
+    @staticmethod
+    def _validate_picking(picking):
+        picking.action_assign()
+        for move in picking.move_ids:
+            if move.product_uom_qty > 0 and move.quantity == 0:
+                move.quantity = move.product_uom_qty
+        picking._action_done()
 
-        with so.order_line.new() as so_line:
-            so_line.product_id = self.product_b
-            so_line.product_uom_qty = 10
+    # --- draft/sent: stoc disponibil ---
 
-        self.so = so.save()
-        self.so._compute_is_ready()
-        self.so.action_confirm()
-        self.so._compute_is_ready()
+    def test_draft_direct_policy_sufficient_stock(self):
+        # Stock 1000 — comanda de 10 → ready
+        self._add_stock(self.product_a, 1000)
+        so = self._make_order([(self.product_a, 10)])
+        self.assertTrue(so.is_ready, "Order should be ready when stock covers at least one line (direct policy)")
 
-        self.picking = self.so.picking_ids
-        self.picking.action_assign()
-        for move_line in self.picking.move_ids:
-            if move_line.product_uom_qty > 0 and move_line.quantity == 0:
-                move_line.write({"quantity": move_line.product_uom_qty})
-        self.picking._action_done()
-        self.so._compute_is_ready()
+    def test_draft_direct_policy_no_stock(self):
+        # Stoc 0 (initial) — comanda de 10 → not ready
+        so = self._make_order([(self.product_a, 10)])
+        self.assertFalse(so.is_ready, "Order should not be ready when stock is zero (direct policy)")
 
-        invoice = self.so._create_invoices()
-        invoice = Form(invoice)
-        invoice = invoice.save()
-        # invoice.post()
+    def test_draft_direct_policy_partial_stock_one_line_covered(self):
+        # Direct: suficient dacă CEL PUȚIN O linie e acoperită
+        self._add_stock(self.product_a, 1000)
+        # product_b rămâne la stoc 0
+        so = self._make_order([(self.product_a, 10), (self.product_b, 5)])
+        self.assertTrue(so.is_ready, "Order should be ready when at least one line has stock (direct policy)")
 
-    def test_sale_picking_policy_one(self):
-        so = Form(self.env["sale.order"])
-        so.partner_id = self.partner_a
-        so.picking_policy = "one"
-        with so.order_line.new() as so_line:
-            so_line.product_id = self.product_a
-            so_line.product_uom_qty = 100
+    def test_draft_one_policy_all_lines_covered(self):
+        self._add_stock(self.product_a, 1000)
+        self._add_stock(self.product_b, 1000)
+        so = self._make_order([(self.product_a, 10), (self.product_b, 5)], picking_policy="one")
+        self.assertTrue(so.is_ready, "Order should be ready when all lines are covered (one policy)")
 
-        with so.order_line.new() as so_line:
-            so_line.product_id = self.product_b
-            so_line.product_uom_qty = 10
+    def test_draft_one_policy_partial_stock(self):
+        # One: product_b rămâne la 0 → not ready
+        self._add_stock(self.product_a, 1000)
+        so = self._make_order([(self.product_a, 10), (self.product_b, 5)], picking_policy="one")
+        self.assertFalse(so.is_ready, "Order should not be ready when one line has no stock (one policy)")
 
-        self.so = so.save()
-        self.so._compute_is_ready()
-        self.so.action_confirm()
-        self.so._compute_is_ready()
+    # --- stare confirmată ---
 
-        self.picking = self.so.picking_ids
-        self.picking.action_assign()
-        for move_line in self.picking.move_ids:
-            if move_line.product_uom_qty > 0 and move_line.quantity == 0:
-                move_line.write({"quantity": move_line.product_uom_qty})
-        self.picking._action_done()
-        self.so._compute_is_ready()
+    def test_confirmed_direct_with_reserved_moves(self):
+        self._add_stock(self.product_a, 1000)
+        so = self._make_order([(self.product_a, 10)])
+        so.action_confirm()
+        so.picking_ids.action_assign()
+        self.assertTrue(so.is_ready, "Confirmed order with reserved moves should be ready (direct policy)")
 
-        invoice = self.so._create_invoices()
-        invoice = Form(invoice)
-        invoice = invoice.save()
-        # invoice.post()
+    def test_confirmed_one_policy_fully_reserved(self):
+        self._add_stock(self.product_a, 1000)
+        self._add_stock(self.product_b, 1000)
+        so = self._make_order([(self.product_a, 10), (self.product_b, 5)], picking_policy="one")
+        so.action_confirm()
+        so.picking_ids.action_assign()
+        self.assertTrue(so.is_ready, "Confirmed order fully reserved should be ready (one policy)")
 
-    def test_sale_search_search_is_ready(self):
-        self.env["sale.order"].search([("is_ready", "=", True)])
+    def test_picking_done_not_yet_invoiced(self):
+        self._add_stock(self.product_a, 1000)
+        so = self._make_order([(self.product_a, 10)])
+        so.action_confirm()
+        self._validate_picking(so.picking_ids)
+        self.assertTrue(so.is_ready, "Order with all pickings done but not invoiced should still be ready")
+
+    def test_invoiced_order_not_ready(self):
+        self._add_stock(self.product_a, 1000)
+        so = self._make_order([(self.product_a, 10)])
+        so.action_confirm()
+        self._validate_picking(so.picking_ids)
+        invoice = so._create_invoices()
+        invoice.action_post()
+        self.assertFalse(so.is_ready, "Invoiced order should not be ready")
+
+    def test_cancelled_order_not_ready(self):
+        so = self._make_order([(self.product_a, 10)])
+        so.action_cancel()
+        self.assertFalse(so.is_ready, "Cancelled order should not be ready")
+
+    # --- search ---
+
+    def test_search_is_ready_true(self):
+        self._add_stock(self.product_a, 1000)
+        so = self._make_order([(self.product_a, 10)])
+        result = self.env["sale.order"].search([("is_ready", "=", True)])
+        self.assertIn(so, result, "Ready order should appear in is_ready=True search")
+
+    def test_search_is_ready_false(self):
+        # Stoc 0 → not ready
+        so = self._make_order([(self.product_a, 10)])
+        result = self.env["sale.order"].search([("is_ready", "=", False)])
+        self.assertIn(so, result, "Non-ready order should appear in is_ready=False search")

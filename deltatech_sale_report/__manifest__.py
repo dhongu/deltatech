@@ -10,7 +10,7 @@
     "depends": ["sale"],
     "license": "OPL-1",
     "data": [],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Production/Stable",
     "maintainers": ["VoicuStefan2001"],
