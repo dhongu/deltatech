@@ -37,16 +37,18 @@
                     <field
                         name="payment_amount"
                         decoration-success="payment_status == 'done'"
-                        decoration-danger="payment_status == 'partial'"
+                        decoration-warning="payment_status in ('partial', 'pending', 'initiated', 'authorized')"
+                        decoration-danger="payment_status == 'cancelled'"
                     />
-                    <field
-                        name="provider_id"
-                        widget="many2one"
-                        decoration-danger="payment_status == 'initiated'"
-                        options="{'no_create': True, 'no_open': True}"
-                    />
+                    <field name="provider_id" widget="many2one" options="{'no_create': True, 'no_open': True}" />
                 </div>
-                <field name="payment_status" />
+                <field
+                    name="payment_status"
+                    decoration-success="payment_status == 'done'"
+                    decoration-warning="payment_status in ('partial', 'pending', 'initiated', 'authorized')"
+                    decoration-danger="payment_status == 'cancelled'"
+                    decoration-muted="payment_status == 'without'"
+                />
             </xpath>
         </field>
     </record>
@@ -59,11 +61,29 @@
         <field name="inherit_id" ref="sale.view_sales_order_filter" />
         <field name="arch" type="xml">
             <filter name="my_sale_orders_filter" position="before">
+                <filter string="Fără plată" name="payment_without" domain="[('payment_status', '=', 'without')]" />
                 <filter
-                    string="Payment initiated"
+                    string="Plată inițiată"
                     name="payment_initiated"
                     domain="[('payment_status', '=', 'initiated')]"
                 />
+                <filter
+                    string="Plată în așteptare"
+                    name="payment_pending"
+                    domain="[('payment_status', '=', 'pending')]"
+                />
+                <filter
+                    string="Plată autorizată"
+                    name="payment_authorized"
+                    domain="[('payment_status', '=', 'authorized')]"
+                />
+                <filter string="Plată efectuată" name="payment_done" domain="[('payment_status', '=', 'done')]" />
+                <filter
+                    string="Plată anulată"
+                    name="payment_cancelled"
+                    domain="[('payment_status', '=', 'cancelled')]"
+                />
+                <separator />
             </filter>
         </field>
     </record>
