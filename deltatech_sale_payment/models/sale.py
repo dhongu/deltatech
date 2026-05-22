@@ -59,7 +59,7 @@ class SaleOrder(models.Model):
     )
     def _compute_payment(self):
         for order in self:
-            all_tx = order.sudo().transaction_ids.sorted("id")
+            all_tx = order.sudo().transaction_ids.filtered(lambda t: isinstance(t.id, int)).sorted("id")
             done_tx = all_tx.filtered(lambda t: t.state == "done")
             authorized_tx = all_tx.filtered(lambda t: t.state == "authorized")
             cancel_tx = all_tx.filtered(lambda t: t.state == "cancel")
