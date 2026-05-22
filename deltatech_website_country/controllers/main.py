@@ -1,14 +1,15 @@
 # Copyright 2015, 2017 Jairo Llopis <jairo.llopis@tecnativa.com>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-from odoo.http import request, route
+from odoo.http import request
 
-from odoo.addons.website_sale.controllers.main import WebsiteSale as Base
+from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
-class WebsiteSale(Base):
-    @route()
-    def address(self, **kw):
-        result = super().address(**kw)
-        result.qcontext["country"] = result.qcontext.get("country") or request.website.company_id.country_id
+class WebsiteSale(WebsiteSale):
+    def _prepare_address_form_values(self, order_sudo, partner_sudo, address_type, use_delivery_as_billing, **kwargs):
+        result = super()._prepare_address_form_values(
+            order_sudo, partner_sudo, address_type, use_delivery_as_billing, **kwargs
+        )
+        result["country"] = result.get("country") or request.website.company_id.country_id
         return result

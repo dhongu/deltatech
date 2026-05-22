@@ -1,7 +1,7 @@
 eCommerce Country and Address Enhancements
 ==========================================
 
-This module provides specialized country-related extensions for Odoo's eCommerce platform. It's designed to improve the address entry experience for customers during the checkout process, especially in markets with specific country or regional requirements.
+This module provides country-related extensions for Odoo's eCommerce platform. It ensures that the checkout address form always has a default country pre-selected, based on the website's company country, improving the address entry experience for customers.
 
 Key Features
 ============
@@ -21,5 +21,5 @@ Usage
 =====
 
 1.  No specific configuration is needed beyond standard Odoo country and state settings.
-2.  Install the module, and the website's checkout address page will automatically benefit from the enhanced country selection and validation logic.
+2.  Install the module, and the website's checkout address page will automatically pre-select the company's country when no other country can be determined.
 3.  Go to **Website > Configuration > Countries** to ensure your target markets are active and correctly configured with their respective states.
