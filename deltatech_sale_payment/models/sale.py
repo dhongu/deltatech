@@ -7,8 +7,8 @@ from odoo import api, fields, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    provider_id = fields.Many2one("payment.provider", compute="_compute_payment")
-    payment_amount = fields.Monetary(string="Amount Payment", compute="_compute_payment")
+    provider_id = fields.Many2one("payment.provider", compute="_compute_payment", store=True)
+    payment_amount = fields.Monetary(string="Amount Payment", compute="_compute_payment", store=True)
 
     payment_status = fields.Selection(
         [
@@ -17,11 +17,12 @@ class SaleOrder(models.Model):
             ("authorized", "Authorized"),
             ("partial", "Partial"),
             ("done", "Done"),
+            ("pending", "Pending"),
             ("cancelled", "Cancelled"),
         ],
         default="without",
         compute="_compute_payment",
-        search="_search_payment_status",
+        store=True,
     )
 
     def action_payment_link(self):
@@ -30,7 +31,8 @@ class SaleOrder(models.Model):
                 "res_id": self.id,
                 "res_model": "sale.order",
                 "description": self.name,
-                "amount": self.amount_total - sum(self.invoice_ids.mapped("amount_total")),
+                "amount": self.amount_total
+                - sum(self.invoice_ids.filtered(lambda i: i.state == "posted").mapped("amount_residual")),
                 "currency_id": self.currency_id.id,
                 "partner_id": self.partner_id.id,
                 "amount_max": self.amount_total,
@@ -43,65 +45,71 @@ class SaleOrder(models.Model):
             "target": "new",
         }
 
-    @api.depends("transaction_ids", "transaction_ids.state")
+    @api.depends(
+        "amount_total",
+        "currency_id",
+        "transaction_ids.state",
+        "transaction_ids.amount",
+        "transaction_ids.provider_id",
+        "invoice_ids.state",
+        "invoice_ids.payment_state",
+        "invoice_ids.amount_residual_signed",
+        "invoice_ids.amount_total_signed",
+        "invoice_ids.transaction_ids.is_post_processed",
+    )
     def _compute_payment(self):
         for order in self:
-            amount = 0
-            payment_status = "without"
+            all_tx = order.sudo().transaction_ids.sorted("id")
+            done_tx = all_tx.filtered(lambda t: t.state == "done")
+            authorized_tx = all_tx.filtered(lambda t: t.state == "authorized")
+            cancel_tx = all_tx.filtered(lambda t: t.state == "cancel")
+            pending_tx = all_tx.filtered(lambda t: t.state == "pending")
 
-            provider = self.env["payment.provider"]
-            all_transactions = order.sudo().transaction_ids.sorted(lambda a: a.id)
-            if all_transactions:
-                provider = all_transactions[-1].provider_id
+            # Facturile reconciliate complet ("paid"/"partial") se contabilizează prin
+            # suma facturii; tranzacțiile lor post-procesate se elimină din done_tx
+            # pentru a evita dubla numărare.
+            # Facturile "in_payment" (înregistrate dar nereconciliate cu banca) NU se
+            # includ în suma facturii — plata lor rămâne vizibilă prin done_tx direct.
+            invoice_paid = 0.0
+            for inv in order.invoice_ids.filtered(lambda i: i.state == "posted"):
+                if inv.payment_state not in ("paid", "partial"):
+                    continue
+                paid = inv.amount_total_signed - inv.amount_residual_signed
+                if paid:
+                    invoice_paid += paid
+                    done_tx -= inv.transaction_ids.filtered(lambda t: t.is_post_processed)
 
-            transactions = all_transactions.filtered(lambda a: a.state == "done")
+            amount_paid = max(0.0, invoice_paid + sum(done_tx.mapped("amount")))
+            order.payment_amount = amount_paid
 
-            for invoice in order.invoice_ids.filtered(lambda a: a.state == "posted"):
-                amount_invoice = invoice.amount_total_signed - invoice.amount_residual_signed
-                if amount_invoice:
-                    amount += amount_invoice
-                    transactions = transactions - invoice.transaction_ids.filtered(lambda a: a.is_post_processed)
+            # Status — ordinea contează: authorized suprascrie cancelled
+            currency = order.currency_id
+            if currency.compare_amounts(amount_paid, order.amount_total) >= 0:
+                status = "done"
+            elif amount_paid > 0:
+                status = "partial"
+            elif not all_tx:
+                status = "without"
+            elif authorized_tx:
+                status = "authorized"
+            elif pending_tx:
+                status = "pending"
+            elif cancel_tx:
+                status = "cancelled"
+            else:
+                status = "initiated"  # draft / error
 
-            for transaction in transactions:
-                amount += transaction.amount
-                provider = transaction.provider_id
+            if done_tx:
+                order.provider_id = done_tx[-1].provider_id
+            elif authorized_tx:
+                order.provider_id = authorized_tx[-1].provider_id
+            elif pending_tx:
+                order.provider_id = pending_tx[-1].provider_id
+            elif cancel_tx:
+                order.provider_id = cancel_tx[-1].provider_id
+            elif all_tx:
+                order.provider_id = all_tx[-1].provider_id
+            else:
+                order.provider_id = self.env["payment.provider"]
 
-            order.payment_amount = amount
-            if amount:
-                if amount < order.amount_total:
-                    payment_status = "partial"
-                else:
-                    payment_status = "done"
-
-            if not amount:
-                payment_status = "without"
-                if order.transaction_ids:
-                    payment_status = "initiated"
-
-                    cancel_tx = order.transaction_ids.filtered(lambda t: t.state == "cancel")
-                    if cancel_tx:
-                        payment_status = "cancelled"
-
-                    for transaction in all_transactions.sorted(lambda a: a.id):
-                        provider = transaction.provider_id
-
-                    authorized_transaction_ids = order.transaction_ids.filtered(lambda t: t.state == "authorized")
-                    if authorized_transaction_ids:
-                        payment_status = "authorized"
-                        for transaction in authorized_transaction_ids:
-                            provider = transaction.provider_id
-
-            order.payment_status = payment_status
-            order.provider_id = provider
-
-    def _search_payment_status(self, operator, value):
-        if operator == "=":
-            if value == "without":
-                return [("transaction_ids", "=", False)]
-            if value == "initiated":
-                return [("transaction_ids.state", "!=", "done")]
-            if value == "authorized":
-                return [("transaction_ids.state", "=", "authorized")]
-            if value == "done":
-                return [("transaction_ids.state", "=", "done")]
-        return []
+            order.payment_status = status
