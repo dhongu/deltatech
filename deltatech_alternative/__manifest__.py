@@ -4,7 +4,7 @@
 
 {
     "name": "Products Alternative",
-    "version": "18.0.2.1.4",
+    "version": "18.0.2.1.5",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Alternative product codes",
@@ -12,6 +12,7 @@
     "depends": ["product", "stock", "sale", "purchase"],
     "license": "OPL-1",
     "data": [
+        "data/cron.xml",
         "views/product_template_view.xml",
         "views/product_product_view.xml",
         "views/product_alternative_view.xml",

@@ -1,15 +1,47 @@
-- Features:
+# Products Alternative
 
-  - - New model: product_catelog for big master data of products
+Module that extends the standard Odoo product with support for **alternative codes** (cross-references, supplier codes, customer codes, etc.).
 
-      - generate new product from catalog: If the search for a product by code does not return results, an additional
-        search is made in the product catalog and a product is automatically generated if it has been found
+## Features
 
-  - A module that adds an alternative on the product form
+### Alternative Codes on Product
 
-  - Search product by alternative code
+- Each product (template or variant) can have one or more alternative codes stored in the `product.alternative` model.
+- The `alternative_code` computed field on `product.template` / `product.product` displays all codes joined by `"; "` and allows inline editing when there is a single alternative record.
+- Codes can be marked as **hidden** (`hide = True`) so they are excluded from the displayed `alternative_code` value.
 
-  - A new product field (used for) to indicate what the product may be used for
+### Product Search by Alternative Code
 
-Camp adaugat in produs search_index in care se face cautarea daca este setat paramentrul
-deltatech_alternative_website.search_index
+- `name_search` on `product.template` and `product.product` is extended to also search through alternative codes.
+- `_search_display_name` is extended to include alternative codes in domain-based searches.
+- Search by alternative code is enabled via the system parameter `alternative.search_name` (set to `True` to activate).
+
+### Product Catalog (`product.catalog`)
+
+- New model for large master-data catalogs of products.
+- When searching for a product by code returns no results, an additional lookup is made in the catalog; if found, a new product is automatically generated from the catalog entry.
+
+### Used For Field
+
+- New `used_for` field on `product.template` to document what the product is typically used for (free-text).
+
+### Multi-code Split (Cron)
+
+- A scheduled action runs **daily** and processes batches of up to **5 000** `product.alternative` records at a time.
+- It detects records where the `name` field contains multiple codes on a single line, separated by **semicolons** (`;`), **commas** (`,`), or **spaces**.
+- Each such record is split into individual records — one per code — preserving `product_tmpl_id`, `sequence`, and `hide` from the original record.
+- The cron repeats on subsequent days until all multi-code records have been normalised.
+
+## Configuration
+
+| Parameter | Model | Default | Effect |
+|---|---|---|---|
+| `alternative.search_name` | `ir.config_parameter` | `False` | Enable search by alternative code |
+
+## Views Extended
+
+- Product Template form: alternative codes tab, `used_for` field
+- Product Variant form: alternative codes tab
+- Sale Order line: alternative code column
+- Purchase Order line: alternative code column
+- Stock Move / Picking: alternative code column
