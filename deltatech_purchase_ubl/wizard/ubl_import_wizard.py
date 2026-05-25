@@ -443,13 +443,26 @@ class PurchaseUblImportWizard(models.TransientModel):
         return True
 
     def _create_vendor_bill(self, xml_invoice, order):
+        ref = xml_invoice.get("invoice_id")
+        if ref and order:
+            existing = self.env["account.move"].search(
+                [
+                    ("ref", "=", ref),
+                    ("move_type", "in", ("in_invoice", "in_receipt")),
+                    ("commercial_partner_id", "=", order.partner_id.commercial_partner_id.id),
+                    ("company_id", "=", order.company_id.id),
+                ],
+                limit=1,
+            )
+            if existing:
+                return existing
+
         old_invoice = order.invoice_ids
         order.action_create_invoice()
         new_invoice = order.invoice_ids - old_invoice
         if new_invoice:
             origin = xml_invoice.get("order_ref")
             invoice_date = xml_invoice.get("issue_date")
-            ref = xml_invoice.get("invoice_id")
             due_date = xml_invoice.get("due_date")
 
             new_invoice.write(
