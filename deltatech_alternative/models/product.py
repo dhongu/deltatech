@@ -122,3 +122,34 @@ class ProductAlternative(models.Model):
     sequence = fields.Integer(string="sequence", default=10)
     product_tmpl_id = fields.Many2one("product.template", string="Product Template", ondelete="cascade")
     hide = fields.Boolean(string="Hide")
+
+    @api.model
+    def split_multi_codes(self):
+        import re
+
+        domain = [
+            ("name", "!=", False),
+            "|",
+            "|",
+            ("name", "like", ";"),
+            ("name", "like", ","),
+            ("name", "like", " "),
+        ]
+        records = self.search(domain, limit=5000)
+        for record in records:
+            name = (record.name or "").strip()
+            if not name:
+                continue
+            codes = [c for c in re.split(r"[;,\s]+", name) if c]
+            if len(codes) > 1:
+                record.write({"name": codes[0]})
+                new_records = [
+                    {
+                        "name": code,
+                        "product_tmpl_id": record.product_tmpl_id.id or False,
+                        "sequence": record.sequence,
+                        "hide": record.hide,
+                    }
+                    for code in codes[1:]
+                ]
+                self.create(new_records)
