@@ -44,12 +44,21 @@ def _xml_invoice(
             if l.get("barcode")
             else ""
         )
+        allowance_xml = ""
+        if l.get("allowance_amount"):
+            allowance_xml = f"""
+                <cac:AllowanceCharge>
+                    <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
+                    <cbc:AllowanceChargeReason>{l.get("allowance_reason", "Discount")}</cbc:AllowanceChargeReason>
+                    <cbc:Amount currencyID=\"{currency}\">{l.get("allowance_amount")}</cbc:Amount>
+                </cac:AllowanceCharge>"""
         line_xml.append(
             f"""
             <cac:InvoiceLine>
                 <cbc:ID>1</cbc:ID>
                 <cbc:InvoicedQuantity unitCode=\"{l.get("unit_code", "C62")}\">{l.get("qty", "1")}</cbc:InvoicedQuantity>
                 <cbc:LineExtensionAmount currencyID=\"{currency}\">{l.get("line_total", "0")}</cbc:LineExtensionAmount>
+                {allowance_xml}
                 <cac:Price>
                     <cbc:PriceAmount currencyID=\"{currency}\">{l.get("price", "0")}</cbc:PriceAmount>
                 </cac:Price>
@@ -300,3 +309,59 @@ class TestPurchaseUblImport(TransactionCase):
         self.assertEqual(len(self.po.order_line), 1)
         self.assertEqual(self.po.order_line.product_id, product_2)
         self.assertEqual(self.po.order_line.product_qty, 5.0)
+
+    def test_allowance_charge_discount_applied_on_order_line(self):
+        """Linia 2 din XML-ul real e-Factura SPV:
+        PriceAmount=372.20, AllowanceCharge/Amount=93.05, qty=1
+        => discount = 93.05 / (372.20 * 1) * 100 = 25.00%
+        LineExtensionAmount=279.15 (pretul net dupa discount)
+        """
+        # Produs nou fara linii pe comanda => se creeaza linie noua
+        po = self.env["purchase.order"].create(
+            {
+                "partner_id": self.vendor.id,
+                "company_id": self.company.id,
+                "date_order": "2025-01-01 00:00:00",
+            }
+        )
+        xml = _xml_invoice(
+            order_ref=po.name,
+            lines=[
+                {
+                    "code": "12538693",
+                    "name": "Poliester de curea",
+                    "qty": "1.000",
+                    "price": "372.20",
+                    "line_total": "279.15",
+                    "unit_code": "H87",
+                    "tax": "21",
+                    "allowance_amount": "93.05",
+                    "allowance_reason": "-30RO",
+                }
+            ],
+        )
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        wiz = Wiz.with_context(active_model="purchase.order", active_id=po.id).create(
+            {
+                "data_file": b64encode(xml),
+                "filename": "test_discount.xml",
+                "update_prices": False,
+                "create_bill": False,
+                "validate_receipt": False,
+                "create_missing_products": True,
+            }
+        )
+        wiz.action_import()
+
+        self.assertTrue(po.order_line, "Trebuie creata cel putin o linie pe comanda")
+        pol = po.order_line[0]
+        self.assertAlmostEqual(pol.price_unit, 372.20, places=2, msg="Pretul unitar trebuie sa fie pretul brut din XML")
+        self.assertAlmostEqual(pol.product_qty, 1.0, places=3)
+
+        if "discount" in self.env["purchase.order.line"]._fields:
+            self.assertAlmostEqual(
+                pol.discount,
+                25.0,
+                places=1,
+                msg="Discount-ul trebuie sa fie ~25% (93.05 / 372.20 * 100)",
+            )
