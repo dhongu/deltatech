@@ -3,11 +3,13 @@
 # See README.rst file on addons root folder for license details
 
 import base64
+import logging
 import xml.etree.ElementTree as ET
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+_logger = logging.getLogger(__name__)
 NS = {
     "inv": "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
     "cac": "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
@@ -220,19 +222,38 @@ class PurchaseUblImportWizard(models.TransientModel):
             unit = inv_line.find("cbc:InvoicedQuantity", namespaces=NS)
             unit_code = unit.get("unitCode") if unit is not None else False
 
+            # Extract line-level discount (AllowanceCharge with ChargeIndicator=false)
+            allowance_amount = 0.0
+            discount_percent = 0.0
+            for ac in inv_line.findall("cac:AllowanceCharge", namespaces=NS):
+                charge_indicator = (ac.findtext("cbc:ChargeIndicator", namespaces=NS) or "").strip().lower()
+                if charge_indicator == "false":
+                    ac_amount_text = ac.findtext("cbc:Amount", namespaces=NS)
+                    try:
+                        allowance_amount += float(str(ac_amount_text).replace(",", ".")) if ac_amount_text else 0.0
+                    except Exception as e:
+                        _logger.warning("Could not parse AllowanceCharge/Amount '%s': %s", ac_amount_text, e)
+
             def _to_float(val):
                 try:
                     return float(str(val).replace(",", ".")) if val is not None else 0.0
                 except Exception:
                     return 0.0
 
+            price_f = _to_float(price)
+            qty_f = _to_float(qty)
+            if allowance_amount and price_f and qty_f:
+                gross_total = price_f * qty_f
+                discount_percent = round(allowance_amount / gross_total * 100, 2)
+
             lines.append(
                 {
                     "code": (item_code or "").strip(),
                     "barcode": (barcode_val or "").strip(),
                     "name": (name or "").strip(),
-                    "qty": _to_float(qty),
-                    "price": _to_float(price),
+                    "qty": qty_f,
+                    "price": price_f,
+                    "discount": discount_percent,
                     "line_total": _to_float(line_total),
                     "tax_percent": _to_float(tax_percent),
                     "unit_code": unit_code,
@@ -541,6 +562,8 @@ class PurchaseUblImportWizard(models.TransientModel):
                     "product_uom_id": product.uom_id.id,
                     "date_planned": fields.Datetime.now(),
                 }
+                if ml.get("discount") and "discount" in self.env["purchase.order.line"]._fields:
+                    vals["discount"] = ml.get("discount")
                 POL.create(vals)
                 added_count += 1
 
@@ -567,6 +590,9 @@ class PurchaseUblImportWizard(models.TransientModel):
                 price = xml_ln.get("price")
                 if price is not None:
                     vals["price_unit"] = price
+                discount = xml_ln.get("discount")
+                if discount is not None and "discount" in self.env["purchase.order.line"]._fields:
+                    vals["discount"] = discount
                 # Optionally update description with XML name/code when empty
                 if not line.name and (xml_ln.get("name") or xml_ln.get("code")):
                     vals["name"] = xml_ln.get("name") or xml_ln.get("code")
