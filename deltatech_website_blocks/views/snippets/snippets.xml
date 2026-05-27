@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<template id="deltatech_external_snippets" inherit_id="website.snippets" priority="10">
+    <xpath expr="//snippets[@id='snippet_structure']" position="inside">
+        <t
+                t-snippet="deltatech_website_blocks.s_deltatech_partners_loop"
+                string="Partners Loop"
+                group="columns"
+                t-thumbnail="/website/static/src/img/snippets_thumbs/s_images_wall.svg"
+            >
+            <keywords>partners, logo, loop, slider, carousel, brand</keywords>
+        </t>
+        <t
+                t-snippet="deltatech_website_blocks.s_deltatech_stats_counters"
+                string="Stats Counters"
+                group="columns"
+                t-thumbnail="/website/static/src/img/snippets_thumbs/s_numbers.svg"
+            >
+            <keywords>stats, counters, numbers, animation, progress</keywords>
+        </t>
+        <t
+                t-snippet="deltatech_website_blocks.s_deltatech_cards_grid"
+                string="Cards Grid"
+                group="columns"
+                t-thumbnail="/website/static/src/img/snippets_thumbs/s_three_columns.svg"
+            >
+            <keywords>cards, grid, certifications, authorizations, quality, standards</keywords>
+        </t>
+        <t
+                t-snippet="deltatech_website_blocks.s_deltatech_special_products"
+                string="Special Products"
+                group="columns"
+                t-thumbnail="/website/static/src/img/snippets_thumbs/s_dynamic_snippet_products.svg"
+            >
+            <keywords>products, special, dropdown, details, specifications, description</keywords>
+        </t>
+        <t
+                t-snippet="deltatech_website_blocks.s_deltatech_countdown"
+                string="Countdown"
+                group="columns"
+                t-thumbnail="/website/static/src/img/snippets_thumbs/s_countdown.svg"
+            >
+            <keywords>countdown, timer, promotion, offer, limited, confetti</keywords>
+        </t>
+    </xpath>
+
+    <xpath expr="//div[@id='snippet_options']" position="inside">
+        <div data-js="DeltatechCountdownOptions" data-selector=".s_deltatech_countdown">
+            <we-row string="End Date">
+                <we-input
+                        data-name="end_date"
+                        data-no-preview="true"
+                        data-on-change="updateEndDate"
+                        type="date"
+                        data-attribute-name="end-date"
+                        data-apply-to=".s_deltatech_countdown_container"
+                        data-select-data-attribute=""
+                    />
+                <we-input data-name="end_time" data-no-preview="true" data-on-change="updateEndTime" type="time" />
+            </we-row>
+            <we-checkbox
+                    string="Confetti"
+                    data-name="confetti_toggle"
+                    data-no-preview="true"
+                    data-on-change="toggleConfetti"
+                    data-attribute-name="confetti"
+                    data-apply-to=".s_deltatech_countdown_container"
+                    data-select-data-attribute=""
+                />
+        </div>
+        <div data-js="PartnersLoopOptions" data-selector=".s_deltatech_partners_loop" />
+        <div data-js="MultipleItems" data-selector=".s_deltatech_partners_loop">
+            <we-row string="Partners">
+                <we-button
+                        data-add-item=""
+                        data-item=".partners-track > .partner-item:last"
+                        data-select-item=""
+                        data-no-preview="true"
+                        class="o_we_bg_brand_primary"
+                    >
+                    Add Partner
+                </we-button>
+            </we-row>
+        </div>
+        <div data-selector=".s_deltatech_partners_loop .partner-item">
+            <we-row string="Partner Item">
+                <we-button
+                        class="fa fa-fw fa-clone"
+                        data-duplicate-item=""
+                        data-no-preview="true"
+                        title="Duplicate Partner"
+                    />
+                <we-button
+                        class="fa fa-fw fa-trash"
+                        data-remove-item=""
+                        data-no-preview="true"
+                        title="Remove Partner"
+                    />
+            </we-row>
+        </div>
+        <div data-js="SnippetMove" data-selector=".s_deltatech_partners_loop .partner-item">
+            <we-button
+                    class="fa fa-fw fa-angle-left"
+                    data-move-snippet="prev"
+                    data-no-preview="true"
+                    title="Move Left"
+                />
+            <we-button
+                    class="fa fa-fw fa-angle-right"
+                    data-move-snippet="next"
+                    data-no-preview="true"
+                    title="Move Right"
+                />
+        </div>
+
+        <div data-js="MultipleItems" data-selector=".s_deltatech_stats_counters">
+            <we-row string="Stats">
+                <we-button
+                        data-add-item=""
+                        data-item=".stats-container > .stat:last"
+                        data-select-item=""
+                        data-no-preview="true"
+                        class="o_we_bg_brand_primary"
+                    >
+                    Add Stat
+                </we-button>
+            </we-row>
+        </div>
+        <div data-selector=".s_deltatech_stats_counters .stat" data-js="StatsCountersOptions">
+            <we-row string="Stat Item">
+                <we-button
+                        class="fa fa-fw fa-clone"
+                        data-duplicate-item=""
+                        data-no-preview="true"
+                        title="Duplicate Stat"
+                    />
+                <we-button class="fa fa-fw fa-trash" data-remove-item="" data-no-preview="true" title="Remove Stat" />
+            </we-row>
+            <we-input
+                    string="Target Value"
+                    data-attribute-name="target"
+                    data-apply-to=".count"
+                    data-no-preview="true"
+                    data-select-data-attribute=""
+                />
+            <we-select string="Format" data-attribute-name="format" data-apply-to=".count" data-no-preview="true">
+                <we-button data-select-data-attribute="plain">Plain</we-button>
+                <we-button data-select-data-attribute="group">Grouped (1,000)</we-button>
+            </we-select>
+        </div>
+        <div data-js="SnippetMove" data-selector=".s_deltatech_stats_counters .stat">
+            <we-button
+                    class="fa fa-fw fa-angle-left"
+                    data-move-snippet="prev"
+                    data-no-preview="true"
+                    title="Move Left"
+                />
+            <we-button
+                    class="fa fa-fw fa-angle-right"
+                    data-move-snippet="next"
+                    data-no-preview="true"
+                    title="Move Right"
+                />
+        </div>
+        <div data-js="MultipleItems" data-selector=".s_deltatech_cards_grid">
+            <we-row string="Cards">
+                <we-button
+                        data-add-item=""
+                        data-item=".cpw-grid > .cpw-item:last"
+                        data-select-item=""
+                        data-no-preview="true"
+                        class="o_we_bg_brand_primary"
+                    >
+                    Add Card
+                </we-button>
+            </we-row>
+        </div>
+        <div data-selector=".s_deltatech_cards_grid .cpw-item">
+            <we-row string="Card Item">
+                <we-button
+                        class="fa fa-fw fa-clone"
+                        data-duplicate-item=""
+                        data-no-preview="true"
+                        title="Duplicate Card"
+                    />
+                <we-button class="fa fa-fw fa-trash" data-remove-item="" data-no-preview="true" title="Remove Card" />
+            </we-row>
+        </div>
+        <div data-js="SnippetMove" data-selector=".s_deltatech_cards_grid .cpw-item">
+            <we-button
+                    class="fa fa-fw fa-angle-left"
+                    data-move-snippet="prev"
+                    data-no-preview="true"
+                    title="Move Left"
+                />
+            <we-button
+                    class="fa fa-fw fa-angle-right"
+                    data-move-snippet="next"
+                    data-no-preview="true"
+                    title="Move Right"
+                />
+        </div>
+
+        <div data-js="MultipleItems" data-selector=".s_deltatech_special_products">
+            <we-row string="Products">
+                <we-button
+                        data-add-item=""
+                        data-item=".s_deltatech_special_products_grid > .s_deltatech_special_product_item:last"
+                        data-select-item=""
+                        data-no-preview="true"
+                        class="o_we_bg_brand_primary"
+                    >
+                    Add Product
+                </we-button>
+            </we-row>
+        </div>
+        <div data-selector=".s_deltatech_special_products .s_deltatech_special_product_item">
+            <we-row string="Product Item">
+                <we-button
+                        class="fa fa-fw fa-clone"
+                        data-duplicate-item=""
+                        data-no-preview="true"
+                        title="Duplicate Product"
+                    />
+                <we-button
+                        class="fa fa-fw fa-trash"
+                        data-remove-item=""
+                        data-no-preview="true"
+                        title="Remove Product"
+                    />
+            </we-row>
+        </div>
+        <div data-js="SnippetMove" data-selector=".s_deltatech_special_products .s_deltatech_special_product_item">
+            <we-button
+                    class="fa fa-fw fa-angle-left"
+                    data-move-snippet="prev"
+                    data-no-preview="true"
+                    title="Move Left"
+                />
+            <we-button
+                    class="fa fa-fw fa-angle-right"
+                    data-move-snippet="next"
+                    data-no-preview="true"
+                    title="Move Right"
+                />
+        </div>
+    </xpath>
+</template>
+</odoo>

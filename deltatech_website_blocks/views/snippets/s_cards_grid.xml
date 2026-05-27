@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="s_deltatech_cards_grid" name="Cards Grid">
+        <section
+            id="cpw"
+            class="s_deltatech_cards_grid o_colored_level"
+            data-snippet="s_deltatech_cards_grid"
+            data-name="Cards Grid"
+        >
+            <div class="cpw-wrap">
+                <div class="cpw-blob b1" />
+                <div class="cpw-blob b2" />
+
+                <header class="cpw-head">
+                    <span class="cpw-eyebrow"><font class="o_default_snippet_text">Quality &amp; Standards</font></span>
+                    <h2 class="cpw-h1">
+                        <font class="o_default_snippet_text">Trusted Certifications,</font>
+                        <span class="cpw-accent"><font class="o_default_snippet_text">Expert Solutions</font></span>
+                    </h2>
+                    <p class="cpw-sub">
+                        <font
+                            class="o_default_snippet_text"
+                        >Our official documents certifying our authorized distributor status and service quality.</font>
+                    </p>
+                    <div class="cpw-divider" aria-hidden="true" />
+                </header>
+
+                <div class="cpw-panel">
+                    <div class="cpw-grid row justify-content-center" id="cpwGrid">
+                        <!-- Default Items -->
+                        <div class="col-lg-3 col-md-6 cpw-item">
+                            <a href="#" class="cpw-card" target="_blank" rel="noopener">
+                                <div class="cpw-thumb">
+                                    <span class="cpw-corner">
+                                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path
+                                                d="M12 2l2.39 2.04 3.13-.43.86 3.04 2.84 1.43-1.05 2.99 1.05 2.99-2.84 1.43-.86 3.04-3.13-.43L12 22l-2.39-2.04-3.13.43-.86-3.04L2.78 15.92l1.05-2.99-1.05-2.99 2.84-1.43.86-3.04 3.13.43L12 2zm-1.2 13.6l5.6-5.6-1.4-1.4-4.2 4.2-2.1-2.1-1.4 1.4 3.5 3.5z"
+                                            /></svg>
+                                        <span>Official Document</span>
+                                    </span>
+                                    <img
+                                        src="/web/image/website.s_banner_default_image"
+                                        alt="Certificate"
+                                        loading="lazy"
+                                        class="img-fluid mx-auto d-block"
+                                    />
+                                </div>
+                                <div class="cpw-card-body">
+                                    <h3 class="cpw-title">Quality Certificate</h3>
+                                    <p class="cpw-desc">Brief description of the certificate.</p>
+                                    <div class="cpw-meta">
+                                        <span class="cpw-verified">
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2.4"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                aria-hidden="true"
+                                            ><path d="M20 7L10 17l-5-5" /></svg>
+                                            Verified
+                                        </span>
+                                        <span class="cpw-cta">
+                                            <span>Open</span>
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2.4"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                aria-hidden="true"
+                                            ><path d="M7 17L17 7" /><path d="M8 7h9v9" /></svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-md-6 cpw-item">
+                            <a href="#" class="cpw-card" target="_blank" rel="noopener">
+                                <div class="cpw-thumb">
+                                    <span class="cpw-corner">
+                                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path
+                                                d="M12 2l2.39 2.04 3.13-.43.86 3.04 2.84 1.43-1.05 2.99 1.05 2.99-2.84 1.43-.86 3.04-3.13-.43L12 22l-2.39-2.04-3.13.43-.86-3.04L2.78 15.92l1.05-2.99-1.05-2.99 2.84-1.43.86-3.04 3.13.43L12 2zm-1.2 13.6l5.6-5.6-1.4-1.4-4.2 4.2-2.1-2.1-1.4 1.4 3.5 3.5z"
+                                            /></svg>
+                                        <span>Official Document</span>
+                                    </span>
+                                    <img
+                                        src="/web/image/website.s_banner_default_image"
+                                        alt="Certificate"
+                                        loading="lazy"
+                                        class="img-fluid mx-auto d-block"
+                                    />
+                                </div>
+                                <div class="cpw-card-body">
+                                    <h3 class="cpw-title">Distributor Certificate</h3>
+                                    <p class="cpw-desc">Brief description of the certificate.</p>
+                                    <div class="cpw-meta">
+                                        <span class="cpw-verified">
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2.4"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                aria-hidden="true"
+                                            ><path d="M20 7L10 17l-5-5" /></svg>
+                                            Verified
+                                        </span>
+                                        <span class="cpw-cta">
+                                            <span>Open</span>
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2.4"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                aria-hidden="true"
+                                            ><path d="M7 17L17 7" /><path d="M8 7h9v9" /></svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+</odoo>
