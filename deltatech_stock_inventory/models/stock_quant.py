@@ -115,11 +115,12 @@ class StockQuant(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        for values in vals_list:
-            if "inventory_quantity" in values and not self.env.user.has_group(
-                "deltatech_stock_inventory.group_view_inventory_button"
-            ):
-                raise UserError(self.env._("Your user cannot update product quantities"))
+        if not self.env.context.get("inventory_mode", False):
+            for values in vals_list:
+                if "inventory_quantity" in values and not self.env.user.has_group(
+                    "deltatech_stock_inventory.group_view_inventory_button"
+                ):
+                    raise UserError(self.env._("Your user cannot update product quantities"))
         return super().create(vals_list)
 
     def _get_inventory_move_values(self, qty, location_id, location_dest_id, package_id=False, package_dest_id=False):
