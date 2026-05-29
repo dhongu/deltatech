@@ -12,8 +12,7 @@ class PurchaseOrder(models.Model):
 
     def _process_attachments_for_post(self, attachments, attachment_ids, message_values):
         # Run super first to let core create attachments/links properly
-        po = self.sudo()
-        res = super(PurchaseOrder, po)._process_attachments_for_post(attachments, attachment_ids, message_values)
+        res = super()._process_attachments_for_post(attachments, attachment_ids, message_values)
 
         # Feature toggle
         ICP = self.env["ir.config_parameter"].sudo()
@@ -53,6 +52,7 @@ class PurchaseOrder(models.Model):
                         {
                             "data_file": attachment.datas,
                             "filename": attachment.name,
+                            "order_id": order.id,
                             "update_prices": True,
                             "validate_receipt": True,
                             "create_bill": True,
