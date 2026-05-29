@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import SQL
 
 _logger = logging.getLogger(__name__)
 NS = {
@@ -21,8 +22,17 @@ class PurchaseUblImportWizard(models.TransientModel):
     _name = "purchase.ubl.import.wizard"
     _description = "Import UBL XML for Vendor Invoice/Receipt"
 
+    state = fields.Selection(
+        [("draft", "Draft"), ("done", "Done")],
+        default="draft",
+        readonly=True,
+    )
+
     data_file = fields.Binary(string="XML File", required=True)
     filename = fields.Char(string="Filename")
+    order_id = fields.Many2one("purchase.order", string="Purchase Order", readonly=True)
+    order_lines_warning = fields.Text(compute="_compute_order_lines_warning")
+    total_check_warning = fields.Text(compute="_compute_total_check_warning")
 
     update_prices = fields.Boolean(string="Update vendor prices", default=True)
     validate_receipt = fields.Boolean(string="Validate receipt from XML", default=False)
@@ -33,10 +43,36 @@ class PurchaseUblImportWizard(models.TransientModel):
     bill_id = fields.Many2one("account.move", string="Vendor Bill", readonly=True)
 
     log = fields.Text(readonly=True)
+    log_html = fields.Html(readonly=True, sanitize=True)
 
     # ------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------
+    @api.depends("order_id", "order_id.order_line")
+    def _compute_order_lines_warning(self):
+        for wizard in self:
+            if wizard.order_id and wizard.order_id.order_line:
+                wizard.order_lines_warning = _(
+                    "Purchase order already has lines. XML import will update only the existing order lines; "
+                    "new lines from the XML will not be added to the purchase order."
+                )
+            else:
+                wizard.order_lines_warning = False
+
+    @api.depends("order_id", "data_file")
+    def _compute_total_check_warning(self):
+        for wizard in self:
+            wizard.total_check_warning = False
+            if not wizard.order_id or not wizard.data_file:
+                continue
+            try:
+                invoice_xml = wizard._parse_xml(base64.b64decode(wizard.data_file))
+            except Exception:
+                continue
+            total_check = wizard._get_order_total_check(wizard.order_id, invoice_xml)
+            if total_check and not total_check["matches"]:
+                wizard.total_check_warning = wizard._format_total_check_message(total_check)
+
     def _resolve_currency(self, code):
         """Resolve a currency by ISO code or fall back to the company currency.
         Always returns a valid res.currency record.
@@ -50,28 +86,30 @@ class PurchaseUblImportWizard(models.TransientModel):
         return cur
 
     def _uom_from_ubl(self, unit_code):
-        """Map common UBL unit codes to Odoo uom.uom.
-        If code unknown, fallback to Unit(s).
-        Known codes examples:
-          - C62/H87: unit(s)
-          - KGM: kilogram
-          - LTR: litre
-          - MTR: meter
-          - HUR: hour
-          - PCE: piece (map to unit)
-        """
-
         code = (unit_code or "").upper()
-        # try via XML IDs from base uom module
         xml_ids = {
+            # pieces / units
             "C62": "uom.product_uom_unit",
             "H87": "uom.product_uom_unit",
             "PCE": "uom.product_uom_unit",
-            "KGM": "uom.product_uom_kgm",
-            "LTR": "uom.product_uom_litre",
-            "MTR": "uom.product_uom_meter",
-            "HUR": "uom.product_uom_hour",
+            "EA": "uom.product_uom_unit",
             "SET": "uom.product_uom_set",
+            # weight
+            "KGM": "uom.product_uom_kgm",
+            "GRM": "uom.product_uom_gram",
+            "TNE": "uom.product_uom_ton",
+            # volume
+            "LTR": "uom.product_uom_litre",
+            "MLT": "uom.product_uom_ml",
+            "MTQ": "uom.product_uom_cubic_meter",
+            # length / area
+            "MTR": "uom.product_uom_meter",
+            "CMT": "uom.product_uom_cm",
+            "MMT": "uom.product_uom_mm",
+            "MTK": "uom.product_uom_square_meter",
+            # time
+            "HUR": "uom.product_uom_hour",
+            "DAY": "uom.product_uom_day",
         }
         xid = xml_ids.get(code)
         if xid:
@@ -152,6 +190,8 @@ class PurchaseUblImportWizard(models.TransientModel):
         res = super().default_get(fields_list)
         ctx = self.env.context or {}
         if ctx.get("active_model") == "purchase.order" and ctx.get("active_id"):
+            if "order_id" in fields_list:
+                res["order_id"] = ctx.get("active_id")
             Attachment = self.env["ir.attachment"]
             domain = [
                 ("res_model", "=", "purchase.order"),
@@ -177,6 +217,12 @@ class PurchaseUblImportWizard(models.TransientModel):
         return res
 
     def _parse_xml(self, content):
+        def _to_float(val):
+            try:
+                return float(str(val).replace(",", ".")) if val is not None else 0.0
+            except Exception:
+                return 0.0
+
         try:
             root = ET.fromstring(content)
         except ET.ParseError as e:
@@ -188,6 +234,11 @@ class PurchaseUblImportWizard(models.TransientModel):
         due_date = root.findtext("cbc:DueDate", namespaces=NS)
         currency = root.findtext("cbc:DocumentCurrencyCode", namespaces=NS) or "RON"
         order_ref = root.findtext("cac:OrderReference/cbc:ID", namespaces=NS)
+        monetary_total = root.find("cac:LegalMonetaryTotal", namespaces=NS)
+        tax_amount = sum(
+            _to_float(tax_total.findtext("cbc:TaxAmount", namespaces=NS))
+            for tax_total in root.findall("cac:TaxTotal", namespaces=NS)
+        )
 
         # Supplier
         supplier_vat = root.findtext(
@@ -234,12 +285,6 @@ class PurchaseUblImportWizard(models.TransientModel):
                     except Exception as e:
                         _logger.warning("Could not parse AllowanceCharge/Amount '%s': %s", ac_amount_text, e)
 
-            def _to_float(val):
-                try:
-                    return float(str(val).replace(",", ".")) if val is not None else 0.0
-                except Exception:
-                    return 0.0
-
             price_f = _to_float(price)
             qty_f = _to_float(qty)
             if allowance_amount and price_f and qty_f:
@@ -266,10 +311,153 @@ class PurchaseUblImportWizard(models.TransientModel):
             "due_date": due_date,
             "currency": currency,
             "order_ref": (order_ref or "").strip(),
+            "line_extension_amount": _to_float(
+                monetary_total is not None and monetary_total.findtext("cbc:LineExtensionAmount", namespaces=NS) or None
+            ),
+            "tax_exclusive_amount": _to_float(
+                monetary_total is not None and monetary_total.findtext("cbc:TaxExclusiveAmount", namespaces=NS) or None
+            ),
+            "tax_inclusive_amount": _to_float(
+                monetary_total is not None and monetary_total.findtext("cbc:TaxInclusiveAmount", namespaces=NS) or None
+            ),
+            "payable_amount": _to_float(
+                monetary_total is not None and monetary_total.findtext("cbc:PayableAmount", namespaces=NS) or None
+            ),
+            "tax_amount": tax_amount,
             "supplier_vat": (supplier_vat or "").strip(),
             "supplier_name": (supplier_name or "").strip(),
             "lines": lines,
         }
+
+    def _get_order_total_check(self, order, invoice_xml):
+        if not order:
+            return False
+
+        xml_total = invoice_xml.get("payable_amount") or invoice_xml.get("tax_inclusive_amount")
+        order_amount = order.amount_total
+        label = _("total")
+
+        if not xml_total:
+            xml_total = invoice_xml.get("tax_exclusive_amount") or invoice_xml.get("line_extension_amount")
+            if not xml_total:
+                xml_total = sum(line.get("line_total", 0.0) for line in invoice_xml.get("lines", []))
+            order_amount = order.amount_untaxed
+            label = _("untaxed total")
+
+        if xml_total is None:
+            return False
+
+        difference = order_amount - xml_total
+        return {
+            "label": label,
+            "currency": order.currency_id.name or invoice_xml.get("currency") or "",
+            "order_amount": order_amount,
+            "xml_amount": xml_total,
+            "difference": difference,
+            "matches": order.currency_id.is_zero(difference),
+        }
+
+    def _format_total_check_message(self, total_check):
+        values = {
+            "label": total_check["label"],
+            "order_amount": f"{total_check['order_amount']:.2f}",
+            "xml_amount": f"{total_check['xml_amount']:.2f}",
+            "difference": f"{abs(total_check['difference']):.2f}",
+            "currency": total_check["currency"],
+        }
+        if total_check["matches"]:
+            return (
+                _(
+                    "Total check OK: purchase order %(label)s %(order_amount)s %(currency)s matches XML %(label)s "
+                    "%(xml_amount)s %(currency)s."
+                )
+                % values
+            )
+        return (
+            _(
+                "Warning: purchase order %(label)s %(order_amount)s %(currency)s differs from XML %(label)s "
+                "%(xml_amount)s %(currency)s (difference %(difference)s %(currency)s)."
+            )
+            % values
+        )
+
+    def _find_supplier_partner(self, supplier_vat, supplier_name):
+        Partner = self.env["res.partner"]
+        supplier_vat = (supplier_vat or "").strip()
+        supplier_name = (supplier_name or "").strip()
+
+        partner = False
+        if supplier_vat:
+            partner = Partner.search(
+                [("supplier_rank", ">", 0), ("vat", "=ilike", supplier_vat)],
+                limit=1,
+            )
+            if not partner and " " in supplier_vat:
+                partner = Partner.search(
+                    [("supplier_rank", ">", 0), ("vat", "=ilike", supplier_vat.replace(" ", ""))],
+                    limit=1,
+                )
+
+        if not partner and supplier_name:
+            partner = Partner.search(
+                [("supplier_rank", ">", 0), ("name", "=ilike", supplier_name)],
+                limit=1,
+            )
+
+        return partner
+
+    def _find_order_from_xml(self, order_ref, partner=False):
+        PurchaseOrder = self.env["purchase.order"]
+        order_ref = (order_ref or "").strip()
+        if not order_ref:
+            return False
+
+        search_variants = []
+        if partner:
+            search_variants.extend(
+                [
+                    [("partner_id", "=", partner.id), ("state", "!=", "cancel"), ("name", "=", order_ref)],
+                    [("partner_id", "=", partner.id), ("state", "!=", "cancel"), ("partner_ref", "=", order_ref)],
+                ]
+            )
+        search_variants.extend(
+            [
+                [("state", "!=", "cancel"), ("name", "=", order_ref)],
+                [("state", "!=", "cancel"), ("partner_ref", "=", order_ref)],
+            ]
+        )
+
+        for domain in search_variants:
+            order = PurchaseOrder.search(domain, limit=1, order="id desc")
+            if order:
+                return order
+        return False
+
+    def _resolve_order_and_partner(self, invoice_xml):
+        order = self.order_id.exists()
+        if not order and self.env.context.get("active_model") == "purchase.order" and self.env.context.get("active_id"):
+            order = self.env["purchase.order"].browse(self.env.context.get("active_id")).exists()
+
+        supplier_vat = invoice_xml.get("supplier_vat")
+        supplier_name = invoice_xml.get("supplier_name")
+        xml_partner = self._find_supplier_partner(supplier_vat, supplier_name)
+
+        if not order:
+            order = self._find_order_from_xml(invoice_xml.get("order_ref"), xml_partner)
+
+        partner = order.partner_id if order else xml_partner
+        vat_mismatch_warning = bool(order and supplier_vat and partner.vat and supplier_vat != partner.vat)
+
+        if not partner:
+            raise UserError(
+                _(
+                    "No vendor found for supplier VAT '%(vat)s' / name '%(name)s'. "
+                    "Launch the import from a purchase order or create the vendor first."
+                )
+                % {"vat": supplier_vat or "-", "name": supplier_name or "-"}
+            )
+
+        return order, partner, vat_mismatch_warning
 
     def _match_product(self, supplier, code, name, barcode=None):
         Product = self.env["product.product"]
@@ -314,14 +502,16 @@ class PurchaseUblImportWizard(models.TransientModel):
         if not product and name:
             name_without_spaces = name.replace(" ", "")
             lang = self.env.context.get("lang") or self.env.user.lang
-            sql = """
-                  SELECT id
-                  FROM product_template
-                  WHERE name ->>%(lang)s IS NOT NULL
-                    AND REPLACE(name ->>%(lang)s , ' '  , '') = %(name_without_spaces)s
-                  LIMIT 1
-                  """
-            self.env.cr.execute(sql, {"name_without_spaces": name_without_spaces, "lang": lang})
+            self.env.cr.execute(
+                SQL(
+                    "SELECT id FROM product_template"
+                    " WHERE name ->> %(lang)s IS NOT NULL"
+                    " AND REPLACE(name ->> %(lang)s, ' ', '') = %(name)s"
+                    " LIMIT 1",
+                    lang=lang,
+                    name=name_without_spaces,
+                )
+            )
             product_id = self.env.cr.fetchone()
             if product_id:
                 product_template = self.env["product.template"].browse(product_id[0])
@@ -404,7 +594,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         Picking = self.env["stock.picking"]
         domain = [
             ("purchase_id", "=", order.id),
-            ("state", "in", ["assigned", "confirmed", "waiting", "ready"]),
+            ("state", "in", ["assigned", "confirmed", "waiting"]),
         ]
 
         pickings = Picking.search(domain, limit=1, order="id desc")
@@ -463,32 +653,98 @@ class PurchaseUblImportWizard(models.TransientModel):
             wiz.with_context(skip_backorder=True).process()
         return True
 
-    def _create_vendor_bill(self, xml_invoice, order):
-        ref = xml_invoice.get("invoice_id")
-        if ref and order:
-            existing = self.env["account.move"].search(
+    def _classify_message(self, msg):
+        m = msg.lower()
+        if any(k in m for k in ("not created", "unmatched")):
+            return "danger"
+        if any(k in m for k in ("warning", "differs", "mismatch", "already exists", "skipped", "no receipt found")):
+            return "warning"
+        if any(k in m for k in ("total check ok", "updated", "added", "created", "receipt updated")):
+            return "success"
+        return "info"
+
+    def _build_log_html(self, messages):
+        def _esc(s):
+            return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+        icons = {
+            "success": "fa-check-circle",
+            "warning": "fa-exclamation-triangle",
+            "danger": "fa-times-circle",
+            "info": "fa-info-circle",
+        }
+        parts = ["<div>"]
+        for msg in messages:
+            level = self._classify_message(msg)
+            icon = icons[level]
+            lines = msg.split("\n")
+            parts.append(
+                f'<p class="mb-1 text-{level}"><i class="fa {icon} me-1"></i><strong>{_esc(lines[0])}</strong></p>'
+            )
+            for sub in lines[1:]:
+                if sub.strip():
+                    parts.append(f'<p class="mb-0 ms-3 text-muted">{_esc(sub)}</p>')
+        parts.append("</div>")
+        return "".join(parts)
+
+    def _find_duplicate_bill(self, partner, invoice_ref):
+        """Return an existing non-cancelled vendor bill with the same ref for this partner."""
+        if not invoice_ref or not partner:
+            return False
+        return self.env["account.move"].search(
+            [
+                ("move_type", "=", "in_invoice"),
+                ("partner_id", "=", partner.id),
+                ("ref", "=", invoice_ref),
+                ("state", "!=", "cancel"),
+            ],
+            limit=1,
+        )
+
+    def _apply_xml_taxes_to_bill(self, bill, mapped_lines):
+        """Override bill line taxes with the tax percentage declared in the XML."""
+        product_tax_pct = {}
+        for ml in mapped_lines:
+            product = ml.get("product")
+            tax_pct = ml.get("tax_percent")
+            if product and tax_pct:
+                product_tax_pct[product.id] = float(tax_pct)
+
+        if not product_tax_pct:
+            return
+
+        for line in bill.invoice_line_ids:
+            if not line.product_id or line.product_id.id not in product_tax_pct:
+                continue
+            pct = product_tax_pct[line.product_id.id]
+            tax = self.env["account.tax"].search(
                 [
-                    ("ref", "=", ref),
-                    ("move_type", "in", ("in_invoice", "in_receipt")),
-                    ("commercial_partner_id", "=", order.partner_id.commercial_partner_id.id),
-                    ("company_id", "=", order.company_id.id),
+                    ("type_tax_use", "=", "purchase"),
+                    ("amount_type", "=", "percent"),
+                    ("amount", "=", pct),
+                    ("company_id", "=", self.env.company.id),
+                    ("active", "=", True),
                 ],
                 limit=1,
             )
-            if existing:
-                return existing
+            if tax and tax.ids != line.tax_ids.ids:
+                line.tax_ids = [(6, 0, [tax.id])]
 
+    def _create_vendor_bill(self, xml_invoice, order, mapped_lines=None):
         old_invoice = order.invoice_ids
         order.action_create_invoice()
         new_invoice = order.invoice_ids - old_invoice
         if new_invoice:
             origin = xml_invoice.get("order_ref")
             invoice_date = xml_invoice.get("issue_date")
+            ref = xml_invoice.get("invoice_id")
             due_date = xml_invoice.get("due_date")
 
             new_invoice.write(
                 {"invoice_origin": origin, "invoice_date": invoice_date, "ref": ref, "invoice_date_due": due_date}
             )
+            if mapped_lines:
+                self._apply_xml_taxes_to_bill(new_invoice, mapped_lines)
 
         return new_invoice
 
@@ -499,19 +755,8 @@ class PurchaseUblImportWizard(models.TransientModel):
         content = base64.b64decode(self.data_file)
         invoice_xml = self._parse_xml(content)
 
-        # Determine context order if any
-        order = False
-        if self.env.context.get("active_model") == "purchase.order" and self.env.context.get("active_id"):
-            order = self.env["purchase.order"].browse(self.env.context.get("active_id"))
-
-        # Determine supplier: prefer order's vendor if order provided
-        partner = order.partner_id
         supplier_vat = invoice_xml.get("supplier_vat")
-        vat_mismatch_warning = False
-        if supplier_vat and partner.vat and supplier_vat != partner.vat:
-            # Do not block the import when launched from a specific PO: the order's vendor is authoritative.
-            # Keep a warning to be shown in the log so users are aware of the mismatch.
-            vat_mismatch_warning = True
+        order, partner, vat_mismatch_warning = self._resolve_order_and_partner(invoice_xml)
 
         mapped_lines = []
         updated = []
@@ -529,12 +774,6 @@ class PurchaseUblImportWizard(models.TransientModel):
             if not product and self.create_missing_products:
                 product = self._create_product_from_xml_line(partner, ln, invoice_xml.get("currency"))
                 created.append(product.display_name)
-                # try:
-                #     product = self._create_product_from_xml_line(partner, ln, invoice_xml.get("currency"))
-                #     created.append(product.display_name)
-                # except Exception:
-                #     # If creation fails, keep track as not found and continue
-                #     not_found.append(ln.get("code") or ln.get("name") or "/")
             elif not product:
                 not_found.append(ln.get("code") or ln.get("name") or "/")
             ln_map = {**ln, "product": product}
@@ -603,19 +842,34 @@ class PurchaseUblImportWizard(models.TransientModel):
         # Validate receipt
         pick_log = ""
         if self.validate_receipt:
-            picking = self._find_receipt(order)
-            if picking:
-                line_map = {ml.get("product").id: ml.get("qty", 0.0) for ml in mapped_lines if ml.get("product")}
-                self._validate_receipt_quantities(picking, line_map, order=order)
-                pick_log = _("Receipt updated: %s") % picking.name
+            if order:
+                picking = self._find_receipt(order)
+                if picking:
+                    line_map = {ml.get("product").id: ml.get("qty", 0.0) for ml in mapped_lines if ml.get("product")}
+                    self._validate_receipt_quantities(picking, line_map, order=order)
+                    pick_log = _("Receipt updated: %s") % picking.name
+                else:
+                    pick_log = _("No receipt found to validate.")
             else:
-                pick_log = _("No receipt found to validate.")
+                pick_log = _("Receipt validation skipped: no purchase order was resolved from the context or XML.")
 
         bill = False
+        bill_log = ""
+        duplicate_bill = False
         if self.create_bill:
-            bill = self._create_vendor_bill(invoice_xml, order)
-            # store for quick access from the wizard button
-            self.bill_id = bill and bill.id or False
+            if order:
+                invoice_ref = invoice_xml.get("invoice_id")
+                duplicate_bill = self._find_duplicate_bill(partner, invoice_ref)
+                if duplicate_bill:
+                    self.bill_id = duplicate_bill.id
+                else:
+                    try:
+                        bill = self._create_vendor_bill(invoice_xml, order, mapped_lines=mapped_lines)
+                        self.bill_id = bill and bill.id or False
+                    except UserError as e:
+                        bill_log = _("Vendor bill not created: %s") % str(e)
+            else:
+                bill_log = _("Vendor bill creation skipped: no purchase order was resolved from the context or XML.")
 
         # Build messages
         messages = []
@@ -625,6 +879,9 @@ class PurchaseUblImportWizard(models.TransientModel):
             _("Order: %(order)s | XML Reference: %(ref)s")
             % {"order": (order.name if order else "-"), "ref": (invoice_xml.get("order_ref") or "-")}
         )
+        total_check = self._get_order_total_check(order, invoice_xml)
+        if total_check:
+            messages.append(self._format_total_check_message(total_check))
         if vat_mismatch_warning:
             messages.append(
                 _(
@@ -646,10 +903,19 @@ class PurchaseUblImportWizard(models.TransientModel):
             messages.append(_("Unmatched products in XML: %s") % ", ".join(not_found))
         if pick_log:
             messages.append(pick_log)
-        if bill:
+        if duplicate_bill:
+            messages.append(
+                _("Vendor bill already exists for this invoice reference (%s). No new bill was created.")
+                % (duplicate_bill.ref or duplicate_bill.name)
+            )
+        elif bill:
             messages.append(_("Vendor bill created: %s") % (bill.ref or ""))
+        elif bill_log:
+            messages.append(bill_log)
 
         self.log = "\n".join(messages)
+        self.log_html = self._build_log_html(messages)
+        self.state = "done"
 
         action = {
             "type": "ir.actions.act_window",
@@ -662,11 +928,11 @@ class PurchaseUblImportWizard(models.TransientModel):
 
     def action_view_vendor_bill(self):
         self.ensure_one()
-        # Open the vendor bill(s) from the related purchase order context
-        ctx = self.env.context or {}
-        order = False
-        if ctx.get("active_model") == "purchase.order" and ctx.get("active_id"):
-            order = self.env["purchase.order"].browse(ctx.get("active_id"))
+        order = self.order_id.exists()
+        if not order:
+            ctx = self.env.context or {}
+            if ctx.get("active_model") == "purchase.order" and ctx.get("active_id"):
+                order = self.env["purchase.order"].browse(ctx.get("active_id")).exists()
         if not order:
             return {"type": "ir.actions.act_window_close"}
         invoices = self.bill_id if self.bill_id else False
