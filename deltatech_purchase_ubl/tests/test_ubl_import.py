@@ -22,6 +22,10 @@ def _xml_invoice(
     order_ref="PO001",
     supplier_vat="RO123456789",
     supplier_name="Vendor SRL",
+    tax_amount=None,
+    tax_exclusive_amount=None,
+    tax_inclusive_amount=None,
+    payable_amount=None,
     lines=None,
 ):
     if lines is None:
@@ -73,6 +77,23 @@ def _xml_invoice(
             </cac:InvoiceLine>
             """
         )
+    tax_total_xml = ""
+    monetary_total_xml = ""
+    if tax_amount is not None:
+        tax_total_xml = f"""
+            <cac:TaxTotal>
+                <cbc:TaxAmount currencyID="{currency}">{tax_amount}</cbc:TaxAmount>
+            </cac:TaxTotal>
+        """
+    if any(value is not None for value in [tax_exclusive_amount, tax_inclusive_amount, payable_amount]):
+        monetary_total_xml = f"""
+            <cac:LegalMonetaryTotal>
+                <cbc:LineExtensionAmount currencyID="{currency}">{tax_exclusive_amount or '0'}</cbc:LineExtensionAmount>
+                <cbc:TaxExclusiveAmount currencyID="{currency}">{tax_exclusive_amount or '0'}</cbc:TaxExclusiveAmount>
+                <cbc:TaxInclusiveAmount currencyID="{currency}">{tax_inclusive_amount or tax_exclusive_amount or '0'}</cbc:TaxInclusiveAmount>
+                <cbc:PayableAmount currencyID="{currency}">{payable_amount or tax_inclusive_amount or tax_exclusive_amount or '0'}</cbc:PayableAmount>
+            </cac:LegalMonetaryTotal>
+        """
     xml = f"""
         <inv:Invoice xmlns:inv=\"{UBL_NS['inv']}\" xmlns:cac=\"{UBL_NS['cac']}\" xmlns:cbc=\"{UBL_NS['cbc']}\">
             <cbc:ID>{invoice_id}</cbc:ID>
@@ -86,6 +107,8 @@ def _xml_invoice(
                     <cac:PartyLegalEntity><cbc:RegistrationName>{supplier_name}</cbc:RegistrationName></cac:PartyLegalEntity>
                 </cac:Party>
             </cac:AccountingSupplierParty>
+            {tax_total_xml}
+            {monetary_total_xml}
             {''.join(line_xml)}
         </inv:Invoice>
     """
@@ -130,6 +153,7 @@ class TestPurchaseUblImport(TransactionCase):
                 "create_missing_products": True,
             }
         )
+        self.assertEqual(wiz.order_id, order)
         wiz.action_import()
         return wiz
 
@@ -366,3 +390,220 @@ class TestPurchaseUblImport(TransactionCase):
                 places=1,
                 msg="Discount-ul trebuie sa fie ~25% (93.05 / 372.20 * 100)",
             )
+
+    def test_import_without_purchase_order_context_uses_xml_supplier(self):
+        unit_uom = self.env.ref("uom.product_uom_unit")
+        product = self.env["product.product"].create(
+            {
+                "name": "Standalone Import Product",
+                "is_storable": True,
+                "purchase_ok": True,
+                "uom_id": unit_uom.id,
+                "uom_po_id": unit_uom.id,
+            }
+        )
+        self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.vendor.id,
+                "product_tmpl_id": product.product_tmpl_id.id,
+                "product_id": product.id,
+                "product_code": "STANDALONE-CODE",
+                "price": 5.0,
+                "currency_id": self.env.ref("base.RON").id,
+                "delay": 1,
+            }
+        )
+
+        xml = _xml_invoice(
+            order_ref="PO-NOT-IN-CONTEXT",
+            supplier_vat=self.vendor.vat,
+            supplier_name=self.vendor.name,
+            lines=[
+                {
+                    "code": "STANDALONE-CODE",
+                    "name": product.name,
+                    "qty": "4",
+                    "price": "11.25",
+                    "line_total": "45.00",
+                    "unit_code": "C62",
+                }
+            ],
+        )
+        wiz = self.env["purchase.ubl.import.wizard"].create(
+            {
+                "data_file": b64encode(xml),
+                "filename": "standalone.xml",
+                "update_prices": True,
+                "create_bill": False,
+                "validate_receipt": False,
+                "create_missing_products": False,
+            }
+        )
+
+        wiz.action_import()
+
+        sinfo = self.env["product.supplierinfo"].search(
+            [("partner_id", "=", self.vendor.id), ("product_tmpl_id", "=", product.product_tmpl_id.id)],
+            limit=1,
+        )
+        self.assertAlmostEqual(sinfo.price, 11.25, places=2)
+        self.assertIn("Vendor: Vendor SRL", wiz.log or "")
+        self.assertIn("Order: - | XML Reference: PO-NOT-IN-CONTEXT", wiz.log or "")
+
+    def test_import_uses_order_id_after_context_is_lost(self):
+        xml = _xml_invoice(
+            order_ref=self.po.name,
+            lines=[
+                {
+                    "code": "CTX-LOST",
+                    "name": "Context Lost Product",
+                    "qty": "2",
+                    "price": "9.50",
+                    "line_total": "19.00",
+                    "unit_code": "C62",
+                }
+            ],
+        )
+        wiz = (
+            self.env["purchase.ubl.import.wizard"]
+            .with_context(active_model="purchase.order", active_id=self.po.id)
+            .create(
+                {
+                    "data_file": b64encode(xml),
+                    "filename": "context_lost.xml",
+                    "update_prices": True,
+                    "create_bill": False,
+                    "validate_receipt": False,
+                    "create_missing_products": True,
+                }
+            )
+        )
+
+        wiz.action_import()
+
+        self.assertEqual(wiz.order_id, self.po)
+        self.assertTrue(self.po.order_line.filtered(lambda l: l.product_id.name == "Context Lost Product"))
+
+    def test_total_check_warning_is_shown_when_xml_total_differs(self):
+        # Use a fresh PO so accumulated lines from other tests don't affect the total
+        po = self.env["purchase.order"].create(
+            {
+                "partner_id": self.vendor.id,
+                "company_id": self.company.id,
+                "date_order": "2025-01-01 00:00:00",
+            }
+        )
+        product = self.env["product.product"].create(
+            {
+                "name": "Mismatch Product",
+                "default_code": "MISMATCH",
+                "is_storable": True,
+                "purchase_ok": True,
+            }
+        )
+        self.env["purchase.order.line"].create(
+            {
+                "order_id": po.id,
+                "product_id": product.id,
+                "name": product.display_name,
+                "product_qty": 1.0,
+                "price_unit": 10.0,
+                "product_uom": product.uom_po_id.id,
+                "date_planned": "2025-01-01 00:00:00",
+                "taxes_id": [(5, 0, 0)],
+            }
+        )
+        xml = _xml_invoice(
+            order_ref=po.name,
+            tax_exclusive_amount="15.00",
+            tax_inclusive_amount="15.00",
+            payable_amount="15.00",
+            lines=[
+                {
+                    "code": "MISMATCH",
+                    "name": product.name,
+                    "qty": "1",
+                    "price": "10.00",
+                    "line_total": "10.00",
+                    "unit_code": "C62",
+                }
+            ],
+        )
+        wiz = (
+            self.env["purchase.ubl.import.wizard"]
+            .with_context(active_model="purchase.order", active_id=po.id)
+            .create(
+                {
+                    "data_file": b64encode(xml),
+                    "filename": "mismatch.xml",
+                    "update_prices": False,
+                    "create_bill": False,
+                    "validate_receipt": False,
+                    "create_missing_products": False,
+                }
+            )
+        )
+
+        # Check message content without hardcoding the currency (company currency may vary)
+        self.assertIn("differs from XML total 15.00", wiz.total_check_warning or "")
+
+    def test_total_check_log_confirms_when_totals_match(self):
+        # Use a fresh PO with a line whose total exactly matches the XML payable_amount
+        po = self.env["purchase.order"].create(
+            {
+                "partner_id": self.vendor.id,
+                "company_id": self.company.id,
+                "date_order": "2025-01-01 00:00:00",
+            }
+        )
+        product = self.env["product.product"].create(
+            {
+                "name": "Total Check Product",
+                "default_code": "TOTAL-OK",
+                "is_storable": True,
+                "purchase_ok": True,
+            }
+        )
+        self.env["purchase.order.line"].create(
+            {
+                "order_id": po.id,
+                "product_id": product.id,
+                "name": product.display_name,
+                "product_qty": 2.0,
+                "price_unit": 9.50,
+                "product_uom": product.uom_po_id.id,
+                "date_planned": "2025-01-01 00:00:00",
+                "taxes_id": [(5, 0, 0)],
+            }
+        )
+        xml = _xml_invoice(
+            order_ref=po.name,
+            tax_exclusive_amount="19.00",
+            tax_inclusive_amount="19.00",
+            payable_amount="19.00",
+            lines=[
+                {
+                    "code": "TOTAL-OK",
+                    "name": "Total Check Product",
+                    "qty": "2",
+                    "price": "9.50",
+                    "line_total": "19.00",
+                    "unit_code": "C62",
+                }
+            ],
+        )
+
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        wiz = Wiz.with_context(active_model="purchase.order", active_id=po.id).create(
+            {
+                "data_file": b64encode(xml),
+                "filename": "total_ok.xml",
+                "update_prices": True,
+                "create_bill": False,
+                "validate_receipt": False,
+                "create_missing_products": False,
+            }
+        )
+        wiz.action_import()
+
+        self.assertIn("Total check OK", wiz.log or "")
