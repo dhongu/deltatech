@@ -1,111 +1,76 @@
-from odoo.tests.common import TransactionCase
+from odoo.tests import tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestPartnerPhone(TransactionCase):
-    def setUp(self):
-        super().setUp()
+@tagged("post_install", "-at_install")
+class TestPartnerPhone(AccountTestInvoicingCommon):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
-        # Create a partner with phone and mobile
-        self.partner_with_phone = self.env["res.partner"].create(
+        # The accounting test user lacks sales rights; grant them so we can
+        # create sale orders.
+        cls.env.user.group_ids |= cls.env.ref("sales_team.group_sale_salesman")
+
+        # Partner with phone
+        cls.partner_with_phone = cls.env["res.partner"].create(
             {
                 "name": "Partner with Phone",
                 "phone": "123-456-7890",
             }
         )
 
-        self.partner_with_mobile = self.env["res.partner"].create(
-            {
-                "name": "Partner with Mobile",
-                "mobile": "098-765-4321",
-            }
-        )
-
-        self.partner_with_no_contact = self.env["res.partner"].create(
+        # Partner without any contact details
+        cls.partner_with_no_contact = cls.env["res.partner"].create(
             {
                 "name": "Partner with No Contact",
             }
         )
 
-        # Create account move records
-        self.account_move_with_phone = self.env["account.move"].create(
+        # Account move records
+        cls.account_move_with_phone = cls.env["account.move"].create(
             {
-                "partner_id": self.partner_with_phone.id,
-                "move_type": "out_invoice",  # Example move type
+                "partner_id": cls.partner_with_phone.id,
+                "move_type": "out_invoice",
             }
         )
-
-        self.account_move_with_mobile = self.env["account.move"].create(
+        cls.account_move_with_no_contact = cls.env["account.move"].create(
             {
-                "partner_id": self.partner_with_mobile.id,
+                "partner_id": cls.partner_with_no_contact.id,
                 "move_type": "out_invoice",
             }
         )
 
-        self.account_move_with_no_contact = self.env["account.move"].create(
+        # Sale order records
+        cls.sale_order_with_phone = cls.env["sale.order"].create(
             {
-                "partner_id": self.partner_with_no_contact.id,
-                "move_type": "out_invoice",
+                "partner_id": cls.partner_with_phone.id,
             }
         )
-
-        # Create sale order records
-        self.sale_order_with_phone = self.env["sale.order"].create(
+        cls.sale_order_with_no_contact = cls.env["sale.order"].create(
             {
-                "partner_id": self.partner_with_phone.id,
-            }
-        )
-
-        self.sale_order_with_mobile = self.env["sale.order"].create(
-            {
-                "partner_id": self.partner_with_mobile.id,
-            }
-        )
-
-        self.sale_order_with_no_contact = self.env["sale.order"].create(
-            {
-                "partner_id": self.partner_with_no_contact.id,
+                "partner_id": cls.partner_with_no_contact.id,
             }
         )
 
     def test_account_move_phone_computation(self):
-        # Compute the phone field
-        self.account_move_with_phone._compute_phone()
         self.assertEqual(
             self.account_move_with_phone.partner_phone,
             "123-456-7890",
             "The phone should be set from the partner's phone.",
         )
-
-        self.account_move_with_mobile._compute_phone()
-        self.assertEqual(
-            self.account_move_with_mobile.partner_phone,
-            "098-765-4321",
-            "The phone should be set from the partner's mobile.",
-        )
-
-        self.account_move_with_no_contact._compute_phone()
         self.assertFalse(
             self.account_move_with_no_contact.partner_phone,
             "The phone should be False for a partner with no contact details.",
         )
 
     def test_sale_order_phone_computation(self):
-        # Compute the phone field
-        self.sale_order_with_phone._compute_phone()
         self.assertEqual(
             self.sale_order_with_phone.partner_phone,
             "123-456-7890",
             "The phone should be set from the partner's phone.",
         )
-
-        self.sale_order_with_mobile._compute_phone()
-        self.assertEqual(
-            self.sale_order_with_mobile.partner_phone,
-            "098-765-4321",
-            "The phone should be set from the partner's mobile.",
-        )
-
-        self.sale_order_with_no_contact._compute_phone()
         self.assertFalse(
             self.sale_order_with_no_contact.partner_phone,
             "The phone should be False for a partner with no contact details.",
