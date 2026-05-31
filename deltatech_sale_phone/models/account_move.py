@@ -14,9 +14,4 @@ class AccountMove(models.Model):
     @api.depends("partner_id")
     def _compute_phone(self):
         for move in self:
-            if move.partner_id.phone:
-                move.partner_phone = move.partner_id.phone
-            elif move.partner_id.mobile:
-                move.partner_phone = move.partner_id.mobile
-            else:
-                move.partner_phone = False
+            move.partner_phone = move.partner_id.phone or False

@@ -14,9 +14,4 @@ class SaleOrder(models.Model):
     @api.depends("partner_id")
     def _compute_phone(self):
         for order in self:
-            if order.partner_id.phone:
-                order.partner_phone = order.partner_id.phone
-            elif order.partner_id.mobile:
-                order.partner_phone = order.partner_id.mobile
-            else:
-                order.partner_phone = False
+            order.partner_phone = order.partner_id.phone or False
