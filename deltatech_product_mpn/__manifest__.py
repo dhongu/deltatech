@@ -1,7 +1,7 @@
 {
     "name": "Product MPN",
     "summary": "Add MPN to product",
-    "version": "18.0.0.0.1",
+    "version": "19.0.0.0.1",
     "author": "Terrabit, Voicu Stefan",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
