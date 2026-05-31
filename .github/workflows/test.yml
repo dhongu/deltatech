@@ -12,6 +12,7 @@ on:
 jobs:
   unreleased-deps:
     runs-on: ubuntu-latest
+    environment: manual-approval
     name: Detect unreleased dependencies
     steps:
       - uses: actions/checkout@v4
@@ -29,6 +30,7 @@ jobs:
           done
   test:
     runs-on: ubuntu-22.04
+    environment: manual-approval
     container: ${{ matrix.container }}
     name: ${{ matrix.name }}
     strategy:
