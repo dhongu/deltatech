@@ -15,6 +15,15 @@ class TestSaleOrderSmsNotifications(TransactionCase):
             }
         )
 
+        # Create a product for testing (demo data is not available in test db)
+        self.product = self.env["product.product"].create(
+            {
+                "name": "Test Product",
+                "type": "consu",
+                "list_price": 100,
+            }
+        )
+
         # Create a sale order for testing
         self.sale_order = self.env["sale.order"].create(
             {
@@ -25,9 +34,7 @@ class TestSaleOrderSmsNotifications(TransactionCase):
                         0,
                         0,
                         {
-                            "product_id": self.env.ref(
-                                "product.product_product_1"
-                            ).id,  # Replace with a valid product ID
+                            "product_id": self.product.id,
                             "product_uom_qty": 1,
                             "price_unit": 100,
                         },
