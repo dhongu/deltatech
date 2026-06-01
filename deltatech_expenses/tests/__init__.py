@@ -4,3 +4,4 @@
 
 
 from . import test_expenses
+from . import test_screenshots
