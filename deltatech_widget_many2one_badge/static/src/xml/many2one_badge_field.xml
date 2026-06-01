@@ -31,7 +31,7 @@
                         resModel="relation"
                         fieldString="props.string"
                         context="autocompleteContext"
-                        getDomain="() => props.domain || []"
+                        getDomain="getDomain.bind(this)"
                         update.bind="update"
                         activeActions="activeActions"
                         value="''"
