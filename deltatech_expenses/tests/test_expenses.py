@@ -83,10 +83,11 @@ class TestExpenses(TransactionCase):
                 "company_id": cls.company.id,
             }
         )
-        # asigurăm țara fiscală RO (postarea moves verifică compatibilitatea taxă ↔ țară companie)
+        # asigurăm țara fiscală RO (postarea moves verifică compatibilitatea taxă ↔ țară companie).
+        # account_fiscal_country_id e setat EXPLICIT: în CI compania nu are plan de conturi RO, deci
+        # nu derivă singură din country_id.
         cls.ro_country = cls.env.ref("base.ro")
-        if cls.company.country_id != cls.ro_country:
-            cls.company.country_id = cls.ro_country.id
+        cls.company.write({"country_id": cls.ro_country.id, "account_fiscal_country_id": cls.ro_country.id})
 
         # grup de taxe cu aceeași țară ca taxele (validare account.tax: tax.country_id == group.country_id)
         cls.tax_group = cls.env["account.tax.group"].create(
