@@ -334,6 +334,8 @@ class BusinessProcess(models.Model):
 
         return super()._load_records(data_list, update)
 
+    # todo: de implementat _search_display_name in loc de name_search
+
     # todo: de verificat
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
