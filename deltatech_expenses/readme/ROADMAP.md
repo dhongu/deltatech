@@ -6,13 +6,6 @@ prin teste.
 
 ## Corectitudine
 
-- **Liniile de tip „Plată furnizor" (`supplier_payment`) nu se reconciliază.** La validare, nota de
-  decontare `Dr 401 = Cr 542` generată pentru o linie `supplier_payment` nu este reconciliată (spre
-  deosebire de liniile de tip „Cheltuieli", care se reconciliază cu chitanța). Contul 401 al
-  furnizorului rămâne deschis, iar 542 nu se închide la zero pentru acest tip de linie. În plus, dacă
-  partenerul nu are cont de furnizor configurat, nota poate eșua la postare. *De decis: reconciliere
-  cu un document furnizor existent sau eliminarea tipului `supplier_payment` dacă nu mai e folosit.*
-
 - **Import multi-monedă.** La preluarea unei `hr.expense` în altă monedă decât a companiei, linia
   primește suma în moneda companiei dar `currency_id` = moneda cheltuielii — nepotrivire care produce
   subtotal/TVA greșite. *De adăugat conversia corectă sau preluarea sumelor în moneda cheltuielii.*

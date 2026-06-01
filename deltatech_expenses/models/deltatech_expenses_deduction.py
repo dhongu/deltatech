@@ -395,6 +395,14 @@ class DeltatechExpensesDeduction(models.Model):
         """
         if not payable_account:
             payable_account = partner.with_company(expenses.company_id).property_account_payable_id
+        if not payable_account:
+            raise UserError(
+                self.env._(
+                    "Furnizorul %s nu are un cont de datorii (401) configurat; "
+                    "completați 'Cont de plătit' pe partener înainte de decontare."
+                )
+                % (partner.display_name or "")
+            )
         account_542 = expenses.expense_journal_id.default_account_id
         move = self.env["account.move"].create(
             {
@@ -430,6 +438,24 @@ class DeltatechExpensesDeduction(models.Model):
         )
         move._post()
         return move
+
+    def _reconcile_supplier_payment(self, settle_payable):
+        """Reconciliază linia de furnizor a unei plăți directe (supplier_payment) cu datoriile
+        deschise ale aceluiași furnizor pe același cont (ca o plată: stinge facturile existente).
+        Dacă furnizorul nu are datorii deschise, linia rămâne deschisă (avans către furnizor)."""
+        settle_payable.ensure_one()
+        open_lines = self.env["account.move.line"].search(
+            [
+                ("partner_id", "=", settle_payable.partner_id.id),
+                ("account_id", "=", settle_payable.account_id.id),
+                ("parent_state", "=", "posted"),
+                ("reconciled", "=", False),
+                ("balance", "<", 0.0),  # datorii deschise (credit furnizor)
+                ("id", "!=", settle_payable.id),
+            ]
+        )
+        if open_lines:
+            (settle_payable | open_lines).reconcile()
 
     def validate_expenses(self):
         # poate ar fi bine daca  bonurile fiscale de la acelasi furnizor sa fie unuite intr-o singura chitanta.
@@ -484,10 +510,15 @@ class DeltatechExpensesDeduction(models.Model):
                     }
                     vouchers |= self.env["account.move"].create(voucher_value)
                 else:
-                    # plată directă către furnizor din avans (fără chitanță)
-                    self._create_advance_settlement(
+                    # plată directă către furnizor din avans (fără chitanță): Dr 401 = Cr 542,
+                    # apoi se reconciliază cu datoriile deschise ale furnizorului (ca o plată)
+                    settle = self._create_advance_settlement(
                         expenses, partner_id, line.tax_amount + line.price_subtotal, line.date, name
                     )
+                    settle_payable = settle.line_ids.filtered(
+                        lambda aml: aml.account_id.account_type == "liability_payable"
+                    )
+                    self._reconcile_supplier_payment(settle_payable)
 
             vouchers.action_post()
 

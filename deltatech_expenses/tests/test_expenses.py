@@ -335,6 +335,55 @@ class TestExpenses(TransactionCase):
         self.assertFalse(expense.expenses_deduction_id)
         self.assertIn(expense, deduction._eligible_hr_expenses())
 
+    def test_supplier_payment_reconciles_open_bill(self):
+        """Linia 'supplier_payment' stinge o factură furnizor deschisă din avans (reconciliere)."""
+        bill = self.env["account.move"].create(
+            {
+                "move_type": "in_invoice",
+                "partner_id": self.supplier.id,
+                "invoice_date": fields.Date.today(),
+                "journal_id": self.purchase_journal.id,
+                "invoice_line_ids": [
+                    (
+                        0,
+                        0,
+                        {"name": "Marfă", "price_unit": 100.0, "account_id": self.acc_exp.id, "tax_ids": [(6, 0, [])]},
+                    )
+                ],
+            }
+        )
+        bill.action_post()
+        self.assertEqual(bill.payment_state, "not_paid")
+
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "advance": 100.0,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        deduction.validate_advance()
+        self.env["deltatech.expenses.deduction.line"].create(
+            {
+                "expenses_deduction_id": deduction.id,
+                "name": "Plată furnizor",
+                "amount": 100.0,
+                "type": "supplier_payment",
+                "partner_id": self.supplier.id,
+                "expense_account_id": self.acc_exp.id,
+            }
+        )
+        deduction.validate_expenses()
+        self.assertEqual(deduction.state, "done")
+        # factura furnizor este stinsă din avans, iar contul 542 se închide
+        self.assertIn(bill.payment_state, ("paid", "in_payment", "reversed"))
+        lines_542 = self._lines_for_expenses(deduction).filtered(lambda l: l.account_id.id == self.acc_542.id)
+        self.assertAlmostEqual(sum(lines_542.mapped("debit")), sum(lines_542.mapped("credit")), places=2)
+
     def test_hr_expense_linked_to_deduction_not_posted(self):
         """O cheltuială hr.expense legată de un decont nu generează note contabile standard."""
         expenses = self.env["deltatech.expenses.deduction"].create(
