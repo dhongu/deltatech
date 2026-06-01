@@ -4,7 +4,7 @@
 {
     "name": "Mail Substitution",
     "summary": "Mail Substitution",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Productivity/Discuss",
