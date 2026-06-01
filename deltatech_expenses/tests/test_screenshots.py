@@ -105,7 +105,7 @@ class TestExpensesScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obje
                     "name": "Bilet avion București-Cluj",
                     "employee_id": cls.employee.id,
                     "product_id": product.id,
-                    "total_amount": 484.0,
+                    "total_amount_currency": 484.0,
                     "tax_ids": [(6, 0, cls.tax.ids)] if cls.tax else False,
                     "account_id": cls.acc_625.id,
                 }

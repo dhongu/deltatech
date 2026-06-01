@@ -88,19 +88,33 @@ class TestExpenses(TransactionCase):
         if cls.company.country_id != cls.ro_country:
             cls.company.country_id = cls.ro_country.id
 
-        # Tax 21% price included
-        tax_group = cls.env["account.tax.group"].search([("company_id", "=", cls.company.id)], limit=1)
-        if not tax_group:
-            tax_group = cls.env["account.tax.group"].create({"name": "TVA", "company_id": cls.company.id})
+        # Tax 21% price included (price_include e calculat din price_include_override)
+        cls.tax_group = cls.env["account.tax.group"].search([("company_id", "=", cls.company.id)], limit=1)
+        if not cls.tax_group:
+            cls.tax_group = cls.env["account.tax.group"].create({"name": "TVA", "company_id": cls.company.id})
+        # Taxa standard a modulului: TVA „pe deasupra" (price-excluded) — voucher-ul adaugă TVA peste net
+        cls.tax_21 = cls.env["account.tax"].create(
+            {
+                "name": "TVA 21",
+                "amount": 21.0,
+                "amount_type": "percent",
+                "price_include_override": "tax_excluded",
+                "type_tax_use": "purchase",
+                "company_id": cls.company.id,
+                "tax_group_id": cls.tax_group.id,
+                "country_id": cls.ro_country.id,
+            }
+        )
+        # Taxă cu TVA inclus (pentru testarea ramurii de import „brut")
         cls.tax_incl_21 = cls.env["account.tax"].create(
             {
                 "name": "TVA 21 incl",
                 "amount": 21.0,
                 "amount_type": "percent",
-                "price_include": True,
+                "price_include_override": "tax_included",
                 "type_tax_use": "purchase",
                 "company_id": cls.company.id,
-                "tax_group_id": tax_group.id,
+                "tax_group_id": cls.tax_group.id,
                 "country_id": cls.ro_country.id,
             }
         )
@@ -153,7 +167,7 @@ class TestExpenses(TransactionCase):
                 "name": "Masa de protocol",
                 "employee_id": self.employee.id,
                 "product_id": product.id,
-                "total_amount": 121.0,
+                "total_amount_currency": 121.0,
                 "tax_ids": [(6, 0, [self.tax_incl_21.id])],
                 "account_id": self.acc_exp.id,
             }
@@ -172,7 +186,10 @@ class TestExpenses(TransactionCase):
         self.assertEqual(len(deduction.expenses_line_ids), 1)
         line = deduction.expenses_line_ids
         self.assertEqual(line.name, expense.name)
+        # TVA inclus => în linie intră brutul; subtotalul rămâne netul
         self.assertAlmostEqual(line.amount, 121.0, places=2)
+        self.assertAlmostEqual(line.price_subtotal, 100.0, places=2)
+        self.assertAlmostEqual(line.tax_amount, 21.0, places=2)
         self.assertEqual(line.tax_ids, self.tax_incl_21)
         self.assertEqual(expense.expenses_deduction_id, deduction)
         self.assertEqual(line.hr_expense_id, expense)
@@ -183,6 +200,56 @@ class TestExpenses(TransactionCase):
         line.unlink()
         self.assertFalse(expense.expenses_deduction_id)
         self.assertIn(expense, deduction._eligible_hr_expenses())
+
+    def test_import_non_price_include_tax(self):
+        """La import, o cheltuială cu TVA 'pe deasupra' (non-price-include) este mapată corect:
+        subtotalul liniei = netul, TVA-ul = TVA-ul cheltuielii, totalul = brutul."""
+        tax_excl = self.env["account.tax"].create(
+            {
+                "name": "TVA 21 excl",
+                "amount": 21.0,
+                "amount_type": "percent",
+                "price_include_override": "tax_excluded",
+                "type_tax_use": "purchase",
+                "company_id": self.company.id,
+                "tax_group_id": self.tax_group.id,
+                "country_id": self.ro_country.id,
+            }
+        )
+        self.assertFalse(tax_excl.price_include)
+
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        product = self.env["product.product"].create({"name": "Cheltuiala", "can_be_expensed": True, "type": "consu"})
+        expense = self.env["hr.expense"].create(
+            {
+                "name": "Servicii",
+                "employee_id": self.employee.id,
+                "product_id": product.id,
+                "total_amount_currency": 121.0,  # brut (TVA inclus în total_amount)
+                "tax_ids": [(6, 0, tax_excl.ids)],
+                "account_id": self.acc_exp.id,
+            }
+        )
+        # cu TVA 'pe deasupra', hr.expense desface brutul: net 100 + TVA 21
+        self.assertAlmostEqual(expense.untaxed_amount, 100.0, places=2)
+        self.assertAlmostEqual(expense.tax_amount, 21.0, places=2)
+
+        deduction._import_hr_expenses(expense)
+        line = deduction.expenses_line_ids
+        self.assertAlmostEqual(line.amount, 100.0, places=2)  # netul, nu brutul
+        self.assertAlmostEqual(line.price_subtotal, 100.0, places=2)
+        self.assertAlmostEqual(line.tax_amount, 21.0, places=2)
+        # totalul recompus pe decont = brutul cheltuielii (fără umflare)
+        self.assertAlmostEqual(deduction.amount_vouchers, 121.0, places=2)
 
     def test_import_multiple_hr_expenses_from_list(self):
         """Din lista de cheltuieli: mai multe cheltuieli selectate sunt trimise într-un decont ales."""
@@ -204,7 +271,7 @@ class TestExpenses(TransactionCase):
                     "name": label,
                     "employee_id": self.employee.id,
                     "product_id": product.id,
-                    "total_amount": amount,
+                    "total_amount_currency": amount,
                     "account_id": self.acc_exp.id,
                 }
             )
@@ -223,6 +290,50 @@ class TestExpenses(TransactionCase):
 
         self.assertEqual(len(deduction.expenses_line_ids), 3)
         self.assertEqual(expenses.mapped("expenses_deduction_id"), deduction)
+
+    def test_invalidate_frees_imported_hr_expense(self):
+        """La invalidarea decontului, liniile importate din hr.expense se șterg și cheltuielile
+        sunt eliberate (redevin disponibile pentru fluxul standard / o nouă preluare)."""
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "advance": 200.0,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        deduction.validate_advance()
+        product = self.env["product.product"].create(
+            {"name": "Cheltuiala HR", "can_be_expensed": True, "type": "consu"}
+        )
+        expense = self.env["hr.expense"].create(
+            {
+                "name": "Cazare delegație",
+                "employee_id": self.employee.id,
+                "product_id": product.id,
+                "total_amount_currency": 121.0,
+                "tax_ids": [(6, 0, [self.tax_21.id])],
+                "account_id": self.acc_exp.id,
+                "vendor_id": self.supplier.id,
+            }
+        )
+        expense.approval_state = "approved"
+        deduction._import_hr_expenses(expense)
+        self.assertEqual(expense.expenses_deduction_id, deduction)
+        self.assertTrue(deduction.expenses_line_ids.filtered("hr_expense_id"))
+
+        deduction.validate_expenses()
+        self.assertEqual(deduction.state, "done")
+
+        deduction.invalidate_expenses()
+        self.assertEqual(deduction.state, "draft")
+        # linia importată a fost ștearsă, iar cheltuiala este eliberată și redevine eligibilă
+        self.assertFalse(deduction.expenses_line_ids.filtered("hr_expense_id"))
+        self.assertFalse(expense.expenses_deduction_id)
+        self.assertIn(expense, deduction._eligible_hr_expenses())
 
     def test_hr_expense_linked_to_deduction_not_posted(self):
         """O cheltuială hr.expense legată de un decont nu generează note contabile standard."""
@@ -243,7 +354,7 @@ class TestExpenses(TransactionCase):
                 "name": "Cazare hr",
                 "employee_id": self.employee.id,
                 "product_id": product.id,
-                "total_amount": 100.0,
+                "total_amount_currency": 100.0,
                 "expenses_deduction_id": expenses.id,
             }
         )
@@ -315,7 +426,7 @@ class TestExpenses(TransactionCase):
                 "expenses_deduction_id": expenses.id,
                 "name": "Cazare",
                 "amount": 500.0,
-                "tax_ids": [(6, 0, [self.tax_incl_21.id])],
+                "tax_ids": [(6, 0, [self.tax_21.id])],
                 "expense_account_id": self.acc_exp.id,
                 "partner_id": self.supplier.id,
             }
@@ -325,7 +436,7 @@ class TestExpenses(TransactionCase):
                 "expenses_deduction_id": expenses.id,
                 "name": "Transport",
                 "amount": 300.0,
-                "tax_ids": [(6, 0, [self.tax_incl_21.id])],
+                "tax_ids": [(6, 0, [self.tax_21.id])],
                 "expense_account_id": self.acc_exp.id,
                 "partner_id": self.supplier.id,
             }

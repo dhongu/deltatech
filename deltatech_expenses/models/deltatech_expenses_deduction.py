@@ -257,6 +257,11 @@ class DeltatechExpensesDeduction(models.Model):
 
             # anulare postare chitante.
 
+            # eliberăm cheltuielile hr.expense preluate: ștergem liniile importate, iar override-ul
+            # unlink dezleagă cheltuiala (expenses_deduction_id=False), redevenind disponibilă pentru
+            # fluxul standard sau o nouă preluare. Liniile introduse manual rămân pentru re-validare.
+            expenses.expenses_line_ids.filtered("hr_expense_id").unlink()
+
         # todo: de facut cancel dupa expenses_line_ids
         # for expenses in self:
         #    expenses.line_ids.cancel_voucher()
@@ -291,13 +296,20 @@ class DeltatechExpensesDeduction(models.Model):
         line_model = self.env["deltatech.expenses.deduction.line"]
         expenses = expenses.filtered(lambda e: not e.expenses_deduction_id)
         for expense in expenses:
+            # Linia de decont interpretează `amount` conform flag-ului price_include al taxelor
+            # (compute_all pe aceleași taxe). Pentru taxe „TVA inclus" trimitem brutul, pentru taxe
+            # „pe deasupra" (non-price-include) trimitem netul, ca subtotalul + TVA-ul să corespundă
+            # exact cu cheltuiala hr.expense.
+            taxes = expense.tax_ids
+            price_include = bool(taxes) and all(taxes.mapped("price_include"))
+            line_amount = expense.total_amount if price_include else expense.untaxed_amount
             line_model.create(
                 {
                     "expenses_deduction_id": self.id,
                     "hr_expense_id": expense.id,
                     "name": expense.name,
                     "date": expense.date,
-                    "amount": expense.total_amount,
+                    "amount": line_amount,
                     "tax_ids": [(6, 0, expense.tax_ids.ids)],
                     "partner_id": expense.vendor_id.id,
                     "expense_account_id": expense.account_id.id,

@@ -80,7 +80,9 @@ aprobate, fără notă contabilă proprie și nelegate de alt decont.
 Puteți **selecta mai multe cheltuieli** dintr-o dată — toate devin linii în decontul curent.
 
 La confirmare, fiecare cheltuială selectată devine o **linie de decont** (cu suma, TVA-ul, furnizorul
-și contul de cheltuială preluate din `hr.expense`) și este **legată** de decont. Pe cheltuiala
+și contul de cheltuială preluate din `hr.expense`) și este **legată** de decont. TVA-ul este mapat
+corect indiferent de configurarea taxei (TVA inclus în preț sau „pe deasupra"), astfel încât netul și
+TVA-ul liniei corespund exact cu cheltuiala originală. Pe cheltuiala
 `hr.expense` apare un banner care indică decontul, iar butoanele de postare standard sunt ascunse —
 astfel **nu se mai contabilizează și din `hr_expense`**, evitând dublarea cheltuielii.
 
@@ -97,6 +99,10 @@ astfel **nu se mai contabilizează și din `hr_expense`**, evitând dublarea che
 > **Notă contabilă la acest pas:** preluarea **nu** generează nicio notă contabilă — doar adaugă
 > liniile în decont. Cheltuielile se contabilizează abia la **validarea decontului** (Pasul 3),
 > împreună cu celelalte linii.
+
+> **Reversibilitate:** la **invalidarea** unui decont (butonul „Invalidare"), liniile preluate din
+> `hr.expense` se șterg automat, iar cheltuielile respective sunt **eliberate** — redevin disponibile
+> pentru fluxul standard sau pentru o nouă preluare. Liniile introduse manual rămân pentru re-validare.
 
 ### Pasul 3 — Introducerea cheltuielilor și validarea decontului
 
