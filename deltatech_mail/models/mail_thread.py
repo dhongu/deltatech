@@ -4,6 +4,8 @@
 
 import logging
 
+from markupsafe import Markup
+
 from odoo import models
 
 _logger = logging.getLogger(__name__)
@@ -19,4 +21,5 @@ class MailThread(models.AbstractModel):
         for sub in body_subs:
             if isinstance(body, str):
                 body = str(body).replace(str(sub.body_part), str(sub.substitution))
+                body = Markup(body)
         return super().message_post(body=body, **kwargs)
