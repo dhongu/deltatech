@@ -21,6 +21,12 @@
                         class="oe_highlight"
                         type="object"
                     />
+                    <button
+                        name="action_open_import_hr_expenses"
+                        string="Preia cheltuieli HR"
+                        invisible="state not in ('draft', 'advance')"
+                        type="object"
+                    />
                     <button name="invalidate_expenses" string="Invalidate" invisible="state != 'done'" type="object" />
                     <!-- <button name="cancel_expenses" string="Cancel" states="draft" type="object" />  -->
                     <field
@@ -48,7 +54,7 @@
 
                     <group>
                         <group>
-                            <field name="employee_id" domain="[('is_company','=',False)]" readonly="state != 'draft'" />
+                            <field name="employee_id" readonly="state != 'draft'" />
                         </group>
                         <group>
                             <field name="journal_id" widget="selection" readonly="state != 'draft'" />
@@ -231,7 +237,7 @@
                 <field name="date_expense" />
                 <filter name="state_new" domain="[('state','=','draft')]" string="New" help="New Expenses Deduction" />
                 <separator/>
-                <filter name="my_expenses" domain="[('employee_id', '=', uid)]" string="My Expenses" />
+                <filter name="my_expenses" domain="[('employee_id.user_id', '=', uid)]" string="My Expenses" />
                 <group>
                     <filter name="group_by_employee" string="Employee" domain="[]" context="{'group_by':'employee_id'}" />
                     <filter name="group_by_month" string="Month" domain="[]" context="{'group_by':'date_expense'}" />
