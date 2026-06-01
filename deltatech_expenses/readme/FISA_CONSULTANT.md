@@ -106,9 +106,18 @@ astfel **nu se mai contabilizează și din `hr_expense`**, evitând dublarea che
 
 ### Pasul 3 — Introducerea cheltuielilor și validarea decontului
 
-Adăugați liniile de cheltuieli (furnizor, sumă cu TVA inclus, cont de cheltuială). La **Validează**,
-decontul trece în starea „Efectuat": modulul generează chitanțele de achiziție, notele de decontare
-din avans, nota de diurnă și nota de diferență, închizând soldul contului 542.
+Adăugați liniile de cheltuieli (furnizor, sumă cu TVA inclus, cont de cheltuială). Fiecare linie are
+un **tip**:
+
+- **Cheltuieli** — justificată cu bon/factură; la validare se generează o **chitanță de achiziție** și
+  decontarea din avans (vezi mai jos);
+- **Plată furnizor** — angajatul a achitat direct o datorie a firmei către un furnizor (fără chitanță
+  proprie); la validare se generează doar nota `Dr 401 = Cr 542`, care se **reconciliază cu facturile
+  furnizor deschise** ale aceluiași furnizor (stinge datoria, ca o plată). Dacă furnizorul nu are
+  datorii deschise, suma rămâne ca avans către furnizor.
+
+La **Validează**, decontul trece în starea „Efectuat": modulul generează chitanțele de achiziție,
+notele de decontare din avans, nota de diurnă și nota de diferență, închizând soldul contului 542.
 
 ![Decontul validat (starea „Efectuat")](screenshots/06_decont_validat.png)
 
@@ -122,9 +131,11 @@ chitanța de achiziție.
 
 - **Acordare avans** (Pasul 1): **Dr 542 = Cr 5311/5121** (suma avansului);
 - **Preluare cheltuială HR** (Pasul 2): *nicio notă* — doar se adaugă linia în decont;
-- **Decontare cheltuieli** (Pasul 3, la validare), în două note pe cheltuială:
+- **Decontare cheltuieli** (Pasul 3, la validare), pentru liniile de tip „Cheltuieli", în două note:
   - chitanța de achiziție: **Dr 6xx + Dr 4426 = Cr 401** (cheltuială fără TVA + TVA deductibil);
   - decontarea din avans: **Dr 401 = Cr 542** (reconciliată cu chitanța);
+- **Plată furnizor** (Pasul 3, liniile de tip „Plată furnizor"): **Dr 401 = Cr 542**, reconciliată cu
+  facturile furnizor deschise;
 - **Diurnă** (la validare): **Dr 625 = Cr 542** (totalul diurnei);
 - **Diferență** (la validare): **Dr/Cr 5311 = Cr/Dr 542**, astfel încât soldul 542 al angajatului
   devine **zero**.
@@ -167,6 +178,7 @@ Ce rămâne manual: configurarea jurnalelor/conturilor și verificarea soldului 
 | Contul 542 nu se închide | Jurnalul de cheltuieli nu are contul implicit 542 | Setați contul implicit 542 pe jurnalul de cheltuieli |
 | Nu pot prelua cheltuieli HR | Decontul nu este în Ciornă/Avans, sau cheltuielile nu sunt eligibile | Aduceți decontul în Ciornă/Avans; verificați că cheltuielile sunt aprobate și nelegate |
 | Cheltuiala standard „nu se postează" | Este legată de un decont (`expenses_deduction_id`) | Comportament intenționat — contabilizarea se face prin decont |
+| „Furnizorul ... nu are un cont de datorii (401)" | Linie „Plată furnizor" cu un furnizor fără cont de plătit configurat | Completați „Cont de plătit" pe fișa furnizorului |
 
 ## 10. Capturi de ecran
 
