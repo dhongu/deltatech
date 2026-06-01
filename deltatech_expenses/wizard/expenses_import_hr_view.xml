@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_expenses_import_hr_form" model="ir.ui.view">
+        <field name="name">deltatech.expenses.import.hr.form</field>
+        <field name="model">deltatech.expenses.import.hr</field>
+        <field name="arch" type="xml">
+            <form string="Preia cheltuieli HR">
+                <group>
+                    <field name="employee_id" string="Angajat" readonly="1" />
+                    <field
+                        name="expenses_deduction_id"
+                        string="Decont de cheltuieli"
+                        required="1"
+                        domain="[('employee_id', '=', employee_id), ('state', 'in', ('draft', 'advance'))]"
+                        options="{'no_create': True}"
+                    />
+                </group>
+                <field name="expense_ids" nolabel="1">
+                    <list>
+                        <field name="date" />
+                        <field name="name" />
+                        <field name="vendor_id" />
+                        <field name="total_amount" />
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_import" string="Preia" type="object" class="btn-primary" />
+                    <button string="Renunță" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acțiune contextuală pe lista de cheltuieli: trimite cheltuielile selectate într-un decont ales -->
+    <record id="action_add_expenses_to_deduction" model="ir.actions.act_window">
+        <field name="name">Adaugă în decont de cheltuieli</field>
+        <field name="res_model">deltatech.expenses.import.hr</field>
+        <field name="binding_model_id" ref="hr_expense.model_hr_expense" />
+        <field name="binding_view_types">list</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

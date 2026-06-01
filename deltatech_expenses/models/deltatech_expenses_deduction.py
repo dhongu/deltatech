@@ -82,12 +82,16 @@ class DeltatechExpensesDeduction(models.Model):
     company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)
 
     employee_id = fields.Many2one(
-        "res.partner",
+        "hr.employee",
         string="Employee",
         required=True,
-        # readonly=True,
-        # states={"draft": [("readonly", False)]},
-        domain=[("is_company", "=", False)],
+    )
+    partner_id = fields.Many2one(
+        "res.partner",
+        string="Employee Partner",
+        related="employee_id.work_contact_id",
+        store=True,
+        help="Partenerul asociat angajatului (work_contact_id), folosit pentru notele contabile.",
     )
 
     expenses_line_ids = fields.One2many(
@@ -264,6 +268,61 @@ class DeltatechExpensesDeduction(models.Model):
 
         return True
 
+    def _eligible_hr_expenses(self):
+        """Cheltuielile hr.expense ale angajatului care pot fi preluate în decont:
+        aprobate/depuse, fără notă contabilă proprie și nelegate de alt decont."""
+        self.ensure_one()
+        if not self.employee_id:
+            return self.env["hr.expense"]
+        return self.env["hr.expense"].search(
+            [
+                ("employee_id", "=", self.employee_id.id),
+                ("company_id", "=", self.company_id.id),
+                ("expenses_deduction_id", "=", False),
+                ("state", "in", ("submitted", "approved")),
+                ("account_move_id", "=", False),
+            ]
+        )
+
+    def _import_hr_expenses(self, expenses):
+        """Creează linii de decont din cheltuielile hr.expense date și le leagă de decont
+        (setând expenses_deduction_id), astfel încât contabilizarea să se facă doar aici."""
+        self.ensure_one()
+        line_model = self.env["deltatech.expenses.deduction.line"]
+        expenses = expenses.filtered(lambda e: not e.expenses_deduction_id)
+        for expense in expenses:
+            line_model.create(
+                {
+                    "expenses_deduction_id": self.id,
+                    "hr_expense_id": expense.id,
+                    "name": expense.name,
+                    "date": expense.date,
+                    "amount": expense.total_amount,
+                    "tax_ids": [(6, 0, expense.tax_ids.ids)],
+                    "partner_id": expense.vendor_id.id,
+                    "expense_account_id": expense.account_id.id,
+                    "analytic_distribution": expense.analytic_distribution,
+                    "type": "expenses",
+                    "currency_id": expense.currency_id.id,
+                }
+            )
+        if expenses:
+            expenses.sudo().write({"expenses_deduction_id": self.id})
+        return True
+
+    def action_open_import_hr_expenses(self):
+        self.ensure_one()
+        if self.state not in ("draft", "advance"):
+            raise UserError(self.env._("Cheltuielile pot fi preluate doar într-un decont în starea Draft sau Advance."))
+        return {
+            "type": "ir.actions.act_window",
+            "name": self.env._("Preia cheltuieli HR"),
+            "res_model": "deltatech.expenses.import.hr",
+            "view_mode": "form",
+            "target": "new",
+            "context": {"default_expenses_deduction_id": self.id},
+        }
+
     def validate_advance(self):
         for expenses in self:
             if not expenses.number or expenses.number == "/":
@@ -279,7 +338,7 @@ class DeltatechExpensesDeduction(models.Model):
                 # values = {
                 #     "amount": -expenses.advance,
                 #     "date": expenses.date_advance,
-                #     "partner_id": expenses.employee_id.id,
+                #     "partner_id": expenses.partner_id.id,
                 #     "statement_id": statement.id,
                 #     "journal_id": expenses.journal_id.id,
                 #     "ref": expenses.number,
@@ -297,13 +356,13 @@ class DeltatechExpensesDeduction(models.Model):
                 }
                 value_lines = [
                     {
-                        "partner_id": expenses.employee_id.id,
+                        "partner_id": expenses.partner_id.id,
                         "account_id": account.id,
                         "name": self.env._("Avans"),
                         "debit": expenses.advance,
                     },
                     {
-                        "partner_id": expenses.employee_id.id,
+                        "partner_id": expenses.partner_id.id,
                         "account_id": expenses.journal_id.default_account_id.id,
                         "name": self.env._("Avans"),
                         "credit": expenses.advance,
@@ -314,6 +373,51 @@ class DeltatechExpensesDeduction(models.Model):
                 move._post()
 
             expenses.write({"state": "advance", "number": name})
+
+    def _create_advance_settlement(self, expenses, partner, amount, date, ref, payable_account=None):
+        """Notă de decontare a cheltuielii din avans: Dr cont furnizor (401) = Cr 542.
+
+        În Odoo 19 nu se folosește `account.payment` pentru această operațiune: jurnalul de avans
+        este de tip „general" (fără metode de plată), iar o plată pe casă ar dubla mișcarea de
+        numerar (avansul a ieșit deja din casă). Nota se reconciliază cu chitanța de achiziție.
+        """
+        if not payable_account:
+            payable_account = partner.with_company(expenses.company_id).property_account_payable_id
+        account_542 = expenses.expense_journal_id.default_account_id
+        move = self.env["account.move"].create(
+            {
+                "journal_id": expenses.expense_journal_id.id,
+                "date": date or expenses.date_expense,
+                "ref": ref,
+                "expenses_deduction_id": expenses.id,
+                "line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "partner_id": partner.id,
+                            "account_id": payable_account.id,
+                            "name": self.env._("Decontare avans"),
+                            "debit": amount,
+                            "credit": 0.0,
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "partner_id": partner.id,
+                            "account_id": account_542.id,
+                            "name": self.env._("Decontare avans"),
+                            "debit": 0.0,
+                            "credit": amount,
+                        },
+                    ),
+                ],
+            }
+        )
+        move._post()
+        return move
 
     def validate_expenses(self):
         # poate ar fi bine daca  bonurile fiscale de la acelasi furnizor sa fie unuite intr-o singura chitanta.
@@ -331,7 +435,6 @@ class DeltatechExpensesDeduction(models.Model):
             name = expenses.number
             expenses_vals = {"state": "done", "number": name}
             vouchers = self.env["account.move"]
-            payments = self.env["account.payment"]
 
             # reconcile = self.env['account.full.reconcile'].create({'name':name})
 
@@ -368,48 +471,32 @@ class DeltatechExpensesDeduction(models.Model):
                         ],
                     }
                     vouchers |= self.env["account.move"].create(voucher_value)
-                payment_methods = expenses.journal_id.outbound_payment_method_line_ids
+                else:
+                    # plată directă către furnizor din avans (fără chitanță)
+                    self._create_advance_settlement(
+                        expenses, partner_id, line.tax_amount + line.price_subtotal, line.date, name
+                    )
 
-                payment_value = {
-                    "payment_type": "outbound",
-                    "date": line.date,
-                    "partner_type": "supplier",
-                    "partner_id": partner_id.id,
-                    "journal_id": expenses.expense_journal_id.id,
-                    "payment_method_id": payment_methods and payment_methods[0].id or False,
-                    "amount": line.tax_amount + line.price_subtotal,
-                    "expenses_deduction_id": expenses.id,
-                }
-                payments |= self.env["account.payment"].create(payment_value)
-            # vouchers.with_context(expenses_deduction_id=expenses.id).proforma_voucher()  # validare
             vouchers.action_post()
 
-            for payment in payments:
-                for payment_line in payment.move_id.line_ids:
-                    if payment_line.account_id == self.company_id.account_journal_payment_credit_account_id:
-                        # (
-                        #     payment.journal_id.default_account_id,
-                        #     # payment.journal_id.payment_debit_account_id,
-                        #     # payment.journal_id.payment_credit_account_id,
-                        # ):
-                        payment_line.account_id = expenses.expense_journal_id.default_account_id
-            # payments.with_context(add_statement_line=False).action_post()
-            payments.with_context().action_post()
-
-            move_lines = self.env["account.move.line"]
+            # Decontarea cheltuielilor: pentru fiecare chitanță, notă directă Dr 401 = Cr 542,
+            # reconciliată cu linia furnizor a chitanței (închide datoria către furnizor din avans).
             for voucher in vouchers:
-                for aml in voucher.line_ids:
-                    if aml.account_id.account_type == "liability_payable":
-                        move_lines |= aml
+                for payable in voucher.line_ids.filtered(
+                    lambda aml: aml.account_id.account_type == "liability_payable"
+                ):
+                    settle = self._create_advance_settlement(
+                        expenses,
+                        payable.partner_id,
+                        payable.credit,
+                        voucher.date,
+                        name,
+                        payable_account=payable.account_id,
+                    )
+                    settle_payable = settle.line_ids.filtered(lambda aml: aml.account_id == payable.account_id)
+                    (payable | settle_payable).reconcile()
 
-            for payment in payments:
-                for aml in payment.move_id.line_ids:
-                    if aml.account_id.account_type == "liability_payable":
-                        move_lines |= aml
-
-            move_lines.reconcile()
-
-            # change state for vouchers without residual. If not in statement, remains "in_payment"
+            # marchează chitanțele fără sold drept plătite
             vouchers.set_paid()
 
             # Create the account move record.
@@ -422,13 +509,13 @@ class DeltatechExpensesDeduction(models.Model):
                 if expenses.difference < 0:
                     value_lines = [
                         {
-                            "partner_id": expenses.employee_id.id,
+                            "partner_id": expenses.partner_id.id,
                             "account_id": account.id,
                             "name": self.env._("Deferenta Avans"),
                             "credit": amount,
                         },
                         {
-                            "partner_id": expenses.employee_id.id,
+                            "partner_id": expenses.partner_id.id,
                             "account_id": expenses.journal_id.default_account_id.id,
                             "name": self.env._("Deferenta Avans"),
                             "debit": amount,
@@ -437,13 +524,13 @@ class DeltatechExpensesDeduction(models.Model):
                 else:
                     value_lines = [
                         {
-                            "partner_id": expenses.employee_id.id,
+                            "partner_id": expenses.partner_id.id,
                             "account_id": account.id,
                             "name": self.env._("Deferenta Avans"),
                             "debit": amount,
                         },
                         {
-                            "partner_id": expenses.employee_id.id,
+                            "partner_id": expenses.partner_id.id,
                             "account_id": expenses.journal_id.default_account_id.id,
                             "name": self.env._("Deferenta Avans"),
                             "credit": amount,
@@ -467,7 +554,7 @@ class DeltatechExpensesDeduction(models.Model):
                     "credit": 0.0,
                     "account_id": expenses.account_diem_id.id,
                     "journal_id": expenses.journal_diem_id.id,
-                    "partner_id": expenses.employee_id.id,
+                    "partner_id": expenses.partner_id.id,
                     "date": expenses.date_expense,
                     "date_maturity": expenses.date_expense,
                 }
@@ -477,7 +564,7 @@ class DeltatechExpensesDeduction(models.Model):
                     "credit": expenses.total_diem,
                     "account_id": expenses.expense_journal_id.default_account_id.id,  # 542
                     "journal_id": expenses.journal_diem_id.id,
-                    "partner_id": expenses.employee_id.id,
+                    "partner_id": expenses.partner_id.id,
                     "date": expenses.date_expense,
                     "date_maturity": expenses.date_expense,
                 }
@@ -538,6 +625,13 @@ class DeltatechExpensesDeductionLine(models.Model):
         return account
 
     expenses_deduction_id = fields.Many2one("deltatech.expenses.deduction", string="Expenses Deduction", required=False)
+    hr_expense_id = fields.Many2one(
+        "hr.expense",
+        string="HR Expense",
+        copy=False,
+        readonly=True,
+        help="Cheltuiala hr.expense din care a fost preluată această linie.",
+    )
     date = fields.Date("Date", index=True, copy=False, default=fields.Date.context_today)
     name = fields.Text(string="Reference", required=True)
     tax_ids = fields.Many2many("account.tax", string="Tax", help="Only for tax excluded from price")
@@ -584,3 +678,11 @@ class DeltatechExpensesDeductionLine(models.Model):
                 price_subtotal = tax_info["total_excluded"]
             expenses.tax_amount = tax_amount
             expenses.price_subtotal = price_subtotal
+
+    def unlink(self):
+        # eliberăm cheltuielile hr.expense preluate, ca să nu rămână blocate de la postarea standard
+        linked_expenses = self.mapped("hr_expense_id")
+        res = super().unlink()
+        if linked_expenses:
+            linked_expenses.sudo().write({"expenses_deduction_id": False})
+        return res
