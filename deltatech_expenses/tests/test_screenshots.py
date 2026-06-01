@@ -14,6 +14,7 @@
 #   ./odoo/odoo-bin -c odoo.conf -d <db> -u deltatech_expenses -i l10n_ro_doc_screenshots \
 #       --test-tags=fise_screenshots --stop-after-init
 import logging
+import unittest
 
 from odoo import fields
 from odoo.tests import tagged
@@ -35,6 +36,10 @@ class TestExpensesScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obje
     @classmethod
     @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls):
+        # tooling-ul de capturi (l10n_ro_doc_screenshots) poate lipsi de pe disc (alt repo) —
+        # în acest caz sărim întreaga clasă, nu o lăsăm să cadă pe `object`
+        if ScreenshotCase is None:
+            raise unittest.SkipTest("l10n_ro_doc_screenshots indisponibil; capturile fișei se sar")
         super().setUpClass()
         cls.prepare_ro_company(name="Demo Deconturi SRL")  # RON, drepturi contabile + limba RO
         company = cls.env.company

@@ -88,10 +88,10 @@ class TestExpenses(TransactionCase):
         if cls.company.country_id != cls.ro_country:
             cls.company.country_id = cls.ro_country.id
 
-        # Tax 21% price included (price_include e calculat din price_include_override)
-        cls.tax_group = cls.env["account.tax.group"].search([("company_id", "=", cls.company.id)], limit=1)
-        if not cls.tax_group:
-            cls.tax_group = cls.env["account.tax.group"].create({"name": "TVA", "company_id": cls.company.id})
+        # grup de taxe cu aceeași țară ca taxele (validare account.tax: tax.country_id == group.country_id)
+        cls.tax_group = cls.env["account.tax.group"].create(
+            {"name": "TVA Test", "company_id": cls.company.id, "country_id": cls.ro_country.id}
+        )
         # Taxa standard a modulului: TVA „pe deasupra" (price-excluded) — voucher-ul adaugă TVA peste net
         cls.tax_21 = cls.env["account.tax"].create(
             {
