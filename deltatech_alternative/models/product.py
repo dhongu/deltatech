@@ -2,20 +2,69 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+import logging
+
 from odoo import api, fields, models
 from odoo.osv import expression
 from odoo.tools.safe_eval import safe_eval
+from odoo.tools.sql import create_index, index_exists
+
+_logger = logging.getLogger(__name__)
+
+
+def _create_trgm_index(cr, indexname, tablename, expression):
+    """Create a GIN trigram index on an ``unaccent(...)`` expression.
+
+    The website product search filters with ``unaccent(<col>) ILIKE '%...%'``.
+    A plain btree (or a trigram index built on the raw column) cannot serve
+    that predicate, so PostgreSQL falls back to a sequential scan. This helper
+    builds an index whose expression matches the search exactly.
+
+    It tolerates environments where the ``unaccent`` function is not declared
+    IMMUTABLE (creating an expression index would then fail): in that case it
+    only logs a warning instead of breaking the module install/upgrade.
+    """
+    if index_exists(cr, indexname):
+        return
+    try:
+        with cr.savepoint():
+            create_index(cr, indexname, tablename, [expression], method="gin")
+    except Exception:
+        _logger.warning(
+            "Could not create trigram index %s on %s; product search may be "
+            "slow. Make sure the 'unaccent' function is declared IMMUTABLE.",
+            indexname,
+            tablename,
+        )
 
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"
+
+    def init(self):
+        # Matches the website search predicate `unaccent(default_code) ILIKE`.
+        # The `name` field already gets a trigram index from core (index="trigram"),
+        # but `default_code` (a stored compute) has none.
+        _create_trgm_index(
+            self.env.cr,
+            "product_template_default_code_unaccent_gin",
+            "product_template",
+            "unaccent(default_code) gin_trgm_ops",
+        )
+        return super().init()
 
     alternative_code = fields.Char(
         string="Alternative Code",
         index=True,
         inverse="_inverse_alternative_code",
         compute="_compute_alternative_code",
-        # unaccent=False,
+        # NOTE: the field-level `unaccent` parameter was removed in Odoo 18.
+        # Unaccent is now decided globally per registry (registry.unaccent,
+        # based on whether the PostgreSQL `unaccent` function is installed and
+        # immutable) and applied unconditionally to every char/text `ilike`.
+        # There is no per-field opt-out; passing `unaccent=False` here would be
+        # silently ignored. To make a search accent-sensitive, override the
+        # relevant `_search`/`name_search` with custom SQL instead.
     )
     alternative_ids = fields.One2many("product.alternative", "product_tmpl_id", string="Alternatives")
 
@@ -77,6 +126,16 @@ class ProductTemplate(models.Model):
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
+    def init(self):
+        # Matches the website search predicate `unaccent(default_code) ILIKE`.
+        _create_trgm_index(
+            self.env.cr,
+            "product_product_default_code_unaccent_gin",
+            "product_product",
+            "unaccent(default_code) gin_trgm_ops",
+        )
+        return super().init()
+
     # def _name_search nu mai exista in 18.0
 
     @api.model
@@ -122,6 +181,17 @@ class ProductAlternative(models.Model):
     sequence = fields.Integer(string="sequence", default=10)
     product_tmpl_id = fields.Many2one("product.template", string="Product Template", ondelete="cascade")
     hide = fields.Boolean(string="Hide")
+
+    def init(self):
+        # Matches the website search predicate `unaccent(name) ILIKE`.
+        # A trigram index on the raw `name` column is NOT used by that filter.
+        _create_trgm_index(
+            self.env.cr,
+            "product_alternative_name_unaccent_gin",
+            "product_alternative",
+            "unaccent(name) gin_trgm_ops",
+        )
+        return super().init()
 
     @api.model
     def split_multi_codes(self):
