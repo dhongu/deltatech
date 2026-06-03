@@ -12,14 +12,16 @@ from odoo.tools.sql import create_index, index_exists
 _logger = logging.getLogger(__name__)
 
 
-def _ensure_unaccent_immutable(cr):
-    """Install the unaccent extension and (re)create its 1-arg IMMUTABLE wrapper.
+def _ensure_trgm_prerequisites(cr):
+    """Ensure pg_trgm and unaccent are installed and unaccent is IMMUTABLE.
 
-    Without an IMMUTABLE unaccent(text) function PostgreSQL refuses to build
-    expression indexes, which causes _create_trgm_index to fail silently.
-    This is commonly missing in CI databases or fresh PostgreSQL clusters.
+    Both extensions are required for the GIN trigram indexes used by the
+    website product search. They are commonly absent in CI databases or fresh
+    PostgreSQL clusters.
     """
     try:
+        with cr.savepoint():
+            cr.execute("CREATE EXTENSION IF NOT EXISTS pg_trgm")
         with cr.savepoint():
             cr.execute("CREATE EXTENSION IF NOT EXISTS unaccent")
         with cr.savepoint():
@@ -51,7 +53,7 @@ def _create_trgm_index(cr, indexname, tablename, expression):
         with cr.savepoint():
             create_index(cr, indexname, tablename, [expression], method="gin")
     except Exception:
-        if _ensure_unaccent_immutable(cr):
+        if _ensure_trgm_prerequisites(cr):
             try:
                 with cr.savepoint():
                     create_index(cr, indexname, tablename, [expression], method="gin")
