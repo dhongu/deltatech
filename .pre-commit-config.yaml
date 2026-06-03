@@ -56,7 +56,7 @@ repos:
         language: python
         files: '__manifest__\.py$'
       - id: check-module-images
-        name: Fiecare modul trebuie sa declare cheia 'images'
+        name: Fiecare modul trebuie sa aiba captura (preluata din deltatech)
         entry: scripts/check_module_images.py
         language: python
         files: '__manifest__\.py$'
