@@ -1,4 +1,5 @@
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "DeltaTech Transport Change",
     "version": "19.0.0.1.4",
     "license": "LGPL-3",

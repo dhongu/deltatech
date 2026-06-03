@@ -19,7 +19,7 @@
         "views/sale_report_view.xml",
         "data/ir_cron_data.xml",
     ],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Beta",
     "maintainers": ["VoicuStefan2001"],
