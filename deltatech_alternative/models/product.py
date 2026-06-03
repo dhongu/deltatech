@@ -12,6 +12,27 @@ from odoo.tools.sql import create_index, index_exists
 _logger = logging.getLogger(__name__)
 
 
+def _ensure_unaccent_immutable(cr):
+    """Install the unaccent extension and (re)create its 1-arg IMMUTABLE wrapper.
+
+    Without an IMMUTABLE unaccent(text) function PostgreSQL refuses to build
+    expression indexes, which causes _create_trgm_index to fail silently.
+    This is commonly missing in CI databases or fresh PostgreSQL clusters.
+    """
+    try:
+        with cr.savepoint():
+            cr.execute("CREATE EXTENSION IF NOT EXISTS unaccent")
+        with cr.savepoint():
+            cr.execute("""
+                CREATE OR REPLACE FUNCTION public.unaccent(text)
+                RETURNS text LANGUAGE sql IMMUTABLE AS
+                $$ SELECT public.unaccent('unaccent', $1) $$
+            """)
+        return True
+    except Exception:
+        return False
+
+
 def _create_trgm_index(cr, indexname, tablename, expression):
     """Create a GIN trigram index on an ``unaccent(...)`` expression.
 
@@ -20,9 +41,9 @@ def _create_trgm_index(cr, indexname, tablename, expression):
     that predicate, so PostgreSQL falls back to a sequential scan. This helper
     builds an index whose expression matches the search exactly.
 
-    It tolerates environments where the ``unaccent`` function is not declared
-    IMMUTABLE (creating an expression index would then fail): in that case it
-    only logs a warning instead of breaking the module install/upgrade.
+    If the first attempt fails (unaccent missing or not IMMUTABLE) it tries to
+    install the extension and create the IMMUTABLE wrapper, then retries once.
+    Only if that also fails does it fall back to logging a warning.
     """
     if index_exists(cr, indexname):
         return
@@ -30,6 +51,13 @@ def _create_trgm_index(cr, indexname, tablename, expression):
         with cr.savepoint():
             create_index(cr, indexname, tablename, [expression], method="gin")
     except Exception:
+        if _ensure_unaccent_immutable(cr):
+            try:
+                with cr.savepoint():
+                    create_index(cr, indexname, tablename, [expression], method="gin")
+                return
+            except Exception:
+                pass
         _logger.warning(
             "Could not create trigram index %s on %s; product search may be "
             "slow. Make sure the 'unaccent' function is declared IMMUTABLE.",
