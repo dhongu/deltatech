@@ -1,6 +1,7 @@
 ##############################################################################
 
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "Product Labels",
     "version": "19.0.1.1.4",
     "category": "Stock",

@@ -55,6 +55,11 @@ repos:
         entry: scripts/check_module_icon.py
         language: python
         files: '__manifest__\.py$'
+      - id: check-module-images
+        name: Fiecare modul trebuie sa declare cheia 'images'
+        entry: scripts/check_module_images.py
+        language: python
+        files: '__manifest__\.py$'
   - repo: https://github.com/sbidoul/whool
     rev: v1.3
     hooks:
