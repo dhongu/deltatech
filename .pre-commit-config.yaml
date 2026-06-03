@@ -50,6 +50,11 @@ repos:
         entry: found a en.po file
         language: fail
         files: '[a-zA-Z0-9_]*/i18n/en\.po$'
+      - id: check-module-icon
+        name: Fiecare modul trebuie sa aiba iconita
+        entry: scripts/check_module_icon.py
+        language: python
+        files: '__manifest__\.py$'
   - repo: https://github.com/sbidoul/whool
     rev: v1.3
     hooks:
