@@ -57,7 +57,7 @@ def _create_trgm_index(cr, indexname, tablename, expression):
                     create_index(cr, indexname, tablename, [expression], method="gin")
                 return
             except Exception:
-                pass
+                _logger.debug("Retry of trigram index %s failed after unaccent setup.", indexname, exc_info=True)
         _logger.warning(
             "Could not create trigram index %s on %s; product search may be "
             "slow. Make sure the 'unaccent' function is declared IMMUTABLE.",
