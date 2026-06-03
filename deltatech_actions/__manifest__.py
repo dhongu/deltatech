@@ -2,6 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "Deltatech Actions",
     "category": "Other",
     "summary": "Cleaning and other actions",
