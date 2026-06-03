@@ -1,4 +1,5 @@
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "Many2one Badge Widget",
     "version": "19.0.1.0.1",
     "category": "Web",
