@@ -18,7 +18,7 @@
         "views/account_move_view.xml",
         "views/sale_order_view.xml",
     ],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Production/Stable",
     "maintainers": ["VoicuStefan2001"],
