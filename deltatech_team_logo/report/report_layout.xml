@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Calculăm logo-ul raportului o singură dată, în dispecerul external_layout.
+        Toate variantele de layout (standard, striped, boxed, bold, folder, wave,
+        bubble) sunt apelate prin acest template, deci moștenesc `report_logo`.
+        Implicit folosim logo-ul firmei; dacă documentul are o echipă de vânzare
+        cu logo propriu, îl folosim pe acela.
+    -->
+    <template id="external_layout_team_logo" inherit_id="web.external_layout">
+        <xpath expr="//t[@t-if='company.external_report_layout_id']" position="before">
+            <t t-set="report_logo" t-value="company.logo"/>
+            <t t-if="o and 'team_id' in o and o.team_id and o.team_id.logo"
+               t-set="report_logo" t-value="o.team_id.logo"/>
+        </xpath>
+    </template>
+
+    <!-- Înlocuim referința company.logo cu report_logo în fiecare variantă de layout -->
+    <template id="external_layout_standard_team_logo" inherit_id="web.external_layout_standard">
+        <xpath expr="//img[@t-att-src='image_data_uri(company.logo)']" position="attributes">
+            <attribute name="t-if">report_logo</attribute>
+            <attribute name="t-att-src">image_data_uri(report_logo)</attribute>
+        </xpath>
+    </template>
+
+    <template id="external_layout_striped_team_logo" inherit_id="web.external_layout_striped">
+        <xpath expr="//img[@t-att-src='image_data_uri(company.logo)']" position="attributes">
+            <attribute name="t-if">report_logo</attribute>
+            <attribute name="t-att-src">image_data_uri(report_logo)</attribute>
+        </xpath>
+    </template>
+
+    <template id="external_layout_boxed_team_logo" inherit_id="web.external_layout_boxed">
+        <xpath expr="//img[@t-att-src='image_data_uri(company.logo)']" position="attributes">
+            <attribute name="t-if">report_logo</attribute>
+            <attribute name="t-att-src">image_data_uri(report_logo)</attribute>
+        </xpath>
+    </template>
+
+    <template id="external_layout_bold_team_logo" inherit_id="web.external_layout_bold">
+        <xpath expr="//img[@t-att-src='image_data_uri(company.logo)']" position="attributes">
+            <attribute name="t-if">report_logo</attribute>
+            <attribute name="t-att-src">image_data_uri(report_logo)</attribute>
+        </xpath>
+    </template>
+
+    <template id="external_layout_folder_team_logo" inherit_id="web.external_layout_folder">
+        <xpath expr="//img[@t-att-src='image_data_uri(company.logo)']" position="attributes">
+            <attribute name="t-if">report_logo</attribute>
+            <attribute name="t-att-src">image_data_uri(report_logo)</attribute>
+        </xpath>
+    </template>
+
+    <template id="external_layout_wave_team_logo" inherit_id="web.external_layout_wave">
+        <xpath expr="//img[@t-att-src='image_data_uri(company.logo)']" position="attributes">
+            <attribute name="t-if">report_logo</attribute>
+            <attribute name="t-att-src">image_data_uri(report_logo)</attribute>
+        </xpath>
+    </template>
+
+    <template id="external_layout_bubble_team_logo" inherit_id="web.external_layout_bubble">
+        <xpath expr="//img[@t-att-src='image_data_uri(company.logo)']" position="attributes">
+            <attribute name="t-if">report_logo</attribute>
+            <attribute name="t-att-src">image_data_uri(report_logo)</attribute>
+        </xpath>
+    </template>
+
+</odoo>
