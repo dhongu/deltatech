@@ -168,3 +168,17 @@ repos:
       - id: pylint_odoo
         args:
           - --rcfile=.pylintrc-mandatory
+
+  # Terrabit skin pentru static/description/index.html (Odoo Apps Store).
+  # Rulează DUPĂ oca-gen-addon-readme (și după prettier), tot ca job manual,
+  # ca să reîmbrace index.html-urile regenerate. Idempotent: sare fișierele
+  # deja procesate. Regenerare completă: `pre-commit run --hook-stage manual --all-files`.
+  - repo: local
+    hooks:
+      - id: tb-skin-index
+        name: Terrabit skin index.html (Apps Store)
+        entry: python3 scripts/tb_skin_index.py --addons-dir=.
+        language: system
+        stages: [manual]
+        pass_filenames: false
+        always_run: true
