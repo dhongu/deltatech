@@ -614,39 +614,33 @@ class PurchaseUblImportWizard(models.TransientModel):
                     raise UserError(_("The stock transfer cannot be validated!"))
             if picking.state == "assigned":
                 # Update header fields to mirror receipt_to_stock
-                field_notice = False
+                picking_vals = {"origin": order.partner_ref or order.name}
+                # Reset the "notice" flag if the field exists (l10n_ro or other)
                 if "notice" in self.env["stock.picking"]._fields:
-                    field_notice = "notice"
+                    picking_vals["notice"] = False
                 if "l10n_ro_notice" in self.env["stock.picking"]._fields:
-                    field_notice = "l10n_ro_notice"
-
-                picking.write(
-                    {
-                        field_notice: False,
-                        "origin": order.partner_ref or order.name,
-                    }
-                )
-                # Set done quantities from XML map only for matched products
+                    picking_vals["l10n_ro_notice"] = False
+                picking.write(picking_vals)
+                # Set done quantities from XML map only for matched products.
+                # Odoo 19: stock.move.line uses `quantity` (qty_done removed) and
+                # the move/line `picked` flag drives validation in _action_done.
+                picked_moves = self.env["stock.move"]
                 for move in picking.move_ids:
                     qty = line_map.get(move.product_id.id, 0.0)
                     if qty and qty > 0:
-                        if move.move_line_ids:
-                            for ml in move.move_line_ids:
-                                ml.qty_done = qty
-                        else:
-                            move._set_quantity_done(qty)
-                # Mark moves as picked and validate with forced period date from PO
-                picking.move_ids.picked = True
+                        move._set_quantity_done(qty)
+                        picked_moves |= move
+                # Mark only the moves we set as picked; the rest go to a backorder
+                picked_moves.picked = True
                 picking.with_context(force_period_date=order.date_order)._action_done()
                 return True
         # Fallback: original behavior using button_validate with backorder wizard handling
-        for move in picking.move_ids_without_package:
+        # Odoo 19: iterate move_ids (move_ids_without_package was removed from stock.picking)
+        for move in picking.move_ids:
             qty = line_map.get(move.product_id.id, 0.0)
-            if qty > 0:
-                for ml in move.move_line_ids:
-                    ml.qty_done = qty if qty and qty > 0 else 0.0
-                if not move.move_line_ids:
-                    move._set_quantity_done(qty)
+            if qty and qty > 0:
+                move._set_quantity_done(qty)
+                move.picked = True
         action = picking.button_validate()
         if isinstance(action, dict) and action.get("res_model") == "stock.backorder.confirmation":
             wiz = self.env[action["res_model"]].browse(action.get("res_id"))
