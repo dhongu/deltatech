@@ -2,63 +2,42 @@
 
 import options from "@web_editor/js/editor/snippets.options";
 
-export const StatsCountersOptions = options.Class.extend({
-    /**
-     * @override
-     */
-    onBuilt: function () {
+options.registry.StatsCountersOptions = options.Class.extend({
+
+    onBuilt() {
         this._super(...arguments);
-        this.updateCounters();
+        this._updateCounters();
     },
 
-    /**
-     * @override
-     */
-    onTargetShow: function () {
-        this._super(...arguments);
-        this.updateCounters();
-    },
-
-    /**
-     * @see {options.Class}
-     */
-    target: function (previewMode, widgetValue, params) {
-        this.updateCounters();
-    },
-
-    /**
-     * @see {options.Class}
-     */
-    format: function (previewMode, widgetValue, params) {
-        this.updateCounters();
-    },
-
-    /**
-     * @override
-     */
-    cleanForSave: async function () {
+    async onTargetShow() {
         await this._super(...arguments);
-        // Ensure counters are at their final state before saving
-        this.updateCounters();
+        this._updateCounters();
     },
 
-    updateCounters: function () {
-        if (!this.owner) {
-            return;
+    async cleanForSave() {
+        await this._super(...arguments);
+        this._updateCounters();
+    },
+
+    // Called when "Target Value" or "Format" widgets change (data-select-data-attribute).
+    async selectDataAttribute(previewMode, widgetValue, params) {
+        await this._super(...arguments);
+        if (params.attributeName === "target" || params.attributeName === "format") {
+            this._updateCounters();
         }
-        const publicWidgets = this.owner.getPublicWidgets(this.$target.closest(".s_deltatech_stats_counters")[0]);
-        if (publicWidgets) {
-            publicWidgets.forEach((widget) => {
-                if (widget.setCountersToTarget) {
-                    widget.setCountersToTarget();
-                }
-            });
-        }
+    },
+
+    // Mirrors StatsCounters.setCountersToTarget() from 000.js.
+    _updateCounters() {
+        const section = this.$target[0].closest(".s_deltatech_stats_counters") || this.$target[0];
+        section.querySelectorAll(".count").forEach((el) => {
+            const target = Number(el.dataset.target || 0);
+            const mode = el.dataset.format || "plain";
+            el.textContent = mode === "group"
+                ? Math.round(target).toLocaleString("en-US")
+                : String(Math.round(target));
+        });
     },
 });
 
-options.registry.StatsCountersOptions = StatsCountersOptions;
-
-export default {
-    StatsCountersOptions,
-};
+export default options.registry.StatsCountersOptions;

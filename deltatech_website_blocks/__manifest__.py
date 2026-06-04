@@ -14,7 +14,6 @@
         "views/snippets/s_stats_counters.xml",
         "views/snippets/s_cards_grid.xml",
         "views/snippets/s_deltatech_special_products.xml",
-        "views/snippets/s_deltatech_countdown.xml",
         "views/snippets/snippets.xml",
     ],
     "assets": {
@@ -26,13 +25,10 @@
             "deltatech_website_blocks/static/src/snippets/s_cards_grid/000.scss",
             "deltatech_website_blocks/static/src/snippets/s_deltatech_special_products/000.scss",
             "deltatech_website_blocks/static/src/snippets/s_deltatech_special_products/000.js",
-            "deltatech_website_blocks/static/src/snippets/s_deltatech_countdown/000.scss",
-            "deltatech_website_blocks/static/src/snippets/s_deltatech_countdown/000.js",
         ],
         "website.assets_wysiwyg": [
             "deltatech_website_blocks/static/src/snippets/s_partners_loop/options.js",
             "deltatech_website_blocks/static/src/snippets/s_stats_counters/options.js",
-            "deltatech_website_blocks/static/src/snippets/s_deltatech_countdown/options.js",
         ],
     },
     "installable": True,

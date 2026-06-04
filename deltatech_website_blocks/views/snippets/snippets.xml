@@ -34,40 +34,9 @@
             >
             <keywords>products, special, dropdown, details, specifications, description</keywords>
         </t>
-        <t
-                t-snippet="deltatech_website_blocks.s_deltatech_countdown"
-                string="Countdown"
-                group="columns"
-                t-thumbnail="/website/static/src/img/snippets_thumbs/s_countdown.svg"
-            >
-            <keywords>countdown, timer, promotion, offer, limited, confetti</keywords>
-        </t>
     </xpath>
 
     <xpath expr="//div[@id='snippet_options']" position="inside">
-        <div data-js="DeltatechCountdownOptions" data-selector=".s_deltatech_countdown">
-            <we-row string="End Date">
-                <we-input
-                        data-name="end_date"
-                        data-no-preview="true"
-                        data-on-change="updateEndDate"
-                        type="date"
-                        data-attribute-name="end-date"
-                        data-apply-to=".s_deltatech_countdown_container"
-                        data-select-data-attribute=""
-                    />
-                <we-input data-name="end_time" data-no-preview="true" data-on-change="updateEndTime" type="time" />
-            </we-row>
-            <we-checkbox
-                    string="Confetti"
-                    data-name="confetti_toggle"
-                    data-no-preview="true"
-                    data-on-change="toggleConfetti"
-                    data-attribute-name="confetti"
-                    data-apply-to=".s_deltatech_countdown_container"
-                    data-select-data-attribute=""
-                />
-        </div>
         <div data-js="PartnersLoopOptions" data-selector=".s_deltatech_partners_loop" />
         <div data-js="MultipleItems" data-selector=".s_deltatech_partners_loop">
             <we-row string="Partners">

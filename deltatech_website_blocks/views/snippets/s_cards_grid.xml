@@ -2,7 +2,6 @@
 <odoo>
     <template id="s_deltatech_cards_grid" name="Cards Grid">
         <section
-            id="cpw"
             class="s_deltatech_cards_grid o_colored_level"
             data-snippet="s_deltatech_cards_grid"
             data-name="Cards Grid"
@@ -26,7 +25,7 @@
                 </header>
 
                 <div class="cpw-panel">
-                    <div class="cpw-grid row justify-content-center" id="cpwGrid">
+                    <div class="cpw-grid row justify-content-center">
                         <!-- Default Items -->
                         <div class="col-lg-3 col-md-6 cpw-item">
                             <a href="#" class="cpw-card" target="_blank" rel="noopener">
