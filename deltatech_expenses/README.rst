@@ -30,6 +30,111 @@ Configurare:
 
 - În registrul de numerar trebuie completat câmpul "Cash advances" cu
   542.
+- Angajații sunt înregistrați ca ``hr.employee``. Dacă angajatul are
+  completat câmpul "Work Contact" (partenerul), acesta este folosit pe
+  notele contabile. Dacă nu, notele se generează fără partener
+  (înregistrări interne) — validarea decontului funcționează în ambele
+  cazuri.
+
+Diferența față de modulul standard ``hr_expense``
+=================================================
+
+Acest modul **nu** înlocuiește și **nu** se suprapune cu modulul
+standard ``hr_expense``. Cele două acoperă procese de business distincte
+și pot coexista în aceeași bază de date:
+
++----------------------+----------------------------------+----------------------+
+| Aspect               | ``deltatech_expenses`` (acest    | ``hr_expense``       |
+|                      | modul)                           | (standard Odoo)      |
++======================+==================================+======================+
+| **Scop**             | Decont de cheltuieli din **avans | Notă de cheltuială   |
+|                      | de trezorerie** (cont 542),      | angajat →            |
+|                      | specific contabilității din      | **rambursare**       |
+|                      | România                          | sumelor plătite din  |
+|                      |                                  | buzunar              |
++----------------------+----------------------------------+----------------------+
+| **Model central**    | ``deltatech.expenses.deduction`` | ``hr.expense`` /     |
+|                      | (moștenește doar                 | ``hr.expense.sheet`` |
+|                      | ``mail.thread``)                 |                      |
++----------------------+----------------------------------+----------------------+
+| **Angajatul**        | ``hr.employee``                  | ``hr.employee``,     |
+|                      | (``employee_id``); partenerul    | flux integrat HR     |
+|                      | contabil derivă din              |                      |
+|                      | ``work_contact_id``              |                      |
++----------------------+----------------------------------+----------------------+
+| **Avans de           | Da — acordare, decontare și      | Nu                   |
+| trezorerie (542)**   | închiderea contului 542          |                      |
++----------------------+----------------------------------+----------------------+
+| **Diurnă**           | Da — câmp ``diem`` (implicit     | Nu                   |
+|                      | 42,5) și calcul ``total_diem``   |                      |
++----------------------+----------------------------------+----------------------+
+| **Documente          | Chitanțe de achiziție            | În funcție de modul  |
+| generate**           | (``in_receipt``), plăți          | de plată (vezi mai   |
+|                      | (``account.payment``) și note    | jos)                 |
+|                      | contabile de diferență/diurnă    |                      |
++----------------------+----------------------------------+----------------------+
+| **Dependențe**       | ``l10n_ro``, ``account``,        | ``hr``, ``account``  |
+|                      | ``product``, ``hr``,             |                      |
+|                      | ``hr_expense``,                  |                      |
+|                      | ``deltatech_partner_generic``    |                      |
++----------------------+----------------------------------+----------------------+
+| **Specific RO**      | Da — numerotare proprie, jurnale | Nu (generic,         |
+|                      | casă/diurnă, plan de conturi RO  | multi-țară)          |
++----------------------+----------------------------------+----------------------+
+
+Notele contabile generate de ``hr_expense``
+-------------------------------------------
+
+Și ``hr_expense`` generează note contabile (``account.move``) la
+postare, dar tipul lor depinde de **modul de plată** al cheltuielii:
+
+- **Plătită de angajat** (``payment_mode = own_account``): se creează un
+  ``account.move`` de tip chitanță de achiziție (``in_receipt``) — debit
+  cont de cheltuială (6xx) + TVA deductibil / credit **contul de datorie
+  (payable) al angajatului**. Firma rămâne datoare angajatului, urmând
+  rambursarea efectivă.
+- **Plătită de firmă** (``payment_mode = company_account``): se creează
+  direct note de plată legate de un ``account.payment`` — debit cont de
+  cheltuială + TVA / credit cont **bancă/casă**. Nu mai există datorie
+  de rambursat, fiindcă firma a achitat deja.
+
+În ambele cazuri contrapartida este fie **datoria către angajat**, fie
+**trezoreria firmei** — niciodată un avans de decontat (cont 542), care
+este specific modulului ``deltatech_expenses``.
+
+Pe scurt: folosește **``deltatech_expenses``** pentru fluxul românesc
+*avans de trezorerie → decont → diurnă → închidere cont 542*, și
+**``hr_expense``** pentru fluxul generic *angajatul/firma plătește →
+(eventual) rambursare*.
+
+Integrarea cu ``hr_expense`` (prevenirea dublării cheltuielilor)
+================================================================
+
+Întrucât cele două module pot coexista, există riscul ca aceeași
+cheltuială să fie contabilizată de două ori (o dată prin Decont și o
+dată prin ``hr_expense``). Pentru a preveni acest lucru:
+
+- Pe formularul decontului, butonul **"Preia cheltuieli HR"**
+  (disponibil în stările Draft/Advance) deschide un wizard cu
+  cheltuielile ``hr.expense`` eligibile ale angajatului
+  (aprobate/depuse, fără notă contabilă proprie, nelegate de alt
+  decont). Cheltuielile selectate devin linii de decont și sunt legate
+  prin ``expenses_deduction_id``.
+- Cheltuielile ``hr.expense`` au câmpul ``expenses_deduction_id`` care
+  le leagă de un Decont de cheltuieli. Când acesta este completat,
+  ``action_post`` din modulul standard **sare postarea** acelei
+  cheltuieli — notele contabile se generează exclusiv din Decont, iar
+  butoanele de postare standard sunt ascunse. Cheltuielile **nelegate**
+  se postează normal, ca de obicei.
+- Fiecare linie de decont reține originea (``hr_expense_id``); la
+  ștergerea liniei, cheltuiala ``hr.expense`` este eliberată automat și
+  redevine disponibilă pentru fluxul standard.
+- Fișa angajatului (``hr.employee``) are un buton smart **"Deconturi"**
+  care afișează numărul deconturilor și deschide lista filtrată pentru
+  acel angajat.
+
+Astfel contabilizarea rămâne unică: ori prin Decont (pentru cheltuielile
+preluate), ori prin ``hr_expense`` (pentru restul).
 
 Exemplu de Testare: Decontarea Cheltuielilor din Avans
 ======================================================
