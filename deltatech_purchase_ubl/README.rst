@@ -14,34 +14,45 @@ Deltatech Purchase UBL
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_purchase_ubl
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_ubl
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
 
-This module allows importing vendor invoices in UBL XML format to
-automate purchase order management and accounting workflows.
+am This module imports vendor invoices in UBL XML format and uses them
+to update purchase workflows in Odoo.
 
 Key features:
 
-- **Automatic Matching**: Products are matched based on barcode
-  (GS1/EAN), supplier code, internal reference, or name.
-- **Purchase Order Integration**:
+- **Automatic vendor and order resolution**: the wizard keeps the
+  selected purchase order on itself and can also identify the vendor and
+  purchase order from the XML (``OrderReference``, supplier VAT,
+  supplier name) when context is no longer available.
+- **Automatic matching**: products are matched by barcode (GS1/EAN),
+  supplier code, internal reference, or exact name.
+- **Purchase order integration**:
 
-  - When launched from a purchase order, it can automatically add
-    missing lines or update existing lines with quantities and prices
-    from the XML.
-  - Matches products specifically within the current order to ensure
-    accuracy.
+  - when the purchase order already has lines, the import updates only
+    the existing matching lines;
+  - new XML lines are not added to an existing order, and the wizard
+    shows this warning before import;
+  - when no purchase order is resolved, the wizard can still identify
+    the vendor from XML and update supplier prices.
 
-- **Price Management**: Updates supplier prices in the vendor pricelist
-  (Supplier Info) directly from the XML data.
-- **Stock Automation**: Optionally validates the associated stock
-  receipt (picking) by matching quantities from the XML.
-- **Accounting**: Automatically creates and links a vendor bill from the
-  purchase order after importing the XML data.
-- **Missing Products**: Option to automatically create missing products
-  using information from the UBL file.
+- **Price management**: updates vendor prices in
+  ``product.supplierinfo`` directly from the XML data.
+- **Discount support**: extracts line discounts from ``AllowanceCharge``
+  (``ChargeIndicator=false``) and applies them as percentage discounts
+  on purchase order lines.
+- **Total check**: compares the purchase order total with the XML total
+  (``PayableAmount`` / ``TaxInclusiveAmount``, with untaxed fallback)
+  and shows a warning when there is a difference.
+- **Stock automation**: optionally validates the associated stock
+  receipt by matching quantities from the XML.
+- **Accounting**: optionally creates and links a vendor bill from the
+  purchase order when an order is resolved.
+- **Missing products**: option to automatically create missing products
+  using data from the UBL file.
 
 The module supports standard UBL Invoice namespaces and common unit code
 mappings (C62, KGM, LTR, etc.).
@@ -50,6 +61,54 @@ mappings (C62, KGM, LTR, etc.).
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+Changelog
+=========
+
+[18.0.1.1.0] - 2026-05-26
+-------------------------
+
+Added
+~~~~~
+
+- **Discount support from e-Factura SPV XML**: Line-level
+  ``AllowanceCharge`` elements with ``ChargeIndicator=false`` are now
+  extracted and applied as percentage discounts on purchase order lines.
+
+  - Discount percent is calculated as
+    ``allowance_amount / (price * qty) * 100``.
+  - Applied on both newly created order lines and existing order lines
+    during update.
+  - The gross price (``PriceAmount``) is preserved as ``price_unit``;
+    the discount is stored separately in the ``discount`` field.
+
+- **Test coverage**: Added automated test
+  ``test_allowance_charge_discount_applied_on_order_line`` verifying
+  correct discount extraction and application (based on real e-Factura
+  SPV invoice data: ``PriceAmount=372.20``,
+  ``AllowanceCharge/Amount=93.05``, ``qty=1`` → ``discount=25%``).
+
+[18.0.1.0.0] - 2025-01-01
+-------------------------
+
+Added
+~~~~~
+
+- Initial release: import UBL XML vendor invoices to automate purchase
+  order management.
+- Automatic product matching by barcode (GS1/EAN), supplier code,
+  internal reference, or name.
+- Purchase order line creation and update (quantities and prices) from
+  XML data.
+- Supplier price update in vendor pricelist (Supplier Info).
+- Stock receipt (picking) validation with quantities from XML.
+- Vendor bill creation linked to the purchase order.
+- Option to automatically create missing products from UBL data.
+- Support for standard UBL Invoice namespaces and common unit code
+  mappings (C62, KGM, LTR, etc.).
 
 Bug Tracker
 ===========
@@ -79,6 +138,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_purchase_ubl>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_ubl>`_ project on GitHub.
 
 You are welcome to contribute.
