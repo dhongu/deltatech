@@ -1,0 +1,10 @@
+{
+  "title": "Warehouse Map",
+  "summary": "Visual map of warehouse locations",
+  "icon": "box",
+  "features": [
+    "Drill-down through location levels",
+    "Color-coded occupancy per location",
+    "Capacity & fill tracking on locations"
+  ]
+}
