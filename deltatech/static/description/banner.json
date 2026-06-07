@@ -1,0 +1,4 @@
+{
+  "summary": "Shared base for the Deltatech suite",
+  "features": ["Shared utilities & helpers", "Common framework for extensions", "Central dependency for the suite"]
+}

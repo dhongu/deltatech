@@ -1,0 +1,6 @@
+{
+  "title": "Sale Cost on Order",
+  "icon": "cart",
+  "summary": "Cost & margin on sales orders",
+  "features": ["Purchase cost on SO lines", "Margin & profit analysis", "Mass cost recalculation"]
+}

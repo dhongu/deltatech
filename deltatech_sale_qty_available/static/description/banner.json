@@ -1,0 +1,6 @@
+{
+  "title": "Sale Qty Available",
+  "icon": "cart",
+  "summary": "Highlight orders ready to deliver",
+  "features": ["Deliverable orders shown in green"]
+}

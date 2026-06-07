@@ -1,0 +1,4 @@
+{
+  "summary": "Accounting & invoicing enhancements",
+  "features": ["Extended invoice & bill views", "Flexible journal & account config", "Cross-document data sync"]
+}

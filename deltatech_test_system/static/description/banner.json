@@ -1,0 +1,5 @@
+{
+  "icon": "gear",
+  "summary": "Mark a database as test or production",
+  "features": ["Neutralizes the database", "Permanent TEST banner on top"]
+}

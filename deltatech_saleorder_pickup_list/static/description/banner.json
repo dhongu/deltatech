@@ -1,0 +1,6 @@
+{
+  "title": "Pickup List",
+  "icon": "box",
+  "summary": "Pickup list report from sale orders",
+  "features": ["Pickup List report on the SO", "Product, quantity & location", "Speeds up warehouse picking"]
+}

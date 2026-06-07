@@ -1,0 +1,6 @@
+{
+  "title": "Website Stock Availability",
+  "icon": "globe",
+  "summary": "Show web stock & delivery lead time",
+  "features": ["Show stock above a threshold", "Order even when out of stock", "Computes delivery lead time"]
+}

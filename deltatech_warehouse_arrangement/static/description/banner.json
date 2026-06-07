@@ -1,0 +1,6 @@
+{
+  "title": "Warehouse Arrangement",
+  "icon": "box",
+  "summary": "Parallel warehouse location layout",
+  "features": ["Locations parallel to standard Odoo", "Custom warehouse arrangement"]
+}

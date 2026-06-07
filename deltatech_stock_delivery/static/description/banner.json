@@ -1,0 +1,10 @@
+{
+  "title": "Invoice Delivery / Reception",
+  "icon": "file",
+  "summary": "Jump from invoice to its pickings",
+  "features": [
+    "Delivery / Reception button on invoice",
+    "See all linked stock pickings",
+    "Match shipments to documents"
+  ]
+}

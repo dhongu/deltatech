@@ -1,0 +1,6 @@
+{
+  "title": "Partner GLN",
+  "icon": "user",
+  "summary": "Partner Global Location Number",
+  "features": ["GLN field on partner", "Superseded by account_add_gln"]
+}

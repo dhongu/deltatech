@@ -1,0 +1,6 @@
+{
+  "title": "Checkout Confirm",
+  "icon": "globe",
+  "summary": "Final order confirmation at checkout",
+  "features": ["Confirm step before finalizing", "Order review after payment", "Built on the website_sale flow"]
+}
