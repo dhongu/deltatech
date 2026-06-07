@@ -1,22 +1,9 @@
-Feature:
+Extends the **deltatech_business_process** module to generate a formal **Handover Document** (proces-verbal de predare-primire) in PDF format directly from a Business Project.
 
-- Generate the handover document for a business process directly from a Business Project.
-- Captures provider/recipient companies, their representatives, testers, and the list of project developments.
-- Available in English and Romanian.
-- Produces a PDF (QWeb) using an A4 paper format.
-- Accessible from the Business Project via the Print menu: "Handover Document".
+**Key features:**
 
-Usage:
-
-1. Open a Business Project.
-2. Fill in Provider/Recipient information and Testers.
-3. Make sure developments are linked to the project.
-4. Click Print > Handover Document to generate the PDF.
-
-Dependencies:
-
-- deltatech_business_process
-
-Notes:
-
-- The report action is named `deltatech_business_process_handover_document.action_report_verbal_process`.
+- Adds provider and recipient company details (name, representative, testers) to the Business Project form.
+- Automatically collects all developments linked to the project.
+- Adds a **Handover Checked** checkbox on each Business Area for sign-off tracking.
+- Generates a QWeb PDF report (A4 format) accessible via the **Print** menu on the Business Project.
+- Report is available in both English and Romanian.
