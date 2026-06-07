@@ -9,7 +9,7 @@ import json
 # Helper to normalize descriptions coming from JSON (may contain HTML)
 import re
 
-from odoo import fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -31,7 +31,60 @@ class BusinessProcessImport(models.TransientModel):
     data_file = fields.Binary(string="File")
     state = fields.Selection([("choose", "choose"), ("get", "get")], default="get")  # choose period  # get the file
 
+    source = fields.Selection(
+        [("file", "Exported file (JSON)"), ("library", "Process library")],
+        string="Source",
+        default="file",
+        required=True,
+    )
+    library_line_ids = fields.One2many("business.process.library.import.line", "wizard_id", string="Library processes")
+
+    @api.onchange("source")
+    def _onchange_source(self):
+        if self.source == "library" and not self.library_line_ids:
+            lib = self.env["business.process.library"]
+            self.library_line_ids = [
+                (
+                    0,
+                    0,
+                    {
+                        "source_module": p["source_module"],
+                        "folder": p["folder"],
+                        "code": p["code"],
+                        "name": p["name"],
+                        "area": p["area"],
+                        "modules": p["modules"],
+                        "has_screenshots": p["has_screenshots"],
+                    },
+                )
+                for p in lib.available_processes()
+            ]
+
+    def _resolve_project(self):
+        active_ids = self.env.context.get("active_ids", [])
+        active_model = self.env.context.get("active_model", "business.project")
+        project = self.env["business.project"]
+        if active_model == "business.project":
+            project = self.env[active_model].browse(active_ids)
+        elif active_model == "business.process":
+            process = self.env[active_model].browse(active_ids)
+            project = process[:1].project_id
+        if not project:
+            raise UserError(self.env._("No project selected!"))
+        return project[:1]
+
+    def _do_import_library(self):
+        project = self._resolve_project()
+        selected = self.library_line_ids.filtered(lambda line: line.selected and line.folder)
+        if not selected:
+            raise UserError(self.env._("Select at least one process from the library."))
+        refs = [{"module": line.source_module, "folder": line.folder} for line in selected]
+        self.env["business.process.library"].import_processes(refs, project)
+        return {"type": "ir.actions.act_window_close"}
+
     def do_import(self):
+        if self.source == "library":
+            return self._do_import_library()
         active_ids = self.env.context.get("active_ids", [])
         active_model = self.env.context.get("active_model", "business.project")
         project = self.env["business.project"]
@@ -472,3 +525,19 @@ class BusinessProcessImport(models.TransientModel):
             "views": [(False, "form")],
             "target": "new",
         }
+
+
+class BusinessProcessLibraryImportLine(models.TransientModel):
+    _name = "business.process.library.import.line"
+    _description = "Library process selection line"
+    _order = "area, code"
+
+    wizard_id = fields.Many2one("business.process.import", ondelete="cascade")
+    selected = fields.Boolean(string="Import")
+    source_module = fields.Char(string="Source (module)", readonly=True)
+    folder = fields.Char(readonly=True)
+    code = fields.Char(readonly=True)
+    name = fields.Char(readonly=True)
+    area = fields.Char(readonly=True)
+    modules = fields.Char(string="Modules", readonly=True)
+    has_screenshots = fields.Boolean(string="Screenshots", readonly=True)
