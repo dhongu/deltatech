@@ -1,6 +1,12 @@
-- Features:
+This module enforces strict analytic distribution rules on vendor bills, ensuring every
+invoice line is fully allocated across the company's analytic dimensions before posting.
 
-  - The vendor bills will require the analytic distribution to add up to 100% on every line, and all the field to be
-    filled.(Location, Department, Line of Business)
-  - To enable this validation you need to check the box Enable Analytic Distribution Validation in the configuration
-    under the Vendor Bills block
+**Key features:**
+
+- Blocks posting of vendor bills (invoices, refunds, receipts) when any line is missing
+  an analytic distribution.
+- Validates that the total analytic distribution percentage on each line sums to exactly
+  100%.
+- Enforces that each distribution entry covers exactly three analytic dimensions:
+  Location, Department, and Line of Business.
+- Company-specific setting — can be enabled per company via Accounting configuration.
