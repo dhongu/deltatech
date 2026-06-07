@@ -1,6 +1,7 @@
 # Copyright (C) 2026 Terrabit
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "Deltatech Team Logo",
     "summary": "Logo de firmă în rapoarte în funcție de echipa de vânzare",
     "version": "19.0.1.0.0",
