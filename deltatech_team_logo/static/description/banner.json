@@ -1,0 +1,6 @@
+{
+  "title": "Sales Team Logo",
+  "summary": "Per-team logo in PDF reports",
+  "icon": "file",
+  "features": ["Logo per sales team (crm.team)", "Auto on invoice / order / delivery", "Works with all report layouts"]
+}
