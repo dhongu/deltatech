@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="280" viewBox="0 0 560 280">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#006F42"/>
+      <stop offset="1" stop-color="#57B952"/>
+    </linearGradient>
+  </defs>
+  <rect width="560" height="280" fill="#FFFFFF"/>
+  <rect width="190" height="280" fill="url(#g)"/>
+  <circle cx="95.0" cy="118" r="80" fill="white" opacity="0.10"/>
+  <circle cx="95.0" cy="118" r="58" fill="white" opacity="0.10"/>
+  <svg x="51.0" y="74.0" width="88" height="88" viewBox="0 0 24 24">
+    <g fill="white" stroke="none"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></g>
+  </svg>
+  <text x="95.0" y="244" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="15" font-weight="800" letter-spacing="1.5" fill="white">TERRABIT</text><text x="95.0" y="259" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="8.5" font-weight="500" letter-spacing="4" fill="white" opacity="0.85">SOLUTIONS</text>
+  <g><rect x="477.6" y="24" width="58.4" height="24" rx="12" fill="none" stroke="#57B952" stroke-width="1.5"/><text x="506.8" y="40" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="12" font-weight="700" fill="#006F42">Odoo 19</text></g>
+  <text x="214" y="78" font-family="Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#00592F">Deltatech Category</text><text x="214" y="108" font-family="Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#00592F">Group</text>
+  
+  <circle cx="222" cy="138" r="9" fill="#57B952"/><path d="M217.5 138 l3 3 l5.5 -6" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="240" y="142" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#2F3A45">adds two grouping elements for internal categ…</text><circle cx="222" cy="166" r="9" fill="#57B952"/><path d="M217.5 166 l3 3 l5.5 -6" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="240" y="170" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#2F3A45">reports that can group by the two elements</text>
+</svg>
