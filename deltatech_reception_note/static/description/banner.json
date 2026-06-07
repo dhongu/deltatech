@@ -1,0 +1,6 @@
+{
+  "title": "Batch Reception Note",
+  "icon": "box",
+  "summary": "Batch reception note management",
+  "features": ["Bulk reception-note wizard", "Groups pickings / purchase orders", "Audit-ready reception documents"]
+}
