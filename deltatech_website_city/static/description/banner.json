@@ -1,0 +1,6 @@
+{
+  "title": "Website City",
+  "icon": "globe",
+  "summary": "Structured city select at checkout",
+  "features": ["City dropdown on checkout", "Auto ZIP / postcode mapping", "Shop & portal integration"]
+}
