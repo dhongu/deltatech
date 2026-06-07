@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.business.process.library</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="90"/>
+        <field name="arch" type="xml">
+            <form string="Settings" class="oe_form_configuration">
+                <app data-string="business_process" string="Business process" name="deltatech_business_process">
+                    <block title="Process Library" name="process_library_sources">
+                        <setting
+                            string="Discover processes from all modules"
+                            help="Scan every installed module that ships a processes/ folder. Disabled = only the modules listed below.">
+                            <field name="process_library_autodiscover"/>
+                        </setting>
+                        <setting
+                            string="Restrict to modules"
+                            help="Comma-separated list of modules. When set, the sources are restricted to exactly the listed modules.">
+                            <field name="process_library_whitelist" placeholder="e.g. l10n_ro_process_library, other_processes_module"/>
+                        </setting>
+                    </block>
+                </app>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_business_process_config_settings" model="ir.actions.act_window">
+        <field name="name">Process Library</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'module': 'deltatech_business_process'}</field>
+    </record>
+
+    <menuitem
+        id="menu_business_process_config_settings"
+        name="Process Library"
+        parent="menu_config"
+        action="action_business_process_config_settings"
+        sequence="950"/>
+
+</odoo>

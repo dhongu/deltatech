@@ -14,3 +14,5 @@ from . import business_project
 from . import business_role
 from . import business_issue
 from . import business_migration
+from . import business_process_library
+from . import res_config_settings
