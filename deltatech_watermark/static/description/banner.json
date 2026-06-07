@@ -1,0 +1,5 @@
+{
+  "icon": "file",
+  "summary": "Central watermark configuration",
+  "features": ["Watermark field on company", "Configured in general settings", "Base for watermark extensions"]
+}
