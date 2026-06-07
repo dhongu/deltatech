@@ -9,7 +9,11 @@
                     <field name="name" invisible="1" />
 
                     <sheet>
-                        <div invisible="state!='get'">
+                        <group>
+                            <field name="source" widget="radio" options="{'horizontal': true}" />
+                        </group>
+
+                        <div invisible="state!='get' or source=='library'">
                             <div class="oe_title">
                                 <h2>Import business processes from a file</h2>
                                 <p class="text-muted">Choose the JSON file you exported earlier, then click Import.</p>
@@ -19,12 +23,31 @@
                             </group>
                         </div>
 
-                        <div invisible="state!='choose'">
+                        <div invisible="state!='choose' or source=='library'">
                             <group>
                                 <h2>File Selected</h2>
                                 <p class="text-muted">The selected file will be processed:</p>
                                 <field name="data_file" readonly="1" filename="name" class="oe_inline" no_label="1" />
                             </group>
+                        </div>
+
+                        <div invisible="source!='library'">
+                            <div class="oe_title">
+                                <h2>Select processes from the library</h2>
+                                <p class="text-muted">Tick the processes to import into the project.</p>
+                            </div>
+                            <field name="library_line_ids" nolabel="1">
+                                <list editable="bottom" create="false" delete="false" default_group_by="source_module">
+                                    <field name="selected" widget="boolean_toggle" />
+                                    <field name="code" />
+                                    <field name="name" />
+                                    <field name="area" />
+                                    <field name="modules" />
+                                    <field name="has_screenshots" widget="boolean" string="Screenshots" />
+                                    <field name="source_module" optional="show" string="Source (module)" />
+                                    <field name="folder" column_invisible="1" force_save="1" />
+                                </list>
+                            </field>
                         </div>
                     </sheet>
 
