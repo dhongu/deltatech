@@ -10,7 +10,7 @@
     "data": [
         "security/ir.model.access.csv",
         "views/stock_picking_activity_record_view.xml",
-        "data/cron.xml",
+        "data/recycle_rules.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
