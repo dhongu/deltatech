@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="data_recycle_model_sale_order_activity" model="data_recycle.model">
+        <field name="name">Sale Order Activity Record</field>
+        <field name="res_model_id" ref="model_sale_order_activity_record" />
+        <field name="recycle_mode">automatic</field>
+        <field name="recycle_action">unlink</field>
+        <field name="time_field_id" ref="field_sale_order_activity_record__change_date" />
+        <field name="time_field_delta">2</field>
+        <field name="time_field_delta_unit">months</field>
+    </record>
+</odoo>
