@@ -25,6 +25,8 @@ Features:
   created in the activity report
 - in the report menu of the sales app you can see the activity records
   and the pivot view so you can see the activity per user
+- Automatically deletes activity records older than 2 months using the
+  Data Recycle mechanism.
 
 **Table of contents**
 
