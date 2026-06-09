@@ -29,6 +29,8 @@ Features:
   products processed (Incoming, Outgoing, or Internal).
 - Provides an Activity Report accessible via Inventory -> Reporting ->
   Activity Report for statistical analysis.
+- Automatically deletes activity records older than 2 months using the
+  Data Recycle mechanism.
 
 **Table of contents**
 
