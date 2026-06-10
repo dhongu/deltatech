@@ -5,7 +5,7 @@
     "name": "eCommerce Country",
     "category": "Website",
     "summary": "eCommerce extension",
-    "version": "18.0.1.0.1",
+    "version": "18.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
