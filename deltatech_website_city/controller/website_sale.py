@@ -35,10 +35,8 @@ class WebsiteSaleCity(WebsiteSale):
             form_data["city"] = request.env["res.city"].sudo().browse(int(city_id)).name
         return super()._parse_form_data(form_data)
 
-    def _prepare_address_form_values(self, order_sudo, partner_sudo, address_type, **kwargs):
-        rendering_values = super()._prepare_address_form_values(
-            order_sudo, partner_sudo, address_type=address_type, **kwargs
-        )
+    def _prepare_address_form_values(self, order_sudo, partner_sudo, *args, **kwargs):
+        rendering_values = super()._prepare_address_form_values(order_sudo, partner_sudo, *args, **kwargs)
         state = request.env["res.country.state"].browse(rendering_values["state_id"])
         city = partner_sudo.city_id
         ResCity = request.env["res.city"].sudo()
