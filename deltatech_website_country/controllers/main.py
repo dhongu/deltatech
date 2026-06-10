@@ -7,7 +7,7 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class WebsiteSale(WebsiteSale):
-    def _prepare_address_form_values(self, order_sudo, partner_sudo, address_type, **kwargs):
-        result = super()._prepare_address_form_values(order_sudo, partner_sudo, address_type=address_type, **kwargs)
+    def _prepare_address_form_values(self, order_sudo, partner_sudo, *args, **kwargs):
+        result = super()._prepare_address_form_values(order_sudo, partner_sudo, *args, **kwargs)
         result["country"] = result.get("country") or request.website.company_id.country_id
         return result
