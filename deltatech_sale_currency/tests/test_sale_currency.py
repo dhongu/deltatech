@@ -18,7 +18,6 @@ class TestSaleCurrency(common.TransactionCase):
             [
                 ("company_ids", "in", cls.company.id),
                 ("account_type", "=", "income"),
-                ("deprecated", "=", False),
             ],
             limit=1,
         )
@@ -28,6 +27,40 @@ class TestSaleCurrency(common.TransactionCase):
                     "name": "Test Income",
                     "code": "XSALE",
                     "account_type": "income",
+                    "company_ids": [(6, 0, [cls.company.id])],
+                }
+            )
+        cls.receivable_account = cls.env["account.account"].search(
+            [
+                ("company_ids", "in", cls.company.id),
+                ("account_type", "=", "asset_receivable"),
+            ],
+            limit=1,
+        )
+        if not cls.receivable_account:
+            cls.receivable_account = cls.env["account.account"].create(
+                {
+                    "name": "Test Receivable",
+                    "code": "XREC",
+                    "account_type": "asset_receivable",
+                    "reconcile": True,
+                    "company_ids": [(6, 0, [cls.company.id])],
+                }
+            )
+        cls.payable_account = cls.env["account.account"].search(
+            [
+                ("company_ids", "in", cls.company.id),
+                ("account_type", "=", "liability_payable"),
+            ],
+            limit=1,
+        )
+        if not cls.payable_account:
+            cls.payable_account = cls.env["account.account"].create(
+                {
+                    "name": "Test Payable",
+                    "code": "XPAY",
+                    "account_type": "liability_payable",
+                    "reconcile": True,
                     "company_ids": [(6, 0, [cls.company.id])],
                 }
             )
@@ -54,6 +87,8 @@ class TestSaleCurrency(common.TransactionCase):
         cls.partner = cls.env["res.partner"].create(
             {
                 "name": "Test Partner",
+                "property_account_receivable_id": cls.receivable_account.id,
+                "property_account_payable_id": cls.payable_account.id,
             }
         )
 
