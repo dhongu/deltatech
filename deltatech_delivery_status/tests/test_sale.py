@@ -50,3 +50,48 @@ class TestSale(TransactionCase):
 
         self.so.postpone_delivery()
         self.so.release_delivery()
+
+    def _create_confirmed_order(self):
+        order = self.env["sale.order"].create(
+            {
+                "partner_id": self.partner_a.id,
+                "order_line": [(0, 0, {"product_id": self.product_a.id, "product_uom_qty": 10})],
+            }
+        )
+        order.action_confirm()
+        return order
+
+    def test_postponed_delivery_recompute(self):
+        order = self._create_confirmed_order()
+        self.assertFalse(order.postponed_delivery)
+
+        order.postpone_delivery()
+        self.assertTrue(order.postponed_delivery)
+
+        order.release_delivery()
+        self.assertFalse(order.postponed_delivery)
+
+    def test_release_delivery_on_payment_done(self):
+        provider = self.env["payment.provider"].create(
+            {
+                "name": "Test Provider",
+                "code": "none",
+                "postponed_delivery": True,
+            }
+        )
+        order = self._create_confirmed_order()
+        order.postpone_delivery()
+        self.assertTrue(order.postponed_delivery)
+
+        tx = self.env["payment.transaction"].create(
+            {
+                "provider_id": provider.id,
+                "payment_method_id": self.env.ref("payment.payment_method_unknown").id,
+                "amount": order.amount_total,
+                "currency_id": order.currency_id.id,
+                "partner_id": self.partner_a.id,
+                "sale_order_ids": [(6, 0, order.ids)],
+            }
+        )
+        tx._set_done()
+        self.assertFalse(order.postponed_delivery)
