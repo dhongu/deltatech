@@ -14,6 +14,23 @@ class TestSaleCurrency(common.TransactionCase):
         cls.company = cls.env.company
         cls.currency_eur = cls.env.ref("base.EUR")
         cls.currency_usd = cls.env.ref("base.USD")
+        cls.income_account = cls.env["account.account"].search(
+            [
+                ("company_ids", "in", cls.company.id),
+                ("account_type", "=", "income"),
+                ("deprecated", "=", False),
+            ],
+            limit=1,
+        )
+        if not cls.income_account:
+            cls.income_account = cls.env["account.account"].create(
+                {
+                    "name": "Test Income",
+                    "code": "XSALE",
+                    "account_type": "income",
+                    "company_ids": [(6, 0, [cls.company.id])],
+                }
+            )
 
         # Create a pricelist in USD
         cls.pricelist_usd = cls.env["product.pricelist"].create(
@@ -29,6 +46,7 @@ class TestSaleCurrency(common.TransactionCase):
                 "name": "Test Product",
                 "type": "consu",
                 "list_price": 100.0,
+                "property_account_income_id": cls.income_account.id,
             }
         )
 
@@ -102,5 +120,43 @@ class TestSaleCurrency(common.TransactionCase):
         from_currency = sale_order.pricelist_id.currency_id
         to_currency = invoice.currency_id
         expected_price = from_currency._convert(so_line.price_unit, to_currency, self.company, fields.Date.today())
+
+        self.assertAlmostEqual(inv_line.price_unit, expected_price)
+
+    def test_02_sale_to_invoice_company_currency_fallback(self):
+        sale_order = self.env["sale.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "pricelist_id": self.pricelist_usd.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.product.id,
+                            "product_uom_qty": 1.0,
+                            "price_unit": 100.0,
+                        },
+                    )
+                ],
+            }
+        )
+
+        if "journal_id" in sale_order._fields:
+            sale_order.journal_id = False
+
+        sale_order.action_confirm()
+        invoice = sale_order._create_invoices()
+
+        self.assertEqual(invoice.currency_id, self.company.currency_id)
+
+        so_line = sale_order.order_line[0]
+        inv_line = invoice.invoice_line_ids.filtered(lambda l: l.display_type == "product")
+        expected_price = self.pricelist_usd.currency_id._convert(
+            so_line.price_unit,
+            self.company.currency_id,
+            self.company,
+            fields.Date.today(),
+        )
 
         self.assertAlmostEqual(inv_line.price_unit, expected_price)
