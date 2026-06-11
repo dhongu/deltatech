@@ -26,10 +26,9 @@ class SaleOrderLine(models.Model):
 
         if res.get("display_type") == "product":
             company = self.order_id.company_id
-            journal = self.order_id.journal_id
-            if journal:
-                to_currency = journal.currency_id or company.currency_id
-                from_currency = self.order_id.pricelist_id.currency_id
+            to_currency = self.order_id.journal_id.currency_id or company.currency_id
+            from_currency = self.order_id.pricelist_id.currency_id
+            if from_currency and to_currency and from_currency != to_currency:
                 date_eval = fields.Date.context_today(self)
                 price_unit = from_currency._convert(res["price_unit"], to_currency, company, date_eval)
                 res["price_unit"] = price_unit
