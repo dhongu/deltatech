@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class SaleOrder(models.Model):
@@ -29,9 +29,10 @@ class SaleOrder(models.Model):
             pickings |= order.picking_ids
         pickings.write({"postponed": False})
 
+    @api.depends("picking_ids.postponed")
     def _compute_postponed_delivery(self):
         for order in self:
-            order.postponed_delivery = any([p.postponed for p in order.picking_ids])
+            order.postponed_delivery = any(p.postponed for p in order.picking_ids)
 
     def _action_confirm(self):
         res = super()._action_confirm()
