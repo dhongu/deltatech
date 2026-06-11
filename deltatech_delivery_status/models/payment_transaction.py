@@ -15,8 +15,12 @@ class PaymentTransaction(models.Model):
         txs_to_process = super()._set_done(state_message=state_message, extra_allowed_states=extra_allowed_states)
         for tx in txs_to_process:
             if tx.provider_id.postponed_delivery:
-                sale_order = tx.sale_order_id
-                if sale_order and sale_order.postponed_delivery:
-                    sale_order.release_delivery()
+                sale_orders = tx.sale_order_ids.filtered("postponed_delivery")
+                for sale_order in sale_orders:
+                    # a failure to release the delivery must not block the payment processing
+                    try:
+                        sale_order.release_delivery()
+                    except Exception:
+                        _logger.exception("Failed to release postponed delivery for order %s", sale_order.name)
 
         return txs_to_process
