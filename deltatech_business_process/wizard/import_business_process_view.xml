@@ -9,11 +9,7 @@
                     <field name="name" invisible="1" />
 
                     <sheet>
-                        <group>
-                            <field name="source" widget="radio" options="{'horizontal': true}" />
-                        </group>
-
-                        <div invisible="state!='get' or source=='library'">
+                        <div invisible="state!='get'">
                             <div class="oe_title">
                                 <h2>Import business processes from a file</h2>
                                 <p class="text-muted">Choose the JSON file you exported earlier, then click Import.</p>
@@ -23,31 +19,12 @@
                             </group>
                         </div>
 
-                        <div invisible="state!='choose' or source=='library'">
+                        <div invisible="state!='choose'">
                             <group>
                                 <h2>File Selected</h2>
                                 <p class="text-muted">The selected file will be processed:</p>
                                 <field name="data_file" readonly="1" filename="name" class="oe_inline" no_label="1" />
                             </group>
-                        </div>
-
-                        <div invisible="source!='library'">
-                            <div class="oe_title">
-                                <h2>Select processes from the library</h2>
-                                <p class="text-muted">Tick the processes to import into the project.</p>
-                            </div>
-                            <field name="library_line_ids" nolabel="1">
-                                <list editable="bottom" create="false" delete="false" default_group_by="source_module">
-                                    <field name="selected" widget="boolean_toggle" />
-                                    <field name="code" />
-                                    <field name="name" />
-                                    <field name="area" />
-                                    <field name="modules" />
-                                    <field name="has_screenshots" widget="boolean" string="Screenshots" />
-                                    <field name="source_module" optional="show" string="Source (module)" />
-                                    <field name="folder" column_invisible="1" force_save="1" />
-                                </list>
-                            </field>
                         </div>
                     </sheet>
 
@@ -68,7 +45,7 @@
 
 
     <record id="action_business_process_from_project_import" model="ir.actions.act_window">
-        <field name="name">Import Business Process</field>
+        <field name="name">Import from file (JSON)</field>
         <field name="res_model">business.process.import</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
@@ -77,12 +54,68 @@
     </record>
 
     <record id="action_business_process_from_process_import" model="ir.actions.act_window">
-        <field name="name">Import Business Process</field>
+        <field name="name">Import from file (JSON)</field>
         <field name="res_model">business.process.import</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
         <field name="binding_model_id" ref="model_business_process" />
         <field name="binding_view_types">form</field>
+    </record>
+
+    <!-- Grouped library selection (real list view => supports group by area) -->
+    <record id="view_business_process_library_import_line_list" model="ir.ui.view">
+        <field name="name">business.process.library.import.line.list</field>
+        <field name="model">business.process.library.import.line</field>
+        <field name="arch" type="xml">
+            <list create="false" delete="false" edit="false">
+                <header>
+                    <button name="action_import_selected" string="Import selected" type="object" class="btn-primary" />
+                </header>
+                <field name="code" />
+                <field name="name" />
+                <field name="area_id" />
+                <field name="modules" />
+                <field name="has_screenshots" widget="boolean" string="Screenshots" />
+                <field name="source_module" optional="show" string="Source (module)" />
+                <field name="folder" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_business_process_library_import_line_search" model="ir.ui.view">
+        <field name="name">business.process.library.import.line.search</field>
+        <field name="model">business.process.library.import.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="code" />
+                <field name="area_id" />
+                <filter name="with_screenshots" string="With screenshots" domain="[('has_screenshots', '=', True)]" />
+                <group name="group_by">
+                    <filter name="group_area" string="Area" context="{'group_by': 'area_id'}" />
+                    <filter name="group_source" string="Source module" context="{'group_by': 'source_module'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Gear bindings that populate the lines and open them grouped -->
+    <record id="action_open_process_library_from_project" model="ir.actions.server">
+        <field name="name">Import from library</field>
+        <field name="model_id" ref="model_business_project" />
+        <field name="binding_model_id" ref="model_business_project" />
+        <field name="binding_view_types">form,list</field>
+        <field name="state">code</field>
+        <field name="code">action = env["business.process.library.import.line"].action_open_library()</field>
+    </record>
+
+    <record id="action_open_process_library_from_process" model="ir.actions.server">
+        <field name="name">Import from library</field>
+        <field name="model_id" ref="model_business_process" />
+        <field name="binding_model_id" ref="model_business_process" />
+        <field name="binding_view_types">form,list</field>
+        <field name="state">code</field>
+        <field name="code">action = env["business.process.library.import.line"].action_open_library()</field>
     </record>
 
 

@@ -1164,12 +1164,6 @@ msgid "Implementation state"
 msgstr "Stare implementare"
 
 #. module: deltatech_business_process
-#: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_from_process_import
-#: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_from_project_import
-msgid "Import Business Process"
-msgstr "Import proces afaceri"
-
-#. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
 msgid "Import business process"
 msgstr "Import proces afaceri"
@@ -2339,3 +2333,30 @@ msgstr "scop"
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_filter
 msgid "state"
 msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_from_project_import
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_from_process_import
+msgid "Import from file (JSON)"
+msgstr "Import din fișier (JSON)"
+
+#. module: deltatech_business_process
+#: model:ir.actions.server,name:deltatech_business_process.action_open_process_library_from_project
+#: model:ir.actions.server,name:deltatech_business_process.action_open_process_library_from_process
+msgid "Import from library"
+msgstr "Import din bibliotecă"
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_library_import_line_list
+msgid "Import selected"
+msgstr "Importă selectate"
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_library_import_line_search
+msgid "With screenshots"
+msgstr "Cu capturi de ecran"
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_library_import_line_search
+msgid "Source module"
+msgstr "Modul sursă"

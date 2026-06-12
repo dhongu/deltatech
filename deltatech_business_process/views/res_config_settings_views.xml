@@ -5,9 +5,10 @@
         <field name="name">res.config.settings.view.form.business.process.library</field>
         <field name="model">res.config.settings</field>
         <field name="priority" eval="90"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
-            <form string="Settings" class="oe_form_configuration">
-                <app data-string="business_process" string="Business process" name="deltatech_business_process">
+            <xpath expr="//form" position="inside">
+                <app data-string="Business Process" string="Business Process" name="deltatech_business_process">
                     <block title="Process Library" name="process_library_sources">
                         <setting
                             string="Discover processes from all modules"
@@ -19,9 +20,15 @@
                             help="Comma-separated list of modules. When set, the sources are restricted to exactly the listed modules.">
                             <field name="process_library_whitelist" placeholder="e.g. l10n_ro_process_library, other_processes_module"/>
                         </setting>
+                        <setting
+                            string="Git repositories"
+                            help="Comma-separated git URLs cloned/pulled automatically. Example: https://github.com/terrabit-ro/procese">
+                            <field name="process_library_git_repos" placeholder="https://github.com/terrabit-ro/procese"/>
+                            <button name="action_sync_git_repos" string="Sync now" type="object" class="btn-secondary"/>
+                        </setting>
                     </block>
                 </app>
-            </form>
+            </xpath>
         </field>
     </record>
 
