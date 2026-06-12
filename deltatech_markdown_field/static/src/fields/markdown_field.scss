@@ -1,0 +1,91 @@
+.o_field_markdown {
+    .o_md_toolbar {
+        flex-wrap: wrap;
+        gap: 2px;
+        margin-bottom: 4px;
+
+        .btn {
+            min-width: 28px;
+            line-height: 1;
+        }
+    }
+
+    .o_md_editor {
+        height: auto;
+        overflow-y: auto;
+        white-space: normal;
+
+        &:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        // Placeholder pentru editorul gol
+        &:empty:not(.o_md_readonly)::before {
+            content: attr(data-placeholder);
+            color: var(--o-input-placeholder-color, $text-muted);
+            pointer-events: none;
+        }
+
+        &.o_md_readonly {
+            border: none;
+            padding-left: 0;
+            background-color: transparent;
+        }
+
+        // Aspect conținut randat
+        h1,
+        h2,
+        h3,
+        h4 {
+            margin-top: 0.4em;
+            margin-bottom: 0.3em;
+            font-weight: 600;
+        }
+        h1 {
+            font-size: 1.6em;
+        }
+        h2 {
+            font-size: 1.35em;
+        }
+        h3 {
+            font-size: 1.15em;
+        }
+
+        p {
+            margin-bottom: 0.5em;
+        }
+
+        ul,
+        ol {
+            padding-left: 1.4em;
+            margin-bottom: 0.5em;
+        }
+
+        blockquote {
+            border-left: 3px solid var(--border-color, #ccc);
+            padding-left: 0.8em;
+            margin-left: 0;
+            color: var(--text-muted, #6c757d);
+        }
+
+        pre {
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+            padding: 0.6em 0.8em;
+            overflow-x: auto;
+            font-family: var(--font-monospace, monospace);
+        }
+
+        code {
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 3px;
+            padding: 0.1em 0.3em;
+            font-family: var(--font-monospace, monospace);
+        }
+
+        a {
+            text-decoration: underline;
+        }
+    }
+}
