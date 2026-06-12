@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="deltatech_markdown_field.MarkdownField">
+        <div class="o_field_markdown w-100">
+            <div t-if="!readonly" class="o_md_toolbar btn-toolbar" role="toolbar" aria-label="Markdown toolbar">
+                <div class="btn-group btn-group-sm me-1" role="group">
+                    <button type="button" class="btn btn-light" title="Bold"
+                            t-on-mousedown.prevent="() => this.onToolbar('bold')">
+                        <i class="fa fa-bold"/>
+                    </button>
+                    <button type="button" class="btn btn-light" title="Italic"
+                            t-on-mousedown.prevent="() => this.onToolbar('italic')">
+                        <i class="fa fa-italic"/>
+                    </button>
+                    <button type="button" class="btn btn-light" title="Strikethrough"
+                            t-on-mousedown.prevent="() => this.onToolbar('strikeThrough')">
+                        <i class="fa fa-strikethrough"/>
+                    </button>
+                </div>
+                <div class="btn-group btn-group-sm me-1" role="group">
+                    <button type="button" class="btn btn-light" title="Heading 1"
+                            t-on-mousedown.prevent="() => this.onFormatBlock('h1')">H1</button>
+                    <button type="button" class="btn btn-light" title="Heading 2"
+                            t-on-mousedown.prevent="() => this.onFormatBlock('h2')">H2</button>
+                    <button type="button" class="btn btn-light" title="Heading 3"
+                            t-on-mousedown.prevent="() => this.onFormatBlock('h3')">H3</button>
+                    <button type="button" class="btn btn-light" title="Paragraph"
+                            t-on-mousedown.prevent="() => this.onFormatBlock('p')">¶</button>
+                </div>
+                <div class="btn-group btn-group-sm me-1" role="group">
+                    <button type="button" class="btn btn-light" title="Bullet list"
+                            t-on-mousedown.prevent="() => this.onToolbar('insertUnorderedList')">
+                        <i class="fa fa-list-ul"/>
+                    </button>
+                    <button type="button" class="btn btn-light" title="Numbered list"
+                            t-on-mousedown.prevent="() => this.onToolbar('insertOrderedList')">
+                        <i class="fa fa-list-ol"/>
+                    </button>
+                    <button type="button" class="btn btn-light" title="Quote"
+                            t-on-mousedown.prevent="() => this.onFormatBlock('blockquote')">
+                        <i class="fa fa-quote-right"/>
+                    </button>
+                    <button type="button" class="btn btn-light" title="Code block"
+                            t-on-mousedown.prevent="() => this.onFormatBlock('pre')">
+                        <i class="fa fa-code"/>
+                    </button>
+                </div>
+                <div class="btn-group btn-group-sm me-1" role="group">
+                    <button type="button" class="btn btn-light" title="Link"
+                            t-on-mousedown.prevent="() => this.onToolbar('createLink')">
+                        <i class="fa fa-link"/>
+                    </button>
+                    <button type="button" class="btn btn-light" title="Clear formatting"
+                            t-on-mousedown.prevent="() => this.onToolbar('removeFormat')">
+                        <i class="fa fa-eraser"/>
+                    </button>
+                </div>
+            </div>
+            <div t-ref="editor"
+                 class="o_md_editor form-control"
+                 t-att-class="{ o_md_readonly: readonly }"
+                 t-att-contenteditable="readonly ? 'false' : 'true'"
+                 t-att-data-placeholder="props.placeholder"
+                 t-attf-style="min-height: {{ props.minHeight }}px;"
+                 t-on-blur="onBlur"/>
+        </div>
+    </t>
+
+</templates>
