@@ -18,14 +18,19 @@ Discovery is controlled from Settings (``ir.config_parameter``):
   off = only the whitelisted modules.
 * ``deltatech_business_process.process_library_whitelist`` (comma-separated list
   of modules) — when set, restrict the sources to exactly the listed modules.
+* ``deltatech_business_process.process_library_git_repos`` (comma-separated list
+  of git URLs) — additional sources cloned/pulled under the Odoo data dir.
+  Repos are discovered with root layout ``<folder>/process.json`` (standalone repo,
+  no ``processes/`` sub-folder needed).
 """
 
 import base64
 import json
 import logging
 import os
+import subprocess
 
-from odoo import api, models
+from odoo import api, models, tools
 from odoo.modules.module import get_module_path
 
 _logger = logging.getLogger(__name__)
@@ -45,11 +50,78 @@ class BusinessProcessLibrary(models.AbstractModel):
         return base if os.path.isdir(base) else None
 
     @api.model
-    def _iter_process_sources(self):
-        """Return ``[(module_name, base_dir), ...]`` for the eligible sources.
+    def _git_repos_cache_dir(self):
+        """Local directory where git repos are cloned (under Odoo data_dir)."""
+        return os.path.join(tools.config.get("data_dir", os.path.expanduser("~/.local/share/Odoo")), "process_repos")
 
-        A source is an installed module that has a ``processes/`` folder. Order is
-        deterministic (alphabetical by module name).
+    @api.model
+    def _repo_local_name(self, url):
+        """Derive a filesystem-safe folder name from a git URL."""
+        name = url.rstrip("/").rsplit("/", 1)[-1]
+        if name.endswith(".git"):
+            name = name[:-4]
+        return name
+
+    @api.model
+    def _sync_git_repo(self, url, cache_dir):
+        """Clone or pull a single git repo; return local path or None on error."""
+        local_name = self._repo_local_name(url)
+        local_path = os.path.join(cache_dir, local_name)
+        try:
+            os.makedirs(cache_dir, exist_ok=True)
+            if os.path.isdir(os.path.join(local_path, ".git")):
+                result = subprocess.run(
+                    ["git", "-C", local_path, "pull", "--ff-only", "--quiet"],
+                    capture_output=True,
+                    text=True,
+                    timeout=60,
+                )
+                if result.returncode != 0:
+                    _logger.warning("Process library: git pull failed for %s: %s", url, result.stderr)
+            else:
+                result = subprocess.run(
+                    ["git", "clone", "--depth", "1", "--quiet", url, local_path],
+                    capture_output=True,
+                    text=True,
+                    timeout=120,
+                )
+                if result.returncode != 0:
+                    _logger.warning("Process library: git clone failed for %s: %s", url, result.stderr)
+                    return None
+        except subprocess.TimeoutExpired:
+            _logger.warning("Process library: git operation timed out for %s", url)
+            return None
+        except Exception as exc:
+            _logger.warning("Process library: git error for %s: %s", url, exc)
+            return None
+        return local_path if os.path.isdir(local_path) else None
+
+    @api.model
+    def sync_git_repos(self):
+        """Clone/pull all configured git repos; return list of (label, local_path)."""
+        icp = self.env["ir.config_parameter"].sudo()
+        urls = [
+            u.strip()
+            for u in (icp.get_param("deltatech_business_process.process_library_git_repos") or "").split(",")
+            if u.strip()
+        ]
+        cache_dir = self._git_repos_cache_dir()
+        synced = []
+        for url in urls:
+            local_path = self._sync_git_repo(url, cache_dir)
+            if local_path:
+                label = self._repo_local_name(url)
+                synced.append((label, local_path))
+                _logger.info("Process library: synced git repo %s → %s", url, local_path)
+        return synced
+
+    @api.model
+    def _iter_process_sources(self):
+        """Return ``[(label, base_dir), ...]`` for the eligible sources.
+
+        Sources: (1) installed Odoo modules with a ``processes/`` sub-folder,
+        (2) git repos configured via ``process_library_git_repos`` (root layout,
+        no ``processes/`` sub-folder needed — process folders sit at repo root).
         """
         icp = self.env["ir.config_parameter"].sudo()
         whitelist = [
@@ -73,12 +145,17 @@ class BusinessProcessLibrary(models.AbstractModel):
         if whitelist:
             for module_name in whitelist:
                 _add(module_name)
-            return sources
-
-        if autodiscover:
+        elif autodiscover:
             installed = self.env["ir.module.module"].search([("state", "=", "installed")])
             for module_name in sorted(installed.mapped("name")):
                 _add(module_name)
+
+        # Git repos — cloned on demand; root of repo = processes base dir
+        for label, local_path in self.sync_git_repos():
+            if label not in seen:
+                seen.add(label)
+                sources.append((label, local_path))
+
         return sources
 
     @api.model
@@ -87,7 +164,7 @@ class BusinessProcessLibrary(models.AbstractModel):
         if not os.path.isfile(path):
             return []
         try:
-            with open(path, encoding="utf-8") as fh:
+            with open(path, encoding="utf-8-sig") as fh:
                 data = json.load(fh)
         except (ValueError, OSError) as exc:
             _logger.warning("Process library: cannot read %s: %s", path, exc)
@@ -243,7 +320,11 @@ class BusinessProcessLibrary(models.AbstractModel):
                 }
             )
 
-        for test in data.get("tests") or []:
+        raw_tests = data.get("tests") or []
+        # JSON-urile mai vechi pot stoca un singur test ca dict, nu ca lista
+        if isinstance(raw_tests, dict):
+            raw_tests = [raw_tests]
+        for test in raw_tests:
             test_rec = self.env["business.process.test"].create(
                 {
                     "process_id": process.id,
@@ -256,10 +337,18 @@ class BusinessProcessLibrary(models.AbstractModel):
                 step = self.env["business.process.step"].search(
                     [("process_id", "=", process.id), ("name", "=", st.get("step"))], limit=1
                 )
+                if not step:
+                    _logger.warning(
+                        "Process library: step '%s' not found for test '%s' in process %s — skipped",
+                        st.get("step"),
+                        test.get("name"),
+                        code,
+                    )
+                    continue
                 self.env["business.process.step.test"].create(
                     {
                         "process_test_id": test_rec.id,
-                        "step_id": step.id if step else False,
+                        "step_id": step.id,
                         "process_id": process.id,
                         "result": st.get("result") or "draft",
                         "test_started": st.get("test_started") or False,
