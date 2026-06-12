@@ -4,7 +4,10 @@
 import base64
 import json
 
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
+
+from odoo.addons.deltatech_business_process.wizard.import_business_process import _normalize_description
 
 
 class TestBusinessProcessImportExport(TransactionCase):
@@ -188,3 +191,241 @@ class TestBusinessProcessImportExport(TransactionCase):
             [("project_id", "=", self.project.id), ("code", "=", self.process.code)]
         )
         self.assertEqual(len(procs), 1)
+
+    def _export_payload_with_dev_and_issue(self):
+        """Create a development + an issue on the project and export them along with the process."""
+        dev_type = self.env["business.development.type"].create({"name": "Report"})
+        self.development = self.env["business.development"].create(
+            {
+                "name": "Custom report",
+                "code": "DEV-001",
+                "area_id": self.area.id,
+                "type_id": dev_type.id,
+                "project_id": self.project.id,
+                "note": "Some note",
+            }
+        )
+        # Link the development to the exported step
+        self.step.development_ids = [(4, self.development.id)]
+        self.issue = self.env["business.issue"].create(
+            {
+                "name": "Wrong total",
+                "code": "ISS-001",
+                "project_id": self.project.id,
+                "process_id": self.process.id,
+                "area_id": self.area.id,
+                "category": "defect",
+                "severity": "major",
+            }
+        )
+        export_wiz = (
+            self.env["business.process.export"]
+            .with_context(active_ids=self.process.ids, active_model="business.process")
+            .create(
+                {
+                    "include_tests": True,
+                    "include_durations": True,
+                    "include_process_state": True,
+                    "include_developments": True,
+                    "include_issues": True,
+                }
+            )
+        )
+        export_wiz.do_export()
+        return export_wiz.data_file
+
+    def test_export_import_developments_and_issues(self):
+        payload = self._export_payload_with_dev_and_issue()
+        data = json.loads(base64.b64decode(payload).decode("utf-8"))
+        self.assertTrue(data["developments"])
+        self.assertTrue(data["issues"])
+        # step exports the linked development reference
+        self.assertIn("DEV-001", data["processes"][0]["steps"][0]["development_ids"])
+
+        new_project = self.env["business.project"].create({"name": "Imported DI", "customer_id": self.partner.id})
+        import_wiz = (
+            self.env["business.process.import"]
+            .with_context(active_ids=new_project.ids, active_model="business.project")
+            .create({"name": "bp.json", "data_file": payload})
+        )
+        import_wiz.do_import()
+
+        dev = self.env["business.development"].search([("project_id", "=", new_project.id), ("code", "=", "DEV-001")])
+        self.assertEqual(len(dev), 1)
+        self.assertIn("Some note", dev.note)  # html field
+        issue = self.env["business.issue"].search([("project_id", "=", new_project.id), ("code", "=", "ISS-001")])
+        self.assertEqual(len(issue), 1)
+        self.assertEqual(issue.severity, "major")
+        # the issue is relinked to the imported process by name
+        self.assertEqual(issue.process_id.project_id, new_project)
+        # the imported step is linked to the imported development
+        step = self.env["business.process.step"].search(
+            [("process_id.project_id", "=", new_project.id), ("code", "=", self.step.code)]
+        )
+        self.assertIn(dev, step.development_ids)
+
+        # second import updates instead of duplicating
+        import_wiz2 = (
+            self.env["business.process.import"]
+            .with_context(active_ids=new_project.ids, active_model="business.project")
+            .create({"name": "bp.json", "data_file": payload})
+        )
+        import_wiz2.do_import()
+        self.assertEqual(
+            self.env["business.development"].search_count(
+                [("project_id", "=", new_project.id), ("code", "=", "DEV-001")]
+            ),
+            1,
+        )
+        self.assertEqual(
+            self.env["business.issue"].search_count([("project_id", "=", new_project.id), ("code", "=", "ISS-001")]),
+            1,
+        )
+
+    def test_import_creates_missing_masterdata(self):
+        # link an installed module so include_modules has content
+        base_module = self.env["ir.module.module"].search([("name", "=", "base")], limit=1)
+        self.process.module_ids = [(4, base_module.id)]
+        payload = self._export_payload_with_dev_and_issue()
+        data = json.loads(base64.b64decode(payload).decode("utf-8"))
+        proc = data["processes"][0]
+        # rewire every master-data reference to names that do not exist yet
+        proc["responsible"] = "New Responsible"
+        proc["customer"] = "New Customer"
+        proc["approved"] = "New Approver"
+        proc["support"] = "New Support"
+        proc["area"] = "New Area"
+        proc["process_group"] = "New Group"
+        proc["include_modules"] = True
+        proc["modules"] = ["base"]
+        proc["steps"][0]["area"] = "New Step Area"
+        proc["steps"][0]["transaction"] = "New Transaction"
+        proc["tests"][0]["tester"] = "New Tester"
+        data["developments"][0]["area"] = "New Dev Area"
+        data["developments"][0]["type"] = "New Dev Type"
+        data["issues"][0]["area"] = "New Issue Area"
+        payload = base64.b64encode(json.dumps(data, default=str).encode("utf-8"))
+
+        new_project = self.env["business.project"].create({"name": "Masterdata", "customer_id": self.partner.id})
+        import_wiz = (
+            self.env["business.process.import"]
+            .with_context(active_ids=new_project.ids, active_model="business.project")
+            .create({"name": "bp.json", "data_file": payload})
+        )
+        import_wiz.do_import()
+
+        proc_rec = self.env["business.process"].search([("project_id", "=", new_project.id)], limit=1)
+        self.assertEqual(proc_rec.responsible_id.name, "New Responsible")
+        self.assertEqual(proc_rec.customer_id.name, "New Customer")
+        self.assertEqual(proc_rec.approved_id.name, "New Approver")
+        self.assertEqual(proc_rec.support_id.name, "New Support")
+        self.assertEqual(proc_rec.area_id.name, "New Area")
+        self.assertEqual(proc_rec.process_group_id.name, "New Group")
+        self.assertIn(base_module, proc_rec.module_ids)
+        step = proc_rec.step_ids[0]
+        # the step area is a stored related field of the process area
+        self.assertEqual(step.area_id.name, "New Area")
+        self.assertEqual(step.transaction_id.name, "New Transaction")
+        test = self.env["business.process.test"].search([("process_id", "=", proc_rec.id)], limit=1)
+        self.assertEqual(test.tester_id.name, "New Tester")
+        dev = self.env["business.development"].search([("project_id", "=", new_project.id)], limit=1)
+        self.assertEqual(dev.area_id.name, "New Dev Area")
+        self.assertEqual(dev.type_id.name, "New Dev Type")
+        issue = self.env["business.issue"].search([("project_id", "=", new_project.id)], limit=1)
+        self.assertEqual(issue.area_id.name, "New Issue Area")
+
+    def test_import_from_process_context(self):
+        payload = self._export_payload_with_dev_and_issue()
+        import_wiz = (
+            self.env["business.process.import"]
+            .with_context(active_ids=self.process.ids, active_model="business.process")
+            .create({"name": "bp.json", "data_file": payload})
+        )
+        import_wiz.do_import()
+        # project resolved from the process; the process was updated in place
+        self.assertEqual(
+            self.env["business.process"].search_count(
+                [("project_id", "=", self.project.id), ("code", "=", self.process.code)]
+            ),
+            1,
+        )
+
+    def test_import_without_project_raises(self):
+        import_wiz = (
+            self.env["business.process.import"]
+            .with_context(active_ids=[], active_model="business.project")
+            .create({"name": "bp.json", "data_file": base64.b64encode(b"{}")})
+        )
+        with self.assertRaises(UserError):
+            import_wiz.do_import()
+
+    def test_do_back_wizards(self):
+        export_wiz = self.env["business.process.export"].create({})
+        action = export_wiz.do_back()
+        self.assertEqual(export_wiz.state, "choose")
+        self.assertEqual(action.get("res_model"), "business.process.export")
+
+        import_wiz = self.env["business.process.import"].create({})
+        action = import_wiz.do_back()
+        self.assertEqual(import_wiz.state, "get")
+        self.assertEqual(action.get("res_model"), "business.process.import")
+
+    def test_normalize_description(self):
+        self.assertEqual(_normalize_description(False), "")
+        self.assertEqual(_normalize_description(""), "")
+        self.assertEqual(_normalize_description("<p>Hello &amp; bye</p>"), "Hello & bye")
+        self.assertEqual(_normalize_description(42), "42")
+
+
+class TestLibraryImportLine(TransactionCase):
+    def setUp(self):
+        super().setUp()
+        # partner creation can hit DB-specific constraints, reuse an existing one
+        self.partner = self.env["res.partner"].search([], limit=1)
+        if not self.partner:
+            self.partner = self.env["res.partner"].create({"name": "Customer"})
+        self.project = self.env["business.project"].create({"name": "Library Project", "customer_id": self.partner.id})
+        self.area = self.env["business.area"].create({"name": "Library Area"})
+        self.process = self.env["business.process"].create(
+            {"name": "Proc", "code": "P-LIB", "project_id": self.project.id, "area_id": self.area.id}
+        )
+        self.Line = self.env["business.process.library.import.line"]
+
+    def test_resolve_project_from_context(self):
+        project = self.Line.with_context(
+            active_ids=self.project.ids, active_model="business.project"
+        )._resolve_project_from_context()
+        self.assertEqual(project, self.project)
+
+        project = self.Line.with_context(
+            active_ids=self.process.ids, active_model="business.process"
+        )._resolve_project_from_context()
+        self.assertEqual(project, self.project)
+
+        with self.assertRaises(UserError):
+            self.Line.with_context(active_ids=[], active_model="business.project")._resolve_project_from_context()
+
+    def test_action_open_library(self):
+        action = self.Line.with_context(
+            active_ids=self.project.ids, active_model="business.project"
+        ).action_open_library()
+        self.assertEqual(action.get("type"), "ir.actions.act_window")
+        self.assertEqual(action.get("res_model"), self.Line._name)
+        # the action domain points at the (re)created lines of this project
+        lines = self.Line.search([("project_id", "=", self.project.id)])
+        self.assertEqual(set(action["domain"][0][2]), set(lines.ids))
+
+    def test_populate_lines_is_idempotent(self):
+        lines1 = self.Line._populate_lines(self.project)
+        lines2 = self.Line._populate_lines(self.project)
+        # previous lines are removed on re-population
+        self.assertFalse(lines1.exists() - lines2.exists())
+        self.assertEqual(len(self.Line.search([("project_id", "=", self.project.id)])), len(lines2))
+
+    def test_action_import_selected_empty_raises(self):
+        with self.assertRaises(UserError):
+            self.Line.action_import_selected()
+        # a line without folder is filtered out as well
+        line = self.Line.create({"project_id": self.project.id, "name": "x", "code": "c", "folder": False})
+        with self.assertRaises(UserError):
+            line.action_import_selected()

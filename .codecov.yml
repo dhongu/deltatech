@@ -1,3 +1,8 @@
+ignore:
+  - "**/tests/**"
+  - "**/migrations/**"
+  - "**/__manifest__.py"
+
 coverage:
   status:
     project:
