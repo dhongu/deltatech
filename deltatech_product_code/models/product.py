@@ -95,7 +95,7 @@ class ProductTemplate(models.Model):
         sql = """
              SELECT id FROM
               (SELECT *, count(*)
-                   OVER   (PARTITION BY  default_code, active) AS count
+                   OVER   (PARTITION BY  default_code, active, company_id) AS count
                     FROM product_template)
                tableWithCount
               WHERE tableWithCount.count > 1;
@@ -109,6 +109,7 @@ class ProductTemplate(models.Model):
         action = self.env["ir.actions.actions"]._for_xml_id("product.product_template_action")
 
         action["domain"] = [("id", "in", product_ids)]
+        action["context"] = self.env.context
         return action
 
 
@@ -119,6 +120,8 @@ class ProductProduct(models.Model):
     # codificare automata  la creare
     @api.model_create_multi
     def create(self, vals_list):
+        # In 18.0 this guard was absent — the sequence would overwrite any manually set default_code.
+        # In 19.0 we preserve the manually set code (behavior kept intentionally).
         for vals in vals_list:
             if "default_code" not in vals or vals["default_code"] in ["/", "", False]:
                 categ_id = vals.get("categ_id")
@@ -158,3 +161,28 @@ class ProductProduct(models.Model):
         for product in self:
             values = self.env["product.template"].get_new_code(product.categ_id, product.default_code, product.barcode)
             product.write(values)
+
+    def force_new_code(self):
+        self.with_context(force_code=True).button_new_code()
+
+    @api.model
+    def show_not_unique(self):
+        sql = """
+             SELECT id FROM
+              (SELECT *, count(*)
+                   OVER   (PARTITION BY  default_code, active, company_id) AS count
+                    FROM product_product)
+               tableWithCount
+              WHERE tableWithCount.count > 1;
+        """
+        self.env.cr.execute(sql)
+        product_ids = [x[0] for x in self.env.cr.fetchall()]
+
+        action = self.env.ref("deltatech_product_code.action_force_new_code_product")
+        action.create_action()
+
+        action = self.env["ir.actions.actions"]._for_xml_id("product.product_open_variants")
+
+        action["domain"] = [("id", "in", product_ids)]
+        action["context"] = self.env.context
+        return action
