@@ -11,6 +11,7 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     standard_price = fields.Float(tracking=True)
+    last_purchase_price = fields.Float(digits="Product Price", tracking=True, company_dependent=True)
 
     @api.onchange("last_purchase_price", "trade_markup")
     def onchange_last_purchase_price(self):
@@ -22,7 +23,24 @@ class ProductTemplate(models.Model):
 
     standard_price = fields.Float(tracking=True)
     list_price = fields.Float(tracking=True)
-    last_purchase_price = fields.Float(digits="Product Price", tracking=True)
+    last_purchase_price = fields.Float(
+        digits="Product Price",
+        compute="_compute_last_purchase_price",
+        inverse="_inverse_last_purchase_price",
+        search="_search_last_purchase_price",
+        tracking=True,
+        company_dependent=True,
+    )
+
+    @api.depends_context("company")
+    def _compute_last_purchase_price(self):
+        self._compute_template_field_from_variant_field("last_purchase_price")
+
+    def _inverse_last_purchase_price(self):
+        self._set_product_variant_field("last_purchase_price")
+
+    def _search_last_purchase_price(self, operator, value):
+        return [("product_variant_ids.last_purchase_price", operator, value)]
 
     @api.onchange("list_price")
     def onchange_list_price(self):
@@ -61,12 +79,10 @@ class ProductTemplate(models.Model):
                         trade_markup = (list_price - product.last_purchase_price) / product.last_purchase_price * 100
                         product.trade_markup = trade_markup
                 list_price = product.last_purchase_price * (1 + product.trade_markup / 100)
-                list_price_tax = 0
                 if any(tax.price_include for tax in product.taxes_id):
-                    list_price_tax = product.taxes_id.with_context(force_price_include=False)._compute_amount(
-                        list_price, 1
-                    )
-                list_price = list_price + list_price_tax
+                    list_price = product.taxes_id.compute_all(list_price, quantity=1, handle_price_include=False)[
+                        "total_included"
+                    ]
 
                 list_price = currency._convert(list_price, product.currency_id, company, date)
                 list_price_round = safe_eval(get_param("sale.list_price_round", "2"))
@@ -87,21 +103,27 @@ class SupplierInfo(models.Model):
                 )
             price = from_uom._compute_price(item.price, to_uom)
 
+            company = item.company_id or self.env.company
             if item.currency_id:
-                to_currency = self.env.user.company_id.currency_id
-                company = self.env.user.company_id
+                to_currency = company.currency_id
                 price = item.currency_id._convert(price, to_currency, company, date)
             if price:
-                item.product_tmpl_id.last_purchase_price = price
-                item.product_tmpl_id.onchange_last_purchase_price()
+                if item.product_id:
+                    item.product_id.with_company(company).last_purchase_price = price
+                    item.product_id.with_company(company).onchange_last_purchase_price()
+                else:
+                    item.product_tmpl_id.with_company(company).last_purchase_price = price
+                    item.product_tmpl_id.with_company(company).onchange_last_purchase_price()
 
     def write(self, vals):
         res = super().write(vals)
         if "price" in vals:
-            self.update_last_purchase_price()
+            if not self.env.context.get("from_po_confirmation"):
+                self.update_last_purchase_price()
         return res
 
     def create(self, vals_list):
         res = super().create(vals_list)
-        res.update_last_purchase_price()
+        if not self.env.context.get("from_po_confirmation"):
+            res.update_last_purchase_price()
         return res
