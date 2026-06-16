@@ -49,6 +49,7 @@ class SaleMarginReport(models.Model):
     commission_director_computed = fields.Float("Commission Director Computed", readonly=True)
 
     commission = fields.Float("Real Commission")
+    commission_paid = fields.Boolean("Commission Paid", default=False)
     partner_id = fields.Many2one("res.partner", "Partner", readonly=True)
     commercial_partner_id = fields.Many2one("res.partner", "Commercial Partner", readonly=True)
 
@@ -125,6 +126,7 @@ class SaleMarginReport(models.Model):
                 sub.director_rate * (sale_val    - stock_val )  as commission_director_computed,
 
                 commission,
+                commission_paid,
                 partner_id, commercial_partner_id,  state_id, user_id, manager_user_id, director_user_id,   sub.company_id,
                 move_type,  state , payment_state, journal_id,
                  sub.currency_id
@@ -166,6 +168,7 @@ class SaleMarginReport(models.Model):
 
 
                     sum(l.commission) as commission,
+                    bool_and(l.commission_paid) as commission_paid,
                     cu.rate, cu.manager_rate, cu.director_rate, cu.manager_user_id, cu.director_user_id,
 
                     s.partner_id as partner_id,
@@ -278,7 +281,11 @@ class SaleMarginReport(models.Model):
 
     def write(self, vals):
         invoice_line = self.env["account.move.line"].sudo().browse(self.id)
-        value = {"commission": vals.get("commission", False)}
+        value = {}
+        if "commission" in vals:
+            value["commission"] = vals["commission"]
+        if "commission_paid" in vals:
+            value["commission_paid"] = vals["commission_paid"]
         if invoice_line.purchase_price == 0 and invoice_line.product_id:
             if invoice_line.product_id.standard_price > 0:
                 value["purchase_price"] = invoice_line.product_id.standard_price
@@ -291,6 +298,10 @@ class SaleMarginReport(models.Model):
         if 1 == 2:
             super().write(vals)
         return True
+
+    def action_set_commission_paid(self):
+        for record in self:
+            record.write({"commission_paid": True})
 
     @api.model
     def cron_update_purchase_price(self):
