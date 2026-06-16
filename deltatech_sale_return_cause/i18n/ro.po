@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0+e\n"
+"Project-Id-Version: Odoo Server 18.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-25 12:16+0000\n"
-"PO-Revision-Date: 2024-10-25 12:16+0000\n"
+"POT-Creation-Date: 2026-04-06 08:03+0000\n"
+"PO-Revision-Date: 2026-04-06 08:03+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,62 +17,133 @@ msgstr ""
 
 #. module: deltatech_sale_return_cause
 #: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__200_warranty
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_report__return_cause__200_warranty
+#: model:sale.return.cause,name:deltatech_sale_return_cause.cause_200_warranty
 msgid "200% warranty"
 msgstr "Garantia 200%"
 
 #. module: deltatech_sale_return_cause
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_return_cause__active
+msgid "Active"
+msgstr ""
+
+#. module: deltatech_sale_return_cause
 #: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__b2b_return
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_report__return_cause__b2b_return
+#: model:sale.return.cause,name:deltatech_sale_return_cause.cause_b2b_return
 msgid "B2B Return"
 msgstr "Retur B2B"
 
 #. module: deltatech_sale_return_cause
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_return_cause__name
+msgid "Cause"
+msgstr "Cauza"
+
+#. module: deltatech_sale_return_cause
 #: model:ir.actions.server,name:deltatech_sale_return_cause.ir_cron_check_and_update_return_amount_ir_actions_server
-#: model:ir.cron,cron_name:deltatech_sale_return_cause.ir_cron_check_and_update_return_amount
 msgid "Check and Update Return Amount"
 msgstr "Verifica si actualizeaza suma returnata"
 
 #. module: deltatech_sale_return_cause
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_return_cause__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_return_cause__create_date
+msgid "Created on"
+msgstr "Creat la"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_return_cause__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_sale_return_cause
 #: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__does_not_expect
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_report__return_cause__does_not_expect
+#: model:sale.return.cause,name:deltatech_sale_return_cause.cause_does_not_expect
 msgid "Does not expect the order"
 msgstr "Nu asteapta comanda"
 
 #. module: deltatech_sale_return_cause
 #: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__does_not_fit
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_report__return_cause__does_not_fit
+#: model:sale.return.cause,name:deltatech_sale_return_cause.cause_does_not_fit
 msgid "Does not fit"
 msgstr "Nu se potrivesc desi sunt dedicate"
 
 #. module: deltatech_sale_return_cause
 #: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__duplicate_order
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_report__return_cause__duplicate_order
+#: model:sale.return.cause,name:deltatech_sale_return_cause.cause_duplicate_order
 msgid "Duplicate order"
 msgstr "Comanda dublata"
 
 #. module: deltatech_sale_return_cause
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_report__return_cause__exchange
+msgid "Exchange"
+msgstr "Schimb"
+
+#. module: deltatech_sale_return_cause
 #: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__external_tva_restitution
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_report__return_cause__external_tva_restitution
+#: model:sale.return.cause,name:deltatech_sale_return_cause.cause_external_tva_restitution
 msgid "External TVA Restitution"
 msgstr "Restituire TVA extern"
 
 #. module: deltatech_sale_return_cause
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_return_cause__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_sale_return_cause
 #: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__sale_team_mistake
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_report__return_cause__sale_team_mistake
+#: model:sale.return.cause,name:deltatech_sale_return_cause.cause_sale_team_mistake
 msgid "Incorrectly advised by Sales"
 msgstr "Consiliat gresit de CC"
 
 #. module: deltatech_sale_return_cause
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_order__is_return_amount_readonly
+msgid "Is Return Amount Readonly"
+msgstr "Este valoarea returului doar pentru citire"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_return_cause__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_return_cause__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare la"
+
+#. module: deltatech_sale_return_cause
 #: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__lost_package
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_report__return_cause__lost_package
+#: model:sale.return.cause,name:deltatech_sale_return_cause.cause_lost_package
 msgid "Lost Package"
 msgstr "Colet pierdut curier"
 
 #. module: deltatech_sale_return_cause
 #: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__not_satisfied
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_report__return_cause__not_satisfied
+#: model:sale.return.cause,name:deltatech_sale_return_cause.cause_not_satisfied
 msgid "Not satisfied with quality"
-msgstr "Nu este multumit de calitate"
+msgstr "Nu este mulțumit de calitate"
 
 #. module: deltatech_sale_return_cause
 #: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__ordered_incorrectly
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_report__return_cause__ordered_incorrectly
+#: model:sale.return.cause,name:deltatech_sale_return_cause.cause_ordered_incorrectly
 msgid "Ordered incorrectly by client"
-msgstr "Comandat gresit de client"
+msgstr "Comandat greșit de client"
 
 #. module: deltatech_sale_return_cause
 #: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__not_picked
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_report__return_cause__not_picked
+#: model:sale.return.cause,name:deltatech_sale_return_cause.cause_not_picked
 msgid "Package not picked up by client"
 msgstr "Colet neridicat de client"
 
@@ -82,16 +153,59 @@ msgid "Return Amount"
 msgstr "Valoare retur"
 
 #. module: deltatech_sale_return_cause
-#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_order__return_cause
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_order__return_cause_id
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_report__return_cause_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_return_cause.view_order_product_search
 msgid "Return Cause"
 msgstr "Motiv retur"
 
 #. module: deltatech_sale_return_cause
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_return_cause.view_order_product_search
+msgid "Return Cause (Legacy)"
+msgstr "Motiv retur (Legacy)"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_order__return_cause_date
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_report__return_cause_date
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_return_cause.view_order_product_search
+msgid "Return Cause Date"
+msgstr "Data motiv retur"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_order__return_cause
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_report__return_cause
+msgid "Return Cause(Legacy)"
+msgstr "Motiv retur"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.actions.act_window,name:deltatech_sale_return_cause.action_sale_return_cause
+#: model:ir.ui.menu,name:deltatech_sale_return_cause.menu_sale_return_cause
+msgid "Return Causes"
+msgstr "Cauze de retur"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model,name:deltatech_sale_return_cause.model_sale_return_cause
+msgid "Sale Return Cause"
+msgstr "Cauza de retur a vânzării"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model,name:deltatech_sale_return_cause.model_sale_report
+msgid "Sales Analysis Report"
+msgstr "Raport de analiză a vânzărilor"
+
+#. module: deltatech_sale_return_cause
 #: model:ir.model,name:deltatech_sale_return_cause.model_sale_order
 msgid "Sales Order"
-msgstr "Comandă vânzare"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_sale_return_cause
+#: model:ir.model.fields,field_description:deltatech_sale_return_cause.field_sale_return_cause__sequence
+msgid "Sequence"
+msgstr "Secvență"
 
 #. module: deltatech_sale_return_cause
 #: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_order__return_cause__wrong_shipped
+#: model:ir.model.fields.selection,name:deltatech_sale_return_cause.selection__sale_report__return_cause__wrong_shipped
+#: model:sale.return.cause,name:deltatech_sale_return_cause.cause_wrong_shipped
 msgid "Wrongly shipped warehouse"
 msgstr "Expediat gresit depozit"
