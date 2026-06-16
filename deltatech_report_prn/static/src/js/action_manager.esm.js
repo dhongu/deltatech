@@ -1,16 +1,8 @@
 /** @odoo-module **/
 import {download} from "@web/core/network/download";
-import {loadJS} from "@web/core/assets";
 import {registry} from "@web/core/registry";
 import {session} from "@web/session";
 import {_t} from "@web/core/l10n/translation";
-
-// URL of the Zebra Browser Print SDK. The SDK is proprietary and not bundled
-// (see static/lib/zebra/README.md); it is loaded lazily so instances without it
-// still build and simply fall back to the legacy .prn download. The url comes
-// from `session.deltatech_browser_print_sdk_url`, which a private companion
-// module that ships the SDK can override to point at its own static path.
-const DEFAULT_BROWSER_PRINT_SDK = "/deltatech_report_prn/static/lib/zebra/BrowserPrint.min.js";
 
 // The selected printer is persisted per workstation (localStorage), never per
 // user: the device uid is machine-specific and would break when the same user
@@ -53,16 +45,12 @@ async function downloadPrn(action, env) {
     }
 }
 
-async function ensureBrowserPrintSdk() {
-    if (window.BrowserPrint) {
-        return true;
-    }
-    const sdkUrl = session.deltatech_browser_print_sdk_url || DEFAULT_BROWSER_PRINT_SDK;
-    try {
-        await loadJS(sdkUrl);
-    } catch {
-        return false;
-    }
+function isBrowserPrintAvailable() {
+    // The proprietary Zebra Browser Print SDK is provided by a separate
+    // (private) companion module that loads it through web.assets_backend, so
+    // it exposes the global `window.BrowserPrint`. This module keeps no
+    // reference to that SDK: when no companion is installed the global is
+    // absent and we fall back to the legacy .prn download.
     return Boolean(window.BrowserPrint);
 }
 
@@ -136,7 +124,7 @@ function sendToPrinter(device, data) {
 }
 
 async function tryBrowserPrint(action, env) {
-    if (!(await ensureBrowserPrintSdk())) {
+    if (!isBrowserPrintAvailable()) {
         return false;
     }
     const device = await resolvePrinter();

@@ -57,19 +57,19 @@ Reference: <https://www.zebra.com/us/en/support-downloads/software/printer-softw
       Browser Print** (`ir.config_parameter`
       `deltatech_report_prn.browser_print_enabled`, default off), exposed to the
       web client via `session_info` (`ir_http.py`).
-- [x] Load the Zebra Browser Print JS SDK lazily from
-      `static/lib/zebra/BrowserPrint.min.js`. Kept **out** of the manifest
-      assets on purpose so instances without the proprietary SDK still build;
-      the file is added per instance (see `static/lib/zebra/README.md`).
+- [x] Keep the proprietary SDK **out** of this public module entirely. It is
+      provided by a separate (private) companion module that loads it via
+      `web.assets_backend` as the global `window.BrowserPrint`; this module just
+      checks for that global and keeps no SDK path or reference.
 - [x] Extend the `qweb-prn` handler in `action_manager.esm.js`: when the switch
       is on, `fetch` the rendered ZPL text (reuse the existing `/report/prn/...`
       route) and send it via `device.send(zpl, success, error)` instead of
       `download()`.
 - [x] Surface success/error to the user via Odoo notifications.
 - [x] Graceful fallback to the legacy `.prn` download when the switch is off,
-      the SDK is missing, the Browser Print service is unreachable, or no
-      printer can be resolved — so existing instances and mixed fleets keep
-      working unchanged.
+      no companion module provides the SDK, the Browser Print service is
+      unreachable, or no printer can be resolved — so existing instances and
+      mixed fleets keep working unchanged.
 
 ### Phase 2 — Printer discovery and selection
 
