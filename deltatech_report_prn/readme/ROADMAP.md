@@ -46,30 +46,34 @@ Reference: <https://www.zebra.com/us/en/support-downloads/software/printer-softw
   downloading a file).
 - **Per-workstation prerequisite:** the Zebra Browser Print **service** is
   installed once on each workstation (Windows/macOS installer from Zebra). The
-  Browser Print **JavaScript SDK** is bundled inside this module's assets, not
-  downloaded per customer.
+  Browser Print **JavaScript SDK** is shipped by a private companion module.
+- **Module split:** this public module owns only the legacy `.prn` flow and
+  exposes `buildPrnUrl` as an extension point. The entire Browser Print feature
+  — SDK, enable switch and print logic — lives in a separate (private) companion
+  module (`deltatech_report_prn_zebra_sdk`), so this module carries no
+  proprietary code and no Browser Print dependency.
 
 ## Phases
 
 ### Phase 1 — Browser Print transport (MVP) — DONE in 18.0.1.1.0
 
-- [x] Master switch in **Settings → General Settings → Integrations → Zebra
-      Browser Print** (`ir.config_parameter`
-      `deltatech_report_prn.browser_print_enabled`, default off), exposed to the
-      web client via `session_info` (`ir_http.py`).
-- [x] Keep the proprietary SDK **out** of this public module entirely. It is
-      provided by a separate (private) companion module that loads it via
-      `web.assets_backend` as the global `window.BrowserPrint`; this module just
-      checks for that global and keeps no SDK path or reference.
-- [x] Extend the `qweb-prn` handler in `action_manager.esm.js`: when the switch
-      is on, `fetch` the rendered ZPL text (reuse the existing `/report/prn/...`
-      route) and send it via `device.send(zpl, success, error)` instead of
-      `download()`.
-- [x] Surface success/error to the user via Odoo notifications.
+Implemented in the companion module; this module only provides the hook.
+
+- [x] **(public)** Refactor the `qweb-prn` handler and export `buildPrnUrl` so a
+      companion can fetch the rendered ZPL text from the `/report/prn/...` route.
+- [x] **(companion)** Master switch in **Settings → General Settings →
+      Integrations → Zebra Browser Print** (`ir.config_parameter`
+      `deltatech_report_prn.browser_print_enabled`, default off), exposed via
+      `session_info`.
+- [x] **(companion)** Ship the proprietary SDK and load it via
+      `web.assets_backend` as the global `window.BrowserPrint`.
+- [x] **(companion)** Register a report handler with a lower sequence that, when
+      the switch is on, fetches the ZPL text and sends it via
+      `device.send(zpl, success, error)`, with success/error notifications.
 - [x] Graceful fallback to the legacy `.prn` download when the switch is off,
-      no companion module provides the SDK, the Browser Print service is
-      unreachable, or no printer can be resolved — so existing instances and
-      mixed fleets keep working unchanged.
+      the companion is not installed, the Browser Print service is unreachable,
+      or no printer can be resolved — so existing instances and mixed fleets
+      keep working unchanged.
 
 ### Phase 2 — Printer discovery and selection
 

@@ -49,16 +49,16 @@ printers, on **Community** (no IoT Box required).
 
 Phases:
 
-- **Phase 1 — transport (MVP): DONE (18.0.1.1.0).** A master switch in
-  General Settings → Integrations → Zebra Browser Print (default off, exposed
-  via ``session_info``) gates the feature. When on, ``action_manager.esm.js``
-  uses the global ``window.BrowserPrint`` (provided by a separate private
-  companion module via ``web.assets_backend``), fetches the rendered ZPL text
-  (reuse the ``/report/prn/...`` route) and sends it via ``device.send(...)``
-  instead of ``download()``, with success/error notifications. When off — or
-  when no companion provides the SDK / the Browser Print service / a printer is
-  unavailable — it falls back to the legacy ``.prn`` download, so existing
-  instances and mixed fleets are unaffected.
+- **Phase 1 — transport (MVP): DONE (18.0.1.1.0).** Implemented in a separate
+  private companion module (``deltatech_report_prn_zebra_sdk``). This module
+  only refactors the ``qweb-prn`` handler and exports ``buildPrnUrl`` as an
+  extension point. The companion ships the SDK (loaded via
+  ``web.assets_backend`` as ``window.BrowserPrint``), adds the enable switch
+  (General Settings → Integrations) and registers a report handler with a lower
+  sequence that fetches the rendered ZPL text and sends it via
+  ``device.send(...)``. When the switch is off, the companion is absent, or no
+  printer is available, it falls back to the legacy ``.prn`` download handled
+  here, so existing instances and mixed fleets are unaffected.
 - **Phase 2 — discovery and selection:** discover printers on the workstation
   via the Browser Print SDK (``getLocalDevices`` / ``getDefaultDevice``).
   Persist the chosen printer **per workstation** (``localStorage`` and/or the
