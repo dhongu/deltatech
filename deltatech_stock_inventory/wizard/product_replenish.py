@@ -8,6 +8,9 @@ from odoo import models
 class ProductReplenish(models.TransientModel):
     _inherit = "product.replenish"
 
+    # NOTĂ O19: modelul `procurement.group` și `stock.move.group_id` au fost eliminate
+    # în Odoo 19, deci garda anti-duplicare pe grup de procurement (prezentă în 18.0)
+    # nu este portabilă. Lăsată dezactivată intenționat până la un echivalent O19.
     # group_id = fields.Many2one("procurement.group", string="Group")
     #
     # def _prepare_run_values(self):
@@ -24,6 +27,7 @@ class ProductReplenish(models.TransientModel):
     #         "warehouse_id": self.warehouse_id,
     #         "route_ids": self.route_id,
     #         "date_planned": self.date_planned,
+    #         "force_uom": True,
     #         "group_id": self.group_id,
     #     }
     #     return values
