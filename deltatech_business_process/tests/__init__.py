@@ -3,6 +3,7 @@
 
 from . import test_bp
 from . import test_business_process
+from . import test_implementation_stage
 from . import test_business_project
 from . import test_html_to_pdf
 from . import test_library_git_sync

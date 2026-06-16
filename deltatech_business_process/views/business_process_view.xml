@@ -56,7 +56,7 @@
                     decoration-warning="status_user_acceptance_test == 'wait'"
                     decoration-success="status_user_acceptance_test == 'done'"
                 />
-                <field name="implementation_stage" optional="hide" />
+                <field name="implementation_stage_id" optional="hide" />
 
             </list>
         </field>
@@ -170,7 +170,7 @@
                                                 </group>-->
 
                         <group string="Implementation">
-                            <field name="implementation_stage" />
+                            <field name="implementation_stage_id" />
                             <field name="module_type" />
                         </group>
 
@@ -309,7 +309,7 @@
                 <field name="project_id" />
                 <field name="area_id" />
                 <field name="responsible_id" />
-                <field name="implementation_stage" />
+                <field name="implementation_stage_id" />
                 <field name="module_type" />
                 <group>
                     <filter name="group_area" string="Area" domain="[]" context="{'group_by':'area_id'}" />
