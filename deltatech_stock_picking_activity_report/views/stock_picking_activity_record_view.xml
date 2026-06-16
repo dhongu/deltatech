@@ -56,7 +56,7 @@
                     domain="[('change_date', '&gt;=', (context_today() - datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d')), ('change_date', '&lt;', context_today().strftime('%%Y-%%m-%%d'))]"
                 />
 
-                <group expand="0" string="Group By">
+                <group>
                     <filter string="User" name="groupby_user" context="{'group_by':'user_id'}" />
                     <filter string="Date" name="groupby_date" context="{'group_by':'change_date'}" />
                     <filter string="State" name="groupby_state" context="{'group_by':'state'}" />

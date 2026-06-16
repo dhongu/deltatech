@@ -63,7 +63,7 @@
                 />
 
 
-                <group expand="0" string="Group By">
+                <group>
                     <filter string="User" name="groupby_user" context="{'group_by':'user_id'}" />
                     <filter string="Stage" name="groupby_stage" context="{'group_by':'stage'}" />
                     <filter string="Date" name="groupby_date" context="{'group_by':'change_date'}" />
