@@ -4,15 +4,13 @@
 {
     "name": "Raport PRN",
     "summary": "Raport PRN",
-    "version": "18.0.1.0.5",
+    "version": "18.0.1.1.0",
     "category": "Stock",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["web"],
     "license": "LGPL-3",
-    "data": [
-        # "views/assets.xml"
-    ],
+    "data": [],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
