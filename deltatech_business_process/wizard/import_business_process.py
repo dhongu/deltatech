@@ -12,6 +12,14 @@ import re
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 
+# Legacy selection keys (from before implementation_stage became a record)
+# mapped to their human-readable stage names, so old exports still import.
+_LEGACY_STAGE_LABELS = {
+    "first_stage": "First stage",
+    "second_stage": "Second stage",
+    "start": "Start",
+}
+
 
 def _normalize_description(value):
     if not value:
@@ -30,6 +38,19 @@ class BusinessProcessImport(models.TransientModel):
     name = fields.Char(string="File Name")
     data_file = fields.Binary(string="File")
     state = fields.Selection([("choose", "choose"), ("get", "get")], default="get")  # choose period  # get the file
+
+    def _get_implementation_stage(self, value):
+        """Resolve an exported implementation stage value to a stage record id,
+        creating the stage on the fly. Accepts both the human-readable name
+        (current export format) and the legacy selection key."""
+        if not value:
+            return False
+        name = _LEGACY_STAGE_LABELS.get(value, value)
+        stage_model = self.env["business.process.implementation.stage"]
+        stage = stage_model.search([("name", "=", name)], limit=1)
+        if not stage:
+            stage = stage_model.create({"name": name})
+        return stage.id
 
     def do_import(self):
         active_ids = self.env.context.get("active_ids", [])
@@ -111,7 +132,9 @@ class BusinessProcessImport(models.TransientModel):
                         "date_start_bbp": process_data["date_start_bbp"],
                         "date_end_bbp": process_data["date_end_bbp"],
                         "state": process_data["state"],
-                        "implementation_stage": process_data["implementation_stage"],
+                        "implementation_stage_id": self._get_implementation_stage(
+                            process_data.get("implementation_stage")
+                        ),
                         "module_type": process_data["module_type"],
                         "configuration_duration": configuration_duration,
                         "instructing_duration": instructing_duration,
@@ -150,7 +173,9 @@ class BusinessProcessImport(models.TransientModel):
                         "date_start_bbp": process_data["date_start_bbp"],
                         "date_end_bbp": process_data["date_end_bbp"],
                         "state": process_data["state"],
-                        "implementation_stage": process_data["implementation_stage"],
+                        "implementation_stage_id": self._get_implementation_stage(
+                            process_data.get("implementation_stage")
+                        ),
                         "module_type": process_data["module_type"],
                     }
                 )

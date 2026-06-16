@@ -153,13 +153,13 @@
                         </th>
                     </tr>
                 </thead>
-                <t t-foreach="o.process_ids.mapped('area_id').sorted(key=lambda r: r.name)" t-as="area">
+                <t t-foreach="o.handover_process_ids.mapped('area_id').sorted(key=lambda r: r.name)" t-as="area">
                     <tr style="background-color:#f8f3dd; font-weight:bold; text-align: center;">
                         <td>
                             <t t-esc="area.name" />
                         </td>
                         <t t-set="total_internal_steps" t-value="0" />
-                        <t t-foreach="o.process_ids" t-as="process">
+                        <t t-foreach="o.handover_process_ids" t-as="process">
                             <!-- Check if the process belongs to the current area -->
                             <t t-if="process.area_id.id == area.id">
                                 <!-- Loop through tests in each process -->
@@ -181,7 +181,7 @@
                             <span>0</span> <!-- Invisible character if no steps -->
                         </td>
                         <t t-set="total_user_steps" t-value="0" />
-                        <t t-foreach="o.process_ids" t-as="process">
+                        <t t-foreach="o.handover_process_ids" t-as="process">
                             <!-- Check if the process belongs to the current area -->
                             <t t-if="process.area_id.id == area.id">
                                 <!-- Loop through tests in each process -->
@@ -208,7 +208,7 @@
                     </tr>
 
                     <!-- Processes under each Area -->
-                    <t t-foreach="o.process_ids.filtered(lambda p: p.area_id == area)" t-as="process">
+                    <t t-foreach="o.handover_process_ids.filtered(lambda p: p.area_id == area)" t-as="process">
                         <tr>
                             <td>
                                 <span t-esc="process.name" />
@@ -283,8 +283,8 @@
                         </th>
                     </tr>
                 </thead>
-                <t t-foreach="o.development_ids.mapped('area_id').sorted(key=lambda r: r.name)" t-as="area">
-                    <t t-if="o.development_ids.filtered(lambda d: d.area_id == area and d.state == 'production')">
+                <t t-foreach="o.handover_development_ids.mapped('area_id').sorted(key=lambda r: r.name)" t-as="area">
+                    <t t-if="o.handover_development_ids.filtered(lambda d: d.area_id == area and d.state == 'production')">
 
                         <tr style="background-color:#f8f3dd; font-weight:bold; text-align: center;">
                             <td colspan="4">
@@ -292,7 +292,7 @@
                             </td>
                         </tr>
                         <t
-                            t-foreach="o.development_ids.filtered(lambda d: d.area_id == area and d.state == 'production').sorted(key=lambda d: d.code)"
+                            t-foreach="o.handover_development_ids.filtered(lambda d: d.area_id == area and d.state == 'production').sorted(key=lambda d: d.code)"
                             t-as="development"
                         >
                             <tr>

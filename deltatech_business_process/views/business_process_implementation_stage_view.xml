@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_business_process_implementation_stage_tree" model="ir.ui.view">
+        <field name="name">business.process.implementation.stage.list</field>
+        <field name="model">business.process.implementation.stage</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+            </list>
+        </field>
+    </record>
+    <record id="view_business_process_implementation_stage_form" model="ir.ui.view">
+        <field name="name">business.process.implementation.stage.form</field>
+        <field name="model">business.process.implementation.stage</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="name" />
+                        <field name="sequence" />
+                    </group>
+                    <group />
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="action_business_process_implementation_stage" model="ir.actions.act_window">
+        <field name="name">Implementation Stage</field>
+        <field name="res_model">business.process.implementation.stage</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem
+        name="Implementation Stage"
+        id="menu_business_process_implementation_stage"
+        action="action_business_process_implementation_stage"
+        parent="menu_config"
+    />
+</odoo>
