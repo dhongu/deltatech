@@ -21,7 +21,10 @@ class SaleOrder(models.Model):
         for product_id in pallets:
             if pallets and pallets[product_id]["product_uom_qty"]:
                 order_line = self.order_line.new(pallets[product_id])
-                order_line._onchange_product_id_warning()
+                # `_onchange_product_id_warning` nu există în O19 nativ; e adus
+                # doar de deltatech_sale_margin. Apelăm doar dacă e disponibil.
+                if hasattr(order_line, "_onchange_product_id_warning"):
+                    order_line._onchange_product_id_warning()
                 # order_line.product_uom_change()
 
     def recompute_pallet_lines(self, delete_if_under=False):
