@@ -49,7 +49,9 @@ class SaleOrder(models.Model):
             payment_status = "without"
 
             provider = self.env["payment.provider"]
-            all_transactions = order.sudo().transaction_ids.sorted(lambda a: a.id)
+            # filtrează tranzacțiile NewId (din onchange) înainte de sortare, ca să evităm
+            # TypeError la compararea NewId cu int
+            all_transactions = order.sudo().transaction_ids.filtered(lambda t: isinstance(t.id, int)).sorted("id")
             if all_transactions:
                 provider = all_transactions[-1].provider_id
 
