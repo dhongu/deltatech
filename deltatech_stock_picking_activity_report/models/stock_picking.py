@@ -224,7 +224,7 @@ class StockPicking(models.Model):
         for picking in self:
             counted_product_number = 0
             log_context = {"has_validated": True}
-            for line in picking.move_ids_without_package:
+            for line in picking.move_ids:
                 counted_product_number += line.quantity
             if picking.picking_type_id.code == "outgoing":
                 log_context["exit_product_number"] = counted_product_number
