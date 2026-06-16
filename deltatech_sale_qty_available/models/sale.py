@@ -12,12 +12,21 @@ class SaleOrder(models.Model):
     is_ready = fields.Boolean(
         string="Is ready",
         compute="_compute_is_ready",
-        store=False,
+        store=True,
         search="_search_is_ready",
     )
 
-    # @api.depends('state', 'invoice_status', 'order_line.product_id.qty_available', 'order_line.qty_to_deliver',
-    #              'picking_ids.move_ids.reserved_availability')
+    @api.depends(
+        "state",
+        "invoice_status",
+        "picking_policy",
+        "order_line.product_id.qty_available",
+        "order_line.product_id.outgoing_qty",
+        "order_line.qty_to_deliver",
+        "picking_ids.state",
+        "picking_ids.move_ids.quantity",
+        "picking_ids.move_ids.product_uom_qty",
+    )
     def _compute_is_ready(self):
         for order in self:
             is_ready = order.state in [
