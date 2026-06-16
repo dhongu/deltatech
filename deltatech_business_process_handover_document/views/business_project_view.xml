@@ -16,6 +16,9 @@
                         <field name="recipient_representative" />
                         <field name="recipient_testers" widget="many2many_tags" />
                     </group>
+                    <group string="Handover Options">
+                        <field name="handover_stage_id" />
+                    </group>
                 </group>
                 <field name="development_ids" invisible="1" />
             </xpath>
