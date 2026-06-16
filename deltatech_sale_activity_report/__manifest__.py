@@ -5,11 +5,12 @@
     "website": "https://www.terrabit.ro",
     "category": "Sales",
     "summary": "Adds a last modified field to the sale order",
-    "depends": ["sale", "deltatech_website_sale_status"],
+    "depends": ["sale", "data_recycle", "deltatech_website_sale_status"],
     "license": "OPL-1",
     "data": [
         "security/ir.model.access.csv",
         "views/sale_activity_record_view.xml",
+        "data/recycle_rules.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
