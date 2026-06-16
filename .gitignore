@@ -59,3 +59,8 @@ target/
 __pycache__/
 *.pyc
 *.pyo
+
+# Zebra Browser Print SDK is proprietary (by-request, Zebra EULA).
+# Do NOT commit it to this public AGPL repository. See
+# deltatech_report_prn/static/lib/zebra/README.md
+deltatech_report_prn/static/lib/zebra/BrowserPrint*.min.js
