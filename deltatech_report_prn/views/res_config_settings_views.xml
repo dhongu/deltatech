@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.deltatech.report.prn</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='integration']" position="inside">
+                <setting
+                    id="deltatech_browser_print_setting"
+                    string="Zebra Browser Print"
+                    help="Send ZPL/PRN labels directly to the printer via Zebra Browser Print on the workstation. When off, labels are downloaded as a .prn file (legacy flow)."
+                >
+                    <field name="deltatech_browser_print_enabled" />
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

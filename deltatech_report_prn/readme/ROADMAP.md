@@ -51,28 +51,61 @@ Reference: <https://www.zebra.com/us/en/support-downloads/software/printer-softw
 
 ## Phases
 
-### Phase 1 — Browser Print transport (MVP)
+### Phase 1 — Browser Print transport (MVP) — DONE in 18.0.1.1.0
 
-- [ ] Bundle the Zebra Browser Print JS SDK (`BrowserPrint-*.min.js`) under
-      `static/lib/zebra/` and register it in `web.assets_backend`.
-- [ ] Extend the `qweb-prn` handler in `action_manager.esm.js`: when Browser
-      Print is enabled, `fetch` the rendered ZPL text (reuse the existing
-      `/report/prn/...` route, content type `text`) instead of calling
-      `download()`, then send it via `device.send(zpl, success, error)`.
-- [ ] Surface success/error to the user via Odoo notifications (the missing
-      feedback of the current flow).
-- [ ] Graceful fallback: if the Browser Print service is not reachable on
-      `localhost`, fall back to the existing `.prn` download so nothing breaks
-      during rollout.
+- [x] Master switch in **Settings → General Settings → Integrations → Zebra
+      Browser Print** (`ir.config_parameter`
+      `deltatech_report_prn.browser_print_enabled`, default off), exposed to the
+      web client via `session_info` (`ir_http.py`).
+- [x] Load the Zebra Browser Print JS SDK lazily from
+      `static/lib/zebra/BrowserPrint.min.js`. Kept **out** of the manifest
+      assets on purpose so instances without the proprietary SDK still build;
+      the file is added per instance (see `static/lib/zebra/README.md`).
+- [x] Extend the `qweb-prn` handler in `action_manager.esm.js`: when the switch
+      is on, `fetch` the rendered ZPL text (reuse the existing `/report/prn/...`
+      route) and send it via `device.send(zpl, success, error)` instead of
+      `download()`.
+- [x] Surface success/error to the user via Odoo notifications.
+- [x] Graceful fallback to the legacy `.prn` download when the switch is off,
+      the SDK is missing, the Browser Print service is unreachable, or no
+      printer can be resolved — so existing instances and mixed fleets keep
+      working unchanged.
 
-### Phase 2 — Printer selection and defaults
+### Phase 2 — Printer discovery and selection
 
-- [ ] Optional `zebra.printer` model to register named printers and a default
-      printer per user (`user_ids`) and per company (`company_id`).
+Discovery happens **on the workstation** via the Browser Print JS SDK
+(`BrowserPrint.getLocalDevices(success, error, "printer")` and
+`BrowserPrint.getDefaultDevice("printer", ...)`), never on the server — which
+is what makes it work on Odoo.sh. Each discovered device exposes `name`, `uid`,
+`connection` (`usb` / `network` / `driver`) and `manufacturer`.
+
+**Design decision — persist the printer choice per workstation, NOT per user.**
+The device `uid` is specific to the machine; storing it on `res.users` would
+break the moment a user prints from a different computer (the saved `uid` does
+not exist there). The chosen printer belongs to the machine, so it is persisted
+machine-locally.
+
+Selection cascade (first match wins):
+
+- [ ] Saved selection on **this workstation** via `localStorage`
+      (`zebra_printer_uid`, or `zebra_printer_uid:<user_id>` if different users
+      on the same machine need different printers). Not a field on `res.users`.
+- [ ] The Browser Print **default device** configured once per machine in the
+      Zebra desktop app (`getDefaultDevice`) — survives user change, browser
+      change and Odoo restarts. This is the recommended "set & forget" path.
+- [ ] Auto-select when discovery returns exactly one printer.
+- [ ] Otherwise show an OWL dialog to pick a printer, then persist the chosen
+      `uid` to `localStorage` (back to the first step).
+
+- [ ] Optional defensive filter to keep only Zebra/ZPL printers
+      (`manufacturer` matches `zebra`, or two-way `~HQES` status probe).
 - [ ] Settings flag to enable/disable Browser Print globally (so customers can
       migrate gradually while keeping the `.bat` fallback).
-- [ ] Let the user pick a printer when Browser Print discovers more than one
-      device; remember the last used one.
+
+The optional `zebra.printer` model, if added, is for friendly names / logical
+labels (e.g. "reception printer") — **not** for binding a `uid` to a user. The
+physical `uid -> workstation` mapping stays in `localStorage` / the machine's
+default device.
 
 ### Phase 3 — Rollout and decommissioning
 

@@ -49,15 +49,22 @@ printers, on **Community** (no IoT Box required).
 
 Phases:
 
-- **Phase 1 — transport (MVP):** bundle the Browser Print JS SDK in
-  ``web.assets_backend``; in ``action_manager.esm.js`` fetch the rendered ZPL
-  text (reuse the ``/report/prn/...`` route) and send it via
-  ``device.send(...)`` instead of ``download()``; show success/error
-  notifications; fall back to the ``.prn`` download if the local service is
-  unreachable.
-- **Phase 2 — printer selection:** optional ``zebra.printer`` model with a
-  default printer per user/company and a global enable flag for gradual
-  migration.
+- **Phase 1 — transport (MVP): DONE (18.0.1.1.0).** A master switch in
+  General Settings → Integrations → Zebra Browser Print (default off, exposed
+  via ``session_info``) gates the feature. When on, ``action_manager.esm.js``
+  lazily loads the Browser Print SDK, fetches the rendered ZPL text (reuse the
+  ``/report/prn/...`` route) and sends it via ``device.send(...)`` instead of
+  ``download()``, with success/error notifications. When off — or when the SDK
+  / Browser Print service / a printer is unavailable — it falls back to the
+  legacy ``.prn`` download, so existing instances and mixed fleets are
+  unaffected.
+- **Phase 2 — discovery and selection:** discover printers on the workstation
+  via the Browser Print SDK (``getLocalDevices`` / ``getDefaultDevice``).
+  Persist the chosen printer **per workstation** (``localStorage`` and/or the
+  machine's Browser Print default device), **not** on ``res.users`` — the
+  device ``uid`` is machine-specific and would break when a user prints from
+  another computer. Selection cascade: saved ``localStorage`` choice → machine
+  default device → single printer auto-select → OWL pick dialog.
 - **Phase 3 — rollout:** document the one-time service install (Windows/macOS),
   migrate workstation by workstation keeping the ``.prn`` fallback, then remove
   the ``.bat`` association.
