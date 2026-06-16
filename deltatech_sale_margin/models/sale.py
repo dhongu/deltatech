@@ -146,6 +146,9 @@ class SaleOrderLine(models.Model):
 
             #
             if line.product_id and line.price_unit == 0:
+                # liniile generate de recompense de loialitate au preț 0 intenționat
+                if hasattr(line, "reward_id") and line.reward_id:
+                    continue
                 if not self.env.user.has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
                     raise UserError(self.env._("You can not sell %s without price.") % line.product_id.name)
                 else:
