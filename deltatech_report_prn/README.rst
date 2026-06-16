@@ -32,6 +32,41 @@ Features:
 .. contents::
    :local:
 
+Roadmap
+=======
+
+The full, maintained roadmap lives in ``readme/ROADMAP.md``. Summary:
+
+Goal: replace the current ``.prn`` download + ``.bat`` file-association flow
+with **Zebra Browser Print**, keeping the existing ZPL generation
+(``_render_qweb_prn``) untouched.
+
+Why Browser Print: production runs on **Odoo.sh**, whose cloud server has no
+route to the customer LAN, so server-side raw printing on TCP ``9100`` is not
+viable. The print transport must originate from the workstation. Browser Print
+runs as a local service on the workstation and covers **both USB and network**
+printers, on **Community** (no IoT Box required).
+
+Phases:
+
+- **Phase 1 — transport (MVP):** bundle the Browser Print JS SDK in
+  ``web.assets_backend``; in ``action_manager.esm.js`` fetch the rendered ZPL
+  text (reuse the ``/report/prn/...`` route) and send it via
+  ``device.send(...)`` instead of ``download()``; show success/error
+  notifications; fall back to the ``.prn`` download if the local service is
+  unreachable.
+- **Phase 2 — printer selection:** optional ``zebra.printer`` model with a
+  default printer per user/company and a global enable flag for gradual
+  migration.
+- **Phase 3 — rollout:** document the one-time service install (Windows/macOS),
+  migrate workstation by workstation keeping the ``.prn`` fallback, then remove
+  the ``.bat`` association.
+
+Out of scope (future): unattended/auto printing with no open browser session
+needs a cloud print relay such as **PrintNode**, not Browser Print.
+
+Reference: https://www.zebra.com/us/en/support-downloads/software/printer-software/browser-print.html
+
 Bug Tracker
 ===========
 
