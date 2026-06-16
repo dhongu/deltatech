@@ -44,7 +44,7 @@ class StockPickingReport(models.Model):
     def _select(self):
         select_str = """
             SELECT min(sm.id) as id, sp.id as picking_id,
-            sp.partner_id, rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date_done,  sp.company_id,
+            sp.partner_id, rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date_done as date,  sp.company_id,
             pt.categ_id, sm.product_id,  pt.uom_id as product_uom,
             sm.location_id,sm.location_dest_id,sl.usage as dest_usage, sum(pt.weight*sm.product_qty) as product_weight,
             CASE WHEN sl.usage='internal' THEN sum(sm.product_qty) ELSE -1*sum(sm.product_qty) END as product_qty,
