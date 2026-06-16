@@ -5,11 +5,12 @@ import {registry} from "@web/core/registry";
 import {session} from "@web/session";
 import {_t} from "@web/core/l10n/translation";
 
-// Local path where the Zebra Browser Print SDK must be dropped (see
-// static/lib/zebra/README.md). It is intentionally kept out of the manifest
-// assets and loaded lazily, so instances without the proprietary SDK still
-// build and simply fall back to the legacy .prn download.
-const BROWSER_PRINT_SDK = "/deltatech_report_prn/static/lib/zebra/BrowserPrint.min.js";
+// URL of the Zebra Browser Print SDK. The SDK is proprietary and not bundled
+// (see static/lib/zebra/README.md); it is loaded lazily so instances without it
+// still build and simply fall back to the legacy .prn download. The url comes
+// from `session.deltatech_browser_print_sdk_url`, which a private companion
+// module that ships the SDK can override to point at its own static path.
+const DEFAULT_BROWSER_PRINT_SDK = "/deltatech_report_prn/static/lib/zebra/BrowserPrint.min.js";
 
 // The selected printer is persisted per workstation (localStorage), never per
 // user: the device uid is machine-specific and would break when the same user
@@ -56,8 +57,9 @@ async function ensureBrowserPrintSdk() {
     if (window.BrowserPrint) {
         return true;
     }
+    const sdkUrl = session.deltatech_browser_print_sdk_url || DEFAULT_BROWSER_PRINT_SDK;
     try {
-        await loadJS(BROWSER_PRINT_SDK);
+        await loadJS(sdkUrl);
     } catch {
         return false;
     }

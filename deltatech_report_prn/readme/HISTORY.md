@@ -13,5 +13,8 @@
 - Graceful fallback: when the switch is off, or Browser Print / the SDK / a
   printer is unavailable, the legacy `.prn` download flow is used, so existing
   instances and mixed fleets keep working unchanged.
-- The Browser Print SDK is proprietary and not bundled; see
-  `static/lib/zebra/README.md` for how to add it.
+- The Browser Print SDK is proprietary and not bundled. Its url is read from
+  the `deltatech_report_prn.browser_print_sdk_url` system parameter (default
+  `/deltatech_report_prn/static/lib/zebra/BrowserPrint.min.js`), so a private
+  companion module can ship the SDK and point this parameter at its own static
+  path. See `static/lib/zebra/README.md`.
