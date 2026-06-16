@@ -164,9 +164,10 @@ class BusinessProcess(models.Model):
     testing_duration = fields.Float(string="Testing duration", default=0.0)
     duration_for_completion = fields.Float(string="Total duration", compute="_compute_duration_for_completion")
 
-    implementation_stage = fields.Selection(
-        [("first_stage", "First stage"), ("second_stage", "Second stage"), ("start", "Start")],
+    implementation_stage_id = fields.Many2one(
+        "business.process.implementation.stage",
         string="Implementation stage",
+        ondelete="restrict",
     )
     module_type = fields.Selection(
         [("standard", "Standard"), ("custom", "Custom"), ("implementor", "Implementor")], string="Module type"

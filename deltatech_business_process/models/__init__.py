@@ -4,6 +4,7 @@
 
 from . import business_area
 from . import business_development_type
+from . import business_process_implementation_stage
 from . import business_process
 from . import business_process_step
 from . import business_process_test

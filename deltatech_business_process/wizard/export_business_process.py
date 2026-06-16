@@ -112,7 +112,7 @@ class BusinessProcessExport(models.TransientModel):
                 "date_end_bbp": process.date_end_bbp,
                 "state": (process.state if self.include_process_state else "draft"),
                 "module_type": process.module_type,
-                "implementation_stage": process.implementation_stage,
+                "implementation_stage": process.implementation_stage_id.name,
             }
             if self.include_durations:
                 process_data["configuration_duration"] = process.configuration_duration
