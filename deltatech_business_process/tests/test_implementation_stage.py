@@ -8,9 +8,7 @@ class TestImplementationStage(TransactionCase):
     def setUp(self):
         super().setUp()
         self.Stage = self.env["business.process.implementation.stage"]
-        self.partner = self.env["res.partner"].search([], limit=1) or self.env["res.partner"].create(
-            {"name": "Tester"}
-        )
+        self.partner = self.env["res.partner"].search([], limit=1) or self.env["res.partner"].create({"name": "Tester"})
         self.area = self.env["business.area"].create({"name": "ERP", "responsible_id": self.partner.id})
         self.project = self.env["business.project"].create(
             {"name": "Implementation", "customer_id": self.partner.id, "project_type": "remote"}

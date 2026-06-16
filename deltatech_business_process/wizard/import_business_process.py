@@ -12,7 +12,6 @@ import re
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 
-
 # Legacy selection keys (from before implementation_stage became a record)
 # mapped to their human-readable stage names, so old exports still import.
 _LEGACY_STAGE_LABELS = {
