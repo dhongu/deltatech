@@ -10,3 +10,4 @@ from . import stock_inventory_adjustment_name
 from . import stock_confirm_inventory
 from . import stock_inventory_merge
 from . import product_replenish
+from . import stock_picking_return

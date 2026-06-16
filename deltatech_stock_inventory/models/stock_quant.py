@@ -78,6 +78,7 @@ class StockQuant(models.Model):
         inventory = self.filtered(lambda q: q.inventory_quantity_set).create_inventory_lines()
         res = super(StockQuant, self.with_context(apply_inventory=True)).action_apply_inventory()
         for quant in self:
+            quant.last_inventory_date = fields.Date.today()
             inventor_line = quant.inventory_line_id
             if inventor_line:
                 inventor_line.write({"is_ok": True})
