@@ -8,8 +8,12 @@ from odoo import models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    def _cart_update(self, product_id=None, line_id=None, add_qty=0, set_qty=0, **kwargs):
-        res = super()._cart_update(product_id=product_id, line_id=line_id, add_qty=add_qty, set_qty=set_qty, **kwargs)
+    def _verify_cart_after_update(self):
+        # În Odoo 19 API-ul website_sale a fost refactorizat: `_cart_update`
+        # nu mai există. Hook-ul `_verify_cart_after_update` este apelat după
+        # `_cart_add` și `_cart_update_line_quantity`, deci e locul potrivit
+        # pentru recalcul liniilor de palet.
+        res = super()._verify_cart_after_update()
         pallets = self.recompute_pallet_lines(delete_if_under=True)
 
         if pallets:
