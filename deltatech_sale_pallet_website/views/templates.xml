@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="show_pallet_price"
+        inherit_id="website_sale.product"
+        active="True"
+        customize_show="True"
+        name="Show Pallet Price"
+        priority="10"
+    >
+        <xpath expr="//div[@id='product_details']" position="inside">
+            <t t-if="product.pallet_qty_min">
+                <hr />
+                <p class="text-muted">
+                    When buying <span t-esc="product.pallet_qty_min" /> units,
+                    the price is <span
+                        t-field="product.pallet_price"
+                        t-options="{'widget': 'monetary', 'display_currency': product.currency_id}"
+                    />
+                </p>
+            </t>
+        </xpath>
+    </template>
+</odoo>
