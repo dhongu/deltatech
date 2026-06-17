@@ -3,16 +3,6 @@
  */
 import {registry} from "@web/core/registry";
 
-function setSelectByLabel(selector, labelText) {
-    const select = document.querySelector(selector);
-    if (!select) return false;
-    const option = Array.from(select.options).find((o) => o.text.trim() === labelText);
-    if (!option) return false;
-    select.value = option.value;
-    select.dispatchEvent(new Event("change", {bubbles: true}));
-    return true;
-}
-
 registry.category("web_tour.tours").add("deltatech_website_city_tour_city_zip", {
     url: "/my/account",
     steps: () => [
@@ -21,26 +11,24 @@ registry.category("web_tour.tours").add("deltatech_website_city_tour_city_zip", 
             trigger: 'select[name="country_id"]',
         },
         {
+            // Folosim selectByLabel nativ (Hoot) ca să garantăm că Interaction
+            // a apucat să atașeze handler-ele și că evenimentul change e procesat.
             content: "Select test country by label",
             trigger: 'select[name="country_id"]',
-            run() {
-                // Created by the test: country name is "Testland"
-                setSelectByLabel('select[name="country_id"]', "Testland");
-            },
+            // Created by the test: country name is "Testland"
+            run: "selectByLabel Testland",
         },
         {
             // OnChangeCountry e debounced 500ms + RPC /my/address/country_info/{id};
-            // așteaptă explicit ca opțiunile state-ului să fie populate, nu doar select-ul.
+            // așteaptă explicit ca opțiunile state-ului să fie populate.
             content: "Wait until states are populated for the selected country",
             trigger: '#div_state select[name="state_id"] option[value]:not([value=""])',
         },
         {
             content: "Select test state by label (triggers city RPC)",
             trigger: 'select[name="state_id"]',
-            run() {
-                // Created by the test: state name is "Test State"
-                setSelectByLabel('select[name="state_id"]', "Test State");
-            },
+            // Created by the test: state name is "Test State"
+            run: "selectByLabel Test State",
         },
         {
             content: "Wait until cities are populated",
@@ -49,12 +37,9 @@ registry.category("web_tour.tours").add("deltatech_website_city_tour_city_zip", 
         {
             content: "Pick city with ZIP and check ZIP filled",
             trigger: 'select[name="city_id"]',
-            run() {
-                // City created with ZIP: "Alpha City"
-                setSelectByLabel('select[name="city_id"]', "Alpha City");
-            },
+            // City created with ZIP: "Alpha City"
+            run: "selectByLabel Alpha City",
         },
-
         {
             content: "Switch back to placeholder city (empty) to allow manual ZIP entry",
             trigger: 'select[name="city_id"]',
