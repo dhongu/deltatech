@@ -9,7 +9,6 @@
                 <list>
                     <field name="date" optional="hide" />
                     <field name="product_id" invisible="0" />
-                    <field name="lot_producing_id" optional="hide" />
                     <field name="categ_id" optional="show" />
                     <field name="production_id" optional="hide" />
                     <field name="product_qty" sum='Qty Plan' />
@@ -55,7 +54,6 @@
                 <pivot string="Production Analysis">
                     <field name="product_id" type="row" />
                     <field name="date" interval="month" type="row" />
-                    <field name="lot_producing_id" type="row" />
                     <field name="consumed_val" type="measure" />
                     <field name="consumed_raw_val" type="measure" />
                     <field name="consumed_pak_val" type="measure" />
@@ -76,7 +74,6 @@
                     <filter name="filter_date" date="date" default_period="month-1" />
 
                     <field name="product_id" />
-                    <field name="lot_producing_id" />
                     <separator />
                     <filter string="Current" name='current' domain="[('state','in',('open','draft'))]" />
                     <filter string="In Production" name="in_production" domain="[('state','=','in_production')]" />
