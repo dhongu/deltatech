@@ -22,7 +22,11 @@ registry.category("web_tour.tours").add("deltatech_website_city_tour_city_zip", 
             // OnChangeCountry e debounced 500ms + RPC /my/address/country_info/{id};
             // așteaptă explicit ca opțiunile state-ului să fie populate.
             content: "Wait until states are populated for the selected country",
-            trigger: '#div_state select[name="state_id"] option[value]:not([value=""])',
+            // Option:not([value=""]) acceptă atât atribut value="X" (server-rendered)
+            // cât și opțiuni append-uite via new Option(text, value) — care setează
+            // doar proprietatea, NU și atributul. NU folosi option[value]: ar respinge
+            // opțiunile append-uite via JS și ar duce la TIMEOUT.
+            trigger: '#div_state select[name="state_id"] option:not([value=""])',
         },
         {
             content: "Select test state by label (triggers city RPC)",
@@ -32,7 +36,7 @@ registry.category("web_tour.tours").add("deltatech_website_city_tour_city_zip", 
         },
         {
             content: "Wait until cities are populated",
-            trigger: 'select[name="city_id"] option[value]:not([value=""])',
+            trigger: 'select[name="city_id"] option:not([value=""])',
         },
         {
             content: "Pick city with ZIP and check ZIP filled",
