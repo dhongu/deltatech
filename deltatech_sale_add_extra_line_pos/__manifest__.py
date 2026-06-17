@@ -4,7 +4,7 @@
 {
     "name": "POS Add Extra Line",
     "summary": "POS Add Extra Line",
-    "version": "18.0.0.0.3",
+    "version": "19.0.1.0.0",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

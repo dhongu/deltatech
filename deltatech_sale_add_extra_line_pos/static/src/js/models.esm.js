@@ -2,7 +2,7 @@
 
 import {PosOrder} from "@point_of_sale/app/models/pos_order";
 import {PosOrderline} from "@point_of_sale/app/models/pos_order_line";
-import {PosStore} from "@point_of_sale/app/store/pos_store";
+import {PosStore} from "@point_of_sale/app/services/pos_store";
 import {patch} from "@web/core/utils/patch";
 
 patch(PosStore.prototype, {
@@ -17,7 +17,7 @@ patch(PosStore.prototype, {
         const extra_product_id = product?.product_tmpl_id?.extra_product_id;
 
         if (extra_product_id) {
-            const order = this.get_order();
+            const order = this.getOrder();
             const extra_line = order.add_extra_product(extra_product_id);
             if (!extra_line) {
                 let qty = vals.qty || 1;
@@ -47,15 +47,15 @@ patch(PosOrder.prototype, {
             }
         }
         if (extra_line !== false) {
-            extra_line.set_quantity(qty, true);
+            extra_line.setQuantity(qty, true);
         }
         return extra_line;
     },
 });
 
 patch(PosOrderline.prototype, {
-    set_quantity(quantity, keep_price) {
-        const res = super.set_quantity(quantity, keep_price);
+    setQuantity(quantity, keep_price) {
+        const res = super.setQuantity(quantity, keep_price);
         const extra_product_id = this.product_id.product_tmpl_id.extra_product_id;
         if (extra_product_id) {
             const order = this.order_id;
