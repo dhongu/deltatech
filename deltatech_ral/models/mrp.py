@@ -33,6 +33,7 @@ class MrpProduction(models.Model):
                     self.ral_id = ral
         return res
 
+    @api.model_create_multi
     def create(self, vals_list):
         res = super().create(vals_list)
         for mrp in res:
@@ -40,11 +41,10 @@ class MrpProduction(models.Model):
             mrp.onchange_ral_id()
         return res
 
-    def action_generate_serial(self):
-        res = super().action_generate_serial()
+    def action_generate_serial(self, workorder=False):
+        res = super().action_generate_serial(workorder=workorder)
         if self.ral_id:
-            for lot in self.lot_producing_ids:
-                lot.write({"ral_id": self.ral_id.id})
+            self.lot_producing_ids.write({"ral_id": self.ral_id.id})
         return res
 
     @api.onchange("ral_id")
@@ -54,7 +54,11 @@ class MrpProduction(models.Model):
                 if move.bom_line_id.product_id.default_code == "RAL 0000":
                     move.product_id = self.ral_id
 
-    def _generate_moves(self):
-        res = super()._generate_moves()
-        self.onchange_ral_id()
-        return res
+    def _get_move_raw_values(self, product, product_uom_qty, product_uom, operation_id=False, bom_line=False):
+        # În O19 move_raw_ids este câmp calculat (_compute_move_raw_ids), iar la fiecare
+        # recalculare componentele sunt regenerate din valorile liniei de BoM. Înlocuim aici
+        # componenta generică RAL 0000 cu produsul RAL ales, astfel încât substituția să reziste
+        # recalculării (vechiul hook _generate_moves nu mai există în 19.0).
+        if self.ral_id and product.default_code == "RAL 0000":
+            product = self.ral_id
+        return super()._get_move_raw_values(product, product_uom_qty, product_uom, operation_id, bom_line)
