@@ -29,8 +29,10 @@ registry.category("web_tour.tours").add("deltatech_website_city_tour_city_zip", 
             },
         },
         {
-            content: "Wait for state field to be visible",
-            trigger: '#div_state select[name="state_id"]',
+            // OnChangeCountry e debounced 500ms + RPC /my/address/country_info/{id};
+            // așteaptă explicit ca opțiunile state-ului să fie populate, nu doar select-ul.
+            content: "Wait until states are populated for the selected country",
+            trigger: '#div_state select[name="state_id"] option[value]:not([value=""])',
         },
         {
             content: "Select test state by label (triggers city RPC)",
@@ -42,7 +44,7 @@ registry.category("web_tour.tours").add("deltatech_website_city_tour_city_zip", 
         },
         {
             content: "Wait until cities are populated",
-            trigger: 'select[name="city_id"] option:not([value=""]):not(:visible)',
+            trigger: 'select[name="city_id"] option[value]:not([value=""])',
         },
         {
             content: "Pick city with ZIP and check ZIP filled",
