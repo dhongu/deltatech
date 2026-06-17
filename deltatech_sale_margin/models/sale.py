@@ -18,6 +18,7 @@ class SaleOrder(models.Model):
     def _compute_can_change_price(self):
         self.can_change_price = not self.env.user.has_group("deltatech_sale_margin.group_sale_no_change_price")
 
+    @api.depends("state", "order_line.price_reduce_taxexcl", "order_line.purchase_price")
     def _compute_price_warning_message(self):
         self.price_warning_message = False
         for order in self.filtered(lambda o: o.state in ["draft", "sent"]):
@@ -159,7 +160,7 @@ class SaleOrderLine(models.Model):
                 if price_unit < line.purchase_price:
                     if not self.env.user.has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
                         raise UserError(
-                            self.env._(f"You can not sell below the purchase price: {self[0].product_id.name}.")
+                            self.env._("You can not sell below the purchase price: %s.", line.product_id.name)
                         )
                     else:
                         message = self.env._("Sale %s under the purchase price.") % line.product_id.name
