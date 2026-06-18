@@ -41,8 +41,7 @@ class AccountMove(models.Model):
 
     def action_post(self):
         result = super().action_post()
-        for invoice in self.filtered(lambda move: move.move_type != "entry" and not move.packaging_material_ids):
-            invoice.refresh_packaging_material()
+        self.filtered(lambda move: move.move_type != "entry").refresh_packaging_material()
         return result
 
 

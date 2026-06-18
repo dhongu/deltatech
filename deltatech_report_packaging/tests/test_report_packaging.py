@@ -9,6 +9,8 @@ class TestPackagingMaterial(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.partner_a.country_id = cls.env.ref("base.us")
+        cls.product_a.standard_price = 0.0
         cls.product_a.product_tmpl_id.packaging_material_ids = [
             Command.create({"material_type": "plastic", "qty": 1.0}),
             Command.create({"material_type": "wood", "qty": 0.5}),
@@ -43,6 +45,19 @@ class TestPackagingMaterial(AccountTestInvoicingCommon):
         self.assertEqual(
             quantities,
             {"plastic": 2.0, "wood": 1.0, "glass": 0.5},
+        )
+
+    def test_post_recomputes_existing_packaging_materials(self):
+        invoice = self._create_invoice()
+        invoice.refresh_packaging_material()
+        invoice.invoice_line_ids.quantity = 4.0
+
+        invoice.action_post()
+
+        quantities = {line.material_type: line.qty for line in invoice.packaging_material_ids}
+        self.assertEqual(
+            quantities,
+            {"plastic": 4.0, "wood": 2.0, "glass": 1.0},
         )
 
     def test_refresh_replaces_previous_values(self):
