@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_journal_view_list" model="ir.ui.view">
+        <field name="name">account.journal.view.list.generic.partner.restriction</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_tree" />
+        <field name="arch" type="xml">
+            <field name="type" position="before">
+                <field name="restriction" optional="hide" />
+            </field>
+        </field>
+    </record>
+
+    <record id="account_journal_view_form" model="ir.ui.view">
+        <field name="name">account.journal.view.form.generic.partner.restriction</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet//field[@name='type']" position="before">
+                <field name="restriction" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
