@@ -38,9 +38,7 @@ class TestStockPickingActivityReport(TransactionCase):
             }
         )
 
-        cls.warehouse = cls.env["stock.warehouse"].search(
-            [("company_id", "=", cls.env.company.id)], limit=1
-        )
+        cls.warehouse = cls.env["stock.warehouse"].search([("company_id", "=", cls.env.company.id)], limit=1)
         cls.stock_location = cls.warehouse.lot_stock_id
         cls.customer_location = cls.env.ref("stock.stock_location_customers")
         cls.picking_type_out = cls.warehouse.out_type_id
@@ -76,9 +74,7 @@ class TestStockPickingActivityReport(TransactionCase):
         )
 
     def _records(self, picking):
-        return self.Record.search(
-            [("picking_id", "=", picking.id), ("user_id", "=", self.stock_user.id)]
-        )
+        return self.Record.search([("picking_id", "=", picking.id), ("user_id", "=", self.stock_user.id)])
 
     def test_create_does_not_log(self):
         picking = self._new_picking()
@@ -143,9 +139,7 @@ class TestStockPickingActivityReport(TransactionCase):
         """Validating an outgoing picking flags it validated and records the
         exit product count end-to-end."""
         qty = 4.0
-        self.env["stock.quant"]._update_available_quantity(
-            self.product, self.stock_location, qty
-        )
+        self.env["stock.quant"]._update_available_quantity(self.product, self.stock_location, qty)
 
         picking = self._new_picking(qty=qty).with_user(self.stock_user)
         picking.action_confirm()
@@ -155,9 +149,7 @@ class TestStockPickingActivityReport(TransactionCase):
             move.picked = True
 
         result = picking.button_validate()
-        self.assertIs(
-            result, True, "Picking should validate directly without a wizard."
-        )
+        self.assertIs(result, True, "Picking should validate directly without a wizard.")
         self.assertEqual(picking.state, "done")
 
         records = self._records(picking)
