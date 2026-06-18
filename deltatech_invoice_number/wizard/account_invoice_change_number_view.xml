@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_invoice_change_number_form" model="ir.ui.view">
+        <field name="name">Change invoice number</field>
+        <field name="model">account.invoice.change.number</field>
+        <field name="arch" type="xml">
+            <form string="Change invoice number">
+                <group>
+                    <field name="internal_number" />
+                </group>
+                <footer>
+                    <button name="do_change_number" string="Apply" type="object" class="oe_highlight" />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_invoice_change_number" model="ir.actions.act_window">
+        <field name="name">Change invoice number</field>
+        <field name="res_model">account.invoice.change.number</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_account_invoice_change_number_server" model="ir.actions.server">
+        <field name="name">Change invoice number</field>
+        <field name="model_id" ref="account.model_account_move" />
+        <field name="binding_model_id" ref="account.model_account_move" />
+        <field name="binding_view_types">form</field>
+        <field name="group_ids" eval="[Command.link(ref('deltatech_invoice_number.group_change_invoice_number'))]" />
+        <field name="state">code</field>
+        <field name="code">action = env.ref("deltatech_invoice_number.action_account_invoice_change_number").read()[0]</field>
+    </record>
+</odoo>
