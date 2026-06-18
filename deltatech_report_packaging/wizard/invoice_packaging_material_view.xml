@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="invoice_packaging_material_form" model="ir.ui.view">
+        <field name="name">packaging.report.material.form</field>
+        <field name="model">packaging.report.material</field>
+        <field name="arch" type="xml">
+            <form string="Packaging materials report">
+                <field name="state" invisible="1"/>
+                <div invisible="state != 'choose'">
+                    <p>Report packaging materials used for invoiced products</p>
+                </div>
+                <group invisible="state != 'get'">
+                    <field name="line_ids" readonly="1" nolabel="1">
+                        <list>
+                            <field name="material_type"/>
+                            <field name="qty"/>
+                        </list>
+                    </field>
+                </group>
+                <footer invisible="state != 'choose'">
+                    <button name="do_report" string="Apply" type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel" class="oe_link"/>
+                </footer>
+                <footer invisible="state != 'get'">
+                    <button string="Close" special="cancel" class="oe_link"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_packaging_wizard" model="ir.actions.act_window">
+        <field name="name">Packaging materials report</field>
+        <field name="res_model">packaging.report.material</field>
+        <field name="view_id" ref="invoice_packaging_material_form"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_view_types">list</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
