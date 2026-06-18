@@ -27,16 +27,7 @@ class AccountMove(models.Model):
             if move.journal_id.restrict_date:
                 message = move.check_data()
                 if message:
-                    self.env["bus.bus"]._sendone(
-                        self.env.user.partner_id,
-                        "simple_notification",
-                        {
-                            "type": "danger",
-                            "title": self.env._("Date error"),
-                            "message": message,
-                        },
-                    )
-                    return False
+                    raise UserError(message)
         return super().action_post()
 
     def action_get_number(self):
@@ -87,7 +78,10 @@ class AccountMove(models.Model):
     def action_number(self):
         """Synchronize the document reference after a manual renumbering."""
         for invoice in self:
-            reference = invoice.ref or invoice.name
-            if not invoice.ref:
+            if invoice.move_type in ("in_invoice", "in_refund"):
+                reference = invoice.ref or invoice.name
+            else:
+                reference = invoice.name
                 invoice.ref = reference
+            invoice.line_ids.write({"ref": reference})
         return True
