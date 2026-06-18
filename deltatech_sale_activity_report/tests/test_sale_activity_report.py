@@ -42,8 +42,13 @@ class TestSaleActivityReport(TransactionCase):
         )
 
         cls.partner = cls.env["res.partner"].create({"name": "Activity Customer"})
+        # A service product so confirming the order never launches a stock
+        # rule. Otherwise, when mrp/sale_stock are installed (as on CI),
+        # action_confirm runs procurement which calls mrp.bom._bom_find, and the
+        # salesman (no Inventory/Manufacturing rights) hits an AccessError on
+        # mrp.bom -- unrelated to what this suite actually tests.
         cls.product = cls.env["product.product"].create(
-            {"name": "Activity Product", "list_price": 100.0}
+            {"name": "Activity Product", "list_price": 100.0, "type": "service"}
         )
 
         # Created as the salesperson; create() is not overridden, so this does
@@ -63,9 +68,7 @@ class TestSaleActivityReport(TransactionCase):
 
     def _records(self, order=None):
         order = order or self.order
-        return self.Record.search(
-            [("sale_order_id", "=", order.id), ("user_id", "=", self.salesman.id)]
-        )
+        return self.Record.search([("sale_order_id", "=", order.id), ("user_id", "=", self.salesman.id)])
 
     def test_create_does_not_log(self):
         """Creating an order must not create an activity record on its own."""
@@ -127,9 +130,7 @@ class TestSaleActivityReport(TransactionCase):
     def test_message_post_logs_and_flags_chatter(self):
         """Posting a chatter message logs the (HTML-stripped) body and sets the
         chatter_message flag."""
-        self.order.with_user(self.salesman).message_post(
-            body="<p>Hello <b>world</b></p>"
-        )
+        self.order.with_user(self.salesman).message_post(body="<p>Hello <b>world</b></p>")
 
         records = self._records()
         self.assertEqual(len(records), 1)
