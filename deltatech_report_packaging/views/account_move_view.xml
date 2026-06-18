@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_move_form_view" model="ir.ui.view">
+        <field name="name">account.move.form.packaging.material</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@id='other_tab']" position="after">
+                <page name="packaging_material" string="Packaging materials" invisible="move_type == 'entry'">
+                    <header>
+                        <button name="refresh_packaging_material" string="Refresh" type="object"/>
+                    </header>
+                    <field name="packaging_material_ids" nolabel="1">
+                        <list editable="bottom">
+                            <field name="material_type"/>
+                            <field name="qty"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
