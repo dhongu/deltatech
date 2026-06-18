@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from odoo import Command, fields
+from odoo.exceptions import UserError
 from odoo.tests import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -12,6 +13,8 @@ class TestInvoiceNumber(AccountTestInvoicingCommon):
     def setUpClass(cls):
         super().setUpClass()
         cls.journal = cls.company_data["default_journal_sale"]
+        cls.product_a.standard_price = 0
+        cls.partner_a.country_id = cls.env.ref("base.us")
         cls.env.ref("deltatech_invoice_number.group_change_invoice_number").user_ids = [Command.link(cls.env.user.id)]
         cls.sequence = cls.env["ir.sequence"].create(
             {
@@ -52,6 +55,8 @@ class TestInvoiceNumber(AccountTestInvoicingCommon):
     def test_change_posted_invoice_number(self):
         invoice = self._create_invoice()
         invoice.action_post()
+        invoice.ref = "OLD-REFERENCE"
+        invoice.line_ids.write({"ref": "OLD-REFERENCE"})
         new_number = f"TEST/{fields.Date.today().year}/9999"
         wizard = (
             self.env["account.invoice.change.number"]
@@ -75,7 +80,6 @@ class TestInvoiceNumber(AccountTestInvoicingCommon):
         later_invoice.action_post()
         earlier_invoice = self._create_invoice(today - timedelta(days=1))
 
-        result = earlier_invoice.action_post()
-
-        self.assertFalse(result)
+        with self.assertRaisesRegex(UserError, "Post the invoice"):
+            earlier_invoice.action_post()
         self.assertEqual(earlier_invoice.state, "draft")
