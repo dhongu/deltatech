@@ -5,7 +5,7 @@
 {
     "name": "Notification Sound",
     "summary": "Notification Sound",
-    "version": "19.0.1.0.2",
+    "version": "19.0.2.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Tools",
@@ -14,7 +14,6 @@
     "assets": {
         "web.assets_backend": [
             "deltatech_notification_sound/static/src/js/**/*",
-            "deltatech_notification_sound/static/src/xml/**/*",
         ],
     },
     "data": [
