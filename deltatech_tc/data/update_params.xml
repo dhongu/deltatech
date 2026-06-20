@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Default repo + asset for agent auto-update. The token is set in Settings. -->
+    <record id="param_update_repo" model="ir.config_parameter">
+        <field name="key">deltatech_tc.update_repo</field>
+        <field name="value">dhongu/terrabit-anaf-agent</field>
+    </record>
+    <record id="param_update_asset" model="ir.config_parameter">
+        <field name="key">deltatech_tc.update_asset</field>
+        <field name="value">terrabit-connect.jar</field>
+    </record>
+</odoo>
