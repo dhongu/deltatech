@@ -1,7 +1,7 @@
 import json
 import logging
 
-from odoo import http
+from odoo import SUPERUSER_ID, http
 from odoo.http import content_disposition, request
 
 _logger = logging.getLogger(__name__)
@@ -58,9 +58,11 @@ class DeltatechTcController(http.Controller):
         station._touch()
         body = self._body()
         job_id = body.get("job_id")
+        # auth="none" has no env.user; run result processing as the system user so
+        # _process_result hooks (e.g. DUK message_post) have a valid singleton user.
         job = (
             request.env["deltatech.tc.job"]
-            .sudo()
+            .with_user(SUPERUSER_ID)
             .search([("id", "=", job_id), ("station_id", "=", station.id)], limit=1)
         )
         if not job:
