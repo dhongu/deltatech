@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_deltatech_tc_station_list" model="ir.ui.view">
+        <field name="name">deltatech.tc.station.list</field>
+        <field name="model">deltatech.tc.station</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="last_seen"/>
+                <field name="tc_version" optional="show"/>
+                <field name="os" optional="hide"/>
+                <field name="job_count"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_deltatech_tc_station_form" model="ir.ui.view">
+        <field name="name">deltatech.tc.station.form</field>
+        <field name="model">deltatech.tc.station</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_ping" type="object"
+                            string="Ping" class="oe_highlight"/>
+                    <button name="action_regenerate_key" type="object"
+                            string="Regenerate key"
+                            confirm="Are you sure? Terrabit Connect will need to be reconfigured with the new key."/>
+                    <button name="action_download_config" type="object"
+                            string="Download config" icon="fa-download"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_jobs" type="object" class="oe_stat_button" icon="fa-tasks">
+                            <field name="job_count" widget="statinfo" string="Jobs"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Accounting PC"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                            <field name="api_key" password="True" groups="base.group_system"/>
+                        </group>
+                        <group>
+                            <field name="last_seen"/>
+                            <field name="tc_version"/>
+                            <field name="os"/>
+                            <field name="features"/>
+                        </group>
+                    </group>
+                    <field name="note" placeholder="Notes (location, responsible, token...)"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_deltatech_tc_station" model="ir.actions.act_window">
+        <field name="name">Terrabit Connect Stations</field>
+        <field name="res_model">deltatech.tc.station</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiley_face">No Terrabit Connect station registered</p>
+            <p>Register the workstation running Terrabit Connect, copy the API key into it,
+               and it will exchange jobs with this Odoo instance.</p>
+        </field>
+    </record>
+
+</odoo>
