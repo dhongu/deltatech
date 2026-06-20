@@ -2,7 +2,6 @@
 # Tests for transport_utils standalone functions
 
 import os
-import pprint
 import tempfile
 
 from odoo.tests.common import TransactionCase
