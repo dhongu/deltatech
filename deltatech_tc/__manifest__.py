@@ -20,6 +20,6 @@
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "application": False,
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
