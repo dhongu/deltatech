@@ -15,7 +15,11 @@
         <field name="name">Manager</field>
         <field name="privilege_id" ref="groups_privilege_deltatech_tc"/>
         <field name="implied_ids" eval="[(4, ref('group_deltatech_tc_user'))]"/>
-        <field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+
+    <!-- Administratorii de sistem primesc automat rolul de Manager Terrabit Connect. -->
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_deltatech_tc_manager'))]"/>
     </record>
 
     <record id="rule_deltatech_tc_station_company" model="ir.rule">
