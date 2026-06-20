@@ -3,17 +3,28 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo.tests import Form
-from odoo.tests.common import TransactionCase
+from odoo.tests import Form, tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestSaleCommissionBase(TransactionCase):
+@tagged("post_install", "-at_install")
+class TestSaleCommissionBase(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.partner_a = cls.env["res.partner"].create({"name": "Test Partner"})
 
-        seller_ids = [(0, 0, {"partner_id": cls.partner_a.id})]
+        # The accounting test user lacks sales/stock rights; grant them so we
+        # can create sale orders and validate the delivery.
+        cls.env.user.group_ids |= cls.env.ref("sales_team.group_sale_salesman")
+        cls.env.user.group_ids |= cls.env.ref("stock.group_stock_manager")
+
+        # Customer for the sale orders.
+        cls.partner_a = cls.env["res.partner"].create({"name": "Test Partner"})
+        # Separate vendor used as the products' supplier (seller).
+        cls.vendor = cls.env["res.partner"].create({"name": "Test Vendor"})
+
+        seller_ids = [(0, 0, {"partner_id": cls.vendor.id})]
         cls.product_a = cls.env["product.product"].create(
             {
                 "name": "Test A",
@@ -32,7 +43,10 @@ class TestSaleCommissionBase(TransactionCase):
                 "seller_ids": seller_ids,
             }
         )
-        cls.stock_location = cls.env.ref("stock.stock_location_stock")
+        # Seed stock in the warehouse used by the test company so the delivery
+        # has stock to move out.
+        cls.warehouse = cls.env["stock.warehouse"].search([("company_id", "=", cls.env.company.id)], limit=1)
+        cls.stock_location = cls.warehouse.lot_stock_id
         cls.env["stock.quant"]._update_available_quantity(cls.product_a, cls.stock_location, 1000)
         cls.env["stock.quant"]._update_available_quantity(cls.product_b, cls.stock_location, 1000)
 
