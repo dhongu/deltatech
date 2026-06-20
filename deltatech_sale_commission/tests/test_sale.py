@@ -147,15 +147,9 @@ class TestCommissionCondition(TestSaleCommissionBase):
         self.assertEqual(condition.sequence, 10)
 
     def test_multiple_commission_conditions(self):
-        cond1 = self.env["sale.commission.condition"].create(
-            {"sequence": 10, "percentage": 5.0, "less_than_days": 15}
-        )
-        cond2 = self.env["sale.commission.condition"].create(
-            {"sequence": 20, "percentage": 3.0, "less_than_days": 30}
-        )
-        cond3 = self.env["sale.commission.condition"].create(
-            {"sequence": 30, "percentage": 1.0, "less_than_days": 60}
-        )
+        cond1 = self.env["sale.commission.condition"].create({"sequence": 10, "percentage": 5.0, "less_than_days": 15})
+        cond2 = self.env["sale.commission.condition"].create({"sequence": 20, "percentage": 3.0, "less_than_days": 30})
+        cond3 = self.env["sale.commission.condition"].create({"sequence": 30, "percentage": 1.0, "less_than_days": 60})
         conditions = self.env["sale.commission.condition"].search(
             [("id", "in", [cond1.id, cond2.id, cond3.id])], order="sequence"
         )
