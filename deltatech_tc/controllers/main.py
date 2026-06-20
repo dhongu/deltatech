@@ -4,6 +4,8 @@ import logging
 from odoo import SUPERUSER_ID, http
 from odoo.http import content_disposition, request
 
+from ..models.github_update import DEFAULT_ASSET, download_asset, latest_release
+
 _logger = logging.getLogger(__name__)
 
 
@@ -96,5 +98,37 @@ class DeltatechTcController(http.Controller):
             headers=[
                 ("Content-Type", "text/plain"),
                 ("Content-Disposition", content_disposition("station.conf")),
+            ],
+        )
+
+    # ---- Agent auto-update (broker to the private GitHub repo; token stays in Odoo) ----
+
+    @http.route("/tc/agent/version", type="http", auth="none", methods=["GET"], csrf=False)
+    def agent_version(self, **kw):
+        """Latest published agent version (Odoo calls GitHub with the configured token)."""
+        station = self._station()
+        if not station:
+            return self._json({"error": "unauthorized"}, status=401)
+        info = latest_release(request.env)
+        if info.get("error"):
+            return self._json({"error": info["error"]}, status=502)
+        return self._json({"version": info["version"], "tag": info["tag"], "notes": info["notes"]})
+
+    @http.route("/tc/agent/download", type="http", auth="none", methods=["GET"], csrf=False)
+    def agent_download(self, asset=None, **kw):
+        """Proxy the download of a release asset (authenticated by the station key)."""
+        station = self._station()
+        if not station:
+            return request.make_response("unauthorized", status=401)
+        asset = asset or DEFAULT_ASSET
+        content, err = download_asset(request.env, asset)
+        if err:
+            return request.make_response(err, status=502)
+        return request.make_response(
+            content,
+            headers=[
+                ("Content-Type", "application/java-archive"),
+                ("Content-Disposition", content_disposition(asset)),
+                ("Content-Length", str(len(content))),
             ],
         )
