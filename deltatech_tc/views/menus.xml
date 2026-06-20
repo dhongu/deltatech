@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_deltatech_tc_root"
+              name="Terrabit Connect"
+              parent="base.menu_administration"
+              sequence="90"
+              groups="group_deltatech_tc_manager"/>
+
+    <menuitem id="menu_deltatech_tc_station"
+              name="Stations"
+              parent="menu_deltatech_tc_root"
+              action="action_deltatech_tc_station"
+              sequence="10"
+              groups="group_deltatech_tc_manager"/>
+
+    <menuitem id="menu_deltatech_tc_job"
+              name="Jobs"
+              parent="menu_deltatech_tc_root"
+              action="action_deltatech_tc_job"
+              sequence="20"
+              groups="group_deltatech_tc_manager"/>
+
+</odoo>

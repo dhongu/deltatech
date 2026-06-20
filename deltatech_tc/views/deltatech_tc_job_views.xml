@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_deltatech_tc_job_list" model="ir.ui.view">
+        <field name="name">deltatech.tc.job.list</field>
+        <field name="model">deltatech.tc.job</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'done'" decoration-danger="state == 'error'"
+                  decoration-muted="state == 'claimed'">
+                <field name="name"/>
+                <field name="station_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="job_type"/>
+                <field name="claimed_at" optional="hide"/>
+                <field name="done_at" optional="show"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_deltatech_tc_job_form" model="ir.ui.view">
+        <field name="name">deltatech.tc.job.form</field>
+        <field name="model">deltatech.tc.job</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="station_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="job_type"/>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="claimed_at"/>
+                            <field name="done_at"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Payload">
+                            <field name="payload" widget="text"/>
+                        </page>
+                        <page string="Result">
+                            <field name="result" widget="text"/>
+                        </page>
+                        <page string="Error" invisible="not error">
+                            <field name="error" widget="text"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_deltatech_tc_job_search" model="ir.ui.view">
+        <field name="name">deltatech.tc.job.search</field>
+        <field name="model">deltatech.tc.job</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="station_id"/>
+                <field name="job_type"/>
+                <filter name="pending" string="Pending" domain="[('state', '=', 'pending')]"/>
+                <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
+                <filter name="error" string="Error" domain="[('state', '=', 'error')]"/>
+                <group name="group_by">
+                    <filter name="group_station" string="Station" context="{'group_by': 'station_id'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'job_type'}"/>
+                    <filter name="group_state" string="State" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_deltatech_tc_job" model="ir.actions.act_window">
+        <field name="name">Terrabit Connect Jobs</field>
+        <field name="res_model">deltatech.tc.job</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>
