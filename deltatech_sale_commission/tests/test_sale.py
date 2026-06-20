@@ -15,12 +15,24 @@ class TestSaleCommissionBase(AccountTestInvoicingCommon):
         super().setUpClass()
 
         # The accounting test user lacks sales/stock rights; grant them so we
-        # can create sale orders and validate the delivery.
-        cls.env.user.group_ids |= cls.env.ref("sales_team.group_sale_salesman")
+        # can create sale orders, commission records and validate the delivery.
+        cls.env.user.group_ids |= cls.env.ref("sales_team.group_sale_manager")
         cls.env.user.group_ids |= cls.env.ref("stock.group_stock_manager")
 
-        # Customer for the sale orders.
-        cls.partner_a = cls.env["res.partner"].create({"name": "Test Partner"})
+        # Customer for the sale orders. The Romanian localization installed on
+        # the test database requires a full address (country, state, city,
+        # street) to post invoices.
+        ro_country = cls.env.ref("base.ro")
+        ro_state = cls.env["res.country.state"].search([("country_id", "=", ro_country.id)], limit=1)
+        cls.partner_a = cls.env["res.partner"].create(
+            {
+                "name": "Test Partner",
+                "country_id": ro_country.id,
+                "state_id": ro_state.id,
+                "city": "București",
+                "street": "Str. Test nr. 1",
+            }
+        )
         # Separate vendor used as the products' supplier (seller).
         cls.vendor = cls.env["res.partner"].create({"name": "Test Vendor"})
 
@@ -252,6 +264,11 @@ class TestSaleMarginReport(TestSaleCommissionBase):
         report_lines = self.env["sale.margin.report"].search([("invoice_id", "=", invoice.id)])
         self.assertTrue(report_lines)
         report_lines.action_set_commission_paid()
+        # sale.margin.report is a SQL view; action_set_commission_paid writes to
+        # the underlying account.move.line. Flush so the write reaches the DB,
+        # then re-read the view to observe the flag.
+        self.env.flush_all()
+        report_lines = self.env["sale.margin.report"].search([("invoice_id", "=", invoice.id)])
         for line in report_lines:
             self.assertTrue(line.commission_paid)
 
