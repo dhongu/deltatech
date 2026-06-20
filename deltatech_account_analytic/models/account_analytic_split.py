@@ -1,7 +1,7 @@
 # ©  2023-now Terrabit
 # See README.rst file on addons root folder for license details
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 
@@ -50,7 +50,7 @@ class AccountAnalyticSplit(models.Model):
         if self.split_type == "line":
             self.amount = self.line_to_split.amount
         if not self.amount:
-            raise UserError(_("Amount must be non-zero"))
+            raise UserError(self.env._("Amount must be non-zero"))
         for template_line in self.split_template_id.line_ids:
             value = {
                 "split_id": self.id,
@@ -68,9 +68,9 @@ class AccountAnalyticSplit(models.Model):
             for line in self.split_template_id.line_ids:
                 percent += line.percent
             if percent != 100.00:
-                raise UserError(_("Invalid template. Sum of percents must be 100"))
+                raise UserError(self.env._("Invalid template. Sum of percents must be 100"))
         else:
-            raise UserError(_("You must select a split template"))
+            raise UserError(self.env._("You must select a split template"))
 
     def action_create_analytic_lines(self):
         self.ensure_one()
@@ -93,7 +93,7 @@ class AccountAnalyticSplit(models.Model):
     def action_reset_split(self):
         self.ensure_one()
         if self.split_type == "line":
-            raise UserError(_("This operation is not permitted for this type of split (Line)"))
+            raise UserError(self.env._("This operation is not permitted for this type of split (Line)"))
         self.line_ids.analytic_line_id.unlink()
         self.write({"state": "draft"})
 
