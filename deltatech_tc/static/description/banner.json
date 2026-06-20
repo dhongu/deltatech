@@ -1,0 +1,6 @@
+{
+  "title": "Terrabit Connect",
+  "summary": "Local hardware bridge — no open ports required",
+  "icon": "grid",
+  "features": ["Station registry with API key & metadata", "Outbound job queue (pending → done/error)"]
+}
