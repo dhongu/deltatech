@@ -133,6 +133,9 @@ class ProductTemplate(models.Model):
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
+    def refresh_invoice_history(self):
+        return self.product_tmpl_id.refresh_invoice_history()
+
     def action_view_invoice(self):
         action = self.env["ir.actions.actions"]._for_xml_id("account.action_account_invoice_report_all")
         action["context"] = {
