@@ -1,0 +1,10 @@
+{
+  "title": "MRP Validation Date",
+  "summary": "Track when production orders were completed",
+  "icon": "gear",
+  "features": [
+    "Auto-set date on Mark as Done",
+    "Readonly date field on production order",
+    "Full traceability of completions"
+  ]
+}
