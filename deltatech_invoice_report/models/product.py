@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import fields, models
+from odoo.tools import SQL
 
 
 class ProductInvoiceHistory(models.TransientModel):
@@ -27,39 +28,45 @@ class ProductTemplate(models.Model):
     def _compute_invoice_history_sql(self):
         template_ids = self.ids
         if not template_ids:
-            query = """
-                DELETE FROM product_invoice_history ;
-                INSERT INTO product_invoice_history (template_id, year, qty_in, qty_out)
-                SELECT
-                    pp.product_tmpl_id as template_id,
-                    EXTRACT(YEAR FROM aml.date) AS year,
-                    SUM(CASE WHEN am.move_type IN ('in_invoice', 'in_refund') THEN aml.quantity ELSE 0 END) AS qty_in,
-                    SUM(CASE WHEN am.move_type IN ('out_invoice', 'out_refund') THEN aml.quantity ELSE 0 END) AS qty_out
-                FROM account_move_line aml
-                JOIN account_move am ON aml.move_id = am.id
-                JOIN product_product pp ON aml.product_id = pp.id
-                WHERE am.state='posted' or am.payment_state='invoicing_legacy'
-                GROUP BY pp.product_tmpl_id, year
-            """
+            self.env.cr.execute(SQL("DELETE FROM product_invoice_history"))
+            self.env.cr.execute(
+                SQL(
+                    """
+                    INSERT INTO product_invoice_history (template_id, year, qty_in, qty_out)
+                    SELECT
+                        pp.product_tmpl_id as template_id,
+                        EXTRACT(YEAR FROM aml.date) AS year,
+                        SUM(CASE WHEN am.move_type IN ('in_invoice', 'in_refund') THEN aml.quantity ELSE 0 END) AS qty_in,
+                        SUM(CASE WHEN am.move_type IN ('out_invoice', 'out_refund') THEN aml.quantity ELSE 0 END) AS qty_out
+                    FROM account_move_line aml
+                    JOIN account_move am ON aml.move_id = am.id
+                    JOIN product_product pp ON aml.product_id = pp.id
+                    WHERE am.state='posted' or am.payment_state='invoicing_legacy'
+                    GROUP BY pp.product_tmpl_id, year
+                    """
+                )
+            )
         else:
-            query = """
-                DELETE FROM product_invoice_history WHERE template_id IN %s;
-                INSERT INTO product_invoice_history (template_id, year, qty_in, qty_out)
-                SELECT
-                    pp.product_tmpl_id as template_id,
-                    EXTRACT(YEAR FROM aml.date) AS year,
-                    SUM(CASE WHEN am.move_type IN ('in_invoice', 'in_refund') THEN aml.quantity ELSE 0 END) AS qty_in,
-                    SUM(CASE WHEN am.move_type IN ('out_invoice', 'out_refund') THEN aml.quantity ELSE 0 END) AS qty_out
-                FROM account_move_line aml
-                JOIN account_move am ON aml.move_id = am.id
-                JOIN product_product pp ON aml.product_id = pp.id
-                WHERE pp.product_tmpl_id IN %s
-                AND (am.state='posted' or am.payment_state='invoicing_legacy')
-                GROUP BY pp.product_tmpl_id, year
-            """
-
-        params = (tuple(template_ids), tuple(template_ids))
-        self.env.cr.execute(query, params)
+            self.env.cr.execute(SQL("DELETE FROM product_invoice_history WHERE template_id IN %s", tuple(template_ids)))
+            self.env.cr.execute(
+                SQL(
+                    """
+                    INSERT INTO product_invoice_history (template_id, year, qty_in, qty_out)
+                    SELECT
+                        pp.product_tmpl_id as template_id,
+                        EXTRACT(YEAR FROM aml.date) AS year,
+                        SUM(CASE WHEN am.move_type IN ('in_invoice', 'in_refund') THEN aml.quantity ELSE 0 END) AS qty_in,
+                        SUM(CASE WHEN am.move_type IN ('out_invoice', 'out_refund') THEN aml.quantity ELSE 0 END) AS qty_out
+                    FROM account_move_line aml
+                    JOIN account_move am ON aml.move_id = am.id
+                    JOIN product_product pp ON aml.product_id = pp.id
+                    WHERE pp.product_tmpl_id IN %s
+                    AND (am.state='posted' or am.payment_state='invoicing_legacy')
+                    GROUP BY pp.product_tmpl_id, year
+                    """,
+                    tuple(template_ids),
+                )
+            )
 
     def _compute_invoice_history(self):
         for template in self:
@@ -68,43 +75,42 @@ class ProductTemplate(models.Model):
                 ("move_type", "in", ["out_invoice", "out_refund"]),
                 ("product_id", "in", products.ids),
             ]
-            groups_out = self.env["account.invoice.report"].read_group(
+            groups_out = self.env["account.invoice.report"]._read_group(
                 domain=domain,
-                fields=["quantity", "invoice_date"],
                 groupby=["invoice_date:year"],
+                aggregates=["quantity:sum"],
             )
 
             domain = [
                 ("move_type", "in", ["in_invoice", "in_refund"]),
                 ("product_id", "in", products.ids),
             ]
-            groups_in = self.env["account.invoice.report"].read_group(
+            groups_in = self.env["account.invoice.report"]._read_group(
                 domain=domain,
-                fields=["quantity", "invoice_date"],
                 groupby=["invoice_date:year"],
+                aggregates=["quantity:sum"],
             )
 
-            invoice_history = self.env["product.invoice.history"]
             history = {}
-            for item in groups_out:
-                history[item["invoice_date:year"]] = {
+            for period, quantity in groups_out:
+                year = str(period.year) if period else False
+                history[year] = {
                     "template_id": template.id,
-                    "year": item["invoice_date:year"],
-                    "qty_out": item["quantity"],
+                    "year": year,
+                    "qty_out": quantity,
                 }
 
-            for item in groups_in:
-                if item["invoice_date:year"] in history:
-                    history[item["invoice_date:year"]]["qty_in"] = -1 * item["quantity"]
+            for period, quantity in groups_in:
+                year = str(period.year) if period else False
+                if year in history:
+                    history[year]["qty_in"] = -1 * quantity
                 else:
-                    history[item["invoice_date:year"]] = {
+                    history[year] = {
                         "template_id": template.id,
-                        "year": item["invoice_date:year"],
-                        "qty_in": -1 * item["quantity"],
+                        "year": year,
+                        "qty_in": -1 * quantity,
                     }
-            history_values = []
-            for year in history:
-                history_values += [history[year]]
+            history_values = list(history.values())
             invoice_history = self.env["product.invoice.history"].create(history_values)
             template.invoice_history = invoice_history
 

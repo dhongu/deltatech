@@ -1,0 +1,10 @@
+{
+  "title": "Invoice Report",
+  "summary": "Buy/sell history per product, refreshed daily",
+  "icon": "trend",
+  "features": [
+    "Yearly buy/sell history on product form",
+    "Region & supplier filters in analysis",
+    "Auto-refresh via daily cron job"
+  ]
+}
