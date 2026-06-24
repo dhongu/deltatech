@@ -90,6 +90,19 @@ class TestProduct(TransactionCase):
             self.assertIn("free_qty", info)
             self.assertGreater(info["free_qty"], 0, "Produsul A are 1000 în stoc")
 
+    def test_combination_info_free_qty_guard_for_non_storable(self):
+        # pentru produse non-storable core-ul O19 NU pune free_qty -> garda din modul
+        # îl injectează prin website._get_product_available_qty (acoperă blocul defensiv)
+        consu = self.env["product.product"].create(
+            {"name": "Test Consu", "type": "consu", "is_storable": False, "list_price": 10}
+        )
+        website = self.env["website"].create({"name": "Test Website"})
+        with MockRequest(self.env, website=website):
+            tmpl = consu.product_tmpl_id.with_context(website_sale_stock_get_quantity=True)
+            info = tmpl._get_combination_info(product_id=consu.id)
+            self.assertIn("free_qty", info)
+            self.assertEqual(info["free_qty"], 0)
+
     def test_combination_info_free_qty_zero_when_no_stock(self):
         # produsul C nu are stoc -> free_qty == 0 (nu lipsă/undefined)
         website = self.env["website"].create({"name": "Test Website"})
