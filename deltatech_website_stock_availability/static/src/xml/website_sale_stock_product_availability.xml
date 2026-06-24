@@ -6,8 +6,7 @@
 
 
             <div
-                id="in_of_stock_message"
-                t-if="free_qty gt 0"
+                t-if="free_qty &gt; 0"
                 style="font-size: medium;"
                 t-attf-class="availability_message_#{product_template} text-success mt16 fw-bold"
             >
@@ -15,16 +14,14 @@
                 In stock
             </div>
 
-<!--
             <div
                 id="in_of_stock_message"
                 t-if="free_qty lte 0 and availability_vendor == 0"
-
-                t-attf-class="availability_message_#{product_template}  text-danger fw-bold">
-                <i class="fa fa-times me-1"/>
+                t-attf-class="availability_message_#{product_template}  text-danger fw-bold"
+            >
+                <i class="fa fa-times me-1" />
                 Out of stock
             </div>
--->
 
             <div
                 id="in_of_stock_message"
@@ -96,23 +93,22 @@
     <t t-name="deltatech_website_stock_availability.lead_time_availability">
         <div t-attf-class="lead_time_availability_#{product_template}">
             <div
-                id="in_of_stock_message"
-                t-if="free_qty gt 0"
+                t-if="free_qty &gt; 0"
                 style="font-size: medium;"
-                t-attf-class="availability_message_#{product_template} text-success mt16 fw-bold"
+                t-attf-class="deltatech_availability_message_#{product_template} text-success mt-3 fw-bold d-block"
             >
                 In stock
             </div>
             <!-- keep out of stock block commented as in main template -->
-            <!--
+
             <div
-                id="in_of_stock_message"
-                t-if="free_qty lte 0 and availability_vendor == 0"
-                t-attf-class="availability_message_#{product_template}  text-danger fw-bold">
-                <i class="fa fa-times me-1"/>
+                t-if="free_qty &lt;= 0 and availability_vendor == 0"
+                t-attf-class="availability_message_#{product_template}  text-danger fw-bold"
+            >
+                <i class="fa fa-times me-1" />
                 Out of stock
             </div>
-            -->
+
             <div
                 id="in_of_stock_message"
                 t-if="free_qty lte 0 and availability_vendor gt 0"
