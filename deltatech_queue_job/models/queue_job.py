@@ -14,6 +14,44 @@ _logger = logging.getLogger(__name__)
 class QueueJob(models.Model):
     _inherit = "queue.job"
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        records._remove_failed_duplicates()
+        return records
+
+    def _remove_failed_duplicates(self):
+        """Cancel older jobs left in 'failed' state that share the same
+        identity_key as a freshly created job.
+
+        The standard deduplication (job_record_with_same_identity_key) only
+        considers active states (pending/enqueued/wait_dependencies), so a
+        failed job never blocks a new enqueue and dead duplicates pile up.
+        When a new job with the same identity_key is created we move the
+        previous failed ones to 'cancelled': the record (and its traceback) is
+        kept for diagnostics and the standard autovacuum cron will remove it
+        later based on the channel removal_interval.
+        """
+        keys = {record.identity_key for record in self if record.identity_key}
+        if not keys:
+            return
+        old_failed = self.sudo().search(
+            [
+                ("identity_key", "in", list(keys)),
+                ("state", "=", "failed"),
+                ("id", "not in", self.ids),
+            ]
+        )
+        if old_failed:
+            _logger.info(
+                "Cancelling %d failed job(s) superseded by a new job with the same identity_key",
+                len(old_failed),
+            )
+            old_failed._change_job_state(
+                "cancelled",
+                result=_("Superseded by a new job with the same identity_key"),
+            )
+
     @api.model
     def _api_job_runner(self, batch_size=20, max_seconds=50):
         """Runner dedicated to External API calls (e.g. cron-job.org)"""
