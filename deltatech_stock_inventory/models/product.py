@@ -38,6 +38,35 @@ class ProductTemplate(models.Model):
     warehouse_loc_ids = fields.One2many("product.warehouse.location", "product_id")
     is_inventory_ok = fields.Boolean("Inventory OK", tracking=True)  # nu are senes daca sunt mai multe locatii
     warehouse_stock = fields.Text(string="Stock/WH", compute="_compute_warehouse_stocks")
+    reserved_picking_count = fields.Integer(string="Reserved Transfers", compute="_compute_reserved_picking_count")
+
+    @staticmethod
+    def _reserved_move_line_domain():
+        # Move lines belonging to a transfer that currently hold a reservation
+        return [
+            ("picking_id", "!=", False),
+            ("state", "in", ("assigned", "partially_available")),
+            ("quantity_product_uom", ">", 0),
+        ]
+
+    def _get_reserved_pickings(self):
+        self.ensure_one()
+        move_lines = self.env["stock.move.line"].search(
+            [("product_id", "in", self.product_variant_ids.ids)] + self._reserved_move_line_domain()
+        )
+        return move_lines.picking_id
+
+    def _compute_reserved_picking_count(self):
+        for template in self:
+            template.reserved_picking_count = len(template._get_reserved_pickings())
+
+    def action_view_reserved_pickings(self):
+        self.ensure_one()
+        pickings = self._get_reserved_pickings()
+        action = self.env["ir.actions.actions"]._for_xml_id("stock.action_picking_tree_all")
+        action["domain"] = [("id", "in", pickings.ids)]
+        action["context"] = {"create": False}
+        return action
 
     def _compute_warehouse_stocks(self):
         display_free_quantity = self.env.context.get("display_free_quantity", False)
@@ -265,6 +294,26 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     is_inventory_ok = fields.Boolean("Inventory OK")
+    reserved_picking_count = fields.Integer(string="Reserved Transfers", compute="_compute_reserved_picking_count")
+
+    def _get_reserved_pickings(self):
+        self.ensure_one()
+        move_lines = self.env["stock.move.line"].search(
+            [("product_id", "=", self.id)] + self.env["product.template"]._reserved_move_line_domain()
+        )
+        return move_lines.picking_id
+
+    def _compute_reserved_picking_count(self):
+        for product in self:
+            product.reserved_picking_count = len(product._get_reserved_pickings())
+
+    def action_view_reserved_pickings(self):
+        self.ensure_one()
+        pickings = self._get_reserved_pickings()
+        action = self.env["ir.actions.actions"]._for_xml_id("stock.action_picking_tree_all")
+        action["domain"] = [("id", "in", pickings.ids)]
+        action["context"] = {"create": False}
+        return action
 
     @api.model
     def get_theoretical_quantity(
