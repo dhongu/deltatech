@@ -1,6 +1,6 @@
 {
     "name": "Deltatech Line Counter",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "category": "Extra Tools",
     "summary": "Count lines of code in selected modules",
     "author": "Terrabit, Voicu Stefan",
