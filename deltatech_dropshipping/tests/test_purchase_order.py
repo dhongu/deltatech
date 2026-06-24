@@ -70,7 +70,7 @@ class TestPurchaseOrder(TransactionCase):
                 "amount_type": "percent",
             }
         )
-        self.sale_line.tax_id = [(6, 0, tax_incl.ids)]
+        self.sale_line.tax_ids = [(6, 0, tax_incl.ids)]
         self.sale_line.price_unit = 120.0  # 100 + 20% tax
 
         # Purchase price (110) > Sale price without tax (100) -> Warning
