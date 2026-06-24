@@ -18,6 +18,17 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="view_invoice_tree">
+        <field name="name">account.invoice.list</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree" />
+        <field name="arch" type="xml">
+            <field name="invoice_date" position="after">
+                <field name="invoice_type" optional="hide" />
+            </field>
+        </field>
+    </record>
+
     <record model="ir.actions.act_window" id="action_invoice_type">
         <field name="name">Invoice Types</field>
         <field name="res_model">record.type</field>

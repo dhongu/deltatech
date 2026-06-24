@@ -41,6 +41,17 @@
             </xpath>
         </field>
     </record>
+    <!--        Sale order tree view-->
+    <record model="ir.ui.view" id="sale_order_tree">
+        <field name="name">saleorder.type.saleorder.list</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_tree" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="so_type" optional="hide" />
+            </field>
+        </field>
+    </record>
 
 
     <record model="ir.actions.act_window" id="action_sale_order_type">
