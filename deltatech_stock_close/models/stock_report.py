@@ -33,7 +33,7 @@ class StorageSheet(models.TransientModel):
                     product_list = [-1]  # dummy list
                     all_products = True
 
-            self.env["account.move.line"].check_access_rights("read")
+            self.env["account.move.line"].check_access("read")
 
             lines = self.env["l10n.ro.stock.storage.sheet.line"].search([("report_id", "=", self.id)])
             lines.unlink()
