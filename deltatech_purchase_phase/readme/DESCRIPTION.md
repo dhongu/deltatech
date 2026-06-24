@@ -50,7 +50,7 @@ Technical notes
 
 Dependencies and compatibility
 
-- Depends on `purchase_stock` (Odoo 18)
+- Depends on `purchase_stock`
 - Designed to be non-invasive: it does not alter the standard state machine of Purchase
   Orders; it only adds complementary phase tracking.
 

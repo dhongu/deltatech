@@ -5,7 +5,7 @@
 
 {
     "name": "Deltatech Purchase Order Stage",
-    "version": "18.0.1.2.6",
+    "version": "19.0.1.2.6",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
