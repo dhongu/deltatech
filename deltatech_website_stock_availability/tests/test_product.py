@@ -80,3 +80,37 @@ class TestProduct(TransactionCase):
         with MockRequest(self.env, website=website):
             product = self.product_b.product_tmpl_id.with_context(website_sale_stock_get_quantity=True)
             product._get_combination_info(product_id=self.product_b.id)
+
+    def test_combination_info_includes_free_qty(self):
+        # garda defensivă asigură free_qty în combination_info pentru template-urile QWeb
+        website = self.env["website"].create({"name": "Test Website"})
+        with MockRequest(self.env, website=website):
+            tmpl = self.product_a.product_tmpl_id.with_context(website_sale_stock_get_quantity=True)
+            info = tmpl._get_combination_info(product_id=self.product_a.id)
+            self.assertIn("free_qty", info)
+            self.assertGreater(info["free_qty"], 0, "Produsul A are 1000 în stoc")
+
+    def test_combination_info_free_qty_zero_when_no_stock(self):
+        # produsul C nu are stoc -> free_qty == 0 (nu lipsă/undefined)
+        website = self.env["website"].create({"name": "Test Website"})
+        with MockRequest(self.env, website=website):
+            tmpl = self.product_c.product_tmpl_id.with_context(website_sale_stock_get_quantity=True)
+            info = tmpl._get_combination_info(product_id=self.product_c.id)
+            self.assertIn("free_qty", info)
+            self.assertEqual(info["free_qty"], 0)
+
+    def test_combination_info_sets_product_template(self):
+        # product_template = id-ul template-ului, folosit de JS pentru scoping clase wrapper
+        website = self.env["website"].create({"name": "Test Website"})
+        with MockRequest(self.env, website=website):
+            tmpl = self.product_a.product_tmpl_id.with_context(website_sale_stock_get_quantity=True)
+            info = tmpl._get_combination_info(product_id=self.product_a.id)
+            self.assertEqual(info.get("product_template"), self.product_a.product_tmpl_id.id)
+
+    def test_combination_info_untouched_without_context(self):
+        # fără contextul de stoc, modulul nu intervine (nu adaugă product_template)
+        website = self.env["website"].create({"name": "Test Website"})
+        with MockRequest(self.env, website=website):
+            tmpl = self.product_a.product_tmpl_id
+            info = tmpl._get_combination_info(product_id=self.product_a.id)
+            self.assertNotIn("product_template", info)
