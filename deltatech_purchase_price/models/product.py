@@ -32,9 +32,37 @@ class ProductTemplate(models.Model):
         company_dependent=True,
     )
 
+    @api.depends("product_variant_ids.last_purchase_price", "seller_ids.price", "seller_ids.product_id")
     @api.depends_context("company")
     def _compute_last_purchase_price(self):
-        self._compute_template_field_from_variant_field("last_purchase_price")
+        # Single-variant (and variant-less) templates keep the native behaviour:
+        # the template value mirrors its only variant. For multi-variant
+        # templates the native helper would fall back to 0 (variants may hold
+        # different costs), which leaves the template price at 0 and breaks the
+        # markup-based sale price. Instead we surface the most recently updated
+        # supplier price, regardless of variant (ticket 8403).
+        single = self.filtered(lambda t: len(t.product_variant_ids) <= 1)
+        single._compute_template_field_from_variant_field("last_purchase_price")
+        for template in self - single:
+            template.last_purchase_price = template._get_last_purchase_price_from_sellers()
+
+    def _get_last_purchase_price_from_sellers(self):
+        """Last purchase price to show on a multi-variant template.
+
+        Picks the purchase price of the variant tied to the most recently
+        updated vendor line (``product.supplierinfo``); a template-level vendor
+        line falls back to the first variant. When no vendor line yields a
+        price, falls back to the highest known purchase price across variants,
+        so the template never collapses to 0 while any variant has a cost.
+        """
+        self.ensure_one()
+        sellers = self.seller_ids.sorted(key=lambda s: s.write_date or s.create_date, reverse=True)
+        for seller in sellers:
+            variant = seller.product_id or self.product_variant_ids[:1]
+            if variant.last_purchase_price:
+                return variant.last_purchase_price
+        prices = [p for p in self.product_variant_ids.mapped("last_purchase_price") if p]
+        return max(prices) if prices else 0.0
 
     def _inverse_last_purchase_price(self):
         self._set_product_variant_field("last_purchase_price")
