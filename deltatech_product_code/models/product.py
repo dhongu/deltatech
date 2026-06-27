@@ -5,7 +5,8 @@
 
 import random
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class ProductCategory(models.Model):
@@ -17,16 +18,29 @@ class ProductCategory(models.Model):
     barcode_random = fields.Boolean(default=True)
 
 
+def _conflicting_company(company_a, company_b):
+    """Doua coduri intra in conflict daca apartin aceleiasi companii sau daca
+    cel putin unul e partajat (company_id = False) — in PostgreSQL NULL != NULL,
+    deci o constrangere SQL unique(default_code, active, company_id) NU prinde
+    duplicatele cu company_id NULL. De aceea verificam in Python."""
+    return not company_a or not company_b or company_a == company_b
+
+
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    _sql_constraints = [
-        (
-            "name_code",
-            "unique (default_code,active,company_id)",
-            "Internal Reference already exists !",
-        ),
-    ]
+    @api.constrains("default_code", "active", "company_id")
+    def _check_default_code_unique(self):
+        for product in self:
+            if not product.default_code or not product.active:
+                continue
+            others = self.search([("default_code", "=", product.default_code), ("id", "!=", product.id)])
+            for other in others:
+                if _conflicting_company(product.company_id, other.company_id):
+                    raise ValidationError(
+                        _("Referința internă '%(code)s' există deja la produsul '%(name)s'!")
+                        % {"code": product.default_code, "name": other.display_name}
+                    )
 
     @api.model
     def get_new_code(self, categ, default_code, barcode):
@@ -115,6 +129,20 @@ class ProductTemplate(models.Model):
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
+    @api.constrains("default_code", "active")
+    def _check_default_code_unique(self):
+        for product in self:
+            if not product.default_code or not product.active:
+                continue
+            company = product.product_tmpl_id.company_id
+            others = self.search([("default_code", "=", product.default_code), ("id", "!=", product.id)])
+            for other in others:
+                if _conflicting_company(company, other.product_tmpl_id.company_id):
+                    raise ValidationError(
+                        _("Referința internă '%(code)s' există deja la produsul '%(name)s'!")
+                        % {"code": product.default_code, "name": other.display_name}
+                    )
+
     # la crearea unei variante nu se codifica automat si produsul
     # codificare automata  la creare
     @api.model_create_multi
@@ -163,11 +191,13 @@ class ProductProduct(models.Model):
 
     @api.model
     def show_not_unique(self):
+        # product_product nu are coloana company_id (compania vine din template)
         sql = """
              SELECT id FROM
               (SELECT *, count(*)
-                   OVER   (PARTITION BY  default_code, active, company_id) AS count
-                    FROM product_product)
+                   OVER   (PARTITION BY  default_code, active) AS count
+                    FROM product_product
+                    WHERE default_code IS NOT NULL AND default_code <> '')
                tableWithCount
               WHERE tableWithCount.count > 1;
         """
