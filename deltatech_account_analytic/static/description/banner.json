@@ -1,0 +1,10 @@
+{
+  "title": "Account Analytic Split",
+  "summary": "Split analytic lines by percentage across cost centers",
+  "icon": "trend",
+  "features": [
+    "Auto-split sales lines: stock & margin",
+    "Reusable split templates with %",
+    "Default analytic rules per team"
+  ]
+}
