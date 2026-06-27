@@ -175,6 +175,16 @@ class TestProductCode(TransactionCase):
                 {"name": "Var B", "categ_id": self.product_category.id, "default_code": "DUP002"}
             )
 
+    def test_duplicate_code_blocked_in_same_batch(self):
+        # doua coduri identice in acelasi create in lot trebuie blocate
+        with self.assertRaises(ValidationError):
+            self.env["product.template"].create(
+                [
+                    {"name": "Prod A", "categ_id": self.product_category.id, "default_code": "DUP010"},
+                    {"name": "Prod B", "categ_id": self.product_category.id, "default_code": "DUP010"},
+                ]
+            )
+
     def test_duplicate_code_archived_allowed(self):
         # un produs arhivat nu trebuie sa blocheze refolosirea codului
         product_a = self.env["product.template"].create(
