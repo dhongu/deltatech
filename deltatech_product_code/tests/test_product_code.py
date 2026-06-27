@@ -2,6 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
@@ -153,6 +154,47 @@ class TestProductCode(TransactionCase):
         # Based on product.py lines 60-91 (commented out) and 118-149
         for variant in product_template.product_variant_ids:
             self.assertTrue(variant.default_code.startswith("TEST/"))
+
+    def test_duplicate_code_blocked_template(self):
+        # produsele de test au company_id = False (NULL) — cazul pe care
+        # vechea constrangere SQL unique(default_code, active, company_id) il rata
+        self.env["product.template"].create(
+            {"name": "Prod A", "categ_id": self.product_category.id, "default_code": "DUP001"}
+        )
+        with self.assertRaises(ValidationError):
+            self.env["product.template"].create(
+                {"name": "Prod B", "categ_id": self.product_category.id, "default_code": "DUP001"}
+            )
+
+    def test_duplicate_code_blocked_product(self):
+        self.env["product.product"].create(
+            {"name": "Var A", "categ_id": self.product_category.id, "default_code": "DUP002"}
+        )
+        with self.assertRaises(ValidationError):
+            self.env["product.product"].create(
+                {"name": "Var B", "categ_id": self.product_category.id, "default_code": "DUP002"}
+            )
+
+    def test_duplicate_code_blocked_in_same_batch(self):
+        # doua coduri identice in acelasi create in lot trebuie blocate
+        with self.assertRaises(ValidationError):
+            self.env["product.template"].create(
+                [
+                    {"name": "Prod A", "categ_id": self.product_category.id, "default_code": "DUP010"},
+                    {"name": "Prod B", "categ_id": self.product_category.id, "default_code": "DUP010"},
+                ]
+            )
+
+    def test_duplicate_code_archived_allowed(self):
+        # un produs arhivat nu trebuie sa blocheze refolosirea codului
+        product_a = self.env["product.template"].create(
+            {"name": "Prod A", "categ_id": self.product_category.id, "default_code": "DUP003"}
+        )
+        product_a.active = False
+        product_b = self.env["product.template"].create(
+            {"name": "Prod B", "categ_id": self.product_category.id, "default_code": "DUP003"}
+        )
+        self.assertEqual(product_b.default_code, "DUP003")
 
     def test_barcode_random(self):
         self.product_category.write({"generate_barcode": True, "barcode_random": True})

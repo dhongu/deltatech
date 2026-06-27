@@ -4,8 +4,10 @@
 
 
 import random
+from collections import defaultdict
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class ProductCategory(models.Model):
@@ -17,16 +19,46 @@ class ProductCategory(models.Model):
     barcode_random = fields.Boolean(default=True)
 
 
+def _conflicting_company(company_a, company_b):
+    """Doua coduri intra in conflict daca apartin aceleiasi companii sau daca
+    cel putin unul e partajat (company_id = False) — in PostgreSQL NULL != NULL,
+    deci o constrangere SQL unique(default_code, active, company_id) NU prinde
+    duplicatele cu company_id NULL. De aceea verificam in Python."""
+    return not company_a or not company_b or company_a == company_b
+
+
+def _check_unique_default_code(records, company_of):
+    """Verifica unicitatea default_code pe un recordset, cu O SINGURA interogare
+    (nu una per inregistrare), ca sa scaleze la import/scriere in lot pe baze mari.
+    `company_of(rec)` intoarce compania inregistrarii."""
+    to_check = records.filtered(lambda p: p.default_code and p.active)
+    if not to_check:
+        return
+    codes = list({p.default_code for p in to_check})
+    # un singur search indexat (default_code IN [...]); active_test filtreaza activele
+    by_code = defaultdict(list)
+    for rec in records.search([("default_code", "in", codes)]):
+        by_code[rec.default_code].append(rec)
+    for product in to_check:
+        company = company_of(product)
+        for other in by_code[product.default_code]:
+            if other.id != product.id and _conflicting_company(company, company_of(other)):
+                raise ValidationError(
+                    _("Referința internă '%(code)s' există deja la produsul '%(name)s'!")
+                    % {"code": product.default_code, "name": other.display_name}
+                )
+
+
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    _sql_constraints = [
-        (
-            "name_code",
-            "unique (default_code,active,company_id)",
-            "Internal Reference already exists !",
-        ),
-    ]
+    # index pe default_code (campul standard e stored dar neindexat) — necesar
+    # ca search-ul din constrangere sa fie rapid pe baze mari
+    default_code = fields.Char(index=True)
+
+    @api.constrains("default_code", "active", "company_id")
+    def _check_default_code_unique(self):
+        _check_unique_default_code(self, lambda p: p.company_id)
 
     @api.model
     def get_new_code(self, categ, default_code, barcode):
@@ -115,6 +147,10 @@ class ProductTemplate(models.Model):
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
+    @api.constrains("default_code", "active")
+    def _check_default_code_unique(self):
+        _check_unique_default_code(self, lambda p: p.product_tmpl_id.company_id)
+
     # la crearea unei variante nu se codifica automat si produsul
     # codificare automata  la creare
     @api.model_create_multi
@@ -163,11 +199,13 @@ class ProductProduct(models.Model):
 
     @api.model
     def show_not_unique(self):
+        # product_product nu are coloana company_id (compania vine din template)
         sql = """
              SELECT id FROM
               (SELECT *, count(*)
-                   OVER   (PARTITION BY  default_code, active, company_id) AS count
-                    FROM product_product)
+                   OVER   (PARTITION BY  default_code, active) AS count
+                    FROM product_product
+                    WHERE default_code IS NOT NULL AND default_code <> '')
                tableWithCount
               WHERE tableWithCount.count > 1;
         """
