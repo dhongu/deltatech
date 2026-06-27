@@ -64,7 +64,7 @@ class SaleOrderLine(models.Model):
                                 self.env.context.get("to_date"),
                             )
                         else:
-                            qty = product.with_context(location_id=warehouse.lot_stock_id.id)._compute_quantities_dict(
+                            qty = product.with_context(location=warehouse.lot_stock_id.id)._compute_quantities_dict(
                                 self.env.context.get("lot_id"),
                                 self.env.context.get("owner_id"),
                                 self.env.context.get("package_id"),
