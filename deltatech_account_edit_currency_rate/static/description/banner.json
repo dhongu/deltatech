@@ -1,0 +1,10 @@
+{
+  "title": "Custom Invoice Exchange Rate",
+  "summary": "Override the exchange rate directly on any invoice or bill",
+  "icon": "trend",
+  "features": [
+    "Manual rate on Customer Invoices & Bills",
+    "Auto-recalculate amounts in company currency",
+    "Full multi-currency environment support"
+  ]
+}
