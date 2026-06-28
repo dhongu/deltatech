@@ -4,6 +4,7 @@
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
+from odoo.tools import SQL
 
 
 class PaymentForecastWizard(models.TransientModel):
@@ -50,9 +51,7 @@ class PaymentForecastWizard(models.TransientModel):
             days = is_cron
         else:
             days = "Custom"
-            params = {"days": days}
-            query = "DELETE FROM payment_forecast WHERE days=%(days)s;"
-            self.env.cr.execute(query, params)
+            self.env.cr.execute(SQL("DELETE FROM payment_forecast WHERE days = %s", days))
         domain = [
             ("state", "=", "posted"),
             ("move_type", "in", ["out_invoice", "out_refund", "in_invoice", "in_refund"]),
@@ -96,7 +95,5 @@ class PaymentForecastWizard(models.TransientModel):
             date_to = fields.Date.today() + relativedelta(days=days)
             wizard = self.create({"date_to": date_to})
             days_string = str(days)
-            params = {"days": days_string}
-            query = "DELETE FROM payment_forecast WHERE days=%(days)s;"
-            self.env.cr.execute(query, params)
+            self.env.cr.execute(SQL("DELETE FROM payment_forecast WHERE days = %s", days_string))
             wizard.with_context(days_string=days_string).get_forecast_lines()
