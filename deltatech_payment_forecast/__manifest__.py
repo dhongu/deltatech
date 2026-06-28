@@ -1,13 +1,14 @@
 # Copyright (c) 2024-now Terrabit Solutions All Rights Reserved
 
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "Terrabit payment forecast",
     "summary": "Generates a report to estimate payments at a certain date",
     "author": "Terrabit",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
-    "version": "18.0.0.0.4",
+    "version": "19.0.0.0.1",
     "depends": ["account", "deltatech_average_payment_period"],
     "data": [
         "security/groups.xml",

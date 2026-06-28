@@ -1,74 +1,59 @@
 # Copyright (c) 2024-now Terrabit Solutions All Rights Reserved
 
 
-import datetime
+from odoo import fields
+from odoo.tests import tagged
 
-from odoo.tests import Form
-from odoo.tests.common import TransactionCase
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestPaymentForecast(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.partner_a = self.env["res.partner"].create({"name": "Test"})
-
-        self.product_a = self.env["product.product"].create(
-            {"name": "Test A", "type": "service", "standard_price": 100, "list_price": 150, "taxes_id": False}
-        )
-        self.product_b = self.env["product.product"].create(
-            {"name": "Test B", "type": "service", "standard_price": 70, "list_price": 150, "taxes_id": False}
-        )
-        sale_journal = self.env["account.journal"].search([("type", "=", "sale")], limit=1)
-        if sale_journal:
-            self.journal = sale_journal
-        else:
-            self.journal = self.env["account.journal"].create({"name": "Sales", "type": "sale", "code": "INV"})
-
-        invoice = Form(self.env["account.move"].with_context(default_move_type="out_invoice"))
-        invoice.partner_id = self.partner_a
-        invoice.invoice_date_due = datetime.datetime(2030, 5, 17)
-
-        with invoice.invoice_line_ids.new() as line:
-            line.product_id = self.product_a
-            line.quantity = 1
-            line.price_unit = 150
-
-        with invoice.invoice_line_ids.new() as line:
-            line.product_id = self.product_b
-            line.quantity = 1
-            line.price_unit = 150
-
-        self.invoice_a = invoice.save()
-        self.invoice_a.action_post()
-
-        invoice = Form(self.env["account.move"].with_context(default_move_type="out_invoice"))
-        invoice.partner_id = self.partner_a
-        invoice.invoice_date_due = datetime.datetime(2030, 5, 17)
-
-        with invoice.invoice_line_ids.new() as line:
-            line.product_id = self.product_a
-            line.quantity = 1
-            line.price_unit = 150
-
-        with invoice.invoice_line_ids.new() as line:
-            line.product_id = self.product_b
-            line.quantity = 1
-            line.price_unit = 150
-
-        self.invoice_b = invoice.save()
-        self.invoice_b.action_post()
-
-    def test_wizard_forecast(self):
-        wizard = self.env["payment.forecast.wizard"].create(
+@tagged("post_install", "-at_install")
+class TestPaymentForecast(AccountTestInvoicingCommon):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.due_date = fields.Date.to_date("2030-05-17")
+        cls.env.user.group_ids = [(4, cls.env.ref("deltatech_payment_forecast.payment_forecast_manager").id)]
+        cls.partner_a.write(
             {
-                "date_to": datetime.datetime(2030, 5, 17),
+                "country_id": cls.env.ref("base.ro").id,
+                "state_id": cls.env.ref("base.RO_B").id,
+                "city": "Bucuresti",
+                "street": "Str. Test 1",
+                "zip": "010101",
             }
         )
+        cls.product_x = cls.env["product.product"].create(
+            {"name": "Test A", "type": "service", "standard_price": 100, "list_price": 150, "taxes_id": False}
+        )
+        cls.product_y = cls.env["product.product"].create(
+            {"name": "Test B", "type": "service", "standard_price": 70, "list_price": 150, "taxes_id": False}
+        )
+        cls.invoice_a = cls._create_invoice()
+        cls.invoice_b = cls._create_invoice()
+
+    @classmethod
+    def _create_invoice(cls):
+        invoice = cls.env["account.move"].create(
+            {
+                "move_type": "out_invoice",
+                "partner_id": cls.partner_a.id,
+                "invoice_date": cls.due_date,
+                "invoice_date_due": cls.due_date,
+                "invoice_line_ids": [
+                    (0, 0, {"product_id": cls.product_x.id, "quantity": 1, "price_unit": 150, "tax_ids": []}),
+                    (0, 0, {"product_id": cls.product_y.id, "quantity": 1, "price_unit": 150, "tax_ids": []}),
+                ],
+            }
+        )
+        invoice.action_post()
+        return invoice
+
+    def test_wizard_forecast(self):
+        wizard = self.env["payment.forecast.wizard"].create({"date_to": self.due_date})
 
         wizard.get_forecast_lines()
         # se verifica suma totala pe data
         forecast_lines = self.env["payment.forecast"].search([])
-        total = 0.0
-        for line in forecast_lines:
-            total += line.move_amount_residual
+        total = sum(forecast_lines.mapped("move_amount_residual"))
         self.assertEqual(total, 600)
