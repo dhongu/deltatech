@@ -19,7 +19,7 @@ class SaleOrderLine(models.Model):
                     # Convert the cost to the line UoM
                     product_cost = line.product_id.uom_id._compute_price(
                         purchase_price,
-                        line.product_uom,
+                        line.product_uom_id,
                     )
 
                     line.purchase_price = line._convert_to_sol_currency(product_cost, line.product_id.cost_currency_id)
