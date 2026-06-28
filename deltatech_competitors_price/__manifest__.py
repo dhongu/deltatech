@@ -4,7 +4,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Deltatech Competitors Price",
     "summary": "Track competitors' product prices and fetch on demand",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "category": "Product",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
