@@ -3,7 +3,7 @@
 
 import logging
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -193,7 +193,7 @@ class DeltatechCompetitorPrice(models.Model):
     def _do_fetch(self):
         self.ensure_one()
         if not self.product_url:
-            raise UserError(_("No product URL on competitor line."))
+            raise UserError(self.env._("No product URL on competitor line."))
         if requests is None or lxml_html is None:
             msg = "Missing requests/lxml libraries; cannot fetch."
             self.write(
@@ -225,7 +225,7 @@ class DeltatechCompetitorPrice(models.Model):
                 price = self._extract_price_from_tree(tree)
 
             if price is None:
-                status = _("Price not found on page")
+                status = self.env._("Price not found on page")
                 self.write(
                     {
                         "fetch_status": status,
@@ -237,7 +237,7 @@ class DeltatechCompetitorPrice(models.Model):
             vals = {
                 "last_price": price,
                 "last_fetch": fields.Datetime.now(),
-                "fetch_status": _("OK"),
+                "fetch_status": self.env._("OK"),
             }
             if currency_code:
                 Currency = self.env["res.currency"]
