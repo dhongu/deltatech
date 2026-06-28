@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_import_purchase_line,access_import_purchase_line,model_import_purchase_line,base.group_user,1,1,1,1
+deltatech_purchase_xls.access_export_purchase_line,access_export_purchase_line,deltatech_purchase_xls.model_export_purchase_line,base.group_user,1,1,1,1
