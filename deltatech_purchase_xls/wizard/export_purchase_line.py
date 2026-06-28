@@ -48,7 +48,7 @@ class ExportPurchaseLine(models.TransientModel):
                 worksheet.write(lin, 2, name or "")
                 worksheet.write(lin, 3, line.product_qty)
                 worksheet.write(lin, 4, line.price_unit)
-                worksheet.write(lin, 5, line.product_uom.name)
+                worksheet.write(lin, 5, line.product_uom_id.name)
                 lin += 1
 
         workbook.close()
@@ -67,7 +67,6 @@ class ExportPurchaseLine(models.TransientModel):
             "type": "ir.actions.act_window",
             "res_model": self._name,
             "view_mode": "form",
-            "view_type": "form",
             "res_id": self.id,
             "views": [(False, "form")],
             "target": "new",

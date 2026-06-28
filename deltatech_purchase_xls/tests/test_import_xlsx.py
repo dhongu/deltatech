@@ -56,7 +56,7 @@ class TestImportXLS(TransactionCase):
                             "name": self.product.name,
                             "product_id": self.product.id,
                             "product_qty": 10,
-                            "product_uom": self.env.ref("uom.product_uom_unit").id,
+                            "product_uom_id": self.env.ref("uom.product_uom_unit").id,
                             "price_unit": 100,
                             "date_planned": fields.Date.today(),
                         },
