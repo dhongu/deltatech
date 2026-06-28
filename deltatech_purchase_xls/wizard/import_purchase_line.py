@@ -1,7 +1,7 @@
 import base64
 import logging
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -43,7 +43,7 @@ class ImportPurchaseLine(models.TransientModel):
         model = self.env.context.get("active_model", False)
         purchase = self.env[model].browse(active_id)
         if purchase.state != "draft":
-            raise UserError(_("The order is in the %s state") % (purchase.state))
+            raise UserError(self.env._("The order is in the %s state") % (purchase.state))
         defaults["purchase_id"] = purchase.id
         return defaults
 
@@ -76,7 +76,7 @@ class ImportPurchaseLine(models.TransientModel):
                 fields_list = self.fields_list.split(",")
                 values = dict(zip(fields_list, row, strict=False))
             except Exception as e:
-                raise UserError(_("Invalid file format")) from e
+                raise UserError(self.env._("Invalid file format")) from e
 
             product_code = values.get("product_code", False)
             if not product_code:
@@ -106,22 +106,22 @@ class ImportPurchaseLine(models.TransientModel):
             product_id = self.search_product(product_code)
             if product_id:
                 # check UOM
-                product_uom = product_id.uom_po_id or product_id.uom_id
+                product_uom = product_id.uom_id
                 if uom_name and uom_name != product_uom.name:
                     uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
                     if uom:
-                        if uom != product_id.uom_po_id and uom != product_id.uom_id:
+                        if uom != product_id.uom_id:
                             raise UserError(
-                                _("Product %(product_name)s does not have UOM %(uom_name)s")
+                                self.env._("Product %(product_name)s does not have UOM %(uom_name)s")
                                 % {"product_name": product_id.name, "uom_name": uom.name}
                             )
                         product_uom = uom
             else:
                 if self.new_product:
                     product_id = self.create_product(product_code, product_name, quantity, price, uom_name)
-                    product_uom = product_id.uom_po_id or product_id.uom_id
+                    product_uom = product_id.uom_id
                 else:
-                    raise UserError(_("Product %s not found") % product_code)
+                    raise UserError(self.env._("Product %s not found") % product_code)
 
             lines += [
                 {
@@ -130,14 +130,14 @@ class ImportPurchaseLine(models.TransientModel):
                     "name": product_name or product_id.display_name,
                     "product_qty": quantity,
                     "price_unit": price,
-                    "product_uom": product_uom.id,
+                    "product_uom_id": product_uom.id,
                     "date_planned": self.purchase_id.date_order,
                 }
             ]
         purchase_lines = self.env["purchase.order.line"].create(lines)
         purchase_lines._compute_tax_id()
         if "price" not in self.fields_list:
-            purchase_lines._onchange_quantity()
+            purchase_lines._compute_price_unit_and_date_planned_and_name()
 
     def search_product(self, code=False):
         """
@@ -188,7 +188,6 @@ class ImportPurchaseLine(models.TransientModel):
             "is_storable": True,
             "name": product_name,
             "seller_ids": [(0, 0, seller_values)],
-            "uom_po_id": uom_id,
             "uom_id": uom_id,
         }
         product_tmpl_id = self.env["product.template"].create(values)
