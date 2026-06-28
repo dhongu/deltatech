@@ -1,4 +1,5 @@
 import base64
+import io
 import logging
 
 from odoo import api, fields, models
@@ -8,15 +9,11 @@ _logger = logging.getLogger(__name__)
 
 # todo: de folosit
 # from odoo.tools.misc import xlsxwriter
+# xlrd >= 2.0 nu mai citește fișiere .xlsx, deci folosim openpyxl (inclus în Odoo)
 try:
-    import xlrd
-
-    try:
-        from xlrd import xlsx
-    except ImportError:
-        xlsx = None
+    import openpyxl
 except ImportError:
-    xlrd = xlsx = None
+    openpyxl = None
 
 
 class ImportPurchaseLine(models.TransientModel):
@@ -48,18 +45,24 @@ class ImportPurchaseLine(models.TransientModel):
         return defaults
 
     def get_rows(self):
+        if openpyxl is None:
+            raise UserError(self.env._("The 'openpyxl' Python library is required to read .xlsx files."))
         decoded_data = base64.b64decode(self.data_file)
-        book = xlrd.open_workbook(file_contents=decoded_data)
-        sheet = book.sheet_by_index(0)
+        book = openpyxl.load_workbook(io.BytesIO(decoded_data), data_only=True)
+        sheet = book.worksheets[0]
         table_values = []
-        for row in list(map(sheet.row, range(sheet.nrows))):
+        for row in sheet.iter_rows(values_only=True):
             values = []
-            for cell in row:
-                if cell.ctype is xlrd.XL_CELL_NUMBER:
-                    is_float = cell.value % 1 != 0.0
-                    values.append(str(cell.value) if is_float else str(int(cell.value)))
+            for value in row:
+                if value is None:
+                    values.append("")
+                elif isinstance(value, bool):
+                    values.append(value)
+                elif isinstance(value, (int, float)):
+                    is_float = value % 1 != 0.0
+                    values.append(str(value) if is_float else str(int(value)))
                 else:
-                    values.append(cell.value)
+                    values.append(value)
             table_values.append(values)
 
         if not table_values:

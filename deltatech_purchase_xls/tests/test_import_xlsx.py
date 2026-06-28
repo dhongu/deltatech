@@ -44,9 +44,10 @@ class TestImportXLS(TransactionCase):
         )
 
         # Create a purchase order
+        self.partner = self.env["res.partner"].create({"name": "vendor"})
         self.purchase_order = self.env["purchase.order"].create(
             {
-                "partner_id": self.env.ref("base.res_partner_1").id,
+                "partner_id": self.partner.id,
                 "date_order": fields.Date.today(),
                 "order_line": [
                     (
