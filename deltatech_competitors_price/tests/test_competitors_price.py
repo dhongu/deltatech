@@ -75,7 +75,7 @@ class TestDeltatechCompetitorsPrice(TransactionCase):
 
     def test_fetch_from_html_fallback(self):
         # HTML without JSON-LD, meta product price present
-        html = "<html><head>" '<meta property="product:price:amount" content="987.65"/>' "</head><body></body></html>"
+        html = '<html><head><meta property="product:price:amount" content="987.65"/></head><body></body></html>'
         line = self._create_line()
         with patch(
             "odoo.addons.deltatech_competitors_price.models.competitor_price.requests.get",
@@ -151,7 +151,7 @@ class TestDeltatechCompetitorsPrice(TransactionCase):
 
     def test_product_template_action(self):
         # Ensure the button on product triggers on related lines
-        html = "<html><head>" '<meta property="product:price:amount" content="11.11"/>' "</head><body></body></html>"
+        html = '<html><head><meta property="product:price:amount" content="11.11"/></head><body></body></html>'
         line = self._create_line()
         with patch(
             "odoo.addons.deltatech_competitors_price.models.competitor_price.requests.get",
