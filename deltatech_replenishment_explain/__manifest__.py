@@ -1,7 +1,7 @@
 {
     "name": "Deltatech Replenishment Explain",
     "version": "18.0.1.1.0",
-    "author": "Terrabit, Dorin Hongu",
+    "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Inventory",
     "summary": "Explain how and why a reordering rule reached its forecast and to-order quantity, "
@@ -16,6 +16,6 @@
         "data/replenishment_explain_server_action.xml",
     ],
     "development_status": "Beta",
-    "maintainers": ["dhongu"],
+    "maintainers": ["VoicuStefan2001"],
 }
 

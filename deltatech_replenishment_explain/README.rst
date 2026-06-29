@@ -84,18 +84,18 @@ Authors
 -------
 
 * Terrabit
-* Dorin Hongu
+* Voicu Stefan
 
 Maintainers
 -----------
 
-.. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
-    :target: https://github.com/dhongu
-    :alt: dhongu
+.. |maintainer-VoicuStefan2001| image:: https://github.com/VoicuStefan2001.png?size=40px
+    :target: https://github.com/VoicuStefan2001
+    :alt: VoicuStefan2001
 
 Current maintainer:
 
-|maintainer-dhongu| 
+|maintainer-VoicuStefan2001| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_replenishment_explain>`_ project on GitHub.
 
