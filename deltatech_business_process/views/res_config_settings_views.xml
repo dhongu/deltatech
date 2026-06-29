@@ -26,6 +26,20 @@
                             <field name="process_library_git_repos" placeholder="https://github.com/terrabit-ro/procese"/>
                             <button name="action_sync_git_repos" string="Sync now" type="object" class="btn-secondary"/>
                         </setting>
+                        <setting
+                            string="Private repository credentials"
+                            help="Token used for private HTTPS repositories. Sent as an HTTP Basic header per git command; not stored in the cloned repo's config. SSH URLs use their own keys.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label string="Username" for="process_library_git_user" class="col-lg-4 o_light_label"/>
+                                    <field name="process_library_git_user" placeholder="x-access-token (GitHub) / oauth2 (GitLab)"/>
+                                </div>
+                                <div class="row">
+                                    <label string="Token / password" for="process_library_git_token" class="col-lg-4 o_light_label"/>
+                                    <field name="process_library_git_token" password="True" placeholder="personal access token"/>
+                                </div>
+                            </div>
+                        </setting>
                     </block>
                 </app>
             </xpath>

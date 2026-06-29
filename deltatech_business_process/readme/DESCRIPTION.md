@@ -53,6 +53,12 @@ Installation
 - Dependencies: base, mail.
 - Install the module like any standard Odoo addon and ensure sequences and email templates from data files are loaded.
 
+Process Library
+- A reusable library of processes can be sourced from installed modules that ship a `processes/` folder and/or from external git repositories (Settings → Process Library).
+- Configure the git repositories as a comma-separated list of URLs and press "Sync now" to clone/pull them locally; processes are then imported selectively into a project via the "Process Library" action.
+- The library import maps the full process metadata exported in `process.json` — area, process group, module type, implementation stage, state — and brings in the configuration / instructing / testing / data-migration durations. An "Include durations" toggle on the import dialog lets you import every selected process with or without its effort estimates (all-or-nothing).
+- Private HTTPS repositories: set a Git username (default `x-access-token` for GitHub, `oauth2` for GitLab) and a token/password. The token is sent as an HTTP Basic Authorization header on each git command and is never written into the cloned repo's on-disk config. SSH (`git@…`) URLs use their own keys; URLs that already embed credentials are used as-is.
+
 Configuration tips
 - Define Business Areas and Process Groups first to better organize processes.
 - For local projects, you can use the Install Modules button on a process to (optionally) install selected modules; remote projects are blocked by design.

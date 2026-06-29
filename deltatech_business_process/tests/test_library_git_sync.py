@@ -7,6 +7,7 @@ fluxul complet: ``sync_git_repos`` → ``_iter_process_sources`` →
 ``available_processes`` → ``import_processes`` (cu atașarea fișelor).
 """
 
+import base64
 import json
 import os
 import shutil
@@ -19,12 +20,23 @@ from odoo.tests.common import TransactionCase
 
 PARAM_REPOS = "deltatech_business_process.process_library_git_repos"
 PARAM_AUTODISCOVER = "deltatech_business_process.process_library_autodiscover"
+PARAM_TOKEN = "deltatech_business_process.process_library_git_token"
+PARAM_USER = "deltatech_business_process.process_library_git_user"
 
 PROCESS_JSON = {
     "code": "GIT-E2E-001",
     "name": "Proces din git",
     "area": "Git Area",
+    "process_group": "Grup git",
+    "module_type": "standard",
+    "implementation_stage": "first_stage",
+    "state": "design",
     "description": "Proces de test sincronizat din git.",
+    "include_durations": True,
+    "configuration_duration": 0.5,
+    "instructing_duration": 0.25,
+    "data_migration_duration": 0.0,
+    "testing_duration": 1.0,
     "steps": [{"name": "Pas unu", "sequence": 10}],
     "tests": [
         {
@@ -144,6 +156,13 @@ class TestLibraryGitSync(TransactionCase):
         proc = created[0]
         self.assertEqual(proc.code, "GIT-E2E-001")
         self.assertEqual(proc.area_id.name, "Git Area")
+        # metadatele și duratele se importă implicit (include_durations=True)
+        self.assertEqual(proc.process_group_id.name, "Grup git")
+        self.assertEqual(proc.module_type, "standard")
+        self.assertEqual(proc.implementation_stage_id.name, "First stage")
+        self.assertEqual(proc.state, "design")
+        self.assertAlmostEqual(proc.configuration_duration, 0.5)
+        self.assertAlmostEqual(proc.duration_for_completion, 0.5 + 0.25 + 0.0 + 1.0)
         self.assertEqual(len(proc.step_ids), 1)
         # testul importat are doar pasul existent (cel inexistent e sărit)
         test = self.env["business.process.test"].search([("process_id", "=", proc.id)])
@@ -179,6 +198,33 @@ class TestLibraryGitSync(TransactionCase):
             [("res_model", "=", "business.process"), ("res_id", "=", created.id)]
         )
         self.assertEqual(attachment.mimetype, "application/pdf")
+
+    def test_options_dialog_all_or_nothing_durations(self):
+        # Dialogul de opțiuni propagă alegerea (all-or-nothing) prin context,
+        # iar importul din listă o respectă pentru toate procesele selectate.
+        self._configure_repo()
+        ctx = {"active_model": "business.project", "active_ids": self.project.ids}
+        options = (
+            self.env["business.process.library.import.options"].with_context(**ctx).create({"include_durations": False})
+        )
+        action = options.action_show_library()
+        self.assertFalse(action["context"]["library_include_durations"])
+
+        # importăm liniile prin butonul listei, sub același context
+        line_model = self.env["business.process.library.import.line"].with_context(**action["context"])
+        lines = line_model.search([("project_id", "=", self.project.id), ("code", "=", "GIT-E2E-001")])
+        self.assertTrue(lines)
+        with patch(
+            "odoo.addons.deltatech_business_process.tools.html_to_pdf.html_to_pdf",
+            return_value=None,
+        ):
+            lines.action_import_selected()
+        proc = self.env["business.process"].search([("code", "=", "GIT-E2E-001"), ("project_id", "=", self.project.id)])
+        self.assertEqual(len(proc), 1)
+        # duratele sărite, dar restul metadatelor importate
+        self.assertEqual(proc.configuration_duration, 0.0)
+        self.assertEqual(proc.testing_duration, 0.0)
+        self.assertEqual(proc.module_type, "standard")
 
     def test_settings_action_sync(self):
         settings = self.env["res.config.settings"].create({})
@@ -221,6 +267,43 @@ class TestLibraryHelpers(TransactionCase):
                 json.dump([{"code": "A"}, {"code": "B"}], fh)
             self.assertEqual(len(self.library._read_folder(tmp, "list")), 2)
 
+    def _meta_process_data(self):
+        return {
+            "code": "META-001",
+            "name": "Proces cu metadate",
+            "area": "Achizitie",
+            "process_group": "Produse stocabile",
+            "module_type": "standard",
+            "implementation_stage": "first_stage",  # cheie legacy -> "First stage"
+            "state": "design",
+            "include_durations": True,
+            "configuration_duration": 0.1667,
+            "instructing_duration": 0.4167,
+            "data_migration_duration": 0.0,
+            "testing_duration": 0.625,
+            "steps": [],
+        }
+
+    def test_load_process_imports_durations_and_meta(self):
+        proc = self.library._load_process(self._meta_process_data(), project=self.project)
+        self.assertEqual(proc.process_group_id.name, "Produse stocabile")
+        self.assertEqual(proc.module_type, "standard")
+        self.assertEqual(proc.implementation_stage_id.name, "First stage")
+        self.assertEqual(proc.state, "design")
+        self.assertAlmostEqual(proc.configuration_duration, 0.1667)
+        self.assertAlmostEqual(proc.testing_duration, 0.625)
+        # totalul e calculat din cele patru componente
+        self.assertAlmostEqual(proc.duration_for_completion, 0.1667 + 0.4167 + 0.0 + 0.625)
+
+    def test_load_process_can_skip_durations(self):
+        data = dict(self._meta_process_data(), code="META-002")
+        proc = self.library._load_process(data, project=self.project, include_durations=False)
+        # metadatele rămân, dar duratele nu se importă
+        self.assertEqual(proc.module_type, "standard")
+        self.assertEqual(proc.configuration_duration, 0.0)
+        self.assertEqual(proc.testing_duration, 0.0)
+        self.assertEqual(proc.duration_for_completion, 0.0)
+
     def test_get_or_create_area(self):
         self.assertFalse(self.library._get_or_create_area(""))
         area = self.library._get_or_create_area("Arie nouă din test")
@@ -253,6 +336,67 @@ class TestLibraryHelpers(TransactionCase):
                 self.assertIsNone(self.library._sync_git_repo("https://example.com/r.git", cache))
             with patch.object(subprocess, "run", side_effect=RuntimeError("boom")):
                 self.assertIsNone(self.library._sync_git_repo("https://example.com/r.git", cache))
+
+    def test_safe_url_strips_credentials(self):
+        self.assertEqual(
+            self.library._safe_url("https://user:tok@github.com/org/repo.git"),
+            "https://github.com/org/repo.git",
+        )
+        # fără credențiale / non-http rămâne neschimbat
+        self.assertEqual(self.library._safe_url("https://github.com/org/repo.git"), "https://github.com/org/repo.git")
+        self.assertEqual(self.library._safe_url("git@github.com:org/repo.git"), "git@github.com:org/repo.git")
+
+    def test_git_env_is_non_interactive(self):
+        env = self.library._git_env()
+        self.assertEqual(env["GIT_TERMINAL_PROMPT"], "0")
+        self.assertIn("BatchMode=yes", env["GIT_SSH_COMMAND"])
+
+    def test_git_auth_args(self):
+        icp = self.env["ir.config_parameter"].sudo()
+        # fără token -> fără args, indiferent de URL
+        icp.set_param(PARAM_TOKEN, "")
+        self.assertEqual(self.library._git_auth_args("https://github.com/org/repo.git"), [])
+        # cu token -> header Basic cu userul implicit x-access-token
+        icp.set_param(PARAM_TOKEN, "ghp_secret")
+        icp.set_param(PARAM_USER, "")
+        args = self.library._git_auth_args("https://github.com/org/repo.git")
+        expected = base64.b64encode(b"x-access-token:ghp_secret").decode()
+        self.assertEqual(args, ["-c", f"http.extraHeader=Authorization: Basic {expected}"])
+        # user explicit (GitLab)
+        icp.set_param(PARAM_USER, "oauth2")
+        args = self.library._git_auth_args("https://gitlab.com/org/repo.git")
+        expected = base64.b64encode(b"oauth2:ghp_secret").decode()
+        self.assertEqual(args[1], f"http.extraHeader=Authorization: Basic {expected}")
+        # ssh / url cu credențiale deja incluse / non-https -> fără injectare
+        self.assertEqual(self.library._git_auth_args("git@github.com:org/repo.git"), [])
+        self.assertEqual(self.library._git_auth_args("https://u:p@github.com/org/repo.git"), [])
+        self.assertEqual(self.library._git_auth_args("file:///tmp/repo"), [])
+
+    def test_clone_passes_auth_header_and_env(self):
+        icp = self.env["ir.config_parameter"].sudo()
+        icp.set_param(PARAM_TOKEN, "ghp_secret")
+        icp.set_param(PARAM_USER, "x-access-token")
+        captured = {}
+
+        def fake_run(cmd, **kwargs):
+            captured["cmd"] = cmd
+            captured["env"] = kwargs.get("env")
+
+            class R:
+                returncode = 1  # forțăm eșec ca să nu atingem discul mai departe
+                stderr = "auth ok, dar oprim aici"
+
+            return R()
+
+        with tempfile.TemporaryDirectory() as cache:
+            with patch.object(subprocess, "run", side_effect=fake_run):
+                self.library._sync_git_repo("https://github.com/org/privat.git", cache)
+        expected = base64.b64encode(b"x-access-token:ghp_secret").decode()
+        self.assertIn("-c", captured["cmd"])
+        self.assertIn(f"http.extraHeader=Authorization: Basic {expected}", captured["cmd"])
+        # antetul vine ÎNAINTE de subcomanda clone
+        self.assertLess(captured["cmd"].index("-c"), captured["cmd"].index("clone"))
+        self.assertEqual(captured["env"]["GIT_TERMINAL_PROMPT"], "0")
 
     def test_sync_git_repo_pull_failure_keeps_local(self):
         # un pull eșuat păstrează clona locală existentă

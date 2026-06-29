@@ -22,6 +22,16 @@ Discovery is controlled from Settings (``ir.config_parameter``):
   of git URLs) — additional sources cloned/pulled under the Odoo data dir.
   Repos are discovered with root layout ``<folder>/process.json`` (standalone repo,
   no ``processes/`` sub-folder needed).
+
+Private HTTPS repos are supported via two optional parameters:
+
+* ``deltatech_business_process.process_library_git_token`` — a personal access
+  token / password sent as an HTTP Basic ``Authorization`` header per git
+  command. It is **not** written into the repo's on-disk config.
+* ``deltatech_business_process.process_library_git_user`` — the matching
+  username (default ``x-access-token``, which works for GitHub tokens; use
+  ``oauth2`` for GitLab). URLs that already embed credentials, and ``ssh://`` /
+  ``git@`` URLs, are used as-is and ignore these parameters.
 """
 
 import base64
@@ -63,36 +73,85 @@ class BusinessProcessLibrary(models.AbstractModel):
         return name
 
     @api.model
+    def _safe_url(self, url):
+        """URL with any embedded ``user:pass@`` credentials stripped, for logging."""
+        if "://" in url:
+            scheme, rest = url.split("://", 1)
+            if "@" in rest:
+                return f"{scheme}://{rest.split('@', 1)[1]}"
+        return url
+
+    @api.model
+    def _git_env(self):
+        """Non-interactive git environment so a missing/wrong credential fails fast.
+
+        Without this, ``git`` would block on an interactive username/password (or
+        SSH passphrase) prompt until the subprocess timeout (60-120s) elapses.
+        """
+        return dict(
+            os.environ,
+            GIT_TERMINAL_PROMPT="0",
+            GIT_SSH_COMMAND="ssh -o BatchMode=yes",
+        )
+
+    @api.model
+    def _git_auth_args(self, url):
+        """Per-command ``-c http.extraHeader`` args injecting a token for private HTTPS repos.
+
+        Returns ``[]`` for non-HTTPS URLs (ssh/git/file), URLs that already embed
+        credentials, or when no token is configured. The token is supplied as an
+        HTTP Basic header on the command line, so it is never persisted into the
+        cloned repo's ``.git/config``.
+        """
+        if not url.startswith("https://"):
+            return []
+        authority = url.split("://", 1)[1].split("/", 1)[0]
+        if "@" in authority:  # credentials already embedded in the URL — leave as-is
+            return []
+        icp = self.env["ir.config_parameter"].sudo()
+        token = (icp.get_param("deltatech_business_process.process_library_git_token") or "").strip()
+        if not token:
+            return []
+        user = (icp.get_param("deltatech_business_process.process_library_git_user") or "x-access-token").strip()
+        basic = base64.b64encode(f"{user}:{token}".encode()).decode()
+        return ["-c", f"http.extraHeader=Authorization: Basic {basic}"]
+
+    @api.model
     def _sync_git_repo(self, url, cache_dir):
         """Clone or pull a single git repo; return local path or None on error."""
         local_name = self._repo_local_name(url)
         local_path = os.path.join(cache_dir, local_name)
+        env = self._git_env()
+        auth = self._git_auth_args(url)
+        safe_url = self._safe_url(url)
         try:
             os.makedirs(cache_dir, exist_ok=True)
             if os.path.isdir(os.path.join(local_path, ".git")):
                 result = subprocess.run(
-                    ["git", "-C", local_path, "pull", "--ff-only", "--quiet"],
+                    ["git", "-C", local_path, *auth, "pull", "--ff-only", "--quiet"],
                     capture_output=True,
                     text=True,
                     timeout=60,
+                    env=env,
                 )
                 if result.returncode != 0:
-                    _logger.warning("Process library: git pull failed for %s: %s", url, result.stderr)
+                    _logger.warning("Process library: git pull failed for %s: %s", safe_url, result.stderr)
             else:
                 result = subprocess.run(
-                    ["git", "clone", "--depth", "1", "--quiet", url, local_path],
+                    ["git", *auth, "clone", "--depth", "1", "--quiet", url, local_path],
                     capture_output=True,
                     text=True,
                     timeout=120,
+                    env=env,
                 )
                 if result.returncode != 0:
-                    _logger.warning("Process library: git clone failed for %s: %s", url, result.stderr)
+                    _logger.warning("Process library: git clone failed for %s: %s", safe_url, result.stderr)
                     return None
         except subprocess.TimeoutExpired:
-            _logger.warning("Process library: git operation timed out for %s", url)
+            _logger.warning("Process library: git operation timed out for %s", safe_url)
             return None
         except Exception as exc:
-            _logger.warning("Process library: git error for %s: %s", url, exc)
+            _logger.warning("Process library: git error for %s: %s", safe_url, exc)
             return None
         return local_path if os.path.isdir(local_path) else None
 
@@ -112,7 +171,7 @@ class BusinessProcessLibrary(models.AbstractModel):
             if local_path:
                 label = self._repo_local_name(url)
                 synced.append((label, local_path))
-                _logger.info("Process library: synced git repo %s → %s", url, local_path)
+                _logger.info("Process library: synced git repo %s → %s", self._safe_url(url), local_path)
         return synced
 
     @api.model
@@ -197,11 +256,12 @@ class BusinessProcessLibrary(models.AbstractModel):
         return out
 
     @api.model
-    def import_processes(self, refs, project=None):
+    def import_processes(self, refs, project=None, include_durations=True):
         """Import the processes identified by ``{module, folder}`` references.
 
         The reference is composite (module + folder) because folder names may
-        collide across different sources.
+        collide across different sources. ``include_durations`` toggles whether
+        the exported duration figures are imported onto each process.
         """
         created = self.env["business.process"]
         bases = dict(self._iter_process_sources())
@@ -212,7 +272,7 @@ class BusinessProcessLibrary(models.AbstractModel):
             if not base or not folder:
                 continue
             for item in self._read_folder(base, folder):
-                proc = self._load_process(item, project)
+                proc = self._load_process(item, project, include_durations=include_durations)
                 if proc:
                     self._attach_documents(base, folder, proc)
                     created |= proc
@@ -285,7 +345,31 @@ class BusinessProcessLibrary(models.AbstractModel):
         return area or self.env["business.area"].create({"name": name})
 
     @api.model
-    def _load_process(self, data, project=None):
+    def _get_or_create_process_group(self, name):
+        if not name:
+            return self.env["business.process.group"]
+        group = self.env["business.process.group"].search([("name", "=", name)], limit=1)
+        return group or self.env["business.process.group"].create({"name": name})
+
+    @api.model
+    def _get_or_create_implementation_stage(self, value):
+        """Resolve an exported implementation stage to a stage record, creating it
+        on the fly. Accepts the human-readable name and the legacy selection key
+        (e.g. ``first_stage``), reusing the import wizard's legacy mapping."""
+        if not value:
+            return self.env["business.process.implementation.stage"]
+        # noqa: PLC0415 — local import avoids a models→wizard dependency at load time
+        from odoo.addons.deltatech_business_process.wizard.import_business_process import (  # noqa: PLC0415
+            _LEGACY_STAGE_LABELS,
+        )
+
+        name = _LEGACY_STAGE_LABELS.get(value, value)
+        stage_model = self.env["business.process.implementation.stage"]
+        stage = stage_model.search([("name", "=", name)], limit=1)
+        return stage or stage_model.create({"name": name})
+
+    @api.model
+    def _load_process(self, data, project=None, include_durations=True):
         code = data.get("code")
         domain = [("code", "=", code)]
         if project:
@@ -299,7 +383,22 @@ class BusinessProcessLibrary(models.AbstractModel):
             "code": code,
             "area_id": self._get_or_create_area(data.get("area")).id,
             "description": data.get("description") or "",
+            "process_group_id": self._get_or_create_process_group(data.get("process_group")).id,
+            "module_type": data.get("module_type") or False,
+            "implementation_stage_id": self._get_or_create_implementation_stage(data.get("implementation_stage")).id,
+            "state": data.get("state") or "draft",
         }
+        # Durations: imported only when the caller asks for it AND the export carried them.
+        # ``duration_for_completion`` is a computed total — never written, it derives from these four.
+        if include_durations and data.get("include_durations"):
+            vals.update(
+                {
+                    "configuration_duration": data.get("configuration_duration") or 0.0,
+                    "instructing_duration": data.get("instructing_duration") or 0.0,
+                    "data_migration_duration": data.get("data_migration_duration") or 0.0,
+                    "testing_duration": data.get("testing_duration") or 0.0,
+                }
+            )
         if project:
             vals["project_id"] = project.id
         process = self.env["business.process"].create(vals)
