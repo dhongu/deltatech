@@ -26,6 +26,14 @@ IP (e.g. ``10.0.0.2``), independently of the ``proxy_mode`` server option.
 Configuration
 =============
 
+The module can be turned on/off without uninstalling it:
+
+- the config-file key ``rpc_audit_enabled`` (self-hosted), or
+- the System Parameter ``rpc_audit.enabled`` (works on Odoo.sh, no rebuild).
+
+Default is enabled; either source can disable. On a self-hosted server you can
+also mute it through the logger level, e.g. ``--log-handler=odoo.rpc.audit:WARNING``.
+
 Noisy IPs (health checks, monitoring) can be skipped via:
 
 - the config-file key ``rpc_audit_ignore_ips`` (self-hosted), or
