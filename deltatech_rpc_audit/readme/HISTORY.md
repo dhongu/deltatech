@@ -1,5 +1,15 @@
 # History
 
+## 18.0.1.1.0 (2026-06-29)
+
+- Add an on/off switch, so the module can stay installed but idle:
+  - config-file key `rpc_audit_enabled` (self-hosted);
+  - System Parameter `rpc_audit.enabled` (works on Odoo.sh, no rebuild),
+    cached 60s alongside the ignore list.
+  Either source can disable; default is enabled.
+- Skip all work (including `repr()` of the arguments) when the `odoo.rpc.audit`
+  logger is muted above INFO, via an `isEnabledFor` guard.
+
 ## 18.0.1.0.0 (2026-06-29)
 
 - Initial release.
