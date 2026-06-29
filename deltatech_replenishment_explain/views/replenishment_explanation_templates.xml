@@ -13,7 +13,9 @@
             </p>
 
             <!-- Bottom line -->
-            <div t-attf-class="alert alert-#{'primary' if below_min else 'success'} d-flex justify-content-between align-items-center">
+            <div
+                t-attf-class="alert alert-#{'primary' if below_min else 'success'} d-flex justify-content-between align-items-center"
+            >
                 <span class="fw-bold">To order now</span>
                 <span class="fs-4 fw-bold">
                     <t t-out="qty_to_order" /> <t t-out="uom_name" />
@@ -21,55 +23,124 @@
             </div>
 
             <!-- Visual summary: quantity bar (forecast vs Min/Max + to-order) and horizon timeline -->
-            <svg viewBox="0 0 760 150" style="width:100%;height:auto" class="my-3"
-                 xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+            <svg
+                viewBox="0 0 760 150"
+                style="width:100%;height:auto"
+                class="my-3"
+                xmlns="http://www.w3.org/2000/svg"
+                font-family="sans-serif"
+            >
                 <!-- quantity bar -->
                 <text x="12" y="20" font-size="11" fill="#6c757d">Quantity (UoM)</text>
-                <text t-att-x="diagram['gate_x']" y="38" font-size="9" fill="#6f42c1"
-                      text-anchor="middle">gate</text>
-                <polygon t-attf-points="#{diagram['gate_x']-4},40 #{diagram['gate_x']+4},40 #{diagram['gate_x']},46"
-                         fill="#6f42c1" />
-                <rect t-att-x="diagram['x0']" t-att-y="diagram['bar_y']"
-                      t-attf-width="#{diagram['x1']-diagram['x0']}" t-att-height="diagram['bar_h']"
-                      rx="3" fill="#e9ecef" />
-                <rect t-att-x="diagram['x0']" t-att-y="diagram['bar_y']"
-                      t-att-width="diagram['forecast_w']" t-att-height="diagram['bar_h']"
-                      rx="3" fill="#0d6efd" />
+                <text t-att-x="diagram['gate_x']" y="38" font-size="9" fill="#6f42c1" text-anchor="middle">gate</text>
+                <polygon
+                    t-attf-points="#{diagram['gate_x']-4},40 #{diagram['gate_x']+4},40 #{diagram['gate_x']},46"
+                    fill="#6f42c1"
+                />
+                <rect
+                    t-att-x="diagram['x0']"
+                    t-att-y="diagram['bar_y']"
+                    t-attf-width="#{diagram['x1']-diagram['x0']}"
+                    t-att-height="diagram['bar_h']"
+                    rx="3"
+                    fill="#e9ecef"
+                />
+                <rect
+                    t-att-x="diagram['x0']"
+                    t-att-y="diagram['bar_y']"
+                    t-att-width="diagram['forecast_w']"
+                    t-att-height="diagram['bar_h']"
+                    rx="3"
+                    fill="#0d6efd"
+                />
                 <g t-if="diagram['to_order_w'] &gt; 0">
-                    <rect t-att-x="diagram['to_order_x']" t-att-y="diagram['bar_y']"
-                          t-att-width="diagram['to_order_w']" t-att-height="diagram['bar_h']"
-                          rx="3" fill="#fd7e14" fill-opacity="0.85" />
+                    <rect
+                        t-att-x="diagram['to_order_x']"
+                        t-att-y="diagram['bar_y']"
+                        t-att-width="diagram['to_order_w']"
+                        t-att-height="diagram['bar_h']"
+                        rx="3"
+                        fill="#fd7e14"
+                        fill-opacity="0.85"
+                    />
                 </g>
                 <!-- Min / Max threshold lines -->
-                <line t-att-x1="diagram['min_x']" t-att-x2="diagram['min_x']"
-                      t-attf-y1="#{diagram['bar_y']-4}" t-attf-y2="#{diagram['bar_y']+diagram['bar_h']+4}"
-                      stroke="#dc3545" stroke-width="1.5" stroke-dasharray="3,2" />
-                <text t-att-x="diagram['min_x']" t-attf-y="#{diagram['bar_y']+diagram['bar_h']+16}"
-                      font-size="10" fill="#dc3545" text-anchor="middle">Min <t t-out="min_qty" /></text>
-                <line t-att-x1="diagram['max_x']" t-att-x2="diagram['max_x']"
-                      t-attf-y1="#{diagram['bar_y']-4}" t-attf-y2="#{diagram['bar_y']+diagram['bar_h']+4}"
-                      stroke="#198754" stroke-width="1.5" stroke-dasharray="3,2" />
-                <text t-att-x="diagram['max_x']" t-attf-y="#{diagram['bar_y']-6}"
-                      font-size="10" fill="#198754" text-anchor="middle">Max <t t-out="max_qty" /></text>
+                <line
+                    t-att-x1="diagram['min_x']"
+                    t-att-x2="diagram['min_x']"
+                    t-attf-y1="#{diagram['bar_y']-4}"
+                    t-attf-y2="#{diagram['bar_y']+diagram['bar_h']+4}"
+                    stroke="#dc3545"
+                    stroke-width="1.5"
+                    stroke-dasharray="3,2"
+                />
+                <text
+                    t-att-x="diagram['min_x']"
+                    t-attf-y="#{diagram['bar_y']+diagram['bar_h']+16}"
+                    font-size="10"
+                    fill="#dc3545"
+                    text-anchor="middle"
+                >Min <t t-out="min_qty" /></text>
+                <line
+                    t-att-x1="diagram['max_x']"
+                    t-att-x2="diagram['max_x']"
+                    t-attf-y1="#{diagram['bar_y']-4}"
+                    t-attf-y2="#{diagram['bar_y']+diagram['bar_h']+4}"
+                    stroke="#198754"
+                    stroke-width="1.5"
+                    stroke-dasharray="3,2"
+                />
+                <text
+                    t-att-x="diagram['max_x']"
+                    t-attf-y="#{diagram['bar_y']-6}"
+                    font-size="10"
+                    fill="#198754"
+                    text-anchor="middle"
+                >Max <t t-out="max_qty" /></text>
                 <!-- forecast / to-order legend -->
                 <text x="12" t-attf-y="#{diagram['bar_y']+diagram['bar_h']+30}" font-size="10" fill="#0d6efd">
                     ▆ Forecast <t t-out="order_forecast" /></text>
-                <text t-if="below_min" x="150" t-attf-y="#{diagram['bar_y']+diagram['bar_h']+30}"
-                      font-size="10" fill="#fd7e14">▆ To order <t t-out="qty_to_order" /></text>
+                <text
+                    t-if="below_min"
+                    x="150"
+                    t-attf-y="#{diagram['bar_y']+diagram['bar_h']+30}"
+                    font-size="10"
+                    fill="#fd7e14"
+                >▆ To order <t t-out="qty_to_order" /></text>
 
                 <!-- horizon timeline -->
-                <line t-att-x1="diagram['today_x']" t-att-x2="diagram['x1']"
-                      t-att-y1="diagram['time_y']" t-att-y2="diagram['time_y']"
-                      stroke="#adb5bd" stroke-width="1.5" />
+                <line
+                    t-att-x1="diagram['today_x']"
+                    t-att-x2="diagram['x1']"
+                    t-att-y1="diagram['time_y']"
+                    t-att-y2="diagram['time_y']"
+                    stroke="#adb5bd"
+                    stroke-width="1.5"
+                />
                 <circle t-att-cx="diagram['today_x']" t-att-cy="diagram['time_y']" r="3.5" fill="#6c757d" />
-                <text t-att-x="diagram['today_x']" t-attf-y="#{diagram['time_y']+16}" font-size="9"
-                      fill="#6c757d" text-anchor="start">Today</text>
+                <text
+                    t-att-x="diagram['today_x']"
+                    t-attf-y="#{diagram['time_y']+16}"
+                    font-size="9"
+                    fill="#6c757d"
+                    text-anchor="start"
+                >Today</text>
                 <circle t-att-cx="diagram['lead_x']" t-att-cy="diagram['time_y']" r="3.5" fill="#0d6efd" />
-                <text t-att-x="diagram['lead_x']" t-attf-y="#{diagram['time_y']-8}" font-size="9"
-                      fill="#0d6efd" text-anchor="middle">Lead <t t-out="lead_days_date" /></text>
+                <text
+                    t-att-x="diagram['lead_x']"
+                    t-attf-y="#{diagram['time_y']-8}"
+                    font-size="9"
+                    fill="#0d6efd"
+                    text-anchor="middle"
+                >Lead <t t-out="lead_days_date" /></text>
                 <circle t-att-cx="diagram['window_x']" t-att-cy="diagram['time_y']" r="3.5" fill="#198754" />
-                <text t-att-x="diagram['window_x']" t-attf-y="#{diagram['time_y']+16}" font-size="9"
-                      fill="#198754" text-anchor="end">Window <t t-out="visibility_window_date" /></text>
+                <text
+                    t-att-x="diagram['window_x']"
+                    t-attf-y="#{diagram['time_y']+16}"
+                    font-size="9"
+                    fill="#198754"
+                    text-anchor="end"
+                >Window <t t-out="visibility_window_date" /></text>
             </svg>
 
             <!-- 1. Decision gate (forecast at lead time) -->

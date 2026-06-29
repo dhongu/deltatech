@@ -37,9 +37,10 @@ class StockWarehouseOrderpoint(models.Model):
         self.ensure_one()
         rounding = self.product_uom.rounding
         remainder = (self.qty_multiple > 0.0 and qty_to_order % self.qty_multiple) or 0.0
-        if float_compare(remainder, 0.0, precision_rounding=rounding) > 0 and float_compare(
-            self.qty_multiple - remainder, 0.0, precision_rounding=rounding
-        ) > 0:
+        if (
+            float_compare(remainder, 0.0, precision_rounding=rounding) > 0
+            and float_compare(self.qty_multiple - remainder, 0.0, precision_rounding=rounding) > 0
+        ):
             if float_is_zero(self.product_max_qty, precision_rounding=rounding):
                 qty_to_order += self.qty_multiple - remainder
             else:
@@ -98,9 +99,7 @@ class StockWarehouseOrderpoint(models.Model):
         global_visibility_days = op._get_global_visibility_days()
         visibility_days = op.visibility_days
         lead_days_date = op.lead_days_date
-        visibility_window_date = (
-            lead_days_date + relativedelta(days=int(visibility_days)) if lead_days_date else False
-        )
+        visibility_window_date = lead_days_date + relativedelta(days=int(visibility_days)) if lead_days_date else False
         delay_rows = [(label, value) for label, value in description if isinstance(value, str)]
 
         # --- Quantities ---
@@ -108,9 +107,7 @@ class StockWarehouseOrderpoint(models.Model):
         in_progress = op._quantity_in_progress().get(op.id, 0.0)
         gate_forecast = op.qty_forecast  # virtual_available @ lead_days_date + in_progress
         vis_ctx = op._get_product_context(visibility_days=visibility_days)
-        order_forecast = (
-            product.with_context(vis_ctx).read(["virtual_available"])[0]["virtual_available"] + in_progress
-        )
+        order_forecast = product.with_context(vis_ctx).read(["virtual_available"])[0]["virtual_available"] + in_progress
         min_qty = op.product_min_qty
         max_qty = op.product_max_qty
         target = max(min_qty, max_qty)
@@ -215,7 +212,7 @@ class StockWarehouseOrderpoint(models.Model):
         dialog width instead of hugging the left. No field access / no
         ensure_one, so it is unit-testable on an empty recordset.
         """
-        x0, x1 = 12.0, 748.0          # track left/right (room for a value label at the right)
+        x0, x1 = 12.0, 748.0  # track left/right (room for a value label at the right)
         width = x1 - x0
 
         def r(v):
@@ -304,12 +301,15 @@ class StockWarehouseOrderpoint(models.Model):
                 vis=kw["visibility_days"],
                 glob=kw["global_visibility_days"],
             )
-            risks.append({"level": "warning", "title": _("Demand beyond the visibility window is invisible"), "detail": detail})
+            risks.append(
+                {"level": "warning", "title": _("Demand beyond the visibility window is invisible"), "detail": detail}
+            )
 
         # Gate forecast at/above min -> no order, even though the visibility forecast is lower.
-        if not kw["below_min"] and float_compare(
-            kw["order_forecast"], kw["min_qty"], precision_rounding=kw["rounding"]
-        ) < 0:
+        if (
+            not kw["below_min"]
+            and float_compare(kw["order_forecast"], kw["min_qty"], precision_rounding=kw["rounding"]) < 0
+        ):
             risks.append(
                 {
                     "level": "warning",
