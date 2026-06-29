@@ -8,10 +8,11 @@
 
 /*
 :Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 8954 2022-01-20 10:10:25Z milde $
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
 :Copyright: This stylesheet has been placed in the public domain.
 
 Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
 
 See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
 customize this style sheet.
@@ -274,7 +275,7 @@ pre.literal-block, pre.doctest-block, pre.math, pre.code {
   margin-left: 2em ;
   margin-right: 2em }
 
-pre.code .ln { color: grey; } /* line numbers */
+pre.code .ln { color: gray; } /* line numbers */
 pre.code, code { background-color: #eeeeee }
 pre.code .comment, code .comment { color: #5C6576 }
 pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
@@ -300,7 +301,7 @@ span.option {
 span.pre {
   white-space: pre }
 
-span.problematic {
+span.problematic, pre.problematic {
   color: red }
 
 span.section-subtitle {
@@ -466,6 +467,22 @@ actions where relevant.</li>
 <li>Install the module like any standard Odoo addon and ensure sequences
 and email templates from data files are loaded.</li>
 </ul>
+<p>Process Library</p>
+<ul style="list-style:none;padding:0;margin:14px 0 30px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;"><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>A reusable library of processes can be sourced from installed modules
+that ship a <code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">processes/</code> folder and/or from external git
+repositories (Settings → Process Library).</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>Configure the git repositories as a comma-separated list of URLs and
+press “Sync now” to clone/pull them locally; processes are then
+imported selectively into a project via the “Process Library” action.</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>The library import maps the full process metadata exported in
+<code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">process.json</code> — area, process group, module type, implementation
+stage, state — and brings in the configuration / instructing / testing
+/ data-migration durations. An “Include durations” toggle on the
+import dialog lets you import every selected process with or without
+its effort estimates (all-or-nothing).</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>Private HTTPS repositories: set a Git username (default
+<code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;"><span class="pre">x-access-token</span></code> for GitHub, <code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">oauth2</code> for GitLab) and a
+token/password. The token is sent as an HTTP Basic Authorization
+header on each git command and is never written into the cloned repo’s
+on-disk config. SSH (<code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">git&#64;…</code>) URLs use their own keys; URLs that
+already embed credentials are used as-is.</li></ul>
 <p>Configuration tips</p>
 <ul class="simple">
 <li>Define Business Areas and Process Groups first to better organize
@@ -486,6 +503,26 @@ blocked by design.</li>
 <ul class="simple">
 <li>OPL-1. See README.rst at the addons root for license details.</li>
 </ul>
+<div class="section" id="changelog">
+<h1 style="border:none;border-left:4px solid #57B952;padding-left:16px;margin:30px 0 14px;font-size:27px;font-weight:800;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
+<div class="section" id="section-1">
+<h2 style="border:none;border-left:4px solid #57B952;padding-left:16px;margin:30px 0 14px;font-size:24px;font-weight:800;letter-spacing:-0.3px;line-height:1.2;">19.0.1.7.0</h2>
+<ul style="list-style:none;padding:0;margin:14px 0 30px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;"><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>Process Library: support for <strong>private HTTPS git repositories</strong>. A
+token/password is sent as an HTTP Basic <code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Authorization</code> header on
+each git command (never written into the cloned repo’s on-disk
+config), with a configurable username (default <code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;"><span class="pre">x-access-token</span></code> for
+GitHub, <code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">oauth2</code> for GitLab). Git now runs non-interactively, so a
+missing or wrong credential fails fast instead of blocking until the
+timeout. SSH (<code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">git&#64;…</code>) URLs and URLs that already embed credentials
+are used as-is.</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>Library import now maps the <strong>full process metadata</strong> from
+<code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">process.json</code> — process group, module type, implementation stage
+(including legacy stage keys), state — and imports the <strong>configuration
+/ instructing / testing / data-migration durations</strong> that were
+previously dropped.</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>New <strong>“Include durations”</strong> toggle on the library import dialog:
+import every selected process with or without its exported effort
+estimates (all-or-nothing).</li></ul>
+</div>
+</div>
 <div class="section" id="bug-tracker">
 <h1 style="border:none;border-left:4px solid #57B952;padding-left:16px;margin:30px 0 14px;font-size:27px;font-weight:800;letter-spacing:-0.3px;line-height:1.2;">Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.

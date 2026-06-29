@@ -99,14 +99,43 @@
         </field>
     </record>
 
-    <!-- Gear bindings that populate the lines and open them grouped -->
+    <!-- Import options dialog: one all-or-nothing "Include durations" toggle -->
+    <record id="view_business_process_library_import_options_form" model="ir.ui.view">
+        <field name="name">business.process.library.import.options.form</field>
+        <field name="model">business.process.library.import.options</field>
+        <field name="arch" type="xml">
+            <form string="Import from library">
+                <div class="oe_title">
+                    <h2>Import processes from the library</h2>
+                    <p class="text-muted">Choose whether to import the exported effort estimates, then pick the processes.</p>
+                </div>
+                <group>
+                    <field name="include_durations" />
+                </group>
+                <footer>
+                    <button name="action_show_library" string="Continue" type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Gear bindings: open the options dialog (which then opens the grouped list) -->
     <record id="action_open_process_library_from_project" model="ir.actions.server">
         <field name="name">Import from library</field>
         <field name="model_id" ref="model_business_project" />
         <field name="binding_model_id" ref="model_business_project" />
         <field name="binding_view_types">form,list</field>
         <field name="state">code</field>
-        <field name="code">action = env["business.process.library.import.line"].action_open_library()</field>
+        <field name="code">action = {
+            "type": "ir.actions.act_window",
+            "name": "Import from library",
+            "res_model": "business.process.library.import.options",
+            "view_mode": "form",
+            "target": "new",
+            "context": dict(env.context),
+        }</field>
     </record>
 
     <record id="action_open_process_library_from_process" model="ir.actions.server">
@@ -115,7 +144,14 @@
         <field name="binding_model_id" ref="model_business_process" />
         <field name="binding_view_types">form,list</field>
         <field name="state">code</field>
-        <field name="code">action = env["business.process.library.import.line"].action_open_library()</field>
+        <field name="code">action = {
+            "type": "ir.actions.act_window",
+            "name": "Import from library",
+            "res_model": "business.process.library.import.options",
+            "view_mode": "form",
+            "target": "new",
+            "context": dict(env.context),
+        }</field>
     </record>
 
 

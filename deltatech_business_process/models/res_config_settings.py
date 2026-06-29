@@ -27,6 +27,21 @@ class ResConfigSettings(models.TransientModel):
         "into the Odoo data directory and scanned for process.json files. "
         "Example: https://github.com/terrabit-ro/procese",
     )
+    process_library_git_user = fields.Char(
+        string="Git username",
+        config_parameter="deltatech_business_process.process_library_git_user",
+        help="Username for private HTTPS repositories. Leave empty to use "
+        "'x-access-token' (works for GitHub personal access tokens). "
+        "For GitLab use 'oauth2'.",
+    )
+    process_library_git_token = fields.Char(
+        string="Git token / password",
+        config_parameter="deltatech_business_process.process_library_git_token",
+        help="Personal access token (or password) for private HTTPS repositories. "
+        "It is sent as an HTTP Basic Authorization header on each git command and "
+        "is never written into the cloned repo's on-disk config. SSH (git@…) URLs "
+        "and URLs that already embed credentials ignore this and use their own auth.",
+    )
 
     def action_sync_git_repos(self):
         synced = self.env["business.process.library"].sync_git_repos()

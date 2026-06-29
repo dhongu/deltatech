@@ -555,7 +555,12 @@ class BusinessProcessLibraryImportLine(models.TransientModel):
 
     @api.model
     def action_open_library(self):
-        """Populate the selection lines and open them grouped by area (list view)."""
+        """Populate the selection lines and open them grouped by area (list view).
+
+        The ``library_include_durations`` flag (set by the import options dialog)
+        is carried into the list context so the "Import selected" button applies
+        the same all-or-nothing choice to every imported process.
+        """
         project = self._resolve_project_from_context()
         lines = self._populate_lines(project)
         return {
@@ -564,7 +569,12 @@ class BusinessProcessLibraryImportLine(models.TransientModel):
             "res_model": self._name,
             "view_mode": "list",
             "domain": [("id", "in", lines.ids)],
-            "context": {"group_by": ["area_id"], "create": False, "delete": False},
+            "context": {
+                "group_by": ["area_id"],
+                "create": False,
+                "delete": False,
+                "library_include_durations": self.env.context.get("library_include_durations", True),
+            },
             "target": "new",
         }
 
@@ -573,10 +583,34 @@ class BusinessProcessLibraryImportLine(models.TransientModel):
         selected = self.filtered("folder")
         if not selected:
             raise UserError(self.env._("Select at least one process from the library."))
+        # All-or-nothing duration choice made in the import options dialog.
+        include_durations = self.env.context.get("library_include_durations", True)
         by_project = {}
         for line in selected:
             by_project.setdefault(line.project_id, []).append({"module": line.source_module, "folder": line.folder})
         lib = self.env["business.process.library"]
         for project, refs in by_project.items():
-            lib.import_processes(refs, project)
+            lib.import_processes(refs, project, include_durations=include_durations)
         return {"type": "ir.actions.act_window_close"}
+
+
+class BusinessProcessLibraryImportOptions(models.TransientModel):
+    _name = "business.process.library.import.options"
+    _description = "Process library import options"
+
+    include_durations = fields.Boolean(
+        string="Include durations",
+        default=True,
+        help="Import the configuration / instructing / testing / data-migration "
+        "durations exported with each process. Untick to import every selected "
+        "process without its effort estimates (all-or-nothing).",
+    )
+
+    def action_show_library(self):
+        """Open the grouped process-library selection, carrying the duration choice."""
+        self.ensure_one()
+        return (
+            self.env["business.process.library.import.line"]
+            .with_context(library_include_durations=self.include_durations)
+            .action_open_library()
+        )
