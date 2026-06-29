@@ -10,6 +10,11 @@ The real client IP is read from the `X-Forwarded-For` header, so calls behind a
 reverse proxy (nginx, the Odoo.sh edge) are not all attributed to the proxy IP
 (e.g. `10.0.0.2`), independently of the `proxy_mode` server option.
 
+The module can be turned on/off without uninstalling it, via the config-file
+key `rpc_audit_enabled` (self-hosted) or the System Parameter
+`rpc_audit.enabled` (works on Odoo.sh, no rebuild). When the `odoo.rpc.audit`
+logger is muted above INFO, the module does no work at all.
+
 Noisy IPs (health checks, monitoring) can be skipped via:
 
 - the config-file key `rpc_audit_ignore_ips` (self-hosted), or
