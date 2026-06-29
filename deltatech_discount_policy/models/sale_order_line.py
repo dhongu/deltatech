@@ -16,7 +16,7 @@ class SaleOrderLine(models.Model):
         pricelist_price = self._get_pricelist_price()
         return max(base_price, pricelist_price)
 
-    @api.depends("product_id", "product_uom", "product_uom_qty")
+    @api.depends("product_id", "product_uom_id", "product_uom_qty")
     def _compute_discount(self):
         for line in self:
             if not line.product_id or line.display_type:
