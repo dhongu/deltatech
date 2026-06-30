@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "RPC Audit Log",
     "summary": "Log XML-RPC / JSON-RPC calls with the real client IP",
     "version": "18.0.1.1.0",
