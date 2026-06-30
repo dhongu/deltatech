@@ -1,0 +1,10 @@
+{
+  "title": "Disable Fuzzy Search",
+  "summary": "Exact-match results only — no fuzzy hits",
+  "icon": "globe",
+  "features": [
+    "No fuzzy matches in product search",
+    "Precise autocomplete suggestions",
+    "Cleaner search UX for customers"
+  ]
+}
