@@ -1,0 +1,10 @@
+{
+  "title": "Fast Purchase",
+  "summary": "Confirm, receive and invoice in one click",
+  "icon": "truck",
+  "features": [
+    "One-click confirm → receive → invoice",
+    "Direct bill entry from reception",
+    "Receipt from notice in one step"
+  ]
+}
