@@ -1,0 +1,10 @@
+{
+  "title": "Invoice Receipt",
+  "summary": "Auto-generate POs and receipts from vendor bills",
+  "icon": "clipboard",
+  "features": [
+    "Auto-create PO on bill validation",
+    "Instant stock receipt from invoice",
+    "Negative qty support in PO lines"
+  ]
+}
