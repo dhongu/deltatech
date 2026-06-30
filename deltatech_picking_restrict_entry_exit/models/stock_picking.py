@@ -1,4 +1,4 @@
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import UserError
 
 
@@ -63,7 +63,7 @@ class StockPicking(models.Model):
                             if picking_type.code == "outgoing":
                                 if not move.sale_line_id:
                                     raise UserError(
-                                        _(
+                                        self.env._(
                                             "You cannot validate the picking because the product %s is not linked to a sale order line."
                                         )
                                         % move.product_id.display_name
@@ -71,14 +71,14 @@ class StockPicking(models.Model):
                             elif picking_type.code == "incoming":
                                 if not move.purchase_line_id:
                                     raise UserError(
-                                        _(
+                                        self.env._(
                                             "You cannot validate the picking because the product %s is not linked to a purchase order line."
                                         )
                                         % move.product_id.display_name
                                     )
                             if move.quantity > move.product_uom_qty:
                                 raise UserError(
-                                    _(
+                                    self.env._(
                                         "You cannot validate the picking because the quantity done is greater than the quantity ordered for the product %s."
                                     )
                                     % move.product_id.display_name
@@ -128,11 +128,11 @@ class StockPicking(models.Model):
                         if picking_type.code in ["incoming", "outgoing"] and not self.env.user.has_group(
                             "deltatech_picking_restrict_entry_exit.group_picking_restrict_entry_exit"
                         ):  # we check if the picking is incoming/outgoing, if yes we restrict creation
-                            raise UserError(_("You can't manually add moves to an incoming/outgoing picking"))
+                            raise UserError(self.env._("You can't manually add moves to an incoming/outgoing picking"))
                         else:  # if it is not incoming/outgoing, we check if the quantity is greater than the ordered quantity
                             if move_data[2]["quantity"] > move_data[2]["product_uom_qty"]:
                                 raise UserError(
-                                    _(
+                                    self.env._(
                                         "You can't add a line where the quantity done is greater than the quantity needed"
                                     )
                                 )
@@ -168,7 +168,7 @@ class StockPicking(models.Model):
                                 continue
                         if quantity > move.product_uom_qty:
                             raise UserError(
-                                _(
+                                self.env._(
                                     "You cannot save the picking because the quantity done is greater than the quantity ordered for the product %s."
                                 )
                                 % move.product_id.display_name
