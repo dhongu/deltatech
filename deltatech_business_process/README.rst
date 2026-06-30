@@ -175,6 +175,18 @@ License
 Changelog
 =========
 
+19.0.1.8.0
+----------
+
+- **Reset to Draft** button on the business process form is now shown in
+  every state except ``draft`` (previously hidden in ``production`` and
+  ``draft``), so a process can be reset from any active stage.
+- Passing the **implementor (internal) test** no longer advances the
+  process state to ``ready``. Marking an internal test *Done* still
+  records ``status_internal_test = done`` but leaves the process state
+  unchanged; integration and user-acceptance tests continue to advance
+  the process as before.
+
 19.0.1.7.0
 ----------
 

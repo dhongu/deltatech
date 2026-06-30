@@ -102,7 +102,7 @@
                         name="button_draft"
                         type="object"
                         string="Reset to Draft"
-                        invisible="state not in ('design','test','ready','abandoned')"
+                        invisible="state == 'draft'"
                     />
                     <button
                         name="button_abandon"
