@@ -76,7 +76,7 @@ FONT = "'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif"
 # NB: gradient/`background` shorthand sunt tăiate de store → doar `background-color`.
 # ----------------------------------------------------------------------------- #
 
-WRAP_OPEN = f'<div style="max-width:1100px;margin:0 auto;padding:0 16px;font-family:{FONT};">'
+WRAP_OPEN = f'<div style="max-width:1100px;margin:0 auto;padding:0 16px;font-family:{FONT};color:#1f2d27;">'
 
 HERO = """%(marker)s
 <div style="background-color:%(primary)s;color:#ffffff;border-radius:20px;
