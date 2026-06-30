@@ -142,6 +142,7 @@ export class MarkdownField extends Component {
     onToolbar(command, value = null) {
         // Mousedown.prevent păstrează selecția din editor (butonul nu fură focusul).
         if (command === "createLink") {
+            // eslint-disable-next-line no-alert -- prompt intenționat pentru introducerea URL-ului în WYSIWYG-ul ușor
             const url = window.prompt(_t("Adresă link (URL):"), "https://");
             if (url) {
                 this._exec("createLink", url);

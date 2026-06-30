@@ -8,7 +8,9 @@ from odoo import models
 class Currency(models.Model):
     _inherit = "res.currency"
 
+    # pylint: disable=redefined-builtin
     def _convert(self, from_amount, to_currency, company=None, date=None, round=True):  # noqa:W0622
+        # `round` păstrat ca în semnătura din core-ul Odoo (res.currency._convert).
         if self.env.context.get("currency_rate"):
             self, to_currency = self or to_currency, to_currency or self
             assert self, "convert amount from unknown currency"
