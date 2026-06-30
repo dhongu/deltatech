@@ -1,0 +1,10 @@
+{
+  "title": "Payment Forecast",
+  "summary": "Predict cash flow from unpaid invoices",
+  "icon": "trend",
+  "features": [
+    "Forecast payments up to a target date",
+    "Uses avg. payment history per partner",
+    "Scheduled auto-refresh via cron job"
+  ]
+}
