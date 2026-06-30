@@ -13,8 +13,11 @@
     "depends": ["base", "product", "sale"],
     "license": "LGPL-3",
     "data": [
-        # 'views/product_view.xml',
-        "views/res_company_view.xml"
+        "views/res_company_view.xml",
+    ],
+    "oca_data_manual": [
+        "views/pricelist_view.xml",
+        "views/product_view.xml",
     ],
     "images": ["images/main_screenshot.png"],
     "development_status": "Mature",
