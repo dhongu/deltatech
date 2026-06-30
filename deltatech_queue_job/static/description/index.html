@@ -525,24 +525,6 @@ Queue Job list view using the <strong>Process</strong> button (internal cron tri
 or <strong>Process (Thread)</strong> (API-style runner in a new thread), or trigger a
 background execution using <strong>Cron Trigger</strong>.</p>
 </div>
-<div class="section" id="changelog">
-<h1 style="border:none;border-left:4px solid #57B952;padding-left:16px;margin:30px 0 14px;font-size:27px;font-weight:800;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
-</div>
-<div class="section" id="changelog-1">
-<h1 style="border:none;border-left:4px solid #57B952;padding-left:16px;margin:30px 0 14px;font-size:27px;font-weight:800;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
-<div class="section" id="section-1">
-<h2 style="border:none;border-left:4px solid #57B952;padding-left:16px;margin:30px 0 14px;font-size:24px;font-weight:800;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0</h2>
-<ul class="simple">
-<li>When a new job is created, automatically move older jobs left in the
-<code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">failed</code> state that share the same <code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">identity_key</code> to
-<code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">cancelled</code>. The standard deduplication only checks active states
-(pending/enqueued/wait_dependencies), so failed duplicates used to
-pile up. The record and its traceback are kept for diagnostics and the
-standard <code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">autovacuum</code> cron removes cancelled jobs later based on the
-channel <code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">removal_interval</code>.</li>
-</ul>
-</div>
-</div>
 <div class="section" id="bug-tracker">
 <h1 style="border:none;border-left:4px solid #57B952;padding-left:16px;margin:30px 0 14px;font-size:27px;font-weight:800;letter-spacing:-0.3px;line-height:1.2;">Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.

@@ -407,47 +407,6 @@ purchase order when an order is resolved.</div></li><li style="background-color:
 using data from the UBL file.</div></li></ul>
 <p>The module supports standard UBL Invoice namespaces and common unit code
 mappings (C62, KGM, LTR, etc.).</p>
-<div class="section" id="changelog">
-<h1 style="border:none;border-left:4px solid #57B952;padding-left:16px;margin:30px 0 14px;font-size:27px;font-weight:800;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
-</div>
-<div class="section" id="changelog-1">
-<h1 style="border:none;border-left:4px solid #57B952;padding-left:16px;margin:30px 0 14px;font-size:27px;font-weight:800;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
-<div class="section" id="section-1">
-<h2 style="border:none;border-left:4px solid #57B952;padding-left:16px;margin:30px 0 14px;font-size:24px;font-weight:800;letter-spacing:-0.3px;line-height:1.2;">[18.0.1.1.0] - 2026-05-26</h2>
-<div class="section" id="added">
-<h3 style="border:none;border-left:4px solid #57B952;padding-left:16px;margin:30px 0 14px;font-size:19px;font-weight:800;letter-spacing:-0.3px;line-height:1.2;">Added</h3>
-<ul class="simple">
-<li><strong>Discount support from e-Factura SPV XML</strong>: Line-level
-<code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">AllowanceCharge</code> elements with <code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ChargeIndicator=false</code> are now
-extracted and applied as percentage discounts on purchase order lines.<ul>
-<li>Discount percent is calculated as
-<code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">allowance_amount / (price * qty) * 100</code>.</li>
-<li>Applied on both newly created order lines and existing order lines
-during update.</li>
-<li>The gross price (<code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PriceAmount</code>) is preserved as <code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">price_unit</code>;
-the discount is stored separately in the <code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">discount</code> field.</li>
-</ul>
-</li>
-<li><strong>Test coverage</strong>: Added automated test
-<code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_allowance_charge_discount_applied_on_order_line</code> verifying
-correct discount extraction and application (based on real e-Factura
-SPV invoice data: <code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PriceAmount=372.20</code>,
-<code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">AllowanceCharge/Amount=93.05</code>, <code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty=1</code> → <code style="border:1px solid rgba(127,160,140,0.40);padding:1px 7px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">discount=25%</code>).</li>
-</ul>
-</div>
-</div>
-<div class="section" id="section-2">
-<h2 style="border:none;border-left:4px solid #57B952;padding-left:16px;margin:30px 0 14px;font-size:24px;font-weight:800;letter-spacing:-0.3px;line-height:1.2;">[18.0.1.0.0] - 2025-01-01</h2>
-<div class="section" id="added-1">
-<h3 style="border:none;border-left:4px solid #57B952;padding-left:16px;margin:30px 0 14px;font-size:19px;font-weight:800;letter-spacing:-0.3px;line-height:1.2;">Added</h3>
-<ul style="list-style:none;padding:0;margin:14px 0 30px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;"><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>Initial release: import UBL XML vendor invoices to automate purchase
-order management.</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>Automatic product matching by barcode (GS1/EAN), supplier code,
-internal reference, or name.</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>Purchase order line creation and update (quantities and prices) from
-XML data.</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>Supplier price update in vendor pricelist (Supplier Info).</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>Stock receipt (picking) validation with quantities from XML.</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>Vendor bill creation linked to the purchase order.</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>Option to automatically create missing products from UBL data.</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>Support for standard UBL Invoice namespaces and common unit code
-mappings (C62, KGM, LTR, etc.).</li></ul>
-</div>
-</div>
-</div>
 <div class="section" id="bug-tracker">
 <h1 style="border:none;border-left:4px solid #57B952;padding-left:16px;margin:30px 0 14px;font-size:27px;font-weight:800;letter-spacing:-0.3px;line-height:1.2;">Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
