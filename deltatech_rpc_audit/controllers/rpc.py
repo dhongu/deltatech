@@ -7,12 +7,21 @@ import xmlrpc.client
 
 from odoo.http import dispatch_rpc, request, route
 from odoo.modules.registry import Registry
-from odoo.tools import config
+from odoo.tools import SQL, config
 
 # Reuse the helpers from core so this override stays a faithful copy.
-from odoo.addons.base.controllers.rpc import RPC, _check_request, dumps
+# In Odoo 19 the RPC controller moved out of ``base`` into the dedicated
+# ``rpc`` module and was split into ``XMLRPC`` and ``JSONRPC`` controllers.
+from odoo.addons.rpc.controllers import RPC_DEPRECATION_NOTICE, _check_request
+from odoo.addons.rpc.controllers.jsonrpc import JSONRPC
+from odoo.addons.rpc.controllers.xmlrpc import XMLRPC, dumps
 
 _logger = logging.getLogger("odoo.rpc.audit")
+
+# Logger of the core JSON-RPC controller, used to emit the deprecation notice
+# the same way core does when we re-declare the ``/jsonrpc`` route, so
+# behaviour stays identical to the stock module.
+_core_json_logger = logging.getLogger("odoo.addons.rpc.controllers.jsonrpc")
 
 # Maximum length of the serialized arguments written to the log line.
 _MAX_ARGS_REPR = 500
@@ -71,8 +80,10 @@ def _settings_from_param(db):
     try:
         with Registry(db).cursor() as cr:
             cr.execute(
-                "SELECT key, value FROM ir_config_parameter WHERE key IN %s",
-                ((_ENABLED_PARAM, _IGNORE_PARAM),),
+                SQL(
+                    "SELECT key, value FROM ir_config_parameter WHERE key IN %s",
+                    (_ENABLED_PARAM, _IGNORE_PARAM),
+                )
             )
             rows = dict(cr.fetchall())
         enabled = _as_bool(rows.get(_ENABLED_PARAM), True)
@@ -137,19 +148,33 @@ def _log_rpc_call(service, rpc_method, params):
         _logger.info("RPC ip=%s service=%s method=%s", ip, service, rpc_method)
 
 
-class RPC(RPC):
-    """Audit layer over the core XML-RPC / JSON-RPC controller."""
+class AuditXMLRPC(XMLRPC):
+    """Audit layer over the core XML-RPC controller.
+
+    ``_xmlrpc`` is the shared helper called by both ``/xmlrpc/<service>`` and
+    ``/xmlrpc/2/<service>``; overriding it here covers both legacy endpoints
+    without re-declaring the routes (so error handling stays exactly as core).
+    """
 
     def _xmlrpc(self, service):
-        _check_request()
         data = request.httprequest.get_data()
         params, method = xmlrpc.client.loads(data, use_datetime=True)
         _log_rpc_call(service, method, params)
         result = dispatch_rpc(service, method, params)
         return dumps((result,))
 
-    @route("/jsonrpc", type="json", auth="none", save_session=False)
+
+class AuditJSONRPC(JSONRPC):
+    """Audit layer over the core JSON-RPC controller."""
+
+    @route("/jsonrpc", type="jsonrpc", auth="none", save_session=False)
     def jsonrpc(self, service, method, args):
+        """Method used by client APIs to contact Odoo."""
+        _core_json_logger.warning(RPC_DEPRECATION_NOTICE, "odoo.addons.rpc.controllers.jsonrpc")
         _check_request()
         _log_rpc_call(service, method, args)
         return dispatch_rpc(service, method, args)
+
+
+class RPC(AuditXMLRPC, AuditJSONRPC):
+    """Composite controller mirroring the core ``rpc.RPC`` class."""

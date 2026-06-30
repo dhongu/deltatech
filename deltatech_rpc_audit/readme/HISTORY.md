@@ -1,5 +1,13 @@
 # History
 
+## 19.0.1.1.0 (2026-06-30)
+
+- Port to Odoo 19. The core RPC controller moved out of ``base`` into the
+  dedicated ``rpc`` module and was split into ``XMLRPC`` / ``JSONRPC``; the
+  audit layer now overrides ``rpc.XMLRPC`` / ``rpc.JSONRPC`` (composite ``RPC``
+  controller) and depends on ``rpc`` instead of ``base``. Behaviour is
+  unchanged.
+
 ## 18.0.1.1.0 (2026-06-29)
 
 - Add an on/off switch, so the module can stay installed but idle:
