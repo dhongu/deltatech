@@ -1,5 +1,13 @@
 # History
 
+## 18.0.1.2.0 (2026-06-30)
+
+- Log the full `execute_kw` payload: in addition to db / uid / model / method /
+  args, the `object` service now also logs `kwargs` (params[6]), where
+  `search_read`-style calls carry `fields`, `limit`, `offset` and `context`.
+  Previously these keyword arguments were dropped from the audit line.
+  `kwargs` is trimmed with the same `_MAX_ARGS_REPR` cap as `args`.
+
 ## 18.0.1.1.0 (2026-06-29)
 
 - Add an on/off switch, so the module can stay installed but idle:

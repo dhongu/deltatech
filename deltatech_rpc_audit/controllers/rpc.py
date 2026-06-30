@@ -119,18 +119,23 @@ def _log_rpc_call(service, rpc_method, params):
 
     # The "object" service carries the ORM call we usually care about:
     # params = [db, uid, password, model, method, args, kwargs]
+    # ``args`` holds the positional payload (e.g. ids, domain, vals) while
+    # ``kwargs`` carries the keyword payload (e.g. fields, limit, context) that
+    # a plain ``method=execute_kw`` log line would otherwise drop.
     if service == "object" and len(params) >= 5:
         uid = params[1]
         model, orm_method = params[3], params[4]
         orm_args = params[5] if len(params) > 5 else []
+        orm_kwargs = params[6] if len(params) > 6 else {}
         _logger.info(
-            "RPC ip=%s db=%s uid=%s model=%s method=%s args=%s",
+            "RPC ip=%s db=%s uid=%s model=%s method=%s args=%s kwargs=%s",
             ip,
             db,
             uid,
             model,
             orm_method,
             _trim(orm_args),
+            _trim(orm_kwargs),
         )
     else:
         # common / db services: never log credentials, only the RPC method.

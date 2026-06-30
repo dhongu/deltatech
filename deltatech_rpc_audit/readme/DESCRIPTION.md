@@ -3,8 +3,9 @@ This module logs external **XML-RPC** (`/xmlrpc`, `/xmlrpc/2`) and **JSON-RPC**
 method, and from where.
 
 For each call to the `object` service it logs the client IP, database, user id,
-model, method and a trimmed representation of the arguments, under the logger
-`odoo.rpc.audit`. Credentials are never logged.
+model, method and a trimmed representation of both the positional arguments
+(`args`) and the keyword arguments (`kwargs`, e.g. `fields`, `limit`,
+`context`), under the logger `odoo.rpc.audit`. Credentials are never logged.
 
 The real client IP is read from the `X-Forwarded-For` header, so calls behind a
 reverse proxy (nginx, the Odoo.sh edge) are not all attributed to the proxy IP
