@@ -159,7 +159,7 @@ def build_badges(manifest):
     if m:
         items.append((BADGE, f"Odoo {m.group(1)}"))
     items.append((BADGE, "Online &bull; Odoo.sh &bull; On-premise"))
-    items.append((BADGE_ACCENT, "Dedicated support"))
+    items.append((BADGE_ACCENT, "Optional support"))
     if manifest.get("price"):
         cur = manifest.get("currency", "EUR")
         price = manifest["price"]
