@@ -38,7 +38,6 @@ class TestPickingServiceLine(TransactionCase):
                 "name": "Test Service",
                 "type": "service",
                 "uom_id": self.env.ref("uom.product_uom_hour").id,
-                "uom_po_id": self.env.ref("uom.product_uom_hour").id,
                 "company_id": self.company.id,
             }
         )

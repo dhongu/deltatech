@@ -4,7 +4,7 @@
 {
     "name": "Deltatech Picking Service Lines",
     "summary": "Service lines in pickings",
-    "version": "18.0.1.0.2",
+    "version": "19.0.1.0.0",
     "category": "Stock",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",

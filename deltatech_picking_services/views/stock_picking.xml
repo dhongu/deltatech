@@ -10,8 +10,8 @@
                     <field name="picking_service_lines" mode="list" add-label="Add a Service">
                         <list editable="bottom">
                             <field name="sequence" widget="handle" />
-                            <field name="product_uom_category_id" column_invisible="True" />
-                            <field name="product_id" required="1" context="{'default_detailed_type': 'service'}" />
+                            <field name="allowed_uom_ids" column_invisible="True" />
+                            <field name="product_id" required="1" context="{'default_type': 'service'}" />
                             <field name="description_picking" string="Description" optional="hide" />
                             <field name="product_uom_qty" string="Quantity" />
                             <field name="product_uom" string="Unit of Measure" groups="uom.group_uom" />

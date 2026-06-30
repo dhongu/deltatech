@@ -24,13 +24,13 @@ class PickingServiceLine(models.Model):
         index=True,
         required=True,
     )
+    allowed_uom_ids = fields.Many2many("uom.uom", compute="_compute_allowed_uom_ids")
     product_uom = fields.Many2one(
         "uom.uom",
         "UoM",
         required=True,
-        domain="[('category_id', '=', product_uom_category_id)]",
+        domain="[('id', 'in', allowed_uom_ids)]",
     )
-    product_uom_category_id = fields.Many2one(related="product_id.uom_id.category_id")
     product_uom_qty = fields.Float(
         "Quantity",
         digits="Product Unit of Measure",
@@ -41,6 +41,11 @@ class PickingServiceLine(models.Model):
     picking_id = fields.Many2one("stock.picking", "Transfer", index=True)
     price_unit = fields.Float("Unit Price", required=True, digits="Product Price", default=0.0)
     price_subtotal = fields.Float(compute="_compute_amount", string="Subtotal", store=True)
+
+    @api.depends("product_id", "product_id.uom_id", "product_id.uom_ids")
+    def _compute_allowed_uom_ids(self):
+        for line in self:
+            line.allowed_uom_ids = line.product_id.uom_id | line.product_id.uom_ids
 
     @api.depends("product_uom_qty", "price_unit")
     def _compute_amount(self):
