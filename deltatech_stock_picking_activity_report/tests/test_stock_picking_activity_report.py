@@ -37,13 +37,6 @@ class TestStockPickingActivityReport(TransactionCase):
                 ],
             }
         )
-        restrict_group = cls.env.ref(
-            "deltatech_picking_restrict_entry_exit.group_picking_restrict_entry_exit",
-            raise_if_not_found=False,
-        )
-        if restrict_group:
-            cls.stock_user.groups_id |= restrict_group
-
         # Dacă în aceeași bază e instalat și deltatech_picking_restrict_entry_exit
         # (cazul CI pe tot repo-ul), userul de test trebuie scutit de restricția
         # care cere linie de vânzare/achiziție la validare — aceste teste verifică
