@@ -205,18 +205,20 @@ class BusinessProcessTest(models.Model):
             elif test.scope == "user_acceptance":
                 test.process_id.sudo().write({"status_user_acceptance_test": "done"})
 
+        # Testul implementatorului (intern) nu schimba starea procesului.
         # verifica daca toate testele sunt done
-        for process in self.mapped("process_id"):
-            if (
-                process.status_internal_test == "done"
-                and process.status_integration_test == "done"
-                and process.status_user_acceptance_test == "done"
-            ):
-                process.sudo().write({"state": "ready"})
-            else:
-                tests = process.test_ids.filtered(lambda x: x.state != "done")
-                if not tests:
+        if self.scope != "internal":
+            for process in self.mapped("process_id"):
+                if (
+                    process.status_internal_test == "done"
+                    and process.status_integration_test == "done"
+                    and process.status_user_acceptance_test == "done"
+                ):
                     process.sudo().write({"state": "ready"})
+                else:
+                    tests = process.test_ids.filtered(lambda x: x.state != "done")
+                    if not tests:
+                        process.sudo().write({"state": "ready"})
 
     def action_draft(self):
         self.ensure_one()
