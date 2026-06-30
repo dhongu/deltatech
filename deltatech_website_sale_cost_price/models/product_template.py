@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import fields, models
+from odoo.http import request
 from odoo.tools import float_compare
 
 
@@ -23,7 +24,9 @@ class ProductTemplate(models.Model):
         if website_tax_included != cost_tax_included:
             # We need to adjust cost_price to match website_tax_included
             taxes = product_or_template.taxes_id.filtered(lambda t: t.company_id == website.company_id)
-            fiscal_position = website.fiscal_position_id
+            # In Odoo 19 the website no longer stores ``fiscal_position_id``; the current
+            # fiscal position is resolved per session/request.
+            fiscal_position = request.fiscal_position if request else None
             if fiscal_position:
                 taxes = fiscal_position.map_tax(taxes)
 
@@ -49,8 +52,8 @@ class ProductTemplate(models.Model):
 
         return cost_price
 
-    def _get_additionnal_combination_info(self, product_or_template, quantity, date, website):
-        res = super()._get_additionnal_combination_info(product_or_template, quantity, date, website)
+    def _get_additionnal_combination_info(self, product_or_template, quantity, uom, date, website):
+        res = super()._get_additionnal_combination_info(product_or_template, quantity, uom, date, website)
 
         if website.prevent_zero_price_sale:
             price = res["price"]
