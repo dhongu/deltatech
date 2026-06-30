@@ -1,0 +1,6 @@
+{
+  "title": "POS Order Product Filter",
+  "summary": "Search POS orders by product name instantly",
+  "icon": "bag",
+  "features": ["Filter orders by product name", "Quick lookup in order history", "Works on all POS sessions"]
+}

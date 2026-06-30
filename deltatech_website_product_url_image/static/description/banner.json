@@ -1,0 +1,10 @@
+{
+  "title": "Product Image from URL",
+  "summary": "Paste a URL — product image loads automatically",
+  "icon": "globe",
+  "features": [
+    "Load main image directly from URL",
+    "Load extra images via URL name field",
+    "Auto-saves filename, stores image locally"
+  ]
+}

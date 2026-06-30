@@ -1,0 +1,10 @@
+{
+  "title": "Discount Policy",
+  "summary": "Restore Odoo 17 discount policy for pricelists",
+  "icon": "bag",
+  "features": [
+    "Show public price & discount separately",
+    "Fixed price rule discount support",
+    "Pricelist rule chain traversal"
+  ]
+}

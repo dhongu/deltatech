@@ -1,0 +1,10 @@
+{
+  "title": "Stock Picking Activity Report",
+  "summary": "Track changes, validations and messages on stock pickings",
+  "icon": "clipboard",
+  "features": [
+    "Full audit log of field & line changes",
+    "Activity report in Inventory Reporting",
+    "Auto-cleanup of records older than 2 months"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "title": "Invoice Followup",
+  "summary": "Automated overdue invoice reminders via email",
+  "icon": "clipboard",
+  "features": ["Configurable reminder schedules", "Automatic email sending", "Per-partner followup control"]
+}

@@ -1,0 +1,6 @@
+{
+  "title": "Download File",
+  "summary": "Open PDF reports directly in a new browser tab",
+  "icon": "file",
+  "features": ["Open PDF in new tab instantly", "Direct download flag per report", "No viewer — saves file directly"]
+}

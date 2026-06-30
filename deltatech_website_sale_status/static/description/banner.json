@@ -1,0 +1,10 @@
+{
+  "title": "eCommerce Order Status",
+  "summary": "Real-time delivery status tracking for customers on the portal",
+  "icon": "truck",
+  "features": [
+    "9 order stages with granular status",
+    "Customer portal order status filters",
+    "Delivery tracking from placed to returned"
+  ]
+}
