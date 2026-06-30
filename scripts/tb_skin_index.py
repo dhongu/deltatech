@@ -238,6 +238,21 @@ def remove_secondary_language(html):
     return html
 
 
+def remove_changelog(html):
+    """Elimină secțiunea Changelog (din HISTORY.md) + subsecțiunile de versiune.
+    Taie de la <div class="section" id="changelog"> până la secțiunea Bug Tracker
+    (pe care o păstrăm). Pe Apps Store istoricul lung nu-și are locul în descriere."""
+    start = re.search(r'<div class="section" id="changelog', html)
+    if not start:
+        return html
+    bug = re.search(r'<div class="section" id="bug-tracker"', html[start.start():])
+    if bug:
+        end = start.start() + bug.start()
+    else:
+        end = _section_end(html, start.start()) or len(html)
+    return html[: start.start()] + html[end:]
+
+
 # --- heading-uri docutils: bară-accent verde + ink închis ---------------------- #
 def style_headings(html):
     """Stilează heading-urile de secțiune (h1/h2/h3 docutils, fără style) cu o bară-accent
@@ -397,6 +412,7 @@ def skin_html(html, manifest):
     html = remove_duplicate_name_heading(html, name)
     html = remove_secondary_language(html)
     html = strip_toc(html)
+    html = remove_changelog(html)
     # 2) stilizează conținutul docutils
     html = style_headings(html)
     html = style_code(html)
