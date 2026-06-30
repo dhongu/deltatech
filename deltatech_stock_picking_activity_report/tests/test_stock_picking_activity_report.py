@@ -37,6 +37,12 @@ class TestStockPickingActivityReport(TransactionCase):
                 ],
             }
         )
+        restrict_group = cls.env.ref(
+            "deltatech_picking_restrict_entry_exit.group_picking_restrict_entry_exit",
+            raise_if_not_found=False,
+        )
+        if restrict_group:
+            cls.stock_user.groups_id |= restrict_group
 
         cls.warehouse = cls.env["stock.warehouse"].search([("company_id", "=", cls.env.company.id)], limit=1)
         cls.stock_location = cls.warehouse.lot_stock_id
