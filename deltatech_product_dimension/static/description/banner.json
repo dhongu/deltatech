@@ -1,0 +1,10 @@
+{
+  "title": "Product Dimensions",
+  "summary": "Add length, width & height to any product",
+  "icon": "box",
+  "features": [
+    "Length, width, height fields on product",
+    "Auto-calculate volume from dimensions",
+    "Displayed next to standard volume field"
+  ]
+}
