@@ -1,0 +1,6 @@
+{
+  "title": "eCommerce Product Code",
+  "summary": "Browse & link products by internal code in your online shop",
+  "icon": "globe",
+  "features": ["URL routing by internal code", "Code displayed on product page", "Code shown in search results"]
+}

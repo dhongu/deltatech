@@ -1,0 +1,10 @@
+{
+  "title": "Competitors Price Tracker",
+  "summary": "Monitor rival prices directly on your product form",
+  "icon": "trend",
+  "features": [
+    "Track competitor URLs per product",
+    "On-demand price fetch (per line or all)",
+    "Smart extraction: JSON-LD + HTML fallback"
+  ]
+}

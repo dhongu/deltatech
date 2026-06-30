@@ -1,0 +1,6 @@
+{
+  "title": "No Negative Stock",
+  "summary": "Prevent stock quantities from going below zero",
+  "icon": "box",
+  "features": ["Block negative stock company-wide", "Allow exceptions per location", "Serial number availability check"]
+}

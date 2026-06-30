@@ -1,0 +1,10 @@
+{
+  "title": "Fixed Price Discount Display",
+  "summary": "Show strikethrough prices for fixed pricelist rules on your shop",
+  "icon": "bag",
+  "features": [
+    "Slashed price for fixed pricelist rules",
+    "Works on /shop and /product pages",
+    "No config needed — install and go"
+  ]
+}

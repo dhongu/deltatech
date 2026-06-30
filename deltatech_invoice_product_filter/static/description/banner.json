@@ -1,0 +1,6 @@
+{
+  "title": "Invoice Product Filter",
+  "summary": "Search invoices by product name instantly",
+  "icon": "file",
+  "features": ["Filter invoices by product", "Quick product search on list view", "Works on all invoice types"]
+}

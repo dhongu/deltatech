@@ -1,0 +1,10 @@
+{
+  "title": "Website Phone Validation",
+  "summary": "Validate phone numbers at checkout before order is placed",
+  "icon": "globe",
+  "features": [
+    "Format & validate phone at checkout",
+    "Country-aware international format",
+    "Clear error message on invalid input"
+  ]
+}
