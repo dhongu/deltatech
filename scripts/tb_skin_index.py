@@ -160,11 +160,6 @@ def build_badges(manifest):
         items.append((BADGE, f"Odoo {m.group(1)}"))
     items.append((BADGE, "Online &bull; Odoo.sh &bull; On-premise"))
     items.append((BADGE_ACCENT, "Optional support"))
-    if manifest.get("price"):
-        cur = manifest.get("currency", "EUR")
-        price = manifest["price"]
-        price_txt = f"{price:g}" if isinstance(price, (int, float)) else str(price)
-        items.append((BADGE_ACCENT, f"{price_txt} {cur}"))
     return "\n    ".join(tmpl % dict(TB, t=t) for tmpl, t in items)
 
 
