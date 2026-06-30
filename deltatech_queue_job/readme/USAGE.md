@@ -1,5 +1,4 @@
-External Job Processor Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**External Job Processor Configuration**
 
 To process jobs every minute using an external service like [cron-job.org](https://cron-job.org):
 
@@ -22,8 +21,7 @@ To process jobs every minute using an external service like [cron-job.org](https
     }
     ```
 
-API Endpoints
-~~~~~~~~~~~~~
+**API Endpoints**
 
 Process Queue (External)
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -47,6 +45,5 @@ Response:
 }
 ```
 
-Manual Processing
-~~~~~~~~~~~~~~~~~
+**Manual Processing**
 You can manually trigger job processing from the Queue Job list view using the **Process** button (internal cron trigger) or **Process (Thread)** (API-style runner in a new thread), or trigger a background execution using **Cron Trigger**.
