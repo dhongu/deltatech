@@ -1,0 +1,10 @@
+{
+  "title": "Sale Commission",
+  "summary": "Automatic commission calc for your sales team",
+  "icon": "trend",
+  "features": [
+    "Per-salesperson commission rates",
+    "Manager & director cascade rates",
+    "Commission tied to invoice payment"
+  ]
+}
