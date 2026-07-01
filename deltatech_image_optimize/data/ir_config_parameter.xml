@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- JPEG re-encode quality (1..95). 85 = good web quality, strong savings. -->
+    <record id="cp_quality" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.quality</field>
+        <field name="value">85</field>
+    </record>
+
+    <!-- Downscale images whose largest side exceeds this many pixels. -->
+    <record id="cp_max_dim" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.max_dim</field>
+        <field name="value">1920</field>
+    </record>
+
+    <!-- Only consider originals larger than this many bytes (100 KB). -->
+    <record id="cp_min_size" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.min_size</field>
+        <field name="value">102400</field>
+    </record>
+
+    <!-- How many images to process per cron run. -->
+    <record id="cp_batch" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.batch</field>
+        <field name="value">1000</field>
+    </record>
+
+    <!-- Original image fields to optimize (comma separated res_field values). -->
+    <record id="cp_target_fields" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.target_fields</field>
+        <field name="value">image_1920,image_variant_1920</field>
+    </record>
+
+</odoo>
