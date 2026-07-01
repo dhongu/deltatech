@@ -30,6 +30,12 @@ class ProductTemplate(models.Model):
         search="_search_last_purchase_price",
         tracking=True,
         company_dependent=True,
+        # Compute-ul citește seller_ids (product.supplierinfo) pentru template-urile
+        # multi-variantă (fix tichet 8403). Câmpul e afișat indirect pe website prin
+        # deltatech_price_categ (list_price_base = "last_purchase_price"), deci
+        # recalcularea trebuie să ruleze ca sudo, altfel userul Public — care nu are
+        # drept pe product.supplierinfo — primește 403 la /shop (tichet 8921).
+        compute_sudo=True,
     )
 
     @api.depends("product_variant_ids.last_purchase_price", "seller_ids.price", "seller_ids.product_id")
