@@ -245,7 +245,7 @@ def remove_changelog(html):
     start = re.search(r'<div class="section" id="changelog', html)
     if not start:
         return html
-    bug = re.search(r'<div class="section" id="bug-tracker"', html[start.start():])
+    bug = re.search(r'<div class="section" id="bug-tracker"', html[start.start() :])
     if bug:
         end = start.start() + bug.start()
     else:
