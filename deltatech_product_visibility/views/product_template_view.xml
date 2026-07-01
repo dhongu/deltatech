@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Indicator colorat în formularul de produs -->
+    <record id="product_template_only_form_visibility" model="ir.ui.view">
+        <field name="name">product.template.form.visibility.badge</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view" />
+        <field name="arch" type="xml">
+            <field name="default_code" position="after">
+                <field name="website_visibility_badge" widget="html" readonly="1" />
+            </field>
+        </field>
+    </record>
+
+    <!-- Pagină cu defalcarea criteriilor -->
+    <record id="product_template_form_visibility_detail" model="ir.ui.view">
+        <field name="name">product.template.form.visibility.detail</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Vizibilitate website" name="website_visibility">
+                    <group>
+                        <field name="website_visibility_score" widget="progressbar" readonly="1" />
+                        <field name="website_visibility_level" readonly="1" />
+                    </group>
+                    <field name="website_visibility_detail" widget="html" readonly="1" nolabel="1" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Coloană în listă -->
+    <record id="product_template_tree_visibility" model="ir.ui.view">
+        <field name="name">product.template.list.visibility</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view" />
+        <field name="arch" type="xml">
+            <field name="default_code" position="after">
+                <field name="website_visibility_score" widget="progressbar" optional="hide" />
+                <field
+                    name="website_visibility_level"
+                    widget="badge"
+                    decoration-danger="website_visibility_level == 'hidden'"
+                    decoration-warning="website_visibility_level == 'weak'"
+                    decoration-info="website_visibility_level == 'good'"
+                    decoration-success="website_visibility_level == 'optimal'"
+                    optional="hide"
+                />
+            </field>
+        </field>
+    </record>
+
+    <!-- Filtre și grupare -->
+    <record id="product_template_search_visibility" model="ir.ui.view">
+        <field name="name">product.template.search.visibility</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view" />
+        <field name="arch" type="xml">
+            <filter name="services" position="after">
+                <separator />
+                <filter
+                    name="visibility_attention"
+                    string="Vizibilitate: necesită atenție"
+                    domain="[('website_visibility_level', 'in', ['hidden', 'weak'])]"
+                />
+                <filter
+                    name="visibility_hidden"
+                    string="Vizibilitate: invizibil"
+                    domain="[('website_visibility_level', '=', 'hidden')]"
+                />
+            </filter>
+            <group position="inside">
+                <filter
+                    name="group_visibility_level"
+                    string="Nivel vizibilitate"
+                    context="{'group_by': 'website_visibility_level'}"
+                />
+            </group>
+        </field>
+    </record>
+
+</odoo>
