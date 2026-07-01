@@ -41,6 +41,6 @@ enable it.
 For a large one-time backlog you can loop the batch method from the shell:
 
 ```python
-while env["ir.attachment"]._dt_image_optimize_run(limit=2000)["scanned"]:
+while env["ir.attachment"]._dt_image_optimize_run(limit=200)["scanned"]:
     env.cr.commit()
 ```

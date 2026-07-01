@@ -1,5 +1,11 @@
 # Changelog
 
+## 18.0.1.0.1 (2025)
+
+- Keep memory flat over large batches: flush and invalidate the ORM cache
+  every 20 images (avoids the worker/shell being killed on big batches).
+- Lower the default batch size to 200.
+
 ## 18.0.1.0.0 (2025)
 
 - Initial release.

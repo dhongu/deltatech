@@ -113,42 +113,49 @@ class IrAttachment(models.Model):
         now = fields.Datetime.now()
         optimized = 0
         freed = 0
-        for att in attachments:
+        # Decoded images and their raw bytes are heavy; flush and drop the ORM
+        # cache regularly so memory stays flat over large batches (otherwise a
+        # single batch can exhaust the worker/shell memory and get killed).
+        flush_every = 20
+        for index, att in enumerate(attachments, start=1):
             raw = att.raw
             data = self._dt_image_recompress(raw, params["quality"], params["max_dim"])
             if not data:
                 att.deltatech_image_optimized = now
-                continue
-            record = self.env[att.res_model].sudo().browse(att.res_id)
-            if not record.exists() or att.res_field not in record._fields:
-                att.deltatech_image_optimized = now
-                continue
-            try:
-                record.write({att.res_field: base64.b64encode(data)})
-            except Exception as exc:  # noqa: BLE001
-                _logger.warning(
-                    "Image optimize failed for %s(%s).%s: %s",
-                    att.res_model,
-                    att.res_id,
-                    att.res_field,
-                    exc,
-                )
-                att.deltatech_image_optimized = now
-                continue
-            # Writing the image field recreates the attachment: flag the new one
-            # so it is not reprocessed on the next run.
-            new_att = self.sudo().search(
-                [
-                    ("res_model", "=", att.res_model),
-                    ("res_id", "=", att.res_id),
-                    ("res_field", "=", att.res_field),
-                ],
-                limit=1,
-            )
-            if new_att:
-                new_att.deltatech_image_optimized = now
-            freed += len(raw) - len(data)
-            optimized += 1
+            else:
+                record = self.env[att.res_model].sudo().browse(att.res_id)
+                if not record.exists() or att.res_field not in record._fields:
+                    att.deltatech_image_optimized = now
+                else:
+                    try:
+                        record.write({att.res_field: base64.b64encode(data)})
+                    except Exception as exc:  # noqa: BLE001
+                        _logger.warning(
+                            "Image optimize failed for %s(%s).%s: %s",
+                            att.res_model,
+                            att.res_id,
+                            att.res_field,
+                            exc,
+                        )
+                        att.deltatech_image_optimized = now
+                    else:
+                        # Writing the image field recreates the attachment:
+                        # flag the new one so it is not reprocessed next run.
+                        new_att = self.sudo().search(
+                            [
+                                ("res_model", "=", att.res_model),
+                                ("res_id", "=", att.res_id),
+                                ("res_field", "=", att.res_field),
+                            ],
+                            limit=1,
+                        )
+                        if new_att:
+                            new_att.deltatech_image_optimized = now
+                        freed += len(raw) - len(data)
+                        optimized += 1
+            if index % flush_every == 0:
+                self.env.flush_all()
+                self.env.invalidate_all()
 
         _logger.info(
             "Image optimizer: scanned=%s optimized=%s freed=%.1f MB",
