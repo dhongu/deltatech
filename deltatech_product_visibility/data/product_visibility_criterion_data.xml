@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="criterion_seo" model="deltatech.product.visibility.criterion">
+        <field name="name">SEO complet (titlu + descriere + cuvinte cheie)</field>
+        <field name="code">seo</field>
+        <field name="weight">25</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <record id="criterion_main_image" model="deltatech.product.visibility.criterion">
+        <field name="name">Imagine principală</field>
+        <field name="code">main_image</field>
+        <field name="weight">18</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="criterion_website_description" model="deltatech.product.visibility.criterion">
+        <field name="name">Descriere website (amplă)</field>
+        <field name="code">website_description</field>
+        <field name="weight">15</field>
+        <field name="sequence">30</field>
+    </record>
+
+    <record id="criterion_public_category" model="deltatech.product.visibility.criterion">
+        <field name="name">Categorie publică</field>
+        <field name="code">public_category</field>
+        <field name="weight">12</field>
+        <field name="sequence">40</field>
+    </record>
+
+    <record id="criterion_gallery" model="deltatech.product.visibility.criterion">
+        <field name="name">Galerie de imagini (≥ 2)</field>
+        <field name="code">gallery</field>
+        <field name="weight">10</field>
+        <field name="sequence">50</field>
+    </record>
+
+    <record id="criterion_ecommerce_description" model="deltatech.product.visibility.criterion">
+        <field name="name">Descriere eCommerce (scurtă)</field>
+        <field name="code">ecommerce_description</field>
+        <field name="weight">10</field>
+        <field name="sequence">60</field>
+    </record>
+
+    <record id="criterion_sale_price" model="deltatech.product.visibility.criterion">
+        <field name="name">Preț de vânzare setat</field>
+        <field name="code">sale_price</field>
+        <field name="weight">5</field>
+        <field name="sequence">70</field>
+    </record>
+
+    <record id="criterion_default_code" model="deltatech.product.visibility.criterion">
+        <field name="name">Cod produs (SKU)</field>
+        <field name="code">default_code</field>
+        <field name="weight">5</field>
+        <field name="sequence">80</field>
+    </record>
+
+</odoo>
