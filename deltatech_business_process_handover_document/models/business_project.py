@@ -14,6 +14,7 @@ class BusinessProject(models.Model):
         "business.process",
         string="Handover Processes",
         compute="_compute_handover_process_ids",
+        store=True,
         help="Processes included in the handover document, after applying the stage filter.",
     )
 
