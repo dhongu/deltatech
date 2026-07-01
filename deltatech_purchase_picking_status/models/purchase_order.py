@@ -36,7 +36,17 @@ class PurchaseOrder(models.Model):
                 order.picking_status = state
 
     def _search_picking_status(self, operator, value):
+        # În Odoo 19 ORM-ul normalizează `("picking_status", "=", "x")` la
+        # operatorul `in` cu o colecție de valori, deci trebuie tratate atât
+        # `in`/`not in` (value = listă/set) cât și `=`/`!=` (value = scalar).
+        if operator in ("in", "not in"):
+            values = set(value)
+        elif operator in ("=", "!="):
+            values = {value}
+        else:
+            raise NotImplementedError(self.env._("Operator %s not supported", operator))
         orders = self.search([("state", "!=", "cancel")])
-        f_orders = orders.filtered(lambda x: x.picking_status == value)
-        res = [("id", "in", [x.id for x in f_orders] if f_orders else False)]
-        return res
+        f_orders = orders.filtered(lambda x: x.picking_status in values)
+        if operator in ("not in", "!="):
+            f_orders = orders - f_orders
+        return [("id", "in", f_orders.ids)]
