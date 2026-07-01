@@ -35,9 +35,12 @@ def _check_unique_default_code(records, company_of):
     if not to_check:
         return
     codes = list({p.default_code for p in to_check})
-    # un singur search indexat (default_code IN [...]); active_test filtreaza activele
+    # Uniqueness is over (default_code, active, company_id): an active and an
+    # archived product may share a code (see show_not_unique). Force active_test
+    # so ambient active_test=False (e.g. during marketplace import) does not make
+    # archived records collide with active ones.
     by_code = defaultdict(list)
-    for rec in records.search([("default_code", "in", codes)]):
+    for rec in records.with_context(active_test=True).search([("default_code", "in", codes)]):
         by_code[rec.default_code].append(rec)
     for product in to_check:
         company = company_of(product)
