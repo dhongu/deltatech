@@ -100,6 +100,23 @@ class TestLibraryGitSync(TransactionCase):
         patcher = patch.object(type(self.library), "_git_repos_cache_dir", lambda lib, cache=self.cache_dir: cache)
         patcher.start()
         self.addCleanup(patcher.stop)
+        # Certain hardened environments (e.g. CI build sandboxes) set
+        # ``protocol.file.allow=never`` system-wide, which would break the
+        # ``file://`` transport this fixture relies on to simulate a real repo
+        # without network access. Force it back on for the git calls made by
+        # the code under test — this only affects the test's own subprocess
+        # invocations, never production traffic (which is https/ssh).
+        original_auth_args = type(self.library)._git_auth_args
+
+        def _patched_auth_args(lib, url, _orig=original_auth_args):
+            args = _orig(lib, url)
+            if url.startswith("file://"):
+                args = ["-c", "protocol.file.allow=always", *args]
+            return args
+
+        auth_patcher = patch.object(type(self.library), "_git_auth_args", _patched_auth_args)
+        auth_patcher.start()
+        self.addCleanup(auth_patcher.stop)
 
     def _configure_repo(self):
         self.icp.set_param(PARAM_REPOS, self.repo_url)
