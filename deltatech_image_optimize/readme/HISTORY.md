@@ -1,5 +1,14 @@
 # Changelog
 
+## 18.0.1.2.0 (2025)
+
+- Configurable `flush_every` parameter (memory flush/invalidate/gc frequency).
+  Lower it to 2-3 for very high-resolution images (e.g. 20 MP) so the cron and
+  batch runs stay within memory on heavy images.
+- `gc.collect()` at each flush point.
+- The scheduled action now runs a filestore GC at the end (single writer →
+  can grab the lock), so cron-driven runs actually reclaim disk space.
+
 ## 18.0.1.1.0 (2025)
 
 - Step 2 — recompress the stored resized variants (image_1024/512/256/128)
