@@ -79,3 +79,9 @@ class TestMandatoryFields(TransactionCase):
         assert "city_id" in fields_set, "city_id must be mandatory when cities are enforced"
         # And the free-text 'city' should not be mandatory
         assert "city" not in fields_set, "free-text city must be removed when cities are enforced"
+
+
+class TestCityTemplate(TransactionCase):
+    def test_initial_city_options_expose_zipcode(self):
+        view = self.env.ref("deltatech_website_city.address_form_fields")
+        self.assertIn("t-att-data-code=\"city.zipcode or ''\"", view.arch_db)

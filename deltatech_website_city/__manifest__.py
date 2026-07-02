@@ -5,7 +5,7 @@
     "name": "Website City",
     "category": "Website/Website",
     "summary": "City extension",
-    "version": "19.0.1.1.1",
+    "version": "19.0.1.1.2",
     "author": "Terrabit, Dorin Hongu",
     "support": "odoo@terrabit.ro",
     "license": "OPL-1",
