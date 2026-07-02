@@ -31,4 +31,22 @@
         <field name="value">image_1920,image_variant_1920</field>
     </record>
 
+    <!-- Resized variant fields to recompress in place (step 2). -->
+    <record id="cp_variant_fields" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.variant_fields</field>
+        <field name="value">image_1024,image_512,image_256,image_128</field>
+    </record>
+
+    <!-- Quality for re-encoding the variants. -->
+    <record id="cp_variant_quality" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.variant_quality</field>
+        <field name="value">85</field>
+    </record>
+
+    <!-- Only recompress variants larger than this many bytes (20 KB). -->
+    <record id="cp_variant_min_size" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.variant_min_size</field>
+        <field name="value">20480</field>
+    </record>
+
 </odoo>
