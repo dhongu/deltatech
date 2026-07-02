@@ -30,7 +30,7 @@
         id="menu_commission_users"
         action="action_commission_users"
         parent="sale.menu_sale_config"
-        groups="group_commission_viewer"
+        groups="group_commission_manager"
     />
 
 

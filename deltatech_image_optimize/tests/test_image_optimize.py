@@ -84,9 +84,7 @@ class TestImageOptimize(TransactionCase):
         ICP.set_param("deltatech_image_optimize.variant_min_size", "1")
         ICP.set_param("deltatech_image_optimize.variant_quality", "60")
 
-        partner = self.env["res.partner"].create(
-            {"name": "Variant Test", "image_1920": self._make_big_jpeg()}
-        )
+        partner = self.env["res.partner"].create({"name": "Variant Test", "image_1920": self._make_big_jpeg()})
         orig_att = self._image_attachment(partner)
         orig_1920 = orig_att.raw  # keep the master bytes to prove they don't change
 

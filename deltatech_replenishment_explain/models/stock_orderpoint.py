@@ -107,9 +107,7 @@ class StockWarehouseOrderpoint(models.Model):
         in_progress = op._quantity_in_progress().get(op.id, 0.0)
         gate_forecast = op.qty_forecast  # virtual_available @ lead_days_date + in_progress
         vis_ctx = op._get_product_context(visibility_days=visibility_days)
-        order_forecast = (
-            product.with_context(**vis_ctx).read(["virtual_available"])[0]["virtual_available"] + in_progress
-        )
+        order_forecast = product.with_context(vis_ctx).read(["virtual_available"])[0]["virtual_available"] + in_progress  # pylint: disable=context-overridden
         min_qty = op.product_min_qty
         max_qty = op.product_max_qty
         target = max(min_qty, max_qty)
