@@ -4,15 +4,15 @@
 {
     "name": "Sale Commission",
     "summary": "Compute sale commission",
-    "version": "19.0.1.4.4",
+    "version": "19.0.1.4.5",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["deltatech_sale_margin"],
     "license": "OPL-1",
     "data": [
-        "security/ir.model.access.csv",
         "security/security.xml",
+        "security/ir.model.access.csv",
         "views/account_invoice_view.xml",
         "report/sale_margin_report.xml",
         "views/commission_users_view.xml",

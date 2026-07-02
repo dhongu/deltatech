@@ -286,7 +286,12 @@
         <field name="act_window_id" ref="action_sale_margin_report" />
     </record>-->
 
-    <menuitem action="action_sale_margin_report" id="menu_sale_margin_report_list" parent="sale.menu_sale_report" />
+    <menuitem
+        action="action_sale_margin_report"
+        id="menu_sale_margin_report_list"
+        parent="sale.menu_sale_report"
+        groups="group_commission_viewer"
+    />
 
     <record id="action_sale_margin_commission_report" model="ir.actions.act_window">
         <field name="name">Commission</field>
@@ -305,7 +310,7 @@
         id="menu_commission"
         parent="sale.sale_order_menu"
         sequence="700"
-        groups="sales_team.group_sale_manager"
+        groups="group_commission_viewer"
     />
     <menuitem
         action="action_sale_margin_commission_report"
