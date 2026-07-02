@@ -4,7 +4,7 @@
 
 {
     "name": "Image Optimizer",
-    "version": "18.0.1.1.0",
+    "version": "18.0.1.2.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Recompress oversized image attachments to reclaim filestore space",

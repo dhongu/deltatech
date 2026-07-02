@@ -25,6 +25,13 @@
         <field name="value">200</field>
     </record>
 
+    <!-- Flush + drop the ORM cache every N images. Lower it (2-3) for very
+         high-resolution images (e.g. 20 MP) to keep memory flat. -->
+    <record id="cp_flush_every" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.flush_every</field>
+        <field name="value">20</field>
+    </record>
+
     <!-- Original image fields to optimize (comma separated res_field values). -->
     <record id="cp_target_fields" model="ir.config_parameter">
         <field name="key">deltatech_image_optimize.target_fields</field>
