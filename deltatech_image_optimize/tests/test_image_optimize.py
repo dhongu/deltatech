@@ -75,3 +75,42 @@ class TestImageOptimize(TransactionCase):
         # Everything processed is flagged, so a second run finds nothing new.
         stats = self.env["ir.attachment"]._dt_image_optimize_run(limit=50)
         self.assertEqual(stats["optimized"], 0)
+
+    def test_variant_optimize_keeps_original(self):
+        if Image is None:
+            self.skipTest("Pillow not available")
+
+        ICP = self.env["ir.config_parameter"].sudo()
+        ICP.set_param("deltatech_image_optimize.variant_min_size", "1")
+        ICP.set_param("deltatech_image_optimize.variant_quality", "60")
+
+        partner = self.env["res.partner"].create(
+            {"name": "Variant Test", "image_1920": self._make_big_jpeg()}
+        )
+        orig_att = self._image_attachment(partner)
+        orig_1920 = orig_att.raw  # keep the master bytes to prove they don't change
+
+        # Variants are stored lazily: read image_1024 to materialize its attachment.
+        _ = partner.image_1024
+        self.env.flush_all()
+
+        var = (
+            self.env["ir.attachment"]
+            .sudo()
+            .search(
+                [("res_model", "=", "res.partner"), ("res_id", "=", partner.id), ("res_field", "=", "image_1024")],
+                limit=1,
+            )
+        )
+        self.assertTrue(var, "image_1024 variant attachment should exist")
+        before = var.file_size
+
+        stats = self.env["ir.attachment"]._dt_image_optimize_variants_run(limit=50)
+        self.assertGreaterEqual(stats["optimized"], 1)
+
+        var.invalidate_recordset()
+        self.assertLess(var.file_size, before)  # variant shrank
+        self.assertTrue(var.deltatech_image_optimized)
+        # the master image_1920 must be byte-for-byte unchanged (no propagation)
+        self._image_attachment(partner).invalidate_recordset()
+        self.assertEqual(self._image_attachment(partner).raw, orig_1920)

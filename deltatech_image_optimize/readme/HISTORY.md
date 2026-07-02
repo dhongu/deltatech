@@ -1,5 +1,13 @@
 # Changelog
 
+## 18.0.1.1.0 (2025)
+
+- Step 2 — recompress the stored resized variants (image_1024/512/256/128)
+  in place (`att.write({'raw': ...})`), at a configurable `variant_quality`,
+  without resizing and without touching the original (no related write-back).
+- New parameters: `variant_fields`, `variant_quality`, `variant_min_size`.
+- The scheduled action now optimizes originals **and** variants.
+
 ## 18.0.1.0.1 (2025)
 
 - Keep memory flat over large batches: flush and invalidate the ORM cache

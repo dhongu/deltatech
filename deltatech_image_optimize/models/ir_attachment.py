@@ -12,6 +12,7 @@ except ImportError:  # pragma: no cover
     Image = None
 
 DEFAULT_TARGET_FIELDS = "image_1920,image_variant_1920"
+DEFAULT_VARIANT_FIELDS = "image_1024,image_512,image_256,image_128"
 
 
 class IrAttachment(models.Model):
@@ -166,6 +167,68 @@ class IrAttachment(models.Model):
         return {"scanned": len(attachments), "optimized": optimized, "freed": freed}
 
     @api.model
+    def _dt_image_optimize_variants_run(self, limit=None):
+        """Recompress the stored resized variants (image_1024/512/256/128).
+
+        Variants are ``related='image_1920'`` fields, so they must NOT be
+        written through the record (that would propagate back and downscale the
+        original). Instead we recompress the variant's own attachment in place
+        (``att.write({'raw': ...})``): no resize (already sized), just a lower
+        quality re-encode. No propagation, original untouched.
+
+        :return: dict with ``scanned``, ``optimized`` and ``freed`` (bytes).
+        """
+        if Image is None:
+            return {"scanned": 0, "optimized": 0, "freed": 0}
+        get = self.env["ir.config_parameter"].sudo().get_param
+        quality = max(1, min(95, int(get("deltatech_image_optimize.variant_quality", 85))))
+        min_size = int(get("deltatech_image_optimize.variant_min_size", 20480))
+        vfields = [
+            name.strip()
+            for name in get("deltatech_image_optimize.variant_fields", DEFAULT_VARIANT_FIELDS).split(",")
+            if name.strip()
+        ]
+        limit = limit or int(get("deltatech_image_optimize.batch", 200))
+        domain = [
+            ("res_field", "in", vfields),
+            ("deltatech_image_optimized", "=", False),
+        ]
+        if min_size:
+            domain.append(("file_size", ">", min_size))
+        attachments = self.sudo().search(domain, order="file_size desc", limit=limit)
+
+        now = fields.Datetime.now()
+        optimized = 0
+        freed = 0
+        for index, att in enumerate(attachments, start=1):
+            raw = att.raw
+            # max_dim=0 -> no resize, only a lower quality re-encode.
+            data = self._dt_image_recompress(raw, quality, 0)
+            vals = {"deltatech_image_optimized": now}
+            if data:
+                vals["raw"] = data
+            try:
+                att.write(vals)
+            except Exception as exc:  # noqa: BLE001
+                _logger.warning("Variant optimize failed for att %s: %s", att.id, exc)
+                continue
+            if data:
+                freed += len(raw) - len(data)
+                optimized += 1
+            if index % 20 == 0:
+                self.env.flush_all()
+                self.env.invalidate_all()
+
+        _logger.info(
+            "Image optimizer (variants): scanned=%s optimized=%s freed=%.1f MB",
+            len(attachments),
+            optimized,
+            freed / 1048576.0,
+        )
+        return {"scanned": len(attachments), "optimized": optimized, "freed": freed}
+
+    @api.model
     def _dt_image_optimize_cron(self):
-        """Entry point for the scheduled action."""
+        """Entry point for the scheduled action: originals then variants."""
         self._dt_image_optimize_run()
+        self._dt_image_optimize_variants_run()
