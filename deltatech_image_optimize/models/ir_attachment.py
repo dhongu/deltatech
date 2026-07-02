@@ -240,5 +240,7 @@ class IrAttachment(models.Model):
         (the cron is the single writer here, so it can grab the GC lock)."""
         self._dt_image_optimize_run()
         self._dt_image_optimize_variants_run()
-        self.env.cr.commit()
+        # the GC needs the optimized attachments committed before it can
+        # safely unlink the old filestore entries
+        self.env.cr.commit()  # pylint: disable=invalid-commit
         self._gc_file_store()
