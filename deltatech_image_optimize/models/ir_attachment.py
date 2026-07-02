@@ -1,4 +1,5 @@
 import base64
+import gc
 import io
 import logging
 
@@ -39,6 +40,7 @@ class IrAttachment(models.Model):
             "max_dim": int(get("deltatech_image_optimize.max_dim", 1920)),
             "min_size": int(get("deltatech_image_optimize.min_size", 102400)),
             "batch": int(get("deltatech_image_optimize.batch", 1000)),
+            "flush_every": max(1, int(get("deltatech_image_optimize.flush_every", 20))),
             "fields": [
                 name.strip()
                 for name in get("deltatech_image_optimize.target_fields", DEFAULT_TARGET_FIELDS).split(",")
@@ -117,7 +119,8 @@ class IrAttachment(models.Model):
         # Decoded images and their raw bytes are heavy; flush and drop the ORM
         # cache regularly so memory stays flat over large batches (otherwise a
         # single batch can exhaust the worker/shell memory and get killed).
-        flush_every = 20
+        # For high-resolution images (e.g. 20 MP) lower flush_every to 2-3.
+        flush_every = params["flush_every"]
         for index, att in enumerate(attachments, start=1):
             raw = att.raw
             data = self._dt_image_recompress(raw, params["quality"], params["max_dim"])
@@ -157,6 +160,7 @@ class IrAttachment(models.Model):
             if index % flush_every == 0:
                 self.env.flush_all()
                 self.env.invalidate_all()
+                gc.collect()
 
         _logger.info(
             "Image optimizer: scanned=%s optimized=%s freed=%.1f MB",
@@ -189,6 +193,7 @@ class IrAttachment(models.Model):
             if name.strip()
         ]
         limit = limit or int(get("deltatech_image_optimize.batch", 200))
+        flush_every = max(1, int(get("deltatech_image_optimize.flush_every", 20)))
         domain = [
             ("res_field", "in", vfields),
             ("deltatech_image_optimized", "=", False),
@@ -215,9 +220,10 @@ class IrAttachment(models.Model):
             if data:
                 freed += len(raw) - len(data)
                 optimized += 1
-            if index % 20 == 0:
+            if index % flush_every == 0:
                 self.env.flush_all()
                 self.env.invalidate_all()
+                gc.collect()
 
         _logger.info(
             "Image optimizer (variants): scanned=%s optimized=%s freed=%.1f MB",
@@ -229,6 +235,10 @@ class IrAttachment(models.Model):
 
     @api.model
     def _dt_image_optimize_cron(self):
-        """Entry point for the scheduled action: originals then variants."""
+        """Entry point for the scheduled action: originals then variants,
+        followed by a filestore GC so the freed space is actually reclaimed
+        (the cron is the single writer here, so it can grab the GC lock)."""
         self._dt_image_optimize_run()
         self._dt_image_optimize_variants_run()
+        self.env.cr.commit()
+        self._gc_file_store()
