@@ -4,5 +4,12 @@ requires = [
 ]
 build-backend = "whool.buildapi"
 
+# Dependențele se generează din __manifest__.py de către whool;
+# modulele nepublicate pe wheelhouse se declară prin depends_override,
+# iar `dynamic` obligă pyproject-dependencies să întrebe backend-ul.
+[tool.whool.depends_override]
+deltatech_widget_many2one_badge = "odoo-addon-deltatech-widget-many2one-badge @ git+https://github.com/dhongu/deltatech.git@19.0#subdirectory=deltatech_widget_many2one_badge"
+
 [project]
 name = "odoo-addon-deltatech-purchase-phase"
+dynamic = ["dependencies"]
