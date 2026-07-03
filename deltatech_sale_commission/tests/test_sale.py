@@ -18,6 +18,7 @@ class TestSaleCommissionBase(AccountTestInvoicingCommon):
         # can create sale orders, commission records and validate the delivery.
         cls.env.user.group_ids |= cls.env.ref("sales_team.group_sale_manager")
         cls.env.user.group_ids |= cls.env.ref("stock.group_stock_manager")
+        cls.env.user.group_ids |= cls.env.ref("deltatech_sale_commission.group_commission_manager")
 
         # Customer for the sale orders. The Romanian localization installed on
         # the test database requires a full address (country, state, city,
