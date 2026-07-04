@@ -36,6 +36,13 @@ class TestImageOptimize(TransactionCase):
         img.save(buf, format="PNG")
         return base64.b64encode(buf.getvalue())
 
+    def _make_opaque_rgba_png(self, size=2000):
+        """Build a large RGBA PNG whose alpha is fully opaque (255)."""
+        img = Image.frombytes("RGB", (size, size), os.urandom(size * size * 3)).convert("RGBA")
+        buf = io.BytesIO()
+        img.save(buf, format="PNG")
+        return base64.b64encode(buf.getvalue())
+
     def _image_attachment(self, partner):
         return (
             self.env["ir.attachment"]
@@ -127,6 +134,29 @@ class TestImageOptimize(TransactionCase):
         img = Image.open(io.BytesIO(new_att.raw))
         self.assertEqual((img.format or "").upper(), "WEBP")
         self.assertIn(img.mode, ("RGBA", "LA"))  # transparency preserved
+
+    def test_opaque_rgba_becomes_jpeg(self):
+        if Image is None:
+            self.skipTest("Pillow not available")
+
+        ICP = self.env["ir.config_parameter"].sudo()
+        ICP.set_param("deltatech_image_optimize.min_size", "1")
+        ICP.set_param("deltatech_image_optimize.quality", "70")
+        ICP.set_param("deltatech_image_optimize.target_fields", "image_1920")
+
+        partner = self.env["res.partner"].create(
+            {"name": "Opaque RGBA Test", "image_1920": self._make_opaque_rgba_png()}
+        )
+        att = self._image_attachment(partner)
+        original_size = att.file_size
+
+        stats = self.env["ir.attachment"]._dt_image_optimize_run(limit=50)
+        self.assertGreaterEqual(stats["optimized"], 1)
+
+        new_att = self._image_attachment(partner)
+        self.assertLess(new_att.file_size, original_size)
+        # Opaque alpha -> flattened to JPEG (no WebP dependency).
+        self.assertEqual(new_att.mimetype, "image/jpeg")
 
     def test_variant_optimize_keeps_original(self):
         if Image is None:
