@@ -6,8 +6,16 @@ from odoo.tests import TransactionCase, tagged
 
 try:
     from PIL import Image
+
+    try:
+        _probe = io.BytesIO()
+        Image.new("RGBA", (1, 1)).save(_probe, format="WEBP")
+        WEBP_OK = True
+    except Exception:
+        WEBP_OK = False
 except ImportError:
     Image = None
+    WEBP_OK = False
 
 
 @tagged("post_install", "-at_install")
@@ -18,6 +26,14 @@ class TestImageOptimize(TransactionCase):
         img = Image.frombytes("RGB", (size, size), raw)
         buf = io.BytesIO()
         img.save(buf, format="JPEG", quality=95)
+        return base64.b64encode(buf.getvalue())
+
+    def _make_big_transparent_png(self, size=2000):
+        """Build a large RGBA (transparent) PNG."""
+        raw = os.urandom(size * size * 4)
+        img = Image.frombytes("RGBA", (size, size), raw)
+        buf = io.BytesIO()
+        img.save(buf, format="PNG")
         return base64.b64encode(buf.getvalue())
 
     def _image_attachment(self, partner):
@@ -81,6 +97,36 @@ class TestImageOptimize(TransactionCase):
         # Everything processed is flagged, so a second run finds nothing new.
         stats = Attachment._dt_image_optimize_run(limit=50)
         self.assertEqual(stats["optimized"], 0)
+
+    def test_transparent_image_becomes_webp(self):
+        if Image is None:
+            self.skipTest("Pillow not available")
+        if not WEBP_OK:
+            self.skipTest("Pillow build lacks WebP support")
+
+        ICP = self.env["ir.config_parameter"].sudo()
+        ICP.set_param("deltatech_image_optimize.min_size", "1")
+        ICP.set_param("deltatech_image_optimize.webp_quality", "80")
+        ICP.set_param("deltatech_image_optimize.target_fields", "image_1920")
+
+        partner = self.env["res.partner"].create(
+            {"name": "Transparent Test", "image_1920": self._make_big_transparent_png()}
+        )
+        att = self._image_attachment(partner)
+        self.assertTrue(att)
+        original_size = att.file_size
+
+        stats = self.env["ir.attachment"]._dt_image_optimize_run(limit=50)
+        self.assertGreaterEqual(stats["optimized"], 1)
+
+        new_att = self._image_attachment(partner)
+        self.assertLess(new_att.file_size, original_size)
+        self.assertEqual(new_att.mimetype, "image/webp")
+        self.assertTrue(new_att.deltatech_image_optimized)
+        # The stored image must still be a valid WebP that preserves alpha.
+        img = Image.open(io.BytesIO(new_att.raw))
+        self.assertEqual((img.format or "").upper(), "WEBP")
+        self.assertIn(img.mode, ("RGBA", "LA"))  # transparency preserved
 
     def test_variant_optimize_keeps_original(self):
         if Image is None:
