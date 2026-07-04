@@ -49,7 +49,7 @@ class IrAttachment(models.Model):
             "quality": max(1, min(95, int(get("deltatech_image_optimize.quality", 85)))),
             "max_dim": int(get("deltatech_image_optimize.max_dim", 1920)),
             "min_size": int(get("deltatech_image_optimize.min_size", 102400)),
-            "batch": int(get("deltatech_image_optimize.batch", 1000)),
+            "batch": int(get("deltatech_image_optimize.batch", 50)),
             "flush_every": max(1, int(get("deltatech_image_optimize.flush_every", 20))),
             "webp_quality": max(1, min(100, int(get("deltatech_image_optimize.webp_quality", 85)))),
             "force_jpeg": get("deltatech_image_optimize.force_jpeg", "0") in ("1", "True", "true"),
@@ -257,7 +257,7 @@ class IrAttachment(models.Model):
             for name in get("deltatech_image_optimize.variant_fields", DEFAULT_VARIANT_FIELDS).split(",")
             if name.strip()
         ]
-        limit = limit or int(get("deltatech_image_optimize.batch", 200))
+        limit = limit or int(get("deltatech_image_optimize.batch", 50))
         flush_every = max(1, int(get("deltatech_image_optimize.flush_every", 20)))
         domain = [
             ("res_field", "in", vfields),
