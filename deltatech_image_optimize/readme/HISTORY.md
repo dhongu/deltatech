@@ -1,5 +1,14 @@
 # Changelog
 
+## 18.0.1.4.0 (2025)
+
+- Transparency is now decided by the *actual* alpha content, not the mode:
+  RGBA/palette images that are effectively opaque go to JPEG (big savings),
+  only genuinely transparent images go to WebP. Palette images are normalized
+  first. This fixes "transparent" PNGs that previously stayed uncompressed.
+- Genuinely transparent images with no WebP support keep an optimized PNG
+  (never flattened to a solid background).
+
 ## 18.0.1.3.0 (2025)
 
 - Images with transparency are now converted to **WebP** (alpha preserved,
