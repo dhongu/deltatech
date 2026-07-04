@@ -1,5 +1,15 @@
 # Changelog
 
+## 18.0.1.3.0 (2025)
+
+- Images with transparency are now converted to **WebP** (alpha preserved,
+  ~70% smaller than PNG) instead of being kept as PNG. New `webp_quality`
+  parameter (default 85).
+- Because Odoo cannot resize WebP, a WebP original is written directly on its
+  attachment (never through the record field, which would regenerate
+  full-size variants); the variants are converted in place separately.
+- Opaque images keep going to JPEG.
+
 ## 18.0.1.2.0 (2025)
 
 - Configurable `flush_every` parameter (memory flush/invalidate/gc frequency).
