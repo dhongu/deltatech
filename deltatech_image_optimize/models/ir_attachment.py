@@ -52,6 +52,7 @@ class IrAttachment(models.Model):
             "batch": int(get("deltatech_image_optimize.batch", 1000)),
             "flush_every": max(1, int(get("deltatech_image_optimize.flush_every", 20))),
             "webp_quality": max(1, min(100, int(get("deltatech_image_optimize.webp_quality", 85)))),
+            "force_jpeg": get("deltatech_image_optimize.force_jpeg", "0") in ("1", "True", "true"),
             "fields": [
                 name.strip()
                 for name in get("deltatech_image_optimize.target_fields", DEFAULT_TARGET_FIELDS).split(",")
@@ -63,7 +64,7 @@ class IrAttachment(models.Model):
     # Core recompression
     # ------------------------------------------------------------------
     @staticmethod
-    def _dt_image_recompress(raw, quality, max_dim, webp_quality=85):
+    def _dt_image_recompress(raw, quality, max_dim, webp_quality=85, force_jpeg=False):
         """Recompress raw image bytes.
 
         The transparency is decided by the *actual* alpha content, not just the
@@ -99,8 +100,10 @@ class IrAttachment(models.Model):
         if max_dim and max(img.size) > max_dim:
             img.thumbnail((max_dim, max_dim), resample)
         # Detect *real* transparency: an alpha channel that is actually used.
+        # With force_jpeg, alpha is ignored entirely (images that are not truly
+        # transparent, e.g. a solid colored background) -> always JPEG.
         real_alpha = False
-        if img.mode in ("RGBA", "LA"):
+        if not force_jpeg and img.mode in ("RGBA", "LA"):
             try:
                 real_alpha = img.getchannel("A").getextrema()[0] < 250
             except (ValueError, IndexError):  # pragma: no cover
@@ -169,7 +172,7 @@ class IrAttachment(models.Model):
         for index, att in enumerate(attachments, start=1):
             raw = att.raw
             data, out_format = self._dt_image_recompress(
-                raw, params["quality"], params["max_dim"], params["webp_quality"]
+                raw, params["quality"], params["max_dim"], params["webp_quality"], params["force_jpeg"]
             )
             if not data:
                 att.deltatech_image_optimized = now
@@ -247,6 +250,7 @@ class IrAttachment(models.Model):
         get = self.env["ir.config_parameter"].sudo().get_param
         quality = max(1, min(95, int(get("deltatech_image_optimize.variant_quality", 85))))
         webp_quality = max(1, min(100, int(get("deltatech_image_optimize.webp_quality", 85))))
+        force_jpeg = get("deltatech_image_optimize.force_jpeg", "0") in ("1", "True", "true")
         min_size = int(get("deltatech_image_optimize.variant_min_size", 20480))
         vfields = [
             name.strip()
@@ -269,7 +273,7 @@ class IrAttachment(models.Model):
         for index, att in enumerate(attachments, start=1):
             raw = att.raw
             # max_dim=0 -> no resize, only a lower quality re-encode.
-            data, out_format = self._dt_image_recompress(raw, quality, 0, webp_quality)
+            data, out_format = self._dt_image_recompress(raw, quality, 0, webp_quality, force_jpeg)
             vals = {"deltatech_image_optimized": now}
             if data:
                 vals["raw"] = data

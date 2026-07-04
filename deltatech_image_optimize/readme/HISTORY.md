@@ -1,5 +1,11 @@
 # Changelog
 
+## 18.0.1.5.0 (2025)
+
+- New `force_jpeg` parameter: when the catalog images are never really
+  transparent (solid colored background), set it to 1 to ignore the alpha
+  channel and always produce JPEG (max savings, no WebP dependency).
+
 ## 18.0.1.4.0 (2025)
 
 - Transparency is now decided by the *actual* alpha content, not the mode:
