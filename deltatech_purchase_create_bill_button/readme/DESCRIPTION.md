@@ -4,3 +4,8 @@ In Odoo 19, the "Create Bill" button on the purchase order form was replaced by 
 This module restores the classic one-click "Create Bill" button next to the upload
 widget, so purchase orders can still be invoiced directly, without attaching a file,
 exactly as in Odoo 18.
+
+Odoo 19 also dropped the automatic copy of the purchase order's "Vendor Reference"
+into the vendor bill's "Reference" and "Payment Reference" fields when a bill is
+created from a purchase order. This module restores that copy as well, matching the
+Odoo 18 behavior.
