@@ -66,16 +66,20 @@ class IrAttachment(models.Model):
     def _dt_image_recompress(raw, quality, max_dim, webp_quality=85):
         """Recompress raw image bytes.
 
-        - photos without transparency -> JPEG (quality tuned, progressive)
-        - images with transparency     -> WebP (alpha preserved, ~70% smaller
-          than PNG). Note: Odoo cannot resize WebP, so a WebP result must be
-          written directly on its attachment, never through the record field
-          (that would trigger a broken variant regeneration).
-        - animated GIFs                 -> skipped (never flattened)
+        The transparency is decided by the *actual* alpha content, not just the
+        mode (many product images are RGBA/palette but fully opaque):
+
+        - effectively opaque (or no alpha) -> JPEG (quality tuned, progressive)
+        - genuinely transparent            -> WebP (alpha preserved, ~70%
+          smaller than PNG). Odoo cannot resize WebP, so a WebP result must be
+          written directly on its attachment, never through the record field.
+          If WebP encoding is unavailable, keep an optimized PNG (never flatten
+          real transparency to a solid background).
+        - animated GIFs                    -> skipped (never flattened)
 
         :return: tuple ``(data, output_format)`` where output_format is
-            ``"JPEG"`` or ``"WEBP"``; or ``(None, None)`` when the image cannot
-            be optimized or the result would not be smaller.
+            ``"JPEG"``, ``"WEBP"`` or ``"PNG"``; or ``(None, None)`` when the
+            image cannot be optimized or the result would not be smaller.
         """
         if not raw or Image is None:
             return None, None
@@ -87,15 +91,25 @@ class IrAttachment(models.Model):
         fmt = (img.format or "").upper()
         if fmt == "GIF" and getattr(img, "is_animated", False):
             return None, None
+        # Normalize palette (incl. palette transparency) to a real RGBA/RGB
+        # image so alpha can be inspected reliably.
+        if img.mode == "P":
+            img = img.convert("RGBA" if "transparency" in img.info else "RGB")
         resample = getattr(Image, "Resampling", Image).LANCZOS
         if max_dim and max(img.size) > max_dim:
             img.thumbnail((max_dim, max_dim), resample)
-        has_alpha = img.mode in ("RGBA", "LA") or (img.mode == "P" and "transparency" in img.info)
+        # Detect *real* transparency: an alpha channel that is actually used.
+        real_alpha = False
+        if img.mode in ("RGBA", "LA"):
+            try:
+                real_alpha = img.getchannel("A").getextrema()[0] < 250
+            except (ValueError, IndexError):  # pragma: no cover
+                real_alpha = True
         data = None
         out_format = None
-        if has_alpha:
-            # WebP preserves alpha and is ~70% smaller than PNG. If the Pillow
-            # build cannot encode WebP, fall back to optimized PNG.
+        if real_alpha:
+            # Preserve transparency: WebP if available, otherwise optimized PNG
+            # (never JPEG, which would fill transparent areas).
             if WEBP_OK:
                 try:
                     buf = io.BytesIO()
