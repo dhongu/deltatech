@@ -50,6 +50,12 @@
         <field name="value">85</field>
     </record>
 
+    <!-- WebP quality for images with transparency (alpha preserved). -->
+    <record id="cp_webp_quality" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.webp_quality</field>
+        <field name="value">85</field>
+    </record>
+
     <!-- Only recompress variants larger than this many bytes (20 KB). -->
     <record id="cp_variant_min_size" model="ir.config_parameter">
         <field name="key">deltatech_image_optimize.variant_min_size</field>
