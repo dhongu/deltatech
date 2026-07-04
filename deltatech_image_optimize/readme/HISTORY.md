@@ -1,5 +1,14 @@
 # Changelog
 
+## 18.0.1.5.1 (2025)
+
+- Lower the default/installed `batch` from 200-1000 to **50**. On production,
+  a large batch of big/high-resolution images could exceed the cron worker's
+  time/CPU limit; the resulting interrupt looked like a normal per-image
+  failure and left the rest of that batch silently flagged as "processed"
+  without actually being optimized. A small batch keeps each cron run well
+  within limits. If you raise it, verify converted images actually shrank.
+
 ## 18.0.1.5.0 (2025)
 
 - New `force_jpeg` parameter: when the catalog images are never really

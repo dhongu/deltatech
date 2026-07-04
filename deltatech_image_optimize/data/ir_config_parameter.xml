@@ -19,10 +19,16 @@
         <field name="value">102400</field>
     </record>
 
-    <!-- How many images to process per cron run. -->
+    <!-- How many images to process per cron run. Keep this low: a large
+         batch of big/high-res images can exceed the worker's time/CPU limit,
+         which raises an exception mid-loop that looks identical to a normal
+         per-image failure: the remaining images in that batch get silently
+         flagged as processed without actually being optimized. Tune upward
+         cautiously and verify converted images actually shrank before
+         trusting a higher value. -->
     <record id="cp_batch" model="ir.config_parameter">
         <field name="key">deltatech_image_optimize.batch</field>
-        <field name="value">200</field>
+        <field name="value">50</field>
     </record>
 
     <!-- Flush + drop the ORM cache every N images. Lower it (2-3) for very
