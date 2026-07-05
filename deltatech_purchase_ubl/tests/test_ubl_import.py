@@ -605,3 +605,400 @@ class TestPurchaseUblImport(TransactionCase):
         wiz.action_import()
 
         self.assertIn("Total check OK", wiz.log or "")
+
+    def _confirmed_po_with_line(self, *, product=None, qty=3.0, price=10.0, tax=None):
+        """Create and confirm a purchase order with a single line, so Odoo's
+        native purchase flow auto-generates a receipt (stock.picking) for it —
+        needed to exercise the real receipt-validation and bill-creation code
+        paths (they are no-ops on an order with no lines/receipt)."""
+        if product is None:
+            product = self.env["product.product"].create(
+                {
+                    "name": "Bill/Receipt Flow Product",
+                    "default_code": "BILLPROD",
+                    "is_storable": True,
+                    "purchase_ok": True,
+                }
+            )
+        line_vals = {
+            "product_id": product.id,
+            "product_qty": qty,
+            "price_unit": price,
+            "name": product.name,
+            "product_uom_id": product.uom_id.id,
+            "date_planned": "2025-01-01 00:00:00",
+        }
+        if tax:
+            line_vals["tax_ids"] = [(6, 0, tax.ids)]
+        po = self.po_model.create(
+            {
+                "partner_id": self.vendor.id,
+                "company_id": self.company.id,
+                "order_line": [(0, 0, line_vals)],
+            }
+        )
+        po.button_confirm()
+        return po, product
+
+    def test_create_vendor_bill_from_confirmed_order(self):
+        """Exercises _create_vendor_bill / _apply_xml_taxes_to_bill / action_view_vendor_bill
+        and the "Vendor bill created" log message — every other test uses create_bill=False,
+        so this whole flow was previously untested."""
+        tax_21 = self.env["account.tax"].create(
+            {
+                "name": "COVTEST Purchase 21%",
+                "type_tax_use": "purchase",
+                "amount_type": "percent",
+                "amount": 21,
+                "company_id": self.company.id,
+            }
+        )
+        po, product = self._confirmed_po_with_line(tax=tax_21)
+
+        xml = _xml_invoice(
+            invoice_id="BILL-INV-1",
+            order_ref=po.name,
+            supplier_vat=self.vendor.vat,
+            supplier_name=self.vendor.name,
+            lines=[
+                {
+                    "code": "BILLPROD",
+                    "name": product.name,
+                    "qty": "3",
+                    "price": "10.0",
+                    "line_total": "30.0",
+                    "tax": "21",
+                }
+            ],
+        )
+        wiz = (
+            self.env["purchase.ubl.import.wizard"]
+            .with_context(active_model="purchase.order", active_id=po.id)
+            .create(
+                {
+                    "data_file": b64encode(xml),
+                    "filename": "bill.xml",
+                    "update_prices": False,
+                    "create_bill": True,
+                    "validate_receipt": False,
+                    "create_missing_products": False,
+                }
+            )
+        )
+        wiz.action_import()
+
+        self.assertTrue(po.invoice_ids, "Vendor bill should be created")
+        bill = po.invoice_ids[0]
+        self.assertEqual(bill.ref, "BILL-INV-1")
+        self.assertEqual(wiz.bill_id, bill)
+        self.assertIn("Vendor bill created", wiz.log or "")
+        self.assertEqual(bill.invoice_line_ids.tax_ids, tax_21)
+
+        # action_view_vendor_bill should resolve back to this order/bill without error
+        action = wiz.action_view_vendor_bill()
+        self.assertIsInstance(action, dict)
+
+        # Re-running the same import should detect the duplicate ref and skip creating a second bill
+        wiz2 = (
+            self.env["purchase.ubl.import.wizard"]
+            .with_context(active_model="purchase.order", active_id=po.id)
+            .create(
+                {
+                    "data_file": b64encode(xml),
+                    "filename": "bill.xml",
+                    "update_prices": False,
+                    "create_bill": True,
+                    "validate_receipt": False,
+                    "create_missing_products": False,
+                }
+            )
+        )
+        wiz2.action_import()
+        self.assertEqual(wiz2.bill_id, bill)
+        self.assertIn("already exists", wiz2.log or "")
+        self.assertEqual(len(po.invoice_ids), 1, "No second bill should have been created")
+
+    def test_validate_receipt_updates_real_picking(self):
+        """Exercises _validate_receipt_quantities with an order (the real stock.picking
+        branch) — every other test either has validate_receipt=False or no actual
+        receipt to find, so this path (~40 lines) was previously untested."""
+        po, product = self._confirmed_po_with_line(qty=3.0, price=10.0)
+        picking = po.picking_ids
+        self.assertTrue(picking, "Confirming the PO should generate a receipt")
+        self.assertNotEqual(picking.state, "done")
+
+        xml = _xml_invoice(
+            order_ref=po.name,
+            supplier_vat=self.vendor.vat,
+            supplier_name=self.vendor.name,
+            lines=[
+                {
+                    "code": "BILLPROD",
+                    "name": product.name,
+                    "qty": "3",
+                    "price": "10.0",
+                    "line_total": "30.0",
+                }
+            ],
+        )
+        wiz = (
+            self.env["purchase.ubl.import.wizard"]
+            .with_context(active_model="purchase.order", active_id=po.id)
+            .create(
+                {
+                    "data_file": b64encode(xml),
+                    "filename": "receipt.xml",
+                    "update_prices": False,
+                    "create_bill": False,
+                    "validate_receipt": True,
+                    "create_missing_products": False,
+                }
+            )
+        )
+        wiz.action_import()
+
+        self.assertEqual(picking.state, "done", "Receipt should be validated (done)")
+        self.assertIn("Receipt updated", wiz.log or "")
+
+    def test_unmatched_product_without_order_is_reported_as_danger(self):
+        """Exercises the 'Unmatched products' message and its _classify_message
+        'danger' branch — no existing test leaves create_missing_products=False
+        with a genuinely unmatched line."""
+        xml = _xml_invoice(
+            order_ref="NON-EXISTENT-PO",
+            supplier_vat=self.vendor.vat,
+            supplier_name=self.vendor.name,
+            lines=[
+                {
+                    "code": "NO-SUCH-CODE",
+                    "name": "No Such Product",
+                    "qty": "1",
+                    "price": "5.0",
+                    "line_total": "5.0",
+                }
+            ],
+        )
+        wiz = self.env["purchase.ubl.import.wizard"].create(
+            {
+                "data_file": b64encode(xml),
+                "filename": "unmatched.xml",
+                "update_prices": False,
+                "create_bill": False,
+                "validate_receipt": False,
+                "create_missing_products": False,
+            }
+        )
+        wiz.action_import()
+
+        self.assertIn("Unmatched products", wiz.log or "")
+        self.assertIn("danger", wiz.log_html or "")
+
+    def test_order_lines_warning_reflects_existing_lines(self):
+        """_compute_order_lines_warning was never read by any existing test."""
+        empty_po = self.po_model.create(
+            {
+                "partner_id": self.vendor.id,
+                "company_id": self.company.id,
+            }
+        )
+        wiz_empty = (
+            self.env["purchase.ubl.import.wizard"]
+            .with_context(active_model="purchase.order", active_id=empty_po.id)
+            .new({})
+        )
+        self.assertFalse(wiz_empty.order_lines_warning)
+
+        po_with_line, _product = self._confirmed_po_with_line()
+        wiz_with_line = (
+            self.env["purchase.ubl.import.wizard"]
+            .with_context(active_model="purchase.order", active_id=po_with_line.id)
+            .new({})
+        )
+        self.assertTrue(wiz_with_line.order_lines_warning)
+
+    def test_resolve_currency_falls_back_to_company_currency(self):
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        wiz = Wiz.new({})
+        self.assertEqual(wiz._resolve_currency("NOT-A-REAL-CURRENCY"), self.company.currency_id)
+
+    def test_uom_from_code_falls_back_to_unit(self):
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        wiz = Wiz.new({})
+        self.assertEqual(wiz._uom_from_code("NOT-A-REAL-UNIT-CODE"), self.env.ref("uom.product_uom_unit"))
+
+    def test_find_supplier_partner_matches_vat_ignoring_spaces(self):
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Spaced VAT Vendor",
+                "is_company": True,
+                "vat": "RO999888777",
+                "supplier_rank": 1,
+            }
+        )
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        wiz = Wiz.new({})
+        found = wiz._find_supplier_partner("RO 999888777", "")
+        self.assertEqual(found, partner)
+
+    def test_validate_receipt_quantities_fallback_without_order(self):
+        """_validate_receipt_quantities(picking, line_map) without an order argument
+        is only reachable if called directly (the wizard flow always passes order=...
+        when it has one) — covers the button_validate()/backorder fallback branch."""
+        po, product = self._confirmed_po_with_line(qty=2.0)
+        picking = po.picking_ids
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        wiz = Wiz.new({})
+        result = wiz._validate_receipt_quantities(picking, {product.id: 2.0})
+        self.assertTrue(result)
+        self.assertEqual(picking.state, "done")
+
+    def test_find_duplicate_bill_guards_missing_ref_or_partner(self):
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        wiz = Wiz.new({})
+        self.assertFalse(wiz._find_duplicate_bill(self.vendor, False))
+        self.assertFalse(wiz._find_duplicate_bill(False, "SOME-REF"))
+
+    def test_apply_xml_taxes_to_bill_noop_without_tax_percent(self):
+        """When no mapped line carries a tax_percent, the method must return
+        early without touching any invoice line."""
+        po, product = self._confirmed_po_with_line()
+        po.action_create_invoice()
+        bill = po.invoice_ids[0]
+        original_taxes = bill.invoice_line_ids.mapped("tax_ids")
+
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        wiz = Wiz.new({})
+        wiz._apply_xml_taxes_to_bill(bill, [{"product": product, "tax_percent": 0}])
+        self.assertEqual(bill.invoice_line_ids.mapped("tax_ids"), original_taxes)
+
+    def test_validate_receipt_no_picking_found_message(self):
+        """validate_receipt=True but the order has no receipt yet (not confirmed)."""
+        product = self.env["product.product"].create(
+            {"name": "No Receipt Product", "default_code": "NORECEIPT", "is_storable": True, "purchase_ok": True}
+        )
+        po = self.po_model.create(
+            {
+                "partner_id": self.vendor.id,
+                "company_id": self.company.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": product.id,
+                            "product_qty": 1,
+                            "price_unit": 5.0,
+                            "name": product.name,
+                            "product_uom_id": product.uom_id.id,
+                            "date_planned": "2025-01-01 00:00:00",
+                        },
+                    )
+                ],
+            }
+        )
+        xml = _xml_invoice(
+            order_ref=po.name,
+            supplier_vat=self.vendor.vat,
+            supplier_name=self.vendor.name,
+            lines=[{"code": "NORECEIPT", "name": product.name, "qty": "1", "price": "5.0", "line_total": "5.0"}],
+        )
+        wiz = (
+            self.env["purchase.ubl.import.wizard"]
+            .with_context(active_model="purchase.order", active_id=po.id)
+            .create(
+                {
+                    "data_file": b64encode(xml),
+                    "filename": "noreceipt.xml",
+                    "update_prices": False,
+                    "create_bill": False,
+                    "validate_receipt": True,
+                    "create_missing_products": False,
+                }
+            )
+        )
+        wiz.action_import()
+        self.assertIn("No receipt found to validate", wiz.log or "")
+
+    def test_create_bill_skipped_message_without_order(self):
+        """create_bill=True but no purchase order was resolved from context/order_ref."""
+        xml = _xml_invoice(
+            order_ref="NON-EXISTENT-PO-2",
+            supplier_vat=self.vendor.vat,
+            supplier_name=self.vendor.name,
+            lines=[
+                {"code": "STANDALONE-CODE-2", "name": "Standalone", "qty": "1", "price": "1.0", "line_total": "1.0"}
+            ],
+        )
+        wiz = self.env["purchase.ubl.import.wizard"].create(
+            {
+                "data_file": b64encode(xml),
+                "filename": "skipped_bill.xml",
+                "update_prices": False,
+                "create_bill": True,
+                "validate_receipt": False,
+                "create_missing_products": True,
+            }
+        )
+        wiz.action_import()
+        self.assertIn("Vendor bill creation skipped", wiz.log or "")
+
+    def test_unmatched_line_on_order_without_lines_is_skipped(self):
+        """An order with no lines yet: one XML line matches an existing product
+        (added), one doesn't match and create_missing_products=False (skipped,
+        reported as 'Unmatched lines in the order')."""
+        matched_product = self.env["product.product"].create(
+            {"name": "Matched Product", "default_code": "MATCH-1", "is_storable": True, "purchase_ok": True}
+        )
+        po = self.po_model.create(
+            {
+                "partner_id": self.vendor.id,
+                "company_id": self.company.id,
+            }
+        )
+        xml = _xml_invoice(
+            order_ref=po.name,
+            supplier_vat=self.vendor.vat,
+            supplier_name=self.vendor.name,
+            lines=[
+                {"code": "MATCH-1", "name": matched_product.name, "qty": "1", "price": "1.0", "line_total": "1.0"},
+                {"code": "NO-MATCH-1", "name": "Unmatched", "qty": "1", "price": "1.0", "line_total": "1.0"},
+            ],
+        )
+        wiz = (
+            self.env["purchase.ubl.import.wizard"]
+            .with_context(active_model="purchase.order", active_id=po.id)
+            .create(
+                {
+                    "data_file": b64encode(xml),
+                    "filename": "partial_match.xml",
+                    "update_prices": False,
+                    "create_bill": False,
+                    "validate_receipt": False,
+                    "create_missing_products": False,
+                }
+            )
+        )
+        wiz.action_import()
+
+        self.assertEqual(len(po.order_line), 1)
+        self.assertEqual(po.order_line.product_id, matched_product)
+        self.assertIn("Unmatched lines in the order", wiz.log or "")
+
+    def test_action_view_vendor_bill_resolves_order_from_context(self):
+        """When order_id isn't set on the wizard record itself, the method falls
+        back to resolving the order from the active_model/active_id context."""
+        po, _product = self._confirmed_po_with_line()
+        po.action_create_invoice()
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        wiz = Wiz.with_context(active_model="purchase.order", active_id=po.id).new({})
+        # Simulate a wizard whose order_id was never populated (e.g. default_get
+        # skipped it), so action_view_vendor_bill must fall back to the context.
+        wiz.order_id = False
+        action = wiz.action_view_vendor_bill()
+        self.assertIsInstance(action, dict)
+
+    def test_action_view_vendor_bill_without_any_order_closes(self):
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        wiz = Wiz.new({})
+        action = wiz.action_view_vendor_bill()
+        self.assertEqual(action, {"type": "ir.actions.act_window_close"})
