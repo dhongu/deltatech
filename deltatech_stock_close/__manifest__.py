@@ -3,7 +3,7 @@
 {
     "name": "Deltatech Stock Close",
     "summary": "Close stock operations at date",
-    "version": "18.0.1.0.4",
+    "version": "18.0.1.0.5",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "support": "support@terrabit.ro",
