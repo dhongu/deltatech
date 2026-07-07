@@ -31,6 +31,10 @@ class StockPicking(models.Model):
         }
 
     def create_second_transfer_wizard(self, final_dest_location_id, picking_type_id):
+        # the operator validating the first transfer may not have access rights
+        # on the operation type / locations of the receiving warehouse
+        picking_type_id = picking_type_id.sudo()
+        final_dest_location_id = final_dest_location_id.sudo()
         for picking in self:
             if picking.picking_type_id.code == "internal":
                 new_picking_vals = {
@@ -39,7 +43,7 @@ class StockPicking(models.Model):
                     "location_dest_id": final_dest_location_id.id,
                     "move_ids_without_package": [],
                 }
-                new_picking = self.env["stock.picking"].create(new_picking_vals)
+                new_picking = self.env["stock.picking"].sudo().create(new_picking_vals)
                 self.copy_move_lines(picking, new_picking)
                 new_picking.action_confirm()
                 # new_picking.action_assign()
@@ -59,7 +63,7 @@ class StockPicking(models.Model):
 
     def copy_move_lines(self, source_picking, target_picking):
         for move in source_picking.move_ids_without_package:
-            move.copy(
+            move.sudo().copy(
                 {
                     "picking_id": target_picking.id,
                     "location_id": source_picking.location_dest_id.id,
@@ -129,15 +133,21 @@ class StockPicking(models.Model):
                             "You must set a partner before validating the picking when you are using 2 step picking with auto create on the second transfer."
                         )
                     )
-                warehouse = self.env["stock.warehouse"].search([("partner_id", "=", picking.partner_id.id)], limit=1)
+                warehouse = (
+                    self.env["stock.warehouse"].sudo().search([("partner_id", "=", picking.partner_id.id)], limit=1)
+                )
                 if warehouse:
-                    next_operation = self.env["stock.picking.type"].search(
-                        [
-                            ("warehouse_id", "=", warehouse.id),
-                            ("code", "=", "internal"),
-                            ("two_step_transfer_use", "=", "reception"),
-                        ],
-                        limit=1,
+                    next_operation = (
+                        self.env["stock.picking.type"]
+                        .sudo()
+                        .search(
+                            [
+                                ("warehouse_id", "=", warehouse.id),
+                                ("code", "=", "internal"),
+                                ("two_step_transfer_use", "=", "reception"),
+                            ],
+                            limit=1,
+                        )
                     )
                     if next_operation:
                         picking.create_second_transfer_wizard(next_operation.default_location_dest_id, next_operation)
