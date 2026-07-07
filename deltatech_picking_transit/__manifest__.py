@@ -1,7 +1,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Stock Auto Transfer",
-    "version": "19.0.0.0.9",
+    "version": "19.0.0.0.10",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
