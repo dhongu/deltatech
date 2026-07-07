@@ -21,7 +21,7 @@
                     type="object"
                     string="Create Transfer"
                     class="btn-primary"
-                    invisible="is_transit_transfer==False or origin!=False or create_second_transfer_automatically==True"
+                    invisible="is_transit_transfer==False or origin!=False or create_second_transfer_automatically==True or state!='done'"
                 />
             </xpath>
         </field>
