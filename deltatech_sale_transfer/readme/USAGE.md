@@ -1,0 +1,6 @@
+1. Go to **Inventory > Configuration > Warehouses** and open a warehouse. Next to the delivery operation type, set:
+   - **Type auto transfer** — the picking type used for the internal transfer created between warehouses (defaults to the warehouse's internal transfer type if left empty).
+   - **Group transfer with delivery** — when enabled, the generated transfer shares the same procurement group as the delivery, so they are linked together.
+2. From then on, whenever a sale order is confirmed and its own warehouse does not have enough stock to cover a line's quantity, the module automatically looks for another warehouse (in the same company) that does have stock, and creates a transfer to move the missing quantity into the order's warehouse.
+3. The generated transfer is logged as a note on the sale order ("Transfer document ... was generated") and reserved automatically.
+4. To have that transfer validated automatically instead of manually, enable **auto_confirm_transfer** on the warehouse (developer mode: open the warehouse record and add the field, or pass `confirm_transfer` in the context when confirming the order). When enabled, the transfer is set to the requested quantities and validated right away.

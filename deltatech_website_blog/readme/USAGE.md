@@ -1,0 +1,4 @@
+- No special configuration is required.
+- After installation, all blog lists on the website will be sorted by publication date, most recent first.
+- Blog posts with the same publication date are sorted by their ID in descending order as a fallback.
+- The backend blog post list is sorted the same way by default, making it easier to manage recent posts.

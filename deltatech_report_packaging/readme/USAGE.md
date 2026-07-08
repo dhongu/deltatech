@@ -1,0 +1,3 @@
+1. On a product's form, go to the **Inventory** tab and fill in the **Packaging materials** table (material type — Plastic, Wood, Paper, Pet, Glass, Metal, Aluminium — and quantity used per unit of the product).
+2. On a customer invoice, open the **Packaging materials** tab to see the materials pulled in from its lines; click **Refresh** if you added lines after the invoice was created.
+3. From the invoices list view, select one or more invoices, then use the action menu to run **Report packaging list**. Click **Apply** to get the total quantity of each packaging material used across the selected invoices.

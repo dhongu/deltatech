@@ -1,0 +1,3 @@
+1. On a sales team (**Sales > Configuration > Sales Teams**), set a **Default Warehouse**. When a sale order's team is changed, its warehouse is automatically set to the team's default warehouse.
+2. On the sales team's kanban dashboard, two extra shortcuts are available: **Sale orders** (opens the team's validated quotations) and **Products** (opens the product list filtered to the team's warehouse stock).
+3. Grant the new **Team Manager** group (**Settings > Users**, under the Sales category) to give a user access to all sale orders, invoices, and partners belonging to their own sales team (`user.sale_team_id`), instead of only their own personal records. Users without this group keep the standard salesman restriction to their own documents.

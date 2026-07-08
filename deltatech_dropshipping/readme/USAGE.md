@@ -1,0 +1,2 @@
+- On a dropshipping delivery (**Inventory**), the picking form and list now show the customer's **Delivery Address**, so warehouse staff can see where goods must be shipped without opening the sales order.
+- On the **Purchase Order** generated from a dropshipping sale, a warning is shown automatically whenever a purchase line's price (excluding VAT) is higher than the price of the matching sale order line (excluding VAT), listing the product and the price difference — use it to catch orders where you would be buying at a loss before confirming the purchase.

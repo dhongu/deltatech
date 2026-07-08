@@ -1,0 +1,8 @@
+- Open any Product (Product Template) and go to the "Competitor Prices" tab.
+- Add one or more competitor lines:
+  - Competitor: e.g., "Altex"
+  - Product URL: the full URL of the competitor's product page
+- Click "Fetch" on a line to update just that entry, or use the product-level button "Aducere pret concurenta" to fetch all lines at once.
+- Each line stores the last fetched price, currency, timestamp and a status message so you can see when a fetch failed (e.g. "Price not found on page").
+- Fetching relies on the `requests` and `lxml` Python libraries, with optional `extruct`/`w3lib` for structured-data (JSON-LD/Microdata) extraction; if those extras are missing, the module still works via HTML fallback.
+- Scheduled/automatic fetching is not enabled out of the box; the "Auto Fetch" flag on a line only marks it as eligible for a future cron-based job.

@@ -1,0 +1,6 @@
+1. Configuration: on the cash journal used for advances, the "Cash advances" account should point to account 542 (Avansuri de decontat).
+2. Go to **Accounting > Expenses Deduction** (or the equivalent menu) and create a new **Expenses Deduction** for an employee, entering the **Advance Date**, **Employee**, **Cash Journal** and the **Advance** amount received.
+3. Click **Advance** to post the accounting entry that records the advance given to the employee (state becomes "Advance").
+4. Add one line per expense in the **Expenses** tab (supplier, description, amount, taxes, expense account/analytic distribution) and, if applicable, the number of **Days** for per-diem (the **Diem** rate is used to compute the total per-diem amount).
+5. Click **Validate** to close the deduction: the module automatically creates purchase receipts (vouchers) for each expense line, records the corresponding outbound payments, reconciles them, and posts the accounting entry for the remaining difference (amount reimbursed by, or owed to, the employee) plus any per-diem entry. State becomes "Done".
+6. If a validated deduction needs correcting, use **Invalidate** to cancel the generated vouchers, payments and journal entries and return it to draft.

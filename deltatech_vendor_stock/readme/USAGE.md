@@ -1,0 +1,3 @@
+1. Go to **Sales > Configuration > Settings** to set the color codes used for the vendor-availability indicator: color when stock will be fulfilled, color when fulfilled but no free quantity is available today, color when not fulfilled, color when vendor quantity is available, and a default color.
+2. On a product's **Vendor** (Supplier) lines (Purchase tab), the vendor's currently available quantity is now shown next to the price/code.
+3. On a **Sale Order** line, three hidden helper fields (vendor quantity available, other-warehouse quantity available, warehouse stock) feed a quantity widget that color-codes each line according to the settings above, so salespeople can see at a glance whether an order line can be fulfilled from stock or needs to come from a vendor.

@@ -1,0 +1,1 @@
+No configuration is needed. Once installed, every eCommerce product page on the website automatically shows a breadcrumb trail at the top (Products > Category > Sub-category > ... > Product name), built from the product's public category hierarchy, replacing the default breadcrumb.

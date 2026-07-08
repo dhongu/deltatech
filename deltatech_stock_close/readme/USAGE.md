@@ -1,0 +1,3 @@
+- Go to Inventory > Reporting > Valuation.
+- Select the valuation layers to be closed or deactivated.
+- Mark the records as closed according to your business needs.

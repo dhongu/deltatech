@@ -1,0 +1,1 @@
+No configuration is needed. Once installed, the website shop search bar and autocomplete no longer use "fuzzy" (approximate/did-you-mean) matching: search results and suggestions only include products whose name actually matches the typed term.

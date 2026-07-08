@@ -1,0 +1,3 @@
+- By default, PDF reports now open in a new browser tab instead of triggering a file download — no configuration needed.
+- To force the old download behaviour for a specific report, go to **Settings > Technical > Actions > Reports**, open the report and enable the **Direct Download** checkbox; that report will then always be downloaded as a file using the standard Odoo flow.
+- On mobile devices the standard download behaviour is always kept (files are downloaded directly), and reports sent to IoT devices are not affected by this module.

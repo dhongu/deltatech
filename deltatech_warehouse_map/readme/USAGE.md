@@ -1,0 +1,7 @@
+- Configuration: on a leaf location's form, in the Capacity section, set **Max products (leaf)**. Capacity on parent locations is computed automatically as the sum of their children, so you only need to fill it in on the leaves.
+- Usage:
+  - Open Inventory > Configuration > Locations, and click the **Map** button on any location row, or use the **Open Map** smart button on a location's form.
+  - Or go to Inventory > Warehouse Map to start browsing from the Stock root.
+  - Each row shows a location's direct children as a full-width bar split into segments, one per grandchild, so you can drill down quickly. Click a segment to open the map for that sub-location, and use the Back link to go up a level.
+  - Each segment shows an occupancy bar with the current/max product quantities; the color reflects how full it is: green under 60%, yellow between 60-90%, red at 90% or above.
+- Occupancy is based on total on-hand quantity (`stock.quant`) in leaf locations; segments are drawn at equal width regardless of capacity, to keep a consistent grid.

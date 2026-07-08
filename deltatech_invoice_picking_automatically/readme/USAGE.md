@@ -1,0 +1,6 @@
+1. Go to **Inventory > Configuration > Operations Types**, open the picking type used for your deliveries (e.g. Delivery Orders) and enable **Create Invoice Automatically**.
+2. Optionally keep **Post Invoice Automatically** enabled (it is on by default) so the generated invoice is validated automatically instead of staying in draft.
+3. When a picking of that type is validated (moved to **Done**), it is marked internally with invoice state **To Invoice**.
+4. A daily scheduled action, **Generate Invoices from Pickings** (Settings > Technical > Automation > Scheduled Actions), picks up pending pickings (up to 100 per run), recomputes delivered quantities on the related sale order, creates the invoice(s), and posts them if posting was enabled. You can trigger it manually from the scheduled action or adjust its interval.
+5. Pickings belonging to the same sale order are processed together so only one invoice is created for the whole order.
+6. If invoicing fails for a picking (e.g. an error during invoice creation), its invoice state is set to **Failed** so it is not retried automatically by the cron; check the server logs and the picking to resolve the issue, then reset its invoice state manually if you want it retried.

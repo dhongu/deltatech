@@ -1,0 +1,5 @@
+1. Go to **Inventory > Configuration > Operations Types**, open a picking type and set its **Next Operation** field to the picking type that should receive the second transfer (e.g. an internal transfer type).
+2. When you create and validate an internal transfer that uses that picking type, a **Create Transfer** button appears, opening a wizard where you choose the destination location for the follow-up transfer.
+3. Confirming the wizard creates a second transfer from the transit location to the selected location, carrying over the same move lines. Once that second transfer exists, the move lines of the original transfer can no longer be edited.
+4. To skip the wizard entirely: on the picking type, set **Two Step Transfer Use** to *Delivery* and enable the **Auto Second Transfer** checkbox. Validating the first transfer will then automatically look up the reception location from the destination warehouse's partner and create the second transfer without user input.
+5. Note: if the **Source Document** is set on the picking, the automatic second transfer is not created (only the manual wizard flow applies).

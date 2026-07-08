@@ -1,0 +1,3 @@
+1. On any **Inventory > Configuration > Locations** record, use the new **Hide Lot** checkbox to mark that location's lots/serial numbers as not relevant for stock reports (locations of type "Internal" always show their lots and cannot be hidden).
+2. When receiving or moving goods, if you leave the **Lot/Serial Number** as `/`, the system automatically assigns the next number from the `stock.lot.serial` sequence instead of leaving it blank.
+3. On the lot/serial number form, a computed **Available** quantity shows how much of that serial is currently in company warehouses; a lot is automatically archived (unchecked **Active**) once it has no quantity left in any visible (non-hidden) location, so old serials disappear from lot lists on their own.

@@ -1,0 +1,3 @@
+1. Open a contact (**Contacts** app) and go to the **Sales & Purchase** tab: a new **Discount** field lets you record the proposed/recommended discount for that customer.
+2. Only users in the **Can modify partner discount** security group can edit this field. Add users to that group from **Settings > Users & Companies > Groups**.
+3. When you create or edit a draft customer invoice for that partner, a red banner appears at the top showing "Recommended discount: X %" whenever the partner has a non-zero discount, reminding the invoicing user to apply it. The banner disappears once the invoice is no longer in draft.

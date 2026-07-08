@@ -1,0 +1,1 @@
+No configuration is needed. Once installed, every product page on the website shop shows an extra line "Price without tax" next to the regular (tax-included or tax-excluded, depending on your pricelist settings) price, computed from the product's taxes. This is purely a display addition and does not change how prices are computed or invoiced.

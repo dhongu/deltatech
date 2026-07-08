@@ -1,0 +1,7 @@
+1. Go to **Inventory > Simple Production** and create a new record.
+2. Set the **Consume** picking type and **Receipt** picking type, and choose whether each should be **validated automatically or manually**.
+3. Fill the **Consume** lines with the components to use and the **Receipt** lines with the resulting product(s) — no Bill of Materials is required. Use **Add lines** to add several components at once (pick products and a quantity in the wizard, then **Add**).
+4. Press **Confirm** to generate the two stock pickings (consume and receipt); they can be opened from the **Consume** / **Receipt** smart buttons on the form and are validated according to the option chosen in step 2.
+5. The cost of the resulting product is computed automatically from the cost of the consumed components. If several products are produced, enter the price manually on each receipt line. Use **Recompute prices** to refresh the computed prices.
+   - If a resulting product would get a cost of 0, the module blocks it with an error; to allow zero-cost results, set the `deltatech_mrp_simple.allow_zero_cost` system parameter (Settings > Technical > System Parameters) to a non-zero value.
+6. To also generate a new product and sale order for the resulting product automatically, the user must belong to the **Sale simple production** security group; then enable **Auto create sale** on the record and fill in the partner and the new product's name, quantity, UoM and category — the sale price is computed from the components' sale price.

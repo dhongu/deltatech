@@ -1,0 +1,3 @@
+1. Open a sale order. In the button box (top right), click the new **Order lines** stat button to open all lines of that order in a dedicated list (product, quantity, unit price).
+2. From that list, use Odoo's standard **Import** feature (list view's cogwheel/Favorites menu) to bulk-import or update order lines from an Excel/CSV file. Products can be matched either by the product name or by a reference code between square brackets in the product column (e.g. `Product Name [REF123]`); rows whose product cannot be matched are skipped.
+3. Re-import the same file after editing quantities or prices in Excel to update the corresponding existing lines instead of duplicating them.

@@ -1,0 +1,3 @@
+- On a product that has a **Data Sheet** and/or **Safety Data Sheet** attached (fields added by `deltatech_data_sheet`), the eCommerce product page automatically shows a **Show Data Sheet** and/or **Show Safety Data Sheet** button near the product documents section.
+- Website visitors click the button to open/download the corresponding PDF directly.
+- No configuration is needed: the buttons only appear when the underlying attachment field is set on the product; upload the PDF on the product's **Data Sheet** group (Sales tab) to make the button show up.

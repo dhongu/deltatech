@@ -1,0 +1,2 @@
+1. Go to **Settings > General Settings**, in the Companies section enable **company_share_product_category** ("Share your product category to all companies", visible with developer mode) if you want product categories to remain visible across all companies.
+2. Otherwise, open **Inventory/Sales > Configuration > Product Categories**, and set the **Company** field on a category to restrict it to a single company (in multi-company setups). Keep the **All** category without a company, since it must stay shared.
