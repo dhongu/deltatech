@@ -68,6 +68,119 @@
         <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
     </record>
 
+    <!-- Process visibility: a process with allowed_user_ids set is visible only to
+         those users; business admins always see everything (bypass rules below). -->
+    <record model="ir.rule" id="business_process_visibility_rule">
+        <field name="name">Business process visibility</field>
+        <field name="model_id" ref="model_business_process" />
+        <field name="domain_force">['|',('allowed_user_ids','=',False),('allowed_user_ids','in',user.ids)]</field>
+        <field name="groups" eval="[(4, ref('group_business_end_user'))]" />
+    </record>
+    <record model="ir.rule" id="business_process_step_visibility_rule">
+        <field name="name">Business process step visibility</field>
+        <field name="model_id" ref="model_business_process_step" />
+        <field
+            name="domain_force"
+        >['|',('process_id.allowed_user_ids','=',False),('process_id.allowed_user_ids','in',user.ids)]</field>
+        <field name="groups" eval="[(4, ref('group_business_end_user'))]" />
+    </record>
+    <record model="ir.rule" id="business_process_test_visibility_rule">
+        <field name="name">Business process test visibility</field>
+        <field name="model_id" ref="model_business_process_test" />
+        <field
+            name="domain_force"
+        >['|',('process_id.allowed_user_ids','=',False),('process_id.allowed_user_ids','in',user.ids)]</field>
+        <field name="groups" eval="[(4, ref('group_business_end_user'))]" />
+    </record>
+    <record model="ir.rule" id="business_process_step_test_visibility_rule">
+        <field name="name">Business process step test visibility</field>
+        <field name="model_id" ref="model_business_process_step_test" />
+        <field
+            name="domain_force"
+        >['|',('process_id.allowed_user_ids','=',False),('process_id.allowed_user_ids','in',user.ids)]</field>
+        <field name="groups" eval="[(4, ref('group_business_end_user'))]" />
+    </record>
+    <record model="ir.rule" id="business_issue_visibility_rule">
+        <field name="name">Business issue visibility</field>
+        <field name="model_id" ref="model_business_issue" />
+        <field
+            name="domain_force"
+        >['|',('process_id.allowed_user_ids','=',False),('process_id.allowed_user_ids','in',user.ids)]</field>
+        <field name="groups" eval="[(4, ref('group_business_end_user'))]" />
+    </record>
+    <record model="ir.rule" id="business_open_issue_visibility_rule">
+        <field name="name">Business open issue visibility</field>
+        <field name="model_id" ref="model_business_open_issue" />
+        <field
+            name="domain_force"
+        >['|',('process_id.allowed_user_ids','=',False),('process_id.allowed_user_ids','in',user.ids)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]" />
+    </record>
+    <record model="ir.rule" id="business_process_report_visibility_rule">
+        <field name="name">Business process report visibility</field>
+        <field name="model_id" ref="model_business_process_report" />
+        <field
+            name="domain_force"
+        >['|',('process_id.allowed_user_ids','=',False),('process_id.allowed_user_ids','in',user.ids)]</field>
+        <field name="groups" eval="[(4, ref('group_business_end_user'))]" />
+    </record>
+    <record model="ir.rule" id="business_process_test_report_visibility_rule">
+        <field name="name">Business process test report visibility</field>
+        <field name="model_id" ref="model_business_process_test_report" />
+        <field
+            name="domain_force"
+        >['|',('process_id.allowed_user_ids','=',False),('process_id.allowed_user_ids','in',user.ids)]</field>
+        <field name="groups" eval="[(4, ref('group_business_end_user'))]" />
+    </record>
 
+    <!-- Business admins bypass the visibility restriction (group rules are OR-ed). -->
+    <record model="ir.rule" id="business_process_visibility_manager_rule">
+        <field name="name">Business process visibility: admin bypass</field>
+        <field name="model_id" ref="model_business_process" />
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('group_business_process_manager'))]" />
+    </record>
+    <record model="ir.rule" id="business_process_step_visibility_manager_rule">
+        <field name="name">Business process step visibility: admin bypass</field>
+        <field name="model_id" ref="model_business_process_step" />
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('group_business_process_manager'))]" />
+    </record>
+    <record model="ir.rule" id="business_process_test_visibility_manager_rule">
+        <field name="name">Business process test visibility: admin bypass</field>
+        <field name="model_id" ref="model_business_process_test" />
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('group_business_process_manager'))]" />
+    </record>
+    <record model="ir.rule" id="business_process_step_test_visibility_manager_rule">
+        <field name="name">Business process step test visibility: admin bypass</field>
+        <field name="model_id" ref="model_business_process_step_test" />
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('group_business_process_manager'))]" />
+    </record>
+    <record model="ir.rule" id="business_issue_visibility_manager_rule">
+        <field name="name">Business issue visibility: admin bypass</field>
+        <field name="model_id" ref="model_business_issue" />
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('group_business_process_manager'))]" />
+    </record>
+    <record model="ir.rule" id="business_open_issue_visibility_manager_rule">
+        <field name="name">Business open issue visibility: admin bypass</field>
+        <field name="model_id" ref="model_business_open_issue" />
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('group_business_process_manager'))]" />
+    </record>
+    <record model="ir.rule" id="business_process_report_visibility_manager_rule">
+        <field name="name">Business process report visibility: admin bypass</field>
+        <field name="model_id" ref="model_business_process_report" />
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('group_business_process_manager'))]" />
+    </record>
+    <record model="ir.rule" id="business_process_test_report_visibility_manager_rule">
+        <field name="name">Business process test report visibility: admin bypass</field>
+        <field name="model_id" ref="model_business_process_test_report" />
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('group_business_process_manager'))]" />
+    </record>
 
 </odoo>

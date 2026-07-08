@@ -1,3 +1,7 @@
+## 19.0.1.9.0
+
+- New **"Visible only to"** (``allowed_user_ids``) field on business processes: when set, the process — together with its steps, tests, step tests, issues and the process/test reports — is visible only to the listed users. Left empty (the default), nothing changes and the process stays visible to everyone. Business admins always see every process and are the only ones who can edit the field (Responsible tab).
+
 ## 19.0.1.8.2
 
 - Import: the top-level ``developments`` and ``issues`` collections, and the per-process ``steps``, ``include_tests``, ``tests`` and ``test_steps`` keys, are now optional in the JSON file. A partial export (e.g. a single ``process.json`` from the process library) no longer fails with ``KeyError`` — missing sections are simply skipped.
