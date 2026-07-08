@@ -62,6 +62,12 @@ class BusinessProcess(models.Model):
         domain="[('is_company', '=', False)]",
         comodel_name="res.partner",
     )
+    allowed_user_ids = fields.Many2many(
+        comodel_name="res.users",
+        string="Visible only to",
+        help="If set, only these users and business admins can see this process, "
+        "its steps, tests and issues. Leave empty to keep it visible to everyone.",
+    )
     state = fields.Selection(
         [
             ("draft", "Draft"),
