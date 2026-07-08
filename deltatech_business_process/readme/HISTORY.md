@@ -1,3 +1,7 @@
+## 19.0.1.8.2
+
+- Import: the top-level ``developments`` and ``issues`` collections, and the per-process ``steps``, ``include_tests``, ``tests`` and ``test_steps`` keys, are now optional in the JSON file. A partial export (e.g. a single ``process.json`` from the process library) no longer fails with ``KeyError`` — missing sections are simply skipped.
+
 ## 19.0.1.8.1
 
 - Import: the ``transaction`` key on process steps and test steps is now optional in the JSON file. Since the transaction field is no longer required, imports no longer fail with ``KeyError: 'transaction'`` when a step is exported without one — the step is simply imported without a transaction.
