@@ -344,7 +344,7 @@ class BusinessProcessImport(models.TransientModel):
                 if not area:
                     area = self.env["business.area"].create({"name": step_data["area"]})
             transaction = self.env["business.transaction"]
-            if step_data["transaction"]:
+            if step_data.get("transaction"):
                 transaction = self.env["business.transaction"].search(
                     [("name", "=", step_data["transaction"])], limit=1
                 )
@@ -428,7 +428,7 @@ class BusinessProcessImport(models.TransientModel):
                     )
                 for step_test_data in test_data["test_steps"]:
                     transaction = self.env["business.transaction"]
-                    if step_test_data["transaction"]:
+                    if step_test_data.get("transaction"):
                         transaction = self.env["business.transaction"].search(
                             [("name", "=", step_test_data["transaction"])], limit=1
                         )

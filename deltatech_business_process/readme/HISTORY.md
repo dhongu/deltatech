@@ -1,3 +1,7 @@
+## 19.0.1.8.1
+
+- Import: the ``transaction`` key on process steps and test steps is now optional in the JSON file. Since the transaction field is no longer required, imports no longer fail with ``KeyError: 'transaction'`` when a step is exported without one — the step is simply imported without a transaction.
+
 ## 19.0.1.8.0
 
 - **Reset to Draft** button on the business process form is now shown in every state except ``draft`` (previously hidden in ``production`` and ``draft``), so a process can be reset from any active stage.
