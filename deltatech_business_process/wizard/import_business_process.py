@@ -69,7 +69,7 @@ class BusinessProcessImport(models.TransientModel):
         data = base64.b64decode(self.data_file.decode("utf-8"))
         data = json.loads(data)
         self.import_developments(data, project)
-        for process_data in data["processes"]:
+        for process_data in data.get("processes") or []:
             area = self.env["business.area"]
             if process_data["area"]:
                 area = self.env["business.area"].search([("name", "=", process_data["area"])], limit=1)
@@ -195,7 +195,7 @@ class BusinessProcessImport(models.TransientModel):
         }
 
     def import_developments(self, data, project):
-        for development_data in data["developments"]:
+        for development_data in data.get("developments") or []:
             area = self.env["business.area"]
             type_dev = self.env["business.development.type"]
             if development_data["area"]:
@@ -265,7 +265,7 @@ class BusinessProcessImport(models.TransientModel):
                 )
 
     def import_issues(self, data, project):
-        for issue in data["issues"]:
+        for issue in data.get("issues") or []:
             area = self.env["business.area"]
             if issue["area"]:
                 area = self.env["business.area"].search([("name", "=", issue["area"])], limit=1)
@@ -337,7 +337,7 @@ class BusinessProcessImport(models.TransientModel):
                     process.module_ids = [(4, module.id)]
 
     def import_steps(self, process_data, process):
-        for step_data in process_data["steps"]:
+        for step_data in process_data.get("steps") or []:
             area = self.env["business.area"]
             if step_data["area"]:
                 area = self.env["business.area"].search([("name", "=", step_data["area"])], limit=1)
@@ -393,8 +393,8 @@ class BusinessProcessImport(models.TransientModel):
                         step.development_ids = [(4, development_rec.id)]
 
     def import_test(self, process_data, process):
-        if process_data["include_tests"]:
-            for test_data in process_data["tests"]:
+        if process_data.get("include_tests"):
+            for test_data in process_data.get("tests") or []:
                 tester = self.env["res.partner"]
                 if test_data["tester"]:
                     tester = self.env["res.partner"].search([("name", "=", test_data["tester"])], limit=1)
@@ -426,7 +426,7 @@ class BusinessProcessImport(models.TransientModel):
                             "state": test_data["state"],
                         }
                     )
-                for step_test_data in test_data["test_steps"]:
+                for step_test_data in test_data.get("test_steps") or []:
                     transaction = self.env["business.transaction"]
                     if step_test_data.get("transaction"):
                         transaction = self.env["business.transaction"].search(
