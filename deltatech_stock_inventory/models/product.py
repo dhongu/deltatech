@@ -5,6 +5,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import float_round
 
 
 class ProductWarehouseLocation(models.Model):
@@ -68,6 +69,50 @@ class ProductTemplate(models.Model):
         action["context"] = {"create": False}
         return action
 
+    def _get_detailed_warehouse_stocks(self, warehouses):
+        """Batched stock details for warehouses displayed in 'detailed' mode.
+
+        Returns {warehouse_id: {product_tmpl_id: {"total", "reserved", "restricted"}}}.
+        Reserved quantities are counted only from non restricted locations, so
+        restricted stock is not subtracted twice from the free stock.
+        """
+        result = {}
+        variants = self.mapped("product_variant_ids")
+        if not variants:
+            return result
+        restricted_locations = self.env["stock.location"].search(
+            [("restricted_stock", "=", True), ("usage", "=", "internal")]
+        )
+        for warehouse in warehouses:
+            wh_data = result[warehouse.id] = {}
+            base_domain = [
+                ("product_id", "in", variants.ids),
+                ("location_id", "child_of", warehouse.view_location_id.id),
+                ("location_id.usage", "=", "internal"),
+            ]
+            groups = self.env["stock.quant"]._read_group(
+                base_domain, ["product_id"], ["quantity:sum", "reserved_quantity:sum"]
+            )
+            for product, quantity, reserved in groups:
+                data = wh_data.setdefault(
+                    product.product_tmpl_id.id, {"total": 0.0, "reserved": 0.0, "restricted": 0.0}
+                )
+                data["total"] += quantity
+                data["reserved"] += reserved
+            if restricted_locations:
+                groups = self.env["stock.quant"]._read_group(
+                    base_domain + [("location_id", "child_of", restricted_locations.ids)],
+                    ["product_id"],
+                    ["quantity:sum", "reserved_quantity:sum"],
+                )
+                for product, quantity, reserved in groups:
+                    data = wh_data.setdefault(
+                        product.product_tmpl_id.id, {"total": 0.0, "reserved": 0.0, "restricted": 0.0}
+                    )
+                    data["restricted"] += quantity
+                    data["reserved"] -= reserved
+        return result
+
     def _compute_warehouse_stocks(self):
         display_free_quantity = self.env.context.get("display_free_quantity", False)
         # Consider only warehouses belonging to the current company to avoid multi-company leakage
@@ -77,10 +122,40 @@ class ProductTemplate(models.Model):
             self.warehouse_stock = False
             return
 
+        detailed_warehouses = warehouses.filtered(
+            lambda warehouse: warehouse.kanban_display_stock == "detailed"
+            and warehouse.lot_stock_id.usage == "internal"
+        )
+        detailed_stocks = self._get_detailed_warehouse_stocks(detailed_warehouses)
+
         for product in self:
             warehouse_stock_lines = []
+            free_stock = 0.0
+            has_detailed_lines = False
+            rounding = product.uom_id.rounding
             for warehouse in warehouses:
                 if warehouse.lot_stock_id.usage == "internal":
+                    if warehouse.kanban_display_stock == "detailed":
+                        data = detailed_stocks.get(warehouse.id, {}).get(product.id)
+                        if not data:
+                            continue
+                        total = float_round(data["total"], precision_rounding=rounding)
+                        reserved = float_round(data["reserved"], precision_rounding=rounding)
+                        restricted = float_round(data["restricted"], precision_rounding=rounding)
+                        free_stock += total - reserved - restricted
+                        if total or reserved or restricted:
+                            # R = reserved, B = blocked (restricted locations)
+                            details = []
+                            if reserved:
+                                details.append(f"R: {reserved}")
+                            if restricted:
+                                details.append(f"B: {restricted}")
+                            line = f"{warehouse.code}: {total}"
+                            if details:
+                                line += " (" + ", ".join(details) + ")"
+                            warehouse_stock_lines.append(line)
+                            has_detailed_lines = True
+                        continue
                     if warehouse.kanban_display_stock == "main":
                         qty = self.with_context(location=warehouse.lot_stock_id.id)._compute_quantities_dict()
                     else:
@@ -95,6 +170,9 @@ class ProductTemplate(models.Model):
                         if quantity_in_warehouse:
                             line = f"{warehouse.code}: {quantity_in_warehouse}"
                             warehouse_stock_lines.append(line)
+            if has_detailed_lines:
+                free_stock = float_round(free_stock, precision_rounding=rounding)
+                warehouse_stock_lines.append(_("FREE STOCK") + f": {free_stock}")
             product.warehouse_stock = "\n".join(warehouse_stock_lines)
 
     @api.depends_context("warehouse", "location")

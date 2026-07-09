@@ -5,7 +5,7 @@
 {
     "name": "Stock Inventory",
     "summary": "Inventory Old Method",
-    "version": "18.0.2.3.10",
+    "version": "18.0.2.4.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
@@ -33,6 +33,7 @@
         "wizard/stock_inventory_merge.xml",
         "wizard/product_replenish_views.xml",
         "views/stock_warehouse_view.xml",
+        "views/stock_location_view.xml",
     ],
     "images": ["images/main_screenshot.png"],
     "installable": True,
