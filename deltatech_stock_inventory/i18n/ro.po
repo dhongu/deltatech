@@ -1224,3 +1224,29 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_inventory_merge_form
 msgid "or"
 msgstr "sau"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_warehouse__kanban_display_stock__detailed
+msgid "Detailed"
+msgstr "Detaliat"
+
+#. module: deltatech_stock_inventory
+#: code:addons/deltatech_stock_inventory/models/product.py:0
+msgid "FREE STOCK"
+msgstr "STOC LIBER"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_location__restricted_stock
+msgid ""
+"Quantities stored in this location (and its children) are shown as "
+"unavailable in the detailed kanban stock display and are excluded from the "
+"free stock."
+msgstr ""
+"Cantitățile stocate în această locație (și în locațiile copil) sunt afișate "
+"ca indisponibile în afișarea detaliată a stocului din kanban și sunt excluse"
+" din stocul liber."
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_location__restricted_stock
+msgid "Restricted Stock"
+msgstr "Gestiune restricționată"
