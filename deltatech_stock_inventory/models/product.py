@@ -72,14 +72,17 @@ class ProductTemplate(models.Model):
     def _get_detailed_warehouse_stocks(self, warehouses):
         """Batched stock details for warehouses displayed in 'detailed' mode.
 
-        Returns {warehouse_id: {product_tmpl_id: {"total", "reserved", "restricted"}}}.
+        Returns {warehouse_id: {product_tmpl_id: {"total", "reserved", "restricted", "transit"}}}.
         Reserved quantities are counted only from non restricted locations, so
         restricted stock is not subtracted twice from the free stock.
+        Transit quantities are pending incoming moves from other warehouses or
+        transit locations; receipts from suppliers are not counted.
         """
         result = {}
         variants = self.mapped("product_variant_ids")
         if not variants:
             return result
+        empty_data = {"total": 0.0, "reserved": 0.0, "restricted": 0.0, "transit": 0.0}
         restricted_locations = self.env["stock.location"].search(
             [("restricted_stock", "=", True), ("usage", "=", "internal")]
         )
@@ -94,9 +97,7 @@ class ProductTemplate(models.Model):
                 base_domain, ["product_id"], ["quantity:sum", "reserved_quantity:sum"]
             )
             for product, quantity, reserved in groups:
-                data = wh_data.setdefault(
-                    product.product_tmpl_id.id, {"total": 0.0, "reserved": 0.0, "restricted": 0.0}
-                )
+                data = wh_data.setdefault(product.product_tmpl_id.id, dict(empty_data))
                 data["total"] += quantity
                 data["reserved"] += reserved
             if restricted_locations:
@@ -106,11 +107,25 @@ class ProductTemplate(models.Model):
                     ["quantity:sum", "reserved_quantity:sum"],
                 )
                 for product, quantity, reserved in groups:
-                    data = wh_data.setdefault(
-                        product.product_tmpl_id.id, {"total": 0.0, "reserved": 0.0, "restricted": 0.0}
-                    )
+                    data = wh_data.setdefault(product.product_tmpl_id.id, dict(empty_data))
                     data["restricted"] += quantity
                     data["reserved"] -= reserved
+            groups = self.env["stock.move"]._read_group(
+                [
+                    ("product_id", "in", variants.ids),
+                    ("state", "in", ("waiting", "confirmed", "partially_available", "assigned")),
+                    ("location_dest_id", "child_of", warehouse.view_location_id.id),
+                    ("location_dest_id.usage", "=", "internal"),
+                    ("location_id.usage", "in", ("internal", "transit")),
+                    "!",
+                    ("location_id", "child_of", warehouse.view_location_id.id),
+                ],
+                ["product_id"],
+                ["product_qty:sum"],
+            )
+            for product, quantity in groups:
+                data = wh_data.setdefault(product.product_tmpl_id.id, dict(empty_data))
+                data["transit"] += quantity
         return result
 
     def _compute_warehouse_stocks(self):
@@ -142,14 +157,17 @@ class ProductTemplate(models.Model):
                         total = float_round(data["total"], precision_rounding=rounding)
                         reserved = float_round(data["reserved"], precision_rounding=rounding)
                         restricted = float_round(data["restricted"], precision_rounding=rounding)
+                        transit = float_round(data["transit"], precision_rounding=rounding)
                         free_stock += total - reserved - restricted
-                        if total or reserved or restricted:
-                            # R = reserved, B = blocked (restricted locations)
+                        if total or reserved or restricted or transit:
+                            # R = reserved, B = blocked (restricted locations), T = in transit
                             details = []
                             if reserved:
                                 details.append(f"R: {reserved}")
                             if restricted:
                                 details.append(f"B: {restricted}")
+                            if transit:
+                                details.append(f"T: {transit}")
                             line = f"{warehouse.code}: {total}"
                             if details:
                                 line += " (" + ", ".join(details) + ")"
