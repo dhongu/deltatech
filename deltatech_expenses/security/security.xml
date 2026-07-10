@@ -1,9 +1,69 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
+
+    <record id="module_category_expenses_deduction" model="ir.module.category">
+        <field name="name">Decont Cheltuieli</field>
+        <field name="sequence">25</field>
+    </record>
+
+    <record id="res_groups_privilege_expenses_deduction" model="res.groups.privilege">
+        <field name="name">Decont Cheltuieli</field>
+        <field name="category_id" ref="module_category_expenses_deduction" />
+    </record>
+
+    <!-- Angajat: poate crea/edita propriile deconturi (draft/avans), fără drept de validare finală. -->
+    <record id="group_expenses_user" model="res.groups">
+        <field name="name">Angajat</field>
+        <field name="privilege_id" ref="res_groups_privilege_expenses_deduction" />
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+    </record>
+
+    <!-- Aprobator: poate valida avansul (Dr 542 = Cr casă) și vede toate deconturile, nu doar ale sale. -->
+    <record id="group_expenses_approver" model="res.groups">
+        <field name="name">Aprobator</field>
+        <field name="privilege_id" ref="res_groups_privilege_expenses_deduction" />
+        <field name="implied_ids" eval="[(4, ref('group_expenses_user'))]" />
+    </record>
+
+    <!-- Contabil: poate finaliza decontul (validate_expenses), invalida și șterge. -->
+    <record id="group_expenses_accounting" model="res.groups">
+        <field name="name">Contabil</field>
+        <field name="privilege_id" ref="res_groups_privilege_expenses_deduction" />
+        <field name="implied_ids" eval="[(4, ref('group_expenses_approver'))]" />
+    </record>
+
     <record id="expenses_deduction_comp_rule" model="ir.rule">
         <field name="name">ExpensesDeduction multi-company</field>
         <field name="model_id" ref="model_deltatech_expenses_deduction" />
         <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
     </record>
+
+    <!-- Angajatul de bază vede/editează doar deconturile proprii. -->
+    <record id="expenses_deduction_own_rule" model="ir.rule">
+        <field name="name">ExpensesDeduction: doar decontul propriu (Angajat)</field>
+        <field name="model_id" ref="model_deltatech_expenses_deduction" />
+        <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_expenses_user'))]" />
+    </record>
+
+    <!-- Aprobatorii (și, prin ierarhie, contabilii) văd toate deconturile — regulă neutră care,
+         combinată prin OR cu regula de mai sus, anulează restricția „doar propriul decont". -->
+    <record id="expenses_deduction_approver_rule" model="ir.rule">
+        <field name="name">ExpensesDeduction: acces complet (Aprobator/Contabil)</field>
+        <field name="model_id" ref="model_deltatech_expenses_deduction" />
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_expenses_approver'))]" />
+    </record>
+
+    <!-- Administratorii (Settings/Administrator) primesc automat rolul de Contabil pe acest
+         modul, ca instalarea/upgrade-ul să rămână funcțional imediat. Plasat în afara
+         noupdate="1": spre deosebire de o simplă apartenență user_ids setată o singură dată la
+         creare, un implied_ids pe un grup din alt modul (base.group_system) SE RE-APLICĂ la
+         fiecare -u, inclusiv pe baze existente. -->
+    <data noupdate="0">
+        <record id="base.group_system" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('group_expenses_accounting'))]" />
+        </record>
+    </data>
 
 </odoo>

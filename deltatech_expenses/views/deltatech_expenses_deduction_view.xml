@@ -13,6 +13,7 @@
                         invisible="state != 'draft'"
                         class="oe_highlight"
                         type="object"
+                        groups="deltatech_expenses.group_expenses_approver"
                     />
                     <button
                         name="validate_expenses"
@@ -20,6 +21,7 @@
                         invisible="state != 'advance'"
                         class="oe_highlight"
                         type="object"
+                        groups="deltatech_expenses.group_expenses_accounting"
                     />
                     <button
                         name="action_open_import_hr_expenses"
@@ -27,7 +29,13 @@
                         invisible="state not in ('draft', 'advance')"
                         type="object"
                     />
-                    <button name="invalidate_expenses" string="Invalidate" invisible="state != 'done'" type="object" />
+                    <button
+                        name="invalidate_expenses"
+                        string="Invalidate"
+                        invisible="state != 'done'"
+                        type="object"
+                        groups="deltatech_expenses.group_expenses_accounting"
+                    />
                     <!-- <button name="cancel_expenses" string="Cancel" states="draft" type="object" />  -->
                     <field
                         name="state"
@@ -202,6 +210,10 @@
                                 <field name="journal_diem_id" widget="selection" />
                                 <field name="company_id" groups="base.group_multi_company" />
                                 <field name="currency_id" invisible="1" />
+                            </group>
+                            <group string="Traseu aprobare">
+                                <field name="approved_by_id" />
+                                <field name="accounted_by_id" />
                             </group>
                         </page>
                     </notebook>

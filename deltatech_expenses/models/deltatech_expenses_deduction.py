@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 
 
 class DeltatechExpensesDeduction(models.Model):
@@ -60,6 +60,20 @@ class DeltatechExpensesDeduction(models.Model):
         help=" * The 'Draft' status is used when a user is encoding a new and unconfirmed expenses deduction. \
             \n* The 'Done' status is set automatically when the expenses deduction is confirm.  \
             \n* The 'Cancelled' status is used when user cancel expenses deduction.",
+    )
+    approved_by_id = fields.Many2one(
+        "res.users",
+        string="Aprobat de",
+        readonly=True,
+        copy=False,
+        help="Utilizatorul care a validat avansul (rol Aprobator).",
+    )
+    accounted_by_id = fields.Many2one(
+        "res.users",
+        string="Contabilizat de",
+        readonly=True,
+        copy=False,
+        help="Utilizatorul care a finalizat/contabilizat decontul (rol Contabil).",
     )
     date_expense = fields.Date(
         string="Expense Date",
@@ -214,13 +228,34 @@ class DeltatechExpensesDeduction(models.Model):
         for expense in self:
             expense.currency_id = expense.company_id.currency_id.id
 
+    def _check_role(self, group_xmlid, action):
+        """Verificare explicită de rol pentru acțiunile ireversibile/contabile: dreptul de scriere
+        pe model (necesar oricărui utilizator din cele 3 grupuri) nu separă singur angajat de
+        aprobator/contabil, fiindcă metodele de mai jos scriu pe același model. (tichet POPVAL-COS)
+        Modul superuser (sudo/migrări/scripturi tehnice) ocolește verificarea, ca orice altă
+        regulă de acces din Odoo."""
+        if self.env.su:
+            return
+        if not self.env.user.has_group(group_xmlid):
+            raise AccessError(self.env._("Nu aveți rolul necesar pentru a %s decontul de cheltuieli.") % (action,))
+
     def unlink(self):
+        self._check_role("deltatech_expenses.group_expenses_accounting", "șterge")
         for t in self:
             if t.state not in ("draft", "cancel"):
                 raise UserError(self.env._("Cannot delete Expenses Deduction(s) which are already done."))
         return super().unlink()
 
     def invalidate_expenses(self):
+        self._check_role("deltatech_expenses.group_expenses_accounting", "invalida")
+        for expenses in self:
+            if expenses.state != "done":
+                raise UserError(
+                    self.env._("Decontul %s nu poate fi invalidat: nu este în starea Finalizat.") % (expenses.number,)
+                )
+        # vezi validate_advance: contabilizarea (aici, anularea ei) rulează cu drepturi complete
+        # odată ce rolul de Contabil a fost verificat mai sus.
+        self = self.sudo()
         moves = self.env["account.move"]
         for expenses in self:
             if expenses.move_id:
@@ -291,10 +326,29 @@ class DeltatechExpensesDeduction(models.Model):
 
     def _import_hr_expenses(self, expenses):
         """Creează linii de decont din cheltuielile hr.expense date și le leagă de decont
-        (setând expenses_deduction_id), astfel încât contabilizarea să se facă doar aici."""
+        (setând expenses_deduction_id), astfel încât contabilizarea să se facă doar aici.
+
+        Re-validează explicit criteriile de eligibilitate pe TOT ce i se dă (nu doar filtrul din
+        wizard, care e doar o preîncărcare): un apel care primește cheltuieli ale altui angajat,
+        altei companii, aflate într-o stare neeligibilă sau deja contabilizate este respins, chiar
+        dacă interfața ar permite selecția lor (tichet POPVAL-COS)."""
         self.ensure_one()
         line_model = self.env["deltatech.expenses.deduction.line"]
         expenses = expenses.filtered(lambda e: not e.expenses_deduction_id)
+        invalid = expenses.filtered(
+            lambda e: e.employee_id != self.employee_id
+            or e.company_id != self.company_id
+            or e.state not in ("submitted", "approved")
+            or e.account_move_id
+        )
+        if invalid:
+            raise UserError(
+                self.env._(
+                    "Următoarele cheltuieli nu pot fi preluate în acest decont (angajat/companie diferite, "
+                    "stare neeligibilă sau deja contabilizate): %s"
+                )
+                % ", ".join(invalid.mapped("name"))
+            )
         for expense in expenses:
             # Linia de decont interpretează `amount` conform flag-ului price_include al taxelor
             # (compute_all pe aceleași taxe). Pentru taxe „TVA inclus" trimitem brutul, pentru taxe
@@ -336,6 +390,20 @@ class DeltatechExpensesDeduction(models.Model):
         }
 
     def validate_advance(self):
+        self._check_role("deltatech_expenses.group_expenses_approver", "aproba avansul pentru")
+        for expenses in self:
+            if expenses.state != "draft":
+                raise UserError(
+                    self.env._(
+                        "Decontul %s nu poate fi validat ca avans: nu mai este în starea Ciornă "
+                        "(a fost deja validat sau invalidat)."
+                    )
+                    % (expenses.number,)
+                )
+        # Odată rolul verificat mai sus, contabilizarea propriu-zisă rulează cu drepturi complete:
+        # un Aprobator nu trebuie să aibă și grupurile standard de Contabilitate/Jurnale doar ca
+        # să poată apăsa acest buton (tichet POPVAL-COS, pct. 6).
+        self = self.sudo()
         for expenses in self:
             if not expenses.number or expenses.number == "/":
                 sequence = self.env.ref("deltatech_expenses.sequence_expenses_deduction")
@@ -384,10 +452,11 @@ class DeltatechExpensesDeduction(models.Model):
                 move = self.env["account.move"].create(value)
                 move._post()
 
-            expenses.write({"state": "advance", "number": name})
+            expenses.write({"state": "advance", "number": name, "approved_by_id": self.env.user.id})
 
     def _create_advance_settlement(self, expenses, partner, amount, date, ref, payable_account=None):
-        """Notă de decontare a cheltuielii din avans: Dr cont furnizor (401) = Cr 542.
+        """Notă de decontare a cheltuielii din avans: Dr cont furnizor (401, partenerul furnizor)
+        = Cr 542 (partenerul angajatului — avansul rămâne închis pe cine l-a primit).
 
         În Odoo 19 nu se folosește `account.payment` pentru această operațiune: jurnalul de avans
         este de tip „general" (fără metode de plată), iar o plată pe casă ar dubla mișcarea de
@@ -426,7 +495,10 @@ class DeltatechExpensesDeduction(models.Model):
                         0,
                         0,
                         {
-                            "partner_id": partner.id,
+                            # partenerul angajatului, NU furnizorul: 542 trebuie să rămână analitic
+                            # pe cine a primit avansul, altfel soldul analitic per partener e greșit
+                            # deși contul se închide global (vezi tichet POPVAL-COS).
+                            "partner_id": expenses.partner_id.id,
                             "account_id": account_542.id,
                             "name": self.env._("Decontare avans"),
                             "debit": 0.0,
@@ -448,6 +520,9 @@ class DeltatechExpensesDeduction(models.Model):
             [
                 ("partner_id", "=", settle_payable.partner_id.id),
                 ("account_id", "=", settle_payable.account_id.id),
+                # restrâns la aceeași companie: fără acest filtru, o plată din avans putea stinge
+                # o datorie a aceluiași furnizor înregistrată în altă companie (tichet POPVAL-COS).
+                ("company_id", "=", settle_payable.company_id.id),
                 ("parent_state", "=", "posted"),
                 ("reconciled", "=", False),
                 ("balance", "<", 0.0),  # datorii deschise (credit furnizor)
@@ -460,6 +535,22 @@ class DeltatechExpensesDeduction(models.Model):
     def validate_expenses(self):
         # poate ar fi bine daca  bonurile fiscale de la acelasi furnizor sa fie unuite intr-o singura chitanta.
 
+        self._check_role("deltatech_expenses.group_expenses_accounting", "finaliza (contabiliza)")
+        for expenses in self:
+            if expenses.state != "advance":
+                raise UserError(
+                    self.env._(
+                        "Decontul %s nu poate fi validat: nu este în starea Avans "
+                        "(a fost deja finalizat sau nu are un avans validat)."
+                    )
+                    % (expenses.number,)
+                )
+
+        # Odată rolul verificat mai sus, contabilizarea propriu-zisă rulează cu drepturi complete
+        # (vezi validate_advance) — un Contabil nu trebuie să mai aibă și acces direct pe jurnale
+        # doar ca să poată finaliza decontul (tichet POPVAL-COS, pct. 6).
+        self = self.sudo()
+
         domain = [
             ("type", "=", "purchase"),
             ("company_id", "=", self.company_id.id),
@@ -471,7 +562,7 @@ class DeltatechExpensesDeduction(models.Model):
 
         for expenses in self:
             name = expenses.number
-            expenses_vals = {"state": "done", "number": name}
+            expenses_vals = {"state": "done", "number": name, "accounted_by_id": self.env.user.id}
             vouchers = self.env["account.move"]
 
             # reconcile = self.env['account.full.reconcile'].create({'name':name})
@@ -481,6 +572,13 @@ class DeltatechExpensesDeduction(models.Model):
                 if not partner_id:
                     raise UserError(self.env._("You must select a supplier for all lines."))
                 if line.type == "expenses":
+                    # Chitanța recalculează taxa din price_unit (compute_all). Pentru taxe „TVA
+                    # inclus în preț" trebuie trimis brutul (line.amount) — trimiterea netului
+                    # (price_subtotal) ar extrage TVA a doua oară, subevaluând baza, TVA-ul
+                    # deductibil și totalul documentului (tichet POPVAL-COS). Pentru taxe „pe
+                    # deasupra" price_subtotal == amount (netul), deci comportamentul e neschimbat.
+                    line_price_include = bool(line.tax_ids) and all(line.tax_ids.mapped("price_include"))
+                    line_price_unit = line.amount if line_price_include else line.price_subtotal
                     voucher_value = {
                         "partner_id": partner_id.id,
                         "move_type": "in_receipt",
@@ -500,7 +598,7 @@ class DeltatechExpensesDeduction(models.Model):
                                 0,
                                 {
                                     "name": line.name,
-                                    "price_unit": line.price_subtotal,
+                                    "price_unit": line_price_unit,
                                     "tax_ids": [(6, 0, line.tax_ids.ids)],
                                     "account_id": line.expense_account_id.id,
                                     "analytic_distribution": line.analytic_distribution,

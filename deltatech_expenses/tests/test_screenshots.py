@@ -41,6 +41,10 @@ class TestExpensesScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obje
         if ScreenshotCase is None:
             raise unittest.SkipTest("l10n_ro_doc_screenshots indisponibil; capturile fișei se sar")
         super().setUpClass()
+        # AccountTestInvoicingCommon rulează cu un user de test dedicat ("accountman"), nu cu
+        # superuser/admin — are nevoie explicit de rolul de Contabil ca să poată crea/valida
+        # deconturi (grupurile noi angajat/aprobator/contabil, tichet POPVAL-COS).
+        cls.env.user.group_ids = [(4, cls.env.ref("deltatech_expenses.group_expenses_accounting").id)]
         cls.prepare_ro_company(name="Demo Deconturi SRL")  # RON, drepturi contabile + limba RO
         company = cls.env.company
         cls.env.ref("base.user_admin").write({"company_ids": [(4, company.id)], "company_id": company.id})
