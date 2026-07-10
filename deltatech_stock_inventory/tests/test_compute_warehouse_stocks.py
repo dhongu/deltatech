@@ -68,3 +68,76 @@ class TestComputeWarehouseStocks(TransactionCase):
         self.assertIn("4.0", text2)
         self.assertIn("T2", text2)
         self.assertIn("6.0", text2)
+
+    def _make_move(self, location, location_dest, qty):
+        move = self.env["stock.move"].create(
+            {
+                "name": "WH Stocks Move",
+                "product_id": self.product.id,
+                "product_uom": self.product.uom_id.id,
+                "product_uom_qty": qty,
+                "location_id": location.id,
+                "location_dest_id": location_dest.id,
+            }
+        )
+        move._action_confirm()
+        return move
+
+    def test_compute_warehouse_stocks_detailed_transit(self):
+        wh2 = self.env["stock.warehouse"].create(
+            {
+                "name": "Test WH2",
+                "code": "T2",
+                "company_id": self.company.id,
+            }
+        )
+        self.env["stock.quant"].create(
+            {
+                "product_id": self.product.id,
+                "location_id": wh2.lot_stock_id.id,
+                "quantity": 6.0,
+            }
+        )
+        self.wh1.kanban_display_stock = "detailed"
+
+        # pending transfer from the other warehouse -> counted as transit
+        self._make_move(wh2.lot_stock_id, self.loc1, 3.0)
+        # receipt from supplier -> not counted
+        supplier_location = self.env.ref("stock.stock_location_suppliers")
+        self._make_move(supplier_location, self.loc1, 5.0)
+        # move inside the same warehouse -> not counted
+        shelf = self.env["stock.location"].create(
+            {"name": "WH Stocks Shelf", "location_id": self.loc1.id, "usage": "internal"}
+        )
+        self._make_move(self.loc1, shelf, 2.0)
+
+        self.template._compute_warehouse_stocks()
+        text = self.template.warehouse_stock or ""
+        self.assertIn(f"{self.wh1.code}: 4.0 (T: 3.0)", text)
+        self.assertIn("T2: 6.0", text)
+        # transit is informative only, free stock is unchanged
+        self.assertIn("FREE STOCK: 4.0", text)
+
+    def test_compute_warehouse_stocks_detailed_transit_location(self):
+        self.env["stock.warehouse"].create(
+            {
+                "name": "Test WH2",
+                "code": "T2",
+                "company_id": self.company.id,
+            }
+        )
+        self.wh1.kanban_display_stock = "detailed"
+        transit_location = self.env["stock.location"].create(
+            {
+                "name": "WH Stocks Transit",
+                "usage": "transit",
+                "company_id": self.company.id,
+            }
+        )
+        # second leg of a two step transfer, waiting in a transit location
+        self._make_move(transit_location, self.loc1, 7.0)
+
+        self.template._compute_warehouse_stocks()
+        text = self.template.warehouse_stock or ""
+        self.assertIn(f"{self.wh1.code}: 4.0 (T: 7.0)", text)
+        self.assertIn("FREE STOCK: 4.0", text)
