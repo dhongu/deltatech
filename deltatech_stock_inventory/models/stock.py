@@ -3,7 +3,6 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import _, api, fields, models
-from odoo.tools.safe_eval import safe_eval
 
 
 class StockInventory(models.Model):
@@ -121,26 +120,11 @@ class StockInventoryLine(models.Model):
         return price
 
     def _generate_moves(self):
-        config_parameter = self.env["ir.config_parameter"].sudo()
-        use_inventory_price = config_parameter.get_param(key="stock.use_inventory_price", default="True")
-        use_inventory_price = safe_eval(use_inventory_price)
-
-        # actualizare pret in produs
-        for inventory_line in self:
-            if (
-                not inventory_line.theoretical_qty
-                or (
-                    inventory_line.product_id.cost_method == "fifo"
-                    or inventory_line.product_id.cost_method == "average"
-                )
-                and use_inventory_price
-            ):
-                inventory_line.product_id.sudo().with_context(disable_auto_svl=True).write(
-                    {"standard_price": inventory_line.standard_price}
-                )
-        moves = super()._generate_moves()
-        # self.set_last_last_inventory()
-        return moves
+        # price_unit is now set per line in InventoryLine._get_move_values;
+        # writing it to product.standard_price here used to clobber it once
+        # per line, so sibling lines sharing a product (e.g. distinct serial
+        # numbers) all ended up valued at the last-processed line's price.
+        return super()._generate_moves()
 
     # def set_last_last_inventory(self):
     #     for inventory_line in self:
