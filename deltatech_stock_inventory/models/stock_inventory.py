@@ -774,7 +774,7 @@ class InventoryLine(models.Model):
 
     def _get_move_values(self, qty, location_id, location_dest_id, out):
         self.ensure_one()
-        return {
+        vals = {
             "name": _("INV:") + (self.inventory_id.name or ""),
             "product_id": self.product_id.id,
             "product_uom": self.product_uom_id.id,
@@ -807,6 +807,20 @@ class InventoryLine(models.Model):
                 )
             ],
         }
+        if not out:
+            # Each line carries its own cost so that products received from
+            # several lines of the same inventory (e.g. distinct serial numbers)
+            # don't all end up valued at whatever standard_price the product
+            # happens to hold when the move is validated. Gated by the same
+            # parameter that controls whether the price field is editable at
+            # all (_compute_is_price_editable), so a count never influences
+            # cost when the setting is off.
+            use_inventory_price = safe_eval(
+                self.env["ir.config_parameter"].sudo().get_param("stock.use_inventory_price", "True")
+            )
+            if use_inventory_price:
+                vals["price_unit"] = self.standard_price
+        return vals
 
     def _get_virtual_location(self):
         return self.product_id.with_company(self.company_id).property_stock_inventory
