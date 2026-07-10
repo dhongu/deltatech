@@ -15,7 +15,11 @@
                         options="{'no_create': True}"
                     />
                 </group>
-                <field name="expense_ids" nolabel="1">
+                <field
+                    name="expense_ids"
+                    nolabel="1"
+                    domain="[('employee_id', '=', employee_id), ('state', 'in', ('submitted', 'approved')), ('account_move_id', '=', False), ('expenses_deduction_id', '=', False)]"
+                >
                     <list>
                         <field name="date" />
                         <field name="name" />
