@@ -40,17 +40,22 @@ class ProductTemplate(models.Model):
     def _get_detailed_warehouse_stocks(self, warehouses):
         """Batched stock details for warehouses displayed in 'detailed' mode.
 
-        Returns {warehouse_id: {product_tmpl_id: {"total", "reserved", "restricted", "transit"}}}.
+        Returns {warehouse_id: {product_tmpl_id: {"total", "reserved", "restricted",
+        "transit", "expected"}}}.
         Reserved quantities are counted only from non restricted locations, so
         restricted stock is not subtracted twice from the free stock.
         Transit quantities are pending incoming moves from other warehouses or
-        transit locations; receipts from suppliers are not counted.
+        transit locations; a chained transit leg is counted only once its origin
+        moves are done, so goods that still wait upstream (e.g. on a supplier
+        receipt) do not show as in transit.
+        Expected quantities are pending receipts coming from suppliers,
+        including receipt legs routed through a transit location.
         """
         result = {}
         variants = self.mapped("product_variant_ids")
         if not variants:
             return result
-        empty_data = {"total": 0.0, "reserved": 0.0, "restricted": 0.0, "transit": 0.0}
+        empty_data = {"total": 0.0, "reserved": 0.0, "restricted": 0.0, "transit": 0.0, "expected": 0.0}
         restricted_locations = self.env["stock.location"].search(
             [("restricted_stock", "=", True), ("usage", "=", "internal")]
         )
@@ -78,15 +83,27 @@ class ProductTemplate(models.Model):
                     data = wh_data.setdefault(product.product_tmpl_id.id, dict(empty_data))
                     data["restricted"] += quantity
                     data["reserved"] -= reserved
+            pending_in_domain = [
+                ("product_id", "in", variants.ids),
+                ("state", "in", ("waiting", "confirmed", "partially_available", "assigned")),
+                ("location_dest_id", "child_of", warehouse.view_location_id.id),
+                ("location_dest_id.usage", "=", "internal"),
+            ]
             groups = self.env["stock.move"]._read_group(
-                [
-                    ("product_id", "in", variants.ids),
-                    ("state", "in", ("waiting", "confirmed", "partially_available", "assigned")),
-                    ("location_dest_id", "child_of", warehouse.view_location_id.id),
-                    ("location_dest_id.usage", "=", "internal"),
+                pending_in_domain
+                + [
                     ("location_id.usage", "in", ("internal", "transit")),
                     "!",
                     ("location_id", "child_of", warehouse.view_location_id.id),
+                    # legs of a receipt routed through transit count as expected, not transit
+                    "!",
+                    ("move_orig_ids.location_id.usage", "=", "supplier"),
+                    # a chained transit leg counts only once the goods physically
+                    # reached the transit location (all origin moves done)
+                    "|",
+                    ("location_id.usage", "=", "internal"),
+                    "!",
+                    ("move_orig_ids.state", "!=", "done"),
                 ],
                 ["product_id"],
                 ["product_qty:sum"],
@@ -94,6 +111,21 @@ class ProductTemplate(models.Model):
             for product, quantity in groups:
                 data = wh_data.setdefault(product.product_tmpl_id.id, dict(empty_data))
                 data["transit"] += quantity
+            groups = self.env["stock.move"]._read_group(
+                pending_in_domain
+                + [
+                    "|",
+                    ("location_id.usage", "=", "supplier"),
+                    "&",
+                    ("location_id.usage", "=", "transit"),
+                    ("move_orig_ids.location_id.usage", "=", "supplier"),
+                ],
+                ["product_id"],
+                ["product_qty:sum"],
+            )
+            for product, quantity in groups:
+                data = wh_data.setdefault(product.product_tmpl_id.id, dict(empty_data))
+                data["expected"] += quantity
         return result
 
     def _compute_warehouse_stocks(self):
@@ -126,9 +158,11 @@ class ProductTemplate(models.Model):
                         reserved = float_round(data["reserved"], precision_rounding=rounding)
                         restricted = float_round(data["restricted"], precision_rounding=rounding)
                         transit = float_round(data["transit"], precision_rounding=rounding)
+                        expected = float_round(data["expected"], precision_rounding=rounding)
                         free_stock += total - reserved - restricted
-                        if total or reserved or restricted or transit:
-                            # R = reserved, B = blocked (restricted locations), T = in transit
+                        if total or reserved or restricted or transit or expected:
+                            # R = reserved, B = blocked (restricted locations),
+                            # T = in transit, E = expected from supplier
                             details = []
                             if reserved:
                                 details.append(f"R: {reserved}")
@@ -136,6 +170,8 @@ class ProductTemplate(models.Model):
                                 details.append(f"B: {restricted}")
                             if transit:
                                 details.append(f"T: {transit}")
+                            if expected:
+                                details.append(f"E: {expected}")
                             line = f"{warehouse.code}: {total}"
                             if details:
                                 line += " (" + ", ".join(details) + ")"
