@@ -35,18 +35,18 @@ class DeltatechExpensesDeduction(models.Model):
 
     @api.model
     def _default_account_diem(self):
+        # `account.account` are `company_ids` (many2many) în O19, nu `company_id` — căutarea pe
+        # `company_id` arunca ValueError, prins tăcut de un `except Exception` care mascase
+        # complet eroarea; contul de diurnă implicit nu se completa niciodată automat (runda 2,
+        # tichet POPVAL-COS).
         account_pool = self.env["account.account"]
-        try:
+        account_id = account_pool.search(
+            [("code", "=ilike", "625%"), ("company_ids", "in", self.env.company.id)], limit=1
+        )  # Cheltuieli cu deplasari
+        if not account_id:
             account_id = account_pool.search(
-                [("code", "=ilike", "625%"), ("company_id", "=", self.env.company.id)], limit=1
-            )  # Cheltuieli cu deplasari
-        except Exception:
-            try:
-                account_id = account_pool.search(
-                    [("account_type", "=", "expense"), ("company_id", "=", self.env.company.id)], limit=1
-                )
-            except Exception:
-                account_id = False
+                [("account_type", "=", "expense"), ("company_ids", "in", self.env.company.id)], limit=1
+            )
         return account_id
 
     number = fields.Char(string="Number", size=32, readonly=True, default="/")
@@ -333,6 +333,12 @@ class DeltatechExpensesDeduction(models.Model):
         altei companii, aflate într-o stare neeligibilă sau deja contabilizate este respins, chiar
         dacă interfața ar permite selecția lor (tichet POPVAL-COS)."""
         self.ensure_one()
+        if self.state not in ("draft", "advance"):
+            # `action_open_import_hr_expenses` verifică asta la deschiderea wizard-ului, dar
+            # `action_import`-ul wizard-ului apelează direct această metodă — fără acest guard,
+            # un decont deja Finalizat/Anulat ar putea primi în continuare linii noi (runda 2,
+            # tichet POPVAL-COS).
+            raise UserError(self.env._("Cheltuielile pot fi preluate doar într-un decont în starea Draft sau Advance."))
         line_model = self.env["deltatech.expenses.deduction.line"]
         expenses = expenses.filtered(lambda e: not e.expenses_deduction_id)
         invalid = expenses.filtered(
@@ -637,8 +643,9 @@ class DeltatechExpensesDeduction(models.Model):
                     settle_payable = settle.line_ids.filtered(lambda aml: aml.account_id == payable.account_id)
                     (payable | settle_payable).reconcile()
 
-            # marchează chitanțele fără sold drept plătite
-            vouchers.set_paid()
+            # payment_state se calculează automat de Odoo din reconciliere (chitanța e in_receipt,
+            # deci intră în is_invoice(include_receipts=True)) — nu-l mai forțăm manual (runda 2,
+            # tichet POPVAL-COS: scrierea directă a payment_state ocolea calculul standard).
 
             # Create the account move record.
             line_ids = []

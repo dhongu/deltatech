@@ -55,6 +55,31 @@
         <field name="groups" eval="[(4, ref('group_expenses_approver'))]" />
     </record>
 
+    <!-- Liniile de decont nu aveau nicio regulă proprie: un Angajat cu acces CRUD pe model putea
+         citi/scrie orice linie direct, ocolind restricția „doar decontul propriu" de pe părinte
+         (tichet POPVAL-COS, runda 2). Mirror pe regulile de mai sus, prin decontul părinte. -->
+    <record id="expenses_deduction_line_comp_rule" model="ir.rule">
+        <field name="name">ExpensesDeductionLine multi-company</field>
+        <field name="model_id" ref="model_deltatech_expenses_deduction_line" />
+        <field name="domain_force">
+            ['|', ('expenses_deduction_id.company_id', '=', False), ('expenses_deduction_id.company_id', 'in', company_ids)]
+        </field>
+    </record>
+
+    <record id="expenses_deduction_line_own_rule" model="ir.rule">
+        <field name="name">ExpensesDeductionLine: doar liniile decontului propriu (Angajat)</field>
+        <field name="model_id" ref="model_deltatech_expenses_deduction_line" />
+        <field name="domain_force">[('expenses_deduction_id.employee_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_expenses_user'))]" />
+    </record>
+
+    <record id="expenses_deduction_line_approver_rule" model="ir.rule">
+        <field name="name">ExpensesDeductionLine: acces complet (Aprobator/Contabil)</field>
+        <field name="model_id" ref="model_deltatech_expenses_deduction_line" />
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_expenses_approver'))]" />
+    </record>
+
     <!-- Administratorii (Settings/Administrator) primesc automat rolul de Contabil pe acest
          modul, ca instalarea/upgrade-ul să rămână funcțional imediat. Plasat în afara
          noupdate="1": spre deosebire de o simplă apartenență user_ids setată o singură dată la

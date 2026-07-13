@@ -828,3 +828,91 @@ class TestExpenses(TransactionCase):
         deduction.with_user(accounting_user).validate_expenses()
         self.assertEqual(deduction.state, "done")
         self.assertEqual(deduction.accounted_by_id, accounting_user)
+
+    def test_default_account_diem_uses_company_ids(self):
+        """_default_account_diem caută pe company_ids (many2many), nu pe company_id — altfel
+        căutarea eșuează silențios și contul de diurnă nu se completează niciodată (tichet
+        POPVAL-COS, runda 2). Companie izolată, ca să nu depindem de ce alte conturi 625% mai
+        există în baza de test."""
+        company_iso = self.env["res.company"].create({"name": "Diem Test Co"})
+        acc_diem_iso = self.env["account.account"].create(
+            {
+                "name": "Cheltuieli deplasari izolat",
+                "code": "625ISO",
+                "account_type": "expense",
+                "company_ids": [(6, 0, [company_iso.id])],
+            }
+        )
+        result = self.env["deltatech.expenses.deduction"].with_company(company_iso)._default_account_diem()
+        self.assertEqual(result, acc_diem_iso)
+
+    def test_import_hr_expenses_rejects_when_deduction_not_open(self):
+        """_import_hr_expenses respinge preluarea într-un decont deja Finalizat/Anulat, nu doar
+        la deschiderea wizard-ului (tichet POPVAL-COS, runda 2)."""
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        deduction.validate_advance()
+        deduction.validate_expenses()
+        self.assertEqual(deduction.state, "done")
+
+        product = self.env["product.product"].create({"name": "Cheltuiala", "can_be_expensed": True, "type": "consu"})
+        expense = self.env["hr.expense"].create(
+            {
+                "name": "Cheltuiala tarzie",
+                "employee_id": self.employee.id,
+                "product_id": product.id,
+                "total_amount_currency": 50.0,
+                "account_id": self.acc_exp.id,
+            }
+        )
+        expense.approval_state = "approved"
+
+        with self.assertRaises(UserError):
+            deduction._import_hr_expenses(expense)
+        self.assertFalse(expense.expenses_deduction_id)
+
+    def test_expenses_line_own_rule_restricts_access(self):
+        """Un Angajat nu poate citi direct linia unui decont care nu îi aparține — regulă proprie
+        pe modelul de linie, nu doar pe decont (tichet POPVAL-COS, runda 2)."""
+        other_employee = self.env["hr.employee"].create({"name": "Alt Angajat Linie"})
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": other_employee.id,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        line = self.env["deltatech.expenses.deduction.line"].create(
+            {
+                "expenses_deduction_id": deduction.id,
+                "name": "Cazare",
+                "amount": 100.0,
+                "expense_account_id": self.acc_exp.id,
+                "partner_id": self.supplier.id,
+            }
+        )
+        plain_user = (
+            self.env["res.users"]
+            .with_context(no_reset_password=True)
+            .create(
+                {
+                    "name": "Angajat Linie Test",
+                    "login": "expenses_line_user_test",
+                    "email": "expenses_line_user_test@example.com",
+                    "group_ids": [(6, 0, [self.env.ref("deltatech_expenses.group_expenses_user").id])],
+                }
+            )
+        )
+        with self.assertRaises(AccessError):
+            line.with_user(plain_user).read(["name"])
