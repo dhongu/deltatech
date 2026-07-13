@@ -102,6 +102,22 @@ def _trim(value):
     return text
 
 
+def _shape(value):
+    """Structure-only description of a value: never its content.
+
+    Used by the TEMPORARY diagnostic below to figure out why some
+    ``service="object"`` calls fall through to the short log line (expected
+    shape is 7 positional params; some caller sends something shorter).
+    Reports only type names and container lengths, so it cannot leak a
+    password, model name or business value.
+    """
+    if isinstance(value, list | tuple):
+        return (type(value).__name__, len(value), [_shape(item) for item in value])
+    if isinstance(value, dict):
+        return (type(value).__name__, len(value))
+    return type(value).__name__
+
+
 def _log_rpc_call(service, rpc_method, params):
     # Cheapest guard first: if the logger is muted (e.g. raised above INFO via
     # log_handler), do no work at all -- not even repr() of the arguments.
@@ -140,6 +156,13 @@ def _log_rpc_call(service, rpc_method, params):
     else:
         # common / db services: never log credentials, only the RPC method.
         _logger.info("RPC ip=%s service=%s method=%s", ip, service, rpc_method)
+        # TEMPORARY DIAGNOSTIC (remove once the caller's param shape is known):
+        # some ``service="object"`` callers land here instead of the detailed
+        # branch above, meaning ``len(params) < 5`` -- unexpected for a
+        # standard execute_kw call. Log the *shape* only (types/lengths), never
+        # the values, to find out what these callers actually send.
+        if service == "object":
+            _logger.info("RPC ip=%s service=%s method=%s SHAPE=%s", ip, service, rpc_method, _shape(params))
 
 
 class RPC(RPC):

@@ -1,5 +1,17 @@
 # History
 
+## 18.0.1.2.1 (2026-07-13) — TEMPORARY diagnostic, revert once answered
+
+- On PTC production, all `service="object"` calls from an internal IP
+  (`10.0.21.88`) fall through to the short log line (`RPC ip=... service=object
+  method=execute_kw`) instead of the detailed one, meaning `len(params) < 5`
+  for every one of them — unexpected for a standard 7-element `execute_kw`
+  payload. Added a structure-only diagnostic log (`_shape()`: type names and
+  container lengths, never actual values, so it cannot leak a password or
+  business data) on that fallback path, to capture the real shape of these
+  calls. **Remove this diagnostic once the shape is known** — it is not meant
+  to stay in the module long-term.
+
 ## 18.0.1.2.0 (2026-06-30)
 
 - Log the full `execute_kw` payload: in addition to db / uid / model / method /
