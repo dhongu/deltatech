@@ -102,7 +102,7 @@ class TestComputeWarehouseStocks(TransactionCase):
 
         # pending transfer from the other warehouse -> counted as transit
         self._make_move(wh2.lot_stock_id, self.loc1, 3.0)
-        # receipt from supplier -> not counted
+        # receipt from supplier -> counted as expected, not as transit
         supplier_location = self.env.ref("stock.stock_location_suppliers")
         self._make_move(supplier_location, self.loc1, 5.0)
         # move inside the same warehouse -> not counted
@@ -113,9 +113,9 @@ class TestComputeWarehouseStocks(TransactionCase):
 
         self.template._compute_warehouse_stocks()
         text = self.template.warehouse_stock or ""
-        self.assertIn(f"{self.wh1.code}: 4.0 (T: 3.0)", text)
+        self.assertIn(f"{self.wh1.code}: 4.0 (T: 3.0, E: 5.0)", text)
         self.assertIn("T2: 6.0", text)
-        # transit is informative only, free stock is unchanged
+        # transit and expected are informative only, free stock is unchanged
         self.assertIn("FREE STOCK: 4.0", text)
 
     def test_compute_warehouse_stocks_detailed_transit_location(self):
@@ -140,4 +140,66 @@ class TestComputeWarehouseStocks(TransactionCase):
         self.template._compute_warehouse_stocks()
         text = self.template.warehouse_stock or ""
         self.assertIn(f"{self.wh1.code}: 4.0 (T: 7.0)", text)
+        self.assertIn("FREE STOCK: 4.0", text)
+
+    def test_compute_warehouse_stocks_detailed_transit_chained(self):
+        wh2 = self.env["stock.warehouse"].create(
+            {
+                "name": "Test WH2",
+                "code": "T2",
+                "company_id": self.company.id,
+            }
+        )
+        self.wh1.kanban_display_stock = "detailed"
+        transit_location = self.env["stock.location"].create(
+            {
+                "name": "WH Stocks Transit",
+                "usage": "transit",
+                "company_id": self.company.id,
+            }
+        )
+        # two step transfer: wh2 -> transit -> wh1, nothing shipped yet
+        first_leg = self._make_move(wh2.lot_stock_id, transit_location, 5.0)
+        second_leg = self._make_move(transit_location, self.loc1, 5.0)
+        second_leg.move_orig_ids = [(4, first_leg.id)]
+
+        # goods did not reach the transit location -> not in transit yet
+        self.template._compute_warehouse_stocks()
+        text = self.template.warehouse_stock or ""
+        self.assertIn(f"{self.wh1.code}: 4.0\n", text + "\n")
+        self.assertNotIn("T:", text)
+
+        # once the first leg is done the goods really are in transit
+        first_leg.state = "done"
+        self.template._compute_warehouse_stocks()
+        text = self.template.warehouse_stock or ""
+        self.assertIn(f"{self.wh1.code}: 4.0 (T: 5.0)", text)
+
+    def test_compute_warehouse_stocks_detailed_expected_via_transit(self):
+        self.env["stock.warehouse"].create(
+            {
+                "name": "Test WH2",
+                "code": "T2",
+                "company_id": self.company.id,
+            }
+        )
+        self.wh1.kanban_display_stock = "detailed"
+        transit_location = self.env["stock.location"].create(
+            {
+                "name": "WH Stocks Transit",
+                "usage": "transit",
+                "company_id": self.company.id,
+            }
+        )
+        # receipt routed through a transit location: supplier -> transit -> wh1
+        supplier_location = self.env.ref("stock.stock_location_suppliers")
+        first_leg = self._make_move(supplier_location, transit_location, 9.0)
+        second_leg = self._make_move(transit_location, self.loc1, 9.0)
+        second_leg.move_orig_ids = [(4, first_leg.id)]
+
+        # coming from a supplier -> expected, not transit
+        self.template._compute_warehouse_stocks()
+        text = self.template.warehouse_stock or ""
+        self.assertIn(f"{self.wh1.code}: 4.0 (E: 9.0)", text)
+        self.assertNotIn("T:", text)
         self.assertIn("FREE STOCK: 4.0", text)
