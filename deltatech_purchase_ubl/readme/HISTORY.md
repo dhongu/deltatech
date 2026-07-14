@@ -1,5 +1,13 @@
 # Changelog
 
+## [19.0.1.2.1] - 2026-07-14
+
+### Fixed
+- **Bug** (ported from 18.0 PR #2645): when the purchase order already had lines, source lines whose product wasn't already on the order (e.g. an "Ecovaloare" line added by the supplier that wasn't on the original PO) were silently dropped — no new order line was created and no message was shown. `_process_invoice_data` now adds any unconsumed matched source line as a new purchase order line, mirroring the behavior already used when the order has no lines.
+  - Added test `test_new_product_added_as_line_when_order_already_has_lines`.
+- **Bug** (ported from 18.0 PR #2645): the supplier's invoice number/date (`invoice_id`/`issue_date` from the source document) were lost whenever the user ran the import wizard without ticking "Create vendor bill" (its default), then created the vendor bill later from the standard purchase order flow. `_process_invoice_data` now auto-creates the vendor bill whenever the source document identifies an invoice number, regardless of the "Create vendor bill" checkbox.
+  - Added test `test_vendor_bill_auto_created_when_invoice_id_present`.
+
 ## [19.0.1.2.0] - 2026-07-05
 
 ### Changed

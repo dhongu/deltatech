@@ -253,6 +253,126 @@ class TestPurchaseUblImport(TransactionCase):
         self.assertTrue(sinfo)
         self.assertAlmostEqual(sinfo.price, 9.99, places=2)
 
+    def test_new_product_added_as_line_when_order_already_has_lines(self):
+        # PO already has one line for an existing product
+        kg_uom = self.env.ref("uom.product_uom_kgm")
+        existing_product = self.env["product.product"].create(
+            {
+                "name": "Existing",
+                "default_code": "VEND-EXIST",
+                "is_storable": True,
+                "uom_id": kg_uom.id,
+                "purchase_ok": True,
+            }
+        )
+        self.env["purchase.order.line"].create(
+            {
+                "order_id": self.po.id,
+                "product_id": existing_product.id,
+                "name": existing_product.display_name,
+                "product_qty": 1.0,
+                "price_unit": 5.0,
+                "product_uom_id": existing_product.uom_id.id,
+                "date_planned": "2025-01-01 00:00:00",
+            }
+        )
+        # Invoice matches the existing line AND has an extra product not yet on the order
+        # (e.g. an "Ecovaloare" line added by the supplier that was not on the original PO)
+        xml = _xml_invoice(
+            order_ref=self.po.name,
+            lines=[
+                {
+                    "code": "VEND-EXIST",
+                    "name": "Existing",
+                    "qty": "7",
+                    "price": "9.99",
+                    "line_total": "69.93",
+                    "unit_code": "KGM",
+                },
+                {
+                    "code": "VEND-NEW",
+                    "name": "New From UBL",
+                    "qty": "3",
+                    "price": "12.50",
+                    "line_total": "37.50",
+                    "unit_code": "KGM",
+                },
+            ],
+        )
+        _ = self._run_wizard(xml, self.po)
+
+        # Existing line still updated
+        pol_existing = self.po.order_line.filtered(lambda l: l.product_id == existing_product)
+        self.assertTrue(pol_existing)
+        self.assertAlmostEqual(pol_existing.product_qty, 7.0, places=4)
+
+        # New product must be added as a new order line, not silently dropped
+        new_product = self.env["product.product"].search([("name", "=", "New From UBL")], limit=1)
+        self.assertTrue(new_product, "Product should be created from UBL line")
+        pol_new = self.po.order_line.filtered(lambda l: l.product_id == new_product)
+        self.assertTrue(pol_new, "New product from invoice must be added as a purchase order line")
+        self.assertAlmostEqual(pol_new.product_qty, 3.0, places=4)
+        self.assertAlmostEqual(pol_new.price_unit, 12.50, places=2)
+
+    def test_vendor_bill_auto_created_when_invoice_id_present(self):
+        # Even with create_bill unticked, a vendor bill must be created (and its ref/date
+        # filled from the source document) whenever the source has an invoice number,
+        # otherwise the supplier's invoice reference/date are lost.
+        kg_uom = self.env.ref("uom.product_uom_kgm")
+        product = self.env["product.product"].create(
+            {
+                "name": "Existing",
+                "default_code": "VEND-EXIST",
+                "is_storable": True,
+                "uom_id": kg_uom.id,
+                "purchase_ok": True,
+                "purchase_method": "purchase",
+            }
+        )
+        self.env["purchase.order.line"].create(
+            {
+                "order_id": self.po.id,
+                "product_id": product.id,
+                "name": product.display_name,
+                "product_qty": 7.0,
+                "price_unit": 9.99,
+                "product_uom_id": product.uom_id.id,
+                "date_planned": "2025-01-01 00:00:00",
+            }
+        )
+        self.po.button_confirm()
+        xml = _xml_invoice(
+            invoice_id="INV-777",
+            order_ref=self.po.name,
+            lines=[
+                {
+                    "code": "VEND-EXIST",
+                    "name": "Existing",
+                    "qty": "7",
+                    "price": "9.99",
+                    "line_total": "69.93",
+                    "unit_code": "KGM",
+                }
+            ],
+        )
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        wiz = Wiz.with_context(active_model="purchase.order", active_id=self.po.id).create(
+            {
+                "data_file": b64encode(xml),
+                "filename": "test.xml",
+                "update_prices": True,
+                "create_bill": False,
+                "validate_receipt": False,
+                "create_missing_products": True,
+            }
+        )
+        wiz.action_import()
+
+        self.assertTrue(self.po.invoice_ids, "Vendor bill should be auto-created when source has an invoice number")
+        inv = self.po.invoice_ids.sorted(key=lambda m: m.id)[-1]
+        self.assertEqual(inv.ref, "INV-777")
+        self.assertEqual(str(inv.invoice_date), "2025-01-01")
+
     def test_product_match_by_name_no_spaces(self):
         # Create a product with spaces in name
         product = self.env["product.product"].create(
