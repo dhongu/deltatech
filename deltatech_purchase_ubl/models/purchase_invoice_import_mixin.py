@@ -600,31 +600,13 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 )
                 updated.append(f"{product.display_name}: {ln.get('price')} {invoice_data.get('currency')}")
 
-        # If the purchase order has no lines, add products from the source document as order lines
+        # Update existing order lines from the source document, then add any remaining
+        # source lines (products not already on the order) as new order lines, instead of
+        # silently dropping them.
         added_count = 0
-        if order and not order.order_line:
-            POL = self.env["purchase.order.line"]
-            for ml in mapped_lines:
-                product = ml.get("product")
-                if not product:
-                    continue
-                vals = {
-                    "order_id": order.id,
-                    "product_id": product.id,
-                    "name": ml.get("name") or product.display_name,
-                    "product_qty": ml.get("qty", 0.0) or 0.0,
-                    "price_unit": ml.get("price", 0.0) or 0.0,
-                    "product_uom_id": product.uom_id.id,
-                    "date_planned": fields.Datetime.now(),
-                }
-                if ml.get("discount") and "discount" in self.env["purchase.order.line"]._fields:
-                    vals["discount"] = ml.get("discount")
-                POL.create(vals)
-                added_count += 1
-
-        # If the purchase order already has lines, update their quantities and prices from the source document
         updated_lines_count = 0
-        if order and order.order_line:
+        if order:
+            POL = self.env["purchase.order.line"]
             # Build a product->list of source lines map to support duplicates
             source_map = {}
             for ml in mapped_lines:
@@ -654,6 +636,23 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 if vals:
                     line.write(vals)
                     updated_lines_count += 1
+            # Any source lines left unconsumed (product not already on the order) become new lines
+            for lines_for_prod in source_map.values():
+                for src_ln in lines_for_prod:
+                    product = src_ln.get("product")
+                    vals = {
+                        "order_id": order.id,
+                        "product_id": product.id,
+                        "name": src_ln.get("name") or product.display_name,
+                        "product_qty": src_ln.get("qty", 0.0) or 0.0,
+                        "price_unit": src_ln.get("price", 0.0) or 0.0,
+                        "product_uom_id": product.uom_id.id,
+                        "date_planned": fields.Datetime.now(),
+                    }
+                    if src_ln.get("discount") and "discount" in self.env["purchase.order.line"]._fields:
+                        vals["discount"] = src_ln.get("discount")
+                    POL.create(vals)
+                    added_count += 1
 
         # Validate receipt
         pick_log = ""
@@ -674,7 +673,11 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         bill = False
         bill_log = ""
         duplicate_bill = False
-        if self.create_bill:
+        # Always create the vendor bill when the source document identifies an invoice number,
+        # so the supplier's invoice reference/date are not lost when the user forgets to tick
+        # "Create vendor bill". The checkbox stays available to force bill creation even when
+        # the source has no invoice number.
+        if self.create_bill or invoice_data.get("invoice_id"):
             if order:
                 invoice_ref = invoice_data.get("invoice_id")
                 duplicate_bill = self._find_duplicate_bill(partner, invoice_ref)
