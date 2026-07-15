@@ -3,52 +3,84 @@
 # See README.rst file on addons root folder for license details
 
 
+from typing import Any
+
 from odoo import api, models
-from odoo.tools import float_compare, float_round
 
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     @api.model
-    def fix_qty_multiple(self, product, product_uom, qty=None):
-        if qty is None:
-            qty = 0
+    def fix_qty_multiple(self, product, product_uom, qty: float | None = None) -> float:
+        """Compatibility wrapper for callers of the historical public helper."""
+        if not product:
+            return qty or 0.0
+        return product._normalize_sale_quantity(qty or 0.0, product_uom)
 
-        if qty <= 0:
-            return qty
-
-        if product and product.qty_multiple and product.qty_multiple != 1:
-            qty_multiple = product.qty_multiple
-            remainder = qty % qty_multiple
-
-            if float_compare(remainder, 0.0, precision_rounding=product_uom.rounding) > 0:
-                qty += qty_multiple - remainder
-
-            if float_compare(qty, 0.0, precision_rounding=product_uom.rounding) > 0:
-                qty = float_round(qty, precision_rounding=product_uom.rounding)
-        if product.qty_minim and product.qty_minim > 0:
-            if qty < product.qty_minim:
-                qty = product.qty_minim
-
-        return qty
-
-    @api.onchange("product_uom_qty", "product_id")
-    def _onchange_product_uom_qty(self):
+    @api.onchange("product_uom_qty", "product_id", "product_uom_id")
+    def _onchange_product_uom_qty(self) -> None:
+        if not self.product_id:
+            return
         product_uom = self.product_uom_id or self.product_id.uom_id
-        self.product_uom_qty = self.fix_qty_multiple(self.product_id, product_uom, self.product_uom_qty)
-        # super(SaleOrderLine, self)._onchange_product_uom_qty()
+        self.product_uom_qty = self.fix_qty_multiple(
+            self.product_id,
+            product_uom,
+            self.product_uom_qty,
+        )
 
-    def write(self, vals):
-        if len(self) == 1 and "product_uom_qty" in vals:
-            if "product_id" in vals:
-                product = self.env["product.product"].browse(vals["product_id"])
-            else:
-                product = self.product_id
-            if "product_uom_id" in vals:
-                product_uom = self.env["uom.uom"].browse(vals["product_uom_id"])
-            else:
-                product_uom = self.product_uom_id
-            vals["product_uom_qty"] = self.fix_qty_multiple(product, product_uom, vals["product_uom_qty"])
+    @api.model
+    def _prepare_quantity_rule_values(
+        self,
+        vals: dict[str, Any],
+        line=None,
+    ) -> dict[str, Any]:
+        values = dict(vals)
+        product = (
+            self.env["product.product"].browse(values["product_id"])
+            if values.get("product_id")
+            else line.product_id
+            if line
+            else self.env["product.product"]
+        )
+        if not product or values.get("display_type"):
+            return values
 
-        return super().write(vals)
+        product_uom = (
+            self.env["uom.uom"].browse(values["product_uom_id"])
+            if values.get("product_uom_id")
+            else line.product_uom_id
+            if line
+            else product.uom_id
+        )
+        if "product_uom_qty" in values:
+            quantity = values["product_uom_qty"]
+        elif line and "product_uom_id" in values:
+            quantity = line.product_uom_id._compute_quantity(
+                line.product_uom_qty,
+                product_uom,
+                round=False,
+            )
+        else:
+            quantity = line.product_uom_qty if line else 1.0
+        values["product_uom_qty"] = self.fix_qty_multiple(
+            product,
+            product_uom,
+            quantity,
+        )
+        return values
+
+    @api.model_create_multi
+    def create(self, vals_list: list[dict[str, Any]]):
+        normalized_vals = [self._prepare_quantity_rule_values(vals) for vals in vals_list]
+        return super().create(normalized_vals)
+
+    def write(self, vals: dict[str, Any]) -> bool:
+        rule_fields = {"product_id", "product_uom_id", "product_uom_qty"}
+        if not rule_fields.intersection(vals):
+            return super().write(vals)
+
+        for line in self:
+            line_vals = self._prepare_quantity_rule_values(vals, line=line)
+            super(SaleOrderLine, line).write(line_vals)
+        return True

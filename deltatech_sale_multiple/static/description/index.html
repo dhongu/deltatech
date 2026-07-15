@@ -8,10 +8,11 @@
 
 /*
 :Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 8954 2022-01-20 10:10:25Z milde $
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
 :Copyright: This stylesheet has been placed in the public domain.
 
 Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
 
 See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
 customize this style sheet.
@@ -274,7 +275,7 @@ pre.literal-block, pre.doctest-block, pre.math, pre.code {
   margin-left: 2em ;
   margin-right: 2em }
 
-pre.code .ln { color: grey; } /* line numbers */
+pre.code .ln { color: gray; } /* line numbers */
 pre.code, code { background-color: #eeeeee }
 pre.code .comment, code .comment { color: #5C6576 }
 pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
@@ -300,7 +301,7 @@ span.option {
 span.pre {
   white-space: pre }
 
-span.problematic {
+span.problematic, pre.problematic {
   color: red }
 
 span.section-subtitle {
@@ -383,9 +384,11 @@ ul.auto-toc {
 !! source digest: sha256:2e66b78ef575916604310a23c7c2cd834cd9754d853b9724171d61e44ce7eef9
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p style="font-size:19px;line-height:1.6;margin:0 0 26px;max-width:780px;opacity:0.92;">Features:</p>
-<ul style="list-style:none;padding:0;margin:14px 0 30px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;"><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>You can set a minimum quantity and a multiple quantity on the product.</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>if you try to sell less than minimum the number will be set to the
-minimum quantity.</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>if you set multiple quantity you can sell only in multiple of this
-number.</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>if set to 0 neither minimum nor multiple quantity will be checked.</li></ul>
+<ul style="list-style:none;padding:0;margin:14px 0 30px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;"><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>You can set a minimum quantity and a multiple quantity on the product.</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>Rules are configured in the product’s default unit of measure and
+converted to the sale line unit.</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>If you try to sell less than the minimum, the quantity is raised to
+the first valid multiple at or above that minimum.</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>A multiple of 0 or 1 disables the multiple restriction; a minimum of 0
+disables the minimum restriction.</li><li style="background-color:transparent;border:1px solid rgba(127,160,140,0.40);border-radius:14px;list-style:none;margin:0;line-height:1.5;padding:16px 18px 16px 50px;position:relative;"><span style="position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;background-color:#57B952;color:#04331f;font-weight:800;font-size:13px;text-align:center;line-height:22px;display:inline-block;">&#10003;</span>Rules are enforced consistently in form onchanges, imports, ORM
+creates, and single or batch writes.</li></ul>
 <div class="section" id="bug-tracker">
 <h1 style="border:none;border-left:4px solid #57B952;padding-left:16px;margin:30px 0 14px;font-size:27px;font-weight:800;letter-spacing:-0.3px;line-height:1.2;">Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
