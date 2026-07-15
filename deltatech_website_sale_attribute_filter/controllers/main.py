@@ -4,9 +4,9 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class WebsiteSaleAttributeFilter(WebsiteSale):
-    def shop(self, page=0, category=None, search="", min_price=0.0, max_price=0.0, ppg=False, **post):
+    def shop(self, page=0, category=None, search="", min_price=0.0, max_price=0.0, tags="", **post):
         response = super().shop(
-            page=page, category=category, search=search, min_price=min_price, max_price=max_price, ppg=ppg, **post
+            page=page, category=category, search=search, min_price=min_price, max_price=max_price, tags=tags, **post
         )
         if not hasattr(response, "qcontext") or not response.qcontext:
             return response
@@ -25,10 +25,5 @@ class WebsiteSaleAttributeFilter(WebsiteSale):
             )
             active_value_ids = ptals.mapped("value_ids").ids
             response.qcontext.update(active_attribute_value_ids=set(active_value_ids))
-
-        # print("DEBUG: active_attribute_value_ids", response.qcontext.get("active_attribute_value_ids"))
-
-        # Adăugăm active_attribute_value_ids la cache key dacă e nevoie,
-        # dar mai bine am dezactivat cache-ul în template-uri pentru simplitate.
 
         return response
