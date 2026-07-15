@@ -1,108 +1,81 @@
-# ©  2008-2021 Deltatech
-#              Dorin Hongu <dhongu(@)gmail(.)com
-# See README.rst file on addons root folder for license details
-
-
+from odoo.exceptions import ValidationError
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
 
-class TestSale(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.partner_a = self.env["res.partner"].create({"name": "Test"})
-
-        seller_ids = [(0, 0, {"partner_id": self.partner_a.id})]
-        self.product_a = self.env["product.product"].create(
+class TestSaleMultiple(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.partner = cls.env["res.partner"].create({"name": "Quantity Rules Partner"})
+        cls.order = cls.env["sale.order"].create({"partner_id": cls.partner.id})
+        cls.product = cls.env["product.product"].create(
             {
-                "name": "Test A",
-                "is_storable": True,
-                "standard_price": 100,
-                "list_price": 150,
-                "qty_multiple": 100,
-                "seller_ids": seller_ids,
-            }
-        )
-        self.product_b = self.env["product.product"].create(
-            {
-                "name": "Test B",
-                "is_storable": True,
-                "standard_price": 70,
-                "list_price": 150,
-                "qty_minim": 10,
-                "seller_ids": seller_ids,
+                "name": "Quantity Rules Product",
+                "list_price": 100.0,
+                "qty_multiple": 5.0,
+                "qty_minim": 10.0,
             }
         )
 
-        self.stock_location = self.env.ref("stock.stock_location_stock")
-
-        self.env["stock.quant"]._update_available_quantity(self.product_a, self.stock_location, 1000)
-        self.env["stock.quant"]._update_available_quantity(self.product_b, self.stock_location, 1000)
-
-        # inv_line_a = {
-        #     "product_id": self.product_a.id,
-        #     "product_qty": 10000,
-        #     "location_id": self.stock_location.id,
-        # }
-        # inv_line_b = {
-        #     "product_id": self.product_b.id,
-        #     "product_qty": 10000,
-        #     "location_id": self.stock_location.id,
-        # }
-        # inventory = self.env["stock.inventory"].create(
-        #     {
-        #         "name": "Inv. productserial1",
-        #         "line_ids": [
-        #             (0, 0, inv_line_a),
-        #             (0, 0, inv_line_b),
-        #         ],
-        #     }
-        # )
-        # inventory.action_start()
-        # inventory.action_validate()
-
-    def test_sale(self):
-        so = Form(self.env["sale.order"])
-        so.partner_id = self.partner_a
-
-        with so.order_line.new() as so_line:
-            so_line.product_id = self.product_a
-            so_line.product_uom_qty = 1
-
-        with so.order_line.new() as so_line:
-            so_line.product_id = self.product_b
-            so_line.product_uom_qty = 1
-
-        self.so = so.save()
-
-    def test_write_sale_order_line(self):
-        product = self.env["product.product"].create(
+    def _create_line(self, product=None, quantity=1.0, product_uom=None):
+        product = product or self.product
+        return self.env["sale.order.line"].create(
             {
-                "name": "Test Product",
-                "is_storable": True,
-                "purchase_ok": True,
-                "list_price": 100.0,  # Sale price
-                "standard_price": 50.0,  # Purchase price
-            }
-        )
-        partner = self.env["res.partner"].create(
-            {
-                "name": "Test Partner",
-            }
-        )
-
-        # Create a sale order with one order line
-        sale_order = self.env["sale.order"].create(
-            {
-                "partner_id": partner.id,
-            }
-        )
-        sale_order_line = self.env["sale.order.line"].create(
-            {
-                "order_id": sale_order.id,
+                "order_id": self.order.id,
                 "product_id": product.id,
-                "product_uom_qty": 1.0,
-                "price_unit": 40.0,  # Below the purchase price
+                "product_uom_id": (product_uom or product.uom_id).id,
+                "product_uom_qty": quantity,
             }
         )
-        sale_order_line.write({"product_uom_qty": 2.0})
+
+    def test_form_onchange_applies_minimum_and_multiple(self):
+        order_form = Form(self.env["sale.order"])
+        order_form.partner_id = self.partner
+        with order_form.order_line.new() as line_form:
+            line_form.product_id = self.product
+            line_form.product_uom_qty = 7.0
+            self.assertEqual(line_form.product_uom_qty, 10.0)
+
+    def test_create_applies_quantity_rules(self):
+        line = self._create_line(quantity=7.0)
+        self.assertEqual(line.product_uom_qty, 10.0)
+
+    def test_batch_write_applies_rules_to_every_line(self):
+        lines = self._create_line(quantity=10.0) | self._create_line(quantity=15.0)
+        lines.write({"product_uom_qty": 7.0})
+        self.assertRecordValues(lines, [{"product_uom_qty": 10.0}] * 2)
+
+    def test_minimum_is_rounded_to_next_multiple(self):
+        self.product.write({"qty_multiple": 10.0, "qty_minim": 15.0})
+        line = self._create_line(quantity=1.0)
+        self.assertEqual(line.product_uom_qty, 20.0)
+
+    def test_rules_are_converted_to_line_uom(self):
+        pack_of_six = self.env.ref("uom.product_uom_pack_6")
+        self.product.write({"qty_multiple": 6.0, "qty_minim": 12.0})
+        line = self._create_line(quantity=1.0, product_uom=pack_of_six)
+        self.assertEqual(line.product_uom_qty, 2.0)
+
+    def test_changing_uom_reapplies_rules(self):
+        pack_of_six = self.env.ref("uom.product_uom_pack_6")
+        self.product.write({"qty_multiple": 6.0, "qty_minim": 12.0})
+        line = self._create_line(quantity=12.0)
+        line.write({"product_uom_id": pack_of_six.id})
+        self.assertEqual(line.product_uom_qty, 2.0)
+
+    def test_template_minimum_tracks_variant(self):
+        self.product.qty_minim = 17.0
+        self.assertEqual(self.product.product_tmpl_id.qty_minim, 17.0)
+
+    def test_negative_rules_are_rejected(self):
+        with self.assertRaises(ValidationError):
+            self.product.qty_multiple = -1.0
+        with self.assertRaises(ValidationError):
+            self.product.qty_minim = -1.0
+
+    def test_new_product_has_no_minimum_by_default(self):
+        product = self.env["product.product"].create({"name": "Fractional Product"})
+        self.assertEqual(product.qty_minim, 0.0)
+        line = self._create_line(product=product, quantity=0.25)
+        self.assertEqual(line.product_uom_qty, 0.25)
