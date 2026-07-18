@@ -1,5 +1,12 @@
 # Changelog
 
+## [19.0.1.2.2] - 2026-07-18
+
+### Fixed
+- **Bug** (ported from 18.0 PR #2649): purchase order lines for service products with `purchase_method="receive"` (e.g. Marso's "Ecovaloare" eco-tax lines) never get a `qty_received` from stock moves, since services have no stock picking. Only `_validate_receipt_quantities` (used for physical products) previously set received quantities, so these service lines stayed at `qty_to_invoice == 0` and `action_create_invoice()` silently dropped them from the vendor bill even though they were present on the order.
+  - `_process_invoice_data` now marks a line as received (`qty_received_manual` = ordered quantity) whenever its `qty_received_method` is `"manual"`, for both updated existing lines and newly added ones.
+  - Added test `test_service_line_receive_policy_is_marked_received_for_billing`.
+
 ## [19.0.1.2.1] - 2026-07-14
 
 ### Fixed
