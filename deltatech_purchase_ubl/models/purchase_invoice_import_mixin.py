@@ -405,6 +405,18 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         else:
             SupplierInfo.create(values)
 
+    def _mark_line_received_if_manual(self, line):
+        """Mark a purchase order line as received when its quantity is tracked manually.
+
+        Service/consu products (qty_received_method == "manual") never get a qty_received
+        from stock moves or from _validate_receipt_quantities below, since they have no
+        stock picking. Without this, a line matched from the supplier invoice (e.g. an
+        "Ecovaloare" eco-tax line) stays at qty_to_invoice == 0 and action_create_invoice()
+        silently drops it from the vendor bill, even though it is present on the order.
+        """
+        if line.qty_received_method == "manual":
+            line.qty_received_manual = line.product_qty
+
     def _find_receipt(self, order):
         Picking = self.env["stock.picking"]
         domain = [
@@ -646,6 +658,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 if vals:
                     line.write(vals)
                     updated_lines_count += 1
+                self._mark_line_received_if_manual(line)
             # Any source lines left unconsumed (product not already on the order) become new lines
             for lines_for_prod in source_map.values():
                 for src_ln in lines_for_prod:
@@ -661,8 +674,9 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                     }
                     if src_ln.get("discount") and "discount" in self.env["purchase.order.line"]._fields:
                         vals["discount"] = src_ln.get("discount")
-                    POL.create(vals)
+                    new_line = POL.create(vals)
                     added_count += 1
+                    self._mark_line_received_if_manual(new_line)
 
         # Validate receipt
         pick_log = ""

@@ -669,6 +669,80 @@ class TestPurchaseUblImport(TransactionCase):
         # Check message content without hardcoding the currency (company currency may vary)
         self.assertIn("differs from XML total 15.00", wiz.total_check_warning or "")
 
+    def test_service_line_receive_policy_is_marked_received_for_billing(self):
+        """Regression test for the reported Marso "Ecovaloare" bug: a service product
+        with purchase_method="receive" has no stock moves, so its qty_received stays 0
+        unless set explicitly -- otherwise action_create_invoice() silently drops the
+        line from the vendor bill even though it is present on the purchase order.
+        """
+        eco = self.env["product.product"].create(
+            {
+                "name": "Ecovaloare ANVELOPA 15",
+                "default_code": "ECO-15",
+                "type": "service",
+                "purchase_ok": True,
+                "purchase_method": "receive",
+            }
+        )
+        self.env["purchase.order.line"].create(
+            {
+                "order_id": self.po.id,
+                "product_id": eco.id,
+                "name": eco.display_name,
+                "product_qty": 4.0,
+                "price_unit": 1.50,
+                "product_uom": eco.uom_po_id.id,
+                "date_planned": "2025-01-01 00:00:00",
+            }
+        )
+        self.po.button_confirm()
+        self.assertEqual(
+            self.po.order_line.qty_received,
+            0.0,
+            "Sanity check: a fresh service line has no received quantity yet",
+        )
+
+        xml = _xml_invoice(
+            invoice_id="INV-ECO-1",
+            order_ref=self.po.name,
+            lines=[
+                {
+                    "code": "ECO-15",
+                    "name": "Ecovaloare ANVELOPA 15",
+                    "qty": "4",
+                    "price": "1.50",
+                    "line_total": "6.00",
+                    "unit_code": "C62",
+                }
+            ],
+        )
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        wiz = Wiz.with_context(active_model="purchase.order", active_id=self.po.id).create(
+            {
+                "data_file": b64encode(xml),
+                "filename": "eco.xml",
+                "update_prices": True,
+                "create_bill": True,
+                "validate_receipt": False,
+                "create_missing_products": True,
+            }
+        )
+        wiz.action_import()
+
+        pol = self.po.order_line.filtered(lambda l: l.product_id == eco)
+        self.assertEqual(pol.qty_received_method, "manual")
+        self.assertAlmostEqual(
+            pol.qty_received,
+            4.0,
+            places=4,
+            msg="Service line must be marked as received so it can be invoiced",
+        )
+
+        self.assertTrue(self.po.invoice_ids, "Vendor bill should be created")
+        bill = self.po.invoice_ids.sorted(key=lambda m: m.id)[-1]
+        bill_line = bill.invoice_line_ids.filtered(lambda l: l.product_id == eco)
+        self.assertTrue(bill_line, "Ecovaloare line must reach the vendor bill, not be silently dropped")
+
     def test_total_check_log_confirms_when_totals_match(self):
         # Use a fresh PO with a line whose total exactly matches the XML payable_amount
         po = self.env["purchase.order"].create(
