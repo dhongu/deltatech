@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t
+        t-name="deltatech_sale_catalog_website.ImageCatalogZoomField"
+        t-inherit="web.ImageField"
+        t-inherit-mode="primary"
+    >
+        <xpath expr="//img" position="attributes">
+            <attribute name="t-on-click">onImageClick</attribute>
+            <attribute name="role">button</attribute>
+        </xpath>
+    </t>
+
+    <t t-name="deltatech_sale_catalog_website.ImageZoomDialog">
+        <Dialog title="props.title" size="'lg'">
+            <div class="text-center">
+                <img t-att-src="props.src" class="img img-fluid" alt="Product" />
+            </div>
+        </Dialog>
+    </t>
+
+</templates>
