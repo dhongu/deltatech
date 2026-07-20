@@ -7,7 +7,9 @@
         t-inherit-mode="primary"
     >
         <xpath expr="//img" position="attributes">
-            <attribute name="t-on-click">onImageClick</attribute>
+            <!-- .stop: opening the preview must not bubble to the catalog card's
+                 onGlobalClick, which would add/increment the order quantity. -->
+            <attribute name="t-on-click.stop">onImageClick</attribute>
             <attribute name="role">button</attribute>
         </xpath>
     </t>
