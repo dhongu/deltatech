@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Sales-only catalog kanban: enlarge image on click + custom js_class -->
+    <record id="product_view_kanban_catalog_website" model="ir.ui.view">
+        <field name="name">product.view.kanban.catalog.website</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_view_kanban_catalog" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="js_class">product_kanban_catalog_website</attribute>
+            </xpath>
+            <xpath expr="//field[@name='image_128']" position="attributes">
+                <attribute name="widget">image_catalog_zoom</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Sales-only catalog search: website categories tree in the left panel -->
+    <record id="product_view_search_catalog_website" model="ir.ui.view">
+        <field name="name">product.view.search.catalog.website</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_view_search_catalog" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <!-- Hide the internal-category section (invisible="1" is skipped by the
+                 search-panel parser) and add the website-category tree next to it. -->
+            <xpath expr="//searchpanel/field[@name='categ_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//searchpanel/field[@name='categ_id']" position="after">
+                <field name="public_categ_ids" string="Website Category" icon="fa-sitemap" select="one" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
