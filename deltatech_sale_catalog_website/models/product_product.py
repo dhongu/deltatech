@@ -18,9 +18,12 @@ class ProductProduct(models.Model):
         if field_name != "public_categ_ids":
             return super().search_panel_select_range(field_name, **kwargs)
 
-        comodel = self.env["product.public.category"].with_context(hierarchical_naming=False)
+        comodel = self.env["product.public.category"]
         parent_name = comodel._parent_name  # 'parent_id'
-        field_names = ["display_name", parent_name]
+        # Read the short `name` instead of `display_name`: product.public.category
+        # always renders display_name as the full "Parent / Child / ..." path, which
+        # is redundant (and noisy) inside a hierarchical search-panel tree.
+        field_names = ["name", parent_name]
 
         def get_parent_id(record):
             value = record[parent_name]
@@ -62,7 +65,7 @@ class ProductProduct(models.Model):
             record_id = record["id"]
             values = {
                 "id": record_id,
-                "display_name": record["display_name"],
+                "display_name": record["name"],
                 parent_name: get_parent_id(record),
             }
             if enable_counters:
