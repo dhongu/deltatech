@@ -34,6 +34,10 @@ Features:
   - Color attributes
 
 - Automatically updates filters when searching or navigating categories.
+- Preserves the filter UI state (expanded attribute accordions, open
+  mobile off-canvas panel, scroll position) across the page reload
+  triggered on each selection, so the customer does not have to reopen
+  the filters every time.
 - Optimized for performance by efficiently identifying active attribute
   values from the product template attribute lines.
 - Compatible with Odoo's standard eCommerce layout and responsive
@@ -43,6 +47,18 @@ Features:
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.0.1.0
+----------
+
+- Preserve the attribute filter UI state across the page reload that
+  Odoo triggers when a filter value is selected: expanded attribute
+  accordions stay open, the mobile off-canvas filter panel reopens
+  automatically, and the scroll position is restored. The customer no
+  longer has to reopen the filter selectors after every selection.
 
 Bug Tracker
 ===========
