@@ -76,17 +76,17 @@ class SaleOrder(models.Model):
 
             if not amount:
                 payment_status = "without"
-                if order.transaction_ids:
+                if all_transactions:
                     payment_status = "initiated"
 
-                    cancel_tx = order.transaction_ids.filtered(lambda t: t.state == "cancel")
+                    cancel_tx = all_transactions.filtered(lambda t: t.state == "cancel")
                     if cancel_tx:
                         payment_status = "cancelled"
 
                     for transaction in all_transactions.sorted(lambda a: a.id):
                         provider = transaction.provider_id
 
-                    authorized_transaction_ids = order.transaction_ids.filtered(lambda t: t.state == "authorized")
+                    authorized_transaction_ids = all_transactions.filtered(lambda t: t.state == "authorized")
                     if authorized_transaction_ids:
                         payment_status = "authorized"
                         for transaction in authorized_transaction_ids:
