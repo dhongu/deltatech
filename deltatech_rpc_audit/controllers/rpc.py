@@ -159,10 +159,17 @@ def _log_rpc_call(service, rpc_method, params):
         # TEMPORARY DIAGNOSTIC (remove once the caller's param shape is known):
         # some ``service="object"`` callers land here instead of the detailed
         # branch above, meaning ``len(params) < 5`` -- unexpected for a
-        # standard execute_kw call. Log the *shape* only (types/lengths), never
-        # the values, to find out what these callers actually send.
+        # standard execute_kw call. Log the *shape* (types/lengths) plus the
+        # actual values (trimmed) to find out what these callers actually send.
         if service == "object":
-            _logger.info("RPC ip=%s service=%s method=%s SHAPE=%s", ip, service, rpc_method, _shape(params))
+            _logger.info(
+                "RPC ip=%s service=%s method=%s SHAPE=%s PARAMS=%s",
+                ip,
+                service,
+                rpc_method,
+                _shape(params),
+                _trim(params),
+            )
 
 
 class RPC(RPC):
