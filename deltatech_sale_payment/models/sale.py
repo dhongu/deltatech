@@ -61,7 +61,7 @@ class SaleOrder(models.Model):
                 amount_invoice = invoice.amount_total_signed - invoice.amount_residual_signed
                 if amount_invoice:
                     amount += amount_invoice
-                    transactions = transactions - invoice.transaction_ids.filtered(lambda a: a.is_post_processed)
+                    transactions = transactions - invoice.sudo().transaction_ids.filtered(lambda a: a.is_post_processed)
 
             for transaction in transactions:
                 amount += transaction.amount
