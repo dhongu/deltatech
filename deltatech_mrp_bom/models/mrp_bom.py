@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class MrpBom(models.Model):
@@ -73,7 +73,7 @@ class MrpBomLine(models.Model):
             return {
                 "res_id": self.child_bom_id.id,
                 "domain": "[('id','=', " + str(self.child_bom_id.id) + ")]",
-                "name": _("BOM"),
+                "name": self.env._("BOM"),
                 "view_mode": "form,list",
                 "res_model": "mrp.bom",
                 "view_id": False,
