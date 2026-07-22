@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
-from odoo.osv import expression
+from odoo.fields import Domain
 
 
 class StockQuant(models.Model):
@@ -81,5 +81,5 @@ class StockQuant(models.Model):
         domain = super()._get_gather_domain(product_id, location_id, lot_id, package_id, owner_id, strict)
         exclude_location_ids = self.env.context.get("exclude_location_ids")
         if exclude_location_ids:
-            domain = expression.AND([domain, [("location_id", "not in", exclude_location_ids)]])
+            domain = Domain.AND([domain, Domain("location_id", "not in", exclude_location_ids)])
         return domain

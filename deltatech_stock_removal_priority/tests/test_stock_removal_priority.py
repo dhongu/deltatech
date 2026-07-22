@@ -15,7 +15,7 @@ class TestStockRemovalPriority(TransactionCase):
         cls.warehouse = cls.env.ref("stock.warehouse0")
         cls.stock_location = cls.warehouse.lot_stock_id
         cls.product = cls.env["product.product"].create(
-            {"name": "Test Product", "is_storable": True, "categ_id": cls.env.ref("product.product_category_all").id}
+            {"name": "Test Product", "is_storable": True, "categ_id": cls.env.ref("product.product_category_goods").id}
         )
 
         cls.loc_1 = cls.env["stock.location"].create({"name": "Loc 1", "location_id": cls.stock_location.id})

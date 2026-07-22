@@ -2,9 +2,10 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "Stock Removal Location by Priority",
     "summary": "Stock Removal Location by Priority",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
