@@ -104,13 +104,9 @@ class CustomerPortal(portal.CustomerPortal):
         return values
 
     def fix_pager_filer(self, pager, filterby):
-        pager["page"]["url"] = pager["page"]["url"] + "&filterby=" + filterby
-        pager["page_first"]["url"] = pager["page_first"]["url"] + "&filterby=" + filterby
-        pager["page_start"]["url"] = pager["page_start"]["url"] + "&filterby=" + filterby
-        pager["page_previous"]["url"] = pager["page_previous"]["url"] + "&filterby=" + filterby
-        pager["page_next"]["url"] = pager["page_next"]["url"] + "&filterby=" + filterby
-        pager["page_end"]["url"] = pager["page_end"]["url"] + "&filterby=" + filterby
-        pager["page_last"]["url"] = pager["page_last"]["url"] + "&filterby=" + filterby
+        for key in ("page", "page_first", "page_previous", "page_next", "page_last"):
+            pager[key]["url"] = pager[key]["url"] + "&filterby=" + filterby
         for page in pager["pages"]:
-            page["url"] = page["url"] + "&filterby=" + filterby
+            if page["url"]:
+                page["url"] = page["url"] + "&filterby=" + filterby
         return pager
