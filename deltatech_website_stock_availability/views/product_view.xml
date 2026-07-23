@@ -14,4 +14,16 @@
             </xpath>
         </field>
     </record>
+
+    <record id="product_template_form_view_hide_out_of_stock_message" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.website.sale.stock.hide.message</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="website_sale_stock.product_template_form_view_inherit_website_sale_stock" />
+        <field name="arch" type="xml">
+            <field name="allow_out_of_stock_order" position="after">
+                <field name="hide_out_of_stock_message" class="oe_inline" invisible="not is_storable" />
+                <span invisible="not is_storable">Hide "Out of stock" message</span>
+            </field>
+        </field>
+    </record>
 </odoo>

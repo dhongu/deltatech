@@ -9,6 +9,11 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     sale_delay_safety = fields.Float("Customer Safety Lead Time", default=1)
+    hide_out_of_stock_message = fields.Boolean(
+        string="Hide Out-of-Stock Message",
+        help="Do not show the 'Out of stock' website message for this product, "
+        "even when it has no own or vendor availability.",
+    )
 
     def _get_combination_info(
         self,
@@ -46,6 +51,7 @@ class ProductTemplate(models.Model):
             combination_info["purchase_lead_time"] = company_lead_time + supplier_lead_time
             combination_info["availability_vendor"] = availability_vendor
             combination_info["product_template"] = self.id
+            combination_info["hide_out_of_stock_message"] = self.hide_out_of_stock_message
             if (
                 product.seller_ids
                 and product.seller_ids[0].date_start
