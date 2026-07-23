@@ -1,12 +1,13 @@
 # ©  2023-now Terrabit
 # See README.rst file on addons root folder for license details
 
-from odoo import models
+from odoo import api, models
 
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
+    @api.depends("move_id.team_id")
     def _compute_analytic_distribution(self):
         """
         Cautare dupa team_id
