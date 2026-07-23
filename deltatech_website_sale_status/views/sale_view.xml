@@ -67,7 +67,7 @@
                 <field
                     name="partner_id"
                     string="Phone"
-                    filter_domain="['|',('partner_id.phone', 'ilike', self),('partner_id.mobile', 'ilike', self)]"
+                    filter_domain="[('partner_id.phone', 'ilike', self)]"
                 />
                 <filter string="Placed" name="stage_placed" domain="[('stage', '=', 'placed')]" />
                 <filter string="In process" name="stage_in_process" domain="[('stage', '=', 'in_process')]" />
