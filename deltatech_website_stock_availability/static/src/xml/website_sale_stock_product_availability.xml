@@ -16,7 +16,7 @@
 
             <div
                 id="in_of_stock_message"
-                t-if="free_qty lte 0 and availability_vendor == 0"
+                t-if="free_qty lte 0 and availability_vendor == 0 and !hide_out_of_stock_message"
                 t-attf-class="availability_message_#{product_template}  text-danger fw-bold"
             >
                 <i class="fa fa-times me-1" />
@@ -102,7 +102,7 @@
             <!-- keep out of stock block commented as in main template -->
 
             <div
-                t-if="free_qty &lt;= 0 and availability_vendor == 0"
+                t-if="free_qty &lt;= 0 and availability_vendor == 0 and !hide_out_of_stock_message"
                 t-attf-class="availability_message_#{product_template}  text-danger fw-bold"
             >
                 <i class="fa fa-times me-1" />
