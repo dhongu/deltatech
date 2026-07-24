@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_payment_advice">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="batch">
+                <!-- One advice per supplier, rendered in that supplier's language. -->
+                <t t-foreach="batch._get_advice_data()" t-as="advice">
+                    <t t-call="deltatech_payment_advice.report_payment_advice_document"
+                       t-lang="advice['partner'].lang"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_payment_advice_document">
+        <t t-set="partner" t-value="advice['partner']"/>
+        <t t-call="web.external_layout">
+            <div class="page">
+                <div class="row mt-4">
+                    <div class="col-6">
+                        <strong t-field="partner.name"/>
+                        <div t-out="partner.street"/>
+                        <div t-if="partner.street2" t-out="partner.street2"/>
+                        <div>
+                            <span t-out="partner.zip"/>
+                            <span t-out="partner.city"/>
+                        </div>
+                        <div t-if="partner.country_id" t-out="partner.country_id.name"/>
+                    </div>
+                    <div class="col-6">
+                        <h3 class="bg-light p-2">Payment Advice</h3>
+                        <table class="table table-sm table-borderless mb-0">
+                            <tr>
+                                <td>Document / Date</td>
+                                <td>
+                                    <span t-field="batch.name"/> /
+                                    <span t-field="batch.date"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Your account no. with us</td>
+                                <td t-out="partner.ref"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <p class="mt-4">Dear Sir or Madam,</p>
+                <p>With the payment order below we have settled the following invoices.</p>
+
+                <table class="table table-sm table-borderless w-50 mt-2">
+                    <tr>
+                        <td>Payment order</td>
+                        <td><strong t-field="batch.name"/></td>
+                    </tr>
+                    <tr>
+                        <td>Bank account</td>
+                        <td><strong t-field="batch.journal_id.bank_acc_number"/></td>
+                    </tr>
+                    <tr>
+                        <td>Bank</td>
+                        <td><strong t-field="batch.journal_id.bank_id.name"/></td>
+                    </tr>
+                </table>
+
+                <table class="table table-sm mt-3">
+                    <thead>
+                        <tr>
+                            <th>Invoice No.</th>
+                            <th>Date</th>
+                            <th>Due Date</th>
+                            <th class="text-end">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="advice['lines']" t-as="line">
+                            <t t-set="bill" t-value="line['bill']"/>
+                            <td><span t-field="bill.name"/></td>
+                            <td><span t-field="bill.invoice_date"/></td>
+                            <td><span t-field="bill.invoice_date_due"/></td>
+                            <td class="text-end">
+                                <span t-out="line['amount']"
+                                      t-options='{"widget": "monetary", "display_currency": batch.company_currency_id}'/>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-end"><strong>Total</strong></td>
+                            <td class="text-end">
+                                <strong t-out="advice['total']"
+                                        t-options='{"widget": "monetary", "display_currency": batch.company_currency_id}'/>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <p class="mt-4 text-muted">
+                    This is an automatic notification. For further information, please contact us.
+                </p>
+            </div>
+        </t>
+    </template>
+</odoo>
