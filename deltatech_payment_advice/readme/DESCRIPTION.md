@@ -4,9 +4,10 @@ This module adds a **Payment Advice** (remittance advice) report on batch
 payments. It is the document a payer sends to its suppliers to notify them that
 one or more of their invoices have been settled through a bank payment order.
 
-Starting from a batch payment, the report groups the payments by supplier and
+Starting from a batch payment, the module groups the payments by supplier and
 produces one advice per supplier, listing the settled bills together with the
-amount actually allocated to each one.
+amount actually allocated to each one. The advice can be printed as a PDF or
+e-mailed to each supplier directly.
 
 ## Key Features
 
@@ -14,8 +15,13 @@ amount actually allocated to each one.
 - Groups the batch payments by supplier — one advice document per supplier.
 - Lists the settled vendor bills (number, date, due date) with the amount
   effectively allocated to each bill, computed from the payment reconciliation
-  (partial payments are reported correctly).
-- Renders each supplier's advice in that supplier's own language.
+  when available, otherwise the bill gross total (so the advice can be issued
+  before the payment is fully reconciled).
+- **Send Payment Advice** button that e-mails each supplier its own advice PDF,
+  through a mail template, skipping (and reporting) suppliers without an e-mail.
+- Renders and translates each supplier's advice — PDF and e-mail — in that
+  supplier's own language.
+- The document letterhead is the paying company.
 
 ## Requirements
 
