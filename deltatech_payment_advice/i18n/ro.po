@@ -15,6 +15,34 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_payment_advice
+#. odoo-python
+#: code:addons/deltatech_payment_advice/models/account_batch_payment.py:0
+msgid "%s payment advice(s) queued for sending."
+msgstr "%s aviz(e) de plată puse la coadă pentru trimitere."
+
+#. module: deltatech_payment_advice
+#: model:mail.template,body_html:deltatech_payment_advice.mail_template_payment_advice
+msgid ""
+"<div style=\"margin:0px;padding:0px;font-size:13px;\">\n"
+"                <p>Dear Sir or Madam,</p>\n"
+"                <p>Please find attached the payment advice for the invoices we have settled.</p>\n"
+"                <p>This is an automatic notification. For further information, please contact us.</p>\n"
+"            </div>\n"
+"        "
+msgstr ""
+"<div style=\"margin:0px;padding:0px;font-size:13px;\">\n"
+"                <p>Stimată Doamnă, Stimate Domn,</p>\n"
+"                <p>Găsiți atașat avizul de plată pentru facturile pe care le-am achitat.</p>\n"
+"                <p>Aceasta este o înștiințare automată. Pentru informații suplimentare, vă rugăm să ne contactați.</p>\n"
+"            </div>\n"
+"        "
+
+#. module: deltatech_payment_advice
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_advice.report_payment_advice_document
+msgid "<strong>Total</strong>"
+msgstr "<strong>Total</strong>"
+
+#. module: deltatech_payment_advice
 #: model_terms:ir.ui.view,arch_db:deltatech_payment_advice.report_payment_advice_document
 msgid "Amount"
 msgstr "Sumă"
@@ -55,10 +83,30 @@ msgid "Invoice No."
 msgstr "Nr. factură"
 
 #. module: deltatech_payment_advice
+#. odoo-python
+#: code:addons/deltatech_payment_advice/models/account_batch_payment.py:0
+msgid ""
+"No payment advice was sent: none of the suppliers has an e-mail address "
+"(%s)."
+msgstr ""
+"Nu s-a trimis niciun aviz de plată: niciun furnizor nu are adresă de e-mail "
+"(%s)."
+
+#. module: deltatech_payment_advice
 #: model:ir.actions.report,name:deltatech_payment_advice.action_report_payment_advice
 #: model_terms:ir.ui.view,arch_db:deltatech_payment_advice.report_payment_advice_document
 msgid "Payment Advice"
 msgstr "Aviz de plată"
+
+#. module: deltatech_payment_advice
+#: model:mail.template,name:deltatech_payment_advice.mail_template_payment_advice
+msgid "Payment Advice: notify supplier"
+msgstr "Aviz de plată: notificare furnizor"
+
+#. module: deltatech_payment_advice
+#: model:mail.template,subject:deltatech_payment_advice.mail_template_payment_advice
+msgid "Payment advice {{ object.name }}"
+msgstr "Aviz de plată {{ object.name }}"
 
 #. module: deltatech_payment_advice
 #: model_terms:ir.ui.view,arch_db:deltatech_payment_advice.report_payment_advice_document
@@ -66,14 +114,33 @@ msgid "Payment order"
 msgstr "Ordin de plată"
 
 #. module: deltatech_payment_advice
-#: model_terms:ir.ui.view,arch_db:deltatech_payment_advice.report_payment_advice_document
-msgid "This is an automatic notification. For further information, please contact us."
-msgstr "Aceasta este o înștiințare automată. Pentru informații suplimentare, vă rugăm să ne contactați."
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_advice.view_batch_payment_form_advice
+msgid "Send Payment Advice"
+msgstr "Trimite avizul de plată"
+
+#. module: deltatech_payment_advice
+#: model:mail.template,description:deltatech_payment_advice.mail_template_payment_advice
+msgid ""
+"Sent to each supplier with the payment advice for the bills settled by the "
+"batch payment."
+msgstr ""
+"Se trimite fiecărui furnizor avizul de plată pentru facturile achitate prin "
+"plata în lot."
+
+#. module: deltatech_payment_advice
+#. odoo-python
+#: code:addons/deltatech_payment_advice/models/account_batch_payment.py:0
+msgid "Skipped suppliers without an e-mail address: %s."
+msgstr "Furnizori omiși (fără adresă de e-mail): %s."
 
 #. module: deltatech_payment_advice
 #: model_terms:ir.ui.view,arch_db:deltatech_payment_advice.report_payment_advice_document
-msgid "Total"
-msgstr "Total"
+msgid ""
+"This is an automatic notification. For further information, please contact "
+"us."
+msgstr ""
+"Aceasta este o înștiințare automată. Pentru informații suplimentare, vă "
+"rugăm să ne contactați."
 
 #. module: deltatech_payment_advice
 #: model_terms:ir.ui.view,arch_db:deltatech_payment_advice.report_payment_advice_document

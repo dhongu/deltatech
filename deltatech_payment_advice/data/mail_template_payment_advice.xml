@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mail_template_payment_advice" model="mail.template">
+        <field name="name">Payment Advice: notify supplier</field>
+        <field name="model_id" ref="account_batch_payment.model_account_batch_payment"/>
+        <field name="subject">Payment advice {{ object.name }}</field>
+        <field name="email_from">{{ (object.company_id.email_formatted or user.email_formatted) }}</field>
+        <field name="description">Sent to each supplier with the payment advice for the bills settled by the batch payment.</field>
+        <field name="body_html" type="html">
+            <div style="margin:0px;padding:0px;font-size:13px;">
+                <p>Dear Sir or Madam,</p>
+                <p>Please find attached the payment advice for the invoices we have settled.</p>
+                <p>This is an automatic notification. For further information, please contact us.</p>
+            </div>
+        </field>
+    </record>
+</odoo>

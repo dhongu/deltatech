@@ -11,8 +11,10 @@
     "category": "Accounting & Finance",
     "depends": ["account_batch_payment"],
     "data": [
+        "data/mail_template_payment_advice.xml",
         "report/payment_advice_report.xml",
         "report/payment_advice_templates.xml",
+        "views/account_batch_payment_views.xml",
     ],
     "development_status": "Beta",
     "maintainers": ["dhongu"],

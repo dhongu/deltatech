@@ -1,5 +1,8 @@
 # ©  2026 Deltatech
+import base64
+
 from odoo import models
+from odoo.exceptions import UserError
 
 
 class AccountBatchPayment(models.Model):
@@ -17,11 +20,17 @@ class AccountBatchPayment(models.Model):
                 "lines": [{"bill": account.move, "amount": float}, ...],
                 "total": float,
             }
+
+        When the context key ``advice_partner_id`` is set, only that supplier's
+        advice is returned — used to render/e-mail one advice per supplier.
         """
         self.ensure_one()
+        partner_filter = self.env.context.get("advice_partner_id")
         groups = {}
         for payment in self.payment_ids:
             partner = payment.partner_id
+            if partner_filter and partner.id != partner_filter:
+                continue
             data = groups.setdefault(
                 partner.id,
                 {
@@ -40,6 +49,68 @@ class AccountBatchPayment(models.Model):
                 data["lines"].append({"bill": bill, "amount": amount})
                 data["total"] += amount
         return list(groups.values())
+
+    def action_send_payment_advice(self):
+        """E-mail each supplier its own payment advice, with the PDF attached.
+
+        One message per supplier, rendered and translated in that supplier's
+        language. Suppliers without an e-mail address are skipped and reported.
+        """
+        self.ensure_one()
+        template = self.env.ref("deltatech_payment_advice.mail_template_payment_advice")
+        report = self.env.ref("deltatech_payment_advice.action_report_payment_advice")
+        missing = self.env["res.partner"]
+        sent = 0
+        for advice in self._get_advice_data():
+            partner = advice["partner"]
+            if not partner.email:
+                missing |= partner
+                continue
+            pdf_content, _dummy = report.with_context(advice_partner_id=partner.id)._render_qweb_pdf(
+                report.report_name, self.ids
+            )
+            attachment = self.env["ir.attachment"].create(
+                {
+                    "name": f"{report.name} - {self.name}.pdf",
+                    "type": "binary",
+                    "datas": base64.b64encode(pdf_content),
+                    "mimetype": "application/pdf",
+                    "res_model": self._name,
+                    "res_id": self.id,
+                }
+            )
+            template.with_context(lang=partner.lang).send_mail(
+                self.id,
+                email_values={
+                    "email_to": partner.email_formatted,
+                    "attachment_ids": [attachment.id],
+                },
+                force_send=False,
+            )
+            sent += 1
+
+        if not sent and missing:
+            raise UserError(
+                self.env._(
+                    "No payment advice was sent: none of the suppliers has an e-mail address (%s).",
+                    ", ".join(missing.mapped("name")),
+                )
+            )
+        message = self.env._("%s payment advice(s) queued for sending.", sent)
+        if missing:
+            message += "\n" + self.env._(
+                "Skipped suppliers without an e-mail address: %s.",
+                ", ".join(missing.mapped("name")),
+            )
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "type": "success" if not missing else "warning",
+                "message": message,
+                "sticky": bool(missing),
+            },
+        }
 
 
 class AccountPayment(models.Model):
