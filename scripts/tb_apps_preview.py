@@ -95,25 +95,28 @@ def risk_report(html):
 
 # ---- Shell-uri de previzualizare -------------------------------------------------------
 
-SHELL = """<!doctype html><html><head><meta charset="utf-8">
-<title>Apps Store preview — %(mode)s</title></head>
-<body style="margin:0;background-color:%(bg)s;color:%(fg)s;">
+# Bootstrap 5 — Apps Store îl încarcă în web.assets_frontend; îl încărcăm și aici (CDN)
+# ca preview-ul să reflecte clasele Bootstrap folosite de skin (v5).
+SHELL = """<!doctype html><html%(htmlattr)s><head><meta charset="utf-8">
+<title>Apps Store preview — %(mode)s</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-body text-body" style="margin:0;%(bodystyle)s">
 <div style="max-width:1180px;margin:0 auto;padding:24px;">
-<div style="font:600 13px -apple-system,Segoe UI,Roboto,sans-serif;color:%(fg)s;opacity:.6;padding:8px 0 16px;">
+<div class="text-body-secondary" style="font:600 13px -apple-system,Segoe UI,Roboto,sans-serif;padding:8px 0 16px;">
   Apps Store sanitized preview — %(mode)s theme</div>
 %(body)s
 </div></body></html>"""
 
-# Trei scenarii:
-#  light      — gazdă deschisă (Apps Store public, mereu alb);
-#  dark       — WORST-CASE: fundal închis + text implicit ÎNCHIS (gazdă „ostilă");
-#  dark-sane  — gazdă dark normală: fundal închis + text implicit DESCHIS.
-# Design FORȚAT (panou solid) trebuie să treacă „dark" (worst-case).
-# Design ADAPTIV (text moștenit) trebuie să treacă „dark-sane" + „light".
+# Trei scenarii (Bootstrap gestionează culorile temei prin `data-bs-theme`):
+#  light      — gazdă deschisă (Apps Store public, mereu alb) = BS light;
+#  dark-sane  — gazdă dark normală = data-bs-theme="dark" (fundal închis, text deschis);
+#  dark       — WORST-CASE: fundal închis FORȚAT dar temă BS light (text închis pe închis).
+# Design v5 (text moștenit prin clase BS theme-aware) trebuie să treacă „light" + „dark-sane".
 MODES = {
-    "light": {"bg": "#ffffff", "fg": "#111111"},
-    "dark": {"bg": "#15171a", "fg": "#2b2f36"},
-    "dark-sane": {"bg": "#15171a", "fg": "#e8eaed"},
+    "light": {"htmlattr": "", "bodystyle": ""},
+    "dark-sane": {"htmlattr": ' data-bs-theme="dark"', "bodystyle": ""},
+    "dark": {"htmlattr": "", "bodystyle": "background-color:#15171a;"},
 }
 
 
