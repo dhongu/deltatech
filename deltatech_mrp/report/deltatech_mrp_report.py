@@ -120,10 +120,10 @@ SELECT s.id, s.id as production_id,
 left join (
 SELECT
     sm.raw_material_production_id AS production_id,
-   SUM (-sm.value) AS consumed_val,
-      CASE WHEN pc.cost_categ='semi' THEN SUM (-sm.value) else 0.0 end as  consumed_sem_val,
-      CASE WHEN pc.cost_categ='pak' THEN SUM (-sm.value) else 0.0 end as  consumed_pak_val,
-      CASE WHEN pc.cost_categ='raw' THEN SUM (-sm.value) else 0.0 end as  consumed_raw_val
+   SUM (sm.value) AS consumed_val,
+      CASE WHEN pc.cost_categ='semi' THEN SUM (sm.value) else 0.0 end as  consumed_sem_val,
+      CASE WHEN pc.cost_categ='pak' THEN SUM (sm.value) else 0.0 end as  consumed_pak_val,
+      CASE WHEN pc.cost_categ='raw' THEN SUM (sm.value) else 0.0 end as  consumed_raw_val
     FROM
         stock_move sm
 

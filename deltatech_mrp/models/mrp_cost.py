@@ -29,7 +29,7 @@ class DeltatechCostDetail(models.Model):
 
                 SELECT max(sm.id) AS id,
                     sm.raw_material_production_id AS production_id,
-                    SUM (-sm.value) AS amount,
+                    SUM (sm.value) AS amount,
                     pc.cost_categ
                 FROM
                     stock_move sm
