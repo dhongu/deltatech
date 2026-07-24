@@ -3,37 +3,41 @@
 tb_skin_index.py — îmbracă în stil Terrabit fișierele static/description/index.html
 generate de oca-gen-addon-readme, FĂRĂ a modifica description.md sau template-ul .jinja.
 
-IMPORTANT (de ce folosim STILURI INLINE + DESIGN ADAPTIV LA TEMĂ):
-  Odoo Apps Store NU randează index.html ca atare — îl trece printr-un sanitizer care:
-    - ȘTERGE tag-urile <style>            (orice CSS dintr-un bloc <style> dispare);
-    - DESPACHETEAZĂ <div class="document"> (selectoarele .document … nu mai potrivesc);
-    - ȘTERGE <svg> inline                 (un logo SVG inline dispare);
-    - TAIE `background:`/`linear-gradient` din style inline (supraviețuiește DOAR
-      `background-color` solid; `box-shadow`, `border`, `rgba(...)` supraviețuiesc).
-  În plus, pagina e randată pe o TEMĂ pe care NU o controlăm (light SAU dark) și NU o
-  putem detecta (media queries / <style> / JS sunt toate tăiate).
+v5 — DESIGN PE BOOTSTRAP (de ce):
+  Odoo Apps Store încarcă Bootstrap 5 în bundle-ul frontend (web.assets_frontend.min.css)
+  și PĂSTREAZĂ atributul `class` la sanitizare. Deci clasele Bootstrap (`row`, `col`,
+  `d-flex`, `border`, `rounded-4`, `text-white`, `fw-bold`, utilitare de spațiere…) sunt
+  disponibile ȘI stilizate pe pagina de modul. Confirmat pe store real (`.row`→flex,
+  `.bg-success`→verde, `.border`→theme-aware, `.rounded-4`→24px).
 
-  Concluzie (v4 — ADAPTIV LA TEMĂ): nu putem ramifica pe temă, deci:
-    - BRAND-ul (hero, CTA, badge-uri, bară-accent, bifă) = `background-color` SOLID verde
-      sau border — arată identic pe orice temă (verdele merge pe ambele);
-    - CONȚINUTUL (paragrafe, heading-uri, carduri) NU forțează `background-color`/`color`
-      pe text → MOȘTENEȘTE culoarea temei gazdă (pe dark devine deschis, pe light închis).
-  REGULĂ DE AUR: verdele e folosit DOAR ca fundal solid sau border, NICIODATĂ ca singura
-  sursă de lizibilitate a textului (#006F42 e invizibil pe dark, #57B952 are contrast slab
-  pe alb). Cardurile au fundal transparent + border `rgba()` vizibil pe ambele teme.
-  Presupune o gazdă „sănătoasă" (text deschis pe dark). Validează cu
-  scripts/tb_apps_preview.py modurile `light` + `dark-sane`.
+  Ce face în continuare sanitizer-ul (deci evităm):
+    - ȘTERGE <style>            → niciun CSS din bloc <style>; folosim clase + inline;
+    - DESPACHETEAZĂ <div class="document">;
+    - ȘTERGE <svg> inline       → logo doar ca <img> absolut sau wordmark text;
+    - TAIE `background:`/gradient din inline (supraviețuiește DOAR `background-color`).
+
+  Strategie v5:
+    - LAYOUT & TEMĂ prin clase Bootstrap: grilă responsivă (`row`/`col`), flex, spațiere,
+      borduri și colțuri theme-aware. TEXTUL NU primește `color` → moștenește culoarea
+      temei (Bootstrap `--bs-body-color`): închis pe store (light), deschis pe o gazdă
+      dark. Astfel titlurile de secțiune sunt lizibile pe orice temă (spre deosebire de
+      v4, care forța `color:#1f2d27` pe tot conținutul și dispărea pe dark).
+    - BRAND (hero, bloc suport, CTA, badge-uri, bară-accent, bifă) = `background-color`
+      SOLID verde Terrabit inline (Bootstrap `.bg-success` e alt verde) — identic pe orice
+      temă. REGULĂ DE AUR: verdele DOAR ca fundal/bordură, niciodată singura sursă de
+      lizibilitate a textului.
+  Validează cu scripts/tb_apps_preview.py (light + dark), care încarcă Bootstrap și
+  comută `data-bs-theme`.
 
 Cum funcționează:
   1. oca-gen-addon-readme generează README.rst + index.html (docutils).
   2. Acest script rulează DUPĂ și, pentru fiecare index.html generat de OCA:
        - ȘTERGE titlul docutils + heading-ul-secțiune duplicat (= numele modulului);
-       - elimină badge-urile shields, secțiunea RO și TOC-ul local;
-       - inserează un HERO inline (verde solid) construit din __manifest__.py;
-       - ÎNVELEȘTE tot conținutul rămas într-un PANOU solid (off-white, ink explicit);
-       - stilizează heading-urile (bară-accent verde), listele de funcții (carduri),
-         chip-urile de cod și paragraful lead;
-       - adaugă un bloc de suport + footer Terrabit (inline) la final.
+       - elimină badge-urile shields, secțiunea RO, TOC-ul local și changelog-ul;
+       - inserează un HERO (verde brand) construit din __manifest__.py;
+       - stilizează heading-urile (bară-accent verde), listele de funcții (carduri
+         Bootstrap responsive), chip-urile de cod și paragraful lead;
+       - adaugă un bloc de suport + footer Terrabit la final.
   3. Atinge DOAR fișierele generate de OCA (care conțin marcajul "oca-gen-addon-readme").
 
 Idempotent: dacă fișierul a fost deja îmbrăcat (conține marcaj tb-skin), îl sare.
@@ -49,8 +53,8 @@ import ast
 import os
 import re
 
-TB_MARKER = "<!-- tb-skin v4 -->"
-# orice marcaj tb-skin (v1, v2, v3, …) — ca să nu re-îmbrăcăm un fișier deja procesat
+TB_MARKER = "<!-- tb-skin v5 -->"
+# orice marcaj tb-skin (v1, v2, …) — ca să nu re-îmbrăcăm un fișier deja procesat
 ANY_TB_MARKER = re.compile(r"<!-- tb-skin v\d+ -->")
 
 # ---- Paletă & branding (modifică aici o singură dată pentru toate modulele) ----
@@ -59,9 +63,6 @@ TB = {
     "primary": "#006F42",  # verde închis (brand) — DOAR pe fundal solid/border
     "dark": "#00432a",  # verde foarte închis (hero pill / bloc suport)
     "accent": "#57B952",  # verde deschis (brand) — bare-accent, bife
-    # borduri/separatoare semi-transparente: vizibile ȘI pe light ȘI pe dark
-    "line": "rgba(127,160,140,0.40)",
-    "line_soft": "rgba(127,160,140,0.22)",
     "website": "https://www.terrabit.ro",
     "company": "Terrabit Solutions SRL",
     # Logo opțional găzduit absolut (Odoo elimină SVG inline). Dacă e gol, footer-ul
@@ -72,20 +73,17 @@ TB = {
 FONT = "'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif"
 
 # ----------------------------------------------------------------------------- #
-# Fragmente HTML — TOATE stilurile sunt inline ca să reziste la sanitizarea Odoo.
-# NB: gradient/`background` shorthand sunt tăiate de store → doar `background-color`.
+# Fragmente HTML — LAYOUT/TEMĂ prin clase Bootstrap; brand-ul verde prin `background-color`
+# inline (singurul care supraviețuiește sanitizarea). Textul NU are `color` → moștenește tema.
 # ----------------------------------------------------------------------------- #
 
-WRAP_OPEN = f'<div style="max-width:1100px;margin:0 auto;padding:0 16px;font-family:{FONT};color:#1f2d27;">'
+WRAP_OPEN = f'<div class="mx-auto px-3" style="max-width:1100px;font-family:{FONT};">'
 
 HERO = """%(marker)s
-<div style="background-color:%(primary)s;color:#ffffff;border-radius:20px;
-  padding:54px 40px;text-align:center;margin:8px 0 22px;box-shadow:0 18px 40px rgba(0,67,42,0.28);">
-  <div style="display:inline-block;background-color:%(dark)s;color:#9be8b6;font-weight:700;
-    letter-spacing:1.5px;padding:7px 18px;border-radius:999px;font-size:11px;
-    text-transform:uppercase;margin-bottom:20px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</div>
-  <h1 style="font-size:42px;line-height:1.08;margin:0 0 14px;color:#ffffff;font-weight:800;
-    letter-spacing:-0.5px;border:none;">%(name)s</h1>
+<div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:%(primary)s;">
+  <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
+    style="background-color:%(dark)s;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
+  <h1 class="text-white fw-bold mb-3" style="font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">%(name)s</h1>
   %(summary)s
   <div>
     %(badges)s
@@ -93,39 +91,36 @@ HERO = """%(marker)s
 </div>
 """
 
-SUMMARY = '<p style="font-size:19px;color:#cdeccf;max-width:620px;margin:0 auto 24px;line-height:1.5;">%s</p>'
+SUMMARY = '<p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">%s</p>'
 
 BADGE = (
-    '<span style="display:inline-block;background-color:%(dark)s;color:#ffffff;'
-    'padding:8px 16px;border-radius:999px;font-size:12px;font-weight:600;margin:4px;">%(t)s</span>'
+    '<span class="d-inline-block rounded-pill fw-semibold text-white m-1"'
+    ' style="background-color:%(dark)s;padding:8px 16px;font-size:12px;">%(t)s</span>'
 )
 BADGE_ACCENT = (
-    '<span style="display:inline-block;background-color:%(accent)s;color:#04331f;'
-    'padding:8px 16px;border-radius:999px;font-size:12px;font-weight:700;margin:4px;">%(t)s</span>'
+    '<span class="d-inline-block rounded-pill fw-bold m-1"'
+    ' style="background-color:%(accent)s;color:#04331f;padding:8px 16px;font-size:12px;">%(t)s</span>'
 )
 
-# Container de conținut: TRANSPARENT (fără background/color) -> textul moștenește tema.
-# Doar lățime/spațiere/tipografie. Copiii rămân lizibili pe orice temă „sănătoasă".
-PANEL_OPEN = '<div style="padding:6px 6px 2px;font-size:16px;line-height:1.65;">'
+# Container de conținut: fără background/color -> textul moștenește tema Bootstrap.
+PANEL_OPEN = '<div class="py-2" style="font-size:16px;line-height:1.65;">'
 PANEL_CLOSE = "</div>"
 
-# Blocul de suport + footer: BRAND solid verde închis (theme-independent), include și
-# linia de footer (alb / verde-deschis pe verde închis) -> nu mai există footer separat.
+# Bloc de suport + footer: BRAND solid verde închis (theme-independent), include footer-ul.
 SUPPORT = """
-<div style="background-color:%(dark)s;color:#ffffff;border-radius:20px;padding:42px 44px 30px;
-  margin:24px 0 16px;text-align:center;">
-  <h2 style="color:#ffffff;border:none;margin:0 0 10px;font-size:26px;font-weight:800;letter-spacing:-0.3px;">Need help getting started?</h2>
-  <p style="color:#bfe3cc;max-width:600px;margin:0 auto 22px;line-height:1.6;font-size:16px;">
+<div class="text-white text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:%(dark)s;">
+  <h2 class="text-white fw-bold mb-2" style="font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
+  <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:600px;line-height:1.6;font-size:16px;">
      We are an Odoo partner building apps for the Romanian market (SAGA &amp; WinMentor
      export; Romanian accounting localization in progress). Direct support from the team
      that built the module.</p>
-  <a href="%(website)s" style="display:inline-block;background-color:%(accent)s;color:#04331f;
-     font-weight:800;text-decoration:none;padding:14px 32px;border-radius:12px;font-size:15px;">Contact Terrabit &rarr;</a>
-  <div style="border-top:1px solid rgba(255,255,255,0.18);margin:30px auto 0;padding-top:18px;max-width:760px;">
+  <a href="%(website)s" class="d-inline-block fw-bold text-decoration-none rounded-3"
+     style="background-color:%(accent)s;color:#04331f;padding:14px 32px;font-size:15px;">Contact Terrabit &rarr;</a>
+  <div class="mx-auto mt-4 pt-3" style="border-top:1px solid rgba(255,255,255,0.18);max-width:760px;">
     %(logo)s
-    <div style="color:#bfe3cc;font-size:13px;margin-top:6px;">
+    <div class="mt-1" style="color:#bfe3cc;font-size:13px;">
       &copy; %(company)s &nbsp;&bull;&nbsp;
-      <a href="%(website)s" style="color:#ffffff;text-decoration:none;font-weight:600;">terrabit.ro</a>
+      <a href="%(website)s" class="text-white text-decoration-none fw-semibold">terrabit.ro</a>
       &nbsp;&bull;&nbsp; Odoo apps for Romania, Ireland &amp; Moldova
     </div>
   </div>
@@ -140,7 +135,7 @@ def logo_html():
             f'<div><img src="{TB["logo_url"]}" alt="{TB["company"]}" '
             'style="height:34px;width:auto;border:none;"/></div>'
         )
-    return '<div style="font-weight:800;color:#ffffff;font-size:19px;letter-spacing:2px;">TERRABIT</div>'
+    return '<div class="text-white fw-bold" style="font-size:19px;letter-spacing:2px;">TERRABIT</div>'
 
 
 def read_manifest(addon_dir):
@@ -253,37 +248,36 @@ def remove_changelog(html):
     return html[: start.start()] + html[end:]
 
 
-# --- heading-uri docutils: bară-accent verde + ink închis ---------------------- #
+# --- heading-uri docutils: bară-accent verde + text moștenit (theme-aware) ----- #
 def style_headings(html):
-    """Stilează heading-urile de secțiune (h1/h2/h3 docutils, fără style) cu o bară-accent
-    verde la stânga + ink închis pe panou. h1 puțin mai mare ca h2/h3."""
+    """Stilează heading-urile de secțiune (h1/h2/h3 docutils) cu o bară-accent verde la
+    stânga + text îngroșat. FĂRĂ `color` -> moștenește tema (lizibil pe light ȘI dark)."""
     sizes = {"h1": 27, "h2": 24, "h3": 19}
 
     def repl(m):
         tag, inner = m.group(1).lower(), m.group(2)
         # docutils înfășoară heading-urile în <a class="toc-backref"> când există un TOC
-        # -> fără asta, ancora rămâne albastră de link pe pagină. Dezvelește-o (păstrează textul).
+        # -> dezvelește-o (păstrează textul), altfel rămâne albastru de link.
         inner = re.sub(r"<a\b[^>]*toc-backref[^>]*>(.*?)</a>", r"\1", inner, flags=re.I | re.S)
         size = sizes.get(tag, 22)
-        # FĂRĂ `color` -> moștenește tema. Identitatea verde vine din bara-accent (border).
         style = (
             f"border:none;border-left:4px solid {TB['accent']};padding-left:16px;"
-            f"margin:30px 0 14px;font-size:{size}px;font-weight:800;"
-            "letter-spacing:-0.3px;line-height:1.2;"
+            f"font-size:{size}px;letter-spacing:-0.3px;line-height:1.2;"
         )
-        return f'<{tag} style="{style}">{inner}</{tag}>'
+        return f'<{tag} class="fw-bold mt-4 mb-3" style="{style}">{inner}</{tag}>'
 
     return re.sub(r"<(h[1-3])\b[^>]*>(.*?)</\1>", repl, html, flags=re.I | re.S)
 
 
 def style_code(html):
     """Chip pentru cod inline docutils (<tt class="docutils literal">…</tt>).
-    Border + culoare moștenită (fără fundal) -> lizibil pe orice temă."""
-    chip = (
-        f"border:1px solid {TB['line']};padding:1px 7px;border-radius:6px;"
-        "font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;"
+    Bordură + colțuri Bootstrap (theme-aware), fără fundal -> lizibil pe orice temă."""
+    html = re.sub(
+        r'<tt class="docutils literal">(.*?)</tt>',
+        r'<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">\1</code>',
+        html,
+        flags=re.S,
     )
-    html = re.sub(r'<tt class="docutils literal">(.*?)</tt>', rf'<code style="{chip}">\1</code>', html, flags=re.S)
     return html
 
 
@@ -292,30 +286,22 @@ def style_lead_paragraph(html):
     Rulează DUPĂ ce am scos shields/title."""
     return re.sub(
         r"<p>",
-        '<p style="font-size:19px;line-height:1.6;margin:0 0 26px;max-width:780px;opacity:0.92;">',
+        '<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;opacity:0.92;">',
         html,
         count=1,
     )
 
 
-# --- carduri de funcții (inline) --------------------------------------------- #
-UL_GRID = "list-style:none;padding:0;margin:14px 0 30px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;"
-# Carduri ADAPTIVE: fundal transparent + border rgba (vizibil pe ambele teme), text moștenit.
-CARD = (
-    f"background-color:transparent;border:1px solid {TB['line']};border-radius:14px;"
-    "list-style:none;margin:0;line-height:1.5;"
+# --- carduri de funcții (grilă Bootstrap responsivă) ------------------------- #
+# ul = rând Bootstrap cu 1 coloană pe mobil, 2 pe md+. Fiecare item = <li class="col">.
+UL_GRID = "list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"
+CARD = "border rounded-3 p-3 h-100"  # theme-aware: bordură + colțuri Bootstrap
+BADGE_TICK = "flex-shrink-0 text-center fw-bold rounded d-inline-block"
+BADGE_TICK_STYLE = (
+    f"background-color:{TB['accent']};color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;"
 )
-CARD_CHECK = CARD + "padding:16px 18px 16px 50px;position:relative;"
-CARD_DEF = CARD + "padding:16px 18px;"
-BADGE_TICK = (
-    f"position:absolute;left:16px;top:17px;width:22px;height:22px;border-radius:7px;"
-    f"background-color:{TB['accent']};color:#04331f;font-weight:800;font-size:13px;"
-    "text-align:center;line-height:22px;display:inline-block;"
-)
-# Lead de definiție: BOLD + culoare moștenită (NU verde — ar fi invizibil pe dark / slab pe alb).
-DEF_LEAD = "font-weight:800;"
-SUB_UL = "list-style:disc;margin:8px 0 0;padding-left:20px;"
-SUB_LI = "margin:3px 0;font-size:14px;list-style:disc;opacity:0.9;"
+SUB_UL = "ps-3 mt-2"
+SUB_LI = "small"
 
 
 def _ul_end(html, start):
@@ -344,8 +330,8 @@ def _split_top_li(inner):
 
 
 def _style_sublists(content):
-    content = re.sub(r"<ul\b[^>]*>", f'<ul style="{SUB_UL}">', content)
-    content = re.sub(r"<li\b[^>]*>", f'<li style="{SUB_LI}">', content)
+    content = re.sub(r"<ul\b[^>]*>", f'<ul class="{SUB_UL}">', content)
+    content = re.sub(r"<li\b[^>]*>", f'<li class="{SUB_LI}">', content)
     return content
 
 
@@ -360,17 +346,22 @@ def _render_cards(inner, top):
             lead = dm.group(1).strip()
             rest = _style_sublists(dm.group(2).strip())
             parts.append(
-                f'<li style="{CARD_DEF}"><span style="{DEF_LEAD}">{lead}</span>'
-                f'<div style="margin-top:4px;">{rest}</div></li>'
+                f'<li class="col"><div class="{CARD}">'
+                f'<span class="fw-bold">{lead}</span>'
+                f'<div class="mt-1">{rest}</div></div></li>'
             )
         else:
             content = _style_sublists(raw)
-            parts.append(f'<li style="{CARD_CHECK}"><span style="{BADGE_TICK}">&#10003;</span>{content}</li>')
+            parts.append(
+                f'<li class="col"><div class="{CARD} d-flex gap-2">'
+                f'<span class="{BADGE_TICK}" style="{BADGE_TICK_STYLE}">&#10003;</span>'
+                f"<div>{content}</div></div></li>"
+            )
     return "".join(parts)
 
 
 def style_feature_lists(html):
-    """Transformă listele `ul.simple` (≥3 itemi de nivel superior) în carduri inline.
+    """Transformă listele `ul.simple` (≥3 itemi de nivel superior) în carduri Bootstrap.
     Itemii cu lead bold (<strong>…</strong>: …) devin carduri-definiție; restul, carduri cu bifă.
     Listele scurte (Authors/Maintainers) rămân plate."""
     repls = []
@@ -382,7 +373,7 @@ def style_feature_lists(html):
         top = _split_top_li(inner)
         if len(top) < 3:
             continue
-        new_block = f'<ul style="{UL_GRID}">{_render_cards(inner, top)}</ul>'
+        new_block = f'<ul class="{UL_GRID}">{_render_cards(inner, top)}</ul>'
         repls.append((m.start(), end, new_block))
     for s, e, nb in reversed(repls):
         html = html[:s] + nb + html[e:]
@@ -406,7 +397,7 @@ def skin_html(html, manifest):
     )
     support = SUPPORT % dict(TB, logo=logo_html())
 
-    # 1) curăță: shields, titlu docutils, heading duplicat (= numele), RO, TOC
+    # 1) curăță: shields, titlu docutils, heading duplicat (= numele), RO, TOC, changelog
     html = strip_shields(html)
     html = remove_docutils_title(html)
     html = remove_duplicate_name_heading(html, name)
