@@ -102,8 +102,11 @@ BADGE_ACCENT = (
     ' style="background-color:%(accent)s;color:#04331f;padding:8px 16px;font-size:12px;">%(t)s</span>'
 )
 
-# Container de conținut: fără background/color -> textul moștenește tema Bootstrap.
-PANEL_OPEN = '<div class="py-2" style="font-size:16px;line-height:1.65;">'
+# Container de conținut: clasa Bootstrap `text-body` (theme-aware) dă culoarea corpului —
+# închis lizibil pe store (light), deschis pe o gazdă dark. Copiii (heading-uri/paragrafe/
+# carduri) o moștenesc. Preferat lui „gol" (ar putea moșteni o culoare gazdă slabă) și lui
+# `color:#1f2d27` din v4 (închis pe ORICE temă → invizibil pe dark).
+PANEL_OPEN = '<div class="py-2 text-body" style="font-size:16px;line-height:1.65;">'
 PANEL_CLOSE = "</div>"
 
 # Bloc de suport + footer: BRAND solid verde închis (theme-independent), include footer-ul.
