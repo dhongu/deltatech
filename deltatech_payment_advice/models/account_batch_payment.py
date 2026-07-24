@@ -69,9 +69,11 @@ class AccountBatchPayment(models.Model):
             pdf_content, _dummy = report.with_context(advice_partner_id=partner.id)._render_qweb_pdf(
                 report.report_name, self.ids
             )
+            # Localized report name so the attachment filename matches the supplier's language.
+            report_name = report.with_context(lang=partner.lang).name
             attachment = self.env["ir.attachment"].create(
                 {
-                    "name": f"{report.name} - {self.name}.pdf",
+                    "name": f"{report_name} - {self.name}.pdf",
                     "type": "binary",
                     "datas": base64.b64encode(pdf_content),
                     "mimetype": "application/pdf",

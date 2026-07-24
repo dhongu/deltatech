@@ -14,6 +14,7 @@
 
     <template id="report_payment_advice_document">
         <t t-set="partner" t-value="advice['partner']"/>
+        <t t-set="company" t-value="batch.company_id"/>
         <t t-call="web.external_layout">
             <div class="page">
                 <div class="row mt-4">
