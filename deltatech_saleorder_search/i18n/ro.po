@@ -22,10 +22,5 @@ msgstr ""
 
 #. module: deltatech_saleorder_search
 #: model_terms:ir.ui.view,arch_db:deltatech_saleorder_search.view_sales_order_filter
-msgid "Mobile"
-msgstr "Mobil"
-
-#. module: deltatech_saleorder_search
-#: model_terms:ir.ui.view,arch_db:deltatech_saleorder_search.view_sales_order_filter
 msgid "Phone"
 msgstr "Telefon"
