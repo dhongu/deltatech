@@ -18,7 +18,7 @@ class TestStockPickingValidation(TransactionCase):
         self.validation_group = self.env["res.groups"].create(
             {
                 "name": "Test Validation Group",
-                "users": [(4, self.user_a.id)],
+                "user_ids": [(4, self.user_a.id)],
             }
         )
 
@@ -65,7 +65,6 @@ class TestStockPickingValidation(TransactionCase):
         # Create a test move
         self.move = self.env["stock.move"].create(
             {
-                "name": "Test Move",
                 "product_id": self.product.id,
                 "product_uom_qty": 10,
                 "product_uom": self.env.ref("uom.product_uom_unit").id,
@@ -86,14 +85,13 @@ class TestStockPickingValidation(TransactionCase):
                 "location_id": self.stock_picking.location_id.id,
                 "location_dest_id": self.stock_picking.location_dest_id.id,
                 "quantity": 10,
-                "product_packaging_qty": 10,
                 "company_id": self.company.id,  # Ensure move line is assigned to the same company
             }
         )
 
     def test_validate_with_incorrect_user(self):
         # Remove the current user from the validation group
-        self.validation_group.users = [(3, self.env.user.id)]
+        self.validation_group.user_ids = [(3, self.env.user.id)]
         with self.assertRaises(UserError):
             self.stock_picking.button_validate()
 

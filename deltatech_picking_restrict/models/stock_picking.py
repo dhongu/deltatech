@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 from odoo.tools import float_compare
 
@@ -30,13 +30,13 @@ class StockPicking(models.Model):
         for picking in self:
             if picking.picking_type_id.validate_group_id:
                 group_id = picking.picking_type_id.validate_group_id
-                if self.env.user not in group_id.users:
-                    raise UserError(_("Your user cannot validate this type of transfer"))
+                if self.env.user not in group_id.user_ids:
+                    raise UserError(self.env._("Your user cannot validate this type of transfer"))
 
             # new product or wrong quantities check
             if picking.picking_type_id.restrict_quantities or picking.picking_type_id.restrict_new_products:
                 precision = self.env["decimal.precision"].precision_get("Product Unit of Measure")
-                for move_line in picking.move_line_ids_without_package:
+                for move_line in picking.move_line_ids:
                     if (
                         picking.picking_type_id.restrict_quantities
                         and move_line.quantity_product_uom
@@ -48,7 +48,7 @@ class StockPicking(models.Model):
                         != 0
                     ):
                         raise UserError(
-                            _("Done quantities not equal to reserved for [%(product_code)s] %(product_name)s")
+                            self.env._("Done quantities not equal to reserved for [%(product_code)s] %(product_name)s")
                             % {
                                 "product_code": move_line.product_id.default_code,
                                 "product_name": move_line.product_id.name,
@@ -60,7 +60,7 @@ class StockPicking(models.Model):
                         and float_compare(move_line.quantity, 0.0, precision_digits=precision) != 0
                     ):
                         raise UserError(
-                            _("Unrecognized product: [%(product_code)s] %(product_name)s")
+                            self.env._("Unrecognized product: [%(product_code)s] %(product_name)s")
                             % {
                                 "product_code": move_line.product_id.default_code,
                                 "product_name": move_line.product_id.name,
