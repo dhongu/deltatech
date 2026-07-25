@@ -15,10 +15,12 @@ class IrCron(models.Model):
         copy=False,
         help="Unique code for this webhook",
     )
-    _sql_constraints = [
-        ("webhook_code_unique", "unique(webhook_code)", "Webhook Code must be unique!"),
-    ]
     webhook_url = fields.Char("Webhook URL", compute="_compute_webhook_url")
+
+    _webhook_code_unique = models.Constraint(
+        "unique(webhook_code)",
+        "Webhook Code must be unique!",
+    )
 
     @api.depends("webhook_code")
     def _compute_webhook_url(self):
