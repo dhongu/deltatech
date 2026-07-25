@@ -17,7 +17,7 @@ class TestStockPicking(TransactionCase):
             {
                 "name": "Test User",
                 "login": "test_user",
-                "groups_id": [(6, 0, [self.user_group.id])],
+                "group_ids": [(6, 0, [self.user_group.id])],
             }
         )
 
@@ -69,7 +69,6 @@ class TestStockPicking(TransactionCase):
 
         self.move = self.env["stock.move"].create(
             {
-                "name": "Test Move",
                 "product_id": self.product.id,
                 "product_uom_qty": 10,
                 "product_uom": self.product.uom_id.id,

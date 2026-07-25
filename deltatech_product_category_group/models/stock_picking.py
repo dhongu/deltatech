@@ -4,6 +4,7 @@
 
 
 from odoo import fields, models
+from odoo.tools import SQL
 
 
 class StockPicking(models.Model):
@@ -25,18 +26,24 @@ class StockPicking(models.Model):
             categ_ids |= categ_ids.mapped("parent_id")
             user_group_ids = categ_ids.mapped("user_group_id")
             user_group_id = user_group_ids and user_group_ids[0] or False
-            users = user_group_ids.mapped("users")
+            users = user_group_ids.mapped("user_ids")
             if users:
-                SQL = """
-                    select u.id, count(p.id) as count
-                        from
-                            res_users as u
-                            inner join stock_picking as p on p.user_id = u.id
-                        where state in ('assigned')  and u.id in %s
-                        group by u.id
-                        order by count(p.id)
-                """
-                self.env.cr.execute(SQL, (tuple(users.ids),))
+                # Flush pending writes so the raw SQL sees up-to-date user_id/state
+                self.env["stock.picking"].flush_model(["user_id", "state"])
+                self.env.cr.execute(
+                    SQL(
+                        """
+                        SELECT u.id, count(p.id) AS count
+                            FROM
+                                res_users AS u
+                                INNER JOIN stock_picking AS p ON p.user_id = u.id
+                            WHERE p.state IN ('assigned') AND u.id IN %s
+                            GROUP BY u.id
+                            ORDER BY count(p.id)
+                        """,
+                        tuple(users.ids),
+                    )
+                )
                 res = self.env.cr.fetchall()
                 # user_id = False
                 if res:
@@ -50,9 +57,15 @@ class StockPicking(models.Model):
                     user_id = users[0].id
                 if user_id:
                     picking.write({"user_id": user_id})
-                    SQL = """
-                    update stock_picking
-                        set user_id = %s, user_group_id = %s
-                        where id = %s
-                    """
-                    self.env.cr.execute(SQL, (user_id, user_group_id.id, picking.id))
+                    self.env.cr.execute(
+                        SQL(
+                            """
+                            UPDATE stock_picking
+                                SET user_id = %s, user_group_id = %s
+                                WHERE id = %s
+                            """,
+                            user_id,
+                            user_group_id.id,
+                            picking.id,
+                        )
+                    )
