@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.cron.monitor</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="90" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Cron Monitor" string="Cron Monitor" name="deltatech_cron_monitor_webhook">
+                    <block title="Cron Monitoring Settings" name="cron_monitoring_settings">
+                        <setting string="Webhook Security" help="Global webhook security settings">
+                            <div class="content-group">
+                                <div class="mt16">
+                                    <label for="cron_webhook_token" />
+                                    <field name="cron_webhook_token" password="1" class="oe_inline" />
+                                    <button
+                                        name="action_generate_cron_webhook_token"
+                                        type="object"
+                                        string="Generate Token"
+                                        class="btn-link"
+                                        icon="fa-refresh"
+                                    />
+                                </div>
+
+                                <div class="mt32 ml16">
+                                    <h3>🚀 External Cron Setup (cron-job.org)</h3>
+                                    <ol>
+                                        <li>Create a free account on <a
+                                                href="https://cron-job.org"
+                                                target="_blank"
+                                            >cron-job.org</a></li>
+                                        <li>Create a new cron job with these settings:</li>
+                                        <ul>
+                                            <li><strong>URL:</strong> Copy from the Cron Job (Webhook Configuration tab)
+                                                <br />
+                                                <small class="text-muted">Or use the global token: <code
+                                                    >https://your-domain.com/cron/webhook/YOUR_CODE?token=GLOBAL_TOKEN</code></small>
+                                            </li>
+                                            <li><strong>Method:</strong> POST or GET</li>
+                                            <li><strong>Schedule:</strong> Your desired interval</li>
+                                            <li><strong>Authentication Options (choose ONE):</strong>
+                                                <ul>
+                                                    <li><strong>URL Parameter:</strong> Append <code
+                                                        >?token=YOUR_TOKEN</code> to the URL</li>
+                                                    <li><strong>Header:</strong> Add <code
+                                                        >X-Access-Token: YOUR_TOKEN</code></li>
+                                                    <li><strong
+                                                        >Body (POST only):</strong> Send a JSON with token (requires <code
+                                                        >Content-Type: application/json</code>)</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </ol>
+                                    <p class="ml32">Example Body for POST:</p>
+                                    <pre
+                                        style="background: #f8f9fa; padding: 10px; border: 1px solid #dee2e6; border-radius: 4px; margin-left: 40px;"
+                                    >{
+    "token": "YOUR_TOKEN_HERE"
+}</pre>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>
