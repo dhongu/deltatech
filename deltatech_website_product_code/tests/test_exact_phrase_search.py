@@ -33,11 +33,14 @@ class TestExactPhraseSearch(TransactionCase):
         )
 
     def _search(self, search, limit=20):
+        # Same options the shop controller passes, so that modules adjusting
+        # search_fields for the optional fields are exercised as in production.
         options = {
-            "displayImage": False,
-            "displayDescription": False,
-            "displayExtraLink": False,
-            "displayDetail": False,
+            "displayImage": True,
+            "displayDescription": True,
+            "displayExtraLink": True,
+            "displayDetail": True,
+            "display_currency": self.website.currency_id,
         }
         search_detail = self.ProductTemplate._search_get_detail(self.website, None, options)
         results, _count = self.ProductTemplate._search_fetch(search_detail, search, limit, None)
