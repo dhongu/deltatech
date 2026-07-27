@@ -2,6 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+import gc
 import logging
 from datetime import time, timedelta
 
@@ -9,6 +10,8 @@ from odoo import api, fields, models
 from odoo.tools.float_utils import float_round
 
 _logger = logging.getLogger(__name__)
+
+BATCH_SIZE = 2000
 
 
 class ProductTemplate(models.Model):
@@ -60,8 +63,22 @@ class ProductTemplate(models.Model):
     @api.model
     def _cron_update_statistics(self):
         self.env["product.product"]._cron_update_statistics()
-        products = self.search([])
-        products._update_statistics()
+        product_ids = self.search([]).ids
+        # With ~476k templates, processing everything in one call accumulated
+        # ORM cache across batches (MemoryError) and risked the calling
+        # transaction's cursor being torn down before completion. If queue_job
+        # is installed, delay each batch as its own job (own short-lived
+        # cursor); otherwise fall back to the original in-process loop, just
+        # clearing the cache between batches.
+        can_delay = hasattr(self, "with_delay")
+        for index in range(0, len(product_ids), BATCH_SIZE):
+            batch = self.browse(product_ids[index : index + BATCH_SIZE])
+            if can_delay:
+                batch.with_delay()._update_statistics()
+            else:
+                batch._update_statistics()
+                self.env.invalidate_all()
+                gc.collect()
 
 
 class ProductProduct(models.Model):
@@ -88,7 +105,7 @@ class ProductProduct(models.Model):
         sale_mapping = {item["product_id"]: {"sales_count": item["product_uom_qty"]} for item in results}
 
         results = self.env["website.track"].read_group(
-            domain=[("product_id", "!=", False)],
+            domain=[("product_id", "in", self.ids)],
             fields=["product_id", "id:count_distinct"],
             groupby=["product_id"],
             lazy=False,
@@ -105,5 +122,16 @@ class ProductProduct(models.Model):
 
     @api.model
     def _cron_update_statistics(self):
-        products = self.search([])
-        products._update_statistics()
+        product_ids = self.search([]).ids
+        # See ProductTemplate._cron_update_statistics: delay each batch as its
+        # own queue.job when available, otherwise fall back to the in-process
+        # loop with a cache clear between batches.
+        can_delay = hasattr(self, "with_delay")
+        for index in range(0, len(product_ids), BATCH_SIZE):
+            batch = self.browse(product_ids[index : index + BATCH_SIZE])
+            if can_delay:
+                batch.with_delay()._update_statistics()
+            else:
+                batch._update_statistics()
+                self.env.invalidate_all()
+                gc.collect()
