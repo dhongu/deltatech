@@ -6,7 +6,7 @@ import re
 
 from odoo import api, models
 from odoo.osv import expression
-from odoo.tools import escape_psql
+from odoo.tools import escape_psql, str2bool
 
 _CODE_RE = re.compile(r"^[a-zA-Z0-9][a-zA-Z0-9\-_./]{2,}$")
 
@@ -36,6 +36,18 @@ class ProductTemplate(models.Model):
 
     @api.model
     def _search_fetch(self, search_detail, search, limit, order):
+        # Codes may contain spaces (OEM part numbers such as "352 030 15 97").
+        # The default search splits the term on spaces and matches each piece
+        # separately, so searching for one such code returns every product
+        # containing "352" or "030" or "15" or "97" - pages of noise with the
+        # wanted product buried in the middle. When exact-phrase search is on,
+        # the whole term is matched as one string first; the per-term search is
+        # only used as a fallback, so pasted code lists keep working.
+        phrase = " ".join((search or "").split())
+        if " " in phrase and self._exact_phrase_search_enabled():
+            results, count = self._search_fetch_exact_phrase(search_detail, phrase, limit, order)
+            if count:
+                return results, count
         # When someone pastes a list of product codes into the shop search box,
         # the default domain ORs every term against every search field in one
         # WHERE clause. Some fields are plain columns (trigram-indexable) and
@@ -58,6 +70,25 @@ class ProductTemplate(models.Model):
         ):
             return self._search_fetch_multi_code(search_detail, terms, limit, order)
         return super()._search_fetch(search_detail, search, limit, order)
+
+    def _exact_phrase_search_enabled(self):
+        param = self.env["ir.config_parameter"].sudo().get_param("website_search.exact_phrase", "False")
+        return str2bool(param, False)
+
+    def _search_fetch_exact_phrase(self, search_detail, phrase, limit, order):
+        """Search the whole term as a single string, in any of the search fields."""
+        base_domain = search_detail["base_domain"]
+        model = self.sudo() if search_detail.get("requires_sudo") else self
+
+        subdomains = [[(field_name, "ilike", escape_psql(phrase))] for field_name in search_detail["search_fields"]]
+        extra = search_detail.get("search_extra")
+        if extra:
+            subdomains.append(extra(self.env, phrase))
+        domain = expression.AND(base_domain + [expression.OR(subdomains)])
+
+        results = model.search(domain, limit=limit, order=search_detail.get("order", order))
+        count = model.search_count(domain) if limit and limit == len(results) else len(results)
+        return results, count
 
     def _multi_code_min_terms(self):
         # False/0/empty/anything non-numeric disables the fast path, falling
