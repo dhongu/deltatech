@@ -76,16 +76,31 @@ class TestExactPhraseSearch(TransactionCase):
         self.assertIn(self.exact_product, results)
         self.assertIn(self.noise_product, results)
 
-    def test_exact_phrase_keeps_pasted_code_lists_working(self):
+    def test_exact_phrase_does_not_or_expand_a_missing_code(self):
+        # "100 200 300 999" looks like four pasted codes to the multi-code fast
+        # path, which would OR them and return every product containing any one
+        # group - the very noise exact-phrase search exists to remove. In this
+        # mode a spaced term is one code, so a missing code returns nothing
+        # rather than an OR expansion.
+        self.set_param("website_search.exact_phrase", "True")
+        self.assertFalse(self._search("100 200 300 999"))
+
+    def test_pasted_code_lists_still_work_when_exact_phrase_is_off(self):
         codes = ["ZQY111111", "ZQY222222", "ZQY333333", "ZQY444444"]
         products = self.ProductTemplate.browse()
         for code in codes[:2]:
             products |= self._create_product(f"Rulment {code}", code)
+        # Default configuration: the multi-code fast path resolves the list.
+        self.assertEqual(self._search(" ".join(codes)), products)
+
+    def test_pasted_code_lists_are_not_or_expanded_with_exact_phrase(self):
+        codes = ["ZQY111111", "ZQY222222", "ZQY333333", "ZQY444444"]
+        for code in codes[:2]:
+            self._create_product(f"Rulment {code}", code)
         self.set_param("website_search.exact_phrase", "True")
-        # The pasted list is not a phrase any product contains, so the
-        # multi-code fast path still resolves it.
-        results = self._search(" ".join(codes))
-        self.assertEqual(results, products)
+        # No product carries all four codes, and the OR path is off in this
+        # mode, so the list resolves to nothing.
+        self.assertFalse(self._search(" ".join(codes)))
 
     def test_single_term_search_is_unaffected(self):
         self.set_param("website_search.exact_phrase", "True")

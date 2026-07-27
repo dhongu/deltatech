@@ -1,3 +1,18 @@
+18.0.1.3.1 (2026-07-27)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Fixed**
+
+- Exact-phrase search no longer chains its fallback into the pasted-code-list
+  fast path. A code whose groups each look like a standalone code, for example
+  ``999 888 777 666``, was treated as four pasted codes when the whole term
+  matched nothing, so the search returned every product containing any single
+  group - measured at 472 results on a 10 000-product catalogue, where the
+  per-term fallback returns none. In exact-phrase mode a term containing spaces
+  is one code, so the OR expansion is now skipped and the search falls back to
+  the per-term AND behaviour of the mixin. The fast path is unchanged when
+  ``website_search.exact_phrase`` is off.
+
 18.0.1.3.0 (2026-07-27)
 ~~~~~~~~~~~~~~~~~~~~~~~
 

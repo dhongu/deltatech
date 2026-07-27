@@ -28,4 +28,6 @@
     ``352 030 15 97`` returns the product with that code instead of every
     product containing ``352``, ``030``, ``15`` or ``97``. If no product
     matches the whole term, the regular per-term search is used as a
-    fallback, so pasted code lists keep working.
+    fallback. Note that the multi-code fast path above is disabled while
+    this is on, since a term containing spaces is then one code rather
+    than a list of codes.
