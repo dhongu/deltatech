@@ -28,8 +28,10 @@ Module that extends the standard Odoo product with support for **alternative cod
 ### Multi-code Split (Cron)
 
 - A scheduled action runs **daily** and processes batches of up to **5 000** `product.alternative` records at a time.
-- It detects records where the `name` field contains multiple codes on a single line, separated by **semicolons** (`;`), **commas** (`,`), or **spaces**.
+- It detects records where the `name` field contains multiple codes on a single line, separated by **semicolons** (`;`) or **commas** (`,`).
 - Each such record is split into individual records — one per code — preserving `product_tmpl_id`, `sequence`, and `hide` from the original record.
+- **Spaces are never treated as a separator**: many OEM part numbers contain spaces (for example `366 200 05 01`), so a code is only split on an explicit delimiter.
+- A single code surrounded by stray delimiters (`12345, `) is cleaned up in place, without creating extra records.
 - The cron repeats on subsequent days until all multi-code records have been normalised.
 
 ## Configuration
