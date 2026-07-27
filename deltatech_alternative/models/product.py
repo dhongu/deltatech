@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 import logging
+import re
 
 from odoo import api, fields, models
 from odoo.osv import expression
@@ -10,6 +11,11 @@ from odoo.tools.safe_eval import safe_eval
 from odoo.tools.sql import create_index, index_exists
 
 _logger = logging.getLogger(__name__)
+
+# Only explicit delimiters separate two codes. Whitespace must NOT be treated as
+# a delimiter: many OEM part numbers contain spaces ("366 200 05 01"), and
+# splitting on them destroys the code and makes the product unsearchable.
+_CODE_SEPARATOR_RE = re.compile(r"[;,]+")
 
 
 def _ensure_trgm_prerequisites(cr):
@@ -225,31 +231,33 @@ class ProductAlternative(models.Model):
 
     @api.model
     def split_multi_codes(self):
-        import re
-
         domain = [
             ("name", "!=", False),
             "|",
-            "|",
             ("name", "like", ";"),
             ("name", "like", ","),
-            ("name", "like", " "),
         ]
         records = self.search(domain, limit=5000)
         for record in records:
             name = (record.name or "").strip()
             if not name:
                 continue
-            codes = [c for c in re.split(r"[;,\s]+", name) if c]
-            if len(codes) > 1:
-                record.write({"name": codes[0]})
-                new_records = [
-                    {
-                        "name": code,
-                        "product_tmpl_id": record.product_tmpl_id.id or False,
-                        "sequence": record.sequence,
-                        "hide": record.hide,
-                    }
-                    for code in codes[1:]
-                ]
-                self.create(new_records)
+            codes = [c.strip() for c in _CODE_SEPARATOR_RE.split(name) if c.strip()]
+            if not codes:
+                continue
+            if len(codes) == 1:
+                # A single code with a stray delimiter around it ("12345, ").
+                if codes[0] != record.name:
+                    record.write({"name": codes[0]})
+                continue
+            record.write({"name": codes[0]})
+            new_records = [
+                {
+                    "name": code,
+                    "product_tmpl_id": record.product_tmpl_id.id or False,
+                    "sequence": record.sequence,
+                    "hide": record.hide,
+                }
+                for code in codes[1:]
+            ]
+            self.create(new_records)

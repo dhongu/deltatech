@@ -41,11 +41,18 @@ class TestSplitMultiCodes(TransactionCase):
         names = all_records.mapped("name")
         self.assertEqual(sorted(names), ["AAA", "BBB", "CCC"])
 
-    def test_split_by_space(self):
+    def test_no_split_by_space(self):
+        # Spaces are part of the code (OEM part numbers such as "366 200 05 01"),
+        # never a delimiter.
         self._make("X1 X2 X3")
         all_records = self._split_and_get(None)
-        names = all_records.mapped("name")
-        self.assertEqual(sorted(names), ["X1", "X2", "X3"])
+        self.assertEqual(all_records.mapped("name"), ["X1 X2 X3"])
+
+    def test_no_split_oem_code_with_spaces(self):
+        code = "366 200 05 01 MERCEDES 366 200 15 01 MERCEDES"
+        self._make(code)
+        all_records = self._split_and_get(None)
+        self.assertEqual(all_records.mapped("name"), [code])
 
     # ------------------------------------------------------------------
     # Separatori cu spații suplimentare
@@ -71,7 +78,21 @@ class TestSplitMultiCodes(TransactionCase):
         self._make("C1; C2, C3 C4")
         all_records = self._split_and_get(None)
         names = all_records.mapped("name")
-        self.assertEqual(sorted(names), ["C1", "C2", "C3", "C4"])
+        self.assertEqual(sorted(names), ["C1", "C2", "C3 C4"])
+
+    # ------------------------------------------------------------------
+    # Delimitator rătăcit în jurul unui singur cod
+    # ------------------------------------------------------------------
+
+    def test_stray_delimiter_is_trimmed(self):
+        self._make("98411382, ")
+        all_records = self._split_and_get(None)
+        self.assertEqual(all_records.mapped("name"), ["98411382"])
+
+    def test_stray_leading_delimiter_is_trimmed(self):
+        self._make("; 0018908711")
+        all_records = self._split_and_get(None)
+        self.assertEqual(all_records.mapped("name"), ["0018908711"])
 
     # ------------------------------------------------------------------
     # Record fără separator — nu trebuie atins
