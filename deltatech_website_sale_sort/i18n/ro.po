@@ -16,22 +16,17 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_website_sale_sort
-#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_sort.sort
+#: code:addons/deltatech_website_sale_sort/models/website.py:0
 msgid "Availability"
 msgstr "Disponibilitate"
 
 #. module: deltatech_website_sale_sort
-#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_sort.sort
+#: code:addons/deltatech_website_sale_sort/models/website.py:0
 msgid "Best Review"
 msgstr "Recenzii bune"
 
 #. module: deltatech_website_sale_sort
-#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_sort.sort
-msgid "Best discount"
-msgstr "Cel mai bun discount"
-
-#. module: deltatech_website_sale_sort
-#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_sort.sort
+#: code:addons/deltatech_website_sale_sort/models/website.py:0
 msgid "Best sellers"
 msgstr "Cele mai bune vânzări"
 
@@ -66,7 +61,7 @@ msgid "Last Modified on"
 msgstr "Ultima modificare la"
 
 #. module: deltatech_website_sale_sort
-#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_sort.sort
+#: code:addons/deltatech_website_sale_sort/models/website.py:0
 msgid "Most Visited"
 msgstr "Cele mai vizitate"
 
@@ -100,7 +95,7 @@ msgid "Rating count2"
 msgstr ""
 
 #. module: deltatech_website_sale_sort
-#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_sort.sort
+#: code:addons/deltatech_website_sale_sort/models/website.py:0
 msgid "Reviews"
 msgstr "Recenzii"
 
