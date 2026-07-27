@@ -17,7 +17,7 @@ class AccountMoveLine(models.Model):
         for line in self:
             if (
                 line.display_type == "product"
-                and line.move_id.move_type in ["out_invoice", "out_refund"]
+                and line.move_id.move_type in ["out_invoice", "out_refund", "out_receipt"]
                 and line.move_id.team_id
             ):
                 distributions = self.env["account.analytic.distribution.model"].search(
