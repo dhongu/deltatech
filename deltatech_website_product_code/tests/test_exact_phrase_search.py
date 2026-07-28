@@ -56,6 +56,17 @@ class TestExactPhraseSearch(TransactionCase):
         results = self._search("ZQX 100 200 300")
         self.assertEqual(results, self.exact_product)
 
+    def test_a_search_of_words_only_is_never_matched_as_a_phrase(self):
+        # A term without digits describes a product rather than quoting a code.
+        # Matching it as one string would drop the products whose words are
+        # spread out, which is not what the shopper means.
+        spread = self._create_product("Lant combina agricola ZQCLAAS", "ZQL001")
+        literal = self._create_product("Lant ZQCLAAS", "ZQL002")
+        self.set_param("website_search.exact_phrase", "True")
+        results = self._search("Lant ZQCLAAS")
+        self.assertIn(literal, results)
+        self.assertIn(spread, results, "words are searched separately when the term has no digit")
+
     def test_exact_phrase_ignores_extra_whitespace(self):
         self.set_param("website_search.exact_phrase", "True")
         results = self._search("  ZQX   100 200  300 ")

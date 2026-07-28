@@ -43,8 +43,13 @@ class ProductTemplate(models.Model):
         # wanted product buried in the middle. When exact-phrase search is on,
         # the whole term is matched as one string first, and the per-term search
         # is only used as a fallback.
+        # Only terms carrying a digit are treated this way. A term made of words
+        # alone is somebody describing a product, not quoting a code: matching
+        # "Lant CLAAS" as one string would drop "Lant combina agricola CLAAS",
+        # while the shopper means every word, in any position. Codes contain
+        # digits, which is also what _looks_like_code() requires.
         phrase = " ".join((search or "").split())
-        exact_phrase = " " in phrase and self._exact_phrase_search_enabled()
+        exact_phrase = " " in phrase and any(ch.isdigit() for ch in phrase) and self._exact_phrase_search_enabled()
         if exact_phrase:
             results, count = self._search_fetch_exact_phrase(search_detail, phrase, limit, order)
             if count:
