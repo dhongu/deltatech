@@ -10,7 +10,7 @@
 
   - Use link: /shop/product-code/\<code\>
 
-- Configuration (optional, System Parameters):
+- Configuration (Website > Configuration > Settings, *Product Search*):
 
   - ``website_search.exact_phrase`` (default ``False``): search the whole
     term as a single string instead of splitting it on spaces. Enable it

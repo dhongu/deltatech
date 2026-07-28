@@ -5,3 +5,4 @@
 from . import test_exact_phrase_search
 from . import test_product_code
 from . import test_website_product_code
+from . import test_settings
