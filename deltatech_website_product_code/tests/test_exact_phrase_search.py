@@ -77,13 +77,18 @@ class TestExactPhraseSearch(TransactionCase):
         self.assertIn(self.noise_product, results)
 
     def test_exact_phrase_does_not_or_expand_a_missing_code(self):
-        # "100 200 300 999" looks like four pasted codes to the multi-code fast
-        # path, which would OR them and return every product containing any one
-        # group - the very noise exact-phrase search exists to remove. In this
-        # mode a spaced term is one code, so a missing code returns nothing
-        # rather than an OR expansion.
+        # "100 200 300 999" is one code written in groups, not four pasted
+        # codes. Without the standalone-code test the multi-code fast path would
+        # OR the groups and return every product containing any one of them -
+        # the very noise exact-phrase search exists to remove.
         self.set_param("website_search.exact_phrase", "True")
         self.assertFalse(self._search("100 200 300 999"))
+
+    def test_exact_phrase_treats_four_character_groups_as_one_code(self):
+        # Boundary of website_search.standalone_code_min_length (5): groups of
+        # four characters still belong to a single code.
+        self.set_param("website_search.exact_phrase", "True")
+        self.assertFalse(self._search("1000 2000 3000 9999"))
 
     def test_pasted_code_lists_still_work_when_exact_phrase_is_off(self):
         codes = ["ZQY111111", "ZQY222222", "ZQY333333", "ZQY444444"]
@@ -93,14 +98,15 @@ class TestExactPhraseSearch(TransactionCase):
         # Default configuration: the multi-code fast path resolves the list.
         self.assertEqual(self._search(" ".join(codes)), products)
 
-    def test_pasted_code_lists_are_not_or_expanded_with_exact_phrase(self):
+    def test_pasted_code_lists_still_work_with_exact_phrase(self):
         codes = ["ZQY111111", "ZQY222222", "ZQY333333", "ZQY444444"]
+        products = self.ProductTemplate.browse()
         for code in codes[:2]:
-            self._create_product(f"Rulment {code}", code)
+            products |= self._create_product(f"Rulment {code}", code)
         self.set_param("website_search.exact_phrase", "True")
-        # No product carries all four codes, and the OR path is off in this
-        # mode, so the list resolves to nothing.
-        self.assertFalse(self._search(" ".join(codes)))
+        # Each term is long enough to be a code of its own, so the list is
+        # resolved by the multi-code fast path even in exact-phrase mode.
+        self.assertEqual(self._search(" ".join(codes)), products)
 
     def test_single_term_search_is_unaffected(self):
         self.set_param("website_search.exact_phrase", "True")
