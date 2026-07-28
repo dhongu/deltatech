@@ -1,3 +1,17 @@
+18.0.1.5.1 (2026-07-28)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Fixed**
+
+- Exact-phrase search is now limited to terms carrying a digit. A term made of
+  words alone is somebody describing a product, not quoting a code, and matching
+  it as one string dropped the products whose words are spread out: on a live
+  catalogue ``Lant CLAAS`` returned only the 24 products containing that exact
+  wording, hiding ``Lant combina agricola CLAAS`` and the rest of the 145 that
+  carry both words. Word-only searches are again matched per word, while codes -
+  which contain digits, as ``_looks_like_code()`` already requires - keep the
+  whole-term behaviour.
+
 18.0.1.5.0 (2026-07-28)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
