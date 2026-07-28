@@ -41,6 +41,17 @@ class TestSaleMultiple(TransactionCase):
         line = self._create_line(quantity=7.0)
         self.assertEqual(line.product_uom_qty, 10.0)
 
+    def test_create_accepts_string_quantity(self):
+        """EDI imports and data loads pass the quantity as a string: the rules
+        must still apply instead of raising a TypeError on the comparison."""
+        line = self._create_line(quantity="7.0")
+        self.assertEqual(line.product_uom_qty, 10.0)
+
+    def test_write_accepts_string_quantity(self):
+        line = self._create_line(quantity=10.0)
+        line.write({"product_uom_qty": "7.0"})
+        self.assertEqual(line.product_uom_qty, 10.0)
+
     def test_batch_write_applies_rules_to_every_line(self):
         lines = self._create_line(quantity=10.0) | self._create_line(quantity=15.0)
         lines.write({"product_uom_qty": 7.0})

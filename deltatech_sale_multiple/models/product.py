@@ -124,6 +124,11 @@ class ProductProduct(models.Model):
     def _normalize_sale_quantity(self, quantity: float, product_uom) -> float:
         """Round a positive quantity up so all configured rules are satisfied."""
         self.ensure_one()
+        # This runs from create()/write() on the raw values dict, before the ORM
+        # coerces the field, so the quantity may still be a string (EDI imports,
+        # data loads, RPC callers). Cast it instead of raising a TypeError on the
+        # comparison below.
+        quantity = float(quantity or 0.0)
         if quantity <= 0:
             return quantity
 
@@ -146,6 +151,7 @@ class ProductProduct(models.Model):
     def _valid_sale_quantity_at_most(self, quantity: float, product_uom) -> float:
         """Return the greatest rule-compliant quantity not exceeding ``quantity``."""
         self.ensure_one()
+        quantity = float(quantity or 0.0)
         if quantity <= 0:
             return 0.0
 
