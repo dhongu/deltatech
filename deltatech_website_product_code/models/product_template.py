@@ -41,8 +41,8 @@ class ProductTemplate(models.Model):
         # separately, so searching for one such code returns every product
         # containing "352" or "030" or "15" or "97" - pages of noise with the
         # wanted product buried in the middle. When exact-phrase search is on,
-        # the whole term is matched as one string first, and only the per-term
-        # AND search of the mixin is used as a fallback.
+        # the whole term is matched as one string first, and the per-term search
+        # is only used as a fallback.
         phrase = " ".join((search or "").split())
         exact_phrase = " " in phrase and self._exact_phrase_search_enabled()
         if exact_phrase:
@@ -61,20 +61,19 @@ class ProductTemplate(models.Model):
         # Searching one field at a time instead (still ORing all terms within
         # each field) lets every branch use its own index; ~500x faster on the
         # same data, same results (still ORed/deduped across all fields).
-        # This must not run in exact-phrase mode: there, a term containing
-        # spaces is one code, not a list of codes, so ORing its groups produces
-        # exactly the noise that mode exists to remove. A code such as
+        # In exact-phrase mode the terms must additionally look like standalone
+        # codes rather than the groups of one spaced code. A code such as
         # "999 888 777 666" would otherwise match every product containing any
-        # of the four groups - measured at 472 results on a 10k-product
+        # of its four groups - measured at 472 results on a 10k-product
         # catalogue, where the per-term AND fallback returns none.
         terms = [t for t in (search or "").split(" ") if t.strip()]
         min_terms = self._multi_code_min_terms()
+        code_test = self._looks_like_standalone_code if exact_phrase else _looks_like_code
         if (
-            not exact_phrase
-            and min_terms
+            min_terms
             and len(terms) >= min_terms
             and not search_detail.get("search_extra")
-            and all(_looks_like_code(t) for t in terms)
+            and all(code_test(t) for t in terms)
         ):
             return self._search_fetch_multi_code(search_detail, terms, limit, order)
         return super()._search_fetch(search_detail, search, limit, order)
@@ -97,6 +96,24 @@ class ProductTemplate(models.Model):
         results = model.search(domain, limit=limit, order=search_detail.get("order", order))
         count = model.search_count(domain) if limit and limit == len(results) else len(results)
         return results, count
+
+    def _looks_like_standalone_code(self, term):
+        # Tells a pasted list of whole codes apart from the groups of a single
+        # code written with spaces. OEM part numbers are split into short
+        # groups ("366 200 05 01", "0798 318 0" - one to four characters each),
+        # while a code that stands on its own is longer. Measured over the
+        # ~6 800 spaced codes of an agricultural-parts catalogue: no single code
+        # reached four groups of five characters or more, whereas the rows
+        # holding several codes on one line consistently did.
+        min_length = self._standalone_code_min_length()
+        return _looks_like_code(term) and (not min_length or len(term) >= min_length)
+
+    def _standalone_code_min_length(self):
+        param = self.env["ir.config_parameter"].sudo().get_param("website_search.standalone_code_min_length", "5")
+        try:
+            return int(param)
+        except (ValueError, TypeError):
+            return 0
 
     def _multi_code_min_terms(self):
         # False/0/empty/anything non-numeric disables the fast path, falling

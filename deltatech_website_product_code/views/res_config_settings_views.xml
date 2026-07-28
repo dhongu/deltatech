@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.deltatech_website_product_code</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="website.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='website_info_settings']" position="after">
+                <block title="Product Search" id="deltatech_product_search_settings">
+                    <setting
+                        string="Search The Whole Term"
+                        help="Match the search term as a single string instead of splitting it on spaces. Enable it when product codes contain spaces, so that searching '352 030 15 97' returns the product having that code instead of every product containing '352', '030', '15' or '97'. When no product matches the whole term, the regular search is used."
+                    >
+                        <field name="website_search_exact_phrase" />
+                        <div class="content-group mt-2" invisible="not website_search_exact_phrase">
+                            <div class="row">
+                                <label for="website_search_standalone_code_min_length" class="col-lg-8 o_light_label" />
+                                <field name="website_search_standalone_code_min_length" />
+                            </div>
+                            <div class="text-muted">
+                                Shortest term still treated as a code of its own. Shorter terms are
+                                taken to be groups of one code, so they are never searched
+                                separately. Use 0 to accept any length.
+                            </div>
+                        </div>
+                    </setting>
+                    <setting
+                        string="Pasted Code Lists"
+                        help="Number of code-looking terms pasted together before the search starts looking for any of them instead of requiring a single product to match them all. Use 0 to disable it."
+                    >
+                        <field name="website_search_multi_code_min_terms" />
+                    </setting>
+                    <setting
+                        string="Shortest Search Term"
+                        help="Terms shorter than this are ignored, since they cannot use the database indexes and only slow the search down. Kept when every term is shorter than this, so that such a search still returns its results."
+                    >
+                        <field name="website_search_min_term_length" />
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

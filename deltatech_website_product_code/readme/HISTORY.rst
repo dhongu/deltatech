@@ -1,3 +1,36 @@
+18.0.1.5.0 (2026-07-28)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Added**
+
+- The four search parameters are now editable from *Website > Configuration >
+  Settings*, in a **Product Search** block, instead of only through
+  *Settings > Technical > System Parameters*.
+- The numeric ones are read and written explicitly rather than through the
+  ``config_parameter`` shortcut, because core stores an integer ``0`` as
+  ``False``, which deletes the parameter and restores the default. A shop that
+  had switched the pasted-code fast path off with ``0`` would otherwise have it
+  re-enabled by anyone opening the settings page and pressing Save.
+
+18.0.1.4.0 (2026-07-28)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Added**
+
+- Exact-phrase search and the pasted-code-list fast path can now be used
+  together. 18.0.1.3.1 disabled the fast path whenever
+  ``website_search.exact_phrase`` was on, because the groups of a spaced code
+  were mistaken for separate codes. The two are now told apart by the length of
+  the terms: OEM part numbers are written in short groups
+  (``366 200 05 01``, ``0798 318 0`` - one to four characters each), while a
+  code that stands on its own is longer. New system parameter
+  ``website_search.standalone_code_min_length`` (default ``5``, set to
+  ``False``/``0`` to accept any length) controls the boundary; it only applies
+  while exact-phrase search is on.
+- Measured over the ~6 800 spaced codes of an agricultural-parts catalogue: no
+  single code reached four groups of five characters or more, while the rows
+  holding several codes on one line consistently did.
+
 18.0.1.3.1 (2026-07-27)
 ~~~~~~~~~~~~~~~~~~~~~~~
 

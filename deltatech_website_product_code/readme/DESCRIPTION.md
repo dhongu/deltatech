@@ -28,6 +28,9 @@
     ``352 030 15 97`` returns the product with that code instead of every
     product containing ``352``, ``030``, ``15`` or ``97``. If no product
     matches the whole term, the regular per-term search is used as a
-    fallback. Note that the multi-code fast path above is disabled while
-    this is on, since a term containing spaces is then one code rather
-    than a list of codes.
+    fallback.
+  - ``website_search.standalone_code_min_length`` (default ``5``): only
+    used while exact-phrase search is on, to tell a pasted list of whole
+    codes from the groups of a single spaced code. Terms shorter than this
+    are taken to be groups of one code, so they are never ORed together.
+    Set to ``False`` or ``0`` to accept terms of any length as codes.
