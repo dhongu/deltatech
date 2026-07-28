@@ -28,7 +28,9 @@
     ``352 030 15 97`` returns the product with that code instead of every
     product containing ``352``, ``030``, ``15`` or ``97``. If no product
     matches the whole term, the regular per-term search is used as a
-    fallback.
+    fallback. Only terms containing a digit are treated this way: a term
+    made of words alone (``Lant CLAAS``) is a description rather than a
+    code, so its words keep being searched separately.
   - ``website_search.standalone_code_min_length`` (default ``5``): only
     used while exact-phrase search is on, to tell a pasted list of whole
     codes from the groups of a single spaced code. Terms shorter than this
