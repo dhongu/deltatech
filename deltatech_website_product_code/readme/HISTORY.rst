@@ -1,3 +1,17 @@
+18.0.1.5.0 (2026-07-28)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Added**
+
+- The four search parameters are now editable from *Website > Configuration >
+  Settings*, in a **Product Search** block, instead of only through
+  *Settings > Technical > System Parameters*.
+- The numeric ones are read and written explicitly rather than through the
+  ``config_parameter`` shortcut, because core stores an integer ``0`` as
+  ``False``, which deletes the parameter and restores the default. A shop that
+  had switched the pasted-code fast path off with ``0`` would otherwise have it
+  re-enabled by anyone opening the settings page and pressing Save.
+
 18.0.1.4.0 (2026-07-28)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
