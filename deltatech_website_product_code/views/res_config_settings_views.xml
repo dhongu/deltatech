@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.deltatech_website_product_code</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="website.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='website_info_settings']" position="after">
+                <block title="Product Search" id="deltatech_product_search_settings">
+                    <setting
+                        string="Search The Whole Term"
+                        help="Match the search term as a single string instead of splitting it on spaces. Enable it when product codes contain spaces, so that searching '352 030 15 97' returns the product having that code instead of every product containing '352', '030', '15' or '97'. When no product matches the whole term, the regular search is used."
+                    >
+                        <field name="website_search_exact_phrase" />
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

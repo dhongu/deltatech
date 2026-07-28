@@ -1,3 +1,10 @@
+## 19.0.1.2.0 (2026-07-28)
+
+- The exact-phrase search can now be switched on from *Website >
+  Configuration > Settings*, in a **Product Search** block, instead of only
+  through *Settings > Technical > System Parameters*. Ported from 18.0.1.5.0,
+  which also exposes three numeric parameters that do not exist on this branch.
+
 ## 19.0.1.1.0 (2026-07-27)
 
 - Optional exact-phrase search on the shop, new system parameter
