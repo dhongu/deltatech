@@ -63,8 +63,8 @@ class TestExactPhraseSearch(TransactionCase):
         self.assertEqual(results, self.exact_product)
 
     def test_exact_phrase_matches_a_code_inside_a_longer_value(self):
-        # Codes are often kept several per line; the searched code is then a
-        # substring of the stored value.
+        # Alternative codes are often kept several per line; the searched code
+        # is then a substring of the stored value.
         product = self._create_product("Bucsa ZQW", "ZQW 11 22 MERCEDES ZQW 33 44 MERCEDES")
         self.set_param("website_search.exact_phrase", "True")
         self.assertEqual(self._search("ZQW 33 44"), product)
@@ -76,6 +76,49 @@ class TestExactPhraseSearch(TransactionCase):
         results = self._search("ZQX 300 100")
         self.assertIn(self.exact_product, results)
         self.assertIn(self.noise_product, results)
+
+    def test_exact_phrase_does_not_or_expand_a_missing_code(self):
+        # "100 200 300 999" is one code written in groups, not four pasted
+        # codes. Without the standalone-code test the multi-code fast path would
+        # OR the groups and return every product containing any one of them -
+        # the very noise exact-phrase search exists to remove.
+        self.set_param("website_search.exact_phrase", "True")
+        self.assertFalse(self._search("100 200 300 999"))
+
+    def test_exact_phrase_treats_four_character_groups_as_one_code(self):
+        # Boundary of website_search.standalone_code_min_length (5): groups of
+        # four characters still belong to a single code.
+        self.set_param("website_search.exact_phrase", "True")
+        self.assertFalse(self._search("1000 2000 3000 9999"))
+
+    def test_pasted_code_lists_still_work_when_exact_phrase_is_off(self):
+        codes = ["ZQY111111", "ZQY222222", "ZQY333333", "ZQY444444"]
+        products = self.ProductTemplate.browse()
+        for code in codes[:2]:
+            products |= self._create_product(f"Rulment {code}", code)
+        # Default configuration: the multi-code fast path resolves the list.
+        self.assertEqual(self._search(" ".join(codes)), products)
+
+    def test_pasted_code_lists_still_work_with_exact_phrase(self):
+        codes = ["ZQY111111", "ZQY222222", "ZQY333333", "ZQY444444"]
+        products = self.ProductTemplate.browse()
+        for code in codes[:2]:
+            products |= self._create_product(f"Rulment {code}", code)
+        self.set_param("website_search.exact_phrase", "True")
+        # Each term is long enough to be a code of its own, so the list is
+        # resolved by the multi-code fast path even in exact-phrase mode.
+        self.assertEqual(self._search(" ".join(codes)), products)
+
+    def test_terms_shorter_than_the_minimum_are_dropped(self):
+        product = self._create_product("Rulment ZQZ12345", "ZQZ12345")
+        # "ab" is shorter than website_search.min_term_length (3). Terms are
+        # ANDed, so without dropping it the product could not be found.
+        self.assertIn(product, self._search("ZQZ12345 ab"))
+
+    def test_a_search_made_only_of_short_terms_is_kept(self):
+        product = self._create_product("Set ab cd", "ZQZSHORT")
+        # Every term is short, so the search is kept intact rather than emptied.
+        self.assertIn(product, self._search("ab cd"))
 
     def test_single_term_search_is_unaffected(self):
         self.set_param("website_search.exact_phrase", "True")

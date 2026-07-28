@@ -1,3 +1,22 @@
+## 19.0.1.3.0 (2026-07-28)
+
+- Brought the search to parity with 18.0.1.5.0 by porting the three features
+  that had been left on 18.0:
+  - short search terms are dropped (`website_search.min_term_length`,
+    default `3`), since they cannot use the trigram indexes and only force
+    sequential scans;
+  - a pasted list of product codes is resolved by looking for any of them
+    instead of requiring one product to match them all
+    (`website_search.multi_code_min_terms`, default `4`), searching one field
+    at a time so every branch can use its own index;
+  - while exact-phrase search is on, that list is only recognised when every
+    term is long enough to be a code of its own
+    (`website_search.standalone_code_min_length`, default `5`), so the groups
+    of a spaced code such as `999 888 777 666` are never ORed together.
+- All four parameters are editable from *Website > Configuration > Settings*.
+- Domains are built with `odoo.fields.Domain` instead of the deprecated
+  `odoo.osv.expression` helpers used on 18.0.
+
 ## 19.0.1.2.0 (2026-07-28)
 
 - The exact-phrase search can now be switched on from *Website >

@@ -5,7 +5,7 @@
     "name": "eCommerce Product Code",
     "summary": "Display product by code in eCommerce",
     "category": "Website",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.3.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
