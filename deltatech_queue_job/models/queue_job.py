@@ -4,7 +4,7 @@
 import logging
 import threading
 import time
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from odoo import api, fields, models, modules
 
@@ -230,25 +230,50 @@ class QueueJob(models.Model):
 
     @api.model
     def _cron_trigger(self, at=None):
-        domain = [("queue_job_runner", "=", True)]
-        crones = self.env["ir.cron"].sudo().search(domain)
+        """Trigger the runner crons, debouncing redundant triggers.
+
+        ``at`` may be None (run as soon as possible), a datetime, or a list of
+        datetimes (the OCA job runner passes the delayed job ETAs as a list).
+        A request is skipped when a pending trigger already fires between now
+        and the requested time, since that run will pick the jobs up anyway.
+
+        The previous implementation compared against ``search(..., limit=1)``
+        without an order or a future filter, so it usually looked at a stale
+        past trigger and created a new one on every call - measured in
+        production at 4,312 trigger inserts in 13 hours. Passing the ETA list
+        also built a ``('call_at', '=', [...])`` domain, spamming the log with
+        osv.expression warnings.
+        """
+        crons = self.env["ir.cron"].sudo().search([("queue_job_runner", "=", True)])
         res = "nothing"
 
-        for cron in crones:
-            trigger_domain = [("cron_id", "=", cron.id)]
-            if at:
-                trigger_domain.append(("call_at", "=", at))
-            trigger = self.env["ir.cron.trigger"].search(trigger_domain, limit=1)
+        now = fields.Datetime.now()
+        if at is None:
+            at_list = [now + timedelta(seconds=5)]
+        elif isinstance(at, datetime):
+            at_list = [at]
+        else:
+            at_list = list(at)
+        # past ETAs mean "as soon as possible"; earliest first, so the first
+        # trigger created debounces the later requests of the same call
+        at_list = sorted(max(at_trigger, now) for at_trigger in at_list)
 
-            if trigger and trigger.call_at >= fields.Datetime.now():
-                # triggerul exista si e in viitor - valid
-                res = "exists"
-            else:
-                # nu exista SAU e in trecut - retriggeram
-                res = "triggered"
-                # calculam at_trigger local, fara sa modificam parametrul `at`
-                at_trigger = at or fields.Datetime.now() + timedelta(seconds=5)
-                cron._trigger(at=at_trigger)
-                _logger.info(f"CRON trigger scheduled for {cron.name} at {at_trigger}")
+        for cron in crons:
+            for at_trigger in at_list:
+                covered = self.env["ir.cron.trigger"].search_count(
+                    [
+                        ("cron_id", "=", cron.id),
+                        ("call_at", ">=", now),
+                        ("call_at", "<=", at_trigger),
+                    ],
+                    limit=1,
+                )
+                if covered:
+                    if res == "nothing":
+                        res = "exists"
+                else:
+                    res = "triggered"
+                    cron._trigger(at=at_trigger)
+                    _logger.debug("CRON trigger scheduled for %s at %s", cron.name, at_trigger)
 
         return res
