@@ -1,5 +1,5 @@
-import { Interaction } from "@web/public/interaction";
-import { registry } from "@web/core/registry";
+import {Interaction} from "@web/public/interaction";
+import {registry} from "@web/core/registry";
 
 /**
  * Fill collapsed sidebar branches on first expand.
@@ -71,6 +71,4 @@ export class DeltatechLazyCategories extends Interaction {
     }
 }
 
-registry
-    .category("public.interactions")
-    .add("deltatech_website_category.lazy_categories", DeltatechLazyCategories);
+registry.category("public.interactions").add("deltatech_website_category.lazy_categories", DeltatechLazyCategories);

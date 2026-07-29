@@ -13,7 +13,7 @@
     "data": ["views/shop_template.xml"],
     "assets": {
         "web.assets_frontend": [
-            "deltatech_website_category/static/src/interactions/lazy_categories.js",
+            "deltatech_website_category/static/src/interactions/lazy_categories.esm.js",
         ],
     },
     "images": ["static/description/main_screenshot.png"],

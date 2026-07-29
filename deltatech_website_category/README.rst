@@ -14,7 +14,7 @@ eCommerce Product Category
     :target: https://odoo-community.org/page/development-status
     :alt: Alpha
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_website_category
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_category
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -58,19 +58,27 @@ Usage:
 Changelog
 =========
 
-18.0.1.1.0 (2026-07-29)
+19.0.1.1.0 (2026-07-29)
 -----------------------
 
-- The shop sidebar now renders only the open branch of the category
-  tree. Collapsed branches ship an empty list and are filled from
+- First 19.0 release of this module. It carries over the 18.0 features
+  that core still does not provide (archivable public categories,
+  ``website_url``) plus the lazy category tree below.
+
+  ``website_footer_description`` is **not** carried over: 19.0 core
+  ships ``product.public.category.website_footer`` and renders it on the
+  listing page, so the module's own field would only duplicate it. A
+  database moving from 18.0 to 19.0 needs its
+  ``website_footer_description`` values copied into ``website_footer``.
+
+- The shop sidebar renders only the open branch of the category tree.
+  Collapsed branches ship an empty list and are filled from
   ``/shop/category_children/<id>`` when the visitor expands them, which
   is the first moment their content becomes visible.
 
-  On a catalog with 1222 public categories the listing page went from
-  0.82s to 0.23s (-72%) and from 2.22 MB to 1.20 MB of HTML, with the
-  same 20 products displayed. The tree was the dominant cost of the
-  page: a product detail page on the same site renders in 0.15s with a
-  comparable number of queries.
+  Measured on the 18.0 equivalent against a 1222-category catalog: the
+  listing page went from 0.82s to 0.23s (-72%) and from 2.22 MB to 1.20
+  MB of HTML, with the same 20 products displayed.
 
   Nothing changes visually — the collapsed markup was never on screen.
   While a search is active the (already filtered, already small) tree
@@ -82,7 +90,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/dhongu/deltatech/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/dhongu/deltatech/issues/new?body=module:%20deltatech_website_category%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/dhongu/deltatech/issues/new?body=module:%20deltatech_website_category%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -106,6 +114,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_website_category>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_category>`_ project on GitHub.
 
 You are welcome to contribute.
