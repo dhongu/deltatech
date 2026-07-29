@@ -4,13 +4,14 @@
 {
     "name": "Replenish negative stock",
     "summary": "Replenish negative stock from other location",
-    "version": "18.0.1.1.1",
+    "version": "19.0.1.1.1",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Stock",
-    "depends": ["stock"],
+    "depends": ["stock", "mail"],
     "license": "OPL-1",
     "data": [
+        "views/stock_location_view.xml",
         "views/stock_picking_view.xml",
         "data/mail_data.xml",
         "data/ir_cron.xml",

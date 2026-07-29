@@ -10,15 +10,13 @@
                     Negative quantity products:
                 </p>
                 <p>
-                    <t t-foreach="object.get_negative_products()" t-as="line">
-                        <t t-foreach="line.items()" t-as="prod">
-                            [<t t-out="prod[0].default_code" />]<t
-                                t-out="prod[0].with_context(lang=object.user_id.lang).name"
-                            />:
-                            <t t-out="prod[1]" />
-                            <t t-out="prod[0].with_context(lang=object.user_id.lang).uom_id.name" />
-                            <br />
-                        </t>
+                    <t t-foreach="object.get_negative_products()" t-as="product">
+                        [<t t-out="product.default_code" />]<t
+                            t-out="product.with_context(lang=object.user_id.lang).name"
+                        />:
+                        <t t-out="product_value" />
+                        <t t-out="product.with_context(lang=object.user_id.lang).uom_id.name" />
+                        <br />
                     </t>
                 </p>
             </div>

@@ -24,3 +24,10 @@
 
   - You can manually add, delete or edit the picking after negative values have been added
   - The negative stock products will be added with each click on the \<Get negative products\> button.
+
+- Daily notification:
+
+  - Set the **Manager** field on an internal location (Inventory -\> Configuration -\> Locations).
+  - The **Send negative stock** scheduled action runs once a day and emails that user the products
+    with negative stock in the location, summed over its sub-locations.
+  - Locations without a manager are skipped.

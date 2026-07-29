@@ -23,13 +23,11 @@ msgid ""
 "                    Negative quantity products:\n"
 "                </p>\n"
 "                <p>\n"
-"                    <t t-foreach=\"object.get_negative_products()\" t-as=\"line\">\n"
-"                        <t t-foreach=\"line.items()\" t-as=\"prod\">\n"
-"                            [<t t-out=\"prod[0].default_code\"></t>]<t t-out=\"prod[0].with_context(lang=object.user_id.lang).name\"></t>:\n"
-"                            <t t-out=\"prod[1]\"></t>\n"
-"                            <t t-out=\"prod[0].with_context(lang=object.user_id.lang).uom_id.name\"></t>\n"
-"                            <br>\n"
-"                        </t>\n"
+"                    <t t-foreach=\"object.get_negative_products()\" t-as=\"product\">\n"
+"                        [<t t-out=\"product.default_code\"></t>]<t t-out=\"product.with_context(lang=object.user_id.lang).name\"></t>:\n"
+"                        <t t-out=\"product_value\"></t>\n"
+"                        <t t-out=\"product.with_context(lang=object.user_id.lang).uom_id.name\"></t>\n"
+"                        <br>\n"
 "                    </t>\n"
 "                </p>\n"
 "            </div>\n"
@@ -40,13 +38,11 @@ msgstr ""
 "                    Produse cu cantitate negativa:\n"
 "                </p>\n"
 "                <p style=\"margin:0px 0 12px 0;box-sizing:border-box;\">\n"
-"                    <t t-foreach=\"object.get_negative_products()\" t-as=\"line\">\n"
-"                        <t t-foreach=\"line.items()\" t-as=\"prod\">\n"
-"                            [<t t-out=\"prod[0].default_code\"></t>]<t t-out=\"prod[0].name\"></t>:\n"
-"                            <t t-out=\"prod[1]\"></t>\n"
-"                            <t t-out=\"prod[0].uom_id.name\"></t>\n"
-"                            <br>\n"
-"                        </t>\n"
+"                    <t t-foreach=\"object.get_negative_products()\" t-as=\"product\">\n"
+"                        [<t t-out=\"product.default_code\"></t>]<t t-out=\"product.name\"></t>:\n"
+"                        <t t-out=\"product_value\"></t>\n"
+"                        <t t-out=\"product.uom_id.name\"></t>\n"
+"                        <br>\n"
 "                    </t>\n"
 "                </p>\n"
 "            </div>\n"
@@ -62,7 +58,7 @@ msgstr ""
 #. module: deltatech_move_negative_stock
 #: model_terms:ir.ui.view,arch_db:deltatech_move_negative_stock.view_picking_form
 msgid "Get negative products"
-msgstr ""
+msgstr "Preia produsele cu stoc negativ"
 
 #. module: deltatech_move_negative_stock
 #: model:ir.model,name:deltatech_move_negative_stock.model_stock_location
@@ -73,6 +69,11 @@ msgstr "Locații inventar"
 #: model:mail.template,name:deltatech_move_negative_stock.mail_template_negative_stock
 msgid "Location: send negative stock"
 msgstr "Trimite stoc negativ"
+
+#. module: deltatech_move_negative_stock
+#: model:ir.model.fields,field_description:deltatech_move_negative_stock.field_stock_location__user_id
+msgid "Manager"
+msgstr "Responsabil"
 
 #. module: deltatech_move_negative_stock
 #: model:mail.template,subject:deltatech_move_negative_stock.mail_template_negative_stock
@@ -89,3 +90,10 @@ msgstr "Trimite stoc negativ"
 #: model:ir.model,name:deltatech_move_negative_stock.model_stock_picking
 msgid "Transfer"
 msgstr ""
+
+#. module: deltatech_move_negative_stock
+#: model:ir.model.fields,help:deltatech_move_negative_stock.field_stock_location__user_id
+msgid ""
+"User notified by the daily cron when this location holds negative stock."
+msgstr ""
+"Utilizatorul notificat de cron-ul zilnic când această locație are stoc negativ."
