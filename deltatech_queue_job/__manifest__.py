@@ -6,7 +6,7 @@
     "name": "Deltatech  Queue Job Enhancements",
     "summary": "Deltatech Queue Job",
     "author": "Terrabit, Dorin Hongu",
-    "version": "18.0.1.2.0",
+    "version": "18.0.1.3.0",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
     "category": "Others",
