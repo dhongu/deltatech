@@ -1,3 +1,9 @@
+## 19.0.1.0.1 (2026-07-29)
+
+- Reuse an existing reordering rule in the tests: `deltatech_auto_reorder_rule` creates one on every
+  new product, and only one rule is allowed per product, location and company, so creating another
+  one broke the tests when both modules are installed.
+
 ## 19.0.1.0.0 (2026-07-29)
 
 - Port of the module from 18.0. The `from_replenishment` flag on `purchase.order` and the

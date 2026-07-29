@@ -29,16 +29,23 @@ class TestPurchaseStock(TransactionCase):
         )
 
     def _replenish(self, product, qty):
-        """Trigger the buy rule through a manual reordering rule."""
-        orderpoint = self.env["stock.warehouse.orderpoint"].create(
-            {
-                "product_id": product.id,
-                "warehouse_id": self.warehouse.id,
-                "product_min_qty": qty,
-                "product_max_qty": qty,
-                "trigger": "manual",
-            }
+        """Trigger the buy rule through a manual reordering rule.
+
+        A rule may already exist for the product: `deltatech_auto_reorder_rule`
+        creates one on every new product, and only one rule is allowed per
+        product, location and company.
+        """
+        values = {"product_min_qty": qty, "product_max_qty": qty, "trigger": "manual"}
+        orderpoint = self.env["stock.warehouse.orderpoint"].search(
+            [("product_id", "=", product.id), ("location_id", "=", self.warehouse.lot_stock_id.id)],
+            limit=1,
         )
+        if orderpoint:
+            orderpoint.write(values)
+        else:
+            orderpoint = self.env["stock.warehouse.orderpoint"].create(
+                {"product_id": product.id, "warehouse_id": self.warehouse.id, **values}
+            )
         orderpoint.action_replenish()
         return orderpoint
 
