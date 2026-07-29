@@ -404,10 +404,33 @@ Only for development or testing purpose, do not use in production.
 <p><strong>Table of contents</strong></p>
 </div>
 </div>
+<div class="section" id="changelog">
+<h1>Changelog</h1>
+<div class="section" id="section-1">
+<h2>18.0.1.1.0 (2026-07-29)</h2>
+<ul>
+<li><p class="first">The shop sidebar now renders only the open branch of the category
+tree. Collapsed branches ship an empty list and are filled from
+<tt class="docutils literal"><span class="pre">/shop/category_children/&lt;id&gt;</span></tt> when the visitor expands them, which
+is the first moment their content becomes visible.</p>
+<p>On a catalog with 1222 public categories the listing page went from
+0.82s to 0.23s (-72%) and from 2.22 MB to 1.20 MB of HTML, with the
+same 20 products displayed. The tree was the dominant cost of the
+page: a product detail page on the same site renders in 0.15s with a
+comparable number of queries.</p>
+<p>Nothing changes visually — the collapsed markup was never on screen.
+While a search is active the (already filtered, already small) tree
+stays fully rendered, so search behaviour is untouched.</p>
+</li>
+</ul>
+</div>
+</div>
 <div class="section" id="bug-tracker">
 <h1>Bug Tracker</h1>
-<p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
-In case of trouble, please check there if your issue has already been reported.</p>
+<p>Bugs are tracked on <a class="reference external" href="https://github.com/dhongu/deltatech/issues">GitHub Issues</a>.
+In case of trouble, please check there if your issue has already been reported.
+If you spotted it first, help us to smash it by providing a detailed and welcomed
+<a class="reference external" href="https://github.com/dhongu/deltatech/issues/new?body=module:%20deltatech_website_category%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
