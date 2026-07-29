@@ -12,7 +12,7 @@
                     string="Cancel Entry"
                     type="object"
                     groups="account.group_account_invoice"
-                    invisible="id==False or state!='posted'"
+                    invisible="not id or state != 'posted' or need_cancel_request"
                 />
             </button>
 

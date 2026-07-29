@@ -23,7 +23,7 @@ msgstr "Poate reseta înregistrarea contabilă la schiță"
 #. module: deltatech_invoice_to_draft
 #: model_terms:ir.ui.view,arch_db:deltatech_invoice_to_draft.invoice_form
 msgid "Cancel Entry"
-msgstr ""
+msgstr "Anulează înregistrarea"
 
 #. module: deltatech_invoice_to_draft
 #: model:ir.model,name:deltatech_invoice_to_draft.model_account_move

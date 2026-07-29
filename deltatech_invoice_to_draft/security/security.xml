@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
+        <!-- Odoo 19: res.groups.category_id was removed. This technical group is left
+             without privilege_id, so that it only shows up in the "Extra Rights"
+             section of the user form (rendered in debug mode only) — the equivalent
+             of base.module_category_hidden in 18.0. -->
         <record id="group_reset_to_draft_account_move" model="res.groups">
             <field name="name">Can reset account move to draft</field>
-            <field name="category_id" ref="base.module_category_hidden" />
         </record>
 
 </odoo>
