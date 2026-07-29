@@ -82,7 +82,10 @@ class PurchaseOrder(models.Model):
             if not rfq_lines:
                 if not self.ignore_quantities:
                     found_errors.append(
-                        self.env._("The product [%(default_code)s]%(name)s is not found in a RFQ")
+                        self.env._(
+                            "The product [%(default_code)s]%(name)s is not found in a sent RFQ. "
+                            "Tick 'Ignore quantities' to receive it anyway."
+                        )
                         % {"default_code": line.product_id.default_code, "name": line.product_id.name}
                     )
 
@@ -97,7 +100,8 @@ class PurchaseOrder(models.Model):
                     if not self.ignore_quantities:
                         quantity_errors.append(
                             self.env._(
-                                "The quantity %(quantity)s of the [%(default_code)s] %(name)s product is not found in a RFQ"
+                                "The quantity %(quantity)s of the [%(default_code)s] %(name)s product is not found "
+                                "in a sent RFQ. Tick 'Ignore quantities' to receive it anyway."
                             )
                             % {
                                 "quantity": quantity,
