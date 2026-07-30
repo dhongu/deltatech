@@ -12,6 +12,18 @@ from odoo.addons.website_sale.const import SHOP_PATH
 
 
 class WebsiteSaleCategory(http.Controller):
+    # Query parameters carried into the links of a fetched branch. Mirrors what
+    # ``WebsiteSale._shop_get_query_url_kwargs`` keeps, minus ``category``,
+    # which the templates supply themselves.
+    _KEPT_QUERY_PARAMS = (
+        "search",
+        "order",
+        "min_price",
+        "max_price",
+        "tags",
+        "attribute_value",
+    )
+
     @http.route(
         f"{SHOP_PATH}/category_children/<int:category_id>",
         type="http",
@@ -70,13 +82,18 @@ class WebsiteSaleCategory(http.Controller):
         # a repeated parameter (`attribute_value`) collapses to its last value
         # in kwargs, which would silently drop attribute filters from the
         # fetched links.
+        #
+        # Only the parameters core itself carries over are copied — see
+        # ``WebsiteSale._shop_get_query_url_kwargs``. Anything else a visitor
+        # appends to the URL is dropped instead of being woven into every link
+        # on the page. ``category`` is absent on purpose: the templates pass
+        # ``category=0`` to keep it out of these URLs.
         args = request.httprequest.args
         query = {}
-        for key in args.keys():
-            if key in ("category", "active_category", "offcanvas"):
-                continue
+        for key in self._KEPT_QUERY_PARAMS:
             values = args.getlist(key)
-            query[key] = values if len(values) > 1 else values[0]
+            if values:
+                query[key] = values if len(values) > 1 else values[0]
         keep = QueryURL(SHOP_PATH, **query)
 
         content = request.env["ir.ui.view"]._render_template(

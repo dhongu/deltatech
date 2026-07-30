@@ -75,6 +75,26 @@ class TestLazyCategories(HttpCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn("order=list_price", response.text)
 
+    def test_children_endpoint_drops_unknown_query_params(self):
+        """Only core's own filter parameters reach the fetched links.
+
+        The endpoint used to copy every raw query argument into ``QueryURL``,
+        so anything a visitor appended was woven into every link on the page.
+        Crawlers that do not decode HTML entities request ``&amp;order=``
+        literally, which Odoo parses as a parameter named ``amp;order``;
+        echoing it back would publish a fresh set of URLs on every pass. Core
+        filters these out in ``_shop_get_query_url_kwargs`` and so does this
+        endpoint now.
+        """
+        response = self.url_open(
+            f"/shop/category_children/{self.root.id}?order=name+asc&amp;order=list_price+desc&utm_source=x"
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("order=name", response.text, "a known filter must survive")
+        self.assertNotIn("amp;", response.text, "the bogus parameter must not be echoed back")
+        self.assertNotIn("utm_source", response.text, "unknown parameters must not be echoed back")
+
     def test_children_endpoint_without_children(self):
         """A leaf yields an empty body rather than an error."""
         response = self.url_open(f"/shop/category_children/{self.grandchild.id}")
