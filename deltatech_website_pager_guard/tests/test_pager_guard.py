@@ -13,6 +13,17 @@ class TestPagerGuard(HttpCase):
     def setUpClass(cls):
         super().setUpClass()
 
+        # Page size comes from the website, not from ``?ppg=``. The query
+        # parameter is unreliable once other addons override ``shop()``:
+        # ``deltatech_website_sale_attributes`` and
+        # ``deltatech_website_stock_availability`` forward it positionally as
+        # the fourth argument, which core reads as ``min_price``, so a
+        # ``ppg`` query parameter both leaves the page size at its default and
+        # filters the catalogue by price.
+        # Setting ``shop_ppg`` is immune to the whole override chain.
+        cls.website = cls.env["website"].browse(1)
+        cls.website.shop_ppg = 1
+
         cls.category = cls.env["product.public.category"].create({"name": "TB Pager Category"})
         cls.env["product.template"].create(
             [
@@ -34,11 +45,11 @@ class TestPagerGuard(HttpCase):
     def test_page_beyond_last_is_refused(self):
         """A page number above the real count must 404 instead of being clamped.
 
-        Three products with ``ppg=1`` give exactly three pages, so page 4 is the
-        first one that does not exist.
+        Three products at one per page give exactly three pages, so page 4 is
+        the first one that does not exist.
         """
-        self.assertEqual(self.url_open("/shop/page/3?ppg=1").status_code, 200)
-        self.assertEqual(self.url_open("/shop/page/4?ppg=1").status_code, 404)
+        self.assertEqual(self.url_open("/shop/page/3").status_code, 200)
+        self.assertEqual(self.url_open("/shop/page/4").status_code, 404)
 
     def test_absurd_page_is_refused(self):
         """The page number seen in production crawler logs is refused."""
@@ -49,18 +60,18 @@ class TestPagerGuard(HttpCase):
 
         The guard compares against the pager's own ``page_count``; a hardcoded
         ceiling would refuse real pages, and a live catalogue was measured at
-        2.578 shop pages. With ``ppg=1`` and three products, page 3 is both the
-        last real page and proof that the check is not off by one.
+        2.578 shop pages. Page 3 is both the last real page here and proof that
+        the check is not off by one.
         """
-        self.assertEqual(self.url_open("/shop/page/3?ppg=1").status_code, 200)
-        self.assertEqual(self.url_open("/shop/page/2?ppg=1").status_code, 200)
+        self.assertEqual(self.url_open("/shop/page/3").status_code, 200)
+        self.assertEqual(self.url_open("/shop/page/2").status_code, 200)
 
     def test_category_page_beyond_last_is_refused(self):
         """The guard applies to category listings too, not only to /shop."""
         slug = self.env["ir.http"]._slug(self.category)
 
         self.assertEqual(self.url_open(f"/shop/category/{slug}").status_code, 200)
-        self.assertEqual(self.url_open(f"/shop/category/{slug}/page/4?ppg=1").status_code, 404)
+        self.assertEqual(self.url_open(f"/shop/category/{slug}/page/4").status_code, 404)
 
     def test_empty_category_has_no_second_page(self):
         """With no product at all the pager reports zero pages; page 2 must 404."""
