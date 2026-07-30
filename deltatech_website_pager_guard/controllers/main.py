@@ -20,18 +20,14 @@ class WebsiteSalePagerGuard(WebsiteSale):
     full product search and QWeb render.
     """
 
-    @route(
-        [
-            "/shop",
-            "/shop/page/<int:page>",
-            '/shop/category/<model("product.public.category"):category>',
-            '/shop/category/<model("product.public.category"):category>/page/<int:page>',
-        ],
-        type="http",
-        auth="public",
-        website=True,
-        sitemap=WebsiteSale.sitemap_shop,
-    )
+    # Bare ``@route()``: ``_generate_routing_rules`` walks the MRO ancestors
+    # first and ``update()``s each ``original_routing`` into the merged one, so
+    # every key we omit is inherited from ``WebsiteSale.shop`` — the four URLs,
+    # ``auth``, ``website`` and ``sitemap`` alike. Restating them would freeze a
+    # copy that silently drifts when core adds or drops a route. The decorator
+    # itself is still required: without it Odoo logs a warning and applies
+    # ``route()`` on our behalf.
+    @route()
     def shop(self, page=0, category=None, search="", min_price=0.0, max_price=0.0, ppg=False, **post):
         response = super().shop(
             page=page,
