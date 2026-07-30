@@ -49,6 +49,7 @@ class TestNegative(TransactionCase):
             }
         )
         move._action_confirm()
+        move.picked = True
         move_line = self.env["stock.move.line"].create(move._prepare_move_line_vals())
         move_line.quantity = 10.0
         move._action_done()
@@ -67,6 +68,7 @@ class TestNegative(TransactionCase):
             }
         )
         move._action_confirm()
+        move.picked = True
         move_line = self.env["stock.move.line"].create(move._prepare_move_line_vals())
 
         with self.assertRaises(UserError) as cm:
@@ -91,6 +93,7 @@ class TestNegative(TransactionCase):
             }
         )
         move._action_confirm()
+        move.picked = True
         move_line = self.env["stock.move.line"].create(move._prepare_move_line_vals())
         move_line.lot_id = self.lot
         move_line.quantity = 10.0
@@ -113,6 +116,7 @@ class TestNegative(TransactionCase):
             }
         )
         move._action_confirm()
+        move.picked = True
         move_line = self.env["stock.move.line"].create(move._prepare_move_line_vals())
         move_line.lot_id = self.lot
 
@@ -138,6 +142,7 @@ class TestNegative(TransactionCase):
                 "product_uom_qty": 10.0,
             }
         )
+        move.picked = True
         move_line = self.env["stock.move.line"].create(move._prepare_move_line_vals())
         move_line.package_id = package
         move_line.quantity = 10.0
@@ -160,9 +165,43 @@ class TestNegative(TransactionCase):
                 "product_uom_qty": 10.0,
             }
         )
+        move.picked = True
         move_line = self.env["stock.move.line"].create(move._prepare_move_line_vals())
 
         with self.assertRaises(UserError) as cm:
             move_line.quantity = 10.0
             move._action_done()
         self.assertRegex(cm.exception.args[0], "avoid negative stock")
+
+    def test_view_and_adjust_existing_deviation(self):
+        # Simulate a pre-existing negative deviation on the location (e.g. from
+        # before the rule was enabled), bypassing validation the same way a
+        # direct quant write would (this call does not go through
+        # StockMoveLine._action_done()).
+        self.env["stock.quant"]._update_available_quantity(
+            product_id=self.product, location_id=self.stock_location, quantity=-5.0
+        )
+        quant = self.env["stock.quant"].search(
+            [("product_id", "=", self.product.id), ("location_id", "=", self.stock_location.id)]
+        )
+        self.assertEqual(quant.quantity, -5.0)
+
+        # Reading a compute that goes through _get_available_quantity (e.g. a
+        # draft move's forecast/availability, as rendered in transfer lists)
+        # must not raise.
+        move = self.env["stock.move"].create(
+            {
+                "location_id": self.stock_location.id,
+                "location_dest_id": self.pack_location.id,
+                "product_id": self.product.id,
+                "product_uom": self.uom_unit.id,
+                "product_uom_qty": 1.0,
+            }
+        )
+        self.assertEqual(move.availability, 0.0)
+
+        # Correcting the deviation via an inventory adjustment must not raise,
+        # even while it stays negative.
+        quant.write({"inventory_quantity": -2.0})
+        quant.action_apply_inventory()
+        self.assertEqual(quant.quantity, -2.0)
