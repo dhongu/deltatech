@@ -1,0 +1,16 @@
+<odoo noupdate="1">
+        <record id="ir_cron_negative_stock" model="ir.cron">
+            <field name="name">Send negative stock</field>
+            <field name="model_id" ref="stock.model_stock_location" />
+            <field name="state">code</field>
+            <field name="code">
+locations = env["stock.location"].search([("usage", "=", "internal")])
+for location in locations:
+    location.send_mail_negative_stock()
+            </field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="user_id" ref="base.user_root" />
+            <field name="active" eval="True" />
+        </record>
+</odoo>
