@@ -41,7 +41,7 @@ msgstr "Arhivat"
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
 msgid ""
 "Are you sure? Terrabit Connect will need to be reconfigured with the new key."
-msgstr "Sunteți sigur? Terrabit Connect va trebui reconfigurat cu noua cheie."
+msgstr "Sigur? Terrabit Connect va trebui reconfigurat cu noua cheie."
 
 #. module: deltatech_tc
 #: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__state__claimed
@@ -100,7 +100,7 @@ msgstr "Finalizat la"
 #. module: deltatech_tc
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
 msgid "Download config"
-msgstr "Descarcă configurația"
+msgstr "Descarcă config"
 
 #. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__error
@@ -124,30 +124,28 @@ msgstr "ID"
 #. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__job_ids
 msgid "Job"
-msgstr "Sarcini"
+msgstr "Joburi"
 
 #. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__job_count
 msgid "Job Count"
-msgstr "Număr de sarcini"
+msgstr "Număr de joburi"
 
 #. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__job_type
 msgid "Job Type"
-msgstr "Tip sarcină"
+msgstr "Tip job"
 
 #. module: deltatech_tc
 #: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_job__payload
 msgid "Job parameters, JSON (e.g. {\"zile\": 30} or {\"id\": \"...\"})."
-msgstr ""
-"Parametrii sarcinii, în format JSON (ex. {\"zile\": 30} sau {\"id\": \"..."
-"\"})."
+msgstr "Parametrii jobului, JSON (ex. {\"zile\": 30} sau {\"id\": \"...\"})."
 
 #. module: deltatech_tc
 #: model:ir.ui.menu,name:deltatech_tc.menu_deltatech_tc_job
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
 msgid "Jobs"
-msgstr "Sarcini"
+msgstr "Joburi"
 
 #. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__last_seen
@@ -190,7 +188,7 @@ msgstr "Notă"
 #. module: deltatech_tc
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
 msgid "Notes (location, responsible, token...)"
-msgstr "Note (amplasare, responsabil, token...)"
+msgstr "Observații (locație, responsabil, token...)"
 
 #. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__os
@@ -201,7 +199,7 @@ msgstr "Sistem de operare"
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__payload
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_form
 msgid "Payload"
-msgstr "Payload"
+msgstr "Parametri (JSON)"
 
 #. module: deltatech_tc
 #: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__state__pending
@@ -229,7 +227,7 @@ msgid ""
 msgstr ""
 "Înregistrați stația de lucru pe care rulează Terrabit Connect, copiați cheia "
 "API în ea,\n"
-"               iar aceasta va schimba sarcini cu această instanță Odoo."
+"               iar aceasta va schimba joburi cu această instanță Odoo."
 
 #. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__result
@@ -243,8 +241,8 @@ msgid ""
 "Secret used by Terrabit Connect in the X-Station-Key header. Regenerate as "
 "needed."
 msgstr ""
-"Secretul folosit de Terrabit Connect în headerul X-Station-Key. Regenerați-l "
-"când este necesar."
+"Secret folosit de Terrabit Connect în antetul X-Station-Key. Se regenerează "
+"la nevoie."
 
 #. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__state
@@ -277,14 +275,14 @@ msgstr "Terrabit Connect"
 #. module: deltatech_tc
 #: model:ir.model,name:deltatech_tc.model_deltatech_tc_job
 msgid "Terrabit Connect Job"
-msgstr "Sarcină Terrabit Connect"
+msgstr "Job Terrabit Connect"
 
 #. module: deltatech_tc
 #. odoo-python
 #: code:addons/deltatech_tc/models/deltatech_tc_station.py:0
 #: model:ir.actions.act_window,name:deltatech_tc.action_deltatech_tc_job
 msgid "Terrabit Connect Jobs"
-msgstr "Sarcini Terrabit Connect"
+msgstr "Joburi Terrabit Connect"
 
 #. module: deltatech_tc
 #: model:ir.model,name:deltatech_tc.model_deltatech_tc_station
