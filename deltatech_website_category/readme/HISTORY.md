@@ -1,3 +1,14 @@
+## 19.0.1.1.1 (2026-07-30)
+
+- `/shop/category_children/<id>` no longer echoes unknown query parameters
+  back into the links of the fetched branch. It copied every raw argument
+  into `QueryURL`, so anything a visitor appended was woven into every link
+  on the page — unlike core, which keeps only its own filter parameters in
+  `_shop_get_query_url_kwargs`. Crawlers that fail to decode HTML entities
+  request `&amp;order=` literally, which Odoo parses as a parameter named
+  `amp;order`; echoing it back would have published a fresh set of URLs on
+  every pass.
+
 ## 19.0.1.1.0 (2026-07-29)
 
 - First 19.0 release of this module. It carries over the 18.0 features that core
