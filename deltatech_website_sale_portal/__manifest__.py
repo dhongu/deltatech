@@ -7,7 +7,7 @@
     "name": "eCommerce Portal",
     "category": "Website",
     "summary": "eCommerce Portal extension",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
