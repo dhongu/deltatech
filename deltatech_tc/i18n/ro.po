@@ -1,0 +1,327 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_tc
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-30 07:42+0000\n"
+"PO-Revision-Date: 2026-07-30 07:42+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_station.py:0
+msgid "%(name)s sent a manual heartbeat."
+msgstr "%(name)s a trimis un heartbeat manual."
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__api_key
+msgid "API Key"
+msgstr "Cheie API"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__active
+msgid "Active"
+msgstr "Activ"
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid "Archived"
+msgstr "Arhivat"
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid ""
+"Are you sure? Terrabit Connect will need to be reconfigured with the new key."
+msgstr "Sigur? Terrabit Connect va trebui reconfigurat cu noua cheie."
+
+#. module: deltatech_tc
+#: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__state__claimed
+msgid "Claimed"
+msgstr "Preluat"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__claimed_at
+msgid "Claimed At"
+msgstr "Preluat la"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_station__features
+msgid ""
+"Comma-separated list of features enabled on the station (reported at "
+"heartbeat)."
+msgstr ""
+"Lista funcționalităților activate pe stație, separate prin virgulă "
+"(raportate la heartbeat)."
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__company_id
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__create_uid
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__create_date
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__display_name
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_tc
+#: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__state__done
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
+msgid "Done"
+msgstr "Finalizat"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__done_at
+msgid "Done At"
+msgstr "Finalizat la"
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid "Download config"
+msgstr "Descarcă config"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__error
+#: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__state__error
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_form
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
+msgid "Error"
+msgstr "Eroare"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__features
+msgid "Features"
+msgstr "Funcționalități"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__id
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__job_ids
+msgid "Job"
+msgstr "Joburi"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__job_count
+msgid "Job Count"
+msgstr "Număr de joburi"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__job_type
+msgid "Job Type"
+msgstr "Tip job"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_job__payload
+msgid "Job parameters, JSON (e.g. {\"zile\": 30} or {\"id\": \"...\"})."
+msgstr "Parametrii jobului, JSON (ex. {\"zile\": 30} sau {\"id\": \"...\"})."
+
+#. module: deltatech_tc
+#: model:ir.ui.menu,name:deltatech_tc.menu_deltatech_tc_job
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid "Jobs"
+msgstr "Joburi"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__last_seen
+msgid "Last Seen"
+msgstr "Văzut ultima dată"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__write_uid
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__write_date
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_tc
+#: model:res.groups,name:deltatech_tc.group_deltatech_tc_manager
+msgid "Manager"
+msgstr "Manager"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__name
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_tc
+#: model_terms:ir.actions.act_window,help:deltatech_tc.action_deltatech_tc_station
+msgid "No Terrabit Connect station registered"
+msgstr "Nicio stație Terrabit Connect înregistrată"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__note
+msgid "Note"
+msgstr "Notă"
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid "Notes (location, responsible, token...)"
+msgstr "Observații (locație, responsabil, token...)"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__os
+msgid "Operating System"
+msgstr "Sistem de operare"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__payload
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_form
+msgid "Payload"
+msgstr "Parametri (JSON)"
+
+#. module: deltatech_tc
+#: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__state__pending
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
+msgid "Pending"
+msgstr "În așteptare"
+
+#. module: deltatech_tc
+#: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__job_type__ping
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid "Ping"
+msgstr "Ping"
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid "Regenerate key"
+msgstr "Regenerează cheia"
+
+#. module: deltatech_tc
+#: model_terms:ir.actions.act_window,help:deltatech_tc.action_deltatech_tc_station
+msgid ""
+"Register the workstation running Terrabit Connect, copy the API key into "
+"it,\n"
+"               and it will exchange jobs with this Odoo instance."
+msgstr ""
+"Înregistrați stația de lucru pe care rulează Terrabit Connect, copiați cheia "
+"API în ea,\n"
+"               iar aceasta va schimba joburi cu această instanță Odoo."
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__result
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_form
+msgid "Result"
+msgstr "Rezultat"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_station__api_key
+msgid ""
+"Secret used by Terrabit Connect in the X-Station-Key header. Regenerate as "
+"needed."
+msgstr ""
+"Secret folosit de Terrabit Connect în antetul X-Station-Key. Se regenerează "
+"la nevoie."
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__state
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
+msgid "State"
+msgstr "Stare"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__station_id
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
+msgid "Station"
+msgstr "Stație"
+
+#. module: deltatech_tc
+#: model:ir.ui.menu,name:deltatech_tc.menu_deltatech_tc_station
+msgid "Stations"
+msgstr "Stații"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__tc_version
+msgid "TC Version"
+msgstr "Versiune TC"
+
+#. module: deltatech_tc
+#: model:ir.ui.menu,name:deltatech_tc.menu_deltatech_tc_root
+#: model:res.groups.privilege,name:deltatech_tc.groups_privilege_deltatech_tc
+msgid "Terrabit Connect"
+msgstr "Terrabit Connect"
+
+#. module: deltatech_tc
+#: model:ir.model,name:deltatech_tc.model_deltatech_tc_job
+msgid "Terrabit Connect Job"
+msgstr "Job Terrabit Connect"
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_station.py:0
+#: model:ir.actions.act_window,name:deltatech_tc.action_deltatech_tc_job
+msgid "Terrabit Connect Jobs"
+msgstr "Joburi Terrabit Connect"
+
+#. module: deltatech_tc
+#: model:ir.model,name:deltatech_tc.model_deltatech_tc_station
+msgid "Terrabit Connect Station"
+msgstr "Stație Terrabit Connect"
+
+#. module: deltatech_tc
+#: model:ir.actions.act_window,name:deltatech_tc.action_deltatech_tc_station
+msgid "Terrabit Connect Stations"
+msgstr "Stații Terrabit Connect"
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_station.py:0
+msgid "Terrabit Connect heartbeat"
+msgstr "Heartbeat Terrabit Connect"
+
+#. module: deltatech_tc
+#: model:ir.model.constraint,message:deltatech_tc.constraint_deltatech_tc_station_api_key_uniq
+msgid "The API key must be unique."
+msgstr "Cheia API trebuie să fie unică."
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
+msgid "Type"
+msgstr "Tip"
+
+#. module: deltatech_tc
+#: model:res.groups,name:deltatech_tc.group_deltatech_tc_user
+msgid "User"
+msgstr "Operator"
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid "e.g. Accounting PC"
+msgstr "ex. PC Contabilitate"
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_station.py:0
+msgid "station_id"
+msgstr ""
