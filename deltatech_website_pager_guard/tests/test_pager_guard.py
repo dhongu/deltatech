@@ -7,15 +7,22 @@ from odoo.tests import HttpCase, tagged
 
 @tagged("post_install", "-at_install")
 class TestPagerGuard(HttpCase):
-    """Shop pages past the last real one must 404, not serve duplicate content."""
+    """Shop pages past the last real one must 404, not serve duplicate content.
+
+    Page-count assertions run against a category created here, never against
+    ``/shop`` as a whole. These tests are ``post_install``, so every other
+    addon's fixtures are already committed and the global listing holds an
+    unknown number of published products — CI proved it on 18.0 by serving
+    ``/shop/page/4`` where a local database had only three pages.
+
+    Page size comes from ``website.shop_ppg``: 19.0 no longer reads ``ppg``
+    from the query string at all.
+    """
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
 
-        # 19.0 no longer reads ``ppg`` from the query string — the shop always
-        # uses ``website.shop_ppg or 21``. One product per page keeps the
-        # fixture small while still producing several pages.
         cls.website = cls.env["website"].browse(1)
         cls.website.shop_ppg = 1
 
@@ -31,42 +38,43 @@ class TestPagerGuard(HttpCase):
                 for index in range(3)
             ]
         )
+        cls.category_url = f"/shop/category/{cls.env['ir.http']._slug(cls.category)}"
 
     def test_shop_first_page_is_served(self):
-        """/shop and /shop/page/1 are always valid."""
+        """/shop and /shop/page/1 are valid whatever the catalogue holds."""
         self.assertEqual(self.url_open("/shop").status_code, 200)
         self.assertEqual(self.url_open("/shop/page/1").status_code, 200)
 
-    def test_page_beyond_last_is_refused(self):
-        """A page number above the real count must 404 instead of being clamped.
-
-        Three products at one per page give exactly three pages, so page 4 is
-        the first one that does not exist.
-        """
-        self.assertEqual(self.url_open("/shop/page/3").status_code, 200)
-        self.assertEqual(self.url_open("/shop/page/4").status_code, 404)
-
     def test_absurd_page_is_refused(self):
-        """The page number seen in production crawler logs is refused."""
+        """The page number seen in production crawler logs is refused.
+
+        Safe to assert on the global listing: no catalogue reaches three
+        million pages.
+        """
         self.assertEqual(self.url_open("/shop/page/3467514").status_code, 404)
 
-    def test_guard_uses_page_count_not_a_fixed_bound(self):
-        """A high but real page number must still be served.
+    def test_last_real_page_is_served(self):
+        """Three products at one per page make page 3 the last real one.
 
-        The guard compares against the pager's own ``page_count``; a hardcoded
-        ceiling would refuse real pages, and a live catalogue was measured at
-        2.578 shop pages. Page 3 is both the last real page here and proof that
-        the check is not off by one.
+        Also proves ``shop_ppg`` took effect: at the default page size the
+        three products would share page 1 and page 3 would 404.
         """
-        self.assertEqual(self.url_open("/shop/page/2").status_code, 200)
-        self.assertEqual(self.url_open("/shop/page/3").status_code, 200)
+        self.assertEqual(self.url_open(f"{self.category_url}/page/2").status_code, 200)
+        self.assertEqual(self.url_open(f"{self.category_url}/page/3").status_code, 200)
 
-    def test_category_page_beyond_last_is_refused(self):
-        """The guard applies to category listings too, not only to /shop."""
-        slug = self.env["ir.http"]._slug(self.category)
+    def test_page_beyond_last_is_refused(self):
+        """Page 4 does not exist and must 404 instead of being clamped to 3."""
+        self.assertEqual(self.url_open(f"{self.category_url}/page/4").status_code, 404)
 
-        self.assertEqual(self.url_open(f"/shop/category/{slug}").status_code, 200)
-        self.assertEqual(self.url_open(f"/shop/category/{slug}/page/4").status_code, 404)
+    def test_guard_uses_page_count_not_a_fixed_bound(self):
+        """The refusal follows the real page count, not a hardcoded ceiling.
+
+        A live catalogue was measured at 2.578 shop pages, so any constant
+        bound would refuse real pages. Here the boundary sits exactly between
+        page 3 and page 4, which only a ``page_count`` comparison can place.
+        """
+        self.assertEqual(self.url_open(f"{self.category_url}/page/3").status_code, 200)
+        self.assertEqual(self.url_open(f"{self.category_url}/page/4").status_code, 404)
 
     def test_empty_category_is_not_reachable_at_all(self):
         """An empty category 404s before the guard is even consulted.
