@@ -14,7 +14,7 @@ eCommerce Pager Guard
     :target: https://odoo-community.org/page/development-status
     :alt: Alpha
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_website_pager_guard
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_pager_guard
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -59,7 +59,7 @@ Changelog
 History
 =======
 
-18.0.1.0.0 (2026-07-30)
+19.0.1.0.0 (2026-07-30)
 -----------------------
 
 - Initial release. Shop listing pages beyond the last real one now
@@ -96,6 +96,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_website_pager_guard>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_pager_guard>`_ project on GitHub.
 
 You are welcome to contribute.

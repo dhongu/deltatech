@@ -13,6 +13,12 @@ class TestPagerGuard(HttpCase):
     def setUpClass(cls):
         super().setUpClass()
 
+        # 19.0 no longer reads ``ppg`` from the query string — the shop always
+        # uses ``website.shop_ppg or 21``. One product per page keeps the
+        # fixture small while still producing several pages.
+        cls.website = cls.env["website"].browse(1)
+        cls.website.shop_ppg = 1
+
         cls.category = cls.env["product.public.category"].create({"name": "TB Pager Category"})
         cls.env["product.template"].create(
             [
@@ -34,11 +40,11 @@ class TestPagerGuard(HttpCase):
     def test_page_beyond_last_is_refused(self):
         """A page number above the real count must 404 instead of being clamped.
 
-        Three products with ``ppg=1`` give exactly three pages, so page 4 is the
-        first one that does not exist.
+        Three products at one per page give exactly three pages, so page 4 is
+        the first one that does not exist.
         """
-        self.assertEqual(self.url_open("/shop/page/3?ppg=1").status_code, 200)
-        self.assertEqual(self.url_open("/shop/page/4?ppg=1").status_code, 404)
+        self.assertEqual(self.url_open("/shop/page/3").status_code, 200)
+        self.assertEqual(self.url_open("/shop/page/4").status_code, 404)
 
     def test_absurd_page_is_refused(self):
         """The page number seen in production crawler logs is refused."""
@@ -49,23 +55,34 @@ class TestPagerGuard(HttpCase):
 
         The guard compares against the pager's own ``page_count``; a hardcoded
         ceiling would refuse real pages, and a live catalogue was measured at
-        2.578 shop pages. With ``ppg=1`` and three products, page 3 is both the
-        last real page and proof that the check is not off by one.
+        2.578 shop pages. Page 3 is both the last real page here and proof that
+        the check is not off by one.
         """
-        self.assertEqual(self.url_open("/shop/page/3?ppg=1").status_code, 200)
-        self.assertEqual(self.url_open("/shop/page/2?ppg=1").status_code, 200)
+        self.assertEqual(self.url_open("/shop/page/2").status_code, 200)
+        self.assertEqual(self.url_open("/shop/page/3").status_code, 200)
 
     def test_category_page_beyond_last_is_refused(self):
         """The guard applies to category listings too, not only to /shop."""
         slug = self.env["ir.http"]._slug(self.category)
 
         self.assertEqual(self.url_open(f"/shop/category/{slug}").status_code, 200)
-        self.assertEqual(self.url_open(f"/shop/category/{slug}/page/4?ppg=1").status_code, 404)
+        self.assertEqual(self.url_open(f"/shop/category/{slug}/page/4").status_code, 404)
 
-    def test_empty_category_has_no_second_page(self):
-        """With no product at all the pager reports zero pages; page 2 must 404."""
+    def test_empty_category_is_not_reachable_at_all(self):
+        """An empty category 404s before the guard is even consulted.
+
+        On 18.0 it answered 200 and the guard was what refused its ``/page/2``.
+        19.0 added ``empty_public_categories_rule``
+        (``website_sale/security/ir_rules.xml``), an ``ir.rule`` hiding
+        categories with ``has_published_products = False`` from public and
+        portal users, so the record converter cannot resolve the slug and
+        ``handle_params_access_error`` turns that into a 404.
+
+        Asserted here so the port does not silently rely on 18.0 behaviour: the
+        outcome a crawler sees is identical, the cause is not.
+        """
         empty = self.env["product.public.category"].create({"name": "TB Empty Category"})
         slug = self.env["ir.http"]._slug(empty)
 
-        self.assertEqual(self.url_open(f"/shop/category/{slug}").status_code, 200)
+        self.assertEqual(self.url_open(f"/shop/category/{slug}").status_code, 404)
         self.assertEqual(self.url_open(f"/shop/category/{slug}/page/2").status_code, 404)

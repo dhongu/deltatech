@@ -1,6 +1,6 @@
 # History
 
-## 18.0.1.0.0 (2026-07-30)
+## 19.0.1.0.0 (2026-07-30)
 
 - Initial release. Shop listing pages beyond the last real one now return
   `404` instead of being silently clamped to the last page by

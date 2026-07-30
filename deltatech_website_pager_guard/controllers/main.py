@@ -22,20 +22,21 @@ class WebsiteSalePagerGuard(WebsiteSale):
 
     # Bare ``@route()``: ``_generate_routing_rules`` walks the MRO ancestors
     # first and ``update()``s each ``original_routing`` into the merged one, so
-    # every key we omit is inherited from ``WebsiteSale.shop`` — the four URLs,
-    # ``auth``, ``website`` and ``sitemap`` alike. Restating them would freeze a
-    # copy that silently drifts when core adds or drops a route. The decorator
-    # itself is still required: without it Odoo logs a warning and applies
-    # ``route()`` on our behalf.
+    # every key we omit is inherited from ``WebsiteSale.shop``. On 19.0 that
+    # covers more than the four URLs and ``auth``/``website``/``sitemap``: core
+    # also declares ``list_as_website_content`` and
+    # ``handle_params_access_error``, which a restated decorator would silently
+    # drop. The decorator itself is still required: without it Odoo logs a
+    # warning and applies ``route()`` on our behalf.
     @route()
-    def shop(self, page=0, category=None, search="", min_price=0.0, max_price=0.0, ppg=False, **post):
+    def shop(self, page=0, category=None, search="", min_price=0.0, max_price=0.0, tags="", **post):
         response = super().shop(
             page=page,
             category=category,
             search=search,
             min_price=min_price,
             max_price=max_price,
-            ppg=ppg,
+            tags=tags,
             **post,
         )
 
