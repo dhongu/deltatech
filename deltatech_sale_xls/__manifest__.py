@@ -6,7 +6,7 @@
     "name": "Deltatech Sale XLS",
     "summary": "Import/export sale line from/to Excel",
     "author": "Terrabit, Voicu Stefan",
-    "version": "18.0.0.0.0",
+    "version": "19.0.1.0.0",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
