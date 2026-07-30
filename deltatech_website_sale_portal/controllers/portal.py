@@ -3,8 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import _, http
+from odoo.fields import Domain
 from odoo.http import request
-from odoo.osv import expression
 
 from odoo.addons.sale.controllers import portal
 
@@ -37,11 +37,11 @@ class CustomerPortal(portal.CustomerPortal):
                 search_in = request.params.get("search_in", "all")
 
                 if search_in == "name":
-                    domain = expression.AND([domain, [("name", "ilike", search)]])
+                    domain = Domain.AND([domain, [("name", "ilike", search)]])
                 if search_in == "client_order_ref":
-                    domain = expression.AND([domain, [("client_order_ref", "ilike", search)]])
+                    domain = Domain.AND([domain, [("client_order_ref", "ilike", search)]])
                 if search_in == "all":
-                    domain = expression.AND(
+                    domain = Domain.AND(
                         [domain, ["|", ("name", "ilike", search), ("client_order_ref", "ilike", search)]]
                     )
         return domain
