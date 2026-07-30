@@ -342,10 +342,92 @@ class TestSaleOrderPayment(TransactionCase):
         orders = self.env["sale.order"].search([("id", "=", self.sale_order.id), ("payment_status", "=", "authorized")])
         self.assertIn(self.sale_order, orders)
 
-        # Create a done transaction
-        self._create_transaction(amount=30.0, state="done")
+        # Create a done transaction, below the order total -> partial, not done
+        half_total = self.sale_order.amount_total / 2
+        self._create_transaction(amount=half_total, state="done")
+        orders = self.env["sale.order"].search([("id", "=", self.sale_order.id), ("payment_status", "=", "partial")])
+        self.assertIn(self.sale_order, orders)
+
+        # Capture the rest of the order total -> done
+        self._create_transaction(amount=half_total, state="done")
         orders = self.env["sale.order"].search([("id", "=", self.sale_order.id), ("payment_status", "=", "done")])
         self.assertIn(self.sale_order, orders)
+
+    def _create_order(self, price_unit=100.0):
+        return self.env["sale.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.product.id,
+                            "product_uom_qty": 1.0,
+                            "price_unit": price_unit,
+                        },
+                    )
+                ],
+            }
+        )
+
+    def _orders_by_payment_status(self):
+        """One order per payment status, so the search can be checked for exclusivity."""
+        orders = {"without": self._create_order()}
+
+        orders["initiated"] = self._create_order()
+        self._create_transaction_for_order(orders["initiated"], amount=10.0, state="pending")
+
+        orders["authorized"] = self._create_order()
+        self._create_transaction_for_order(orders["authorized"], amount=20.0, state="authorized")
+
+        orders["cancelled"] = self._create_order()
+        self._create_transaction_for_order(orders["cancelled"], amount=30.0, state="cancel")
+
+        orders["partial"] = self._create_order()
+        self._create_transaction_for_order(orders["partial"], amount=orders["partial"].amount_total / 2, state="done")
+
+        orders["done"] = self._create_order()
+        self._create_transaction_for_order(orders["done"], amount=orders["done"].amount_total, state="done")
+
+        return orders
+
+    def test_search_payment_status_returns_only_matching_orders(self):
+        # Regression: in Odoo 19 the search method receives 'in' / 'not in' (never '='),
+        # so an unhandled operator used to fall through to an empty (TRUE) domain and the
+        # filter silently returned every order
+        orders = self._orders_by_payment_status()
+        all_orders = self.env["sale.order"].browse([order.id for order in orders.values()])
+
+        for status, order in orders.items():
+            self.assertEqual(order.payment_status, status, f"Computed status for the '{status}' order")
+
+        for status, order in orders.items():
+            found = self.env["sale.order"].search([("id", "in", all_orders.ids), ("payment_status", "=", status)])
+            self.assertEqual(found, order, f"Only the '{status}' order must match payment_status = {status}")
+
+            found = self.env["sale.order"].search([("id", "in", all_orders.ids), ("payment_status", "!=", status)])
+            self.assertEqual(found, all_orders - order, f"Every other order must match payment_status != {status}")
+
+    def test_search_payment_status_multiple_values(self):
+        orders = self._orders_by_payment_status()
+        all_orders = self.env["sale.order"].browse([order.id for order in orders.values()])
+
+        found = self.env["sale.order"].search(
+            [("id", "in", all_orders.ids), ("payment_status", "in", ["partial", "done"])]
+        )
+        self.assertEqual(found, orders["partial"] | orders["done"])
+
+        found = self.env["sale.order"].search(
+            [("id", "in", all_orders.ids), ("payment_status", "not in", ["partial", "done"])]
+        )
+        self.assertEqual(found, all_orders - orders["partial"] - orders["done"])
+
+    def test_search_payment_status_unknown_value(self):
+        # An unknown value must match nothing, not everything
+        order = self._create_order()
+        found = self.env["sale.order"].search([("id", "=", order.id), ("payment_status", "=", "no_such_status")])
+        self.assertFalse(found)
 
     def test_wizard_onchange_provider(self):
         wizard = (
