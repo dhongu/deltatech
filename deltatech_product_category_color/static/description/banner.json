@@ -1,0 +1,10 @@
+{
+  "title": "Product Category Colors",
+  "summary": "Spot product categories at a glance",
+  "icon": "box",
+  "features": [
+    "Color-coded product categories",
+    "Category tags on delivery kanban",
+    "Faster visual ID in the warehouse"
+  ]
+}

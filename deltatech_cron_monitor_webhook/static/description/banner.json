@@ -1,0 +1,6 @@
+{
+  "title": "Cron Webhook Trigger",
+  "summary": "Trigger Odoo cron jobs via secure webhooks",
+  "icon": "gear",
+  "features": ["Per-cron webhook activation", "Secure global access token", "Trigger & status endpoints"]
+}

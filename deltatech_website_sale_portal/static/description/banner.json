@@ -1,0 +1,10 @@
+{
+  "title": "Portal Order Search",
+  "summary": "Reference lookup & search for quotes/orders",
+  "icon": "clipboard",
+  "features": [
+    "Client reference column on orders",
+    "Search quotes & orders by reference",
+    "Quick filters: name, reference, all"
+  ]
+}
