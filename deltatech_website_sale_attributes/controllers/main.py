@@ -6,8 +6,20 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 class WebsiteSaleAttribute(WebsiteSale):
     @http.route()
-    def shop(self, page=0, category=None, search="", ppg=False, **post):
-        response = super().shop(page, category, search, ppg, **post)
+    def shop(self, category=None, search="", **kwargs):
+        # Only the two parameters this override actually reads are named; the
+        # rest travels in ``kwargs`` untouched. The previous signature was
+        # ``(page, category, search, ppg)`` and forwarded those positionally,
+        # but core's fourth slot is ``min_price``, so ``ppg`` landed there: a
+        # visitor passing ``?ppg=40`` got the catalogue silently filtered to
+        # products over 40 while the page size stayed at its default. On 19.0
+        # ``ppg`` is not even a core parameter any more, yet declaring it here
+        # still captured it and pushed it into ``min_price``.
+        #
+        # Odoo always invokes endpoints as ``endpoint(**request.params)``
+        # (``odoo/http.py``), so keyword forwarding is both correct and immune
+        # to any further signature change.
+        response = super().shop(category=category, search=search, **kwargs)
 
         if category and search:
             # Folosim domeniul construit de WebsiteSale pentru product.template

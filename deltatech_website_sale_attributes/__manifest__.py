@@ -5,7 +5,7 @@
     "name": "eCommerce Attribute Values",
     "category": "Website",
     "summary": "Attribute values for products displayed",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "license": "LGPL-3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
