@@ -88,6 +88,51 @@ class TestStockAccountCustom(common.TransactionCase):
     def test_action_create_invoice(self):
         self.picking_out.action_create_invoice()
 
+    def test_search_invoiced(self):
+        Batch = self.env["stock.picking.batch"]
+        # lotul se formeaza inainte de validare: _sanity_check refuza livrarile done
+        purchase_order = self.PurchaseOrder.create(
+            {
+                "partner_id": self.partner.id,
+                "date_order": fields.Date.today(),
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": self.product.name,
+                            "product_id": self.product.id,
+                            "product_qty": 5.0,
+                            "product_uom": self.product.uom_id.id,
+                            "price_unit": self.product.list_price,
+                            "date_planned": fields.Date.today(),
+                        },
+                    )
+                ],
+            }
+        )
+        purchase_order.button_confirm()
+        picking = purchase_order.picking_ids[0]
+        batch = Batch.create({"picking_ids": [(6, 0, picking.ids)]})
+
+        self.assertFalse(batch.invoiced)
+        self.assertIn(batch, Batch.search([("invoiced", "=", False)]))
+        self.assertNotIn(batch, Batch.search([("invoiced", "=", True)]))
+        # operatorii inversi trebuie sa dea acelasi rezultat
+        self.assertIn(batch, Batch.search([("invoiced", "!=", True)]))
+        self.assertNotIn(batch, Batch.search([("invoiced", "!=", False)]))
+
+        picking.move_line_ids[0].quantity = 5
+        picking.button_validate()
+        picking.write({"supplier_invoice_number": "INV/2023/002"})
+        picking.action_create_supplier_invoice()
+        self.assertTrue(picking.account_move_id)
+
+        batch.invalidate_recordset(["invoiced"])
+        self.assertTrue(batch.invoiced)
+        self.assertIn(batch, Batch.search([("invoiced", "=", True)]))
+        self.assertNotIn(batch, Batch.search([("invoiced", "=", False)]))
+
     def test_sale_invoice_creation(self):
         invoice = self.sale_order._create_invoices()
         self.assertTrue(invoice, "Invoice was not created for Sale Order")
