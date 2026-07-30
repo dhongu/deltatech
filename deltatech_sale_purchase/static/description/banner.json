@@ -1,0 +1,6 @@
+{
+  "title": "Sale-Purchase Sync",
+  "summary": "Keeps purchase orders aligned with sales",
+  "icon": "cart",
+  "features": ["Auto-removes cancelled sale lines", "Syncs quantity decreases to POs", "Avoids orphan purchase lines"]
+}

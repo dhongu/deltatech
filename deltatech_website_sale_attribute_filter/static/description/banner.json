@@ -1,0 +1,10 @@
+{
+  "title": "Shop Attribute Filters",
+  "summary": "Shows only filters that match results",
+  "icon": "grid",
+  "features": [
+    "Filters by visible products only",
+    "Works with all attribute display types",
+    "Keeps filter state after page reload"
+  ]
+}

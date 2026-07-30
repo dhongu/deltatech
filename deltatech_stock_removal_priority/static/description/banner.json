@@ -1,0 +1,6 @@
+{
+  "title": "Priority Removal",
+  "summary": "Pick stock from priority locations first",
+  "icon": "box",
+  "features": ["Priority-based removal strategy", "Auto priority from putaway rules", "Always in sync, no manual work"]
+}
