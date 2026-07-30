@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
+from odoo.fields import Domain
 
 
 class SaleOrder(models.Model):
@@ -96,13 +97,44 @@ class SaleOrder(models.Model):
             order.provider_id = provider
 
     def _search_payment_status(self, operator, value):
-        if operator == "=":
-            if value == "without":
-                return [("transaction_ids", "=", False)]
-            if value == "initiated":
-                return [("transaction_ids.state", "!=", "done")]
-            if value == "authorized":
-                return [("transaction_ids.state", "=", "authorized")]
-            if value == "done":
-                return [("transaction_ids.state", "=", "done")]
-        return []
+        # Odoo 19 rescrie `=` / `!=` in `in` / `not in` peste o colectie de valori
+        # (_operator_equal_as_in din odoo/orm/domains.py), la nivel BASIC, inaintea
+        # expandarii metodei `search`: metoda nu primeste niciodata operatorul `=`
+        if operator not in ("in", "not in"):
+            return NotImplemented
+        if operator == "in":
+            return Domain.OR(self._get_payment_status_domain(status) for status in value)
+        return Domain.AND(~self._get_payment_status_domain(status) for status in value)
+
+    def _get_payment_status_domain(self, status):
+        """Domeniul comenzilor cu statusul de plata dat.
+
+        Statusurile se exclud reciproc, in aceeasi ordine de prioritate ca in
+        `_compute_payment`. Ca si inainte, cautarea ia in calcul doar tranzactiile
+        de plata: sumele incasate direct pe facturi nu se pot exprima in domeniu.
+        """
+        has_transaction = Domain("transaction_ids", "!=", False)
+        has_done = Domain("transaction_ids.state", "in", ["done"])
+        has_authorized = Domain("transaction_ids.state", "in", ["authorized"])
+        has_cancelled = Domain("transaction_ids.state", "in", ["cancel"])
+        if status == "without":
+            return ~has_transaction
+        if status == "initiated":
+            return has_transaction & ~has_done & ~has_authorized & ~has_cancelled
+        if status == "authorized":
+            return has_authorized & ~has_done
+        if status == "cancelled":
+            return has_cancelled & ~has_authorized & ~has_done
+        if status in ("partial", "done"):
+            return Domain("id", "in", self._get_paid_order_ids(status))
+        return Domain.FALSE
+
+    def _get_paid_order_ids(self, status):
+        """Comenzile `partial` / `done`, evaluate in Python.
+
+        Diferenta dintre `partial` si `done` este suma incasata comparata cu totalul
+        comenzii, care nu se poate exprima in domeniu; restrangem la comenzile cu
+        tranzactii confirmate si evaluam statusul pe ele (ca `account.account._search_used`).
+        """
+        orders = self.search([("transaction_ids.state", "in", ["done"])])
+        return orders.filtered(lambda order: order.payment_status == status).ids
