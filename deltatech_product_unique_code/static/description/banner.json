@@ -1,0 +1,6 @@
+{
+  "title": "Product Unique Code",
+  "summary": "No duplicate codes or barcodes, ever",
+  "icon": "box",
+  "features": ["Blocks duplicate reference & barcode", "Checks archived products too", "Bypass group for special cases"]
+}
