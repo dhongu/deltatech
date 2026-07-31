@@ -18,35 +18,21 @@ class SaleOrder(models.Model):
         """
         self.order_line.with_context(backend=True).check_extra_product()
 
-    def _cart_update(self, product_id=None, line_id=None, add_qty=0, set_qty=0, **kwargs):
-        res = super()._cart_update(
-            product_id=product_id,
-            line_id=line_id,
-            add_qty=add_qty,
-            set_qty=set_qty,
-            **kwargs,
-        )
-        if res["line_id"]:
-            line_id = self.env["sale.order.line"].browse(res["line_id"])
-            if res["quantity"]:
-                line_id.check_extra_product()
-                parent_line_id = self.order_line.filtered(
-                    lambda li: li.line_uuid is not False
-                    and li.line_uuid == line_id.line_uuid
-                    and li.id != line_id.id
-                    and li.product_id.extra_product_id
-                )
-                if parent_line_id:
-                    parent_line_id.check_extra_product()
-            else:
-                # seems like delete, checking all lines
-                lines = self.order_line
-                lines.check_extra_product()
-        else:
-            # seems like delete, checking all lines
-            lines = self.order_line
-            lines.check_extra_product()
-        return res
+    def _verify_cart_after_update(self):
+        # În Odoo 19 API-ul website_sale a fost refactorizat: `_cart_update` nu mai
+        # există. Hook-ul `_verify_cart_after_update` este apelat după `_cart_add` și
+        # după `_cart_update_line_quantity`, deci e locul în care coșul din magazinul
+        # online primește linia suplimentară.
+        # Hook-ul nu primește linia atinsă, așa că se resincronizează toate liniile
+        # comenzii — echivalentul ramurii „seems like delete" din vechiul `_cart_update`.
+        # Liniile șterse din coș (cantitate 0) nu mai apar aici, iar linia extra a fost
+        # deja ștearsă împreună cu linia principală de `SaleOrderLine.unlink`.
+        # Se rulează înaintea super() ca prețul livrării și `cart_quantity` din sesiune,
+        # calculate acolo, să țină cont de liniile suplimentare.
+        # Fără `backend=True` în context, liniile extra se creează prin `create()`, deci
+        # există în bază imediat după actualizarea coșului.
+        self.order_line.check_extra_product()
+        return super()._verify_cart_after_update()
 
 
 class SaleOrderLine(models.Model):

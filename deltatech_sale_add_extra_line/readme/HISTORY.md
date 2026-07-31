@@ -1,3 +1,8 @@
+## 19.0.1.2.0
+
+- [FIX] the e-commerce cart generates the extra line again: the module hooked on `_cart_update`, a method that no longer exists in the `website_sale` of Odoo 19 (replaced by `_cart_add` and `_cart_update_line_quantity`), so the override was dead code and orders placed from the shop got no extra line. The `_verify_cart_after_update` hook, called after both cart methods, is used instead
+- [IMP] tests on the cart flow: the extra line is created when the main product is added, its quantity follows a quantity change (including the `Extra Qty` multiplier), a price typed in on it is kept, and it is removed together with the main line
+
 ## 19.0.1.1.1
 
 - [FIX] the test on the currency of the extra line no longer assumes the company is not in the currency of the test pricelist: it builds its own currency, so no conversion is silently skipped
