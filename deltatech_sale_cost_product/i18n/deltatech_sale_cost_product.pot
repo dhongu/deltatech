@@ -1,0 +1,57 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_cost_product
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_sale_cost_product
+#: model:ir.actions.server,name:deltatech_sale_cost_product.action_calculate_cost_of_goods
+msgid "Calculate Cost of Goods"
+msgstr ""
+
+#. module: deltatech_sale_cost_product
+#: model:res.groups,name:deltatech_sale_cost_product.group_view_cost_on_sale
+msgid "Can See Cost Of Goods"
+msgstr ""
+
+#. module: deltatech_sale_cost_product
+#: model:ir.model.fields,field_description:deltatech_sale_cost_product.field_sale_order__cost_of_goods
+msgid "Cost of Goods"
+msgstr ""
+
+#. module: deltatech_sale_cost_product
+#: model:ir.model.fields,field_description:deltatech_sale_cost_product.field_sale_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_sale_cost_product
+#: model:ir.model.fields,field_description:deltatech_sale_cost_product.field_sale_order__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_sale_cost_product
+#: model:ir.model,name:deltatech_sale_cost_product.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: deltatech_sale_cost_product
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_cost_product.view_order_list_inherit
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_cost_product.view_quotation_list_inherit
+msgid "Total Cost of Goods"
+msgstr ""
+
+#. module: deltatech_sale_cost_product
+#: model:res.groups,comment:deltatech_sale_cost_product.group_view_cost_on_sale
+msgid "Users in this group can see Cost of Goods column."
+msgstr ""
