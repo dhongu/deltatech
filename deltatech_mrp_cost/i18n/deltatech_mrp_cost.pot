@@ -1,0 +1,164 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_mrp_cost
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_production_components
+msgid "<strong>Amount</strong>"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid ""
+"<strong>Date:</strong>\n"
+"                <br/>"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_production_components
+msgid "<strong>Effective Quantity</strong>"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid ""
+"<strong>Net Salary Rate:</strong>\n"
+"                    <br/>"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid ""
+"<strong>Overhead Amount:</strong>\n"
+"                    <br/>"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_production_components
+msgid "<strong>Price</strong>"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid "<strong>Product</strong>"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid "<strong>Quantity</strong>"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid ""
+"<strong>Salary Contributions:</strong>\n"
+"                    <br/>"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid ""
+"<strong>Utility Consumption:</strong>\n"
+"                    <br/>"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model:ir.model,name:deltatech_mrp_cost.model_mrp_bom
+msgid "Bill of Material"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__calculate_price
+msgid "Calculate Price"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.bom_form_view
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.mrp_production_form_view
+msgid "Costs"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_bom__display_name
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_bom__duration
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__duration_cost
+msgid "Duration"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.report_mrporder
+msgid "Finished Products"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_bom__id
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model:ir.model,name:deltatech_mrp_cost.model_mrp_production
+msgid "Manufacturing Order"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_bom__net_salary_rate
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__net_salary_rate
+msgid "Net Salary Rate"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_bom__overhead_amount
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__overhead_amount
+msgid "Overhead"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__amount
+msgid "Production Amount"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_bom__salary_contributions
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__salary_contributions
+msgid "Salary Contributions"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,help:deltatech_mrp_cost.field_mrp_bom__utility_consumption
+#: model:ir.model.fields,help:deltatech_mrp_cost.field_mrp_production__utility_consumption
+msgid "Utilities consumption per hour"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_bom__utility_consumption
+#: model:ir.model.fields,field_description:deltatech_mrp_cost.field_mrp_production__utility_consumption
+msgid "Utility consumption"
+msgstr ""
+
+#. module: deltatech_mrp_cost
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.bom_form_view
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_cost.mrp_production_form_view
+msgid "hours"
+msgstr ""

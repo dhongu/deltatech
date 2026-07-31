@@ -1,0 +1,62 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_dropshipping
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_dropshipping
+#. odoo-python
+#: code:addons/deltatech_dropshipping/models/purchase_order.py:0
+msgid ""
+"<li><strong>%(product)s</strong>: Purchase %(purchase)s > Sale %(sale)s "
+"(Diff: %(diff)s)</li>"
+msgstr ""
+
+#. module: deltatech_dropshipping
+#: model:ir.model.fields,field_description:deltatech_dropshipping.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:deltatech_dropshipping.field_stock_picking__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_dropshipping
+#: model:ir.model.fields,field_description:deltatech_dropshipping.field_purchase_order__id
+#: model:ir.model.fields,field_description:deltatech_dropshipping.field_stock_picking__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_dropshipping
+#: model:ir.model,name:deltatech_dropshipping.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: deltatech_dropshipping
+#: model:ir.model.fields,field_description:deltatech_dropshipping.field_purchase_order__purchase_price_warning
+msgid "Purchase Price Warning"
+msgstr ""
+
+#. module: deltatech_dropshipping
+#: model:ir.model.fields,field_description:deltatech_dropshipping.field_stock_picking__partner_shipping_id
+msgid "Shipping address"
+msgstr ""
+
+#. module: deltatech_dropshipping
+#: model_terms:ir.ui.view,arch_db:deltatech_dropshipping.purchase_order_form
+msgid ""
+"The following products have a purchase price higher than the sale price:"
+msgstr ""
+
+#. module: deltatech_dropshipping
+#: model:ir.model,name:deltatech_dropshipping.model_stock_picking
+msgid "Transfer"
+msgstr ""

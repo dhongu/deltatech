@@ -1,0 +1,171 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_vendor_stock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:25+0000\n"
+"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_vendor_stock
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_stock.res_config_settings_view_form_deltatech_vendor_stock
+msgid ""
+"<span class=\"d-block w-75 py-2\">Color when fulfilled but no free qty "
+"today</span>"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_stock.res_config_settings_view_form_deltatech_vendor_stock
+msgid "<span class=\"d-block w-75 py-2\">Color when not fulfilled</span>"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_stock.res_config_settings_view_form_deltatech_vendor_stock
+msgid ""
+"<span class=\"d-block w-75 py-2\">Color when stock will be fulfilled</span>"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_stock.res_config_settings_view_form_deltatech_vendor_stock
+msgid ""
+"<span class=\"d-block w-75 py-2\">Color when vendor qty is available</span>"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model_terms:ir.ui.view,arch_db:deltatech_vendor_stock.res_config_settings_view_form_deltatech_vendor_stock
+msgid "<span class=\"d-block w-75 py-2\">Default color</span>"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_res_config_settings__stock_color_default
+msgid "Color - Default"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_res_config_settings__stock_color_fulfilled
+msgid "Color - Fulfilled"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_res_config_settings__stock_color_fulfilled_no_free_qty
+msgid "Color - Fulfilled (No Free Qty)"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_res_config_settings__stock_color_not_fulfilled
+msgid "Color - Not Fulfilled"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_res_config_settings__stock_color_vendor_available
+msgid "Color - Vendor Available"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model.fields,help:deltatech_vendor_stock.field_res_config_settings__stock_color_fulfilled_no_free_qty
+msgid "Color when fulfilled but no free qty today"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model.fields,help:deltatech_vendor_stock.field_res_config_settings__stock_color_not_fulfilled
+msgid "Color when not fulfilled"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model.fields,help:deltatech_vendor_stock.field_res_config_settings__stock_color_fulfilled
+msgid "Color when stock will be fulfilled"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model.fields,help:deltatech_vendor_stock.field_res_config_settings__stock_color_vendor_available
+msgid "Color when vendor qty is available"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model,name:deltatech_vendor_stock.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model.fields,help:deltatech_vendor_stock.field_res_config_settings__stock_color_default
+msgid "Default color"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_product_product__display_name
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_product_supplierinfo__display_name
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_sale_order_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_product_product__id
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_product_supplierinfo__id
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_res_config_settings__id
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_sale_order_line__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_product_product__other_qty_available
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_sale_order_line__other_qty_available
+msgid "Other Quantity Available"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#. odoo-javascript
+#: code:addons/deltatech_vendor_stock/static/src/xml/qty.xml:0
+msgid "Other Stock"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model,name:deltatech_vendor_stock.model_product_product
+msgid "Product Variant"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_product_supplierinfo__qty_available
+msgid "Quantity Available"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model,name:deltatech_vendor_stock.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_sale_order_line__warehouse_stock
+msgid "Stock/WH"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model,name:deltatech_vendor_stock.model_product_supplierinfo
+msgid "Supplier Pricelist"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_product_product__vendor_qty_available
+#: model:ir.model.fields,field_description:deltatech_vendor_stock.field_sale_order_line__vendor_qty_available
+msgid "Vendor Quantity Available"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#. odoo-javascript
+#: code:addons/deltatech_vendor_stock/static/src/xml/qty.xml:0
+msgid "Vendor Stock"
+msgstr ""
+
+#. module: deltatech_vendor_stock
+#. odoo-javascript
+#: code:addons/deltatech_vendor_stock/static/src/xml/qty.xml:0
+msgid "Warehouse Stock"
+msgstr ""

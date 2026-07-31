@@ -1,0 +1,244 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_activity_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order_activity_record__awb_generated
+msgid "AWB Generated"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model,name:deltatech_sale_activity_report.model_mail_activity
+msgid "Activity"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order_activity_record__activity_log
+msgid "Activity Log"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_activity_report.view_sale_order_activity_record_form
+msgid "Activity Record"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.actions.act_window,name:deltatech_sale_activity_report.action_sale_order_activity_record
+#: model:ir.ui.menu,name:deltatech_sale_activity_report.menu_sale_order_activity_record
+msgid "Activity Records"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_activity_report.view_sale_order_activity_record_form
+msgid "Basic Information"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields.selection,name:deltatech_sale_activity_report.selection__sale_order_activity_record__stage__canceled
+msgid "Canceled"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields.selection,name:deltatech_sale_activity_report.selection__sale_order_activity_record__state__cancel
+msgid "Cancelled"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order_activity_record__change_date
+msgid "Change Date"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order_activity_record__chatter_message
+msgid "Chatter Message"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order_activity_record__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order_activity_record__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_activity_report.view_sale_order_activity_record_search
+msgid "Date"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields.selection,name:deltatech_sale_activity_report.selection__sale_order_activity_record__stage__delivered
+msgid "Delivered"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_mail_activity__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order_activity_record__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_mail_activity__id
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order__id
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order_activity_record__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields.selection,name:deltatech_sale_activity_report.selection__sale_order_activity_record__stage__in_delivery
+msgid "In Delivery"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields.selection,name:deltatech_sale_activity_report.selection__sale_order_activity_record__stage__in_process
+msgid "In Process"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order_activity_record__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order_activity_record__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields.selection,name:deltatech_sale_activity_report.selection__sale_order_activity_record__state__done
+msgid "Locked"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_activity_report.view_sale_order_activity_record_form
+msgid "Log"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields.selection,name:deltatech_sale_activity_report.selection__sale_order_activity_record__stage__placed
+msgid "Placed"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields.selection,name:deltatech_sale_activity_report.selection__sale_order_activity_record__stage__postponed
+msgid "Postponed"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields.selection,name:deltatech_sale_activity_report.selection__sale_order_activity_record__stage__pre_advice
+msgid "Pre advice"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields.selection,name:deltatech_sale_activity_report.selection__sale_order_activity_record__state__draft
+msgid "Quotation"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields.selection,name:deltatech_sale_activity_report.selection__sale_order_activity_record__state__sent
+msgid "Quotation Sent"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.ui.menu,name:deltatech_sale_activity_report.menu_sale_report_menu
+msgid "Reporting"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields.selection,name:deltatech_sale_activity_report.selection__sale_order_activity_record__stage__rfq
+msgid "Request for Quotation"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields.selection,name:deltatech_sale_activity_report.selection__sale_order_activity_record__stage__returned
+msgid "Returned"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order_activity_record__sale_order_id
+msgid "Sale Order"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model,name:deltatech_sale_activity_report.model_sale_order_activity_record
+msgid "Sale Order Activity Record"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model,name:deltatech_sale_activity_report.model_sale_order
+#: model:ir.model.fields.selection,name:deltatech_sale_activity_report.selection__sale_order_activity_record__state__sale
+msgid "Sales Order"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order_activity_record__stage
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_activity_report.view_sale_order_activity_record_search
+msgid "Stage"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order_activity_record__state
+msgid "State"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order_activity_record__tags_changed
+msgid "Tags Changed"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_activity_report.view_sale_order_activity_record_search
+msgid "This Month"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_activity_report.view_sale_order_activity_record_search
+msgid "This Year"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields.selection,name:deltatech_sale_activity_report.selection__sale_order_activity_record__stage__to_be_delivery
+msgid "To Be Delivery"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_activity_report.view_sale_order_activity_record_search
+msgid "Today"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_activity_report.view_sale_order_activity_record_form
+msgid "Tracked Events"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields,field_description:deltatech_sale_activity_report.field_sale_order_activity_record__user_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_activity_report.view_sale_order_activity_record_search
+msgid "User"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model:ir.model.fields.selection,name:deltatech_sale_activity_report.selection__sale_order_activity_record__stage__waiting
+msgid "Waiting availability"
+msgstr ""
+
+#. module: deltatech_sale_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_activity_report.view_sale_order_activity_record_search
+msgid "Yesterday"
+msgstr ""

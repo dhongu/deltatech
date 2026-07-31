@@ -1,0 +1,236 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_purchase_xls
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_purchase_xls
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.purchase_order_form
+msgid "<span>Order lines</span>"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_import_purchase_line_form
+msgid "Apply"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_import_purchase_line_form
+msgid "Cancel"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__new_product
+msgid "Create missing product"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__create_uid
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__create_date
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__display_name
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__display_name
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_purchase_order_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
+msgid "Exit"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
+msgid "Export Complete"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
+msgid "Export Purchase Line"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.actions.act_window,name:deltatech_purchase_xls.action_working_days_export
+#: model:ir.model,name:deltatech_purchase_xls.model_export_purchase_line
+msgid "Export Purchase Lines"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
+msgid "Export selected purchase order lines"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__fields_list
+msgid "Fields"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields,help:deltatech_purchase_xls.field_import_purchase_line__fields_list
+msgid ""
+"Fields and order in the file. Example: "
+"\"product_code,product_name,quantity,price,uom_name\""
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__data_file
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__data_file
+msgid "File"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__name
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__filename
+msgid "File Name"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__has_header
+msgid "Header row"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
+msgid "Here is the exported file:"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__id
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__id
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_purchase_order__id
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_purchase_order_line__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.actions.act_window,name:deltatech_purchase_xls.action_import_purchase_line
+msgid "Import Purchase Line"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_import_purchase_line_form
+msgid "Import Purchase Lines"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model,name:deltatech_purchase_xls.model_import_purchase_line
+msgid "Import purchase line"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#. odoo-python
+#: code:addons/deltatech_purchase_xls/wizard/import_purchase_line.py:0
+msgid "Invalid file format"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__is_amount
+msgid "Is amount"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__write_uid
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__write_date
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#. odoo-python
+#: code:addons/deltatech_purchase_xls/wizard/import_purchase_line.py:0
+msgid "Product %(product_name)s does not have UOM %(uom_name)s"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#. odoo-python
+#: code:addons/deltatech_purchase_xls/wizard/import_purchase_line.py:0
+msgid "Product %s not found"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__purchase_id
+msgid "Purchase"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model,name:deltatech_purchase_xls.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model,name:deltatech_purchase_xls.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__search_by_default_code
+msgid "Search by internal code"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__state
+msgid "State"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#. odoo-python
+#: code:addons/deltatech_purchase_xls/wizard/import_purchase_line.py:0
+msgid "The 'openpyxl' Python library is required to read .xlsx files."
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_import_purchase_line_form
+msgid ""
+"The Excel file must contain the following columns:\n"
+"                        product_code, product_name, quantity, price, uom_name"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#. odoo-python
+#: code:addons/deltatech_purchase_xls/wizard/import_purchase_line.py:0
+msgid "The order is in the %s state"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields.selection,name:deltatech_purchase_xls.selection__export_purchase_line__state__choose
+msgid "choose"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model:ir.model.fields.selection,name:deltatech_purchase_xls.selection__export_purchase_line__state__get
+msgid "get"
+msgstr ""
+
+#. module: deltatech_purchase_xls
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_import_purchase_line_form
+msgid "or"
+msgstr ""

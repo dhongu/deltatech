@@ -1,0 +1,352 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_business_process_handover_document
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:22+0000\n"
+"PO-Revision-Date: 2026-07-31 10:22+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.actions.report,print_report_name:deltatech_business_process_handover_document.action_report_verbal_process
+msgid "'Handover Document'"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+", the Odoo system handover process took place. The details of the process "
+"are as follows:"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"<br/>\n"
+"                    <br/>\n"
+"\n"
+"                    By our signatures, we confirm that the Odoo system handover process has been completed as per this\n"
+"                    document and both parties agree with the details recorded above.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <span style=\"font-weight: bold;\">Signatures:</span>"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"<br/>\n"
+"                    <span>Attendees:</span>\n"
+"                    <br/>\n"
+"                    <br/>"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"<br/>\n"
+"            <br/>\n"
+"            <span style=\"font-weight: bold;\">Signatures:</span>"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "<span>0</span>"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "<span>N/A</span>"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "According to the previously agreed terms between the parties, today,"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Accounts and Access:"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Annex 1."
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"Any issues or anomalies identified during the tests were resolved in "
+"advance."
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"Any specific access requirements have been noted and implemented according to\n"
+"                                    specifications."
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Area"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model,name:deltatech_business_process_handover_document.model_business_area
+msgid "Business Area"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model,name:deltatech_business_process_handover_document.model_business_project
+msgid "Business project"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Code"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"Complete system documentation, including user manuals and technical\n"
+"                                    specifications, have been provided and are available for use."
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Custom Developments"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Date:"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__development_ids
+msgid "Developments"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,help:deltatech_business_process_handover_document.field_business_project__handover_development_ids
+msgid ""
+"Developments included in the handover document. When a stage filter is set, "
+"only developments attached to the filtered processes' steps are listed; "
+"otherwise all project developments are listed (unchanged behaviour)."
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_area__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Documentation and Resources:"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Duration"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"Functionality tests were carried out to verify the proper functioning of the system,\n"
+"                                    as detailed in Annex 1."
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_area__handover_checked
+msgid "Handover Checked"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__handover_development_ids
+msgid "Handover Developments"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.actions.report,name:deltatech_business_process_handover_document.action_report_verbal_process
+msgid "Handover Document"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.view_business_project_form_inherit
+msgid "Handover Options"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__handover_process_ids
+msgid "Handover Processes"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Handover Report for the Odoo System"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__handover_stage_id
+msgid "Handover Stage Filter"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Handover Subject: Odoo System"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_area__id
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,help:deltatech_business_process_handover_document.field_business_project__handover_stage_id
+msgid ""
+"If set, the handover document only includes processes (and their tests) in "
+"this implementation stage. Leave empty to include all processes."
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"Internal\n"
+"                            (steps)"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Name"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Process"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,help:deltatech_business_process_handover_document.field_business_project__handover_process_ids
+msgid ""
+"Processes included in the handover document, after applying the stage "
+"filter."
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__provider_company
+msgid "Provider Company"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.view_business_project_form_inherit
+msgid "Provider Information"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__provider_representative
+msgid "Provider Representative"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__provider_testers
+msgid "Provider Testers"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__recipient_company
+msgid "Recipient Company"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.view_business_project_form_inherit
+msgid "Recipient Information"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__recipient_representative
+msgid "Recipient Representative"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__recipient_testers
+msgid "Recipient Testers"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"Required modules and specific functionalities have been implemented as per\n"
+"                                    the established requirements."
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Subsequent Responsibilities:"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "System Status:"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "Tests and Verifications:"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "The Odoo system was checked and is in an optimal working condition."
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"The necessary resources for system administration and maintenance have been\n"
+"                                    handed over and are available to the responsible team."
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"The parties have discussed and clarified the subsequent responsibilities regarding\n"
+"                                    system administration, maintenance, and updates."
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"User Acceptance\n"
+"                            (steps)"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid ""
+"User accounts and system access have been configured in accordance with security\n"
+"                                    policies and are functional."
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "and testing representative"
+msgstr ""
+
+#. module: deltatech_business_process_handover_document
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process_handover_document.report_bp_document
+msgid "represented by"
+msgstr ""
