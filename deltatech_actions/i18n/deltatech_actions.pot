@@ -1,0 +1,146 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_actions
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_actions
+#: model:ir.model,name:deltatech_actions.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model,website_form_label:deltatech_actions.model_res_partner
+msgid "Create a Customer"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.actions.server,name:deltatech_actions.ir_cron_create_missing_reordering_rules_ir_actions_server
+msgid "Create missing reordering rules (0/0)"
+msgstr ""
+
+#. module: deltatech_actions
+#. odoo-python
+#: code:addons/deltatech_actions/models/product.py:0
+msgid "Created %s missing rules"
+msgstr ""
+
+#. module: deltatech_actions
+#. odoo-python
+#: code:addons/deltatech_actions/models/res_partner.py:0
+msgid "Cron job: Au fost normalizate %s nume de companii"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.actions.server,name:deltatech_actions.ir_cron_delete_xml_attachments_ir_actions_server
+msgid "Delete duplicate xml attachments"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.actions.server,name:deltatech_actions.ir_cron_delete_mail_messages_ir_actions_server
+msgid "Delete mail messages"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.actions.server,name:deltatech_actions.ir_cron_delete_pdf_attachments_invoice_ir_actions_server
+msgid "Delete pdf invoice attachments"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.actions.server,name:deltatech_actions.ir_cron_delete_pdf_attachments_stock_picking_ir_actions_server
+msgid "Delete pdf pickings attachments"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.actions.server,name:deltatech_actions.ir_cron_delete_pdf_attachments_sale_order_ir_actions_server
+msgid "Delete pdf sale order attachments"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_actions.field_mail_message__display_name
+#: model:ir.model.fields,field_description:deltatech_actions.field_product_product__display_name
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_partner__display_name
+#: model:ir.model.fields,field_description:deltatech_actions.field_sale_order__display_name
+#: model:ir.model.fields,field_description:deltatech_actions.field_stock_picking__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_actions
+#. odoo-python
+#: code:addons/deltatech_actions/models/res_partner.py:0
+msgid "EROARE - Normalizare companii - Cron Job"
+msgstr ""
+
+#. module: deltatech_actions
+#. odoo-python
+#: code:addons/deltatech_actions/models/res_partner.py:0
+msgid "Eroare în normalizarea companiilor: %s"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_actions.field_mail_message__id
+#: model:ir.model.fields,field_description:deltatech_actions.field_product_product__id
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_partner__id
+#: model:ir.model.fields,field_description:deltatech_actions.field_sale_order__id
+#: model:ir.model.fields,field_description:deltatech_actions.field_stock_picking__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model,name:deltatech_actions.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.actions.server,name:deltatech_actions.ir_cron_merge_companies_ir_actions_server
+msgid "Merge duplicate companies by VAT"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.actions.server,name:deltatech_actions.ir_cron_merge_contacts_ir_actions_server
+msgid "Merge duplicate contacts by email"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model,name:deltatech_actions.model_mail_message
+msgid "Message"
+msgstr ""
+
+#. module: deltatech_actions
+#. odoo-python
+#: code:addons/deltatech_actions/models/res_partner.py:0
+msgid "Normalizare companii - Cron Job"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.actions.server,name:deltatech_actions.cron_normalize_company_names_ir_actions_server
+msgid "Normalize company names"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model,name:deltatech_actions.model_product_product
+msgid "Product Variant"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model,name:deltatech_actions.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model,name:deltatech_actions.model_stock_picking
+msgid "Transfer"
+msgstr ""
