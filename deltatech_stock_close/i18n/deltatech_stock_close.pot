@@ -1,0 +1,62 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_stock_close
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_l10n_ro_stock_storage_sheet__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_stock_move__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_l10n_ro_stock_storage_sheet__id
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_stock_move__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_l10n_ro_stock_storage_sheet__only_active
+msgid "Only Active"
+msgstr ""
+
+#. module: deltatech_stock_close
+#: model:ir.model,name:deltatech_stock_close.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: deltatech_stock_close
+#: model:ir.model,name:deltatech_stock_close.model_l10n_ro_stock_storage_sheet
+msgid "StorageSheet"
+msgstr ""
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_stock_move__l10n_ro_valuation_active
+msgid "Valuation Active"
+msgstr ""
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,help:deltatech_stock_close.field_l10n_ro_stock_storage_sheet__only_active
+msgid ""
+"When set, the storage sheet only includes stock moves whose valuation is "
+"still active (not closed)."
+msgstr ""
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,help:deltatech_stock_close.field_stock_move__l10n_ro_valuation_active
+msgid ""
+"When unset, this stock move valuation is considered closed and is excluded "
+"from the storage sheet when the 'Only active' option is used."
+msgstr ""
