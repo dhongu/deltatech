@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:09+0000\n"
-"PO-Revision-Date: 2026-07-31 10:09+0000\n"
+"POT-Creation-Date: 2026-07-31 10:36+0000\n"
+"PO-Revision-Date: 2026-07-31 10:36+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ro\n"
@@ -70,21 +70,21 @@ msgid ""
 "Multiplier for the quantity of the extra line: extra quantity = quantity of "
 "the main line x this value"
 msgstr ""
-"Multiplicator pentru cantitatea liniei suplimentare: cantitatea suplimentară "
-"= cantitatea liniei principale x această valoare"
+"Multiplicator pentru cantitatea liniei suplimentare: cantitatea suplimentară"
+" = cantitatea liniei principale x această valoare"
 
 #. module: deltatech_sale_add_extra_line
 #: model:ir.model.fields,help:deltatech_sale_add_extra_line.field_product_product__extra_percent
 #: model:ir.model.fields,help:deltatech_sale_add_extra_line.field_product_template__extra_percent
 msgid ""
 "Percent of the main line price used as the price of the extra line. If zero,"
-" the extra line keeps the standard price of its own product (pricelist, "
-"currency and unit of measure of the order)"
+" the extra line keeps the standard price computed for its own product (price"
+" list or vendor price, currency and unit of measure of the order)"
 msgstr ""
 "Procentul din prețul liniei principale folosit ca preț al liniei "
-"suplimentare. Dacă este zero, linia suplimentară păstrează prețul standard al "
-"produsului propriu (lista de prețuri, valuta și unitatea de măsură ale "
-"comenzii)"
+"suplimentare. Dacă este zero, linia suplimentară păstrează prețul standard "
+"calculat pentru produsul propriu (listă de prețuri sau preț de furnizor, "
+"valuta și unitatea de măsură ale comenzii)"
 
 #. module: deltatech_sale_add_extra_line
 #: model:ir.model,name:deltatech_sale_add_extra_line.model_product_template
@@ -94,9 +94,10 @@ msgstr "Produs"
 #. module: deltatech_sale_add_extra_line
 #: model:ir.model.fields,help:deltatech_sale_add_extra_line.field_product_product__extra_product_id
 #: model:ir.model.fields,help:deltatech_sale_add_extra_line.field_product_template__extra_product_id
-msgid "Product added automatically as an extra line when this product is sold"
+msgid ""
+"Product added automatically as an extra line when this product is ordered"
 msgstr ""
-"Produsul adăugat automat ca linie suplimentară atunci când se vinde acest "
+"Produsul adăugat automat ca linie suplimentară atunci când se comandă acest "
 "produs"
 
 #. module: deltatech_sale_add_extra_line
@@ -115,6 +116,6 @@ msgid ""
 "Technical field: last unit price computed for this extra line. A unit price "
 "that differs from it was set by the user and is kept as is."
 msgstr ""
-"Câmp tehnic: ultimul preț unitar calculat pentru această linie suplimentară. "
-"Un preț unitar diferit de acesta a fost introdus de utilizator și este "
+"Câmp tehnic: ultimul preț unitar calculat pentru această linie suplimentară."
+" Un preț unitar diferit de acesta a fost introdus de utilizator și este "
 "păstrat ca atare."
