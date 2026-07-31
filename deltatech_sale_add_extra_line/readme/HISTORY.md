@@ -1,3 +1,7 @@
+## 19.0.1.1.1
+
+- [FIX] the test on the currency of the extra line no longer assumes the company is not in the currency of the test pricelist: it builds its own currency, so no conversion is silently skipped
+
 ## 19.0.1.1.0
 
 - [IMP] a unit price typed in on the extra line is kept: the price computed from the main line (percent or list price) is no longer written back over it. The quantity keeps following the main line. Deleting the extra line is the way back to the computed price — it is regenerated on the next change of the order lines

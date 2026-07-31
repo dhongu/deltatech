@@ -124,24 +124,25 @@ class TestSale(TransactionCase):
         """Without a percent, the extra line keeps the standard price of its own
         product, so the pricelist currency applies."""
         self.product_b.extra_percent = 0.0
-        currency_eur = self.env.ref("base.EUR")
-        self.env["res.currency.rate"].create(
+        # a currency of our own, so that the test does not depend on the currency of the
+        # company: `1 company currency = 0.25 TCU`
+        test_currency = self.env["res.currency"].create(
             {
-                "currency_id": currency_eur.id,
-                "company_id": self.env.company.id,
-                "rate": 0.25,
+                "name": "TCU",
+                "symbol": "TCU",
+                "rate_ids": [(0, 0, {"rate": 0.25, "company_id": self.env.company.id})],
             }
         )
-        pricelist_eur = self.env["product.pricelist"].create({"name": "Test EUR", "currency_id": currency_eur.id})
+        pricelist_tcu = self.env["product.pricelist"].create({"name": "Test TCU", "currency_id": test_currency.id})
 
         order = self.env["sale.order"].create(
             {
                 "partner_id": self.partner_a.id,
-                "pricelist_id": pricelist_eur.id,
+                "pricelist_id": pricelist_tcu.id,
                 "order_line": [(0, 0, {"product_id": self.product_b.id, "product_uom_qty": 100})],
             }
         )
-        self.assertEqual(order.currency_id, currency_eur)
+        self.assertEqual(order.currency_id, test_currency)
         main_line = order.order_line
         main_line.check_extra_product()
         extra_line = self._extra_line(order)
