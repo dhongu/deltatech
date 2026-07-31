@@ -1,0 +1,1210 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_stock_inventory
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:25+0000\n"
+"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
+msgid "%s (copy)"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+msgid "<span class=\"o_stat_text\">On Hand</span>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_total
+msgid "<strong>After:</strong>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
+msgid "<strong>Amount</strong>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_total
+msgid "<strong>Before:</strong>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header_location
+msgid "<strong>Date</strong>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
+msgid "<strong>Difference Quantity</strong>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header_location
+msgid "<strong>Inventory</strong>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header_location
+msgid "<strong>Location</strong>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
+msgid "<strong>Minus Amount</strong>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
+msgid "<strong>Package</strong>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
+msgid "<strong>Plus Amount</strong>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
+msgid "<strong>Product</strong>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
+msgid "<strong>Production Lot</strong>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
+msgid "<strong>Real Quantity</strong>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
+msgid "<strong>Theoretical Quantity</strong>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_total
+msgid "<strong>Total general</strong>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
+msgid "<strong>Unit of measure</strong>"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_warehouse__kanban_display_stock__all
+msgid "All"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/wizard/stock_inventory_merge.py:0
+msgid "All inventories must be in done state to be merged"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:res.groups,name:deltatech_stock_inventory.group_change_inventory_date
+msgid "Allow to change inventory date"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__prefill_counted_quantity
+msgid ""
+"Allows to start with a pre-filled counted quantity for each lines or with "
+"all counted quantities set to zero."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__start_empty
+msgid "Allows to start with an empty inventory."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.actions.act_window,help:deltatech_stock_inventory.action_inventory_form
+msgid ""
+"Barcode scanner can be activated via inventory settings.\n"
+"                Manual inventory adjustments can also be performed and pre-filled with\n"
+"                suggested counted quantity."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__can_archive_svl
+msgid "Can Archive Svl"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:res.groups,name:deltatech_stock_inventory.group_merge_inventory
+msgid "Can merge inventory documents"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:res.groups,name:deltatech_stock_inventory.group_view_inventory_button
+msgid "Can update quantities"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_confirm_inventory_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_inventory_merge_form
+msgid "Cancel"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
+msgid "Cancel Inventory"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_inventory__state__cancel
+msgid "Cancelled"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_case
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__loc_case
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
+msgid "Case"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__loc_case
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__loc_case
+msgid "Case Name"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__categ_id
+msgid "Category"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_confirm_inventory_form
+msgid "Change"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__archive_svl
+msgid "Clear old valuation"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__company_id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__company_id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__company_id
+msgid "Company"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_confirm_inventory_form
+msgid "Confirm"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.actions.act_window,name:deltatech_stock_inventory.action_stock_confirm_inventory
+msgid "Confirm Inventory"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+msgid "Confirm Stock"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
+msgid "Continue Inventory"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_tree
+msgid "Counted"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__prefill_counted_quantity
+msgid "Counted Quantities"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__product_qty
+msgid "Counted Quantity"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__move_ids
+msgid "Created Moves"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__create_uid
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__create_uid
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__create_uid
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__create_uid
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__create_uid
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__create_date
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__create_date
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__create_date
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__create_date
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__date
+msgid "Date"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_inventory__prefill_counted_quantity__counted
+msgid "Default to stock on hand"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_inventory__prefill_counted_quantity__zero
+msgid "Default to zero"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_warehouse__kanban_display_stock__detailed
+msgid "Detailed"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__difference_qty
+msgid "Difference"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_replenish__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_adjustment_name__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_location__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_move__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_quant__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_return_picking__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_warehouse__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_res_config_settings__group_show_manual_location_fields
+msgid ""
+"Display manual location fields on products and inventory (Rack/Row/Shelf/Case).\n"
+"Recommended when you are NOT using putaway rules."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_warehouse__kanban_display_stock
+msgid "Display stock in kanban view"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_inventory__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__start_empty
+msgid "Empty Inventory"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__product_tracking
+msgid "Ensure the traceability of a storable product in your warehouse."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/product.py:0
+msgid "FREE STOCK"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_replenish__id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_res_config_settings__id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_adjustment_name__id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_location__id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_move__id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_picking__id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_quant__id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_return_picking__id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_warehouse__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__message_has_error
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__date
+msgid ""
+"If the inventory adjustment is not validated, date at which the theoretical quantities have been checked.\n"
+"If the inventory adjustment is validated, date at which the inventory adjustment has been validated."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
+msgid ""
+"If you cancel this inventory adjustment, all its inventory adjustment lines "
+"will be lost. Are you sure you want to discard it ?"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_inventory__state__confirm
+msgid "In Progress"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__exhausted
+msgid "Include Exhausted Products"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__exhausted
+msgid "Include also products with quantity of 0"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__difference_qty
+msgid ""
+"Indicates the gap between the product's theoretical quantity and its newest "
+"quantity."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__line_ids
+msgid "Inventories"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.actions.report,name:deltatech_stock_inventory.action_report_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__inventory_id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_quant__inventory_id
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+msgid "Inventory"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/wizard/stock_request_count.py:0
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
+msgid "Inventory Adjustment"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_stock_inventory_adjustment_name
+msgid "Inventory Adjustment Reference / Reason"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__date
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__inventory_date
+msgid "Inventory Date"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.actions.report,name:deltatech_stock_inventory.action_report_inventory_diff
+msgid "Inventory Diff"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_move__inventory_id
+msgid "Inventory Document"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.actions.act_window,name:deltatech_stock_inventory.action_inventory_form
+#: model:ir.ui.menu,name:deltatech_stock_inventory.menu_action_inventory_form
+msgid "Inventory Documents"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_stock_inventory_line
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_quant__inventory_line_id
+msgid "Inventory Line"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
+msgid "Inventory Lines"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_stock_location
+msgid "Inventory Locations"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_quant__inventory_note
+msgid "Inventory Note"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__is_inventory_ok
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__is_inventory_ok
+msgid "Inventory OK"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.actions.report,name:deltatech_stock_inventory.action_report_inventory_position
+msgid "Inventory Position"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_adjustment_name__inventory_adjustment_name
+msgid "Inventory Reason"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__is_editable
+msgid "Is Editable"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__is_ok
+msgid "Is Ok"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__is_price_editable
+msgid "Is Price Editable"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_warehouse__kanban_display_stock
+msgid "Kanban Display Stock"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__last_inventory_id
+msgid "Last Inventory"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__last_inventory_date
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_quant__last_inventory_date
+msgid "Last Inventory Date"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__write_uid
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__write_uid
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__write_uid
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__write_uid
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__write_date
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__write_date
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__write_date
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__write_date
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__inventory_date
+msgid "Last date at which the On Hand Quantity has been computed."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__location_id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__location_id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__location_id
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
+msgid "Location"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__location_ids
+msgid "Locations"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__prod_lot_id
+msgid "Lot/Serial Number"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_warehouse__kanban_display_stock__main
+msgid "Main Location"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_inventory_merge_form
+msgid "Merge"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.actions.act_window,name:deltatech_stock_inventory.action_stock_inventory_merge
+msgid "Merge Inventory"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_inventory_merge_form
+msgid "Merge inventories in"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/wizard/stock_inventory_merge.py:0
+msgid "Merged inventory"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.actions.server,name:deltatech_stock_inventory.move_product_to_location
+msgid "Move product to location"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__name
+msgid "Name"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock.py:0
+#: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
+#: code:addons/deltatech_stock_inventory/models/stock_quant.py:0
+msgid "New"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
+msgid "New inventory for Not Ok"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
+msgid "No lines"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/product.py:0
+msgid "No putaway rule found for %s"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__note
+msgid "Note"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_tree
+msgid "On Hand"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__partner_id
+msgid "Owner"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__package_id
+msgid "Pack"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_tree
+msgid "Package"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__standard_price
+msgid "Price"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
+msgid "Print Count Sheet"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_product_template
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__product_id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__product_id
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
+msgid "Product Moves"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+msgid "Product Name"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_product_replenish
+msgid "Product Replenish"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__product_tmpl_id
+msgid "Product Tmpl"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__product_uom_id
+msgid "Product Unit of Measure"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_product_product
+msgid "Product Variant"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_product_warehouse_location
+msgid "Product Warehouse Location"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.actions.act_window,name:deltatech_stock_inventory.action_product_template_warehouse
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__product_ids
+msgid "Products"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__qty_available
+msgid "Qty Available"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__quant_id
+msgid "Quant"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_location__restricted_stock
+msgid ""
+"Quantities stored in this location (and its children) are shown as "
+"unavailable in the detailed kanban stock display and are excluded from the "
+"free stock."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock_quant.py:0
+msgid "Quantity %(quant)s %(location) at location was confirmed."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__outdated
+msgid "Quantity outdated"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_stock_quant
+msgid "Quants"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_rack
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__loc_rack
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__filterbyrack
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
+msgid "Rack"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__loc_rack
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__loc_rack
+msgid "Rack Name"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__rating_ids
+msgid "Ratings"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.actions.server,name:deltatech_stock_inventory.model_stock_inventory_line_action_recompute_quantity
+msgid "Recompute On Hand Quantity"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_tree
+msgid "Refresh quantity"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
+msgid "Remove Not Ok"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_location__restricted_stock
+msgid "Restricted Stock"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_stock_return_picking
+msgid "Return Picking"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_row
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__loc_row
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
+msgid "Row"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__loc_row
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__loc_row
+msgid "Row Name"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.actions.server,name:deltatech_stock_inventory.model_stock_inventory_line_action_reset_product_qty
+msgid "Set counted quantities to 0"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
+msgid "Set to Draft"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_shelf
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__loc_shelf
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
+msgid "Shelf"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__loc_shelf
+msgid "Shelf Name"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
+msgid "Show Lines"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.res_config_settings_view_form_deltatech_stock_inventory
+msgid ""
+"Show Rack/Row/Shelf/Case fields on products and inventory. Enable this when "
+"you do not use putaway (storage) rules."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.res_config_settings_view_form_deltatech_stock_inventory
+msgid "Show manual location fields"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_res_config_settings__group_show_manual_location_fields
+#: model:res.groups,name:deltatech_stock_inventory.group_show_manual_location_fields
+msgid "Show manual location fields (Rack/Row/Shelf/Case)"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
+msgid "Some products have not been moved. Please check the inventory moves."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__product_ids
+msgid "Specify Products to focus your inventory on particular Products."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
+msgid "Start Inventory"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__state
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__state
+msgid "Status"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
+msgid "Stock"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_stock_confirm_inventory
+msgid "Stock Confirm Inventory"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_diff
+msgid "Stock Inventory"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_stock_inventory_merge
+msgid "Stock Inventory Merge Wizard"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_position
+msgid "Stock Inventory by position"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__warehouse_stock
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__warehouse_stock
+msgid "Stock/WH"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__is_editable
+msgid "Technical field to restrict editing."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__is_price_editable
+msgid "Technical field to restrict price editing."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock_quant.py:0
+msgid "The selected items are in different inventories"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__theoretical_qty
+msgid "Theoretical Quantity"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
+msgid ""
+"There is already one inventory adjustment line for this product, you should "
+"rather modify this one instead of creating a new one."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__product_tracking
+msgid "Tracking"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
+msgid "Unsupported search on %s outside of an Inventory Adjustment"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_tree
+msgid "UoM"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/wizard/stock_inventory_merge.py:0
+msgid "User %(user_name)s has merged inventories %(inventory_names)s"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
+msgid "Validate Inventory"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_inventory__state__done
+msgid "Validated"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.actions.act_window,help:deltatech_stock_inventory.action_inventory_form
+msgid "Want to speed up your inventory counts? Try our Barcode app"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_stock_warehouse
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__warehouse_id
+msgid "Warehouse"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__warehouse_loc_ids
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__warehouse_loc_ids
+msgid "Warehouse Loc"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.ui.menu,name:deltatech_stock_inventory.menu_product_template_warehouse
+msgid "Warehouse Products"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.constraint,message:deltatech_stock_inventory.constraint_product_warehouse_location_product_product_uniq
+msgid "Warehouse must be unique per product!"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
+msgid "You can only adjust storable products."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
+msgid ""
+"You can't validate the inventory '%s', maybe this inventory has been already"
+" validated or isn't ready."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
+msgid ""
+"You cannot set a negative product quantity in an inventory line:\n"
+"\t%(product_name)s - qty: %(product_qty)s"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/wizard/stock_inventory_merge.py:0
+msgid "You must select at least two inventory documents"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock_quant.py:0
+msgid "Your user cannot update product quantities"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
+msgid "e.g. Annual inventory"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_confirm_inventory_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_stock_inventory_merge_form
+msgid "or"
+msgstr ""
