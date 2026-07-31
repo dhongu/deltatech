@@ -1,0 +1,203 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_delivery_status
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__available_state__available
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_internal_search
+msgid "Available"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__available_state
+msgid "Available State"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__delivered
+msgid "Delivered"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__delivery_state
+msgid "Delivery State"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_internal_search
+msgid "Delivery Status"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_crm_team__display_name
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_payment_provider__display_name
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_payment_transaction__display_name
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_sale_order__display_name
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking_type__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_crm_team__id
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_payment_provider__id
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_payment_transaction__id
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_sale_order__id
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__id
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking_type__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,help:deltatech_delivery_status.field_payment_provider__postponed_delivery
+msgid ""
+"If enabled, the delivery will be postponed until the payment is confirmed."
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__in_warehouse
+msgid "In Carrier Warehouse"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__in_transit
+msgid "In Transit"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__in_delivery
+msgid "In delivery"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__available_state__partially
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_internal_search
+msgid "Partially available"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model,name:deltatech_delivery_status.model_payment_provider
+msgid "Payment Provider"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model,name:deltatech_delivery_status.model_payment_transaction
+msgid "Payment Transaction"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model,name:deltatech_delivery_status.model_stock_picking_type
+msgid "Picking Type"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_order_form
+msgid "Postpone"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.actions.server,name:deltatech_delivery_status.action_postpone_delivery
+msgid "Postpone Delivery"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_crm_team__postpone_payment_transfer
+msgid "Postpone delivery for transfer payment"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_order_form
+msgid "Postpone the delivery of the products"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__postponed
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking_type__postponed
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_form
+msgid "Postponed"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_payment_provider__postponed_delivery
+msgid "Postponed Delivery"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_sale_order__postponed_delivery
+msgid "Postponed delivery"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__pre_advice
+msgid "Pre advice"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__ready_in_warehouse
+msgid "Ready in warehouse"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__refused
+msgid "Refused"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_order_form
+msgid "Release"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.actions.server,name:deltatech_delivery_status.action_release_delivery
+msgid "Release Delivery"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_order_form
+msgid "Release the postponed delivery of the products"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model,name:deltatech_delivery_status.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model,name:deltatech_delivery_status.model_crm_team
+msgid "Sales Team"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#. odoo-python
+#: code:addons/deltatech_delivery_status/models/stock_picking.py:0
+msgid "The transfer %s is postponed"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model,name:deltatech_delivery_status.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__available_state__unavailable
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_internal_search
+msgid "Unavailable"
+msgstr ""
