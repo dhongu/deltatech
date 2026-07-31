@@ -1,0 +1,2779 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_business_process
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:22+0000\n"
+"PO-Revision-Date: 2026-07-31 10:22+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_business_process
+#: model:mail.template,body_html:deltatech_business_process.email_template_development_approved
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p>\n"
+"                    Dear&nbsp;<t t-out=\"object.project_id.project_manager_id.name\"/>,\n"
+"                    <br/>\n"
+"                    The development\n"
+"                    <t t-out=\"object.name\"/>\n"
+"                    of\n"
+"                    <t t-out=\"object.project_id.name\"/>\n"
+"                    has been approved on\n"
+"                    <t t-esc=\"datetime.date.today().strftime('%d-%m-%Y')\"/>\n"
+"                    with the required time of <t t-out=\"object.development_duration\"/>.\n"
+"\n"
+"                    <br/>\n"
+"                    Please check and inform colleagues of the current development.\n"
+"\n"
+"\n"
+"                </p>\n"
+"            </div>\n"
+"        "
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:mail.template,body_html:deltatech_business_process.email_template_issue_submitted
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p>\n"
+"                    Dear&nbsp;<t t-out=\"object.project_id.project_manager_id.name\"/>,\n"
+"                    <br/>\n"
+"                    The issue\n"
+"                    <t t-out=\"object.name\"/>\n"
+"                    of\n"
+"                    <t t-out=\"object.project_id.name\"/>\n"
+"                    has submitted by\n"
+"                    <t t-out=\"object.create_uid.name\"/>\n"
+"                    on\n"
+"                    <t t-esc=\"datetime.date.today().strftime('%d-%m-%Y')\"/>.\n"
+"                    <br/>\n"
+"                    Please check and inform colleagues of the current issue.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Description:\n"
+"                    <br/>\n"
+"                    </p><div style=\"border: 1px solid #000; padding: 10px;\">\n"
+"                        <t t-out=\"object.description\"/>\n"
+"                    </div>\n"
+"                \n"
+"            </div>\n"
+"        "
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_kanban
+msgid "<span class=\"fa fa-clock-o mr-2\" title=\"Dates\"/>"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_kanban
+msgid "<span class=\"o_label\">Steps</span>"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_kanban
+msgid "<span class=\"o_label\">Tests</span>"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Abandon"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__state__abandoned
+msgid "Abandoned"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__message_needaction
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__message_needaction
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__message_needaction
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__message_needaction
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__message_needaction
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_implementation_stage__active
+msgid "Active"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__activity_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__activity_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__activity_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__activity_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__activity_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__activity_exception_decoration
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__activity_exception_decoration
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__activity_exception_decoration
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__activity_exception_decoration
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__activity_exception_decoration
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__activity_state
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__activity_state
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__activity_state
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__activity_state
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__activity_state
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__activity_type_icon
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__activity_type_icon
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__activity_type_icon
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__activity_type_icon
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__activity_type_icon
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__state__allocated
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__state__allocated
+msgid "Allocated"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__approved
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_development__approved__approved
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_filter
+msgid "Approved"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__approved_id
+msgid "Approved by"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__area_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_line__area_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__area_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__area_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__area_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__area_id
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_area
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business__process_report_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_library_import_line_search
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_transaction_filter
+msgid "Area"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_kanban
+msgid "Arrow"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_kanban
+msgid "Arrow icon"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__message_attachment_count
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__message_attachment_count
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__message_attachment_count
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__message_attachment_count
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__message_attachment_count
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_process.py:0
+#: code:addons/deltatech_business_process/models/business_process_test.py:0
+#: code:addons/deltatech_business_process/models/business_project.py:0
+msgid "Attachments"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_project__attachment_ids
+msgid "Attachments that don't come from a message."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_development__approved__awaiting_approval
+msgid "Awaiting Approval"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
+msgid "Back"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:res.groups,name:deltatech_business_process.group_business_process_manager
+msgid "Business Admin"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_area
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__area_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_transaction__area_id
+msgid "Business Area"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Business Blueprint"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_development
+msgid "Business Development"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_development_type
+msgid "Business Development Type"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_issue
+msgid "Business Issue"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_open_issue
+msgid "Business Open Issue"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid "Business Process"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_process_export
+msgid "Business Process Export"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_process_group
+msgid "Business Process Group"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_process_implementation_stage
+msgid "Business Process Implementation Stage"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_process_import
+msgid "Business Process Import"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business__process_report_pivot
+msgid "Business Process Report"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_process_step_test
+msgid "Business Process Step Test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_step
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_process_step
+msgid "Business Process Steps"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.business_process_test_action_form
+msgid "Business Process Test Form"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_process_report
+msgid "Business Processes"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_report
+msgid "Business Processes Report"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_role
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_role
+msgid "Business Role"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_process_test_report
+msgid "Business Tests"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_area
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__area_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__area_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__area_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_group__area_id
+msgid "Business area"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_development
+msgid "Business development"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_development_type
+msgid "Business development type"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__process_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__process_id
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_process_app
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_process_main
+#: model:res.groups.privilege,name:deltatech_business_process.groups_privilege_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Business process"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_process_test
+msgid "Business process Test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_area__process_group_ids
+msgid "Business process groups"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_process_report
+msgid "Business process report"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_process_step
+msgid "Business process step"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_test_report
+#: model:ir.model,name:deltatech_business_process.model_business_process_test_report
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business__process_test_report_pivot
+msgid "Business process test report"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_project
+#: model:ir.model,name:deltatech_business_process.model_business_project
+msgid "Business project"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_role
+msgid "Business role"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_transaction
+#: model:ir.model,name:deltatech_business_process.model_business_transaction
+msgid "Business transaction"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_library_import_options_form
+msgid "Cancel"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__category
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__category
+msgid "Category"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__category__change_request
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__category__change_request
+msgid "Change Request"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
+msgid "Choose the JSON file you exported earlier, then click Import."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
+msgid "Choose what information to include in the exported file."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_library_import_options_form
+msgid ""
+"Choose whether to import the exported effort estimates, then pick the "
+"processes."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
+msgid "Close"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__state__closed
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__state__closed
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_project__state__closed
+msgid "Closed"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__closed_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__closed_date
+msgid "Closed Date"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__closed_by_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__closed_by_id
+msgid "Closed by"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__code
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__code
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__code
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__code
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__code
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_line__code
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__code
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__code
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_transaction__code
+msgid "Code"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid ""
+"Comma-separated git URLs cloned/pulled automatically. Example: "
+"https://github.com/terrabit-ro/procese"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_res_config_settings__process_library_git_repos
+msgid ""
+"Comma-separated list of git URLs. Each repo is cloned/pulled into the Odoo "
+"data directory and scanned for process.json files. Example: "
+"https://github.com/terrabit-ro/procese"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_res_config_settings__process_library_whitelist
+msgid ""
+"Comma-separated list of modules. When set, the sources are restricted to "
+"exactly the listed modules (ignores auto-discovery)."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid ""
+"Comma-separated list of modules. When set, the sources are restricted to "
+"exactly the listed modules."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__company_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__company_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__company_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__company_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__company_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__company_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__company_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__company_id
+msgid "Company"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__completion_bbp
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__completion_bbp
+msgid "Completion"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__completion_dev
+msgid "Completion Dev"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__completion_fs
+msgid "Completion FS"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__completion_test
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__completion_test
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__completion_test
+msgid "Completion Test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process__completion_bbp
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process_report__completion_bbp
+msgid "Completion business blueprint"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__completion_dev
+msgid "Completion development"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__completion_fs
+msgid "Completion of functional specification"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__completion_test
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process_test__completion_test
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process_test_report__completion_test
+msgid "Completion test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.ui.menu,name:deltatech_business_process.menu_config
+msgid "Configuration"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__configuration_duration
+msgid "Configuration duration"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__responsible_id
+msgid "Consultant"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
+msgid "Contacts"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_library_import_options_form
+msgid "Continue"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__severity__cosmetic
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__severity__cosmetic
+msgid "Cosmetic"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__count_acceptance_tests
+msgid "Count Acceptance Tests"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__count_developments
+msgid "Count Developments"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__doc_count
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__doc_count
+msgid "Count Documents"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__count_issues
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__count_issues
+msgid "Count Issues"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__count_processes
+msgid "Count Processes"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__count_steps
+msgid "Count Steps"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__count_tests
+msgid "Count Tests"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_area__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development_type__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration_test__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_group__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_implementation_stage__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_import__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_line__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_options__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_role__create_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_transaction__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_area__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development_type__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration_test__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_group__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_implementation_stage__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_import__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_line__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_options__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_role__create_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_transaction__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__severity__critical
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__severity__critical
+msgid "Critical"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__module_type__custom
+msgid "Custom"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__customer_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__customer_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__customer_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__customer_id
+msgid "Customer"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__customer_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__customer_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__customer_id
+msgid "Customer Responsible"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_from
+msgid "Data"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__data_migration_duration
+msgid "Data migration duration"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__data_result
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__data_result
+msgid "Data result"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__data_used
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__data_used
+msgid "Data used"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_from
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
+msgid "Date"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__date_end_dev
+msgid "Date End Dev"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__date_end_test
+msgid "Date End Test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__date_start_dev
+msgid "Date Start Dev"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__date_start_test
+msgid "Date Start Test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__date_end
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__date_end
+msgid "Date end"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__date_end
+msgid "Date end test"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_development.py:0
+#: code:addons/deltatech_business_process/models/business_issue.py:0
+msgid "Date of approval: {today}"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__date_start
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__date_start
+msgid "Date start"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__date_start
+msgid "Date start test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_form
+msgid "Dates"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__category__defect
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__category__defect
+msgid "Defect"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_project__state__deployment
+msgid "Deployment"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__description
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__description
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__description
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__description
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__description
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__description
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Description"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__state__design
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_report__state__design
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__state_bp__design
+msgid "Design"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__destination_process_ids
+msgid "Destination Process"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Destination process"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__details
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_form
+msgid "Details"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__developer_id
+msgid "Developer"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_development__state__development
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_form
+msgid "Development"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:mail.template,name:deltatech_business_process.email_template_development_approved
+#: model:mail.template,subject:deltatech_business_process.email_template_development_approved
+msgid "Development Approved"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_development_type
+msgid "Development Type"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__development_duration
+msgid "Development duration"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__development_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__development_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__count_developments
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_development
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_form
+msgid "Developments"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_res_config_settings__process_library_autodiscover
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid "Discover processes from all modules"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_area__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development_type__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration_test__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_group__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_implementation_stage__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_import__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_line__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_options__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_role__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_transaction__display_name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_form
+msgid "Documents"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_migration__status__done
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__status_integration_test__done
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__status_internal_test__done
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__status_user_acceptance_test__done
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test__state__done
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__state_test__done
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
+msgid "Done"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.server,name:deltatech_business_process.action_download_excel_report
+msgid "Download Excel Report"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_development__approved__draft
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_development__state__draft
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__state__draft
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__state__draft
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__state__draft
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_report__state__draft
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_step_test__feedback_state__draft
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_step_test__result__draft
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test__state__draft
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__result__draft
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__state_bp__draft
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__state_test__draft
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
+msgid "Draft"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Duration"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Duration of process"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__effort_dev
+msgid "Effort Dev"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__effort_fs
+msgid "Effort FS"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__effort_test
+msgid "Effort Test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__effort_dev
+msgid "Effort for development"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__effort_fs
+msgid "Effort for functional specification"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__effort_test
+msgid "Effort for test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__date_end_bbp
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__date_end_bbp
+msgid "End BBP"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration_test__date_end
+msgid "End Date"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__date_end_fs
+msgid "End FS"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "End Testing"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:res.groups,name:deltatech_business_process.group_business_end_user
+msgid "End User"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process__date_end_bbp
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process_report__date_end_bbp
+msgid "End date business blueprint"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__date_end_dev
+msgid "End date development"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__date_end_fs
+msgid "End date functional specification"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__date_end_test
+msgid "End date test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__date_estimated
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__date_estimated
+msgid "Estimated Date"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_project__state__exploration
+msgid "Exploration"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
+msgid "Export"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_export
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
+msgid "Export Business Process"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
+msgid "Export Complete"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
+msgid "Export selected business processes"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_report__transaction_type__ex
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__transaction_type__ex
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_transaction__transaction_type__ex
+msgid "Extern"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_step_test__result__failed
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__result__failed
+msgid "Failed"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__feedback_text
+msgid "Feedback"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__feedback_by_id
+msgid "Feedback By"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__feedback_date
+msgid "Feedback date"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__feedback_state
+msgid "Feedback state"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__data_file
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_import__data_file
+msgid "File"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_import__name
+msgid "File Name"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
+msgid "File Selected"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:business.process.implementation.stage,name:deltatech_business_process.implementation_stage_first
+msgid "First stage"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_line__folder
+msgid "Folder"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__message_follower_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__message_follower_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__message_follower_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__message_follower_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__message_follower_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__message_partner_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__message_partner_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__message_partner_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__message_partner_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__message_partner_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__activity_type_icon
+#: model:ir.model.fields,help:deltatech_business_process.field_business_issue__activity_type_icon
+#: model:ir.model.fields,help:deltatech_business_process.field_business_open_issue__activity_type_icon
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process__activity_type_icon
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process_test__activity_type_icon
+#: model:ir.model.fields,help:deltatech_business_process.field_business_project__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
+msgid "General"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_form
+msgid "Get Duration"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_res_config_settings__process_library_git_repos
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid "Git repositories"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_res_config_settings__process_library_git_token
+msgid "Git token / password"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_res_config_settings__process_library_git_user
+msgid "Git username"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Go live"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__date_go_live
+msgid "Go live date"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__has_message
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__has_message
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__has_message
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__has_message
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__has_message
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_area__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development_type__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration_test__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_group__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_implementation_stage__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_import__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_line__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_options__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_role__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_transaction__id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__activity_exception_icon
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__activity_exception_icon
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__activity_exception_icon
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__activity_exception_icon
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__activity_exception_icon
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__activity_exception_icon
+#: model:ir.model.fields,help:deltatech_business_process.field_business_issue__activity_exception_icon
+#: model:ir.model.fields,help:deltatech_business_process.field_business_open_issue__activity_exception_icon
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process__activity_exception_icon
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process_test__activity_exception_icon
+#: model:ir.model.fields,help:deltatech_business_process.field_business_project__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_from
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_form
+msgid "Identification"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__message_needaction
+#: model:ir.model.fields,help:deltatech_business_process.field_business_issue__message_needaction
+#: model:ir.model.fields,help:deltatech_business_process.field_business_open_issue__message_needaction
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process__message_needaction
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process_test__message_needaction
+#: model:ir.model.fields,help:deltatech_business_process.field_business_project__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__message_has_error
+#: model:ir.model.fields,help:deltatech_business_process.field_business_issue__message_has_error
+#: model:ir.model.fields,help:deltatech_business_process.field_business_open_issue__message_has_error
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process__message_has_error
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process_test__message_has_error
+#: model:ir.model.fields,help:deltatech_business_process.field_business_project__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process__allowed_user_ids
+msgid ""
+"If set, only these users and business admins can see this process, its "
+"steps, tests and issues. Leave empty to keep it visible to everyone."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Implementation"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__responsible_id
+msgid "Implementation Responsible"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_implementation_stage
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_process_implementation_stage
+msgid "Implementation Stage"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__implementation_stage_id
+msgid "Implementation stage"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_filter
+msgid "Implementation state"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__module_type__implementor
+msgid "Implementor"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
+msgid "Import"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
+msgid "Import Business Process"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
+msgid "Import business processes from a file"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_from_process_import
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_from_project_import
+msgid "Import from file (JSON)"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.server,name:deltatech_business_process.action_open_process_library_from_process
+#: model:ir.actions.server,name:deltatech_business_process.action_open_process_library_from_project
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_library_import_options_form
+msgid "Import from library"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_library_import_options_form
+msgid "Import processes from the library"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_library_import_line_list
+msgid "Import selected"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process_library_import_options__include_durations
+msgid ""
+"Import the configuration / instructing / testing / data-migration durations "
+"exported with each process. Untick to import every selected process without "
+"its effort estimates (all-or-nothing)."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__category__improvement
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__category__improvement
+msgid "Improvement"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__state__in_test
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__state__in_test
+msgid "In Test Business"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__status_integration_test__in_progress
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__status_internal_test__in_progress
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__status_user_acceptance_test__in_progress
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_form
+msgid "In progress"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_form
+msgid "In test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__include_approved_by
+msgid "Include Approved By?"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__include_customer_responsible
+msgid "Include Customer Responsible?"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__include_developments
+msgid "Include Developments?"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__include_durations
+msgid "Include Durations?"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__include_issues
+msgid "Include Issues?"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__include_modules
+msgid "Include Modules?"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__include_process_state
+msgid "Include Process State?"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__include_responsible
+msgid "Include Responsible?"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__include_support
+msgid "Include Support?"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__include_tests
+msgid "Include Tests in Export?"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_options__include_durations
+msgid "Include durations"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.server,name:deltatech_business_process.action_install_modules_for_selected
+msgid "Install Modules for Selected Processes"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__instructing_duration
+msgid "Instructing duration"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test__scope__integration
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__scope__integration
+msgid "Integration"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test__scope__internal
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__scope__internal
+msgid "Internal"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_process.py:0
+msgid "Internal Test %s"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__message_is_follower
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__message_is_follower
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__message_is_follower
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__message_is_follower
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__message_is_follower
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
+msgid "Issue"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:mail.template,name:deltatech_business_process.email_template_issue_submitted
+#: model:mail.template,subject:deltatech_business_process.email_template_issue_submitted
+msgid "Issue Submitted"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_issue
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_issue_report
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__issue_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__count_issues
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__issue_ids
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_issue
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_issue_report
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_pivot
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_form
+msgid "Issues"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_area__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development_type__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration_test__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_group__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_implementation_stage__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_import__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_line__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_options__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_role__write_uid
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_transaction__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_area__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development_type__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration_test__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_group__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_implementation_stage__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_import__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_line__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_options__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_role__write_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_transaction__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_process_library_import_line
+msgid "Library process selection line"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_project__project_type__local
+msgid "Local"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__logo
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_kanban
+msgid "Logo"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__attachment_ids
+msgid "Main Attachments"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__severity__major
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__severity__major
+msgid "Major"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_report__transaction_type__md
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__transaction_type__md
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_transaction__transaction_type__md
+msgid "Master Data"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__message_has_error
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__message_has_error
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__message_has_error
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__message_has_error
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__message_has_error
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__message_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__message_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__message_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__message_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__message_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_migration__status__migrate
+msgid "Migrate"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__migrate_date
+msgid "Migrate Date"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration_test__migration_id
+msgid "Migration"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__migration_steps
+msgid "Migration Steps"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__migration_tool
+msgid "Migration Tool"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_migration
+msgid "Migration data"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_migration_test
+msgid "Migration test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__severity__minor
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__severity__minor
+msgid "Minor"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__module_type
+msgid "Module type"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__module_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_line__modules
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Modules"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__my_activity_date_deadline
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__my_activity_date_deadline
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__my_activity_date_deadline
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__my_activity_date_deadline
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__my_activity_date_deadline
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_area__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development_type__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration_test__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_group__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_implementation_stage__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_line__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_role__name
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_transaction__name
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_from
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_form
+msgid "Name"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__activity_date_deadline
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__activity_date_deadline
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__activity_date_deadline
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__activity_date_deadline
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__activity_date_deadline
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__activity_summary
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__activity_summary
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__activity_summary
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__activity_summary
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__activity_summary
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__activity_type_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__activity_type_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__activity_type_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__activity_type_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__activity_type_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_project.py:0
+msgid "No active project found."
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/res_config_settings.py:0
+msgid "No git repositories configured or sync failed."
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/wizard/import_business_process.py:0
+msgid "No project selected!"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_step_test__feedback_state__not_ok
+msgid "Not ok"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__status_integration_test__not_started
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__status_internal_test__not_started
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__status_user_acceptance_test__not_started
+msgid "Not started"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__note
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_form
+msgid "Note"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__message_needaction_counter
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__message_needaction_counter
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__message_needaction_counter
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__message_needaction_counter
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__message_needaction_counter
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__doc_count
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process__doc_count
+#: model:ir.model.fields,help:deltatech_business_process.field_business_project__doc_count
+msgid "Number of documents attached"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__message_has_error_counter
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__message_has_error_counter
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__message_has_error_counter
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__message_has_error_counter
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__message_has_error_counter
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__message_needaction_counter
+#: model:ir.model.fields,help:deltatech_business_process.field_business_issue__message_needaction_counter
+#: model:ir.model.fields,help:deltatech_business_process.field_business_open_issue__message_needaction_counter
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process__message_needaction_counter
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process_test__message_needaction_counter
+#: model:ir.model.fields,help:deltatech_business_process.field_business_project__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__message_has_error_counter
+#: model:ir.model.fields,help:deltatech_business_process.field_business_issue__message_has_error_counter
+#: model:ir.model.fields,help:deltatech_business_process.field_business_open_issue__message_has_error_counter
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process__message_has_error_counter
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process_test__message_has_error_counter
+#: model:ir.model.fields,help:deltatech_business_process.field_business_project__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__observation
+msgid "Observation"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_step_test__feedback_state__ok
+msgid "Ok"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_process.py:0
+msgid "Only local projects can install modules"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__state__open
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__state__open
+msgid "Open"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__open_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__open_date
+msgid "Open Date"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__category__open_issue
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__category__open_issue
+msgid "Open Issue"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__category__operation
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__category__operation
+msgid "Operation"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
+msgid "Options"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__category__other
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__category__other
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test__scope__other
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__scope__other
+msgid "Other"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.ui.menu,name:deltatech_business_process.menu_overview
+msgid "Overview"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_step_test__result__passed
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__result__passed
+msgid "Passed"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_development__approved__pending
+msgid "Pending"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_res_config_settings__process_library_git_token
+msgid ""
+"Personal access token (or password) for private HTTPS repositories. It is "
+"sent as an HTTP Basic Authorization header on each git command and is never "
+"written into the cloned repo's on-disk config. SSH (git@…) URLs and URLs "
+"that already embed credentials ignore this and use their own auth."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_project__state__preparation
+msgid "Preparation"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_migration__status__prepare
+msgid "Prepare"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__prepare_date
+msgid "Prepare Date"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid "Private repository credentials"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__process_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__process_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__process_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__process_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__process_id
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business__process_report_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_calendar
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
+msgid "Process"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__process_group_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__process_group_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__process_group_id
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_filter
+msgid "Process Group"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_config_settings
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_process_config_settings
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid "Process Library"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_process_library
+msgid "Process Library (engine)"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/wizard/import_business_process.py:0
+msgid "Process Library — %s"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/res_config_settings.py:0
+msgid "Process Library — Git Sync"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:res.groups,name:deltatech_business_process.group_business_process_responsible
+msgid "Process Responsible"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__process_step_test_id
+msgid "Process Step Test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__process_test_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__process_test_id
+msgid "Process Test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_test
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_process_test
+msgid "Process Tests"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model,name:deltatech_business_process.model_business_process_library_import_options
+msgid "Process library import options"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.act_window,name:deltatech_business_process.action_business_process_step_test
+msgid "Process step test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
+msgid "Process steps"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_calendar
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_calendar
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_graph
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_pivot
+msgid "Process test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__process_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_form
+msgid "Processes"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_development__state__production
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__state__production
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_report__state__production
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__state_bp__production
+msgid "Production"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__project_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__project_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__project_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__project_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__project_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_line__project_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__project_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__project_id
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_calendar
+msgid "Project"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__project_manager_id
+msgid "Project Manager"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__project_type
+msgid "Project Type"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_project
+msgid "Projects"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__raise_by_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__raise_by_id
+msgid "Raise by"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__state__ready
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_report__state__ready
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__state_bp__ready
+msgid "Ready"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_project__state__realization
+msgid "Realization"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test__scope__regression
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__scope__regression
+msgid "Regression"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_development__approved__rejected
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_filter
+msgid "Rejected"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_project__project_type__remote
+msgid "Remote"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_form
+msgid "Reopen"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__state__reopened
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__state__reopened
+msgid "Reopened"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_report__transaction_type__rp
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__transaction_type__rp
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_transaction__transaction_type__rp
+msgid "Report"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.ui.menu,name:deltatech_business_process.menu_report
+msgid "Reports"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Reset to Draft"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_area__responsible_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__responsible_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__responsible_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__responsible_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__responsible_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__responsible_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__responsible_id
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_from
+msgid "Responsible"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
+msgid "Responsible Parties"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__responsible_id
+msgid "Responsible Process"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__responsible_step_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__responsible_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__responsible_step_id
+msgid "Responsible Step"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__activity_user_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__activity_user_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__activity_user_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__activity_user_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__activity_user_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid "Restrict to modules"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_res_config_settings__process_library_whitelist
+msgid "Restrict to modules (list)"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__result
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__result
+msgid "Result"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__role_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__role_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__role_id
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_form
+msgid "Role"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test__state__run
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__state_test__run
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
+msgid "Run"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_project__state__running
+msgid "Running"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_res_config_settings__process_library_autodiscover
+msgid ""
+"Scan every installed module that ships a `processes/` folder. Disabled = "
+"only the modules listed below."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid ""
+"Scan every installed module that ships a processes/ folder. Disabled = only "
+"the modules listed below."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__scope
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__scope
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
+msgid "Scope"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_line__has_screenshots
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_library_import_line_list
+msgid "Screenshots"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:business.process.implementation.stage,name:deltatech_business_process.implementation_stage_second
+msgid "Second stage"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/wizard/import_business_process.py:0
+msgid "Select at least one process from the library."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_form
+msgid "Send"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_implementation_stage__sequence
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__sequence
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__sequence
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__sequence
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_form
+msgid "Set Draft"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.server,name:deltatech_business_process.set_internal_to_draft
+msgid "Set Internal Draft"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.server,name:deltatech_business_process.set_user_acceptance_to_draft
+msgid "Set User Accept. Draft"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__severity
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__severity
+msgid "Severity"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__solution
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__solution
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_form
+msgid "Solution"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__solution_date
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__solution_date
+msgid "Solution Date"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__state__solved
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__state__solved
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_form
+msgid "Solved"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_library_import_line__source_module
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_library_import_line_list
+msgid "Source (module)"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__source_process_ids
+msgid "Source Process"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_library_import_line_search
+msgid "Source module"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Source process"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Sources  & Destinations"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_development__state__specification
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_form
+msgid "Specification"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__module_type__standard
+msgid "Standard"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:business.process.implementation.stage,name:deltatech_business_process.implementation_stage_start
+msgid "Start"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__date_start_bbp
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__date_start_bbp
+msgid "Start BBP"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration_test__date_start
+msgid "Start Date"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Start Design"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__date_start_fs
+msgid "Start FS"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.server,name:deltatech_business_process.action_start_integration_test
+msgid "Start Integration Test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.server,name:deltatech_business_process.action_start_internal_test
+msgid "Start Internal Test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Start Test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.actions.server,name:deltatech_business_process.action_start_user_acceptance_test
+msgid "Start User Acceptance Test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__date_start
+msgid "Start date"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process__date_start_bbp
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process_report__date_start_bbp
+msgid "Start date business blueprint"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__date_start_dev
+msgid "Start date development"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__date_start_fs
+msgid "Start date functional specification"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__date_start_test
+msgid "Start date test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__state
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__state
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__state
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__state
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_export__state
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_import__state
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__state
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__state
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__state
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__state
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__state
+msgid "State"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__state_bp
+msgid "State BP"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__state_test
+msgid "State Test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__status
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Status"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__activity_state
+#: model:ir.model.fields,help:deltatech_business_process.field_business_issue__activity_state
+#: model:ir.model.fields,help:deltatech_business_process.field_business_open_issue__activity_state
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process__activity_state
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process_test__activity_state
+#: model:ir.model.fields,help:deltatech_business_process.field_business_project__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__status_integration_test
+msgid "Status integration test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__status_internal_test
+msgid "Status internal test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__status_user_acceptance_test
+msgid "Status user acceptance test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__step_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__step_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__step_id
+msgid "Step"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__step_test_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_open_issue__step_test_id
+msgid "Step Test"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__step_ids
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__count_steps
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__count_steps
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_form
+msgid "Steps"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_process.py:0
+msgid "Success"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__support_id
+msgid "Support"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid "Sync now"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/res_config_settings.py:0
+msgid "Synced: %s"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__team_member_ids
+msgid "Team members"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_development__state__test
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process__state__test
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_report__state__test
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__state_bp__test
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_development_form
+msgid "Test"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_process.py:0
+msgid "Test %s #%s"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
+msgid "Test Steps"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__test_started
+msgid "Test started"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__test_step_ids
+msgid "Test steps"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__tester_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test__tester_id
+msgid "Tester"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_process_test.py:0
+msgid "Testing %s"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__testing_duration
+msgid "Testing duration"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__test_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Tests"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_issue.py:0
+msgid ""
+"The field Closed Date is required, please complete it to change status to "
+"Closed"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_issue.py:0
+msgid ""
+"The field Solution Date is required, please complete it to change status to "
+"Solved"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_issue.py:0
+msgid ""
+"The field Solution is required, please complete it to change status to "
+"Solved"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
+msgid "The selected file will be processed:"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_issue.py:0
+msgid "This test is completed."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid "Token / password"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid ""
+"Token used for private HTTPS repositories. Sent as an HTTP Basic header per "
+"git command; not stored in the cloned repo's config. SSH URLs use their own "
+"keys."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__duration_for_completion
+msgid "Total duration"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__total_project_duration
+msgid "Total project duration"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__transaction_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__transaction_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__transaction_id
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__transaction_id
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_report__transaction_type__tr
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__transaction_type__tr
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_transaction__transaction_type__tr
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_from
+msgid "Transaction"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__transaction_type
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step__transaction_type
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__transaction_type
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_transaction__transaction_type
+msgid "Transaction Type"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.ui.menu,name:deltatech_business_process.menu_business_transaction
+msgid "Transactions"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__type_id
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_issue_form
+msgid "Type"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_business_development__activity_exception_decoration
+#: model:ir.model.fields,help:deltatech_business_process.field_business_issue__activity_exception_decoration
+#: model:ir.model.fields,help:deltatech_business_process.field_business_open_issue__activity_exception_decoration
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process__activity_exception_decoration
+#: model:ir.model.fields,help:deltatech_business_process.field_business_process_test__activity_exception_decoration
+#: model:ir.model.fields,help:deltatech_business_process.field_business_project__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test__scope__user_acceptance
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__scope__user_acceptance
+msgid "User Acceptance"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid "Username"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,help:deltatech_business_process.field_res_config_settings__process_library_git_user
+msgid ""
+"Username for private HTTPS repositories. Leave empty to use 'x-access-token'"
+" (works for GitHub personal access tokens). For GitLab use 'oauth2'."
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_from
+msgid "Verification"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_migration__status__verify
+msgid "Verify"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_form
+msgid "Visibility"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__allowed_user_ids
+msgid "Visible only to"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
+msgid "Wait"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test__state__wait
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_test_report__state_test__wait
+msgid "Waiting"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_process.py:0
+msgid "Warning"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_library_import_line_search
+msgid "With screenshots"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
+msgid "Your file is ready. Click to download:"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_export__state__choose
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_import__state__choose
+msgid "choose"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid "e.g. l10n_ro_process_library, other_processes_module"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_export__state__get
+#: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_process_import__state__get
+msgid "get"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid "https://github.com/terrabit-ro/procese"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_export_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_import_form
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_library_import_options_form
+msgid "or"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid "personal access token"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_filter
+msgid "scope"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_filter
+msgid "state"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.res_config_settings_view_form
+msgid "x-access-token (GitHub) / oauth2 (GitLab)"
+msgstr ""
