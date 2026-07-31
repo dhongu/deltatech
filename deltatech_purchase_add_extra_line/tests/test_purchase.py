@@ -38,6 +38,69 @@ class TestPurchaseAddExtraLine(TransactionCase):
             }
         )
 
+    def _new_order(self, qty=5):
+        po_form = Form(self.env["purchase.order"])
+        po_form.partner_id = self.vendor
+        with po_form.order_line.new() as line_form:
+            line_form.product_id = self.main_product
+            line_form.product_qty = qty
+        return po_form.save()
+
+    def _extra_line(self, order):
+        return order.order_line.filtered(lambda line: line.product_id == self.extra_product)
+
+    def _main_line(self, order):
+        return order.order_line.filtered(lambda line: line.product_id == self.main_product)
+
+    def test_extra_line_computed_price_follows_main_line(self):
+        """Without a manual price, the extra line price follows the main line."""
+        po = self._new_order()
+        main_line = self._main_line(po)
+        extra_line = self._extra_line(po)
+
+        main_line.price_unit = 300
+        main_line.check_extra_product()
+        self.assertAlmostEqual(extra_line.price_unit, 30.0)
+        self.assertFalse(extra_line._has_manual_price())
+
+    def test_extra_line_manual_price_is_kept(self):
+        """A price typed in on the extra line is no longer overwritten."""
+        po = self._new_order()
+        main_line = self._main_line(po)
+        extra_line = self._extra_line(po)
+        main_line.price_unit = 300
+        main_line.check_extra_product()
+
+        extra_line.price_unit = 7.0
+        self.assertTrue(extra_line._has_manual_price())
+
+        # the quantity keeps following the main line, the price does not
+        main_line.product_qty = 7
+        main_line.check_extra_product()
+        self.assertEqual(extra_line.product_qty, 7 * 2.0)
+        self.assertEqual(extra_line.price_unit, 7.0)
+
+        # not even when the price of the main line changes
+        main_line.price_unit = 400
+        main_line.check_extra_product()
+        self.assertEqual(extra_line.price_unit, 7.0)
+
+    def test_extra_line_deleted_is_regenerated_with_computed_price(self):
+        """Deleting the extra line is the way back to the computed price."""
+        po = self._new_order()
+        main_line = self._main_line(po)
+        main_line.price_unit = 300
+        main_line.check_extra_product()
+        extra_line = self._extra_line(po)
+        extra_line.price_unit = 7.0
+        self.assertTrue(extra_line._has_manual_price())
+
+        extra_line.unlink()
+        main_line.check_extra_product()
+        extra_line = self._extra_line(po)
+        self.assertEqual(len(extra_line), 1)
+        self.assertAlmostEqual(extra_line.price_unit, 30.0)
+
     def test_purchase_extra_line_creation_update_and_unlink(self):
         # Create RFQ
         po_form = Form(self.env["purchase.order"])

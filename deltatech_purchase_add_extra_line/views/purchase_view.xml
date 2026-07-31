@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='order_line']/list/field[@name='sequence']" position="before">
                 <field name="line_uuid" column_invisible="True" force_save="1" />
+                <field name="extra_price_computed" column_invisible="True" force_save="1" />
             </xpath>
         </field>
     </record>
