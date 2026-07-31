@@ -1,0 +1,231 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_batch_transfer
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_batch_transfer
+#: model_terms:ir.ui.view,arch_db:deltatech_batch_transfer.stock_prepare_batch_form
+msgid "Add pickings to"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model_terms:ir.ui.view,arch_db:deltatech_batch_transfer.view_picking_form
+msgid "Add to batch"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch_line__additional_quantity
+msgid "Additional Quantity"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model,name:deltatech_batch_transfer.model_stock_picking_batch
+msgid "Batch Transfer"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model_terms:ir.ui.view,arch_db:deltatech_batch_transfer.stock_prepare_batch_form
+msgid "Cancel"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model_terms:ir.ui.view,arch_db:deltatech_batch_transfer.stock_prepare_batch_form
+msgid "Confirm"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch__create_uid
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch_line__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch__create_date
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch_line__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.actions.report,name:deltatech_batch_transfer.delivery_batch_print
+msgid "Deliveries"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_picking_batch__direction
+msgid "Direction"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_picking_batch__display_name
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch__display_name
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_picking__id
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_picking_batch__id
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch__id
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch_line__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields.selection,name:deltatech_batch_transfer.selection__stock_picking_batch__direction__incoming
+msgid "Incoming"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch__write_uid
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch_line__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch__write_date
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch_line__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch__line_ids
+msgid "Line"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch__mode
+#: model_terms:ir.ui.view,arch_db:deltatech_batch_transfer.stock_prepare_batch_form
+msgid "Mode"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#. odoo-python
+#: code:addons/deltatech_batch_transfer/models/stock_picking.py:0
+msgid "No effective quantities set"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_picking_batch__note
+msgid "Note"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields.selection,name:deltatech_batch_transfer.selection__stock_picking_batch__direction__outgoing
+msgid "Outgoing"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,help:deltatech_batch_transfer.field_stock_prepare_batch__user_id
+msgid "Person responsible for this batch transfer"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#. odoo-python
+#: code:addons/deltatech_batch_transfer/wizard/stock_prepare_batch.py:0
+msgid "Please select orders for the same customer."
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model,name:deltatech_batch_transfer.model_stock_prepare_batch
+msgid "Prepare Batch"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model,name:deltatech_batch_transfer.model_stock_prepare_batch_line
+msgid "Prepare Batch Line"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.actions.act_window,name:deltatech_batch_transfer.action_prepare_batch
+#: model:ir.actions.act_window,name:deltatech_batch_transfer.action_prepare_batch_sale_order
+#: model:ir.ui.menu,name:deltatech_batch_transfer.menu_action_prepare_batch
+msgid "Prepare batch"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch_line__product_id
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields.selection,name:deltatech_batch_transfer.selection__stock_prepare_batch__mode__purchase
+msgid "Purchase"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch_line__quantity
+msgid "Quantity"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model_terms:ir.ui.view,arch_db:deltatech_batch_transfer.batch_form_view_selected_lines
+msgid "Received"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_picking_batch__reference
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch__reference
+msgid "Reference"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch__user_id
+msgid "Responsible"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields.selection,name:deltatech_batch_transfer.selection__stock_prepare_batch__mode__sale
+msgid "Sale"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_picking_batch__received_move_line_ids
+msgid "Selected move lines"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch__set_done_qty
+msgid "Set Done Qty"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#. odoo-python
+#: code:addons/deltatech_batch_transfer/wizard/stock_prepare_batch.py:0
+msgid ""
+"The product [%(product_code)s]%(product_name)s was not found for this "
+"partner."
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#. odoo-python
+#: code:addons/deltatech_batch_transfer/models/stock_picking.py:0
+msgid "This picking is already in a batch"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model,name:deltatech_batch_transfer.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: deltatech_batch_transfer
+#: model:ir.model.fields,field_description:deltatech_batch_transfer.field_stock_prepare_batch_line__wizard_id
+msgid "Wizard"
+msgstr ""

@@ -1,0 +1,58 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_purchase_picking_status
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_purchase_picking_status
+#: model:ir.model.fields,field_description:deltatech_purchase_picking_status.field_purchase_order__picking_status
+msgid "Delivery Status"
+msgstr ""
+
+#. module: deltatech_purchase_picking_status
+#: model:ir.model.fields,field_description:deltatech_purchase_picking_status.field_purchase_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_purchase_picking_status
+#: model:ir.model.fields.selection,name:deltatech_purchase_picking_status.selection__purchase_order__picking_status__done
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_picking_status.view_purchase_order_filter_picking_status
+msgid "Done"
+msgstr ""
+
+#. module: deltatech_purchase_picking_status
+#: model:ir.model.fields,field_description:deltatech_purchase_picking_status.field_purchase_order__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_purchase_picking_status
+#: model:ir.model.fields.selection,name:deltatech_purchase_picking_status.selection__purchase_order__picking_status__in_progress
+msgid "In Progress"
+msgstr ""
+
+#. module: deltatech_purchase_picking_status
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_picking_status.view_purchase_order_filter_picking_status
+msgid "In progress"
+msgstr ""
+
+#. module: deltatech_purchase_picking_status
+#. odoo-python
+#: code:addons/deltatech_purchase_picking_status/models/purchase_order.py:0
+msgid "Operator %s not supported"
+msgstr ""
+
+#. module: deltatech_purchase_picking_status
+#: model:ir.model,name:deltatech_purchase_picking_status.model_purchase_order
+msgid "Purchase Order"
+msgstr ""

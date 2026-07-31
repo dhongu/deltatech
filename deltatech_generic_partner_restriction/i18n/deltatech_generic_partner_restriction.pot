@@ -1,0 +1,43 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_generic_partner_restriction
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_generic_partner_restriction
+#: model:ir.model.fields,field_description:deltatech_generic_partner_restriction.field_account_journal__display_name
+#: model:ir.model.fields,field_description:deltatech_generic_partner_restriction.field_account_payment__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_generic_partner_restriction
+#: model:ir.model.fields,field_description:deltatech_generic_partner_restriction.field_account_journal__restriction
+msgid "Generic Restriction"
+msgstr ""
+
+#. module: deltatech_generic_partner_restriction
+#: model:ir.model.fields,field_description:deltatech_generic_partner_restriction.field_account_journal__id
+#: model:ir.model.fields,field_description:deltatech_generic_partner_restriction.field_account_payment__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_generic_partner_restriction
+#: model:ir.model,name:deltatech_generic_partner_restriction.model_account_journal
+msgid "Journal"
+msgstr ""
+
+#. module: deltatech_generic_partner_restriction
+#: model:ir.model,name:deltatech_generic_partner_restriction.model_account_payment
+msgid "Payments"
+msgstr ""

@@ -1,0 +1,84 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_website_product_placeholder
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:25+0000\n"
+"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_website_product_placeholder
+#: model:ir.model,name:deltatech_website_product_placeholder.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: deltatech_website_product_placeholder
+#: model:ir.model.fields,help:deltatech_website_product_placeholder.field_res_config_settings__product_placeholder_image
+#: model:ir.model.fields,help:deltatech_website_product_placeholder.field_website__product_placeholder_image
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_placeholder.res_config_settings_view_form
+msgid "Default image used for products without an image"
+msgstr ""
+
+#. module: deltatech_website_product_placeholder
+#: model:ir.model.fields,field_description:deltatech_website_product_placeholder.field_ir_binary__display_name
+#: model:ir.model.fields,field_description:deltatech_website_product_placeholder.field_ir_qweb_field_image__display_name
+#: model:ir.model.fields,field_description:deltatech_website_product_placeholder.field_product_product__display_name
+#: model:ir.model.fields,field_description:deltatech_website_product_placeholder.field_product_template__display_name
+#: model:ir.model.fields,field_description:deltatech_website_product_placeholder.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:deltatech_website_product_placeholder.field_website__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_website_product_placeholder
+#: model:ir.model,name:deltatech_website_product_placeholder.model_ir_binary
+msgid "File streaming helper model for controllers"
+msgstr ""
+
+#. module: deltatech_website_product_placeholder
+#: model:ir.model.fields,field_description:deltatech_website_product_placeholder.field_ir_binary__id
+#: model:ir.model.fields,field_description:deltatech_website_product_placeholder.field_ir_qweb_field_image__id
+#: model:ir.model.fields,field_description:deltatech_website_product_placeholder.field_product_product__id
+#: model:ir.model.fields,field_description:deltatech_website_product_placeholder.field_product_template__id
+#: model:ir.model.fields,field_description:deltatech_website_product_placeholder.field_res_config_settings__id
+#: model:ir.model.fields,field_description:deltatech_website_product_placeholder.field_website__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_website_product_placeholder
+#: model:ir.model,name:deltatech_website_product_placeholder.model_product_template
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_website_product_placeholder
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_placeholder.res_config_settings_view_form
+msgid "Product Placeholder"
+msgstr ""
+
+#. module: deltatech_website_product_placeholder
+#: model:ir.model.fields,field_description:deltatech_website_product_placeholder.field_res_config_settings__product_placeholder_image
+#: model:ir.model.fields,field_description:deltatech_website_product_placeholder.field_website__product_placeholder_image
+msgid "Product Placeholder Image"
+msgstr ""
+
+#. module: deltatech_website_product_placeholder
+#: model:ir.model,name:deltatech_website_product_placeholder.model_product_product
+msgid "Product Variant"
+msgstr ""
+
+#. module: deltatech_website_product_placeholder
+#: model:ir.model,name:deltatech_website_product_placeholder.model_ir_qweb_field_image
+msgid "Qweb Field Image"
+msgstr ""
+
+#. module: deltatech_website_product_placeholder
+#: model:ir.model,name:deltatech_website_product_placeholder.model_website
+msgid "Website"
+msgstr ""

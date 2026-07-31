@@ -1,0 +1,168 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_website_sale_status
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:25+0000\n"
+"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_website_sale_status
+#. odoo-python
+#: code:addons/deltatech_website_sale_status/controllers/portal.py:0
+msgid "All"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#. odoo-python
+#: code:addons/deltatech_website_sale_status/controllers/portal.py:0
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__canceled
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_report__stage__canceled
+msgid "Canceled"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#. odoo-python
+#: code:addons/deltatech_website_sale_status/controllers/portal.py:0
+msgid "Closed Orders"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#. odoo-python
+#: code:addons/deltatech_website_sale_status/controllers/portal.py:0
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__delivered
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_report__stage__delivered
+msgid "Delivered"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#: model:ir.model.fields,field_description:deltatech_website_sale_status.field_sale_order__display_name
+#: model:ir.model.fields,field_description:deltatech_website_sale_status.field_sale_report__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#: model:ir.model.fields,field_description:deltatech_website_sale_status.field_sale_order__id
+#: model:ir.model.fields,field_description:deltatech_website_sale_status.field_sale_report__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#. odoo-python
+#: code:addons/deltatech_website_sale_status/controllers/portal.py:0
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__in_delivery
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_report__stage__in_delivery
+msgid "In Delivery"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#. odoo-python
+#: code:addons/deltatech_website_sale_status/controllers/portal.py:0
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__in_process
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_report__stage__in_process
+msgid "In Process"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_status.view_sales_order_filter
+msgid "In process"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#. odoo-python
+#: code:addons/deltatech_website_sale_status/controllers/portal.py:0
+msgid "Open Orders"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#. odoo-python
+#: code:addons/deltatech_website_sale_status/controllers/portal.py:0
+msgid "Order Stage"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#. odoo-python
+#: code:addons/deltatech_website_sale_status/controllers/portal.py:0
+msgid "Order Status"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_status.view_sales_order_filter
+msgid "Phone"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#. odoo-python
+#: code:addons/deltatech_website_sale_status/controllers/portal.py:0
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__placed
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_report__stage__placed
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_status.view_sales_order_filter
+msgid "Placed"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#. odoo-python
+#: code:addons/deltatech_website_sale_status/controllers/portal.py:0
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__postponed
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_report__stage__postponed
+msgid "Postponed"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__returned
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_report__stage__returned
+msgid "Returned"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#: model:ir.model,name:deltatech_website_sale_status.model_sale_report
+msgid "Sales Analysis Report"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#: model:ir.model,name:deltatech_website_sale_status.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#: model:ir.model.fields,field_description:deltatech_website_sale_status.field_sale_order__stage
+#: model:ir.model.fields,field_description:deltatech_website_sale_status.field_sale_report__stage
+msgid "Stage"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_status.portal_my_orders_status
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_status.portal_my_quotations_status
+msgid "Status"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#. odoo-python
+#: code:addons/deltatech_website_sale_status/controllers/portal.py:0
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__to_be_delivery
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_report__stage__to_be_delivery
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_status.view_sales_order_filter
+msgid "To Be Delivery"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#. odoo-python
+#: code:addons/deltatech_website_sale_status/controllers/portal.py:0
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__waiting
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_report__stage__waiting
+msgid "Waiting availability"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#. odoo-python
+#: code:addons/deltatech_website_sale_status/controllers/portal.py:0
+msgid "stage"
+msgstr ""

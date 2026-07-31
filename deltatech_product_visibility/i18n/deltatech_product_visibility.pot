@@ -1,0 +1,236 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_product_visibility
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_deltatech_product_visibility_criterion__active
+msgid "Active"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields.selection,name:deltatech_product_visibility.selection__product_template__website_visibility_level__good
+msgid "Bun"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:deltatech.product.visibility.criterion,name:deltatech_product_visibility.criterion_public_category
+#: model:ir.model.fields.selection,name:deltatech_product_visibility.selection__deltatech_product_visibility_criterion__code__public_category
+msgid "Categorie publică"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:deltatech.product.visibility.criterion,name:deltatech_product_visibility.criterion_default_code
+#: model:ir.model.fields.selection,name:deltatech_product_visibility.selection__deltatech_product_visibility_criterion__code__default_code
+msgid "Cod produs (SKU)"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_deltatech_product_visibility_criterion__code
+msgid "Code"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_deltatech_product_visibility_criterion__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_deltatech_product_visibility_criterion__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.actions.act_window,name:deltatech_product_visibility.visibility_criterion_action
+msgid "Criterii vizibilitate produs"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model,name:deltatech_product_visibility.model_deltatech_product_visibility_criterion
+msgid "Criteriu de vizibilitate a produsului"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_product_product__website_visibility_detail
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_product_template__website_visibility_detail
+msgid "Defalcare vizibilitate"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model_terms:ir.actions.act_window,help:deltatech_product_visibility.visibility_criterion_action
+msgid "Definește criteriile și ponderile scorului de vizibilitate"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:deltatech.product.visibility.criterion,name:deltatech_product_visibility.criterion_ecommerce_description
+#: model:ir.model.fields.selection,name:deltatech_product_visibility.selection__deltatech_product_visibility_criterion__code__ecommerce_description
+msgid "Descriere eCommerce (scurtă)"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:deltatech.product.visibility.criterion,name:deltatech_product_visibility.criterion_website_description
+#: model:ir.model.fields.selection,name:deltatech_product_visibility.selection__deltatech_product_visibility_criterion__code__website_description
+msgid "Descriere website (amplă)"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_deltatech_product_visibility_criterion__display_name
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_product_template__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:deltatech.product.visibility.criterion,name:deltatech_product_visibility.criterion_gallery
+#: model:ir.model.fields.selection,name:deltatech_product_visibility.selection__deltatech_product_visibility_criterion__code__gallery
+msgid "Galerie de imagini (≥ 2)"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_deltatech_product_visibility_criterion__id
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_product_template__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:deltatech.product.visibility.criterion,name:deltatech_product_visibility.criterion_main_image
+#: model:ir.model.fields.selection,name:deltatech_product_visibility.selection__deltatech_product_visibility_criterion__code__main_image
+msgid "Imagine principală"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields.selection,name:deltatech_product_visibility.selection__product_template__website_visibility_level__hidden
+msgid "Invizibil"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_deltatech_product_visibility_criterion__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_deltatech_product_visibility_criterion__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_deltatech_product_visibility_criterion__name
+msgid "Name"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_product_product__website_visibility_level
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_product_template__website_visibility_level
+#: model_terms:ir.ui.view,arch_db:deltatech_product_visibility.product_template_search_visibility
+msgid "Nivel vizibilitate"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields.selection,name:deltatech_product_visibility.selection__product_template__website_visibility_level__optimal
+msgid "Optim"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model_terms:ir.actions.act_window,help:deltatech_product_visibility.visibility_criterion_action
+msgid ""
+"Ponderile pot fi ajustate fără cod. După modificare, folosește butonul "
+"„Recalculează scorurile\"."
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:deltatech.product.visibility.criterion,name:deltatech_product_visibility.criterion_sale_price
+#: model:ir.model.fields.selection,name:deltatech_product_visibility.selection__deltatech_product_visibility_criterion__code__sale_price
+msgid "Preț de vânzare setat"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model,name:deltatech_product_visibility.model_product_template
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,help:deltatech_product_visibility.field_deltatech_product_visibility_criterion__weight
+msgid "Punctele acordate când criteriul este îndeplinit."
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.actions.server,name:deltatech_product_visibility.visibility_recompute_action
+msgid "Recalculează scorurile de vizibilitate"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:deltatech.product.visibility.criterion,name:deltatech_product_visibility.criterion_seo
+#: model:ir.model.fields.selection,name:deltatech_product_visibility.selection__deltatech_product_visibility_criterion__code__seo
+msgid "SEO complet (titlu + descriere + cuvinte cheie)"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,help:deltatech_product_visibility.field_product_product__website_visibility_score
+#: model:ir.model.fields,help:deltatech_product_visibility.field_product_template__website_visibility_score
+msgid ""
+"Scor 0-100: cât de complet/optimizat este produsul pentru catalogul de pe "
+"website."
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_product_product__website_visibility_score
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_product_template__website_visibility_score
+msgid "Scor vizibilitate"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_deltatech_product_visibility_criterion__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields.selection,name:deltatech_product_visibility.selection__product_template__website_visibility_level__weak
+msgid "Slab"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model_terms:ir.ui.view,arch_db:deltatech_product_visibility.visibility_criterion_view_list
+msgid "Total"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_product_product__website_visibility_badge
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_product_template__website_visibility_badge
+msgid "Vizibilitate"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.ui.menu,name:deltatech_product_visibility.menu_visibility_criterion
+msgid "Vizibilitate produs"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model_terms:ir.ui.view,arch_db:deltatech_product_visibility.product_template_form_visibility_detail
+msgid "Vizibilitate website"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model_terms:ir.ui.view,arch_db:deltatech_product_visibility.product_template_search_visibility
+msgid "Vizibilitate: invizibil"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model_terms:ir.ui.view,arch_db:deltatech_product_visibility.product_template_search_visibility
+msgid "Vizibilitate: necesită atenție"
+msgstr ""
+
+#. module: deltatech_product_visibility
+#: model:ir.model.fields,field_description:deltatech_product_visibility.field_deltatech_product_visibility_criterion__weight
+msgid "Weight"
+msgstr ""

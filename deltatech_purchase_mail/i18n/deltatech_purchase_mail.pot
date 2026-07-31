@@ -1,0 +1,188 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_purchase_mail
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_purchase_mail
+#: model:mail.template,body_html:deltatech_purchase_mail.mail_template_purchase_send_xlsx
+msgid ""
+"<div>\n"
+"                <p>Hello,</p>\n"
+"                <p>Please find attached the selected purchase orders and an XLSX summary.</p>\n"
+"                <p>\n"
+"                    <strong>Orders:</strong>\n"
+"                    </p><ul>\n"
+"                        <t t-foreach=\"object.purchase_ids\" t-as=\"po\">\n"
+"                            <li>\n"
+"                                <t t-esc=\"po.name\"/> — <t t-esc=\"po.partner_id.display_name or ''\"/>\n"
+"                            </li>\n"
+"                        </t>\n"
+"                    </ul>\n"
+"                \n"
+"                <p>Thank you.</p>\n"
+"            </div>\n"
+"        "
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__attach_order_pdfs
+msgid "Attach Order PDFs"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__attach_combined_xlsx
+msgid "Attach XLSX Summary"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,help:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__email_to
+msgid ""
+"Comma-separated list of recipient emails. If empty, email will be sent to "
+"the vendor email when all POs share the same vendor having an email."
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "Compose Email"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__template_id
+msgid "Email Template"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_order__id
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "Order"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "Price"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "Product Code"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "Product Description"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.model,name:deltatech_purchase_mail.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__purchase_ids
+#: model:mail.template,subject:deltatech_purchase_mail.mail_template_purchase_send_xlsx
+msgid "Purchase Orders"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,help:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__purchase_ids
+msgid "Purchase Orders that will be included in the email."
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:mail.template,name:deltatech_purchase_mail.mail_template_purchase_send_xlsx
+msgid "Purchase Orders: Send with XLSX"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "Quantity"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "RFQ prepared for sending by email (batch compose)."
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.actions.server,name:deltatech_purchase_mail.action_purchase_compose_batch_email
+msgid "Send Email"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.model,name:deltatech_purchase_mail.model_purchase_send_xlsx_wizard
+msgid "Send selected POs by email with XLSX and PDFs"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,help:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__template_id
+msgid ""
+"Template used to compose the email. You can customize it in Settings > "
+"Technical > Email > Templates."
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__email_to
+msgid "To"
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "XlsxWriter is required to generate XLSX files."
+msgstr ""
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "You must select exactly one vendor to send the email to."
+msgstr ""

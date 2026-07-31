@@ -1,0 +1,417 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_dc
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid ", NRC:"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid ""
+", do not endanger the life, health and safety of consumers and comply with\n"
+"                    the\n"
+"                    internal technical specifications of the products and with the sanitary-veterinary legislation and\n"
+"                    for food safety in force. We guarantee the quality of the products provided that the storage and\n"
+"                    transport parameters specified in the table and on the packaging are respected."
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid ", with headquarters in"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid ""
+"; we declare, ensure and guarantee on our\n"
+"                    own\n"
+"                    responsibility that the products delivered to the customer, according to the invoice/notice no."
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid ""
+"<br/>\n"
+"                <br/>\n"
+"\n"
+"                <br/>\n"
+"\n"
+"                <br/>\n"
+"\n"
+"                <br/>\n"
+"\n"
+"                <br/>\n"
+"\n"
+"                <span>\n"
+"                    Registration Nr.\n"
+"                </span>\n"
+"                <br/>\n"
+"                <br/>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_warranty_certificate
+msgid ""
+"<br/>\n"
+"                <br/>\n"
+"\n"
+"                <br/>\n"
+"\n"
+"                <br/>\n"
+"\n"
+"                <br/>\n"
+"\n"
+"                <br/>\n"
+"                We,"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid ""
+"<br/>\n"
+"                <br/>\n"
+"                <span>\n"
+"                    <strong>Responsible Person:</strong>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <strong>Signature:</strong>\n"
+"                </span>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>, declare that the product:</span>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>, with dates the tax identification</span>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>, with its headquarters in</span>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "<span>Declaration of Conformity:</span>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>Standard of Company #:</span>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>Standards:</span>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>Technical Data Sheet #:</span>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>Technical Specification #:</span>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_warranty_certificate
+msgid "<span>Warranty Certificate</span>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>We,</span>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>and controlled according to Quality Control Plan dated in</span>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>is made in accordance with:</span>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>street</span>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>with expiration date</span>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "<span>with lot number</span>"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_warranty_certificate
+msgid "Annex of invoice:"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__company_id
+msgid "Company"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__data_sheet
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_product__data_sheet
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_template__data_sheet
+msgid "Data Sheet"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__date
+msgid "Date of Declaration"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.actions.act_window,name:deltatech_dc.action_deltatech_dc
+#: model:ir.actions.report,name:deltatech_dc.action_report_dc
+#: model:ir.actions.report,name:deltatech_dc.action_report_dc_invoice
+#: model:ir.actions.report,name:deltatech_dc.action_report_dc_lot
+#: model:ir.actions.report,name:deltatech_dc.action_report_dc_picking
+#: model:ir.model,name:deltatech_dc.model_deltatech_dc
+#: model:ir.ui.menu,name:deltatech_dc.menu_deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.view_deltatech_dc_type_form
+msgid "Declaration of Conformity"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.actions.report,name:deltatech_dc.action_report_dc_picking_form_2
+msgid "Declaration of Conformity 2"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__display_name
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_template__display_name
+#: model:ir.model.fields,field_description:deltatech_dc.field_report_deltatech_dc_report_dc__display_name
+#: model:ir.model.fields,field_description:deltatech_dc.field_report_deltatech_dc_report_dc_invoice__display_name
+#: model:ir.model.fields,field_description:deltatech_dc.field_report_deltatech_dc_report_dc_lot__display_name
+#: model:ir.model.fields,field_description:deltatech_dc.field_report_deltatech_dc_report_dc_picking__display_name
+#: model:ir.model.fields,field_description:deltatech_dc.field_stock_lot__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "Expiration Date"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "F(PP 7.5/4.4.6-01)03"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__id
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_template__id
+#: model:ir.model.fields,field_description:deltatech_dc.field_report_deltatech_dc_report_dc__id
+#: model:ir.model.fields,field_description:deltatech_dc.field_report_deltatech_dc_report_dc_invoice__id
+#: model:ir.model.fields,field_description:deltatech_dc.field_report_deltatech_dc_report_dc_lot__id
+#: model:ir.model.fields,field_description:deltatech_dc.field_report_deltatech_dc_report_dc_picking__id
+#: model:ir.model.fields,field_description:deltatech_dc.field_stock_lot__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__lot_id
+msgid "Lot"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "Lot Number"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model,name:deltatech_dc.model_stock_lot
+msgid "Lot/Serial"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "Name of products and services"
+msgstr ""
+
+#. module: deltatech_dc
+#. odoo-python
+#: code:addons/deltatech_dc/models/deltatech_dc.py:0
+msgid "New"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "Nr."
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__name
+msgid "Number"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model,name:deltatech_dc.model_product_template
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__product_id
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_warranty_certificate
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_stock_lot__production_date
+msgid "Production Date"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.product_template_form_view
+msgid "Quality Control"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "Quantity"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model,name:deltatech_dc.model_report_deltatech_dc_report_dc
+#: model:ir.model,name:deltatech_dc.model_report_deltatech_dc_report_dc_invoice
+#: model:ir.model,name:deltatech_dc.model_report_deltatech_dc_report_dc_lot
+#: model:ir.model,name:deltatech_dc.model_report_deltatech_dc_report_dc_picking
+msgid "ReportDCPrint"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "Sale Order:"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid "Signature,"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__company_standard
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_product__company_standard
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_template__company_standard
+msgid "Standard of Company"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__standards
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_product__standards
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_template__standards
+msgid "Standards"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "Storage Conditions"
+msgstr ""
+
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__technical_specification
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_product__technical_specification
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_template__technical_specification
+msgid "Technical Specification"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "The document belongs to the"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_warranty_certificate
+msgid "Warranty Period(months)"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
+msgid ""
+"We hereby certify that the above mentioned materials has been inspected by ourselves and\n"
+"                                meets our manufacturing specification and the\n"
+"                                requirements of your order. Final physical properties and compliance with any finished\n"
+"                                product specification depends on satisfactory\n"
+"                                processing by yourselves."
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "We,"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid ""
+"and cannot be made\n"
+"                        public without the council's approval."
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "county, VAT:"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "county, work point located in"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_form_2
+msgid "from"
+msgstr ""
+
+#. module: deltatech_dc
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc_warranty_certificate
+msgid ""
+"with registration certificate (number), Unique\n"
+"                Registration Code (number), as a distributor, we provide a warranty for the following products:"
+msgstr ""
