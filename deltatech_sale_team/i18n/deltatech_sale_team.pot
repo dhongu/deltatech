@@ -1,0 +1,76 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_team
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_sale_team
+#: model:ir.model.fields,field_description:deltatech_sale_team.field_crm_team__warehouse_id
+msgid "Default Warehouse"
+msgstr ""
+
+#. module: deltatech_sale_team
+#: model:ir.model.fields,field_description:deltatech_sale_team.field_crm_team__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_team.field_sale_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_sale_team
+#: model:ir.model.fields,field_description:deltatech_sale_team.field_crm_team__id
+#: model:ir.model.fields,field_description:deltatech_sale_team.field_sale_order__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_sale_team
+#: model:ir.model.fields.selection,name:deltatech_sale_team.selection__crm_team__team_type__sales
+msgid "Sales"
+msgstr ""
+
+#. module: deltatech_sale_team
+#: model:ir.model,name:deltatech_sale_team.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: deltatech_sale_team
+#: model:ir.model,name:deltatech_sale_team.model_crm_team
+msgid "Sales Team"
+msgstr ""
+
+#. module: deltatech_sale_team
+#: model:res.groups,name:deltatech_sale_team.group_sale_team_manager
+msgid "Team Manager"
+msgstr ""
+
+#. module: deltatech_sale_team
+#: model:ir.model.fields,field_description:deltatech_sale_team.field_crm_team__team_type
+msgid "Team Type"
+msgstr ""
+
+#. module: deltatech_sale_team
+#: model:ir.model.fields,help:deltatech_sale_team.field_crm_team__team_type
+msgid ""
+"The type of this channel, it will define the resources this channel uses."
+msgstr ""
+
+#. module: deltatech_sale_team
+#: model:ir.model.fields.selection,name:deltatech_sale_team.selection__crm_team__team_type__website
+msgid "Website"
+msgstr ""
+
+#. module: deltatech_sale_team
+#: model:res.groups,comment:deltatech_sale_team.group_sale_team_manager
+msgid ""
+"the user will have access to the documents of the sales team he/she belongs "
+"to."
+msgstr ""
