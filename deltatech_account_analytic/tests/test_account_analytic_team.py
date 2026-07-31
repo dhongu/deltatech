@@ -1,8 +1,9 @@
 # ©  2023-now Terrabit
 # See README.rst file on addons root folder for license details
 
-from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.tests import tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
 @tagged("post_install", "-at_install")
