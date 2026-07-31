@@ -10,12 +10,12 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     extra_product_id = fields.Many2one(
-        "product.product", help="Product added automatically as an extra line when this product is sold"
+        "product.product", help="Product added automatically as an extra line when this product is ordered"
     )
     extra_percent = fields.Float(
         help="Percent of the main line price used as the price of the extra line. If zero, the extra "
-        "line keeps the standard price of its own product (pricelist, currency and unit of measure "
-        "of the order)"
+        "line keeps the standard price computed for its own product (price list or vendor price, "
+        "currency and unit of measure of the order)"
     )
     extra_qty = fields.Float(
         default=1.0,
