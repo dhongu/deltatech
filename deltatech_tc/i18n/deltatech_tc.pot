@@ -1,0 +1,319 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_tc
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:25+0000\n"
+"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_station.py:0
+msgid "%(name)s sent a manual heartbeat."
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__api_key
+msgid "API Key"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__active
+msgid "Active"
+msgstr ""
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid "Archived"
+msgstr ""
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid ""
+"Are you sure? Terrabit Connect will need to be reconfigured with the new "
+"key."
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__state__claimed
+msgid "Claimed"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__claimed_at
+msgid "Claimed At"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_station__features
+msgid ""
+"Comma-separated list of features enabled on the station (reported at "
+"heartbeat)."
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__company_id
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__company_id
+msgid "Company"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__create_uid
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__create_date
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__display_name
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__state__done
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
+msgid "Done"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__done_at
+msgid "Done At"
+msgstr ""
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid "Download config"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__error
+#: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__state__error
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_form
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
+msgid "Error"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__features
+msgid "Features"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__id
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__job_ids
+msgid "Job"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__job_count
+msgid "Job Count"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__job_type
+msgid "Job Type"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_job__payload
+msgid "Job parameters, JSON (e.g. {\"zile\": 30} or {\"id\": \"...\"})."
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.ui.menu,name:deltatech_tc.menu_deltatech_tc_job
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid "Jobs"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__last_seen
+msgid "Last Seen"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__write_uid
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__write_date
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:res.groups,name:deltatech_tc.group_deltatech_tc_manager
+msgid "Manager"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__name
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__name
+msgid "Name"
+msgstr ""
+
+#. module: deltatech_tc
+#: model_terms:ir.actions.act_window,help:deltatech_tc.action_deltatech_tc_station
+msgid "No Terrabit Connect station registered"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__note
+msgid "Note"
+msgstr ""
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid "Notes (location, responsible, token...)"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__os
+msgid "Operating System"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__payload
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_form
+msgid "Payload"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__state__pending
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
+msgid "Pending"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__job_type__ping
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid "Ping"
+msgstr ""
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid "Regenerate key"
+msgstr ""
+
+#. module: deltatech_tc
+#: model_terms:ir.actions.act_window,help:deltatech_tc.action_deltatech_tc_station
+msgid ""
+"Register the workstation running Terrabit Connect, copy the API key into it,\n"
+"               and it will exchange jobs with this Odoo instance."
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__result
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_form
+msgid "Result"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_station__api_key
+msgid ""
+"Secret used by Terrabit Connect in the X-Station-Key header. Regenerate as "
+"needed."
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__state
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
+msgid "State"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__station_id
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
+msgid "Station"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.ui.menu,name:deltatech_tc.menu_deltatech_tc_station
+msgid "Stations"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__tc_version
+msgid "TC Version"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.ui.menu,name:deltatech_tc.menu_deltatech_tc_root
+#: model:res.groups.privilege,name:deltatech_tc.groups_privilege_deltatech_tc
+msgid "Terrabit Connect"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model,name:deltatech_tc.model_deltatech_tc_job
+msgid "Terrabit Connect Job"
+msgstr ""
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_station.py:0
+#: model:ir.actions.act_window,name:deltatech_tc.action_deltatech_tc_job
+msgid "Terrabit Connect Jobs"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model,name:deltatech_tc.model_deltatech_tc_station
+msgid "Terrabit Connect Station"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.actions.act_window,name:deltatech_tc.action_deltatech_tc_station
+msgid "Terrabit Connect Stations"
+msgstr ""
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_station.py:0
+msgid "Terrabit Connect heartbeat"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.constraint,message:deltatech_tc.constraint_deltatech_tc_station_api_key_uniq
+msgid "The API key must be unique."
+msgstr ""
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
+msgid "Type"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:res.groups,name:deltatech_tc.group_deltatech_tc_user
+msgid "User"
+msgstr ""
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid "e.g. Accounting PC"
+msgstr ""
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_station.py:0
+msgid "station_id"
+msgstr ""
