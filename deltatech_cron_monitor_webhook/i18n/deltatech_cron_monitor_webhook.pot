@@ -1,0 +1,173 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_cron_monitor_webhook
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:22+0000\n"
+"PO-Revision-Date: 2026-07-31 10:22+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid "<strong>Authentication Options (choose ONE):</strong>"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid ""
+"<strong>Body (POST only):</strong> Send a JSON with token (requires "
+"<code>Content-Type: application/json</code>)"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid "<strong>Header:</strong> Add <code>X-Access-Token: YOUR_TOKEN</code>"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid "<strong>Method:</strong> POST or GET"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid "<strong>Schedule:</strong> Your desired interval"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid ""
+"<strong>URL Parameter:</strong> Append <code>?token=YOUR_TOKEN</code> to the"
+" URL"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid ""
+"<strong>URL:</strong> Copy from the Cron Job (Webhook Configuration tab)\n"
+"                                                <br/>\n"
+"                                                <small class=\"text-muted\">Or use the global token: <code>https://your-domain.com/cron/webhook/YOUR_CODE?token=GLOBAL_TOKEN</code></small>"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model:ir.model,name:deltatech_cron_monitor_webhook.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid "Create a free account on"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid "Create a new cron job with these settings:"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid "Cron Monitor"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid "Cron Monitoring Settings"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model:ir.model.fields,field_description:deltatech_cron_monitor_webhook.field_ir_cron__display_name
+#: model:ir.model.fields,field_description:deltatech_cron_monitor_webhook.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model:ir.model.fields,field_description:deltatech_cron_monitor_webhook.field_ir_cron__enable_webhook
+msgid "Enable Webhook"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid "Example Body for POST:"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid "Generate Token"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model:ir.model.fields,field_description:deltatech_cron_monitor_webhook.field_res_config_settings__cron_webhook_token
+msgid "Global Webhook Token"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid "Global webhook security settings"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model:ir.model.fields,field_description:deltatech_cron_monitor_webhook.field_ir_cron__id
+#: model:ir.model.fields,field_description:deltatech_cron_monitor_webhook.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model:ir.model,name:deltatech_cron_monitor_webhook.model_ir_cron
+msgid "Scheduled Actions"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model:ir.model.fields,help:deltatech_cron_monitor_webhook.field_ir_cron__webhook_code
+msgid "Unique code for this webhook"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model:ir.model.fields,field_description:deltatech_cron_monitor_webhook.field_ir_cron__webhook_code
+msgid "Webhook Code"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model:ir.model.constraint,message:deltatech_cron_monitor_webhook.constraint_ir_cron_webhook_code_unique
+msgid "Webhook Code must be unique!"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.ir_cron_view_form_inherit_monitoring
+msgid "Webhook Configuration"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid "Webhook Security"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model:ir.model.fields,field_description:deltatech_cron_monitor_webhook.field_ir_cron__webhook_url
+msgid "Webhook URL"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid "cron-job.org"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid ""
+"{\n"
+"    \"token\": \"YOUR_TOKEN_HERE\"\n"
+"}"
+msgstr ""
+
+#. module: deltatech_cron_monitor_webhook
+#: model_terms:ir.ui.view,arch_db:deltatech_cron_monitor_webhook.res_config_settings_view_form
+msgid "🚀 External Cron Setup (cron-job.org)"
+msgstr ""
