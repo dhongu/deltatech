@@ -11,6 +11,9 @@ class TestAccountAnalyticTeam(AccountTestInvoicingCommon):
     def setUpClass(cls):
         super().setUpClass()
         cls.sale_team = cls.env["crm.team"].sudo().create({"name": "Test Team"})
+        # Some installs (e.g. l10n_ro_efactura_enhancement) refuse to post out_invoice/out_refund
+        # for a partner without a country, so give the test partner one regardless of the install.
+        cls.partner_a.write({"country_id": cls.env.ref("base.us").id})
         cls.analytic_plan = cls.env["account.analytic.plan"].create({"name": "Test Plan"})
         cls.analytic_account = cls.env["account.analytic.account"].create(
             {"name": "Test Analytic Account", "plan_id": cls.analytic_plan.id}
