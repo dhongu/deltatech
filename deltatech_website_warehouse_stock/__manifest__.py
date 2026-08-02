@@ -4,8 +4,8 @@
 {
     "name": "eCommerce Warehouse Stock",
     "category": "Website",
-    "summary": "eCommerce Warehouse Stock",
-    "version": "17.0.0.0.2",
+    "summary": "Display warehouse stock availability on eCommerce product pages",
+    "version": "17.0.0.0.3",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "depends": ["website", "website_sale_stock"],
@@ -15,6 +15,7 @@
     ],
     "images": ["static/description/main_screenshot.png"],
     "license": "OPL-1",
-    "development_status": "Alpha",
+    "development_status": "Beta",
     "maintainers": ["VoicuStefan2001"],
+    "installable": True,
 }

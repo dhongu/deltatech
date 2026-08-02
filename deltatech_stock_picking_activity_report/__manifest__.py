@@ -4,7 +4,7 @@
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Inventory",
-    "summary": "Tracks activities and changes on stock pickings",
+    "summary": "Detailed tracking and reporting of user activities on stock pickings",
     "depends": ["stock"],
     "license": "OPL-1",
     "data": [
