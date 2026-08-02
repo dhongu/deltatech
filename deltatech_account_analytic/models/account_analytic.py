@@ -22,6 +22,6 @@ class AccountAnalyticLine(models.Model):
                     picking_id = stock_move_id.picking_id
                     if picking_id and picking_id.sale_id:
                         vals["team_id"] = picking_id.sale_id.team_id.id
-                elif move_line_id.move_id.move_type in ["out_invoice", "out_refund"]:
+                elif move_line_id.move_id.move_type in ["out_invoice", "out_refund", "out_receipt"]:
                     vals["team_id"] = move_line_id.move_id.team_id.id
         return super().create(vals_list)
