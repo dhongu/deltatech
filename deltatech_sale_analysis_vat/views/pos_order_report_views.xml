@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_report_pos_order_search" model="ir.ui.view">
+        <field name="name">report.pos.order.search.vat</field>
+        <field name="model">report.pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_report_pos_order_search" />
+        <field name="arch" type="xml">
+            <filter name="not_cancelled" position="after">
+                <separator />
+                <filter
+                    string="Receipts without Invoice"
+                    name="no_invoice"
+                    domain="[('invoiced', '=', False), ('state', '!=', 'cancel')]"
+                    help="Fiscal receipts for which no invoice was issued"
+                />
+                <filter
+                    string="Receipts with Invoice"
+                    name="with_invoice"
+                    domain="[('invoiced', '=', True)]"
+                    help="Fiscal receipts also invoiced - the value is reported on the invoice"
+                />
+            </filter>
+            <field name="product_categ_id" position="after">
+                <field name="vat_tax_group_id" />
+                <field name="vat_tax_id" />
+            </field>
+            <filter name="product_category" position="after">
+                <filter string="VAT Rate" name="vat_tax_group" context="{'group_by': 'vat_tax_group_id'}" />
+                <filter string="VAT" name="vat_tax" context="{'group_by': 'vat_tax_id'}" />
+                <filter string="Invoiced" name="invoiced_group" context="{'group_by': 'invoiced'}" />
+            </filter>
+        </field>
+    </record>
+
+</odoo>
