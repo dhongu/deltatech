@@ -33,12 +33,13 @@ class TestSaleAnalysisVat(AccountTestInvoicingCommon):
                 "company_id": cls.company_data["company"].id,
             }
         )
-        # A product without cost, so that modules refusing to sell below the purchase
-        # price do not interfere with the invoices created here.
+        # A service without cost: other addons in this repository refuse to invoice
+        # below the purchase price or without available stock, and neither check
+        # applies to a service. The report does not care about the product type.
         cls.product_vat = cls.env["product.product"].create(
             {
-                "name": "Product for VAT analysis",
-                "is_storable": True,
+                "name": "Service for VAT analysis",
+                "type": "service",
                 "lst_price": 100.0,
                 "standard_price": 0.0,
             }
