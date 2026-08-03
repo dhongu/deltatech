@@ -33,6 +33,16 @@ class TestSaleAnalysisVat(AccountTestInvoicingCommon):
                 "company_id": cls.company_data["company"].id,
             }
         )
+        # A product without cost, so that modules refusing to sell below the purchase
+        # price do not interfere with the invoices created here.
+        cls.product_vat = cls.env["product.product"].create(
+            {
+                "name": "Product for VAT analysis",
+                "is_storable": True,
+                "lst_price": 100.0,
+                "standard_price": 0.0,
+            }
+        )
 
     def _create_invoice(self, taxes):
         invoice = self.env["account.move"].create(
@@ -45,7 +55,7 @@ class TestSaleAnalysisVat(AccountTestInvoicingCommon):
                         0,
                         0,
                         {
-                            "product_id": self.product_a.id,
+                            "product_id": self.product_vat.id,
                             "quantity": 1,
                             "price_unit": 100.0,
                             "tax_ids": [(6, 0, taxes.ids)],
