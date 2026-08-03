@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!--
+        Global rules (no `groups` field - apply to every user) gating the
+        Sales Analysis and Invoice Analysis reports. Being global, they AND
+        with any other rule that already applies to the user (e.g. the core
+        sale.report "see all" rule tied to sales_team.group_sale_salesman_all_leads),
+        so membership in another group can never leak full visibility here -
+        this avoids the "rules are OR-ed per group" pitfall documented in
+        flodel_security/security/flodel_record_rules.xml.
+
+        Unlike restricting via ir.model.access.csv, this does not touch base
+        model access: a user in neither group simply gets zero rows (no
+        AccessError), so anything that reads these models without sudo() for
+        an arbitrary user (spreadsheet_dashboard_sale/_account dashboards,
+        digest KPIs, website_sale_slides' course revenue field) degrades
+        gracefully instead of crashing.
+    -->
+
+    <record id="sale_report_restrict_rule" model="ir.rule">
+        <field name="name">Sale Report: restrict by report access group</field>
+        <field name="model_id" ref="sale.model_sale_report" />
+        <field
+            name="domain_force"
+        >[(1, '=', 1)] if user.has_group('deltatech_restrict_reports.group_restrict_reports_all') else ([('user_id', '=', user.id)] if user.has_group('deltatech_restrict_reports.group_restrict_reports_own') else [(0, '=', 1)])</field>
+        <field name="perm_read" eval="True" />
+        <field name="perm_write" eval="False" />
+        <field name="perm_create" eval="False" />
+        <field name="perm_unlink" eval="False" />
+    </record>
+
+    <record id="account_invoice_report_restrict_rule" model="ir.rule">
+        <field name="name">Invoice Report: restrict by report access group</field>
+        <field name="model_id" ref="account.model_account_invoice_report" />
+        <field
+            name="domain_force"
+        >[(1, '=', 1)] if user.has_group('deltatech_restrict_reports.group_restrict_reports_all') else ([('invoice_user_id', '=', user.id)] if user.has_group('deltatech_restrict_reports.group_restrict_reports_own') else [(0, '=', 1)])</field>
+        <field name="perm_read" eval="True" />
+        <field name="perm_write" eval="False" />
+        <field name="perm_create" eval="False" />
+        <field name="perm_unlink" eval="False" />
+    </record>
+
+</odoo>
