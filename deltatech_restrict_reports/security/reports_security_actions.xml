@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!--
+        Restrict the reporting menus themselves to users with at least one of
+        the two access groups: hides an otherwise permanently-empty screen
+        from everyone else. Actual data visibility is enforced by the ir.rule
+        in reports_security_rules.xml regardless of entry point - this is UX
+        only. group_restrict_reports_all implies group_restrict_reports_own,
+        so both tiers see the menu.
+
+        These actions are declared by sale/account in files without
+        noupdate="1", so this override re-applies on every module update
+        (-u), not only on install.
+    -->
+
+    <record id="sale.action_order_report_all" model="ir.actions.act_window">
+        <field name="groups_id" eval="[(6, 0, [ref('deltatech_restrict_reports.group_restrict_reports_own')])]" />
+    </record>
+
+    <record id="sale.action_order_report_salesperson" model="ir.actions.act_window">
+        <field name="groups_id" eval="[(6, 0, [ref('deltatech_restrict_reports.group_restrict_reports_own')])]" />
+    </record>
+
+    <record id="sale.action_order_report_products" model="ir.actions.act_window">
+        <field name="groups_id" eval="[(6, 0, [ref('deltatech_restrict_reports.group_restrict_reports_own')])]" />
+    </record>
+
+    <record id="sale.action_order_report_customers" model="ir.actions.act_window">
+        <field name="groups_id" eval="[(6, 0, [ref('deltatech_restrict_reports.group_restrict_reports_own')])]" />
+    </record>
+
+    <record id="account.action_account_invoice_report_all" model="ir.actions.act_window">
+        <field name="groups_id" eval="[(6, 0, [ref('deltatech_restrict_reports.group_restrict_reports_own')])]" />
+    </record>
+
+    <record id="account.action_account_invoice_report_all_supp" model="ir.actions.act_window">
+        <field name="groups_id" eval="[(6, 0, [ref('deltatech_restrict_reports.group_restrict_reports_own')])]" />
+    </record>
+
+</odoo>
