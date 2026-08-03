@@ -2,6 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "Sale Analysis by VAT",
     "summary": "VAT rate dimension in Invoice Analysis and Point of Sale Analysis",
     "version": "19.0.1.0.0",
