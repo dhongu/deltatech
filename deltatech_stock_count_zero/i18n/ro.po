@@ -1,0 +1,37 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_stock_count_zero
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language: ro\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_stock_count_zero
+#: model:ir.model.fields,field_description:deltatech_stock_count_zero.field_stock_request_count__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_stock_count_zero
+#: model:ir.model.fields,field_description:deltatech_stock_count_zero.field_stock_request_count__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_stock_count_zero
+#: model:ir.model.fields,field_description:deltatech_stock_count_zero.field_stock_request_count__set_count_zero
+msgid "Set Count to Zero"
+msgstr ""
+
+#. module: deltatech_stock_count_zero
+#: model:ir.model,name:deltatech_stock_count_zero.model_stock_request_count
+msgid "Stock Request an Inventory Count"
+msgstr "Solicită o verificare a stocului"
