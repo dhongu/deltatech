@@ -1,0 +1,238 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_report_packaging
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_invoice_material__material_type__aluminium
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_product_material__material_type__aluminium
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_report_material_line__material_type__aluminium
+msgid "Aluminium"
+msgstr "Aluminiu"
+
+#. module: deltatech_report_packaging
+#: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.invoice_packaging_material_form
+msgid "Apply"
+msgstr "Aplică"
+
+#. module: deltatech_report_packaging
+#: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.invoice_packaging_material_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_report_material__state__choose
+msgid "Choose"
+msgstr "Alege"
+
+#. module: deltatech_report_packaging
+#: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.invoice_packaging_material_form
+msgid "Close"
+msgstr "Închide"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_invoice_material__create_uid
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__create_uid
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material__create_uid
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material_line__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_invoice_material__create_date
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__create_date
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material__create_date
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material_line__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_invoice_material__display_name
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__display_name
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material__display_name
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material_line__display_name
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_template__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_invoice_material__material_type__glass
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_product_material__material_type__glass
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_report_material_line__material_type__glass
+msgid "Glass"
+msgstr "Pahar"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_invoice_material__id
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__id
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material__id
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material_line__id
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_template__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_invoice_material__invoice_id
+msgid "Invoice"
+msgstr "Factură"
+
+#. module: deltatech_report_packaging
+#: model:ir.model,name:deltatech_report_packaging.model_packaging_report_material
+msgid "Invoice Packaging Material Report"
+msgstr "Raport materiale de ambalaj factură"
+
+#. module: deltatech_report_packaging
+#: model:ir.model,name:deltatech_report_packaging.model_packaging_report_material_line
+msgid "Invoice Packaging Material Report Line"
+msgstr "Linie raport materiale de ambalaj factură"
+
+#. module: deltatech_report_packaging
+#: model:ir.model,name:deltatech_report_packaging.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_invoice_material__write_uid
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__write_uid
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material__write_uid
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material_line__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_invoice_material__write_date
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__write_date
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material__write_date
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material_line__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material__line_ids
+msgid "Lines"
+msgstr "Linii"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_invoice_material__material_type
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__material_type
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material_line__material_type
+msgid "Material Type"
+msgstr "Tip material"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_invoice_material__material_type__metal
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_product_material__material_type__metal
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_report_material_line__material_type__metal
+msgid "Metal"
+msgstr "Metal"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_invoice_material__material_type__pet
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_product_material__material_type__pet
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_report_material_line__material_type__pet
+msgid "PET"
+msgstr "PET"
+
+#. module: deltatech_report_packaging
+#: model:ir.model,name:deltatech_report_packaging.model_packaging_product_material
+msgid "Packaging material used for a product"
+msgstr "Material de ambalaj folosit pentru un produs"
+
+#. module: deltatech_report_packaging
+#: model:ir.model,name:deltatech_report_packaging.model_packaging_invoice_material
+msgid "Packaging material used in an invoice"
+msgstr "Material de ambalaj folosit într-o factură"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_account_bank_statement_line__packaging_material_ids
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_account_move__packaging_material_ids
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_product__packaging_material_ids
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_template__packaging_material_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.account_move_form_view
+#: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.product_template_form_view
+msgid "Packaging materials"
+msgstr "Materiale de ambalaj"
+
+#. module: deltatech_report_packaging
+#: model:ir.actions.act_window,name:deltatech_report_packaging.action_packaging_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.invoice_packaging_material_form
+msgid "Packaging materials report"
+msgstr "Raport materiale de ambalaj"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_invoice_material__material_type__paper
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_product_material__material_type__paper
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_report_material_line__material_type__paper
+msgid "Paper"
+msgstr "Hârtie"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_invoice_material__material_type__plastic
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_product_material__material_type__plastic
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_report_material_line__material_type__plastic
+msgid "Plastic"
+msgstr "Plastic"
+
+#. module: deltatech_report_packaging
+#: model:ir.model,name:deltatech_report_packaging.model_product_template
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__product_tmpl_id
+msgid "Product Tmpl"
+msgstr "Șablon produs"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_invoice_material__qty
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__qty
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material_line__qty
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_report_packaging
+#: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.account_move_form_view
+msgid "Refresh"
+msgstr "Reîmprospătează"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material_line__report_id
+msgid "Report"
+msgstr "Raport"
+
+#. module: deltatech_report_packaging
+#: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.invoice_packaging_material_form
+msgid "Report packaging materials used for invoiced products"
+msgstr "Raportează materialele de ambalaj folosite pentru produsele facturate"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_report_material__state__get
+msgid "Result"
+msgstr "Rezultat"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material__state
+msgid "State"
+msgstr "Stare"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_invoice_material__material_type__wood
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_product_material__material_type__wood
+#: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_report_material_line__material_type__wood
+msgid "Wood"
+msgstr "Lemn"
