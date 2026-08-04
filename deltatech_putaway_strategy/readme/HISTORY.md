@@ -1,5 +1,12 @@
 # Changelog
 
+## 19.0.1.0.7 (2026-08-04)
+
+- Development status raised from *Beta* to *Production/Stable*. The module is consumed by
+  `deltatech_stock_barcode`, which is itself published as *Production/Stable*; `manifestoo
+  check-dev-status` rejects a module that is more mature than one of its dependencies. No
+  functional change.
+
 ## 19.0.1.0.6 (2026-08-04)
 
 - Fix: a plain stock user (`stock.group_stock_user`) could not validate a transfer into a
