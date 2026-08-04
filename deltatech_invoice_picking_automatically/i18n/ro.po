@@ -1,0 +1,74 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_invoice_picking_automatically
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_invoice_picking_automatically
+#: model:ir.model.fields,field_description:deltatech_invoice_picking_automatically.field_stock_picking_type__create_invoice_automatically
+msgid "Create Invoice Automatically"
+msgstr "Creează automat factura"
+
+#. module: deltatech_invoice_picking_automatically
+#: model:ir.model.fields,field_description:deltatech_invoice_picking_automatically.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:deltatech_invoice_picking_automatically.field_stock_picking_type__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_invoice_picking_automatically
+#: model:ir.model.fields.selection,name:deltatech_invoice_picking_automatically.selection__stock_picking__invoice_state__failed
+msgid "Failed"
+msgstr "Eșuat"
+
+#. module: deltatech_invoice_picking_automatically
+#: model:ir.actions.server,name:deltatech_invoice_picking_automatically.ir_cron_generate_invoices_ir_actions_server
+msgid "Generate Invoices from Pickings"
+msgstr "Generează facturi din operațiile de stoc"
+
+#. module: deltatech_invoice_picking_automatically
+#: model:ir.model.fields,field_description:deltatech_invoice_picking_automatically.field_stock_picking__id
+#: model:ir.model.fields,field_description:deltatech_invoice_picking_automatically.field_stock_picking_type__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_invoice_picking_automatically
+#: model:ir.model.fields,field_description:deltatech_invoice_picking_automatically.field_stock_picking__invoice_state
+msgid "Invoice State"
+msgstr "Stare factură"
+
+#. module: deltatech_invoice_picking_automatically
+#: model:ir.model.fields.selection,name:deltatech_invoice_picking_automatically.selection__stock_picking__invoice_state__invoiced
+msgid "Invoiced"
+msgstr "Facturat"
+
+#. module: deltatech_invoice_picking_automatically
+#: model:ir.model,name:deltatech_invoice_picking_automatically.model_stock_picking_type
+msgid "Picking Type"
+msgstr "Tip ridicare"
+
+#. module: deltatech_invoice_picking_automatically
+#: model:ir.model.fields,field_description:deltatech_invoice_picking_automatically.field_stock_picking_type__post_invoice_automatically
+msgid "Post Invoice Automatically"
+msgstr "Postează automat factura"
+
+#. module: deltatech_invoice_picking_automatically
+#: model:ir.model.fields.selection,name:deltatech_invoice_picking_automatically.selection__stock_picking__invoice_state__to_invoice
+msgid "To Invoice"
+msgstr "De facturat"
+
+#. module: deltatech_invoice_picking_automatically
+#: model:ir.model,name:deltatech_invoice_picking_automatically.model_stock_picking
+msgid "Transfer"
+msgstr "Transfer"
