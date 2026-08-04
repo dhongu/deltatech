@@ -1,0 +1,143 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_putaway_strategy
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model.fields,field_description:deltatech_putaway_strategy.field_stock_picking_type__avoid_putaway_rules
+msgid "Avoid Putaway Rules"
+msgstr "Evită regulile de așezare"
+
+#. module: deltatech_putaway_strategy
+#. odoo-python
+#: code:addons/deltatech_putaway_strategy/models/stock_move_line.py:0
+msgid "Cannot assign move lines to locations"
+msgstr "Nu se pot atribui linii de mișcare locațiilor"
+
+#. module: deltatech_putaway_strategy
+#: model_terms:ir.ui.view,arch_db:deltatech_putaway_strategy.view_stock_location_form_inherit_deltatech_map
+msgid "Capacity"
+msgstr "Capacitate"
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model.fields,field_description:deltatech_putaway_strategy.field_stock_location__current_products
+msgid "Current quantity"
+msgstr "Cantitate curentă"
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model.fields,help:deltatech_putaway_strategy.field_stock_location__current_products
+msgid ""
+"Current quantity on hand. For leaves, computed as the sum of quantities from"
+" stock quants (quantity > 0). For non-leaves, sum of children."
+msgstr ""
+"Cantitatea curentă disponibilă. Pentru locațiile finale, se calculează ca "
+"suma cantităților din stocurile cuantificate (cantitate > 0). Pentru "
+"celelalte, suma copiilor."
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model.fields,field_description:deltatech_putaway_strategy.field_stock_location__display_name
+#: model:ir.model.fields,field_description:deltatech_putaway_strategy.field_stock_move__display_name
+#: model:ir.model.fields,field_description:deltatech_putaway_strategy.field_stock_move_line__display_name
+#: model:ir.model.fields,field_description:deltatech_putaway_strategy.field_stock_picking_type__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model.fields,help:deltatech_putaway_strategy.field_stock_location__max_products_leaf
+msgid ""
+"For leaf locations, set the maximum number of products. For non-leaf "
+"locations, total capacity is computed as the sum of children."
+msgstr ""
+"Pentru locațiile finale, setați numărul maxim de produse. Pentru celelalte "
+"locații, capacitatea totală se calculează ca suma copiilor."
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model.fields,field_description:deltatech_putaway_strategy.field_stock_location__id
+#: model:ir.model.fields,field_description:deltatech_putaway_strategy.field_stock_move__id
+#: model:ir.model.fields,field_description:deltatech_putaway_strategy.field_stock_move_line__id
+#: model:ir.model.fields,field_description:deltatech_putaway_strategy.field_stock_picking_type__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model,name:deltatech_putaway_strategy.model_stock_location
+msgid "Inventory Locations"
+msgstr "Locații inventar"
+
+#. module: deltatech_putaway_strategy
+#. odoo-python
+#: code:addons/deltatech_putaway_strategy/models/stock_move_line.py:0
+msgid "Location %(location)s is over capacity (%(current)s > %(max)s)"
+msgstr "Locația %(location)s depășește capacitatea (%(current)s > %(max)s)"
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model.fields,field_description:deltatech_putaway_strategy.field_stock_location__max_products
+msgid "Max products"
+msgstr "Produse maxime"
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model.fields,field_description:deltatech_putaway_strategy.field_stock_location__max_products_leaf
+msgid "Max products (leaf)"
+msgstr "Produse maxime (finală)"
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model.fields,help:deltatech_putaway_strategy.field_stock_location__max_products
+msgid ""
+"Maximum number of products allowed in this location (sum of children for "
+"non-leaf locations)."
+msgstr ""
+"Numărul maxim de produse permis în această locație (suma copiilor pentru "
+"locațiile care nu sunt finale)."
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model.fields,field_description:deltatech_putaway_strategy.field_stock_location__occupancy_ratio
+msgid "Occupancy"
+msgstr "Grad de ocupare"
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model.fields,help:deltatech_putaway_strategy.field_stock_location__occupancy_ratio
+msgid "Occupancy ratio = current/max. 0 when max is 0."
+msgstr "Grad de ocupare = curent/maxim. 0 când maximul este 0."
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model,name:deltatech_putaway_strategy.model_stock_picking_type
+msgid "Picking Type"
+msgstr "Tip ridicare"
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model.fields,field_description:deltatech_putaway_strategy.field_stock_location__planned_products
+msgid "Planned quantity"
+msgstr "Cantitate planificată"
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model.fields,help:deltatech_putaway_strategy.field_stock_location__planned_products
+msgid ""
+"Planned quantity (incoming). For leaves, computed as the sum of quantities "
+"from stock moves not done or cancelled. For non-leaves, sum of children."
+msgstr ""
+"Cantitate planificată (intrări). Pentru locațiile finale, se calculează ca "
+"suma cantităților din mișcările de stoc nefinalizate sau neanulate. Pentru "
+"celelalte, suma copiilor."
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model,name:deltatech_putaway_strategy.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr "Mișcări de produs (linie mișcare stoc)"
+
+#. module: deltatech_putaway_strategy
+#: model:ir.model,name:deltatech_putaway_strategy.model_stock_move
+msgid "Stock Move"
+msgstr "Mișcare stoc"
