@@ -13,8 +13,26 @@ class StockMove(models.Model):
     def _action_assign(self, force_qty=False):
         """Suprascrie atribuirea pentru a aplica automat splitarea liniilor de mișcare
         în funcție de capacitatea locațiilor de destinație.
+
+        Suplimentar, pentru livrările al căror tip de operație are activ
+        `avoid_root_location_on_reservation`, locația sursă (rădăcina depozitului,
+        ex. `D1/S`) este exclusă din rezervare: marfa care nu a fost încă pusă la raft
+        nu trebuie alocată automat pe vânzări. Excluderea se transmite prin cheia de
+        context `exclude_location_ids`, consumată de `deltatech_stock_removal_priority`
+        în `_get_gather_domain`. Filtrul este `not in` (potrivire exactă), deci
+        sublocațiile (rafturile) rămân eligibile pentru rezervare.
         """
         start_time = time.time()
+
+        # Excluderea se calculează per livrare, nu global pe recordset: dacă
+        # `_action_assign` primește mișcări din mai multe tipuri de operație, doar
+        # locațiile tipurilor care au flagul activ trebuie excluse.
+        exclude_location_ids = self.picking_id.filtered(
+            lambda p: p.picking_type_id.code == "outgoing" and p.picking_type_id.avoid_root_location_on_reservation
+        ).location_id.ids
+        if exclude_location_ids:
+            self = self.with_context(exclude_location_ids=exclude_location_ids)
+
         res = super()._action_assign(force_qty=force_qty)
         # Apelăm splitarea pe toate liniile de mișcare implicate
         # Facem o buclă până când nu mai sunt necesare splitări
