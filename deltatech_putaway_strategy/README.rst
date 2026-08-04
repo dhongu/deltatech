@@ -61,6 +61,17 @@ Key features
   - Keeps full compatibility with Odoo’s storage category rules (max
     weight, product/pack capacities, allow new product rules, etc.).
 
+- Operation type options on ``stock.picking.type``:
+
+  - ``Avoid Putaway Rules``: skip the putaway redirection for this
+    operation type.
+  - ``Avoid Root Location on Reservation`` (deliveries only): never
+    reserve stock sitting directly in the operation's source location —
+    typically the warehouse root (``lot_stock``, e.g. ``D1/S``). Goods
+    that have not been put away on a shelf yet are therefore not
+    allocated automatically to sales orders. Sub‑locations (shelves)
+    stay eligible.
+
 Usage
 -----
 
@@ -74,6 +85,10 @@ Usage
 
 3. The computed fields can be shown in location tree or used by other
    modules (e.g., visual warehouse map).
+4. To stop deliveries from reserving not‑yet‑put‑away stock, tick
+   ``Avoid Root Location on Reservation`` on the delivery operation
+   type. This requires ``deltatech_stock_removal_priority`` to be
+   installed (see Compatibility).
 
 Performance notes
 -----------------
@@ -88,6 +103,12 @@ Compatibility
 - Designed to work alongside modules that display warehouse maps or
   dashboards. The module ``deltatech_warehouse_map`` can depend on this
   one to display the capacity and occupancy KPIs.
+- ``Avoid Root Location on Reservation`` publishes the excluded
+  locations through the ``exclude_location_ids`` context key. The key is
+  consumed by ``deltatech_stock_removal_priority`` in
+  ``stock.quant._get_gather_domain``. That module is not a hard
+  dependency, so the option has no effect unless it is installed as
+  well.
 
 Tests
 -----
@@ -98,7 +119,11 @@ Tests
   - putaway preference for empty child locations via
     ``_get_putaway_strategy``,
   - automatic splitting of move lines when capacity is reached,
-  - planned quantity calculations.
+  - planned quantity calculations,
+  - ``Avoid Root Location on Reservation``: the flag reaches
+    ``stock.quant._get_gather_domain`` through ``exclude_location_ids``,
+    only for deliveries, and the reservation then takes stock from the
+    shelf instead of the warehouse root.
 
 Screenshots
 -----------
@@ -109,6 +134,41 @@ The app store gallery uses the images from ``static/description/``.
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+Changelog
+=========
+
+19.0.1.0.5 (2026-08-04)
+-----------------------
+
+- Fix: restored the ``Avoid Root Location on Reservation`` option, which
+  was lost during the 18.0 → 19.0 migration. The feature is made of two
+  halves talking to each other through the ``exclude_location_ids``
+  context key: this module produces it in ``stock.move._action_assign``,
+  and ``deltatech_stock_removal_priority`` consumes it in
+  ``stock.quant._get_gather_domain``. Only the consumer half was
+  migrated to 19.0 — the ``avoid_root_location_on_reservation`` field on
+  ``stock.picking.type`` and the context injection were missing, so the
+  key was never set and deliveries kept reserving stock straight from
+  the warehouse root location (``lot_stock``, e.g. ``D1/S``) instead of
+  leaving it for put-away.
+- The exclusion is now computed per delivery instead of per recordset.
+  The previous implementation excluded the source locations of *all*
+  outgoing transfers as soon as *any* of their operation types had the
+  flag set, which over-excluded when ``_action_assign`` received moves
+  from several operation types at once.
+- Added regression tests covering the whole chain (flag → context →
+  gather domain → reserved location), the flag-off case, and the fact
+  that the exclusion applies to deliveries only.
+
+**Upgrade note:** the field never existed in 19.0, so every operation
+type has it unset after the upgrade. Tick
+``Avoid Root Location on Reservation`` again on the delivery operation
+types that need it, otherwise the behaviour stays as-is. The option also
+requires ``deltatech_stock_removal_priority`` to be installed.
 
 Bug Tracker
 ===========
