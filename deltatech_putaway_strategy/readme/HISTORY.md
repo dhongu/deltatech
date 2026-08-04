@@ -1,5 +1,29 @@
 # Changelog
 
+## 19.0.1.0.6 (2026-08-04)
+
+- Fix: a plain stock user (`stock.group_stock_user`) could not validate a transfer into a
+  location that has a capacity configured — it failed with
+  `AccessError: You are not allowed to modify 'Inventory Locations' (stock.location)`,
+  pointing at Inventory/Administrator. `current_products`, `max_products`,
+  `planned_products` and `occupancy_ratio` are **non-stored** computed fields, and
+  `_action_done` / `_split_by_putaway_capacity` invoked their compute methods *directly*.
+  Outside the ORM's compute machinery the assignments inside those methods no longer just
+  fill the cache — they become a real `write()` on `stock.location`, which only the
+  inventory administrator may perform. Both call sites now invalidate the cache and let the
+  ORM compute on read instead, on a `sudo()` recordset (these are metrics derived from
+  quants, already read with sudo inside the compute, not business data).
+- The over-capacity barrier is unchanged: exceeding a location's capacity still raises the
+  usual `UserError`, now reachable by stock users instead of being masked by an
+  `AccessError`.
+- Fix: the value was previously read from a different environment than the one the compute
+  had been invoked on, so the manual call was dead work and, in
+  `_split_by_putaway_capacity`, the `exclude_move_line_id` context key had no effect at all.
+  Reading now happens on the same recordset the context is applied to.
+- Added regression tests: a stock user validating into a capacity-limited location, the
+  over-capacity barrier still raising a business error, and reading the occupancy metrics
+  without administrator rights.
+
 ## 19.0.1.0.5 (2026-08-04)
 
 - Fix: restored the `Avoid Root Location on Reservation` option, which was lost
