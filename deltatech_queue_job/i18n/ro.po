@@ -1,0 +1,241 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_queue_job
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid "<strong>Body:</strong>"
+msgstr "<strong>Corp:</strong>"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid "<strong>Headers:</strong> <code>Content-Type: application/json</code>"
+msgstr "<strong>Headere:</strong> <code>Content-Type: application/json</code>"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid "<strong>Method:</strong> POST"
+msgstr "<strong>Metodă:</strong> POST"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid "<strong>Schedule:</strong> Every minute (<code>* * * * *</code>)"
+msgstr ""
+"<strong>Programare:</strong> în fiecare minut (<code>* * * * *</code>)"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid ""
+"<strong>URL:</strong> <code>https://your-"
+"domain.com/api/v1/queue/process</code>"
+msgstr ""
+"<strong>URL:</strong> <code>https://your-"
+"domain.com/api/v1/queue/process</code>"
+
+#. module: deltatech_queue_job
+#: model:ir.model.fields,field_description:deltatech_queue_job.field_res_config_settings__queue_job_processor_api_key
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid "API Key"
+msgstr "Cheie API"
+
+#. module: deltatech_queue_job
+#: model:ir.model.fields,help:deltatech_queue_job.field_res_config_settings__queue_job_processor_api_key
+msgid "API Key for external queue processor (cron-job.org)"
+msgstr "Cheie API pentru procesorul extern al cozii (cron-job.org)"
+
+#. module: deltatech_queue_job
+#: model:ir.model.fields,field_description:deltatech_queue_job.field_res_config_settings__queue_job_processor_batch_size
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid "Batch Size"
+msgstr "Dimensiune lot"
+
+#. module: deltatech_queue_job
+#. odoo-python
+#: code:addons/deltatech_queue_job/models/queue_job.py:0
+msgid "CRON Trigger already exists"
+msgstr "Declanșatorul CRON există deja"
+
+#. module: deltatech_queue_job
+#: model:ir.model,name:deltatech_queue_job.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid "Configure external cron processor (cron-job.org)"
+msgstr "Configurează un procesor cron extern (cron-job.org)"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid "Create a free account on"
+msgstr "Creați un cont gratuit pe"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid "Create a new cron job with these settings:"
+msgstr "Creați un job cron nou cu aceste setări:"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.view_queue_job_form
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.view_queue_job_tree
+msgid "Cron Trigger"
+msgstr "Declanșator CRON"
+
+#. module: deltatech_queue_job
+#: model:ir.model.fields,field_description:deltatech_queue_job.field_queue_job__display_name
+#: model:ir.model.fields,field_description:deltatech_queue_job.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid "External Processor"
+msgstr "Procesor extern"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid "Generate Key"
+msgstr "Generează cheia"
+
+#. module: deltatech_queue_job
+#: model:ir.model.fields,field_description:deltatech_queue_job.field_queue_job__id
+#: model:ir.model.fields,field_description:deltatech_queue_job.field_res_config_settings__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_queue_job
+#. odoo-python
+#: code:addons/deltatech_queue_job/models/queue_job.py:0
+msgid "Job Processing Started"
+msgstr "Procesarea joburilor a început"
+
+#. module: deltatech_queue_job
+#: model:ir.model.fields,field_description:deltatech_queue_job.field_res_config_settings__queue_job_processor_max_seconds
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid "Max Seconds"
+msgstr "Secunde maxime"
+
+#. module: deltatech_queue_job
+#: model:ir.model.fields,help:deltatech_queue_job.field_res_config_settings__queue_job_processor_max_seconds
+msgid "Maximum execution time in seconds"
+msgstr "Timpul maxim de execuție, în secunde"
+
+#. module: deltatech_queue_job
+#: model:ir.model.fields,help:deltatech_queue_job.field_res_config_settings__queue_job_processor_batch_size
+msgid "Maximum number of jobs to process per execution"
+msgstr "Numărul maxim de joburi procesate per execuție"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.view_queue_job_search
+msgid "Model"
+msgstr "Model"
+
+#. module: deltatech_queue_job
+#. odoo-python
+#: code:addons/deltatech_queue_job/models/queue_job.py:0
+msgid "No CRON Trigger found"
+msgstr "Niciun declanșator CRON găsit"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.view_queue_job_form
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.view_queue_job_tree
+msgid "Process"
+msgstr "Proces"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.view_queue_job_form
+msgid "Process (Thread)"
+msgstr "Procesează (fir separat)"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.view_queue_job_tree
+msgid "Process Background"
+msgstr "Procesează în fundal"
+
+#. module: deltatech_queue_job
+#: model:ir.model,name:deltatech_queue_job.model_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid "Queue Job"
+msgstr "Job din coadă"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid "Queue Job Processor"
+msgstr "Procesor coadă joburi"
+
+#. module: deltatech_queue_job
+#: model:ir.actions.act_window,name:deltatech_queue_job.action_queue_job_config
+#: model:ir.ui.menu,name:deltatech_queue_job.menu_queue_job_config
+msgid "Settings"
+msgstr "Setări"
+
+#. module: deltatech_queue_job
+#. odoo-python
+#: code:addons/deltatech_queue_job/models/queue_job.py:0
+msgid "Superseded by a new job with the same identity_key"
+msgstr "Înlocuit de un job nou cu același identity_key"
+
+#. module: deltatech_queue_job
+#. odoo-python
+#: code:addons/deltatech_queue_job/models/queue_job.py:0
+msgid "The API processing has been triggered in a separate thread!"
+msgstr "Procesarea prin API a fost declanșată într-un fir separat!"
+
+#. module: deltatech_queue_job
+#. odoo-python
+#: code:addons/deltatech_queue_job/models/queue_job.py:0
+msgid "The operation will be executed in the background!"
+msgstr "Operația va fi executată în fundal!"
+
+#. module: deltatech_queue_job
+#. odoo-python
+#: code:addons/deltatech_queue_job/models/queue_job.py:0
+msgid "The processing of jobs has been triggered in the background."
+msgstr "Procesarea joburilor a fost declanșată în fundal."
+
+#. module: deltatech_queue_job
+#. odoo-python
+#: code:addons/deltatech_queue_job/models/queue_job.py:0
+msgid "Thread Processing"
+msgstr "Procesare pe fir separat"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid "cron-job.org"
+msgstr "cron-job.org"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid ""
+"{\n"
+"    \"jsonrpc\": \"2.0\",\n"
+"    \"params\": {\n"
+"        \"api_key\": \"YOUR_API_KEY_HERE\"\n"
+"    }\n"
+"}"
+msgstr ""
+"{\n"
+"    \"jsonrpc\": \"2.0\",\n"
+"    \"params\": {\n"
+"        \"api_key\": \"YOUR_API_KEY_HERE\"\n"
+"    }\n"
+"}"
+
+#. module: deltatech_queue_job
+#: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
+msgid "🚀 External Cron Setup (cron-job.org)"
+msgstr "🚀 Configurare CRON extern (cron-job.org)"
