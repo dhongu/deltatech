@@ -462,6 +462,50 @@ and payment processes.</p>
 <p><strong>Table of contents</strong></p>
 </div>
 </div>
+<div class="section" id="changelog">
+<h1>Changelog</h1>
+<div class="section" id="section-1">
+<h2>18.0.2.2.0 (2026-08-04)</h2>
+<ul class="simple">
+<li>A transfer validated without a carrier is no longer marked as
+<tt class="docutils literal">delivered</tt> by default: the operation type now has to opt in through
+<em>Delivered on validation</em> (<tt class="docutils literal">stock.picking.type.delivered_on_done</tt>).
+Keying on the absence of a carrier read an unfinished transfer as a
+finished delivery. With a shipping integration at <tt class="docutils literal">rate</tt> level the
+operator validates first and sends to the shipper afterwards, so
+<tt class="docutils literal">carrier_id</tt> is empty on both the picking and the order for as long
+as the shipping wizard takes: parcels reached <tt class="docutils literal">delivered</tt> within the
+same second as the validation, which pushed the order to its delivered
+phase — and, with a carrier already on the order, mailed the customer
+— while the label was still being printed. Verified on Sanodor
+production, where three transfers went
+<tt class="docutils literal">draft <span class="pre">-&gt;</span> delivered <span class="pre">-&gt;</span> pre_advice</tt> in about a minute. A wrong
+<tt class="docutils literal">delivered</tt> is also excluded from the delivery status cron, so
+nothing brought those back on its own.</li>
+<li><strong>Upgrade note:</strong> tick <em>Delivered on validation</em> on the operation
+types used for over-the-counter handovers, where there is genuinely no
+carrier leg to follow. Without it, those transfers now stay on
+<tt class="docutils literal">draft</tt> after validation.</li>
+</ul>
+</div>
+<div class="section" id="section-2">
+<h2>18.0.2.1.4 (2026-06-11)</h2>
+<ul class="simple">
+<li>Fix: releasing a postponed delivery when the payment is confirmed
+never worked — <tt class="docutils literal">_set_done</tt> accessed the non-existent field
+<tt class="docutils literal">payment.transaction.sale_order_id</tt> (the correct field is
+<tt class="docutils literal">sale_order_ids</tt>), raising AttributeError for providers with
+<em>Postponed Delivery</em> enabled. All linked postponed orders are now
+released, and a failure to release no longer blocks the payment
+processing (logged instead).</li>
+<li>Added <tt class="docutils literal"><span class="pre">&#64;api.depends(&quot;picking_ids.postponed&quot;)</span></tt> on
+<tt class="docutils literal">_compute_postponed_delivery</tt> so the value is recomputed within the
+same transaction after postpone/release.</li>
+<li>Added tests for the postpone/release flow and the payment-driven
+release.</li>
+</ul>
+</div>
+</div>
 <div class="section" id="bug-tracker">
 <h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
