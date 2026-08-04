@@ -73,8 +73,12 @@ class TestPosAnalysisVat(TestPoSCommon):
 
         # The same turnover must not be reported twice: the invoice issued for a fiscal
         # receipt is flagged, so it can be excluded from the invoice analysis.
-        invoice_report = self.env["account.invoice.report"].search(
-            [("move_id", "=", orders["receipt-invoiced"].account_move.id)]
+        # `sudo()`: see test_sale_analysis_vat - the content is under test, not the
+        # visibility, which deltatech_restrict_reports restricts with a global ir.rule
+        invoice_report = (
+            self.env["account.invoice.report"]
+            .sudo()
+            .search([("move_id", "=", orders["receipt-invoiced"].account_move.id)])
         )
         self.assertTrue(invoice_report.is_fiscal_receipt)
         self.assertEqual(invoice_report.vat_tax_id, self.tax_vat)
