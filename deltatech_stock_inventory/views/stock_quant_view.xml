@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='inventory_date']" position="before">
                 <field name="last_inventory_date" optional="show" readonly="not inventory_quantity_set" />
-                <field name="inventory_note" optional="hide" readonly="not inventory_quantity_set" />
+                <field name="inventory_note" optional="show" readonly="not inventory_quantity_set" />
             </xpath>
         </field>
     </record>
