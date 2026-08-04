@@ -1,0 +1,52 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_notification_sound
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_notification_sound
+#: model:ir.model.fields,field_description:deltatech_notification_sound.field_ir_http__display_name
+#: model:ir.model.fields,field_description:deltatech_notification_sound.field_res_users__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_notification_sound
+#: model:ir.model.fields,field_description:deltatech_notification_sound.field_res_users__notification_sound_enabled
+msgid "Enable notification sounds"
+msgstr "Activează sunetele de notificare"
+
+#. module: deltatech_notification_sound
+#: model:ir.model,name:deltatech_notification_sound.model_ir_http
+msgid "HTTP Routing"
+msgstr "Rutare HTTP"
+
+#. module: deltatech_notification_sound
+#: model:ir.model.fields,field_description:deltatech_notification_sound.field_ir_http__id
+#: model:ir.model.fields,field_description:deltatech_notification_sound.field_res_users__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_notification_sound
+#: model:ir.model.fields,help:deltatech_notification_sound.field_res_users__notification_sound_enabled
+msgid ""
+"If enabled, the backend will play a short sound when a notification is "
+"shown."
+msgstr ""
+"Dacă este activat, aplicația va reda un sunet scurt când apare o notificare."
+
+#. module: deltatech_notification_sound
+#: model:ir.model,name:deltatech_notification_sound.model_res_users
+msgid "User"
+msgstr "Operator"
