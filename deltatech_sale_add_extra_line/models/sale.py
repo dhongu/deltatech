@@ -53,6 +53,12 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     line_uuid = fields.Char()
+    extra_price_computed = fields.Float(
+        digits="Product Price",
+        copy=False,
+        help="Technical field: last unit price computed for this extra line. "
+        "A unit price that differs from it was set by the user and is kept as is.",
+    )
 
     def unlink(self):
         for line in self:
@@ -66,6 +72,23 @@ class SaleOrderLine(models.Model):
                     extra_line_id.unlink()
         return super().unlink()
 
+    def _has_manual_price(self):
+        """Tell whether the unit price of this extra line was set by the user.
+
+        The price is considered manual when it matches neither what this module
+        computed last (``extra_price_computed``) nor what the standard price
+        computation wrote (``technical_price_unit``, kept equal to ``price_unit``
+        by ``_reset_price_unit``, so a pricelist recomputation is not mistaken
+        for a manual price).
+        """
+        self.ensure_one()
+        # `currency_id` can be False on NewId records
+        currency = self.currency_id or self.company_id.currency_id or self.env.company.currency_id
+        return bool(
+            currency.compare_amounts(self.extra_price_computed, self.price_unit)
+            and currency.compare_amounts(self.technical_price_unit, self.price_unit)
+        )
+
     def check_extra_product(self):
         for line in self:
             if line.product_id.extra_product_id:
@@ -74,7 +97,8 @@ class SaleOrderLine(models.Model):
                     and li.line_uuid == line_uuid
                     and li.id != line_id
                 )
-                if not extra_line_id:
+                new_line = not extra_line_id
+                if new_line:
                     new_uuid = str(uuid.uuid4())
                     values = {
                         "product_uom_qty": line.product_uom_qty * (line.product_id.extra_qty or 1.0),
@@ -92,7 +116,15 @@ class SaleOrderLine(models.Model):
                     line.line_uuid = new_uuid
 
                 extra_line_id.product_uom_qty = line.product_uom_qty * (line.product_id.extra_qty or 1.0)
-                if line.product_id.extra_percent:
-                    extra_line_id.price_unit = line.price_unit * (line.product_id.extra_percent or 0.0) / 100.0
-                else:
-                    extra_line_id.price_unit = line.product_id.extra_product_id.lst_price
+                # a price typed in on the extra line wins over the computed one, until the
+                # extra line is deleted (it is then regenerated with the computed price)
+                if not new_line and extra_line_id._has_manual_price():
+                    continue
+                if not line.product_id.extra_percent:
+                    # no percent: the standard price computation applies, so the extra line
+                    # gets the price of its own product in the pricelist, currency and unit
+                    # of measure of the order
+                    continue
+                price_unit = line.price_unit * (line.product_id.extra_percent or 0.0) / 100.0
+                # keep track of the price we set, so that a later manual change is recognized
+                extra_line_id.update({"price_unit": price_unit, "extra_price_computed": price_unit})
