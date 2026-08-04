@@ -146,8 +146,14 @@ class TestSale(TransactionCase):
         main_line = order.order_line
         main_line.check_extra_product()
         extra_line = self._extra_line(order)
-        # the 150 list price of product_a converted at the 0.25 rate, not the list price itself
-        self.assertEqual(extra_line.price_unit, 37.5)
+        # the 150 list price of product_a converted into the pricelist currency, not the
+        # list price itself; the expected value is computed with `_convert` because the
+        # rate of the currency of the company itself may not be 1 (demo rates on CI)
+        expected = self.env.company.currency_id._convert(
+            self.product_a.lst_price, test_currency, self.env.company, order.date_order
+        )
+        self.assertNotAlmostEqual(expected, self.product_a.lst_price)
+        self.assertAlmostEqual(extra_line.price_unit, expected, places=2)
         self.assertFalse(extra_line._has_manual_price())
 
         # a manual price is still recognized and kept
