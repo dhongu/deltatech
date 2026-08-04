@@ -1,0 +1,54 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_stock_removal_priority
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:25+0000\n"
+"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_stock_removal_priority
+#: model:ir.model.fields,field_description:deltatech_stock_removal_priority.field_stock_putaway_rule__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_removal_priority.field_stock_quant__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_stock_removal_priority
+#: model:ir.model.fields,field_description:deltatech_stock_removal_priority.field_stock_putaway_rule__id
+#: model:ir.model.fields,field_description:deltatech_stock_removal_priority.field_stock_quant__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_stock_removal_priority
+#: model:product.removal,name:deltatech_stock_removal_priority.removal_priority
+msgid "Priority"
+msgstr "Prioritate"
+
+#. module: deltatech_stock_removal_priority
+#: model:ir.model,name:deltatech_stock_removal_priority.model_stock_putaway_rule
+msgid "Putaway Rule"
+msgstr "Regulă plasare"
+
+#. module: deltatech_stock_removal_priority
+#: model:ir.model,name:deltatech_stock_removal_priority.model_stock_quant
+msgid "Quants"
+msgstr "Poziții de stoc"
+
+#. module: deltatech_stock_removal_priority
+#: model:ir.model.fields,field_description:deltatech_stock_removal_priority.field_stock_quant__removal_priority
+msgid "Removal Priority"
+msgstr "Prioritate de eliminare"
+
+#. module: deltatech_stock_removal_priority
+#: model:product.removal,method:deltatech_stock_removal_priority.removal_priority
+msgid "priority"
+msgstr "priority"
