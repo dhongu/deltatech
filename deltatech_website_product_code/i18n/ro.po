@@ -1,0 +1,161 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_website_product_code
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:25+0000\n"
+"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_website_product_code
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.product_code
+msgid "<span>Code:</span>"
+msgstr "<span>Cod:</span>"
+
+#. module: deltatech_website_product_code
+#: model:ir.model,name:deltatech_website_product_code.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,field_description:deltatech_website_product_code.field_product_template__display_name
+#: model:ir.model.fields,field_description:deltatech_website_product_code.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,field_description:deltatech_website_product_code.field_product_template__id
+#: model:ir.model.fields,field_description:deltatech_website_product_code.field_res_config_settings__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,help:deltatech_website_product_code.field_res_config_settings__website_search_exact_phrase
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.res_config_settings_view_form
+msgid ""
+"Match the search term as a single string instead of splitting it on spaces. "
+"Enable it when product codes contain spaces, so that searching '352 030 15 "
+"97' returns the product having that code instead of every product containing"
+" '352', '030', '15' or '97'. When no product matches the whole term, the "
+"regular search is used."
+msgstr ""
+"Potrivește termenul de căutare ca un singur șir, în loc să-l despartă pe "
+"spații. Activați această opțiune când codurile de produs conțin spații, "
+"astfel încât căutarea '352 030 15 97' să returneze produsul care are exact "
+"acel cod, în loc de toate produsele care conțin '352', '030', '15' sau '97'."
+" Când niciun produs nu se potrivește pe tot termenul, se folosește căutarea "
+"obișnuită."
+
+#. module: deltatech_website_product_code
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.res_config_settings_view_form
+msgid ""
+"Number of code-looking terms pasted together before the search starts "
+"looking for any of them instead of requiring a single product to match them "
+"all. Use 0 to disable it."
+msgstr ""
+"Numărul de termeni cu aspect de cod, lipiți unul de altul, de la care "
+"căutarea începe să caute oricare dintre ei în loc să ceară ca un singur "
+"produs să se potrivească pe toți. Folosiți 0 pentru a dezactiva."
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,help:deltatech_website_product_code.field_res_config_settings__website_search_multi_code_min_terms
+msgid ""
+"Number of code-looking terms pasted together before the search starts "
+"looking for any of them, instead of requiring a single product to match them"
+" all. Use 0 to disable."
+msgstr ""
+"Numărul de termeni cu aspect de cod, lipiți unul de altul, de la care "
+"căutarea începe să caute oricare dintre ei, în loc să ceară ca un singur "
+"produs să se potrivească pe toți. Folosiți 0 pentru a dezactiva."
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,field_description:deltatech_website_product_code.field_res_config_settings__website_search_multi_code_min_terms
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.res_config_settings_view_form
+msgid "Pasted Code Lists"
+msgstr "Liste de coduri lipite"
+
+#. module: deltatech_website_product_code
+#: model:ir.model,name:deltatech_website_product_code.model_product_template
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_website_product_code
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.res_config_settings_view_form
+msgid "Product Search"
+msgstr "Căutare produs"
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,field_description:deltatech_website_product_code.field_res_config_settings__website_search_exact_phrase
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.res_config_settings_view_form
+msgid "Search The Whole Term"
+msgstr "Caută termenul întreg"
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,field_description:deltatech_website_product_code.field_res_config_settings__website_search_min_term_length
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.res_config_settings_view_form
+msgid "Shortest Search Term"
+msgstr "Cel mai scurt termen de căutare"
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,field_description:deltatech_website_product_code.field_res_config_settings__website_search_standalone_code_min_length
+msgid "Shortest Standalone Code"
+msgstr "Cel mai scurt cod de sine stătător"
+
+#. module: deltatech_website_product_code
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.res_config_settings_view_form
+msgid ""
+"Shortest term still treated as a code of its own. Shorter terms are\n"
+"                                taken to be groups of one code, so they are never searched\n"
+"                                separately. Use 0 to accept any length."
+msgstr ""
+"Cel mai scurt termen tratat încă drept cod de sine stătător. Termenii mai scurți sunt\n"
+"                                considerați grupuri dintr-un singur cod, deci nu sunt niciodată căutați\n"
+"                                separat. Folosiți 0 pentru a accepta orice lungime."
+
+#. module: deltatech_website_product_code
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.res_config_settings_view_form
+msgid ""
+"Terms shorter than this are ignored, since they cannot use the database "
+"indexes and only slow the search down. Kept when every term is shorter than "
+"this, so that such a search still returns its results."
+msgstr ""
+"Termenii mai scurți decât atât sunt ignorați, deoarece nu pot folosi "
+"indecșii bazei de date și doar încetinesc căutarea. Sunt păstrați atunci "
+"când fiecare termen este mai scurt decât atât, ca o astfel de căutare să "
+"returneze totuși rezultate."
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,help:deltatech_website_product_code.field_res_config_settings__website_search_min_term_length
+msgid ""
+"Terms shorter than this are ignored, since they cannot use the database "
+"indexes and only slow the search down. Kept when every term is shorter than "
+"this, so that such a search still returns its results. Use 0 to keep every "
+"term."
+msgstr ""
+"Termenii mai scurți decât atât sunt ignorați, deoarece nu pot folosi "
+"indecșii bazei de date și doar încetinesc căutarea. Sunt păstrați atunci "
+"când fiecare termen este mai scurt decât atât, ca o astfel de căutare să "
+"returneze totuși rezultate. Folosiți 0 pentru a păstra fiecare termen."
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,help:deltatech_website_product_code.field_res_config_settings__website_search_standalone_code_min_length
+msgid ""
+"Used only while the whole term is searched, to tell a pasted list of "
+"complete codes from the groups of a single code written with spaces. Terms "
+"shorter than this are taken to be groups of one code, so they are never "
+"searched separately. Use 0 to accept terms of any length as codes."
+msgstr ""
+"Folosit doar cât timp se caută termenul întreg, pentru a distinge o listă "
+"lipită de coduri complete de grupurile unui singur cod scris cu spații. "
+"Termenii mai scurți decât atât sunt considerați grupuri dintr-un singur cod,"
+" deci nu sunt niciodată căutați separat. Folosiți 0 pentru a accepta termeni"
+" de orice lungime ca fiind coduri."
