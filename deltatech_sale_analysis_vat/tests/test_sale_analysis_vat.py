@@ -70,7 +70,9 @@ class TestSaleAnalysisVat(AccountTestInvoicingCommon):
 
     def test_vat_dimension_on_invoice_report(self):
         invoice = self._create_invoice(self.tax_fixed | self.tax_vat)
-        report = self.env["account.invoice.report"].search([("move_id", "=", invoice.id)])
+        # sudo(): deltatech_restrict_reports gates this report behind a dedicated group that
+        # the test user is not part of; this test cares about the report's data, not access control.
+        report = self.env["account.invoice.report"].sudo().search([("move_id", "=", invoice.id)])
         self.assertEqual(len(report), 1)
         self.assertEqual(report.vat_tax_id, self.tax_vat, "The percentage tax must be reported as VAT")
         self.assertEqual(report.vat_tax_group_id, self.tax_vat.tax_group_id)
@@ -78,13 +80,13 @@ class TestSaleAnalysisVat(AccountTestInvoicingCommon):
 
     def test_invoice_without_tax(self):
         invoice = self._create_invoice(self.env["account.tax"])
-        report = self.env["account.invoice.report"].search([("move_id", "=", invoice.id)])
+        report = self.env["account.invoice.report"].sudo().search([("move_id", "=", invoice.id)])
         self.assertEqual(len(report), 1, "A line without taxes must still be reported once")
         self.assertFalse(report.vat_tax_id)
 
     def test_line_is_not_duplicated_by_several_taxes(self):
         tax_second_vat = self.tax_vat.copy({"name": "VAT 11%", "amount": 11.0, "sequence": 20})
         invoice = self._create_invoice(self.tax_vat | tax_second_vat)
-        report = self.env["account.invoice.report"].search([("move_id", "=", invoice.id)])
+        report = self.env["account.invoice.report"].sudo().search([("move_id", "=", invoice.id)])
         self.assertEqual(len(report), 1, "A line with two VAT taxes must be reported once")
         self.assertEqual(report.vat_tax_id, self.tax_vat, "The tax with the lowest sequence wins")

@@ -73,7 +73,9 @@ class TestPosAnalysisVat(TestPoSCommon):
 
         # The same turnover must not be reported twice: the invoice issued for a fiscal
         # receipt is flagged, so it can be excluded from the invoice analysis.
-        invoice_report = self.env["account.invoice.report"].search(
+        # sudo(): deltatech_restrict_reports gates this report behind a dedicated group that
+        # the test user is not part of; this test cares about the report's data, not access control.
+        invoice_report = self.env["account.invoice.report"].sudo().search(
             [("move_id", "=", orders["receipt-invoiced"].account_move.id)]
         )
         self.assertTrue(invoice_report.is_fiscal_receipt)
