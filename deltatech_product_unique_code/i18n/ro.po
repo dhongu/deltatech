@@ -1,0 +1,72 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_product_unique_code
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_product_unique_code
+#. odoo-python
+#: code:addons/deltatech_product_unique_code/models/product.py:0
+msgid "- %(label)s '%(val)s' already assigned to: %(records)s"
+msgstr "- %(label)s '%(val)s' este deja atribuit la: %(records)s"
+
+#. module: deltatech_product_unique_code
+#: model:res.groups,name:deltatech_product_unique_code.group_product_duplicate_code
+msgid "Allow duplicate product codes"
+msgstr "Permite coduri de produs duplicate"
+
+#. module: deltatech_product_unique_code
+#. odoo-python
+#: code:addons/deltatech_product_unique_code/models/product.py:0
+msgid "Barcode"
+msgstr "Cod de bare"
+
+#. module: deltatech_product_unique_code
+#: model:ir.model.fields,field_description:deltatech_product_unique_code.field_product_product__display_name
+#: model:ir.model.fields,field_description:deltatech_product_unique_code.field_product_template__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_product_unique_code
+#: model:ir.model.fields,field_description:deltatech_product_unique_code.field_product_product__id
+#: model:ir.model.fields,field_description:deltatech_product_unique_code.field_product_template__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_product_unique_code
+#. odoo-python
+#: code:addons/deltatech_product_unique_code/models/product.py:0
+msgid "Internal Reference"
+msgstr "Referință internă"
+
+#. module: deltatech_product_unique_code
+#: model:ir.model,name:deltatech_product_unique_code.model_product_template
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_product_unique_code
+#: model:ir.model,name:deltatech_product_unique_code.model_product_product
+msgid "Product Variant"
+msgstr "Variantă produs"
+
+#. module: deltatech_product_unique_code
+#. odoo-python
+#: code:addons/deltatech_product_unique_code/models/product.py:0
+msgid ""
+"The %(label)s must be unique (including archived products):\n"
+"%(msgs)s"
+msgstr ""
+"%(label)s trebuie să fie unic (inclusiv produsele arhivate):\n"
+"%(msgs)s"
