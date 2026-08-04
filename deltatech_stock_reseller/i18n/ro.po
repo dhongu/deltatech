@@ -1,0 +1,220 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_stock_reseller
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:25+0000\n"
+"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__stock_threshold_1
+msgid "1st threshold"
+msgstr "Prag 1"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__stock_threshold_1_text
+msgid "1st threshold text"
+msgstr "Text prag 1"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__stock_threshold_2
+msgid "2nd threshold"
+msgstr "Prag 2"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__stock_threshold_2_text
+msgid "2nd threshold text"
+msgstr "Text prag 2"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__stock_no_threshold_text
+msgid "Above 2nd threshold text"
+msgstr "Text peste pragul 2"
+
+#. module: deltatech_stock_reseller
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_reseller.view_stock_quant_report_form
+msgid "Apply"
+msgstr "Aplică"
+
+#. module: deltatech_stock_reseller
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_reseller.view_stock_quant_report_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_stock_reseller
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_reseller.view_stock_quant_report_report_filter
+msgid "Category of Product"
+msgstr "Categorie produs"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__create_uid
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__create_date
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,help:deltatech_stock_reseller.field_stock_quant_report_value__product_uom_id
+msgid "Default unit of measure used for all stock operations."
+msgstr "Unitatea de măsură implicită folosită în toate operațiunile stocului."
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__description
+msgid "Description"
+msgstr "Descriere"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__id
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__categ_id
+msgid "Internal Category"
+msgstr "Categorie internă"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__write_uid
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__write_date
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__lines_ids
+msgid "Lines"
+msgstr "Linii"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__list_currency_id
+msgid "List Currency"
+msgstr "Monedă listă"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__list_price
+msgid "List Price"
+msgstr "Preț listă"
+
+#. module: deltatech_stock_reseller
+#: model:ir.actions.act_window,name:deltatech_stock_reseller.action_stock_quant_report
+#: model:ir.ui.menu,name:deltatech_stock_reseller.menu_stock_quant_report
+msgid "Location Stock"
+msgstr "Locație stoc"
+
+#. module: deltatech_stock_reseller
+#: model:ir.actions.act_window,name:deltatech_stock_reseller.action_stock_quant_report_value
+msgid "Location Stock Quant Report"
+msgstr "Raport stoc pe locație"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__partner_id
+msgid "Partner"
+msgstr "Partener"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__product_id
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_reseller.view_stock_quant_report_report_filter
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__qty_text
+msgid "Qty Text"
+msgstr "Text cantitate"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__qty
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,help:deltatech_stock_reseller.field_stock_quant_report_value__qty
+msgid ""
+"Quantity of products in this quant, in the default unit of measure of the "
+"product"
+msgstr ""
+"Cantitatea de produse din această poziție de stoc, în unitatea de măsură "
+"implicită a produsului"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__refresh_report
+msgid "Refresh Report"
+msgstr "Reîmprospătează raportul"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__report_id
+msgid "Report"
+msgstr "Raport"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__reseller_currency_id
+msgid "Reseller Currency"
+msgstr "Monedă revânzător"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__pricelist_id
+msgid "Reseller Price List"
+msgstr "Listă de prețuri revânzător"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__price_reseller
+msgid "Reseller price"
+msgstr "Preț revânzător"
+
+#. module: deltatech_stock_reseller
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_reseller.view_stock_quant_report_report_filter
+msgid "Search"
+msgstr "Caută"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__show_thresholds
+msgid "Show text instead of stock"
+msgstr "Afișează text în loc de stoc"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report__location_id
+msgid "Source Location"
+msgstr "Locația sursă"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model,name:deltatech_stock_reseller.model_stock_quant_report
+#: model:ir.model,name:deltatech_stock_reseller.model_stock_quant_report_value
+msgid "Stock Quant Report"
+msgstr "Raport stoc"
+
+#. module: deltatech_stock_reseller
+#: model:ir.model.fields,field_description:deltatech_stock_reseller.field_stock_quant_report_value__product_uom_id
+msgid "Unit of Measure"
+msgstr "Unitatea de măsură"
+
+#. module: deltatech_stock_reseller
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_reseller.view_stock_quant_report_form
+msgid "or"
+msgstr "sau"
