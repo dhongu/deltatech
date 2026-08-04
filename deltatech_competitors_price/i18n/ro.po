@@ -1,0 +1,147 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_competitors_price
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_competitors_price
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_deltatech_competitor_price__auto_fetch
+msgid "Auto Fetch"
+msgstr "Preluare automată"
+
+#. module: deltatech_competitors_price
+#: model_terms:ir.ui.view,arch_db:deltatech_competitors_price.view_deltatech_competitor_price_form
+msgid "Close"
+msgstr "Închide"
+
+#. module: deltatech_competitors_price
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_deltatech_competitor_price__competitor_name
+msgid "Competitor"
+msgstr "Concurent"
+
+#. module: deltatech_competitors_price
+#: model_terms:ir.ui.view,arch_db:deltatech_competitors_price.view_deltatech_competitor_price_form
+msgid "Competitor Price"
+msgstr "Preț concurent"
+
+#. module: deltatech_competitors_price
+#: model:ir.model,name:deltatech_competitors_price.model_deltatech_competitor_price
+msgid "Competitor Price Tracking"
+msgstr "Urmărire preț concurent"
+
+#. module: deltatech_competitors_price
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_product_product__competitor_price_ids
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_product_template__competitor_price_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_competitors_price.product_template_form_inherit_competitor_prices
+#: model_terms:ir.ui.view,arch_db:deltatech_competitors_price.view_deltatech_competitor_price_tree
+msgid "Competitor Prices"
+msgstr "Prețuri concurenți"
+
+#. module: deltatech_competitors_price
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_deltatech_competitor_price__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_competitors_price
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_deltatech_competitor_price__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_competitors_price
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_deltatech_competitor_price__currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: deltatech_competitors_price
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_deltatech_competitor_price__display_name
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_product_template__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_competitors_price
+#: model_terms:ir.ui.view,arch_db:deltatech_competitors_price.product_template_form_inherit_competitor_prices
+#: model_terms:ir.ui.view,arch_db:deltatech_competitors_price.view_deltatech_competitor_price_tree
+msgid "Fetch"
+msgstr "Preia"
+
+#. module: deltatech_competitors_price
+#: model_terms:ir.ui.view,arch_db:deltatech_competitors_price.view_deltatech_competitor_price_form
+msgid "Fetch Now"
+msgstr "Aduceți acum"
+
+#. module: deltatech_competitors_price
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_deltatech_competitor_price__fetch_status
+msgid "Fetch Status"
+msgstr "Preluare stare"
+
+#. module: deltatech_competitors_price
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_deltatech_competitor_price__id
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_product_template__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_competitors_price
+#: model:ir.model.fields,help:deltatech_competitors_price.field_deltatech_competitor_price__auto_fetch
+msgid "Include in scheduled fetch"
+msgstr "Include la preluarea programată"
+
+#. module: deltatech_competitors_price
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_deltatech_competitor_price__last_fetch
+msgid "Last Fetch"
+msgstr "Ultima preluare"
+
+#. module: deltatech_competitors_price
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_deltatech_competitor_price__last_price
+msgid "Last Price"
+msgstr "Ultimul preț"
+
+#. module: deltatech_competitors_price
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_deltatech_competitor_price__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_competitors_price
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_deltatech_competitor_price__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_competitors_price
+#. odoo-python
+#: code:addons/deltatech_competitors_price/models/competitor_price.py:0
+msgid "No product URL on competitor line."
+msgstr "Nu există URL de produs pe linia concurentului."
+
+#. module: deltatech_competitors_price
+#. odoo-python
+#: code:addons/deltatech_competitors_price/models/competitor_price.py:0
+msgid "OK"
+msgstr "OK"
+
+#. module: deltatech_competitors_price
+#. odoo-python
+#: code:addons/deltatech_competitors_price/models/competitor_price.py:0
+msgid "Price not found on page"
+msgstr "Prețul nu a fost găsit pe pagină"
+
+#. module: deltatech_competitors_price
+#: model:ir.model,name:deltatech_competitors_price.model_product_template
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_deltatech_competitor_price__product_tmpl_id
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_competitors_price
+#: model:ir.model.fields,field_description:deltatech_competitors_price.field_deltatech_competitor_price__product_url
+msgid "Product URL"
+msgstr "URL produs"
