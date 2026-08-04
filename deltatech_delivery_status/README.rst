@@ -115,6 +115,48 @@ and payment processes.
 .. contents::
    :local:
 
+Changelog
+=========
+
+18.0.2.2.0 (2026-08-04)
+-----------------------
+
+- A transfer validated without a carrier is no longer marked as
+  ``delivered`` by default: the operation type now has to opt in through
+  *Delivered on validation* (``stock.picking.type.delivered_on_done``).
+  Keying on the absence of a carrier read an unfinished transfer as a
+  finished delivery. With a shipping integration at ``rate`` level the
+  operator validates first and sends to the shipper afterwards, so
+  ``carrier_id`` is empty on both the picking and the order for as long
+  as the shipping wizard takes: parcels reached ``delivered`` within the
+  same second as the validation, which pushed the order to its delivered
+  phase — and, with a carrier already on the order, mailed the customer
+  — while the label was still being printed. Verified on Sanodor
+  production, where three transfers went
+  ``draft -> delivered -> pre_advice`` in about a minute. A wrong
+  ``delivered`` is also excluded from the delivery status cron, so
+  nothing brought those back on its own.
+- **Upgrade note:** tick *Delivered on validation* on the operation
+  types used for over-the-counter handovers, where there is genuinely no
+  carrier leg to follow. Without it, those transfers now stay on
+  ``draft`` after validation.
+
+18.0.2.1.4 (2026-06-11)
+-----------------------
+
+- Fix: releasing a postponed delivery when the payment is confirmed
+  never worked — ``_set_done`` accessed the non-existent field
+  ``payment.transaction.sale_order_id`` (the correct field is
+  ``sale_order_ids``), raising AttributeError for providers with
+  *Postponed Delivery* enabled. All linked postponed orders are now
+  released, and a failure to release no longer blocks the payment
+  processing (logged instead).
+- Added ``@api.depends("picking_ids.postponed")`` on
+  ``_compute_postponed_delivery`` so the value is recomputed within the
+  same transaction after postpone/release.
+- Added tests for the postpone/release flow and the payment-driven
+  release.
+
 Bug Tracker
 ===========
 

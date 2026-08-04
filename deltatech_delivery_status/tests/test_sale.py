@@ -71,6 +71,28 @@ class TestSale(TransactionCase):
         order.release_delivery()
         self.assertFalse(order.postponed_delivery)
 
+    def _validate(self, picking):
+        for move in picking.move_ids:
+            move.quantity = move.product_uom_qty
+        picking.button_validate()
+        return picking
+
+    def test_validation_does_not_mark_the_transfer_delivered(self):
+        """A transfer without a carrier is not delivered just because it was validated.
+
+        The carrier is often set after the validation, so an empty `carrier_id`
+        at that moment says nothing about whether the parcel will be shipped.
+        The delivery status cron marks the carrier-less transfers as delivered
+        once a grace period has passed without an AWB.
+        """
+        order = self._create_confirmed_order()
+        picking = order.picking_ids
+
+        self._validate(picking)
+
+        self.assertEqual(picking.state, "done")
+        self.assertEqual(picking.delivery_state, "draft")
+
     def test_release_delivery_on_payment_done(self):
         provider = self.env["payment.provider"].create(
             {

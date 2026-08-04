@@ -55,14 +55,18 @@ class StockPicking(models.Model):
         compute="_compute_state",
     )
 
-    def _action_done(self):
-        res = super()._action_done()
-        for picking in self:
-            if picking.state == "done":
-                carrier_id = picking.carrier_id or picking.sale_id.carrier_id
-                if not carrier_id:
-                    picking.write({"delivery_state": "delivered"})
-        return res
+    # Validating a transfer no longer writes `delivery_state = delivered` when no
+    # carrier is found. That test read an unfinished transfer as a finished
+    # delivery: with a shipping integration at `rate` level the operator
+    # validates first and sends to the shipper afterwards, so `carrier_id` is
+    # empty on both the picking and the order for as long as the shipping wizard
+    # takes, and the parcel went to `delivered` — pushing the order to its
+    # delivered phase — while the label was still being printed. The two cases
+    # (a transfer that will never have a carrier, and one that does not have it
+    # *yet*) are indistinguishable at validation time; what separates them is
+    # whether an AWB shows up afterwards. The delivery status cron in
+    # `deltatech_delivery` therefore marks the carrier-less transfers as
+    # delivered once a grace period has passed without one.
 
     @api.depends("move_type", "move_ids.state", "move_ids.picking_id", "postponed")
     def _compute_state(self):
