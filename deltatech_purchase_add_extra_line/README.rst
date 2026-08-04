@@ -45,8 +45,13 @@ Key Features
 
    - The unit price for the extra line can be computed as a
      **percentage** of the primary product's price.
-   - If the percentage is set to zero, the system uses the standard
-     **List Price** of the extra product.
+   - If the percentage is set to zero, the standard price computation
+     applies, so the extra line gets the vendor price of its own
+     product, in the currency and unit of measure of the order.
+   - A unit price typed in on the extra line is kept and no longer
+     recomputed from the main line. The quantity keeps following the
+     main line. To go back to the computed price, delete the extra line
+     — it is regenerated automatically.
 
 3. **Procurement Efficiency**:
 
@@ -71,6 +76,26 @@ Usage
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+18.0.1.1.0
+----------
+
+- [IMP] a unit price typed in on the extra line is kept: the price
+  computed from the percent set on the main product is no longer written
+  back over it. The quantity keeps following the main line. Deleting the
+  extra line is the way back to the computed price — it is regenerated
+  on the next change of the order lines
+- [FIX] a manual price is recognized on every flow, not only in the
+  purchase order form: the price set by the module is recorded in the
+  technical field ``extra_price_computed``, so lines changed through
+  ``write()``, an import or XML-RPC are detected as well
+- a price the standard writes on the extra line itself (a vendor price
+  recomputation) is kept as well: ``purchase.order.line`` has no
+  ``technical_price_unit`` in this version, so it cannot be told apart
+  from a price typed in by the user
 
 Bug Tracker
 ===========

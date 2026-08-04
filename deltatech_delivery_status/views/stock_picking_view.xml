@@ -9,6 +9,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='warehouse_id']" position="after">
                <field name="postponed" />
+               <field name="delivered_on_done" />
             </xpath>
         </field>
     </record>
