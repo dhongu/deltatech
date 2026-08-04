@@ -1,0 +1,212 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_purchase_mail
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_purchase_mail
+#: model:mail.template,body_html:deltatech_purchase_mail.mail_template_purchase_send_xlsx
+msgid ""
+"<div>\n"
+"                <p>Hello,</p>\n"
+"                <p>Please find attached the selected purchase orders and an XLSX summary.</p>\n"
+"                <p>\n"
+"                    <strong>Orders:</strong>\n"
+"                    </p><ul>\n"
+"                        <t t-foreach=\"object.purchase_ids\" t-as=\"po\">\n"
+"                            <li>\n"
+"                                <t t-esc=\"po.name\"/> — <t t-esc=\"po.partner_id.display_name or ''\"/>\n"
+"                            </li>\n"
+"                        </t>\n"
+"                    </ul>\n"
+"                \n"
+"                <p>Thank you.</p>\n"
+"            </div>\n"
+"        "
+msgstr ""
+"<div>\n"
+"                <p>Bună ziua,</p>\n"
+"                <p>Găsiți atașate comenzile de achiziție selectate și un rezumat XLSX.</p>\n"
+"                <p>\n"
+"                    <strong>Comenzi:</strong>\n"
+"                    </p><ul>\n"
+"                        <t t-foreach=\"object.purchase_ids\" t-as=\"po\">\n"
+"                            <li>\n"
+"                                <t t-esc=\"po.name\"/> — <t t-esc=\"po.partner_id.display_name or ''\"/>\n"
+"                            </li>\n"
+"                        </t>\n"
+"                    </ul>\n"
+"                \n"
+"                <p>Vă mulțumim.</p>\n"
+"            </div>\n"
+"        "
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__attach_order_pdfs
+msgid "Attach Order PDFs"
+msgstr "Atașează PDF-urile comenzilor"
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__attach_combined_xlsx
+msgid "Attach XLSX Summary"
+msgstr "Atașează rezumatul XLSX"
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,help:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__email_to
+msgid ""
+"Comma-separated list of recipient emails. If empty, email will be sent to "
+"the vendor email when all POs share the same vendor having an email."
+msgstr ""
+"Listă de e-mailuri destinatare, separate prin virgulă. Dacă este "
+"necompletată, e-mailul se trimite la adresa furnizorului atunci când toate "
+"comenzile au același furnizor cu e-mail."
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "Compose Email"
+msgstr "Compune e-mail"
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__template_id
+msgid "Email Template"
+msgstr "Șablon email"
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_order__id
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "Order"
+msgstr "Comandă"
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "Price"
+msgstr "Preț"
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "Product Code"
+msgstr "Cod produs"
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "Product Description"
+msgstr "Descriere produs"
+
+#. module: deltatech_purchase_mail
+#: model:ir.model,name:deltatech_purchase_mail.model_purchase_order
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__purchase_ids
+#: model:mail.template,subject:deltatech_purchase_mail.mail_template_purchase_send_xlsx
+msgid "Purchase Orders"
+msgstr "Comenzi de achiziție"
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,help:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__purchase_ids
+msgid "Purchase Orders that will be included in the email."
+msgstr "Comenzile de achiziție care vor fi incluse în e-mail."
+
+#. module: deltatech_purchase_mail
+#: model:mail.template,name:deltatech_purchase_mail.mail_template_purchase_send_xlsx
+msgid "Purchase Orders: Send with XLSX"
+msgstr "Comenzi de achiziție: trimite cu XLSX"
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "RFQ prepared for sending by email (batch compose)."
+msgstr ""
+"Cerere de ofertă pregătită pentru trimitere prin e-mail (compunere în masă)."
+
+#. module: deltatech_purchase_mail
+#: model:ir.actions.server,name:deltatech_purchase_mail.action_purchase_compose_batch_email
+msgid "Send Email"
+msgstr "Trimite email"
+
+#. module: deltatech_purchase_mail
+#: model:ir.model,name:deltatech_purchase_mail.model_purchase_send_xlsx_wizard
+msgid "Send selected POs by email with XLSX and PDFs"
+msgstr "Trimite comenzile selectate prin e-mail cu XLSX și PDF-uri"
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,help:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__template_id
+msgid ""
+"Template used to compose the email. You can customize it in Settings > "
+"Technical > Email > Templates."
+msgstr ""
+"Șablonul folosit pentru compunerea e-mailului. Îl puteți personaliza în "
+"Setări > Tehnic > E-mail > Șabloane."
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__email_to
+msgid "To"
+msgstr "Către"
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "XlsxWriter is required to generate XLSX files."
+msgstr "XlsxWriter este necesar pentru a genera fișiere XLSX."
+
+#. module: deltatech_purchase_mail
+#. odoo-python
+#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
+msgid "You must select exactly one vendor to send the email to."
+msgstr ""
+"Trebuie să selectați exact un furnizor căruia să îi trimiteți e-mailul."
