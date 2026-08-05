@@ -92,7 +92,9 @@ class StockQuant(models.Model):
                     values["name"] = sequence.next_by_id()
 
             inventory.write(values)
-        self.write({"inventory_id": False, "inventory_line_id": False})
+        # Nota a fost preluata in referinta mișcării; o golim ca sa nu fie refolosita tacit
+        # la o ajustare ulterioara a aceluiași quant (standardul nu o curata).
+        self.write({"inventory_id": False, "inventory_line_id": False, "inventory_note": False})
         return res
 
     def write(self, vals):
@@ -129,7 +131,11 @@ class StockQuant(models.Model):
             qty, location_id, location_dest_id, package_id=package_id, package_dest_id=package_dest_id
         )
         values["inventory_id"] = self.inventory_id.id
-        # values["name"] = self.inventory_note or values.get("name", False)
+        # Nota de pe linie devine referinta mișcării de stoc. In 19.0 standardul nu mai pune
+        # "name" in valori, ci "inventory_name" (din contextul inventory_name), care e sursa
+        # pentru stock.move.reference atunci cand is_inventory.
+        if self.inventory_note:
+            values["inventory_name"] = self.inventory_note
         return values
 
     @api.model
