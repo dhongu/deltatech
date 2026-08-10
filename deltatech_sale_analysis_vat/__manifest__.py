@@ -4,7 +4,7 @@
 {
     "name": "Sale Analysis by VAT",
     "summary": "VAT rate dimension in Invoice Analysis and Point of Sale Analysis",
-    "version": "18.0.1.0.1",
+    "version": "18.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
