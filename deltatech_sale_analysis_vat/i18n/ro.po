@@ -1,0 +1,96 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_analysis_vat
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_sale_analysis_vat
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_analysis_vat.view_account_invoice_report_search
+msgid "Fiscal Receipt Invoice"
+msgstr "Factură la bon fiscal"
+
+#. module: deltatech_sale_analysis_vat
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_analysis_vat.view_report_pos_order_search
+msgid "Fiscal receipts also invoiced - the value is reported on the invoice"
+msgstr ""
+"Bonuri fiscale pentru care s-a emis și factură - valoarea este raportată pe "
+"factură"
+
+#. module: deltatech_sale_analysis_vat
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_analysis_vat.view_report_pos_order_search
+msgid "Fiscal receipts for which no invoice was issued"
+msgstr "Bonuri fiscale pentru care nu s-a emis factură"
+
+#. module: deltatech_sale_analysis_vat
+#: model:ir.model.fields,field_description:deltatech_sale_analysis_vat.field_account_invoice_report__is_fiscal_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_analysis_vat.view_account_invoice_report_search
+msgid "Invoice for Fiscal Receipt"
+msgstr "Factură la bon fiscal"
+
+#. module: deltatech_sale_analysis_vat
+#: model:ir.model.fields,help:deltatech_sale_analysis_vat.field_account_invoice_report__is_fiscal_receipt
+msgid "Invoice issued for an existing fiscal receipt (Point of Sale order)."
+msgstr ""
+"Factură emisă pentru un bon fiscal existent (comandă din punctul de "
+"vânzare)."
+
+#. module: deltatech_sale_analysis_vat
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_analysis_vat.view_report_pos_order_search
+msgid "Invoiced"
+msgstr "Facturat"
+
+#. module: deltatech_sale_analysis_vat
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_analysis_vat.view_account_invoice_report_search
+msgid "Invoices for Fiscal Receipts"
+msgstr "Facturi la bon fiscal"
+
+#. module: deltatech_sale_analysis_vat
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_analysis_vat.view_account_invoice_report_search
+msgid "Invoices issued for an existing fiscal receipt"
+msgstr "Facturi emise pentru un bon fiscal existent"
+
+#. module: deltatech_sale_analysis_vat
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_analysis_vat.view_account_invoice_report_search
+msgid "Invoices that do not duplicate a fiscal receipt"
+msgstr "Facturi care nu dublează un bon fiscal"
+
+#. module: deltatech_sale_analysis_vat
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_analysis_vat.view_account_invoice_report_search
+msgid "Invoices without Fiscal Receipt"
+msgstr "Facturi fără bon fiscal"
+
+#. module: deltatech_sale_analysis_vat
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_analysis_vat.view_report_pos_order_search
+msgid "Receipts with Invoice"
+msgstr "Bonuri cu factură"
+
+#. module: deltatech_sale_analysis_vat
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_analysis_vat.view_report_pos_order_search
+msgid "Receipts without Invoice"
+msgstr "Bonuri fără factură"
+
+#. module: deltatech_sale_analysis_vat
+#: model:ir.model.fields,field_description:deltatech_sale_analysis_vat.field_account_invoice_report__vat_tax_id
+#: model:ir.model.fields,field_description:deltatech_sale_analysis_vat.field_report_pos_order__vat_tax_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_analysis_vat.view_account_invoice_report_search
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_analysis_vat.view_report_pos_order_search
+msgid "VAT"
+msgstr "TVA"
+
+#. module: deltatech_sale_analysis_vat
+#: model:ir.model.fields,field_description:deltatech_sale_analysis_vat.field_account_invoice_report__vat_tax_group_id
+#: model:ir.model.fields,field_description:deltatech_sale_analysis_vat.field_report_pos_order__vat_tax_group_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_analysis_vat.view_account_invoice_report_search
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_analysis_vat.view_report_pos_order_search
+msgid "VAT Rate"
+msgstr "Cotă TVA"

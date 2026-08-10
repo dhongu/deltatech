@@ -1,3 +1,10 @@
+## 18.0.1.0.2 (2026-08-10)
+
+- Romanian translation for the new filters and group by entries. Without it, a user
+  working in Romanian saw them in English ("Invoices for Fiscal Receipts", "Receipts
+  without Invoice"), could not match them to the names used when the work was handed
+  over, and concluded the reports had not been extended at all.
+
 ## 18.0.1.0.1 (2026-08-04)
 
 - The tests read the report with `sudo()`: they check the content of the report, not
