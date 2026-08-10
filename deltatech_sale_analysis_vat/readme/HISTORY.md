@@ -1,3 +1,10 @@
+## 19.0.1.0.1 (2026-08-10)
+
+- Romanian translation for the new filters and group by entries. Without it, a user
+  working in Romanian saw them in English ("Invoices for Fiscal Receipts", "Receipts
+  without Invoice") and could not match them to the names used when the work was
+  handed over.
+
 ## 19.0.1.0.0 (2026-08-03)
 
 - Initial version: VAT rate and VAT tax as dimensions in Invoice Analysis and Point of
