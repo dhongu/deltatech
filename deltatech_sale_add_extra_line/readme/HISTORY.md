@@ -1,3 +1,7 @@
+## 18.0.1.2.0
+
+- [IMP] the product of the extra line goes through a hook, `SaleOrderLine._get_extra_product()`, instead of being read from `product_id.extra_product_id` in place. A module can now decide the extra product from the order line, so the line no longer requires the field to be filled in on every product. The default behaviour is unchanged
+
 ## 18.0.1.1.0
 
 - [IMP] a unit price typed in on the extra line is kept: the price computed from the main line (percent or list price) is no longer written back over it. The quantity keeps following the main line. Deleting the extra line is the way back to the computed price — it is regenerated on the next change of the order lines
