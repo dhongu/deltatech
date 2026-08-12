@@ -60,9 +60,19 @@ class SaleOrderLine(models.Model):
         "A unit price that differs from it was set by the user and is kept as is.",
     )
 
+    def _get_extra_product(self):
+        """Return the product the extra line of this line must carry.
+
+        By default the one set on the product itself, but a module can decide it
+        from the line instead - the extra product then no longer has to be filled
+        in on every product for the line to appear.
+        """
+        self.ensure_one()
+        return self.product_id.extra_product_id
+
     def unlink(self):
         for line in self:
-            if line.product_id.extra_product_id:
+            if line._get_extra_product():
                 extra_line_id = self.order_id.order_line.filtered(
                     lambda li, line_uuid=line.line_uuid, line_id=line.id: li.line_uuid is not False
                     and li.line_uuid == line_uuid
@@ -91,7 +101,8 @@ class SaleOrderLine(models.Model):
 
     def check_extra_product(self):
         for line in self:
-            if line.product_id.extra_product_id:
+            extra_product = line._get_extra_product()
+            if extra_product:
                 extra_line_id = self.order_id.order_line.filtered(
                     lambda li, line_uuid=line.line_uuid, line_id=line.id: li.line_uuid is not False
                     and li.line_uuid == line_uuid
@@ -102,7 +113,7 @@ class SaleOrderLine(models.Model):
                     new_uuid = str(uuid.uuid4())
                     values = {
                         "product_uom_qty": line.product_uom_qty * (line.product_id.extra_qty or 1.0),
-                        "product_id": line.product_id.extra_product_id.id,
+                        "product_id": extra_product.id,
                         "state": "draft",
                         "order_id": line.order_id.id,
                         "sequence": line.sequence + 1,
