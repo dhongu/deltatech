@@ -3,8 +3,8 @@
 
 {
     "name": "Terrabit Connect - Base",
-    "summary": "Base for Terrabit Connect: station registry, outbound job queue and REST endpoints (X-Station-Key).",
-    "version": "19.0.1.0.0",
+    "summary": "Base for Terrabit Connect: station registry, outbound job queue, REST endpoints (X-Station-Key) and HTTP calls into the customer's local network.",
+    "version": "19.0.1.1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Technical",
