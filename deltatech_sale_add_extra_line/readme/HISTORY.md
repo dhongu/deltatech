@@ -1,3 +1,7 @@
+## 19.0.1.4.0
+
+- [IMP] the product of the extra line goes through a hook, `SaleOrderLine._get_extra_product()`, instead of being read from `product_id.extra_product_id` in place. A module can now decide the extra product from the order line, so the line no longer requires the field to be filled in on every product. The default behaviour is unchanged
+
 ## 19.0.1.3.1
 
 - [FIX] the field tooltips are now IDENTICAL to the ones in `deltatech_purchase_add_extra_line`: both modules declare the same three fields on `product.template`, so with both installed the last one loaded wins and divergent wording made the tooltip depend on the load order. They are neutral as to the kind of document ("ordered") and mention both the price list and the vendor price
