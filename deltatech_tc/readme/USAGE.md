@@ -46,6 +46,41 @@ If a station key is compromised:
 3. Download the updated `station.conf` and deploy it to the workstation.
    Terrabit Connect will fail to authenticate until it is reconfigured with the new key.
 
+## Calling a device on the local network
+
+Queue the call from a feature module:
+
+```python
+station = self.env["deltatech.tc.station"].search([("company_id", "=", self.env.company.id)], limit=1)
+self.env["deltatech.tc.job"]._tc_enqueue_http(
+    station,
+    "http://192.168.1.50/api/Lines/1/Lots",
+    headers={"X-API-KEY": self.api_key},
+    timeout=30,
+    callback=(self, "_tc_apply_lots"),
+)
+```
+
+Handle the response on the record that asked for it:
+
+```python
+def _tc_apply_lots(self, job):
+    response = job.response_dict()
+    if response.get("status") != 200:
+        raise UserError(self.env._("The device answered %(code)s.", code=response.get("status")))
+    for payload in job.response_json() or []:
+        ...
+```
+
+The callback method **must** start with `_tc_` — see DESCRIPTION. Before the first
+job can succeed, the target host has to be allow-listed on the workstation (see
+CONFIGURE).
+
+**The call is asynchronous.** It runs when the station next polls, not when the
+job is created. Interactive buttons must therefore show a pending state and let
+the result arrive later; do not queue a job and read its result in the same
+transaction.
+
 ## Adding feature modules
 
 This base module does not talk to any device by itself. Install the relevant

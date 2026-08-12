@@ -50,6 +50,21 @@ timing (Terrabit Connect reads them at startup):
 | `TERRABIT_POLL_SEC` | 30 | Seconds between `/tc/poll` calls |
 | `TERRABIT_HEARTBEAT_SEC` | 300 | Seconds between automatic heartbeats |
 
+## Hosts reachable by `http_request` (workstation side)
+
+`http_request` jobs are refused unless the target host is allow-listed **on the
+workstation**. The list is deliberately not manageable from Odoo: it is the last
+line of defence if an Odoo account is compromised.
+
+```
+TERRABIT_HTTP_ALLOW=192.168.1.50:8080,unisorter.local
+```
+
+Comma-separated `host` or `host:port` entries. An entry without a port allows any
+port on that host; with a port, the match is exact. **The default is empty — until
+a host is listed there, every `http_request` job comes back as an error.** Keep it
+as narrow as the job actually needs.
+
 The server applies a 60-second throttle on `last_seen` writes to reduce database
 load when many stations are polling frequently; online detection remains accurate
 within the throttle window.

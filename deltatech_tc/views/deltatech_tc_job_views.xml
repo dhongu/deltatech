@@ -37,6 +37,9 @@
                         <group>
                             <field name="claimed_at"/>
                             <field name="done_at"/>
+                            <field name="callback_model" invisible="not callback_model"/>
+                            <field name="callback_res_id" invisible="not callback_model"/>
+                            <field name="callback_method" invisible="not callback_model"/>
                         </group>
                     </group>
                     <notebook>
