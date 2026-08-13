@@ -16,7 +16,6 @@ class WebsiteSaleVATValidation(WebsiteSale):
         address_type,
         use_delivery_as_billing,
         required_fields,
-        is_main_address,
         **_kwargs,
     ):
         for field in ["vat", "email", "phone"]:
@@ -29,7 +28,6 @@ class WebsiteSaleVATValidation(WebsiteSale):
             address_type=address_type,
             use_delivery_as_billing=use_delivery_as_billing,
             required_fields=required_fields,
-            is_main_address=is_main_address,
             **_kwargs,
         )
         partner = partner_sudo or request.env.user.partner_id
