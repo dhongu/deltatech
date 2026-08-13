@@ -9,6 +9,30 @@ from odoo.addons.portal.controllers.portal import CustomerPortal
 
 
 class CustomerPortalCity(CustomerPortal):
+    def _get_carrier_city_domain(self, state, address_type="billing", use_delivery_as_billing=False, order_sudo=None):
+        """Restrict the offered localities to the catalog of the chosen carrier.
+
+        Only the delivery address is concerned: where the parcel is billed is
+        no business of the courier. The restriction is skipped when no carrier
+        is selected yet, when the carrier has no locality catalog of its own,
+        or when its catalog holds no locality in that state - catalog not
+        imported yet, or state not covered by the carrier - otherwise the
+        customer would be left with an empty list.
+        """
+        if not state or (address_type != "delivery" and not use_delivery_as_billing):
+            return []
+        if order_sudo is None:
+            website = getattr(request, "website", None)
+            order_sudo = website.sale_get_order() if website else None
+        carrier = order_sudo.carrier_id if order_sudo else None
+        if not carrier or not hasattr(carrier, "_get_city_domain"):
+            return []
+        domain = carrier.sudo()._get_city_domain()
+        if not domain:
+            return []
+        known_cities = request.env["res.city"].sudo().search_count([("state_id", "=", state.id)] + domain, limit=1)
+        return domain if known_cities else []
+
     def _prepare_address_form_values(self, partner_sudo, *args, **kwargs):
         rendering_values = super()._prepare_address_form_values(partner_sudo, *args, **kwargs)
 
@@ -16,10 +40,16 @@ class CustomerPortalCity(CustomerPortal):
         state = request.env["res.country.state"].browse(rendering_values.get("state_id"))
         city = partner_sudo.city_id
         ResCity = request.env["res.city"].sudo()
+        city_domain = self._get_carrier_city_domain(
+            state,
+            address_type=rendering_values.get("address_type", "billing"),
+            use_delivery_as_billing=kwargs.get("use_delivery_as_billing", False),
+            order_sudo=kwargs.get("order_sudo") or None,
+        )
         rendering_values.update(
             {
                 "state": state,
-                "state_cities": ResCity.search([("state_id", "=", state.id)]) if state else ResCity,
+                "state_cities": ResCity.search([("state_id", "=", state.id)] + city_domain) if state else ResCity,
                 "city": city,
             }
         )
@@ -34,6 +64,23 @@ class CustomerPortalCity(CustomerPortal):
                 mandatory_fields.remove("city")
         return mandatory_fields
 
+    def _validate_address_values(self, address_values, partner_sudo, address_type, *args, **kwargs):
+        invalid_fields, missing_fields, error_messages = super()._validate_address_values(
+            address_values, partner_sudo, address_type, *args, **kwargs
+        )
+        city_id = address_values.get("city_id")
+        if city_id:
+            city = request.env["res.city"].sudo().browse(int(city_id))
+            city_domain = self._get_carrier_city_domain(
+                city.state_id,
+                address_type=address_type,
+                use_delivery_as_billing=args[0] if args else kwargs.get("use_delivery_as_billing", False),
+            )
+            if city_domain and not city.filtered_domain(city_domain):
+                invalid_fields.add("city_id")
+                error_messages.append(request.env._("The selected city is not served by the chosen delivery method."))
+        return invalid_fields, missing_fields, error_messages
+
     @route(
         '/portal/state_infos/<model("res.country.state"):state>',
         type="jsonrpc",
@@ -41,7 +88,12 @@ class CustomerPortalCity(CustomerPortal):
         methods=["POST"],
         website=True,
     )
-    def state_infos(self, state, **kw):
-        cities = request.env["res.city"].sudo().search([("state_id", "=", state.id)])
+    def state_infos(self, state, address_type="billing", use_delivery_as_billing=False, **kw):
+        city_domain = self._get_carrier_city_domain(
+            state,
+            address_type=address_type,
+            use_delivery_as_billing=use_delivery_as_billing in (True, "True", "true", "1"),
+        )
+        cities = request.env["res.city"].sudo().search([("state_id", "=", state.id)] + city_domain)
         # Return similar tuple structure as website_sale: (id, display_name, zipcode or "")
         return {"cities": [(c.id, c.display_name, c.zipcode or "") for c in cities]}
