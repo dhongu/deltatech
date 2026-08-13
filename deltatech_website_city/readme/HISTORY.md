@@ -1,0 +1,3 @@
+## 19.0.1.2.0 (2026-08-13)
+
+- Imp: on the checkout delivery address, the locality list is limited to the localities known by the selected carrier, when that carrier ships with its own locality catalog (`delivery.carrier._get_city_domain()`). Both the rendering and the `/portal/state_infos` lookup apply the filter, and a locality submitted outside the catalog is rejected server side. Only the delivery address is concerned. The filter is skipped when no carrier is selected yet, when the carrier has no catalog, or when its catalog holds no locality in that state, so the customer is never left with an empty list.
