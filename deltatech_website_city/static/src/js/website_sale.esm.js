@@ -75,7 +75,12 @@ websiteSaleAddress.include({
         const stateId = this.elementState.value;
         let choices = [];
         if (stateId) {
-            const data = await rpc(`/shop/state_infos/${this.elementState.value}`, {});
+            // The address type tells the server whether the courier's locality
+            // catalog applies: it only restricts the delivery address.
+            const data = await rpc(`/shop/state_infos/${this.elementState.value}`, {
+                address_type: this.addressForm.address_type?.value || "billing",
+                use_delivery_as_billing: this.addressForm.use_delivery_as_billing?.value || false,
+            });
             choices = data.cities;
         }
         this.elementCities.options.length = 1;
