@@ -7,3 +7,5 @@
 
 # from . import test_shop_checkout_city
 # from . import test_portal_city
+
+from . import test_carrier_city_filter
