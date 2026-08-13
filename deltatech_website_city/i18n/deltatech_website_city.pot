@@ -40,3 +40,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_website_city.field_res_country_state__id
 msgid "ID"
 msgstr ""
+
+#. module: deltatech_website_city
+#. odoo-python
+#: code:addons/deltatech_website_city/controller/portal.py:0
+msgid "The selected city is not served by the chosen delivery method."
+msgstr ""
