@@ -22,8 +22,9 @@ class CustomerPortalCity(CustomerPortal):
         if not state or (address_type != "delivery" and not use_delivery_as_billing):
             return []
         if order_sudo is None:
-            website = getattr(request, "website", None)
-            order_sudo = website.sale_get_order() if website else None
+            # Set by website_sale on every website request; absent on a plain
+            # portal one, and gone as soon as the session has no cart.
+            order_sudo = getattr(request, "cart", None)
         carrier = order_sudo.carrier_id if order_sudo else None
         if not carrier or not hasattr(carrier, "_get_city_domain"):
             return []

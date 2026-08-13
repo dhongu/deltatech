@@ -4,3 +4,5 @@
 
 from . import test_portal_city
 from . import test_tour_city_zip
+
+from . import test_carrier_city_filter
