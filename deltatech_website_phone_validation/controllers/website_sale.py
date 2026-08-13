@@ -17,7 +17,6 @@ class WebsiteSalePhoneValidation(WebsiteSale):
         address_type,
         use_delivery_as_billing,
         required_fields,
-        is_main_address,
         **_kwargs,
     ):
         if address_values.get("phone"):
@@ -29,7 +28,6 @@ class WebsiteSalePhoneValidation(WebsiteSale):
             address_type=address_type,
             use_delivery_as_billing=use_delivery_as_billing,
             required_fields=required_fields,
-            is_main_address=is_main_address,
             **_kwargs,
         )
 

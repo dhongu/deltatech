@@ -29,7 +29,6 @@ class TestWebsiteSalePhoneValidation(TransactionCase):
                 address_type="billing",
                 use_delivery_as_billing=False,
                 required_fields="phone",
-                is_main_address=True,
             )
 
             # Verificăm dacă telefonul a fost curățat de spații și formatat internațional
@@ -49,7 +48,6 @@ class TestWebsiteSalePhoneValidation(TransactionCase):
                 address_type="billing",
                 use_delivery_as_billing=False,
                 required_fields="phone",
-                is_main_address=True,
             )
 
             self.assertIn("phone", invalid_fields)
