@@ -4,15 +4,17 @@
 import logging
 import time
 import xmlrpc.client
+from collections.abc import Mapping, Sequence
 
 from odoo.http import dispatch_rpc, request, route
 from odoo.modules.registry import Registry
-from odoo.tools import SQL, config
+from odoo.tools import SQL, config, frozendict
 
 # Reuse the helpers from core so this override stays a faithful copy.
 # In Odoo 19 the RPC controller moved out of ``base`` into the dedicated
 # ``rpc`` module and was split into ``XMLRPC`` and ``JSONRPC`` controllers.
 from odoo.addons.rpc.controllers import RPC_DEPRECATION_NOTICE, _check_request
+from odoo.addons.rpc.controllers.json2 import WebJson2Controller
 from odoo.addons.rpc.controllers.jsonrpc import JSONRPC
 from odoo.addons.rpc.controllers.xmlrpc import XMLRPC, dumps
 
@@ -37,6 +39,17 @@ _SETTINGS_TTL = 60  # seconds
 _settings_cache = {}  # db -> (expiry_ts, {"enabled": bool, "ignore_ips": set})
 
 _FALSY = {"0", "false", "no", "off", ""}
+
+# Calls on ``/json/2`` that are the platform talking to itself, not an integration.
+# Odoo.sh drives the scheduler through ``/json/2/ir.cron/acquire_job`` in a tight
+# loop -- several hundred calls an hour on a live database -- and logging those
+# would bury the handful of lines the audit exists for. Skipped by (model, method)
+# rather than by IP, because the address the platform calls from is not stable.
+_JSON2_SKIP = frozenset(
+    {
+        ("ir.cron", "acquire_job"),
+    }
+)
 
 
 def _as_bool(value, default):
@@ -148,6 +161,68 @@ def _log_rpc_call(service, rpc_method, params):
         _logger.info("RPC ip=%s service=%s method=%s", ip, service, rpc_method)
 
 
+def _log_json2_call(model, method, ids, kwargs):
+    """Log one ``/json/2/<model>/<method>`` call.
+
+    The modern endpoint carries the model and the method in the URL and takes the
+    record ids apart from the keyword arguments, so there is nothing to unpack the
+    way the legacy services need. The line keeps the same fields as the legacy one
+    so a single grep still finds every call, and adds ``via=json2`` to tell the two
+    endpoints apart -- which is the whole point while integrations are being moved
+    across.
+    """
+    if not _logger.isEnabledFor(logging.INFO):
+        return
+    if (model, method) in _JSON2_SKIP:
+        return
+
+    db = request.db
+    enabled, ignore_ips = _settings(db)
+    if not enabled:
+        return
+
+    ip = _client_ip()
+    if ip in ignore_ips:
+        return
+
+    args = dict(kwargs)
+    if ids:
+        args = {"ids": list(ids), **args}
+    _logger.info(
+        "RPC ip=%s db=%s uid=%s model=%s method=%s args=%s via=json2",
+        ip,
+        db,
+        request.env.uid,
+        model,
+        method,
+        _trim(args),
+    )
+
+
+class AuditJson2(WebJson2Controller):
+    """Audit layer over the modern ``/json/2`` endpoint.
+
+    The legacy endpoints are deprecated in Odoo 19, so integrations will move here.
+    Without this the audit trail would go quiet exactly as that happens -- the
+    calls would still be served, just no longer visible.
+
+    The route is inherited rather than re-declared: an empty ``@route()`` keeps
+    core's own path, auth and readonly resolution, so only the logging is added.
+    """
+
+    @route()
+    def web_json_2_rpc(
+        self,
+        __model__: str,
+        __method__: str,
+        ids: Sequence[int] = (),
+        context: Mapping = frozendict(),
+        **kwargs,
+    ):
+        _log_json2_call(__model__, __method__, ids, kwargs)
+        return super().web_json_2_rpc(__model__, __method__, ids=ids, context=context, **kwargs)
+
+
 class AuditXMLRPC(XMLRPC):
     """Audit layer over the core XML-RPC controller.
 
@@ -177,4 +252,9 @@ class AuditJSONRPC(JSONRPC):
 
 
 class RPC(AuditXMLRPC, AuditJSONRPC):
-    """Composite controller mirroring the core ``rpc.RPC`` class."""
+    """Composite controller mirroring the core ``rpc.RPC`` class.
+
+    ``AuditJson2`` stays out of it on purpose: core keeps ``/json/2`` in a
+    controller of its own, and mirroring that keeps the override next to what it
+    overrides.
+    """
