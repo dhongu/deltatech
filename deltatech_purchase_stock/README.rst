@@ -13,14 +13,11 @@ Purchase Stock
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/licence-OPL--1-red.png
-    :target: https://www.odoo.com/documentation/17.0/legal/licenses.html#odoo-apps
-    :alt: License: OPL-1
-.. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_stock
     :alt: dhongu/deltatech
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2|
 
 Features:
 
