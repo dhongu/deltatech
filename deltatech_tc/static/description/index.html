@@ -1,0 +1,694 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
+<title>Terrabit Connect - Base</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 8954 2022-01-20 10:10:25Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="terrabit-connect-base"><div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;"><!-- tb-skin v5 -->
+<div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
+  <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
+    style="background-color:#00432a;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
+  <h1 class="text-white fw-bold mb-3" style="font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Terrabit Connect - Base</h1>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Base for Terrabit Connect: station registry, outbound job queue, REST endpoints (X-Station-Key) and HTTP calls into the customer's local network.</p>
+  <div>
+    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
+    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Online &bull; Odoo.sh &bull; On-premise</span>
+    <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Optional support</span>
+  </div>
+</div>
+
+<div class="py-2 text-body" style="font-size:16px;line-height:1.65;">
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! This file is generated by oca-gen-addon-readme !!
+!! changes will be overwritten.                   !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! source digest: sha256:951c29a0e8387da1c074aed9ba072557ed3c55b5711bb7d37ed6b634f792e14d
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;opacity:0.92;">Base module for <strong>Terrabit Connect</strong> — the lightweight native agent that
+runs on a workstation and bridges Odoo with local hardware and services
+it cannot reach directly from the cloud: the ANAF token (PKCS#11 / mTLS
+to SPV), fiscal printers (Datecs), label printers (Zebra ZPL) and
+declaration validation (DUKIntegrator).</p>
+<p>This module is the <strong>generic foundation</strong> every Terrabit Connect feature
+builds on: the connection layer, the job protocol, and the one job type
+that is pure transport rather than a specific device — an HTTP call
+inside the customer’s network.</p>
+<p><strong>What it gives you</strong></p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Station registry</span><div class="mt-1">(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech.tc.station</code>) — one record per
+workstation running Terrabit Connect, each with a unique API key, a
+last-seen timestamp and reported metadata (TC version, operating
+system, enabled features).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Outbound job queue</span><div class="mt-1">(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech.tc.job</code>) — Odoo enqueues
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pending</code> jobs; the station claims them, executes them locally, and
+reports back the result (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">error</code>).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">REST endpoints</span><div class="mt-1">authenticated with the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;"><span class="pre">X-Station-Key</span></code> header:
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/heartbeat</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/poll</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/result</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;"><span class="pre">/tc/config/&lt;id&gt;</span></code>.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">``http_request`` job type</span><div class="mt-1">— Odoo asks the station to call a device
+that answers only inside the local network (a sorting line, a scale, a
+PLC, a label server) and reports the response back. Queue it with
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_enqueue_http()</code> and read the answer with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">response_dict()</code> /
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">response_json()</code>.</div></div></li></ul>
+<p><strong>Cloud model — no inbound ports.</strong> The station always initiates the
+connection to Odoo; Odoo never connects back to the workstation. The
+same agent works with on-premise and cloud deployments without opening
+any port on the client side.</p>
+<p><strong>Extensible.</strong> Feature modules add device-specific job types
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">selection_add</code> on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">job_type</code>) and turn the station’s result into
+business records by extending the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_result</code> hook — keeping the
+registry, queue and transport in one place.</p>
+<p><strong>Security of ``http_request`` — read this before using it.</strong> The
+allow-list of reachable hosts is configured <strong>in the agent, on the
+workstation</strong>, never from Odoo. Without that rule, a job saying “call
+this URL” would let anyone able to create a job in Odoo reach any
+address inside the customer’s network. Odoo only validates the shape of
+the request (scheme, host present, known method); the decision to
+actually place the call belongs to the machine sitting in that network.</p>
+<p>Callbacks are restricted to methods whose name starts with <strong>``_tc_``</strong>.
+The method name is stored in the database, so without that rule a
+modified record could call any ORM method. The prefix also makes
+“reachable from a job” a property you can grep for.</p>
+<div class="section" id="configuration">
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h1>
+<div class="section" id="security-groups">
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Security groups</h2>
+<p>Assign users to the appropriate group under <strong>Settings → Users &amp;
+Companies → Users</strong> (field <em>Terrabit Connect</em>):</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Group</th>
+<th class="head">Access</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><strong>User</strong></td>
+<td>Can view stations and jobs (read-only)</td>
+</tr>
+<tr><td><strong>Manager</strong></td>
+<td>Full access: create/edit stations, download config,
+regenerate keys, view job details</td>
+</tr>
+</tbody>
+</table>
+<p>The administrator (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base.user_admin</code>) is a Manager by default.</p>
+<p>Only Managers can access the <strong>Settings → Terrabit Connect</strong> menus and
+download <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code> files (the endpoint <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;"><span class="pre">/tc/config/&lt;id&gt;</span></code> checks
+the Manager group).</p>
+</div>
+<div class="section" id="station-registration">
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Station registration</h2>
+<p>Each physical workstation that runs Terrabit Connect needs <strong>one station
+record</strong> in Odoo:</p>
+<ol class="arabic simple">
+<li>Go to <strong>Settings → Terrabit Connect → Stations → New</strong>.</li>
+<li>Set <strong>Name</strong> (identifies the workstation in job logs and
+notifications).</li>
+<li>Set <strong>Company</strong> (defaults to the user’s company; used for
+multi-company job routing).</li>
+<li>Save to generate the <strong>API Key</strong> automatically.</li>
+</ol>
+<p>The API key is the credential the agent uses in the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;"><span class="pre">X-Station-Key</span></code>
+HTTP header. It is displayed masked in the form and visible only to
+system administrators.</p>
+</div>
+<div class="section" id="station-configuration-file-station-conf">
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Station configuration file (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code>)</h2>
+<p>After registering a station, click <strong>Download config</strong> on the station
+form. The downloaded file contains two environment variables consumed by
+Terrabit Connect:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="62%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Variable</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_ODOO_BASE</code></td>
+<td>Base URL of the Odoo instance (e.g.
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;"><span class="pre">https://yourcompany.odoo.com</span></code>)</td>
+</tr>
+<tr><td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_STATION_KEY</code></td>
+<td>The station’s API key — treat it as a
+secret</td>
+</tr>
+</tbody>
+</table>
+<p>Place <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code> on the workstation and restart Terrabit Connect.
+No other network configuration is required: the agent initiates all
+connections outbound to Odoo (no inbound port needs to be opened on the
+client side).</p>
+</div>
+<div class="section" id="tuning-poll-and-heartbeat-cadence">
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Tuning poll and heartbeat cadence</h2>
+<p>The following environment variables can be set on the workstation side
+to tune timing (Terrabit Connect reads them at startup):</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="10%" />
+<col width="52%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Variable</th>
+<th class="head">Default</th>
+<th class="head">Effect</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_POLL_SEC</code></td>
+<td>30</td>
+<td>Seconds between <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/poll</code> calls</td>
+</tr>
+<tr><td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_HEARTBEAT_SEC</code></td>
+<td>300</td>
+<td>Seconds between automatic heartbeats</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="hosts-reachable-by-http-request-workstation-side">
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Hosts reachable by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code> (workstation side)</h2>
+<p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code> jobs are refused unless the target host is allow-listed
+<strong>on the workstation</strong>. The list is deliberately not manageable from
+Odoo: it is the last line of defence if an Odoo account is compromised.</p>
+<pre class="literal-block">
+TERRABIT_HTTP_ALLOW=192.168.1.50:8080,unisorter.local
+</pre>
+<p>Comma-separated <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">host</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">host:port</code> entries. An entry without a
+port allows any port on that host; with a port, the match is exact.
+<strong>The default is empty — until a host is listed there, every
+``http_request`` job comes back as an error.</strong> Keep it as narrow as the
+job actually needs.</p>
+<p>The server applies a 60-second throttle on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">last_seen</code> writes to
+reduce database load when many stations are polling frequently; online
+detection remains accurate within the throttle window.</p>
+</div>
+</div>
+<div class="section" id="usage">
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Usage</h1>
+<div class="section" id="registering-a-station">
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Registering a station</h2>
+<ol class="arabic">
+<li><p class="first">Go to <strong>Settings → Terrabit Connect → Stations</strong>.</p>
+</li>
+<li><p class="first">Click <strong>New</strong> and give the station a descriptive name (e.g.
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Accounting PC</code>).</p>
+</li>
+<li><p class="first">Select the company the station belongs to (multi-company
+installations).</p>
+</li>
+<li><p class="first">Save. An <strong>API Key</strong> is generated automatically and is visible to
+administrators only (shown masked in the form).</p>
+</li>
+<li><p class="first">Click <strong>Download config</strong> (download icon in the header) — Odoo serves
+a pre-filled <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code> file containing:</p>
+<pre class="literal-block">
+TERRABIT_ODOO_BASE=&lt;your Odoo URL&gt;
+TERRABIT_STATION_KEY=&lt;the generated key&gt;
+</pre>
+</li>
+<li><p class="first">Copy <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code> to the workstation running Terrabit Connect and
+(re)start the agent. It will authenticate with the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;"><span class="pre">X-Station-Key</span></code>
+header on every call.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="verifying-connectivity">
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Verifying connectivity</h2>
+<p>Once Terrabit Connect is running with the downloaded config:</p>
+<ol class="arabic simple">
+<li>Open the station form (<strong>Settings → Terrabit Connect → Stations</strong>,
+click the station).</li>
+<li>The <strong>Last seen</strong> field updates within the next poll cycle (≤ 30 s by
+default).</li>
+<li>Click <strong>Ping</strong> in the header to enqueue a round-trip test job. The
+job appears in the <strong>Jobs</strong> smart button and should reach state
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Done</code> within seconds.</li>
+<li>Terrabit Connect managers also receive a browser notification when
+the agent sends a manual heartbeat.</li>
+</ol>
+</div>
+<div class="section" id="monitoring-jobs">
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Monitoring jobs</h2>
+<p>Navigate to <strong>Settings → Terrabit Connect → Jobs</strong> to see all jobs
+across all stations. You can filter by state (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Pending</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Done</code>,
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Error</code>) or group by station or job type.</p>
+<p>The job list uses colour coding:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Green row — <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Done</code></div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Red row — <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Error</code> (open the form to read the error detail)</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Muted row — <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Claimed</code> (the station picked it up; result not yet
+reported)</div></div></li></ul>
+</div>
+<div class="section" id="rotating-the-api-key">
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Rotating the API key</h2>
+<p>If a station key is compromised:</p>
+<ol class="arabic simple">
+<li>Open the station form.</li>
+<li>Click <strong>Regenerate key</strong> and confirm the prompt.</li>
+<li>Download the updated <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code> and deploy it to the
+workstation. Terrabit Connect will fail to authenticate until it is
+reconfigured with the new key.</li>
+</ol>
+</div>
+<div class="section" id="calling-a-device-on-the-local-network">
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Calling a device on the local network</h2>
+<p>Queue the call from a feature module:</p>
+<pre class="code python literal-block">
+<span class="n">station</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s2">&quot;deltatech.tc.station&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">search</span><span class="p">([(</span><span class="s2">&quot;company_id&quot;</span><span class="p">,</span> <span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">company</span><span class="o">.</span><span class="n">id</span><span class="p">)],</span> <span class="n">limit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w">
+</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s2">&quot;deltatech.tc.job&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">_tc_enqueue_http</span><span class="p">(</span><span class="w">
+</span>    <span class="n">station</span><span class="p">,</span><span class="w">
+</span>    <span class="s2">&quot;http://192.168.1.50/api/Lines/1/Lots&quot;</span><span class="p">,</span><span class="w">
+</span>    <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;X-API-KEY&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">},</span><span class="w">
+</span>    <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span><span class="w">
+</span>    <span class="n">callback</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_tc_apply_lots&quot;</span><span class="p">),</span><span class="w">
+</span><span class="p">)</span>
+</pre>
+<p>Handle the response on the record that asked for it:</p>
+<pre class="code python literal-block">
+<span class="k">def</span><span class="w"> </span><span class="nf">_tc_apply_lots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job</span><span class="p">):</span><span class="w">
+</span>    <span class="n">response</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">response_dict</span><span class="p">()</span><span class="w">
+</span>    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span><span class="w">
+</span>        <span class="k">raise</span> <span class="n">UserError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;The device answered </span><span class="si">%(code)s</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">)))</span><span class="w">
+</span>    <span class="k">for</span> <span class="n">payload</span> <span class="ow">in</span> <span class="n">job</span><span class="o">.</span><span class="n">response_json</span><span class="p">()</span> <span class="ow">or</span> <span class="p">[]:</span><span class="w">
+</span>        <span class="o">...</span>
+</pre>
+<p>The callback method <strong>must</strong> start with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_</code> — see DESCRIPTION.
+Before the first job can succeed, the target host has to be allow-listed
+on the workstation (see CONFIGURE).</p>
+<p><strong>The call is asynchronous.</strong> It runs when the station next polls, not
+when the job is created. Interactive buttons must therefore show a
+pending state and let the result arrive later; do not queue a job and
+read its result in the same transaction.</p>
+</div>
+<div class="section" id="adding-feature-modules">
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Adding feature modules</h2>
+<p>This base module does not talk to any device by itself. Install the
+relevant Terrabit Connect feature module (e.g. ANAF messages, fiscal
+printer, Zebra labels, DUKIntegrator) to activate additional job types.
+They appear automatically in the <strong>Type</strong> column of the job list once
+the feature module is installed.</p>
+</div>
+</div>
+<div class="section" id="bug-tracker">
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Bug Tracker</h1>
+<p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
+In case of trouble, please check there if your issue has already been reported.</p>
+<p>Do not contact contributors directly about support or help with technical issues.</p>
+</div>
+<div class="section" id="credits">
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Credits</h1>
+<div class="section" id="authors">
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Authors</h2>
+<ul class="simple">
+<li>Terrabit</li>
+<li>Dorin Hongu</li>
+</ul>
+</div>
+<div class="section" id="maintainers">
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Maintainers</h2>
+<p>Current maintainer:</p>
+<p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
+<p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_tc">dhongu/deltatech</a> project on GitHub.</p>
+<p>You are welcome to contribute.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="text-white text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:#00432a;">
+  <h2 class="text-white fw-bold mb-2" style="font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
+  <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:600px;line-height:1.6;font-size:16px;">
+     We are an Odoo partner building apps for the Romanian market (SAGA &amp; WinMentor
+     export; Romanian accounting localization in progress). Direct support from the team
+     that built the module.</p>
+  <a href="https://www.terrabit.ro" class="d-inline-block fw-bold text-decoration-none rounded-3"
+     style="background-color:#57B952;color:#04331f;padding:14px 32px;font-size:15px;">Contact Terrabit &rarr;</a>
+  <div class="mx-auto mt-4 pt-3" style="border-top:1px solid rgba(255,255,255,0.18);max-width:760px;">
+    <div class="text-white fw-bold" style="font-size:19px;letter-spacing:2px;">TERRABIT</div>
+    <div class="mt-1" style="color:#bfe3cc;font-size:13px;">
+      &copy; Terrabit Solutions SRL &nbsp;&bull;&nbsp;
+      <a href="https://www.terrabit.ro" class="text-white text-decoration-none fw-semibold">terrabit.ro</a>
+      &nbsp;&bull;&nbsp; Odoo apps for Romania, Ireland &amp; Moldova
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
