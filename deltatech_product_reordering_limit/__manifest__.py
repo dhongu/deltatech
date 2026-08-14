@@ -1,11 +1,13 @@
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "Product Reordering Limit",
     "summary": "Custom reordering limits for products",
-    "version": "18.0.1.0.1",
+    "version": "19.0.1.0.2",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Inventory",
     "depends": ["product", "stock"],
+    "external_dependencies": {"python": ["xlsxwriter"]},
     "license": "OPL-1",
     "data": [
         "security/ir.model.access.csv",
