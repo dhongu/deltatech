@@ -45,7 +45,7 @@ In case of trouble, please check there if your issue has already been reported.
 Do not contact contributors directly about support or help with technical issues.
 
 Credits
-========
+=======
 
 Authors
 -------
@@ -62,7 +62,7 @@ Maintainers
 
 Current maintainer:
 
-|maintainer-dhongu|
+|maintainer-dhongu| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_multiple_website>`_ project on GitHub.
 
