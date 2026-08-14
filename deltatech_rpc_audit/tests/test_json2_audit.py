@@ -9,9 +9,12 @@ served, they just stop being visible, and nothing fails to say so.
 """
 
 import json
+from unittest.mock import patch
 
 from odoo.tests import tagged
 from odoo.tests.common import HttpCase
+
+from odoo.addons.deltatech_rpc_audit.controllers import rpc
 
 AUDIT_LOGGER = "odoo.rpc.audit"
 
@@ -73,11 +76,43 @@ class TestJson2Audit(HttpCase):
 
         Logging it would bury the handful of integration calls the audit exists for,
         so it is skipped by (model, method) -- the address it comes from is not stable
-        enough to skip by IP.
+        enough to skip by IP. The skip is decided before the call is dispatched, so it
+        holds whatever core then answers.
         """
-        from odoo.addons.deltatech_rpc_audit.controllers.rpc import _JSON2_SKIP
+        with self.assertNoLogs(AUDIT_LOGGER, level="INFO"):
+            self._call("ir.cron", "acquire_job")
 
-        self.assertIn(("ir.cron", "acquire_job"), _JSON2_SKIP)
+    # The settings are patched rather than written as System Parameters: HttpCase
+    # serves the request in its own transaction, so a parameter set in the test's
+    # transaction and never committed is invisible to the code under test.
+
+    def test_the_off_switch_also_covers_json2(self):
+        """The module can stay installed but idle; that has to mean every endpoint."""
+        with patch.object(rpc, "_settings", return_value=(False, set())):
+            with self.assertNoLogs(AUDIT_LOGGER, level="INFO"):
+                response = self._call("res.partner", "search_count", {"domain": []})
+
+        self.assertEqual(response.status_code, 200, response.text)
+
+    def test_an_ignored_ip_is_skipped_on_json2(self):
+        """Health checks and monitoring are silenced the same way on both endpoints."""
+        with patch.object(rpc, "_client_ip", return_value="10.9.9.9"):
+            with patch.object(rpc, "_settings", return_value=(True, {"10.9.9.9"})):
+                with self.assertNoLogs(AUDIT_LOGGER, level="INFO"):
+                    response = self._call("res.partner", "search_count", {"domain": []})
+
+        self.assertEqual(response.status_code, 200, response.text)
+
+    def test_a_muted_logger_costs_nothing(self):
+        """The cheapest guard comes first: a muted audit must not even read settings.
+
+        Reading them opens a cursor, and this runs on every single call.
+        """
+        with patch.object(rpc, "_settings") as settings:
+            with patch.object(rpc._logger, "isEnabledFor", return_value=False):
+                self._call("res.partner", "search_count", {"domain": []})
+
+        settings.assert_not_called()
 
     def test_the_legacy_line_format_is_unchanged(self):
         """Existing greps and log parsers key on these fields; only `via` is new."""
