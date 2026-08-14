@@ -1,5 +1,21 @@
 # History
 
+## 19.0.1.2.0 (2026-08-14)
+
+- Add: the modern `/json/2/<model>/<method>` endpoint is audited too. The legacy
+  endpoints are deprecated in Odoo 19, so integrations will move across -- and until
+  now the audit trail would have gone quiet exactly as that happened: the calls still
+  served, just no longer visible, with nothing failing to say so.
+- The line keeps the same fields as the legacy one, so a single grep still finds every
+  call, and adds `via=json2` to tell the two endpoints apart while integrations are
+  being moved.
+- `/json/2/ir.cron/acquire_job` is skipped: Odoo.sh drives the scheduler through it in
+  a tight loop, and logging that would bury the handful of lines the audit exists for.
+  Skipped by (model, method), because the address the platform calls from is not stable
+  enough to skip by IP.
+- The route is inherited rather than re-declared, so core keeps deciding the path, the
+  authentication and whether the call is readonly; only the logging is added.
+
 ## 19.0.1.1.0 (2026-06-30)
 
 - Port to Odoo 19. The core RPC controller moved out of ``base`` into the
