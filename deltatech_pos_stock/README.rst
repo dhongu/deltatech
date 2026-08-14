@@ -32,7 +32,7 @@ Key features:
 - Stock and price information is displayed as a badge on the product
   image.
 - Toggle stock and price visibility through POS settings.
-- Compatible with Odoo 18 OWL architecture.
+- Compatible with the Odoo 19 OWL architecture.
 - Only displays stock for storable products.
 
 **Table of contents**
