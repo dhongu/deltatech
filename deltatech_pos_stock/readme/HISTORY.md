@@ -10,3 +10,4 @@
   honouring the `iface_tax_included` setting.
 - Card template anchored on `div.product-content`; the `div.product-information-tag` element it used
   to extend no longer exists in 19.0.
+- Added a POS frontend test asserting that the badge renders both the price and the on-hand quantity.
