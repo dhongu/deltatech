@@ -1,0 +1,10 @@
+{
+  "title": "eCommerce Category",
+  "summary": "Archive public product categories",
+  "icon": "grid",
+  "features": [
+    "Archive instead of deleting a category",
+    "Archived ones leave menu and filters",
+    "Restore a category at any time"
+  ]
+}

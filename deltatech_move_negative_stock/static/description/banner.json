@@ -1,0 +1,10 @@
+{
+  "title": "Negative Stock",
+  "summary": "Replenish negative stock from another location",
+  "icon": "box",
+  "features": [
+    "\"Get negative products\" on transfers",
+    "Lines filled with the missing quantity",
+    "Daily email to the location manager"
+  ]
+}
