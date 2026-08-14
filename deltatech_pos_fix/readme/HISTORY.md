@@ -6,3 +6,5 @@
   `fiscal_position_id.getTaxesAfterFiscalPosition()` (the free `tax_utils` helper no longer exists).
 - Tests adapted to the 19.0 API: `_prepare_invoice_lines()` now requires the `move_type` argument,
   the tax uses `price_include_override`, and the test partner is created locally instead of relying on demo data.
+- Fiscal position mapping in the test now uses `original_tax_ids` on the destination tax;
+  the `account.fiscal.position.tax` model (`tax_src_id` / `tax_dest_id`) no longer exists in 19.0.

@@ -23,14 +23,15 @@ class TestPosInvoice(TransactionCase):
                 "amount_type": "percent",
                 "price_include_override": "tax_excluded",
                 "type_tax_use": "sale",
+                # În 19.0 maparea prin poziția fiscală se declară pe taxa destinație,
+                # modelul `account.fiscal.position.tax` (tax_src_id/tax_dest_id) nu mai există.
+                "original_tax_ids": [(6, 0, [self.tax_19.id])],
             }
         )
         self.fiscal_position = self.env["account.fiscal.position"].create(
             {
                 "name": "B2B Reverse Charge",
-                "tax_ids": [
-                    (0, 0, {"tax_src_id": self.tax_19.id, "tax_dest_id": self.tax_0.id}),
-                ],
+                "tax_ids": [(6, 0, [self.tax_0.id])],
             }
         )
         self.product = self.env["product.product"].create(
