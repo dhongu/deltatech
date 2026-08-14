@@ -1,6 +1,6 @@
 {
     "name": "Deltatech POS Fix",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "category": "Point of Sale",
     "summary": "Fix POS total calculation when using tax-included fiscal position mapping",
     "license": "LGPL-3",

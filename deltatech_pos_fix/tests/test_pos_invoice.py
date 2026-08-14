@@ -21,7 +21,8 @@ class TestPosInvoice(TransactionCase):
                 "name": "Tax 0%",
                 "amount": 0,
                 "amount_type": "percent",
-                "price_include": False,
+                "price_include_override": "tax_excluded",
+                "type_tax_use": "sale",
             }
         )
         self.fiscal_position = self.env["account.fiscal.position"].create(
@@ -40,6 +41,7 @@ class TestPosInvoice(TransactionCase):
                 "taxes_id": [(6, 0, [self.tax_19.id])],
             }
         )
+        self.partner = self.env["res.partner"].create({"name": "Test POS Partner"})
         self.pos_config = self.env["pos.config"].create({"name": "Test POS"})
         self.pos_session = self.env["pos.session"].create({"config_id": self.pos_config.id})
 
@@ -48,7 +50,7 @@ class TestPosInvoice(TransactionCase):
         pos_order = self.PosOrder.create(
             {
                 "session_id": self.pos_session.id,
-                "partner_id": self.env.ref("base.res_partner_1").id,
+                "partner_id": self.partner.id,
                 "fiscal_position_id": self.fiscal_position.id,
                 "lines": [
                     (
@@ -73,7 +75,7 @@ class TestPosInvoice(TransactionCase):
         )
 
         # Pregătim liniile de factură
-        invoice_lines_vals = pos_order._prepare_invoice_lines()
+        invoice_lines_vals = pos_order._prepare_invoice_lines("out_invoice")
 
         # Căutăm linia de produs în values (ignorăm eventualele note)
         product_line = next(
