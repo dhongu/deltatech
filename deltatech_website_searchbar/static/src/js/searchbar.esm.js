@@ -1,35 +1,34 @@
-/** @odoo-module **/
-
-import {debounce} from "@web/core/utils/timing";
-import searchBar from "@website/snippets/s_searchbar/000";
+import {patch} from "@web/core/utils/patch";
+import {SearchBar} from "@website/snippets/s_searchbar/search_bar";
 
 const MIN_SEARCH_TERM_LENGTH = 4;
 const DEBOUNCE_DELAY = 800;
 
-searchBar.searchBar.include({
+patch(SearchBar.prototype, {
     /**
      * @override
-     * Increase debounce delay and add minimum term length check
-     * to reduce the number of requests to /website/snippet/autocomplete
+     * Mărește întârzierea de debounce față de cea implicită (400 ms), ca să
+     * reducă numărul de apeluri către /website/snippet/autocomplete.
      */
-    start() {
-        this._onInput = debounce(this._onInput.bind(this), DEBOUNCE_DELAY);
-        return this._super(...arguments);
+    setup() {
+        super.setup();
+        this.dynamicContent[".search-query"]["t-on-input"] = this.debounced(this.onInput, DEBOUNCE_DELAY);
     },
 
     /**
      * @override
-     * Only fetch autocomplete results if term has at least MIN_SEARCH_TERM_LENGTH characters
+     * Interoghează autocomplete-ul doar dacă termenul are cel puțin
+     * MIN_SEARCH_TERM_LENGTH caractere.
      */
-    _onInput() {
+    async onInput() {
         if (!this.limit) {
             return;
         }
-        const term = this.$input.val().trim();
-        if (!term.length || term.length < MIN_SEARCH_TERM_LENGTH) {
-            this._render();
+        if (this.inputEl.value.trim().length < MIN_SEARCH_TERM_LENGTH) {
+            this.render();
         } else {
-            this.keepLast.add(this._fetch()).then(this._render.bind(this));
+            const res = await this.keepLast.add(this.waitFor(this.fetch()));
+            this.render(res);
         }
     },
 });

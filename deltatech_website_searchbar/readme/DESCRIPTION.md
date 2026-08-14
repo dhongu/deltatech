@@ -19,14 +19,14 @@ Key Features
 How It Works
 ============
 
-The module patches the standard `searchBar` widget from `website` using Odoo's `.include()` mechanism:
+The module patches the standard `SearchBar` public interaction from `website` using Odoo's `patch()` mechanism:
 
-*   In `start()`, the `_onInput` handler is replaced with a debounced version using the new 800ms delay.
-*   In `_onInput()`, a length check is performed before calling `_fetch()`. Terms shorter than 4 characters trigger only a local `_render()` call to clear the dropdown.
+*   In `setup()`, the `t-on-input` entry of `dynamicContent` is replaced with a debounced handler using the new 800ms delay.
+*   In `onInput()`, a length check is performed before calling `fetch()`. Terms shorter than 4 characters trigger only a local `render()` call to clear the dropdown.
 
 Usage
 =====
 
 Install the module and the optimizations are applied automatically to all website search bars.
 No configuration is required. The constants `MIN_SEARCH_TERM_LENGTH` (4) and `DEBOUNCE_DELAY` (800ms)
-can be adjusted directly in `static/src/js/searchbar.js` if different values are needed.
+can be adjusted directly in `static/src/js/searchbar.esm.js` if different values are needed.
