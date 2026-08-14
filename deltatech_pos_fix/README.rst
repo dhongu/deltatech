@@ -17,7 +17,7 @@ Deltatech POS Fix
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_pos_fix
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_fix
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -60,6 +60,26 @@ Installation
 .. contents::
    :local:
 
+Changelog
+=========
+
+19.0.1.0.0 (2026-08-14)
+-----------------------
+
+- Migrated to Odoo 19.0.
+- POS JS patch adapted to the 19.0 API: ``getProduct()`` / ``getUnit()``
+  instead of ``get_product()`` / ``get_unit()``, ``price_unit`` instead
+  of the removed ``get_unit_price()``, and tax mapping through
+  ``fiscal_position_id.getTaxesAfterFiscalPosition()`` (the free
+  ``tax_utils`` helper no longer exists).
+- Tests adapted to the 19.0 API: ``_prepare_invoice_lines()`` now
+  requires the ``move_type`` argument, the tax uses
+  ``price_include_override``, and the test partner is created locally
+  instead of relying on demo data.
+- Fiscal position mapping in the test now uses ``original_tax_ids`` on
+  the destination tax; the ``account.fiscal.position.tax`` model
+  (``tax_src_id`` / ``tax_dest_id``) no longer exists in 19.0.
+
 Bug Tracker
 ===========
 
@@ -88,6 +108,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_pos_fix>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_fix>`_ project on GitHub.
 
 You are welcome to contribute.
