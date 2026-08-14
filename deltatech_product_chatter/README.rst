@@ -14,7 +14,7 @@ Deltatech Product Chatter
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_product_chatter
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_chatter
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -67,7 +67,7 @@ Usage
 Compatibility
 -------------
 
-- Odoo 17.0
+- Odoo 19.0
 - Depends on ``product`` and ``mail``.
 
 Notes
@@ -82,6 +82,19 @@ Notes
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.0
+----------
+
+- Migration to Odoo 19.0.
+- Security group moved from ``category_id`` to ``privilege_id``
+  (``product.res_groups_privilege_product``) and from ``users`` to
+  ``user_ids``, following the Odoo 19 ``res.groups`` refactoring.
+- ``_check_can_update_message_content`` now handles the message
+  recordset instead of a single record.
 
 Bug Tracker
 ===========
@@ -111,6 +124,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_product_chatter>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_chatter>`_ project on GitHub.
 
 You are welcome to contribute.
