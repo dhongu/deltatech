@@ -161,6 +161,10 @@ class TestBomFormula(TransactionCase):
 
     def test_nested_bom_uses_the_root_configuration(self):
         semi_finished = self.env["product.product"].create({"name": "Frame", "is_storable": True})
+        # A kit bill of material is refused on a product that has a reordering rule, and other
+        # modules of the suite create one automatically for every new product. The rule is
+        # irrelevant here, so it is dropped rather than worked around.
+        self.env["stock.warehouse.orderpoint"].search([("product_id", "=", semi_finished.id)]).unlink()
         self.env["mrp.bom"].create(
             {
                 "product_tmpl_id": semi_finished.product_tmpl_id.id,
