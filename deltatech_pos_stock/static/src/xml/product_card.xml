@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates id="template" xml:space="preserve">
     <t t-name="deltatech_pos_stock.ProductCard" t-inherit="point_of_sale.ProductCard" t-inherit-mode="extension">
-        <xpath expr="//div[hasclass('product-information-tag')]" position="before">
+        <!-- În 19.0 cardul nu mai are `div.product-information-tag`; badge-ul e poziționat absolut în `article`. -->
+        <xpath expr="//div[hasclass('product-content')]" position="before">
             <div
                 t-if="pos and pos.config and (pos.config.display_stock or pos.config.display_price) and props.product"
                 class="product-stock-tag"
