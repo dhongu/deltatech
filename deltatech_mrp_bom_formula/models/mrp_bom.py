@@ -140,15 +140,19 @@ class MrpBomLine(models.Model):
             return self.product_qty
         try:
             result = safe_eval(self.qty_formula, self._get_formula_eval_context(attr, num))
-        except KeyError as err:
-            raise ValidationError(
-                self.env._(
-                    "The quantity formula of the component %(product)s refers to the unknown attribute code %(code)s.",
-                    product=self.product_id.display_name,
-                    code=err.args[0] if err.args else "",
-                )
-            ) from err
         except Exception as err:
+            # safe_eval swallows the original exception and re-raises a ValueError, so the
+            # missing key has to be recovered from the context to report it plainly.
+            original = err.__context__
+            if isinstance(original, KeyError):
+                raise ValidationError(
+                    self.env._(
+                        "The quantity formula of the component %(product)s refers to %(code)s, "
+                        "which is not the formula code of any attribute.",
+                        product=self.product_id.display_name,
+                        code=original.args[0] if original.args else "",
+                    )
+                ) from err
             raise ValidationError(
                 self.env._(
                     "The quantity formula of the component %(product)s could not be evaluated: %(error)s",

@@ -160,7 +160,40 @@ unitatea de măsură se face în sus, ca în standard.
 - Formula este o expresie, nu un program: nu poate conține instrucțiuni pe mai
   multe rânduri sau atribuiri.
 
-## 8. Întrebări de pus clientului înainte de configurare
+## 8. Capturi
+
+### Atributul cu cod de formulă și valori numerice
+
+`Inventar → Configurare → Atribute` — atributul „Latime" are **Formula Code**
+`latime`, iar fiecare valoare are propriul cod și **Numeric Value** completat.
+Coloana `Numeric Value` este opțională; se afișează din butonul de coloane.
+
+![Atribut cu Formula Code](screenshots/01_atribut_formula_code.png)
+
+### Lista de materiale cu formule de cantitate
+
+`Producție → Produse → Liste de materiale` — o singură linie pentru tablă și una
+pentru zinc, ambele cu formulă. Fără modul, aceleași reguli ar fi cerut câte o
+linie pentru fiecare din cele patru combinații de finisaj și lățime.
+
+![LDM cu Quantity Formula](screenshots/02_ldm_quantity_formula.png)
+
+### Ordinul de fabricație cu cantitățile calculate
+
+Ordin pentru 3 bucăți din varianta *Galvanizat, 1250 mm*. Tabla rezultă din
+`num["latime"] / 1000` → 1,25 kg/buc → **3,75 kg**; zincul din formula pe finisaj
+→ 0,8 kg/buc → **2,40 kg**.
+
+![OF cu cantități calculate](screenshots/03_of_cantitati_calculate.png)
+
+### Formulă respinsă la salvare
+
+O formulă care se referă la un cod inexistent este oprită în editorul de LDM, cu
+numele codului în mesaj — nu la lansarea producției.
+
+![Eroare de validare](screenshots/04_eroare_formula_invalida.png)
+
+## 9. Întrebări de pus clientului înainte de configurare
 
 1. Ce atribut determină consumul — unul cu valori dintr-o listă fixă, sau o
    dimensiune introdusă la fiecare comandă? (a doua variantă nu este acoperită)

@@ -134,7 +134,9 @@ class TestBomFormula(TransactionCase):
 
     def test_unknown_attribute_code_is_rejected_on_save(self):
         line = self.bom.bom_line_ids.filtered(lambda line: line.product_id == self.zinc)
-        with self.assertRaises(ValidationError):
+        # The message must name the missing code: safe_eval hides the original KeyError behind
+        # a ValueError, so the dedicated branch is easy to break without noticing.
+        with self.assertRaisesRegex(ValidationError, "thickness"):
             line.qty_formula = "num['thickness'] * 2"
 
     def test_syntax_error_is_rejected_on_save(self):
