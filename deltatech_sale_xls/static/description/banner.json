@@ -1,0 +1,10 @@
+{
+  "title": "Sale XLS",
+  "summary": "Import and export sale order lines in Excel",
+  "icon": "file",
+  "features": [
+    "Order lines at the top of the order",
+    "Bulk import of lines from Excel",
+    "Uses the standard Odoo import"
+  ]
+}
