@@ -22,7 +22,7 @@ Restrict deletion (and emptying) of chatter messages on Product Template and Pro
    - With the group: deletion/edit behaves as usual.
 
 ## Compatibility
-- Odoo 17.0
+- Odoo 19.0
 - Depends on `product` and `mail`.
 
 ## Notes
