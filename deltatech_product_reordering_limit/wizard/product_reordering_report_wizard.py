@@ -4,6 +4,7 @@ import io
 import xlsxwriter
 
 from odoo import fields, models
+from odoo.exceptions import UserError
 
 
 class ProductReorderingReportWizard(models.TransientModel):
@@ -13,9 +14,20 @@ class ProductReorderingReportWizard(models.TransientModel):
     file = fields.Binary("File", readonly=True)
     filename = fields.Char("Filename", readonly=True)
 
+    def _get_products(self):
+        """Return the product templates selected when the wizard was opened.
+
+        Contextul poate lipsi (acțiune apelată direct) sau poate proveni de la alt
+        model, caz în care active_ids sunt id-uri străine de product.template.
+        """
+        if self.env.context.get("active_model") != "product.template":
+            return self.env["product.template"]
+        return self.env["product.template"].browse(self.env.context.get("active_ids") or [])
+
     def action_generate_report(self):
-        active_ids = self.env.context.get("active_ids")
-        products = self.env["product.template"].browse(active_ids)
+        products = self._get_products()
+        if not products:
+            raise UserError(self.env._("Select at least one product to generate the reordering report."))
 
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(output, {"in_memory": True})

@@ -1,4 +1,5 @@
 from odoo import api, fields, models
+from odoo.tools import SQL
 
 
 class ProductTemplate(models.Model):
@@ -8,7 +9,10 @@ class ProductTemplate(models.Model):
     total_maximum = fields.Float(string="Total Maximum", default=0.0)
 
     def _search_is_below_min(self, operator, value):
-        if operator not in ("=", "!=") or not isinstance(value, bool):
+        # Odoo 19 normalizes boolean domains to the `in` / `not in` operators with
+        # a `[True]` value (see odoo/orm/domains.py::_optimize_boolean_in), so the
+        # search method must accept them directly.
+        if operator not in ("in", "not in") or set(value) != {True}:
             raise NotImplementedError("Unsupported operator or value for _search_is_below_min")
 
         # We need to find templates where qty_available < total_minimum.
@@ -20,7 +24,9 @@ class ProductTemplate(models.Model):
         # We use a subquery to sum quantities from stock_quant grouped by product,
         # then join with product_product to group by template.
         # We only count internal locations as per requirement.
-        self.env.cr.execute("""
+        rows = self.env.execute_query(
+            SQL(
+                """
             SELECT pt.id
             FROM product_template pt
             JOIN (
@@ -36,13 +42,12 @@ class ProductTemplate(models.Model):
                 GROUP BY pp.product_tmpl_id
             ) t_qty ON t_qty.product_tmpl_id = pt.id
             WHERE pt.total_minimum > 0 AND COALESCE(t_qty.total_qty_available, 0.0) < pt.total_minimum
-        """)
-        ids = [r[0] for r in self.env.cr.fetchall()]
+        """
+            )
+        )
+        ids = [r[0] for r in rows]
 
-        if (operator == "=" and value) or (operator == "!=" and not value):
-            return [("id", "in", ids)]
-        else:
-            return [("id", "not in", ids)]
+        return [("id", operator, ids)]
 
     is_below_min = fields.Boolean(
         string="Is Below Minimum", compute="_compute_is_below_min", search="_search_is_below_min"
