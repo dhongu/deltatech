@@ -3,8 +3,9 @@
 # See README.rst file on addons root folder for license details
 
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "Image Optimizer",
-    "version": "18.0.1.5.1",
+    "version": "19.0.1.5.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Recompress oversized image attachments to reclaim filestore space",
