@@ -1,3 +1,9 @@
+## 19.0.1.1.1 (2026-08-15)
+
+- Fix: added the missing `bus` dependency. The manual heartbeat notification
+  uses `self.env["bus.bus"]._sendone()`, which is defined in `bus`. The module
+  only worked when another addon in the same database brought `bus` in.
+
 ## 19.0.1.1.0 (2026-08-11)
 
 - **New job type `http_request`** — the station performs an HTTP call inside the customer's local
