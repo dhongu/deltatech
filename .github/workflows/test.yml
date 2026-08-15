@@ -2,6 +2,11 @@ name: tests
 
 on:
   workflow_dispatch:
+    inputs:
+      modules:
+        description: "Addons to test (comma separated). Empty = all."
+        required: false
+        default: ""
   pull_request:
     branches:
       - "19.0*"
@@ -34,16 +39,17 @@ jobs:
                   fi
               fi
           done
-  # Decide WHICH addons get tested. This runs outside the OCA container on
-  # purpose: git calls from inside it could not resolve the base commit, so the
-  # previous inline version fell back to a full run on every single build.
-  # See .github/scripts/plan_tests.py.
+  # Decide WHICH addons get tested and on how many parallel shards. This runs
+  # outside the OCA container on purpose: git calls from inside it could not
+  # resolve the base commit, so the previous inline version fell back to a full
+  # run on every single build. See .github/scripts/plan_tests.py.
   plan:
     runs-on: ubuntu-latest
-    name: Plan test selection
+    name: Plan test shards
     outputs:
-      addons: ${{ steps.plan.outputs.addons }}
+      run_tests: ${{ steps.plan.outputs.run_tests }}
       full: ${{ steps.plan.outputs.full }}
+      matrix: ${{ steps.plan.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -53,6 +59,7 @@ jobs:
         run: python3 .github/scripts/plan_tests.py
         env:
           EVENT_NAME: ${{ github.event_name }}
+          INPUT_MODULES: ${{ github.event.inputs.modules }}
           BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
           # HEAD is the checked-out ref: the PR merge commit, or the pushed
           # commit. Using the merge commit also covers PRs from forks, whose
@@ -61,15 +68,14 @@ jobs:
 
   test:
     needs: plan
+    # A PR touching only non-addon content has nothing to install.
+    if: ${{ needs.plan.outputs.run_tests == 'true' }}
     runs-on: ubuntu-22.04
-    container: ${{ matrix.container }}
-    name: ${{ matrix.name }}
+    container: ghcr.io/oca/oca-ci/py3.10-odoo19.0:latest
+    name: test (${{ matrix.name }})
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - container: ghcr.io/oca/oca-ci/py3.10-odoo19.0:latest
-            name: test with Odoo
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
 
     services:
       postgres:
@@ -105,11 +111,11 @@ jobs:
 
       - name: Initialize test db
         env:
-          INCLUDE: ${{ needs.plan.outputs.addons }}
+          INCLUDE: ${{ matrix.modules }}
         run: oca_init_test_database
       - name: Run tests
         env:
-          INCLUDE: ${{ needs.plan.outputs.addons }}
+          INCLUDE: ${{ matrix.modules }}
         run: oca_run_tests
 
       # Coverage goes up only on a full run. On a filtered run the report would
@@ -119,6 +125,9 @@ jobs:
         uses: codecov/codecov-action@v6  # <-- New action to upload coverage file
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          # One flag per shard: each shard covers a different slice of the repo,
+          # so without this the uploads would overwrite each other.
+          flags: ${{ matrix.name }}
           # The action will automatically search for common coverage files (e.g., coverage.xml)
 
       - name: Upload test results to Codecov (Pass/Fail)
@@ -126,6 +135,26 @@ jobs:
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          flags: ${{ matrix.name }}
+
+  # Shard names are dynamic ("test (website)"), so they cannot be used as a
+  # required status check in branch protection. This job has a stable name and
+  # collects the result of the whole matrix — put THIS one in branch protection.
+  tests-passed:
+    needs: [plan, test]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    name: tests passed
+    steps:
+      - name: Check matrix result
+        run: |
+          # `skipped` is a legitimate result: a PR touching no addon has
+          # nothing to test. Only failure and cancellation must fail the gate.
+          echo "plan=${{ needs.plan.result }} test=${{ needs.test.result }}"
+          case "${{ needs.plan.result }}/${{ needs.test.result }}" in
+            success/success|success/skipped) exit 0 ;;
+            *) echo "Tests did not pass."; exit 1 ;;
+          esac
 
 
 #      - name: Update .pot files
