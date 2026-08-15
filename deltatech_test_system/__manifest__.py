@@ -6,11 +6,12 @@
 {
     "name": "Deltatech Test System",
     "summary": "Set system status: test or production",
-    "version": "19.0.0.0.8",
+    "version": "19.0.0.0.9",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Tools",
-    "depends": ["web"],
+    # Vizualizarea moștenește `base_setup.res_config_settings_view_form`.
+    "depends": ["web", "base_setup"],
     "license": "OPL-1",
     "data": [
         "views/templates.xml",

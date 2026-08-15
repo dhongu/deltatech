@@ -4,11 +4,12 @@
 {
     "name": "Terrabit Connect - Base",
     "summary": "Base for Terrabit Connect: station registry, outbound job queue, REST endpoints (X-Station-Key) and HTTP calls into the customer's local network.",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Technical",
-    "depends": ["base"],
+    # `bus.bus._sendone()` (notificări către manageri) e definit în `bus`.
+    "depends": ["base", "bus"],
     "license": "OPL-1",
     "data": [
         "security/deltatech_tc_security.xml",
