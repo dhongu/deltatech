@@ -9,6 +9,12 @@ on:
     branches:
       - "19.0"
 
+# A new push on a PR cancels the previous run: no point keeping a runner busy
+# with an outdated version of the branch.
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 
 jobs:
   unreleased-deps:
@@ -28,7 +34,33 @@ jobs:
                   fi
               fi
           done
+  # Decide WHICH addons get tested. This runs outside the OCA container on
+  # purpose: git calls from inside it could not resolve the base commit, so the
+  # previous inline version fell back to a full run on every single build.
+  # See .github/scripts/plan_tests.py.
+  plan:
+    runs-on: ubuntu-latest
+    name: Plan test selection
+    outputs:
+      addons: ${{ steps.plan.outputs.addons }}
+      full: ${{ steps.plan.outputs.full }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history: we need `base.sha` to compute the PR diff.
+          fetch-depth: 0
+      - id: plan
+        run: python3 .github/scripts/plan_tests.py
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          # HEAD is the checked-out ref: the PR merge commit, or the pushed
+          # commit. Using the merge commit also covers PRs from forks, whose
+          # head sha is not fetched into this clone.
+          HEAD_SHA: HEAD
+
   test:
+    needs: plan
     runs-on: ubuntu-22.04
     container: ${{ matrix.container }}
     name: ${{ matrix.name }}
@@ -53,55 +85,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-          fetch-depth: 0
 
-      - name: Determine changed addons
-        id: changed
-        run: |
-          set -e
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            BASE_SHA="${{ github.event.pull_request.base.sha }}"
-          else
-            BASE_SHA="${{ github.event.before }}"
-          fi
-          if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$BASE_SHA" 2>/dev/null; then
-            echo "No usable base commit, running the full test suite."
-            echo "addons=" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          CHANGED_FILES=$(git diff --name-only "$BASE_SHA" HEAD)
-          echo "Changed files:"
-          echo "$CHANGED_FILES"
-
-          FULL_RUN=0
-          ADDONS=""
-          for f in $CHANGED_FILES; do
-            dir="${f%%/*}"
-            if [ "$dir" = "$f" ] || [[ "$dir" == .* ]]; then
-              # Changed file at repo root (requirements.txt, setup.cfg, ...) or under a
-              # dotdir (.github, ...): can affect the whole repo, fall back to a full run.
-              FULL_RUN=1
-              break
-            fi
-            if [ ! -f "$dir/__manifest__.py" ]; then
-              # Changed path is not inside a recognizable addon, play it safe.
-              FULL_RUN=1
-              break
-            fi
-            case ",$ADDONS," in
-              *,"$dir",*) ;;
-              *) ADDONS="${ADDONS:+$ADDONS,}$dir" ;;
-            esac
-          done
-
-          if [ "$FULL_RUN" = "1" ]; then
-            echo "Change outside a single addon detected, running the full test suite."
-            echo "addons=" >> "$GITHUB_OUTPUT"
-          else
-            echo "Changed addons: $ADDONS"
-            echo "addons=$ADDONS" >> "$GITHUB_OUTPUT"
-          fi
       - name: Install addons and dependencies
         run: oca_install_addons
 
@@ -121,15 +105,17 @@ jobs:
 
       - name: Initialize test db
         env:
-          INCLUDE: ${{ steps.changed.outputs.addons }}
+          INCLUDE: ${{ needs.plan.outputs.addons }}
         run: oca_init_test_database
       - name: Run tests
         env:
-          INCLUDE: ${{ steps.changed.outputs.addons }}
+          INCLUDE: ${{ needs.plan.outputs.addons }}
         run: oca_run_tests
 
+      # Coverage goes up only on a full run. On a filtered run the report would
+      # cover just the touched addons and would skew the repo coverage.
       - name: Upload code coverage to Codecov
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && needs.plan.outputs.full == 'true' }}
         uses: codecov/codecov-action@v6  # <-- New action to upload coverage file
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
