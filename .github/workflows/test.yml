@@ -16,8 +16,15 @@ on:
 
 # A new push on a PR cancels the previous run: no point keeping a runner busy
 # with an outdated version of the branch.
+#
+# Only pull requests share a group. Everything else gets a group of its own
+# (`run_id` is unique per run), because GitHub keeps a SINGLE queued run per
+# group: with every push to 19.0 in the same group, merging two PRs in a row
+# cancelled the queued run of the first one. Coverage was not lost — the last
+# run covers the final state — but there was no green run per merge commit,
+# which is exactly what you need when bisecting.
 concurrency:
-  group: tests-${{ github.ref }}
+  group: tests-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 
