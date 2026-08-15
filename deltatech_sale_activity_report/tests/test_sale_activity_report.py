@@ -1,8 +1,17 @@
 # Copyright (C) 2025 Terrabit
 # License OPL-1 (https://www.odoo.com/documentation/user/legal/licenses.html#odoo-apps).
+import base64
+import io
 from datetime import date
 
+from PIL import Image
+
 from odoo.tests import TransactionCase, tagged
+
+from odoo.addons.deltatech_sale_activity_report.models.sale_order import (
+    MAX_LOG_LENGTH,
+    MAX_VALUE_LENGTH,
+)
 
 
 @tagged("post_install", "-at_install")
@@ -69,6 +78,61 @@ class TestSaleActivityReport(TransactionCase):
     def _records(self, order=None):
         order = order or self.order
         return self.Record.search([("sale_order_id", "=", order.id), ("user_id", "=", self.salesman.id)])
+
+    def _binary_payload(self):
+        """Conținut binar valid pentru un câmp de tip imagine (semnătura)."""
+        buffer = io.BytesIO()
+        Image.new("RGB", (400, 400), "#123456").save(buffer, format="PNG")
+        return base64.b64encode(buffer.getvalue())
+
+    def test_binary_field_is_not_logged(self):
+        """Câmpurile binare (semnătură, etichetă AWB) nu ajung în jurnal.
+
+        Serializarea lor scria în ``activity_log`` conținutul base64 al
+        fișierului — sute de kB per scriere, ajunși în baza clientului.
+        """
+        payload = self._binary_payload()
+
+        self.order.with_user(self.salesman).write({"signature": payload})
+
+        log = self._records().activity_log or ""
+        self.assertNotIn(payload.decode()[:50], log)
+        self.assertLess(len(log), 1000)
+
+    def test_binary_field_skipped_but_others_logged(self):
+        """Un binar scris împreună cu alte câmpuri nu contaminează jurnalul."""
+        payload = self._binary_payload()
+
+        self.order.with_user(self.salesman).write({"client_order_ref": "PO-BIN", "signature": payload})
+
+        records = self._records()
+        self.assertEqual(len(records), 1)
+        self.assertIn("PO-BIN", records.activity_log)
+        self.assertNotIn(payload.decode()[:50], records.activity_log)
+        self.assertLess(len(records.activity_log), 1000)
+
+    def test_long_value_is_truncated(self):
+        """Valorile text lungi sunt scurtate, cu marcarea restului tăiat."""
+        self.order.with_user(self.salesman).write({"client_order_ref": "A" * 5000})
+
+        log = self._records().activity_log
+        self.assertIn("A" * MAX_VALUE_LENGTH, log)
+        self.assertNotIn("A" * (MAX_VALUE_LENGTH + 1), log)
+        self.assertIn("chars)", log)
+
+    def test_activity_log_is_capped(self):
+        """Jurnalul unei zile nu depășește plafonul, păstrând activitatea recentă."""
+        order = self.order.with_user(self.salesman)
+        order.write({"client_order_ref": "FIRST"})
+
+        record = self._records()
+        record.sudo().activity_log = "old line\n" * (MAX_LOG_LENGTH // 9)
+
+        order.write({"client_order_ref": "LAST"})
+
+        log = self._records().activity_log
+        self.assertLessEqual(len(log), MAX_LOG_LENGTH)
+        self.assertIn("LAST", log)
 
     def test_create_does_not_log(self):
         """Creating an order must not create an activity record on its own."""
