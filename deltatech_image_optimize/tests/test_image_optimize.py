@@ -7,12 +7,13 @@ from odoo.tests import TransactionCase, tagged
 try:
     from PIL import Image
 
-    try:
-        _probe = io.BytesIO()
-        Image.new("RGBA", (1, 1)).save(_probe, format="WEBP")
-        WEBP_OK = True
-    except Exception:
-        WEBP_OK = False
+    # Ask the module itself instead of probing here: it registers Pillow's WebP
+    # plugin first, which Odoo's preinit() leaves out. Probing directly at
+    # import time reports "no WebP" on a Pillow that encodes WebP perfectly
+    # well, and the test then skips itself for a reason that is not true.
+    from odoo.addons.deltatech_image_optimize.models.ir_attachment import _webp_available
+
+    WEBP_OK = _webp_available()
 except ImportError:
     Image = None
     WEBP_OK = False

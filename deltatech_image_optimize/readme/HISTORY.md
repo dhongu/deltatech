@@ -1,24 +1,30 @@
 # Changelog
 
-## 19.0.1.6.0 (2026)
+## 19.0.1.7.0 (2026)
 
-- Document that `force_jpeg` is **destructive**, in both places where it is read:
-  `readme/DESCRIPTION.md` and the comment above the parameter in
-  `data/ir_config_parameter.xml`. It flattens transparency to black and the
-  original cannot be recovered, because the optimized image is written through
-  the record and the previous attachment is gone.
-- Add a probe snippet that measures how much of a catalog has real transparency
-  *before* the parameter is enabled, using `_dt_image_recompress` (a pure
-  function — it returns bytes and format, writes nothing).
-- The rationale is a real deployment: `force_jpeg=1` was enabled on a catalog
-  believed to have no transparency, and 32% of a 40-image sample turned out to
-  have real alpha. The first 20 optimized images were destroyed before it was
-  caught.
-- Bring the configuration table in `DESCRIPTION.md` up to date: it was missing
-  `flush_every`, `force_jpeg`, `webp_quality` and the three `variant_*` keys, and
-  still advertised the old `batch` default of 1000. Also state that transparent
-  images go to WebP, with PNG as the fallback when the Pillow build has no WebP
-  encoder.
+- **Transparent images now really become WebP.** They were silently falling back
+  to optimized PNG on most databases. `odoo/tools/image.py` runs
+  `Image.preinit()` and then sets `Image._initialized = 2`; preinit registers
+  only BMP/GIF/JPEG/PPM/PNG, and the flag makes Pillow believe `init()` already
+  ran, so `save(format="WEBP")` raises `KeyError: 'WEBP'` even where Pillow is
+  built with libwebp and `features.check("webp")` returns True. The module now
+  imports `PIL.WebPImagePlugin` explicitly, which registers the format —
+  `Image.init()` alone does not help, it returns early on `_initialized >= 2`.
+  Same approach already used by `deltatech_website_watermark`.
+- `WEBP_OK` (a constant computed at import time) is replaced by
+  `_webp_available()`, resolved on first use and cached. The old constant made
+  the module behave **differently from one database to another**: where another
+  module registering the WebP plugin happened to be imported first, transparent
+  images became WebP; everywhere else the identical code produced PNG, with no
+  error anywhere. Import order is not something a result should depend on.
+- The test suite asks the module for WebP support instead of probing at import,
+  so `test_transparent_image_becomes_webp` actually runs. It had been skipping
+  itself with "Pillow build lacks WebP support" — on builds that encode WebP
+  fine.
+
+Impact: on catalogs with real transparency, those images now compress as WebP
+(typically ~70% smaller than the PNG fallback) instead of staying nearly
+uncompressed. No change for opaque images.
 
 ## 19.0.1.5.1 (2026)
 

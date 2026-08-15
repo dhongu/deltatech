@@ -9,21 +9,68 @@ _logger = logging.getLogger(__name__)
 
 try:
     from PIL import Image
-
-    # features.check("webp") can report True while the encoder still fails at
-    # save time on some builds, so probe with a real encode.
-    try:
-        _probe = io.BytesIO()
-        Image.new("RGBA", (1, 1)).save(_probe, format="WEBP")
-        WEBP_OK = True
-    except Exception:  # noqa: BLE001
-        WEBP_OK = False
 except ImportError:  # pragma: no cover
     Image = None
-    WEBP_OK = False
 
 DEFAULT_TARGET_FIELDS = "image_1920,image_variant_1920"
 DEFAULT_VARIANT_FIELDS = "image_1024,image_512,image_256,image_128"
+
+# Resolved on first use by _webp_available(), never at import time: see below.
+_WEBP_OK = None
+
+
+def _ensure_pillow_webp():
+    """Register Pillow's WebP plugin, which Odoo leaves out.
+
+    ``odoo/tools/image.py`` runs ``Image.preinit()`` and then sets
+    ``Image._initialized = 2``. preinit registers only BMP/GIF/JPEG/PPM/PNG, and
+    the flag tells Pillow that ``init()`` already ran, so ``save()`` never loads
+    the remaining plugins: ``save(format="WEBP")`` raises ``KeyError: 'WEBP'``
+    even on a Pillow built with libwebp (``features.check("webp")`` is True).
+
+    Importing the plugin registers the format directly, which is what actually
+    fixes it -- ``Image.init()`` alone returns early on ``_initialized >= 2``.
+    Same approach as ``deltatech_website_watermark``.
+    """
+    if Image is None:  # pragma: no cover
+        return
+    try:
+        from PIL import WebPImagePlugin as _webp_plugin  # noqa: F401
+    except Exception as exc:  # noqa: BLE001
+        _logger.warning("Pillow WebP plugin import failed (WEBP unavailable): %s", exc)
+    try:
+        Image.preinit()
+        Image.init()
+    except Exception as exc:  # noqa: BLE001 - init is best effort
+        _logger.debug("Pillow Image.init() raised: %s", exc)
+
+
+def _webp_available():
+    """Whether this process can encode WebP, resolved lazily and cached.
+
+    Deliberately not a module-level constant. The answer depends on whether the
+    WebP plugin is registered, which in turn depends on module import order --
+    so a constant computed at import time made the module behave differently
+    from one database to another (WebP where a module registering the plugin
+    happened to be imported first, PNG everywhere else), silently.
+
+    ``features.check("webp")`` is not enough on its own: it can report True
+    while ``save()`` still fails, so probe with a real encode.
+    """
+    global _WEBP_OK
+    if _WEBP_OK is None:
+        _ensure_pillow_webp()
+        try:
+            probe = io.BytesIO()
+            Image.new("RGBA", (1, 1)).save(probe, format="WEBP")
+            _WEBP_OK = True
+        except Exception as exc:  # noqa: BLE001
+            _WEBP_OK = False
+            _logger.info(
+                "WebP encoding unavailable (%s); transparent images keep optimized PNG.",
+                exc,
+            )
+    return _WEBP_OK
 
 
 class IrAttachment(models.Model):
@@ -113,7 +160,7 @@ class IrAttachment(models.Model):
         if real_alpha:
             # Preserve transparency: WebP if available, otherwise optimized PNG
             # (never JPEG, which would fill transparent areas).
-            if WEBP_OK:
+            if _webp_available():
                 try:
                     buf = io.BytesIO()
                     img.convert("RGBA").save(buf, format="WEBP", quality=webp_quality, method=6)
