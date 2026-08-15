@@ -1,5 +1,25 @@
 # Changelog
 
+## 19.0.1.6.0 (2026)
+
+- Document that `force_jpeg` is **destructive**, in both places where it is read:
+  `readme/DESCRIPTION.md` and the comment above the parameter in
+  `data/ir_config_parameter.xml`. It flattens transparency to black and the
+  original cannot be recovered, because the optimized image is written through
+  the record and the previous attachment is gone.
+- Add a probe snippet that measures how much of a catalog has real transparency
+  *before* the parameter is enabled, using `_dt_image_recompress` (a pure
+  function — it returns bytes and format, writes nothing).
+- The rationale is a real deployment: `force_jpeg=1` was enabled on a catalog
+  believed to have no transparency, and 32% of a 40-image sample turned out to
+  have real alpha. The first 20 optimized images were destroyed before it was
+  caught.
+- Bring the configuration table in `DESCRIPTION.md` up to date: it was missing
+  `flush_every`, `force_jpeg`, `webp_quality` and the three `variant_*` keys, and
+  still advertised the old `batch` default of 1000. Also state that transparent
+  images go to WebP, with PNG as the fallback when the Pillow build has no WebP
+  encoder.
+
 ## 19.0.1.5.1 (2026)
 
 - Migration to Odoo 19.0. No functional change: the module only relies on

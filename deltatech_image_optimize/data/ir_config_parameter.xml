@@ -62,9 +62,17 @@
         <field name="value">85</field>
     </record>
 
-    <!-- Set to 1 when product images are never really transparent (solid
-         colored background). Alpha is then ignored and everything goes to
-         JPEG (max savings, no WebP dependency). -->
+    <!-- DESTRUCTIVE. Set to 1 only on a catalog you have VERIFIED has no real
+         transparency. Alpha is then ignored and everything goes to JPEG (max
+         savings, no WebP dependency) - but JPEG has no transparency, so any
+         transparent area is flattened to BLACK, and the original is gone: the
+         image is written through the record, so the old attachment no longer
+         exists. There is no undo.
+         "The originals are stored elsewhere" is not a verification - that
+         covers resolution, not alpha. On a real deployment 32% of a 40-image
+         sample had real transparency on a catalog believed to have none.
+         Probe with _dt_image_recompress (writes nothing) before enabling;
+         see readme/DESCRIPTION.md for the snippet. -->
     <record id="cp_force_jpeg" model="ir.config_parameter">
         <field name="key">deltatech_image_optimize.force_jpeg</field>
         <field name="value">0</field>
