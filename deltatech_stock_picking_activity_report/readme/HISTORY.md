@@ -1,0 +1,18 @@
+## 19.0.1.1.0 (2026-08-15)
+
+**Fix** — jurnalul de activitate nu mai stochează conținutul câmpurilor binare.
+
+Modificarea unui câmp binar de pe transfer (eticheta AWB, semnătura) scria în
+`activity_log` întregul conținut base64 al fișierului. Pe o instanță de
+producție asta însemna o medie de 32 kB per înregistrare, cu vârfuri de 1,7 MB,
+și circa 1,7 GB în baza de date la doar două luni de activitate păstrată.
+
+Acum:
+
+- câmpurile binare sunt ignorate complet la jurnalizare — nici nu mai sunt
+  citite din filestore, deci scrierea pe transfer este și mai rapidă;
+- valorile de câmp jurnalizate sunt scurtate la 200 de caractere (2000 pentru
+  câmpurile x2many, descrise linie cu linie), cu marcarea numărului de
+  caractere tăiate;
+- mesajele din chatter sunt scurtate la 2000 de caractere;
+- jurnalul unei zile este plafonat la 64 kB, păstrând activitatea recentă.
