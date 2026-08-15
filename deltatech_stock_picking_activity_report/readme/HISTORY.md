@@ -11,7 +11,8 @@ Acum:
 
 - câmpurile binare sunt ignorate complet la jurnalizare — nici nu mai sunt
   citite din filestore, deci scrierea pe transfer este și mai rapidă;
-- valorile de câmp jurnalizate sunt scurtate la 200 de caractere, cu marcarea
-  numărului de caractere tăiate;
+- valorile de câmp jurnalizate sunt scurtate la 200 de caractere (2000 pentru
+  câmpurile x2many, descrise linie cu linie), cu marcarea numărului de
+  caractere tăiate;
 - mesajele din chatter sunt scurtate la 2000 de caractere;
 - jurnalul unei zile este plafonat la 64 kB, păstrând activitatea recentă.

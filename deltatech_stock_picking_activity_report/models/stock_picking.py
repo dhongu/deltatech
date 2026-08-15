@@ -13,6 +13,9 @@ SKIPPED_FIELD_TYPES = ("binary",)
 # Plafoane de siguranță: o valoare de câmp, un mesaj și jurnalul unei zile nu
 # pot depăși aceste dimensiuni, oricât de mare ar fi conținutul scris.
 MAX_VALUE_LENGTH = 200
+# Câmpurile x2many (operațiile transferului) sunt descrise linie cu linie, deci
+# au nevoie de un plafon mai larg — altfel s-ar pierde tocmai informația utilă.
+MAX_RELATION_LENGTH = 2000
 MAX_MESSAGE_LENGTH = 2000
 MAX_LOG_LENGTH = 65536
 
@@ -211,8 +214,9 @@ class StockPicking(models.Model):
 
                             return str(val)
 
-                        old_val_str = truncate(format_val(old_val, field_type, field_name), MAX_VALUE_LENGTH)
-                        new_val_str = truncate(format_val(new_val, field_type, field_name), MAX_VALUE_LENGTH)
+                        limit = MAX_RELATION_LENGTH if field_type in ("one2many", "many2many") else MAX_VALUE_LENGTH
+                        old_val_str = truncate(format_val(old_val, field_type, field_name), limit)
+                        new_val_str = truncate(format_val(new_val, field_type, field_name), limit)
 
                         if old_val_str != new_val_str:
                             changes.append(f"{field_label}: {old_val_str} -> {new_val_str}")
