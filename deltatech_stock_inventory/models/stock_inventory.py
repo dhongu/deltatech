@@ -447,7 +447,9 @@ class InventoryLine(models.Model):
     )
     inventory_id = fields.Many2one("stock.inventory", "Inventory", check_company=True, index=True, ondelete="cascade")
 
-    partner_id = fields.Many2one("res.partner", "Owner", check_company=True)
+    # index=True: coloană FK spre res_partner pe tabela de linii de inventar, care crește cu
+    # fiecare inventariere. Fără index, ștergerea/unificarea unui partener o scanează integral.
+    partner_id = fields.Many2one("res.partner", "Owner", check_company=True, index=True)
     product_id = fields.Many2one(
         "product.product",
         "Product",
