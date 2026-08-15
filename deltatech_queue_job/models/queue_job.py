@@ -7,12 +7,45 @@ import time
 from datetime import datetime, timedelta
 
 from odoo import api, fields, models, modules
+from odoo.tools import config
 
 _logger = logging.getLogger(__name__)
 
 
 class QueueJob(models.Model):
     _inherit = "queue.job"
+
+    def autovacuum(self):
+        """Șterge și joburile terminale rămase fără dată de finalizare.
+
+        Cronul standard selectează după ``date_done`` sau ``date_cancelled``,
+        deci joburile anulate în lanț de ``cancel_dependent_jobs()`` — care le
+        scria doar starea — nu erau eliminate niciodată. `job_patch` completează
+        data de acum înainte; aici curățăm ce s-a adunat înainte de el, folosind
+        ``date_created``, singurul câmp completat mereu.
+        """
+        res = super().autovacuum()
+        for channel in self.env["queue.job.channel"].search([]):  # pylint: disable=no-search-all
+            deadline = datetime.now() - timedelta(days=int(channel.removal_interval))
+            while True:
+                jobs = self.search(
+                    [
+                        ("state", "in", ("done", "cancelled")),
+                        ("date_done", "=", False),
+                        ("date_cancelled", "=", False),
+                        ("date_created", "<=", deadline),
+                        ("channel", "=", channel.complete_name),
+                    ],
+                    order="date_created",
+                    limit=1000,
+                )
+                if not jobs:
+                    break
+                _logger.info("Removing %d terminal job(s) left without a completion date", len(jobs))
+                jobs.sudo().unlink()
+                if not config["test_enable"]:
+                    self.env.cr.commit()  # pylint: disable=E8102
+        return res
 
     @api.model_create_multi
     def create(self, vals_list):
