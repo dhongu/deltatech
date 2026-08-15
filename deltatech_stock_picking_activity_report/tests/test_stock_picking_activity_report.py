@@ -1,8 +1,17 @@
 # Copyright (C) 2025 Terrabit
 # License OPL-1 (https://www.odoo.com/documentation/user/legal/licenses.html#odoo-apps).
+import base64
+import io
 from datetime import date
 
+from PIL import Image
+
 from odoo.tests import TransactionCase, tagged
+
+from odoo.addons.deltatech_stock_picking_activity_report.models.stock_picking import (
+    MAX_LOG_LENGTH,
+    MAX_VALUE_LENGTH,
+)
 
 
 @tagged("post_install", "-at_install")
@@ -84,6 +93,12 @@ class TestStockPickingActivityReport(TransactionCase):
             }
         )
 
+    def _binary_payload(self):
+        """Conținut binar valid pentru un câmp de tip imagine (semnătura)."""
+        buffer = io.BytesIO()
+        Image.new("RGB", (400, 400), "#123456").save(buffer, format="PNG")
+        return base64.b64encode(buffer.getvalue())
+
     def _records(self, picking):
         return self.Record.search([("picking_id", "=", picking.id), ("user_id", "=", self.stock_user.id)])
 
@@ -119,6 +134,61 @@ class TestStockPickingActivityReport(TransactionCase):
             len([line for line in log.splitlines() if line.strip()]),
             2,
         )
+
+    def test_binary_field_is_not_logged(self):
+        """Câmpurile binare (semnătură, etichetă AWB) nu ajung în jurnal.
+
+        Serializarea lor scria în ``activity_log`` conținutul base64 al
+        fișierului — sute de kB per scriere, ajunși în baza clientului.
+        """
+        picking = self._new_picking().with_user(self.stock_user)
+        payload = self._binary_payload()
+
+        picking.write({"signature": payload})
+
+        # Semnarea postează un mesaj în chatter ("Order signed"), deci o
+        # înregistrare tot apare — dar fără urmă din conținutul binar.
+        log = self._records(picking).activity_log or ""
+        self.assertNotIn(payload.decode()[:50], log)
+        self.assertLess(len(log), 1000)
+
+    def test_binary_field_skipped_but_others_logged(self):
+        """Un binar scris împreună cu alte câmpuri nu contaminează jurnalul."""
+        picking = self._new_picking().with_user(self.stock_user)
+        payload = self._binary_payload()
+
+        picking.write({"origin": "SRC-BIN", "signature": payload})
+
+        records = self._records(picking)
+        self.assertEqual(len(records), 1)
+        self.assertIn("SRC-BIN", records.activity_log)
+        self.assertNotIn(payload.decode()[:50], records.activity_log)
+        self.assertLess(len(records.activity_log), 1000)
+
+    def test_long_value_is_truncated(self):
+        """Valorile text lungi sunt scurtate, cu marcarea restului tăiat."""
+        picking = self._new_picking().with_user(self.stock_user)
+
+        picking.write({"origin": "A" * 5000})
+
+        log = self._records(picking).activity_log
+        self.assertIn("A" * MAX_VALUE_LENGTH, log)
+        self.assertNotIn("A" * (MAX_VALUE_LENGTH + 1), log)
+        self.assertIn("chars)", log)
+
+    def test_activity_log_is_capped(self):
+        """Jurnalul unei zile nu depășește plafonul, păstrând activitatea recentă."""
+        picking = self._new_picking().with_user(self.stock_user)
+        picking.write({"origin": "FIRST"})
+
+        record = self._records(picking)
+        record.sudo().activity_log = "old line\n" * (MAX_LOG_LENGTH // 9)
+
+        picking.write({"origin": "LAST"})
+
+        log = self._records(picking).activity_log
+        self.assertLessEqual(len(log), MAX_LOG_LENGTH)
+        self.assertIn("LAST", log)
 
     def test_action_confirm_logs_button(self):
         picking = self._new_picking().with_user(self.stock_user)

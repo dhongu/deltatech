@@ -6,6 +6,23 @@ from odoo import models
 
 _logger = logging.getLogger(__name__)
 
+# Tipurile de câmp care nu au ce căuta în jurnal: valoarea lor serializată e
+# conținutul brut al fișierului (eticheta AWB, semnătura), adică sute de kB de
+# base64 per scriere.
+SKIPPED_FIELD_TYPES = ("binary",)
+# Plafoane de siguranță: o valoare de câmp, un mesaj și jurnalul unei zile nu
+# pot depăși aceste dimensiuni, oricât de mare ar fi conținutul scris.
+MAX_VALUE_LENGTH = 200
+MAX_MESSAGE_LENGTH = 2000
+MAX_LOG_LENGTH = 65536
+
+
+def truncate(value, limit):
+    """Scurtează ``value`` la ``limit`` caractere, marcând cât s-a tăiat."""
+    if len(value) <= limit:
+        return value
+    return f"{value[:limit]}… (+{len(value) - limit} chars)"
+
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
@@ -15,7 +32,7 @@ class StockPicking(models.Model):
             if self.env.user.has_group("base.group_user") and self.env.user.login != "__system__":
                 today = datetime.now().date()
                 now = datetime.now().strftime("%H:%M:%S")
-                full_log_msg = f"{now} - {log_msg}\n"
+                full_log_msg = f"{now} - {truncate(log_msg, MAX_MESSAGE_LENGTH)}\n"
                 for picking in self:
                     picking_id = picking.id
                     existing_record = (
@@ -59,6 +76,10 @@ class StockPicking(models.Model):
                         self.env["stock.picking.activity.record"].sudo().create(vals)
                     else:
                         new_log = (existing_record.activity_log or "") + full_log_msg
+                        if len(new_log) > MAX_LOG_LENGTH:
+                            # Păstrăm coada (activitatea recentă) și tăiem de la
+                            # prima linie completă, ca jurnalul să rămână lizibil.
+                            new_log = new_log[-MAX_LOG_LENGTH:].split("\n", 1)[-1]
                         vals["activity_log"] = new_log
                         if self.env.context.get("chatter_message", False):
                             vals.update({"chatter_message": True})
@@ -86,6 +107,11 @@ class StockPicking(models.Model):
                     for field_name, new_val in vals.items():
                         field_label = fields_info.get(field_name, {}).get("string", field_name)
                         field_type = fields_info.get(field_name, {}).get("type")
+                        if field_type in SKIPPED_FIELD_TYPES:
+                            # Ieșim înainte de a citi valoarea veche: pentru un câmp
+                            # binar, `picking[field_name]` ar încărca degeaba din
+                            # filestore un conținut pe care oricum nu-l jurnalizăm.
+                            continue
                         old_val = picking[field_name]
                         if field_name == "carrier_tracking_ref" and new_val is not False:
                             log_context["awb_generated"] = True
@@ -185,8 +211,8 @@ class StockPicking(models.Model):
 
                             return str(val)
 
-                        old_val_str = format_val(old_val, field_type, field_name)
-                        new_val_str = format_val(new_val, field_type, field_name)
+                        old_val_str = truncate(format_val(old_val, field_type, field_name), MAX_VALUE_LENGTH)
+                        new_val_str = truncate(format_val(new_val, field_type, field_name), MAX_VALUE_LENGTH)
 
                         if old_val_str != new_val_str:
                             changes.append(f"{field_label}: {old_val_str} -> {new_val_str}")
