@@ -5,7 +5,7 @@
 {
     "name": "Declaration of Conformity",
     "summary": "Print Declaration of Conformity",
-    "version": "19.0.1.0.11",
+    "version": "19.0.1.0.12",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
@@ -16,6 +16,9 @@
         "sale",
         "mrp",
         "product_expiry",
+        # `account.move._get_invoiced_lot_values()`, apelat în report/report_dc.py,
+        # e definit în `stock_account` (extins apoi de `sale_stock`).
+        "stock_account",
         # "stock_picking_invoice_link"
     ],
     "data": [
