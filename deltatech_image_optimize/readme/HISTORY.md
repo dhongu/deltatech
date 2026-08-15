@@ -5,6 +5,7 @@
 - Migration to Odoo 19.0. No functional change: the module only relies on
   stable `ir.attachment` API (`raw`, `res_field`, `_gc_file_store`) which is
   unchanged in 19.0.
+- Add the Odoo Apps marketing banner (`static/description/main_screenshot.png`).
 
 ## 18.0.1.5.1 (2025)
 
