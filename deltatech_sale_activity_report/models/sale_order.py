@@ -7,6 +7,26 @@ from odoo import models
 
 _logger = logging.getLogger(__name__)
 
+# Tipurile de câmp care nu au ce căuta în jurnal: valoarea lor serializată e
+# conținutul brut al fișierului (eticheta AWB, semnătura), adică sute de kB de
+# base64 per scriere.
+SKIPPED_FIELD_TYPES = ("binary",)
+# Plafoane de siguranță: o valoare de câmp, un mesaj și jurnalul unei zile nu
+# pot depăși aceste dimensiuni, oricât de mare ar fi conținutul scris.
+MAX_VALUE_LENGTH = 200
+# Câmpurile x2many (liniile comenzii) sunt descrise linie cu linie, deci au
+# nevoie de un plafon mai larg — altfel s-ar pierde tocmai informația utilă.
+MAX_RELATION_LENGTH = 2000
+MAX_MESSAGE_LENGTH = 2000
+MAX_LOG_LENGTH = 65536
+
+
+def truncate(value, limit):
+    """Scurtează ``value`` la ``limit`` caractere, marcând cât s-a tăiat."""
+    if len(value) <= limit:
+        return value
+    return f"{value[:limit]}… (+{len(value) - limit} chars)"
+
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
@@ -16,7 +36,7 @@ class SaleOrder(models.Model):
             if self.env.user.has_group("base.group_user") and self.env.user.login != "__system__":
                 today = datetime.now().date()
                 now = datetime.now().strftime("%H:%M:%S")
-                full_log_msg = f"{now} - {log_msg}\n"
+                full_log_msg = f"{now} - {truncate(log_msg, MAX_MESSAGE_LENGTH)}\n"
                 for order in self:
                     # search with sudo to ensure we find records even if current user has limited access
                     order_id = order.id
@@ -57,6 +77,10 @@ class SaleOrder(models.Model):
                         self.env["sale.order.activity.record"].sudo().create(vals)
                     else:
                         new_log = (existing_record.activity_log or "") + full_log_msg
+                        if len(new_log) > MAX_LOG_LENGTH:
+                            # Păstrăm coada (activitatea recentă) și tăiem de la
+                            # prima linie completă, ca jurnalul să rămână lizibil.
+                            new_log = new_log[-MAX_LOG_LENGTH:].split("\n", 1)[-1]
                         vals["activity_log"] = new_log
                         if self.env.context.get("generated_awb", False):
                             vals["awb_generated"] = True
@@ -81,6 +105,11 @@ class SaleOrder(models.Model):
                     for field_name, new_val in vals.items():
                         field_label = fields_info.get(field_name, {}).get("string", field_name)
                         field_type = fields_info.get(field_name, {}).get("type")
+                        if field_type in SKIPPED_FIELD_TYPES:
+                            # Ieșim înainte de a citi valoarea veche: pentru un câmp
+                            # binar, `order[field_name]` ar încărca degeaba din
+                            # filestore un conținut pe care oricum nu-l jurnalizăm.
+                            continue
                         old_val = order[field_name]
 
                         if field_name == "stage" and new_val == "pre_advice":
@@ -191,8 +220,9 @@ class SaleOrder(models.Model):
                         if field_name == "shipment_info":
                             changes.append("Shipment Info updated")
                         else:
-                            old_val_str = format_val(old_val, field_type, field_name)
-                            new_val_str = format_val(new_val, field_type, field_name)
+                            limit = MAX_RELATION_LENGTH if field_type in ("one2many", "many2many") else MAX_VALUE_LENGTH
+                            old_val_str = truncate(format_val(old_val, field_type, field_name), limit)
+                            new_val_str = truncate(format_val(new_val, field_type, field_name), limit)
 
                             if old_val_str != new_val_str:
                                 changes.append(f"{field_label}: {old_val_str} -> {new_val_str}")
