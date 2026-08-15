@@ -1,5 +1,31 @@
 # Changelog
 
+## 19.0.1.7.0 (2026)
+
+- **Transparent images now really become WebP.** They were silently falling back
+  to optimized PNG on most databases. `odoo/tools/image.py` runs
+  `Image.preinit()` and then sets `Image._initialized = 2`; preinit registers
+  only BMP/GIF/JPEG/PPM/PNG, and the flag makes Pillow believe `init()` already
+  ran, so `save(format="WEBP")` raises `KeyError: 'WEBP'` even where Pillow is
+  built with libwebp and `features.check("webp")` returns True. The module now
+  imports `PIL.WebPImagePlugin` explicitly, which registers the format —
+  `Image.init()` alone does not help, it returns early on `_initialized >= 2`.
+  Same approach already used by `deltatech_website_watermark`.
+- `WEBP_OK` (a constant computed at import time) is replaced by
+  `_webp_available()`, resolved on first use and cached. The old constant made
+  the module behave **differently from one database to another**: where another
+  module registering the WebP plugin happened to be imported first, transparent
+  images became WebP; everywhere else the identical code produced PNG, with no
+  error anywhere. Import order is not something a result should depend on.
+- The test suite asks the module for WebP support instead of probing at import,
+  so `test_transparent_image_becomes_webp` actually runs. It had been skipping
+  itself with "Pillow build lacks WebP support" — on builds that encode WebP
+  fine.
+
+Impact: on catalogs with real transparency, those images now compress as WebP
+(typically ~70% smaller than the PNG fallback) instead of staying nearly
+uncompressed. No change for opaque images.
+
 ## 19.0.1.5.1 (2026)
 
 - Migration to Odoo 19.0. No functional change: the module only relies on
