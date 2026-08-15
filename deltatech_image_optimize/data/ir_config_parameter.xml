@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- JPEG re-encode quality (1..95). 85 = good web quality, strong savings. -->
+    <record id="cp_quality" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.quality</field>
+        <field name="value">85</field>
+    </record>
+
+    <!-- Downscale images whose largest side exceeds this many pixels. -->
+    <record id="cp_max_dim" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.max_dim</field>
+        <field name="value">1920</field>
+    </record>
+
+    <!-- Only consider originals larger than this many bytes (100 KB). -->
+    <record id="cp_min_size" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.min_size</field>
+        <field name="value">102400</field>
+    </record>
+
+    <!-- How many images to process per cron run. Keep this low: a large
+         batch of big/high-res images can exceed the worker's time/CPU limit,
+         which raises an exception mid-loop that looks identical to a normal
+         per-image failure: the remaining images in that batch get silently
+         flagged as processed without actually being optimized. Tune upward
+         cautiously and verify converted images actually shrank before
+         trusting a higher value. -->
+    <record id="cp_batch" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.batch</field>
+        <field name="value">50</field>
+    </record>
+
+    <!-- Flush + drop the ORM cache every N images. Lower it (2-3) for very
+         high-resolution images (e.g. 20 MP) to keep memory flat. -->
+    <record id="cp_flush_every" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.flush_every</field>
+        <field name="value">20</field>
+    </record>
+
+    <!-- Original image fields to optimize (comma separated res_field values). -->
+    <record id="cp_target_fields" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.target_fields</field>
+        <field name="value">image_1920,image_variant_1920</field>
+    </record>
+
+    <!-- Resized variant fields to recompress in place (step 2). -->
+    <record id="cp_variant_fields" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.variant_fields</field>
+        <field name="value">image_1024,image_512,image_256,image_128</field>
+    </record>
+
+    <!-- Quality for re-encoding the variants. -->
+    <record id="cp_variant_quality" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.variant_quality</field>
+        <field name="value">85</field>
+    </record>
+
+    <!-- WebP quality for images with transparency (alpha preserved). -->
+    <record id="cp_webp_quality" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.webp_quality</field>
+        <field name="value">85</field>
+    </record>
+
+    <!-- Set to 1 when product images are never really transparent (solid
+         colored background). Alpha is then ignored and everything goes to
+         JPEG (max savings, no WebP dependency). -->
+    <record id="cp_force_jpeg" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.force_jpeg</field>
+        <field name="value">0</field>
+    </record>
+
+    <!-- Only recompress variants larger than this many bytes (20 KB). -->
+    <record id="cp_variant_min_size" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.variant_min_size</field>
+        <field name="value">20480</field>
+    </record>
+
+</odoo>
