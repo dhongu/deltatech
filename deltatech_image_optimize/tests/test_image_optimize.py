@@ -220,3 +220,33 @@ class TestImageOptimize(TransactionCase):
         # the master image_1920 must be byte-for-byte unchanged (no propagation)
         self._image_attachment(partner).invalidate_recordset()
         self.assertEqual(self._image_attachment(partner).raw, orig_1920)
+
+    def test_freed_disk_excludes_shared_files(self):
+        """A picture used by two records frees disk only once, not twice."""
+        if Image is None:
+            self.skipTest("Pillow not available")
+
+        ICP = self.env["ir.config_parameter"].sudo()
+        ICP.set_param("deltatech_image_optimize.min_size", "1")
+        ICP.set_param("deltatech_image_optimize.quality", "70")
+        ICP.set_param("deltatech_image_optimize.target_fields", "image_1920")
+
+        Attachment = self.env["ir.attachment"]
+        while Attachment._dt_image_optimize_run(limit=200)["scanned"]:
+            pass
+
+        # The same bytes on two partners: Odoo keeps one file for both.
+        image = self._make_big_jpeg()
+        p1 = self.env["res.partner"].create({"name": "Shared A", "image_1920": image})
+        p2 = self.env["res.partner"].create({"name": "Shared B", "image_1920": image})
+        a1, a2 = self._image_attachment(p1), self._image_attachment(p2)
+        self.assertEqual(a1.store_fname, a2.store_fname, "identical images should share one file")
+        self.assertTrue(a1._dt_image_shared_file())
+
+        stats = Attachment._dt_image_optimize_run(limit=50)
+        self.assertEqual(stats["optimized"], 2)
+        # Both attachments shrank, so `freed` counts both...
+        self.assertGreater(stats["freed"], 0)
+        # ...but the first rewrite left the old file in place for the second,
+        # so at most one of the two can count as disk actually reclaimed.
+        self.assertLess(stats["freed_disk"], stats["freed"])
