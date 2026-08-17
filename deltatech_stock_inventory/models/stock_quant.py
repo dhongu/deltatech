@@ -92,7 +92,9 @@ class StockQuant(models.Model):
                     values["name"] = sequence.next_by_id()
 
             inventory.write(values)
-        self.write({"inventory_id": False, "inventory_line_id": False})
+        # Nota a fost preluata in referinta mișcării; o golim ca sa nu fie refolosita tacit
+        # la o ajustare ulterioara a aceluiași quant (standardul nu o curata).
+        self.write({"inventory_id": False, "inventory_line_id": False, "inventory_note": False})
         return res
 
     def write(self, vals):
