@@ -1,5 +1,22 @@
 # Changelog
 
+## 19.0.1.8.0 (2026)
+
+- The batch methods now also return ``freed_disk``, and log it next to
+  ``freed``. ``freed`` sums the per-attachment size difference, which
+  **overstates the saving** whenever the same picture is used on several
+  records: Odoo keeps one file per checksum, so recompressing one attachment
+  frees nothing while the others still reference the old file. On a real
+  deployment the run reported **29 GB** where the disk gave back about **4 GB**
+  -- 815 000 image attachments living in 508 000 files. ``freed_disk`` counts
+  only attachments whose file was not shared, so it is the figure to quote when
+  someone asks how much space this recovers.
+- The check reads ``store_fname`` (indexed, and derived from the checksum)
+  before the write, since writing replaces it.
+- ``readme/DESCRIPTION.md`` explains the difference, gives the SQL to measure
+  real occupancy across the whole database, and notes that the filestore grows
+  before it shrinks -- the space returns only once the GC runs.
+
 ## 19.0.1.7.0 (2026)
 
 - **Transparent images now really become WebP.** They were silently falling back
