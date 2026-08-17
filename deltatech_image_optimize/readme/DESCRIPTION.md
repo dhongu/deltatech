@@ -21,6 +21,40 @@ Processed attachments are flagged (``deltatech_image_optimized``) and skipped on
 the next run. Because Odoo creates a fresh attachment whenever an image field is
 updated, newly uploaded or changed images are picked up automatically.
 
+## How much space you actually get back
+
+The batch methods return two figures, and the difference between them matters:
+
+| Key | Meaning |
+| --- | --- |
+| ``freed`` | sum of the per-attachment size difference |
+| ``freed_disk`` | only the attachments whose filestore file was **not** shared |
+
+Odoo stores one file per checksum, so attachments with identical content share
+a single file. Recompressing one of them frees nothing while the others still
+point at the old file. On a catalog that reuses the same picture across
+products, ``freed`` therefore overstates the saving — on a real deployment it
+counted **29 GB** where the disk gave back about **4 GB**, because 815 000 image
+attachments lived in 508 000 files.
+
+Use ``freed_disk`` when you report space. Use ``freed`` only to see how much
+lighter the images themselves got — which is the real win on a website, since
+that is bytes off every page load, regardless of deduplication.
+
+To measure the whole database rather than one run:
+
+```sql
+SELECT pg_size_pretty(sum(sz)) FROM (
+    SELECT DISTINCT ON (checksum) file_size AS sz
+    FROM ir_attachment WHERE res_field IS NOT NULL AND checksum IS NOT NULL
+    ORDER BY checksum, id
+) t;
+```
+
+Note also that the filestore grows *before* it shrinks: the new file is written
+while the old one is still referenced, and the space comes back only when the
+filestore GC runs (the scheduled action does it at the end of each pass).
+
 ## Configuration
 
 System Parameters (Settings → Technical → System Parameters):

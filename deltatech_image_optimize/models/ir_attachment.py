@@ -4,6 +4,7 @@ import io
 import logging
 
 from odoo import api, fields, models
+from odoo.tools import SQL
 
 _logger = logging.getLogger(__name__)
 
@@ -182,6 +183,31 @@ class IrAttachment(models.Model):
     # ------------------------------------------------------------------
     # Batch runner
     # ------------------------------------------------------------------
+    def _dt_image_shared_file(self):
+        """Whether this attachment's filestore file is shared with others.
+
+        Odoo keeps a single file per checksum, so several attachments with the
+        same content point at the same ``store_fname``. Recompressing one of
+        them frees nothing on disk while the others still reference the old
+        file -- which is why the per-attachment byte difference overstates the
+        real saving, badly, on catalogs that reuse the same picture (measured
+        on a real deployment: 29 GB counted, ~4 GB actually reclaimed, because
+        815k image attachments lived in 508k files).
+
+        ``store_fname`` is indexed (``checksum`` is not), and it is derived from
+        the checksum, so it answers the same question and is cheap to ask.
+
+        Queried in SQL on purpose: ``search`` on ``ir.attachment`` silently adds
+        ``res_field = False`` when the domain does not mention that field, which
+        hides exactly the image attachments this module works on -- the count
+        then comes back as 0 and every file looks unshared.
+        """
+        self.ensure_one()
+        if not self.store_fname:  # stored in DB, not in the filestore
+            return False
+        self.env.cr.execute(SQL("SELECT count(*) FROM ir_attachment WHERE store_fname = %s", self.store_fname))
+        return self.env.cr.fetchone()[0] > 1
+
     @api.model
     def _dt_image_optimize_run(self, limit=None):
         """Optimize a batch of original image attachments.
@@ -190,11 +216,15 @@ class IrAttachment(models.Model):
         (``record.write({res_field: ...})``) so Odoo regenerates the resized
         variants (image_1024/512/256/128) from the new, smaller original.
 
-        :return: dict with ``scanned``, ``optimized`` and ``freed`` (bytes).
+        :return: dict with ``scanned``, ``optimized``, ``freed`` and
+            ``freed_disk`` (bytes). ``freed`` sums the per-attachment size
+            difference; ``freed_disk`` counts only attachments whose filestore
+            file was not shared with another attachment, so it is the figure
+            that matches what the disk actually gives back.
         """
         if Image is None:
             _logger.warning("Pillow (PIL) is not available; image optimizer skipped.")
-            return {"scanned": 0, "optimized": 0, "freed": 0}
+            return {"scanned": 0, "optimized": 0, "freed": 0, "freed_disk": 0}
 
         params = self._dt_image_optimize_params()
         limit = limit or params["batch"]
@@ -211,6 +241,7 @@ class IrAttachment(models.Model):
         now = fields.Datetime.now()
         optimized = 0
         freed = 0
+        freed_disk = 0
         # Decoded images and their raw bytes are heavy; flush and drop the ORM
         # cache regularly so memory stays flat over large batches (otherwise a
         # single batch can exhaust the worker/shell memory and get killed).
@@ -218,6 +249,9 @@ class IrAttachment(models.Model):
         flush_every = params["flush_every"]
         for index, att in enumerate(attachments, start=1):
             raw = att.raw
+            # Ask before writing: the write replaces store_fname, so afterwards
+            # there is no way to tell whether the old file was shared.
+            shared = att._dt_image_shared_file()
             data, out_format = self._dt_image_recompress(
                 raw, params["quality"], params["max_dim"], params["webp_quality"], params["force_jpeg"]
             )
@@ -235,6 +269,8 @@ class IrAttachment(models.Model):
                     att.deltatech_image_optimized = now
                 else:
                     freed += len(raw) - len(data)
+                    if not shared:
+                        freed_disk += len(raw) - len(data)
                     optimized += 1
             else:
                 record = self.env[att.res_model].sudo().browse(att.res_id)
@@ -266,6 +302,8 @@ class IrAttachment(models.Model):
                         if new_att:
                             new_att.deltatech_image_optimized = now
                         freed += len(raw) - len(data)
+                        if not shared:
+                            freed_disk += len(raw) - len(data)
                         optimized += 1
             if index % flush_every == 0:
                 self.env.flush_all()
@@ -273,12 +311,18 @@ class IrAttachment(models.Model):
                 gc.collect()
 
         _logger.info(
-            "Image optimizer: scanned=%s optimized=%s freed=%.1f MB",
+            "Image optimizer: scanned=%s optimized=%s freed=%.1f MB (on disk: %.1f MB)",
             len(attachments),
             optimized,
             freed / 1048576.0,
+            freed_disk / 1048576.0,
         )
-        return {"scanned": len(attachments), "optimized": optimized, "freed": freed}
+        return {
+            "scanned": len(attachments),
+            "optimized": optimized,
+            "freed": freed,
+            "freed_disk": freed_disk,
+        }
 
     @api.model
     def _dt_image_optimize_variants_run(self, limit=None):
@@ -290,10 +334,14 @@ class IrAttachment(models.Model):
         (``att.write({'raw': ...})``): no resize (already sized), just a lower
         quality re-encode. No propagation, original untouched.
 
-        :return: dict with ``scanned``, ``optimized`` and ``freed`` (bytes).
+        :return: dict with ``scanned``, ``optimized``, ``freed`` and
+            ``freed_disk`` (bytes). ``freed`` sums the per-attachment size
+            difference; ``freed_disk`` counts only attachments whose filestore
+            file was not shared with another attachment, so it is the figure
+            that matches what the disk actually gives back.
         """
         if Image is None:
-            return {"scanned": 0, "optimized": 0, "freed": 0}
+            return {"scanned": 0, "optimized": 0, "freed": 0, "freed_disk": 0}
         get = self.env["ir.config_parameter"].sudo().get_param
         quality = max(1, min(95, int(get("deltatech_image_optimize.variant_quality", 85))))
         webp_quality = max(1, min(100, int(get("deltatech_image_optimize.webp_quality", 85))))
@@ -317,8 +365,11 @@ class IrAttachment(models.Model):
         now = fields.Datetime.now()
         optimized = 0
         freed = 0
+        freed_disk = 0
         for index, att in enumerate(attachments, start=1):
             raw = att.raw
+            # Ask before writing: the write replaces store_fname.
+            shared = att._dt_image_shared_file()
             # max_dim=0 -> no resize, only a lower quality re-encode.
             data, out_format = self._dt_image_recompress(raw, quality, 0, webp_quality, force_jpeg)
             vals = {"deltatech_image_optimized": now}
@@ -333,6 +384,8 @@ class IrAttachment(models.Model):
                 continue
             if data:
                 freed += len(raw) - len(data)
+                if not shared:
+                    freed_disk += len(raw) - len(data)
                 optimized += 1
             if index % flush_every == 0:
                 self.env.flush_all()
@@ -340,12 +393,18 @@ class IrAttachment(models.Model):
                 gc.collect()
 
         _logger.info(
-            "Image optimizer (variants): scanned=%s optimized=%s freed=%.1f MB",
+            "Image optimizer (variants): scanned=%s optimized=%s freed=%.1f MB (on disk: %.1f MB)",
             len(attachments),
             optimized,
             freed / 1048576.0,
+            freed_disk / 1048576.0,
         )
-        return {"scanned": len(attachments), "optimized": optimized, "freed": freed}
+        return {
+            "scanned": len(attachments),
+            "optimized": optimized,
+            "freed": freed,
+            "freed_disk": freed_disk,
+        }
 
     @api.model
     def _dt_image_optimize_cron(self):
