@@ -542,7 +542,7 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_quant__inventory_note
 msgid "Inventory Note"
-msgstr ""
+msgstr "Notă inventar"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__is_inventory_ok
