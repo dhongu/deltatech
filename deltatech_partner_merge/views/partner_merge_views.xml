@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_partner_merge_batch_form" model="ir.ui.view">
+        <field name="name">partner.merge.batch.form</field>
+        <field name="model">partner.merge.batch</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_analyze" type="object" string="Analyze"
+                            class="oe_highlight" invisible="state not in ('draft',)" />
+                    <button name="action_simulate" type="object" string="Simulate"
+                            class="oe_highlight" invisible="state not in ('analyzed', 'simulated')" />
+                    <button name="action_apply" type="object" string="Apply"
+                            invisible="state != 'simulated'"
+                            confirm="The simulation report is above. Applying will remove the absorbed
+                                     records for good (unless you chose to archive them). Continue?" />
+                    <button name="action_verify" type="object" string="Verify"
+                            invisible="state != 'done'" class="oe_highlight" />
+                    <button name="action_reset" type="object" string="Back to draft"
+                            invisible="state in ('draft', 'done')" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Batch name" /></h1>
+                    </div>
+                    <div class="alert alert-info" role="status" invisible="state != 'draft'">
+                        Analyzing does not change any business data — it only groups the duplicates and
+                        picks, for each group, the record to keep. Simulating runs the whole merge on a
+                        separate transaction and rolls it back, so it cannot write anything.
+                    </div>
+                    <div class="alert alert-warning" role="alert"
+                         invisible="missing_index_count == 0">
+                        <field name="missing_index_count" class="oe_inline" />
+                        foreign-key columns towards partners have no index. Deleting partners will be
+                        slow — each removed record forces a full scan of those tables. Create the
+                        indexes first, or run <code>01_fk_indexes.sql</code> from psql if a brief lock
+                        on the large tables is not acceptable.
+                        <button name="action_create_indexes" type="object" string="Create the indexes"
+                                class="btn-link" />
+                    </div>
+                    <group>
+                        <group string="Selection">
+                            <field name="category_ids" />
+                            <field name="group_limit" />
+                            <field name="archive_instead_of_delete" />
+                        </group>
+                        <group string="This batch">
+                            <field name="group_count" />
+                            <field name="record_count" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Groups" name="groups">
+                            <field name="line_ids" nolabel="1">
+                                <list decoration-warning="name_suspect == True" create="false">
+                                    <field name="vat_normalized" />
+                                    <field name="category" />
+                                    <field name="master_id" />
+                                    <field name="absorbed_count" sum="Records" />
+                                    <field name="absorbed_names" optional="show" />
+                                    <field name="absorbed_ids" optional="hide" />
+                                    <field name="name_suspect" optional="show" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Report" name="report">
+                            <field name="report" nolabel="1" widget="text" readonly="1" />
+                        </page>
+                        <page string="All groups by category" name="classification">
+                            <div class="text-muted mb-2">
+                                Categories C and D change accounting figures — handle them with the
+                                accountant, after the month is closed. Guarded groups are left out
+                                automatically: those holding your own company record, those with portal
+                                users on several records, and those whose names differ completely.
+                            </div>
+                            <field name="classification" nolabel="1" widget="text" readonly="1" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_partner_merge_batch_list" model="ir.ui.view">
+        <field name="name">partner.merge.batch.list</field>
+        <field name="model">partner.merge.batch</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="category_ids" />
+                <field name="group_count" />
+                <field name="record_count" />
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'" decoration-info="state == 'simulated'" />
+            </list>
+        </field>
+    </record>
+
+    <record id="action_partner_merge_batch" model="ir.actions.act_window">
+        <field name="name">Partner Merge Batches</field>
+        <field name="res_model">partner.merge.batch</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a merge batch</p>
+            <p>
+                Groups partners that share the same VAT number and merges them in bulk: one statement
+                per column for the whole batch, instead of one per group per column. Foreign keys stay
+                enabled throughout, so the database guarantees integrity.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_partner_merge_root" name="Partner Merge"
+              parent="base.menu_administration" sequence="80"
+              groups="deltatech_partner_merge.group_partner_merge_prepare" />
+    <menuitem id="menu_partner_merge_batch" name="Merge Batches"
+              parent="menu_partner_merge_root" action="action_partner_merge_batch" sequence="10" />
+</odoo>
