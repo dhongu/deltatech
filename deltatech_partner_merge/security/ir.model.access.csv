@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_partner_merge_batch_prepare,partner.merge.batch prepare,model_partner_merge_batch,group_partner_merge_prepare,1,1,1,1
+access_partner_merge_line_prepare,partner.merge.batch.line prepare,model_partner_merge_batch_line,group_partner_merge_prepare,1,1,1,1
