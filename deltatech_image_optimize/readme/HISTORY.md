@@ -1,5 +1,19 @@
 # Changelog
 
+## 19.0.1.8.1 (2026)
+
+- ``data/ir_cron.xml`` is now ``noupdate="1"``. It was not, so **every module
+  upgrade reapplied ``active = False`` and switched the scheduled action back
+  off**, silently, however long ago someone had enabled it. Seen in production:
+  the cron was enabled one day, an upgrade the next morning disabled it again,
+  and nothing in the logs said so -- it simply never ran. ``ir_config_parameter.xml``
+  already had the flag, which is why the tuned parameters survived the same
+  upgrade while the cron did not.
+- Existing databases: the flag stops future upgrades from touching the record,
+  but it cannot restore a cron already switched off. Check
+  Settings > Technical > Scheduled Actions after upgrading, and re-enable it if
+  it was on before.
+
 ## 19.0.1.8.0 (2026)
 
 - The batch methods now also return ``freed_disk``, and log it next to
