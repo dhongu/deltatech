@@ -65,7 +65,11 @@ WHERE r.facturi <> s.facturi_asteptate
 ORDER BY 1 LIMIT 50;
 
 \echo ''
-\echo '== D. Referințe orfane rămase (legături polimorfe — fără protecție FK) =='
+\echo '== D. Orfani polimorfi ÎN TOATĂ BAZA (stare preexistentă, nu efectul acestui lot) =='
+-- ATENȚIE la interpretare: numără orfanii din toată baza, inclusiv cei lăsați de ștergeri
+-- anterioare făcute din interfață sau din alte scripturi. Efectul lotului curent se citește
+-- din verificarea de la finalul lui 03, care filtrează pe pm_map. O valoare nenulă aici NU
+-- înseamnă că unificarea a lăsat referințe în urmă.
 SELECT 'mail_activity' AS unde, count(*) AS orfane FROM mail_activity WHERE res_model='res.partner' AND res_id NOT IN (SELECT id FROM res_partner)
 UNION ALL SELECT 'ir_attachment', count(*) FROM ir_attachment WHERE res_model='res.partner' AND res_id NOT IN (SELECT id FROM res_partner)
 UNION ALL SELECT 'mail_message',  count(*) FROM mail_message  WHERE model='res.partner'     AND res_id NOT IN (SELECT id FROM res_partner)
@@ -86,10 +90,7 @@ SELECT p.id, p.name AS denumire_master, p.vat,
             WHEN p.name !~ ' ' AND p.name ~ '[[:lower:]][[:upper:]]'  THEN 'cuvinte lipite (import prost)'
             WHEN p.name !~ ' ' AND length(p.name) > 8                 THEN 'fără spații'
        END AS motiv,
-       -- denumirea de pe fișele absorbite, ca alternativă de corectare
-       (SELECT string_agg(DISTINCT o.name, ' | ')
-          FROM pm_map m JOIN res_partner o ON o.id = m.old_id
-         WHERE m.master_id = p.id) AS variante_absorbite
+       s.denumiri_absorbite AS variante_absorbite
 FROM pm_snapshot s JOIN res_partner p ON p.id = s.master_id
 WHERE p.name ~ '^[A-Z]{0,2}[0-9]{4,}$'
    OR (p.name !~ ' ' AND (p.name ~ '[[:lower:]][[:upper:]]' OR length(p.name) > 8))

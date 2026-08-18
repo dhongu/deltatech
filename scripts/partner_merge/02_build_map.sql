@@ -135,7 +135,11 @@ SELECT m.master_id,
        sum(f.comenzi_v) + mf.comenzi_v       AS comenzi_v_asteptate,
        sum(f.comenzi_a) + mf.comenzi_a       AS comenzi_a_asteptate,
        sum(f.livrari)   + mf.livrari         AS livrari_asteptate,
-       round(sum(f.sold) + mf.sold, 2)       AS sold_asteptat
+       round(sum(f.sold) + mf.sold, 2)       AS sold_asteptat,
+       -- Denumirile fișelor absorbite, capturate ACUM: după merge ele nu mai există,
+       -- deci un JOIN în 04 nu ar mai găsi nimic. Servesc la corectarea manuală a
+       -- masterilor cu denumire degradată (vezi 04, secțiunea E).
+       string_agg(DISTINCT f.name, ' | ')     AS denumiri_absorbite
 FROM pm_map m
 JOIN pm_face f  ON f.id = m.old_id
 JOIN pm_face mf ON mf.id = m.master_id
