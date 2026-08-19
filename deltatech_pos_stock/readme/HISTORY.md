@@ -1,3 +1,15 @@
+## 19.0.1.1.0 (2026-08-19)
+
+- Fixed stale stock badge: `qty_available` is a non-stored computed field, so a sale (which
+  writes on `stock.quant`, not on `product.template`) never bumps the template's `write_date`.
+  The POS incremental sync filters on `write_date`, so it never re-sent the recalculated
+  quantity to sessions already open — the badge could stay frozen at a days-old value.
+- `stock.quant` now pushes a live `STOCK_SYNCHRONISATION` bus notification (reusing the same
+  `pos.bus.mixin` channel core uses for `notify_synchronisation`) whenever a product's on-hand
+  quantity changes, to every open POS session with `display_stock` enabled. The frontend
+  subscribes to it and merges the fresh `product.template` data straight into the in-memory
+  model, independent of the `write_date`-based sync.
+
 ## 19.0.1.0.0 (2026-08-14)
 
 - Migrated to Odoo 19.0.
