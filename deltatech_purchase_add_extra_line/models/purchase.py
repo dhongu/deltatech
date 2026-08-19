@@ -45,22 +45,6 @@ class PurchaseOrderLine(models.Model):
             line.check_extra_product()
         return res
 
-    def write(self, vals):
-        res = super().write(vals)
-        # A quantity/price/product change saved outside the form's live onchange
-        # (inline list edit, import, RPC write) never went through
-        # `check_extra_product`, so the extra line silently kept its old
-        # quantity/price (ticket #9275). `skip_check_extra_product` guards the
-        # recursion this triggers: `check_extra_product` writes back on the
-        # extra line (and, through PTC's override, sometimes on this same line).
-        if not self.env.context.get("skip_check_extra_product") and vals.keys() & {
-            "product_qty",
-            "product_id",
-            "price_unit",
-        }:
-            self.with_context(skip_check_extra_product=True).check_extra_product()
-        return res
-
     def unlink(self):
         for line in self:
             if line.product_id.extra_product_id:
