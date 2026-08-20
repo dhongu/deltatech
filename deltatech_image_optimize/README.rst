@@ -14,7 +14,7 @@ Image Optimizer
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_image_optimize
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_image_optimize
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -30,7 +30,8 @@ For each targeted image the module:
 - downscales it to a maximum side of ``max_dim`` pixels (default 1920);
 - re-encodes photos without transparency as progressive **JPEG** at the
   configured quality (default 85);
-- keeps images with transparency as optimized **PNG** (alpha preserved);
+- keeps genuinely transparent images as **WebP** (alpha preserved), or
+  as optimized **PNG** when the Pillow build has no WebP encoder;
 - skips animated GIFs (never flattens the animation);
 - keeps the result only when it is actually smaller.
 
@@ -43,25 +44,127 @@ skipped on the next run. Because Odoo creates a fresh attachment
 whenever an image field is updated, newly uploaded or changed images are
 picked up automatically.
 
+How much space you actually get back
+------------------------------------
+
+The batch methods return two figures, and the difference between them
+matters:
+
++----------------+-----------------------------------------------------+
+| Key            | Meaning                                             |
++================+=====================================================+
+| ``freed``      | sum of the per-attachment size difference           |
++----------------+-----------------------------------------------------+
+| ``freed_disk`` | only the attachments whose filestore file was       |
+|                | **not** shared                                      |
++----------------+-----------------------------------------------------+
+
+Odoo stores one file per checksum, so attachments with identical content
+share a single file. Recompressing one of them frees nothing while the
+others still point at the old file. On a catalog that reuses the same
+picture across products, ``freed`` therefore overstates the saving — on
+a real deployment it counted **29 GB** where the disk gave back about
+**4 GB**, because 815 000 image attachments lived in 508 000 files.
+
+Use ``freed_disk`` when you report space. Use ``freed`` only to see how
+much lighter the images themselves got — which is the real win on a
+website, since that is bytes off every page load, regardless of
+deduplication.
+
+To measure the whole database rather than one run:
+
+.. code:: sql
+
+   SELECT pg_size_pretty(sum(sz)) FROM (
+       SELECT DISTINCT ON (checksum) file_size AS sz
+       FROM ir_attachment WHERE res_field IS NOT NULL AND checksum IS NOT NULL
+       ORDER BY checksum, id
+   ) t;
+
+Note also that the filestore grows *before* it shrinks: the new file is
+written while the old one is still referenced, and the space comes back
+only when the filestore GC runs (the scheduled action does it at the end
+of each pass).
+
 Configuration
 -------------
 
 System Parameters (Settings → Technical → System Parameters):
 
-+--------------------------------------------+-------------------------------+----------------------+
-| Key                                        | Default                       | Meaning              |
-+============================================+===============================+======================+
-| ``deltatech_image_optimize.quality``       | 85                            | JPEG quality (1..95) |
-+--------------------------------------------+-------------------------------+----------------------+
-| ``deltatech_image_optimize.max_dim``       | 1920                          | max side in pixels   |
-+--------------------------------------------+-------------------------------+----------------------+
-| ``deltatech_image_optimize.min_size``      | 102400                        | only images larger   |
-|                                            |                               | than this (bytes)    |
-+--------------------------------------------+-------------------------------+----------------------+
-| ``deltatech_image_optimize.batch``         | 1000                          | images per cron run  |
-+--------------------------------------------+-------------------------------+----------------------+
-| ``deltatech_image_optimize.target_fields`` | image_1920,image_variant_1920 | fields to optimize   |
-+--------------------------------------------+-------------------------------+----------------------+
++-----------------------------------------------+------------------------------------------+----------------------+
+| Key                                           | Default                                  | Meaning              |
++===============================================+==========================================+======================+
+| ``deltatech_image_optimize.quality``          | 85                                       | JPEG quality (1..95) |
++-----------------------------------------------+------------------------------------------+----------------------+
+| ``deltatech_image_optimize.max_dim``          | 1920                                     | max side in pixels   |
++-----------------------------------------------+------------------------------------------+----------------------+
+| ``deltatech_image_optimize.min_size``         | 102400                                   | only images larger   |
+|                                               |                                          | than this (bytes)    |
++-----------------------------------------------+------------------------------------------+----------------------+
+| ``deltatech_image_optimize.batch``            | 50                                       | images per cron run  |
++-----------------------------------------------+------------------------------------------+----------------------+
+| ``deltatech_image_optimize.flush_every``      | 20                                       | flush/invalidate the |
+|                                               |                                          | ORM cache every N    |
+|                                               |                                          | images               |
++-----------------------------------------------+------------------------------------------+----------------------+
+| ``deltatech_image_optimize.target_fields``    | image_1920,image_variant_1920            | original fields to   |
+|                                               |                                          | optimize             |
++-----------------------------------------------+------------------------------------------+----------------------+
+| ``deltatech_image_optimize.webp_quality``     | 85                                       | WebP quality for     |
+|                                               |                                          | transparent images   |
++-----------------------------------------------+------------------------------------------+----------------------+
+| ``deltatech_image_optimize.force_jpeg``       | 0                                        | ignore alpha, always |
+|                                               |                                          | JPEG —               |
+|                                               |                                          | **destructive, see   |
+|                                               |                                          | below**              |
++-----------------------------------------------+------------------------------------------+----------------------+
+| ``deltatech_image_optimize.variant_fields``   | image_1024,image_512,image_256,image_128 | resized variants to  |
+|                                               |                                          | recompress in place  |
++-----------------------------------------------+------------------------------------------+----------------------+
+| ``deltatech_image_optimize.variant_quality``  | 85                                       | quality for          |
+|                                               |                                          | re-encoding the      |
+|                                               |                                          | variants             |
++-----------------------------------------------+------------------------------------------+----------------------+
+| ``deltatech_image_optimize.variant_min_size`` | 20480                                    | only recompress      |
+|                                               |                                          | variants larger than |
+|                                               |                                          | this (bytes)         |
++-----------------------------------------------+------------------------------------------+----------------------+
+
+⚠ ``force_jpeg`` is destructive — probe before enabling it
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``force_jpeg=1`` makes the optimizer ignore the alpha channel entirely.
+JPEG has no transparency, so every transparent area is **flattened to
+black**, and the original is gone: the optimized image is written
+through the record, so the previous attachment no longer exists. There
+is no undo — the images have to be re-imported from wherever they came
+from.
+
+Enable it only on a catalog you have *verified* has no real
+transparency. "The originals are stored elsewhere" is not that
+verification: it covers resolution, not the alpha channel. A catalog
+that looks like solid white product shots can still be a third
+transparent PNGs — this is what happened on a real deployment, where 32%
+of a 40-image sample turned out to have real alpha.
+
+Probe it first, without writing anything (``_dt_image_recompress`` is a
+pure function — it returns the bytes and the chosen format, and touches
+nothing):
+
+.. code:: python
+
+   A = env["ir.attachment"].sudo()
+   counts = {}
+   for att in A.search([("res_field", "in", ["image_1920", "image_variant_1920"]),
+                        ("mimetype", "=", "image/png"), ("file_size", ">", 51200)], limit=40):
+       _data, fmt = A._dt_image_recompress(att.raw, 78, 1280, 85, False)
+       counts[fmt] = counts.get(fmt, 0) + 1
+   print(counts)  # any WEBP/PNG result = images that force_jpeg would destroy
+
+Every ``WEBP`` or ``PNG`` in that count is an image with real
+transparency. If there is even one, leave ``force_jpeg`` at ``0`` — the
+module already sends opaque images to JPEG on its own, so you lose
+almost nothing by keeping it off.
 
 Scheduled action
 ----------------
@@ -75,7 +178,7 @@ shell:
 
 .. code:: python
 
-   while env["ir.attachment"]._dt_image_optimize_run(limit=2000)["scanned"]:
+   while env["ir.attachment"]._dt_image_optimize_run(limit=200)["scanned"]:
        env.cr.commit()
 
 **Table of contents**
@@ -88,6 +191,175 @@ Changelog
 
 Changelog
 =========
+
+19.0.1.8.1 (2026)
+-----------------
+
+- ``data/ir_cron.xml`` is now ``noupdate="1"``. It was not, so **every
+  module upgrade reapplied ``active = False`` and switched the scheduled
+  action back off**, silently, however long ago someone had enabled it.
+  Seen in production: the cron was enabled one day, an upgrade the next
+  morning disabled it again, and nothing in the logs said so -- it
+  simply never ran. ``ir_config_parameter.xml`` already had the flag,
+  which is why the tuned parameters survived the same upgrade while the
+  cron did not.
+- Existing databases: the flag stops future upgrades from touching the
+  record, but it cannot restore a cron already switched off. Check
+  Settings > Technical > Scheduled Actions after upgrading, and
+  re-enable it if it was on before.
+
+19.0.1.8.0 (2026)
+-----------------
+
+- The batch methods now also return ``freed_disk``, and log it next to
+  ``freed``. ``freed`` sums the per-attachment size difference, which
+  **overstates the saving** whenever the same picture is used on several
+  records: Odoo keeps one file per checksum, so recompressing one
+  attachment frees nothing while the others still reference the old
+  file. On a real deployment the run reported **29 GB** where the disk
+  gave back about **4 GB** -- 815 000 image attachments living in 508
+  000 files. ``freed_disk`` counts only attachments whose file was not
+  shared, so it is the figure to quote when someone asks how much space
+  this recovers.
+- The check reads ``store_fname`` (indexed, and derived from the
+  checksum) before the write, since writing replaces it.
+- ``readme/DESCRIPTION.md`` explains the difference, gives the SQL to
+  measure real occupancy across the whole database, and notes that the
+  filestore grows before it shrinks -- the space returns only once the
+  GC runs.
+
+19.0.1.7.0 (2026)
+-----------------
+
+- **Transparent images now really become WebP.** They were silently
+  falling back to optimized PNG on most databases.
+  ``odoo/tools/image.py`` runs ``Image.preinit()`` and then sets
+  ``Image._initialized = 2``; preinit registers only
+  BMP/GIF/JPEG/PPM/PNG, and the flag makes Pillow believe ``init()``
+  already ran, so ``save(format="WEBP")`` raises ``KeyError: 'WEBP'``
+  even where Pillow is built with libwebp and ``features.check("webp")``
+  returns True. The module now imports ``PIL.WebPImagePlugin``
+  explicitly, which registers the format — ``Image.init()`` alone does
+  not help, it returns early on ``_initialized >= 2``. Same approach
+  already used by ``deltatech_website_watermark``.
+- ``WEBP_OK`` (a constant computed at import time) is replaced by
+  ``_webp_available()``, resolved on first use and cached. The old
+  constant made the module behave **differently from one database to
+  another**: where another module registering the WebP plugin happened
+  to be imported first, transparent images became WebP; everywhere else
+  the identical code produced PNG, with no error anywhere. Import order
+  is not something a result should depend on.
+- The test suite asks the module for WebP support instead of probing at
+  import, so ``test_transparent_image_becomes_webp`` actually runs. It
+  had been skipping itself with "Pillow build lacks WebP support" — on
+  builds that encode WebP fine.
+
+Impact: on catalogs with real transparency, those images now compress as
+WebP (typically ~70% smaller than the PNG fallback) instead of staying
+nearly uncompressed. No change for opaque images.
+
+19.0.1.6.0 (2026)
+-----------------
+
+- Document that ``force_jpeg`` is **destructive**, in both places where
+  it is read: ``readme/DESCRIPTION.md`` and the comment above the
+  parameter in ``data/ir_config_parameter.xml``. It flattens
+  transparency to black and the original cannot be recovered, because
+  the optimized image is written through the record and the previous
+  attachment is gone.
+- Add a probe snippet that measures how much of a catalog has real
+  transparency *before* the parameter is enabled, using
+  ``_dt_image_recompress`` (a pure function — it returns bytes and
+  format, writes nothing).
+- The rationale is a real deployment: ``force_jpeg=1`` was enabled on a
+  catalog believed to have no transparency, and 32% of a 40-image sample
+  turned out to have real alpha. The first 20 optimized images were
+  destroyed before it was caught.
+- Bring the configuration table in ``DESCRIPTION.md`` up to date: it was
+  missing ``flush_every``, ``force_jpeg``, ``webp_quality`` and the
+  three ``variant_*`` keys, and still advertised the old ``batch``
+  default of 1000. Also state that transparent images go to WebP, with
+  PNG as the fallback when the Pillow build has no WebP encoder.
+
+19.0.1.5.1 (2026)
+-----------------
+
+- Migration to Odoo 19.0. No functional change: the module only relies
+  on stable ``ir.attachment`` API (``raw``, ``res_field``,
+  ``_gc_file_store``) which is unchanged in 19.0.
+- Add the Odoo Apps marketing banner
+  (``static/description/main_screenshot.png``).
+
+18.0.1.5.1 (2025)
+-----------------
+
+- Lower the default/installed ``batch`` from 200-1000 to **50**. On
+  production, a large batch of big/high-resolution images could exceed
+  the cron worker's time/CPU limit; the resulting interrupt looked like
+  a normal per-image failure and left the rest of that batch silently
+  flagged as "processed" without actually being optimized. A small batch
+  keeps each cron run well within limits. If you raise it, verify
+  converted images actually shrank.
+
+18.0.1.5.0 (2025)
+-----------------
+
+- New ``force_jpeg`` parameter: when the catalog images are never really
+  transparent (solid colored background), set it to 1 to ignore the
+  alpha channel and always produce JPEG (max savings, no WebP
+  dependency).
+
+18.0.1.4.0 (2025)
+-----------------
+
+- Transparency is now decided by the *actual* alpha content, not the
+  mode: RGBA/palette images that are effectively opaque go to JPEG (big
+  savings), only genuinely transparent images go to WebP. Palette images
+  are normalized first. This fixes "transparent" PNGs that previously
+  stayed uncompressed.
+- Genuinely transparent images with no WebP support keep an optimized
+  PNG (never flattened to a solid background).
+
+18.0.1.3.0 (2025)
+-----------------
+
+- Images with transparency are now converted to **WebP** (alpha
+  preserved, ~70% smaller than PNG) instead of being kept as PNG. New
+  ``webp_quality`` parameter (default 85).
+- Because Odoo cannot resize WebP, a WebP original is written directly
+  on its attachment (never through the record field, which would
+  regenerate full-size variants); the variants are converted in place
+  separately.
+- Opaque images keep going to JPEG.
+
+18.0.1.2.0 (2025)
+-----------------
+
+- Configurable ``flush_every`` parameter (memory flush/invalidate/gc
+  frequency). Lower it to 2-3 for very high-resolution images (e.g. 20
+  MP) so the cron and batch runs stay within memory on heavy images.
+- ``gc.collect()`` at each flush point.
+- The scheduled action now runs a filestore GC at the end (single writer
+  → can grab the lock), so cron-driven runs actually reclaim disk space.
+
+18.0.1.1.0 (2025)
+-----------------
+
+- Step 2 — recompress the stored resized variants
+  (image_1024/512/256/128) in place (``att.write({'raw': ...})``), at a
+  configurable ``variant_quality``, without resizing and without
+  touching the original (no related write-back).
+- New parameters: ``variant_fields``, ``variant_quality``,
+  ``variant_min_size``.
+- The scheduled action now optimizes originals **and** variants.
+
+18.0.1.0.1 (2025)
+-----------------
+
+- Keep memory flat over large batches: flush and invalidate the ORM
+  cache every 20 images (avoids the worker/shell being killed on big
+  batches).
+- Lower the default batch size to 200.
 
 18.0.1.0.0 (2025)
 -----------------
@@ -133,6 +405,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_image_optimize>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_image_optimize>`_ project on GitHub.
 
 You are welcome to contribute.
