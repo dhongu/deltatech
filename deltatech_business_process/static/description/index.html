@@ -1,529 +1,142 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
-<title>Business process</title>
-<style type="text/css">
-
-/*
-:Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 8954 2022-01-20 10:10:25Z milde $
-:Copyright: This stylesheet has been placed in the public domain.
-
-Default cascading style sheet for the HTML output of Docutils.
-
-See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
-customize this style sheet.
-*/
-
-/* used to remove borders from tables and images */
-.borderless, table.borderless td, table.borderless th {
-  border: 0 }
-
-table.borderless td, table.borderless th {
-  /* Override padding for "table.docutils td" with "! important".
-     The right padding separates the table cells. */
-  padding: 0 0.5em 0 0 ! important }
-
-.first {
-  /* Override more specific margin styles with "! important". */
-  margin-top: 0 ! important }
-
-.last, .with-subtitle {
-  margin-bottom: 0 ! important }
-
-.hidden {
-  display: none }
-
-.subscript {
-  vertical-align: sub;
-  font-size: smaller }
-
-.superscript {
-  vertical-align: super;
-  font-size: smaller }
-
-a.toc-backref {
-  text-decoration: none ;
-  color: black }
-
-blockquote.epigraph {
-  margin: 2em 5em ; }
-
-dl.docutils dd {
-  margin-bottom: 0.5em }
-
-object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
-  overflow: hidden;
-}
-
-/* Uncomment (and remove this text!) to get bold-faced definition list terms
-dl.docutils dt {
-  font-weight: bold }
-*/
-
-div.abstract {
-  margin: 2em 5em }
-
-div.abstract p.topic-title {
-  font-weight: bold ;
-  text-align: center }
-
-div.admonition, div.attention, div.caution, div.danger, div.error,
-div.hint, div.important, div.note, div.tip, div.warning {
-  margin: 2em ;
-  border: medium outset ;
-  padding: 1em }
-
-div.admonition p.admonition-title, div.hint p.admonition-title,
-div.important p.admonition-title, div.note p.admonition-title,
-div.tip p.admonition-title {
-  font-weight: bold ;
-  font-family: sans-serif }
-
-div.attention p.admonition-title, div.caution p.admonition-title,
-div.danger p.admonition-title, div.error p.admonition-title,
-div.warning p.admonition-title, .code .error {
-  color: red ;
-  font-weight: bold ;
-  font-family: sans-serif }
-
-/* Uncomment (and remove this text!) to get reduced vertical space in
-   compound paragraphs.
-div.compound .compound-first, div.compound .compound-middle {
-  margin-bottom: 0.5em }
-
-div.compound .compound-last, div.compound .compound-middle {
-  margin-top: 0.5em }
-*/
-
-div.dedication {
-  margin: 2em 5em ;
-  text-align: center ;
-  font-style: italic }
-
-div.dedication p.topic-title {
-  font-weight: bold ;
-  font-style: normal }
-
-div.figure {
-  margin-left: 2em ;
-  margin-right: 2em }
-
-div.footer, div.header {
-  clear: both;
-  font-size: smaller }
-
-div.line-block {
-  display: block ;
-  margin-top: 1em ;
-  margin-bottom: 1em }
-
-div.line-block div.line-block {
-  margin-top: 0 ;
-  margin-bottom: 0 ;
-  margin-left: 1.5em }
-
-div.sidebar {
-  margin: 0 0 0.5em 1em ;
-  border: medium outset ;
-  padding: 1em ;
-  background-color: #ffffee ;
-  width: 40% ;
-  float: right ;
-  clear: right }
-
-div.sidebar p.rubric {
-  font-family: sans-serif ;
-  font-size: medium }
-
-div.system-messages {
-  margin: 5em }
-
-div.system-messages h1 {
-  color: red }
-
-div.system-message {
-  border: medium outset ;
-  padding: 1em }
-
-div.system-message p.system-message-title {
-  color: red ;
-  font-weight: bold }
-
-div.topic {
-  margin: 2em }
-
-h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
-h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
-  margin-top: 0.4em }
-
-h1.title {
-  text-align: center }
-
-h2.subtitle {
-  text-align: center }
-
-hr.docutils {
-  width: 75% }
-
-img.align-left, .figure.align-left, object.align-left, table.align-left {
-  clear: left ;
-  float: left ;
-  margin-right: 1em }
-
-img.align-right, .figure.align-right, object.align-right, table.align-right {
-  clear: right ;
-  float: right ;
-  margin-left: 1em }
-
-img.align-center, .figure.align-center, object.align-center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-table.align-center {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.align-left {
-  text-align: left }
-
-.align-center {
-  clear: both ;
-  text-align: center }
-
-.align-right {
-  text-align: right }
-
-/* reset inner alignment in figures */
-div.align-right {
-  text-align: inherit }
-
-/* div.align-center * { */
-/*   text-align: left } */
-
-.align-top    {
-  vertical-align: top }
-
-.align-middle {
-  vertical-align: middle }
-
-.align-bottom {
-  vertical-align: bottom }
-
-ol.simple, ul.simple {
-  margin-bottom: 1em }
-
-ol.arabic {
-  list-style: decimal }
-
-ol.loweralpha {
-  list-style: lower-alpha }
-
-ol.upperalpha {
-  list-style: upper-alpha }
-
-ol.lowerroman {
-  list-style: lower-roman }
-
-ol.upperroman {
-  list-style: upper-roman }
-
-p.attribution {
-  text-align: right ;
-  margin-left: 50% }
-
-p.caption {
-  font-style: italic }
-
-p.credits {
-  font-style: italic ;
-  font-size: smaller }
-
-p.label {
-  white-space: nowrap }
-
-p.rubric {
-  font-weight: bold ;
-  font-size: larger ;
-  color: maroon ;
-  text-align: center }
-
-p.sidebar-title {
-  font-family: sans-serif ;
-  font-weight: bold ;
-  font-size: larger }
-
-p.sidebar-subtitle {
-  font-family: sans-serif ;
-  font-weight: bold }
-
-p.topic-title {
-  font-weight: bold }
-
-pre.address {
-  margin-bottom: 0 ;
-  margin-top: 0 ;
-  font: inherit }
-
-pre.literal-block, pre.doctest-block, pre.math, pre.code {
-  margin-left: 2em ;
-  margin-right: 2em }
-
-pre.code .ln { color: grey; } /* line numbers */
-pre.code, code { background-color: #eeeeee }
-pre.code .comment, code .comment { color: #5C6576 }
-pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
-pre.code .literal.string, code .literal.string { color: #0C5404 }
-pre.code .name.builtin, code .name.builtin { color: #352B84 }
-pre.code .deleted, code .deleted { background-color: #DEB0A1}
-pre.code .inserted, code .inserted { background-color: #A3D289}
-
-span.classifier {
-  font-family: sans-serif ;
-  font-style: oblique }
-
-span.classifier-delimiter {
-  font-family: sans-serif ;
-  font-weight: bold }
-
-span.interpreted {
-  font-family: sans-serif }
-
-span.option {
-  white-space: nowrap }
-
-span.pre {
-  white-space: pre }
-
-span.problematic {
-  color: red }
-
-span.section-subtitle {
-  /* font-size relative to parent (h1..h6 element) */
-  font-size: 80% }
-
-table.citation {
-  border-left: solid 1px gray;
-  margin-left: 1px }
-
-table.docinfo {
-  margin: 2em 4em }
-
-table.docutils {
-  margin-top: 0.5em ;
-  margin-bottom: 0.5em }
-
-table.footnote {
-  border-left: solid 1px black;
-  margin-left: 1px }
-
-table.docutils td, table.docutils th,
-table.docinfo td, table.docinfo th {
-  padding-left: 0.5em ;
-  padding-right: 0.5em ;
-  vertical-align: top }
-
-table.docutils th.field-name, table.docinfo th.docinfo-name {
-  font-weight: bold ;
-  text-align: left ;
-  white-space: nowrap ;
-  padding-left: 0 }
-
-/* "booktabs" style (no vertical lines) */
-table.docutils.booktabs {
-  border: 0px;
-  border-top: 2px solid;
-  border-bottom: 2px solid;
-  border-collapse: collapse;
-}
-table.docutils.booktabs * {
-  border: 0px;
-}
-table.docutils.booktabs th {
-  border-bottom: thin solid;
-  text-align: left;
-}
-
-h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
-h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
-  font-size: 100% }
-
-ul.auto-toc {
-  list-style-type: none }
-
-</style>
-</head>
-<body>
-<div class="document" id="business-process"><div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;"><!-- tb-skin v5 -->
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
     style="background-color:#00432a;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
+  <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Business process" style="width:72px;height:72px;border:none;"/></span></div>
   <h1 class="text-white fw-bold mb-3" style="font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Business process</h1>
   <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Business process</p>
   <div>
-    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
+    <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
+    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Generic Modules/Other</span>
+    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">OPL-1</span>
     <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Online &bull; Odoo.sh &bull; On-premise</span>
-    <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Optional support</span>
   </div>
 </div>
 
-<div class="py-2 text-body" style="font-size:16px;line-height:1.65;">
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! This file is generated by oca-gen-addon-readme !!
-!! changes will be overwritten.                   !!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! source digest: sha256:702e97c4f491efd49c1603ea62405cde361d0b767fefeab48acbb8270b504811
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane fade show active py-2 text-body" id="tb-panel-overview" style="font-size:16px;line-height:1.65;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;opacity:0.92;">Business Process Management for Odoo</p>
-<p>This module helps you structure and execute business implementation
-projects in Odoo. It introduces Projects, Business Processes and their
-Steps, along with Testing and Issue tracking flows so teams can design,
-validate and deliver processes in a controlled way.</p>
-<p>Key features</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Project workspace: manage implementation projects, phases and overall
-progress.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Business Processes: define processes per project, grouped by business
-area and optionally by process group.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Steps: break down each process into ordered steps with responsible
-parties and related transactions.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Testing: create Internal, Integration and User Acceptance Tests that
-mirror the process steps and track execution status and results per
-step.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Issues: log issues against a process or a specific test step, follow
-up through states, and close with validations.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Developments: link development items to processes and/or projects to
-track required customizations.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Attachments: quick access to all related documents across project,
-processes, steps, tests and issues.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Reports: print Business Process and Process Test reports;
-export/import processes as JSON for reuse.</div></div></li></ul>
-<p>Data model at a glance</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>business.project: the project container; aggregates processes, issues,
-developments and attachments; can generate an Excel summary report.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>business.process: the core entity describing a process within a
-project; has steps, tests, developments and computed counters.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>business.process.step: an ordered activity in a process; can reference
-a business transaction and a responsible partner.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>business.process.test: a test instance for a process (scope:
-internal/integration/user_acceptance); auto-generates step tests;
-tracks progress and completion.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>business.process.step.test: mirrors a process step for a specific
-test; records dates, result (draft/passed/failed) and observations;
-counts linked issues.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>business.issue: issues discovered during testing or execution;
-life‑cycle from draft → open/allocated → solved/in_test →
-closed/reopened; integrates with followers and email.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>business.development (+ type): reference developments linked to
-processes/projects; can contribute to project duration.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>business.area and business.process.group: classify processes by area
-and group.</div></div></li></ul>
-<p>Typical workflows</p>
-<ol class="arabic simple">
-<li>Design</li>
-</ol>
-<ul class="simple">
-<li>Create a Project, define Business Areas and (optionally) Process
-Groups.</li>
-<li>Add Business Processes and their Steps; set responsibles and expected
-durations.</li>
-</ul>
-<ol class="arabic simple" start="2">
-<li>Testing</li>
-</ol>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Start tests from a process (internal/integration/UAT). The module
-creates corresponding test records and step tests.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Run tests, record results per step, and raise issues directly on the
-affected step test.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Closing issues can automatically mark a step test as passed when no
-other issues remain open for that step test.</div></div></li></ul>
-<ol class="arabic simple" start="3">
-<li>Go‑live</li>
-</ol>
-<ul class="simple">
-<li>When all required tests are done, move the process to Ready and then
-to Production.</li>
-</ul>
-<p>Export/Import</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>From the Business Processes list view, export processes as JSON. You
-can choose to include tests, responsible, customer and support info.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>On the Project form, import a previously exported JSON to bootstrap a
-project.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Important: for smooth import across databases, ensure the names for
-Responsible/Customer Responsible/Support are consistent; otherwise new
-contacts may be created during import if they do not exist.</div></div></li></ul>
-<p>Attachments and counts</p>
-<ul class="simple">
-<li>Project and Process records compute document counts and provide an
-Attachment smart button that opens a consolidated view of attachments
-related to the record and its tests.</li>
-</ul>
-<p>Excel report</p>
-<ul class="simple">
-<li>From a Project, generate an Excel summary that groups processes by
-Area and aggregates configuration/instruction/testing/data‑migration
-durations, highlighting processes with zero total duration.</li>
-</ul>
-<p>Security and chatter</p>
-<ul class="simple">
-<li>Most records inherit mail.thread/activity to enable followers, logging
-and notifications. Key participants (responsibles, testers, step
-responsibles, customer contacts) are subscribed automatically during
-actions where relevant.</li>
-</ul>
-<p>Installation</p>
-<ul class="simple">
-<li>Dependencies: base, mail.</li>
-<li>Install the module like any standard Odoo addon and ensure sequences
-and email templates from data files are loaded.</li>
-</ul>
-<p>Process Library</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>A reusable library of processes can be sourced from installed modules
-that ship a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">processes/</code> folder and/or from external git
-repositories (Settings → Process Library).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Configure the git repositories as a comma-separated list of URLs and
-press “Sync now” to clone/pull them locally; processes are then
-imported selectively into a project via the “Process Library” action.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The library import maps the full process metadata exported in
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">process.json</code> — area, process group, module type, implementation
-stage, state — and brings in the configuration / instructing / testing
-/ data-migration durations. An “Include durations” toggle on the
-import dialog lets you import every selected process with or without
-its effort estimates (all-or-nothing).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Private HTTPS repositories: set a Git username (default
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;"><span class="pre">x-access-token</span></code> for GitHub, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">oauth2</code> for GitLab) and a
-token/password. The token is sent as an HTTP Basic Authorization
-header on each git command and is never written into the cloned repo’s
-on-disk config. SSH (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">git&#64;…</code>) URLs use their own keys; URLs that
-already embed credentials are used as-is.</div></div></li></ul>
-<p>Configuration tips</p>
-<ul class="simple">
-<li>Define Business Areas and Process Groups first to better organize
-processes.</li>
-<li>For local projects, you can use the Install Modules button on a
-process to (optionally) install selected modules; remote projects are
-blocked by design.</li>
-</ul>
-<p>Compatibility</p>
-<ul class="simple">
-<li>Designed for Odoo 19.0.</li>
-</ul>
-<p>Maintainers</p>
-<ul class="simple">
-<li>Terrabit, Dorin Hongu</li>
-</ul>
-<p>License</p>
-<ul class="simple">
-<li>OPL-1. See README.rst at the addons root for license details.</li>
-</ul>
-<div class="section" id="bug-tracker">
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Bug Tracker</h1>
-<p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
-In case of trouble, please check there if your issue has already been reported.</p>
-<p>Do not contact contributors directly about support or help with technical issues.</p>
+<p>This module helps you structure and execute business implementation projects in Odoo. It introduces Projects, Business Processes and their Steps, along with Testing and Issue tracking flows so teams can design, validate and deliver processes in a controlled way.</p>
+<p>Key features
+- Project workspace: manage implementation projects, phases and overall progress.
+- Business Processes: define processes per project, grouped by business area and optionally by process group.
+- Steps: break down each process into ordered steps with responsible parties and related transactions.
+- Testing: create Internal, Integration and User Acceptance Tests that mirror the process steps and track execution status and results per step.
+- Issues: log issues against a process or a specific test step, follow up through states, and close with validations.
+- Developments: link development items to processes and/or projects to track required customizations.
+- Attachments: quick access to all related documents across project, processes, steps, tests and issues.
+- Reports: print Business Process and Process Test reports; export/import processes as JSON for reuse.</p>
+<p>Data model at a glance
+- business.project: the project container; aggregates processes, issues, developments and attachments; can generate an Excel summary report.
+- business.process: the core entity describing a process within a project; has steps, tests, developments and computed counters.
+- business.process.step: an ordered activity in a process; can reference a business transaction and a responsible partner.
+- business.process.test: a test instance for a process (scope: internal/integration/user_acceptance); auto-generates step tests; tracks progress and completion.
+- business.process.step.test: mirrors a process step for a specific test; records dates, result (draft/passed/failed) and observations; counts linked issues.
+- business.issue: issues discovered during testing or execution; life‑cycle from draft → open/allocated → solved/in_test → closed/reopened; integrates with followers and email.
+- business.development (+ type): reference developments linked to processes/projects; can contribute to project duration.
+- business.area and business.process.group: classify processes by area and group.</p>
+<p>Typical workflows
+1) Design
+- Create a Project, define Business Areas and (optionally) Process Groups.
+- Add Business Processes and their Steps; set responsibles and expected durations.</p>
+<p>2) Testing
+- Start tests from a process (internal/integration/UAT). The module creates corresponding test records and step tests.
+- Run tests, record results per step, and raise issues directly on the affected step test.
+- Closing issues can automatically mark a step test as passed when no other issues remain open for that step test.</p>
+<p>3) Go‑live
+- When all required tests are done, move the process to Ready and then to Production.</p>
+<p>Export/Import
+- From the Business Processes list view, export processes as JSON. You can choose to include tests, responsible, customer and support info.
+- On the Project form, import a previously exported JSON to bootstrap a project.
+- Important: for smooth import across databases, ensure the names for Responsible/Customer Responsible/Support are consistent; otherwise new contacts may be created during import if they do not exist.</p>
+<p>Attachments and counts
+- Project and Process records compute document counts and provide an Attachment smart button that opens a consolidated view of attachments related to the record and its tests.</p>
+<p>Excel report
+- From a Project, generate an Excel summary that groups processes by Area and aggregates configuration/instruction/testing/data‑migration durations, highlighting processes with zero total duration.</p>
+<p>Security and chatter
+- Most records inherit mail.thread/activity to enable followers, logging and notifications. Key participants (responsibles, testers, step responsibles, customer contacts) are subscribed automatically during actions where relevant.</p>
+<p>Installation
+- Dependencies: base, mail.
+- Install the module like any standard Odoo addon and ensure sequences and email templates from data files are loaded.</p>
+<p>Process Library
+- A reusable library of processes can be sourced from installed modules that ship a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">processes/</code> folder and/or from external git repositories (Settings → Process Library).
+- Configure the git repositories as a comma-separated list of URLs and press "Sync now" to clone/pull them locally; processes are then imported selectively into a project via the "Process Library" action.
+- The library import maps the full process metadata exported in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">process.json</code> — area, process group, module type, implementation stage, state — and brings in the configuration / instructing / testing / data-migration durations. An "Include durations" toggle on the import dialog lets you import every selected process with or without its effort estimates (all-or-nothing).
+- Private HTTPS repositories: set a Git username (default <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">x-access-token</code> for GitHub, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">oauth2</code> for GitLab) and a token/password. The token is sent as an HTTP Basic Authorization header on each git command and is never written into the cloned repo's on-disk config. SSH (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">git@…</code>) URLs use their own keys; URLs that already embed credentials are used as-is.</p>
+<p>Configuration tips
+- Define Business Areas and Process Groups first to better organize processes.
+- For local projects, you can use the Install Modules button on a process to (optionally) install selected modules; remote projects are blocked by design.</p>
+<p>Compatibility
+- Designed for Odoo 19.0.</p>
+<p>Maintainers
+- Terrabit, Dorin Hongu</p>
+<p>License
+- OPL-1. See README.rst at the addons root for license details.</p>
 </div>
-<div class="section" id="credits">
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Credits</h1>
-<div class="section" id="authors">
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Authors</h2>
-<ul class="simple">
-<li>Terrabit</li>
-<li>Dorin Hongu</li>
+<div class="tab-pane fade py-2 text-body" id="tb-panel-versions" style="font-size:16px;line-height:1.65;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.0</h2>
+<ul>
+<li>New <strong>"Visible only to"</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">allowed_user_ids</code>) field on business processes: when set, the process — together with its steps, tests, step tests, issues and the process/test reports — is visible only to the listed users. Left empty (the default), nothing changes and the process stays visible to everyone. Business admins always see every process and are the only ones who can edit the field (Responsible tab).</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.8.2</h2>
+<ul>
+<li>Import: the top-level <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">developments</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">issues</code> collections, and the per-process <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">steps</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">include_tests</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_steps</code> keys, are now optional in the JSON file. A partial export (e.g. a single <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">process.json</code> from the process library) no longer fails with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">KeyError</code> — missing sections are simply skipped.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.8.1</h2>
+<ul>
+<li>Import: the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">transaction</code> key on process steps and test steps is now optional in the JSON file. Since the transaction field is no longer required, imports no longer fail with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">KeyError: 'transaction'</code> when a step is exported without one — the step is simply imported without a transaction.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.8.0</h2>
+<ul>
+<li><strong>Reset to Draft</strong> button on the business process form is now shown in every state except <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">draft</code> (previously hidden in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">production</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">draft</code>), so a process can be reset from any active stage.</li>
+<li>Passing the <strong>implementor (internal) test</strong> no longer advances the process state to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ready</code>. Marking an internal test <em>Done</em> still records <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">status_internal_test = done</code> but leaves the process state unchanged; integration and user-acceptance tests continue to advance the process as before.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.7.0</h2>
+<ul>
+<li>Process Library: support for <strong>private HTTPS git repositories</strong>. A token/password is sent as an HTTP Basic <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Authorization</code> header on each git command (never written into the cloned repo's on-disk config), with a configurable username (default <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">x-access-token</code> for GitHub, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">oauth2</code> for GitLab). Git now runs non-interactively, so a missing or wrong credential fails fast instead of blocking until the timeout. SSH (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">git@…</code>) URLs and URLs that already embed credentials are used as-is.</li>
+<li>Library import now maps the <strong>full process metadata</strong> from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">process.json</code> — process group, module type, implementation stage (including legacy stage keys), state — and imports the <strong>configuration / instructing / testing / data-migration durations</strong> that were previously dropped.</li>
+<li>New <strong>"Include durations"</strong> toggle on the library import dialog: import every selected process with or without its exported effort estimates (all-or-nothing).</li>
 </ul>
 </div>
-<div class="section" id="maintainers">
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Maintainers</h2>
-<p>Current maintainer:</p>
-<p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_business_process">dhongu/deltatech</a> project on GitHub.</p>
-<p>You are welcome to contribute.</p>
 </div>
+
+<div class="row text-center mt-4 mb-1 g-3">
+  <div class="col-md-4">
+    <div class="border rounded-3 p-4 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
+      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="border rounded-3 p-4 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
+      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="border rounded-3 p-4 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">3</div>
+      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Countries served: Romania, Ireland, Moldova</div>
+    </div>
+  </div>
 </div>
-</div>
-</div>
+
+
 <div class="text-white text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:#00432a;">
   <h2 class="text-white fw-bold mb-2" style="font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
   <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:600px;line-height:1.6;font-size:16px;">
@@ -542,6 +155,142 @@ In case of trouble, please check there if your issue has already been reported.<
   </div>
 </div>
 
+
+<section class="rounded-4 p-4 mb-3 border">
+  <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
+  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+    <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
+       class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
+  <div class="row g-3">
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_business_process_handover_document" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">BP</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Business process handover document</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Generic Modules/Other</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Business process handover document</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_dc" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DO</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Declaration of Conformity</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Generic Modules/Other</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Print Declaration of Conformity</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_record_type" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">RT</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Terrabit - Record Type</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Generic Modules/Other</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Manage multiple record types</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_stock_delivery" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">ID</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Invoice Delivery / Reception</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Generic Modules/Other</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Adding button in invoice for display reception or delivery</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Generic module</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_analytic" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AA</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account Analytic</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Analytic lines enhancements</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edi_ubl_advice" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">UD</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech UBL despatch advice</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account UBL despatch advice</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
 </div>
-</body>
-</html>
