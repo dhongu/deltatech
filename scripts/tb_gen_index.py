@@ -245,12 +245,18 @@ def _norm(text):
     return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", text)).translate(table).lower().strip()
 
 
+GENERIC_LEAD_HEADINGS = {"description", "overview", "descriere"}
+
+
 def strip_title_heading(md_text, name):
-    """Scoate H1-ul de deschidere din DESCRIPTION.md dacă repetă numele modulului
-    (numele apare deja în hero)."""
-    m = re.match(r"\s*#\s+(.+?)\s*\n", md_text)
-    if m and _norm(m.group(1)) == _norm(name):
-        return md_text[m.end() :].lstrip("\n")
+    """Scoate heading-ul de deschidere din DESCRIPTION.md dacă repetă numele modulului
+    (apare deja în hero) sau e generic („Description"/„Overview" — redundant sub titlul
+    tabului Overview). Acoperă și forma setext (text subliniat cu --- / ===)."""
+    m = re.match(r"\s*#{1,3}\s+(.+?)\s*\n", md_text) or re.match(r"\s*(\S[^\n]*?)\s*\n[-=]{3,}\s*\n", md_text)
+    if m:
+        text = _norm(m.group(1))
+        if text == _norm(name) or text in GENERIC_LEAD_HEADINGS:
+            return md_text[m.end() :].lstrip("\n")
     return md_text
 
 
