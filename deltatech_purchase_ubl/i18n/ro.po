@@ -331,6 +331,16 @@ msgstr ""
 
 #. module: deltatech_purchase_ubl
 #. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid ""
+"Vendor bill creation skipped: purchase order %(order)s is not confirmed "
+"yet, so there is nothing to invoice."
+msgstr ""
+"Crearea facturii de furnizor a fost sărită: comanda de achiziție %(order)s "
+"nu este încă confirmată, deci nu există nimic de facturat."
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
 #: code:addons/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:0
 msgid "Vendor bill not created: %s"
 msgstr "Factura furnizor nu a fost creată: %s"

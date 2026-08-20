@@ -373,6 +373,45 @@ class TestPurchaseUblImport(TransactionCase):
         self.assertEqual(inv.ref, "INV-777")
         self.assertEqual(str(inv.invoice_date), "2025-01-01")
 
+    def test_vendor_bill_skipped_when_order_not_confirmed(self):
+        """Regression test for ticket #9287: a purchase order created (and attached to its
+        XML) before it is confirmed has qty_to_invoice=0 on every line regardless of
+        product_qty (purchase_order_line._compute_qty_invoiced). Auto-creating a vendor bill
+        in that state - as the "always create when invoice_id is present" override used to do
+        unconditionally - produces a ghost bill with every line at zero quantity/amount. The
+        bill creation must be skipped instead, until the order is confirmed."""
+        xml = _xml_invoice(
+            invoice_id="INV-DRAFT-1",
+            order_ref=self.po.name,
+            lines=[
+                {
+                    "code": "VEND-DRAFT-1",
+                    "name": "Draft Order Product",
+                    "qty": "3",
+                    "price": "12.5",
+                    "line_total": "37.5",
+                }
+            ],
+        )
+        self.assertEqual(self.po.state, "draft", "sanity check: order must not be confirmed for this test")
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        wiz = Wiz.with_context(active_model="purchase.order", active_id=self.po.id).create(
+            {
+                "data_file": b64encode(xml),
+                "filename": "draft_order.xml",
+                "update_prices": True,
+                "create_bill": False,
+                "validate_receipt": False,
+                "create_missing_products": True,
+            }
+        )
+        wiz.action_import()
+
+        self.assertTrue(self.po.order_line, "lines must still be imported")
+        self.assertFalse(self.po.invoice_ids, "no vendor bill should be created on an unconfirmed order")
+        self.assertIn("Vendor bill creation skipped", wiz.log or "")
+        self.assertIn("not confirmed", wiz.log or "")
+
     def test_product_match_by_name_no_spaces(self):
         # Create a product with spaces in name
         product = self.env["product.product"].create(
