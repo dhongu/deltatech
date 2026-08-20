@@ -692,7 +692,18 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         # "Create vendor bill". The checkbox stays available to force bill creation even when
         # the source has no invoice number.
         if self.create_bill or invoice_data.get("invoice_id"):
-            if order:
+            if order and order.state not in ("purchase", "done"):
+                # A draft/unconfirmed order has qty_to_invoice = 0 on every line
+                # (purchase_order_line._compute_qty_invoiced), regardless of product_qty.
+                # action_create_invoice() would still "succeed", producing a vendor bill
+                # with every line at zero quantity/amount - a useless ghost document. This
+                # hits the SPV auto-import flow, where a purchase order can be created and
+                # attached to its XML before it is ever confirmed (tichet #9287).
+                bill_log = _(
+                    "Vendor bill creation skipped: purchase order %(order)s is not confirmed "
+                    "yet, so there is nothing to invoice."
+                ) % {"order": order.name}
+            elif order:
                 invoice_ref = invoice_data.get("invoice_id")
                 duplicate_bill = self._find_duplicate_bill(partner, invoice_ref)
                 if duplicate_bill:
