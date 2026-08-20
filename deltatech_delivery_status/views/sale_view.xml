@@ -34,6 +34,8 @@
         <field name="model_id" ref="sale.model_sale_order" />
 
         <field name="state">code</field>
+        <field name="binding_model_id" ref="sale.model_sale_order" />
+        <field name="binding_view_types">list,form</field>
         <field name="code">
             action = record.postpone_delivery()
         </field>
@@ -43,9 +45,29 @@
         <field name="model_id" ref="sale.model_sale_order" />
 
         <field name="state">code</field>
+        <field name="binding_model_id" ref="sale.model_sale_order" />
+        <field name="binding_view_types">list,form</field>
         <field name="code">
             action = record.release_delivery()
         </field>
     </record>
 
+
+    <!-- Filtru pentru comenzile cu livrarea amânată: fără el, operatorii nu au
+         cum să găsească comenzile care așteaptă eliberare. -->
+    <record id="view_sales_order_filter_postponed" model="ir.ui.view">
+        <field name="name">sale.order.search.postponed.delivery</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter" />
+        <field name="arch" type="xml">
+            <filter name="my_sale_orders_filter" position="after">
+                <separator />
+                <filter
+                    name="postponed_delivery"
+                    string="Postponed delivery"
+                    domain="[('postponed_delivery', '=', True)]"
+                />
+            </filter>
+        </field>
+    </record>
 </odoo>

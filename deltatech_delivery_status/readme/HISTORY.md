@@ -1,3 +1,19 @@
+# 19.0.2.3.0
+
+- Comenzile cu livrarea amânată pot fi acum **găsite**: filtru „Livrare amânată"
+  în căutarea comenzilor de vânzare și „Amânată" în căutarea transferurilor.
+  Fără ele, un flux care cere eliberare manuală era practic imposibil de operat —
+  butonul „Eliberează" apare doar pe comanda deschisă, iar comenzile care așteptau
+  nu erau vizibile nicăieri.
+- `sale.order.postponed_delivery` devine **căutabil** (metodă `search` care se
+  traduce în `picking_ids.postponed`, câmp stocat). Fiind calculat și nestocat, nu
+  putea fi folosit în niciun domeniu — nici în filtre predefinite, nici în filtre
+  personalizate create de utilizator din interfață.
+- Acțiunile server „Postpone Delivery" / „Release Delivery" au acum
+  `binding_model_id`, deci apar în meniul *Acțiuni* și permit operarea **în masă**
+  din lista de comenzi, nu doar una câte una.
+- Test nou pentru căutarea pe `postponed_delivery` (inclusiv negarea).
+
 ## 19.0.2.2.0 (2026-08-04)
 
 - Validating a transfer no longer marks it as `delivered` when no carrier is
