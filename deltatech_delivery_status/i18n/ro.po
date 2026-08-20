@@ -84,6 +84,7 @@ msgstr "Amână livrarea produselor"
 
 #. module: deltatech_delivery_status
 #: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__postponed
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_internal_search
 #: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking_type__postponed
 #: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_form
 msgid "Postponed"
@@ -91,6 +92,7 @@ msgstr "Amânată"
 
 #. module: deltatech_delivery_status
 #: model:ir.model.fields,field_description:deltatech_delivery_status.field_sale_order__postponed_delivery
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_sales_order_filter_postponed
 msgid "Postponed delivery"
 msgstr "Livrare amânată"
 

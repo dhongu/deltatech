@@ -8,7 +8,11 @@ from odoo import api, fields, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    postponed_delivery = fields.Boolean(string="Postponed delivery", compute="_compute_postponed_delivery")
+    postponed_delivery = fields.Boolean(
+        string="Postponed delivery",
+        compute="_compute_postponed_delivery",
+        search="_search_postponed_delivery",
+    )
 
     def postpone_delivery(self):
         pickings = self.env["stock.picking"]
@@ -33,6 +37,20 @@ class SaleOrder(models.Model):
     def _compute_postponed_delivery(self):
         for order in self:
             order.postponed_delivery = any(p.postponed for p in order.picking_ids)
+
+    def _search_postponed_delivery(self, operator, value):
+        """Face câmpul căutabil, deși e calculat și nestocat.
+
+        Fără asta nu se poate construi nici filtru predefinit, nici filtru
+        personalizat din interfață pe „Livrare amânată" — iar comenzile cu
+        livrarea amânată devin practic imposibil de găsit de operatori.
+        Se traduce în livrări, unde `postponed` e câmp stocat.
+        """
+        if operator not in ("=", "!=") or not isinstance(value, bool):
+            raise NotImplementedError(self.env._("Unsupported search on Postponed delivery"))
+        positive = (operator == "=") == value
+        domain = [("picking_ids.postponed", "=", True)]
+        return domain if positive else [("id", "not in", self.search(domain).ids)]
 
     def _action_confirm(self):
         res = super()._action_confirm()

@@ -117,3 +117,24 @@ class TestSale(TransactionCase):
         )
         tx._set_done()
         self.assertFalse(order.postponed_delivery)
+
+    def test_search_postponed_delivery(self):
+        """Câmpul calculat trebuie să fie căutabil, altfel comenzile cu livrarea
+        amânată nu pot fi găsite nici prin filtru predefinit, nici din interfață."""
+        order = self._create_confirmed_order()
+        order.picking_ids.action_assign()
+
+        found = self.env["sale.order"].search([("postponed_delivery", "=", True)])
+        self.assertNotIn(order, found, "comanda nu e amânată încă")
+
+        order.postpone_delivery()
+        self.assertTrue(order.postponed_delivery)
+        found = self.env["sale.order"].search([("postponed_delivery", "=", True)])
+        self.assertIn(order, found)
+        # negarea trebuie să fie coerentă cu valoarea calculată
+        self.assertNotIn(order, self.env["sale.order"].search([("postponed_delivery", "=", False)]))
+
+        order.release_delivery()
+        self.assertFalse(order.postponed_delivery)
+        self.assertNotIn(order, self.env["sale.order"].search([("postponed_delivery", "=", True)]))
+        self.assertIn(order, self.env["sale.order"].search([("postponed_delivery", "=", False)]))
