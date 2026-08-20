@@ -194,6 +194,27 @@ Changelog
 Changelog
 =========
 
+19.0.1.4.0
+----------
+
+- Fix: jobs cancelled through the dependency chain are now removed by
+  the autovacuum cron. ``Job.cancel_dependent_jobs()`` cancels them with
+  a raw SQL ``UPDATE queue_job SET state = ...`` that writes nothing
+  else, while ``queue.job.autovacuum()`` selects what to delete by
+  ``date_done`` or ``date_cancelled`` — so a job cancelled that way was
+  never collected, however long it sat there. A production instance had
+  189.644 such jobs, 53% of the table and all of them
+  ``marketplace_write`` cancelled in chains during marketplace sync.
+  ``models/job_patch.py`` stamps ``date_cancelled`` right after the
+  chain cancellation (the query itself cannot be fixed at the source: it
+  is shared with ``enqueue_waiting()``, where a cancellation date would
+  be wrong).
+- Imp: ``autovacuum()`` also removes terminal jobs left with no
+  completion date at all, keyed on ``date_created`` and on the same
+  per-channel ``removal_interval``. This collects what piled up before
+  the fix; jobs in ``failed`` state are never touched, they are the only
+  ones worth keeping for diagnosis.
+
 19.0.1.3.0
 ----------
 
