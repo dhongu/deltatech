@@ -68,6 +68,46 @@ Changelog
 Changelog
 =========
 
+[19.0.1.2.4] - 2026-08-20
+-------------------------
+
+Fixed
+~~~~~
+
+- **Bug**: ``depends`` listed ``purchase`` + ``stock`` separately, but
+  the module actually uses fields defined by their glue module
+  ``purchase_stock`` (``purchase.order.picking_ids``,
+  ``stock.picking.purchase_id``) in
+  ``_find_receipt``/``_validate_receipt_quantities``. ``purchase_stock``
+  is ``auto_install=True``, and CI's test database init runs with
+  ``--skip-auto-install`` (Odoo ≥ 19) - so it was only ever getting
+  installed incidentally, when another module in the same CI shard
+  happened to declare it explicitly. ``depends`` now lists
+  ``purchase_stock`` directly instead of ``purchase`` + ``stock``.
+
+[19.0.1.2.3] - 2026-08-20
+-------------------------
+
+Fixed
+~~~~~
+
+- **Bug** (found via ticket #9287): auto-creating the vendor bill
+  whenever the source document identifies an invoice number (added in
+  19.0.1.2.1) ran regardless of the purchase order's state. A
+  draft/unconfirmed order has ``qty_to_invoice = 0`` on every line
+  (``purchase_order_line._compute_qty_invoiced`` only computes a nonzero
+  value once the order is ``state == "purchase"``), so
+  ``action_create_invoice()`` still "succeeded" but produced a vendor
+  bill with every line at zero quantity/amount — a useless ghost
+  document. This hit the SPV auto-import flow, where a purchase order
+  can be created and attached to its XML before it is ever confirmed.
+
+  - ``_process_invoice_data`` now skips vendor bill creation (logging
+    why) when the resolved order isn't confirmed yet
+    (``state not in ("purchase", "done")``), instead of silently
+    creating an empty bill.
+  - Added test ``test_vendor_bill_skipped_when_order_not_confirmed``.
+
 [19.0.1.2.2] - 2026-07-18
 -------------------------
 
