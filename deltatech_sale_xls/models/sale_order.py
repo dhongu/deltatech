@@ -59,8 +59,8 @@ class SaleOrderLine(models.Model):
             order = self.env["sale.order"].browse(order_id)
 
         if not order:
-            order_index = fields.index.get("order_id", False)
-            if order_index:
+            order_index = fields.index("order_id") if "order_id" in fields else False
+            if order_index is not False:
                 order_id = data[0][order_index]
                 order = self.env["sale.order"].browse(order_id)
 
@@ -73,7 +73,7 @@ class SaleOrderLine(models.Model):
                     record.append("")
 
                 if product_index != -1:
-                    for record in data:
+                    for record in list(data):
                         product_name = record[product_index]
                         product = self.env["product.product"]
                         # extrage codul din numele produsului care este intre paranteze []
