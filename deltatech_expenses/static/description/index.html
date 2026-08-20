@@ -1,734 +1,238 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
-<title>Expenses Deduction</title>
-<style type="text/css">
-
-/*
-:Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 8954 2022-01-20 10:10:25Z milde $
-:Copyright: This stylesheet has been placed in the public domain.
-
-Default cascading style sheet for the HTML output of Docutils.
-
-See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
-customize this style sheet.
-*/
-
-/* used to remove borders from tables and images */
-.borderless, table.borderless td, table.borderless th {
-  border: 0 }
-
-table.borderless td, table.borderless th {
-  /* Override padding for "table.docutils td" with "! important".
-     The right padding separates the table cells. */
-  padding: 0 0.5em 0 0 ! important }
-
-.first {
-  /* Override more specific margin styles with "! important". */
-  margin-top: 0 ! important }
-
-.last, .with-subtitle {
-  margin-bottom: 0 ! important }
-
-.hidden {
-  display: none }
-
-.subscript {
-  vertical-align: sub;
-  font-size: smaller }
-
-.superscript {
-  vertical-align: super;
-  font-size: smaller }
-
-a.toc-backref {
-  text-decoration: none ;
-  color: black }
-
-blockquote.epigraph {
-  margin: 2em 5em ; }
-
-dl.docutils dd {
-  margin-bottom: 0.5em }
-
-object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
-  overflow: hidden;
-}
-
-/* Uncomment (and remove this text!) to get bold-faced definition list terms
-dl.docutils dt {
-  font-weight: bold }
-*/
-
-div.abstract {
-  margin: 2em 5em }
-
-div.abstract p.topic-title {
-  font-weight: bold ;
-  text-align: center }
-
-div.admonition, div.attention, div.caution, div.danger, div.error,
-div.hint, div.important, div.note, div.tip, div.warning {
-  margin: 2em ;
-  border: medium outset ;
-  padding: 1em }
-
-div.admonition p.admonition-title, div.hint p.admonition-title,
-div.important p.admonition-title, div.note p.admonition-title,
-div.tip p.admonition-title {
-  font-weight: bold ;
-  font-family: sans-serif }
-
-div.attention p.admonition-title, div.caution p.admonition-title,
-div.danger p.admonition-title, div.error p.admonition-title,
-div.warning p.admonition-title, .code .error {
-  color: red ;
-  font-weight: bold ;
-  font-family: sans-serif }
-
-/* Uncomment (and remove this text!) to get reduced vertical space in
-   compound paragraphs.
-div.compound .compound-first, div.compound .compound-middle {
-  margin-bottom: 0.5em }
-
-div.compound .compound-last, div.compound .compound-middle {
-  margin-top: 0.5em }
-*/
-
-div.dedication {
-  margin: 2em 5em ;
-  text-align: center ;
-  font-style: italic }
-
-div.dedication p.topic-title {
-  font-weight: bold ;
-  font-style: normal }
-
-div.figure {
-  margin-left: 2em ;
-  margin-right: 2em }
-
-div.footer, div.header {
-  clear: both;
-  font-size: smaller }
-
-div.line-block {
-  display: block ;
-  margin-top: 1em ;
-  margin-bottom: 1em }
-
-div.line-block div.line-block {
-  margin-top: 0 ;
-  margin-bottom: 0 ;
-  margin-left: 1.5em }
-
-div.sidebar {
-  margin: 0 0 0.5em 1em ;
-  border: medium outset ;
-  padding: 1em ;
-  background-color: #ffffee ;
-  width: 40% ;
-  float: right ;
-  clear: right }
-
-div.sidebar p.rubric {
-  font-family: sans-serif ;
-  font-size: medium }
-
-div.system-messages {
-  margin: 5em }
-
-div.system-messages h1 {
-  color: red }
-
-div.system-message {
-  border: medium outset ;
-  padding: 1em }
-
-div.system-message p.system-message-title {
-  color: red ;
-  font-weight: bold }
-
-div.topic {
-  margin: 2em }
-
-h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
-h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
-  margin-top: 0.4em }
-
-h1.title {
-  text-align: center }
-
-h2.subtitle {
-  text-align: center }
-
-hr.docutils {
-  width: 75% }
-
-img.align-left, .figure.align-left, object.align-left, table.align-left {
-  clear: left ;
-  float: left ;
-  margin-right: 1em }
-
-img.align-right, .figure.align-right, object.align-right, table.align-right {
-  clear: right ;
-  float: right ;
-  margin-left: 1em }
-
-img.align-center, .figure.align-center, object.align-center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-table.align-center {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.align-left {
-  text-align: left }
-
-.align-center {
-  clear: both ;
-  text-align: center }
-
-.align-right {
-  text-align: right }
-
-/* reset inner alignment in figures */
-div.align-right {
-  text-align: inherit }
-
-/* div.align-center * { */
-/*   text-align: left } */
-
-.align-top    {
-  vertical-align: top }
-
-.align-middle {
-  vertical-align: middle }
-
-.align-bottom {
-  vertical-align: bottom }
-
-ol.simple, ul.simple {
-  margin-bottom: 1em }
-
-ol.arabic {
-  list-style: decimal }
-
-ol.loweralpha {
-  list-style: lower-alpha }
-
-ol.upperalpha {
-  list-style: upper-alpha }
-
-ol.lowerroman {
-  list-style: lower-roman }
-
-ol.upperroman {
-  list-style: upper-roman }
-
-p.attribution {
-  text-align: right ;
-  margin-left: 50% }
-
-p.caption {
-  font-style: italic }
-
-p.credits {
-  font-style: italic ;
-  font-size: smaller }
-
-p.label {
-  white-space: nowrap }
-
-p.rubric {
-  font-weight: bold ;
-  font-size: larger ;
-  color: maroon ;
-  text-align: center }
-
-p.sidebar-title {
-  font-family: sans-serif ;
-  font-weight: bold ;
-  font-size: larger }
-
-p.sidebar-subtitle {
-  font-family: sans-serif ;
-  font-weight: bold }
-
-p.topic-title {
-  font-weight: bold }
-
-pre.address {
-  margin-bottom: 0 ;
-  margin-top: 0 ;
-  font: inherit }
-
-pre.literal-block, pre.doctest-block, pre.math, pre.code {
-  margin-left: 2em ;
-  margin-right: 2em }
-
-pre.code .ln { color: grey; } /* line numbers */
-pre.code, code { background-color: #eeeeee }
-pre.code .comment, code .comment { color: #5C6576 }
-pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
-pre.code .literal.string, code .literal.string { color: #0C5404 }
-pre.code .name.builtin, code .name.builtin { color: #352B84 }
-pre.code .deleted, code .deleted { background-color: #DEB0A1}
-pre.code .inserted, code .inserted { background-color: #A3D289}
-
-span.classifier {
-  font-family: sans-serif ;
-  font-style: oblique }
-
-span.classifier-delimiter {
-  font-family: sans-serif ;
-  font-weight: bold }
-
-span.interpreted {
-  font-family: sans-serif }
-
-span.option {
-  white-space: nowrap }
-
-span.pre {
-  white-space: pre }
-
-span.problematic {
-  color: red }
-
-span.section-subtitle {
-  /* font-size relative to parent (h1..h6 element) */
-  font-size: 80% }
-
-table.citation {
-  border-left: solid 1px gray;
-  margin-left: 1px }
-
-table.docinfo {
-  margin: 2em 4em }
-
-table.docutils {
-  margin-top: 0.5em ;
-  margin-bottom: 0.5em }
-
-table.footnote {
-  border-left: solid 1px black;
-  margin-left: 1px }
-
-table.docutils td, table.docutils th,
-table.docinfo td, table.docinfo th {
-  padding-left: 0.5em ;
-  padding-right: 0.5em ;
-  vertical-align: top }
-
-table.docutils th.field-name, table.docinfo th.docinfo-name {
-  font-weight: bold ;
-  text-align: left ;
-  white-space: nowrap ;
-  padding-left: 0 }
-
-/* "booktabs" style (no vertical lines) */
-table.docutils.booktabs {
-  border: 0px;
-  border-top: 2px solid;
-  border-bottom: 2px solid;
-  border-collapse: collapse;
-}
-table.docutils.booktabs * {
-  border: 0px;
-}
-table.docutils.booktabs th {
-  border-bottom: thin solid;
-  text-align: left;
-}
-
-h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
-h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
-  font-size: 100% }
-
-ul.auto-toc {
-  list-style-type: none }
-
-</style>
-</head>
-<body>
-<div class="document" id="expenses-deduction"><div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;"><!-- tb-skin v5 -->
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
     style="background-color:#00432a;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
+  <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Expenses Deduction" style="width:72px;height:72px;border:none;"/></span></div>
   <h1 class="text-white fw-bold mb-3" style="font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Expenses Deduction</h1>
-  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Expenses Deduction & Disposition of Cashing</p>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Expenses Deduction &amp; Disposition of Cashing</p>
   <div>
-    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
+    <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
+    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Accounting &amp; Finance</span>
+    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">OPL-1</span>
     <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Online &bull; Odoo.sh &bull; On-premise</span>
-    <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Optional support</span>
   </div>
 </div>
 
-<div class="py-2 text-body" style="font-size:16px;line-height:1.65;">
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! This file is generated by oca-gen-addon-readme !!
-!! changes will be overwritten.                   !!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! source digest: sha256:6784618f3a12894fec065daef0dbea98b1748f086ba2bc04d4f4abb08c76d3e4
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<div class="tab-pane fade show active py-2 text-body" id="tb-panel-overview" style="font-size:16px;line-height:1.65;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;opacity:0.92;">Features:</p>
-<ul class="simple">
-<li>Introducerea decontului de cheltuieli într-un document distinct care
-generează automat chitanțe de achiziție</li>
-<li>Validarea documentului duce la generarea notelor contabile de avans și
-înregistrarea plăților</li>
+<ul>
+<li>Introducerea decontului de cheltuieli într-un document distinct care generează automat chitanțe de achiziție</li>
+<li>Validarea documentului duce la generarea notelor contabile de avans și înregistrarea plăților</li>
 </ul>
-<p>Configurare:</p>
-<ul class="simple">
-<li>În registrul de numerar trebuie completat câmpul “Cash advances” cu
-542.</li>
-<li>Angajații sunt înregistrați ca <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.employee</code>. Dacă angajatul are
-completat câmpul “Work Contact” (partenerul), acesta este folosit pe
-notele contabile. Dacă nu, notele se generează fără partener
-(înregistrări interne) — validarea decontului funcționează în ambele
-cazuri.</li>
-</ul>
-<div class="section" id="diferenta-fata-de-modulul-standard-hr-expense">
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Diferența față de modulul standard <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code></h1>
-<p>Acest modul <strong>nu</strong> înlocuiește și <strong>nu</strong> se suprapune cu modulul
-standard <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>. Cele două acoperă procese de business distincte
-și pot coexista în aceeași bază de date:</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="28%" />
-<col width="44%" />
-<col width="28%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">Aspect</th>
-<th class="head"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code> (acest
-modul)</th>
-<th class="head"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>
-(standard Odoo)</th>
+<p>Configurare:
+- În registrul de numerar trebuie completat câmpul "Cash advances" cu 542.
+- Angajații sunt înregistrați ca <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.employee</code>. Dacă angajatul are completat câmpul "Work Contact"
+  (partenerul), acesta este folosit pe notele contabile. Dacă nu, notele se generează fără partener
+  (înregistrări interne) — validarea decontului funcționează în ambele cazuri.</p>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Diferența față de modulul standard <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code></h1>
+<p>Acest modul <strong>nu</strong> înlocuiește și <strong>nu</strong> se suprapune cu modulul standard <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>. Cele două
+acoperă procese de business distincte și pot coexista în aceeași bază de date:</p>
+<table class="table table-bordered" style="font-size:14px;">
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code> (acest modul)</th>
+<th><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code> (standard Odoo)</th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr><td><strong>Scop</strong></td>
-<td>Decont de cheltuieli din <strong>avans
-de trezorerie</strong> (cont 542),
-specific contabilității din
-România</td>
-<td>Notă de cheltuială
-angajat →
-<strong>rambursare</strong>
-sumelor plătite din
-buzunar</td>
+<tbody>
+<tr>
+<td><strong>Scop</strong></td>
+<td>Decont de cheltuieli din <strong>avans de trezorerie</strong> (cont 542), specific contabilității din România</td>
+<td>Notă de cheltuială angajat → <strong>rambursare</strong> sumelor plătite din buzunar</td>
 </tr>
-<tr><td><strong>Model central</strong></td>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech.expenses.deduction</code>
-(moștenește doar
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mail.thread</code>)</td>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense</code> /
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense.sheet</code></td>
+<tr>
+<td><strong>Model central</strong></td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech.expenses.deduction</code> (moștenește doar <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mail.thread</code>)</td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense.sheet</code></td>
 </tr>
-<tr><td><strong>Angajatul</strong></td>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.employee</code>
-(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">employee_id</code>); partenerul
-contabil derivă din
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">work_contact_id</code></td>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.employee</code>,
-flux integrat HR</td>
+<tr>
+<td><strong>Angajatul</strong></td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.employee</code> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">employee_id</code>); partenerul contabil derivă din <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">work_contact_id</code></td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.employee</code>, flux integrat HR</td>
 </tr>
-<tr><td><strong>Avans de
-trezorerie (542)</strong></td>
-<td>Da — acordare, decontare și
-închiderea contului 542</td>
+<tr>
+<td><strong>Avans de trezorerie (542)</strong></td>
+<td>Da — acordare, decontare și închiderea contului 542</td>
 <td>Nu</td>
 </tr>
-<tr><td><strong>Diurnă</strong></td>
-<td>Da — câmp <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">diem</code> (implicit
-42,5) și calcul <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">total_diem</code></td>
+<tr>
+<td><strong>Diurnă</strong></td>
+<td>Da — câmp <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">diem</code> (implicit 42,5) și calcul <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">total_diem</code></td>
 <td>Nu</td>
 </tr>
-<tr><td><strong>Documente
-generate</strong></td>
-<td>Chitanțe de achiziție
-(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">in_receipt</code>), plăți
-(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.payment</code>) și note
-contabile de diferență/diurnă</td>
-<td>În funcție de modul
-de plată (vezi mai
-jos)</td>
+<tr>
+<td><strong>Documente generate</strong></td>
+<td>Chitanțe de achiziție (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">in_receipt</code>), plăți (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.payment</code>) și note contabile de diferență/diurnă</td>
+<td>În funcție de modul de plată (vezi mai jos)</td>
 </tr>
-<tr><td><strong>Dependențe</strong></td>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account</code>,
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr</code>,
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>,
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_partner_generic</code></td>
+<tr>
+<td><strong>Dependențe</strong></td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_partner_generic</code></td>
 <td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account</code></td>
 </tr>
-<tr><td><strong>Specific RO</strong></td>
-<td>Da — numerotare proprie, jurnale
-casă/diurnă, plan de conturi RO</td>
-<td>Nu (generic,
-multi-țară)</td>
+<tr>
+<td><strong>Specific RO</strong></td>
+<td>Da — numerotare proprie, jurnale casă/diurnă, plan de conturi RO</td>
+<td>Nu (generic, multi-țară)</td>
 </tr>
 </tbody>
 </table>
-<div class="section" id="notele-contabile-generate-de-hr-expense">
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Notele contabile generate de <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code></h2>
-<p>Și <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code> generează note contabile (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code>) la
-postare, dar tipul lor depinde de <strong>modul de plată</strong> al cheltuielii:</p>
-<ul class="simple">
-<li><strong>Plătită de angajat</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_mode = own_account</code>): se creează un
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code> de tip chitanță de achiziție (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">in_receipt</code>) — debit
-cont de cheltuială (6xx) + TVA deductibil / credit <strong>contul de datorie
-(payable) al angajatului</strong>. Firma rămâne datoare angajatului, urmând
-rambursarea efectivă.</li>
-<li><strong>Plătită de firmă</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_mode = company_account</code>): se creează
-direct note de plată legate de un <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.payment</code> — debit cont de
-cheltuială + TVA / credit cont <strong>bancă/casă</strong>. Nu mai există datorie
-de rambursat, fiindcă firma a achitat deja.</li>
+<p>Și <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code> generează note contabile (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code>) la postare, dar tipul lor depinde de <strong>modul de plată</strong> al cheltuielii:</p>
+<ul>
+<li><strong>Plătită de angajat</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_mode = own_account</code>): se creează un <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code> de tip chitanță de achiziție
+  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">in_receipt</code>) — debit cont de cheltuială (6xx) + TVA deductibil / credit <strong>contul de datorie (payable) al angajatului</strong>.
+  Firma rămâne datoare angajatului, urmând rambursarea efectivă.</li>
+<li><strong>Plătită de firmă</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_mode = company_account</code>): se creează direct note de plată legate de un <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.payment</code> —
+  debit cont de cheltuială + TVA / credit cont <strong>bancă/casă</strong>. Nu mai există datorie de rambursat, fiindcă firma a achitat deja.</li>
 </ul>
-<p>În ambele cazuri contrapartida este fie <strong>datoria către angajat</strong>, fie
-<strong>trezoreria firmei</strong> — niciodată un avans de decontat (cont 542), care
-este specific modulului <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code>.</p>
-<p>Pe scurt: folosește <strong>``deltatech_expenses``</strong> pentru fluxul românesc
-<em>avans de trezorerie → decont → diurnă → închidere cont 542</em>, și
-<strong>``hr_expense``</strong> pentru fluxul generic <em>angajatul/firma plătește →
-(eventual) rambursare</em>.</p>
-</div>
-</div>
-<div class="section" id="integrarea-cu-hr-expense-prevenirea-dublarii-cheltuielilor">
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Integrarea cu <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code> (prevenirea dublării cheltuielilor)</h1>
-<p>Întrucât cele două module pot coexista, există riscul ca aceeași
-cheltuială să fie contabilizată de două ori (o dată prin Decont și o
-dată prin <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>). Pentru a preveni acest lucru:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Pe formularul decontului, butonul <strong>“Preia cheltuieli HR”</strong>
-(disponibil în stările Draft/Advance) deschide un wizard cu
-cheltuielile <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense</code> eligibile ale angajatului
-(aprobate/depuse, fără notă contabilă proprie, nelegate de alt
-decont). Cheltuielile selectate devin linii de decont și sunt legate
-prin <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">expenses_deduction_id</code>.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Cheltuielile <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense</code> au câmpul <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">expenses_deduction_id</code> care
-le leagă de un Decont de cheltuieli. Când acesta este completat,
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">action_post</code> din modulul standard <strong>sare postarea</strong> acelei
-cheltuieli — notele contabile se generează exclusiv din Decont, iar
-butoanele de postare standard sunt ascunse. Cheltuielile <strong>nelegate</strong>
-se postează normal, ca de obicei.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Fiecare linie de decont reține originea (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense_id</code>); la
-ștergerea liniei, cheltuiala <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense</code> este eliberată automat și
-redevine disponibilă pentru fluxul standard.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Fișa angajatului (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.employee</code>) are un buton smart <strong>“Deconturi”</strong>
-care afișează numărul deconturilor și deschide lista filtrată pentru
-acel angajat.</div></div></li></ul>
-<p>Astfel contabilizarea rămâne unică: ori prin Decont (pentru cheltuielile
-preluate), ori prin <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code> (pentru restul).</p>
-</div>
-<div class="section" id="exemplu-de-testare-decontarea-cheltuielilor-din-avans">
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Exemplu de Testare: Decontarea Cheltuielilor din Avans</h1>
-<div class="section" id="obiectivul-testului">
+<p>În ambele cazuri contrapartida este fie <strong>datoria către angajat</strong>, fie <strong>trezoreria firmei</strong> — niciodată un avans de decontat (cont 542),
+care este specific modulului <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code>.</p>
+<p>Pe scurt: folosește <strong><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code></strong> pentru fluxul românesc <em>avans de trezorerie → decont → diurnă →
+închidere cont 542</em>, și <strong><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code></strong> pentru fluxul generic <em>angajatul/firma plătește → (eventual) rambursare</em>.</p>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Integrarea cu <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code> (prevenirea dublării cheltuielilor)</h1>
+<p>Întrucât cele două module pot coexista, există riscul ca aceeași cheltuială să fie contabilizată de două ori
+(o dată prin Decont și o dată prin <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>). Pentru a preveni acest lucru:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Pe formularul decontului, butonul <strong>"Preia cheltuieli HR"</strong> (disponibil în stările Draft/Advance) deschide
+  un wizard cu cheltuielile <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense</code> eligibile ale angajatului (aprobate/depuse, fără notă contabilă proprie,
+  nelegate de alt decont). Cheltuielile selectate devin linii de decont și sunt legate prin <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">expenses_deduction_id</code>.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Cheltuielile <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense</code> au câmpul <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">expenses_deduction_id</code> care le leagă de un Decont de cheltuieli. Când acesta
+  este completat, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">action_post</code> din modulul standard <strong>sare postarea</strong> acelei cheltuieli — notele contabile se
+  generează exclusiv din Decont, iar butoanele de postare standard sunt ascunse. Cheltuielile <strong>nelegate</strong> se
+  postează normal, ca de obicei.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Fiecare linie de decont reține originea (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense_id</code>); la ștergerea liniei, cheltuiala <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense</code> este
+  eliberată automat și redevine disponibilă pentru fluxul standard.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Fișa angajatului (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.employee</code>) are un buton smart <strong>"Deconturi"</strong> care afișează numărul deconturilor și
+  deschide lista filtrată pentru acel angajat.</div></div></li></ul>
+<p>Astfel contabilizarea rămâne unică: ori prin Decont (pentru cheltuielile preluate), ori prin <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>
+(pentru restul).</p>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Exemplu de Testare: Decontarea Cheltuielilor din Avans</h1>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">🎯 Obiectivul Testului</h2>
-<p>Decontarea corectă a unui avans de <strong>1.000 RON</strong>, cu cheltuieli totale
-de <strong>800 RON</strong>, rezultând în <strong>restituirea diferenței</strong> de <strong>200 RON</strong>
-de către angajat.</p>
-</div>
-<div class="section" id="pasii-de-testare-scenariu">
+<p>Decontarea corectă a unui avans de <strong>1.000 RON</strong>, cu cheltuieli totale de <strong>800 RON</strong>, rezultând în <strong>restituirea diferenței</strong> de <strong>200 RON</strong> de către angajat.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">⚙️ Pașii de Testare (Scenariu)</h2>
-<table border="1" class="docutils">
-<colgroup>
-<col width="32%" />
-<col width="32%" />
-<col width="36%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">Pas</th>
-<th class="head">Acțiune Utilizator
-(Tester)</th>
-<th class="head">Rezultat Așteptat
-(Verificare)</th>
+<table class="table table-bordered" style="font-size:14px;">
+<thead>
+<tr>
+<th>Pas</th>
+<th>Acțiune Utilizator (Tester)</th>
+<th>Rezultat Așteptat (Verificare)</th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr><td><strong>1. Acordare
-Avans</strong></td>
-<td>Se înregistrează
-acordarea unui avans
-de 1.000 RON
-angajatului X.</td>
-<td>Soldul contului <strong>542</strong>
-(Avansuri de decontat)
-crește cu 1.000 RON.</td>
+<tbody>
+<tr>
+<td><strong>1. Acordare Avans</strong></td>
+<td>Se înregistrează acordarea unui avans de 1.000 RON angajatului X.</td>
+<td>Soldul contului <strong>542</strong> (Avansuri de decontat) crește cu 1.000 RON.</td>
 </tr>
-<tr><td><strong>2. Creare Decont</strong></td>
-<td>Angajatul X inițiază
-un nou decont,
-făcând referire la
-avansul primit.</td>
-<td>Decontul preia automat
-valoarea avansului de
-1.000 RON.</td>
+<tr>
+<td><strong>2. Creare Decont</strong></td>
+<td>Angajatul X inițiază un nou decont, făcând referire la avansul primit.</td>
+<td>Decontul preia automat valoarea avansului de 1.000 RON.</td>
 </tr>
-<tr><td><strong>3. Introducere
-Cheltuieli</strong></td>
-<td>Se introduc
-cheltuielile: Cazare
-(500 RON, TVA
-inclus) și Transport
-(300 RON, TVA
-inclus).</td>
-<td>Total cheltuieli =
-<strong>800 RON</strong>. Se
-calculează corect
-TVA-ul deductibil.</td>
+<tr>
+<td><strong>3. Introducere Cheltuieli</strong></td>
+<td>Se introduc cheltuielile: Cazare (500 RON, TVA inclus) și Transport (300 RON, TVA inclus).</td>
+<td>Total cheltuieli = <strong>800 RON</strong>. Se calculează corect TVA-ul deductibil.</td>
 </tr>
-<tr><td><strong>4. Validare
-Calcul</strong></td>
-<td>Se verifică automat
-calculul diferenței.</td>
-<td><strong>Avans (1.000) -
-Cheltuieli (800) =
-Diferență de restituit
-(200 RON)</strong>.</td>
+<tr>
+<td><strong>4. Validare Calcul</strong></td>
+<td>Se verifică automat calculul diferenței.</td>
+<td><strong>Avans (1.000) - Cheltuieli (800) = Diferență de restituit (200 RON)</strong>.</td>
 </tr>
-<tr><td><strong>5. Aprobare
-Decont</strong></td>
-<td>Decontul este trimis
-și aprobat de toți
-factorii
-decizionali.</td>
-<td>Statutul decontului se
-schimbă în
-“<strong>Aprobat/Decontat</strong>”.</td>
+<tr>
+<td><strong>5. Aprobare Decont</strong></td>
+<td>Decontul este trimis și aprobat de toți factorii decizionali.</td>
+<td>Statutul decontului se schimbă în "<strong>Aprobat/Decontat</strong>".</td>
 </tr>
-<tr><td><strong>6. Restituire
-Avans</strong></td>
-<td>Angajatul restituie
-diferența de 200 RON
-(înregistrare la
-Casierie/Bancă).</td>
-<td>Se generează documentul
-de încasare
-(Chitanță/Dispoziție de
-Încasare).</td>
+<tr>
+<td><strong>6. Restituire Avans</strong></td>
+<td>Angajatul restituie diferența de 200 RON (înregistrare la Casierie/Bancă).</td>
+<td>Se generează documentul de încasare (Chitanță/Dispoziție de Încasare).</td>
 </tr>
-<tr><td><strong>7. Contabilizare
-Finală</strong></td>
-<td>Sistemul
-contabilizează
-decontul și
-restituirea.</td>
-<td>Contul <strong>542</strong> al
-angajatului se închide
-(Sold <strong>0</strong>).</td>
+<tr>
+<td><strong>7. Contabilizare Finală</strong></td>
+<td>Sistemul contabilizează decontul și restituirea.</td>
+<td>Contul <strong>542</strong> al angajatului se închide (Sold <strong>0</strong>).</td>
 </tr>
 </tbody>
 </table>
-</div>
-<hr class="docutils" />
-<div class="section" id="note-contabile-aferente">
+<hr />
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">📝 Note Contabile Aferente</h2>
-<p>Acestea sunt notele contabile așteptate pentru a testa închiderea
-corectă a avansului (Contul 542 - Avansuri de decontat):</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="13%" />
-<col width="15%" />
-<col width="19%" />
-<col width="19%" />
-<col width="15%" />
-<col width="19%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">Nr. Crt.</th>
-<th class="head">Operațiune</th>
-<th class="head">Cont Debitor</th>
-<th class="head">Cont Creditor</th>
-<th class="head">Suma (RON)</th>
-<th class="head">Explicație</th>
+<p>Acestea sunt notele contabile așteptate pentru a testa închiderea corectă a avansului (Contul 542 - Avansuri de decontat):</p>
+<table class="table table-bordered" style="font-size:14px;">
+<thead>
+<tr>
+<th>Nr. Crt.</th>
+<th>Operațiune</th>
+<th>Cont Debitor</th>
+<th>Cont Creditor</th>
+<th>Suma (RON)</th>
+<th>Explicație</th>
 </tr>
 </thead>
-<tbody valign="top">
-<tr><td><strong>1</strong></td>
-<td>Acordare
-Avans</td>
-<td><strong>542</strong>
-(Avans X)</td>
-<td><strong>5311/5121</strong>
-(Casa/Banca)</td>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>Acordare Avans</td>
+<td><strong>542</strong> (Avans X)</td>
+<td><strong>5311/5121</strong> (Casa/Banca)</td>
 <td>1.000</td>
-<td>Acordarea
-avansului.</td>
+<td>Acordarea avansului.</td>
 </tr>
-<tr><td><strong>2</strong></td>
-<td>Decontare
-Cheltuieli</td>
-<td><strong>6xx</strong>
-(Cheltuieli)</td>
-<td><strong>542</strong>
-(Avans X)</td>
+<tr>
+<td><strong>2</strong></td>
+<td>Decontare Cheltuieli</td>
+<td><strong>6xx</strong> (Cheltuieli)</td>
+<td><strong>542</strong> (Avans X)</td>
 <td>672.27</td>
-<td>Valoarea
-cheltuielilor
-fără TVA (ex:
-800 -
-127.73).</td>
+<td>Valoarea cheltuielilor fără TVA (ex: 800 - 127.73).</td>
 </tr>
-<tr><td>&nbsp;</td>
-<td>&nbsp;</td>
-<td><strong>4426</strong> (TVA
-Deductibil)</td>
-<td><strong>542</strong>
-(Avans X)</td>
+<tr>
+<td></td>
+<td></td>
+<td><strong>4426</strong> (TVA Deductibil)</td>
+<td><strong>542</strong> (Avans X)</td>
 <td>127.73</td>
-<td>TVA aferent
-cheltuielilor
-(ex: 19%).</td>
+<td>TVA aferent cheltuielilor (ex: 19%).</td>
 </tr>
-<tr><td><strong>3</strong></td>
-<td>Restituire
-Sold</td>
-<td><strong>5311/5121</strong>
-(Casa/Banca)</td>
-<td><strong>542</strong>
-(Avans X)</td>
+<tr>
+<td><strong>3</strong></td>
+<td>Restituire Sold</td>
+<td><strong>5311/5121</strong> (Casa/Banca)</td>
+<td><strong>542</strong> (Avans X)</td>
 <td>200</td>
-<td>Diferența
-restituită de
-angajat.</td>
+<td>Diferența restituită de angajat.</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Verificare Sold Final Cont 542 (Avans X):</strong></p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Total Debitor:</span><div class="mt-1">1.000 RON</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Total Creditor:</span><div class="mt-1">800 RON (Cheltuieli) + 200 RON (Restituire) =
-1.000 RON</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Sold Final:</span><div class="mt-1">1.000 (D) - 1.000 (C) = <strong>0 RON (Corect)</strong></div></div></li></ul>
+<p><strong>Verificare Sold Final Cont 542 (Avans X):</strong>
+* <strong>Total Debitor:</strong> 1.000 RON
+* <strong>Total Creditor:</strong> 800 RON (Cheltuieli) + 200 RON (Restituire) = 1.000 RON
+* <strong>Sold Final:</strong> 1.000 (D) - 1.000 (C) = <strong>0 RON (Corect)</strong></p>
 </div>
+
+<div class="row text-center mt-4 mb-1 g-3">
+  <div class="col-md-4">
+    <div class="border rounded-3 p-4 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
+      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="border rounded-3 p-4 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
+      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="border rounded-3 p-4 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">3</div>
+      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Countries served: Romania, Ireland, Moldova</div>
+    </div>
+  </div>
 </div>
-<div class="section" id="bug-tracker">
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Bug Tracker</h1>
-<p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
-In case of trouble, please check there if your issue has already been reported.</p>
-<p>Do not contact contributors directly about support or help with technical issues.</p>
-</div>
-<div class="section" id="credits">
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Credits</h1>
-<div class="section" id="authors">
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Authors</h2>
-<ul class="simple">
-<li>Terrabit</li>
-<li>Dorin Hongu</li>
-</ul>
-</div>
-<div class="section" id="maintainers">
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Maintainers</h2>
-<p>Current maintainer:</p>
-<p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_expenses">dhongu/deltatech</a> project on GitHub.</p>
-<p>You are welcome to contribute.</p>
-</div>
-</div>
-</div>
-</div>
+
+
 <div class="text-white text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:#00432a;">
   <h2 class="text-white fw-bold mb-2" style="font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
   <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:600px;line-height:1.6;font-size:16px;">
@@ -747,6 +251,142 @@ In case of trouble, please check there if your issue has already been reported.<
   </div>
 </div>
 
+
+<section class="rounded-4 p-4 mb-3 border">
+  <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
+  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+    <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
+       class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
+  <div class="row g-3">
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_analytic" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AA</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account Analytic</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Analytic lines enhancements</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edi_ubl_advice" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">UD</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech UBL despatch advice</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account UBL despatch advice</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_average_payment_period" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AP</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Average Payment Period</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Computes average duration of cash accounting</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Generic module</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edit_currency_rate" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Edit Currency Rate</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Edit the currency rate on the invoice</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_actions" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Actions</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Other</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Cleaning and other actions</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_agreement_management" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AM</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Agreement Management</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Services/Agreement</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Manage agreements numbers, date, state</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
 </div>
-</body>
-</html>
