@@ -80,6 +80,16 @@ Usage
 Changelog
 =========
 
+19.0.1.3.0
+----------
+
+- [FIX] ``check_extra_product`` now also runs on ``write()`` of
+  ``product_qty``, ``product_id`` or ``price_unit``: previously it only
+  ran on ``create()`` and on the form's live ``onchange_order_line``, so
+  a quantity change saved through an inline list edit, an import or an
+  XML-RPC write left the extra line at its old quantity and price
+  (ticket #9275)
+
 19.0.1.2.0
 ----------
 

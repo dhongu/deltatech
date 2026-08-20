@@ -23,7 +23,7 @@ Deltatech POS Fix
 |badge1| |badge2| |badge3|
 
 Deltatech POS Fix
------------------
+=================
 
 Fix POS total calculation when using tax-included fiscal position
 mapping.
@@ -39,7 +39,7 @@ generating invoices from POS orders (Python), ensuring consistency
 across the entire flow.
 
 Features
-~~~~~~~~
+--------
 
 - Corrects unit price recalculation in POS when taxes change through the
   fiscal position.
@@ -49,7 +49,7 @@ Features
   reflect the correct tax mapping.
 
 Installation
-~~~~~~~~~~~~
+------------
 
 1. Copy the module into the addons folder.
 2. Update the module list in Odoo.

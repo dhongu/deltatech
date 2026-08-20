@@ -17,7 +17,7 @@ Deltatech POS Stock
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_pos_stock
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_stock
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -39,6 +39,47 @@ Key features:
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.1.0 (2026-08-19)
+-----------------------
+
+- Fixed stale stock badge: ``qty_available`` is a non-stored computed
+  field, so a sale (which writes on ``stock.quant``, not on
+  ``product.template``) never bumps the template's ``write_date``. The
+  POS incremental sync filters on ``write_date``, so it never re-sent
+  the recalculated quantity to sessions already open — the badge could
+  stay frozen at a days-old value.
+- ``stock.quant`` now pushes a live ``STOCK_SYNCHRONISATION`` bus
+  notification (reusing the same ``pos.bus.mixin`` channel core uses for
+  ``notify_synchronisation``) whenever a product's on-hand quantity
+  changes, to every open POS session with ``display_stock`` enabled. The
+  frontend subscribes to it and merges the fresh ``product.template``
+  data straight into the in-memory model, independent of the
+  ``write_date``-based sync.
+
+19.0.1.0.0 (2026-08-14)
+-----------------------
+
+- Migrated to Odoo 19.0.
+- Stock loading moved from ``product.product`` to ``product.template``:
+  in 19.0 the POS product card receives a template, so ``qty_available``
+  has to be loaded on the template.
+- Adapted to the 19.0 loading API: ``_load_pos_data_fields()`` now
+  receives the ``pos.config`` recordset and the removed
+  ``_load_pos_data()`` hook was replaced by ``_load_pos_data_read()``.
+- POS JS patch adapted to the 19.0 asset paths
+  (``app/components/product_card``, ``app/hooks/pos_hook``) and the
+  removed ``getProductPriceFormatted()`` helper was replaced by
+  ``getTaxDetails()`` + ``formatCurrency()``, honouring the
+  ``iface_tax_included`` setting.
+- Card template anchored on ``div.product-content``; the
+  ``div.product-information-tag`` element it used to extend no longer
+  exists in 19.0.
+- Added a POS frontend test asserting that the badge renders both the
+  price and the on-hand quantity.
 
 Bug Tracker
 ===========
@@ -68,6 +109,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_pos_stock>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_stock>`_ project on GitHub.
 
 You are welcome to contribute.

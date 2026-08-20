@@ -133,6 +133,17 @@ Usage
 Changelog
 =========
 
+19.0.2.7.3 (2026-08-15)
+-----------------------
+
+- Imp: ``stock.inventory.line.partner_id`` is now indexed — a foreign
+  key to ``res_partner`` on a table that grows with every stock count.
+  Context: ``res_partner`` is referenced by ~158 foreign-key columns; on
+  a production database 77 of them had no index, so a single partner
+  deletion triggered sequential scans over 3.180 MB of tables. Deleting
+  5.350 merged partner records took over 8 minutes without indexes and
+  190 seconds with them, foreign keys left ENABLED.
+
 19.0.2.7.2 (2026-08-05)
 -----------------------
 
