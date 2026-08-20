@@ -1,553 +1,193 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
-<title>Deltatech  Queue Job Enhancements</title>
-<style type="text/css">
-
-/*
-:Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
-:Copyright: This stylesheet has been placed in the public domain.
-
-Default cascading style sheet for the HTML output of Docutils.
-Despite the name, some widely supported CSS2 features are used.
-
-See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
-customize this style sheet.
-*/
-
-/* used to remove borders from tables and images */
-.borderless, table.borderless td, table.borderless th {
-  border: 0 }
-
-table.borderless td, table.borderless th {
-  /* Override padding for "table.docutils td" with "! important".
-     The right padding separates the table cells. */
-  padding: 0 0.5em 0 0 ! important }
-
-.first {
-  /* Override more specific margin styles with "! important". */
-  margin-top: 0 ! important }
-
-.last, .with-subtitle {
-  margin-bottom: 0 ! important }
-
-.hidden {
-  display: none }
-
-.subscript {
-  vertical-align: sub;
-  font-size: smaller }
-
-.superscript {
-  vertical-align: super;
-  font-size: smaller }
-
-a.toc-backref {
-  text-decoration: none ;
-  color: black }
-
-blockquote.epigraph {
-  margin: 2em 5em ; }
-
-dl.docutils dd {
-  margin-bottom: 0.5em }
-
-object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
-  overflow: hidden;
-}
-
-/* Uncomment (and remove this text!) to get bold-faced definition list terms
-dl.docutils dt {
-  font-weight: bold }
-*/
-
-div.abstract {
-  margin: 2em 5em }
-
-div.abstract p.topic-title {
-  font-weight: bold ;
-  text-align: center }
-
-div.admonition, div.attention, div.caution, div.danger, div.error,
-div.hint, div.important, div.note, div.tip, div.warning {
-  margin: 2em ;
-  border: medium outset ;
-  padding: 1em }
-
-div.admonition p.admonition-title, div.hint p.admonition-title,
-div.important p.admonition-title, div.note p.admonition-title,
-div.tip p.admonition-title {
-  font-weight: bold ;
-  font-family: sans-serif }
-
-div.attention p.admonition-title, div.caution p.admonition-title,
-div.danger p.admonition-title, div.error p.admonition-title,
-div.warning p.admonition-title, .code .error {
-  color: red ;
-  font-weight: bold ;
-  font-family: sans-serif }
-
-/* Uncomment (and remove this text!) to get reduced vertical space in
-   compound paragraphs.
-div.compound .compound-first, div.compound .compound-middle {
-  margin-bottom: 0.5em }
-
-div.compound .compound-last, div.compound .compound-middle {
-  margin-top: 0.5em }
-*/
-
-div.dedication {
-  margin: 2em 5em ;
-  text-align: center ;
-  font-style: italic }
-
-div.dedication p.topic-title {
-  font-weight: bold ;
-  font-style: normal }
-
-div.figure {
-  margin-left: 2em ;
-  margin-right: 2em }
-
-div.footer, div.header {
-  clear: both;
-  font-size: smaller }
-
-div.line-block {
-  display: block ;
-  margin-top: 1em ;
-  margin-bottom: 1em }
-
-div.line-block div.line-block {
-  margin-top: 0 ;
-  margin-bottom: 0 ;
-  margin-left: 1.5em }
-
-div.sidebar {
-  margin: 0 0 0.5em 1em ;
-  border: medium outset ;
-  padding: 1em ;
-  background-color: #ffffee ;
-  width: 40% ;
-  float: right ;
-  clear: right }
-
-div.sidebar p.rubric {
-  font-family: sans-serif ;
-  font-size: medium }
-
-div.system-messages {
-  margin: 5em }
-
-div.system-messages h1 {
-  color: red }
-
-div.system-message {
-  border: medium outset ;
-  padding: 1em }
-
-div.system-message p.system-message-title {
-  color: red ;
-  font-weight: bold }
-
-div.topic {
-  margin: 2em }
-
-h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
-h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
-  margin-top: 0.4em }
-
-h1.title {
-  text-align: center }
-
-h2.subtitle {
-  text-align: center }
-
-hr.docutils {
-  width: 75% }
-
-img.align-left, .figure.align-left, object.align-left, table.align-left {
-  clear: left ;
-  float: left ;
-  margin-right: 1em }
-
-img.align-right, .figure.align-right, object.align-right, table.align-right {
-  clear: right ;
-  float: right ;
-  margin-left: 1em }
-
-img.align-center, .figure.align-center, object.align-center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-table.align-center {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.align-left {
-  text-align: left }
-
-.align-center {
-  clear: both ;
-  text-align: center }
-
-.align-right {
-  text-align: right }
-
-/* reset inner alignment in figures */
-div.align-right {
-  text-align: inherit }
-
-/* div.align-center * { */
-/*   text-align: left } */
-
-.align-top    {
-  vertical-align: top }
-
-.align-middle {
-  vertical-align: middle }
-
-.align-bottom {
-  vertical-align: bottom }
-
-ol.simple, ul.simple {
-  margin-bottom: 1em }
-
-ol.arabic {
-  list-style: decimal }
-
-ol.loweralpha {
-  list-style: lower-alpha }
-
-ol.upperalpha {
-  list-style: upper-alpha }
-
-ol.lowerroman {
-  list-style: lower-roman }
-
-ol.upperroman {
-  list-style: upper-roman }
-
-p.attribution {
-  text-align: right ;
-  margin-left: 50% }
-
-p.caption {
-  font-style: italic }
-
-p.credits {
-  font-style: italic ;
-  font-size: smaller }
-
-p.label {
-  white-space: nowrap }
-
-p.rubric {
-  font-weight: bold ;
-  font-size: larger ;
-  color: maroon ;
-  text-align: center }
-
-p.sidebar-title {
-  font-family: sans-serif ;
-  font-weight: bold ;
-  font-size: larger }
-
-p.sidebar-subtitle {
-  font-family: sans-serif ;
-  font-weight: bold }
-
-p.topic-title {
-  font-weight: bold }
-
-pre.address {
-  margin-bottom: 0 ;
-  margin-top: 0 ;
-  font: inherit }
-
-pre.literal-block, pre.doctest-block, pre.math, pre.code {
-  margin-left: 2em ;
-  margin-right: 2em }
-
-pre.code .ln { color: gray; } /* line numbers */
-pre.code, code { background-color: #eeeeee }
-pre.code .comment, code .comment { color: #5C6576 }
-pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
-pre.code .literal.string, code .literal.string { color: #0C5404 }
-pre.code .name.builtin, code .name.builtin { color: #352B84 }
-pre.code .deleted, code .deleted { background-color: #DEB0A1}
-pre.code .inserted, code .inserted { background-color: #A3D289}
-
-span.classifier {
-  font-family: sans-serif ;
-  font-style: oblique }
-
-span.classifier-delimiter {
-  font-family: sans-serif ;
-  font-weight: bold }
-
-span.interpreted {
-  font-family: sans-serif }
-
-span.option {
-  white-space: nowrap }
-
-span.pre {
-  white-space: pre }
-
-span.problematic, pre.problematic {
-  color: red }
-
-span.section-subtitle {
-  /* font-size relative to parent (h1..h6 element) */
-  font-size: 80% }
-
-table.citation {
-  border-left: solid 1px gray;
-  margin-left: 1px }
-
-table.docinfo {
-  margin: 2em 4em }
-
-table.docutils {
-  margin-top: 0.5em ;
-  margin-bottom: 0.5em }
-
-table.footnote {
-  border-left: solid 1px black;
-  margin-left: 1px }
-
-table.docutils td, table.docutils th,
-table.docinfo td, table.docinfo th {
-  padding-left: 0.5em ;
-  padding-right: 0.5em ;
-  vertical-align: top }
-
-table.docutils th.field-name, table.docinfo th.docinfo-name {
-  font-weight: bold ;
-  text-align: left ;
-  white-space: nowrap ;
-  padding-left: 0 }
-
-/* "booktabs" style (no vertical lines) */
-table.docutils.booktabs {
-  border: 0px;
-  border-top: 2px solid;
-  border-bottom: 2px solid;
-  border-collapse: collapse;
-}
-table.docutils.booktabs * {
-  border: 0px;
-}
-table.docutils.booktabs th {
-  border-bottom: thin solid;
-  text-align: left;
-}
-
-h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
-h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
-  font-size: 100% }
-
-ul.auto-toc {
-  list-style-type: none }
-
-</style>
-</head>
-<body>
-<div class="document" id="deltatech-queue-job-enhancements"><div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;"><!-- tb-skin v5 -->
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
     style="background-color:#00432a;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
+  <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Deltatech  Queue Job Enhancements" style="width:72px;height:72px;border:none;"/></span></div>
   <h1 class="text-white fw-bold mb-3" style="font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Deltatech  Queue Job Enhancements</h1>
   <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Deltatech Queue Job</p>
   <div>
-    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
+    <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
+    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Others</span>
+    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">AGPL-3</span>
     <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Online &bull; Odoo.sh &bull; On-premise</span>
-    <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Optional support</span>
   </div>
 </div>
 
-<div class="py-2 text-body" style="font-size:16px;line-height:1.65;">
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! This file is generated by oca-gen-addon-readme !!
-!! changes will be overwritten.                   !!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! source digest: sha256:ad1d586f52e4ce948f8f361a059d621c064a8b1e538dd3a7d1e44756db489b36
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;opacity:0.92;">The module provides specific enhancements to the job queue functionality
-in Odoo, focusing on performance, reliability, and flexibility in job
-execution. Here’s a detailed breakdown of the features:
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_queue_job</code></p>
-<div class="section" id="key-features">
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h1>
-<ol class="arabic simple">
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane fade show active py-2 text-body" id="tb-panel-overview" style="font-size:16px;line-height:1.65;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;opacity:0.92;">The module provides specific enhancements to the job queue functionality in Odoo, focusing on performance, reliability, and flexibility in job execution. Here's a detailed breakdown of the features: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_queue_job</code></p>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h1>
+<ol>
 <li><strong>Optimized Concurrency and Locking</strong>:<ul>
-<li>Implements a specialized method (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_acquire_specific_job</code>) using
-the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">FOR NO KEY UPDATE SKIP LOCKED</code> SQL clause. This allows
-multiple workers (internal cron or external API) to process the
-queue simultaneously without blocking each other, significantly
-increasing throughput.</li>
+<li>Implements a specialized method (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_acquire_specific_job</code>) using the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">FOR NO KEY UPDATE SKIP LOCKED</code> SQL clause. This allows multiple workers (internal cron or external API) to process the queue simultaneously without blocking each other, significantly increasing throughput.</li>
 </ul>
 </li>
 <li><strong>Robust Transactional Processing</strong>:<ul>
-<li>Job execution is wrapped in database savepoints. If a job fails,
-only its changes are rolled back, preserving the state of the
-database for subsequent jobs in the same batch.</li>
-<li>Includes automatic handling of typical database concurrency errors
-(like serialization failures), ensuring jobs are gracefully
-rescheduled.</li>
+<li>Job execution is wrapped in database savepoints. If a job fails, only its changes are rolled back, preserving the state of the database for subsequent jobs in the same batch.</li>
+<li>Includes automatic handling of typical database concurrency errors (like serialization failures), ensuring jobs are gracefully rescheduled.</li>
 </ul>
 </li>
-<li><strong>Flexible Job Runners</strong>:<ul>
-<li><strong>Internal Cron Runner</strong>: An enhanced <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_job_runner</code> that respects
-configurable limits for batch size and execution time, preventing
-worker timeouts on platforms like Odoo.sh.</li>
-<li><strong>External API Runner</strong>: A dedicated endpoint
-(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/api/v1/queue/process</code>) designed for external trigger services
-(e.g., cron-job.org). This allows for processing intervals as
-frequent as every minute, bypassing the standard 5-minute Odoo cron
-limitation.</li>
-<li><strong>Threaded Processing</strong>: Ability to launch an API-style runner in a
-dedicated background thread directly from the Odoo UI, useful for
-immediate manual processing without blocking the web interface.</li>
-</ul>
+<li><strong>Flexible Job Runners</strong>:<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Internal Cron Runner</span><div class="mt-1">An enhanced <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_job_runner</code> that respects configurable limits for batch size and execution time, preventing worker timeouts on platforms like Odoo.sh.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">External API Runner</span><div class="mt-1">A dedicated endpoint (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/api/v1/queue/process</code>) designed for external trigger services (e.g., cron-job.org). This allows for processing intervals as frequent as every minute, bypassing the standard 5-minute Odoo cron limitation.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Threaded Processing</span><div class="mt-1">Ability to launch an API-style runner in a dedicated background thread directly from the Odoo UI, useful for immediate manual processing without blocking the web interface.</div></div></li></ul>
 </li>
 <li><strong>Smart Auto-Triggering</strong>:<ul>
-<li>Automatically creates cron triggers (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir.cron.trigger</code>) whenever
-a job is created or its scheduled time (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">eta</code>) is updated. This
-ensures that processing starts as soon as a job becomes eligible,
-rather than waiting for the next scheduled cron run.</li>
+<li>Automatically creates cron triggers (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir.cron.trigger</code>) whenever a job is created or its scheduled time (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">eta</code>) is updated. This ensures that processing starts as soon as a job becomes eligible, rather than waiting for the next scheduled cron run.</li>
 </ul>
 </li>
 <li><strong>Centralized Configuration</strong>:<ul>
-<li>A dedicated settings page under <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Queue Job &gt; Settings</code> allows
-administrators to:<ul>
+<li>A dedicated settings page under <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Queue Job &gt; Settings</code> allows administrators to:<ul>
 <li>Generate and manage secure API keys for external access.</li>
 <li>Define <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Batch Size</code> (maximum jobs per run).</li>
-<li>Set <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Max Seconds</code> (time budget per execution) to ensure
-stability.</li>
+<li>Set <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Max Seconds</code> (time budget per execution) to ensure stability.</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><strong>Enhanced Monitoring and UI</strong>:<ul>
-<li>Integrated notifications (Client Actions) that provide real-time
-feedback when jobs are triggered or processed.</li>
-<li>Improved list views for jobs, including creation dates and easier
-access to manual processing actions.</li>
-<li>Buttons for “Cron Trigger”, “Process”, and “Process Background” are
-always accessible from the job list header.</li>
-</ul>
+<li><strong>Enhanced Monitoring and UI</strong>:<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Integrated notifications (Client Actions) that provide real-time feedback when jobs are triggered or processed.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Improved list views for jobs, including creation dates and easier access to manual processing actions.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Buttons for "Cron Trigger", "Process", and "Process Background" are always accessible from the job list header.</div></div></li></ul>
 </li>
 </ol>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Optimized for Odoo.sh</h1>
+<p>This module is specifically designed to address common challenges on the Odoo.sh platform:
+*   <strong>Bypassing the 5-Minute Cron Limit</strong>: Using an external trigger service (like cron-job.org) via the API endpoint allows for job processing every minute, providing near real-time execution.
+*   <strong>Preventing Worker Timeouts</strong>: Configurable time budgets (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Max Seconds</code>) ensure that the job runner finishes its work gracefully before Odoo.sh kills the worker process, avoiding database inconsistencies.
+*   <strong>High Concurrency</strong>: The use of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">SKIP LOCKED</code> ensures that multiple workers can process the queue in parallel without deadlocks, maximizing the use of available resources.
+*   <strong>Transactional Safety</strong>: Savepoints isolate individual job failures, ensuring that one failing job doesn't roll back the entire batch.</p>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Performance Benefits</h1>
+<p>This module is essential for high-volume Odoo environments. By decoupling the job runner from the standard Odoo cron schedule and providing optimized database locking, it ensures that your background tasks are processed as fast as possible with minimal overhead and maximum reliability.</p>
 </div>
-<div class="section" id="optimized-for-odoo-sh">
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Optimized for Odoo.sh</h1>
-<p>This module is specifically designed to address common challenges on the
-Odoo.sh platform:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Bypassing the 5-Minute Cron Limit</span><div class="mt-1">Using an external trigger
-service (like cron-job.org) via the API endpoint allows for job
-processing every minute, providing near real-time execution.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Preventing Worker Timeouts</span><div class="mt-1">Configurable time budgets
-(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Max Seconds</code>) ensure that the job runner finishes its work
-gracefully before Odoo.sh kills the worker process, avoiding database
-inconsistencies.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">High Concurrency</span><div class="mt-1">The use of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">SKIP LOCKED</code> ensures that multiple
-workers can process the queue in parallel without deadlocks,
-maximizing the use of available resources.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Transactional Safety</span><div class="mt-1">Savepoints isolate individual job failures,
-ensuring that one failing job doesn’t roll back the entire batch.</div></div></li></ul>
-</div>
-<div class="section" id="performance-benefits">
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Performance Benefits</h1>
-<p>This module is essential for high-volume Odoo environments. By
-decoupling the job runner from the standard Odoo cron schedule and
-providing optimized database locking, it ensures that your background
-tasks are processed as fast as possible with minimal overhead and
-maximum reliability.</p>
-<div class="admonition important">
-<p class="first admonition-title">Important</p>
-<p class="last">This is an alpha version, the data model and design can change at any time without warning.
-Only for development or testing purpose, do not use in production.
-<a class="reference external" href="https://odoo-community.org/page/development-status">More details on development status</a></p>
-</div>
-</div>
-<div class="section" id="usage">
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Usage</h1>
+<div class="tab-pane fade py-2 text-body" id="tb-panel-usage" style="font-size:16px;line-height:1.65;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
 <p><strong>External Job Processor Configuration</strong></p>
-<p>To process jobs every minute using an external service like
-<a class="reference external" href="https://cron-job.org">cron-job.org</a>:</p>
-<ol class="arabic">
-<li><p class="first"><strong>Configure API Key</strong>: Go to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Queue Job</code> -&gt; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Settings</code> menu. You
-can generate a secure key using the <strong>Generate Key</strong> button.</p>
-</li>
-<li><p class="first"><strong>Configure Batch Settings</strong>: (Optional) Adjust <strong>Batch Size</strong>
-(default 20) and <strong>Max Seconds</strong> (default 50) directly in the same
-settings screen.</p>
-</li>
-<li><p class="first"><strong>Setup cron-job.org</strong>:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">URL</span><div class="mt-1"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;"><span class="pre">https://your-odoo-domain.com/api/v1/queue/process</span></code></div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Method</span><div class="mt-1">POST</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Schedule</span><div class="mt-1">Every minute (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">* * * * *</code>)</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Headers</span><div class="mt-1"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;"><span class="pre">Content-Type:</span> application/json</code></div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Body</span><div class="mt-1"></div></div></li></ul>
-<pre class="code json literal-block">
-<span class="p">{</span><span class="w">
-  </span><span class="nt">&quot;jsonrpc&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">&quot;api_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;YOUR_SECURE_KEY_HERE&quot;</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span>
-</pre>
+<p>To process jobs every minute using an external service like <a href="https://cron-job.org">cron-job.org</a>:</p>
+<ol>
+<li><strong>Configure API Key</strong>: Go to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Queue Job</code> -&gt; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Settings</code> menu. You can generate a secure key using the <strong>Generate Key</strong> button.</li>
+<li><strong>Configure Batch Settings</strong>: (Optional) Adjust <strong>Batch Size</strong> (default 20) and <strong>Max Seconds</strong> (default 50) directly in the same settings screen.</li>
+<li>
+<p><strong>Setup cron-job.org</strong>:</p>
+<ul>
+<li><strong>URL</strong>: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">https://your-odoo-domain.com/api/v1/queue/process</code></li>
+<li><strong>Method</strong>: POST</li>
+<li><strong>Schedule</strong>: Every minute (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">* * * * *</code>)</li>
+<li><strong>Headers</strong>: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Content-Type: application/json</code></li>
+<li><strong>Body</strong>:</li>
+</ul>
+<p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">json
+{
+  "jsonrpc": "2.0",
+  "params": {
+    "api_key": "YOUR_SECURE_KEY_HERE"
+  }
+}</code></p>
 </li>
 </ol>
 <p><strong>API Endpoints</strong></p>
-<p>Process Queue (External) ^^^^^^^^^^^^^^^^^^^^^^^^ <strong>POST</strong>
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/api/v1/queue/process</code></p>
-<p>Parameters:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">api_key</code> (required): Authentication key</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">batch_size</code> (optional): Maximum number of jobs to process (default:
-20)</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">max_seconds</code> (optional): Maximum processing time in seconds
-(default: 50)</div></div></li></ul>
+<p>Process Queue (External)
+^^^^^^^^^^^^^^^^^^^^^^^^
+<strong>POST</strong> <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/api/v1/queue/process</code></p>
+<p>Parameters:
+- <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">api_key</code> (required): Authentication key
+- <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">batch_size</code> (optional): Maximum number of jobs to process (default: 20)
+- <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">max_seconds</code> (optional): Maximum processing time in seconds (default: 50)</p>
 <p>Response:</p>
-<pre class="code json literal-block">
-<span class="p">{</span><span class="w">
-  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;processed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;failed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;pending_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;time_elapsed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">12.34</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-18 04:40:00&quot;</span><span class="w">
-</span><span class="p">}</span>
-</pre>
-<p><strong>Manual Processing</strong> You can manually trigger job processing from the
-Queue Job list view using the <strong>Process</strong> button (internal cron trigger)
-or <strong>Process (Thread)</strong> (API-style runner in a new thread), or trigger a
-background execution using <strong>Cron Trigger</strong>.</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-json">{
+  &quot;status&quot;: &quot;success&quot;,
+  &quot;processed&quot;: 15,
+  &quot;failed&quot;: 0,
+  &quot;pending_count&quot;: 10,
+  &quot;time_elapsed&quot;: 12.34,
+  &quot;timestamp&quot;: &quot;2026-03-18 04:40:00&quot;
+}
+</code></pre>
+<p><strong>Manual Processing</strong>
+You can manually trigger job processing from the Queue Job list view using the <strong>Process</strong> button (internal cron trigger) or <strong>Process (Thread)</strong> (API-style runner in a new thread), or trigger a background execution using <strong>Cron Trigger</strong>.</p>
 </div>
-<div class="section" id="bug-tracker">
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Bug Tracker</h1>
-<p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
-In case of trouble, please check there if your issue has already been reported.</p>
-<p>Do not contact contributors directly about support or help with technical issues.</p>
-</div>
-<div class="section" id="credits">
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:27px;letter-spacing:-0.3px;line-height:1.2;">Credits</h1>
-<div class="section" id="authors">
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Authors</h2>
-<ul class="simple">
-<li>Terrabit</li>
-<li>Dorin Hongu</li>
+<div class="tab-pane fade py-2 text-body" id="tb-panel-versions" style="font-size:16px;line-height:1.65;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.0</h2>
+<ul>
+<li>Fix: jobs cancelled through the dependency chain are now removed by the
+  autovacuum cron. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Job.cancel_dependent_jobs()</code> cancels them with a raw SQL
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">UPDATE queue_job SET state = ...</code> that writes nothing else, while
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">queue.job.autovacuum()</code> selects what to delete by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">date_done</code> or
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">date_cancelled</code> — so a job cancelled that way was never collected, however
+  long it sat there. A production instance had 189.644 such jobs, 53% of the
+  table and all of them <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">marketplace_write</code> cancelled in chains during
+  marketplace sync. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">models/job_patch.py</code> stamps <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">date_cancelled</code> right after
+  the chain cancellation (the query itself cannot be fixed at the source: it is
+  shared with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">enqueue_waiting()</code>, where a cancellation date would be wrong).</li>
+<li>Imp: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">autovacuum()</code> also removes terminal jobs left with no completion date at
+  all, keyed on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">date_created</code> and on the same per-channel <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">removal_interval</code>.
+  This collects what piled up before the fix; jobs in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">failed</code> state are never
+  touched, they are the only ones worth keeping for diagnosis.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.3.0</h2>
+<ul>
+<li>Fix: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_cron_trigger</code> debounce actually works now. It used to compare against
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">search(..., limit=1)</code> with no ordering and no future filter, so it usually
+  looked at a stale past trigger and created a new <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir.cron.trigger</code> on every
+  call - measured in production at 4,312 trigger inserts in 13 hours (one per
+  queue job creation). A request is now skipped when a pending trigger already
+  fires between now and the requested time.</li>
+<li>Fix: calling <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_cron_trigger</code> with a list of ETAs (as the OCA job runner does
+  for delayed jobs) built a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">('call_at', '=', [...])</code> domain, spamming the log
+  with osv.expression warnings. The ETAs are handled individually, earliest
+  first, so the first trigger created debounces the later ones; past ETAs are
+  clamped to now. Ported from 18.0 (18.0.1.3.0).</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0</h2>
+<ul>
+<li>When a new job is created, automatically move older jobs left in the
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">failed</code> state that share the same <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">identity_key</code> to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">cancelled</code>. The
+  standard deduplication only checks active states
+  (pending/enqueued/wait_dependencies), so failed duplicates used to pile up.
+  The record and its traceback are kept for diagnostics and the standard
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">autovacuum</code> cron removes cancelled jobs later based on the channel
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">removal_interval</code>.</li>
 </ul>
 </div>
-<div class="section" id="maintainers">
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Maintainers</h2>
-<p>Current maintainer:</p>
-<p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_queue_job">dhongu/deltatech</a> project on GitHub.</p>
-<p>You are welcome to contribute.</p>
 </div>
+
+<div class="row text-center mt-4 mb-1 g-3">
+  <div class="col-md-4">
+    <div class="border rounded-3 p-4 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
+      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="border rounded-3 p-4 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
+      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="border rounded-3 p-4 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">3</div>
+      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Countries served: Romania, Ireland, Moldova</div>
+    </div>
+  </div>
 </div>
-</div>
-</div>
+
+
 <div class="text-white text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:#00432a;">
   <h2 class="text-white fw-bold mb-2" style="font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
   <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:600px;line-height:1.6;font-size:16px;">
@@ -566,6 +206,142 @@ In case of trouble, please check there if your issue has already been reported.<
   </div>
 </div>
 
+
+<section class="rounded-4 p-4 mb-3 border">
+  <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
+  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+    <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
+       class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
+  <div class="row g-3">
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Generic module</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_analytic" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AA</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account Analytic</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Analytic lines enhancements</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edi_ubl_advice" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">UD</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech UBL despatch advice</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account UBL despatch advice</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edit_currency_rate" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Edit Currency Rate</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Edit the currency rate on the invoice</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_actions" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Actions</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Other</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Cleaning and other actions</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_agreement_management" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AM</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Agreement Management</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Services/Agreement</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Manage agreements numbers, date, state</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_alternative" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PA</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Products Alternative</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Alternative product codes</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
 </div>
-</body>
-</html>

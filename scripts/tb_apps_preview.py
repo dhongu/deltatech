@@ -100,6 +100,7 @@ def risk_report(html):
 SHELL = """<!doctype html><html%(htmlattr)s><head><meta charset="utf-8">
 <title>Apps Store preview — %(mode)s</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 </head>
 <body class="bg-body text-body" style="margin:0;%(bodystyle)s">
 <div style="max-width:1180px;margin:0 auto;padding:24px;">

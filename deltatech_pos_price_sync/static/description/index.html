@@ -3,28 +3,53 @@
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
     style="background-color:#00432a;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
-  <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Purchase Create Bill Button" style="width:72px;height:72px;border:none;"/></span></div>
-  <h1 class="text-white fw-bold mb-3" style="font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Purchase Create Bill Button</h1>
-  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Restores the one-click Create Bill button and vendor reference copy on the purchase order form</p>
+  <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Deltatech POS Price Sync" style="width:72px;height:72px;border:none;"/></span></div>
+  <h1 class="text-white fw-bold mb-3" style="font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Deltatech POS Price Sync</h1>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Push live product price changes to already open POS sessions</p>
   <div>
     <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
-    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Purchases</span>
+    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Point of Sale</span>
     <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">LGPL-3</span>
     <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Online &bull; Odoo.sh &bull; On-premise</span>
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2 text-body" id="tb-panel-overview" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;opacity:0.92;">In Odoo 19, the "Create Bill" button on the purchase order form was replaced by an
-"Upload Bill" widget that requires selecting a file before a bill can be created.</p>
-<p>This module restores the classic one-click "Create Bill" button next to the upload
-widget, so purchase orders can still be invoiced directly, without attaching a file,
-exactly as in Odoo 18.</p>
-<p>Odoo 19 also dropped the automatic copy of the purchase order's "Vendor Reference"
-into the vendor bill's "Reference" and "Payment Reference" fields when a bill is
-created from a purchase order. This module restores that copy as well, matching the
-Odoo 18 behavior.</p>
+<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;opacity:0.92;">This module pushes live product price changes to Point of Sale sessions that are already open.</p>
+<p>Key features:
+- Detects <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">list_price</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">standard_price</code> changes on products available in POS.
+- Pushes a live bus notification to every open POS session, reusing the same channel pattern as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos_stock</code>.
+- The POS frontend merges the fresh price straight into the in-memory model, without a page reload.
+- Fixes the "changed the price, cashier still sees the old one even after F5" issue: a POS session that stays open never re-runs the write_date-based sync on reload.</p>
+</div>
+<div class="tab-pane fade py-2 text-body" id="tb-panel-versions" style="font-size:16px;line-height:1.65;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.0 (2026-08-20)</h2>
+<ul>
+<li>Initial version. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.template</code> now pushes a live <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PRICE_SYNCHRONISATION</code> bus notification
+  (reusing the same <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pos.bus.mixin</code> channel core uses for <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">notify_synchronisation</code>, same pattern as
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos_stock</code>'s <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">STOCK_SYNCHRONISATION</code>) whenever <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">list_price</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">standard_price</code> changes
+  on a product available in POS, to every open POS session. The frontend subscribes to it and merges
+  the fresh <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.template</code> data straight into the in-memory model.</li>
+<li>Root cause (Terrabit ticket #9305, client Damira COM SRL): a POS session that stays open never
+  re-runs the write_date-based sync on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">loadInitialData()</code> (see <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">data_service.js</code>), so pressing F5
+  kept showing the old price even though the change was saved on the backend.</li>
+</ul>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
@@ -75,50 +100,34 @@ Odoo 18 behavior.</p>
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_fast_purchase" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_pos_fix" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border text-body">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">FP</span>
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PF</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Fast Purchase</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Purchases</span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech POS Fix</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Point of Sale</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Achizitie rapida</p>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Fix POS total calculation when using tax-included fiscal position mapping</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_purchase_mail" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_pos_stock" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border text-body">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PS</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Purchase: Send Multi Orders by Email with XLSX</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Purchases</span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech POS Stock</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Point of Sale</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Select multiple purchase orders and send an email with XLSX summary and attached PDFs</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_purchase_ubl" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border text-body">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PU</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Purchase UBL</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Purchases</span>
-            </span>
-          </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Import UBL XML vendor invoices to update prices, validate receipts, and create vendor bills</p>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Display stock in POS</p>
         </div>
       </a>
     </div>
@@ -199,6 +208,22 @@ Odoo 18 behavior.</p>
             </span>
           </div>
           <p class="text-body-secondary mb-0" style="font-size:12px;">Edit the currency rate on the invoice</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_actions" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Actions</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Other</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Cleaning and other actions</p>
         </div>
       </a>
     </div>
