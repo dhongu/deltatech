@@ -166,3 +166,12 @@ msgstr "Limită de marjă (%)"
 #: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_config_settings__sale_margin_limit_check_validate
 msgid "Check margin on confirmation only"
 msgstr "Verifică marja doar la confirmare"
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.res_config_settings_view_form
+msgid ""
+"How the system reacts when a line falls below the purchase price or below "
+"the margin limit."
+msgstr ""
+"Cum reacționează sistemul când o linie coboară sub prețul de achiziție sau "
+"sub limita de marjă."
