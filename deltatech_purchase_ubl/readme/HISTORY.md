@@ -1,5 +1,16 @@
 # Changelog
 
+## [19.0.1.2.4] - 2026-08-20
+
+### Fixed
+- **Bug**: `depends` listed `purchase` + `stock` separately, but the module actually uses fields
+  defined by their glue module `purchase_stock` (`purchase.order.picking_ids`,
+  `stock.picking.purchase_id`) in `_find_receipt`/`_validate_receipt_quantities`.
+  `purchase_stock` is `auto_install=True`, and CI's test database init runs with
+  `--skip-auto-install` (Odoo ≥ 19) - so it was only ever getting installed incidentally, when
+  another module in the same CI shard happened to declare it explicitly. `depends` now lists
+  `purchase_stock` directly instead of `purchase` + `stock`.
+
 ## [19.0.1.2.3] - 2026-08-20
 
 ### Fixed
