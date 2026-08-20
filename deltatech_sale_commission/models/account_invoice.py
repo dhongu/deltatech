@@ -205,6 +205,13 @@ class AccountInvoiceLine(models.Model):
                 continue
             if invoice_line.display_type != "product":
                 continue
+            # The reaction mode is a company-level policy set on the sale side
+            # (`res.company.sale_margin_check_mode`). Ignoring it here would let
+            # a company that allows selling below cost pass the sale order and
+            # then hit the wall at invoicing, once the goods are already gone.
+            company = invoice_line.company_id or invoice_line.move_id.company_id or self.env.company
+            if company.sale_margin_check_mode != "block":
+                continue
             if invoice_line.move_id.move_type == "out_invoice":
                 if not self.env.user.has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
                     date_eval = invoice_line.move_id.invoice_date or fields.Date.context_today(invoice_line)

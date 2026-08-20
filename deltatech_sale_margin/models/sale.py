@@ -18,18 +18,30 @@ class SaleOrder(models.Model):
     def _compute_can_change_price(self):
         self.can_change_price = not self.env.user.has_group("deltatech_sale_margin.group_sale_no_change_price")
 
-    @api.depends("state", "order_line.price_reduce_taxexcl", "order_line.purchase_price")
+    @api.depends(
+        "state",
+        "order_line.margin_below_limit",
+        "company_id.sale_margin_check_mode",
+    )
     def _compute_price_warning_message(self):
         self.price_warning_message = False
         for order in self.filtered(lambda o: o.state in ["draft", "sent"]):
+            company = order.company_id or self.env.company
+            if company.sale_margin_check_mode == "off":
+                continue
             warning_message = ""
-            for line in order.order_line:
-                if line.product_id and line.product_id.is_storable:
-                    price_unit = line.price_reduce_taxexcl
-                    if price_unit and price_unit < line.purchase_price and line.purchase_price > 0:
-                        warning_message += self.env._(
-                            "The unit price of product %s is lower than the purchase price. The margin is negative."
-                        ) % (line.product_id.display_name)
+            for line in order.order_line.filtered("margin_below_limit"):
+                warning_message += self.env._(
+                    "The unit price of product %s is lower than the purchase price. The margin is negative."
+                ) % (line.product_id.display_name)
+            if warning_message and company.sale_margin_check_mode == "warn":
+                # in "warn" mode nothing is blocked, so the banner has to say so
+                # explicitly - otherwise the seller stops at it waiting for a
+                # permission that will never be needed
+                # spatiul se pune IN AFARA termenului tradus: un msgid care incepe
+                # cu spatiu nu se potrivea la incarcarea traducerii, iar banner-ul
+                # ieșea bilingv in fata clientului (prins pe captura fisei)
+                warning_message += " " + self.env._("The order can still be confirmed.")
             if warning_message:
                 order.price_warning_message = warning_message
 
@@ -41,6 +53,8 @@ class SaleOrder(models.Model):
         # daca comanda se face in website se ignora verificarea pretului de cost pentru a face unele promotii
         if self.env.context.get("website_id", False):
             return res
+        for order in self.filtered(lambda o: (o.company_id or self.env.company).sale_margin_check_mode == "warn"):
+            order._post_margin_warning()
         get_param = self.env["ir.config_parameter"].sudo().get_param
         check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
         if check_on_validate:
@@ -49,9 +63,122 @@ class SaleOrder(models.Model):
                     line.with_context(call_from_action_confirm=True).check_sale_price()
         return res
 
+    def _post_margin_warning(self):
+        """Log the below-cost decision once, when the order is confirmed.
+
+        In "warn" mode `check_sale_price` stays silent on purpose: it runs on
+        every `write` of a line, so posting from there filled the chatter with
+        one message per keystroke on the price and nobody read it any more.
+        """
+        self.ensure_one()
+        lines = self.order_line.filtered("margin_below_limit")
+        if not lines:
+            return
+        details = ""
+        for line in lines:
+            detail = self.env._(
+                "%(product)s - unit price %(price)s %(currency)s, margin %(margin)s%%",
+                product=line.product_id.display_name,
+                price=round(line.price_reduce_taxexcl, 2),
+                currency=line.currency_id.name or "",
+                margin=round(line.margin_percent * 100, 2),
+            )
+            details += f"<li>{detail}</li>"
+        self.message_post(
+            body=self.env._(
+                "<p><b>Sold below cost - confirmed.</b> The lines below are under "
+                "the configured margin limit. The order was NOT blocked; this note "
+                "keeps a trace of the decision.</p><ul>%s</ul>",
+                details,
+            )
+        )
+
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
+
+    margin_below_limit = fields.Boolean(
+        string="Below cost",
+        compute="_compute_margin_below_limit",
+        help="The margin of this line is under the configured margin limit.",
+    )
+
+    # Not stored: it depends on a company setting and on a system parameter, and
+    # storing it would mean recomputing every historical line whenever either of
+    # them changes. It is only ever needed on screen.
+    #
+    # Deliberately a separate compute from the native `margin` / `margin_percent`
+    # rather than a groups-restricted field of its own: `margin_below_limit` must
+    # stay readable by sellers who are NOT allowed to see the cost, which is the
+    # whole point of a warning. A field carrying the figure would leak it.
+    @api.depends(
+        "price_reduce_taxexcl",
+        "purchase_price",
+        "product_id",
+        "product_uom_id",
+        "company_id.sale_margin_check_mode",
+    )
+    def _compute_margin_below_limit(self):
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        margin_limit = safe_eval(get_param("sale.margin_limit", "0"))
+        for line in self:
+            margin = line._margin_for_check()
+            line.margin_below_limit = (
+                line._margin_check_mode() != "off" and margin is not None and margin < margin_limit
+            )
+
+    def _margin_check_mode(self):
+        """Reaction mode of the line's company, resolved defensively.
+
+        During an onchange the line may not have a company yet (`company_id` is
+        related to the order). Falling through to a missing company would return
+        a falsy mode, which reads as "not block" everywhere below and would
+        silently disable the check for every existing customer - a regression
+        nobody would notice until a sale below cost went through.
+        """
+        self.ensure_one()
+        company = self.company_id or self.order_id.company_id or self.env.company
+        return company.sale_margin_check_mode
+
+    def _margin_for_check(self):
+        """Margin percentage of the line, or None when it cannot be compared.
+
+        None means "stay silent": no product, a service, a delivery line, no
+        cost at all (the purchase price was never filled in), no price, or units
+        that are not comparable.
+        """
+        self.ensure_one()
+        if self.display_type or not self.product_id:
+            return None
+        if self.product_type == "service" or self.is_delivery:
+            return None
+        cost = self.purchase_price
+        price = self.price_reduce_taxexcl
+        if cost <= 0 or price <= 0:
+            return None
+        if not self._margin_uom_comparable():
+            return None
+        return (price - cost) / price * 100
+
+    def _margin_uom_comparable(self):
+        """Are the cost and the price expressed in the same unit?
+
+        `purchase_price` is brought into the line unit by `sale_margin` /
+        `sale_stock_margin` through `product_id.uom_id._compute_price(...)`. In
+        Odoo 19 that multiplies by the ABSOLUTE factors without checking the
+        family - the unit category is gone and the root of the kilogram
+        hierarchy is the gram - so converting a cost per Unit into a price per kg
+        returns a value 1000 times too high.
+
+        Left unchecked, a product whose `uom_id` is wrong would report EVERY line
+        as below cost, and the warning would be dismissed as noise from day one.
+        """
+        self.ensure_one()
+        line_uom = self.product_uom_id or self.product_id.uom_id
+        base_uom = self.product_id.uom_id
+        if not line_uom or not base_uom:
+            return False
+        return line_uom._dt_root_uom() == base_uom._dt_root_uom()
 
     # def get_price_unit_w_taxes(self):
     #     # check if price_unit is with taxes
@@ -76,6 +203,12 @@ class SaleOrderLine(models.Model):
         if not res:
             res = {}
         if not res.get("warning", False) and not self.env.context.get("website_id", False):
+            # In "warn" mode the signal is the flagged line and the order banner,
+            # which appear as soon as the seller leaves the price field. A modal
+            # on top of that, on a business where selling below cost is routine,
+            # ends up being dismissed reflexively without being read.
+            if self._margin_check_mode() != "block":
+                return res
             get_param = self.env["ir.config_parameter"].sudo().get_param
             check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
             if check_on_validate:
@@ -106,7 +239,7 @@ class SaleOrderLine(models.Model):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
         if not check_on_validate:
-            for line in self:
+            for line in self.filtered(lambda li: li._margin_check_mode() == "block"):
                 line.check_sale_price()
         return res
 
@@ -114,6 +247,13 @@ class SaleOrderLine(models.Model):
         res = {}
         # daca in context este ignore_price_check atunci nu se verifica pretul
         if self.env.context.get("ignore_price_check", False):
+            return res
+        # "warn" and "off" never raise: the signal is `margin_below_limit` (the
+        # flagged line and the order banner) plus a single chatter note posted by
+        # `sale.order._post_margin_warning` when the order is confirmed. This
+        # method runs on every `write` of a line, so warning from here would
+        # either block routine work or flood the chatter.
+        if self._margin_check_mode() != "block":
             return res
         # daca comanda se face in website se ignora verificarea pretului de cost pentru a face unele promotii
         if self.env.context.get("website_id", False):
