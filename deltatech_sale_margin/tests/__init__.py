@@ -3,3 +3,4 @@
 # See README.rst file on addons root folder for license details
 
 from . import test_sale
+from . import test_margin_check_mode
