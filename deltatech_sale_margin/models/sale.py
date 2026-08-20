@@ -38,7 +38,10 @@ class SaleOrder(models.Model):
                 # in "warn" mode nothing is blocked, so the banner has to say so
                 # explicitly - otherwise the seller stops at it waiting for a
                 # permission that will never be needed
-                warning_message += self.env._(" The order can still be confirmed.")
+                # spatiul se pune IN AFARA termenului tradus: un msgid care incepe
+                # cu spatiu nu se potrivea la incarcarea traducerii, iar banner-ul
+                # ieșea bilingv in fata clientului (prins pe captura fisei)
+                warning_message += " " + self.env._("The order can still be confirmed.")
             if warning_message:
                 order.price_warning_message = warning_message
 

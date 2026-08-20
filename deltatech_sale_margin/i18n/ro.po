@@ -112,3 +112,57 @@ msgstr "Nu puteți vinde sub marjă: %s"
 #, python-format
 msgid "You can not sell below the purchase price: %s."
 msgstr "Nu puteți vinde sub prețul de achiziție: %s."
+
+#. module: deltatech_sale_margin
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+#, python-format
+msgid "The order can still be confirmed."
+msgstr "Comanda poate fi confirmată."
+
+#. module: deltatech_sale_margin
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+#, python-format
+msgid "%(product)s - unit price %(price)s %(currency)s, margin %(margin)s%%"
+msgstr "%(product)s - preț unitar %(price)s %(currency)s, marjă %(margin)s%%"
+
+#. module: deltatech_sale_margin
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+#, python-format
+msgid "<p><b>Sold below cost - confirmed.</b> The lines below are under the configured margin limit. The order was NOT blocked; this note keeps a trace of the decision.</p><ul>%s</ul>"
+msgstr "<p><b>Vânzare sub cost - confirmată.</b> Liniile de mai jos au marja sub limita configurată. Comanda NU a fost blocată; nota rămâne ca urmă a deciziei.</p><ul>%s</ul>"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_order_line__margin_below_limit
+msgid "Below cost"
+msgstr "Sub cost"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_company__sale_margin_check_mode
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_config_settings__sale_margin_check_mode
+msgid "Selling below cost"
+msgstr "Vânzare sub cost"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__res_company__sale_margin_check_mode__block
+msgid "Block the sale"
+msgstr "Blochează vânzarea"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__res_company__sale_margin_check_mode__warn
+msgid "Warn only"
+msgstr "Doar avertisment"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__res_company__sale_margin_check_mode__off
+msgid "No check"
+msgstr "Fără verificare"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_config_settings__sale_margin_limit
+msgid "Margin limit (%)"
+msgstr "Limită de marjă (%)"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_config_settings__sale_margin_limit_check_validate
+msgid "Check margin on confirmation only"
+msgstr "Verifică marja doar la confirmare"
