@@ -446,7 +446,7 @@ def build_hero(addon_dir, manifest):
     )
 
 
-def build_tab_sources(addon_dir, manifest):
+def build_tab_sources(addon_dir, manifest, allow_ro=False):
     """Întoarce [(key, title, markdown)] doar pentru taburile cu fragment existent."""
     name = manifest.get("name") or ""
     tabs = []
@@ -458,8 +458,10 @@ def build_tab_sources(addon_dir, manifest):
         if key == "overview":
             md_text = strip_title_heading(md_text, name)
         if key == "versions":
-            # pagina e DOAR în EN — un HISTORY.md scris în română (diacritice) nu urcă
-            if re.search(r"[ăâîșşțţĂÂÎȘŞȚŢ]", md_text):
+            # pagina e implicit în EN — un HISTORY.md scris în română (diacritice) nu
+            # urcă; excepție suitele cu prezentare intenționat RO (--allow-ro, ex.
+            # l10n_ro_ent, unde publicul Apps Store e românesc)
+            if not allow_ro and re.search(r"[ăâîșşțţĂÂÎȘŞȚŢ]", md_text):
                 continue
             md_text = cap_history(md_text)
         tabs.append((key, title, md_text))
@@ -566,9 +568,9 @@ def build_stats():
     return STATS % {"cards": cards}
 
 
-def gen_index(addon_dir, cross_sell=True):
+def gen_index(addon_dir, cross_sell=True, allow_ro=False):
     manifest = read_manifest(addon_dir)
-    tabs = build_tab_sources(addon_dir, manifest)
+    tabs = build_tab_sources(addon_dir, manifest, allow_ro=allow_ro)
     parts = [
         WRAP_OPEN,
         build_hero(addon_dir, manifest),
@@ -594,7 +596,7 @@ def may_overwrite(index_path):
     return any(marker in existing for marker in KNOWN_MARKERS)
 
 
-def process(addon_dir, cross_sell=True, force=False):
+def process(addon_dir, cross_sell=True, force=False, allow_ro=False):
     if not read_manifest(addon_dir):
         return False
     if not read_fragment(addon_dir, "DESCRIPTION.md"):
@@ -607,7 +609,7 @@ def process(addon_dir, cross_sell=True, force=False):
         return False
     # generează ÎNAINTE de a deschide fișierul — o eroare la generare nu trebuie
     # să lase un index.html trunchiat
-    content = gen_index(addon_dir, cross_sell=cross_sell)
+    content = gen_index(addon_dir, cross_sell=cross_sell, allow_ro=allow_ro)
     os.makedirs(desc_dir, exist_ok=True)
     with open(index_path, "w", encoding="utf8") as f:
         f.write(content)
@@ -630,6 +632,9 @@ def main():
     ap.add_argument("--addons-dir", help="director cu mai multe module")
     ap.add_argument("--no-cross-sell", action="store_true", help="fără secțiunea de module-surori")
     ap.add_argument("--force", action="store_true", help="suprascrie și index.html scrise manual")
+    ap.add_argument(
+        "--allow-ro", action="store_true", help="suită cu prezentare în RO (nu omite HISTORY cu diacritice)"
+    )
     args = ap.parse_args()
 
     targets = list(args.addon_dir)
@@ -638,7 +643,9 @@ def main():
     if not targets:
         targets = list(find_addons("."))
 
-    count = sum(1 for d in targets if process(d, cross_sell=not args.no_cross_sell, force=args.force))
+    count = sum(
+        1 for d in targets if process(d, cross_sell=not args.no_cross_sell, force=args.force, allow_ro=args.allow_ro)
+    )
     print(f"[tb-gen] gata: {count} module generate.")
 
 
