@@ -28,7 +28,7 @@ Structura paginii (doar EN):
     - Usage         = USAGE.md
     - Versions      = HISTORY.md (limitat la ultimele MAX_HISTORY_VERSIONS versiuni)
     (taburile fără fragment sursă nu apar; cu un singur tab, nav-ul se omite)
-  STATS Terrabit (3 carduri) + bloc suport/CTA + footer (mereu vizibile, sub taburi)
+  STATS Terrabit (3 carduri) + bloc suport/CTA (mereu vizibile, sub taburi)
   CROSS-SELL „More apps by Terrabit" — carduri către module-surori din aceeași suită
     (aceeași categorie întâi, alfabetic), link spre apps.odoo.com
 
@@ -70,6 +70,7 @@ TB = {
     "dark": "#00432a",
     "accent": "#57B952",
     "website": "https://www.terrabit.ro",
+    "contact_url": "https://www.terrabit.ro/contactus",
     "company": "Terrabit Solutions SRL",
     "apps_author": "Terrabit",  # filtru author pe apps.odoo.com
 }
@@ -142,13 +143,13 @@ PANEL = """<div class="tab-pane fade%(active)s py-2 text-body" id="tb-panel-%(ke
 %(body)s
 </div>"""
 
-# Stats + bloc suport + footer: BRAND solid verde închis (theme-independent).
+# Stats + bloc suport: BRAND solid verde închis (theme-independent).
 STATS = """
 <div class="row text-center mt-4 mb-1 g-3">
   %(cards)s
 </div>
 """
-STAT_CARD = """<div class="col-md-4">
+STAT_CARD = """<div class="col-md-%(col)s">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:%(primary)s;line-height:1;">%(big)s</div>
       <div class="text-body-secondary mt-2" style="font-size:0.9rem;">%(small)s</div>
@@ -157,7 +158,6 @@ STAT_CARD = """<div class="col-md-4">
 STAT_ITEMS = [
     ("350+", "Modules published on Odoo Apps"),
     ("Silver", "Odoo Partner &mdash; implementation &amp; support"),
-    ("3", "Countries served: Romania, Ireland, Moldova"),
 ]
 
 SUPPORT = """
@@ -167,16 +167,9 @@ SUPPORT = """
      We are an Odoo partner building apps for the Romanian market (SAGA &amp; WinMentor
      export; Romanian accounting localization in progress). Direct support from the team
      that built the module.</p>
-  <a href="%(website)s" class="d-inline-block fw-bold text-decoration-none rounded-3"
+  <a href="%(contact_url)s" target="_blank" rel="noopener"
+     class="d-inline-block fw-bold text-decoration-none rounded-3"
      style="background-color:%(accent)s;color:#04331f;padding:14px 32px;font-size:15px;">Contact Terrabit &rarr;</a>
-  <div class="mx-auto mt-4 pt-3" style="border-top:1px solid rgba(255,255,255,0.18);max-width:760px;">
-    <div class="text-white fw-bold" style="font-size:19px;letter-spacing:2px;">TERRABIT</div>
-    <div class="mt-1" style="color:#bfe3cc;font-size:13px;">
-      &copy; %(company)s &nbsp;&bull;&nbsp;
-      <a href="%(website)s" class="text-white text-decoration-none fw-semibold">terrabit.ro</a>
-      &nbsp;&bull;&nbsp; Odoo apps for Romania, Ireland &amp; Moldova
-    </div>
-  </div>
 </div>
 """
 
@@ -570,7 +563,8 @@ def build_cross_sell(addon_dir, manifest, count=CROSS_SELL_COUNT):
 
 
 def build_stats():
-    cards = "\n  ".join(STAT_CARD % dict(TB, big=big, small=small) for big, small in STAT_ITEMS)
+    col = max(3, 12 // max(1, len(STAT_ITEMS)))
+    cards = "\n  ".join(STAT_CARD % dict(TB, big=big, small=small, col=col) for big, small in STAT_ITEMS)
     return STATS % {"cards": cards}
 
 
