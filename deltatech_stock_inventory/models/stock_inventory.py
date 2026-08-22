@@ -5,6 +5,8 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_compare, float_is_zero
 from odoo.tools.safe_eval import safe_eval
 
+from odoo.addons.base.models.ir_model import MODULE_UNINSTALL_FLAG
+
 
 class Inventory(models.Model):
     _name = "stock.inventory"
@@ -103,20 +105,20 @@ class Inventory(models.Model):
         default = dict(default or {}, name=name)
         return super().copy_data(default)
 
-    # def unlink(self):
-    #     for inventory in self:
-    #         if (
-    #             inventory.state not in ("draft", "cancel")
-    #             and not self.env.context.get(MODULE_UNINSTALL_FLAG, False)
-    #             and not self.env.context.get("merge_inventory", False)
-    #         ):
-    #             raise UserError(
-    #                 self.env._(
-    #                     "You can only delete a draft inventory adjustment. "
-    #                     "If the inventory adjustment is not done, you can cancel it."
-    #                 )
-    #             )
-    #     return super().unlink()
+    def unlink(self):
+        for inventory in self:
+            if (
+                inventory.state not in ("draft", "cancel")
+                and not self.env.context.get(MODULE_UNINSTALL_FLAG, False)
+                and not self.env.context.get("merge_inventory", False)
+            ):
+                raise UserError(
+                    self.env._(
+                        "You can only delete a draft inventory adjustment. "
+                        "If the inventory adjustment is not done, you can cancel it."
+                    )
+                )
+        return super().unlink()
 
     def action_validate(self):
         if not self.exists():
