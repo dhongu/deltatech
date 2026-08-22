@@ -38,6 +38,10 @@
 </div>
 <div class="tab-pane fade py-2 text-body" id="tb-panel-versions" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.2 (2026-08-21)</h2>
+<ul>
+<li>Add: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website.show_line_subtotals_tax_selection</code> ("Display Product Prices") is a computed+stored field with no Romanian override, so <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website_sale</code> resets it to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tax_excluded</code> on every recompute of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">company_id.account_fiscal_country_id</code> - triggered, for example, by any write on the company's own partner address (e.g. a nightly ANAF partner sync). The new <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Website._compute_show_line_subtotals_tax_selection</code> override preserves the previously saved value instead of letting it reset silently, without forcing either option.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.1 (2026-08-13)</h2>
 <ul>
 <li>Fix: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_validate_address_values</code> still required <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">is_main_address</code>, a parameter Odoo 19 no longer passes - the 19.0 migration kept the 18.0 signature. Any address submitted from the website raised a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TypeError</code> (500) as soon as this module was installed. The parameter is dropped; anything else the caller adds still travels through <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">**_kwargs</code>.</li>
@@ -63,10 +67,10 @@
 
 <div class="text-white text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:#00432a;">
   <h2 class="text-white fw-bold mb-2" style="font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
-  <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:600px;line-height:1.6;font-size:16px;">
-     We are an Odoo partner building apps for the Romanian market (SAGA &amp; WinMentor
-     export; Romanian accounting localization in progress). Direct support from the team
-     that built the module.</p>
+  <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
+     Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,
+     the Americas, Asia and Africa &mdash; by companies we have never even met. That is the
+     advantage of building modules that simply work.</p>
   <a href="https://www.terrabit.ro/contactus" target="_blank" rel="noopener"
      class="d-inline-block fw-bold text-decoration-none rounded-3"
      style="background-color:#57B952;color:#04331f;padding:14px 32px;font-size:15px;">Contact Terrabit &rarr;</a>
