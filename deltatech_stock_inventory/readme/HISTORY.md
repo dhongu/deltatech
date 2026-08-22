@@ -1,3 +1,16 @@
+## 19.0.2.7.4 (2026-08-22)
+
+- The **delete guard** on inventory adjustments is active again: only adjustments
+  in *Draft* or *Cancelled* state can be deleted. An adjustment that is *In
+  Progress* or *Validated* has already generated stock moves, and deleting it
+  left those moves behind without their source document. The guard existed in
+  18.0 but had been commented out during the 19.0 port, so any adjustment could
+  be deleted regardless of its state — silently, with no warning.
+- The two documented exceptions are preserved: module uninstall
+  (`_force_unlink`) and the explicit merge of adjustments, which deletes the
+  merged (validated) documents with `merge_inventory=True` in the context after
+  moving their lines and stock moves to the resulting adjustment.
+
 ## 19.0.2.7.3 (2026-08-15)
 
 - Imp: `stock.inventory.line.partner_id` is now indexed — a foreign key to `res_partner` on a table that grows with every stock count.
