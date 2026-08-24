@@ -11,9 +11,10 @@ class StockWarehouseOrderpoint(models.Model):
     qty_multiple = fields.Float(
         string="Multiple Quantity",
         digits="Product Unit of Measure",
-        default=1,
+        default=0,
         help="The procurement quantity will be rounded up to a multiple of this "
-        "field quantity. If it is 0, it is not rounded.",
+        "field quantity. If it is 0, the native 'Replenishment UoM' mechanism "
+        "applies instead (if set), or no rounding is applied.",
     )
 
     _qty_multiple_non_negative = models.Constraint(

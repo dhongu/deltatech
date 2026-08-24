@@ -45,3 +45,32 @@ class TestStockOrderpointQtyMultiple(TransactionCase):
     def test_no_rounding_when_already_a_multiple(self):
         orderpoint = self._make_orderpoint(qty_multiple=100, product_max_qty=1000)
         self.assertEqual(orderpoint._get_multiple_rounded_qty(1100), 1100)
+
+    def test_native_replenishment_uom_is_not_shadowed_by_default(self):
+        # Regression: qty_multiple must default to "unset" (0) so it never
+        # silently overrides the native `replenishment_uom_id` mechanism on
+        # orderpoints that were never configured with a legacy multiple.
+        dozen = self.env["uom.uom"].create(
+            {
+                "name": "Test Dozen (qty_multiple regression)",
+                "relative_uom_id": self.product.uom_id.id,
+                "relative_factor": 12,
+            }
+        )
+        self.product.write({"uom_ids": [(4, dozen.id)]})
+        orderpoint = self.env["stock.warehouse.orderpoint"].create(
+            {
+                "product_id": self.product.id,
+                "location_id": self.warehouse.lot_stock_id.id,
+                "warehouse_id": self.warehouse.id,
+                "product_min_qty": 0,
+                "product_max_qty": 0,
+                "replenishment_uom_id": dozen.id,
+            }
+        )
+        self.assertEqual(orderpoint.qty_multiple, 0, "qty_multiple must default to 0 (unset)")
+        self.assertEqual(
+            orderpoint._get_multiple_rounded_qty(5),
+            12,
+            "Native replenishment_uom_id must be respected when qty_multiple is unset",
+        )
