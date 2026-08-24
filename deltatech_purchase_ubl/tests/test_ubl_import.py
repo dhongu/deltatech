@@ -1235,3 +1235,80 @@ class TestPurchaseUblImport(TransactionCase):
         wiz = Wiz.new({})
         action = wiz.action_view_vendor_bill()
         self.assertEqual(action, {"type": "ir.actions.act_window_close"})
+
+    def _make_preview_wizard(self, xml_bytes, order):
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        return Wiz.with_context(active_model="purchase.order", active_id=order.id).create(
+            {
+                "data_file": b64encode(xml_bytes),
+                "filename": "preview.xml",
+                "update_prices": False,
+                "create_bill": False,
+                "validate_receipt": False,
+                "create_missing_products": True,
+            }
+        )
+
+    def test_preview_reports_match_types(self):
+        """Ticket #9315: the preview step shows how each line was matched — supplier code
+        (green), name only (yellow), or not at all (red, would create a new product)."""
+        by_code = self.env["product.product"].create({"name": "Preview By Code", "type": "consu"})
+        self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.vendor.id,
+                "product_tmpl_id": by_code.product_tmpl_id.id,
+                "product_id": by_code.id,
+                "product_code": "PRV-CODE-1",
+            }
+        )
+        self.env["product.product"].create({"name": "Preview By Name", "type": "consu"})
+
+        xml = _xml_invoice(
+            order_ref=self.po.name,
+            lines=[
+                {"code": "PRV-CODE-1", "name": "Alt nume la furnizor", "qty": "1", "price": "10", "line_total": "10"},
+                {"code": "", "name": "Preview By Name", "qty": "2", "price": "20", "line_total": "40"},
+                {"code": "", "name": "Produs Inexistent Preview", "qty": "3", "price": "30", "line_total": "90"},
+            ],
+        )
+        wiz = self._make_preview_wizard(xml, self.po)
+        wiz.action_preview()
+
+        self.assertEqual(wiz.state, "preview")
+        self.assertEqual(len(wiz.line_ids), 3)
+        lines = wiz.line_ids.sorted("sequence")
+        self.assertEqual(lines[0].match_type, "code")
+        self.assertEqual(lines[0].product_id, by_code)
+        self.assertEqual(lines[1].match_type, "name")
+        self.assertEqual(lines[1].product_id.name, "Preview By Name")
+        self.assertEqual(lines[2].match_type, "none")
+        self.assertFalse(lines[2].product_id)
+
+    def test_preview_manual_mapping_overrides_matching_and_avoids_new_product(self):
+        """Ticket #9315: the user can pick a product manually on an unmatched preview line;
+        the import then uses that product instead of creating a new one."""
+        manual_product = self.env["product.product"].create({"name": "Produs Existent Cu Alt Nume", "type": "consu"})
+        xml = _xml_invoice(
+            order_ref=self.po.name,
+            lines=[
+                {"code": "", "name": "Nume Diferit Din Factura", "qty": "5", "price": "40", "line_total": "200"},
+            ],
+        )
+        wiz = self._make_preview_wizard(xml, self.po)
+        wiz.action_preview()
+        line = wiz.line_ids
+        self.assertEqual(line.match_type, "none")
+
+        products_before = self.env["product.product"].search_count([])
+        line.product_id = manual_product
+        wiz.action_confirm_import()
+
+        self.assertEqual(
+            self.env["product.product"].search_count([]),
+            products_before,
+            "manual mapping must prevent the creation of a new product",
+        )
+        pol = self.po.order_line.filtered(lambda l: l.product_id == manual_product)
+        self.assertTrue(pol, "the order line must use the manually chosen product")
+        self.assertAlmostEqual(pol.product_qty, 5.0, places=4)
+        self.assertAlmostEqual(pol.price_unit, 40.0, places=2)
