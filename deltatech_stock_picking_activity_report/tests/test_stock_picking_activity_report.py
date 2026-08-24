@@ -11,6 +11,7 @@ from odoo.tests import TransactionCase, tagged
 from odoo.addons.deltatech_stock_picking_activity_report.models.stock_picking import (
     MAX_LOG_LENGTH,
     MAX_VALUE_LENGTH,
+    format_record_ref,
 )
 
 
@@ -164,6 +165,80 @@ class TestStockPickingActivityReport(TransactionCase):
         self.assertIn("SRC-BIN", records.activity_log)
         self.assertNotIn(payload.decode()[:50], records.activity_log)
         self.assertLess(len(records.activity_log), 1000)
+
+    def test_virtual_line_id_is_not_read_from_db(self):
+        """Id-ul virtual al unei operații nesalvate nu mai e citit din baza de date.
+
+        Clientul web referă liniile încă nesalvate prin id-uri virtuale
+        (``[2, "virtual_7149"]``). Un ``browse`` pe un astfel de id producea un
+        recordset cu un id per caracter, iar citirea numelui arunca
+        ``Expected singleton`` — se pierdea jurnalul întregii scrieri.
+        """
+        moves = self.env["stock.move"]
+        move = self._new_picking().move_ids
+
+        self.assertEqual(format_record_ref(moves, "virtual_7149"), "ID virtual_7149")
+        # Un id inexistent (linie ștearsă între timp) nu trebuie nici el să arunce.
+        self.assertEqual(format_record_ref(moves, 999999999), "ID 999999999")
+        # Id real, recordset și câmp fără relație cunoscută.
+        self.assertEqual(format_record_ref(moves, move.id), move.display_name)
+        self.assertEqual(format_record_ref(moves, move), move.display_name)
+        self.assertEqual(format_record_ref(None, "virtual_1"), "ID virtual_1")
+
+    def test_move_commands_are_described_by_name(self):
+        """Comenzile pe operații sunt descrise cu numele liniei, nu cu id-ul brut."""
+        picking = self._new_picking().with_user(self.stock_user)
+        move = picking.move_ids
+        # Numele se citește înainte de ștergere: după (2, id) operația nu mai există.
+        move_name = move.display_name
+
+        picking.write({"move_ids": [(1, move.id, {"product_uom_qty": 9})]})
+        log = self._records(picking).activity_log
+        self.assertIn(f"Update {move_name}", log)
+        self.assertIn("9", log)
+
+        picking.write(
+            {
+                "move_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.product.id,
+                            "product_uom_qty": 1,
+                            "location_id": self.stock_location.id,
+                            "location_dest_id": self.customer_location.id,
+                        },
+                    )
+                ]
+            }
+        )
+        self.assertIn(f"Add New ({self.product.display_name})", self._records(picking).activity_log)
+
+        other_move = self._new_picking(qty=1).move_ids
+        other_name = other_move.display_name
+        picking.write({"move_ids": [(4, other_move.id)]})
+        self.assertIn(f"Link {other_name}", self._records(picking).activity_log)
+
+        picking.write({"move_ids": [(3, other_move.id)]})
+        self.assertIn(f"Remove {other_name}", self._records(picking).activity_log)
+
+        # Ștergerea unei mișcări de stoc e rezervată managerului de stoc; testul
+        # verifică descrierea comenzii, deci ridicăm dreptul doar aici.
+        self.stock_user.group_ids = [(4, self.env.ref("stock.group_stock_manager").id)]
+        picking.write({"move_ids": [(2, move.id)]})
+        self.assertIn(f"Delete {move_name}", self._records(picking).activity_log)
+
+    def test_many2one_change_is_logged_with_display_name(self):
+        """Un many2one e jurnalizat cu numele înregistrării, nu cu id-ul."""
+        picking = self._new_picking().with_user(self.stock_user)
+        partner = self.env["res.partner"].create({"name": "Destinatar activitate"})
+
+        picking.write({"partner_id": partner.id})
+
+        log = self._records(picking).activity_log
+        self.assertIn(partner.display_name, log)
+        self.assertNotIn(f"ID {partner.id}", log)
 
     def test_long_value_is_truncated(self):
         """Valorile text lungi sunt scurtate, cu marcarea restului tăiat."""
