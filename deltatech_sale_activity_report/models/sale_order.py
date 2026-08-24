@@ -28,6 +28,21 @@ def truncate(value, limit):
     return f"{value[:limit]}… (+{len(value) - limit} chars)"
 
 
+def format_line_ref(target_model, line_id):
+    """Nume lizibil pentru linia vizată de o comandă x2many.
+
+    ``line_id`` nu este întotdeauna un id din baza de date: clientul web poate
+    trimite id-ul virtual al unei linii încă nesalvate (``"virtual_7149"``).
+    Un ``browse`` pe un id nenumeric ar produce un recordset cu un id per
+    caracter, iar citirea lui ar arunca (``Expected singleton``), aşa că
+    afişăm id-ul aşa cum a venit.
+    """
+    if not isinstance(line_id, int):
+        return f"ID {line_id}"
+    line = target_model.browse(line_id).exists()
+    return line.display_name if line else f"ID {line_id}"
+
+
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
@@ -129,6 +144,9 @@ class SaleOrder(models.Model):
                                         return self.env[target_model].browse(val).display_name or f"ID: {val}"
                                     except Exception:
                                         return f"ID: {val}"
+                                if not isinstance(val, models.Model):
+                                    # id virtual sau altă valoare brută venită de la client
+                                    return f"ID: {val}"
                                 return val.display_name or f"ID: {val.id}"
                             elif f_type == "selection":
                                 selection = fields_info[f_name].get("selection", [])
@@ -153,6 +171,9 @@ class SaleOrder(models.Model):
                                                 )
                                             except Exception:
                                                 return f"ID: {sub_val}"
+                                        if not isinstance(sub_val, models.Model):
+                                            # id virtual sau altă valoare brută venită de la client
+                                            return f"ID: {sub_val}"
                                         return sub_val.display_name or f"ID: {sub_val.id}"
                                     elif sub_f_type == "selection":
                                         selection = target_fields_info[sub_f_name].get("selection", [])
@@ -183,8 +204,7 @@ class SaleOrder(models.Model):
                                     elif cmd_type == 1:  # UPDATE
                                         line_id = command[1]
                                         data = command[2]
-                                        line = target_model.browse(line_id)
-                                        name_part = line.display_name or f"ID {line_id}"
+                                        name_part = format_line_ref(target_model, line_id)
 
                                         readable_data = []
                                         for fname, fval in data.items():
@@ -195,19 +215,13 @@ class SaleOrder(models.Model):
 
                                         formatted_commands.append(f"Update {name_part}: [{', '.join(readable_data)}]")
                                     elif cmd_type == 2:  # DELETE
-                                        line_id = command[1]
-                                        line = target_model.browse(line_id)
-                                        name_part = line.display_name or f"ID {line_id}"
+                                        name_part = format_line_ref(target_model, command[1])
                                         formatted_commands.append(f"Delete {name_part}")
                                     elif cmd_type == 3:  # UNLINK (remove from relation, but don't delete)
-                                        line_id = command[1]
-                                        line = target_model.browse(line_id)
-                                        name_part = line.display_name or f"ID {line_id}"
+                                        name_part = format_line_ref(target_model, command[1])
                                         formatted_commands.append(f"Remove {name_part}")
                                     elif cmd_type == 4:  # LINK (add existing)
-                                        line_id = command[1]
-                                        line = target_model.browse(line_id)
-                                        name_part = line.display_name or f"ID {line_id}"
+                                        name_part = format_line_ref(target_model, command[1])
                                         formatted_commands.append(f"Link {name_part}")
                                     elif cmd_type == 5:  # UNLINK ALL
                                         formatted_commands.append("Remove all")
