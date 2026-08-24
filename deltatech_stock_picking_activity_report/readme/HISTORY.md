@@ -1,3 +1,18 @@
+## 19.0.1.1.1 (2026-08-24)
+
+**Fix** — jurnalizarea nu mai eșuează când o operație încă nesalvată este
+ștearsă din formularul transferului.
+
+Clientul web referă liniile nesalvate prin id-uri virtuale (`virtual_7149`).
+Descrierea comenzilor pe câmpurile x2many citea acest id ca și cum ar fi unul
+din baza de date, iar operația se termina cu `Expected singleton` — se pierdea
+jurnalul întregii scrieri, inclusiv modificările legitime făcute în același
+timp. Defectul a fost semnalat pe modulul echivalent pentru comenzi de vânzare,
+care avea exact același cod.
+
+Acum id-urile care nu sunt numerice sunt afișate ca text, iar o linie ștearsă
+între timp este raportată prin id, fără a mai fi citită din baza de date.
+
 ## 19.0.1.1.0 (2026-08-15)
 
 **Fix** — jurnalul de activitate nu mai stochează conținutul câmpurilor binare.

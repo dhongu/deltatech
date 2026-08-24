@@ -28,6 +28,24 @@ def truncate(value, limit):
     return f"{value[:limit]}… (+{len(value) - limit} chars)"
 
 
+def format_record_ref(model, value):
+    """Nume lizibil pentru o valoare relațională: recordset, id sau id virtual.
+
+    Valorile scrise nu sunt întotdeauna id-uri din baza de date: clientul web
+    referă liniile încă nesalvate prin id-uri virtuale (``"virtual_7149"``), pe
+    care le poate trimite atât în comenzile x2many, cât și într-un many2one. Un
+    ``browse`` pe un id nenumeric ar produce un recordset cu un id per caracter,
+    iar citirea lui ar arunca ``Expected singleton`` — de aceea afișăm id-ul așa
+    cum a venit. Aceeași cale acoperă și o linie ștearsă între timp.
+    """
+    if isinstance(value, models.Model):
+        return value.display_name or f"ID {value.id}"
+    if model is None or not isinstance(value, int):
+        return f"ID {value}"
+    record = model.browse(value).exists()
+    return record.display_name if record else f"ID {value}"
+
+
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
@@ -123,13 +141,8 @@ class SaleOrder(models.Model):
                             if not val:
                                 return "None"
                             if f_type == "many2one":
-                                if isinstance(val, int):
-                                    try:
-                                        target_model = fields_info[f_name]["relation"]
-                                        return self.env[target_model].browse(val).display_name or f"ID: {val}"
-                                    except Exception:
-                                        return f"ID: {val}"
-                                return val.display_name or f"ID: {val.id}"
+                                relation = fields_info[f_name].get("relation")
+                                return format_record_ref(self.env[relation] if relation else None, val)
                             elif f_type == "selection":
                                 selection = fields_info[f_name].get("selection", [])
                                 return dict(selection).get(val, val)
@@ -144,16 +157,8 @@ class SaleOrder(models.Model):
                                     if not sub_val:
                                         return "None"
                                     if sub_f_type == "many2one":
-                                        if isinstance(sub_val, int):
-                                            try:
-                                                sub_target_model = target_fields_info[sub_f_name]["relation"]
-                                                return (
-                                                    self.env[sub_target_model].browse(sub_val).display_name
-                                                    or f"ID: {sub_val}"
-                                                )
-                                            except Exception:
-                                                return f"ID: {sub_val}"
-                                        return sub_val.display_name or f"ID: {sub_val.id}"
+                                        relation = target_fields_info[sub_f_name].get("relation")
+                                        return format_record_ref(self.env[relation] if relation else None, sub_val)
                                     elif sub_f_type == "selection":
                                         selection = target_fields_info[sub_f_name].get("selection", [])
                                         return dict(selection).get(sub_val, sub_val)
@@ -183,8 +188,7 @@ class SaleOrder(models.Model):
                                     elif cmd_type == 1:  # UPDATE
                                         line_id = command[1]
                                         data = command[2]
-                                        line = target_model.browse(line_id)
-                                        name_part = line.display_name or f"ID {line_id}"
+                                        name_part = format_record_ref(target_model, line_id)
 
                                         readable_data = []
                                         for fname, fval in data.items():
@@ -195,19 +199,13 @@ class SaleOrder(models.Model):
 
                                         formatted_commands.append(f"Update {name_part}: [{', '.join(readable_data)}]")
                                     elif cmd_type == 2:  # DELETE
-                                        line_id = command[1]
-                                        line = target_model.browse(line_id)
-                                        name_part = line.display_name or f"ID {line_id}"
+                                        name_part = format_record_ref(target_model, command[1])
                                         formatted_commands.append(f"Delete {name_part}")
                                     elif cmd_type == 3:  # UNLINK (remove from relation, but don't delete)
-                                        line_id = command[1]
-                                        line = target_model.browse(line_id)
-                                        name_part = line.display_name or f"ID {line_id}"
+                                        name_part = format_record_ref(target_model, command[1])
                                         formatted_commands.append(f"Remove {name_part}")
                                     elif cmd_type == 4:  # LINK (add existing)
-                                        line_id = command[1]
-                                        line = target_model.browse(line_id)
-                                        name_part = line.display_name or f"ID {line_id}"
+                                        name_part = format_record_ref(target_model, command[1])
                                         formatted_commands.append(f"Link {name_part}")
                                     elif cmd_type == 5:  # UNLINK ALL
                                         formatted_commands.append("Remove all")

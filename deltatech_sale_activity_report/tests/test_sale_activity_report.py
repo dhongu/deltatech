@@ -11,6 +11,7 @@ from odoo.tests import TransactionCase, tagged
 from odoo.addons.deltatech_sale_activity_report.models.sale_order import (
     MAX_LOG_LENGTH,
     MAX_VALUE_LENGTH,
+    format_record_ref,
 )
 
 
@@ -119,6 +120,77 @@ class TestSaleActivityReport(TransactionCase):
         self.assertIn("A" * MAX_VALUE_LENGTH, log)
         self.assertNotIn("A" * (MAX_VALUE_LENGTH + 1), log)
         self.assertIn("chars)", log)
+
+    def test_virtual_line_id_is_not_read_from_db(self):
+        """Id-ul virtual al unei linii nesalvate nu mai e citit din baza de date.
+
+        Clientul web trimite comenzi x2many care pot referi o linie încă
+        nesalvată prin id-ul ei virtual (``[2, "virtual_7149"]``). Un ``browse``
+        pe un astfel de id producea un recordset cu un id per caracter, iar
+        citirea numelui arunca ``Expected singleton`` — se pierdea jurnalul
+        întregii scrieri.
+        """
+        lines = self.env["sale.order.line"]
+        line = self.order.order_line
+
+        self.assertEqual(format_record_ref(lines, "virtual_7149"), "ID virtual_7149")
+        # Un id inexistent (linie ștearsă între timp) nu trebuie nici el să arunce.
+        self.assertEqual(format_record_ref(lines, 999999999), "ID 999999999")
+        # Id real, recordset și câmp fără relație cunoscută.
+        self.assertEqual(format_record_ref(lines, line.id), line.display_name)
+        self.assertEqual(format_record_ref(lines, line), line.display_name)
+        self.assertEqual(format_record_ref(None, "virtual_1"), "ID virtual_1")
+
+    def test_line_commands_are_described_by_name(self):
+        """Comenzile pe linii sunt descrise cu numele liniei, nu cu id-ul brut."""
+        order = self.order.with_user(self.salesman)
+        line = order.order_line
+        # Numele se citește înainte de ștergere: după (2, id) linia nu mai există.
+        line_name = line.display_name
+
+        order.write({"order_line": [(1, line.id, {"product_uom_qty": 7})]})
+        log = self._records().activity_log
+        self.assertIn(f"Update {line_name}", log)
+        self.assertIn("7", log)
+
+        order.write({"order_line": [(0, 0, {"product_id": self.product.id, "product_uom_qty": 2})]})
+        self.assertIn(f"Add New ({self.product.display_name})", self._records().activity_log)
+
+        order.write({"order_line": [(2, line.id)]})
+        self.assertIn(f"Delete {line_name}", self._records().activity_log)
+
+    def test_tag_commands_are_described_by_name(self):
+        """Legarea/dezlegarea etichetelor apare în jurnal și marchează înregistrarea."""
+        order = self.order.with_user(self.salesman)
+        tag = self.env["crm.tag"].create({"name": "Etichetă activitate"})
+
+        order.write({"tag_ids": [(4, tag.id)]})
+        record = self._records()
+        self.assertIn(f"Link {tag.display_name}", record.activity_log)
+        self.assertTrue(record.tags_changed)
+
+        order.write({"tag_ids": [(3, tag.id)]})
+        self.assertIn(f"Remove {tag.display_name}", self._records().activity_log)
+
+        order.write({"tag_ids": [(6, 0, tag.ids)]})
+        self.assertIn("Replace all with IDs", self._records().activity_log)
+
+        order.write({"tag_ids": [(5,)]})
+        self.assertIn("Remove all", self._records().activity_log)
+
+    def test_many2one_change_is_logged_with_display_name(self):
+        """Un many2one e jurnalizat cu numele înregistrării, nu cu id-ul."""
+        order = self.order.with_user(self.salesman)
+        shipping = self.env["res.partner"].create(
+            {"name": "Adresă de livrare", "parent_id": self.partner.id, "type": "delivery"}
+        )
+
+        order.write({"partner_shipping_id": shipping.id})
+
+        log = self._records().activity_log
+        self.assertIn(self.partner.display_name, log)
+        self.assertIn(shipping.display_name, log)
+        self.assertNotIn(f"ID {shipping.id}", log)
 
     def test_activity_log_is_capped(self):
         """Jurnalul unei zile nu depășește plafonul, păstrând activitatea recentă."""
