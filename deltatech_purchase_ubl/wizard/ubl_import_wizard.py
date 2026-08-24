@@ -25,6 +25,7 @@ class PurchaseUblImportWizard(models.TransientModel):
     data_file = fields.Binary(string="XML File", required=True)
     filename = fields.Char(string="Filename")
     total_check_warning = fields.Text(compute="_compute_total_check_warning")
+    line_ids = fields.One2many("purchase.ubl.import.wizard.line", "wizard_id", string="Preview Lines")
 
     # ------------------------------------------------------------
     # Helpers specific to the UBL XML format
@@ -215,9 +216,108 @@ class PurchaseUblImportWizard(models.TransientModel):
         }
 
     def action_import(self):
+        """Direct, headless import — kept for automated callers
+        (purchase.order._process_attachments_for_post). Interactive users go through
+        action_preview + action_confirm_import instead, where they can review and fix
+        the product mapping before anything is written."""
         self.ensure_one()
         if not self.data_file:
             raise UserError(_("Please select an XML file."))
         content = base64.b64decode(self.data_file)
         invoice_xml = self._parse_xml(content)
         return self._process_invoice_data(invoice_xml)
+
+    def action_preview(self):
+        """Parse the XML and show the mapping preview: one line per invoice line, with
+        the product the matcher found and how it found it (code/barcode = green, name =
+        yellow, nothing = red → a new product would be created). The user can override
+        the product on any line before confirming the import."""
+        self.ensure_one()
+        if not self.data_file:
+            raise UserError(_("Please select an XML file."))
+        content = base64.b64decode(self.data_file)
+        invoice_data = self._parse_xml(content)
+        order, partner, _warning = self._resolve_order_and_partner(invoice_data)
+
+        line_vals = []
+        for index, ln in enumerate(invoice_data["lines"]):
+            if order and order.order_line:
+                product, match_type = self._match_product_on_order_detailed(
+                    order, partner, ln.get("code"), ln.get("name"), ln.get("barcode")
+                )
+            else:
+                product, match_type = self._match_product_detailed(
+                    partner, ln.get("code"), ln.get("name"), ln.get("barcode")
+                )
+            line_vals.append(
+                (
+                    0,
+                    0,
+                    {
+                        "sequence": index,
+                        "code": ln.get("code"),
+                        "barcode": ln.get("barcode"),
+                        "name": ln.get("name"),
+                        "qty": ln.get("qty", 0.0),
+                        "price": ln.get("price", 0.0),
+                        "product_id": product.id if product else False,
+                        "matched_product_id": product.id if product else False,
+                        "match_type": match_type or "none",
+                    },
+                )
+            )
+        self.write({"line_ids": [(5, 0, 0)] + line_vals, "state": "preview"})
+        return self._reopen()
+
+    def action_confirm_import(self):
+        """Run the import using the product mapping reviewed/adjusted in the preview."""
+        self.ensure_one()
+        if not self.data_file:
+            raise UserError(_("Please select an XML file."))
+        content = base64.b64decode(self.data_file)
+        invoice_data = self._parse_xml(content)
+        product_map = {line.sequence: line.product_id for line in self.line_ids}
+        return self._process_invoice_data(invoice_data, product_map=product_map)
+
+    def _reopen(self):
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": self._name,
+            "res_id": self.id,
+            "view_mode": "form",
+            "target": "new",
+        }
+
+
+class PurchaseUblImportWizardLine(models.TransientModel):
+    _name = "purchase.ubl.import.wizard.line"
+    _description = "UBL Import Preview Line"
+    _order = "sequence, id"
+
+    wizard_id = fields.Many2one("purchase.ubl.import.wizard", required=True, ondelete="cascade")
+    sequence = fields.Integer()
+    code = fields.Char(string="Supplier Code", readonly=True)
+    barcode = fields.Char(string="Barcode", readonly=True)
+    name = fields.Char(string="Description (XML)", readonly=True)
+    qty = fields.Float(string="Quantity", readonly=True)
+    price = fields.Float(string="Unit Price", readonly=True)
+    product_id = fields.Many2one("product.product", string="Product")
+    # The product the matcher proposed, kept to tell a manual override apart from the
+    # automatic match when the user edits product_id in the preview.
+    matched_product_id = fields.Many2one("product.product", readonly=True)
+    match_type = fields.Selection(
+        [
+            ("code", "By supplier code"),
+            ("barcode", "By barcode"),
+            ("name", "By name"),
+            ("manual", "Chosen manually"),
+            ("none", "Not found"),
+        ],
+        readonly=True,
+    )
+
+    @api.onchange("product_id")
+    def _onchange_product_id(self):
+        for line in self:
+            if line.product_id and line.product_id != line.matched_product_id:
+                line.match_type = "manual"

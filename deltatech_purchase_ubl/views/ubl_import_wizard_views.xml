@@ -59,6 +59,32 @@
                 </group>
                 </group>
 
+                <!-- Preview: product mapping review -->
+                <div class="alert alert-info mb-2" role="alert" invisible="state != 'preview'">
+                    <i class="fa fa-info-circle me-1" title="Info" />
+                    <span>Green lines matched by supplier code or barcode; yellow lines matched only by name — double-check them; red lines have no match and a NEW product will be created for them (if the option is enabled). You can pick a different product on any line before importing.</span>
+                </div>
+                <field name="line_ids" nolabel="1" invisible="state != 'preview'">
+                    <list
+                        editable="bottom"
+                        create="false"
+                        delete="false"
+                        decoration-success="match_type in ('code', 'barcode')"
+                        decoration-warning="match_type == 'name'"
+                        decoration-danger="match_type == 'none'"
+                    >
+                        <field name="sequence" column_invisible="1" />
+                        <field name="matched_product_id" column_invisible="1" />
+                        <field name="code" />
+                        <field name="barcode" optional="hide" />
+                        <field name="name" />
+                        <field name="qty" />
+                        <field name="price" />
+                        <field name="product_id" />
+                        <field name="match_type" />
+                    </list>
+                </field>
+
                 <!-- Done: result -->
                 <separator string="Result" invisible="state != 'done'" />
                 <field name="log_html" nolabel="1" readonly="1" invisible="state != 'done'" />
@@ -68,11 +94,18 @@
 
                 <footer>
                     <button
-                        name="action_import"
+                        name="action_preview"
+                        type="object"
+                        string="Preview"
+                        class="btn-primary"
+                        invisible="state != 'draft'"
+                    />
+                    <button
+                        name="action_confirm_import"
                         type="object"
                         string="Import"
                         class="btn-primary"
-                        invisible="state != 'draft'"
+                        invisible="state != 'preview'"
                     />
                     <button
                         name="action_view_vendor_bill"
