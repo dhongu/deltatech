@@ -12,7 +12,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
     _description = "Common matching/bill-creation logic for purchase invoice import wizards"
 
     state = fields.Selection(
-        [("draft", "Draft"), ("done", "Done")],
+        [("draft", "Draft"), ("preview", "Preview"), ("done", "Done")],
         default="draft",
         readonly=True,
     )
@@ -274,46 +274,57 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         return order, partner, vat_mismatch_warning
 
     def _match_product(self, supplier, code, name, barcode=None):
+        return self._match_product_detailed(supplier, code, name, barcode=barcode)[0]
+
+    def _match_product_detailed(self, supplier, code, name, barcode=None):
+        """Same matching as _match_product, but also reports HOW the product was found:
+        ("code" - supplier code/internal reference, "barcode", "name", or False when no
+        match). The match type feeds the wizard preview, where code/barcode matches are
+        trustworthy (green), name matches deserve a human look (yellow) and unmatched
+        lines would spawn a new product (red)."""
         Product = self.env["product.product"]
         SupplierInfo = self.env["product.supplierinfo"]
-        product = False
         code = (code or "").strip()
         barcode = (barcode or "").strip()
 
         # Try explicit barcode from source document first
         if barcode:
             product = Product.search([("barcode", "=", barcode)], limit=1)
+            if product:
+                return product, "barcode"
 
-        if not product and supplier and code:
+        if supplier and code:
             domain = [("partner_id", "=", supplier.id), ("product_code", "=ilike", code)]
             sinfo = SupplierInfo.search(domain, limit=1)
             if sinfo:
-                if sinfo.product_id:
-                    product = sinfo.product_id
-                else:
-                    product = sinfo.product_tmpl_id.product_variant_id
+                product = sinfo.product_id or sinfo.product_tmpl_id.product_variant_id
+                if product:
+                    return product, "code"
 
-        if not product and supplier and name:
+        if supplier and name:
             domain = [("partner_id", "=", supplier.id), ("product_name", "=ilike", name)]
             sinfo = SupplierInfo.search(domain, limit=1)
             if sinfo:
-                if sinfo.product_id:
-                    product = sinfo.product_id
-                else:
-                    product = sinfo.product_tmpl_id.product_variant_id
+                product = sinfo.product_id or sinfo.product_tmpl_id.product_variant_id
+                if product:
+                    return product, "name"
 
-        if not product and code:
+        if code:
             product = Product.search([("default_code", "=ilike", code)], limit=1)
+            if product:
+                return product, "code"
 
         # Fallback: sometimes supplier code is actually barcode digits
-        if not product and code and code.isdigit():
+        if code and code.isdigit():
             product = Product.search([("barcode", "=", code)], limit=1)
-        if not product and name:
+            if product:
+                return product, "barcode"
+        if name:
             products = Product.search([("name", "=ilike", name)], limit=2)
             if len(products) == 1:
-                product = products[0]
+                return products[0], "name"
 
-        if not product and name:
+        if name:
             name_without_spaces = name.replace(" ", "")
             lang = self.env.context.get("lang") or self.env.user.lang
             self.env.cr.execute(
@@ -329,11 +340,14 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             product_id = self.env.cr.fetchone()
             if product_id:
                 product_template = self.env["product.template"].browse(product_id[0])
-                product = product_template.product_variant_id
+                return product_template.product_variant_id, "name"
 
-        return product
+        return Product.browse(), False
 
     def _match_product_on_order(self, order, partner, code, name, barcode=None):
+        return self._match_product_on_order_detailed(order, partner, code, name, barcode=barcode)[0]
+
+    def _match_product_on_order_detailed(self, order, partner, code, name, barcode=None):
         """
         Restrict product matching to products present on the given purchase order.
         Matching priority within the order:
@@ -342,9 +356,12 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         3) Product default_code
         4) Product barcode (when code itself is numeric)
         5) Product name exact match
+
+        Returns (product, match_type) like _match_product_detailed.
         """
+        Product = self.env["product.product"]
         if not order:
-            return False
+            return Product.browse(), False
         code = (code or "").strip()
         barcode = (barcode or "").strip()
         # Build quick access lists
@@ -354,7 +371,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         if barcode:
             for line in order_lines:
                 if (line.product_id.barcode or "").strip() == barcode:
-                    return line.product_id
+                    return line.product_id, "barcode"
 
         # 2) Supplier code for this vendor
         if partner and code:
@@ -362,24 +379,24 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 tmpl = line.product_id.product_tmpl_id
                 for sinfo in tmpl.seller_ids:
                     if sinfo.partner_id.id == partner.id and (sinfo.product_code or "").strip() == code:
-                        return line.product_id
+                        return line.product_id, "code"
         # 3) default_code within order lines
         if code:
             for line in order_lines:
                 if (line.product_id.default_code or "").strip() == code:
-                    return line.product_id
+                    return line.product_id, "code"
 
         # 4) barcode when code is numeric
         if code and code.isdigit():
             for line in order_lines:
                 if (line.product_id.barcode or "").strip() == code:
-                    return line.product_id
+                    return line.product_id, "barcode"
         # 5) product name exact match
         if name:
             for line in order_lines:
                 if (line.product_id.name or "").strip() == (name or "").strip():
-                    return line.product_id
-        return False
+                    return line.product_id, "name"
+        return Product.browse(), False
 
     def _update_supplier_price(self, supplier, product, code, price, currency):
         SupplierInfo = self.env["product.supplierinfo"]
@@ -568,7 +585,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
 
         return new_invoice
 
-    def _process_invoice_data(self, invoice_data):
+    def _process_invoice_data(self, invoice_data, product_map=None):
         """Generic processing shared by all invoice import wizards, regardless of the
         source document format (UBL XML, Marso PDF, ...). Expects invoice_data as a dict
         shaped like the return value of _parse_source():
@@ -580,6 +597,12 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             "line_extension_amount", "tax_exclusive_amount", "tax_inclusive_amount",
             "payable_amount", "tax_amount",
         }
+
+        product_map, when given, is a manual mapping coming from the wizard preview step:
+        {source line index: product.product record (possibly empty)}. An entry present in
+        the map REPLACES automatic matching for that line — the user saw the preview and
+        either confirmed the match or picked another product; an empty product means
+        "leave unmatched" (still subject to create_missing_products).
         """
         self.ensure_one()
 
@@ -590,9 +613,11 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         updated = []
         not_found = []
         created = []
-        for ln in invoice_data["lines"]:
-            # If order has lines, restrict match to the order; otherwise match globally
-            if order and order.order_line:
+        for index, ln in enumerate(invoice_data["lines"]):
+            if product_map is not None and index in product_map:
+                product = product_map[index]
+            elif order and order.order_line:
+                # If order has lines, restrict match to the order; otherwise match globally
                 product = self._match_product_on_order(
                     order, partner, ln.get("code"), ln.get("name"), ln.get("barcode")
                 )

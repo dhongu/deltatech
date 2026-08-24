@@ -404,3 +404,113 @@ msgstr ""
 #: code:addons/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:0
 msgid "untaxed total"
 msgstr "total fără tva"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard__state__preview
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
+msgid "Preview"
+msgstr "Previzualizare"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__line_ids
+msgid "Preview Lines"
+msgstr "Linii previzualizare"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model,name:deltatech_purchase_ubl.model_purchase_ubl_import_wizard_line
+msgid "UBL Import Preview Line"
+msgstr "Linie previzualizare import UBL"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__code
+msgid "Supplier Code"
+msgstr "Cod furnizor"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__barcode
+msgid "Barcode"
+msgstr "Cod de bare"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__name
+msgid "Description (XML)"
+msgstr "Descriere (XML)"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__qty
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__price
+msgid "Unit Price"
+msgstr "Preț unitar"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__product_id
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__matched_product_id
+msgid "Matched Product"
+msgstr "Produs potrivit"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__match_type
+msgid "Match Type"
+msgstr "Tip potrivire"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__code
+msgid "By supplier code"
+msgstr "După cod furnizor"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__barcode
+msgid "By barcode"
+msgstr "După cod de bare"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__name
+msgid "By name"
+msgstr "După nume"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__manual
+msgid "Chosen manually"
+msgstr "Ales manual"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__none
+msgid "Not found"
+msgstr "Negăsit"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__wizard_id
+msgid "Wizard"
+msgstr "Asistent"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__sequence
+msgid "Sequence"
+msgstr "Secvență"
+
+#. module: deltatech_purchase_ubl
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
+msgid "<i class=\"fa fa-info-circle me-1\" title=\"Info\"/>"
+msgstr "<i class=\"fa fa-info-circle me-1\" title=\"Info\"/>"
+
+#. module: deltatech_purchase_ubl
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
+msgid ""
+"Green lines matched by supplier code or barcode; yellow lines matched only "
+"by name — double-check them; red lines have no match and a NEW product "
+"will be created for them (if the option is enabled). You can pick a "
+"different product on any line before importing."
+msgstr ""
+"Liniile verzi au fost potrivite după codul de furnizor sau codul de bare; "
+"liniile galbene au fost potrivite doar după nume — verificați-le; liniile "
+"roșii nu au nicio potrivire și pentru ele se va crea un produs NOU (dacă "
+"opțiunea este activată). Puteți alege un alt produs pe orice linie înainte "
+"de import."

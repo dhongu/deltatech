@@ -46,7 +46,13 @@ class PurchaseOrder(models.Model):
                 if not is_ubl:
                     continue
 
-                # Run the wizard headlessly in PO context
+                # Run the wizard headlessly in PO context.
+                # `purchase_ubl_no_new_products` in context lets an automated caller (no human
+                # reviewing the import as it happens) opt out of silent product creation when
+                # the source document doesn't identify the product unambiguously (missing
+                # supplier code, ambiguous name match) — see l10n_ro_message_spv_purchase,
+                # which sets this when it auto-attaches an SPV XML on a freshly created PO.
+                create_missing_products = not self.env.context.get("purchase_ubl_no_new_products")
                 try:
                     wiz = self.env["purchase.ubl.import.wizard"].create(
                         {
@@ -56,6 +62,7 @@ class PurchaseOrder(models.Model):
                             "update_prices": True,
                             "validate_receipt": True,
                             "create_bill": True,
+                            "create_missing_products": create_missing_products,
                         }
                     )
                     wiz = wiz.with_context(active_model="purchase.order", active_id=order.id)

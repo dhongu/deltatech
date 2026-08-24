@@ -1,5 +1,29 @@
 # Changelog
 
+## [19.0.1.3.0] - 2026-08-24
+
+### Added
+- **Mapping preview in the import wizard** (ticket #9315): the interactive flow is now
+  two-step — "Preview" parses the XML and shows one line per invoice line with the product
+  the matcher found and how it found it, color-coded: green = matched by supplier code or
+  barcode (trustworthy), yellow = matched only by name (double-check), red = no match (a new
+  product would be created). The user can pick a different product on any line before
+  confirming the import; manual choices override automatic matching
+  (`_process_invoice_data(product_map=...)`). The headless entry point `action_import` is
+  unchanged, so automated callers keep working.
+
+### Fixed
+- **Bug** (ticket #9315): `_process_attachments_for_post` always ran the headless UBL import
+  with `create_missing_products=True`. This is fine for the interactive wizard, where a user
+  reviews what gets created, but it's also the only entry point for XML attachments posted by
+  automated callers (e.g. `l10n_ro_message_spv_purchase`, since ticket #9287 started attaching
+  the SPV XML on purchase orders created before the vendor bill exists). When the source invoice
+  line has no supplier product code and its name doesn't match an existing product exactly, the
+  headless import silently created a duplicate product with no one reviewing it.
+  `_process_attachments_for_post` now honors a `purchase_ubl_no_new_products` context key: when
+  set, the headless import runs with `create_missing_products=False` and leaves unmatched lines
+  in the wizard's "unmatched products" log instead of creating a product.
+
 ## [19.0.1.2.4] - 2026-08-20
 
 ### Fixed

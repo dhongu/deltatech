@@ -131,3 +131,29 @@ class TestProcessAttachmentsForPost(TransactionCase):
         # A log message should have been posted on the PO
         last_msg = self.po.message_ids.sorted(key=lambda m: m.id)[-1] if self.po.message_ids else False
         self.assertTrue(last_msg, "A log message should be posted on the PO")
+
+    def test_auto_import_does_not_create_product_with_no_new_products_context(self):
+        """Ticket #9315: an automated caller (e.g. l10n_ro_message_spv_purchase attaching an
+        SPV XML on a PO created before the vendor bill) must be able to opt out of silent
+        product creation when the invoice line has no supplier code and no exact name match —
+        the line should be reported as unmatched instead of spawning a duplicate product."""
+        xml = _xml_invoice(order_ref=self.po.name)
+        att = self.env["ir.attachment"].create(
+            {
+                "name": "invoice_attach_no_new_products.xml",
+                "datas": b64encode(xml),
+                "mimetype": "application/xml",
+                "res_model": "purchase.order",
+                "res_id": self.po.id,
+            }
+        )
+
+        products_before = self.env["product.product"].search_count([])
+        self.po.with_context(purchase_ubl_no_new_products=True)._process_attachments_for_post([], [att.id], {})
+
+        self.assertFalse(self.po.order_line, "No order line should be created when no product could be matched")
+        self.assertEqual(
+            self.env["product.product"].search_count([]),
+            products_before,
+            "No new product should have been created",
+        )
