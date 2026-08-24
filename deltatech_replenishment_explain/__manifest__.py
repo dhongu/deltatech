@@ -1,7 +1,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Deltatech Replenishment Explain",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Inventory",

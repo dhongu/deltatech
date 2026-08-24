@@ -94,6 +94,15 @@ class StockWarehouseOrderpoint(models.Model):
         raw_to_order = (target - forecast) if below_min else 0.0
         rounded_to_order = op._get_multiple_rounded_qty(raw_to_order) if below_min else 0.0
         multiple = op.replenishment_uom_id or op._get_replenishment_multiple_alternative(raw_to_order)
+        # `qty_multiple` is a legacy rounding field added by deltatech_stock_orderpoint_multiple
+        # (not a hard dependency): getattr keeps this module working without it installed.
+        legacy_qty_multiple = getattr(op, "qty_multiple", 0.0)
+        if multiple:
+            multiple_name = multiple.display_name
+        elif legacy_qty_multiple:
+            multiple_name = f"{op._explain_fmt(legacy_qty_multiple)} {op.product_uom_name}"
+        else:
+            multiple_name = ""
 
         # --- Scheduled moves for the breakdown + beyond-horizon visibility ---
         horizon_dt = datetime.combine(lead_horizon_date, time.max) if lead_horizon_date else fields.Datetime.now()
@@ -121,7 +130,7 @@ class StockWarehouseOrderpoint(models.Model):
             beyond_qty=beyond_qty,
             beyond_date=beyond_date,
             lead_horizon_date=lead_horizon_date,
-            multiple=multiple,
+            multiple_name=multiple_name,
             rounding=rounding,
         )
 
@@ -150,7 +159,7 @@ class StockWarehouseOrderpoint(models.Model):
             "in_progress_zero": float_is_zero(in_progress, precision_rounding=rounding),
             "below_min": below_min,
             "is_manual_override": bool(op.qty_to_order_manual),
-            "multiple_name": multiple.display_name if multiple else "",
+            "multiple_name": multiple_name,
             # lead time / horizon
             "total_delay": int(total_delay),
             "horizon_time": int(horizon_time),
@@ -291,8 +300,9 @@ class StockWarehouseOrderpoint(models.Model):
                 }
             )
 
-        # Rounding to a packaging/UoM multiple inflated the quantity noticeably.
-        if kw["below_min"] and kw["multiple"]:
+        # Rounding to a packaging/UoM multiple (native or legacy qty_multiple)
+        # inflated the quantity noticeably.
+        if kw["below_min"] and kw["multiple_name"]:
             extra = kw["rounded_to_order"] - kw["raw_to_order"]
             if float_compare(extra, 0.0, precision_rounding=kw["rounding"]) > 0:
                 risks.append(
@@ -304,7 +314,7 @@ class StockWarehouseOrderpoint(models.Model):
                             "'%(multiple)s' (+%(extra)s %(uom)s).",
                             raw=fmt(kw["raw_to_order"]),
                             rounded=fmt(kw["rounded_to_order"]),
-                            multiple=kw["multiple"].display_name,
+                            multiple=kw["multiple_name"],
                             extra=fmt(extra),
                             uom=uom,
                         ),
