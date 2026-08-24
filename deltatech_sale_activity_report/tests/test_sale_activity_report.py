@@ -11,6 +11,7 @@ from odoo.tests import TransactionCase, tagged
 from odoo.addons.deltatech_sale_activity_report.models.sale_order import (
     MAX_LOG_LENGTH,
     MAX_VALUE_LENGTH,
+    format_line_ref,
 )
 
 
@@ -119,6 +120,24 @@ class TestSaleActivityReport(TransactionCase):
         self.assertIn("A" * MAX_VALUE_LENGTH, log)
         self.assertNotIn("A" * (MAX_VALUE_LENGTH + 1), log)
         self.assertIn("chars)", log)
+
+    def test_virtual_line_id_is_not_read_from_db(self):
+        """Id-ul virtual al unei linii nesalvate nu mai e citit din baza de date.
+
+        Clientul web trimite comenzi x2many care pot referi o linie încă
+        nesalvată prin id-ul ei virtual (``[2, "virtual_7149"]``). Un ``browse``
+        pe un astfel de id producea un recordset cu un id per caracter, iar
+        citirea numelui arunca ``Expected singleton`` — se pierdea jurnalul
+        întregii scrieri.
+        """
+        lines = self.env["sale.order.line"]
+
+        self.assertEqual(format_line_ref(lines, "virtual_7149"), "ID virtual_7149")
+        # Un id inexistent (linie ștearsă între timp) nu trebuie nici el să arunce.
+        self.assertEqual(format_line_ref(lines, 999999999), "ID 999999999")
+
+        line = self.order.order_line
+        self.assertEqual(format_line_ref(lines, line.id), line.display_name)
 
     def test_activity_log_is_capped(self):
         """Jurnalul unei zile nu depășește plafonul, păstrând activitatea recentă."""

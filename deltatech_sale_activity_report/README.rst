@@ -36,6 +36,23 @@ Features:
 Changelog
 =========
 
+19.0.1.1.1 (2026-08-24)
+-----------------------
+
+**Fix** — jurnalizarea nu mai eșuează când o linie de comandă încă
+nesalvată este ștearsă din formular.
+
+Clientul web referă liniile nesalvate prin id-uri virtuale
+(``virtual_7149``). Descrierea comenzilor pe ``order_line`` citea acest
+id ca și cum ar fi unul din baza de date, iar operația se termina cu
+``Expected singleton`` — se pierdea jurnalul întregii scrieri, inclusiv
+modificările legitime făcute în același timp, și rămânea un traceback în
+log la fiecare salvare de acest fel.
+
+Acum id-urile care nu sunt numerice sunt afișate ca text, iar o linie
+ștearsă între timp este raportată prin id, fără a mai fi citită din baza
+de date.
+
 19.0.1.1.0 (2026-08-15)
 -----------------------
 
