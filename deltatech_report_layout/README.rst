@@ -14,7 +14,7 @@ Report Layout
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_report_layout
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_report_layout
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -93,6 +93,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_report_layout>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_report_layout>`_ project on GitHub.
 
 You are welcome to contribute.
