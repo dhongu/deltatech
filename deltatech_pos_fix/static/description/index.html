@@ -29,7 +29,7 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2 text-body" id="tb-panel-overview" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;opacity:0.92;">Fix POS total calculation when using tax-included fiscal position mapping.</p>
+<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">Fix POS total calculation when using tax-included fiscal position mapping.</p>
 <p>When a product has a tax-included tax and a fiscal position maps it to a non-included tax (like 0% reverse charge), the POS should reduce the total price to the tax-excluded amount. This module patches the POS to handle this recalculation correctly, matching the backend Sales behavior.</p>
 <p>This fix is applied both in the POS interface (JavaScript) and when generating invoices from POS orders (Python), ensuring consistency across the entire flow.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Features</h2>

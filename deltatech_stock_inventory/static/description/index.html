@@ -36,7 +36,7 @@
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Deltatech Stock Inventory</h1>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;opacity:0.92;">The Deltatech Stock Inventory module restores and enhances the stock.inventory functionality in Odoo, providing
+<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">The Deltatech Stock Inventory module restores and enhances the stock.inventory functionality in Odoo, providing
 additional features for better inventory management and stock valuation control.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Features</h2>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Legacy Inventory System</span><div class="mt-1">Restores the functionality of the old stock.inventory model, which was removed in newer
@@ -92,6 +92,19 @@ is updated with the price from the inventory lines.</li>
 </div>
 <div class="tab-pane fade py-2 text-body" id="tb-panel-versions" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.7.4 (2026-08-22)</h2>
+<ul>
+<li>The <strong>delete guard</strong> on inventory adjustments is active again: only adjustments
+  in <em>Draft</em> or <em>Cancelled</em> state can be deleted. An adjustment that is <em>In
+  Progress</em> or <em>Validated</em> has already generated stock moves, and deleting it
+  left those moves behind without their source document. The guard existed in
+  18.0 but had been commented out during the 19.0 port, so any adjustment could
+  be deleted regardless of its state — silently, with no warning.</li>
+<li>The two documented exceptions are preserved: module uninstall
+  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_force_unlink</code>) and the explicit merge of adjustments, which deletes the
+  merged (validated) documents with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">merge_inventory=True</code> in the context after
+  moving their lines and stock moves to the resulting adjustment.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.7.3 (2026-08-15)</h2>
 <ul>
 <li>Imp: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.inventory.line.partner_id</code> is now indexed — a foreign key to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res_partner</code> on a table that grows with every stock count.

@@ -29,7 +29,7 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2 text-body" id="tb-panel-overview" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;opacity:0.92;">Explains, in a read-only dialog, how a reordering rule (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.warehouse.orderpoint</code>)
+<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">Explains, in a read-only dialog, how a reordering rule (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.warehouse.orderpoint</code>)
 reached its <strong>forecast</strong> and <strong>to-order</strong> quantity, and flags where it may under- or
 over-order because of visibility and horizon limits.</p>
 <p>Open it from the <strong>Replenishment</strong> report (Action ▸ <em>Why this replenishment?</em>) or from
@@ -44,6 +44,13 @@ ordered (deadline set), rounding inflation, manual overrides and snoozes.</p>
 </div>
 <div class="tab-pane fade py-2 text-body" id="tb-panel-versions" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<p><strong>19.0.1.1.1</strong></p>
+<ul>
+<li>Fix: the "rounded up to a multiple" explanation only recognized the native
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">replenishment_uom_id</code>, so a legacy <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_multiple</code> (from the optional
+  deltatech_stock_orderpoint_multiple module) rounded the quantity without any
+  explanation being shown. Both sources are now considered.</li>
+</ul>
 <p><strong>19.0.1.1.0</strong></p>
 <ul>
 <li>Add a visual summary to the "Why this replenishment?" dialog: an SVG quantity
@@ -104,6 +111,22 @@ ordered (deadline set), rounding inflation, manual overrides and snoozes.</p>
             </span>
           </div>
           <p class="text-body-secondary mb-0" style="font-size:12px;">Custom reordering limits for products</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_stock_orderpoint_multiple" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">SO</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Stock Orderpoint Qty Multiple</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Inventory</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Restore the &#x27;Multiple Quantity&#x27; rounding on reordering rules removed in Odoo 19</p>
         </div>
       </a>
     </div>
@@ -200,22 +223,6 @@ ordered (deadline set), rounding inflation, manual overrides and snoozes.</p>
             </span>
           </div>
           <p class="text-body-secondary mb-0" style="font-size:12px;">Edit the currency rate on the invoice</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_actions" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border text-body">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Actions</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Other</span>
-            </span>
-          </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Cleaning and other actions</p>
         </div>
       </a>
     </div>

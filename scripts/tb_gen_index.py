@@ -313,7 +313,7 @@ def style_lead_paragraph(rendered):
     """Primul paragraf al Overview-ului → lead mai mare (culoare moștenită)."""
     return re.sub(
         r"<p>",
-        '<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;opacity:0.92;">',
+        '<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">',
         rendered,
         count=1,
     )
