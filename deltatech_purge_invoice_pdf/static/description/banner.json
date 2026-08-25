@@ -1,0 +1,10 @@
+{
+  "title": "Purge Invoice PDF Attachments",
+  "summary": "Reclaim filestore space from cached invoice PDFs",
+  "icon": "file",
+  "features": [
+    "Deletes only auto-generated invoice PDFs",
+    "Manual uploads are never touched",
+    "On-demand action or weekly cron"
+  ]
+}
