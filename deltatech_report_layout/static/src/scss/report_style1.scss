@@ -1,0 +1,109 @@
+.o_report_layout_style1 {
+    q-table {
+        border: 1px solid map-get($grays, "700");
+        q-thead {
+            border-bottom: 2px solid map-get($grays, "700");
+            q-tr q-th {
+                font-weight: bold;
+                border: 1px solid map-get($grays, "700");
+                color: $o-default-report-secondary-color;
+            }
+        }
+        q-tbody {
+            color: map-get($grays, "700");
+            q-tr {
+                q-td {
+                    // remove border-top from standard layout
+                    border-top: none;
+                    border-right: 1px solid map-get($grays, "700");
+                }
+                &.o_line_section q-td,
+                &.o_line_note q-td,
+                &.is-subtotal q-td {
+                    border-top: 1px solid map-get($grays, "700");
+                    border-bottom: 1px solid map-get($grays, "700");
+                }
+                &.o_line_section q-td {
+                    background-color: rgba($o-default-report-primary-color, 0.7);
+                    color: #fff;
+                }
+                &.is-subtotal,
+                q-td.o_price_total {
+                    background-color: rgba($o-default-report-secondary-color, 0.1);
+                }
+            }
+        }
+    }
+}
+
+.o_table_style1 {
+    table:not(.o_ignore_layout_styling) {
+        position: relative;
+
+        &::before {
+            // Avoid inner borders overlapping the table borders
+            content: "";
+            // Position absolute will place the pseudo-element
+            // above the table. We need to prevent events on this pseudo-element
+            // to avoid messing up eventual user interaction with the table itself (report editor)
+            @include o-position-absolute(0, 0, 0, 0);
+            pointer-events: none;
+            border: $border-width solid $gray-700;
+        }
+
+        thead {
+            //text-transform: uppercase;
+
+            th:not(:last-child) {
+                border-right: $border-width solid $gray-700;
+            }
+
+            th {
+                font-weight: bold;
+                border-bottom: $border-width solid $border-color;
+            }
+        }
+
+        tbody {
+            tr:not(:last-child) td {
+                border-bottom: $border-width solid $gray-400;
+            }
+
+            td:not(:last-child) {
+                border-right: $border-width solid $gray-400;
+            }
+
+            &.o_line_section td,
+            &.o_line_note td,
+            &.is-subtotal td {
+                border-top: $border-width solid $gray-700;
+                border-bottom: $border-width solid $gray-700;
+            }
+
+            &.o_line_section td {
+                background-color: rgba($gray-200, 0.5);
+            }
+
+            td.o_price_total,
+            .o_taxes td {
+                background-color: rgba($gray-200, 0.5);
+            }
+        }
+    }
+
+    .o_total_table:not(.o_ignore_layout_styling) {
+        td {
+            border-right: none;
+        }
+
+        &::before {
+            border-top: none;
+        }
+    }
+
+    .mt-5 .o_total_table:not(.o_ignore_layout_styling) {
+        &::before {
+            border-top: $border-width solid $border-color;
+        }
+    }
+}
