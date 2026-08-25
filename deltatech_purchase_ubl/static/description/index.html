@@ -29,7 +29,7 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2 text-body" id="tb-panel-overview" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;opacity:0.92;">am This module imports vendor invoices in UBL XML format and uses them to update purchase workflows in Odoo.</p>
+<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">am This module imports vendor invoices in UBL XML format and uses them to update purchase workflows in Odoo.</p>
 <p>Key features:
 - <strong>Automatic vendor and order resolution</strong>: the wizard keeps the selected purchase order on itself and can also identify the vendor and purchase order from the XML (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">OrderReference</code>, supplier VAT, supplier name) when context is no longer available.
 - <strong>Automatic matching</strong>: products are matched by barcode (GS1/EAN), supplier code, internal reference, or exact name.
@@ -48,6 +48,31 @@
 <div class="tab-pane fade py-2 text-body" id="tb-panel-versions" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[19.0.1.3.0] - 2026-08-24</h2>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Added</h3>
+<ul>
+<li><strong>Mapping preview in the import wizard</strong> (ticket #9315): the interactive flow is now
+  two-step — "Preview" parses the XML and shows one line per invoice line with the product
+  the matcher found and how it found it, color-coded: green = matched by supplier code or
+  barcode (trustworthy), yellow = matched only by name (double-check), red = no match (a new
+  product would be created). The user can pick a different product on any line before
+  confirming the import; manual choices override automatic matching
+  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_invoice_data(product_map=...)</code>). The headless entry point <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">action_import</code> is
+  unchanged, so automated callers keep working.</li>
+</ul>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
+<ul>
+<li><strong>Bug</strong> (ticket #9315): <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_attachments_for_post</code> always ran the headless UBL import
+  with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">create_missing_products=True</code>. This is fine for the interactive wizard, where a user
+  reviews what gets created, but it's also the only entry point for XML attachments posted by
+  automated callers (e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_message_spv_purchase</code>, since ticket #9287 started attaching
+  the SPV XML on purchase orders created before the vendor bill exists). When the source invoice
+  line has no supplier product code and its name doesn't match an existing product exactly, the
+  headless import silently created a duplicate product with no one reviewing it.
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_attachments_for_post</code> now honors a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_ubl_no_new_products</code> context key: when
+  set, the headless import runs with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">create_missing_products=False</code> and leaves unmatched lines
+  in the wizard's "unmatched products" log instead of creating a product.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[19.0.1.2.4] - 2026-08-20</h2>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
 <ul>
