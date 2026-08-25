@@ -236,6 +236,13 @@ class AuditXMLRPC(XMLRPC):
         params, method = xmlrpc.client.loads(data, use_datetime=True)
         _log_rpc_call(service, method, params)
         result = dispatch_rpc(service, method, params)
+        if result is None:
+            # A handful of ORM methods (e.g. account.move.line.reconcile()
+            # when there is nothing to reconcile) legitimately return None.
+            # XML-RPC's marshaller is built with allow_none=False, so core
+            # itself would raise "cannot marshal None" here; coerce to False
+            # the same way JSON-RPC clients already expect a "no result".
+            result = False
         return dumps((result,))
 
 
