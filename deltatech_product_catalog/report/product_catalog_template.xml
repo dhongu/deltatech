@@ -128,7 +128,7 @@
         <div class="header o_boxed_header">
             <div class="row mb8">
                 <div class="col-6">
-                    <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" />
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo" />
                 </div>
                 <div class="col-6 text-right mb4">
                     <h4 class="mt0" t-field="company.report_header" />

@@ -5,7 +5,7 @@
 
 {
     "name": "Product Catalog",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "summary": """This module helps to print the catalog of the multi products""",
     "category": "Inventory",
     "author": "Terrabit, Dorin Hongu",

@@ -8,7 +8,7 @@ build-backend = "whool.buildapi"
 # modulele nepublicate pe wheelhouse se declară prin depends_override,
 # iar `dynamic` obligă pyproject-dependencies să întrebe backend-ul.
 [tool.whool.depends_override]
-deltatech_alternative = "odoo-addon-deltatech-alternative @ git+https://github.com/dhongu/deltatech.git@18.0#subdirectory=deltatech_alternative"
+deltatech_alternative = "odoo-addon-deltatech-alternative @ git+https://github.com/dhongu/deltatech.git@19.0#subdirectory=deltatech_alternative"
 
 [project]
 name = "odoo-addon-deltatech-product-catalog"
