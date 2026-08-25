@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="report_layout_style1" model="report.layout">
+        <field name="view_id" ref="deltatech_report_layout.external_layout_style1" />
+        <field name="name">Style1</field>
+        <field name="sequence">101</field>
+    </record>
+
+     <record id="report_layout_style2" model="report.layout">
+        <field name="view_id" ref="deltatech_report_layout.external_layout_style2" />
+        <field name="name">Style2</field>
+         <field name="sequence">102</field>
+    </record>
+
+</odoo>
