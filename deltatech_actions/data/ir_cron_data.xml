@@ -74,10 +74,14 @@ model.cron_clean_generated_pdfs(limit=5000, pattern="", max_date_days=90, dry_ru
         <field name="code">
 # params:
 #   limit: limit of attachments to delete
-#   pattern: the beginning of the attachment name to delete (ex. "Pro forma/%")
+#   pattern: the beginning of the attachment name to delete. Leave empty ("") --
+#     real AWB label filenames vary a lot by carrier, a narrow pattern like
+#     "Label%" silently matches only some of them (e.g. misses "LabelGLS-...pdf"
+#     vs a raw tracking number or the field's technical name).
 #   max_date_days: relative days from which the attachments will be deleted
 #   dry_run: if set to True, just selects the attachments and does not delete anything
-model.cron_clean_generated_pdfs(limit=5000, pattern="Label%", max_date_days=90, dry_run=True)
+#   states: restrict to finished/cancelled pickings only, nothing in progress
+model.cron_clean_generated_pdfs(limit=5000, pattern="", max_date_days=180, dry_run=True, states=["done", "cancel"])
         </field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>

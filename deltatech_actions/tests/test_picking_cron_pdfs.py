@@ -60,3 +60,48 @@ class TestPickingCronGeneratedPDFs(TransactionCase):
 
         self.env["stock.picking"].cron_clean_generated_pdfs(limit=100, pattern="", max_date_days=1, dry_run=False)
         self.assertFalse(att_other.exists())
+
+    def test_picking_cron_catches_real_carrier_label_names(self):
+        # Real AWB label filenames vary a lot by carrier: some are the
+        # carrier's own report name, others are just the raw tracking
+        # number, or the field's technical name when a carrier integration
+        # does not set one -- none of them start with "Label".
+        att_tracking = self._create_attachment_for_picking(name="1ONBLN528391985", days_ago=30)
+        att_technical = self._create_attachment_for_picking(name="label_attachment", days_ago=30)
+
+        rows = self.env["stock.picking"].cron_clean_generated_pdfs(limit=100, max_date_days=1, dry_run=True)
+        ids = {r[0] for r in rows}
+        self.assertIn(att_tracking.id, ids)
+        self.assertIn(att_technical.id, ids)
+
+    def test_picking_cron_states_filter(self):
+        other_picking = self.env["stock.picking"].create(
+            {
+                "picking_type_id": self.env.ref("stock.picking_type_out").id,
+                "location_id": self.env.ref("stock.stock_location_stock").id,
+                "location_dest_id": self.env.ref("stock.stock_location_customers").id,
+            }
+        )
+        self.env.cr.execute("UPDATE stock_picking SET state = 'done' WHERE id = %s", (self.picking.id,))
+        self.env.cr.execute("UPDATE stock_picking SET state = 'draft' WHERE id = %s", (other_picking.id,))
+
+        att_done = self._create_attachment_for_picking(name="LabelGLS-1.pdf", days_ago=30)
+        att_in_progress = self.env["ir.attachment"].create(
+            {
+                "name": "LabelGLS-2.pdf",
+                "res_model": "stock.picking",
+                "res_id": other_picking.id,
+                "type": "binary",
+                "datas": base64.b64encode(b"test pdf content"),
+                "mimetype": "application/pdf",
+            }
+        )
+        past_dt = datetime.utcnow() - timedelta(days=30)
+        self.env.cr.execute("UPDATE ir_attachment SET create_date = %s WHERE id = %s", (past_dt, att_in_progress.id))
+
+        rows = self.env["stock.picking"].cron_clean_generated_pdfs(
+            limit=100, max_date_days=1, dry_run=True, states=["done", "cancel"]
+        )
+        ids = {r[0] for r in rows}
+        self.assertIn(att_done.id, ids)
+        self.assertNotIn(att_in_progress.id, ids)

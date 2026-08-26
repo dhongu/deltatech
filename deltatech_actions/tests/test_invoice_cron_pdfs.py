@@ -68,3 +68,34 @@ class TestInvoiceCronGeneratedPDFs(TransactionCase):
 
         self.env["account.move"].cron_clean_generated_pdfs(limit=100, pattern="", max_date_days=1, dry_run=False)
         self.assertFalse(att_other.exists())
+
+    def test_invoice_cron_catches_pdf_attached_via_mail_message(self):
+        # This is how the PDF actually reaches ir_attachment when an invoice
+        # is sent by email ("Send & Print"): attached to the outgoing
+        # mail.message, not to the move itself.
+        message = self.env["mail.message"].create(
+            {
+                "model": "account.move",
+                "res_id": self.move.id,
+                "message_type": "comment",
+                "subject": "Invoice email",
+            }
+        )
+        att = self.env["ir.attachment"].create(
+            {
+                "name": "INV_0002.pdf",
+                "res_model": "mail.message",
+                "res_id": message.id,
+                "type": "binary",
+                "datas": base64.b64encode(b"test pdf content"),
+                "mimetype": "application/pdf",
+            }
+        )
+        past_dt = datetime.utcnow() - timedelta(days=30)
+        self.env.cr.execute("UPDATE ir_attachment SET create_date = %s WHERE id = %s", (past_dt, att.id))
+
+        rows = self.env["account.move"].cron_clean_generated_pdfs(limit=100, max_date_days=1, dry_run=True)
+        self.assertIn(att.id, {r[0] for r in rows})
+
+        self.env["account.move"].cron_clean_generated_pdfs(limit=100, max_date_days=1, dry_run=False)
+        self.assertFalse(att.exists())
