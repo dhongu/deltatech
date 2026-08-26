@@ -8,3 +8,4 @@ from . import product
 from . import stock_picking
 from . import mail_message
 from . import res_partner
+from . import res_config_settings

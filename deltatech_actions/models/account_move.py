@@ -8,12 +8,37 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models
+from odoo.tools import str2bool
 
 _logger = logging.getLogger(__name__)
 
 
 class AccountMove(models.Model):
     _inherit = "account.move"
+
+    @api.model
+    def cron_clean_xml_attachments_from_settings(self):
+        """Entry point used by the cron: reads its parameters from Settings
+        (General Settings > Database Cleanup) instead of hardcoded values."""
+        icp = self.env["ir.config_parameter"].sudo()
+        return self.cron_clean_xml_attachments(
+            limit=int(icp.get_param("deltatech_actions.xml_limit", 10)),
+            duplicates=int(icp.get_param("deltatech_actions.xml_duplicates", 10)),
+            max_attachments_to_delete=int(icp.get_param("deltatech_actions.xml_max_delete", 50)),
+            dry_run=str2bool(icp.get_param("deltatech_actions.xml_dry_run", "True")),
+        )
+
+    @api.model
+    def cron_clean_generated_pdfs_from_settings(self):
+        """Entry point used by the cron: reads its parameters from Settings
+        (General Settings > Database Cleanup) instead of hardcoded values."""
+        icp = self.env["ir.config_parameter"].sudo()
+        return self.cron_clean_generated_pdfs(
+            limit=int(icp.get_param("deltatech_actions.invoice_pdf_limit", 5000)),
+            pattern=icp.get_param("deltatech_actions.invoice_pdf_pattern", "") or "",
+            max_date_days=int(icp.get_param("deltatech_actions.invoice_pdf_max_date_days", 90)),
+            dry_run=str2bool(icp.get_param("deltatech_actions.invoice_pdf_dry_run", "True")),
+        )
 
     @api.model
     def cron_clean_xml_attachments(self, limit=10, duplicates=10, max_attachments_to_delete=50, dry_run=False):
@@ -72,6 +97,14 @@ class AccountMove(models.Model):
         Ex. 30 = attachments will be deleted if older than today - 30 days
         :param dry_run: if set to True, just selects the attachments and does not delete anything
         :return: None
+
+        Sending an invoice by email attaches its PDF to the outgoing
+        mail.message, not to the move (res_model='mail.message', with the
+        message itself pointing at the move) -- measured on a real
+        deployment, that is where the overwhelming majority of invoice PDFs
+        actually live (40k+, ~1.9 GB, against a handful directly on
+        account.move), and every resend leaves its own copy behind. Both
+        owners are searched here.
         """
         if not max_date_days:
             max_date = datetime.now() - relativedelta(days=1)
@@ -79,9 +112,11 @@ class AccountMove(models.Model):
             max_date = datetime.now() - relativedelta(days=max_date_days)
         if not pattern:
             pattern = "%%"
-        query = """SELECT id,file_size FROM ir_attachment
-                    WHERE mimetype='application/pdf' AND res_model='account.move'
-                    AND create_date <= %(create_date)s AND name like %(pattern)s
+        query = """SELECT att.id, att.file_size FROM ir_attachment att
+                    LEFT JOIN mail_message msg ON att.res_model = 'mail.message' AND att.res_id = msg.id
+                    WHERE att.mimetype = 'application/pdf'
+                    AND (att.res_model = 'account.move' OR msg.model = 'account.move')
+                    AND att.create_date <= %(create_date)s AND att.name like %(pattern)s
                     limit %(limit)s;
                     """
         params = {"limit": limit, "create_date": max_date, "pattern": pattern}
