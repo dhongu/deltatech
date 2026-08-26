@@ -8,12 +8,31 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models
+from odoo.tools import str2bool
 
 _logger = logging.getLogger(__name__)
 
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
+
+    @api.model
+    def cron_clean_generated_pdfs_from_settings(self):
+        """Entry point used by the cron: reads its parameters from Settings
+        (General Settings > Database Cleanup) instead of hardcoded values."""
+        icp = self.env["ir.config_parameter"].sudo()
+        states = []
+        if str2bool(icp.get_param("deltatech_actions.picking_pdf_only_done", "True")):
+            states.append("done")
+        if str2bool(icp.get_param("deltatech_actions.picking_pdf_only_cancel", "True")):
+            states.append("cancel")
+        return self.cron_clean_generated_pdfs(
+            limit=int(icp.get_param("deltatech_actions.picking_pdf_limit", 5000)),
+            pattern=icp.get_param("deltatech_actions.picking_pdf_pattern", "") or "",
+            max_date_days=int(icp.get_param("deltatech_actions.picking_pdf_max_date_days", 180)),
+            dry_run=str2bool(icp.get_param("deltatech_actions.picking_pdf_dry_run", "True")),
+            states=states or None,
+        )
 
     @api.model
     def cron_clean_generated_pdfs(self, limit=100, pattern="", max_date_days=False, dry_run=False, states=None):

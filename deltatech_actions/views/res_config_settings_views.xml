@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.deltatech.actions</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="90" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app
+                    data-string="Database Cleanup"
+                    string="Database Cleanup"
+                    name="deltatech_actions"
+                    groups="base.group_system"
+                >
+                    <block title="Duplicate XML attachments" name="dt_actions_xml">
+                        <setting
+                            string="Duplicate XML attachments"
+                            help="Deletes duplicate EDI/UBL XML attachments on invoices. Enable the 'Delete duplicate xml attachments' scheduled action (Settings > Technical > Automation) to run it."
+                        >
+                            <field name="dt_actions_xml_dry_run" />
+                            <div class="content-group">
+                                <label for="dt_actions_xml_limit" string="Invoices per run" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_xml_limit" class="oe_inline" />
+                            </div>
+                            <div class="content-group">
+                                <label for="dt_actions_xml_duplicates" string="Minimum duplicates" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_xml_duplicates" class="oe_inline" />
+                            </div>
+                            <div class="content-group">
+                                <label for="dt_actions_xml_max_delete" string="Max deletions per invoice" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_xml_max_delete" class="oe_inline" />
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Invoice PDF cleanup" name="dt_actions_invoice_pdf">
+                        <setting
+                            string="Invoice PDF cleanup"
+                            help="Deletes old auto-generated invoice PDFs, including the ones attached to the outgoing email message rather than to the invoice itself. Enable the 'Delete pdf invoice attachments' scheduled action to run it."
+                        >
+                            <field name="dt_actions_invoice_pdf_dry_run" />
+                            <div class="content-group">
+                                <label for="dt_actions_invoice_pdf_limit" string="Attachments per run" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_invoice_pdf_limit" class="oe_inline" />
+                            </div>
+                            <div class="content-group">
+                                <label for="dt_actions_invoice_pdf_max_date_days" string="Older than (days)" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_invoice_pdf_max_date_days" class="oe_inline" />
+                            </div>
+                            <div class="content-group">
+                                <label for="dt_actions_invoice_pdf_pattern" string="Name pattern (SQL LIKE, empty = all)" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_invoice_pdf_pattern" class="oe_inline" />
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Sale order PDF cleanup" name="dt_actions_sale_pdf">
+                        <setting
+                            string="Sale order PDF cleanup"
+                            help="Deletes old auto-generated sale order/quotation PDFs. Enable the 'Delete pdf sale order attachments' scheduled action to run it."
+                        >
+                            <field name="dt_actions_sale_pdf_dry_run" />
+                            <div class="content-group">
+                                <label for="dt_actions_sale_pdf_limit" string="Attachments per run" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_sale_pdf_limit" class="oe_inline" />
+                            </div>
+                            <div class="content-group">
+                                <label for="dt_actions_sale_pdf_max_date_days" string="Older than (days)" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_sale_pdf_max_date_days" class="oe_inline" />
+                            </div>
+                            <div class="content-group">
+                                <label for="dt_actions_sale_pdf_pattern" string="Name pattern (SQL LIKE, empty = all)" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_sale_pdf_pattern" class="oe_inline" />
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="AWB label cleanup" name="dt_actions_picking_pdf">
+                        <setting
+                            string="AWB label cleanup"
+                            help="Clears the carrier AWB label PDF on old, finished deliveries -- it can grow into the largest single filestore consumer on a long-running instance. The label is regenerable from the carrier's API on demand as long as the shipment is still on file there; confirm the retention window with your carrier(s) before enabling the scheduled action ('Delete pdf pickings attachments')."
+                        >
+                            <field name="dt_actions_picking_pdf_dry_run" />
+                            <div class="content-group">
+                                <label for="dt_actions_picking_pdf_limit" string="Attachments per run" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_picking_pdf_limit" class="oe_inline" />
+                            </div>
+                            <div class="content-group">
+                                <label for="dt_actions_picking_pdf_max_date_days" string="Older than (days)" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_picking_pdf_max_date_days" class="oe_inline" />
+                            </div>
+                            <div class="content-group">
+                                <label for="dt_actions_picking_pdf_pattern" string="Name pattern (SQL LIKE, empty = all)" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_picking_pdf_pattern" class="oe_inline" />
+                            </div>
+                            <div class="content-group">
+                                <field name="dt_actions_picking_pdf_only_done" />
+                                <label for="dt_actions_picking_pdf_only_done" string="Only finished deliveries (done)" />
+                            </div>
+                            <div class="content-group">
+                                <field name="dt_actions_picking_pdf_only_cancel" />
+                                <label for="dt_actions_picking_pdf_only_cancel" string="Only cancelled deliveries" />
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Old messages cleanup" name="dt_actions_messages">
+                        <setting
+                            string="Old messages cleanup"
+                            help="Deletes old chatter messages (and their non-XML/ZIP attachments) on models matching the excluded-models list -- excluded models keep their full history. Enable the 'Delete mail messages' scheduled action to run it."
+                        >
+                            <field name="dt_actions_messages_dry_run" />
+                            <div class="content-group">
+                                <label for="dt_actions_messages_limit" string="Messages per run" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_messages_limit" class="oe_inline" />
+                            </div>
+                            <div class="content-group">
+                                <label for="dt_actions_messages_max_date_days" string="Older than (days)" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_messages_max_date_days" class="oe_inline" />
+                            </div>
+                            <div class="content-group">
+                                <label for="dt_actions_messages_pattern" string="Subject pattern (SQL LIKE, empty = all)" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_messages_pattern" class="oe_inline" />
+                            </div>
+                            <div class="content-group">
+                                <label for="dt_actions_messages_exclude_models" string="Excluded models" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_messages_exclude_models" class="oe_inline" />
+                            </div>
+                        </setting>
+                    </block>
+
+                    <block title="Duplicate contacts / companies" name="dt_actions_merge">
+                        <setting
+                            string="Duplicate contacts / companies"
+                            help="Merges duplicate individual contacts sharing the same email, and duplicate companies sharing the same VAT number. Enable the corresponding scheduled actions ('Merge duplicate contacts by email', 'Merge duplicate companies by VAT') to run them."
+                        >
+                            <div class="content-group">
+                                <label for="dt_actions_merge_contacts_limit" string="Contact groups per run" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_merge_contacts_limit" class="oe_inline" />
+                            </div>
+                            <div class="content-group">
+                                <label for="dt_actions_merge_companies_limit" string="Company groups per run" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_merge_companies_limit" class="oe_inline" />
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>
