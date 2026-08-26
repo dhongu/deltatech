@@ -26,6 +26,7 @@ class AccountMove(models.Model):
             duplicates=int(icp.get_param("deltatech_actions.xml_duplicates", 10)),
             max_attachments_to_delete=int(icp.get_param("deltatech_actions.xml_max_delete", 50)),
             dry_run=str2bool(icp.get_param("deltatech_actions.xml_dry_run", "True")),
+            max_date_days=int(icp.get_param("deltatech_actions.xml_max_date_days", 30)),
         )
 
     @api.model
@@ -41,7 +42,9 @@ class AccountMove(models.Model):
         )
 
     @api.model
-    def cron_clean_xml_attachments(self, limit=10, duplicates=10, max_attachments_to_delete=50, dry_run=False):
+    def cron_clean_xml_attachments(
+        self, limit=10, duplicates=10, max_attachments_to_delete=50, dry_run=False, max_date_days=False
+    ):
         """
         Searches for duplicate xml attachments for invoices and deletes them (mainly edi ubl)
         :param limit: how many invoices with duplicate attachments should be processed.
@@ -50,23 +53,32 @@ class AccountMove(models.Model):
         :param duplicates: how many attachments with same name are found
         :param max_attachments_to_delete: maximum attachment number to delete
         :param dry_run: if set to True, just selects the attachments and does not delete anything
+        :param max_date_days: only consider attachments older than this many days. Ex. 30 =
+        an attachment created today is never touched even if it duplicates an older one.
+        Falsy = no age filter, kept for backwards compatibility.
         :return: None
         """
+        max_date = datetime.now() - relativedelta(days=max_date_days) if max_date_days else None
+        date_clause = "AND create_date <= %(create_date)s" if max_date else ""
 
-        query = """SELECT name, count(name) as count_name
+        query = f"""SELECT name, count(name) as count_name
         FROM ir_attachment
         WHERE mimetype='application/xml' AND res_model='account.move'
+        {date_clause}
         GROUP BY name
         HAVING COUNT(name) > %(duplicates)s limit %(limit)s;
         """
-        params = {"limit": limit, "duplicates": duplicates}
+        params = {"limit": limit, "duplicates": duplicates, "create_date": max_date}
         self.env.cr.execute(query, params=params)
         res = self.env.cr.fetchall()
         counter = 1
         att_count = len(res)
         total_attachments = 0
         for attachment_name in res:
-            attachments = self.env["ir.attachment"].search([("name", "=", attachment_name[0])])
+            domain = [("name", "=", attachment_name[0])]
+            if max_date:
+                domain.append(("create_date", "<=", max_date))
+            attachments = self.env["ir.attachment"].search(domain)
             if attachments:
                 counter += 1
                 invoice_id = self.browse(attachments[0].res_id)

@@ -16,7 +16,9 @@ Cron: *Delete duplicate xml attachments*. Model: `account.move`. Removes duplica
 attachments on invoices.
 
 Settings: invoices per run (default `10`), minimum duplicates before deletion starts (default
-`10`), max deletions per invoice (default `50`), dry run (default on).
+`10`), max deletions per invoice (default `50`), older than N days (default `30` — a duplicate
+created today is never touched even if it already matches the threshold above), dry run (default
+on).
 
 ## Invoice PDF cleanup
 
