@@ -2,11 +2,53 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import api, fields, models
+
+# Field name -> xmlid of the ir.cron it enables/disables. This settings screen
+# is meant to be the ONLY place these crons get turned on: they ship
+# active=False in data/ir_cron_data.xml, and toggling one of these fields
+# writes ir.cron.active directly, instead of requiring a trip to
+# Settings > Technical > Automation > Scheduled Actions.
+CRON_ACTIVE_FIELDS = {
+    "dt_actions_xml_active": "deltatech_actions.ir_cron_delete_xml_attachments",
+    "dt_actions_invoice_pdf_active": "deltatech_actions.ir_cron_delete_pdf_attachments_invoice",
+    "dt_actions_sale_pdf_active": "deltatech_actions.ir_cron_delete_pdf_attachments_sale_order",
+    "dt_actions_picking_pdf_active": "deltatech_actions.ir_cron_delete_pdf_attachments_stock_picking",
+    "dt_actions_messages_active": "deltatech_actions.ir_cron_delete_mail_messages",
+    "dt_actions_merge_contacts_active": "deltatech_actions.ir_cron_merge_contacts",
+    "dt_actions_merge_companies_active": "deltatech_actions.ir_cron_merge_companies",
+    "dt_actions_reorder_rules_active": "deltatech_actions.ir_cron_create_missing_reordering_rules",
+    "dt_actions_normalize_names_active": "deltatech_actions.cron_normalize_company_names",
+}
 
 
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
+
+    dt_actions_xml_active = fields.Boolean(string="Enable duplicate XML attachments cleanup")
+    dt_actions_invoice_pdf_active = fields.Boolean(string="Enable invoice PDF cleanup")
+    dt_actions_sale_pdf_active = fields.Boolean(string="Enable sale order PDF cleanup")
+    dt_actions_picking_pdf_active = fields.Boolean(string="Enable AWB label cleanup")
+    dt_actions_messages_active = fields.Boolean(string="Enable old messages cleanup")
+    dt_actions_merge_contacts_active = fields.Boolean(string="Enable duplicate contacts merge")
+    dt_actions_merge_companies_active = fields.Boolean(string="Enable duplicate companies merge")
+    dt_actions_reorder_rules_active = fields.Boolean(string="Enable missing reordering rules cron")
+    dt_actions_normalize_names_active = fields.Boolean(string="Enable company name normalization")
+
+    @api.model
+    def get_values(self):
+        res = super().get_values()
+        for field_name, xmlid in CRON_ACTIVE_FIELDS.items():
+            cron = self.env.ref(xmlid, raise_if_not_found=False)
+            res[field_name] = bool(cron and cron.active)
+        return res
+
+    def set_values(self):
+        super().set_values()
+        for field_name, xmlid in CRON_ACTIVE_FIELDS.items():
+            cron = self.env.ref(xmlid, raise_if_not_found=False)
+            if cron and cron.active != self[field_name]:
+                cron.sudo().active = self[field_name]
 
     # -- Duplicate XML attachments (account_move.cron_clean_xml_attachments) --
     dt_actions_xml_limit = fields.Integer(

@@ -1,11 +1,14 @@
-All scheduled actions provided by this module are **disabled by default**, and by default run in
-**dry mode** (`dry_run`), meaning they only log what would be deleted without making any changes.
+All scheduled actions provided by this module are **disabled by default** (`active=False` on the
+underlying `ir.cron` record, set once at install and never reset on upgrade), and the ones that
+delete data also default to **dry mode** (`dry_run`), meaning they only log what would be deleted
+without making any changes.
 
-Their parameters live in **Settings > General Settings > Database Cleanup** (a dedicated app
-section, visible to system administrators) — nothing needs to be edited in the cron's code field
-any more. Enabling a scheduled action itself is still done from
-**Settings > Technical > Automation > Scheduled Actions**: review the parameters in the settings
-screen first, switch its "Dry run" toggle off, then enable the corresponding scheduled action.
+Everything — including turning a cron **on** — lives in **Settings > General Settings > Database
+Cleanup** (a dedicated app section, visible to system administrators). Each block has its own
+"Enabled" toggle, wired directly to that cron's `active` field: this settings screen is the
+intended single place to activate any of them, instead of hunting down the matching entry in
+Settings > Technical > Automation > Scheduled Actions. Review a block's parameters and switch its
+"Dry run" off *before* enabling it.
 
 ## Duplicate XML attachments
 
@@ -72,16 +75,16 @@ built-in `base.partner.merge.automatic.wizard`.
 Settings: contact groups per run (default `10`), company groups per run (default `10`). These two
 crons perform the merge directly — there is no dry-run mode.
 
-## Create missing reordering rules (0/0)
+## Missing reordering rules
 
 Model: `product.product`. Creates stock reordering rules for storable products that have none.
-Requires the `deltatech_auto_reorder_rule` module to be installed. No configurable parameters.
+Requires the `deltatech_auto_reorder_rule` module to be installed. Only setting: Enabled.
 
 ## Normalize company names
 
 Model: `res.partner`. Standardizes legal-form suffixes in company names
 (e.g. `srl` → `S.R.L.`, `sa` → `S.A.`, `pfa` → `P.F.A.`, `ii` → `I.I.`).
-Processes up to 500 records per cron run. No configurable parameters.
+Processes up to 500 records per cron run. Only setting: Enabled.
 
 ## Force-cancel server action
 
