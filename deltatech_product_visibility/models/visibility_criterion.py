@@ -29,9 +29,10 @@ class ProductVisibilityCriterion(models.Model):
     sequence = fields.Integer(default=10)
     active = fields.Boolean(default=True)
 
-    _sql_constraints = [
-        ("code_uniq", "unique(code)", "Există deja un criteriu pentru acest tip de verificare."),
-    ]
+    _code_uniq = models.Constraint(
+        "unique(code)",
+        "Există deja un criteriu pentru acest tip de verificare.",
+    )
 
     def action_recompute_scores(self):
         """Reevaluează scorul pentru toate produsele (util după modificarea ponderilor)."""
