@@ -8,12 +8,25 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models
+from odoo.tools import str2bool
 
 _logger = logging.getLogger(__name__)
 
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
+
+    @api.model
+    def cron_clean_generated_pdfs_from_settings(self):
+        """Entry point used by the cron: reads its parameters from Settings
+        (General Settings > Database Cleanup) instead of hardcoded values."""
+        icp = self.env["ir.config_parameter"].sudo()
+        return self.cron_clean_generated_pdfs(
+            limit=int(icp.get_param("deltatech_actions.sale_pdf_limit", 5000)),
+            pattern=icp.get_param("deltatech_actions.sale_pdf_pattern", "") or "",
+            max_date_days=int(icp.get_param("deltatech_actions.sale_pdf_max_date_days", 90)),
+            dry_run=str2bool(icp.get_param("deltatech_actions.sale_pdf_dry_run", "True")),
+        )
 
     def force_cancel_order_and_moves(self):
         """

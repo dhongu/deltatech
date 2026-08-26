@@ -5,11 +5,8 @@
         <field name="model_id" ref="model_account_move" />
         <field name="state">code</field>
         <field name="code">
-# params:
-#   limit: how many invoices with duplicate attachments should be processed at once
-#   duplicates: how many attachments with same name should be found to start deleting
-#   dry_run: if set to True, just selects the attachments and does not delete anything
-model.cron_clean_xml_attachments(limit=10, duplicates=10, max_attachments_to_delete=50, dry_run=True)
+# parameters: Settings > General Settings > Database Cleanup > Duplicate XML attachments
+model.cron_clean_xml_attachments_from_settings()
         </field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
@@ -36,12 +33,8 @@ model.create_missing_orderpoint()
         <field name="model_id" ref="model_account_move" />
         <field name="state">code</field>
         <field name="code">
-# params:
-#   limit: limit of attachments to delete
-#   pattern: the beginning of the attachment name to delete (ex. "INV/%")
-#   max_date_days: relative days from which the attachments will be deleted
-#   dry_run: if set to True, just selects the attachments and does not delete anything
-model.cron_clean_generated_pdfs(limit=5000, pattern="", max_date_days=90, dry_run=True)
+# parameters: Settings > General Settings > Database Cleanup > Invoice PDF cleanup
+model.cron_clean_generated_pdfs_from_settings()
         </field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
@@ -54,12 +47,8 @@ model.cron_clean_generated_pdfs(limit=5000, pattern="", max_date_days=90, dry_ru
         <field name="model_id" ref="sale.model_sale_order" />
         <field name="state">code</field>
         <field name="code">
-# params:
-#   limit: limit of attachments to delete
-#   pattern: the beginning of the attachment name to delete (ex. "Pro forma/%")
-#   max_date_days: relative days from which the attachments will be deleted
-#   dry_run: if set to True, just selects the attachments and does not delete anything
-model.cron_clean_generated_pdfs(limit=5000, pattern="", max_date_days=90, dry_run=True)
+# parameters: Settings > General Settings > Database Cleanup > Sale order PDF cleanup
+model.cron_clean_generated_pdfs_from_settings()
         </field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
@@ -72,12 +61,8 @@ model.cron_clean_generated_pdfs(limit=5000, pattern="", max_date_days=90, dry_ru
         <field name="model_id" ref="stock.model_stock_picking" />
         <field name="state">code</field>
         <field name="code">
-# params:
-#   limit: limit of attachments to delete
-#   pattern: the beginning of the attachment name to delete (ex. "Pro forma/%")
-#   max_date_days: relative days from which the attachments will be deleted
-#   dry_run: if set to True, just selects the attachments and does not delete anything
-model.cron_clean_generated_pdfs(limit=5000, pattern="Label%", max_date_days=90, dry_run=True)
+# parameters: Settings > General Settings > Database Cleanup > AWB label cleanup
+model.cron_clean_generated_pdfs_from_settings()
         </field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
@@ -90,13 +75,8 @@ model.cron_clean_generated_pdfs(limit=5000, pattern="Label%", max_date_days=90, 
         <field name="model_id" ref="mail.model_mail_message" />
         <field name="state">code</field>
         <field name="code">
-# params:
-#   limit: limit of messages to delete
-#   pattern: optional pattern of message subject, ex "Facturx%"
-#   max_date_days: relative days from which the messages will be deleted.
-#   exclude_models: list of models to exclude. Ex: ["business.%", "res.partner"]
-#   dry_run: if set to True, just selects the attachments and does not delete anything
-model.cron_clean_old_messages(limit=5000, pattern="%", max_date_days=90, dry_run=True, exclude_models=["business.%", "project.%", "helpdesk.%"])
+# parameters: Settings > General Settings > Database Cleanup > Old messages cleanup
+model.cron_clean_old_messages_from_settings()
         </field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
@@ -108,7 +88,10 @@ model.cron_clean_old_messages(limit=5000, pattern="%", max_date_days=90, dry_run
       <field name="name">Merge duplicate contacts by email</field>
       <field name="model_id" ref="base.model_res_partner" />
       <field name="state">code</field>
-      <field name="code">model._cron_merge_duplicate_contacts(limit=10)</field>
+      <field name="code">
+# parameters: Settings > General Settings > Database Cleanup > Duplicate contacts merge
+model._cron_merge_duplicate_contacts_from_settings()
+      </field>
       <field name="interval_number">1</field>
       <field name="interval_type">days</field>
       <field name="active">False</field>
@@ -119,7 +102,10 @@ model.cron_clean_old_messages(limit=5000, pattern="%", max_date_days=90, dry_run
         <field name="name">Merge duplicate companies by VAT</field>
         <field name="model_id" ref="base.model_res_partner" />
         <field name="state">code</field>
-        <field name="code">model._cron_merge_duplicate_companies(limit=10)</field>
+        <field name="code">
+# parameters: Settings > General Settings > Database Cleanup > Duplicate companies merge
+model._cron_merge_duplicate_companies_from_settings()
+        </field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
         <field name="active">False</field>
