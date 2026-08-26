@@ -81,6 +81,18 @@ class TestCronFromSettings(TransactionCase):
         self.env["stock.picking"].cron_clean_generated_pdfs_from_settings()
         self.assertFalse(att.exists())
 
+    def test_settings_enabled_toggle_writes_cron_active(self):
+        cron = self.env.ref("deltatech_actions.ir_cron_delete_pdf_attachments_invoice")
+        self.assertFalse(cron.active, "crons must ship disabled by default")
+
+        settings = self.env["res.config.settings"].create({"dt_actions_invoice_pdf_active": True})
+        settings.execute()
+        self.assertTrue(cron.active, "the settings screen must be able to enable a cron")
+
+        settings2 = self.env["res.config.settings"].create({"dt_actions_invoice_pdf_active": False})
+        settings2.execute()
+        self.assertFalse(cron.active, "the settings screen must be able to disable a cron again")
+
     def test_messages_exclude_models_parsed_from_csv(self):
         message = self.env["mail.message"].create(
             {
