@@ -5,7 +5,7 @@
 {
     "name": "Product Website Visibility Score",
     "summary": "Scor colorat de vizibilitate a produsului pe website (semafor + defalcare pe criterii)",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Voicu Stefan",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
