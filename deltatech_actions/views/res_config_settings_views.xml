@@ -33,6 +33,10 @@
                                 <label for="dt_actions_xml_max_delete" string="Max deletions per invoice" class="col-lg-4 o_light_label" />
                                 <field name="dt_actions_xml_max_delete" class="oe_inline" />
                             </div>
+                            <div class="content-group">
+                                <label for="dt_actions_xml_max_date_days" string="Older than (days)" class="col-lg-4 o_light_label" />
+                                <field name="dt_actions_xml_max_date_days" class="oe_inline" />
+                            </div>
                         </setting>
                     </block>
 

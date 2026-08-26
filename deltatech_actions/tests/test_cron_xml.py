@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 import base64
+from datetime import datetime, timedelta
 
 from odoo.tests.common import TransactionCase, tagged
 
@@ -65,3 +66,27 @@ class TestCronCleanXMLAttachments(TransactionCase):
         )
         self.assertEqual(len(remaining_dups), 1)
         self.assertTrue(single.exists())
+
+    def test_xml_cron_max_date_days_protects_recent_duplicates(self):
+        old1 = self._create_xml("OLD_UBL.xml")
+        old2 = self._create_xml("OLD_UBL.xml")
+        past_dt = datetime.utcnow() - timedelta(days=60)
+        self.env.cr.execute(
+            "UPDATE ir_attachment SET create_date = %s WHERE id IN %s",
+            (past_dt, tuple((old1 + old2).ids)),
+        )
+
+        recent1 = self._create_xml("RECENT_UBL.xml")
+        recent2 = self._create_xml("RECENT_UBL.xml")
+
+        self.env["account.move"].cron_clean_xml_attachments(
+            limit=10, duplicates=1, max_attachments_to_delete=1, dry_run=False, max_date_days=30
+        )
+
+        # Older than the 30-day cutoff: one of the duplicates gets removed.
+        remaining_old = self.env["ir.attachment"].search([("name", "=", "OLD_UBL.xml")])
+        self.assertEqual(len(remaining_old), 1)
+
+        # Created today: protected by the cutoff, even though they duplicate.
+        self.assertTrue(recent1.exists())
+        self.assertTrue(recent2.exists())

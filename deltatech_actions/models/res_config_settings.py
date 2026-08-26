@@ -66,6 +66,11 @@ class ResConfigSettings(models.TransientModel):
         config_parameter="deltatech_actions.xml_max_delete",
         default=50,
     )
+    dt_actions_xml_max_date_days = fields.Integer(
+        string="Older than (days, XML)",
+        config_parameter="deltatech_actions.xml_max_date_days",
+        default=30,
+    )
     dt_actions_xml_dry_run = fields.Boolean(
         string="Dry run (XML)",
         config_parameter="deltatech_actions.xml_dry_run",
