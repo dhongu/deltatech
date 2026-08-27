@@ -135,6 +135,17 @@ state directly to <code class="border rounded px-2" style="font-family:ui-monosp
 </div>
 <div class="tab-pane fade py-2 text-body" id="tb-panel-versions" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.9.0</h2>
+<ul>
+<li>A single attachment with a NULL <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">file_size</code> raised
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TypeError: unsupported operand type(s) for +=: 'int' and 'NoneType'</code> and killed the
+  whole cleanup run. All three PDF cleanups summed <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">file_size</code> with a bare <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">+=</code>, and
+  the column is nullable. Inside the auto-vacuum job the failure is invisible:
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_run_vacuum_cleaner</code> logs the exception, rolls the transaction back and moves on, so
+  a crashing cleanup is indistinguishable from one that had nothing to delete. Found on
+  a staging database where it had silently stopped the sale order cleanup dead -- the
+  cron reported success, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code> stayed 0, and not one attachment was removed.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.8.0</h2>
 <ul>
 <li>Fixes a risk introduced in 19.0.0.7.0: the auto-vacuum hooks could get Odoo's

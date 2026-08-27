@@ -148,10 +148,11 @@ class AccountMove(models.Model):
         self.env.cr.execute(query, params=params)
         res = self.env.cr.fetchall()
         attachment_ids = [item[0] for item in res]
-        sizes = [item[1] for item in res]
-        sum_sizes = 0
-        for size in sizes:
-            sum_sizes += size
+        # `or 0`: ir_attachment.file_size is nullable, and a single NULL row used to
+        # raise TypeError here. Inside the autovacuum job that failure is invisible --
+        # _run_vacuum_cleaner logs the exception, rolls the transaction back and moves
+        # on, so a crashing cleanup looks exactly like one with nothing to delete.
+        sum_sizes = sum((item[1] or 0) for item in res)
         if not dry_run:
             attachments = self.env["ir.attachment"].browse(attachment_ids)
             try:

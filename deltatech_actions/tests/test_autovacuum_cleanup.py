@@ -134,3 +134,50 @@ class TestAutovacuumCleanup(TransactionCase):
             with self.subTest(model=model):
                 func = type(self.env[model])._gc_generated_pdfs
                 self.assertTrue(is_autovacuum(func), f"{model}._gc_generated_pdfs is not an autovacuum method")
+
+
+@tagged("post_install", "-at_install")
+class TestNullFileSize(TransactionCase):
+    """ir_attachment.file_size is nullable, and the cleanups sum it to report how much
+    they freed. A single NULL row used to raise TypeError -- and inside the autovacuum
+    job that failure is invisible: _run_vacuum_cleaner logs the exception, rolls the
+    transaction back and moves on, so a crashing cleanup is indistinguishable from one
+    with nothing to delete. Found on a real staging database, where it silently stopped
+    the sale order cleanup dead.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.icp = cls.env["ir.config_parameter"].sudo()
+        cls.partner = cls.env["res.partner"].create({"name": "Null Size Customer"})
+        cls.order = cls.env["sale.order"].create({"partner_id": cls.partner.id})
+
+    def test_cleanup_survives_a_null_file_size(self):
+        att = self.env["ir.attachment"].create(
+            {
+                "name": "Oferta - S9999.pdf",
+                "res_model": "sale.order",
+                "res_id": self.order.id,
+                "type": "binary",
+                "datas": base64.b64encode(b"pdf"),
+                "mimetype": "application/pdf",
+            }
+        )
+        past = datetime.utcnow() - timedelta(days=200)
+        self.env.cr.execute(
+            "UPDATE ir_attachment SET create_date = %s, file_size = NULL WHERE id = %s",
+            (past, att.id),
+        )
+        self.env["ir.attachment"].invalidate_model(["create_date", "file_size"])
+
+        self.icp.set_param("deltatech_actions.sale_pdf_dry_run", "False")
+        self.icp.set_param("deltatech_actions.sale_pdf_limit", "10")
+        self.icp.set_param("deltatech_actions.sale_pdf_max_date_days", "90")
+        self.icp.set_param("deltatech_actions.sale_pdf_pattern", "")
+
+        summary = self.env["sale.order"].cron_clean_generated_pdfs_from_settings()
+
+        self.assertEqual(summary["count"], 1)
+        self.assertEqual(summary["size"], 0, "a NULL size must count as zero, not blow up")
+        self.assertFalse(att.exists())
