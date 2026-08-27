@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:23+0000\n"
-"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"POT-Creation-Date: 2026-08-27 07:27+0000\n"
+"PO-Revision-Date: 2026-08-27 07:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,13 +16,58 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "AWB label cleanup"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Attachments per run"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_limit
+msgid "Attachments to delete (AWB label)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_invoice_pdf_limit
+msgid "Attachments to delete (invoice PDF)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_sale_pdf_limit
+msgid "Attachments to delete (sale order PDF)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"Clears the carrier AWB label PDF on old, finished deliveries -- it can grow "
+"into the largest single filestore consumer on a long-running instance. The "
+"label is regenerable from the carrier's API on demand as long as the "
+"shipment is still on file there; confirm the retention window with your "
+"carrier(s) before enabling this."
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Company groups per run"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model,name:deltatech_actions.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: deltatech_actions
 #: model:ir.model,name:deltatech_actions.model_res_partner
 msgid "Contact"
 msgstr ""
 
 #. module: deltatech_actions
-#: model:ir.model,website_form_label:deltatech_actions.model_res_partner
-msgid "Create a Customer"
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Contact groups per run"
 msgstr ""
 
 #. module: deltatech_actions
@@ -37,9 +82,21 @@ msgid "Created %s missing rules"
 msgstr ""
 
 #. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"Creates stock reordering rules for storable products that have none. "
+"Requires the deltatech_auto_reorder_rule module. No other parameters."
+msgstr ""
+
+#. module: deltatech_actions
 #. odoo-python
 #: code:addons/deltatech_actions/models/res_partner.py:0
 msgid "Cron job: Au fost normalizate %s nume de companii"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Database Cleanup"
 msgstr ""
 
 #. module: deltatech_actions
@@ -68,13 +125,93 @@ msgid "Delete pdf sale order attachments"
 msgstr ""
 
 #. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Deletes duplicate EDI/UBL XML attachments on invoices."
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"Deletes old auto-generated invoice PDFs, including the ones attached to the "
+"outgoing email message rather than to the invoice itself."
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Deletes old auto-generated sale order/quotation PDFs."
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"Deletes old chatter messages (and their non-XML/ZIP attachments), except on "
+"the models listed as excluded -- those keep their full history."
+msgstr ""
+
+#. module: deltatech_actions
 #: model:ir.model.fields,field_description:deltatech_actions.field_account_move__display_name
 #: model:ir.model.fields,field_description:deltatech_actions.field_mail_message__display_name
 #: model:ir.model.fields,field_description:deltatech_actions.field_product_product__display_name
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:deltatech_actions.field_res_partner__display_name
 #: model:ir.model.fields,field_description:deltatech_actions.field_sale_order__display_name
 #: model:ir.model.fields,field_description:deltatech_actions.field_stock_picking__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_dry_run
+msgid "Dry run (AWB label)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_xml_dry_run
+msgid "Dry run (XML)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_invoice_pdf_dry_run
+msgid "Dry run (invoice PDF)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_messages_dry_run
+msgid "Dry run (messages)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_sale_pdf_dry_run
+msgid "Dry run (sale order PDF)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Dry run (test mode, deletes nothing)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Duplicate XML attachments"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Duplicate companies"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_merge_companies_limit
+msgid "Duplicate company groups per run"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_merge_contacts_limit
+msgid "Duplicate contact groups per run"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Duplicate contacts"
 msgstr ""
 
 #. module: deltatech_actions
@@ -84,15 +221,71 @@ msgid "EROARE - Normalizare companii - Cron Job"
 msgstr ""
 
 #. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_active
+msgid "Enable AWB label cleanup"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_normalize_names_active
+msgid "Enable company name normalization"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_xml_active
+msgid "Enable duplicate XML attachments cleanup"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_merge_companies_active
+msgid "Enable duplicate companies merge"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_merge_contacts_active
+msgid "Enable duplicate contacts merge"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_invoice_pdf_active
+msgid "Enable invoice PDF cleanup"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_reorder_rules_active
+msgid "Enable missing reordering rules cron"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_messages_active
+msgid "Enable old messages cleanup"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_sale_pdf_active
+msgid "Enable sale order PDF cleanup"
+msgstr ""
+
+#. module: deltatech_actions
 #. odoo-python
 #: code:addons/deltatech_actions/models/res_partner.py:0
 msgid "Eroare în normalizarea companiilor: %s"
 msgstr ""
 
 #. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Excluded models"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_messages_exclude_models
+msgid "Excluded models (messages, comma-separated SQL LIKE patterns)"
+msgstr ""
+
+#. module: deltatech_actions
 #: model:ir.model.fields,field_description:deltatech_actions.field_account_move__id
 #: model:ir.model.fields,field_description:deltatech_actions.field_mail_message__id
 #: model:ir.model.fields,field_description:deltatech_actions.field_product_product__id
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__id
 #: model:ir.model.fields,field_description:deltatech_actions.field_res_partner__id
 #: model:ir.model.fields,field_description:deltatech_actions.field_sale_order__id
 #: model:ir.model.fields,field_description:deltatech_actions.field_stock_picking__id
@@ -100,8 +293,33 @@ msgid "ID"
 msgstr ""
 
 #. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Invoice PDF cleanup"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Invoices per run"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_xml_limit
+msgid "Invoices to process (XML)"
+msgstr ""
+
+#. module: deltatech_actions
 #: model:ir.model,name:deltatech_actions.model_account_move
 msgid "Journal Entry"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_xml_max_delete
+msgid "Max attachments to delete per invoice (XML)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Max deletions per invoice"
 msgstr ""
 
 #. module: deltatech_actions
@@ -115,8 +333,117 @@ msgid "Merge duplicate contacts by email"
 msgstr ""
 
 #. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"Merges duplicate companies sharing the same VAT number. Performs the merge "
+"directly -- there is no dry-run mode."
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"Merges duplicate individual contacts sharing the same email address. "
+"Performs the merge directly -- there is no dry-run mode."
+msgstr ""
+
+#. module: deltatech_actions
 #: model:ir.model,name:deltatech_actions.model_mail_message
 msgid "Message"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Messages per run"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_messages_limit
+msgid "Messages to delete"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Minimum duplicates"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_xml_duplicates
+msgid "Minimum duplicates (XML)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Missing reordering rules"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Name pattern"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_pattern
+msgid "Name pattern (AWB label)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_invoice_pdf_pattern
+msgid "Name pattern (invoice PDF)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_sale_pdf_pattern
+msgid "Name pattern (sale order PDF)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Next execution"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_nextcall
+msgid "Next execution (AWB label)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_xml_nextcall
+msgid "Next execution (XML)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_merge_companies_nextcall
+msgid "Next execution (companies merge)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_normalize_names_nextcall
+msgid "Next execution (company names)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_merge_contacts_nextcall
+msgid "Next execution (contacts merge)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_invoice_pdf_nextcall
+msgid "Next execution (invoice PDF)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_messages_nextcall
+msgid "Next execution (messages)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_reorder_rules_nextcall
+msgid "Next execution (reordering rules)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_sale_pdf_nextcall
+msgid "Next execution (sale order PDF)"
 msgstr ""
 
 #. module: deltatech_actions
@@ -127,7 +454,55 @@ msgstr ""
 
 #. module: deltatech_actions
 #: model:ir.actions.server,name:deltatech_actions.cron_normalize_company_names_ir_actions_server
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
 msgid "Normalize company names"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Old messages cleanup"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Older than (days)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_max_date_days
+msgid "Older than (days, AWB label)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_xml_max_date_days
+msgid "Older than (days, XML)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_invoice_pdf_max_date_days
+msgid "Older than (days, invoice PDF)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_messages_max_date_days
+msgid "Older than (days, messages)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_sale_pdf_max_date_days
+msgid "Older than (days, sale order PDF)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_only_cancel
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Only cancelled deliveries"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_only_done
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Only finished deliveries (done)"
 msgstr ""
 
 #. module: deltatech_actions
@@ -136,8 +511,43 @@ msgid "Product Variant"
 msgstr ""
 
 #. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "SQL LIKE, empty = all"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Sale order PDF cleanup"
+msgstr ""
+
+#. module: deltatech_actions
 #: model:ir.model,name:deltatech_actions.model_sale_order
 msgid "Sales Order"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"Standardizes legal-form suffixes in company names (e.g. srl -> S.R.L., sa ->"
+" S.A., pfa -> P.F.A., ii -> I.I.). Processes up to 500 records per run. No "
+"other parameters."
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Subject pattern"
+msgstr ""
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_messages_pattern
+msgid "Subject pattern (messages)"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"Test mode: the scheduled action only logs what it would delete, without "
+"deleting anything. Untick it to actually delete."
 msgstr ""
 
 #. module: deltatech_actions

@@ -6,192 +6,216 @@
         <field name="priority" eval="90" />
         <field name="inherit_id" ref="base.res_config_settings_view_form" />
         <field name="arch" type="xml">
-            <xpath expr="//form" position="inside">
-                <app
-                    data-string="Database Cleanup"
-                    string="Database Cleanup"
-                    name="deltatech_actions"
-                    groups="base.group_system"
-                >
-                    <block title="Duplicate XML attachments" name="dt_actions_xml">
-                        <setting
-                            string="Duplicate XML attachments"
-                            help="Deletes duplicate EDI/UBL XML attachments on invoices."
-                        >
-                            <field name="dt_actions_xml_active" />
-                            <label for="dt_actions_xml_active" string="Enabled" />
-                            <field name="dt_actions_xml_dry_run" />
-                            <div class="content-group">
-                                <label for="dt_actions_xml_limit" string="Invoices per run" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_xml_limit" class="oe_inline" />
-                            </div>
-                            <div class="content-group">
-                                <label for="dt_actions_xml_duplicates" string="Minimum duplicates" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_xml_duplicates" class="oe_inline" />
-                            </div>
-                            <div class="content-group">
-                                <label for="dt_actions_xml_max_delete" string="Max deletions per invoice" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_xml_max_delete" class="oe_inline" />
-                            </div>
-                            <div class="content-group">
-                                <label for="dt_actions_xml_max_date_days" string="Older than (days)" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_xml_max_date_days" class="oe_inline" />
-                            </div>
-                        </setting>
-                    </block>
+            <xpath expr="//app[@name='general_settings']" position="inside">
+                <block title="Database Cleanup" name="dt_actions_cleanup" groups="base.group_system">
+                    <setting
+                        string="Duplicate XML attachments"
+                        help="Deletes duplicate EDI/UBL XML attachments on invoices."
+                    >
+                        <field name="dt_actions_xml_active" />
+                        <div class="content-group">
+                            <field name="dt_actions_xml_dry_run" class="oe_inline" />
+                            <label for="dt_actions_xml_dry_run" string="Dry run (test mode, deletes nothing)" />
+                            <div class="text-muted">Test mode: the scheduled action only logs what it would delete, without deleting anything. Untick it to actually delete.</div>
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_xml_limit" string="Invoices per run" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_xml_limit" class="oe_inline" />
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_xml_duplicates" string="Minimum duplicates" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_xml_duplicates" class="oe_inline" />
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_xml_max_delete" string="Max deletions per invoice" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_xml_max_delete" class="oe_inline" />
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_xml_max_date_days" string="Older than (days)" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_xml_max_date_days" class="oe_inline" />
+                        </div>
+                        <div class="content-group" invisible="not dt_actions_xml_active">
+                            <label for="dt_actions_xml_nextcall" string="Next execution" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_xml_nextcall" class="oe_inline" />
+                        </div>
+                    </setting>
 
-                    <block title="Invoice PDF cleanup" name="dt_actions_invoice_pdf">
-                        <setting
-                            string="Invoice PDF cleanup"
-                            help="Deletes old auto-generated invoice PDFs, including the ones attached to the outgoing email message rather than to the invoice itself."
-                        >
-                            <field name="dt_actions_invoice_pdf_active" />
-                            <label for="dt_actions_invoice_pdf_active" string="Enabled" />
-                            <field name="dt_actions_invoice_pdf_dry_run" />
-                            <div class="content-group">
-                                <label for="dt_actions_invoice_pdf_limit" string="Attachments per run" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_invoice_pdf_limit" class="oe_inline" />
-                            </div>
-                            <div class="content-group">
-                                <label for="dt_actions_invoice_pdf_max_date_days" string="Older than (days)" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_invoice_pdf_max_date_days" class="oe_inline" />
-                            </div>
-                            <div class="content-group">
-                                <label for="dt_actions_invoice_pdf_pattern" string="Name pattern (SQL LIKE, empty = all)" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_invoice_pdf_pattern" class="oe_inline" />
-                            </div>
-                        </setting>
-                    </block>
+                    <setting
+                        string="Invoice PDF cleanup"
+                        help="Deletes old auto-generated invoice PDFs, including the ones attached to the outgoing email message rather than to the invoice itself."
+                    >
+                        <field name="dt_actions_invoice_pdf_active" />
+                        <div class="content-group">
+                            <field name="dt_actions_invoice_pdf_dry_run" class="oe_inline" />
+                            <label for="dt_actions_invoice_pdf_dry_run" string="Dry run (test mode, deletes nothing)" />
+                            <div class="text-muted">Test mode: the scheduled action only logs what it would delete, without deleting anything. Untick it to actually delete.</div>
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_invoice_pdf_limit" string="Attachments per run" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_invoice_pdf_limit" class="oe_inline" />
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_invoice_pdf_max_date_days" string="Older than (days)" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_invoice_pdf_max_date_days" class="oe_inline" />
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_invoice_pdf_pattern" string="Name pattern" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_invoice_pdf_pattern" class="oe_inline" placeholder="SQL LIKE, empty = all" />
+                        </div>
+                        <div class="content-group" invisible="not dt_actions_invoice_pdf_active">
+                            <label for="dt_actions_invoice_pdf_nextcall" string="Next execution" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_invoice_pdf_nextcall" class="oe_inline" />
+                        </div>
+                    </setting>
 
-                    <block title="Sale order PDF cleanup" name="dt_actions_sale_pdf">
-                        <setting
-                            string="Sale order PDF cleanup"
-                            help="Deletes old auto-generated sale order/quotation PDFs."
-                        >
-                            <field name="dt_actions_sale_pdf_active" />
-                            <label for="dt_actions_sale_pdf_active" string="Enabled" />
-                            <field name="dt_actions_sale_pdf_dry_run" />
-                            <div class="content-group">
-                                <label for="dt_actions_sale_pdf_limit" string="Attachments per run" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_sale_pdf_limit" class="oe_inline" />
-                            </div>
-                            <div class="content-group">
-                                <label for="dt_actions_sale_pdf_max_date_days" string="Older than (days)" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_sale_pdf_max_date_days" class="oe_inline" />
-                            </div>
-                            <div class="content-group">
-                                <label for="dt_actions_sale_pdf_pattern" string="Name pattern (SQL LIKE, empty = all)" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_sale_pdf_pattern" class="oe_inline" />
-                            </div>
-                        </setting>
-                    </block>
+                    <setting
+                        string="Sale order PDF cleanup"
+                        help="Deletes old auto-generated sale order/quotation PDFs."
+                    >
+                        <field name="dt_actions_sale_pdf_active" />
+                        <div class="content-group">
+                            <field name="dt_actions_sale_pdf_dry_run" class="oe_inline" />
+                            <label for="dt_actions_sale_pdf_dry_run" string="Dry run (test mode, deletes nothing)" />
+                            <div class="text-muted">Test mode: the scheduled action only logs what it would delete, without deleting anything. Untick it to actually delete.</div>
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_sale_pdf_limit" string="Attachments per run" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_sale_pdf_limit" class="oe_inline" />
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_sale_pdf_max_date_days" string="Older than (days)" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_sale_pdf_max_date_days" class="oe_inline" />
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_sale_pdf_pattern" string="Name pattern" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_sale_pdf_pattern" class="oe_inline" placeholder="SQL LIKE, empty = all" />
+                        </div>
+                        <div class="content-group" invisible="not dt_actions_sale_pdf_active">
+                            <label for="dt_actions_sale_pdf_nextcall" string="Next execution" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_sale_pdf_nextcall" class="oe_inline" />
+                        </div>
+                    </setting>
 
-                    <block title="AWB label cleanup" name="dt_actions_picking_pdf">
-                        <setting
-                            string="AWB label cleanup"
-                            help="Clears the carrier AWB label PDF on old, finished deliveries -- it can grow into the largest single filestore consumer on a long-running instance. The label is regenerable from the carrier's API on demand as long as the shipment is still on file there; confirm the retention window with your carrier(s) before enabling this."
-                        >
-                            <field name="dt_actions_picking_pdf_active" />
-                            <label for="dt_actions_picking_pdf_active" string="Enabled" />
-                            <field name="dt_actions_picking_pdf_dry_run" />
-                            <div class="content-group">
-                                <label for="dt_actions_picking_pdf_limit" string="Attachments per run" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_picking_pdf_limit" class="oe_inline" />
-                            </div>
-                            <div class="content-group">
-                                <label for="dt_actions_picking_pdf_max_date_days" string="Older than (days)" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_picking_pdf_max_date_days" class="oe_inline" />
-                            </div>
-                            <div class="content-group">
-                                <label for="dt_actions_picking_pdf_pattern" string="Name pattern (SQL LIKE, empty = all)" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_picking_pdf_pattern" class="oe_inline" />
-                            </div>
-                            <div class="content-group">
-                                <field name="dt_actions_picking_pdf_only_done" />
-                                <label for="dt_actions_picking_pdf_only_done" string="Only finished deliveries (done)" />
-                            </div>
-                            <div class="content-group">
-                                <field name="dt_actions_picking_pdf_only_cancel" />
-                                <label for="dt_actions_picking_pdf_only_cancel" string="Only cancelled deliveries" />
-                            </div>
-                        </setting>
-                    </block>
+                    <setting
+                        string="AWB label cleanup"
+                        help="Clears the carrier AWB label PDF on old, finished deliveries -- it can grow into the largest single filestore consumer on a long-running instance. The label is regenerable from the carrier's API on demand as long as the shipment is still on file there; confirm the retention window with your carrier(s) before enabling this."
+                    >
+                        <field name="dt_actions_picking_pdf_active" />
+                        <div class="content-group">
+                            <field name="dt_actions_picking_pdf_dry_run" class="oe_inline" />
+                            <label for="dt_actions_picking_pdf_dry_run" string="Dry run (test mode, deletes nothing)" />
+                            <div class="text-muted">Test mode: the scheduled action only logs what it would delete, without deleting anything. Untick it to actually delete.</div>
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_picking_pdf_limit" string="Attachments per run" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_picking_pdf_limit" class="oe_inline" />
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_picking_pdf_max_date_days" string="Older than (days)" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_picking_pdf_max_date_days" class="oe_inline" />
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_picking_pdf_pattern" string="Name pattern" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_picking_pdf_pattern" class="oe_inline" placeholder="SQL LIKE, empty = all" />
+                        </div>
+                        <div class="content-group">
+                            <field name="dt_actions_picking_pdf_only_done" />
+                            <label for="dt_actions_picking_pdf_only_done" string="Only finished deliveries (done)" />
+                        </div>
+                        <div class="content-group">
+                            <field name="dt_actions_picking_pdf_only_cancel" />
+                            <label for="dt_actions_picking_pdf_only_cancel" string="Only cancelled deliveries" />
+                        </div>
+                        <div class="content-group" invisible="not dt_actions_picking_pdf_active">
+                            <label for="dt_actions_picking_pdf_nextcall" string="Next execution" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_picking_pdf_nextcall" class="oe_inline" />
+                        </div>
+                    </setting>
 
-                    <block title="Old messages cleanup" name="dt_actions_messages">
-                        <setting
-                            string="Old messages cleanup"
-                            help="Deletes old chatter messages (and their non-XML/ZIP attachments) on models matching the excluded-models list -- excluded models keep their full history."
-                        >
-                            <field name="dt_actions_messages_active" />
-                            <label for="dt_actions_messages_active" string="Enabled" />
-                            <field name="dt_actions_messages_dry_run" />
-                            <div class="content-group">
-                                <label for="dt_actions_messages_limit" string="Messages per run" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_messages_limit" class="oe_inline" />
-                            </div>
-                            <div class="content-group">
-                                <label for="dt_actions_messages_max_date_days" string="Older than (days)" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_messages_max_date_days" class="oe_inline" />
-                            </div>
-                            <div class="content-group">
-                                <label for="dt_actions_messages_pattern" string="Subject pattern (SQL LIKE, empty = all)" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_messages_pattern" class="oe_inline" />
-                            </div>
-                            <div class="content-group">
-                                <label for="dt_actions_messages_exclude_models" string="Excluded models" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_messages_exclude_models" class="oe_inline" />
-                            </div>
-                        </setting>
-                    </block>
+                    <setting
+                        string="Old messages cleanup"
+                        help="Deletes old chatter messages (and their non-XML/ZIP attachments), except on the models listed as excluded -- those keep their full history."
+                    >
+                        <field name="dt_actions_messages_active" />
+                        <div class="content-group">
+                            <field name="dt_actions_messages_dry_run" class="oe_inline" />
+                            <label for="dt_actions_messages_dry_run" string="Dry run (test mode, deletes nothing)" />
+                            <div class="text-muted">Test mode: the scheduled action only logs what it would delete, without deleting anything. Untick it to actually delete.</div>
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_messages_limit" string="Messages per run" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_messages_limit" class="oe_inline" />
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_messages_max_date_days" string="Older than (days)" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_messages_max_date_days" class="oe_inline" />
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_messages_pattern" string="Subject pattern" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_messages_pattern" class="oe_inline" placeholder="SQL LIKE, empty = all" />
+                        </div>
+                        <div class="content-group">
+                            <label for="dt_actions_messages_exclude_models" string="Excluded models" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_messages_exclude_models" class="oe_inline" />
+                        </div>
+                        <div class="content-group" invisible="not dt_actions_messages_active">
+                            <label for="dt_actions_messages_nextcall" string="Next execution" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_messages_nextcall" class="oe_inline" />
+                        </div>
+                    </setting>
 
-                    <block title="Duplicate contacts" name="dt_actions_merge_contacts">
-                        <setting
-                            string="Duplicate contacts"
-                            help="Merges duplicate individual contacts sharing the same email address. Performs the merge directly -- there is no dry-run mode."
-                        >
-                            <field name="dt_actions_merge_contacts_active" />
-                            <label for="dt_actions_merge_contacts_active" string="Enabled" />
-                            <div class="content-group">
-                                <label for="dt_actions_merge_contacts_limit" string="Contact groups per run" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_merge_contacts_limit" class="oe_inline" />
-                            </div>
-                        </setting>
-                    </block>
+                    <setting
+                        string="Duplicate contacts"
+                        help="Merges duplicate individual contacts sharing the same email address. Performs the merge directly -- there is no dry-run mode."
+                    >
+                        <field name="dt_actions_merge_contacts_active" />
+                        <div class="content-group">
+                            <label for="dt_actions_merge_contacts_limit" string="Contact groups per run" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_merge_contacts_limit" class="oe_inline" />
+                        </div>
+                        <div class="content-group" invisible="not dt_actions_merge_contacts_active">
+                            <label for="dt_actions_merge_contacts_nextcall" string="Next execution" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_merge_contacts_nextcall" class="oe_inline" />
+                        </div>
+                    </setting>
 
-                    <block title="Duplicate companies" name="dt_actions_merge_companies">
-                        <setting
-                            string="Duplicate companies"
-                            help="Merges duplicate companies sharing the same VAT number. Performs the merge directly -- there is no dry-run mode."
-                        >
-                            <field name="dt_actions_merge_companies_active" />
-                            <label for="dt_actions_merge_companies_active" string="Enabled" />
-                            <div class="content-group">
-                                <label for="dt_actions_merge_companies_limit" string="Company groups per run" class="col-lg-4 o_light_label" />
-                                <field name="dt_actions_merge_companies_limit" class="oe_inline" />
-                            </div>
-                        </setting>
-                    </block>
+                    <setting
+                        string="Duplicate companies"
+                        help="Merges duplicate companies sharing the same VAT number. Performs the merge directly -- there is no dry-run mode."
+                    >
+                        <field name="dt_actions_merge_companies_active" />
+                        <div class="content-group">
+                            <label for="dt_actions_merge_companies_limit" string="Company groups per run" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_merge_companies_limit" class="oe_inline" />
+                        </div>
+                        <div class="content-group" invisible="not dt_actions_merge_companies_active">
+                            <label for="dt_actions_merge_companies_nextcall" string="Next execution" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_merge_companies_nextcall" class="oe_inline" />
+                        </div>
+                    </setting>
 
-                    <block title="Missing reordering rules" name="dt_actions_reorder_rules">
-                        <setting
-                            string="Missing reordering rules"
-                            help="Creates stock reordering rules for storable products that have none. Requires the deltatech_auto_reorder_rule module. No other parameters."
-                        >
-                            <field name="dt_actions_reorder_rules_active" />
-                            <label for="dt_actions_reorder_rules_active" string="Enabled" />
-                        </setting>
-                    </block>
+                    <setting
+                        string="Missing reordering rules"
+                        help="Creates stock reordering rules for storable products that have none. Requires the deltatech_auto_reorder_rule module. No other parameters."
+                    >
+                        <field name="dt_actions_reorder_rules_active" />
+                        <div class="content-group" invisible="not dt_actions_reorder_rules_active">
+                            <label for="dt_actions_reorder_rules_nextcall" string="Next execution" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_reorder_rules_nextcall" class="oe_inline" />
+                        </div>
+                    </setting>
 
-                    <block title="Normalize company names" name="dt_actions_normalize_names">
-                        <setting
-                            string="Normalize company names"
-                            help="Standardizes legal-form suffixes in company names (e.g. srl -&gt; S.R.L., sa -&gt; S.A., pfa -&gt; P.F.A., ii -&gt; I.I.). Processes up to 500 records per run. No other parameters."
-                        >
-                            <field name="dt_actions_normalize_names_active" />
-                            <label for="dt_actions_normalize_names_active" string="Enabled" />
-                        </setting>
-                    </block>
-                </app>
+                    <setting
+                        string="Normalize company names"
+                        help="Standardizes legal-form suffixes in company names (e.g. srl -&gt; S.R.L., sa -&gt; S.A., pfa -&gt; P.F.A., ii -&gt; I.I.). Processes up to 500 records per run. No other parameters."
+                    >
+                        <field name="dt_actions_normalize_names_active" />
+                        <div class="content-group" invisible="not dt_actions_normalize_names_active">
+                            <label for="dt_actions_normalize_names_nextcall" string="Next execution" class="col-lg-4 o_light_label" />
+                            <field name="dt_actions_normalize_names_nextcall" class="oe_inline" />
+                        </div>
+                    </setting>
+                </block>
             </xpath>
         </field>
     </record>

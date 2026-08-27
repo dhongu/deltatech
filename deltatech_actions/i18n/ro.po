@@ -4,17 +4,66 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0+e\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:23+0000\n"
-"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-08-27 10:30+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);\n"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "AWB label cleanup"
+msgstr "Curățare etichete AWB"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Attachments per run"
+msgstr "Atașamente pe rulare"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_limit
+msgid "Attachments to delete (AWB label)"
+msgstr "Atașamente de șters (etichetă AWB)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_invoice_pdf_limit
+msgid "Attachments to delete (invoice PDF)"
+msgstr "Atașamente de șters (PDF factură)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_sale_pdf_limit
+msgid "Attachments to delete (sale order PDF)"
+msgstr "Atașamente de șters (PDF comandă de vânzare)"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"Clears the carrier AWB label PDF on old, finished deliveries -- it can grow "
+"into the largest single filestore consumer on a long-running instance. The "
+"label is regenerable from the carrier's API on demand as long as the "
+"shipment is still on file there; confirm the retention window with your "
+"carrier(s) before enabling this."
+msgstr ""
+"Șterge PDF-ul etichetei AWB de pe livrările vechi, finalizate — pe o "
+"instanță veche poate deveni cel mai mare consumator de spațiu din filestore."
+" Eticheta se poate regenera la cerere din API-ul curierului, cât timp "
+"expediția mai există la el; confirmă perioada de păstrare cu curierii tăi "
+"înainte de a activa această curățare."
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Company groups per run"
+msgstr "Grupuri de companii pe rulare"
+
+#. module: deltatech_actions
+#: model:ir.model,name:deltatech_actions.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
 
 #. module: deltatech_actions
 #: model:ir.model,name:deltatech_actions.model_res_partner
@@ -22,9 +71,9 @@ msgid "Contact"
 msgstr "Contact"
 
 #. module: deltatech_actions
-#: model:ir.model,website_form_label:deltatech_actions.model_res_partner
-msgid "Create a Customer"
-msgstr "Creează un client"
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Contact groups per run"
+msgstr "Grupuri de contacte pe rulare"
 
 #. module: deltatech_actions
 #: model:ir.actions.server,name:deltatech_actions.ir_cron_create_missing_reordering_rules_ir_actions_server
@@ -35,13 +84,27 @@ msgstr "Creează regulile de reaprovizionare lipsă (0/0)"
 #. odoo-python
 #: code:addons/deltatech_actions/models/product.py:0
 msgid "Created %s missing rules"
-msgstr "S-au creat %s reguli lipsă"
+msgstr "Au fost create %s reguli lipsă"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"Creates stock reordering rules for storable products that have none. "
+"Requires the deltatech_auto_reorder_rule module. No other parameters."
+msgstr ""
+"Creează reguli de reaprovizionare pentru produsele stocabile care nu au "
+"niciuna. Necesită modulul deltatech_auto_reorder_rule. Fără alți parametri."
 
 #. module: deltatech_actions
 #. odoo-python
 #: code:addons/deltatech_actions/models/res_partner.py:0
 msgid "Cron job: Au fost normalizate %s nume de companii"
 msgstr "Cron job: Au fost normalizate %s nume de companii"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Database Cleanup"
+msgstr "Curățare bază de date"
 
 #. module: deltatech_actions
 #: model:ir.actions.server,name:deltatech_actions.ir_cron_delete_xml_attachments_ir_actions_server
@@ -51,7 +114,7 @@ msgstr "Șterge atașamentele XML duplicate"
 #. module: deltatech_actions
 #: model:ir.actions.server,name:deltatech_actions.ir_cron_delete_mail_messages_ir_actions_server
 msgid "Delete mail messages"
-msgstr "Șterge mesajele de e-mail"
+msgstr "Șterge mesajele din chatter"
 
 #. module: deltatech_actions
 #: model:ir.actions.server,name:deltatech_actions.ir_cron_delete_pdf_attachments_invoice_ir_actions_server
@@ -61,7 +124,7 @@ msgstr "Șterge atașamentele PDF ale facturilor"
 #. module: deltatech_actions
 #: model:ir.actions.server,name:deltatech_actions.ir_cron_delete_pdf_attachments_stock_picking_ir_actions_server
 msgid "Delete pdf pickings attachments"
-msgstr "Șterge atașamentele PDF ale operațiilor de stoc"
+msgstr "Șterge atașamentele PDF ale livrărilor"
 
 #. module: deltatech_actions
 #: model:ir.actions.server,name:deltatech_actions.ir_cron_delete_pdf_attachments_sale_order_ir_actions_server
@@ -69,14 +132,100 @@ msgid "Delete pdf sale order attachments"
 msgstr "Șterge atașamentele PDF ale comenzilor de vânzare"
 
 #. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Deletes duplicate EDI/UBL XML attachments on invoices."
+msgstr "Șterge atașamentele XML (EDI/UBL) duplicate de pe facturi."
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"Deletes old auto-generated invoice PDFs, including the ones attached to the "
+"outgoing email message rather than to the invoice itself."
+msgstr ""
+"Șterge PDF-urile de factură generate automat, inclusiv pe cele atașate "
+"mesajului de email trimis, nu facturii în sine."
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Deletes old auto-generated sale order/quotation PDFs."
+msgstr ""
+"Șterge PDF-urile generate automat pentru comenzi de vânzare și oferte."
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"Deletes old chatter messages (and their non-XML/ZIP attachments), except on "
+"the models listed as excluded -- those keep their full history."
+msgstr ""
+"Șterge mesajele vechi din chatter (și atașamentele lor care nu sunt "
+"XML/ZIP), cu excepția modelelor trecute ca excluse — acelea își păstrează "
+"întreg istoricul."
+
+#. module: deltatech_actions
 #: model:ir.model.fields,field_description:deltatech_actions.field_account_move__display_name
 #: model:ir.model.fields,field_description:deltatech_actions.field_mail_message__display_name
 #: model:ir.model.fields,field_description:deltatech_actions.field_product_product__display_name
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:deltatech_actions.field_res_partner__display_name
 #: model:ir.model.fields,field_description:deltatech_actions.field_sale_order__display_name
 #: model:ir.model.fields,field_description:deltatech_actions.field_stock_picking__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_dry_run
+msgid "Dry run (AWB label)"
+msgstr "Rulare de test (etichetă AWB)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_xml_dry_run
+msgid "Dry run (XML)"
+msgstr "Rulare de test (XML)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_invoice_pdf_dry_run
+msgid "Dry run (invoice PDF)"
+msgstr "Rulare de test (PDF factură)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_messages_dry_run
+msgid "Dry run (messages)"
+msgstr "Rulare de test (mesaje)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_sale_pdf_dry_run
+msgid "Dry run (sale order PDF)"
+msgstr "Rulare de test (PDF comandă de vânzare)"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Dry run (test mode, deletes nothing)"
+msgstr "Rulare de test (nu șterge nimic)"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Duplicate XML attachments"
+msgstr "Atașamente XML duplicate"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Duplicate companies"
+msgstr "Companii duplicate"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_merge_companies_limit
+msgid "Duplicate company groups per run"
+msgstr "Grupuri de companii duplicate pe rulare"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_merge_contacts_limit
+msgid "Duplicate contact groups per run"
+msgstr "Grupuri de contacte duplicate pe rulare"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Duplicate contacts"
+msgstr "Contacte duplicate"
 
 #. module: deltatech_actions
 #. odoo-python
@@ -85,15 +234,71 @@ msgid "EROARE - Normalizare companii - Cron Job"
 msgstr "EROARE - Normalizare companii - Cron Job"
 
 #. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_active
+msgid "Enable AWB label cleanup"
+msgstr "Activează curățarea etichetelor AWB"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_normalize_names_active
+msgid "Enable company name normalization"
+msgstr "Activează normalizarea numelor de companii"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_xml_active
+msgid "Enable duplicate XML attachments cleanup"
+msgstr "Activează curățarea atașamentelor XML duplicate"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_merge_companies_active
+msgid "Enable duplicate companies merge"
+msgstr "Activează îmbinarea companiilor duplicate"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_merge_contacts_active
+msgid "Enable duplicate contacts merge"
+msgstr "Activează îmbinarea contactelor duplicate"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_invoice_pdf_active
+msgid "Enable invoice PDF cleanup"
+msgstr "Activează curățarea PDF-urilor de factură"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_reorder_rules_active
+msgid "Enable missing reordering rules cron"
+msgstr "Activează acțiunea pentru regulile de reaprovizionare lipsă"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_messages_active
+msgid "Enable old messages cleanup"
+msgstr "Activează curățarea mesajelor vechi"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_sale_pdf_active
+msgid "Enable sale order PDF cleanup"
+msgstr "Activează curățarea PDF-urilor de comandă de vânzare"
+
+#. module: deltatech_actions
 #. odoo-python
 #: code:addons/deltatech_actions/models/res_partner.py:0
 msgid "Eroare în normalizarea companiilor: %s"
 msgstr "Eroare în normalizarea companiilor: %s"
 
 #. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Excluded models"
+msgstr "Modele excluse"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_messages_exclude_models
+msgid "Excluded models (messages, comma-separated SQL LIKE patterns)"
+msgstr "Modele excluse (mesaje, modele SQL LIKE separate prin virgulă)"
+
+#. module: deltatech_actions
 #: model:ir.model.fields,field_description:deltatech_actions.field_account_move__id
 #: model:ir.model.fields,field_description:deltatech_actions.field_mail_message__id
 #: model:ir.model.fields,field_description:deltatech_actions.field_product_product__id
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__id
 #: model:ir.model.fields,field_description:deltatech_actions.field_res_partner__id
 #: model:ir.model.fields,field_description:deltatech_actions.field_sale_order__id
 #: model:ir.model.fields,field_description:deltatech_actions.field_stock_picking__id
@@ -101,24 +306,162 @@ msgid "ID"
 msgstr "ID"
 
 #. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Invoice PDF cleanup"
+msgstr "Curățare PDF-uri de factură"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Invoices per run"
+msgstr "Facturi pe rulare"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_xml_limit
+msgid "Invoices to process (XML)"
+msgstr "Facturi de procesat (XML)"
+
+#. module: deltatech_actions
 #: model:ir.model,name:deltatech_actions.model_account_move
 msgid "Journal Entry"
 msgstr "Notă contabilă"
 
 #. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_xml_max_delete
+msgid "Max attachments to delete per invoice (XML)"
+msgstr "Atașamente maxime de șters pe factură (XML)"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Max deletions per invoice"
+msgstr "Ștergeri maxime pe factură"
+
+#. module: deltatech_actions
 #: model:ir.actions.server,name:deltatech_actions.ir_cron_merge_companies_ir_actions_server
 msgid "Merge duplicate companies by VAT"
-msgstr "Combină companiile duplicate după CUI"
+msgstr "Îmbină companiile duplicate după codul de TVA"
 
 #. module: deltatech_actions
 #: model:ir.actions.server,name:deltatech_actions.ir_cron_merge_contacts_ir_actions_server
 msgid "Merge duplicate contacts by email"
-msgstr "Combină contactele duplicate după e-mail"
+msgstr "Îmbină contactele duplicate după email"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"Merges duplicate companies sharing the same VAT number. Performs the merge "
+"directly -- there is no dry-run mode."
+msgstr ""
+"Îmbină companiile duplicate care au același cod de TVA. Îmbinarea se face "
+"direct — nu există mod de test."
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"Merges duplicate individual contacts sharing the same email address. "
+"Performs the merge directly -- there is no dry-run mode."
+msgstr ""
+"Îmbină contactele individuale duplicate care au aceeași adresă de email. "
+"Îmbinarea se face direct — nu există mod de test."
 
 #. module: deltatech_actions
 #: model:ir.model,name:deltatech_actions.model_mail_message
 msgid "Message"
 msgstr "Mesaj"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Messages per run"
+msgstr "Mesaje pe rulare"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_messages_limit
+msgid "Messages to delete"
+msgstr "Mesaje de șters"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Minimum duplicates"
+msgstr "Duplicate minime"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_xml_duplicates
+msgid "Minimum duplicates (XML)"
+msgstr "Duplicate minime (XML)"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Missing reordering rules"
+msgstr "Reguli de reaprovizionare lipsă"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Name pattern"
+msgstr "Model de nume"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_pattern
+msgid "Name pattern (AWB label)"
+msgstr "Model de nume (etichetă AWB)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_invoice_pdf_pattern
+msgid "Name pattern (invoice PDF)"
+msgstr "Model de nume (PDF factură)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_sale_pdf_pattern
+msgid "Name pattern (sale order PDF)"
+msgstr "Model de nume (PDF comandă de vânzare)"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Next execution"
+msgstr "Următoarea execuție"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_nextcall
+msgid "Next execution (AWB label)"
+msgstr "Următoarea execuție (etichetă AWB)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_xml_nextcall
+msgid "Next execution (XML)"
+msgstr "Următoarea execuție (XML)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_merge_companies_nextcall
+msgid "Next execution (companies merge)"
+msgstr "Următoarea execuție (îmbinare companii)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_normalize_names_nextcall
+msgid "Next execution (company names)"
+msgstr "Următoarea execuție (nume de companii)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_merge_contacts_nextcall
+msgid "Next execution (contacts merge)"
+msgstr "Următoarea execuție (îmbinare contacte)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_invoice_pdf_nextcall
+msgid "Next execution (invoice PDF)"
+msgstr "Următoarea execuție (PDF factură)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_messages_nextcall
+msgid "Next execution (messages)"
+msgstr "Următoarea execuție (mesaje)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_reorder_rules_nextcall
+msgid "Next execution (reordering rules)"
+msgstr "Următoarea execuție (reguli de reaprovizionare)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_sale_pdf_nextcall
+msgid "Next execution (sale order PDF)"
+msgstr "Următoarea execuție (PDF comandă de vânzare)"
 
 #. module: deltatech_actions
 #. odoo-python
@@ -128,8 +471,56 @@ msgstr "Normalizare companii - Cron Job"
 
 #. module: deltatech_actions
 #: model:ir.actions.server,name:deltatech_actions.cron_normalize_company_names_ir_actions_server
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
 msgid "Normalize company names"
 msgstr "Normalizează numele companiilor"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Old messages cleanup"
+msgstr "Curățare mesaje vechi"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Older than (days)"
+msgstr "Mai vechi de (zile)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_max_date_days
+msgid "Older than (days, AWB label)"
+msgstr "Mai vechi de (zile, etichetă AWB)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_xml_max_date_days
+msgid "Older than (days, XML)"
+msgstr "Mai vechi de (zile, XML)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_invoice_pdf_max_date_days
+msgid "Older than (days, invoice PDF)"
+msgstr "Mai vechi de (zile, PDF factură)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_messages_max_date_days
+msgid "Older than (days, messages)"
+msgstr "Mai vechi de (zile, mesaje)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_sale_pdf_max_date_days
+msgid "Older than (days, sale order PDF)"
+msgstr "Mai vechi de (zile, PDF comandă de vânzare)"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_only_cancel
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Only cancelled deliveries"
+msgstr "Doar livrările anulate"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_only_done
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Only finished deliveries (done)"
+msgstr "Doar livrările finalizate (efectuate)"
 
 #. module: deltatech_actions
 #: model:ir.model,name:deltatech_actions.model_product_product
@@ -137,9 +528,49 @@ msgid "Product Variant"
 msgstr "Variantă produs"
 
 #. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "SQL LIKE, empty = all"
+msgstr "SQL LIKE, gol = toate"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Sale order PDF cleanup"
+msgstr "Curățare PDF-uri de comandă de vânzare"
+
+#. module: deltatech_actions
 #: model:ir.model,name:deltatech_actions.model_sale_order
 msgid "Sales Order"
 msgstr "Comandă de vânzare"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"Standardizes legal-form suffixes in company names (e.g. srl -> S.R.L., sa ->"
+" S.A., pfa -> P.F.A., ii -> I.I.). Processes up to 500 records per run. No "
+"other parameters."
+msgstr ""
+"Standardizează sufixele formei juridice din numele companiilor (ex. srl -> "
+"S.R.L., sa -> S.A., pfa -> P.F.A., ii -> I.I.). Procesează până la 500 "
+"înregistrări pe rulare. Fără alți parametri."
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Subject pattern"
+msgstr "Model de subiect"
+
+#. module: deltatech_actions
+#: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_messages_pattern
+msgid "Subject pattern (messages)"
+msgstr "Model de subiect (mesaje)"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"Test mode: the scheduled action only logs what it would delete, without "
+"deleting anything. Untick it to actually delete."
+msgstr ""
+"Mod de test: acțiunea programată doar înregistrează în jurnal ce ar șterge, "
+"fără să șteargă efectiv. Debifează pentru ștergere reală."
 
 #. module: deltatech_actions
 #: model:ir.model,name:deltatech_actions.model_stock_picking
