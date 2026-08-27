@@ -1,3 +1,22 @@
+## 19.0.0.8.0
+
+- Fixes a risk introduced in 19.0.0.7.0: the auto-vacuum hooks could get Odoo's
+  own auto-vacuum job deactivated. `_run_vacuum_cleaner` reports progress as
+  `_commit_progress()` with no arguments, so the cron's `done` counter stays at
+  zero however much the vacuum methods deleted; `ir.cron._process_job` then
+  treats a job as failed when it timed out `CONSECUTIVE_TIMEOUT_FOR_FAILURE`
+  times *and* `done` is zero, and `_update_failure_count` deactivates a cron
+  that failed 5 times over 7 days. A cleanup with a large backlog is exactly
+  what pushes the job over its time limit run after run -- and switching off
+  `base.autovacuum_job` would take `_gc_file_store` and every other core vacuum
+  with it. The hooks now report the real batch size, which keeps `done`
+  non-zero and makes that verdict impossible.
+- The hooks also stop asking to be requeued when the run has less time left than
+  one and a half times the batch just done, so a batch is never cut off partway.
+  Observed on a staging build: three consecutive auto-vacuum runs at 15:13,
+  15:17 and 15:33 with `timed_out_counter` climbing 1, 2 -- one short of the
+  failure threshold.
+
 ## 19.0.0.7.0
 
 - The invoice, sale order and AWB label cleanups can now also run from Odoo's daily

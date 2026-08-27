@@ -39,19 +39,59 @@ def autovacuum_run(model, from_settings, limit_param):
     is set, which is what a staging database does in its own neutralize.sql.
 
     Returns ``(done, remaining)`` -- the shape ``_run_vacuum_cleaner`` uses to
-    requeue a method inside the same run, so a large backlog is cleared in one
-    pass instead of one batch per day, within the cron's own time budget.
+    requeue a method inside the same run, so a large backlog is cleared over
+    consecutive batches instead of one per day.
+
+    Two things guard the autovacuum job itself, and they are not optional.
+
+    ``_run_vacuum_cleaner`` reports progress as ``_commit_progress()`` -- with no
+    arguments, so ``processed`` is 0 and the cron's ``done`` counter stays at
+    zero no matter how much work the vacuum methods did. Meanwhile
+    ``ir.cron._process_job`` treats a job as failed when
+    ``timed_out_counter >= CONSECUTIVE_TIMEOUT_FOR_FAILURE and not job['done']``,
+    and ``_update_failure_count`` deactivates a cron that failed 5 times over 7
+    days. A cleanup with a large backlog is exactly what pushes the job over its
+    time limit, run after run -- so left alone it could get Odoo's own
+    autovacuum switched off, taking ``_gc_file_store`` and every other core
+    vacuum with it. Reporting the real count keeps ``done`` non-zero, which
+    makes that verdict impossible.
+
+    And the requeue only happens while there is comfortably time for another
+    batch of the same size, measured on the batch just done, so the method stops
+    asking for more work instead of being cut off mid-run.
     """
+    import time  # noqa: PLC0415 -- keep this module importable without Odoo
+
     from odoo.tools import str2bool  # noqa: PLC0415 -- avoids an import cycle at module load
 
     icp = model.env["ir.config_parameter"].sudo()
     if not str2bool(icp.get_param("deltatech_actions.autovacuum_enabled", "False")):
         return None
     limit = int(icp.get_param(limit_param, 5000))
+
+    start = time.monotonic()
     summary = getattr(model, from_settings)() or {}
+    elapsed = time.monotonic() - start
     count = summary.get("count") or 0
+
+    # Report the batch on the cron (see the docstring: this is what keeps the
+    # autovacuum job from being deactivated) and read how long the run has left.
+    # Only when actually running inside a cron: outside one there is no progress
+    # record and no time limit, and _commit_progress() would commit the caller's
+    # transaction -- surprising from a shell, and forbidden in a test.
+    if model.env.context.get("ir_cron_progress_id"):
+        time_left = model.env["ir.cron"]._commit_progress(count)
+    else:
+        time_left = float("inf")
+
     # A dry run selects the same rows on every call, so it must never ask to be
-    # requeued -- the autovacuum job would spin on it until the cron runs out of
+    # requeued -- the autovacuum job would spin on it until the cron ran out of
     # time, starving the other vacuum methods.
-    remaining = bool(count >= limit and not summary.get("dry_run"))
+    remaining = bool(
+        count >= limit
+        and not summary.get("dry_run")
+        # Half again the time this batch took: enough headroom that the next one
+        # finishes inside the run rather than being killed partway.
+        and time_left > elapsed * 1.5
+    )
     return count, remaining

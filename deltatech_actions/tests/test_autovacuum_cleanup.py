@@ -10,6 +10,7 @@ therefore the only order-independent way a restored copy can tidy itself up.
 
 import base64
 from datetime import datetime, timedelta
+from unittest.mock import patch
 
 from odoo.tests.common import TransactionCase, tagged
 
@@ -76,6 +77,54 @@ class TestAutovacuumCleanup(TransactionCase):
         self.assertEqual(done, 1)
         self.assertFalse(remaining, "a dry run must never report work remaining")
         self.assertTrue(att.exists(), "a dry run must not delete")
+
+    def test_reports_the_batch_on_the_cron(self):
+        """_run_vacuum_cleaner reports progress as _commit_progress() with no
+        arguments, so the cron's `done` counter stays at zero however much the
+        vacuum methods deleted. ir.cron._process_job then treats a job as failed
+        when it timed out CONSECUTIVE_TIMEOUT_FOR_FAILURE times *and* done is
+        zero, and _update_failure_count deactivates a cron that failed 5 times
+        over 7 days -- which would switch Odoo's own autovacuum off, taking
+        _gc_file_store with it. Reporting the real count makes that impossible.
+        """
+        self.icp.set_param("deltatech_actions.autovacuum_enabled", "True")
+        self.icp.set_param("deltatech_actions.sale_pdf_dry_run", "False")
+        self.icp.set_param("deltatech_actions.sale_pdf_limit", "5")
+        self.icp.set_param("deltatech_actions.sale_pdf_max_date_days", "90")
+        self._old_pdf("Oferta - S0005.pdf")
+        reported = []
+
+        def spy(cron_self, processed=0, **kwargs):
+            # Does not call through: the real _commit_progress() commits, which a
+            # test cursor forbids.
+            reported.append(processed)
+            return float("inf")
+
+        # ir_cron_progress_id in the context is how the hook knows it is inside a
+        # cron run; without it there is nothing to report progress to.
+        orders = self.env["sale.order"].with_context(ir_cron_progress_id=1, cron_id=1)
+        with patch.object(type(self.env["ir.cron"]), "_commit_progress", spy):
+            done, _remaining = orders._gc_generated_pdfs()
+
+        self.assertEqual(done, 1)
+        self.assertEqual(reported, [1], "the batch size must reach the cron's progress counter")
+
+    def test_no_requeue_when_the_run_is_nearly_out_of_time(self):
+        """Asking for a requeue with seconds left only gets the next batch killed
+        partway, and pushes the job over its time limit."""
+        self.icp.set_param("deltatech_actions.autovacuum_enabled", "True")
+        self.icp.set_param("deltatech_actions.sale_pdf_dry_run", "False")
+        self.icp.set_param("deltatech_actions.sale_pdf_limit", "1")
+        self.icp.set_param("deltatech_actions.sale_pdf_max_date_days", "90")
+        self._old_pdf("Oferta - S0006.pdf")
+        self._old_pdf("Oferta - S0007.pdf")
+
+        orders = self.env["sale.order"].with_context(ir_cron_progress_id=1, cron_id=1)
+        with patch.object(type(self.env["ir.cron"]), "_commit_progress", lambda *a, **kw: 0.0):
+            done, remaining = orders._gc_generated_pdfs()
+
+        self.assertEqual(done, 1, "the batch still runs")
+        self.assertFalse(remaining, "must not ask for another batch with no time left")
 
     def test_hooks_are_registered_as_autovacuum(self):
         """_run_vacuum_cleaner finds these only through the decorator."""
