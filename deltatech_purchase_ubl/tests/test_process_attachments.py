@@ -157,3 +157,74 @@ class TestProcessAttachmentsForPost(TransactionCase):
             products_before,
             "No new product should have been created",
         )
+
+    def test_unmatched_line_schedules_activity_instead_of_silent_chatter_note(self):
+        """Tichet #9287 (continuare): a plain chatter note is easy to miss among the SPV
+        cron's other automated traffic — an unmatched line (or a total mismatch) must
+        surface as a to-do activity on the purchase order, not just as log text."""
+        po = self.env["purchase.order"].create(
+            {
+                "partner_id": self.vendor.id,
+                "company_id": self.company.id,
+                "date_order": "2025-01-01 00:00:00",
+                "partner_ref": "ATT-EXT-PO-REF-WARN",
+            }
+        )
+        xml = _xml_invoice(order_ref=po.name)
+        att = self.env["ir.attachment"].create(
+            {
+                "name": "invoice_attach_warning.xml",
+                "datas": b64encode(xml),
+                "mimetype": "application/xml",
+                "res_model": "purchase.order",
+                "res_id": po.id,
+            }
+        )
+
+        po.with_context(purchase_ubl_no_new_products=True)._process_attachments_for_post([], [att.id], {})
+
+        activities = po.activity_ids.filtered(lambda a: a.summary == "SPV import needs review")
+        self.assertTrue(activities, "An unmatched line must schedule a review activity on the PO")
+
+        # Reprocessing the same attachment (the SPV cron is known to retry) must not pile up
+        # duplicate activities.
+        po.with_context(purchase_ubl_no_new_products=True)._process_attachments_for_post([], [att.id], {})
+        activities_after = po.activity_ids.filtered(lambda a: a.summary == "SPV import needs review")
+        self.assertEqual(len(activities_after), 1, "Reprocessing must not create duplicate review activities")
+
+    def test_matched_import_does_not_schedule_activity(self):
+        """A clean import (everything matched, totals agree) must not create noise."""
+        po = self.env["purchase.order"].create(
+            {
+                "partner_id": self.vendor.id,
+                "company_id": self.company.id,
+                "date_order": "2025-01-01 00:00:00",
+                "partner_ref": "ATT-EXT-PO-REF-CLEAN",
+            }
+        )
+        existing_product = self.env["product.product"].create({"name": "Matched Product", "type": "consu"})
+        self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.vendor.id,
+                "product_tmpl_id": existing_product.product_tmpl_id.id,
+                "product_id": existing_product.id,
+                "product_code": "VEND-ATT-NEW",
+            }
+        )
+        xml = _xml_invoice(order_ref=po.name)
+        att = self.env["ir.attachment"].create(
+            {
+                "name": "invoice_attach_clean.xml",
+                "datas": b64encode(xml),
+                "mimetype": "application/xml",
+                "res_model": "purchase.order",
+                "res_id": po.id,
+            }
+        )
+
+        po._process_attachments_for_post([], [att.id], {})
+
+        self.assertFalse(
+            po.activity_ids.filtered(lambda a: a.summary == "SPV import needs review"),
+            "A fully matched import must not schedule a review activity",
+        )

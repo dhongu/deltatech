@@ -67,9 +67,26 @@ class PurchaseOrder(models.Model):
                     )
                     wiz = wiz.with_context(active_model="purchase.order", active_id=order.id)
                     wiz.action_import()
-                    # Optional: post log on PO for traceability
-                    if wiz.log:
-                        order.message_post(body=wiz.log)
+                    # Post the color-coded log (matched/updated lines in green, mismatches
+                    # and unmatched lines in red/orange) so the warning stands out in the
+                    # chatter instead of blending into a wall of plain text (tichet #9287).
+                    if wiz.log_html:
+                        order.message_post(body=wiz.log_html)
+                    # A chatter note alone gets buried among the automated SPV cron's other
+                    # traffic (tichet #9287: a total mismatch and 4 unmatched lines sat
+                    # unnoticed in the chatter for hours). Schedule a visible to-do instead,
+                    # so a total mismatch or unmatched line surfaces on the buyer's activities.
+                    # Guarded on summary to avoid piling up duplicates when the SPV cron
+                    # reprocesses the same message (observed ~10x in one morning).
+                    if wiz.has_warning:
+                        summary = self.env._("SPV import needs review")
+                        if not order.activity_ids.filtered(lambda a: a.summary == summary):
+                            order.activity_schedule(
+                                "mail.mail_activity_data_todo",
+                                summary=summary,
+                                note=wiz.log_html or wiz.log,
+                                user_id=order.user_id.id or self.env.uid,
+                            )
                 except Exception:
                     # Swallow exceptions to not break message posting; errors will be visible in server logs
                     continue
