@@ -9,6 +9,12 @@
             <xpath expr="//app[@name='general_settings']" position="inside">
                 <block title="Database Cleanup" name="dt_actions_cleanup" groups="base.group_system">
                     <setting
+                        string="Run cleanups from the auto-vacuum job"
+                        help="For restored copies (staging). Neutralization switches every scheduled action off except Odoo's auto-vacuum job, so a copy cannot tidy itself up through the crons below. Ticking this makes the invoice, sale order and AWB label cleanups run from the auto-vacuum job as well, honouring the same thresholds and dry run settings. Leave it off on a production database."
+                    >
+                        <field name="dt_actions_autovacuum" />
+                    </setting>
+                    <setting
                         string="Duplicate XML attachments"
                         help="Deletes duplicate EDI/UBL XML attachments on invoices."
                     >
