@@ -36,6 +36,7 @@ CRON_NEXTCALL_FIELDS = {
 # on a falsy value -- so the next get_param(key, "True") read brings the default back
 # and unticking never took effect. They are read and written explicitly instead.
 BOOL_PARAM_FIELDS = {
+    "dt_actions_autovacuum": "deltatech_actions.autovacuum_enabled",
     "dt_actions_xml_dry_run": "deltatech_actions.xml_dry_run",
     "dt_actions_invoice_pdf_dry_run": "deltatech_actions.invoice_pdf_dry_run",
     "dt_actions_sale_pdf_dry_run": "deltatech_actions.sale_pdf_dry_run",
@@ -43,6 +44,14 @@ BOOL_PARAM_FIELDS = {
     "dt_actions_messages_dry_run": "deltatech_actions.messages_dry_run",
     "dt_actions_picking_pdf_only_done": "deltatech_actions.picking_pdf_only_done",
     "dt_actions_picking_pdf_only_cancel": "deltatech_actions.picking_pdf_only_cancel",
+}
+
+
+# Most boolean parameters default to on (a dry run that has never been configured must
+# not delete anything). The autovacuum switch is the opposite: it makes cleanups run
+# outside their own crons, so it stays off until someone asks for it.
+BOOL_PARAM_DEFAULTS = {
+    "deltatech_actions.autovacuum_enabled": "False",
 }
 
 
@@ -71,6 +80,15 @@ class ResConfigSettings(models.TransientModel):
     dt_actions_reorder_rules_active = fields.Boolean(string="Enable missing reordering rules cron")
     dt_actions_normalize_names_active = fields.Boolean(string="Enable company name normalization")
 
+    dt_actions_autovacuum = fields.Boolean(
+        string="Also run the PDF cleanups from the auto-vacuum job",
+        help="Runs the invoice, sale order and AWB label cleanups from Odoo's daily "
+        "auto-vacuum job, on top of their own crons. Meant for restored copies "
+        "(staging): neutralization switches every cron off except the auto-vacuum "
+        "one, so this is the only way a copy can tidy itself up. Each cleanup still "
+        "obeys its own thresholds and dry run setting.",
+    )
+
     dt_actions_xml_nextcall = fields.Datetime(string="Next execution (XML)")
     dt_actions_invoice_pdf_nextcall = fields.Datetime(string="Next execution (invoice PDF)")
     dt_actions_sale_pdf_nextcall = fields.Datetime(string="Next execution (sale order PDF)")
@@ -92,7 +110,7 @@ class ResConfigSettings(models.TransientModel):
             res[field_name] = cron.sudo().nextcall if cron else False
         icp = self.env["ir.config_parameter"].sudo()
         for field_name, key in BOOL_PARAM_FIELDS.items():
-            res[field_name] = str2bool(icp.get_param(key, "True"))
+            res[field_name] = str2bool(icp.get_param(key, BOOL_PARAM_DEFAULTS.get(key, "True")))
         return res
 
     def set_values(self):

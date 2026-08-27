@@ -10,13 +10,20 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, models
 from odoo.tools import str2bool
 
-from .cleanup_summary import log_prefix, rows_summary
+from .cleanup_summary import autovacuum_run, log_prefix, rows_summary
+
+PREFIX = "deltatech_actions."
 
 _logger = logging.getLogger(__name__)
 
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
+
+    @api.autovacuum
+    def _gc_generated_pdfs(self):
+        """Run the sale order PDF cleanup from the autovacuum job -- see autovacuum_run()."""
+        return autovacuum_run(self, "cron_clean_generated_pdfs_from_settings", PREFIX + "sale_pdf_limit")
 
     @api.model
     def cron_clean_generated_pdfs_from_settings(self):

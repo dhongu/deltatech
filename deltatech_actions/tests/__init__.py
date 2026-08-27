@@ -8,3 +8,4 @@ from . import test_res_partner
 from . import test_cron_from_settings
 from . import test_run_now_button
 from . import test_cron_code_parameterless
+from . import test_autovacuum_cleanup

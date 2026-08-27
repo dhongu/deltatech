@@ -1,3 +1,21 @@
+## 19.0.0.7.0
+
+- The invoice, sale order and AWB label cleanups can now also run from Odoo's daily
+  auto-vacuum job, controlled by a new switch in Settings > General Settings >
+  Database Cleanup ("Run cleanups from the auto-vacuum job"), off by default.
+  This exists for restored copies: `base/data/neutralize.sql` switches *every*
+  cron off except `base.autovacuum_job`, so a neutralized staging database cannot
+  tidy itself up through the crons. Another module's `neutralize.sql` cannot switch
+  a cron back on either -- `neutralize_database()` iterates the installed modules in
+  the arbitrary order Postgres returns them, so `base`'s blanket disable may run
+  last and undo it. Hanging the cleanup off the auto-vacuum job is the only
+  order-independent way.
+- Each hook returns `(done, remaining)`, the shape `_run_vacuum_cleaner` uses to
+  requeue a method within the same run, so a large backlog is cleared in one pass
+  instead of one batch per day -- inside the cron's own time budget. A dry run never
+  reports work remaining: it selects the same rows every call, and would otherwise
+  spin until the cron ran out of time, starving the other vacuum methods.
+
 ## 19.0.0.6.0
 
 - Cron code no longer carries call arguments. The cleanup crons ship in a

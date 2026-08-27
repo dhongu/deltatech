@@ -135,6 +135,24 @@ state directly to <code class="border rounded px-2" style="font-family:ui-monosp
 </div>
 <div class="tab-pane fade py-2 text-body" id="tb-panel-versions" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.7.0</h2>
+<ul>
+<li>The invoice, sale order and AWB label cleanups can now also run from Odoo's daily
+  auto-vacuum job, controlled by a new switch in Settings &gt; General Settings &gt;
+  Database Cleanup ("Run cleanups from the auto-vacuum job"), off by default.
+  This exists for restored copies: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base/data/neutralize.sql</code> switches <em>every</em>
+  cron off except <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base.autovacuum_job</code>, so a neutralized staging database cannot
+  tidy itself up through the crons. Another module's <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">neutralize.sql</code> cannot switch
+  a cron back on either -- <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">neutralize_database()</code> iterates the installed modules in
+  the arbitrary order Postgres returns them, so <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base</code>'s blanket disable may run
+  last and undo it. Hanging the cleanup off the auto-vacuum job is the only
+  order-independent way.</li>
+<li>Each hook returns <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">(done, remaining)</code>, the shape <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_run_vacuum_cleaner</code> uses to
+  requeue a method within the same run, so a large backlog is cleared in one pass
+  instead of one batch per day -- inside the cron's own time budget. A dry run never
+  reports work remaining: it selects the same rows every call, and would otherwise
+  spin until the cron ran out of time, starving the other vacuum methods.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.6.0</h2>
 <ul>
 <li>Cron code no longer carries call arguments. The cleanup crons ship in a
