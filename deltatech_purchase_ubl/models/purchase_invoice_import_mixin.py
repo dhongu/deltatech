@@ -33,6 +33,10 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
 
     log = fields.Text(readonly=True)
     log_html = fields.Html(readonly=True, sanitize=True)
+    # Set alongside log/log_html when at least one result message is a mismatch or an
+    # unmatched line (see _classify_message) - lets a headless caller (the SPV auto-import)
+    # decide whether the run needs a human's attention, without re-parsing the log text.
+    has_warning = fields.Boolean(readonly=True)
 
     # ------------------------------------------------------------
     # Helpers
@@ -763,9 +767,9 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 % {"xml_vat": supplier_vat or "-", "po_vat": partner.vat or "-"}
             )
         if updated:
-            messages.append(_("Updated prices:\n") + "\n".join(updated))
+            messages.append(_("Identified products and updated prices for %s line(s).") % len(updated))
         if created:
-            messages.append(_("Created products:\n") + "\n".join(created))
+            messages.append(_("Created products (%s):\n") % len(created) + "\n".join(created))
         if order and updated_lines_count:
             messages.append(_("Updated %s purchase order lines from source document.") % updated_lines_count)
         if order and added_count:
@@ -788,6 +792,13 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
 
         self.log = "\n".join(messages)
         self.log_html = self._build_log_html(messages)
+        # Deliberately narrower than "any warning/danger-classified message": routine steps
+        # of an unattended import (bill creation skipped because the order isn't confirmed
+        # yet, no receipt to validate) also classify as "warning" via _classify_message's
+        # generic keywords, and would otherwise fire on every successful headless import.
+        # Only the two signals discussed on tichet #9287 count here: a total that doesn't
+        # add up, and lines the matcher couldn't place.
+        self.has_warning = bool((total_check and not total_check["matches"]) or (order and not_found))
         self.state = "done"
 
         action = {
