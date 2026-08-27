@@ -1,5 +1,10 @@
 # Image Optimizer
 
+Two related jobs on the same images: **recompress** them to reclaim filestore
+space, and **remove the ones stored twice**.
+
+## Recompression
+
 Recompresses oversized **original** image attachments (``image_1920`` and
 ``image_variant_1920`` by default) to reclaim filestore space.
 
@@ -54,6 +59,70 @@ SELECT pg_size_pretty(sum(sz)) FROM (
 Note also that the filestore grows *before* it shrinks: the new file is written
 while the old one is still referenced, and the space comes back only when the
 filestore GC runs (the scheduled action does it at the end of each pass).
+
+
+## Duplicated product images
+
+Finds `product.image` records whose content is **byte-identical** and removes the
+redundant ones. Odoo already computes a SHA1 checksum for every image attachment
+when it is written, so this reads that value instead of decoding images — the
+whole catalog is scanned with one indexed query.
+
+### The distinction that matters
+
+Two images with the same checksum are not automatically redundant:
+
+| Situation | Meaning | Action |
+| --- | --- | --- |
+| The same picture appears **twice on one product** | A genuine duplicate — the gallery shows the same thing twice. | Safe to remove. |
+| The same picture appears on **several products** | Usually a supplier feed shipping one generic photo for a whole range. | **Never removed** — each product needs its own copy, or it ends up with no image. |
+
+Both happen at once, and at scale. On a real catalog of 69 761 product images
+(19 959 distinct contents), **17 821 — 25.5% — were redundant inside a single
+product**, while 1 204 contents were legitimately shared across products. One
+single photo appeared 1 204 times over 565 products: 565 of those must stay.
+
+The wizard removes only the first kind. In each group of *(content, product,
+variant)* it keeps the image that comes first by `sequence, id` — the one the
+website shows first anyway — and deletes the rest. Records carrying a
+`video_url` are always kept, since the video is not a duplicate.
+
+The report shows both figures side by side, so the cross-product case stays
+visible as a data-quality signal instead of being silently deleted.
+
+### What it does not find
+
+Only identical content. The same photo re-exported, resized or recompressed has
+a different checksum and is reported as distinct — and this is not a corner
+case. On a product re-imported from Shopify in three passes, 22 images held only
+10 distinct pictures, yet the checksum matched on just one pair: the same
+1080×1080 shot came back at 62 KB, 76 KB and 77 KB because the source
+re-encoded it every time. Catching those needs perceptual hashing, which
+decodes every image and needs a similarity threshold.
+
+### Space
+
+Removing duplicates frees **catalog clutter, not much disk**. Odoo stores one
+file per checksum, so the copies already shared a single file; deleting them
+drops the `ir_attachment` rows. Use the recompression above for actual filestore
+savings.
+
+### Usage
+
+Website → Configuration → eCommerce → Products → **Duplicated Images**
+
+The list opens filtered on the removable groups. Select the ones you want and
+use **Remove Duplicated Images**, which shows exactly what will be deleted
+before it deletes anything. The same menu entry run without a selection works on
+the whole catalog.
+
+On install, the hook fills `image_checksum` with a single SQL `UPDATE` from
+`ir_attachment`. Computing it through the ORM would read every image out of the
+filestore. To refresh it later from the shell:
+
+```python
+env["product.image"]._dedup_backfill_checksums()
+```
 
 ## Configuration
 

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_product_image_duplicate_list" model="ir.ui.view">
+        <field name="name">deltatech.product.image.duplicate.list</field>
+        <field name="model">deltatech.product.image.duplicate</field>
+        <field name="arch" type="xml">
+            <list string="Duplicated Images" create="false" edit="false">
+                <field name="sample_image" widget="image" options="{'size': [64, 64]}" />
+                <field name="image_count" sum="Copies" />
+                <field name="product_count" sum="Products" />
+                <field name="removable_count" sum="Removable" decoration-warning="removable_count > 0" />
+                <field name="product_names" />
+                <field name="image_checksum" optional="hide" />
+                <button
+                    name="action_view_images"
+                    type="object"
+                    string="Images"
+                    icon="fa-external-link"
+                />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_product_image_duplicate_search" model="ir.ui.view">
+        <field name="name">deltatech.product.image.duplicate.search</field>
+        <field name="model">deltatech.product.image.duplicate</field>
+        <field name="arch" type="xml">
+            <search string="Duplicated Images">
+                <field name="product_names" string="Product" />
+                <field name="image_checksum" />
+                <filter
+                    name="removable"
+                    string="Removable"
+                    domain="[('removable_count', '>', 0)]"
+                    help="Copies that repeat inside the same product — safe to remove"
+                />
+                <filter
+                    name="shared_across_products"
+                    string="Shared Across Products"
+                    domain="[('product_count', '>', 1)]"
+                    help="The same picture used on several products — usually a feed problem, not something to delete"
+                />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_product_image_duplicate" model="ir.actions.act_window">
+        <field name="name">Duplicated Images</field>
+        <field name="res_model">deltatech.product.image.duplicate</field>
+        <field name="view_mode">list</field>
+        <field name="context">{'search_default_removable': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No duplicated product images</p>
+            <p>Every product image in the catalog has distinct content.</p>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_product_image_duplicate"
+        name="Duplicated Images"
+        parent="website_sale.menu_catalog"
+        action="action_product_image_duplicate"
+        groups="base.group_system"
+        sequence="90"
+    />
+
+    <record id="view_product_image_dedup_list" model="ir.ui.view">
+        <field name="name">product.image.dedup.list</field>
+        <field name="model">product.image</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <list string="Product Images" create="false">
+                <field name="image_1920" widget="image" options="{'size': [64, 64]}" />
+                <field name="name" />
+                <field name="product_tmpl_id" />
+                <field name="product_variant_id" optional="hide" />
+                <field name="sequence" optional="hide" />
+                <field name="duplicate_count" />
+                <field name="image_checksum" optional="hide" />
+            </list>
+        </field>
+    </record>
+
+</odoo>
