@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
+from odoo.tools import str2bool
 
 # Field name -> xmlid of the ir.cron it enables/disables. This settings screen
 # is meant to be the ONLY place these crons get turned on: they ship
@@ -27,6 +28,33 @@ CRON_ACTIVE_FIELDS = {
 # Settings > Technical > Automation > Scheduled Actions.
 CRON_NEXTCALL_FIELDS = {
     field_name.replace("_active", "_nextcall"): xmlid for field_name, xmlid in CRON_ACTIVE_FIELDS.items()
+}
+
+
+# Boolean parameters cannot use `config_parameter=`: res.config.settings.set_values()
+# calls set_param(key, False) for an unticked box, and set_param DELETES the parameter
+# on a falsy value -- so the next get_param(key, "True") read brings the default back
+# and unticking never took effect. They are read and written explicitly instead.
+BOOL_PARAM_FIELDS = {
+    "dt_actions_xml_dry_run": "deltatech_actions.xml_dry_run",
+    "dt_actions_invoice_pdf_dry_run": "deltatech_actions.invoice_pdf_dry_run",
+    "dt_actions_sale_pdf_dry_run": "deltatech_actions.sale_pdf_dry_run",
+    "dt_actions_picking_pdf_dry_run": "deltatech_actions.picking_pdf_dry_run",
+    "dt_actions_messages_dry_run": "deltatech_actions.messages_dry_run",
+    "dt_actions_picking_pdf_only_done": "deltatech_actions.picking_pdf_only_done",
+    "dt_actions_picking_pdf_only_cancel": "deltatech_actions.picking_pdf_only_cancel",
+}
+
+
+# Cleanups that can be triggered on the spot from the settings screen, keyed by the
+# suffix of their settings fields. Only the ones with a dry-run mode are here: the
+# partner merges delete data with no way back, and must stay cron-only.
+CRON_RUN_METHODS = {
+    "xml": ("account.move", "cron_clean_xml_attachments_from_settings"),
+    "invoice_pdf": ("account.move", "cron_clean_generated_pdfs_from_settings"),
+    "sale_pdf": ("sale.order", "cron_clean_generated_pdfs_from_settings"),
+    "picking_pdf": ("stock.picking", "cron_clean_generated_pdfs_from_settings"),
+    "messages": ("mail.message", "cron_clean_old_messages_from_settings"),
 }
 
 
@@ -62,6 +90,9 @@ class ResConfigSettings(models.TransientModel):
         for field_name, xmlid in CRON_NEXTCALL_FIELDS.items():
             cron = self.env.ref(xmlid, raise_if_not_found=False)
             res[field_name] = cron.sudo().nextcall if cron else False
+        icp = self.env["ir.config_parameter"].sudo()
+        for field_name, key in BOOL_PARAM_FIELDS.items():
+            res[field_name] = str2bool(icp.get_param(key, "True"))
         return res
 
     def set_values(self):
@@ -75,6 +106,9 @@ class ResConfigSettings(models.TransientModel):
             nextcall = self[field_name]
             if cron and nextcall and cron.sudo().nextcall != nextcall:
                 cron.sudo().nextcall = nextcall
+        icp = self.env["ir.config_parameter"].sudo()
+        for field_name, key in BOOL_PARAM_FIELDS.items():
+            icp.set_param(key, "True" if self[field_name] else "False")
 
     # -- Duplicate XML attachments (account_move.cron_clean_xml_attachments) --
     dt_actions_xml_limit = fields.Integer(
@@ -97,11 +131,7 @@ class ResConfigSettings(models.TransientModel):
         config_parameter="deltatech_actions.xml_max_date_days",
         default=30,
     )
-    dt_actions_xml_dry_run = fields.Boolean(
-        string="Dry run (XML)",
-        config_parameter="deltatech_actions.xml_dry_run",
-        default=True,
-    )
+    dt_actions_xml_dry_run = fields.Boolean(string="Dry run (XML)")
 
     # -- Invoice PDF cleanup (account_move.cron_clean_generated_pdfs) --
     dt_actions_invoice_pdf_limit = fields.Integer(
@@ -119,11 +149,7 @@ class ResConfigSettings(models.TransientModel):
         config_parameter="deltatech_actions.invoice_pdf_max_date_days",
         default=90,
     )
-    dt_actions_invoice_pdf_dry_run = fields.Boolean(
-        string="Dry run (invoice PDF)",
-        config_parameter="deltatech_actions.invoice_pdf_dry_run",
-        default=True,
-    )
+    dt_actions_invoice_pdf_dry_run = fields.Boolean(string="Dry run (invoice PDF)")
 
     # -- Sale order PDF cleanup (sale_order.cron_clean_generated_pdfs) --
     dt_actions_sale_pdf_limit = fields.Integer(
@@ -141,11 +167,7 @@ class ResConfigSettings(models.TransientModel):
         config_parameter="deltatech_actions.sale_pdf_max_date_days",
         default=90,
     )
-    dt_actions_sale_pdf_dry_run = fields.Boolean(
-        string="Dry run (sale order PDF)",
-        config_parameter="deltatech_actions.sale_pdf_dry_run",
-        default=True,
-    )
+    dt_actions_sale_pdf_dry_run = fields.Boolean(string="Dry run (sale order PDF)")
 
     # -- Picking AWB label cleanup (stock_picking.cron_clean_generated_pdfs) --
     dt_actions_picking_pdf_limit = fields.Integer(
@@ -163,21 +185,9 @@ class ResConfigSettings(models.TransientModel):
         config_parameter="deltatech_actions.picking_pdf_max_date_days",
         default=180,
     )
-    dt_actions_picking_pdf_dry_run = fields.Boolean(
-        string="Dry run (AWB label)",
-        config_parameter="deltatech_actions.picking_pdf_dry_run",
-        default=True,
-    )
-    dt_actions_picking_pdf_only_done = fields.Boolean(
-        string="Only finished deliveries (done)",
-        config_parameter="deltatech_actions.picking_pdf_only_done",
-        default=True,
-    )
-    dt_actions_picking_pdf_only_cancel = fields.Boolean(
-        string="Only cancelled deliveries",
-        config_parameter="deltatech_actions.picking_pdf_only_cancel",
-        default=True,
-    )
+    dt_actions_picking_pdf_dry_run = fields.Boolean(string="Dry run (AWB label)")
+    dt_actions_picking_pdf_only_done = fields.Boolean(string="Only finished deliveries (done)")
+    dt_actions_picking_pdf_only_cancel = fields.Boolean(string="Only cancelled deliveries")
 
     # -- Old messages cleanup (mail_message.cron_clean_old_messages) --
     dt_actions_messages_limit = fields.Integer(
@@ -195,11 +205,7 @@ class ResConfigSettings(models.TransientModel):
         config_parameter="deltatech_actions.messages_max_date_days",
         default=90,
     )
-    dt_actions_messages_dry_run = fields.Boolean(
-        string="Dry run (messages)",
-        config_parameter="deltatech_actions.messages_dry_run",
-        default=True,
-    )
+    dt_actions_messages_dry_run = fields.Boolean(string="Dry run (messages)")
     dt_actions_messages_exclude_models = fields.Char(
         string="Excluded models (messages, comma-separated SQL LIKE patterns)",
         config_parameter="deltatech_actions.messages_exclude_models",
@@ -217,3 +223,53 @@ class ResConfigSettings(models.TransientModel):
         config_parameter="deltatech_actions.merge_companies_limit",
         default=10,
     )
+
+    # -- Run a cleanup on the spot, and report what it did --------------------------
+
+    def _dt_actions_run_now(self, key):
+        """Save the settings as shown, run that cleanup synchronously and report the
+        outcome as a notification: with dry run on, nothing is deleted and the user
+        still sees what would have been."""
+        self.ensure_one()
+        self.set_values()
+        model_name, method_name = CRON_RUN_METHODS[key]
+        result = getattr(self.env[model_name].sudo(), method_name)() or {}
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "type": "info" if result.get("dry_run") else "success",
+                "title": self.env._("Dry run") if result.get("dry_run") else self.env._("Cleanup done"),
+                "message": self._dt_actions_run_message(result),
+                "sticky": False,
+            },
+        }
+
+    def _dt_actions_run_message(self, result):
+        count = result.get("count", 0)
+        size = result.get("size")
+        size_text = ""
+        if size:
+            size_text = self.env._(" (%(size)s MB)", size=round(size / (1024 * 1024), 1))
+        if result.get("dry_run"):
+            return self.env._(
+                "%(count)s records%(size)s would be deleted. Nothing was deleted.",
+                count=count,
+                size=size_text,
+            )
+        return self.env._("%(count)s records%(size)s deleted.", count=count, size=size_text)
+
+    def action_dt_actions_run_xml(self):
+        return self._dt_actions_run_now("xml")
+
+    def action_dt_actions_run_invoice_pdf(self):
+        return self._dt_actions_run_now("invoice_pdf")
+
+    def action_dt_actions_run_sale_pdf(self):
+        return self._dt_actions_run_now("sale_pdf")
+
+    def action_dt_actions_run_picking_pdf(self):
+        return self._dt_actions_run_now("picking_pdf")
+
+    def action_dt_actions_run_messages(self):
+        return self._dt_actions_run_now("messages")
