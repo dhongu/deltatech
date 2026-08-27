@@ -132,3 +132,40 @@ class TestProductImageDedup(TransactionCase):
 
         self.assertGreaterEqual(updated, 1)
         self.assertEqual(image.image_checksum, expected)
+
+    def test_binary_fallback_does_not_prefetch_siblings(self):
+        """Fallback-ul pe binar nu are voie să încarce imaginile fraților.
+
+        Regresia care a omorât instalarea pe un catalog de ~70.000 imagini:
+        citirea unui câmp binary pe un record dintr-un recordset mare
+        prefetch-uiește imaginile tuturor fraților în cache.
+        """
+        first = self.create_image("red", self.product_a, self.red)
+        second = self.create_image("blue", self.product_a, self.blue)
+        images = first | second
+        field = self.env["product.image"]._fields["image_1920"]
+
+        self.env.invalidate_all()
+        self.assertTrue(images[0]._dedup_checksum_from_binary())
+
+        self.assertFalse(
+            self.env.cache.contains(images[1], field),
+            "citirea imaginii unui record a prefetch-uit si fratii",
+        )
+
+    def test_pre_init_hook_fills_the_column(self):
+        """Hook-ul de pre-init populează coloana înainte ca ORM-ul să vadă câmpul."""
+        from odoo.addons.deltatech_image_optimize.hooks import pre_init_hook
+
+        image = self.create_image("red", self.product_a, self.red)
+        expected = image.image_checksum
+
+        self.env.flush_all()
+        self.env.cr.execute("UPDATE product_image SET image_checksum = NULL WHERE id = %s", (image.id,))
+        self.env.invalidate_all(flush=False)
+        self.assertFalse(image.image_checksum)
+
+        pre_init_hook(self.env)
+
+        self.env.invalidate_all(flush=False)
+        self.assertEqual(image.image_checksum, expected)

@@ -5,7 +5,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Image Optimizer",
-    "version": "19.0.1.9.0",
+    "version": "19.0.1.9.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Recompress oversized image attachments and remove duplicated product images",
@@ -18,6 +18,7 @@
         "views/product_image_duplicate_view.xml",
         "wizard/product_image_dedup_view.xml",
     ],
+    "pre_init_hook": "pre_init_hook",
     "post_init_hook": "post_init_hook",
     "license": "OPL-1",
     "installable": True,
