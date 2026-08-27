@@ -36,11 +36,24 @@ class ProductImage(models.Model):
         checksums = self._dedup_attachment_checksums()
         for image in self:
             checksum = checksums.get(image.id)
-            if not checksum and image[IMAGE_FIELD]:
-                # atașamentul nu e (încă) scris — calculăm noi, cu același algoritm
-                # ca ir.attachment._compute_checksum, ca valorile să fie comparabile
-                checksum = hashlib.sha1(base64.b64decode(image[IMAGE_FIELD])).hexdigest()
+            if not checksum:
+                checksum = image._dedup_checksum_from_binary()
             image.image_checksum = checksum or False
+
+    def _dedup_checksum_from_binary(self):
+        """Checksum-ul citit din imaginea însăși, când atașamentul nu e scris încă.
+
+        ``with_prefetch()`` restrânge prefetch-ul la acest singur record. Fără el,
+        citirea unui câmp binary pe un record dintr-un recordset mare încarcă
+        imaginile TUTUROR fraților în cache — la un recompute pe tot catalogul
+        asta înseamnă zeci de mii de imagini în memorie deodată.
+        """
+        self.ensure_one()
+        data = self.with_prefetch()[IMAGE_FIELD]
+        if not data:
+            return False
+        # același algoritm ca ir.attachment._compute_checksum, ca valorile să fie comparabile
+        return hashlib.sha1(base64.b64decode(data)).hexdigest()
 
     def _compute_duplicate_count(self):
         checksums = [checksum for checksum in set(self.mapped("image_checksum")) if checksum]
