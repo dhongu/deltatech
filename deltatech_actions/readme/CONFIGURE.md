@@ -3,12 +3,19 @@ underlying `ir.cron` record, set once at install and never reset on upgrade), an
 delete data also default to **dry mode** (`dry_run`), meaning they only log what would be deleted
 without making any changes.
 
-Everything — including turning a cron **on** — lives in **Settings > General Settings > Database
-Cleanup** (a dedicated app section, visible to system administrators). Each block has its own
-"Enabled" toggle, wired directly to that cron's `active` field: this settings screen is the
-intended single place to activate any of them, instead of hunting down the matching entry in
-Settings > Technical > Automation > Scheduled Actions. Review a block's parameters and switch its
-"Dry run" off *before* enabling it.
+Everything — including turning a cron **on** — lives in the **Database Cleanup** section of
+**Settings > General Settings**, visible to system administrators. Each cleanup is one setting
+whose title checkbox is wired directly to that cron's `active` field: this screen is the intended
+single place to activate any of them, instead of hunting down the matching entry in Settings >
+Technical > Automation > Scheduled Actions. Every cleanup that deletes data has a separate
+"Dry run (test mode, deletes nothing)" checkbox below it — review the parameters and switch dry
+run off *before* relying on it.
+
+Once a cleanup is enabled, its **Next execution** date is shown (and can be changed) right there,
+the same way the automatic exchange-rate update does it — it is the cron's `nextcall`, so there is
+no need to open the scheduled action to find out when it runs. A cleanup that has been disabled
+since install keeps an old `nextcall`, so it fires on the first cron tick after you enable it;
+push the date forward if you want it to start later.
 
 ## Duplicate XML attachments
 

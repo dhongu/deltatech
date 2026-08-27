@@ -22,6 +22,14 @@ CRON_ACTIVE_FIELDS = {
 }
 
 
+# Same crons, exposed read/write as their next scheduled run (ir.cron.nextcall),
+# so the settings screen answers "when does this actually run?" without a trip to
+# Settings > Technical > Automation > Scheduled Actions.
+CRON_NEXTCALL_FIELDS = {
+    field_name.replace("_active", "_nextcall"): xmlid for field_name, xmlid in CRON_ACTIVE_FIELDS.items()
+}
+
+
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
@@ -35,12 +43,25 @@ class ResConfigSettings(models.TransientModel):
     dt_actions_reorder_rules_active = fields.Boolean(string="Enable missing reordering rules cron")
     dt_actions_normalize_names_active = fields.Boolean(string="Enable company name normalization")
 
+    dt_actions_xml_nextcall = fields.Datetime(string="Next execution (XML)")
+    dt_actions_invoice_pdf_nextcall = fields.Datetime(string="Next execution (invoice PDF)")
+    dt_actions_sale_pdf_nextcall = fields.Datetime(string="Next execution (sale order PDF)")
+    dt_actions_picking_pdf_nextcall = fields.Datetime(string="Next execution (AWB label)")
+    dt_actions_messages_nextcall = fields.Datetime(string="Next execution (messages)")
+    dt_actions_merge_contacts_nextcall = fields.Datetime(string="Next execution (contacts merge)")
+    dt_actions_merge_companies_nextcall = fields.Datetime(string="Next execution (companies merge)")
+    dt_actions_reorder_rules_nextcall = fields.Datetime(string="Next execution (reordering rules)")
+    dt_actions_normalize_names_nextcall = fields.Datetime(string="Next execution (company names)")
+
     @api.model
     def get_values(self):
         res = super().get_values()
         for field_name, xmlid in CRON_ACTIVE_FIELDS.items():
             cron = self.env.ref(xmlid, raise_if_not_found=False)
             res[field_name] = bool(cron and cron.active)
+        for field_name, xmlid in CRON_NEXTCALL_FIELDS.items():
+            cron = self.env.ref(xmlid, raise_if_not_found=False)
+            res[field_name] = cron.sudo().nextcall if cron else False
         return res
 
     def set_values(self):
@@ -49,6 +70,11 @@ class ResConfigSettings(models.TransientModel):
             cron = self.env.ref(xmlid, raise_if_not_found=False)
             if cron and cron.active != self[field_name]:
                 cron.sudo().active = self[field_name]
+        for field_name, xmlid in CRON_NEXTCALL_FIELDS.items():
+            cron = self.env.ref(xmlid, raise_if_not_found=False)
+            nextcall = self[field_name]
+            if cron and nextcall and cron.sudo().nextcall != nextcall:
+                cron.sudo().nextcall = nextcall
 
     # -- Duplicate XML attachments (account_move.cron_clean_xml_attachments) --
     dt_actions_xml_limit = fields.Integer(
