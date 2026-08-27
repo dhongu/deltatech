@@ -135,6 +135,25 @@ state directly to <code class="border rounded px-2" style="font-family:ui-monosp
 </div>
 <div class="tab-pane fade py-2 text-body" id="tb-panel-versions" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.8.0</h2>
+<ul>
+<li>Fixes a risk introduced in 19.0.0.7.0: the auto-vacuum hooks could get Odoo's
+  own auto-vacuum job deactivated. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_run_vacuum_cleaner</code> reports progress as
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_commit_progress()</code> with no arguments, so the cron's <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code> counter stays at
+  zero however much the vacuum methods deleted; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir.cron._process_job</code> then
+  treats a job as failed when it timed out <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">CONSECUTIVE_TIMEOUT_FOR_FAILURE</code>
+  times <em>and</em> <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code> is zero, and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_update_failure_count</code> deactivates a cron
+  that failed 5 times over 7 days. A cleanup with a large backlog is exactly
+  what pushes the job over its time limit run after run -- and switching off
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base.autovacuum_job</code> would take <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_gc_file_store</code> and every other core vacuum
+  with it. The hooks now report the real batch size, which keeps <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code>
+  non-zero and makes that verdict impossible.</li>
+<li>The hooks also stop asking to be requeued when the run has less time left than
+  one and a half times the batch just done, so a batch is never cut off partway.
+  Observed on a staging build: three consecutive auto-vacuum runs at 15:13,
+  15:17 and 15:33 with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">timed_out_counter</code> climbing 1, 2 -- one short of the
+  failure threshold.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.7.0</h2>
 <ul>
 <li>The invoice, sale order and AWB label cleanups can now also run from Odoo's daily
