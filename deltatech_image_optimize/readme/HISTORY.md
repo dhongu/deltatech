@@ -1,5 +1,13 @@
 # Changelog
 
+## 19.0.1.9.0 (2026-08-27)
+
+- Detect duplicated `product.image` records via the attachment checksum, report
+  them grouped by content, and remove the copies that repeat inside the same
+  product. The same picture used on several products is reported but never
+  deleted — each product needs its own copy.
+- Adds a dependency on `website_sale`, where `product.image` is defined.
+
 ## 19.0.1.8.1 (2026)
 
 - ``data/ir_cron.xml`` is now ``noupdate="1"``. It was not, so **every module
