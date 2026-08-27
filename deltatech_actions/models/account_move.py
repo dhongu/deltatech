@@ -10,7 +10,9 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, models
 from odoo.tools import str2bool
 
-from .cleanup_summary import log_prefix, rows_summary
+from .cleanup_summary import autovacuum_run, log_prefix, rows_summary
+
+PREFIX = "deltatech_actions."
 
 _logger = logging.getLogger(__name__)
 
@@ -30,6 +32,11 @@ class AccountMove(models.Model):
             dry_run=str2bool(icp.get_param("deltatech_actions.xml_dry_run", "True")),
             max_date_days=int(icp.get_param("deltatech_actions.xml_max_date_days", 30)),
         )
+
+    @api.autovacuum
+    def _gc_generated_pdfs(self):
+        """Run the invoice PDF cleanup from the autovacuum job -- see autovacuum_run()."""
+        return autovacuum_run(self, "cron_clean_generated_pdfs_from_settings", PREFIX + "invoice_pdf_limit")
 
     @api.model
     def cron_clean_generated_pdfs_from_settings(self):
