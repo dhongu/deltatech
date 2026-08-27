@@ -38,6 +38,11 @@
                             <label for="dt_actions_xml_nextcall" string="Next execution" class="col-lg-4 o_light_label" />
                             <field name="dt_actions_xml_nextcall" class="oe_inline" />
                         </div>
+                        <div class="content-group">
+                            <button name="action_dt_actions_run_xml" type="object" string="Run now"
+                                class="btn-link ps-0" icon="fa-play"
+                                confirm="This runs the cleanup right now. With Dry run ticked nothing is deleted; with it unticked the deletion is permanent." />
+                        </div>
                     </setting>
 
                     <setting
@@ -66,6 +71,11 @@
                             <label for="dt_actions_invoice_pdf_nextcall" string="Next execution" class="col-lg-4 o_light_label" />
                             <field name="dt_actions_invoice_pdf_nextcall" class="oe_inline" />
                         </div>
+                        <div class="content-group">
+                            <button name="action_dt_actions_run_invoice_pdf" type="object" string="Run now"
+                                class="btn-link ps-0" icon="fa-play"
+                                confirm="This runs the cleanup right now. With Dry run ticked nothing is deleted; with it unticked the deletion is permanent." />
+                        </div>
                     </setting>
 
                     <setting
@@ -93,6 +103,11 @@
                         <div class="content-group" invisible="not dt_actions_sale_pdf_active">
                             <label for="dt_actions_sale_pdf_nextcall" string="Next execution" class="col-lg-4 o_light_label" />
                             <field name="dt_actions_sale_pdf_nextcall" class="oe_inline" />
+                        </div>
+                        <div class="content-group">
+                            <button name="action_dt_actions_run_sale_pdf" type="object" string="Run now"
+                                class="btn-link ps-0" icon="fa-play"
+                                confirm="This runs the cleanup right now. With Dry run ticked nothing is deleted; with it unticked the deletion is permanent." />
                         </div>
                     </setting>
 
@@ -130,6 +145,11 @@
                             <label for="dt_actions_picking_pdf_nextcall" string="Next execution" class="col-lg-4 o_light_label" />
                             <field name="dt_actions_picking_pdf_nextcall" class="oe_inline" />
                         </div>
+                        <div class="content-group">
+                            <button name="action_dt_actions_run_picking_pdf" type="object" string="Run now"
+                                class="btn-link ps-0" icon="fa-play"
+                                confirm="This runs the cleanup right now. With Dry run ticked nothing is deleted; with it unticked the deletion is permanent." />
+                        </div>
                     </setting>
 
                     <setting
@@ -161,6 +181,11 @@
                         <div class="content-group" invisible="not dt_actions_messages_active">
                             <label for="dt_actions_messages_nextcall" string="Next execution" class="col-lg-4 o_light_label" />
                             <field name="dt_actions_messages_nextcall" class="oe_inline" />
+                        </div>
+                        <div class="content-group">
+                            <button name="action_dt_actions_run_messages" type="object" string="Run now"
+                                class="btn-link ps-0" icon="fa-play"
+                                confirm="This runs the cleanup right now. With Dry run ticked nothing is deleted; with it unticked the deletion is permanent." />
                         </div>
                     </setting>
 

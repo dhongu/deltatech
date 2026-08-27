@@ -6,14 +6,32 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-27 07:27+0000\n"
-"PO-Revision-Date: 2026-08-27 07:27+0000\n"
+"POT-Creation-Date: 2026-08-27 07:41+0000\n"
+"PO-Revision-Date: 2026-08-27 07:41+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: deltatech_actions
+#. odoo-python
+#: code:addons/deltatech_actions/models/res_config_settings.py:0
+msgid " (%(size)s MB)"
+msgstr ""
+
+#. module: deltatech_actions
+#. odoo-python
+#: code:addons/deltatech_actions/models/res_config_settings.py:0
+msgid "%(count)s records%(size)s deleted."
+msgstr ""
+
+#. module: deltatech_actions
+#. odoo-python
+#: code:addons/deltatech_actions/models/res_config_settings.py:0
+msgid "%(count)s records%(size)s would be deleted. Nothing was deleted."
+msgstr ""
 
 #. module: deltatech_actions
 #: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
@@ -38,6 +56,12 @@ msgstr ""
 #. module: deltatech_actions
 #: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_sale_pdf_limit
 msgid "Attachments to delete (sale order PDF)"
+msgstr ""
+
+#. module: deltatech_actions
+#. odoo-python
+#: code:addons/deltatech_actions/models/res_config_settings.py:0
+msgid "Cleanup done"
 msgstr ""
 
 #. module: deltatech_actions
@@ -157,6 +181,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_actions.field_sale_order__display_name
 #: model:ir.model.fields,field_description:deltatech_actions.field_stock_picking__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_actions
+#. odoo-python
+#: code:addons/deltatech_actions/models/res_config_settings.py:0
+msgid "Dry run"
 msgstr ""
 
 #. module: deltatech_actions
@@ -512,6 +542,11 @@ msgstr ""
 
 #. module: deltatech_actions
 #: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Run now"
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
 msgid "SQL LIKE, empty = all"
 msgstr ""
 
@@ -548,6 +583,13 @@ msgstr ""
 msgid ""
 "Test mode: the scheduled action only logs what it would delete, without "
 "deleting anything. Untick it to actually delete."
+msgstr ""
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"This runs the cleanup right now. With Dry run ticked nothing is deleted; "
+"with it unticked the deletion is permanent."
 msgstr ""
 
 #. module: deltatech_actions

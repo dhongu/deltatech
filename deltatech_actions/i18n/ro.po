@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-08-27 10:30+0300\n"
+"PO-Revision-Date: 2026-08-27 10:45+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ro\n"
@@ -14,6 +14,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);\n"
+
+#. module: deltatech_actions
+#. odoo-python
+#: code:addons/deltatech_actions/models/res_config_settings.py:0
+msgid " (%(size)s MB)"
+msgstr " (%(size)s MB)"
+
+#. module: deltatech_actions
+#. odoo-python
+#: code:addons/deltatech_actions/models/res_config_settings.py:0
+msgid "%(count)s records%(size)s deleted."
+msgstr "S-au șters %(count)s înregistrări%(size)s."
+
+#. module: deltatech_actions
+#. odoo-python
+#: code:addons/deltatech_actions/models/res_config_settings.py:0
+msgid "%(count)s records%(size)s would be deleted. Nothing was deleted."
+msgstr "S-ar șterge %(count)s înregistrări%(size)s. Nu s-a șters nimic."
 
 #. module: deltatech_actions
 #: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
@@ -39,6 +57,12 @@ msgstr "Atașamente de șters (PDF factură)"
 #: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_sale_pdf_limit
 msgid "Attachments to delete (sale order PDF)"
 msgstr "Atașamente de șters (PDF comandă de vânzare)"
+
+#. module: deltatech_actions
+#. odoo-python
+#: code:addons/deltatech_actions/models/res_config_settings.py:0
+msgid "Cleanup done"
+msgstr "Curățare efectuată"
 
 #. module: deltatech_actions
 #: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
@@ -171,6 +195,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_actions.field_stock_picking__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
+
+#. module: deltatech_actions
+#. odoo-python
+#: code:addons/deltatech_actions/models/res_config_settings.py:0
+msgid "Dry run"
+msgstr "Rulare de test"
 
 #. module: deltatech_actions
 #: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_dry_run
@@ -529,6 +559,11 @@ msgstr "Variantă produs"
 
 #. module: deltatech_actions
 #: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Run now"
+msgstr "Rulează acum"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
 msgid "SQL LIKE, empty = all"
 msgstr "SQL LIKE, gol = toate"
 
@@ -571,6 +606,15 @@ msgid ""
 msgstr ""
 "Mod de test: acțiunea programată doar înregistrează în jurnal ce ar șterge, "
 "fără să șteargă efectiv. Debifează pentru ștergere reală."
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid ""
+"This runs the cleanup right now. With Dry run ticked nothing is deleted; "
+"with it unticked the deletion is permanent."
+msgstr ""
+"Rulează curățarea chiar acum. Cu „Rulare de test\" bifată nu se șterge "
+"nimic; cu ea debifată, ștergerea este definitivă."
 
 #. module: deltatech_actions
 #: model:ir.model,name:deltatech_actions.model_stock_picking

@@ -10,6 +10,8 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, models
 from odoo.tools import str2bool
 
+from .cleanup_summary import log_prefix, rows_summary
+
 _logger = logging.getLogger(__name__)
 
 
@@ -21,12 +23,14 @@ class SaleOrder(models.Model):
         """Entry point used by the cron: reads its parameters from Settings
         (General Settings > Database Cleanup) instead of hardcoded values."""
         icp = self.env["ir.config_parameter"].sudo()
-        return self.cron_clean_generated_pdfs(
+        dry_run = str2bool(icp.get_param("deltatech_actions.sale_pdf_dry_run", "True"))
+        rows = self.cron_clean_generated_pdfs(
             limit=int(icp.get_param("deltatech_actions.sale_pdf_limit", 5000)),
             pattern=icp.get_param("deltatech_actions.sale_pdf_pattern", "") or "",
             max_date_days=int(icp.get_param("deltatech_actions.sale_pdf_max_date_days", 90)),
-            dry_run=str2bool(icp.get_param("deltatech_actions.sale_pdf_dry_run", "True")),
+            dry_run=dry_run,
         )
+        return rows_summary(rows, dry_run)
 
     def force_cancel_order_and_moves(self):
         """
@@ -89,6 +93,7 @@ class SaleOrder(models.Model):
             except Exception as e:
                 _logger.info(e)
         _logger.info(
-            f"Deleted {len(attachment_ids)} attachments., total size: {round(sum_sizes / (1024 * 1024), 3)} MB"
+            f"{log_prefix(dry_run)} {len(attachment_ids)} attachments, "
+            f"total size: {round(sum_sizes / (1024 * 1024), 3)} MB"
         )
         return res

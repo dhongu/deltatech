@@ -17,6 +17,15 @@ no need to open the scheduled action to find out when it runs. A cleanup that ha
 since install keeps an old `nextcall`, so it fires on the first cron tick after you enable it;
 push the date forward if you want it to start later.
 
+Each cleanup that has a dry-run mode also has a **Run now** button: it saves the settings as shown,
+runs that cleanup on the spot and reports the outcome as a notification — "1832 records (512.4 MB)
+would be deleted. Nothing was deleted." in dry run, or the same count as deleted for a real run.
+Use it to size a cleanup before enabling its cron. The partner merges have no such button on
+purpose: they delete data with no dry-run mode and no way back, so they stay cron-only.
+
+The server log distinguishes the two modes as well — a dry run logs `[DRY RUN] Would delete N
+attachments ...` instead of claiming a deletion.
+
 ## Duplicate XML attachments
 
 Cron: *Delete duplicate xml attachments*. Model: `account.move`. Removes duplicate XML (EDI/ANAF)
