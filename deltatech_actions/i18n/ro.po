@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-08-27 08:00+0300\n"
+"PO-Revision-Date: 2026-08-27 10:30+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ro\n"
@@ -394,14 +394,14 @@ msgid "Missing reordering rules"
 msgstr "Reguli de reaprovizionare lipsă"
 
 #. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "Name pattern"
+msgstr "Model de nume"
+
+#. module: deltatech_actions
 #: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_picking_pdf_pattern
 msgid "Name pattern (AWB label)"
 msgstr "Model de nume (etichetă AWB)"
-
-#. module: deltatech_actions
-#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
-msgid "Name pattern (SQL LIKE, empty = all)"
-msgstr "Model de nume (SQL LIKE, gol = toate)"
 
 #. module: deltatech_actions
 #: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_invoice_pdf_pattern
@@ -529,6 +529,11 @@ msgstr "Variantă produs"
 
 #. module: deltatech_actions
 #: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
+msgid "SQL LIKE, empty = all"
+msgstr "SQL LIKE, gol = toate"
+
+#. module: deltatech_actions
+#: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
 msgid "Sale order PDF cleanup"
 msgstr "Curățare PDF-uri de comandă de vânzare"
 
@@ -550,8 +555,8 @@ msgstr ""
 
 #. module: deltatech_actions
 #: model_terms:ir.ui.view,arch_db:deltatech_actions.res_config_settings_view_form
-msgid "Subject pattern (SQL LIKE, empty = all)"
-msgstr "Model de subiect (SQL LIKE, gol = toate)"
+msgid "Subject pattern"
+msgstr "Model de subiect"
 
 #. module: deltatech_actions
 #: model:ir.model.fields,field_description:deltatech_actions.field_res_config_settings__dt_actions_messages_pattern
