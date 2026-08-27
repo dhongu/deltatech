@@ -56,7 +56,7 @@ class MailMessage(models.Model):
             max_date = datetime.now() - relativedelta(days=max_date_days)
         if not pattern:
             query = """SELECT id FROM mail_message
-                                        WHERE model not like any(%(exclude_models)s)
+                                        WHERE NOT (model like any(%(exclude_models)s))
                                         AND create_date <= %(create_date)s
                                         ORDER BY id
                                         limit %(limit)s;
@@ -64,7 +64,7 @@ class MailMessage(models.Model):
             params = {"limit": limit, "create_date": max_date, "exclude_models": exclude_models}
         else:
             query = """SELECT id FROM mail_message
-                                WHERE model not like any(%(exclude_models)s)
+                                WHERE NOT (model like any(%(exclude_models)s))
                                 AND create_date <= %(create_date)s AND subject like %(pattern)s
                                 ORDER BY id
                                 limit %(limit)s;
