@@ -25,6 +25,11 @@
        data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
        style="padding:10px 22px;">Configuration</a>
   </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
 </ul>
 <div class="tab-content">
 <div class="tab-pane fade show active py-2 text-body" id="tb-panel-overview" style="font-size:16px;line-height:1.65;">
@@ -37,58 +42,85 @@ All jobs are <strong>disabled by default</strong> and run in <strong>dry mode</s
 </div>
 <div class="tab-pane fade py-2 text-body" id="tb-panel-configure" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
-<p>All scheduled actions provided by this module are <strong>disabled by default</strong> and run in <strong>dry mode</strong>
-(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">dry_run=True</code>), meaning they only log what would be deleted without making any changes.
-Before activating a cron job, review its parameters and switch <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">dry_run</code> to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">False</code>.</p>
-<p>To configure the scheduled actions, navigate to <strong>Settings &gt; Technical &gt; Automation &gt; Scheduled Actions</strong>.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Delete duplicate xml attachments</h2>
-<p>Model: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code>. Removes duplicate XML (EDI/ANAF) attachments on invoices.</p>
-<p>Parameters passed in the cron code field:</p>
-<ul>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">limit</code> — number of invoice groups to inspect per run (default: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">10</code>)</li>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">duplicates</code> — minimum number of same-name attachments before deletion starts (default: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">10</code>)</li>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">max_attachments_to_delete</code> — safety cap on attachments deleted per run (default: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">50</code>)</li>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">dry_run</code> — set to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">False</code> to enable actual deletion (default: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">True</code>)</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Delete pdf invoice attachments</h2>
-<p>Model: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code>. Removes old generated PDF attachments from invoices.</p>
-<p>Parameters:</p>
-<ul>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">limit</code> — maximum number of attachments to delete per run (default: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">5000</code>)</li>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pattern</code> — name prefix filter, e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">"INV/%"</code> (empty string matches all)</li>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">max_date_days</code> — delete attachments older than this many days (default: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">90</code>)</li>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">dry_run</code> — set to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">False</code> to enable actual deletion (default: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">True</code>)</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Delete pdf sale order attachments</h2>
-<p>Model: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.order</code>. Removes old generated PDF attachments from sale orders.</p>
-<p>Parameters: same as <em>Delete pdf invoice attachments</em> (pattern example: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">"Pro forma/%"</code>).</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Delete pdf pickings attachments</h2>
-<p>Model: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.picking</code>. Removes old generated PDF (and octet-stream) attachments from stock pickings.</p>
-<p>Parameters: same as <em>Delete pdf invoice attachments</em> (default pattern: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">"Label%"</code>).</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Delete mail messages</h2>
-<p>Model: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mail.message</code>. Removes old chatter messages and their linked attachments, excluding
-ANAF/XML/ZIP/plain-text attachments.</p>
-<p>Parameters:</p>
-<ul>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">limit</code> — maximum messages to delete per run (default: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">5000</code>)</li>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pattern</code> — optional subject filter, e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">"Facturx%"</code> (default: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">"%"</code> = all)</li>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">max_date_days</code> — delete messages older than this many days (default: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">90</code>)</li>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">exclude_models</code> — list of model name patterns to skip, e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">["business.%", "project.%", "helpdesk.%"]</code></li>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">dry_run</code> — set to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">False</code> to enable actual deletion (default: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">True</code>)</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Create missing reordering rules (0/0)</h2>
+<p>All scheduled actions provided by this module are <strong>disabled by default</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">active=False</code> on the
+underlying <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir.cron</code> record, set once at install and never reset on upgrade), and the ones that
+delete data also default to <strong>dry mode</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">dry_run</code>), meaning they only log what would be deleted
+without making any changes.</p>
+<p>Everything — including turning a cron <strong>on</strong> — lives in the <strong>Database Cleanup</strong> section of
+<strong>Settings &gt; General Settings</strong>, visible to system administrators. Each cleanup is one setting
+whose title checkbox is wired directly to that cron's <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">active</code> field: this screen is the intended
+single place to activate any of them, instead of hunting down the matching entry in Settings &gt;
+Technical &gt; Automation &gt; Scheduled Actions. Every cleanup that deletes data has a separate
+"Dry run (test mode, deletes nothing)" checkbox below it — review the parameters and switch dry
+run off <em>before</em> relying on it.</p>
+<p>Once a cleanup is enabled, its <strong>Next execution</strong> date is shown (and can be changed) right there,
+the same way the automatic exchange-rate update does it — it is the cron's <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">nextcall</code>, so there is
+no need to open the scheduled action to find out when it runs. A cleanup that has been disabled
+since install keeps an old <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">nextcall</code>, so it fires on the first cron tick after you enable it;
+push the date forward if you want it to start later.</p>
+<p>Each cleanup that has a dry-run mode also has a <strong>Run now</strong> button: it saves the settings as shown,
+runs that cleanup on the spot and reports the outcome as a notification — "1832 records (512.4 MB)
+would be deleted. Nothing was deleted." in dry run, or the same count as deleted for a real run.
+Use it to size a cleanup before enabling its cron. The partner merges have no such button on
+purpose: they delete data with no dry-run mode and no way back, so they stay cron-only.</p>
+<p>The server log distinguishes the two modes as well — a dry run logs <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">[DRY RUN] Would delete N
+attachments ...</code> instead of claiming a deletion.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Duplicate XML attachments</h2>
+<p>Cron: <em>Delete duplicate xml attachments</em>. Model: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code>. Removes duplicate XML (EDI/ANAF)
+attachments on invoices.</p>
+<p>Settings: invoices per run (default <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">10</code>), minimum duplicates before deletion starts (default
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">10</code>), max deletions per invoice (default <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">50</code>), older than N days (default <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">30</code> — a duplicate
+created today is never touched even if it already matches the threshold above), dry run (default
+on).</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Invoice PDF cleanup</h2>
+<p>Cron: <em>Delete pdf invoice attachments</em>. Model: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code>. Removes old auto-generated invoice
+PDFs — <strong>including the ones attached to the outgoing email message rather than to the invoice
+itself</strong>. Sending an invoice by email ("Send &amp; Print") attaches its PDF to that message
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir_attachment.res_model='mail.message'</code>, with the message pointing at the invoice), not to the
+invoice directly; on a real deployment this is where the overwhelming majority of invoice PDFs
+actually lived (40k+ out of ~41k, against a handful directly on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code>), and every resend
+leaves its own copy behind. Both are searched.</p>
+<p>Settings: attachments per run (default <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">5000</code>), older than N days (default <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">90</code>), name pattern
+(SQL <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">LIKE</code>, empty = all), dry run (default on).</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Sale order PDF cleanup</h2>
+<p>Cron: <em>Delete pdf sale order attachments</em>. Model: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.order</code>. Removes old auto-generated sale
+order/quotation PDFs. Same settings shape as invoice PDF cleanup.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">AWB label cleanup</h2>
+<p>Cron: <em>Delete pdf pickings attachments</em>. Model: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.picking</code>. Clears the carrier AWB label PDF
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">label_attachment</code> field) on old, finished deliveries. On a real deployment this field alone
+accounted for <strong>~36 GB across ~150k pickings</strong> — by far the largest single filestore consumer,
+well ahead of anything invoice-related.</p>
+<p>The label is regenerable on demand: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">carrier_generate_label()</code> (in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_delivery</code>) re-fetches
+it from the courier's API via <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">carrier_tracking_ref</code> whenever <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">label_attachment</code> is empty, and
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">has_awb</code> stays <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">True</code> regardless, so nothing looks different in the picking's UI. The remaining
+risk is entirely on the courier's side: for a shipment old enough, its API may no longer have the
+label on file — <strong>confirm the actual retention window with the courier(s) in use before enabling
+the scheduled action.</strong></p>
+<p>Settings: attachments per run (default <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">5000</code>), older than N days (default <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">180</code>), name pattern
+(SQL <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">LIKE</code>, empty = all — real label filenames vary a lot by carrier, from the carrier's own
+report name to a raw tracking number or the field's technical name, so a narrow pattern like
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">"Label%"</code> silently matches only some of them), "only finished deliveries" and "only cancelled
+deliveries" toggles (both on by default, so a delivery still in progress is never touched), dry
+run (default on).</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Old messages cleanup</h2>
+<p>Cron: <em>Delete mail messages</em>. Model: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mail.message</code>. Removes old chatter messages and their
+non-XML/ZIP/plain-text attachments (ANAF documents are always kept regardless of this setting).</p>
+<p>Settings: messages per run (default <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">5000</code>), older than N days (default <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">90</code>), subject pattern
+(SQL <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">LIKE</code>, empty = all), excluded models (comma-separated <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">LIKE</code> patterns, default
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">business.%,project.%,helpdesk.%</code> — these keep their full message history), dry run (default on).</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Duplicate contacts / companies</h2>
+<p>Two crons: <em>Merge duplicate contacts by email</em> (individual contacts sharing the same e-mail) and
+<em>Merge duplicate companies by VAT</em> (companies sharing the same VAT number), both via Odoo's
+built-in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base.partner.merge.automatic.wizard</code>.</p>
+<p>Settings: contact groups per run (default <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">10</code>), company groups per run (default <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">10</code>). These two
+crons perform the merge directly — there is no dry-run mode.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Missing reordering rules</h2>
 <p>Model: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.product</code>. Creates stock reordering rules for storable products that have none.
-Requires the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_auto_reorder_rule</code> module to be installed. No extra parameters.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Merge duplicate contacts by email</h2>
-<p>Model: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res.partner</code>. Merges individual contacts (non-company, no VAT) that share the same e-mail address,
-using Odoo's built-in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base.partner.merge.automatic.wizard</code>. Parameter: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">limit</code> (pairs merged per run, default: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">10</code>).</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Merge duplicate companies by VAT</h2>
-<p>Model: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res.partner</code>. Merges company records that share the same VAT number.
-Parameter: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">limit</code> (pairs merged per run, default: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">10</code>).</p>
+Requires the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_auto_reorder_rule</code> module to be installed. Only setting: Enabled.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Normalize company names</h2>
 <p>Model: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res.partner</code>. Standardizes legal-form suffixes in company names
 (e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">srl</code> → <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">S.R.L.</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sa</code> → <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">S.A.</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pfa</code> → <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">P.F.A.</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ii</code> → <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">I.I.</code>).
-Processes up to 500 records per cron run. No extra parameters to configure.</p>
+Processes up to 500 records per cron run. Only setting: Enabled.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Force-cancel server action</h2>
 <p>The method <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_cancel_order_and_moves</code> on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.order</code> cancels a confirmed sale order together
 with all its linked stock pickings, stock moves, stock move lines and account moves by writing their
@@ -100,6 +132,31 @@ state directly to <code class="border rounded px-2" style="font-family:ui-monosp
 <li>Set action type to <em>Execute Python Code</em> and call <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">record.force_cancel_order_and_moves()</code>.</li>
 <li>Add the action to the sale order's <em>Action</em> menu if needed.</li>
 </ol>
+</div>
+<div class="tab-pane fade py-2 text-body" id="tb-panel-versions" style="font-size:16px;line-height:1.65;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.6.0</h2>
+<ul>
+<li>Cron code no longer carries call arguments. The cleanup crons ship in a
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">noupdate="1"</code> data file, so the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">code</code> field of an already-created cron is
+  frozen the day the database is created -- every later change to those
+  arguments was silently ignored. Measured on a production instance: the module
+  reported 19.0.0.5.0 while its AWB label cron was still running
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">cron_clean_generated_pdfs(limit=50, pattern="Label%", max_date_days=90)</code>, a
+  limit five times smaller than the daily inflow and a pattern matching less
+  than 60% of the real label names, with not a single <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_actions.*</code>
+  system parameter in the database. Nothing failed and nothing was logged: the
+  crons ran green every night and deleted almost nothing.</li>
+<li>Added a migration that rewrites the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">code</code> of existing crons to the
+  parameterless <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">*_from_settings()</code> entry points. To keep the switch from
+  changing what a cron deletes, the arguments found in the old code are copied
+  into the matching system parameters first: an argument written explicitly in
+  the old call wins, one the old call never passed keeps the module default.
+  Parameters already set from the Settings screen are never overwritten, and a
+  cron edited by hand is left untouched with a warning in the log.</li>
+<li>Added tests asserting that no cron in the data file passes arguments and that
+  every method it names exists, so the problem cannot come back unnoticed.</li>
+</ul>
 </div>
 </div>
 
