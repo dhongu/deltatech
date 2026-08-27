@@ -215,6 +215,20 @@ To activate it, create a **Server Action** manually:
 Changelog
 =========
 
+19.0.0.9.0
+----------
+
+- A single attachment with a NULL ``file_size`` raised
+  ``TypeError: unsupported operand type(s) for +=: 'int' and 'NoneType'``
+  and killed the whole cleanup run. All three PDF cleanups summed
+  ``file_size`` with a bare ``+=``, and the column is nullable. Inside
+  the auto-vacuum job the failure is invisible: ``_run_vacuum_cleaner``
+  logs the exception, rolls the transaction back and moves on, so a
+  crashing cleanup is indistinguishable from one that had nothing to
+  delete. Found on a staging database where it had silently stopped the
+  sale order cleanup dead -- the cron reported success, ``done`` stayed
+  0, and not one attachment was removed.
+
 19.0.0.8.0
 ----------
 
