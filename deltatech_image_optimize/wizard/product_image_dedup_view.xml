@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_product_image_dedup_form" model="ir.ui.view">
+        <field name="name">deltatech.product.image.dedup.form</field>
+        <field name="model">deltatech.product.image.dedup</field>
+        <field name="arch" type="xml">
+            <form string="Remove Duplicated Images">
+                <field name="state" invisible="1" />
+                <field name="checksums" invisible="1" />
+                <div invisible="state != 'choose'">
+                    <group>
+                        <field name="group_count" />
+                        <field name="removable_count" />
+                        <field name="kept_count" />
+                    </group>
+                    <div invisible="removable_count != 0" class="alert alert-info" role="alert">
+                        Nothing to remove. The duplicated images are spread across different
+                        products, and each product needs its own copy.
+                    </div>
+                    <group invisible="removable_count == 0" string="What Will Be Removed">
+                        <field name="preview" nolabel="1" readonly="1" />
+                    </group>
+                </div>
+                <div invisible="state != 'done'">
+                    <group>
+                        <field name="removed_count" />
+                    </group>
+                </div>
+                <footer invisible="state != 'choose'">
+                    <button
+                        name="action_apply"
+                        string="Remove Duplicates"
+                        type="object"
+                        class="oe_highlight"
+                        invisible="removable_count == 0"
+                        confirm="This permanently deletes the redundant image records. Continue?"
+                    />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+                <footer invisible="state != 'done'">
+                    <button string="Close" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_image_dedup" model="ir.actions.act_window">
+        <field name="name">Remove Duplicated Images</field>
+        <field name="res_model">deltatech.product.image.dedup</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="menu_product_image_dedup"
+        name="Remove Duplicated Images"
+        parent="website_sale.menu_catalog"
+        action="action_product_image_dedup"
+        groups="base.group_system"
+        sequence="91"
+    />
+
+</odoo>
