@@ -1,3 +1,5 @@
-# ©  2008-2021 Deltatech
+# ©  2008-2019 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
+
+from . import test_partner_generic_lock
