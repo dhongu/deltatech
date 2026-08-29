@@ -12,5 +12,10 @@ class ResConfigSettings(models.TransientModel):
         "res.partner",
         "Generic Partner",
         related="company_id.generic_partner_id",
+        readonly=False,
         # config_parameter="sale.partner_generic_id"
+    )
+    lock_generic_partner = fields.Boolean(
+        related="company_id.lock_generic_partner",
+        readonly=False,
     )

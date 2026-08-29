@@ -21,6 +21,10 @@
                             <div class="mt16">
                                 <field name="generic_partner_id" class="o_light_label" />
                             </div>
+                            <div class="mt16">
+                                <field name="lock_generic_partner" class="o_light_label" />
+                                <label for="lock_generic_partner" />
+                            </div>
                         </div>
                     </div>
                 </div>
