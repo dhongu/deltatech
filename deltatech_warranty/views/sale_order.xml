@@ -16,7 +16,7 @@
                             <!-- In case we want to repeat the header, remove "display: table-row-group" -->
                             <thead id="warranty_head" style="display: table-row-group">
                                 <tr>
-                                    <th name="th_product" class="text-left">Product</th>
+                                    <th name="th_product" class="text-start">Product</th>
                                     <th name="th_warranty" class="text-center">Warranty(Months)</th>
                                 </tr>
                             </thead>
@@ -26,7 +26,7 @@
                                     t-if="not line.display_type and line.product_id and line.product_id.warranty_months"
                                 >
                                         <tr>
-                                            <td name="td_product" class="text-left">
+                                            <td name="td_product" class="text-start">
                                                 <span t-field="line.name" />
                                             </td>
                                             <td name="td_warranty" class="text-center">
