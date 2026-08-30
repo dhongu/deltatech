@@ -1,6 +1,7 @@
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import TransactionCase, tagged
 
 
+@tagged("post_install", "-at_install")
 class TestStockMoveAnalytics(TransactionCase):
     def setUp(self):
         super().setUp()
@@ -86,7 +87,6 @@ class TestStockMoveAnalytics(TransactionCase):
         # Create a stock move
         self.move = self.env["stock.move"].create(
             {
-                "name": "Test Move",
                 "product_id": self.product.id,
                 "product_uom_qty": 10,
                 "product_uom": self.product.uom_id.id,
@@ -103,3 +103,16 @@ class TestStockMoveAnalytics(TransactionCase):
         for move in self.picking.move_ids:
             move.quantity = move.product_uom_qty
         self.picking.button_validate()
+
+        self.assertEqual(self.picking.state, "done")
+        lines = self.env["account.analytic.line"].search(
+            [("account_id", "in", (self.analytic_account_source + self.analytic_account_dest).ids)]
+        )
+        self.assertEqual(len(lines), 2)
+        source_line = lines.filtered(lambda line: line.account_id == self.analytic_account_source)
+        dest_line = lines.filtered(lambda line: line.account_id == self.analytic_account_dest)
+        self.assertEqual(source_line.unit_amount, 10)
+        self.assertEqual(dest_line.unit_amount, 10)
+        self.assertEqual(source_line.amount, -dest_line.amount)
+        self.assertTrue(source_line.amount)
+        self.assertIn(self.picking.name, source_line.ref)

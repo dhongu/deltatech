@@ -5,7 +5,7 @@
     "name": "Deltatech stock move analytic",
     "category": "Project",
     "summary": "Create analytic lines from stock moves",
-    "version": "18.0.1.0.1",
+    "version": "19.0.1.0.0",
     "license": "LGPL-3",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
