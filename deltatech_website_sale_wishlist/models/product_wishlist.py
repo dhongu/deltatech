@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 from odoo.tools.misc import clean_context
 
@@ -19,7 +19,7 @@ class ProductWishlist(models.Model):
         compute="_compute_quantities",
         search="_search_qty_available",
         compute_sudo=False,
-        digits="Product Unit of Measure",
+        digits="Product Unit",
     )
 
     def _compute_quantities(self):
@@ -36,15 +36,15 @@ class ProductWishlist(models.Model):
         for line in self:
             uom_reference = line.product_id.uom_id
             try:
-                self.env["procurement.group"].with_context(**clean_context(self.env.context)).run(
+                self.env["stock.rule"].with_context(**clean_context(self.env.context)).run(
                     [
-                        self.env["procurement.group"].Procurement(
+                        self.env["stock.rule"].Procurement(
                             line.product_id,
                             1,
                             uom_reference,
                             warehouse.lot_stock_id,  # Location
-                            _("Required for wishlist"),  # Name
-                            _("wishlist"),  # Origin
+                            self.env._("Required for wishlist"),  # Name
+                            self.env._("wishlist"),  # Origin
                             warehouse.company_id,  # Company
                             line._prepare_run_values(),  # Values
                         )
@@ -54,14 +54,12 @@ class ProductWishlist(models.Model):
                 raise UserError(error) from error
 
     def _prepare_run_values(self):
-        replenishment = self.env["procurement.group"].create(
-            {
-                "partner_id": self.product_id.with_company(self.env.user.company_id).responsible_id.partner_id.id,
-            }
-        )
+        # în Odoo 19 procurement.group a fost înlocuit de stock.reference
+        reference = self.env["stock.reference"].create({"name": self.env._("Wishlist replenishment")})
 
         values = {
             "warehouse_id": self.env.user._get_default_warehouse_id(),
-            "group_id": replenishment,
+            "reference_ids": reference,
+            "partner_id": self.product_id.with_company(self.env.company).responsible_id.partner_id.id,
         }
         return values

@@ -42,6 +42,11 @@ msgid "Wishlist"
 msgstr "Favorite"
 
 #. module: deltatech_website_sale_wishlist
+#: code:addons/deltatech_website_sale_wishlist/models/product_wishlist.py:0
+msgid "Wishlist replenishment"
+msgstr "Reaprovizionare favorite"
+
+#. module: deltatech_website_sale_wishlist
 #: model:ir.actions.act_window,name:deltatech_website_sale_wishlist.product_wishlist_action
 #: model:ir.ui.menu,name:deltatech_website_sale_wishlist.menu_product_wishlist
 #: model_terms:ir.ui.view,arch_db:deltatech_website_sale_wishlist.product_wishlist_tree
