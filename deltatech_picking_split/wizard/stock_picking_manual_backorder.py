@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -17,12 +17,12 @@ class ManualBackOrder(models.TransientModel):
         active_id = self.env.context.get("active_id")
         picking = self.env["stock.picking"].browse(active_id)
         if picking.state in ["done", "cancel"]:
-            raise UserError(_("The transfer status does not allow the change"))
+            raise UserError(self.env._("The transfer status does not allow the change"))
 
         line_ids = []
         for move in picking.move_ids:
             values = {
-                "product_id": move.product_id,
+                "product_id": move.product_id.id,
                 "move_id": move.id,
                 "product_uom_qty": move.product_uom_qty,
                 "kept_qty": move.forecast_availability,
@@ -49,17 +49,17 @@ class ManualBackOrder(models.TransientModel):
                 }
             )
             picking.message_post(
-                body=_(
+                body=self.env._(
                     "The backorder <a href=# data-oe-model=stock.picking "
-                    "data-oe-id=%(backorder_id)d>%(backorder_name)s</a> has been created."
+                    "data-oe-id=%(backorder_id)d>%(backorder_name)s</a> has been created.",
+                    backorder_id=backorder_picking.id,
+                    backorder_name=backorder_picking.name,
                 )
-                % {"backorder_id": backorder_picking.id, "backorder_name": backorder_picking.name}
             )
 
             for line in self.line_ids:
                 if line.kept_qty == 0:
                     line.move_id.write({"picking_id": backorder_picking.id})
-                    line.move_id.move_line_ids.package_level_id.write({"picking_id": backorder_picking.id})
                     line.move_id.mapped("move_line_ids").write({"picking_id": backorder_picking.id})
                 else:
                     diff = line.product_uom_qty - line.kept_qty
