@@ -4,7 +4,7 @@
 {
     "name": "eCommerce Wishlist",
     "category": "Website",
-    "summary": "eCommerce wishlist",
+    "summary": "Backend wishlist management and replenishment",
     "version": "19.0.1.0.0",
     "license": "OPL-1",
     "author": "Terrabit, Dorin Hongu",
