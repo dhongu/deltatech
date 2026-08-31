@@ -1,5 +1,50 @@
 # Changelog
 
+## [19.0.1.4.0] - 2026-08-31
+
+### Added
+- **Warning indicator on the import wizard** (`has_warning`, ticket #9287): set alongside
+  `log`/`log_html` so a headless caller can tell whether a run needs a human's attention without
+  re-parsing the log text. Deliberately narrower than "any warning-classified message": only a
+  **total that doesn't add up** and **lines the matcher couldn't place** count. Routine steps of an
+  unattended import — bill creation skipped because the order isn't confirmed yet, no receipt to
+  validate — also classify as "warning" via `_classify_message`'s generic keywords and would
+  otherwise fire on every successful headless import.
+- **Review activity on the purchase order** (ticket #9287): when the headless import sets
+  `has_warning`, `_process_attachments_for_post` schedules a `mail.mail_activity_data_todo`
+  activity "SPV import needs review" on the order, assigned to the order's buyer (`user_id`,
+  falling back to the current user), with the import log as the activity note. A plain chatter note
+  was not enough: on a production database a total mismatch and 4 unmatched lines sat unnoticed in
+  the chatter for hours, buried among the SPV cron's other automated traffic. The activity is
+  guarded on its summary, because the SPV cron is known to reprocess the same message (observed
+  ~10x in one morning) and would otherwise pile up duplicates.
+- Tests `test_unmatched_line_schedules_activity_instead_of_silent_chatter_note` (including the
+  reprocessing case) and `test_matched_import_does_not_schedule_activity`.
+- **Screenshot test** `tests/test_screenshots.py` (tag `fise_screenshots`): generates the consultant
+  sheet's captures for the mapping preview (all three match colors) and for the review activity.
+
+### Changed
+- The headless import now posts the **color-coded** log (`log_html`) on the purchase order instead
+  of the plain-text `log`, so mismatches and unmatched lines stand out in red/orange instead of
+  blending into a wall of text.
+- **Shorter log.** Updated prices are no longer listed line by line — a single
+  "Identified products and updated prices for %s line(s)." message replaces the per-line dump.
+  Created products keep their per-product detail but gain a count in the header
+  ("Created products (%s):"). On a real SPV import the log was long enough that the warning at the
+  end was below the fold.
+- Log messages now say "source document" instead of "XML", because the same mixin serves the PDF
+  import wizards (Marso, Delta, Sigemo, Procar), not just UBL XML.
+
+### Fixed
+- **Romanian translations were not applied at all** for terms added since the last `.pot`
+  regeneration (the whole preview wizard: `Supplier Code`, `Match Type`, `By name`, `Not found`,
+  the legend banner, and the `SPV import needs review` activity title). `PoFileReader` merges
+  `i18n/ro.po` with `i18n/<module>.pot` to refresh references, and `polib.merge()` marks every
+  `.po` entry absent from the `.pot` as **obsolete** — which the reader then skips silently. The
+  `.pot` was older than `ro.po`, so exactly the new terms were dropped while the old ones kept
+  working. Regenerated the `.pot` and resynchronized `ro.po` (the regeneration merges the info
+  icon with its `<span>` into a single term, so the banner needed a new entry).
+
 ## [19.0.1.3.0] - 2026-08-24
 
 ### Added

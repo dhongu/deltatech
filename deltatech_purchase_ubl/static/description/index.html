@@ -29,25 +29,74 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2 text-body" id="tb-panel-overview" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">am This module imports vendor invoices in UBL XML format and uses them to update purchase workflows in Odoo.</p>
+<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">This module imports vendor invoices in UBL XML format and uses them to update purchase workflows in Odoo.</p>
 <p>Key features:
 - <strong>Automatic vendor and order resolution</strong>: the wizard keeps the selected purchase order on itself and can also identify the vendor and purchase order from the XML (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">OrderReference</code>, supplier VAT, supplier name) when context is no longer available.
 - <strong>Automatic matching</strong>: products are matched by barcode (GS1/EAN), supplier code, internal reference, or exact name.
 - <strong>Purchase order integration</strong>:
-    - when the purchase order already has lines, the import updates only the existing matching lines;
-    - new XML lines are not added to an existing order, and the wizard shows this warning before import;
+    - existing matching lines are updated (quantity, price, discount) and lines whose product is not yet on the order are added, instead of being silently dropped;
+    - the wizard warns before import when the order already has lines, so the user can review what will change;
     - when no purchase order is resolved, the wizard can still identify the vendor from XML and update supplier prices.
 - <strong>Price management</strong>: updates vendor prices in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.supplierinfo</code> directly from the XML data.
 - <strong>Discount support</strong>: extracts line discounts from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">AllowanceCharge</code> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ChargeIndicator=false</code>) and applies them as percentage discounts on purchase order lines.
 - <strong>Total check</strong>: compares the purchase order total with the XML total (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PayableAmount</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TaxInclusiveAmount</code>, with untaxed fallback) and shows a warning when there is a difference.
 - <strong>Stock automation</strong>: optionally validates the associated stock receipt by matching quantities from the XML.
 - <strong>Accounting</strong>: optionally creates and links a vendor bill from the purchase order when an order is resolved.
-- <strong>Missing products</strong>: option to automatically create missing products using data from the UBL file.</p>
+- <strong>Missing products</strong>: option to automatically create missing products using data from the UBL file. Automated callers can pass <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_ubl_no_new_products</code> in context to leave unmatched lines unmatched instead of silently creating duplicates.
+- <strong>Mapping preview</strong>: the interactive flow previews one row per invoice line with the product the matcher found and how it found it (green = supplier code or barcode, yellow = name only, red = no match); any row can be reassigned to a different product before confirming.
+- <strong>Unattended runs surface themselves</strong>: a headless import whose total does not add up, or that leaves lines unmatched, posts a color-coded log and schedules a "SPV import needs review" to-do activity on the purchase order, assigned to its buyer.</p>
 <p>The module supports standard UBL Invoice namespaces and common unit code mappings (C62, KGM, LTR, etc.).</p>
 </div>
 <div class="tab-pane fade py-2 text-body" id="tb-panel-versions" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[19.0.1.4.0] - 2026-08-31</h2>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Added</h3>
+<ul>
+<li><strong>Warning indicator on the import wizard</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">has_warning</code>, ticket #9287): set alongside
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">log</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">log_html</code> so a headless caller can tell whether a run needs a human's attention without
+  re-parsing the log text. Deliberately narrower than "any warning-classified message": only a
+  <strong>total that doesn't add up</strong> and <strong>lines the matcher couldn't place</strong> count. Routine steps of an
+  unattended import — bill creation skipped because the order isn't confirmed yet, no receipt to
+  validate — also classify as "warning" via <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_classify_message</code>'s generic keywords and would
+  otherwise fire on every successful headless import.</li>
+<li><strong>Review activity on the purchase order</strong> (ticket #9287): when the headless import sets
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">has_warning</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_attachments_for_post</code> schedules a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mail.mail_activity_data_todo</code>
+  activity "SPV import needs review" on the order, assigned to the order's buyer (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">user_id</code>,
+  falling back to the current user), with the import log as the activity note. A plain chatter note
+  was not enough: on a production database a total mismatch and 4 unmatched lines sat unnoticed in
+  the chatter for hours, buried among the SPV cron's other automated traffic. The activity is
+  guarded on its summary, because the SPV cron is known to reprocess the same message (observed
+  ~10x in one morning) and would otherwise pile up duplicates.</li>
+<li>Tests <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_unmatched_line_schedules_activity_instead_of_silent_chatter_note</code> (including the
+  reprocessing case) and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_matched_import_does_not_schedule_activity</code>.</li>
+<li><strong>Screenshot test</strong> <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_screenshots.py</code> (tag <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">fise_screenshots</code>): generates the consultant
+  sheet's captures for the mapping preview (all three match colors) and for the review activity.</li>
+</ul>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Changed</h3>
+<ul>
+<li>The headless import now posts the <strong>color-coded</strong> log (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">log_html</code>) on the purchase order instead
+  of the plain-text <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">log</code>, so mismatches and unmatched lines stand out in red/orange instead of
+  blending into a wall of text.</li>
+<li><strong>Shorter log.</strong> Updated prices are no longer listed line by line — a single
+  "Identified products and updated prices for %s line(s)." message replaces the per-line dump.
+  Created products keep their per-product detail but gain a count in the header
+  ("Created products (%s):"). On a real SPV import the log was long enough that the warning at the
+  end was below the fold.</li>
+<li>Log messages now say "source document" instead of "XML", because the same mixin serves the PDF
+  import wizards (Marso, Delta, Sigemo, Procar), not just UBL XML.</li>
+</ul>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
+<ul>
+<li><strong>Romanian translations were not applied at all</strong> for terms added since the last <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.pot</code>
+  regeneration (the whole preview wizard: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Supplier Code</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Match Type</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">By name</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Not found</code>,
+  the legend banner, and the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">SPV import needs review</code> activity title). <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PoFileReader</code> merges
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">i18n/ro.po</code> with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">i18n/&lt;module&gt;.pot</code> to refresh references, and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">polib.merge()</code> marks every
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.po</code> entry absent from the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.pot</code> as <strong>obsolete</strong> — which the reader then skips silently. The
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.pot</code> was older than <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro.po</code>, so exactly the new terms were dropped while the old ones kept
+  working. Regenerated the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.pot</code> and resynchronized <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro.po</code> (the regeneration merges the info
+  icon with its <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">&lt;span&gt;</code> into a single term, so the banner needed a new entry).</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[19.0.1.3.0] - 2026-08-24</h2>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Added</h3>
 <ul>

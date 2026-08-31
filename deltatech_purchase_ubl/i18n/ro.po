@@ -10,11 +10,11 @@ msgstr ""
 "PO-Revision-Date: 2026-05-29 07:26+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: ro\n"
 
 #. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
@@ -198,9 +198,9 @@ msgstr "Comandă de achiziție"
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:0
 msgid ""
-"Purchase order already has lines. Import will update only the existing "
-"order lines; new lines from the source document will not be added to the "
-"purchase order."
+"Purchase order already has lines. Import will update only the existing order"
+" lines; new lines from the source document will not be added to the purchase"
+" order."
 msgstr ""
 "Comanda de achiziție are deja linii. Importul va actualiza doar liniile de "
 "comandă existente; noile linii din documentul sursă nu vor fi adăugate la "
@@ -341,8 +341,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid ""
-"Vendor bill creation skipped: purchase order %(order)s is not confirmed "
-"yet, so there is nothing to invoice."
+"Vendor bill creation skipped: purchase order %(order)s is not confirmed yet,"
+" so there is nothing to invoice."
 msgstr ""
 "Crearea facturii de furnizor a fost sărită: comanda de achiziție %(order)s "
 "nu este încă confirmată, deci nu există nimic de facturat."
@@ -506,19 +506,23 @@ msgstr "Secvență"
 
 #. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
-msgid "<i class=\"fa fa-info-circle me-1\" title=\"Info\"/>"
-msgstr "<i class=\"fa fa-info-circle me-1\" title=\"Info\"/>"
+msgid ""
+"<i class=\"fa fa-info-circle me-1\" title=\"Info\"/>\n"
+"                    <span>Green lines matched by supplier code or barcode; yellow lines matched only by name — double-check them; red lines have no match and a NEW product will be created for them (if the option is enabled). You can pick a different product on any line before importing.</span>"
+msgstr ""
+"<i class=\"fa fa-info-circle me-1\" title=\"Info\"/>\n"
+"                    <span>Liniile verzi au fost potrivite după codul de furnizor sau codul de bare; liniile galbene au fost potrivite doar după nume — verificați-le; liniile roșii nu au nicio potrivire și pentru ele se va crea un produs NOU (dacă opțiunea este activată). Puteți alege un alt produs pe orice linie înainte de import.</span>"
 
 #. module: deltatech_purchase_ubl
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
+#: model:ir.model,name:deltatech_purchase_ubl.model_purchase_invoice_import_mixin
 msgid ""
-"Green lines matched by supplier code or barcode; yellow lines matched only "
-"by name — double-check them; red lines have no match and a NEW product "
-"will be created for them (if the option is enabled). You can pick a "
-"different product on any line before importing."
+"Common matching/bill-creation logic for purchase invoice import wizards"
 msgstr ""
-"Liniile verzi au fost potrivite după codul de furnizor sau codul de bare; "
-"liniile galbene au fost potrivite doar după nume — verificați-le; liniile "
-"roșii nu au nicio potrivire și pentru ele se va crea un produs NOU (dacă "
-"opțiunea este activată). Puteți alege un alt produs pe orice linie înainte "
-"de import."
+"Logică comună de potrivire și creare factură pentru wizard-urile de import "
+"factură furnizor"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__has_warning
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__has_warning
+msgid "Has Warning"
+msgstr "Are avertisment"

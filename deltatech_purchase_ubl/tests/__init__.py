@@ -2,3 +2,4 @@
 
 from . import test_ubl_import
 from . import test_process_attachments
+from . import test_screenshots

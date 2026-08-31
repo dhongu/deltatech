@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:24+0000\n"
-"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"POT-Creation-Date: 2026-08-31 10:19+0000\n"
+"PO-Revision-Date: 2026-08-31 10:19+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,13 @@ msgid "<i class=\"fa fa-exclamation-triangle me-1\" title=\"Warning\"/>"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
+msgid ""
+"<i class=\"fa fa-info-circle me-1\" title=\"Info\"/>\n"
+"                    <span>Green lines matched by supplier code or barcode; yellow lines matched only by name — double-check them; red lines have no match and a NEW product will be created for them (if the option is enabled). You can pick a different product on any line before importing.</span>"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid "Added %s lines to the purchase order from source document."
@@ -31,6 +38,31 @@ msgstr ""
 msgid ""
 "Automatically create storable products for XML lines that cannot be matched "
 "to existing products"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__barcode
+msgid "Barcode"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__barcode
+msgid "By barcode"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__name
+msgid "By name"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__code
+msgid "By supplier code"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__manual
+msgid "Chosen manually"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -63,24 +95,32 @@ msgstr ""
 
 #. module: deltatech_purchase_ubl
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__create_uid
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__create_date
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__create_date
 msgid "Created on"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid "Created products:\n"
+msgid "Created products (%s):\n"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__name
+msgid "Description (XML)"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__display_name
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_order__display_name
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__display_name
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -107,10 +147,23 @@ msgid "Filename"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__has_warning
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__has_warning
+msgid "Has Warning"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__id
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_order__id
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__id
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__id
 msgid "ID"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid "Identified products and updated prices for %s line(s)."
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -142,11 +195,13 @@ msgstr ""
 
 #. module: deltatech_purchase_ubl
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__write_uid
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__write_date
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__write_date
 msgid "Last Updated on"
 msgstr ""
 
@@ -163,6 +218,16 @@ msgid "Log Html"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__match_type
+msgid "Match Type"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__matched_product_id
+msgid "Matched Product"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid "No receipt found to validate."
@@ -174,6 +239,11 @@ msgstr ""
 msgid ""
 "No vendor found for supplier VAT '%(vat)s' / name '%(name)s'. Launch the "
 "import from a purchase order or create the vendor first."
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__none
+msgid "Not found"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -200,6 +270,23 @@ msgid "Please select an XML file."
 msgstr ""
 
 #. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_invoice_import_mixin__state__preview
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard__state__preview
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
+msgid "Preview"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__line_ids
+msgid "Preview Lines"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__product_id
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
 #: model:ir.model,name:deltatech_purchase_ubl.model_purchase_order
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__order_id
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__order_id
@@ -213,6 +300,11 @@ msgid ""
 "Purchase order already has lines. Import will update only the existing order"
 " lines; new lines from the source document will not be added to the purchase"
 " order."
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__qty
+msgid "Quantity"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -235,9 +327,20 @@ msgid "Result"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_order.py:0
+msgid "SPV import needs review"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
 msgid ""
 "Select a UBL XML invoice file from your vendor (e-Factura format supported)"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__sequence
+msgid "Sequence"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -249,6 +352,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__state
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__state
 msgid "State"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__code
+msgid "Supplier Code"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -268,6 +376,16 @@ msgstr ""
 msgid ""
 "Total check OK: purchase order %(label)s %(order_amount)s %(currency)s "
 "matches XML %(label)s %(xml_amount)s %(currency)s."
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model,name:deltatech_purchase_ubl.model_purchase_ubl_import_wizard_line
+msgid "UBL Import Preview Line"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__price
+msgid "Unit Price"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -292,12 +410,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid "Updated %s purchase order lines from source document."
-msgstr ""
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid "Updated prices:\n"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -338,8 +450,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid ""
-"Vendor bill creation skipped: purchase order %(order)s is not confirmed "
-"yet, so there is nothing to invoice."
+"Vendor bill creation skipped: purchase order %(order)s is not confirmed yet,"
+" so there is nothing to invoice."
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -374,6 +486,11 @@ msgid ""
 "Warning: purchase order %(label)s %(order_amount)s %(currency)s differs from"
 " XML %(label)s %(xml_amount)s %(currency)s (difference %(difference)s "
 "%(currency)s)."
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__wizard_id
+msgid "Wizard"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
