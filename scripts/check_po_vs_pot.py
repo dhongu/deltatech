@@ -45,6 +45,9 @@ Atentie la doua capcane ale regenerarii:
     resincronizat, altfel apar orfane noi.
 """
 
+# pylint: disable=print-used
+# `print` este interfata unui hook de pre-commit: pre-commit capteaza stdout/stderr
+# si le arata utilizatorului. Un logger nu ar aparea nicaieri.
 import os
 import subprocess
 import sys
@@ -95,8 +98,10 @@ def verifica(cale_po):
     if vechi_txt is not None:
         try:
             noi -= traduse(polib.pofile(vechi_txt))
-        except Exception:  # noqa: BLE001 - .po vechi nevalid: verificam tot
-            pass
+        except Exception as e:  # noqa: BLE001 - versiunea din HEAD e nevalida
+            # Nu putem calcula ce s-a adaugat acum, deci verificam TOT fisierul:
+            # mai bine un fals pozitiv explicat decat o traducere pierduta tacut.
+            print(f"{cale_po}: versiunea din HEAD nu se poate citi ({e}); verific tot fisierul", file=sys.stderr)
 
     return sorted(noi - ids_pot)
 
