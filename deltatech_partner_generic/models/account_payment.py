@@ -1,4 +1,8 @@
-from odoo import api, fields, models
+# ©  2026 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+from odoo import api, models
 
 
 class AccountPayment(models.Model):
@@ -13,9 +17,3 @@ class AccountPayment(models.Model):
                 payment.available_journal_ids = payment.available_journal_ids.filtered(
                     lambda journal: not journal.restriction and journal.type in ("bank", "cash")
                 )
-
-
-class AccountJournal(models.Model):
-    _inherit = "account.journal"
-
-    restriction = fields.Boolean(string="Generic Restriction")
