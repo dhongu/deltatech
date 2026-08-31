@@ -1,6 +1,6 @@
 # Ce e nou în 19.0 — Suita deltatech — module de bază pentru ERP
 
-Sinteză a noutăților față de versiunea 18.0, pe 50 module. Detaliile fiecărui modul sunt în
+Sinteză a noutăților față de versiunea 18.0, pe 51 module. Detaliile fiecărui modul sunt în
 `<modul>/readme/NOUTATI_19.md`.
 
 ## Module noi în 19.0 (16)
@@ -42,7 +42,7 @@ Sinteză a noutăților față de versiunea 18.0, pe 50 module. Detaliile fiecă
 - **Liste de dorințe în magazin** (`deltatech_website_sale_wishlist`) — Administrarea din backend a listelor de dorințe
   create de clienți în magazinul online.
 
-## Module cu funcționalități noi față de 18.0 (34)
+## Module cu funcționalități noi față de 18.0 (35)
 
 - **Acțiuni de curățare a bazei** (`deltatech_actions`) — Curățările se pornesc și se opresc din Setări.
 - **Procese de implementare** (`deltatech_business_process`) — Bibliotecă de procese alimentată din module și din
@@ -54,6 +54,8 @@ Sinteză a noutăților față de versiunea 18.0, pe 50 module. Detaliile fiecă
   a datelor de pe paginile web ale acestora, cu preluare la cerere — comparația de preț se face în Odoo, nu în….
 - **Declarație de conformitate** (`deltatech_dc`) — Formatul tipărit al declarației a fost curățat (structură și stil),
   deci documentul trimis clientului arată corect indiferent de lungimea denumirilor.
+- **Restricții partener generic** (`deltatech_generic_partner_restriction`) — Modulul a fost comasat în „Partener
+  generic" (deltatech_partner_generic) și rămâne gol: păstrează.
 - **Optimizare imagini** (`deltatech_image_optimize`) — Eliminarea imaginilor de produs duplicate.
 - **Facturarea livrărilor** (`deltatech_invoice_picking`) — Filtrarea livrărilor după „facturat" dă rezultate corecte în
   toate combinațiile (facturat/nefacturat, egal/diferit), inclusiv după facturarea în lot — comportament….
@@ -61,8 +63,7 @@ Sinteză a noutăților față de versiunea 18.0, pe 50 module. Detaliile fiecă
   în care Odoo 19 organizează grupurile de acces.
 - **Acoperirea stocului negativ** (`deltatech_move_negative_stock`) — Modulul funcționează pe 19.0, adaptat la
   modificările Odoo 19 privind mișcările de stoc.
-- **Partener generic** (`deltatech_partner_generic`) — Partenerul generic este protejat împotriva modificărilor
-  accidentale.
+- **Partener generic** (`deltatech_partner_generic`) — Restricțiile contabile sunt acum în același modul.
 - **Codificare produse** (`deltatech_product_code`) — Verificarea unicității codurilor de bare ține cont de companie,
   deci în bazele multi-companie nu mai raportează fals duplicate între companii diferite.
 - **Dimensiuni produs** (`deltatech_product_dimension`) — Modulul este complet aliniat cu versiunea 18.0 — aceleași
@@ -112,66 +113,3 @@ Sinteză a noutăților față de versiunea 18.0, pe 50 module. Detaliile fiecă
 - **Optimizarea barei de căutare** (`deltatech_website_searchbar`) — Fără schimbări funcționale față de 18.0: bara de
   căutare trimite mai puține cereri de completare automată, prin întârzierea sugestiilor și lungimea minimă a
   termenului.
-
-## Module de pe 18.0 fără corespondent în 19.0 (53)
-
-Pentru completitudine, în sens invers: module care există pe ramura 18.0 și nu au (încă) un echivalent pe 19.0.
-
-**Retrase deliberat (6)** — marcate obsolete/neinstalabile pe 18.0 sau înlocuite:
-
-- `deltatech_account_edi_ubl_gln` — Deltatech UBL GLN - Obsolete
-- `deltatech_print_bf` — Deltatech Print Invoice to ECR - Obsolete
-- `deltatech_restricted_access` — Restricted Access Obsolete
-- `deltatech_saleorder_type` — Terrabit - Sale Order Type - Obsolete
-- `deltatech_select_journal` — Deltatech Select Journal - Obsolete
-- `deltatech_stock_date` — Stock Date - Obsolete
-
-**Nemigrate încă (47)** — ultima modificare de cod în paranteze:
-
-- `deltatech_account_restrict_date` — Restrict account date (2024-10)
-- `deltatech_business_process_documentation` — Business process documentation (2025-06)
-- `deltatech_card_payment` — Deltatech Payment Method Card (2025-06)
-- `deltatech_cash` — Cash In / Out (2025-01)
-- `deltatech_change_uom` — Change Unit of measure (2025-06)
-- `deltatech_dummy_queue_job` — Deltatech Dummy Queue Job (2026-03)
-- `deltatech_invoice_color` — Deltatech Invoice Color (2025-06)
-- `deltatech_invoice_delivery` — Deltatech Invoice Delivery (2024-10)
-- `deltatech_invoice_payment` — Invoice Payment (2025-06)
-- `deltatech_maintenance` — Maintenance Extension (2026-01)
-- `deltatech_mrp_set_delivery` — Deltatech restrict incomplete set deliveries (2025-10)
-- `deltatech_packaging` — Packaging (2024-11)
-- `deltatech_partner_discount` — Deltatech partner discount (2025-06)
-- `deltatech_partner_minimal_aquisition` — Partner Minimal Aquisition (2025-03)
-- `deltatech_payment_report` — Deltatech Payment Report (2025-03)
-- `deltatech_payment_term_fix` — Payment Term Fix (2024-11)
-- `deltatech_payment_term_restrict` — Deltatech Payment Term Restrict (2025-03)
-- `deltatech_picking_number` — Picking Number (2025-06)
-- `deltatech_pos_time_interval` — POS Order Time Interval (2025-10)
-- `deltatech_price_change` — Price Change (2025-10)
-- `deltatech_price_modify_reception` — Price modify at the reception (2025-03)
-- `deltatech_pricelist_add_category` — Price List add Category (2025-03)
-- `deltatech_pricelist_vat_cost` — Base pricelist on cost with vat (2025-10)
-- `deltatech_product_category` — Products Category (2025-03)
-- `deltatech_product_margin` — Deltatech Product Margin (2025-03)
-- `deltatech_purchase_confirmation_reminder` — Purchase Confirmation Reminder (2025-03)
-- `deltatech_purchase_discount` — Deltatch Discount in purchase order line (2026-03)
-- `deltatech_purchase_price_history` — Purchase Price History (2025-03)
-- `deltatech_purchase_refund` — Refund Purchase (2025-10)
-- `deltatech_reccurent_task_activity` — Create activity on recurring task (2025-03)
-- `deltatech_replenish` — Deltatech Replenish (2025-03)
-- `deltatech_reset_en_names` — Product Reset EN Names (2025-10)
-- `deltatech_sale` — Sale Extension (2025-08)
-- `deltatech_sale_catalog_website` — Sale Catalog Website Categories & Image Zoom (2026-07)
-- `deltatech_sale_followup` — Sale Followup (2024-11)
-- `deltatech_sale_transfer` — Sale Prepare Transfer (2026-04)
-- `deltatech_stock_analytic` — Deltatech stock move analytic (2025-02)
-- `deltatech_stock_sn` — Stock Serial Number (2026-04)
-- `deltatech_transfer_product_to_product` — Transfer Product to Product (2024-10)
-- `deltatech_utils` — Deltatech Utils (2025-01)
-- `deltatech_warehouse` — MRP Warehouse (2025-01)
-- `deltatech_warehouse_access` — Warehouse Access (2025-03)
-- `deltatech_website_access_design` — Website web designer access (2025-01)
-- `deltatech_website_delivery_address` — eCommerce Delivery Address (2025-01)
-- `deltatech_website_floating_widgets` — Website Floating Widgets (2026-05)
-- `deltatech_website_snippet_attribute_filter` — eCommerce Attribute Filter Snippet (2025-04)
-- `deltatech_website_texture_attributes` — eCommerce Attribute Texture (2025-04)
