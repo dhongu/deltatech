@@ -40,7 +40,10 @@ class StockMove(models.Model):
         lines_to_process = self.move_line_ids
 
         while lines_to_process:
-            _logger.info("Processing %d move lines", len(lines_to_process))
+            # per-reservation tracing: useful when debugging a putaway split, but it runs on
+            # every _action_assign - 8.150 lines in 16h of production, for nothing an operator
+            # or a reader of the log ever acts on. DEBUG keeps it available with --log-level.
+            _logger.debug("Processing %d move lines", len(lines_to_process))
             is_split, to_reprocess = lines_to_process._split_by_putaway_capacity()
             if is_split:
                 # Dacă am făcut split, verificăm să nu fi intrat într-o buclă infinită
@@ -55,7 +58,7 @@ class StockMove(models.Model):
         if lines_with_zero_qty:
             lines_with_zero_qty.unlink()
 
-        _logger.info("_action_assign executed in %.3f seconds", time.time() - start_time)
+        _logger.debug("_action_assign executed in %.3f seconds", time.time() - start_time)
         return res
 
     def _action_done(self, cancel_backorder=False):
