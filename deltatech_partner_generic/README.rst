@@ -13,14 +13,11 @@ Deltatech Generic Partner
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
-    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
-    :alt: License: LGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_partner_generic
     :alt: dhongu/deltatech
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2|
 
 Key Features
 ============
@@ -51,6 +48,25 @@ Usage:
 3. Select an existing partner (e.g., "Generic Customer") or create a new
    one to serve as the default.
 4. This partner will then be used as a fallback in the relevant modules.
+
+Accounting restrictions:
+------------------------
+
+Because the generic partner stands for anonymous customers, a real
+accounting document must not be issued to it:
+
+- Customer invoices and credit notes whose partner is the generic
+  partner cannot be validated: validation is refused with an explicit
+  error, so the real customer has to be set first. Drafts stay allowed,
+  so the flows that go through the generic partner (POS, e-commerce,
+  imports) keep working. Vendor bills and journal entries are not
+  affected.
+- Bank and cash journals ticked as **Generic Restriction** are not
+  proposed when registering a payment for the generic partner.
+
+These restrictions used to live in the separate module
+``deltatech_generic_partner_restriction``, which is now an empty
+transition module depending on this one.
 
 Protecting the generic partner:
 -------------------------------
