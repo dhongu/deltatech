@@ -5,11 +5,11 @@
     style="background-color:#00432a;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
   <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Deltatech Generic Partner" style="width:72px;height:72px;border:none;"/></span></div>
   <h1 class="text-white fw-bold mb-3" style="font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Deltatech Generic Partner</h1>
-  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Gneric partner</p>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Generic partner for anonymous customers, with accounting restrictions</p>
   <div>
     <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
     <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Generic Modules</span>
-    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">LGPL-3</span>
+    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">OPL-1</span>
     <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Online &bull; Odoo.sh &bull; On-premise</span>
   </div>
 </div>
@@ -28,6 +28,21 @@
 <li>Select an existing partner (e.g., "Generic Customer") or create a new one to serve as the default.</li>
 <li>This partner will then be used as a fallback in the relevant modules.</li>
 </ol>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Accounting restrictions:</h2>
+<p>Because the generic partner stands for anonymous customers, a real accounting
+document must not be issued to it:</p>
+<ul>
+<li>Customer invoices and credit notes whose partner is the generic partner
+  cannot be validated: validation is refused with an explicit error, so the real
+  customer has to be set first. Drafts stay allowed, so the flows that go
+  through the generic partner (POS, e-commerce, imports) keep working. Vendor
+  bills and journal entries are not affected.</li>
+<li>Bank and cash journals ticked as <strong>Generic Restriction</strong> are not proposed when
+  registering a payment for the generic partner.</li>
+</ul>
+<p>These restrictions used to live in the separate module
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_generic_partner_restriction</code>, which is now an empty transition
+module depending on this one.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Protecting the generic partner:</h2>
 <p>The generic partner is reachable from every sales document, so it is easily
 mistaken for a normal customer and edited by accident. Tick <strong>Protect Generic
@@ -74,6 +89,22 @@ geolocation — stay allowed, as do automated flows running with elevated rights
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_generic_partner_restriction" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border text-body">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">GP</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Generic Partner Restriction</span>
+              <span class="d-block text-body-secondary" style="font-size:11px;">Generic Modules</span>
+            </span>
+          </div>
+          <p class="text-body-secondary mb-0" style="font-size:12px;">Transition module: merged into Deltatech Generic Partner</p>
+        </div>
+      </a>
+    </div>
     <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_list_view" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border text-body">
@@ -183,22 +214,6 @@ geolocation — stay allowed, as do automated flows running with elevated rights
             </span>
           </div>
           <p class="text-body-secondary mb-0" style="font-size:12px;">Disable Fuzzy Search</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_website_phone_validation" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border text-body">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">WP</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Website Phone Validation</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Generic Modules</span>
-            </span>
-          </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Phone Validation</p>
         </div>
       </a>
     </div>
