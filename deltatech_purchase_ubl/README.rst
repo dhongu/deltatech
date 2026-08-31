@@ -19,8 +19,8 @@ Deltatech Purchase UBL
 
 |badge1| |badge2|
 
-am This module imports vendor invoices in UBL XML format and uses them
-to update purchase workflows in Odoo.
+This module imports vendor invoices in UBL XML format and uses them to
+update purchase workflows in Odoo.
 
 Key features:
 
@@ -32,10 +32,11 @@ Key features:
   supplier code, internal reference, or exact name.
 - **Purchase order integration**:
 
-  - when the purchase order already has lines, the import updates only
-    the existing matching lines;
-  - new XML lines are not added to an existing order, and the wizard
-    shows this warning before import;
+  - existing matching lines are updated (quantity, price, discount) and
+    lines whose product is not yet on the order are added, instead of
+    being silently dropped;
+  - the wizard warns before import when the order already has lines, so
+    the user can review what will change;
   - when no purchase order is resolved, the wizard can still identify
     the vendor from XML and update supplier prices.
 
@@ -52,7 +53,17 @@ Key features:
 - **Accounting**: optionally creates and links a vendor bill from the
   purchase order when an order is resolved.
 - **Missing products**: option to automatically create missing products
-  using data from the UBL file.
+  using data from the UBL file. Automated callers can pass
+  ``purchase_ubl_no_new_products`` in context to leave unmatched lines
+  unmatched instead of silently creating duplicates.
+- **Mapping preview**: the interactive flow previews one row per invoice
+  line with the product the matcher found and how it found it (green =
+  supplier code or barcode, yellow = name only, red = no match); any row
+  can be reassigned to a different product before confirming.
+- **Unattended runs surface themselves**: a headless import whose total
+  does not add up, or that leaves lines unmatched, posts a color-coded
+  log and schedules a "SPV import needs review" to-do activity on the
+  purchase order, assigned to its buyer.
 
 The module supports standard UBL Invoice namespaces and common unit code
 mappings (C62, KGM, LTR, etc.).
@@ -67,6 +78,110 @@ Changelog
 
 Changelog
 =========
+
+[19.0.1.4.0] - 2026-08-31
+-------------------------
+
+Added
+~~~~~
+
+- **Warning indicator on the import wizard** (``has_warning``, ticket
+  #9287): set alongside ``log``/``log_html`` so a headless caller can
+  tell whether a run needs a human's attention without re-parsing the
+  log text. Deliberately narrower than "any warning-classified message":
+  only a **total that doesn't add up** and **lines the matcher couldn't
+  place** count. Routine steps of an unattended import — bill creation
+  skipped because the order isn't confirmed yet, no receipt to validate
+  — also classify as "warning" via ``_classify_message``'s generic
+  keywords and would otherwise fire on every successful headless import.
+- **Review activity on the purchase order** (ticket #9287): when the
+  headless import sets ``has_warning``,
+  ``_process_attachments_for_post`` schedules a
+  ``mail.mail_activity_data_todo`` activity "SPV import needs review" on
+  the order, assigned to the order's buyer (``user_id``, falling back to
+  the current user), with the import log as the activity note. A plain
+  chatter note was not enough: on a production database a total mismatch
+  and 4 unmatched lines sat unnoticed in the chatter for hours, buried
+  among the SPV cron's other automated traffic. The activity is guarded
+  on its summary, because the SPV cron is known to reprocess the same
+  message (observed ~10x in one morning) and would otherwise pile up
+  duplicates.
+- Tests
+  ``test_unmatched_line_schedules_activity_instead_of_silent_chatter_note``
+  (including the reprocessing case) and
+  ``test_matched_import_does_not_schedule_activity``.
+- **Screenshot test** ``tests/test_screenshots.py`` (tag
+  ``fise_screenshots``): generates the consultant sheet's captures for
+  the mapping preview (all three match colors) and for the review
+  activity.
+
+Changed
+~~~~~~~
+
+- The headless import now posts the **color-coded** log (``log_html``)
+  on the purchase order instead of the plain-text ``log``, so mismatches
+  and unmatched lines stand out in red/orange instead of blending into a
+  wall of text.
+- **Shorter log.** Updated prices are no longer listed line by line — a
+  single "Identified products and updated prices for %s line(s)."
+  message replaces the per-line dump. Created products keep their
+  per-product detail but gain a count in the header ("Created products
+  (%s):"). On a real SPV import the log was long enough that the warning
+  at the end was below the fold.
+- Log messages now say "source document" instead of "XML", because the
+  same mixin serves the PDF import wizards (Marso, Delta, Sigemo,
+  Procar), not just UBL XML.
+
+Fixed
+~~~~~
+
+- **Romanian translations were not applied at all** for terms added
+  since the last ``.pot`` regeneration (the whole preview wizard:
+  ``Supplier Code``, ``Match Type``, ``By name``, ``Not found``, the
+  legend banner, and the ``SPV import needs review`` activity title).
+  ``PoFileReader`` merges ``i18n/ro.po`` with ``i18n/<module>.pot`` to
+  refresh references, and ``polib.merge()`` marks every ``.po`` entry
+  absent from the ``.pot`` as **obsolete** — which the reader then skips
+  silently. The ``.pot`` was older than ``ro.po``, so exactly the new
+  terms were dropped while the old ones kept working. Regenerated the
+  ``.pot`` and resynchronized ``ro.po`` (the regeneration merges the
+  info icon with its ``<span>`` into a single term, so the banner needed
+  a new entry).
+
+[19.0.1.3.0] - 2026-08-24
+-------------------------
+
+Added
+~~~~~
+
+- **Mapping preview in the import wizard** (ticket #9315): the
+  interactive flow is now two-step — "Preview" parses the XML and shows
+  one line per invoice line with the product the matcher found and how
+  it found it, color-coded: green = matched by supplier code or barcode
+  (trustworthy), yellow = matched only by name (double-check), red = no
+  match (a new product would be created). The user can pick a different
+  product on any line before confirming the import; manual choices
+  override automatic matching
+  (``_process_invoice_data(product_map=...)``). The headless entry point
+  ``action_import`` is unchanged, so automated callers keep working.
+
+Fixed
+~~~~~
+
+- **Bug** (ticket #9315): ``_process_attachments_for_post`` always ran
+  the headless UBL import with ``create_missing_products=True``. This is
+  fine for the interactive wizard, where a user reviews what gets
+  created, but it's also the only entry point for XML attachments posted
+  by automated callers (e.g. ``l10n_ro_message_spv_purchase``, since
+  ticket #9287 started attaching the SPV XML on purchase orders created
+  before the vendor bill exists). When the source invoice line has no
+  supplier product code and its name doesn't match an existing product
+  exactly, the headless import silently created a duplicate product with
+  no one reviewing it. ``_process_attachments_for_post`` now honors a
+  ``purchase_ubl_no_new_products`` context key: when set, the headless
+  import runs with ``create_missing_products=False`` and leaves
+  unmatched lines in the wizard's "unmatched products" log instead of
+  creating a product.
 
 [19.0.1.2.4] - 2026-08-20
 -------------------------
