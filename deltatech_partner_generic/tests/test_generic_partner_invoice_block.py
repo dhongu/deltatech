@@ -57,6 +57,13 @@ class TestGenericPartnerInvoiceBlock(AccountTestInvoicingCommon):
             invoice.action_post()
         self.assertEqual(invoice.state, "draft")
 
+    def test_generic_partner_as_delivery_address_is_blocked(self):
+        invoice = self._new_invoice(self.partner_a)
+        invoice.partner_shipping_id = self.generic_partner
+        with self.assertRaises(UserError):
+            invoice.action_post()
+        self.assertEqual(invoice.state, "draft")
+
     def test_draft_on_generic_partner_stays_allowed(self):
         """POS and e-commerce flows must keep creating drafts."""
         invoice = self._new_invoice(self.generic_partner)

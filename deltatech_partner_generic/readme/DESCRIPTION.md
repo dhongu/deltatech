@@ -21,6 +21,24 @@ Usage:
 3. Select an existing partner (e.g., "Generic Customer") or create a new one to serve as the default.
 4. This partner will then be used as a fallback in the relevant modules.
 
+Accounting restrictions:
+------------------------
+
+Because the generic partner stands for anonymous customers, a real accounting
+document must not be issued to it:
+
+- Customer invoices and credit notes whose partner is the generic partner
+  cannot be validated: validation is refused with an explicit error, so the real
+  customer has to be set first. Drafts stay allowed, so the flows that go
+  through the generic partner (POS, e-commerce, imports) keep working. Vendor
+  bills and journal entries are not affected.
+- Bank and cash journals ticked as **Generic Restriction** are not proposed when
+  registering a payment for the generic partner.
+
+These restrictions used to live in the separate module
+``deltatech_generic_partner_restriction``, which is now an empty transition
+module depending on this one.
+
 Protecting the generic partner:
 -------------------------------
 
