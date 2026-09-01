@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="group_generic_partner_editor" model="res.groups">
+        <field name="name">Generic Partner: Editor</field>
+        <field name="comment">Allowed to modify or delete the generic partner of a company that protects it.</field>
+    </record>
+
+    <!-- Settings administrators keep the ability to fix the generic partner. -->
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_generic_partner_editor'))]" />
+    </record>
+
+</odoo>

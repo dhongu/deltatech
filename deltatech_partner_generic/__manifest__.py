@@ -4,14 +4,19 @@
 
 {
     "name": "Deltatech Generic Partner",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Gneric partner",
     "category": "Generic Modules",
     "depends": ["sale"],
     "license": "LGPL-3",
-    "data": ["data/data.xml", "views/res_config_settings_views.xml"],
+    "data": [
+        "security/res_groups.xml",
+        "data/data.xml",
+        "views/res_config_settings_views.xml",
+        "views/res_partner_views.xml",
+    ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
