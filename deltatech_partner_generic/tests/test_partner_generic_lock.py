@@ -22,7 +22,11 @@ class TestPartnerGenericLock(TransactionCase):
             cls.env.ref("base.group_user").id,
             cls.env.ref("base.group_partner_manager").id,
         ]
-        cls.plain_user = cls.env["res.users"].create(
+        # no_reset_password: creating a user that has an email sends the
+        # "New User Invite" mail, which cannot be rendered when web.base.url is
+        # not set (as on a bare CI database).
+        users = cls.env["res.users"].with_context(no_reset_password=True)
+        cls.plain_user = users.create(
             {
                 "name": "Plain user",
                 "login": "generic.lock.plain.user",
@@ -32,7 +36,7 @@ class TestPartnerGenericLock(TransactionCase):
             }
         )
         editor_group = cls.env.ref("deltatech_partner_generic.group_generic_partner_editor")
-        cls.editor_user = cls.env["res.users"].create(
+        cls.editor_user = users.create(
             {
                 "name": "Editor user",
                 "login": "generic.lock.editor.user",
