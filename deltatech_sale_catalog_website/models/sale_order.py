@@ -1,12 +1,13 @@
 # ©  2024 Terrabit
 # See README.rst file on addons root folder for license details
 
-from odoo import models
+from odoo import api, models
 
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    @api.readonly
     def action_add_from_catalog(self):
         # Scope the customization to the Sales catalog only: swap the shared
         # catalog kanban/search views for our own so the Purchase catalog keeps

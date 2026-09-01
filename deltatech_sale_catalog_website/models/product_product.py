@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, models
-from odoo.osv.expression import AND
+from odoo.fields import Domain
 
 
 class ProductProduct(models.Model):
@@ -30,12 +30,7 @@ class ProductProduct(models.Model):
             return value and value[0]
 
         model_domain = kwargs.get("search_domain", [])
-        extra_domain = AND(
-            [
-                kwargs.get("category_domain", []),
-                kwargs.get("filter_domain", []),
-            ]
-        )
+        extra_domain = Domain(kwargs.get("category_domain", [])) & Domain(kwargs.get("filter_domain", []))
         comodel_domain = kwargs.get("comodel_domain", [])
         enable_counters = kwargs.get("enable_counters")
         expand = kwargs.get("expand")
@@ -53,7 +48,7 @@ class ProductProduct(models.Model):
 
         if not expand:
             image_element_ids = list(domain_image.keys())
-            comodel_domain = AND([comodel_domain, [("id", "parent_of", image_element_ids)]])
+            comodel_domain = Domain(comodel_domain) & Domain("id", "parent_of", image_element_ids)
 
         comodel_records = comodel.search_read(comodel_domain, field_names, limit=limit)
 
