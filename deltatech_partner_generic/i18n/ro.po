@@ -27,6 +27,15 @@ msgstr ""
 "specifice companiei.\" groups=\"base.group_multi_company\"/>"
 
 #. module: deltatech_partner_generic
+#: model:res.groups,comment:deltatech_partner_generic.group_generic_partner_editor
+msgid ""
+"Allowed to modify or delete the generic partner of a company that protects "
+"it."
+msgstr ""
+"Are dreptul să modifice sau să șteargă partenerul generic al unei companii "
+"care îl protejează."
+
+#. module: deltatech_partner_generic
 #: model:ir.model,name:deltatech_partner_generic.model_res_company
 msgid "Companies"
 msgstr "Companii"
@@ -37,12 +46,71 @@ msgid "Config Settings"
 msgstr "Setări de configurare"
 
 #. module: deltatech_partner_generic
+#: model:ir.model,name:deltatech_partner_generic.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: deltatech_partner_generic
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_company__generic_partner_id
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_config_settings__generic_partner_id
 msgid "Generic Partner"
 msgstr "Partener generic"
 
 #. module: deltatech_partner_generic
+#: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_partner__generic_partner_locked
+msgid "Generic Partner Protected"
+msgstr "Partener generic protejat"
+
+#. module: deltatech_partner_generic
+#: model:res.groups,name:deltatech_partner_generic.group_generic_partner_editor
+msgid "Generic Partner: Editor"
+msgstr "Partener generic: Editor"
+
+#. module: deltatech_partner_generic
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_generic.res_config_settings_view_form
 msgid "Generic partner"
 msgstr "Partener generic"
+
+#. module: deltatech_partner_generic
+#: model:ir.model.fields,help:deltatech_partner_generic.field_res_company__lock_generic_partner
+msgid ""
+"Prevent users from modifying or deleting the generic partner. Members of the"
+" Generic Partner: Editor group are not affected."
+msgstr ""
+"Împiedică utilizatorii să modifice sau să șteargă partenerul generic. "
+"Membrii grupului Partener generic: Editor nu sunt afectați."
+
+#. module: deltatech_partner_generic
+#: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_company__lock_generic_partner
+#: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_config_settings__lock_generic_partner
+msgid "Protect Generic Partner"
+msgstr "Protejează partenerul generic"
+
+#. module: deltatech_partner_generic
+#: model:ir.model.fields,help:deltatech_partner_generic.field_res_partner__generic_partner_locked
+msgid ""
+"Technical field: this partner is the generic partner of a company that "
+"protects it, and the current user is not allowed to modify it."
+msgstr ""
+"Câmp tehnic: partenerul este partenerul generic al unei companii care îl "
+"protejează, iar utilizatorul curent nu are dreptul să îl modifice."
+
+#. module: deltatech_partner_generic
+#. odoo-python
+#: code:addons/deltatech_partner_generic/models/res_partner.py:0
+msgid ""
+"The generic partner “%(name)s” is protected and cannot be modified. Ask an "
+"administrator if this partner really has to be changed."
+msgstr ""
+"Partenerul generic „%(name)s” este protejat și nu poate fi modificat. "
+"Solicită unui administrator dacă acest partener trebuie într-adevăr "
+"schimbat."
+
+#. module: deltatech_partner_generic
+#: model_terms:ir.ui.view,arch_db:deltatech_partner_generic.view_partner_form
+msgid ""
+"This is the generic partner used for anonymous customers. It is\n"
+"                    protected: changes made here cannot be saved."
+msgstr ""
+"Acesta este partenerul generic folosit pentru clienții neidentificați. Este\n"
+"                    protejat: modificările făcute aici nu pot fi salvate."

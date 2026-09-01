@@ -385,6 +385,9 @@ business flows such as sales and invoicing.</li>
 <li>Helps simplify data entry for businesses that handle many one-time or
 anonymous customers.</li>
 <li>Fully integrated with Odoo’s standard accounting and sales settings.</li>
+<li>Optionally protect the generic partner against accidental changes:
+once the protection is enabled, users can no longer rename, archive or
+delete it.</li>
 </ul>
 </div>
 <div class="section" id="usage">
@@ -396,6 +399,21 @@ anonymous customers.</li>
 one to serve as the default.</li>
 <li>This partner will then be used as a fallback in the relevant modules.</li>
 </ol>
+</div>
+<div class="section" id="protecting-the-generic-partner">
+<h2>Protecting the generic partner:</h2>
+<p>The generic partner is reachable from every sales document, so it is
+easily mistaken for a normal customer and edited by accident. Tick
+<strong>Protect Generic Partner</strong> in the same settings section to prevent
+this: the contact form then shows a warning banner and any change is
+refused when saving.</p>
+<p>The protection is disabled by default, so existing databases keep their
+current behaviour. Users who legitimately have to change the partner are
+given the <strong>Generic Partner: Editor</strong> group; Settings administrators
+already have it.</p>
+<p>Writes performed by Odoo itself — chatter, activities, portal signup
+tokens, geolocation — stay allowed, as do automated flows running with
+elevated rights.</p>
 <p><strong>Table of contents</strong></p>
 </div>
 </div>
