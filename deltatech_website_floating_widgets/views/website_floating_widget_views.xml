@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="website_floating_widget_view_list" model="ir.ui.view">
+        <field name="name">website.floating.widget.list</field>
+        <field name="model">website.floating.widget</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle" />
+                <field name="icon_preview" widget="html" string=" " />
+                <field name="name" />
+                <field name="icon" />
+                <field name="type" />
+                <field name="link" />
+                <field name="new_tab" />
+                <field name="button_shape" />
+                <field name="display_on_desktop" />
+                <field name="display_on_mobile" />
+                <field name="active" />
+            </list>
+        </field>
+    </record>
+
+    <record id="website_floating_widget_view_form" model="ir.ui.view">
+        <field name="name">website.floating.widget.form</field>
+        <field name="model">website.floating.widget</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <label for="icon" />
+                            <div class="o_row">
+                                <field name="icon" />
+                                <field name="icon_preview" widget="html" nolabel="1" />
+                            </div>
+                            <field name="type" />
+                            <field name="link" />
+                            <field name="new_tab" />
+                        </group>
+                        <group>
+                            <field name="sequence" />
+                            <field name="display_on_desktop" />
+                            <field name="display_on_mobile" />
+                            <field name="active" />
+                            <field name="button_shape" />
+                            <field name="background_color" widget="color" />
+                            <field name="text_color" widget="color" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="website_floating_widget_action" model="ir.actions.act_window">
+        <field name="name">Floating Widgets</field>
+        <field name="res_model">website.floating.widget</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new floating widget
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_website_floating_widget"
+        name="Floating Widgets"
+        parent="website.menu_site"
+        action="website_floating_widget_action"
+        sequence="90"
+    />
+</odoo>
