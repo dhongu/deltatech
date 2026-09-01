@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Website Floating Widgets",
-    "version": "18.0.0.0.2",
+    "version": "19.0.0.0.2",
     "category": "Website",
     "summary": "Floating widgets on the right side of the website",
     "author": "Terrabit, Voicu Stefan",
