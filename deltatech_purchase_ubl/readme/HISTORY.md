@@ -1,5 +1,17 @@
 # Changelog
 
+## [19.0.1.4.1] - 2026-09-02
+
+### Fixed
+- **Version bump so a build can be told apart by its translations.** The RO translation fix of
+  19.0.1.4.0 (regenerated `.pot`, resynced `ro.po`) landed *without* touching `__manifest__.py`,
+  so code from before and after it both report `19.0.1.4.0`. On a customer database
+  `ir.module.module.latest_version` therefore proved nothing about whether the translations were
+  actually on disk — a Romchim check had to fall back to reading `code_translations` in a shell.
+  Python code translations are read from `i18n/*.po` on disk at runtime (`CodeTranslations`), not
+  from the database, so no `-u` can compensate for a stale build: the manifest version is the only
+  handle an audit has. Bumped so it is one.
+
 ## [19.0.1.4.0] - 2026-08-31
 
 ### Added
