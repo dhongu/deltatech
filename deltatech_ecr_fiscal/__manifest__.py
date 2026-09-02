@@ -16,7 +16,11 @@
     "price": 0.00,
     "currency": "EUR",
     "pre_init_hook": "pre_init_hook",
-    "development_status": "Production/Stable",
+    # Mature, nu Production/Stable: `deltatech_sale_store` este Mature, iar
+    # `manifestoo check-dev-status` interzice dependența pe un modul cu statut mai jos.
+    # Se justifică: modulul doar găzduiește definiții de câmpuri aflate în producție
+    # de ani, mutate aici neschimbate.
+    "development_status": "Mature",
     "installable": True,
     "application": False,
     "hidden": True,
