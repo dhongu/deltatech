@@ -47,6 +47,22 @@ class PurchaseUblImportWizard(models.TransientModel):
     def _uom_from_ubl(self, unit_code):
         return self._uom_from_code(unit_code)
 
+    def _barcode_from_description(self, description):
+        """Fallback for suppliers (e.g. PPG, tichet #9287) that put the EAN in the
+        free-text Item/Description instead of StandardItemIdentification. Accepts ONLY
+        a digit string of EAN-8/12/13/14 length WITH a valid check digit - anything
+        looser would misread a supplier's genuine free-text description (lot number,
+        internal note, ...) as a barcode and silently mismatch the product.
+        """
+        candidate = (description or "").strip()
+        if not candidate.isdigit() or len(candidate) not in (8, 12, 13, 14):
+            return None
+        digits = [int(d) for d in candidate]
+        check_digit = digits[-1]
+        body = digits[:-1][::-1]
+        total = sum(d * (3 if i % 2 == 0 else 1) for i, d in enumerate(body))
+        return candidate if (10 - total % 10) % 10 == check_digit else None
+
     def _is_ubl_invoice(self, content: bytes) -> bool:
         """Quickly check if provided XML bytes look like an UBL Invoice.
         We validate the root namespace equals the UBL Invoice namespace or that
@@ -151,6 +167,14 @@ class PurchaseUblImportWizard(models.TransientModel):
                 # Prefer when schemeID is 0160, but accept any value present in this tag if scheme missing
                 if not scheme_id or scheme_id == "0160":
                     barcode_val = std_id_el.text
+            if not barcode_val:
+                # Some suppliers (e.g. PPG, tichet #9287) put the EAN in the free-text
+                # Description instead of StandardItemIdentification. Only accept it when
+                # it's a checksum-valid EAN, so a supplier that puts real free text there
+                # doesn't get misread as a barcode.
+                barcode_val = self._barcode_from_description(
+                    inv_line.findtext("cac:Item/cbc:Description", namespaces=NS)
+                )
 
             name = inv_line.findtext("cac:Item/cbc:Name", namespaces=NS) or inv_line.findtext(
                 "cac:Item/cbc:Description", namespaces=NS

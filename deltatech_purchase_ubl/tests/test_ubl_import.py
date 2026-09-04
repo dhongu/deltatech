@@ -67,6 +67,7 @@ def _xml_invoice(
                     <cbc:PriceAmount currencyID=\"{currency}\">{l.get("price", "0")}</cbc:PriceAmount>
                 </cac:Price>
                 <cac:Item>
+                    <cbc:Description>{l.get("description", "")}</cbc:Description>
                     <cac:SellersItemIdentification><cbc:ID>{l.get("code", "")}</cbc:ID></cac:SellersItemIdentification>
                     {std_id}
                     <cbc:Name>{l.get("name", "")}</cbc:Name>
@@ -1058,6 +1059,54 @@ class TestPurchaseUblImport(TransactionCase):
         Wiz = self.env["purchase.ubl.import.wizard"]
         wiz = Wiz.new({})
         self.assertEqual(wiz._uom_from_code("NOT-A-REAL-UNIT-CODE"), self.env.ref("uom.product_uom_unit"))
+
+    def test_barcode_from_description_accepts_valid_ean13(self):
+        """Tichet #9287: PPG puts the EAN in Item/Description instead of
+        StandardItemIdentification. Real barcode from Damira production."""
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        wiz = Wiz.new({})
+        self.assertEqual(wiz._barcode_from_description("5946062025948"), "5946062025948")
+        # Padding/whitespace from the XML must not break the check-digit match.
+        self.assertEqual(wiz._barcode_from_description(" 5946062025948 "), "5946062025948")
+
+    def test_barcode_from_description_rejects_non_barcode_text(self):
+        """Must not misread a supplier's genuine free-text description, a wrong-length
+        numeric string, or a numeric string with an invalid check digit as a barcode -
+        each would silently mismatch the product on an unrelated line."""
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        wiz = Wiz.new({})
+        self.assertIsNone(wiz._barcode_from_description("Vopsea alba mata 2.5L"))
+        self.assertIsNone(wiz._barcode_from_description("12345"))
+        self.assertIsNone(wiz._barcode_from_description("5946062025949"))  # bad check digit
+        self.assertIsNone(wiz._barcode_from_description(""))
+        self.assertIsNone(wiz._barcode_from_description(False))
+
+    def test_parse_xml_uses_description_as_barcode_fallback(self):
+        """Integration: a line with no SellersItemIdentification/StandardItemIdentification
+        but a valid EAN in Description must come out matched via that barcode."""
+        product = self.env["product.product"].create({"name": "PPG Paint", "type": "consu", "barcode": "5946062025948"})
+        xml = _xml_invoice(
+            lines=[
+                {
+                    "code": "",
+                    "name": "00471016 DANKE EMAIL USCARE RAP ALB MAT 2.5L",
+                    "description": "5946062025948",
+                    "qty": "2",
+                    "price": "57.75",
+                    "line_total": "115.50",
+                    "unit_code": "H87",
+                    "tax": "21",
+                }
+            ]
+        )
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        wiz = Wiz.new({})
+        parsed = wiz._parse_xml(xml)
+        self.assertEqual(parsed["lines"][0]["barcode"], "5946062025948")
+
+        matched, match_type = wiz._match_product_detailed(self.vendor, "", parsed["lines"][0]["name"], "5946062025948")
+        self.assertEqual(matched, product)
+        self.assertEqual(match_type, "barcode")
 
     def test_find_supplier_partner_matches_vat_ignoring_spaces(self):
         partner = self.env["res.partner"].create(
