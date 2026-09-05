@@ -1,6 +1,6 @@
 {
     "name": "Stock Auto Transfer",
-    "version": "18.0.0.0.14",
+    "version": "18.0.0.0.15",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
@@ -14,6 +14,7 @@
         "views/stock_picking_type_view.xml",
     ],
     "development_status": "Beta",
+    "post_init_hook": "post_init_hook",
     "maintainers": ["VoicuStefan2001"],
     "images": ["static/description/main_screenshot.png"],
 }
