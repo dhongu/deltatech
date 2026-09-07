@@ -9,6 +9,7 @@
                 <page name="packaging_material" string="Packaging materials" invisible="move_type == 'entry'">
                     <header>
                         <button name="refresh_packaging_material" string="Refresh" type="object"/>
+                        <field name="packaging_material_auto" widget="boolean_toggle"/>
                     </header>
                     <field name="packaging_material_ids" nolabel="1">
                         <list editable="bottom">
