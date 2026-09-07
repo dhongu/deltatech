@@ -86,3 +86,57 @@ class TestPackagingMaterial(AccountTestInvoicingCommon):
         )
         self.assertEqual(report.state, "get")
         self.assertEqual(action["res_id"], report.id)
+
+    def test_manual_quantity_unsets_the_automatic_update(self):
+        invoice = self._create_invoice()
+        invoice.refresh_packaging_material()
+        self.assertTrue(invoice.packaging_material_auto)
+
+        invoice.packaging_material_ids.filtered(lambda line: line.material_type == "plastic").qty = 7.0
+
+        self.assertFalse(invoice.packaging_material_auto)
+
+    def test_deleting_a_quantity_unsets_the_automatic_update(self):
+        invoice = self._create_invoice()
+        invoice.refresh_packaging_material()
+
+        invoice.packaging_material_ids.filtered(lambda line: line.material_type == "wood").unlink()
+
+        self.assertFalse(invoice.packaging_material_auto)
+
+    def test_post_keeps_manual_quantities(self):
+        invoice = self._create_invoice()
+        invoice.refresh_packaging_material()
+        invoice.packaging_material_ids.filtered(lambda line: line.material_type == "glass").unlink()
+        invoice.packaging_material_ids.filtered(lambda line: line.material_type == "plastic").qty = 7.0
+
+        invoice.action_post()
+
+        quantities = {line.material_type: line.qty for line in invoice.packaging_material_ids}
+        self.assertEqual(
+            quantities,
+            {"plastic": 7.0, "wood": 1.0},
+            "the quantities set by hand survive the validation of the invoice",
+        )
+        self.assertFalse(invoice.packaging_material_auto)
+
+    def test_refresh_takes_the_invoice_back_under_automatic_update(self):
+        invoice = self._create_invoice()
+        invoice.refresh_packaging_material()
+        invoice.packaging_material_ids.filtered(lambda line: line.material_type == "plastic").qty = 7.0
+
+        invoice.refresh_packaging_material()
+
+        quantities = {line.material_type: line.qty for line in invoice.packaging_material_ids}
+        self.assertEqual(quantities, {"plastic": 2.0, "wood": 1.0, "glass": 0.5})
+        self.assertTrue(invoice.packaging_material_auto)
+
+    def test_refresh_does_not_unset_the_automatic_update(self):
+        invoice = self._create_invoice()
+
+        invoice.refresh_packaging_material()
+
+        self.assertTrue(
+            invoice.packaging_material_auto,
+            "the computation itself is not a manual edit",
+        )
