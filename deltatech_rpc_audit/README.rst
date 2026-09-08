@@ -71,6 +71,17 @@ Changelog
 History
 =======
 
+19.0.1.2.1 (2026-08-25)
+-----------------------
+
+- Fix: coerce a ``None`` XML-RPC result to ``False`` before marshalling.
+  A handful of ORM methods (e.g. ``account.move.line.reconcile()`` when
+  there is nothing to reconcile) legitimately return ``None``; core's
+  own marshaller is built with ``allow_none=False``, so the call was
+  crashing with
+  ``TypeError: cannot marshal None unless allow_none is enabled``
+  instead of returning a normal result.
+
 19.0.1.2.0 (2026-08-14)
 -----------------------
 

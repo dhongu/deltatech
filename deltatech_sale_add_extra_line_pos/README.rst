@@ -152,6 +152,48 @@ combined with other POS extensions for enhanced functionality.
 .. contents::
    :local:
 
+Use Cases / Context
+===================
+
+Part of the Terrabit POS Ecosystem
+----------------------------------
+
+This module extends ``deltatech_sale_add_extra_line`` into the POS
+front-end. It is designed to work alongside the rest of the Terrabit POS
+suite and the official Romanian fiscal compliance modules, without any
+overlap:
+
+- **deltatech_pos** / **deltatech_pos_base** — print fiscal receipts and
+  drive cash management on a certified cash register
+- **deltatech_ecr_connect** — shared fiscal document model, ECR format
+  converter and Terrabit Connect sender
+- **deltatech_pos_stock** — shows available stock directly in the POS
+  interface
+- **deltatech_pos_price_sync** — pushes live product price changes to
+  already open POS sessions
+- **deltatech_pos_fix** — corrects POS total calculation for
+  tax-included fiscal position mapping
+- **l10n_ro_pos_fiscal_compliance** — AMEF fiscal receipt tracking, Z
+  report reconciliation and session blocking
+- **l10n_ro_anaf_d394_pos** — reports POS fiscal receipts in the D394
+  (op. 2) declaration to ANAF
+- **l10n_ro_pos_returns** — dedicated return invoice and cash register
+  line for every POS return
+
+Changelog
+=========
+
+19.0.1.0.1
+----------
+
+- [FIX] the extra line is added again in the POS. Since 19.0 the point
+  of sale builds a line from ``vals.product_tmpl_id`` and no longer from
+  ``vals.product_id``, so the patch read an undefined product and
+  silently skipped the extra line - the SGR deposit product was never
+  added to the receipt. The template is now read from either key, and
+  the extra line is requested with the template as well, which 19.0
+  requires
+
 Bug Tracker
 ===========
 
