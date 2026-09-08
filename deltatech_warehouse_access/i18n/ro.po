@@ -24,8 +24,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_warehouse_access/models/stock_picking.py:0
 #, python-format
-msgid "The %s user don’t have access to the %s warehouse"
-msgstr "Utilizatorul %s nu are acces la depozitul %s"
+msgid "The %(user_name)s user don’t have access to the %(warehouse_name)s warehouse"
+msgstr "Utilizatorul %(user_name)s nu are acces la depozitul %(warehouse_name)s"
 
 #. module: deltatech_warehouse_access
 #: model:ir.model,name:deltatech_warehouse_access.model_stock_picking

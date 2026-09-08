@@ -5,7 +5,7 @@
 
 import logging
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import AccessError
 
 _logger = logging.getLogger(__name__)
@@ -18,9 +18,10 @@ class StockPicking(models.Model):
         for picking in self:
             warehouse = picking.picking_type_id.warehouse_id
             if self.env.user not in warehouse.user_ids and warehouse.user_ids:
-                msg = _("The %(user_name)s user don’t have access to the %(warehouse_name)s warehouse") % {
-                    "user_name": self.env.user.name,
-                    "warehouse_name": warehouse.name,
-                }
+                msg = self.env._(
+                    "The %(user_name)s user don’t have access to the %(warehouse_name)s warehouse",
+                    user_name=self.env.user.name,
+                    warehouse_name=warehouse.name,
+                )
                 raise AccessError(msg)
         return super().button_validate()
