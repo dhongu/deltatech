@@ -65,11 +65,8 @@
 </li>
 </ol>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Optimized for Odoo.sh</h1>
-<p>This module is specifically designed to address common challenges on the Odoo.sh platform:
-*   <strong>Bypassing the 5-Minute Cron Limit</strong>: Using an external trigger service (like cron-job.org) via the API endpoint allows for job processing every minute, providing near real-time execution.
-*   <strong>Preventing Worker Timeouts</strong>: Configurable time budgets (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Max Seconds</code>) ensure that the job runner finishes its work gracefully before Odoo.sh kills the worker process, avoiding database inconsistencies.
-*   <strong>High Concurrency</strong>: The use of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">SKIP LOCKED</code> ensures that multiple workers can process the queue in parallel without deadlocks, maximizing the use of available resources.
-*   <strong>Transactional Safety</strong>: Savepoints isolate individual job failures, ensuring that one failing job doesn't roll back the entire batch.</p>
+<p>This module is specifically designed to address common challenges on the Odoo.sh platform:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Bypassing the 5-Minute Cron Limit</span><div class="mt-1">Using an external trigger service (like cron-job.org) via the API endpoint allows for job processing every minute, providing near real-time execution.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Preventing Worker Timeouts</span><div class="mt-1">Configurable time budgets (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Max Seconds</code>) ensure that the job runner finishes its work gracefully before Odoo.sh kills the worker process, avoiding database inconsistencies.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">High Concurrency</span><div class="mt-1">The use of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">SKIP LOCKED</code> ensures that multiple workers can process the queue in parallel without deadlocks, maximizing the use of available resources.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Transactional Safety</span><div class="mt-1">Savepoints isolate individual job failures, ensuring that one failing job doesn't roll back the entire batch.</div></div></li></ul>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Performance Benefits</h1>
 <p>This module is essential for high-volume Odoo environments. By decoupling the job runner from the standard Odoo cron schedule and providing optimized database locking, it ensures that your background tasks are processed as fast as possible with minimal overhead and maximum reliability.</p>
 </div>
@@ -102,10 +99,12 @@
 <p>Process Queue (External)
 ^^^^^^^^^^^^^^^^^^^^^^^^
 <strong>POST</strong> <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/api/v1/queue/process</code></p>
-<p>Parameters:
-- <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">api_key</code> (required): Authentication key
-- <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">batch_size</code> (optional): Maximum number of jobs to process (default: 20)
-- <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">max_seconds</code> (optional): Maximum processing time in seconds (default: 50)</p>
+<p>Parameters:</p>
+<ul>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">api_key</code> (required): Authentication key</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">batch_size</code> (optional): Maximum number of jobs to process (default: 20)</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">max_seconds</code> (optional): Maximum processing time in seconds (default: 50)</li>
+</ul>
 <p>Response:</p>
 <pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-json">{
   &quot;status&quot;: &quot;success&quot;,
