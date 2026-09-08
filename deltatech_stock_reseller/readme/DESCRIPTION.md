@@ -1,4 +1,5 @@
 Features:  
+
 - Report with positions from stock location, with pricelist
 - Choose stock location
 - Choose partner or pricelist for price computation
