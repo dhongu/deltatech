@@ -1,8 +1,10 @@
 from odoo import fields
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 from odoo.tools import float_compare
 
 
+@tagged("post_install", "-at_install")
 class TestPurchaseOrder(TransactionCase):
     def setUp(self):
         super().setUp()
@@ -10,6 +12,9 @@ class TestPurchaseOrder(TransactionCase):
         self.PurchaseOrder = self.env["purchase.order"]
         self.PurchaseOrderLine = self.env["purchase.order.line"]
         self.AccountMove = self.env["account.move"]
+
+        # Create a vendor
+        self.partner = self.env["res.partner"].create({"name": "Test Vendor"})
 
         # Create a product
         self.product = self.Product.create(
@@ -23,7 +28,7 @@ class TestPurchaseOrder(TransactionCase):
         # Create a purchase order
         self.purchase_order = self.PurchaseOrder.create(
             {
-                "partner_id": self.env.ref("base.res_partner_12").id,
+                "partner_id": self.partner.id,
                 "date_order": fields.Date.today(),
                 "order_line": [
                     (
@@ -33,7 +38,7 @@ class TestPurchaseOrder(TransactionCase):
                             "name": self.product.name,
                             "product_id": self.product.id,
                             "product_qty": 10,
-                            "product_uom": self.env.ref("uom.product_uom_unit").id,
+                            "product_uom_id": self.env.ref("uom.product_uom_unit").id,
                             "price_unit": 100,
                             "date_planned": fields.Date.today(),
                         },
@@ -79,7 +84,7 @@ class TestPurchaseOrder(TransactionCase):
         else:
             expected_qty = line.qty_invoiced - line.qty_received
 
-        if float_compare(expected_qty, 0.0, precision_rounding=line.product_uom.rounding) <= 0:
+        if float_compare(expected_qty, 0.0, precision_rounding=line.product_uom_id.rounding) <= 0:
             expected_qty = 0.0
 
         self.assertEqual(move_line.quantity, expected_qty)
