@@ -57,6 +57,19 @@ Benefits
 Changelog
 =========
 
+19.0.0.0.2 (2026-08-21)
+-----------------------
+
+- Add: ``website.show_line_subtotals_tax_selection`` ("Display Product
+  Prices") is a computed+stored field with no Romanian override, so
+  ``website_sale`` resets it to ``tax_excluded`` on every recompute of
+  ``company_id.account_fiscal_country_id`` - triggered, for example, by
+  any write on the company's own partner address (e.g. a nightly ANAF
+  partner sync). The new
+  ``Website._compute_show_line_subtotals_tax_selection`` override
+  preserves the previously saved value instead of letting it reset
+  silently, without forcing either option.
+
 19.0.0.0.1 (2026-08-13)
 -----------------------
 
