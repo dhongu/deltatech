@@ -29,6 +29,7 @@ The **deltatech_sale_add_extra_line** module is an Odoo addon that provides auto
 ## Use Cases
 
 This module is particularly useful for:
+
 - **Service Charges**: Automatically adding service fees based on product sales
 - **Mandatory Accessories**: Adding required accessories or complementary products
 - **Packaging Materials**: Adding packaging costs based on product quantities
@@ -38,6 +39,7 @@ This module is particularly useful for:
 ## Technical Implementation
 
 The module extends the standard Odoo sale order functionality by:
+
 - Adding fields to product templates for extra product configuration
 - Overriding sale order line creation methods to trigger extra line addition
 - Implementing quantity and price calculation logic
