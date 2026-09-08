@@ -1,0 +1,10 @@
+{
+  "title": "Warehouse Access",
+  "summary": "Restrict who can validate warehouse transfers",
+  "icon": "truck",
+  "features": [
+    "Assign authorized users per warehouse",
+    "Blocks validation for unauthorized users",
+    "No list set = standard Odoo rights apply"
+  ]
+}
