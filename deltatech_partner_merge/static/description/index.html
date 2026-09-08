@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -33,7 +33,7 @@
 <p>Odoo's own merge wizard walks the foreign keys <strong>group by group</strong>: for every pair it goes through all
 ~158 columns that reference <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res_partner</code>. Fine for a handful of duplicates; for thousands of groups
 it means hundreds of thousands of statements and does not finish in any reasonable window.</p>
-<p>This module inverts the loops — <strong>one statement per column for the whole batch</strong> — and keeps foreign
+<p>This module inverts the loops &#8212; <strong>one statement per column for the whole batch</strong> &#8212; and keeps foreign
 keys enabled throughout, so integrity is guaranteed by PostgreSQL rather than by the procedure being
 right. On a production database of 538.000 partners, merging 5.350 records took about four and a half
 minutes.</p>
@@ -42,10 +42,10 @@ transaction and rolls it back, so it cannot write even if something is wrong. Ap
 step, guarded by its own access group, and refuses to finish if any reference is left pointing at an
 absorbed record.</p>
 <p><strong>What it does not touch by itself.</strong> Groups whose unreconciled balance is spread over several records
-are classified apart — merging those moves money between ledgers and belongs with the accountant.
+are classified apart &#8212; merging those moves money between ledgers and belongs with the accountant.
 Also left out: groups holding your own company record, groups with portal users on more than one
 record, and groups whose names differ completely on the same VAT number.</p>
-<p><strong>Kept record.</strong> Chosen by document volume — most invoices, then most sales orders, then oldest. Since
+<p><strong>Kept record.</strong> Chosen by document volume &#8212; most invoices, then most sales orders, then oldest. Since
 that is not the same as name quality, the surviving record is flagged when its name looks mangled at
 import, with the names of the absorbed records alongside for correction.</p>
 <p>The same procedure is available as plain SQL scripts in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech/scripts/partner_merge/</code>, for when
@@ -68,13 +68,13 @@ it has to be run outside Odoo.</p>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -94,7 +94,7 @@ it has to be run outside Odoo.</p>
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -107,10 +107,10 @@ it has to be run outside Odoo.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Generic module</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Generic module</p>
         </div>
       </a>
     </div>
@@ -123,10 +123,10 @@ it has to be run outside Odoo.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">MF</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Markdown Field</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">WYSIWYG markdown widget storing raw Markdown in a Text field</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">WYSIWYG markdown widget storing raw Markdown in a Text field</p>
         </div>
       </a>
     </div>
@@ -139,10 +139,10 @@ it has to be run outside Odoo.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">NQ</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">No quick_create</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Disable quick_create</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Disable quick_create</p>
         </div>
       </a>
     </div>
@@ -155,10 +155,10 @@ it has to be run outside Odoo.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">NS</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Notification Sound</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Notification Sound</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Notification Sound</p>
         </div>
       </a>
     </div>
@@ -171,10 +171,10 @@ it has to be run outside Odoo.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">RR</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech - Restrict Reports Access</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Restrict Sales Analysis and Invoice Analysis reports by group: own records, all records, or no access.</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Restrict Sales Analysis and Invoice Analysis reports by group: own records, all records, or no access.</p>
         </div>
       </a>
     </div>
@@ -187,10 +187,10 @@ it has to be run outside Odoo.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">TS</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Test System</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Set system status: test or production</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Set system status: test or production</p>
         </div>
       </a>
     </div>
@@ -203,10 +203,10 @@ it has to be run outside Odoo.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">WA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Watermark</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Watermark field</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Watermark field</p>
         </div>
       </a>
     </div>
@@ -219,10 +219,10 @@ it has to be run outside Odoo.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account</p>
         </div>
       </a>
     </div>
