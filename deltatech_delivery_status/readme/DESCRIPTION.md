@@ -38,6 +38,7 @@ The module introduces a comprehensive `delivery_state` field on stock pickings t
 - **Delivered**: The package has been successfully delivered to the customer
 
 This granular state tracking provides several benefits:
+
 - Allows customer service to give precise information about delivery status
 - Helps identify bottlenecks in the logistics process
 - Enables better coordination between warehouse operations and delivery carriers
@@ -45,6 +46,7 @@ This granular state tracking provides several benefits:
 - Improves customer experience with more accurate delivery status information
 
 The module also adds an `available_state` field that visually indicates the availability status of products in pickings:
+
 - **Available**: All products are available and ready for delivery
 - **Partially available**: Some products are available, but not all
 - **Unavailable**: None of the products are available yet
