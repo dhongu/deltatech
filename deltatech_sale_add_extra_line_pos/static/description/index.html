@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -45,7 +45,7 @@
 </li>
 <li>
 <p><strong>Quantity Adjustment</strong>: When the quantity of the main product is modified, the extra product quantity is automatically recalculated based on:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>All instances of products that reference the same extra product</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The quantity multiplier configured for each product</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The formula: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Extra Qty = Σ(Main Product Qty × Extra Qty Multiplier)</code></div></div></li></ul>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>All instances of products that reference the same extra product</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The quantity multiplier configured for each product</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The formula: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Extra Qty = &#931;(Main Product Qty &#215; Extra Qty Multiplier)</code></div></div></li></ul>
 </li>
 <li>
 <p><strong>Line Consolidation</strong>: If an extra product is referenced by multiple products in the cart, the module consolidates them into a single line with the aggregated quantity</p>
@@ -72,7 +72,7 @@
 <p>This module extends <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_add_extra_line</code> into the POS front-end. It is designed to work
 alongside the rest of the Terrabit POS suite and the official Romanian fiscal compliance modules,
 without any overlap:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">deltatech_pos</span><div class="mt-1">/ <strong>deltatech_pos_base</strong> — print fiscal receipts and drive cash management on a certified cash register</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">deltatech_ecr_connect</span><div class="mt-1">— shared fiscal document model, ECR format converter and Terrabit Connect sender</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">deltatech_pos_stock</span><div class="mt-1">— shows available stock directly in the POS interface</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">deltatech_pos_price_sync</span><div class="mt-1">— pushes live product price changes to already open POS sessions</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">deltatech_pos_fix</span><div class="mt-1">— corrects POS total calculation for tax-included fiscal position mapping</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">l10n_ro_pos_fiscal_compliance</span><div class="mt-1">— AMEF fiscal receipt tracking, Z report reconciliation and session blocking</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">l10n_ro_anaf_d394_pos</span><div class="mt-1">— reports POS fiscal receipts in the D394 (op. 2) declaration to ANAF</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">l10n_ro_pos_returns</span><div class="mt-1">— dedicated return invoice and cash register line for every POS return</div></div></li></ul>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">deltatech_pos</span><div class="mt-1">/ <strong>deltatech_pos_base</strong> &#8212; print fiscal receipts and drive cash management on a certified cash register</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">deltatech_ecr_connect</span><div class="mt-1">&#8212; shared fiscal document model, ECR format converter and Terrabit Connect sender</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">deltatech_pos_stock</span><div class="mt-1">&#8212; shows available stock directly in the POS interface</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">deltatech_pos_price_sync</span><div class="mt-1">&#8212; pushes live product price changes to already open POS sessions</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">deltatech_pos_fix</span><div class="mt-1">&#8212; corrects POS total calculation for tax-included fiscal position mapping</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">l10n_ro_pos_fiscal_compliance</span><div class="mt-1">&#8212; AMEF fiscal receipt tracking, Z report reconciliation and session blocking</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">l10n_ro_anaf_d394_pos</span><div class="mt-1">&#8212; reports POS fiscal receipts in the D394 (op. 2) declaration to ANAF</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">l10n_ro_pos_returns</span><div class="mt-1">&#8212; dedicated return invoice and cash register line for every POS return</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2 text-body" id="tb-panel-versions" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
@@ -92,13 +92,13 @@ without any overlap:</p>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -118,7 +118,7 @@ without any overlap:</p>
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -131,10 +131,10 @@ without any overlap:</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Edit Currency Rate</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Edit the currency rate on the invoice</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Edit the currency rate on the invoice</p>
         </div>
       </a>
     </div>
@@ -147,10 +147,10 @@ without any overlap:</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Products Alternative</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Alternative product codes</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Alternative product codes</p>
         </div>
       </a>
     </div>
@@ -163,10 +163,10 @@ without any overlap:</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DP</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Discount Policy</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Bring back Odoo 17 discount policy</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Bring back Odoo 17 discount policy</p>
         </div>
       </a>
     </div>
@@ -179,10 +179,10 @@ without any overlap:</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">FS</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Fast Sale</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Vanzare rapida</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Vanzare rapida</p>
         </div>
       </a>
     </div>
@@ -195,10 +195,10 @@ without any overlap:</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">IP</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Invoice Pickings</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Facturare livrari</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Facturare livrari</p>
         </div>
       </a>
     </div>
@@ -211,10 +211,10 @@ without any overlap:</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">IP</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Invoice Pickings Automatically</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Generate invoice automatically from picking after validation</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Generate invoice automatically from picking after validation</p>
         </div>
       </a>
     </div>
@@ -227,10 +227,10 @@ without any overlap:</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PL</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Price List Currency Extension</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Price list currency</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Price list currency</p>
         </div>
       </a>
     </div>
@@ -243,10 +243,10 @@ without any overlap:</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PL</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Price List Line Viewer</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Creates a list view for the lines of a price list for search and management</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Creates a list view for the lines of a price list for search and management</p>
         </div>
       </a>
     </div>
