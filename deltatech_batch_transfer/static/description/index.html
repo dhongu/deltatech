@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -40,7 +40,7 @@ Prevents Odoo's default behaviour of validating zero-quantity pickings and adds 
 "Prepare Batch" wizard for quickly grouping receipts or deliveries from sales/purchase
 orders into a single batch.</p>
 <p><strong>Key features:</strong></p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Empty-picking management on validate</span><div class="mt-1">— when the Validate button is pressed on a
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Empty-picking management on validate</span><div class="mt-1">&#8212; when the Validate button is pressed on a
   batch, pickings that have all done quantities equal to zero are handled according to
   the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_batch_keep_pickings</code> system parameter:<ul class="ps-3 mt-2">
 <li class="small"><em>(default, parameter absent)</em> empty pickings are automatically removed from the
@@ -49,12 +49,12 @@ added to another batch.</li>
 <li class="small"><em>(parameter present)</em> empty pickings are kept in the batch but skipped during
 validation, allowing them to be processed later (not recommended with the barcode
 interface).</li>
-</ul></div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Prepare Batch wizard</span><div class="mt-1">— creates a new batch from open sale or purchase order
+</ul></div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Prepare Batch wizard</span><div class="mt-1">&#8212; creates a new batch from open sale or purchase order
   receipts/deliveries for a selected partner; optionally sets done quantities from a
-  product list.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Add to Batch button</span><div class="mt-1">— shortcut button on the stock picking form to attach a
-  single transfer to an existing batch.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Extra batch fields</span><div class="mt-1">— <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Direction</code> (incoming/outgoing), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Reference</code>, and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Note</code>
-  added to the batch transfer form for better identification and traceability.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Received lines tab</span><div class="mt-1">— dedicated notebook tab on incoming batches showing only
-  move lines with quantity &gt; 0 (bold) vs. zero-quantity lines (muted).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Deliveries batch report</span><div class="mt-1">— PDF report that prints all delivery documents in a
+  product list.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Add to Batch button</span><div class="mt-1">&#8212; shortcut button on the stock picking form to attach a
+  single transfer to an existing batch.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Extra batch fields</span><div class="mt-1">&#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Direction</code> (incoming/outgoing), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Reference</code>, and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Note</code>
+  added to the batch transfer form for better identification and traceability.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Received lines tab</span><div class="mt-1">&#8212; dedicated notebook tab on incoming batches showing only
+  move lines with quantity &gt; 0 (bold) vs. zero-quantity lines (muted).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Deliveries batch report</span><div class="mt-1">&#8212; PDF report that prints all delivery documents in a
   batch in a single action.</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2 text-body" id="tb-panel-configure" style="font-size:16px;line-height:1.65;">
@@ -88,7 +88,7 @@ a batch is validated.</p>
 <ol>
 <li>Go to <strong>Settings &gt; Technical &gt; Parameters &gt; System Parameters</strong>.</li>
 <li>Search for <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_batch_keep_pickings</code>.<ul>
-<li>If the parameter does not exist (default), empty pickings are removed on validate —
+<li>If the parameter does not exist (default), empty pickings are removed on validate &#8212;
  no action needed.</li>
 <li>To keep empty pickings in the batch, click <strong>Create</strong>, set the key to
  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_batch_keep_pickings</code> and the value to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">True</code>.</li>
@@ -103,14 +103,14 @@ a batch is validated.</p>
 <ol>
 <li>Go to <strong>Inventory &gt; Warehouse Management &gt; Prepare batch</strong> (menu added by this module).</li>
 <li>The <strong>Prepare Batch</strong> wizard opens. Fill in:<ul>
-<li><strong>Partner</strong> — the supplier (purchase mode) or customer (sale mode) whose open
+<li><strong>Partner</strong> &#8212; the supplier (purchase mode) or customer (sale mode) whose open
  transfers you want to group.</li>
-<li><strong>Responsible</strong> — the user responsible for the batch.</li>
-<li><strong>Reference</strong> — optional reference label for the batch.</li>
-<li><strong>Mode</strong> — choose <em>Purchase</em> (incoming) or <em>Sale</em> (outgoing).</li>
-<li><strong>Set done qty</strong> — tick to pre-fill done quantities from the product list below;
+<li><strong>Responsible</strong> &#8212; the user responsible for the batch.</li>
+<li><strong>Reference</strong> &#8212; optional reference label for the batch.</li>
+<li><strong>Mode</strong> &#8212; choose <em>Purchase</em> (incoming) or <em>Sale</em> (outgoing).</li>
+<li><strong>Set done qty</strong> &#8212; tick to pre-fill done quantities from the product list below;
  leave unticked to keep the demand quantities.</li>
-<li><strong>Lines</strong> (visible in Purchase mode) — optional product/quantity list to restrict
+<li><strong>Lines</strong> (visible in Purchase mode) &#8212; optional product/quantity list to restrict
  which products are included and at what quantity.</li>
 </ul>
 </li>
@@ -118,7 +118,7 @@ a batch is validated.</p>
    mode, creates a confirmed batch, assigns availability, and opens the new batch.</li>
 </ol>
 <p>Alternatively, from a <strong>Sale Orders</strong> list view select one or more orders and use the
-action <strong>Prepare batch</strong> (bound to the sale order list) — the wizard pre-fills the
+action <strong>Prepare batch</strong> (bound to the sale order list) &#8212; the wizard pre-fills the
 customer and sets mode to <em>Sale</em>.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Add a single transfer to a batch</h2>
 <ol>
@@ -149,10 +149,10 @@ customer and sets mode to <em>Sale</em>.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Reading the batch form</h2>
 <p>The batch form shows three extra fields added by this module:</p>
 <ul>
-<li><strong>Reference</strong> — free-text identifier, visible next to the picking type.</li>
-<li><strong>Note</strong> — additional notes for the batch.</li>
-<li><strong>Direction</strong> — read-only field showing <em>Incoming</em> or <em>Outgoing</em>.</li>
-<li><strong>Received</strong> tab — available on incoming batches; lists only move lines that have a
+<li><strong>Reference</strong> &#8212; free-text identifier, visible next to the picking type.</li>
+<li><strong>Note</strong> &#8212; additional notes for the batch.</li>
+<li><strong>Direction</strong> &#8212; read-only field showing <em>Incoming</em> or <em>Outgoing</em>.</li>
+<li><strong>Received</strong> tab &#8212; available on incoming batches; lists only move lines that have a
   done quantity &gt; 0 (shown in bold); zero-quantity lines appear muted.</li>
 </ul>
 </div>
@@ -162,13 +162,13 @@ customer and sets mode to <em>Sale</em>.</p>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -188,7 +188,7 @@ customer and sets mode to <em>Sale</em>.</p>
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -201,10 +201,10 @@ customer and sets mode to <em>Sale</em>.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AR</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Auto Reorder Rule</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Stock</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Stock</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Auto create reorder rule</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Auto create reorder rule</p>
         </div>
       </a>
     </div>
@@ -217,10 +217,10 @@ customer and sets mode to <em>Sale</em>.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PS</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Picking Service Lines</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Stock</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Stock</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Service lines in pickings</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Service lines in pickings</p>
         </div>
       </a>
     </div>
@@ -233,10 +233,10 @@ customer and sets mode to <em>Sale</em>.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PL</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Product Labels</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Stock</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Stock</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Print Labels on Products</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Print Labels on Products</p>
         </div>
       </a>
     </div>
@@ -249,10 +249,10 @@ customer and sets mode to <em>Sale</em>.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">RN</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech reception_note</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Stock</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Stock</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Batch reception note</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Batch reception note</p>
         </div>
       </a>
     </div>
@@ -265,10 +265,10 @@ customer and sets mode to <em>Sale</em>.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">RP</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Raport PRN</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Stock</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Stock</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Raport PRN</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Raport PRN</p>
         </div>
       </a>
     </div>
@@ -281,10 +281,10 @@ customer and sets mode to <em>Sale</em>.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">SC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech stock count zero</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Stock</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Stock</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Set inventory line to 0 when empty count is requested</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Set inventory line to 0 when empty count is requested</p>
         </div>
       </a>
     </div>
@@ -297,10 +297,10 @@ customer and sets mode to <em>Sale</em>.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">WA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Warehouse Arrangement</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Stock</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Stock</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Manages warehouse locations, parallel to standard Odoo locations</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Manages warehouse locations, parallel to standard Odoo locations</p>
         </div>
       </a>
     </div>
@@ -313,10 +313,10 @@ customer and sets mode to <em>Sale</em>.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Generic module</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Generic module</p>
         </div>
       </a>
     </div>
