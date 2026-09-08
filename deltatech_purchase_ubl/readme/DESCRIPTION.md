@@ -1,6 +1,7 @@
 This module imports vendor invoices in UBL XML format and uses them to update purchase workflows in Odoo.
 
 Key features:
+
 - **Automatic vendor and order resolution**: the wizard keeps the selected purchase order on itself and can also identify the vendor and purchase order from the XML (`OrderReference`, supplier VAT, supplier name) when context is no longer available.
 - **Automatic matching**: products are matched by barcode (GS1/EAN), supplier code, internal reference, or exact name.
 - **Purchase order integration**:
