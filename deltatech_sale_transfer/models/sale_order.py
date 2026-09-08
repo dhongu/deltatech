@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, models
+from odoo import Command, models
 from odoo.tools import float_compare
 
 
@@ -31,18 +31,20 @@ class SaleOrder(models.Model):
             auto_confirm_transfer = self.env.context.get("confirm_transfer", warehouse.auto_confirm_transfer)
             location_source = warehouse.int_type_id.default_location_src_id
             location_dest = order.warehouse_id.int_type_id.default_location_dest_id
+            # in 19.0 procurement.group a fost inlocuit de stock.reference:
+            # gruparea cu livrarea se face prin referintele de stoc ale comenzii
             if order.warehouse_id.group_transfer_with_delivery:
-                group_id = order.procurement_group_id.id
+                reference_ids = order.stock_reference_ids
             else:
-                group_id = False
+                reference_ids = self.env["stock.reference"]
 
             picking = self.env["stock.picking"]
             for line in order.order_line:
-                if line.product_id.type != "product":
+                if not line.product_id.is_storable:
                     continue
 
-                product = line.product_id.with_context(warehouse=order.warehouse_id.id)
-                product_qty = line.product_uom._compute_quantity(line.product_uom_qty, line.product_id.uom_id)
+                product = line.product_id.with_context(warehouse_id=order.warehouse_id.id)
+                product_qty = line.product_uom_id._compute_quantity(line.product_uom_qty, line.product_id.uom_id)
 
                 qty_available = product.qty_available
                 if qty_available < 0:
@@ -59,7 +61,7 @@ class SaleOrder(models.Model):
                     demand = line.product_uom_qty - qty_available
                     if demand <= 0:
                         continue
-                    qty_available = line.product_id.with_context(warehouse=warehouse.id).qty_available
+                    qty_available = line.product_id.with_context(warehouse_id=warehouse.id).qty_available
                     if qty_available > 0:
                         if not picking:
                             picking = self.env["stock.picking"].create(
@@ -77,19 +79,20 @@ class SaleOrder(models.Model):
                         else:
                             qty = qty_available
 
-                        self.env["stock.move"].create(
-                            {
-                                "state": "confirmed",
-                                "product_id": line.product_id.id,
-                                "picking_id": picking.id,
-                                "product_uom": line.product_uom.id,
-                                "product_uom_qty": qty,
-                                "name": product.name,
-                                "location_id": location_source.id,
-                                "location_dest_id": location_dest.id,
-                                "group_id": group_id,
-                            }
-                        )
+                        move_vals = {
+                            "state": "confirmed",
+                            "product_id": line.product_id.id,
+                            "picking_id": picking.id,
+                            "product_uom": line.product_uom_id.id,
+                            "product_uom_qty": qty,
+                            # stock.move.name a fost eliminat in 19.0;
+                            # descrierea se calculeaza din produs (description_picking)
+                            "location_id": location_source.id,
+                            "location_dest_id": location_dest.id,
+                        }
+                        if reference_ids:
+                            move_vals["reference_ids"] = [Command.set(reference_ids.ids)]
+                        self.env["stock.move"].create(move_vals)
 
             if picking:
                 picking.message_post_with_source(
@@ -99,7 +102,7 @@ class SaleOrder(models.Model):
                 )
                 picking.action_assign()
 
-                message = _("Transfer document %s was generated") % picking.name
+                message = self.env._("Transfer document %s was generated") % picking.name
                 order.message_post(body=message)
 
                 # order.picking_ids.message_post(body=message)

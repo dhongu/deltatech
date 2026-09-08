@@ -5,7 +5,7 @@
 {
     "name": "Sale Prepare Transfer",
     "summary": "Sale Prepare Transfer",
-    "version": "18.0.1.0.1",
+    "version": "19.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
