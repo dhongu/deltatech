@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -20,7 +20,7 @@
 <h4 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:17px;letter-spacing:-0.3px;line-height:1.2;">Purpose</h4>
 <p>Allow project managers to define a default pricelist on each project so that any Sales Order created from that project (or from one of its tasks) automatically uses the correct pricelist. This avoids manual selection mistakes and keeps pricing consistent.</p>
 <h4 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:17px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h4>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>New field on projects: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Pricelist</code> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">project.project.pricelist_id</code>).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Project Sales Orders action injects <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">default_pricelist_id</code> so new quotations are prefilled with the project’s pricelist.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>When opening a quotation form from a project or task, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.order.default_get</code> proposes the project’s pricelist before save.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Server-side safety: during <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.order.create</code>, if a Sales Order is created from a project/task and no pricelist is provided, the project’s pricelist is applied.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Explicit pricelist chosen by the user or provided via context is never overridden.</div></div></li></ul>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>New field on projects: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Pricelist</code> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">project.project.pricelist_id</code>).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Project Sales Orders action injects <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">default_pricelist_id</code> so new quotations are prefilled with the project&#8217;s pricelist.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>When opening a quotation form from a project or task, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.order.default_get</code> proposes the project&#8217;s pricelist before save.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Server-side safety: during <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.order.create</code>, if a Sales Order is created from a project/task and no pricelist is provided, the project&#8217;s pricelist is applied.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Explicit pricelist chosen by the user or provided via context is never overridden.</div></div></li></ul>
 <h4 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:17px;letter-spacing:-0.3px;line-height:1.2;">UI/Views</h4>
 <ul>
 <li>Project form (simplified): displays the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Pricelist</code> field in the settings section.</li>
@@ -32,17 +32,17 @@
 </ul>
 <h4 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:17px;letter-spacing:-0.3px;line-height:1.2;">Dependencies</h4>
 <ul>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_project</code> (Project ↔ Sales integration).</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_project</code> (Project &#8596; Sales integration).</li>
 </ul>
 <h4 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:17px;letter-spacing:-0.3px;line-height:1.2;">Installation</h4>
-<p>1) Ensure your <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">addons_path</code> includes this module’s directory.
+<p>1) Ensure your <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">addons_path</code> includes this module&#8217;s directory.
 2) Install the module:</p>
 <pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code>./odoo/odoo-bin -c odoo18.conf -d o19_playground -i deltatech_project_price_list --stop-after-init
 </code></pre>
 <h4 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:17px;letter-spacing:-0.3px;line-height:1.2;">Usage</h4>
 <p>1) Open a Project and set the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Pricelist</code> field.
-2) Create a quotation from the project’s Sales Orders smart button, or from a task in that project.
-3) The quotation’s <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Pricelist</code> will be prefilled with the project’s pricelist and pricing will follow it.</p>
+2) Create a quotation from the project&#8217;s Sales Orders smart button, or from a task in that project.
+3) The quotation&#8217;s <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Pricelist</code> will be prefilled with the project&#8217;s pricelist and pricing will follow it.</p>
 <h4 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:17px;letter-spacing:-0.3px;line-height:1.2;">Tests</h4>
 <p>Automated tests cover:
 - Action context injection (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">default_pricelist_id</code>) from the project.
@@ -60,13 +60,13 @@
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -86,7 +86,7 @@
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -99,10 +99,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Generic module</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Generic module</p>
         </div>
       </a>
     </div>
@@ -115,10 +115,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account</p>
         </div>
       </a>
     </div>
@@ -131,10 +131,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account Analytic</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Analytic lines enhancements</p>
         </div>
       </a>
     </div>
@@ -147,10 +147,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">UD</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech UBL despatch advice</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account UBL despatch advice</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account UBL despatch advice</p>
         </div>
       </a>
     </div>
@@ -163,10 +163,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Edit Currency Rate</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Edit the currency rate on the invoice</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Edit the currency rate on the invoice</p>
         </div>
       </a>
     </div>
@@ -179,10 +179,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Actions</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Other</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Other</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Cleaning and other actions</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Cleaning and other actions</p>
         </div>
       </a>
     </div>
@@ -195,10 +195,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AM</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Agreement Management</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Services/Agreement</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Services/Agreement</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Manage agreements numbers, date, state</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Manage agreements numbers, date, state</p>
         </div>
       </a>
     </div>
@@ -211,10 +211,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Products Alternative</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Alternative product codes</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Alternative product codes</p>
         </div>
       </a>
     </div>
