@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -33,46 +33,46 @@
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key features</h2>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Adds capacity fields on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.location</code>:<ul class="ps-3 mt-2">
 <li class="small"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Max products (leaf)</code>: manual capacity for leaf locations.</li>
-<li class="small"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Max products</code>: computed capacity for any location (sum of children for non‑leaf locations).</li>
-<li class="small"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Current quantity</code>: computed on‑hand quantity per location.</li>
+<li class="small"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Max products</code>: computed capacity for any location (sum of children for non&#8209;leaf locations).</li>
+<li class="small"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Current quantity</code>: computed on&#8209;hand quantity per location.</li>
 <li class="small"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Planned quantity</code>: computed incoming quantity per location based on pending moves.</li>
 <li class="small"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Occupancy</code>: computed ratio <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">current/max</code> (clamped to [0, 1]).</li>
 </ul>
 </div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Optimized computation for large hierarchies:<ul class="ps-3 mt-2">
 <li class="small">Single batched <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">read_group</code> on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.quant</code> for all leaf locations in the batch.</li>
 <li class="small">Batched <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">read_group</code> on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.move.line</code> for planned quantities.</li>
-<li class="small">Bottom‑up in‑memory aggregation for parent locations.</li>
+<li class="small">Bottom&#8209;up in&#8209;memory aggregation for parent locations.</li>
 </ul>
 </div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Smarter putaway:<ul class="ps-3 mt-2">
 <li class="small">Respects capacity on leaf locations when suggesting destinations.</li>
 <li class="small">Automatically splits move lines if a destination location reaches its maximum capacity.</li>
 <li class="small">Prefers empty child locations when possible (if search sublocation is enabled).</li>
 <li class="small">Optimized rule lookup with database indexes on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product_id</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sequence</code> for <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.putaway.rule</code>.</li>
-<li class="small">Keeps full compatibility with Odoo’s storage category rules (max weight, product/pack capacities, allow new product rules, etc.).</li>
+<li class="small">Keeps full compatibility with Odoo&#8217;s storage category rules (max weight, product/pack capacities, allow new product rules, etc.).</li>
 </ul>
 </div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Operation type options on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.picking.type</code>:<ul class="ps-3 mt-2">
 <li class="small"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Avoid Putaway Rules</code>: skip the putaway redirection for this operation type.</li>
 <li class="small"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Avoid Root Location on Reservation</code> (deliveries only): never reserve stock sitting directly in the
-operation's source location — typically the warehouse root (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">lot_stock</code>, e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">D1/S</code>). Goods that have
+operation's source location &#8212; typically the warehouse root (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">lot_stock</code>, e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">D1/S</code>). Goods that have
 not been put away on a shelf yet are therefore not allocated automatically to sales orders.
-Sub‑locations (shelves) stay eligible.</li>
+Sub&#8209;locations (shelves) stay eligible.</li>
 </ul>
 </div></div></li></ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
 <ol>
 <li>Set <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Max products (leaf)</code> on leaf locations that should have a maximum capacity.</li>
 <li>Use standard operations (receipts, internal transfers). The putaway helper will:<ul>
-<li>reject over‑capacity destinations,</li>
+<li>reject over&#8209;capacity destinations,</li>
 <li>and try to choose an empty child location first when appropriate.</li>
 </ul>
 </li>
 <li>The computed fields can be shown in location tree or used by other modules (e.g., visual warehouse map).</li>
-<li>To stop deliveries from reserving not‑yet‑put‑away stock, tick <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Avoid Root Location on Reservation</code> on the
+<li>To stop deliveries from reserving not&#8209;yet&#8209;put&#8209;away stock, tick <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Avoid Root Location on Reservation</code> on the
    delivery operation type. This requires <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_stock_removal_priority</code> to be installed (see Compatibility).</li>
 </ol>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Performance notes</h2>
 <ul>
-<li>The occupancy compute reduces SQL calls from O(N) per leaf to O(1) per batch using a single <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">read_group</code>, mirroring the efficient pattern from Odoo’s <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_compute_weight</code>.</li>
+<li>The occupancy compute reduces SQL calls from O(N) per leaf to O(1) per batch using a single <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">read_group</code>, mirroring the efficient pattern from Odoo&#8217;s <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_compute_weight</code>.</li>
 </ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Compatibility</h2>
 <ul>
@@ -110,13 +110,13 @@ instead of the warehouse root.</li>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.6 (2026-08-04)</h2>
 <ul>
 <li>Fix: a plain stock user (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.group_stock_user</code>) could not validate a transfer into a
-  location that has a capacity configured — it failed with
+  location that has a capacity configured &#8212; it failed with
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">AccessError: You are not allowed to modify 'Inventory Locations' (stock.location)</code>,
   pointing at Inventory/Administrator. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">current_products</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">max_products</code>,
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">planned_products</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">occupancy_ratio</code> are <strong>non-stored</strong> computed fields, and
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_action_done</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_split_by_putaway_capacity</code> invoked their compute methods <em>directly</em>.
   Outside the ORM's compute machinery the assignments inside those methods no longer just
-  fill the cache — they become a real <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">write()</code> on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.location</code>, which only the
+  fill the cache &#8212; they become a real <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">write()</code> on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.location</code>, which only the
   inventory administrator may perform. Both call sites now invalidate the cache and let the
   ORM compute on read instead, on a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sudo()</code> recordset (these are metrics derived from
   quants, already read with sudo inside the compute, not business data).</li>
@@ -134,11 +134,11 @@ instead of the warehouse root.</li>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.5 (2026-08-04)</h2>
 <ul>
 <li>Fix: restored the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Avoid Root Location on Reservation</code> option, which was lost
-  during the 18.0 → 19.0 migration. The feature is made of two halves talking to
+  during the 18.0 &#8594; 19.0 migration. The feature is made of two halves talking to
   each other through the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">exclude_location_ids</code> context key: this module produces
   it in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.move._action_assign</code>, and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_stock_removal_priority</code>
   consumes it in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.quant._get_gather_domain</code>. Only the consumer half was
-  migrated to 19.0 — the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">avoid_root_location_on_reservation</code> field on
+  migrated to 19.0 &#8212; the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">avoid_root_location_on_reservation</code> field on
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.picking.type</code> and the context injection were missing, so the key was
   never set and deliveries kept reserving stock straight from the warehouse root
   location (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">lot_stock</code>, e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">D1/S</code>) instead of leaving it for put-away.</li>
@@ -147,8 +147,8 @@ instead of the warehouse root.</li>
   transfers as soon as <em>any</em> of their operation types had the flag set, which
   over-excluded when <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_action_assign</code> received moves from several operation
   types at once.</li>
-<li>Added regression tests covering the whole chain (flag → context → gather
-  domain → reserved location), the flag-off case, and the fact that the
+<li>Added regression tests covering the whole chain (flag &#8594; context &#8594; gather
+  domain &#8594; reserved location), the flag-off case, and the fact that the
   exclusion applies to deliveries only.</li>
 </ul>
 <p><strong>Upgrade note:</strong> the field never existed in 19.0, so every operation type has
@@ -162,13 +162,13 @@ The option also requires <code class="border rounded px-2" style="font-family:ui
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -188,7 +188,7 @@ The option also requires <code class="border rounded px-2" style="font-family:ui
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -201,10 +201,10 @@ The option also requires <code class="border rounded px-2" style="font-family:ui
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Generic module</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Generic module</p>
         </div>
       </a>
     </div>
@@ -217,10 +217,10 @@ The option also requires <code class="border rounded px-2" style="font-family:ui
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account</p>
         </div>
       </a>
     </div>
@@ -233,10 +233,10 @@ The option also requires <code class="border rounded px-2" style="font-family:ui
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account Analytic</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Analytic lines enhancements</p>
         </div>
       </a>
     </div>
@@ -249,10 +249,10 @@ The option also requires <code class="border rounded px-2" style="font-family:ui
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">UD</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech UBL despatch advice</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account UBL despatch advice</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account UBL despatch advice</p>
         </div>
       </a>
     </div>
@@ -265,10 +265,10 @@ The option also requires <code class="border rounded px-2" style="font-family:ui
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Edit Currency Rate</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Edit the currency rate on the invoice</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Edit the currency rate on the invoice</p>
         </div>
       </a>
     </div>
@@ -281,10 +281,10 @@ The option also requires <code class="border rounded px-2" style="font-family:ui
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Actions</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Other</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Other</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Cleaning and other actions</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Cleaning and other actions</p>
         </div>
       </a>
     </div>
@@ -297,10 +297,10 @@ The option also requires <code class="border rounded px-2" style="font-family:ui
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AM</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Agreement Management</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Services/Agreement</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Services/Agreement</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Manage agreements numbers, date, state</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Manage agreements numbers, date, state</p>
         </div>
       </a>
     </div>
@@ -313,10 +313,10 @@ The option also requires <code class="border rounded px-2" style="font-family:ui
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Products Alternative</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Alternative product codes</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Alternative product codes</p>
         </div>
       </a>
     </div>
