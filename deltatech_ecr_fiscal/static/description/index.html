@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -31,44 +31,44 @@
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">Defines, in a single place, the fields that record the result of printing on a fiscal
 cash register (ECR/AMEF):</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Fiscal receipt (BF)</span><div class="mt-1">— receipt number within the current Z report; restarts at every Z</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Fiscal document (NR)</span><div class="mt-1">— fiscal document number, unique per device; the one to use
-  when a document must be identified without ambiguity</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Z report</span><div class="mt-1">— number of the Z report the receipt belongs to</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Fiscal state</span><div class="mt-1">— outcome reported by the device driver</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Fiscal error</span><div class="mt-1">— error message, when the device refused or failed</div></div></li></ul>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Fiscal receipt (BF)</span><div class="mt-1">&#8212; receipt number within the current Z report; restarts at every Z</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Fiscal document (NR)</span><div class="mt-1">&#8212; fiscal document number, unique per device; the one to use
+  when a document must be identified without ambiguity</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Z report</span><div class="mt-1">&#8212; number of the Z report the receipt belongs to</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Fiscal state</span><div class="mt-1">&#8212; outcome reported by the device driver</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Fiscal error</span><div class="mt-1">&#8212; error message, when the device refused or failed</div></div></li></ul>
 <p>The fields are added to <strong>journal entries</strong> here, and to <strong>POS orders</strong> by
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code>, through the abstract mixin <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech.ecr.fiscal.mixin</code>.</p>
-<p>Written by the driver — the POS payment screen, or the store print action, after the
-Terrabit Connect agent replies — and read by everything downstream: reports, fiscal
+<p>Written by the driver &#8212; the POS payment screen, or the store print action, after the
+Terrabit Connect agent replies &#8212; and read by everything downstream: reports, fiscal
 compliance modules, the Romanian localization.</p>
-<p>The module depends on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account</code> alone — not on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">point_of_sale</code> — so the contract can be
+<p>The module depends on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account</code> alone &#8212; not on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">point_of_sale</code> &#8212; so the contract can be
 consumed from suites that have no access to the cash register driver modules, and from
 the POS-free store alternative (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code>) without pulling in Point of Sale.</p>
-<p>Câmpurile erau definite de două ori, identic: pe <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pos.order</code> în <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code> și pe
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code> în <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code>. Orice consumator al lor trebuia să depindă de
-unul din acele module, deci de întreaga suită de casă de marcat — chiar dacă nu voia
-decât să citească numărul bonului.</p>
+<p>C&#226;mpurile erau definite de dou&#259; ori, identic: pe <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pos.order</code> &#238;n <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code> &#537;i pe
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code> &#238;n <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code>. Orice consumator al lor trebuia s&#259; depind&#259; de
+unul din acele module, deci de &#238;ntreaga suit&#259; de cas&#259; de marcat &#8212; chiar dac&#259; nu voia
+dec&#226;t s&#259; citeasc&#259; num&#259;rul bonului.</p>
 <p>Concret, asta a blocat puntea <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_pos_fiscal_compliance_ecr</code> din suita de
-localizare: dependența pe <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code> nu se putea satisface în CI-ul acelei suite,
-și rezolvarea dependențelor cădea înainte de teste.</p>
-<p>Contractul stă acum într-un modul care depinde doar de <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account</code>. Modulele de casă de
-marcat rămân cele care <strong>scriu</strong> câmpurile; oricine altcineva le poate doar <strong>citi</strong>,
-fără să atragă driverul.</p>
-<p>Nici <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">point_of_sale</code> nu e în dependențe: mixinul pe <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pos.order</code> îl aplică <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code>,
-care oricum depinde de POS. Altfel <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code> — alternativa de magazin
-<strong>fără</strong> POS — ar fi tras Point of Sale ca dependență obligatorie doar ca să ajungă la
-câmpuri.</p>
-<p>La instalare, un <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pre_init_hook</code> preia rândurile din <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir_model_data</code> de la cele două
-module donoare, ca actualizarea lor să nu ducă la ștergerea coloanelor și a numerelor de
-bon fiscal deja înregistrate.</p>
+localizare: dependen&#539;a pe <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code> nu se putea satisface &#238;n CI-ul acelei suite,
+&#537;i rezolvarea dependen&#539;elor c&#259;dea &#238;nainte de teste.</p>
+<p>Contractul st&#259; acum &#238;ntr-un modul care depinde doar de <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account</code>. Modulele de cas&#259; de
+marcat r&#259;m&#226;n cele care <strong>scriu</strong> c&#226;mpurile; oricine altcineva le poate doar <strong>citi</strong>,
+f&#259;r&#259; s&#259; atrag&#259; driverul.</p>
+<p>Nici <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">point_of_sale</code> nu e &#238;n dependen&#539;e: mixinul pe <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pos.order</code> &#238;l aplic&#259; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code>,
+care oricum depinde de POS. Altfel <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code> &#8212; alternativa de magazin
+<strong>f&#259;r&#259;</strong> POS &#8212; ar fi tras Point of Sale ca dependen&#539;&#259; obligatorie doar ca s&#259; ajung&#259; la
+c&#226;mpuri.</p>
+<p>La instalare, un <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pre_init_hook</code> preia r&#226;ndurile din <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir_model_data</code> de la cele dou&#259;
+module donoare, ca actualizarea lor s&#259; nu duc&#259; la &#537;tergerea coloanelor &#537;i a numerelor de
+bon fiscal deja &#238;nregistrate.</p>
 </div>
 <div class="tab-pane fade py-2 text-body" id="tb-panel-usage" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
-<p>Modulul nu adaugă interfață proprie: el doar pune câmpurile la dispoziție.</p>
-<p><strong>Ca să scrii în ele</strong> (driver de casă de marcat), moștenește mixinul pe modelul tău:</p>
+<p>Modulul nu adaug&#259; interfa&#539;&#259; proprie: el doar pune c&#226;mpurile la dispozi&#539;ie.</p>
+<p><strong>Ca s&#259; scrii &#238;n ele</strong> (driver de cas&#259; de marcat), mo&#537;tene&#537;te mixinul pe modelul t&#259;u:</p>
 <pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">class MyModel(models.Model):
     _name = &quot;my.model&quot;
     _inherit = [&quot;my.model&quot;, &quot;deltatech.ecr.fiscal.mixin&quot;]
 </code></pre>
-<p><strong>Ca să le citești</strong>, e destul să declari <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_ecr_fiscal</code> în <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">depends</code> — nu ai
-nevoie de modulele de casă de marcat.</p>
+<p><strong>Ca s&#259; le cite&#537;ti</strong>, e destul s&#259; declari <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_ecr_fiscal</code> &#238;n <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">depends</code> &#8212; nu ai
+nevoie de modulele de cas&#259; de marcat.</p>
 </div>
 </div>
 
@@ -76,13 +76,13 @@ nevoie de modulele de casă de marcat.</p>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -102,7 +102,7 @@ nevoie de modulele de casă de marcat.</p>
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -115,10 +115,10 @@ nevoie de modulele de casă de marcat.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Generic module</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Generic module</p>
         </div>
       </a>
     </div>
@@ -131,10 +131,10 @@ nevoie de modulele de casă de marcat.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account</p>
         </div>
       </a>
     </div>
@@ -147,10 +147,10 @@ nevoie de modulele de casă de marcat.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account Analytic</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Analytic lines enhancements</p>
         </div>
       </a>
     </div>
@@ -163,10 +163,10 @@ nevoie de modulele de casă de marcat.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">UD</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech UBL despatch advice</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account UBL despatch advice</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account UBL despatch advice</p>
         </div>
       </a>
     </div>
@@ -179,10 +179,10 @@ nevoie de modulele de casă de marcat.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Edit Currency Rate</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Edit the currency rate on the invoice</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Edit the currency rate on the invoice</p>
         </div>
       </a>
     </div>
@@ -195,10 +195,10 @@ nevoie de modulele de casă de marcat.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Actions</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Other</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Other</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Cleaning and other actions</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Cleaning and other actions</p>
         </div>
       </a>
     </div>
@@ -211,10 +211,10 @@ nevoie de modulele de casă de marcat.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AM</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Agreement Management</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Services/Agreement</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Services/Agreement</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Manage agreements numbers, date, state</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Manage agreements numbers, date, state</p>
         </div>
       </a>
     </div>
@@ -227,10 +227,10 @@ nevoie de modulele de casă de marcat.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Products Alternative</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Alternative product codes</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Alternative product codes</p>
         </div>
       </a>
     </div>

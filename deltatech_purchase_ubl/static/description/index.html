@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -57,7 +57,7 @@
   19.0.1.4.0 (regenerated <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.pot</code>, resynced <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro.po</code>) landed <em>without</em> touching <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">__manifest__.py</code>,
   so code from before and after it both report <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">19.0.1.4.0</code>. On a customer database
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir.module.module.latest_version</code> therefore proved nothing about whether the translations were
-  actually on disk — a Romchim check had to fall back to reading <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">code_translations</code> in a shell.
+  actually on disk &#8212; a Romchim check had to fall back to reading <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">code_translations</code> in a shell.
   Python code translations are read from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">i18n/*.po</code> on disk at runtime (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">CodeTranslations</code>), not
   from the database, so no <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">-u</code> can compensate for a stale build: the manifest version is the only
   handle an audit has. Bumped so it is one.</li>
@@ -69,8 +69,8 @@
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">log</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">log_html</code> so a headless caller can tell whether a run needs a human's attention without
   re-parsing the log text. Deliberately narrower than "any warning-classified message": only a
   <strong>total that doesn't add up</strong> and <strong>lines the matcher couldn't place</strong> count. Routine steps of an
-  unattended import — bill creation skipped because the order isn't confirmed yet, no receipt to
-  validate — also classify as "warning" via <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_classify_message</code>'s generic keywords and would
+  unattended import &#8212; bill creation skipped because the order isn't confirmed yet, no receipt to
+  validate &#8212; also classify as "warning" via <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_classify_message</code>'s generic keywords and would
   otherwise fire on every successful headless import.</li>
 <li><strong>Review activity on the purchase order</strong> (ticket #9287): when the headless import sets
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">has_warning</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_attachments_for_post</code> schedules a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mail.mail_activity_data_todo</code>
@@ -90,7 +90,7 @@
 <li>The headless import now posts the <strong>color-coded</strong> log (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">log_html</code>) on the purchase order instead
   of the plain-text <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">log</code>, so mismatches and unmatched lines stand out in red/orange instead of
   blending into a wall of text.</li>
-<li><strong>Shorter log.</strong> Updated prices are no longer listed line by line — a single
+<li><strong>Shorter log.</strong> Updated prices are no longer listed line by line &#8212; a single
   "Identified products and updated prices for %s line(s)." message replaces the per-line dump.
   Created products keep their per-product detail but gain a count in the header
   ("Created products (%s):"). On a real SPV import the log was long enough that the warning at the
@@ -104,7 +104,7 @@
   regeneration (the whole preview wizard: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Supplier Code</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Match Type</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">By name</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Not found</code>,
   the legend banner, and the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">SPV import needs review</code> activity title). <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PoFileReader</code> merges
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">i18n/ro.po</code> with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">i18n/&lt;module&gt;.pot</code> to refresh references, and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">polib.merge()</code> marks every
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.po</code> entry absent from the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.pot</code> as <strong>obsolete</strong> — which the reader then skips silently. The
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.po</code> entry absent from the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.pot</code> as <strong>obsolete</strong> &#8212; which the reader then skips silently. The
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.pot</code> was older than <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro.po</code>, so exactly the new terms were dropped while the old ones kept
   working. Regenerated the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.pot</code> and resynchronized <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro.po</code> (the regeneration merges the info
   icon with its <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">&lt;span&gt;</code> into a single term, so the banner needed a new entry).</li>
@@ -113,7 +113,7 @@
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Added</h3>
 <ul>
 <li><strong>Mapping preview in the import wizard</strong> (ticket #9315): the interactive flow is now
-  two-step — "Preview" parses the XML and shows one line per invoice line with the product
+  two-step &#8212; "Preview" parses the XML and shows one line per invoice line with the product
   the matcher found and how it found it, color-coded: green = matched by supplier code or
   barcode (trustworthy), yellow = matched only by name (double-check), red = no match (a new
   product would be created). The user can pick a different product on any line before
@@ -141,7 +141,7 @@
   defined by their glue module <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_stock</code> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase.order.picking_ids</code>,
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.picking.purchase_id</code>) in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_find_receipt</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_validate_receipt_quantities</code>.
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_stock</code> is <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">auto_install=True</code>, and CI's test database init runs with
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">--skip-auto-install</code> (Odoo ≥ 19) - so it was only ever getting installed incidentally, when
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">--skip-auto-install</code> (Odoo &#8805; 19) - so it was only ever getting installed incidentally, when
   another module in the same CI shard happened to declare it explicitly. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">depends</code> now lists
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_stock</code> directly instead of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase</code> + <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock</code>.</li>
 </ul>
@@ -153,7 +153,7 @@
   state. A draft/unconfirmed order has <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_to_invoice = 0</code> on every line
   (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_order_line._compute_qty_invoiced</code> only computes a nonzero value once the order is
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">state == "purchase"</code>), so <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">action_create_invoice()</code> still "succeeded" but produced a vendor
-  bill with every line at zero quantity/amount — a useless ghost document. This hit the SPV
+  bill with every line at zero quantity/amount &#8212; a useless ghost document. This hit the SPV
   auto-import flow, where a purchase order can be created and attached to its XML before it is
   ever confirmed.<ul>
 <li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_invoice_data</code> now skips vendor bill creation (logging why) when the resolved
@@ -175,7 +175,7 @@ creating an empty bill.</li>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[19.0.1.2.1] - 2026-07-14</h2>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
 <ul>
-<li><strong>Bug</strong> (ported from 18.0 PR #2645): when the purchase order already had lines, source lines whose product wasn't already on the order (e.g. an "Ecovaloare" line added by the supplier that wasn't on the original PO) were silently dropped — no new order line was created and no message was shown. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_invoice_data</code> now adds any unconsumed matched source line as a new purchase order line, mirroring the behavior already used when the order has no lines.<ul>
+<li><strong>Bug</strong> (ported from 18.0 PR #2645): when the purchase order already had lines, source lines whose product wasn't already on the order (e.g. an "Ecovaloare" line added by the supplier that wasn't on the original PO) were silently dropped &#8212; no new order line was created and no message was shown. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_invoice_data</code> now adds any unconsumed matched source line as a new purchase order line, mirroring the behavior already used when the order has no lines.<ul>
 <li>Added test <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_new_product_added_as_line_when_order_already_has_lines</code>.</li>
 </ul>
 </li>
@@ -204,7 +204,7 @@ creating an empty bill.</li>
 <li>The gross price (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PriceAmount</code>) is preserved as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">price_unit</code>; the discount is stored separately in the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">discount</code> field.</li>
 </ul>
 </li>
-<li><strong>Test coverage</strong>: Added automated test <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_allowance_charge_discount_applied_on_order_line</code> verifying correct discount extraction and application (based on real e-Factura SPV invoice data: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PriceAmount=372.20</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">AllowanceCharge/Amount=93.05</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty=1</code> → <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">discount=25%</code>).</li>
+<li><strong>Test coverage</strong>: Added automated test <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_allowance_charge_discount_applied_on_order_line</code> verifying correct discount extraction and application (based on real e-Factura SPV invoice data: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PriceAmount=372.20</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">AllowanceCharge/Amount=93.05</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty=1</code> &#8594; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">discount=25%</code>).</li>
 </ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[18.0.1.0.0] - 2025-01-01</h2>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Added</h3>
@@ -225,13 +225,13 @@ creating an empty bill.</li>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -251,7 +251,7 @@ creating an empty bill.</li>
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -264,10 +264,10 @@ creating an empty bill.</li>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">FP</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Fast Purchase</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Purchases</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Purchases</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Achizitie rapida</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Achizitie rapida</p>
         </div>
       </a>
     </div>
@@ -280,10 +280,10 @@ creating an empty bill.</li>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Purchase Create Bill Button</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Purchases</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Purchases</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Restores the one-click Create Bill button and vendor reference copy on the purchase order form</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Restores the one-click Create Bill button and vendor reference copy on the purchase order form</p>
         </div>
       </a>
     </div>
@@ -296,10 +296,10 @@ creating an empty bill.</li>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PS</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Purchase: Send Multi Orders by Email with XLSX</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Purchases</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Purchases</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Select multiple purchase orders and send an email with XLSX summary and attached PDFs</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Select multiple purchase orders and send an email with XLSX summary and attached PDFs</p>
         </div>
       </a>
     </div>
@@ -312,10 +312,10 @@ creating an empty bill.</li>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">RP</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Refund Purchase</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Purchases</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Purchases</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Vendor credit notes for negative quantities</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Vendor credit notes for negative quantities</p>
         </div>
       </a>
     </div>
@@ -328,10 +328,10 @@ creating an empty bill.</li>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Generic module</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Generic module</p>
         </div>
       </a>
     </div>
@@ -344,10 +344,10 @@ creating an empty bill.</li>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account</p>
         </div>
       </a>
     </div>
@@ -360,10 +360,10 @@ creating an empty bill.</li>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account Analytic</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Analytic lines enhancements</p>
         </div>
       </a>
     </div>
@@ -376,10 +376,10 @@ creating an empty bill.</li>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">UD</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech UBL despatch advice</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account UBL despatch advice</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account UBL despatch advice</p>
         </div>
       </a>
     </div>

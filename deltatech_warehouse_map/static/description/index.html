@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -21,42 +21,42 @@
 <ul class="ps-3 mt-2">
 <li class="small">Generic warehouse map for any <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.location</code> (backend/QWeb):</li>
 <li class="small">Select a location and see its direct children as rows.</li>
-<li class="small">Each row shows a full‑width bar split into equal segments for the next level (grandchildren), enabling quick drill‑down.</li>
-<li class="small">Click any segment to open the graphical view for that sub‑location; a Back link returns to the parent.</li>
-<li class="small">Visual occupancy per sub‑location:</li>
-<li class="small">Each segment contains an internal progress bar representing the occupancy percentage of that sub‑location.</li>
-<li class="small">Color thresholds: green (&lt;60%), yellow (60–90%), red (≥90%). High‑contrast labels with the name and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">(current/max)</code> values.</li>
+<li class="small">Each row shows a full&#8209;width bar split into equal segments for the next level (grandchildren), enabling quick drill&#8209;down.</li>
+<li class="small">Click any segment to open the graphical view for that sub&#8209;location; a Back link returns to the parent.</li>
+<li class="small">Visual occupancy per sub&#8209;location:</li>
+<li class="small">Each segment contains an internal progress bar representing the occupancy percentage of that sub&#8209;location.</li>
+<li class="small">Color thresholds: green (&lt;60%), yellow (60&#8211;90%), red (&#8805;90%). High&#8209;contrast labels with the name and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">(current/max)</code> values.</li>
 <li class="small">Clear cell borders to visually separate segments.</li>
 <li class="small">Capacity and occupancy tracking on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.location</code>:</li>
 <li class="small"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">max_products_leaf</code> (manual, for leaf locations).</li>
-<li class="small">Computed <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">max_products</code> (sum of children for non‑leaf locations).</li>
-<li class="small">Computed <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">current_products</code> (for leaves: sum of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">quantity</code> from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.quant</code> with quantity &gt; 0; for non‑leaves: sum of children).</li>
+<li class="small">Computed <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">max_products</code> (sum of children for non&#8209;leaf locations).</li>
+<li class="small">Computed <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">current_products</code> (for leaves: sum of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">quantity</code> from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.quant</code> with quantity &gt; 0; for non&#8209;leaves: sum of children).</li>
 <li class="small">Computed <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">occupancy_ratio</code> = <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">current/max</code> (protected against division by zero).</li>
 <li class="small">Navigation and UI integration:</li>
-<li class="small">List view button “Map” on Locations; form smart button “Open Map”.</li>
-<li class="small">Menu: Inventory → Warehouse Map opens the Stock root in the generic view.</li>
+<li class="small">List view button &#8220;Map&#8221; on Locations; form smart button &#8220;Open Map&#8221;.</li>
+<li class="small">Menu: Inventory &#8594; Warehouse Map opens the Stock root in the generic view.</li>
 <li class="small">Technical details:</li>
 <li class="small">Routes: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/deltatech/warehouse_map</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/deltatech/warehouse_map/location/&lt;id&gt;</code>.</li>
 <li class="small">Layout independent of Bootstrap utilities; responsive flex layout to keep the name and bar on a single line.</li>
 <li class="small">Optional demo data generation:</li>
-<li class="small">A post‑init hook can create a sample hierarchical structure under the Stock location for quick testing.</li>
+<li class="small">A post&#8209;init hook can create a sample hierarchical structure under the Stock location for quick testing.</li>
 </ul>
 </div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>
 <p>Configuration:</p>
 <ul class="ps-3 mt-2">
-<li class="small">Set <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Max products (leaf)</code> on leaf locations in the Location form (Capacity section). Non‑leaf values are computed from children.</li>
+<li class="small">Set <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Max products (leaf)</code> on leaf locations in the Location form (Capacity section). Non&#8209;leaf values are computed from children.</li>
 </ul>
 </div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>
 <p>Usage:</p>
 <ul class="ps-3 mt-2">
-<li class="small">Open Inventory → Configuration → Locations and click “Map” on any record, or use the smart button on the Location form.</li>
+<li class="small">Open Inventory &#8594; Configuration &#8594; Locations and click &#8220;Map&#8221; on any record, or use the smart button on the Location form.</li>
 <li class="small">From the Warehouse Map menu, start at the Stock root and drill down by clicking segments.</li>
 </ul>
 </div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>
 <p>Notes &amp; limitations:</p>
 <ul class="ps-3 mt-2">
-<li class="small">Occupancy is based on total on‑hand quantity (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sum(quantity)</code>) in leaf locations; can be adapted to available quantity or other metrics if needed.</li>
-<li class="small">Segments are equal‑width by design (not weighted by capacity) to keep a consistent visual grid.</li>
+<li class="small">Occupancy is based on total on&#8209;hand quantity (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sum(quantity)</code>) in leaf locations; can be adapted to available quantity or other metrics if needed.</li>
+<li class="small">Segments are equal&#8209;width by design (not weighted by capacity) to keep a consistent visual grid.</li>
 </ul>
 </div></div></li></ul>
 </div>
@@ -65,13 +65,13 @@
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -91,7 +91,7 @@
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -104,10 +104,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PS</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Product Secondary UoM</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Inventory/Inventory</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Inventory/Inventory</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Product specific conversion factors between units of measure (SAP MARM style)</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Product specific conversion factors between units of measure (SAP MARM style)</p>
         </div>
       </a>
     </div>
@@ -120,10 +120,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Generic module</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Generic module</p>
         </div>
       </a>
     </div>
@@ -136,10 +136,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account</p>
         </div>
       </a>
     </div>
@@ -152,10 +152,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account Analytic</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Analytic lines enhancements</p>
         </div>
       </a>
     </div>
@@ -168,10 +168,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">UD</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech UBL despatch advice</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account UBL despatch advice</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account UBL despatch advice</p>
         </div>
       </a>
     </div>
@@ -184,10 +184,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Edit Currency Rate</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Edit the currency rate on the invoice</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Edit the currency rate on the invoice</p>
         </div>
       </a>
     </div>
@@ -200,10 +200,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Actions</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Other</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Other</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Cleaning and other actions</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Cleaning and other actions</p>
         </div>
       </a>
     </div>
@@ -216,10 +216,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AM</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Agreement Management</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Services/Agreement</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Services/Agreement</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Manage agreements numbers, date, state</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Manage agreements numbers, date, state</p>
         </div>
       </a>
     </div>

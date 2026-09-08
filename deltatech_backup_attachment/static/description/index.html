@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -31,7 +31,7 @@
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">This module allows Odoo administrators to export a selective set of file attachments as a
 single ZIP archive. By providing a domain filter on the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir.attachment</code> model, you can precisely
-choose which files to include — for example, only attachments of a specific MIME type, linked
+choose which files to include &#8212; for example, only attachments of a specific MIME type, linked
 to specific records, or stored on a particular field.</p>
 <p><strong>Key features:</strong></p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Export attachments filtered by any Odoo domain expression (MIME type, related model, field name, etc.).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>All matching files are bundled into a single downloadable ZIP archive.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The ZIP preserves the internal storage path of each file (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">store_fname</code>), making it
@@ -39,10 +39,10 @@ to specific records, or stored on a particular field.</p>
   avoiding broken references.</div></div></li></ul>
 <p><strong>Example domains:</strong></p>
 <ul>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">[("mimetype","not in",["image/png","image/jpeg","application/pdf"])]</code> — export all
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">[("mimetype","not in",["image/png","image/jpeg","application/pdf"])]</code> &#8212; export all
   attachments that are not common images or PDFs.</li>
 <li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">[("res_model","not ilike","product"),("res_model","!=","export.attachment"),("res_field","like","%")]</code>
-  — export attachments linked to fields (not products or the wizard itself).</li>
+  &#8212; export attachments linked to fields (not products or the wizard itself).</li>
 </ul>
 </div>
 <div class="tab-pane fade py-2 text-body" id="tb-panel-usage" style="font-size:16px;line-height:1.65;">
@@ -70,13 +70,13 @@ attachments (binary stored in the column, not the filestore) are silently skippe
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -96,7 +96,7 @@ attachments (binary stored in the column, not the filestore) are silently skippe
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -109,10 +109,10 @@ attachments (binary stored in the column, not the filestore) are silently skippe
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">CO</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Contacts</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">New fields in partner</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">New fields in partner</p>
         </div>
       </a>
     </div>
@@ -125,10 +125,10 @@ attachments (binary stored in the column, not the filestore) are silently skippe
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">CR</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Credentials</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Manage credentials for external services</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Manage credentials for external services</p>
         </div>
       </a>
     </div>
@@ -141,10 +141,10 @@ attachments (binary stored in the column, not the filestore) are silently skippe
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PD</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Product Data Sheet</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Data Sheet</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Data Sheet</p>
         </div>
       </a>
     </div>
@@ -157,10 +157,10 @@ attachments (binary stored in the column, not the filestore) are silently skippe
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PD</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Product Data Sheet Website</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Data Sheet</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Data Sheet</p>
         </div>
       </a>
     </div>
@@ -173,10 +173,10 @@ attachments (binary stored in the column, not the filestore) are silently skippe
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PG</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Partner GLN </span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Partner Global Location Number</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Partner Global Location Number</p>
         </div>
       </a>
     </div>
@@ -189,10 +189,10 @@ attachments (binary stored in the column, not the filestore) are silently skippe
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">IO</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Image Optimizer</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Recompress oversized image attachments and remove duplicated product images</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Recompress oversized image attachments and remove duplicated product images</p>
         </div>
       </a>
     </div>
@@ -205,10 +205,10 @@ attachments (binary stored in the column, not the filestore) are silently skippe
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Generic module</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Generic module</p>
         </div>
       </a>
     </div>
@@ -221,10 +221,10 @@ attachments (binary stored in the column, not the filestore) are silently skippe
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account</p>
         </div>
       </a>
     </div>
