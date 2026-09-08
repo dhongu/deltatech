@@ -21,11 +21,13 @@
 <li>Introducerea decontului de cheltuieli &#238;ntr-un document distinct care genereaz&#259; automat chitan&#539;e de achizi&#539;ie</li>
 <li>Validarea documentului duce la generarea notelor contabile de avans &#537;i &#238;nregistrarea pl&#259;&#539;ilor</li>
 </ul>
-<p>Configurare:
-- &#206;n registrul de numerar trebuie completat c&#226;mpul "Cash advances" cu 542.
-- Angaja&#539;ii sunt &#238;nregistra&#539;i ca <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.employee</code>. Dac&#259; angajatul are completat c&#226;mpul "Work Contact"
+<p>Configurare:</p>
+<ul>
+<li>&#206;n registrul de numerar trebuie completat c&#226;mpul "Cash advances" cu 542.</li>
+<li>Angaja&#539;ii sunt &#238;nregistra&#539;i ca <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.employee</code>. Dac&#259; angajatul are completat c&#226;mpul "Work Contact"
   (partenerul), acesta este folosit pe notele contabile. Dac&#259; nu, notele se genereaz&#259; f&#259;r&#259; partener
-  (&#238;nregistr&#259;ri interne) &#8212; validarea decontului func&#539;ioneaz&#259; &#238;n ambele cazuri.</p>
+  (&#238;nregistr&#259;ri interne) &#8212; validarea decontului func&#539;ioneaz&#259; &#238;n ambele cazuri.</li>
+</ul>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Diferen&#539;a fa&#539;&#259; de modulul standard <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code></h1>
 <p>Acest modul <strong>nu</strong> &#238;nlocuie&#537;te &#537;i <strong>nu</strong> se suprapune cu modulul standard <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>. Cele dou&#259;
 acoper&#259; procese de business distincte &#537;i pot coexista &#238;n aceea&#537;i baz&#259; de date:</p>
@@ -205,10 +207,8 @@ care este specific modulului <code class="border rounded px-2" style="font-famil
 </tr>
 </tbody>
 </table>
-<p><strong>Verificare Sold Final Cont 542 (Avans X):</strong>
-* <strong>Total Debitor:</strong> 1.000 RON
-* <strong>Total Creditor:</strong> 800 RON (Cheltuieli) + 200 RON (Restituire) = 1.000 RON
-* <strong>Sold Final:</strong> 1.000 (D) - 1.000 (C) = <strong>0 RON (Corect)</strong></p>
+<p><strong>Verificare Sold Final Cont 542 (Avans X):</strong></p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Total Debitor:</span><div class="mt-1">1.000 RON</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Total Creditor:</span><div class="mt-1">800 RON (Cheltuieli) + 200 RON (Restituire) = 1.000 RON</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Sold Final:</span><div class="mt-1">1.000 (D) - 1.000 (C) = <strong>0 RON (Corect)</strong></div></div></li></ul>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
