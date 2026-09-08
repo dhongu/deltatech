@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -39,31 +39,31 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2 text-body" id="tb-panel-overview" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">Base module for <strong>Terrabit Connect</strong> — the lightweight native agent that runs on
+<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">Base module for <strong>Terrabit Connect</strong> &#8212; the lightweight native agent that runs on
 a workstation and bridges Odoo with local hardware and services it cannot reach
 directly from the cloud: the ANAF token (PKCS#11 / mTLS to SPV), fiscal printers
 (Datecs), label printers (Zebra ZPL) and declaration validation (DUKIntegrator).</p>
 <p>This module is the <strong>generic foundation</strong> every Terrabit Connect feature builds
 on: the connection layer, the job protocol, and the one job type that is pure
-transport rather than a specific device — an HTTP call inside the customer's
+transport rather than a specific device &#8212; an HTTP call inside the customer's
 network.</p>
 <p><strong>What it gives you</strong></p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Station registry</span><div class="mt-1">(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech.tc.station</code>) — one record per workstation
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Station registry</span><div class="mt-1">(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech.tc.station</code>) &#8212; one record per workstation
   running Terrabit Connect, each with a unique API key, a last-seen timestamp
-  and reported metadata (TC version, operating system, enabled features).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Outbound job queue</span><div class="mt-1">(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech.tc.job</code>) — Odoo enqueues <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pending</code> jobs;
+  and reported metadata (TC version, operating system, enabled features).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Outbound job queue</span><div class="mt-1">(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech.tc.job</code>) &#8212; Odoo enqueues <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pending</code> jobs;
   the station claims them, executes them locally, and reports back the result
   (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">error</code>).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">REST endpoints</span><div class="mt-1">authenticated with the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">X-Station-Key</code> header:
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/heartbeat</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/poll</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/result</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/config/&lt;id&gt;</code>.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code> job type</span><div class="mt-1">— Odoo asks the station to call a device that
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/heartbeat</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/poll</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/result</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/config/&lt;id&gt;</code>.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code> job type</span><div class="mt-1">&#8212; Odoo asks the station to call a device that
   answers only inside the local network (a sorting line, a scale, a PLC, a label
   server) and reports the response back. Queue it with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_enqueue_http()</code> and
   read the answer with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">response_dict()</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">response_json()</code>.</div></div></li></ul>
-<p><strong>Cloud model — no inbound ports.</strong> The station always initiates the connection
+<p><strong>Cloud model &#8212; no inbound ports.</strong> The station always initiates the connection
 to Odoo; Odoo never connects back to the workstation. The same agent works with
 on-premise and cloud deployments without opening any port on the client side.</p>
 <p><strong>Extensible.</strong> Feature modules add device-specific job types (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">selection_add</code> on
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">job_type</code>) and turn the station's result into business records by extending the
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_result</code> hook — keeping the registry, queue and transport in one place.</p>
-<p><strong>Security of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code> — read this before using it.</strong> The allow-list of
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_result</code> hook &#8212; keeping the registry, queue and transport in one place.</p>
+<p><strong>Security of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code> &#8212; read this before using it.</strong> The allow-list of
 reachable hosts is configured <strong>in the agent, on the workstation</strong>, never from
 Odoo. Without that rule, a job saying "call this URL" would let anyone able to
 create a job in Odoo reach any address inside the customer's network. Odoo only
@@ -78,7 +78,7 @@ grep for.</p>
 <div class="tab-pane fade py-2 text-body" id="tb-panel-configure" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Security groups</h2>
-<p>Assign users to the appropriate group under <strong>Settings → Users &amp; Companies → Users</strong>
+<p>Assign users to the appropriate group under <strong>Settings &#8594; Users &amp; Companies &#8594; Users</strong>
 (field <em>Terrabit Connect</em>):</p>
 <table class="table table-bordered" style="font-size:14px;">
 <thead>
@@ -99,13 +99,13 @@ grep for.</p>
 </tbody>
 </table>
 <p>The administrator (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base.user_admin</code>) is a Manager by default.</p>
-<p>Only Managers can access the <strong>Settings → Terrabit Connect</strong> menus and download
+<p>Only Managers can access the <strong>Settings &#8594; Terrabit Connect</strong> menus and download
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code> files (the endpoint <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/config/&lt;id&gt;</code> checks the Manager group).</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Station registration</h2>
 <p>Each physical workstation that runs Terrabit Connect needs <strong>one station record</strong>
 in Odoo:</p>
 <ol>
-<li>Go to <strong>Settings → Terrabit Connect → Stations → New</strong>.</li>
+<li>Go to <strong>Settings &#8594; Terrabit Connect &#8594; Stations &#8594; New</strong>.</li>
 <li>Set <strong>Name</strong> (identifies the workstation in job logs and notifications).</li>
 <li>Set <strong>Company</strong> (defaults to the user's company; used for multi-company job routing).</li>
 <li>Save to generate the <strong>API Key</strong> automatically.</li>
@@ -129,7 +129,7 @@ The downloaded file contains two environment variables consumed by Terrabit Conn
 </tr>
 <tr>
 <td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_STATION_KEY</code></td>
-<td>The station's API key — treat it as a secret</td>
+<td>The station's API key &#8212; treat it as a secret</td>
 </tr>
 </tbody>
 </table>
@@ -167,7 +167,7 @@ line of defence if an Odoo account is compromised.</p>
 <pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code>TERRABIT_HTTP_ALLOW=192.168.1.50:8080,unisorter.local
 </code></pre>
 <p>Comma-separated <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">host</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">host:port</code> entries. An entry without a port allows any
-port on that host; with a port, the match is exact. <strong>The default is empty — until
+port on that host; with a port, the match is exact. <strong>The default is empty &#8212; until
 a host is listed there, every <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code> job comes back as an error.</strong> Keep it
 as narrow as the job actually needs.</p>
 <p>The server applies a 60-second throttle on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">last_seen</code> writes to reduce database
@@ -178,12 +178,12 @@ within the throttle window.</p>
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Registering a station</h2>
 <ol>
-<li>Go to <strong>Settings → Terrabit Connect → Stations</strong>.</li>
+<li>Go to <strong>Settings &#8594; Terrabit Connect &#8594; Stations</strong>.</li>
 <li>Click <strong>New</strong> and give the station a descriptive name (e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Accounting PC</code>).</li>
 <li>Select the company the station belongs to (multi-company installations).</li>
 <li>Save. An <strong>API Key</strong> is generated automatically and is visible to administrators
    only (shown masked in the form).</li>
-<li>Click <strong>Download config</strong> (download icon in the header) — Odoo serves a
+<li>Click <strong>Download config</strong> (download icon in the header) &#8212; Odoo serves a
    pre-filled <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code> file containing:
    <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_ODOO_BASE=&lt;your Odoo URL&gt;
    TERRABIT_STATION_KEY=&lt;the generated key&gt;</code></li>
@@ -193,22 +193,22 @@ within the throttle window.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Verifying connectivity</h2>
 <p>Once Terrabit Connect is running with the downloaded config:</p>
 <ol>
-<li>Open the station form (<strong>Settings → Terrabit Connect → Stations</strong>, click the station).</li>
-<li>The <strong>Last seen</strong> field updates within the next poll cycle (≤ 30 s by default).</li>
+<li>Open the station form (<strong>Settings &#8594; Terrabit Connect &#8594; Stations</strong>, click the station).</li>
+<li>The <strong>Last seen</strong> field updates within the next poll cycle (&#8804; 30 s by default).</li>
 <li>Click <strong>Ping</strong> in the header to enqueue a round-trip test job. The job appears
    in the <strong>Jobs</strong> smart button and should reach state <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Done</code> within seconds.</li>
 <li>Terrabit Connect managers also receive a browser notification when the agent
    sends a manual heartbeat.</li>
 </ol>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Monitoring jobs</h2>
-<p>Navigate to <strong>Settings → Terrabit Connect → Jobs</strong> to see all jobs across all
+<p>Navigate to <strong>Settings &#8594; Terrabit Connect &#8594; Jobs</strong> to see all jobs across all
 stations. You can filter by state (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Pending</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Done</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Error</code>) or group by
 station or job type.</p>
 <p>The job list uses colour coding:</p>
 <ul>
-<li>Green row — <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Done</code></li>
-<li>Red row — <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Error</code> (open the form to read the error detail)</li>
-<li>Muted row — <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Claimed</code> (the station picked it up; result not yet reported)</li>
+<li>Green row &#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Done</code></li>
+<li>Red row &#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Error</code> (open the form to read the error detail)</li>
+<li>Muted row &#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Claimed</code> (the station picked it up; result not yet reported)</li>
 </ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Rotating the API key</h2>
 <p>If a station key is compromised:</p>
@@ -237,7 +237,7 @@ self.env[&quot;deltatech.tc.job&quot;]._tc_enqueue_http(
     for payload in job.response_json() or []:
         ...
 </code></pre>
-<p>The callback method <strong>must</strong> start with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_</code> — see DESCRIPTION. Before the first
+<p>The callback method <strong>must</strong> start with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_</code> &#8212; see DESCRIPTION. Before the first
 job can succeed, the target host has to be allow-listed on the workstation (see
 CONFIGURE).</p>
 <p><strong>The call is asynchronous.</strong> It runs when the station next polls, not when the
@@ -260,7 +260,7 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 </ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.0 (2026-08-11)</h2>
 <ul>
-<li><strong>New job type <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code></strong> — the station performs an HTTP call inside the customer's local
+<li><strong>New job type <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code></strong> &#8212; the station performs an HTTP call inside the customer's local
   network on Odoo's behalf, so cloud-hosted Odoo can reach devices that answer only on the LAN
   (sorting lines, scales, PLCs, label servers) without a VPN, a fixed IP or an inbound port.</li>
 <li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_enqueue_http()</code> helper, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">response_dict()</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">response_json()</code> readers, payload validation
@@ -282,13 +282,13 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -308,7 +308,7 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -321,10 +321,10 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">CM</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Cron Monitor Webhook</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Technical</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Technical</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Run cron jobs from webhook</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Run cron jobs from webhook</p>
         </div>
       </a>
     </div>
@@ -337,10 +337,10 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">RA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">RPC Audit Log</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Technical</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Technical</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Log XML-RPC / JSON-RPC calls with the real client IP</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Log XML-RPC / JSON-RPC calls with the real client IP</p>
         </div>
       </a>
     </div>
@@ -353,10 +353,10 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">TC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">DeltaTech Transport Change</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Technical</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Technical</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Export configuration changes to CSV and manage transport through Git</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Export configuration changes to CSV and manage transport through Git</p>
         </div>
       </a>
     </div>
@@ -369,10 +369,10 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Generic module</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Generic module</p>
         </div>
       </a>
     </div>
@@ -385,10 +385,10 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account</p>
         </div>
       </a>
     </div>
@@ -401,10 +401,10 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account Analytic</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Analytic lines enhancements</p>
         </div>
       </a>
     </div>
@@ -417,10 +417,10 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">UD</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech UBL despatch advice</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account UBL despatch advice</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account UBL despatch advice</p>
         </div>
       </a>
     </div>
@@ -433,10 +433,10 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Edit Currency Rate</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Edit the currency rate on the invoice</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Edit the currency rate on the invoice</p>
         </div>
       </a>
     </div>

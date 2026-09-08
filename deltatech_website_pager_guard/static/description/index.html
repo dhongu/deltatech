@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -32,10 +32,10 @@
 <p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">Makes the shop return <strong>404</strong> for listing pages that do not exist.</p>
 <p>Odoo's <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pager()</code> helper clamps an out-of-range page number to the last real
 page rather than refusing it. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/shop/page/999999</code> therefore answers <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">200</code> with
-the content of the last page — and a crawler reads that as confirmation that
+the content of the last page &#8212; and a crawler reads that as confirmation that
 the page exists, follows the pattern upwards and never stops.</p>
 <p>On a production site this produced 2.386 requests per day against a single
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/shop/category/…/page/3467514</code> URL, each one paying for a full product search
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/shop/category/&#8230;/page/3467514</code> URL, each one paying for a full product search
 and QWeb render before serving duplicate content.</p>
 <p>This module compares the requested page against the pager's own <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">page_count</code>
 and raises <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">NotFound</code> when it is higher. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/shop</code> itself and the last real page
@@ -44,7 +44,7 @@ finite.</p>
 <p>Deliberately <strong>no hardcoded page ceiling</strong>: a real catalogue was measured at
 2.578 shop pages, so even a limit that looks generous would refuse most of the
 listing. The page count is only known once the products are counted, which is
-why the check runs after <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">super()</code>. That still avoids the expensive part —
+why the check runs after <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">super()</code>. That still avoids the expensive part &#8212;
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">request.render</code> is lazy in Odoo, so raising there means the QWeb template is
 never rendered.</p>
 </div>
@@ -66,13 +66,13 @@ never rendered.</p>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -92,7 +92,7 @@ never rendered.</p>
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -105,10 +105,10 @@ never rendered.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">WA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Website alternative code</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Website</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Website</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Show alternative code in website</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Show alternative code in website</p>
         </div>
       </a>
     </div>
@@ -121,10 +121,10 @@ never rendered.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">WS</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Web Site Blog</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Website</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Website</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Sort blog posts by publication date</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Sort blog posts by publication date</p>
         </div>
       </a>
     </div>
@@ -137,10 +137,10 @@ never rendered.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EP</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">eCommerce Product Category</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Website</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Website</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Public category</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Public category</p>
         </div>
       </a>
     </div>
@@ -153,10 +153,10 @@ never rendered.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">eCommerce Checkout Confirm Order</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Website</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Website</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">eCommerce extension</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">eCommerce extension</p>
         </div>
       </a>
     </div>
@@ -169,10 +169,10 @@ never rendered.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">eCommerce Country</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Website</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Website</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">eCommerce extension</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">eCommerce extension</p>
         </div>
       </a>
     </div>
@@ -185,10 +185,10 @@ never rendered.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">ED</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">eCommerce Delivery Address</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Website</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Website</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Default delivery address</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Default delivery address</p>
         </div>
       </a>
     </div>
@@ -201,10 +201,10 @@ never rendered.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Delivery and Payment</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Website</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Website</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">eCommerce Delivery and Payment constrains</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">eCommerce Delivery and Payment constrains</p>
         </div>
       </a>
     </div>
@@ -217,10 +217,10 @@ never rendered.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">ED</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">eCommerce Display Fixed Price As Discount</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Website</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Website</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Display the cut off price for fixed pricelist rule if the price is lower than the list price</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Display the cut off price for fixed pricelist rule if the price is lower than the list price</p>
         </div>
       </a>
     </div>

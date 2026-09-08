@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -39,7 +39,7 @@
 </ul>
 <p>Etape</p>
 <blockquote>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Plasată</span><div class="mt-1">- comanda este plasată pe website de client</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">În procesare</span><div class="mt-1">– comanda introdusă de operator</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Așteaptă disponibilitate</span><div class="mt-1">- nu sunt disponibile toate produsele</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Amânată</span><div class="mt-1">- livrarea a fost amânată</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">De livrat</span><div class="mt-1">- produsele sunt disponibile și se poate face livrarea</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">În livrare</span><div class="mt-1">– produsele au fost predate la curier</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Livrată</span><div class="mt-1">- produsele au ajuns la client</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Anulată</span><div class="mt-1">- comanda de vânzare a fost anulată</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Returnată</span><div class="mt-1">- comanda a fost returnată de către client</div></div></li></ul>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Plasat&#259;</span><div class="mt-1">- comanda este plasat&#259; pe website de client</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">&#206;n procesare</span><div class="mt-1">&#8211; comanda introdus&#259; de operator</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">A&#537;teapt&#259; disponibilitate</span><div class="mt-1">- nu sunt disponibile toate produsele</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Am&#226;nat&#259;</span><div class="mt-1">- livrarea a fost am&#226;nat&#259;</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">De livrat</span><div class="mt-1">- produsele sunt disponibile &#537;i se poate face livrarea</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">&#206;n livrare</span><div class="mt-1">&#8211; produsele au fost predate la curier</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Livrat&#259;</span><div class="mt-1">- produsele au ajuns la client</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Anulat&#259;</span><div class="mt-1">- comanda de v&#226;nzare a fost anulat&#259;</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Returnat&#259;</span><div class="mt-1">- comanda a fost returnat&#259; de c&#259;tre client</div></div></li></ul>
 </blockquote>
 </div>
 <div class="tab-pane fade py-2 text-body" id="tb-panel-versions" style="font-size:16px;line-height:1.65;">
@@ -50,8 +50,8 @@
   (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">view_sales_order_filter</code>) still referenced <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">partner_id.mobile</code>, a field
   removed from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res.partner</code> in Odoo 19 (only <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">phone</code> remains). Since this
   field is named <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">partner_id</code> like the native one, it gets auto-populated by
-  the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">search_default_partner_id</code> context — used, among others, by the
-  "Sales" button in the bank reconciliation widget — which raised
+  the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">search_default_partner_id</code> context &#8212; used, among others, by the
+  "Sales" button in the bank reconciliation widget &#8212; which raised
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ValueError: Invalid field res.partner.mobile</code> on every use. The filter now
   only matches on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">partner_id.phone</code>.</li>
 </ul>
@@ -62,13 +62,13 @@
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -88,7 +88,7 @@
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -101,10 +101,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">WA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Website alternative code</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Website</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Website</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Show alternative code in website</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Show alternative code in website</p>
         </div>
       </a>
     </div>
@@ -117,10 +117,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">WS</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Web Site Blog</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Website</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Website</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Sort blog posts by publication date</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Sort blog posts by publication date</p>
         </div>
       </a>
     </div>
@@ -133,10 +133,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EP</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">eCommerce Product Category</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Website</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Website</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Public category</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Public category</p>
         </div>
       </a>
     </div>
@@ -149,10 +149,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">eCommerce Checkout Confirm Order</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Website</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Website</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">eCommerce extension</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">eCommerce extension</p>
         </div>
       </a>
     </div>
@@ -165,10 +165,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">eCommerce Country</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Website</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Website</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">eCommerce extension</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">eCommerce extension</p>
         </div>
       </a>
     </div>
@@ -181,10 +181,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">ED</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">eCommerce Delivery Address</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Website</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Website</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Default delivery address</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Default delivery address</p>
         </div>
       </a>
     </div>
@@ -197,10 +197,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Delivery and Payment</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Website</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Website</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">eCommerce Delivery and Payment constrains</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">eCommerce Delivery and Payment constrains</p>
         </div>
       </a>
     </div>
@@ -213,10 +213,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">ED</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">eCommerce Display Fixed Price As Discount</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Website</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Website</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Display the cut off price for fixed pricelist rule if the price is lower than the list price</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Display the cut off price for fixed pricelist rule if the price is lower than the list price</p>
         </div>
       </a>
     </div>

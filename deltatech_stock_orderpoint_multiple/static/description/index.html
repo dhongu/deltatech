@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -29,18 +29,18 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2 text-body" id="tb-panel-overview" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">Odoo a eliminat câmpul <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_multiple</code> de pe <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.warehouse.orderpoint</code> la trecerea
+<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">Odoo a eliminat c&#226;mpul <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_multiple</code> de pe <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.warehouse.orderpoint</code> la trecerea
 la versiunea 19.0 (commit <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">09d6c79f0e4</code>, "replace <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_multiple</code> by replenishment
-unit in orderpoints"), înlocuindu-l cu <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">replenishment_uom_id</code> - o unitate de măsură
-alternativă legată explicit de produs sau de furnizor. Matematic mecanismul e
-echivalent, dar necesită UoM-uri configurate per produs/furnizor - infrastructură
-care de regulă nu există deja pentru clienții care doar aveau un multiplu simplu
+unit in orderpoints"), &#238;nlocuindu-l cu <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">replenishment_uom_id</code> - o unitate de m&#259;sur&#259;
+alternativ&#259; legat&#259; explicit de produs sau de furnizor. Matematic mecanismul e
+echivalent, dar necesit&#259; UoM-uri configurate per produs/furnizor - infrastructur&#259;
+care de regul&#259; nu exist&#259; deja pentru clien&#539;ii care doar aveau un multiplu simplu
 (ex. "100 buc/cutie") completat pe regula de aprovizionare.</p>
-<p>Acest modul reintroduce <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_multiple</code> exact ca în Odoo &lt;= 18.0, cu aceeași logică
-de rotunjire, fără nicio dependență de unități de măsură suplimentare. Dacă
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_multiple</code> e setat pe o regulă de aprovizionare, cantitatea de comandat se
-rotunjește direct la un multiplu al acestei valori; altfel comportamentul nativ
-(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">replenishment_uom_id</code>) rămâne neschimbat.</p>
+<p>Acest modul reintroduce <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_multiple</code> exact ca &#238;n Odoo &lt;= 18.0, cu aceea&#537;i logic&#259;
+de rotunjire, f&#259;r&#259; nicio dependen&#539;&#259; de unit&#259;&#539;i de m&#259;sur&#259; suplimentare. Dac&#259;
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_multiple</code> e setat pe o regul&#259; de aprovizionare, cantitatea de comandat se
+rotunje&#537;te direct la un multiplu al acestei valori; altfel comportamentul nativ
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">replenishment_uom_id</code>) r&#259;m&#226;ne neschimbat.</p>
 </div>
 <div class="tab-pane fade py-2 text-body" id="tb-panel-versions" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
@@ -55,13 +55,13 @@ rotunjește direct la un multiplu al acestei valori; altfel comportamentul nativ
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -81,7 +81,7 @@ rotunjește direct la un multiplu al acestei valori; altfel comportamentul nativ
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -94,10 +94,10 @@ rotunjește direct la un multiplu al acestei valori; altfel comportamentul nativ
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Product Catalog</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Inventory</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Inventory</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">This module helps to print the catalog of the multi products</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">This module helps to print the catalog of the multi products</p>
         </div>
       </a>
     </div>
@@ -110,10 +110,10 @@ rotunjește direct la un multiplu al acestei valori; altfel comportamentul nativ
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PR</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Product Reordering Limit</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Inventory</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Inventory</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Custom reordering limits for products</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Custom reordering limits for products</p>
         </div>
       </a>
     </div>
@@ -126,10 +126,10 @@ rotunjește direct la un multiplu al acestei valori; altfel comportamentul nativ
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">RE</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Replenishment Explain</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Inventory</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Inventory</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Explain how and why a reordering rule reached its forecast and to-order quantity, and flag visibility/horizon stockout…</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Explain how and why a reordering rule reached its forecast and to-order quantity, and flag visibility/horizon stockout&#8230;</p>
         </div>
       </a>
     </div>
@@ -142,10 +142,10 @@ rotunjește direct la un multiplu al acestei valori; altfel comportamentul nativ
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">SP</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Stock Picking Activity Report</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Inventory</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Inventory</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Tracks activities and changes on stock pickings</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Tracks activities and changes on stock pickings</p>
         </div>
       </a>
     </div>
@@ -158,10 +158,10 @@ rotunjește direct la un multiplu al acestei valori; altfel comportamentul nativ
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">TP</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Transfer Product to Product</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Inventory</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Inventory</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Helps to transfer x quantity of product A and replace it with product B</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Helps to transfer x quantity of product A and replace it with product B</p>
         </div>
       </a>
     </div>
@@ -174,10 +174,10 @@ rotunjește direct la un multiplu al acestei valori; altfel comportamentul nativ
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Generic module</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Generic module</p>
         </div>
       </a>
     </div>
@@ -190,10 +190,10 @@ rotunjește direct la un multiplu al acestei valori; altfel comportamentul nativ
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account</p>
         </div>
       </a>
     </div>
@@ -206,10 +206,10 @@ rotunjește direct la un multiplu al acestei valori; altfel comportamentul nativ
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account Analytic</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Analytic lines enhancements</p>
         </div>
       </a>
     </div>
