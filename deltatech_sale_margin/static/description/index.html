@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -62,7 +62,7 @@ no rights to sell below margin/purchase price can still create draft sale orders
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0 (2026-08-20)</h2>
 <ul>
 <li>
-<p><strong>New: the reaction to a below-cost sale is configurable per company</strong> —
+<p><strong>New: the reaction to a below-cost sale is configurable per company</strong> &#8212;
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res.company.sale_margin_check_mode</code>, in Settings &gt; Sales &gt; Pricing:</p>
 <ul>
 <li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">block</code> (default, unchanged behaviour): the price cannot be saved and the
@@ -75,13 +75,13 @@ note in the chatter;</li>
 </li>
 </ul>
 <p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">warn</code> exists for businesses where selling below cost is a routine part of the
-  trade — perishable goods, stock clearance, commercial gestures. Blocking there
+  trade &#8212; perishable goods, stock clearance, commercial gestures. Blocking there
   stops the daily work, while the actual need is to make it visible and let the
   seller decide. Existing databases keep the historical behaviour: the default is
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">block</code> and no migration changes it.</p>
 <ul>
 <li>
-<p><strong>New: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.order.line.margin_below_limit</code></strong> — the line is flagged (orange row
+<p><strong>New: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.order.line.margin_below_limit</code></strong> &#8212; the line is flagged (orange row
   in the order lines) as soon as the seller leaves the price field, which is where
   the decision is made. The flag is readable by anyone: it says THAT the margin is
   under the limit, not what the cost is, so it does not leak the cost to sellers
@@ -92,7 +92,7 @@ note in the chatter;</li>
 <p><strong>New: unit guard on the comparison.</strong> <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_price</code> is brought into the line
   unit by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_margin</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_stock_margin</code> through
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product_id.uom_id._compute_price(...)</code>. Odoo 19 removed the unit category, so
-  that multiplies by the absolute factors without checking the family — the root
+  that multiplies by the absolute factors without checking the family &#8212; the root
   of the kilogram hierarchy is the gram, so a cost of 3.00 per Unit becomes
   3000.00 per kg (measured, not assumed). A product whose <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom_id</code> is wrong would
   therefore report EVERY line as below cost and the warning would be dismissed as
@@ -130,7 +130,7 @@ note in the chatter;</li>
 <p><strong>19 tests.</strong> They run as an operator who is OUTSIDE the bypass groups, with a
   dedicated test asserting that: running them as root or admin proves nothing,
   since both belong to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">group_sale_below_purchase_price</code> and the native check would
-  not have blocked them either. Each mechanism was validated by sabotage — forcing
+  not have blocked them either. Each mechanism was validated by sabotage &#8212; forcing
   the mode back to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">block</code> breaks 4 tests, removing the chatter note or the banner
   wording breaks 2 more, disabling the unit guard breaks 1.</p>
 </li>
@@ -149,13 +149,13 @@ note in the chatter;</li>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -175,7 +175,7 @@ note in the chatter;</li>
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -188,10 +188,10 @@ note in the chatter;</li>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Edit Currency Rate</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Edit the currency rate on the invoice</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Edit the currency rate on the invoice</p>
         </div>
       </a>
     </div>
@@ -204,10 +204,10 @@ note in the chatter;</li>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Products Alternative</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Alternative product codes</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Alternative product codes</p>
         </div>
       </a>
     </div>
@@ -220,10 +220,10 @@ note in the chatter;</li>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DP</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Discount Policy</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Bring back Odoo 17 discount policy</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Bring back Odoo 17 discount policy</p>
         </div>
       </a>
     </div>
@@ -236,10 +236,10 @@ note in the chatter;</li>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">FS</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Fast Sale</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Vanzare rapida</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Vanzare rapida</p>
         </div>
       </a>
     </div>
@@ -252,10 +252,10 @@ note in the chatter;</li>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">IP</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Invoice Pickings</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Facturare livrari</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Facturare livrari</p>
         </div>
       </a>
     </div>
@@ -268,10 +268,10 @@ note in the chatter;</li>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">IP</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Invoice Pickings Automatically</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Generate invoice automatically from picking after validation</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Generate invoice automatically from picking after validation</p>
         </div>
       </a>
     </div>
@@ -284,10 +284,10 @@ note in the chatter;</li>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PL</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Price List Currency Extension</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Price list currency</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Price list currency</p>
         </div>
       </a>
     </div>
@@ -300,10 +300,10 @@ note in the chatter;</li>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PL</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Price List Line Viewer</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Creates a list view for the lines of a price list for search and management</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Creates a list view for the lines of a price list for search and management</p>
         </div>
       </a>
     </div>
