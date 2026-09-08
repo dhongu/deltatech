@@ -1,0 +1,10 @@
+{
+  "title": "Refund Purchase",
+  "summary": "Vendor credit notes for negative quantities",
+  "icon": "bag",
+  "features": [
+    "Detect negative quantities to invoice",
+    "Open the bill as a vendor credit note",
+    "Post positive quantities on the refund line"
+  ]
+}
