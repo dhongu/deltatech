@@ -14,10 +14,44 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2 text-body" id="tb-panel-overview" style="font-size:16px;line-height:1.65;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">Calculates packaging materials from invoiced product quantities and provides an
 aggregate packaging-material report from the invoice list.</p>
+<p>The quantities are refreshed when the invoice is posted, as long as the invoice is
+under automatic update. Editing or deleting a quantity by hand takes the invoice out
+of automatic update, so that the correction survives the validation of the invoice;
+the Refresh button computes the quantities again and puts the invoice back under
+automatic update.</p>
+</div>
+<div class="tab-pane fade py-2 text-body" id="tb-panel-usage" style="font-size:16px;line-height:1.65;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>Set the packaging materials and the quantity per unit on the product, in the
+<strong>Packaging materials</strong> section of the product form.</p>
+<p>On a customer or vendor invoice, the <strong>Packaging materials</strong> tab shows the quantity of
+each material, computed as the invoiced quantity multiplied by the quantity configured
+on the product. The quantities are computed again when the invoice is posted.</p>
+<p>To correct a quantity, edit it — or delete the line — directly in the tab. The
+<strong>Auto-update packaging materials</strong> switch in the tab is unset automatically, and the
+validation of the invoice no longer overwrites what you entered. Press <strong>Refresh</strong> to
+discard the corrections, compute the quantities from the invoice lines again and put
+the invoice back under automatic update.</p>
+<p>To obtain the aggregate report, select several invoices in the list view and run the
+packaging-material report action.</p>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
