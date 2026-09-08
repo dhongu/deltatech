@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -32,10 +32,10 @@
 <p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;"><strong>Deltatech Credentials</strong> provides a centralised store for external service credentials
 within Odoo. Instead of scattering API keys, tokens, and login pairs across system
 parameters or configuration files, administrators can manage all access data in one
-secure location — available directly under <strong>Settings &gt; Users &amp; Companies &gt; Credentials</strong>.</p>
+secure location &#8212; available directly under <strong>Settings &gt; Users &amp; Companies &gt; Credentials</strong>.</p>
 <p><strong>Key features:</strong></p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Store credentials for any external service with a descriptive name and optional code.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Three access-type modes: <strong>User / Password</strong>, <strong>Client ID / Client Secret (API key)</strong>,
-  and <strong>Access Token</strong> — only the relevant fields are shown for each mode.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Password field is masked in the UI for security.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Access restricted to Odoo Administrators (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base.group_system</code>) out of the box.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Designed as a shared dependency: other Deltatech modules (integrations, EDI connectors,
+  and <strong>Access Token</strong> &#8212; only the relevant fields are shown for each mode.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Password field is masked in the UI for security.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Access restricted to Odoo Administrators (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base.group_system</code>) out of the box.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Designed as a shared dependency: other Deltatech modules (integrations, EDI connectors,
   API bridges) can reference <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">access.credentials</code> records to retrieve their credentials
   programmatically, keeping secrets out of module settings.</div></div></li></ul>
 </div>
@@ -50,10 +50,10 @@ Credentials menu.</p>
 <li>Fill in the <strong>Name</strong> (required) and, optionally, a short <strong>Code</strong> used by other
    modules to look up this record programmatically.</li>
 <li>Choose the <strong>Access Type</strong>:<ul>
-<li><strong>User and password</strong> — enter the <strong>Username</strong> and <strong>Password</strong> (masked).</li>
-<li><strong>Client ID and Client Secret</strong> — enter the <strong>Client Id</strong> and
+<li><strong>User and password</strong> &#8212; enter the <strong>Username</strong> and <strong>Password</strong> (masked).</li>
+<li><strong>Client ID and Client Secret</strong> &#8212; enter the <strong>Client Id</strong> and
  <strong>Client Secret / API key</strong>.</li>
-<li><strong>Access token</strong> — enter the <strong>Access Token</strong>.</li>
+<li><strong>Access token</strong> &#8212; enter the <strong>Access Token</strong>.</li>
 </ul>
 </li>
 <li>Save. The credential is now available for reference by integrated Deltatech modules.</li>
@@ -67,13 +67,13 @@ it as needed.</p>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -93,7 +93,7 @@ it as needed.</p>
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -106,10 +106,10 @@ it as needed.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">BA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Backup Attachments</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Backup attachments for selected file type</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Backup attachments for selected file type</p>
         </div>
       </a>
     </div>
@@ -122,10 +122,10 @@ it as needed.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">CO</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Contacts</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">New fields in partner</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">New fields in partner</p>
         </div>
       </a>
     </div>
@@ -138,10 +138,10 @@ it as needed.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PD</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Product Data Sheet</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Data Sheet</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Data Sheet</p>
         </div>
       </a>
     </div>
@@ -154,10 +154,10 @@ it as needed.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PD</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Product Data Sheet Website</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Data Sheet</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Data Sheet</p>
         </div>
       </a>
     </div>
@@ -170,10 +170,10 @@ it as needed.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PG</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Partner GLN </span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Partner Global Location Number</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Partner Global Location Number</p>
         </div>
       </a>
     </div>
@@ -186,10 +186,10 @@ it as needed.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">IO</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Image Optimizer</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Recompress oversized image attachments and remove duplicated product images</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Recompress oversized image attachments and remove duplicated product images</p>
         </div>
       </a>
     </div>
@@ -202,10 +202,10 @@ it as needed.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Generic module</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Generic module</p>
         </div>
       </a>
     </div>
@@ -218,10 +218,10 @@ it as needed.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account</p>
         </div>
       </a>
     </div>
