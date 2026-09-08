@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -33,11 +33,11 @@
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">What it does</h2>
 <ul>
 <li>Blocks deleting product-related chatter messages from the UI (the chatter "Delete" action).</li>
-<li>Blocks direct record deletions of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mail.message</code> linked to products (e.g., via ORM/RPC, scripts, or third‑party modules) when the user lacks the group.</li>
+<li>Blocks direct record deletions of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mail.message</code> linked to products (e.g., via ORM/RPC, scripts, or third&#8209;party modules) when the user lacks the group.</li>
 </ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">How it works</h2>
 <ul>
-<li>UI delete path: overrides the product models’ <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_check_can_update_message_content</code> to require the special group before allowing message content updates (including clearing the body to "delete").</li>
+<li>UI delete path: overrides the product models&#8217; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_check_can_update_message_content</code> to require the special group before allowing message content updates (including clearing the body to "delete").</li>
 </ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Security</h2>
 <ul>
@@ -50,8 +50,8 @@
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
 <ol>
 <li>Install the module.</li>
-<li>Assign the group to authorized users: Settings → Users &amp; Companies → Users → Access Rights → "Delete Product Chatter Messages".</li>
-<li>Test on a product form’s chatter:<ul>
+<li>Assign the group to authorized users: Settings &#8594; Users &amp; Companies &#8594; Users &#8594; Access Rights &#8594; "Delete Product Chatter Messages".</li>
+<li>Test on a product form&#8217;s chatter:<ul>
 <li>Without the group: deletion/edit of messages is blocked with an error.</li>
 <li>With the group: deletion/edit behaves as usual.</li>
 </ul>
@@ -83,13 +83,13 @@
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -109,7 +109,7 @@
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -122,10 +122,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">CP</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Competitors Price</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Product</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Product</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Track competitors&#x27; product prices and fetch on demand</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Track competitors&#x27; product prices and fetch on demand</p>
         </div>
       </a>
     </div>
@@ -138,10 +138,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PU</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Product Unique Code</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Product</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Product</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Restrict duplicate default_code and barcode including archived products</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Restrict duplicate default_code and barcode including archived products</p>
         </div>
       </a>
     </div>
@@ -154,10 +154,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">RP</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Report Packaging</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Product</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Product</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Report packaging materials used for invoiced products</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Report packaging materials used for invoiced products</p>
         </div>
       </a>
     </div>
@@ -170,10 +170,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Generic module</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Generic module</p>
         </div>
       </a>
     </div>
@@ -186,10 +186,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account</p>
         </div>
       </a>
     </div>
@@ -202,10 +202,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account Analytic</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Analytic lines enhancements</p>
         </div>
       </a>
     </div>
@@ -218,10 +218,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">UD</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech UBL despatch advice</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account UBL despatch advice</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account UBL despatch advice</p>
         </div>
       </a>
     </div>
@@ -234,10 +234,10 @@
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Edit Currency Rate</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Sales</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Sales</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Edit the currency rate on the invoice</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Edit the currency rate on the invoice</p>
         </div>
       </a>
     </div>
