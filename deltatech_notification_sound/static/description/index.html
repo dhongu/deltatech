@@ -18,41 +18,36 @@
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">Overview:
 Adds audible feedback to Odoo backend notifications so operators are alerted instantly without watching the screen.</p>
-<p>Features:
-- Plays different sounds depending on notification type:
-    - Success &#8594; notify.wav
-    - Warning &#8594; exclamation.wav
-    - Error (danger) &#8594; error.wav
-    - Info &#8594; bell.wav
-- Seamless integration with the backend (no extra UI); patches the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">notification</code> service.
-- Assets are loaded via <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">web.assets_backend</code> (JS + sounds).
-- Per-user toggle in Preferences: each user can enable/disable notification sounds from their profile.</p>
-<p>How it works (technical):
-- Frontend logic patches the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">notification</code> service (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">@web/core/notifications/notification_service</code>) and
+<p>Features:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Plays different sounds depending on notification type:<ul class="ps-3 mt-2">
+<li class="small">Success &#8594; notify.wav</li>
+<li class="small">Warning &#8594; exclamation.wav</li>
+<li class="small">Error (danger) &#8594; error.wav</li>
+<li class="small">Info &#8594; bell.wav</li>
+</ul>
+</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Seamless integration with the backend (no extra UI); patches the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">notification</code> service.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Assets are loaded via <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">web.assets_backend</code> (JS + sounds).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Per-user toggle in Preferences: each user can enable/disable notification sounds from their profile.</div></div></li></ul>
+<p>How it works (technical):</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Frontend logic patches the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">notification</code> service (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">@web/core/notifications/notification_service</code>) and
   wraps its <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">add()</code> method, so a sound is played whenever a backend notification is shown. This decouples the
-  feature from the lifecycle of the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Notification</code> OWL component.
-- The user preference is read from the session info (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">@web/session</code>), under
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">session.user_context.notification_sound_enabled</code>. No extra RPC is performed.
-- Backend exposes the preference through:
-    - new field <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res.users.notification_sound_enabled</code> (default True)
-    - <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir.http.session_info()</code> enriched to include the flag in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">user_context</code>.
-- Sound files live under <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">static/src/sounds/</code> and can be replaced if desired.</p>
+  feature from the lifecycle of the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Notification</code> OWL component.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The user preference is read from the session info (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">@web/session</code>), under
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">session.user_context.notification_sound_enabled</code>. No extra RPC is performed.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Backend exposes the preference through:<ul class="ps-3 mt-2">
+<li class="small">new field <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res.users.notification_sound_enabled</code> (default True)</li>
+<li class="small"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir.http.session_info()</code> enriched to include the flag in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">user_context</code>.</li>
+</ul>
+</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Sound files live under <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">static/src/sounds/</code> and can be replaced if desired.</div></div></li></ul>
 <p>Installation &amp; Usage:
 1) Install the module like any other addon.
 2) Use Odoo normally; when a backend notification pops (success/warning/error/info), a short sound plays automatically.
 3) To disable sounds for your account, open Settings &#8594; Users &#8594; Your user &#8594; Preferences and uncheck "Enable notification sounds". Reload the page to refresh the session preference.</p>
-<p>Compatibility:
-- Odoo 19 (web backend).
-- Modern desktop browsers. Note: Browser auto-play policies may require at least one prior user interaction with the page before sounds can play.</p>
-<p>Troubleshooting / Notes:
-- If your browser blocks auto-play, the first notification may be silent until you interact (click/keypress) on the page.
-- After changing the preference, reload the page so the cached value and session info are refreshed.
-- Mobile browsers may mute auto-played audio by default.</p>
-<p>Credits:
-- Author: Terrabit, Dorin Hongu
-- Maintainer: dhongu
-- License: LGPL-3
-- Website: https://www.terrabit.ro</p>
+<p>Compatibility:</p>
+<ul>
+<li>Odoo 19 (web backend).</li>
+<li>Modern desktop browsers. Note: Browser auto-play policies may require at least one prior user interaction with the page before sounds can play.</li>
+</ul>
+<p>Troubleshooting / Notes:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>If your browser blocks auto-play, the first notification may be silent until you interact (click/keypress) on the page.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>After changing the preference, reload the page so the cached value and session info are refreshed.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Mobile browsers may mute auto-played audio by default.</div></div></li></ul>
+<p>Credits:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Author: Terrabit, Dorin Hongu</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Maintainer: dhongu</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>License: LGPL-3</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Website: https://www.terrabit.ro</div></div></li></ul>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">

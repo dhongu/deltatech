@@ -2,6 +2,7 @@ Overview:
 Adds audible feedback to Odoo backend notifications so operators are alerted instantly without watching the screen.
 
 Features:
+
 - Plays different sounds depending on notification type:
   - Success → notify.wav
   - Warning → exclamation.wav
@@ -12,6 +13,7 @@ Features:
 - Per-user toggle in Preferences: each user can enable/disable notification sounds from their profile.
 
 How it works (technical):
+
 - Frontend logic patches the `notification` service (`@web/core/notifications/notification_service`) and
   wraps its `add()` method, so a sound is played whenever a backend notification is shown. This decouples the
   feature from the lifecycle of the `Notification` OWL component.
@@ -28,15 +30,18 @@ Installation & Usage:
 3) To disable sounds for your account, open Settings → Users → Your user → Preferences and uncheck "Enable notification sounds". Reload the page to refresh the session preference.
 
 Compatibility:
+
 - Odoo 19 (web backend).
 - Modern desktop browsers. Note: Browser auto-play policies may require at least one prior user interaction with the page before sounds can play.
 
 Troubleshooting / Notes:
+
 - If your browser blocks auto-play, the first notification may be silent until you interact (click/keypress) on the page.
 - After changing the preference, reload the page so the cached value and session info are refreshed.
 - Mobile browsers may mute auto-played audio by default.
 
 Credits:
+
 - Author: Terrabit, Dorin Hongu
 - Maintainer: dhongu
 - License: LGPL-3

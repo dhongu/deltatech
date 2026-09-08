@@ -4,6 +4,7 @@ Features:
 - Validarea documentului duce la generarea notelor contabile de avans și înregistrarea plăților
 
 Configurare:
+
 - În registrul de numerar trebuie completat câmpul "Cash advances" cu 542.
 - Angajații sunt înregistrați ca `hr.employee`. Dacă angajatul are completat câmpul "Work Contact"
   (partenerul), acesta este folosit pe notele contabile. Dacă nu, notele se generează fără partener
@@ -95,6 +96,7 @@ Acestea sunt notele contabile așteptate pentru a testa închiderea corectă a a
 | **3** | Restituire Sold | **5311/5121** (Casa/Banca) | **542** (Avans X) | 200 | Diferența restituită de angajat. |
 
 **Verificare Sold Final Cont 542 (Avans X):**
+
 * **Total Debitor:** 1.000 RON
 * **Total Creditor:** 800 RON (Cheltuieli) + 200 RON (Restituire) = 1.000 RON
 * **Sold Final:** 1.000 (D) - 1.000 (C) = **0 RON (Corect)**

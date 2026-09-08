@@ -6,6 +6,7 @@ Track competitors' product prices directly on the product form and fetch current
 This module adds a new tab on Product Template where you can register competitor product URLs and retrieve their latest public price. It is designed to help sales and purchasing teams quickly compare your product pricing against selected competitors.
 
 ## Key Features
+
 - Competitor lines on product template with:
   - Competitor name
   - Product URL on competitor website
@@ -28,6 +29,7 @@ This module adds a new tab on Product Template where you can register competitor
 5. If nothing can be extracted, the line gets a clear status (e.g., "Price not found on page").
 
 ## Usage
+
 - Open any Product (Product Template) and go to the "Competitor Prices" tab.
 - Add one or more competitor lines:
   - Competitor: e.g., "Altex"
@@ -36,6 +38,7 @@ This module adds a new tab on Product Template where you can register competitor
 
 ## Dependencies
 Python libraries used at runtime:
+
 - `requests`
 - `lxml`
 - Optional: `extruct` and `w3lib` for structured data (JSON‑LD/Microdata) parsing
@@ -43,14 +46,17 @@ Python libraries used at runtime:
 If `extruct` is not installed, the module still works via HTML fallback.
 
 ## Security & Access
+
 - Internal users (base.group_user) can read/create/write/delete competitor lines by default. Adapt access rules to your needs.
 
 ## Notes & Limitations
+
 - Competitor websites vary widely. While structured data improves accuracy, some pages may hide or obfuscate prices; heuristic extraction may fail. Site‑specific selectors can be added if needed.
 - Automatic/scheduled fetching (cron) is not enabled by default but can be added easily later, using the provided `auto_fetch` flag to mark lines eligible for periodic updates.
 
 ## Testing
 The module ships with an Odoo test suite which mocks HTTP requests to ensure deterministic results:
+
 - Validates JSON‑LD/Microdata extraction path
 - Validates HTML fallback via meta tags
 - Validates proper error handling and product‑level action

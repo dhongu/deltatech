@@ -18,19 +18,16 @@
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">This module adds a button on the Sales Quotation to create Purchase RFQ(s)
 from the quotation lines and links those RFQs back to the quote.</p>
-<p>Key points:
-- Works with alternative purchase orders (no Purchase Requisition used).
-- Opens the Purchase Order form in create mode, prefilled with eligible
-  products from the quotation (no automatic creation).
-- The buyer selects the vendor and saves the RFQ (draft PO).
-- A smart button on the quotation shows and opens the linked RFQs.</p>
-<p>Eligibility rules for lines:
-- Product must be purchasable (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_ok = True</code>).
-- Quantity must be strictly greater than 0.
-- Section/note/display lines are ignored.</p>
-<p>User interface:
-- Header button on Sales Quotation: "Create Purchase Order(s)".
-- Smart button: "Purchase Orders" with the count of linked RFQs.</p>
+<p>Key points:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Works with alternative purchase orders (no Purchase Requisition used).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Opens the Purchase Order form in create mode, prefilled with eligible
+  products from the quotation (no automatic creation).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The buyer selects the vendor and saves the RFQ (draft PO).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>A smart button on the quotation shows and opens the linked RFQs.</div></div></li></ul>
+<p>Eligibility rules for lines:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Product must be purchasable (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_ok = True</code>).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Quantity must be strictly greater than 0.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Section/note/display lines are ignored.</div></div></li></ul>
+<p>User interface:</p>
+<ul>
+<li>Header button on Sales Quotation: "Create Purchase Order(s)".</li>
+<li>Smart button: "Purchase Orders" with the count of linked RFQs.</li>
+</ul>
 <p>This keeps the flow simple and aligned with the standard alternative
 purchasing approach in Odoo, without introducing purchase agreements.</p>
 </div>

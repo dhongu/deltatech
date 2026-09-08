@@ -28,6 +28,7 @@ Process Queue (External)
 **POST** `/api/v1/queue/process`
 
 Parameters:
+
 - `api_key` (required): Authentication key
 - `batch_size` (optional): Maximum number of jobs to process (default: 20)
 - `max_seconds` (optional): Maximum processing time in seconds (default: 50)
