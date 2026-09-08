@@ -1,4 +1,4 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;">
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
@@ -67,11 +67,11 @@ updated, newly uploaded or changed images are picked up automatically.</p>
 <p>Odoo stores one file per checksum, so attachments with identical content share
 a single file. Recompressing one of them frees nothing while the others still
 point at the old file. On a catalog that reuses the same picture across
-products, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">freed</code> therefore overstates the saving — on a real deployment it
+products, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">freed</code> therefore overstates the saving &#8212; on a real deployment it
 counted <strong>29 GB</strong> where the disk gave back about <strong>4 GB</strong>, because 815 000 image
 attachments lived in 508 000 files.</p>
 <p>Use <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">freed_disk</code> when you report space. Use <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">freed</code> only to see how much
-lighter the images themselves got — which is the real win on a website, since
+lighter the images themselves got &#8212; which is the real win on a website, since
 that is bytes off every page load, regardless of deduplication.</p>
 <p>To measure the whole database rather than one run:</p>
 <pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-sql">SELECT pg_size_pretty(sum(sz)) FROM (
@@ -86,7 +86,7 @@ filestore GC runs (the scheduled action does it at the end of each pass).</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Duplicated product images</h2>
 <p>Finds <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.image</code> records whose content is <strong>byte-identical</strong> and removes the
 redundant ones. Odoo already computes a SHA1 checksum for every image attachment
-when it is written, so this reads that value instead of decoding images — the
+when it is written, so this reads that value instead of decoding images &#8212; the
 whole catalog is scanned with one indexed query.</p>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">The distinction that matters</h3>
 <p>Two images with the same checksum are not automatically redundant:</p>
@@ -101,32 +101,32 @@ whole catalog is scanned with one indexed query.</p>
 <tbody>
 <tr>
 <td>The same picture appears <strong>twice on one product</strong></td>
-<td>A genuine duplicate — the gallery shows the same thing twice.</td>
+<td>A genuine duplicate &#8212; the gallery shows the same thing twice.</td>
 <td>Safe to remove.</td>
 </tr>
 <tr>
 <td>The same picture appears on <strong>several products</strong></td>
 <td>Usually a supplier feed shipping one generic photo for a whole range.</td>
-<td><strong>Never removed</strong> — each product needs its own copy, or it ends up with no image.</td>
+<td><strong>Never removed</strong> &#8212; each product needs its own copy, or it ends up with no image.</td>
 </tr>
 </tbody>
 </table>
 <p>Both happen at once, and at scale. On a real catalog of 69 761 product images
-(19 959 distinct contents), <strong>17 821 — 25.5% — were redundant inside a single
+(19 959 distinct contents), <strong>17 821 &#8212; 25.5% &#8212; were redundant inside a single
 product</strong>, while 1 204 contents were legitimately shared across products. One
 single photo appeared 1 204 times over 565 products: 565 of those must stay.</p>
 <p>The wizard removes only the first kind. In each group of <em>(content, product,
-variant)</em> it keeps the image that comes first by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sequence, id</code> — the one the
-website shows first anyway — and deletes the rest. Records carrying a
+variant)</em> it keeps the image that comes first by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sequence, id</code> &#8212; the one the
+website shows first anyway &#8212; and deletes the rest. Records carrying a
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">video_url</code> are always kept, since the video is not a duplicate.</p>
 <p>The report shows both figures side by side, so the cross-product case stays
 visible as a data-quality signal instead of being silently deleted.</p>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">What it does not find</h3>
 <p>Only identical content. The same photo re-exported, resized or recompressed has
-a different checksum and is reported as distinct — and this is not a corner
+a different checksum and is reported as distinct &#8212; and this is not a corner
 case. On a product re-imported from Shopify in three passes, 22 images held only
 10 distinct pictures, yet the checksum matched on just one pair: the same
-1080×1080 shot came back at 62 KB, 76 KB and 77 KB because the source
+1080&#215;1080 shot came back at 62 KB, 76 KB and 77 KB because the source
 re-encoded it every time. Catching those needs perceptual hashing, which
 decodes every image and needs a similarity threshold.</p>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Space</h3>
@@ -135,7 +135,7 @@ file per checksum, so the copies already shared a single file; deleting them
 drops the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir_attachment</code> rows. Use the recompression above for actual filestore
 savings.</p>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Usage</h3>
-<p>Website → Configuration → eCommerce → Products → <strong>Duplicated Images</strong></p>
+<p>Website &#8594; Configuration &#8594; eCommerce &#8594; Products &#8594; <strong>Duplicated Images</strong></p>
 <p>The list opens filtered on the removable groups. Select the ones you want and
 use <strong>Remove Duplicated Images</strong>, which shows exactly what will be deleted
 before it deletes anything. The same menu entry run without a selection works on
@@ -146,7 +146,7 @@ filestore. To refresh it later from the shell:</p>
 <pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">env[&quot;product.image&quot;]._dedup_backfill_checksums()
 </code></pre>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
-<p>System Parameters (Settings → Technical → System Parameters):</p>
+<p>System Parameters (Settings &#8594; Technical &#8594; System Parameters):</p>
 <table class="table table-bordered" style="font-size:14px;">
 <thead>
 <tr>
@@ -194,7 +194,7 @@ filestore. To refresh it later from the shell:</p>
 <tr>
 <td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.force_jpeg</code></td>
 <td>0</td>
-<td>ignore alpha, always JPEG — <strong>destructive, see below</strong></td>
+<td>ignore alpha, always JPEG &#8212; <strong>destructive, see below</strong></td>
 </tr>
 <tr>
 <td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.variant_fields</code></td>
@@ -213,19 +213,19 @@ filestore. To refresh it later from the shell:</p>
 </tr>
 </tbody>
 </table>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">⚠ <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_jpeg</code> is destructive — probe before enabling it</h3>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">&#9888; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_jpeg</code> is destructive &#8212; probe before enabling it</h3>
 <p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_jpeg=1</code> makes the optimizer ignore the alpha channel entirely. JPEG has
 no transparency, so every transparent area is <strong>flattened to black</strong>, and the
 original is gone: the optimized image is written through the record, so the
-previous attachment no longer exists. There is no undo — the images have to be
+previous attachment no longer exists. There is no undo &#8212; the images have to be
 re-imported from wherever they came from.</p>
 <p>Enable it only on a catalog you have <em>verified</em> has no real transparency. "The
 originals are stored elsewhere" is not that verification: it covers resolution,
 not the alpha channel. A catalog that looks like solid white product shots can
-still be a third transparent PNGs — this is what happened on a real deployment,
+still be a third transparent PNGs &#8212; this is what happened on a real deployment,
 where 32% of a 40-image sample turned out to have real alpha.</p>
 <p>Probe it first, without writing anything (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_dt_image_recompress</code> is a pure
-function — it returns the bytes and the chosen format, and touches nothing):</p>
+function &#8212; it returns the bytes and the chosen format, and touches nothing):</p>
 <pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">A = env[&quot;ir.attachment&quot;].sudo()
 counts = {}
 for att in A.search([(&quot;res_field&quot;, &quot;in&quot;, [&quot;image_1920&quot;, &quot;image_variant_1920&quot;]),
@@ -235,11 +235,11 @@ for att in A.search([(&quot;res_field&quot;, &quot;in&quot;, [&quot;image_1920&q
 print(counts)  # any WEBP/PNG result = images that force_jpeg would destroy
 </code></pre>
 <p>Every <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">WEBP</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PNG</code> in that count is an image with real transparency. If
-there is even one, leave <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_jpeg</code> at <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">0</code> — the module already sends
+there is even one, leave <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_jpeg</code> at <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">0</code> &#8212; the module already sends
 opaque images to JPEG on its own, so you lose almost nothing by keeping it off.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Scheduled action</h2>
 <p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Image Optimizer: recompress oversized images</code> runs daily. It is
-<strong>disabled by default</strong> — review the configuration, test on staging, then
+<strong>disabled by default</strong> &#8212; review the configuration, test on staging, then
 enable it.</p>
 <p>For a large one-time backlog you can loop the batch method from the shell:</p>
 <pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">while env[&quot;ir.attachment&quot;]._dt_image_optimize_run(limit=200)[&quot;scanned&quot;]:
@@ -254,7 +254,7 @@ enable it.</p>
 <li>Detect duplicated <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.image</code> records via the attachment checksum, report
   them grouped by content, and remove the copies that repeat inside the same
   product. The same picture used on several products is reported but never
-  deleted — each product needs its own copy.</li>
+  deleted &#8212; each product needs its own copy.</li>
 <li>Adds a dependency on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website_sale</code>, where <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.image</code> is defined.</li>
 </ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.8.1 (2026)</h2>
@@ -296,7 +296,7 @@ enable it.</p>
   only BMP/GIF/JPEG/PPM/PNG, and the flag makes Pillow believe <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">init()</code> already
   ran, so <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">save(format="WEBP")</code> raises <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">KeyError: 'WEBP'</code> even where Pillow is
   built with libwebp and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">features.check("webp")</code> returns True. The module now
-  imports <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PIL.WebPImagePlugin</code> explicitly, which registers the format —
+  imports <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PIL.WebPImagePlugin</code> explicitly, which registers the format &#8212;
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Image.init()</code> alone does not help, it returns early on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_initialized &gt;= 2</code>.
   Same approach already used by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_website_watermark</code>.</li>
 <li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">WEBP_OK</code> (a constant computed at import time) is replaced by
@@ -307,7 +307,7 @@ enable it.</p>
   error anywhere. Import order is not something a result should depend on.</li>
 <li>The test suite asks the module for WebP support instead of probing at import,
   so <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_transparent_image_becomes_webp</code> actually runs. It had been skipping
-  itself with "Pillow build lacks WebP support" — on builds that encode WebP
+  itself with "Pillow build lacks WebP support" &#8212; on builds that encode WebP
   fine.</li>
 </ul>
 <p>Impact: on catalogs with real transparency, those images now compress as WebP
@@ -322,7 +322,7 @@ uncompressed. No change for opaque images.</p>
   the record and the previous attachment is gone.</li>
 <li>Add a probe snippet that measures how much of a catalog has real transparency
   <em>before</em> the parameter is enabled, using <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_dt_image_recompress</code> (a pure
-  function — it returns bytes and format, writes nothing).</li>
+  function &#8212; it returns bytes and format, writes nothing).</li>
 <li>The rationale is a real deployment: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_jpeg=1</code> was enabled on a catalog
   believed to have no transparency, and 32% of a 40-image sample turned out to
   have real alpha. The first 20 optimized images were destroyed before it was
@@ -382,13 +382,13 @@ uncompressed. No change for opaque images.</p>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Modules published on Odoo Apps</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">Odoo Partner &mdash; implementation &amp; support</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#55606b;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
   </div>
 </div>
@@ -408,7 +408,7 @@ uncompressed. No change for opaque images.</p>
 
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:#55606b;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -421,10 +421,10 @@ uncompressed. No change for opaque images.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">BA</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Backup Attachments</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Backup attachments for selected file type</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Backup attachments for selected file type</p>
         </div>
       </a>
     </div>
@@ -437,10 +437,10 @@ uncompressed. No change for opaque images.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">CO</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Contacts</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">New fields in partner</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">New fields in partner</p>
         </div>
       </a>
     </div>
@@ -453,10 +453,10 @@ uncompressed. No change for opaque images.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">CR</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Credentials</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Manage credentials for external services</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Manage credentials for external services</p>
         </div>
       </a>
     </div>
@@ -469,10 +469,10 @@ uncompressed. No change for opaque images.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PD</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Product Data Sheet</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Data Sheet</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Data Sheet</p>
         </div>
       </a>
     </div>
@@ -485,10 +485,10 @@ uncompressed. No change for opaque images.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PD</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Product Data Sheet Website</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Data Sheet</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Data Sheet</p>
         </div>
       </a>
     </div>
@@ -501,10 +501,10 @@ uncompressed. No change for opaque images.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PG</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Partner GLN </span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Administration</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Administration</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Partner Global Location Number</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Partner Global Location Number</p>
         </div>
       </a>
     </div>
@@ -517,10 +517,10 @@ uncompressed. No change for opaque images.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Tools</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Tools</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Generic module</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Generic module</p>
         </div>
       </a>
     </div>
@@ -533,10 +533,10 @@ uncompressed. No change for opaque images.</p>
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">Accounting &amp; Finance</span>
+              <span class="d-block" style="font-size:11px;color:#55606b;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">Deltatech Account</p>
+          <p class="mb-0" style="font-size:12px;color:#55606b;">Deltatech Account</p>
         </div>
       </a>
     </div>
