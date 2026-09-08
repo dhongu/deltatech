@@ -4,10 +4,12 @@ The Deltatech Account Analytic module is a comprehensive extension for Odoo's an
 
 # Key Features
 ## Analytic Line Splitting
+
 - **Automatic Splitting**: Automatically splits sale invoice analytic lines into stock value and margin components when the deltatech_sale_commission module is installed.
 - **Configuration Settings**: Adds "Split Sale Analytic" option in the Odoo settings for enabling/disabling the splitting functionality.
 
 ## Analytic Account Enhancements
+
 - **Split Configuration**: Extends the analytic account form with additional fields:
     - "This rule is for splitting" toggle
     - "Stock Analytic Account" selection
@@ -15,6 +17,7 @@ The Deltatech Account Analytic module is a comprehensive extension for Odoo's an
     - "Sale team" selection for split configuration
 
 ## Integration with Other Modules
+
 - Seamless integration with:
     - Account module
     - Analytic module
@@ -22,6 +25,7 @@ The Deltatech Account Analytic module is a comprehensive extension for Odoo's an
     - Purchase module
 
 ## Enhanced Views and Security
+
 - Custom views for:
     - Account analytic defaults
     - Account analytic lines
@@ -32,6 +36,7 @@ The Deltatech Account Analytic module is a comprehensive extension for Odoo's an
 
 # Technical Details
 ## Module Dependencies
+
 - account
 - analytic
 - sale
@@ -50,6 +55,7 @@ The Deltatech Account Analytic module is a comprehensive extension for Odoo's an
     - ir.model.access.csv
 
 ## Models Extended
+
 - account.analytic.account: Enhances the analytic account model with additional functionality for splitting and tracking
 - Adds related counters and access to invoices and bills from analytic accounts
 
@@ -60,6 +66,7 @@ The Deltatech Account Analytic module is a comprehensive extension for Odoo's an
 4. **Better Integration**: Seamless integration with sales and purchase workflows ensures comprehensive tracking of costs and revenues.
 
 ## Use Cases
+
 - **Sales Margin Analysis**: Track and analyze sales margins separately from cost of goods sold.
 - **Team Performance Tracking**: Associate specific analytic accounts with sales teams for performance analysis.
 - **Cost Center Management**: Better allocation of costs and revenues to appropriate cost centers.

@@ -3,6 +3,7 @@
 This module extends Odoo Inventory locations with simple capacity tracking and enhances the putaway decision logic.
 
 ## Key features
+
 - Adds capacity fields on `stock.location`:
   - `Max products (leaf)`: manual capacity for leaf locations.
   - `Max products`: computed capacity for any location (sum of children for non‑leaf locations).
@@ -36,15 +37,18 @@ This module extends Odoo Inventory locations with simple capacity tracking and e
    delivery operation type. This requires `deltatech_stock_removal_priority` to be installed (see Compatibility).
 
 ## Performance notes
+
 - The occupancy compute reduces SQL calls from O(N) per leaf to O(1) per batch using a single `read_group`, mirroring the efficient pattern from Odoo’s `_compute_weight`.
 
 ## Compatibility
+
 - Designed to work alongside modules that display warehouse maps or dashboards. The module `deltatech_warehouse_map` can depend on this one to display the capacity and occupancy KPIs.
 - `Avoid Root Location on Reservation` publishes the excluded locations through the `exclude_location_ids`
   context key. The key is consumed by `deltatech_stock_removal_priority` in `stock.quant._get_gather_domain`.
   That module is not a hard dependency, so the option has no effect unless it is installed as well.
 
 ## Tests
+
 - Includes TransactionCase tests that validate:
   - capacity enforcement via `_check_can_be_used`,
   - putaway preference for empty child locations via `_get_putaway_strategy`,

@@ -15,6 +15,7 @@ fully optimized yet unpublished, or published but poor. The Publicat/Nepublicat
 state is shown next to the indicator as separate information.
 
 ## Key Features
+
 - Computed `website_visibility_score` (0–100) and `website_visibility_level` on
   product template, stored for filtering and grouping.
 - Colored traffic-light indicator on the product form, plus a breakdown page
@@ -63,6 +64,7 @@ new edits recompute on the fly.
    "necesită atenție" filter to find products that need work, or group by level.
 
 ## Scope & Limitations
+
 - Score measures on-page content completeness for visibility; it does **not**
   measure actual traffic, ranking or sales.
 - Availability/stock and product variants are deliberately excluded — they are not

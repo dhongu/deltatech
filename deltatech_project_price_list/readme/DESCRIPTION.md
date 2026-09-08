@@ -6,6 +6,7 @@ Project-level pricelist used when creating Sales Orders from a project or a task
 Allow project managers to define a default pricelist on each project so that any Sales Order created from that project (or from one of its tasks) automatically uses the correct pricelist. This avoids manual selection mistakes and keeps pricing consistent.
 
 #### Key Features
+
 - New field on projects: `Pricelist` (`project.project.pricelist_id`).
 - Project Sales Orders action injects `default_pricelist_id` so new quotations are prefilled with the project’s pricelist.
 - When opening a quotation form from a project or task, `sale.order.default_get` proposes the project’s pricelist before save.
@@ -13,13 +14,16 @@ Allow project managers to define a default pricelist on each project so that any
 - Explicit pricelist chosen by the user or provided via context is never overridden.
 
 #### UI/Views
+
 - Project form (simplified): displays the `Pricelist` field in the settings section.
 - Project edit view inherited from `sale_project`: shows the `Pricelist` on the Settings page (visible when the project is billable and not a template).
 
 #### Compatibility
+
 - Odoo 19.
 
 #### Dependencies
+
 - `sale_project` (Project ↔ Sales integration).
 
 #### Installation
@@ -36,6 +40,7 @@ Allow project managers to define a default pricelist on each project so that any
 
 #### Tests
 Automated tests cover:
+
 - Action context injection (`default_pricelist_id`) from the project.
 - `sale.order.create` applying the project pricelist (project/task flows).
 - `default_get` proposing the project pricelist when opening the SO form from project/task.

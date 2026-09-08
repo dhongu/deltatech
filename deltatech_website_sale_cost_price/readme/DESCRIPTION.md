@@ -25,5 +25,6 @@ Usage:
 ------
 
 When a user browses the website:
+
 - If a product variant's price is lower than the calculated cost threshold, the "Add to Cart" button is replaced by the "Contact Us" button (or the action configured for zero-priced products).
 - The same restriction applies to the "Quick Add" functionality.

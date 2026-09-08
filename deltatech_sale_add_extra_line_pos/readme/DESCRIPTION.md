@@ -16,6 +16,7 @@ The **deltatech_sale_add_extra_line_pos** module is an Odoo addon that extends t
 ### Product Configuration
 
 In the product template, you can configure:
+
 - **Extra Product**: The product that should be automatically added when the main product is sold
 - **Extra Quantity Multiplier**: A multiplier to calculate how much of the extra product should be added (e.g., 0.1 means 10% of the main product quantity)
 
@@ -65,6 +66,7 @@ The module extends the Point of Sale system through:
 ## Dependencies
 
 This module depends on:
+
 - `deltatech_sale_add_extra_line` - The base module for extra line functionality
 - `point_of_sale` - Odoo's Point of Sale module
 

@@ -35,9 +35,11 @@
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Real-time POS Integration</span><div class="mt-1">Seamlessly integrates automatic extra line addition directly into the Point of Sale interface</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Client-side Processing</span><div class="mt-1">Handles extra product addition on the client side for immediate visual feedback</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Dynamic Quantity Calculation</span><div class="mt-1">Automatically calculates and updates extra product quantities based on the main product quantities in the POS cart</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Product Configuration</span><div class="mt-1">Allows configuration of extra products and quantity multipliers directly in the product template</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Automatic Line Consolidation</span><div class="mt-1">Intelligently consolidates multiple extra product lines into a single line with the correct total quantity</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Real-time Updates</span><div class="mt-1">Updates extra product quantities instantly when main product quantities are modified in the POS cart</div></div></li></ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">How It Works</h2>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Product Configuration</h3>
-<p>In the product template, you can configure:
-- <strong>Extra Product</strong>: The product that should be automatically added when the main product is sold
-- <strong>Extra Quantity Multiplier</strong>: A multiplier to calculate how much of the extra product should be added (e.g., 0.1 means 10% of the main product quantity)</p>
+<p>In the product template, you can configure:</p>
+<ul>
+<li><strong>Extra Product</strong>: The product that should be automatically added when the main product is sold</li>
+<li><strong>Extra Quantity Multiplier</strong>: A multiplier to calculate how much of the extra product should be added (e.g., 0.1 means 10% of the main product quantity)</li>
+</ul>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">POS Workflow</h3>
 <ol>
 <li>
@@ -63,9 +65,11 @@
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Benefits</h2>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Improved Accuracy</span><div class="mt-1">Eliminates manual errors in adding fees or related products</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Faster Checkout</span><div class="mt-1">Reduces time spent manually adding extra items</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Consistency</span><div class="mt-1">Ensures uniform application of fees and charges across all transactions</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Transparency</span><div class="mt-1">Customers can clearly see extra charges itemized on their receipt</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Compliance</span><div class="mt-1">Helps meet regulatory requirements for separate fee disclosure</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Efficiency</span><div class="mt-1">Cashiers can focus on customer service rather than remembering to add extra items</div></div></li></ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Dependencies</h2>
-<p>This module depends on:
-- <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_add_extra_line</code> - The base module for extra line functionality
-- <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">point_of_sale</code> - Odoo's Point of Sale module</p>
+<p>This module depends on:</p>
+<ul>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_add_extra_line</code> - The base module for extra line functionality</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">point_of_sale</code> - Odoo's Point of Sale module</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Integration</h2>
 <p>The module works seamlessly with Odoo's standard POS features and can be combined with other POS extensions for enhanced functionality.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Part of the Terrabit POS Ecosystem</h2>
