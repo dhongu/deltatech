@@ -1,4 +1,4 @@
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -24,18 +24,15 @@ class InvoiceWizard(models.TransientModel):
         if self.from_product_id and self.to_product_id:
             if self.from_product_id.standard_price == self.to_product_id.standard_price:
                 self.price_state = "equal"
-                self.alert_message = "The price of the products is the same"
+                self.alert_message = self.env._("The price of the products is the same")
             else:
                 self.price_state = "different"
-                self.alert_message = (
-                    "Careful! "
-                    + self.from_product_id.name
-                    + " costs "
-                    + str(self.from_product_id.standard_price)
-                    + " and "
-                    + self.to_product_id.name
-                    + " costs "
-                    + str(self.to_product_id.standard_price)
+                self.alert_message = self.env._(
+                    "Careful! %(from_product)s costs %(from_price)s and %(to_product)s costs %(to_price)s",
+                    from_product=self.from_product_id.name,
+                    from_price=self.from_product_id.standard_price,
+                    to_product=self.to_product_id.name,
+                    to_price=self.to_product_id.standard_price,
                 )
         else:
             self.price_state = "draft"
@@ -56,7 +53,7 @@ class InvoiceWizard(models.TransientModel):
                 [("code", "=", "internal"), ("warehouse_id", "=", warehouse.id)], limit=1
             )
             if not picking_type_id:
-                raise UserError(_("You don't have internal picking type defined for this warehouse"))
+                raise UserError(self.env._("You don't have internal picking type defined for this warehouse"))
             else:
                 self.operation_type = picking_type_id.id
 
@@ -70,7 +67,6 @@ class InvoiceWizard(models.TransientModel):
         )
         self.env["stock.move"].create(
             {
-                "name": self.from_product_id.name,
                 "product_id": self.from_product_id.id,
                 "product_uom_qty": self.quantity,
                 "product_uom": self.from_product_id.uom_id.id,
@@ -89,7 +85,6 @@ class InvoiceWizard(models.TransientModel):
         )
         self.env["stock.move"].create(
             {
-                "name": self.to_product_id.name,
                 "product_id": self.to_product_id.id,
                 "product_uom_qty": self.quantity,
                 "product_uom": self.to_product_id.uom_id.id,
