@@ -39,12 +39,14 @@ You can test the integration by clicking **Run now** on cron-job.org or by visit
 Odoo will return a JSON response. In case of success, the HTTP status is `200 OK`. In case of error, an appropriate HTTP status code (401, 404, 500) will be returned along with the error details in JSON format.
 
 **Success Response:**
+
 - `status`: `success`
 - `job_name`: The name of the cron job.
 - `execution_time`: How long it took to run.
 - `timestamp`: The time of execution.
 
 **Error Response:**
+
 - `status`: `error`
 - `message`: Description of the error (e.g., `Invalid token`, `Invalid webhook code`, or the Python exception message).
 
