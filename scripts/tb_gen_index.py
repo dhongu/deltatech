@@ -32,7 +32,9 @@ Structura paginii (doar EN):
   CROSS-SELL „More apps by Terrabit" — carduri către module-surori din aceeași suită
     (aceeași categorie întâi, alfabetic), link spre apps.odoo.com
 
-Textul NU primește `color` → moștenește tema Bootstrap (lizibil pe light ȘI dark).
+Textul primește `color` explicit (TB["body"] / TB["muted"]): store-ul Odoo Apps
+randează descrierea pe fundal alb, iar culoarea moștenită de acolo ieșea gri-deschis
+și greu lizibilă. Ambele nuanțe sunt alese pentru fundal deschis.
 Verdele Terrabit DOAR ca `background-color`/bordură, niciodată singura sursă de
 lizibilitate. Validare: scripts/tb_apps_preview.py (light + dark-sane).
 
@@ -73,6 +75,8 @@ TB = {
     "contact_url": "https://www.terrabit.ro/contactus",
     "company": "Terrabit Solutions SRL",
     "apps_author": "Terrabit",  # filtru author pe apps.odoo.com
+    "body": "#212529",  # culoarea de corp, vezi BODY/MUTED mai jos
+    "muted": "#55606b",
 }
 
 FONT = "'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif"
@@ -92,7 +96,14 @@ TABS = [
 # `background-color` inline (singurul care supraviețuiește sanitizarea).
 # ----------------------------------------------------------------------------- #
 
-WRAP_OPEN = f'<div class="mx-auto px-3" style="max-width:1100px;font-family:{FONT};">'
+# Culoarea de corp: store-ul Odoo Apps randează descrierea pe fundal alb, iar culoarea
+# implicită moștenită acolo iese gri-deschis și ilizibilă la font-weight normal.
+# Fixăm explicit corpul pe gri-închis (BODY) și textul secundar pe MUTED — ambele
+# alese să rămână lizibile pe fundal deschis, nu pe dark (store-ul e doar light).
+BODY = TB["body"]
+MUTED = TB["muted"]
+
+WRAP_OPEN = f'<div class="mx-auto px-3" style="max-width:1100px;font-family:{FONT};color:{BODY};">'
 
 HERO = """%(marker)s
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:%(primary)s;">
@@ -152,7 +163,7 @@ STATS = """
 STAT_CARD = """<div class="col-md-%(col)s">
     <div class="border rounded-3 p-4 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:%(primary)s;line-height:1;">%(big)s</div>
-      <div class="text-body-secondary mt-2" style="font-size:0.9rem;">%(small)s</div>
+      <div class="mt-2" style="font-size:0.9rem;color:%(muted)s;">%(small)s</div>
     </div>
   </div>"""
 STAT_ITEMS = [
@@ -176,7 +187,7 @@ SUPPORT = """
 CROSS_SELL_OPEN = """
 <section class="rounded-4 p-4 mb-3 border">
   <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center text-body-secondary mb-4">Other modules from the same publisher, built to work together.
+  <p class="text-center mb-4" style="color:%(muted)s;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=%(apps_author)s" target="_blank" rel="noopener"
        class="fw-semibold" style="color:%(primary)s;">All apps &rarr;</a></p>
   <div class="row g-3">
@@ -190,10 +201,10 @@ CROSS_SELL_CARD = """    <div class="col-md-3 col-sm-6">
                   style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:%(primary)s;">%(initials)s</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">%(name)s</span>
-              <span class="d-block text-body-secondary" style="font-size:11px;">%(category)s</span>
+              <span class="d-block" style="font-size:11px;color:%(muted)s;">%(category)s</span>
             </span>
           </div>
-          <p class="text-body-secondary mb-0" style="font-size:12px;">%(summary)s</p>
+          <p class="mb-0" style="font-size:12px;color:%(muted)s;">%(summary)s</p>
         </div>
       </a>
     </div>
@@ -588,6 +599,16 @@ def gen_index(addon_dir, cross_sell=True, allow_ro=False):
 # ----------------------------------------------------------------------------- #
 
 
+def ascii_safe(text):
+    """Transformă orice caracter non-ASCII în entitate HTML numerică.
+
+    Store-ul Odoo Apps despachetează fragmentul și îl re-servește fără să respecte
+    charset-ul nostru, așa că un em-dash sau o diacritică scrise ca UTF-8 brut ajung
+    citite ca latin-1 și afișate mojibake (â€"). Entitățile numerice sunt imune.
+    """
+    return "".join(c if ord(c) < 128 else f"&#{ord(c)};" for c in text)
+
+
 def may_overwrite(index_path):
     if not os.path.exists(index_path):
         return True
@@ -609,7 +630,7 @@ def process(addon_dir, cross_sell=True, force=False, allow_ro=False):
         return False
     # generează ÎNAINTE de a deschide fișierul — o eroare la generare nu trebuie
     # să lase un index.html trunchiat
-    content = gen_index(addon_dir, cross_sell=cross_sell, allow_ro=allow_ro)
+    content = ascii_safe(gen_index(addon_dir, cross_sell=cross_sell, allow_ro=allow_ro))
     os.makedirs(desc_dir, exist_ok=True)
     with open(index_path, "w", encoding="utf8") as f:
         f.write(content)
