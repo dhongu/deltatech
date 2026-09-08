@@ -1,0 +1,1 @@
+from . import transfer_product_to_product_wizard
