@@ -148,8 +148,12 @@ NAV_ITEM = """  <li class="nav-item mx-1 mb-2">
   </li>"""
 NAV_CLOSE = "</ul>"
 
-# Panou: `text-body` (theme-aware) dă culoarea corpului pe orice temă gazdă.
-PANEL = """<div class="tab-pane fade%(active)s py-2 text-body" id="tb-panel-%(key)s" style="font-size:16px;line-height:1.65;">
+# Panou: NU folosi clasa `text-body` — pe apps.odoo.com ea e definită ca
+# `color: rgba(var(--body-color-rgb), 1) !important`, iar `--body-color` al store-ului
+# e gri (#374151); fiind `!important`, bate și `color` inline de pe wrapper, deci
+# textul iese gri, nu negru. Punem culoarea și greutatea inline pe panou
+# (store-ul moștenește `--body-font-weight: 300`, care subțiază textul).
+PANEL = """<div class="tab-pane fade%(active)s py-2" id="tb-panel-%(key)s" style="font-size:16px;line-height:1.65;color:%(body_color)s;font-weight:400;">
 %(heading)s
 %(body)s
 </div>"""
@@ -194,7 +198,7 @@ CROSS_SELL_OPEN = """
 """
 CROSS_SELL_CARD = """    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/%(series)s/%(tech)s" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border text-body">
+         class="card h-100 text-decoration-none border" style="color:%(body)s;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
@@ -505,6 +509,7 @@ def build_tabs(tabs):
                 "active": " show active" if i == 0 else "",
                 "key": key,
                 "heading": heading,
+                "body_color": BODY,
                 "body": build_panel_body(key, md_text),
             }
         )
