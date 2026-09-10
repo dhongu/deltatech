@@ -29,6 +29,12 @@ msgid "Apply"
 msgstr "Aplică"
 
 #. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_account_bank_statement_line__packaging_material_auto
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_account_move__packaging_material_auto
+msgid "Auto-update packaging materials"
+msgstr "Actualizare automată materiale de ambalare"
+
+#. module: deltatech_report_packaging
 #: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.invoice_packaging_material_form
 msgid "Cancel"
 msgstr "Anulează"
@@ -105,6 +111,20 @@ msgstr "Linie raport materiale de ambalaj factură"
 #: model:ir.model,name:deltatech_report_packaging.model_account_move
 msgid "Journal Entry"
 msgstr "Notă contabilă"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,help:deltatech_report_packaging.field_account_bank_statement_line__packaging_material_auto
+#: model:ir.model.fields,help:deltatech_report_packaging.field_account_move__packaging_material_auto
+msgid ""
+"Keep the packaging material quantities computed from the invoice lines and "
+"refreshed when the invoice is posted. Unset it to keep the quantities "
+"entered by hand: editing or deleting a quantity unsets it automatically, and"
+" the Refresh button computes them again and sets it back."
+msgstr ""
+"Menține cantitățile de materiale de ambalare calculate din liniile facturii "
+"și recalculate la validarea acesteia. Dezactivați-o ca să păstrați "
+"cantitățile introduse manual: editarea sau ștergerea unei cantități o "
+"dezactivează automat, iar butonul Refresh le recalculează și o reactivează."
 
 #. module: deltatech_report_packaging
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_invoice_material__write_uid
@@ -199,8 +219,12 @@ msgid "Product Tmpl"
 msgstr "Șablon produs"
 
 #. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__qty_purchase
+msgid "Purchase quantity"
+msgstr "Cantitate achiziție"
+
+#. module: deltatech_report_packaging
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_invoice_material__qty
-#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__qty
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material_line__qty
 msgid "Quantity"
 msgstr "Cantitate"
@@ -224,6 +248,11 @@ msgstr "Raportează materialele de ambalaj folosite pentru produsele facturate"
 #: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_report_material__state__get
 msgid "Result"
 msgstr "Rezultat"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__qty_sale
+msgid "Sale quantity"
+msgstr "Cantitate vânzare"
 
 #. module: deltatech_report_packaging
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material__state

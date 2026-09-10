@@ -22,9 +22,15 @@ class AccountMove(models.Model):
         "button computes them again and sets it back.",
     )
 
+    def _packaging_material_direction(self):
+        """Which product quantity applies: the purchase one or the sale one."""
+        self.ensure_one()
+        return "purchase" if self.move_type in ("in_invoice", "in_refund", "in_receipt") else "sale"
+
     def refresh_packaging_material(self):
         """Recompute packaging quantities from the current invoice lines."""
         for invoice in self.filtered(lambda move: move.move_type != "entry"):
+            direction = invoice._packaging_material_direction()
             quantities_by_product = defaultdict(float)
             for line in invoice.invoice_line_ids.filtered("product_id"):
                 quantities_by_product[line.product_id] += line.quantity
@@ -32,7 +38,7 @@ class AccountMove(models.Model):
             quantities_by_material = defaultdict(float)
             for product, quantity in quantities_by_product.items():
                 for material in product.product_tmpl_id.packaging_material_ids:
-                    quantities_by_material[material.material_type] += quantity * material.qty
+                    quantities_by_material[material.material_type] += quantity * material._get_qty(direction)
 
             # `packaging_material_sync` tells the lines that this write comes from the
             # computation itself, so that it is not mistaken for a manual edit
@@ -46,6 +52,8 @@ class AccountMove(models.Model):
                         "qty": quantity,
                     }
                     for material_type, quantity in quantities_by_material.items()
+                    # a material only packed in the other direction has nothing to report
+                    if quantity
                 ]
             )
             # an explicit refresh takes the invoice back under automatic update
