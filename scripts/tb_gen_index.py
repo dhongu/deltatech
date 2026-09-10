@@ -76,7 +76,7 @@ TB = {
     "company": "Terrabit Solutions SRL",
     "apps_author": "Terrabit",  # filtru author pe apps.odoo.com
     "body": "#212529",  # culoarea de corp, vezi BODY/MUTED mai jos
-    "muted": "#55606b",
+    "muted": "#3d4752",  # gri-inchis: ~9.5:1 pe alb, lizibil si la 11-12px
 }
 
 FONT = "'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif"
@@ -103,7 +103,10 @@ TABS = [
 BODY = TB["body"]
 MUTED = TB["muted"]
 
-WRAP_OPEN = f'<div class="mx-auto px-3" style="max-width:1100px;font-family:{FONT};color:{BODY};">'
+# `font-weight:400` e obligatoriu: store-ul pune descrierea într-un `.oe_styling_v8`
+# care forțează `font-weight:300`. Moștenit, textul mic (cross-sell, stats, note) iese
+# subțire și pare gri-decolorat, chiar dacă `color` inline e corect.
+WRAP_OPEN = f'<div class="mx-auto px-3" style="max-width:1100px;font-family:{FONT};color:{BODY};font-weight:400;">'
 
 HERO = """%(marker)s
 <div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:%(primary)s;">
