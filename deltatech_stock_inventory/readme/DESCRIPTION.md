@@ -12,6 +12,18 @@ additional features for better inventory management and stock valuation control.
 - **Enhanced Stock Valuation**:
   - Displays columns with the stock price in inventory views.
   - Allows updating product cost prices during inventory validation.
+- **Valuation snapshot on the inventory line** (restricted to *Inventory / Administrator*):
+  - **Unit Value** — the unit valuation cost snapshotted when the line is generated (stock value of
+    the matching quants over their quantity, falling back to the product cost). It is refreshed by
+    the *Refresh quantity* button and, unlike *Price*, it is never edited by the operator.
+  - **Theoretical Value** / **Counted Value** / **Difference Value** — the value of the on hand
+    quantity, of the counted quantity and of the difference, so the money impact of the count is
+    visible **before** validation, not only after it.
+  - **Posted Value** — the value actually posted by the inventory move of that line, filled in at
+    validation. It can differ from the estimate for FIFO products, where the outgoing move is valued
+    on the consumed layers.
+  - The same four totals are summed on the inventory document, and the inventory move now carries an
+    **Inventory Line** link, so a stock move can be traced back to the counted line.
 - **Multi-Warehouse Stock Visibility**:
   - Displays stock broken down by warehouse codes directly in the product Kanban view.
   - Configuration option per warehouse to display total stock or only from the main location.

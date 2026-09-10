@@ -39,6 +39,26 @@ Features
   - Displays columns with the stock price in inventory views.
   - Allows updating product cost prices during inventory validation.
 
+- **Valuation snapshot on the inventory line** (restricted to *Inventory
+  / Administrator*):
+
+  - **Unit Value** — the unit valuation cost snapshotted when the line
+    is generated (stock value of the matching quants over their
+    quantity, falling back to the product cost). It is refreshed by the
+    *Refresh quantity* button and, unlike *Price*, it is never edited by
+    the operator.
+  - **Theoretical Value** / **Counted Value** / **Difference Value** —
+    the value of the on hand quantity, of the counted quantity and of
+    the difference, so the money impact of the count is visible
+    **before** validation, not only after it.
+  - **Posted Value** — the value actually posted by the inventory move
+    of that line, filled in at validation. It can differ from the
+    estimate for FIFO products, where the outgoing move is valued on the
+    consumed layers.
+  - The same four totals are summed on the inventory document, and the
+    inventory move now carries an **Inventory Line** link, so a stock
+    move can be traced back to the counted line.
+
 - **Multi-Warehouse Stock Visibility**:
 
   - Displays stock broken down by warehouse codes directly in the
@@ -132,6 +152,34 @@ Usage
 
 Changelog
 =========
+
+19.0.2.8.0 (2026-09-10)
+-----------------------
+
+- **Valuation snapshot on the inventory line.** The line now carries the
+  unit valuation cost (*Unit Value*), the value of the on hand and
+  counted quantities, the estimated difference value and the value
+  actually posted at validation (*Posted Value*), with the four totals
+  summed on the document. Until now the document showed only quantities
+  and an editable price, so the money impact of a count could not be
+  seen anywhere — neither before validating it, nor afterwards.
+- The inventory move keeps an **Inventory Line** link
+  (``stock.move.inventory_line_id``), which is how the posted value is
+  read back per line.
+- All the new fields are restricted to ``stock.group_stock_manager``,
+  like the standard valuation fields on quants, so warehouse operators
+  keep counting without seeing values.
+- Lines created before this version keep an empty *Unit Value*, so their
+  values stay at zero: the snapshot is taken when the line is generated
+  and is not reconstructed retroactively.
+
+19.0.2.7.5 (2026-09-10)
+-----------------------
+
+- Applying an inventory adjustment through the standard *Apply* flow no
+  longer crashes: the counting date sent by
+  ``stock.inventory.adjustment.name`` is accepted and now also dates the
+  generated inventory document, not only its moves.
 
 19.0.2.7.4 (2026-08-22)
 -----------------------
