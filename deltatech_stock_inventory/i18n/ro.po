@@ -1250,3 +1250,96 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_location__restricted_stock
 msgid "Restricted Stock"
 msgstr "Gestiune restricționată"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__currency_id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__currency_id
+msgid "Currency"
+msgstr "Monedă"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__unit_value
+msgid "Unit Value"
+msgstr "Valoare unitară"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__total_theoretical_value
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__theoretical_value
+msgid "Theoretical Value"
+msgstr "Valoare teoretică"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__total_counted_value
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__counted_value
+msgid "Counted Value"
+msgstr "Valoare numărată"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__total_diff_value
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__diff_value
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_tree
+msgid "Difference Value"
+msgstr "Valoare diferență"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__total_posted_value
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__posted_value
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_tree
+msgid "Posted Value"
+msgstr "Valoare postată"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__diff_value
+msgid "Estimated value of the difference, available before validation."
+msgstr "Valoarea estimată a diferenței, disponibilă înainte de validare."
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__total_diff_value
+msgid "Estimated value of the inventory difference, before validation."
+msgstr "Valoarea estimată a diferenței de inventar, înainte de validare."
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_move__inventory_line_id
+msgid ""
+"Inventory line that generated this move; links the accounting value back to "
+"the line."
+msgstr ""
+"Linia de inventar care a generat mișcarea; leagă valoarea contabilă de "
+"linie."
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__unit_value
+msgid ""
+"Unit valuation cost snapshotted when the line was generated: the stock value"
+" of the matching quants divided by their quantity, falling back to the "
+"product cost. Unlike Price, it is not edited by the operator, so the values "
+"below stay comparable."
+msgstr ""
+"Costul unitar de valorizare, fotografiat la generarea liniei: valoarea de "
+"stoc a quanturilor corespunzătoare împărțită la cantitatea lor, cu cădere pe"
+" costul produsului. Spre deosebire de Preț, nu este editat de operator, deci"
+" valorile de mai jos rămân comparabile."
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__posted_value
+msgid ""
+"Value actually posted by the inventory move of this line, filled in at "
+"validation. It can differ from the estimate for FIFO products, where the "
+"outgoing move is valued on the consumed layers."
+msgstr ""
+"Valoarea efectiv postată de mișcarea de inventar a liniei, completată la "
+"validare. Poate diferi de estimare la produsele FIFO, unde ieșirea se "
+"valorizează pe straturile consumate."
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__total_posted_value
+msgid "Value actually posted by the inventory moves, filled in at validation."
+msgstr ""
+"Valoarea efectiv postată de mișcările de inventar, completată la validare."
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__total_theoretical_value
+msgid ""
+"Value of the on hand quantities, at the unit cost snapshotted on the lines."
+msgstr ""
+"Valoarea cantităților în stoc, la costul unitar fotografiat pe linii."
