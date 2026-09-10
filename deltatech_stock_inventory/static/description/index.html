@@ -43,6 +43,18 @@ additional features for better inventory management and stock valuation control.
   Odoo versions.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Enhanced Stock Valuation</span><div class="mt-1"><ul class="ps-3 mt-2">
 <li class="small">Displays columns with the stock price in inventory views.</li>
 <li class="small">Allows updating product cost prices during inventory validation.</li>
+</ul></div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Valuation snapshot on the inventory line</span><div class="mt-1">(restricted to <em>Inventory / Administrator</em>):<ul class="ps-3 mt-2">
+<li class="small"><strong>Unit Value</strong> &#8212; the unit valuation cost snapshotted when the line is generated (stock value of
+the matching quants over their quantity, falling back to the product cost). It is refreshed by
+the <em>Refresh quantity</em> button and, unlike <em>Price</em>, it is never edited by the operator.</li>
+<li class="small"><strong>Theoretical Value</strong> / <strong>Counted Value</strong> / <strong>Difference Value</strong> &#8212; the value of the on hand
+quantity, of the counted quantity and of the difference, so the money impact of the count is
+visible <strong>before</strong> validation, not only after it.</li>
+<li class="small"><strong>Posted Value</strong> &#8212; the value actually posted by the inventory move of that line, filled in at
+validation. It can differ from the estimate for FIFO products, where the outgoing move is valued
+on the consumed layers.</li>
+<li class="small">The same four totals are summed on the inventory document, and the inventory move now carries an
+<strong>Inventory Line</strong> link, so a stock move can be traced back to the counted line.</li>
 </ul></div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Multi-Warehouse Stock Visibility</span><div class="mt-1"><ul class="ps-3 mt-2">
 <li class="small">Displays stock broken down by warehouse codes directly in the product Kanban view.</li>
 <li class="small">Configuration option per warehouse to display total stock or only from the main location.</li>
@@ -92,6 +104,26 @@ is updated with the price from the inventory lines.</li>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.8.0 (2026-09-10)</h2>
+<ul>
+<li><strong>Valuation snapshot on the inventory line.</strong> The line now carries the unit valuation cost
+  (<em>Unit Value</em>), the value of the on hand and counted quantities, the estimated difference value and
+  the value actually posted at validation (<em>Posted Value</em>), with the four totals summed on the
+  document. Until now the document showed only quantities and an editable price, so the money impact
+  of a count could not be seen anywhere &#8212; neither before validating it, nor afterwards.</li>
+<li>The inventory move keeps an <strong>Inventory Line</strong> link (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.move.inventory_line_id</code>), which is how
+  the posted value is read back per line.</li>
+<li>All the new fields are restricted to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.group_stock_manager</code>, like the standard valuation
+  fields on quants, so warehouse operators keep counting without seeing values.</li>
+<li>Lines created before this version keep an empty <em>Unit Value</em>, so their values stay at zero: the
+  snapshot is taken when the line is generated and is not reconstructed retroactively.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.7.5 (2026-09-10)</h2>
+<ul>
+<li>Applying an inventory adjustment through the standard <em>Apply</em> flow no longer crashes: the counting
+  date sent by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.inventory.adjustment.name</code> is accepted and now also dates the generated
+  inventory document, not only its moves.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.7.4 (2026-08-22)</h2>
 <ul>
 <li>The <strong>delete guard</strong> on inventory adjustments is active again: only adjustments

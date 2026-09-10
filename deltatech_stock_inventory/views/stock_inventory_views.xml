@@ -72,6 +72,12 @@
                 <field name="inventory_id" column_invisible="1" />
                 <field name="state" column_invisible="1" />
                 <field name="standard_price" readonly="not is_editable or state != 'confirm'" />
+                <field name="currency_id" column_invisible="1" />
+                <field name="unit_value" optional="hide" groups="stock.group_stock_manager" />
+                <field name="theoretical_value" optional="hide" groups="stock.group_stock_manager" />
+                <field name="counted_value" optional="hide" groups="stock.group_stock_manager" />
+                <field name="diff_value" optional="show" sum="Difference Value" groups="stock.group_stock_manager" />
+                <field name="posted_value" optional="hide" sum="Posted Value" groups="stock.group_stock_manager" />
                 <field name="is_ok" readonly="not is_editable or state != 'confirm'" />
             </list>
         </field>
@@ -330,6 +336,17 @@
 
                             <field name="company_id" options="{'no_create': True}" readonly="state!='draft'" />
                             <field name="prefill_counted_quantity" widget="radio" invisible="state != 'draft'" />
+                        </group>
+                    </group>
+                    <group groups="stock.group_stock_manager">
+                        <group>
+                            <field name="currency_id" invisible="1" />
+                            <field name="total_theoretical_value" />
+                            <field name="total_counted_value" />
+                        </group>
+                        <group>
+                            <field name="total_diff_value" />
+                            <field name="total_posted_value" invisible="state != 'done'" />
                         </group>
                     </group>
                     <field name="line_ids" readonly="state=='done'" />

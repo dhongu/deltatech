@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:25+0000\n"
-"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"POT-Creation-Date: 2026-09-10 07:49+0000\n"
+"PO-Revision-Date: 2026-09-10 07:49+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -280,6 +280,12 @@ msgid "Counted Quantity"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__total_counted_value
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__counted_value
+msgid "Counted Value"
+msgstr ""
+
+#. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__move_ids
 msgid "Created Moves"
 msgstr ""
@@ -301,6 +307,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__create_date
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_merge__create_date
 msgid "Created on"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__currency_id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__currency_id
+msgid "Currency"
 msgstr ""
 
 #. module: deltatech_stock_inventory
@@ -326,6 +338,13 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__difference_qty
 msgid "Difference"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__total_diff_value
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__diff_value
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_tree
+msgid "Difference Value"
 msgstr ""
 
 #. module: deltatech_stock_inventory
@@ -373,6 +392,16 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__product_tracking
 msgid "Ensure the traceability of a storable product in your warehouse."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__diff_value
+msgid "Estimated value of the difference, available before validation."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__total_diff_value
+msgid "Estimated value of the inventory difference, before validation."
 msgstr ""
 
 #. module: deltatech_stock_inventory
@@ -528,6 +557,7 @@ msgstr ""
 
 #. module: deltatech_stock_inventory
 #: model:ir.model,name:deltatech_stock_inventory.model_stock_inventory_line
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_move__inventory_line_id
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_quant__inventory_line_id
 msgid "Inventory Line"
 msgstr ""
@@ -562,6 +592,13 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_adjustment_name__inventory_adjustment_name
 msgid "Inventory Reason"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_move__inventory_line_id
+msgid ""
+"Inventory line that generated this move; links the accounting value back to "
+"the line."
 msgstr ""
 
 #. module: deltatech_stock_inventory
@@ -780,6 +817,13 @@ msgid "Package"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__total_posted_value
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__posted_value
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.stock_inventory_line_tree
+msgid "Posted Value"
+msgstr ""
+
+#. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__standard_price
 msgid "Price"
 msgstr ""
@@ -886,11 +930,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__loc_rack
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__loc_rack
 msgid "Rack Name"
-msgstr ""
-
-#. module: deltatech_stock_inventory
-#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__rating_ids
-msgid "Ratings"
 msgstr ""
 
 #. module: deltatech_stock_inventory
@@ -1078,6 +1117,12 @@ msgid "Theoretical Quantity"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__total_theoretical_value
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__theoretical_value
+msgid "Theoretical Value"
+msgstr ""
+
+#. module: deltatech_stock_inventory
 #. odoo-python
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 msgid ""
@@ -1098,6 +1143,20 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__activity_exception_decoration
 msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__unit_value
+msgid "Unit Value"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__unit_value
+msgid ""
+"Unit valuation cost snapshotted when the line was generated: the stock value"
+" of the matching quants divided by their quantity, falling back to the "
+"product cost. Unlike Price, it is not edited by the operator, so the values "
+"below stay comparable."
 msgstr ""
 
 #. module: deltatech_stock_inventory
@@ -1125,6 +1184,25 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields.selection,name:deltatech_stock_inventory.selection__stock_inventory__state__done
 msgid "Validated"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__posted_value
+msgid ""
+"Value actually posted by the inventory move of this line, filled in at "
+"validation. It can differ from the estimate for FIFO products, where the "
+"outgoing move is valued on the consumed layers."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__total_posted_value
+msgid "Value actually posted by the inventory moves, filled in at validation."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__total_theoretical_value
+msgid ""
+"Value of the on hand quantities, at the unit cost snapshotted on the lines."
 msgstr ""
 
 #. module: deltatech_stock_inventory
@@ -1168,6 +1246,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
 msgid "You can only adjust storable products."
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock_inventory.py:0
+msgid ""
+"You can only delete a draft inventory adjustment. If the inventory "
+"adjustment is not done, you can cancel it."
 msgstr ""
 
 #. module: deltatech_stock_inventory
