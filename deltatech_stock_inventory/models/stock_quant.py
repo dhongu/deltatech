@@ -62,7 +62,7 @@ class StockQuant(models.Model):
         self.inventory_line_id = False
         return super().action_set_inventory_quantity_to_zero()
 
-    def action_apply_inventory(self):
+    def action_apply_inventory(self, date=None):
         for quant in self:
             if (
                 not self.env.user.has_group("deltatech_stock_inventory.group_view_inventory_button")
@@ -76,7 +76,10 @@ class StockQuant(models.Model):
         #         quant.product_id.product_tmpl_id.write({"is_inventory_ok": True})
 
         inventory = self.filtered(lambda q: q.inventory_quantity_set).create_inventory_lines()
-        res = super(StockQuant, self.with_context(apply_inventory=True)).action_apply_inventory()
+        if inventory and date:
+            # Data de numărare din wizard datează mișcările; documentul trebuie să o urmeze
+            inventory.date = date
+        res = super(StockQuant, self.with_context(apply_inventory=True)).action_apply_inventory(date)
         for quant in self:
             quant.last_inventory_date = fields.Date.today()
             inventor_line = quant.inventory_line_id
@@ -84,8 +87,7 @@ class StockQuant(models.Model):
                 inventor_line.write({"is_ok": True})
 
         if inventory:
-            date = inventory.date
-            values = {"date": date, "state": "done"}
+            values = {"date": inventory.date, "state": "done"}
             if inventory.name in ("/", self.env._("New")):
                 sequence = self.env.ref("deltatech_stock_inventory.sequence_inventory_doc")
                 if sequence:

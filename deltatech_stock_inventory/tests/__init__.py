@@ -9,3 +9,4 @@ from . import test_product_methods
 from . import test_stock_inventory_methods_extra
 from . import test_compute_warehouse_stocks
 from . import test_inventory_note
+from . import test_quant_apply_counting_date
