@@ -25,4 +25,12 @@ class ProductPackagingMaterial(models.Model):
         index=True,
     )
     material_type = fields.Selection(PACKAGING_MATERIAL_TYPES, required=True)
-    qty = fields.Float(string="Quantity", required=True)
+    # The same product can be packed one way by the vendor and another way when it
+    # is shipped to the customer, so the quantity is kept per direction.
+    qty_purchase = fields.Float(string="Purchase quantity", default=0.0)
+    qty_sale = fields.Float(string="Sale quantity", default=0.0)
+
+    def _get_qty(self, direction):
+        """Quantity used for the given direction ("purchase" or "sale")."""
+        self.ensure_one()
+        return self.qty_purchase if direction == "purchase" else self.qty_sale

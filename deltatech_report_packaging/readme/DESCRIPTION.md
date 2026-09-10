@@ -1,5 +1,8 @@
 Calculates packaging materials from invoiced product quantities and provides an
-aggregate packaging-material report from the invoice list.
+aggregate packaging-material report from the invoice list. Every material is configured
+with a purchase quantity and a sale quantity, for the products packed one way by the
+vendor and another way on shipping; vendor bills use the first, customer invoices the
+second.
 
 The quantities are refreshed when the invoice is posted, as long as the invoice is
 under automatic update. Editing or deleting a quantity by hand takes the invoice out

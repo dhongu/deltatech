@@ -10,7 +10,8 @@
                     <field name="packaging_material_ids" nolabel="1" colspan="2">
                         <list editable="bottom">
                             <field name="material_type"/>
-                            <field name="qty"/>
+                            <field name="qty_purchase"/>
+                            <field name="qty_sale"/>
                         </list>
                     </field>
                 </group>

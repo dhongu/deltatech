@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:24+0000\n"
-"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"POT-Creation-Date: 2026-09-10 11:57+0000\n"
+"PO-Revision-Date: 2026-09-10 11:57+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -25,6 +25,12 @@ msgstr ""
 #. module: deltatech_report_packaging
 #: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.invoice_packaging_material_form
 msgid "Apply"
+msgstr ""
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_account_bank_statement_line__packaging_material_auto
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_account_move__packaging_material_auto
+msgid "Auto-update packaging materials"
 msgstr ""
 
 #. module: deltatech_report_packaging
@@ -103,6 +109,16 @@ msgstr ""
 #. module: deltatech_report_packaging
 #: model:ir.model,name:deltatech_report_packaging.model_account_move
 msgid "Journal Entry"
+msgstr ""
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,help:deltatech_report_packaging.field_account_bank_statement_line__packaging_material_auto
+#: model:ir.model.fields,help:deltatech_report_packaging.field_account_move__packaging_material_auto
+msgid ""
+"Keep the packaging material quantities computed from the invoice lines and "
+"refreshed when the invoice is posted. Unset it to keep the quantities "
+"entered by hand: editing or deleting a quantity unsets it automatically, and"
+" the Refresh button computes them again and sets it back."
 msgstr ""
 
 #. module: deltatech_report_packaging
@@ -198,8 +214,12 @@ msgid "Product Tmpl"
 msgstr ""
 
 #. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__qty_purchase
+msgid "Purchase quantity"
+msgstr ""
+
+#. module: deltatech_report_packaging
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_invoice_material__qty
-#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__qty
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material_line__qty
 msgid "Quantity"
 msgstr ""
@@ -222,6 +242,11 @@ msgstr ""
 #. module: deltatech_report_packaging
 #: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_report_material__state__get
 msgid "Result"
+msgstr ""
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__qty_sale
+msgid "Sale quantity"
 msgstr ""
 
 #. module: deltatech_report_packaging

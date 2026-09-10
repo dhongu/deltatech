@@ -30,7 +30,10 @@
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">Calculates packaging materials from invoiced product quantities and provides an
-aggregate packaging-material report from the invoice list.</p>
+aggregate packaging-material report from the invoice list. Every material is configured
+with a purchase quantity and a sale quantity, for the products packed one way by the
+vendor and another way on shipping; vendor bills use the first, customer invoices the
+second.</p>
 <p>The quantities are refreshed when the invoice is posted, as long as the invoice is
 under automatic update. Editing or deleting a quantity by hand takes the invoice out
 of automatic update, so that the correction survives the validation of the invoice;
@@ -39,11 +42,16 @@ automatic update.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
-<p>Set the packaging materials and the quantity per unit on the product, in the
-<strong>Packaging materials</strong> section of the product form.</p>
+<p>Set the packaging materials on the product, in the <strong>Packaging materials</strong> section of
+the product form. Each material takes two quantities per unit: <strong>Purchase quantity</strong>,
+for the way the vendor packs the product, and <strong>Sale quantity</strong>, for the way it is
+packed when shipped to the customer. Leave one of them at zero for a material used in
+a single direction.</p>
 <p>On a customer or vendor invoice, the <strong>Packaging materials</strong> tab shows the quantity of
 each material, computed as the invoiced quantity multiplied by the quantity configured
-on the product. The quantities are computed again when the invoice is posted.</p>
+on the product &#8212; the purchase quantity on vendor bills and refunds, the sale quantity
+on customer invoices and credit notes. Materials with a zero quantity in that direction
+are not reported. The quantities are computed again when the invoice is posted.</p>
 <p>To correct a quantity, edit it &#8212; or delete the line &#8212; directly in the tab. The
 <strong>Auto-update packaging materials</strong> switch in the tab is unset automatically, and the
 validation of the invoice no longer overwrites what you entered. Press <strong>Refresh</strong> to
