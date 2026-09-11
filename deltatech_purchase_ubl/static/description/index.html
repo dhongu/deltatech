@@ -1,434 +1,277 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
-<title>Deltatech Purchase UBL</title>
-<style type="text/css">
-
-/*
-:Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
-:Copyright: This stylesheet has been placed in the public domain.
-
-Default cascading style sheet for the HTML output of Docutils.
-Despite the name, some widely supported CSS2 features are used.
-
-See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
-customize this style sheet.
-*/
-
-/* used to remove borders from tables and images */
-.borderless, table.borderless td, table.borderless th {
-  border: 0 }
-
-table.borderless td, table.borderless th {
-  /* Override padding for "table.docutils td" with "! important".
-     The right padding separates the table cells. */
-  padding: 0 0.5em 0 0 ! important }
-
-.first {
-  /* Override more specific margin styles with "! important". */
-  margin-top: 0 ! important }
-
-.last, .with-subtitle {
-  margin-bottom: 0 ! important }
-
-.hidden {
-  display: none }
-
-.subscript {
-  vertical-align: sub;
-  font-size: smaller }
-
-.superscript {
-  vertical-align: super;
-  font-size: smaller }
-
-a.toc-backref {
-  text-decoration: none ;
-  color: black }
-
-blockquote.epigraph {
-  margin: 2em 5em ; }
-
-dl.docutils dd {
-  margin-bottom: 0.5em }
-
-object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
-  overflow: hidden;
-}
-
-/* Uncomment (and remove this text!) to get bold-faced definition list terms
-dl.docutils dt {
-  font-weight: bold }
-*/
-
-div.abstract {
-  margin: 2em 5em }
-
-div.abstract p.topic-title {
-  font-weight: bold ;
-  text-align: center }
-
-div.admonition, div.attention, div.caution, div.danger, div.error,
-div.hint, div.important, div.note, div.tip, div.warning {
-  margin: 2em ;
-  border: medium outset ;
-  padding: 1em }
-
-div.admonition p.admonition-title, div.hint p.admonition-title,
-div.important p.admonition-title, div.note p.admonition-title,
-div.tip p.admonition-title {
-  font-weight: bold ;
-  font-family: sans-serif }
-
-div.attention p.admonition-title, div.caution p.admonition-title,
-div.danger p.admonition-title, div.error p.admonition-title,
-div.warning p.admonition-title, .code .error {
-  color: red ;
-  font-weight: bold ;
-  font-family: sans-serif }
-
-/* Uncomment (and remove this text!) to get reduced vertical space in
-   compound paragraphs.
-div.compound .compound-first, div.compound .compound-middle {
-  margin-bottom: 0.5em }
-
-div.compound .compound-last, div.compound .compound-middle {
-  margin-top: 0.5em }
-*/
-
-div.dedication {
-  margin: 2em 5em ;
-  text-align: center ;
-  font-style: italic }
-
-div.dedication p.topic-title {
-  font-weight: bold ;
-  font-style: normal }
-
-div.figure {
-  margin-left: 2em ;
-  margin-right: 2em }
-
-div.footer, div.header {
-  clear: both;
-  font-size: smaller }
-
-div.line-block {
-  display: block ;
-  margin-top: 1em ;
-  margin-bottom: 1em }
-
-div.line-block div.line-block {
-  margin-top: 0 ;
-  margin-bottom: 0 ;
-  margin-left: 1.5em }
-
-div.sidebar {
-  margin: 0 0 0.5em 1em ;
-  border: medium outset ;
-  padding: 1em ;
-  background-color: #ffffee ;
-  width: 40% ;
-  float: right ;
-  clear: right }
-
-div.sidebar p.rubric {
-  font-family: sans-serif ;
-  font-size: medium }
-
-div.system-messages {
-  margin: 5em }
-
-div.system-messages h1 {
-  color: red }
-
-div.system-message {
-  border: medium outset ;
-  padding: 1em }
-
-div.system-message p.system-message-title {
-  color: red ;
-  font-weight: bold }
-
-div.topic {
-  margin: 2em }
-
-h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
-h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
-  margin-top: 0.4em }
-
-h1.title {
-  text-align: center }
-
-h2.subtitle {
-  text-align: center }
-
-hr.docutils {
-  width: 75% }
-
-img.align-left, .figure.align-left, object.align-left, table.align-left {
-  clear: left ;
-  float: left ;
-  margin-right: 1em }
-
-img.align-right, .figure.align-right, object.align-right, table.align-right {
-  clear: right ;
-  float: right ;
-  margin-left: 1em }
-
-img.align-center, .figure.align-center, object.align-center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-table.align-center {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.align-left {
-  text-align: left }
-
-.align-center {
-  clear: both ;
-  text-align: center }
-
-.align-right {
-  text-align: right }
-
-/* reset inner alignment in figures */
-div.align-right {
-  text-align: inherit }
-
-/* div.align-center * { */
-/*   text-align: left } */
-
-.align-top    {
-  vertical-align: top }
-
-.align-middle {
-  vertical-align: middle }
-
-.align-bottom {
-  vertical-align: bottom }
-
-ol.simple, ul.simple {
-  margin-bottom: 1em }
-
-ol.arabic {
-  list-style: decimal }
-
-ol.loweralpha {
-  list-style: lower-alpha }
-
-ol.upperalpha {
-  list-style: upper-alpha }
-
-ol.lowerroman {
-  list-style: lower-roman }
-
-ol.upperroman {
-  list-style: upper-roman }
-
-p.attribution {
-  text-align: right ;
-  margin-left: 50% }
-
-p.caption {
-  font-style: italic }
-
-p.credits {
-  font-style: italic ;
-  font-size: smaller }
-
-p.label {
-  white-space: nowrap }
-
-p.rubric {
-  font-weight: bold ;
-  font-size: larger ;
-  color: maroon ;
-  text-align: center }
-
-p.sidebar-title {
-  font-family: sans-serif ;
-  font-weight: bold ;
-  font-size: larger }
-
-p.sidebar-subtitle {
-  font-family: sans-serif ;
-  font-weight: bold }
-
-p.topic-title {
-  font-weight: bold }
-
-pre.address {
-  margin-bottom: 0 ;
-  margin-top: 0 ;
-  font: inherit }
-
-pre.literal-block, pre.doctest-block, pre.math, pre.code {
-  margin-left: 2em ;
-  margin-right: 2em }
-
-pre.code .ln { color: gray; } /* line numbers */
-pre.code, code { background-color: #eeeeee }
-pre.code .comment, code .comment { color: #5C6576 }
-pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
-pre.code .literal.string, code .literal.string { color: #0C5404 }
-pre.code .name.builtin, code .name.builtin { color: #352B84 }
-pre.code .deleted, code .deleted { background-color: #DEB0A1}
-pre.code .inserted, code .inserted { background-color: #A3D289}
-
-span.classifier {
-  font-family: sans-serif ;
-  font-style: oblique }
-
-span.classifier-delimiter {
-  font-family: sans-serif ;
-  font-weight: bold }
-
-span.interpreted {
-  font-family: sans-serif }
-
-span.option {
-  white-space: nowrap }
-
-span.pre {
-  white-space: pre }
-
-span.problematic, pre.problematic {
-  color: red }
-
-span.section-subtitle {
-  /* font-size relative to parent (h1..h6 element) */
-  font-size: 80% }
-
-table.citation {
-  border-left: solid 1px gray;
-  margin-left: 1px }
-
-table.docinfo {
-  margin: 2em 4em }
-
-table.docutils {
-  margin-top: 0.5em ;
-  margin-bottom: 0.5em }
-
-table.footnote {
-  border-left: solid 1px black;
-  margin-left: 1px }
-
-table.docutils td, table.docutils th,
-table.docinfo td, table.docinfo th {
-  padding-left: 0.5em ;
-  padding-right: 0.5em ;
-  vertical-align: top }
-
-table.docutils th.field-name, table.docinfo th.docinfo-name {
-  font-weight: bold ;
-  text-align: left ;
-  white-space: nowrap ;
-  padding-left: 0 }
-
-/* "booktabs" style (no vertical lines) */
-table.docutils.booktabs {
-  border: 0px;
-  border-top: 2px solid;
-  border-bottom: 2px solid;
-  border-collapse: collapse;
-}
-table.docutils.booktabs * {
-  border: 0px;
-}
-table.docutils.booktabs th {
-  border-bottom: thin solid;
-  text-align: left;
-}
-
-h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
-h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
-  font-size: 100% }
-
-ul.auto-toc {
-  list-style-type: none }
-
-</style>
-</head>
-<body>
-<div class="document" id="deltatech-purchase-ubl">
-<h1 class="title">Deltatech Purchase UBL</h1>
-
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! This file is generated by oca-gen-addon-readme !!
-!! changes will be overwritten.                   !!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! source digest: sha256:0d678704726db2ccc6bd78b656ead5fc53001781b63436492b72b22fc6b72181
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_purchase_ubl"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<p>This module allows importing vendor invoices in UBL XML format to
-automate purchase order management and accounting workflows.</p>
-<p>Key features:</p>
-<ul class="simple">
-<li><strong>Automatic Matching</strong>: Products are matched based on barcode
-(GS1/EAN), supplier code, internal reference, or name.</li>
-<li><strong>Purchase Order Integration</strong>:<ul>
-<li>When launched from a purchase order, it can automatically add
-missing lines or update existing lines with quantities and prices
-from the XML.</li>
-<li>Matches products specifically within the current order to ensure
-accuracy.</li>
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;font-weight:400;">
+<!-- tb-gen v1 -->
+<div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
+  <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
+    style="background-color:#00432a;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
+  <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Deltatech Purchase UBL" style="width:72px;height:72px;border:none;"/></span></div>
+  <h1 class="text-white fw-bold mb-3" style="font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Deltatech Purchase UBL</h1>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Import UBL XML vendor invoices to update prices, validate receipts, and create vendor bills</p>
+  <div>
+    <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Odoo 18.0</span>
+    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Purchases</span>
+    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">OPL-1</span>
+    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Online &bull; Odoo.sh &bull; On-premise</span>
+  </div>
+</div>
+
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
 </ul>
-</li>
-<li><strong>Price Management</strong>: Updates supplier prices in the vendor pricelist
-(Supplier Info) directly from the XML data.</li>
-<li><strong>Stock Automation</strong>: Optionally validates the associated stock
-receipt (picking) by matching quantities from the XML.</li>
-<li><strong>Accounting</strong>: Automatically creates and links a vendor bill from the
-purchase order after importing the XML data.</li>
-<li><strong>Missing Products</strong>: Option to automatically create missing products
-using information from the UBL file.</li>
-</ul>
-<p>The module supports standard UBL Invoice namespaces and common unit code
-mappings (C62, KGM, LTR, etc.).</p>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<div class="tab-content">
+<div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">am This module imports vendor invoices in UBL XML format and uses them to update purchase workflows in Odoo.</p>
+<p>Key features:
+- <strong>Automatic vendor and order resolution</strong>: the wizard keeps the selected purchase order on itself and can also identify the vendor and purchase order from the XML (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">OrderReference</code>, supplier VAT, supplier name) when context is no longer available.
+- <strong>Automatic matching</strong>: products are matched by barcode (GS1/EAN), supplier code, internal reference, or exact name.
+- <strong>Purchase order integration</strong>:
+    - when the purchase order already has lines, the import updates only the existing matching lines;
+    - new XML lines are not added to an existing order, and the wizard shows this warning before import;
+    - when no purchase order is resolved, the wizard can still identify the vendor from XML and update supplier prices.
+- <strong>Price management</strong>: updates vendor prices in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.supplierinfo</code> directly from the XML data.
+- <strong>Discount support</strong>: extracts line discounts from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">AllowanceCharge</code> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ChargeIndicator=false</code>) and applies them as percentage discounts on purchase order lines.
+- <strong>Total check</strong>: compares the purchase order total with the XML total (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PayableAmount</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TaxInclusiveAmount</code>, with untaxed fallback) and shows a warning when there is a difference.
+- <strong>Stock automation</strong>: optionally validates the associated stock receipt by matching quantities from the XML.
+- <strong>Accounting</strong>: optionally creates and links a vendor bill from the purchase order when an order is resolved.
+- <strong>Missing products</strong>: option to automatically create missing products using data from the UBL file.</p>
+<p>The module supports standard UBL Invoice namespaces and common unit code mappings (C62, KGM, LTR, etc.).</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[18.0.1.2.3] - 2026-07-18</h2>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
+<ul>
+<li><strong>Bug</strong>: purchase order lines for service products with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_method="receive"</code> (e.g. Marso's "Ecovaloare" eco-tax lines) never get a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_received</code> from stock moves, since services have no stock picking. Only <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_validate_receipt_quantities</code> (used for physical products) previously set received quantities, so these service lines stayed at <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_to_invoice == 0</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">action_create_invoice()</code> silently dropped them from the vendor bill even though they were present on the order.<ul>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_invoice_data</code> now marks a line as received (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_received_manual</code> = ordered quantity) whenever its <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_received_method</code> is <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">"manual"</code>, for both updated existing lines and newly added ones.</li>
+<li>Added test <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_service_line_receive_policy_is_marked_received_for_billing</code>.</li>
 </ul>
 </li>
 </ul>
-</div>
-<div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
-<p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
-In case of trouble, please check there if your issue has already been reported.</p>
-<p>Do not contact contributors directly about support or help with technical issues.</p>
-</div>
-<div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
-<div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
-<ul class="simple">
-<li>Terrabit</li>
-<li>Dorin Hongu</li>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[18.0.1.2.2] - 2026-07-14</h2>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
+<ul>
+<li><strong>Bug</strong>: the supplier's invoice number/date (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">invoice_id</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">issue_date</code> from the source document) were lost whenever the user ran the import wizard without ticking "Create vendor bill" (its default), then created the vendor bill later from the standard purchase order flow. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_invoice_data</code> now auto-creates the vendor bill whenever the source document identifies an invoice number, regardless of the "Create vendor bill" checkbox &#8212; the checkbox is still available to force bill creation when the source has no invoice number.<ul>
+<li>Added test <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_vendor_bill_auto_created_when_invoice_id_present</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[18.0.1.2.1] - 2026-07-14</h2>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
+<ul>
+<li><strong>Bug</strong>: when the purchase order already had lines, source lines whose product wasn't already on the order (e.g. an "Ecovaloare" line added by the supplier that wasn't on the original PO) were silently dropped &#8212; no new order line was created and no message was shown. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_invoice_data</code> now adds any unconsumed matched source line as a new purchase order line, mirroring the behavior already used when the order has no lines.<ul>
+<li>Added test <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_new_product_added_as_line_when_order_already_has_lines</code> reproducing the reported case (order with one existing line, invoice with that line plus an extra unmatched product).</li>
+</ul>
+</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[18.0.1.2.0] - 2026-07-05</h2>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Changed</h3>
+<ul>
+<li><strong>Refactor</strong>: extracted the format-agnostic matching/bill-creation logic (product matching, supplier price update, purchase order line creation/update, receipt validation, vendor bill creation, log building) into a new shared <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase.invoice.import.mixin</code> abstract model (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">models/purchase_invoice_import_mixin.py</code>).<ul>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase.ubl.import.wizard</code> now inherits this mixin and keeps only the UBL-XML-specific parts (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_parse_xml</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_is_ubl_invoice</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">default_get</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_uom_from_ubl</code>).</li>
+<li>No behavior change for UBL import: same model name, fields, and public methods (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_parse_xml</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_match_product_on_order</code>, etc.) remain available for other modules that inherit <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase.ubl.import.wizard</code> (e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">terrabit_mdtrade</code>).</li>
+<li>Enables other invoice-import wizards (e.g. a PDF-based importer for a specific vendor) to reuse the same processing via <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">self._process_invoice_data(invoice_data)</code>, as long as their parser returns the same intermediate dict shape.</li>
+</ul>
+</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[18.0.1.1.0] - 2026-05-26</h2>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Added</h3>
+<ul>
+<li><strong>Discount support from e-Factura SPV XML</strong>: Line-level <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">AllowanceCharge</code> elements with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ChargeIndicator=false</code> are now extracted and applied as percentage discounts on purchase order lines.<ul>
+<li>Discount percent is calculated as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">allowance_amount / (price * qty) * 100</code>.</li>
+<li>Applied on both newly created order lines and existing order lines during update.</li>
+<li>The gross price (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PriceAmount</code>) is preserved as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">price_unit</code>; the discount is stored separately in the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">discount</code> field.</li>
+</ul>
+</li>
+<li><strong>Test coverage</strong>: Added automated test <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_allowance_charge_discount_applied_on_order_line</code> verifying correct discount extraction and application (based on real e-Factura SPV invoice data: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PriceAmount=372.20</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">AllowanceCharge/Amount=93.05</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty=1</code> &#8594; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">discount=25%</code>).</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[18.0.1.0.0] - 2025-01-01</h2>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Added</h3>
+<ul>
+<li>Initial release: import UBL XML vendor invoices to automate purchase order management.</li>
+<li>Automatic product matching by barcode (GS1/EAN), supplier code, internal reference, or name.</li>
+<li>Purchase order line creation and update (quantities and prices) from XML data.</li>
+<li>Supplier price update in vendor pricelist (Supplier Info).</li>
+<li>Stock receipt (picking) validation with quantities from XML.</li>
+<li>Vendor bill creation linked to the purchase order.</li>
+<li>Option to automatically create missing products from UBL data.</li>
+<li>Support for standard UBL Invoice namespaces and common unit code mappings (C62, KGM, LTR, etc.).</li>
 </ul>
 </div>
-<div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
-<p>Current maintainer:</p>
-<p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/18.0/deltatech_purchase_ubl">dhongu/deltatech</a> project on GitHub.</p>
-<p>You are welcome to contribute.</p>
 </div>
+
+<div class="row text-center mt-4 mb-1 g-3">
+  <div class="col-md-6">
+    <div class="border rounded-3 p-4 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Modules published on Odoo Apps</div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="border rounded-3 p-4 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Odoo Partner &mdash; implementation &amp; support</div>
+    </div>
+  </div>
 </div>
+
+
+<div class="text-white text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:#00432a;">
+  <h2 class="text-white fw-bold mb-2" style="font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
+  <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
+     Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,
+     the Americas, Asia and Africa &mdash; by companies we have never even met. That is the
+     advantage of building modules that simply work.</p>
+  <a href="https://www.terrabit.ro/contactus" target="_blank" rel="noopener"
+     class="d-inline-block fw-bold text-decoration-none rounded-3"
+     style="background-color:#57B952;color:#04331f;padding:14px 32px;font-size:15px;">Contact Terrabit &rarr;</a>
 </div>
-</body>
-</html>
+
+
+<section class="rounded-4 p-4 mb-3 border">
+  <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
+  <p class="text-center mb-4" style="color:#3d4752;">Other modules from the same publisher, built to work together.
+    <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
+       class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
+  <div class="row g-3">
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_fast_purchase" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">FP</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Fast Purchase</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Purchases</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Achizitie rapida</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_purchase_mail" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PS</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Purchase: Send Multi Orders by Email with XLSX</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Purchases</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Select multiple purchase orders and send an email with XLSX summary and attached PDFs</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_purchase_refund" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">RP</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Refund Purchase</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Purchases</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Generare factura storno pentru retururi</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Tools</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Generic module</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_account" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Deltatech Account</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_account_analytic" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AA</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account Analytic</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Analytic lines enhancements</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_account_edi_ubl_advice" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">UD</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech UBL despatch advice</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Deltatech Account UBL despatch advice</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_account_edi_ubl_gln" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">UG</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech UBL GLN - Obsolete</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Deltatech Account UBL GLN</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+</div>
