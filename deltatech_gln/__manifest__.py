@@ -5,7 +5,7 @@
 {
     "name": "Deltatech Partner GLN ",
     "summary": "Partner Global Location Number",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "author": "Terrabit,Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Administration",
