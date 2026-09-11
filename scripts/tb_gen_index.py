@@ -54,10 +54,14 @@ Utilizare:
 import argparse
 import ast
 import html as html_mod
+import logging
 import os
 import re
+import sys
 
 import markdown
+
+_logger = logging.getLogger(__name__)
 
 TB_MARKER = "<!-- tb-gen v1 -->"
 KNOWN_MARKERS = ("oca-gen-addon-readme", "tb-skin v", "tb-gen v")
@@ -629,12 +633,12 @@ def process(addon_dir, cross_sell=True, force=False, allow_ro=False):
     if not read_manifest(addon_dir):
         return False
     if not read_fragment(addon_dir, "DESCRIPTION.md"):
-        print(f"[tb-gen] SKIP {addon_dir}: fără readme/DESCRIPTION.md")
+        _logger.info("[tb-gen] SKIP %s: fără readme/DESCRIPTION.md", addon_dir)
         return False
     desc_dir = os.path.join(addon_dir, "static", "description")
     index_path = os.path.join(desc_dir, "index.html")
     if not force and not may_overwrite(index_path):
-        print(f"[tb-gen] SKIP {index_path}: index.html manual (folosește --force)")
+        _logger.info("[tb-gen] SKIP %s: index.html manual (folosește --force)", index_path)
         return False
     # generează ÎNAINTE de a deschide fișierul — o eroare la generare nu trebuie
     # să lase un index.html trunchiat
@@ -642,7 +646,7 @@ def process(addon_dir, cross_sell=True, force=False, allow_ro=False):
     os.makedirs(desc_dir, exist_ok=True)
     with open(index_path, "w", encoding="utf8") as f:
         f.write(content)
-    print(f"[tb-gen] {index_path}")
+    _logger.info("[tb-gen] %s", index_path)
     return True
 
 
@@ -656,6 +660,7 @@ def find_addons(addons_dir):
 
 
 def main():
+    logging.basicConfig(level=logging.INFO, format="%(message)s", stream=sys.stdout)
     ap = argparse.ArgumentParser(description="Generator index.html Apps Store (stil Terrabit) din readme/*.md")
     ap.add_argument("--addon-dir", action="append", default=[], help="un singur modul")
     ap.add_argument("--addons-dir", help="director cu mai multe module")
@@ -675,7 +680,7 @@ def main():
     count = sum(
         1 for d in targets if process(d, cross_sell=not args.no_cross_sell, force=args.force, allow_ro=args.allow_ro)
     )
-    print(f"[tb-gen] gata: {count} module generate.")
+    _logger.info("[tb-gen] gata: %s module generate.", count)
 
 
 if __name__ == "__main__":

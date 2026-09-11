@@ -29,9 +29,12 @@ Utilizare:
 """
 
 import argparse
+import logging
 import os
 import re
 import sys
+
+_logger = logging.getLogger(__name__)
 
 # ---- Reguli sanitizer (un singur loc; calibrează-le dacă urci o dată pe store real) ----
 
@@ -126,6 +129,7 @@ def render(html, mode):
 
 
 def main():
+    logging.basicConfig(level=logging.INFO, format="%(message)s", stream=sys.stdout)
     ap = argparse.ArgumentParser(description="Emulează sanitizer-ul Apps Store + preview light/dark")
     ap.add_argument("index_html", help="cale către static/description/index.html")
     ap.add_argument("--report", action="store_true", help="doar raportul de risc pe dark")
@@ -139,18 +143,18 @@ def main():
     if args.report:
         issues = risk_report(sanitized)
         if not issues:
-            print("[ok] niciun text fără panou/culoare proprie — dark-proof.")
+            _logger.info("[ok] niciun text fără panou/culoare proprie — dark-proof.")
         else:
-            print(f"[risc dark] {len(issues)} elemente fără panou solid:")
+            _logger.info("[risc dark] %s elemente fără panou solid:", len(issues))
             for tag, why in issues:
-                print(f"  <{tag}> — {why}")
+                _logger.info("  <%s> — %s", tag, why)
         return
 
     base = args.index_html.rsplit(".", 1)[0]
     for mode in MODES:
         out = f"{base}.apps-{mode}.html"
         open(out, "w", encoding="utf8").write(render(sanitized, mode))
-        print(f"[preview] {out}")
+        _logger.info("[preview] %s", out)
 
 
 if __name__ == "__main__":

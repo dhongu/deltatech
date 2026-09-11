@@ -50,8 +50,12 @@ Utilizare:
 
 import argparse
 import ast
+import logging
 import os
 import re
+import sys
+
+_logger = logging.getLogger(__name__)
 
 TB_MARKER = "<!-- tb-skin v5 -->"
 # orice marcaj tb-skin (v1, v2, …) — ca să nu re-îmbrăcăm un fișier deja procesat
@@ -445,7 +449,7 @@ def process(addon_dir):
         return False
     with open(index_path, "w", encoding="utf8") as f:
         f.write(new_html)
-    print(f"[tb-skin] {index_path}")
+    _logger.info("[tb-skin] %s", index_path)
     return True
 
 
@@ -459,6 +463,7 @@ def find_addons(addons_dir):
 
 
 def main():
+    logging.basicConfig(level=logging.INFO, format="%(message)s", stream=sys.stdout)
     ap = argparse.ArgumentParser(description="Terrabit skin pentru index.html OCA")
     ap.add_argument("--addon-dir", action="append", default=[], help="un singur modul")
     ap.add_argument("--addons-dir", help="director cu mai multe module")
@@ -471,7 +476,7 @@ def main():
         targets = list(find_addons("."))
 
     count = sum(1 for d in targets if process(d))
-    print(f"[tb-skin] gata: {count} module modernizate.")
+    _logger.info("[tb-skin] gata: %s module modernizate.", count)
 
 
 if __name__ == "__main__":
