@@ -1,0 +1,176 @@
+# Traducerea modulului Odoo.
+# This file contains the translation of the following modules:
+# 	* deltatech_uom_unece
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-13 05:18+0000\n"
+"PO-Revision-Date: 2026-09-13 05:18+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_uom_unece
+#: model_terms:ir.actions.act_window,help:deltatech_uom_unece.uom_unece_code_action
+msgid ""
+"Codes accepted for reporting, loaded from the nomenclature ANAF publishes\n"
+"                with the SAF-T schema. Add one only if it is missing from that list."
+msgstr ""
+"Coduri admise la raportare, încărcate din nomenclatorul publicat de ANAF"
+"                odată cu schema SAF-T. Adaugă unul doar dacă lipsește din acea listă."
+
+#. module: deltatech_uom_unece
+#: model_terms:ir.ui.view,arch_db:deltatech_uom_unece.uom_unece_code_view_search
+msgid "Packaging (Rec 21)"
+msgstr "Ambalaje (Rec 21)"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields.selection,name:deltatech_uom_unece.selection__uom_unece_code__source__rec20
+msgid "Rec 20 - unit of measure"
+msgstr "Rec 20 - unitate de măsură"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields.selection,name:deltatech_uom_unece.selection__uom_unece_code__source__rec21
+msgid "Rec 21 - packaging"
+msgstr "Rec 21 - ambalaj"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__source
+#: model_terms:ir.ui.view,arch_db:deltatech_uom_unece.uom_unece_code_view_search
+msgid "Source"
+msgstr "Sursă"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.constraint,message:deltatech_uom_unece.constraint_uom_unece_code_code_format
+msgid ""
+"The UNECE code must be 2 to 4 characters, digits or capital letters only."
+msgstr "Codul UNECE trebuie să aibă între 2 și 4 caractere, doar cifre sau litere mari."
+
+#. module: deltatech_uom_unece
+#: model_terms:ir.ui.view,arch_db:deltatech_uom_unece.uom_unece_code_view_search
+msgid "Units (Rec 20)"
+msgstr "Unități (Rec 20)"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,help:deltatech_uom_unece.field_uom_unece_code__source
+msgid ""
+"Which UN/ECE recommendation the code comes from, as stated by the ANAF "
+"nomenclature."
+msgstr "Din ce recomandare UN/ECE provine codul, conform nomenclatorului ANAF."
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__active
+msgid "Active"
+msgstr "Activ"
+
+#. module: deltatech_uom_unece
+#: model_terms:ir.actions.act_window,help:deltatech_uom_unece.uom_unece_code_action
+msgid "Add a UNECE code"
+msgstr "Adaugă un cod UNECE"
+
+#. module: deltatech_uom_unece
+#: model_terms:ir.ui.view,arch_db:deltatech_uom_unece.uom_unece_code_view_search
+msgid "Archived"
+msgstr "Arhivat"
+
+#. module: deltatech_uom_unece
+#: model:ir.model,name:deltatech_uom_unece.model_account_edi_common
+msgid ""
+"Common functions for EDI documents: generate the data, the constraints, etc"
+msgstr "Funcții comune pentru documentele EDI: generarea datelor, a restricțiilor etc."
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__code
+msgid "Code"
+msgstr "Cod"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,help:deltatech_uom_unece.field_uom_unece_code__code
+msgid "Code sent as the unitCode attribute, e.g. KGM for kilogram."
+msgstr "Codul trimis ca atribut unitCode, de exemplu KGM pentru kilogram."
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,help:deltatech_uom_unece.field_uom_uom__unece_code_id
+msgid ""
+"Code sent in electronic documents (e-invoice, eTransport) for this unit. "
+"When empty, the code built into Odoo is used."
+msgstr "Codul trimis în documentele electronice (e-Factura, e-Transport) pentru această unitate. Când e gol, se folosește codul predefinit din Odoo."
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__display_name
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_uom__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__id
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_uom__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,help:deltatech_uom_unece.field_uom_unece_code__name
+msgid "Meaning of the code in the UN/ECE list."
+msgstr "Semnificația codului în lista UN/ECE."
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields.selection,name:deltatech_uom_unece.selection__uom_unece_code__category__other
+msgid "Other"
+msgstr "Altele"
+
+#. module: deltatech_uom_unece
+#: model:ir.model,name:deltatech_uom_unece.model_uom_uom
+msgid "Product Unit of Measure"
+msgstr "Unitate de măsură produs"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.constraint,message:deltatech_uom_unece.constraint_uom_unece_code_code_uniq
+msgid "The UNECE code must be unique."
+msgstr "Codul UNECE trebuie să fie unic."
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_uom__unece_code_id
+msgid "UNECE Code"
+msgstr "Cod UNECE"
+
+#. module: deltatech_uom_unece
+#: model:ir.actions.act_window,name:deltatech_uom_unece.uom_unece_code_action
+#: model:ir.ui.menu,name:deltatech_uom_unece.uom_unece_code_menu
+msgid "UNECE Codes"
+msgstr "Coduri UNECE"
+
+#. module: deltatech_uom_unece
+#: model:ir.model,name:deltatech_uom_unece.model_uom_unece_code
+msgid "UNECE Unit of Measure Code"
+msgstr "Cod UNECE de unitate de măsură"
