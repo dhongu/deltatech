@@ -96,11 +96,42 @@ class TestUneceCodeConstraints(TransactionCase):
             self.env["uom.unece.code"].create({"code": "KGM", "name": "Duplicate"})
 
     def test_code_format_is_enforced(self):
-        """Schemele acceptă 2-3 caractere alfanumerice majuscule; ANAF cere exact
-        acest tipar pe `codUnitateMasura`, iar o valoare greșită ar fi respinsă
-        abia la depunere."""
+        """Nomenclatorul ANAF are coduri de 2-4 caractere alfanumerice majuscule.
+        O valoare în afara tiparului ar fi respinsă abia la depunere."""
         for bad in ("kg", "K", "KILOGRAM", "K-G"):
             with self.subTest(code=bad):
                 with self.assertRaises(IntegrityError), mute_logger("odoo.sql_db"):
                     with self.env.cr.savepoint():
                         self.env["uom.unece.code"].create({"code": bad, "name": "Bad"})
+
+
+@tagged("post_install", "-at_install")
+class TestNomenclature(TransactionCase):
+    """Nomenclatorul încărcat din schema SAF-T publicată de ANAF."""
+
+    def test_full_nomenclature_is_loaded(self):
+        """Peste două mii de coduri, nu subsetul scris de mână de dinainte."""
+        self.assertGreater(self.env["uom.unece.code"].search_count([]), 2000)
+
+    def test_packaging_codes_are_marked_as_rec21(self):
+        box = self.env.ref("deltatech_uom_unece.unece_xbx")
+        self.assertEqual(box.code, "XBX")
+        self.assertEqual(box.source, "rec21")
+
+    def test_pallet_code_is_xpx_not_xpf(self):
+        """`XPF` înseamnă „Pen"; paletul e `XPX`. Prima versiune scrisă din
+        memorie greșea, iar nomenclatorul oficial a arătat-o."""
+        self.assertEqual(self.env.ref("deltatech_uom_unece.unece_xpx").name, "Pallet")
+        self.assertEqual(self.env.ref("deltatech_uom_unece.unece_xpf").name, "Pen")
+
+    def test_four_character_code_is_accepted(self):
+        """`XLTR` e în nomenclator, deși schema eTransport acceptă doar 2-3
+        caractere: constrângerea nu are voie să respingă un cod valid în SAF-T."""
+        self.assertEqual(self.env.ref("deltatech_uom_unece.unece_xltr").code, "XLTR")
+
+    def test_romanian_names_are_translated(self):
+        code = self.env.ref("deltatech_uom_unece.unece_kgm")
+        if not self.env["res.lang"].search([("code", "=", "ro_RO")]):
+            self.skipTest("Romanian is not loaded on this database.")
+        self.assertEqual(code.with_context(lang="ro_RO").name, "kilogram")
+        self.assertEqual(self.env.ref("deltatech_uom_unece.unece_xbx").with_context(lang="ro_RO").name, "Cutie")

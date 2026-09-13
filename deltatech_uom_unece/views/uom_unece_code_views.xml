@@ -8,7 +8,7 @@
             <list editable="bottom">
                 <field name="code"/>
                 <field name="name"/>
-                <field name="category"/>
+                <field name="source"/>
                 <field name="active" column_invisible="True"/>
             </list>
         </field>
@@ -21,12 +21,15 @@
             <search>
                 <field name="code"/>
                 <field name="name"/>
-                <filter name="inactive" string="Archived" domain="[('active','=',False)]"/>
+                <filter name="units" string="Units (Rec 20)" domain="[('source', '=', 'rec20')]"/>
+                <filter name="packaging" string="Packaging (Rec 21)" domain="[('source', '=', 'rec21')]"/>
+                <separator/>
+                <filter name="inactive" string="Archived" domain="[('active', '=', False)]"/>
                 <!-- În 19.0 <group> din search nu mai acceptă atribute
                      (`expand`, `string`): validarea RelaxNG respinge view-ul
                      și instalarea modulului se oprește. -->
                 <group>
-                    <filter name="group_category" string="Category" context="{'group_by': 'category'}"/>
+                    <filter name="group_source" string="Source" context="{'group_by': 'source'}"/>
                 </group>
             </search>
         </field>
@@ -39,8 +42,8 @@
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Add a UNECE code</p>
             <p>
-                Codes sent as the unit in electronic documents. Take new ones from the
-                UN/ECE Recommendation 20 and 21 lists.
+                Codes accepted for reporting, loaded from the nomenclature ANAF publishes
+                with the SAF-T schema. Add one only if it is missing from that list.
             </p>
         </field>
     </record>

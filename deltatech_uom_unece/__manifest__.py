@@ -13,7 +13,7 @@
     "license": "OPL-1",
     "data": [
         "security/ir.model.access.csv",
-        "data/uom_unece_code_data.xml",
+        "data/uom.unece.code.csv",
         "data/uom_uom_data.xml",
         "views/uom_unece_code_views.xml",
         "views/uom_uom_views.xml",

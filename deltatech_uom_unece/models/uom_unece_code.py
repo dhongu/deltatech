@@ -8,10 +8,14 @@ from odoo import api, fields, models
 class UomUneceCode(models.Model):
     """UN/ECE code usable as the `unitCode` of an electronic document.
 
-    A model rather than a selection field: the published lists hold well over a
-    thousand codes, new ones are added by UN/CEFACT, and which ones a customer
-    needs depends on their trade. A consultant can add the missing code without
-    a code change and a deployment.
+    Loaded from the nomenclature ANAF publishes with the SAF-T schema, which
+    states the codes accepted for reporting along with their English name and an
+    indicative Romanian translation:
+    https://static.anaf.ro/static/10/Anaf/Informatii_R/RO_SAFT_SchemaDefCod_16.02.2026.xlsx
+
+    A model rather than a selection field: the list holds over two thousand
+    codes, ANAF republishes it periodically, and a consultant can add or correct
+    an entry without a code change and a deployment.
     """
 
     _name = "uom.unece.code"
@@ -24,29 +28,26 @@ class UomUneceCode(models.Model):
         help="Code sent as the unitCode attribute, e.g. KGM for kilogram.",
     )
     name = fields.Char(required=True, translate=True, help="Meaning of the code in the UN/ECE list.")
-    category = fields.Selection(
+    source = fields.Selection(
         [
-            ("mass", "Mass"),
-            ("volume", "Volume"),
-            ("length", "Length"),
-            ("area", "Area"),
-            ("count", "Count"),
-            ("packaging", "Packaging"),
-            ("time", "Time"),
-            ("energy", "Energy"),
+            ("rec20", "Rec 20 - unit of measure"),
+            ("rec21", "Rec 21 - packaging"),
             ("other", "Other"),
         ],
         default="other",
         required=True,
+        help="Which UN/ECE recommendation the code comes from, as stated by the ANAF nomenclature.",
     )
     active = fields.Boolean(default=True)
 
     _code_uniq = models.Constraint("unique(code)", "The UNECE code must be unique.")
-    # The receiving schemas accept two or three upper-case alphanumerics; ANAF's
-    # eTransport `CodUMType` uses exactly this pattern.
+    # Two to four characters: the recommendations use two or three, but the ANAF
+    # nomenclature also carries XLTR (bulk litre of petroleum products). Note that
+    # eTransport's own `CodUMType` accepts only two or three, so a four-character
+    # code is reportable in SAF-T but not on a transport declaration.
     _code_format = models.Constraint(
-        "check(code ~ '^[0-9A-Z]{2,3}$')",
-        "The UNECE code must be 2 or 3 characters, digits or capital letters only.",
+        "check(code ~ '^[0-9A-Z]{2,4}$')",
+        "The UNECE code must be 2 to 4 characters, digits or capital letters only.",
     )
 
     @api.depends("code", "name")
