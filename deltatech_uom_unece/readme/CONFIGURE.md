@@ -4,8 +4,9 @@ with `X`). Both are accepted by UBL/Peppol BIS 3, by CIUS-RO and by the
 eTransport schema.
 
 The full nomenclature is loaded on install from the SAF-T schema published by
-ANAF, so you should not need to add anything. When ANAF republishes the list,
-regenerate the data with `scripts/import_unece_from_saft.py`.
+ANAF, English and Romanian names together, so you should not need to add
+anything. When ANAF republishes the list, regenerate the data with
+`scripts/import_unece_from_saft.py`.
 
 One caveat on code length: the nomenclature holds `XLTR`, four characters, while
 eTransport's own `CodUMType` accepts only two or three. Such a code is reportable

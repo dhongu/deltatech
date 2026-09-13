@@ -20,9 +20,11 @@ The codes come from the nomenclature ANAF publishes with the SAF-T schema, at
 <https://static.anaf.ro/static/10/Anaf/Informatii_R/RO_SAFT_SchemaDefCod_16.02.2026.xlsx>
 (sheet `Unitati_masura`): over two thousand entries from UN/ECE Recommendation 20
 (units) and 21 (packaging), with the English name and ANAF's Romanian
-translation. They are loaded into a model of their own rather than a selection
-field, so a consultant can add or correct an entry from the interface when ANAF
-republishes the list, with no code change and no deployment.
+translation. Both names load from the same data file, using the `name@ro`
+column syntax Odoo also uses for the Romanian chart of accounts. They go into a
+model of their own rather than a selection field, so a consultant can add or
+correct an entry from the interface when ANAF republishes the list, with no code
+change and no deployment.
 
 Both paths that build electronic documents are covered: eTransport reads the
 code through `uom.uom._get_unece_code()`, while UBL and CII invoices reach it
