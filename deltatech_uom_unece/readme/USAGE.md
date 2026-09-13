@@ -5,6 +5,6 @@ To check what will be sent, open the unit and read the **UNECE Code** field. An
 empty field means Odoo's built-in mapping applies — `C62` for any unit the
 standard does not recognise.
 
-If invoices go out as UBL or CII, install `deltatech_uom_unece_edi` as well. It
-installs itself automatically when `account_edi_ubl_cii` is present, and without
-it the code applies to eTransport but is ignored on invoices.
+The code applies to both paths that build electronic documents: eTransport,
+through `uom.uom._get_unece_code()`, and UBL/CII invoices, which reach the same
+value through a separate method of their own.
