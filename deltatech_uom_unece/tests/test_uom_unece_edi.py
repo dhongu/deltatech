@@ -11,9 +11,9 @@ class TestUomUneceEdi(TransactionCase):
     """`account_edi_ubl_cii` nu trece prin `uom.uom._get_unece_code()`.
 
     Are propria copie a logicii, pe modelul abstract `account.edi.common`, care
-    citește direct dicționarul din standard. Fără puntea asta, un cod pus pe
-    unitate s-ar aplica pe eTransport și ar fi ignorat pe facturi — tăcut, fiindcă
-    ambele documente rămân valide față de schemă.
+    citește direct dicționarul din standard. Fără override-ul pe acel model, un
+    cod pus pe unitate s-ar aplica pe eTransport și ar fi ignorat pe facturi —
+    tăcut, fiindcă ambele documente rămân valide față de schemă.
     """
 
     @classmethod

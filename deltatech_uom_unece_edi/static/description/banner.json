@@ -1,7 +1,0 @@
-{
-  "title": "UNECE Codes for EDI",
-  "summary": "Unit codes for UBL and CII invoices",
-  "features": ["Covers the code path used by e-invoices", "Installs itself with account_edi_ubl_cii"],
-  "icon": "file",
-  "lang": "en"
-}

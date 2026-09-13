@@ -63,6 +63,12 @@ msgid "Centimetre"
 msgstr "Centimetru"
 
 #. module: deltatech_uom_unece
+#: model:ir.model,name:deltatech_uom_unece.model_account_edi_common
+msgid ""
+"Common functions for EDI documents: generate the data, the constraints, etc"
+msgstr "Funcții comune pentru documentele EDI: generarea datelor, a restricțiilor etc."
+
+#. module: deltatech_uom_unece
 #: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__code
 msgid "Code"
 msgstr "Cod"

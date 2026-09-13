@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-13 05:18+0000\n"
-"PO-Revision-Date: 2026-09-13 05:18+0000\n"
+"POT-Creation-Date: 2026-09-13 05:39+0000\n"
+"PO-Revision-Date: 2026-09-13 05:39+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -86,6 +86,12 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_uom_unece
+#: model:ir.model,name:deltatech_uom_unece.model_account_edi_common
+msgid ""
+"Common functions for EDI documents: generate the data, the constraints, etc"
+msgstr ""
+
+#. module: deltatech_uom_unece
 #: model:ir.model.fields.selection,name:deltatech_uom_unece.selection__uom_unece_code__category__count
 msgid "Count"
 msgstr ""
@@ -116,6 +122,7 @@ msgid "Day"
 msgstr ""
 
 #. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_account_edi_common__display_name
 #: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__display_name
 #: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_uom__display_name
 msgid "Display Name"
@@ -152,6 +159,7 @@ msgid "Hour"
 msgstr ""
 
 #. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_account_edi_common__id
 #: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__id
 #: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_uom__id
 msgid "ID"

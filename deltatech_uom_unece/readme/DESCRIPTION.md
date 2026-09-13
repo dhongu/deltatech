@@ -21,5 +21,10 @@ published lists hold well over a thousand codes, and which ones you need depends
 on your trade. A consultant adds the missing one from the interface, with no
 code change and no deployment.
 
+Both paths that build electronic documents are covered: eTransport reads the
+code through `uom.uom._get_unece_code()`, while UBL and CII invoices reach it
+through a separate method of their own, on `account.edi.common`. Overriding only
+the first would have fixed eTransport and silently left invoices unchanged.
+
 Leaving the field empty keeps exactly the behaviour you have today, which is
 what makes the module safe to install on a running database.
