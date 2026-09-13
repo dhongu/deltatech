@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="uom_unece_code_view_list" model="ir.ui.view">
+        <field name="name">uom.unece.code.list</field>
+        <field name="model">uom.unece.code</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="uom_unece_code_view_search" model="ir.ui.view">
+        <field name="name">uom.unece.code.search</field>
+        <field name="model">uom.unece.code</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code"/>
+                <field name="name"/>
+                <filter name="inactive" string="Archived" domain="[('active','=',False)]"/>
+                <!-- În 19.0 <group> din search nu mai acceptă atribute
+                     (`expand`, `string`): validarea RelaxNG respinge view-ul
+                     și instalarea modulului se oprește. -->
+                <group>
+                    <filter name="group_category" string="Category" context="{'group_by': 'category'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="uom_unece_code_action" model="ir.actions.act_window">
+        <field name="name">UNECE Codes</field>
+        <field name="res_model">uom.unece.code</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add a UNECE code</p>
+            <p>
+                Codes sent as the unit in electronic documents. Take new ones from the
+                UN/ECE Recommendation 20 and 21 lists.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="uom_unece_code_menu"
+              name="UNECE Codes"
+              parent="base.menu_administration"
+              action="uom_unece_code_action"
+              sequence="100"
+              groups="base.group_system"/>
+
+</odoo>

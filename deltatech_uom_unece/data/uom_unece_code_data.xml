@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+<!--
+    Codurile UN/ECE folosite ca `unitCode` în documentele electronice.
+
+    Sursele: UN/ECE Recommendation 20 (unități de măsură) și Recommendation 21
+    (tipuri de ambalaj, codurile cu prefixul `X`). Ambele sunt admise de
+    UBL/Peppol BIS 3 și de CIUS-RO; `codUnitateMasura` din e-Transport cere
+    doar 2-3 caractere alfanumerice majuscule, deci le acceptă la fel.
+
+    ⚠️ Lista de mai jos e un SUBSET — cel folosit curent de clienții noștri —
+    nu recomandarea completă, care are peste o mie de coduri. Tocmai de aceea
+    codurile stau într-un model, nu într-un câmp de selecție: consultantul
+    adaugă din interfață codul care îi lipsește, fără modificare de cod și
+    fără deploy. Când adaugi unul, ia-l din documentul UN/ECE, nu din memorie.
+
+    ⚠️ FIȘIERUL E `noupdate="1"`: un upgrade nu trebuie să rescrie codurile
+    pe care le-a corectat sau completat clientul.
+-->
+
+    <!-- ============================= MASĂ ============================= -->
+    <record id="unece_kgm" model="uom.unece.code">
+        <field name="code">KGM</field>
+        <field name="name">Kilogram</field>
+        <field name="category">mass</field>
+    </record>
+    <record id="unece_grm" model="uom.unece.code">
+        <field name="code">GRM</field>
+        <field name="name">Gram</field>
+        <field name="category">mass</field>
+    </record>
+    <record id="unece_mgm" model="uom.unece.code">
+        <field name="code">MGM</field>
+        <field name="name">Milligram</field>
+        <field name="category">mass</field>
+    </record>
+    <record id="unece_tne" model="uom.unece.code">
+        <field name="code">TNE</field>
+        <field name="name">Tonne (metric ton)</field>
+        <field name="category">mass</field>
+    </record>
+    <record id="unece_lbr" model="uom.unece.code">
+        <field name="code">LBR</field>
+        <field name="name">Pound</field>
+        <field name="category">mass</field>
+    </record>
+    <record id="unece_onz" model="uom.unece.code">
+        <field name="code">ONZ</field>
+        <field name="name">Ounce</field>
+        <field name="category">mass</field>
+    </record>
+
+    <!-- ============================ VOLUM ============================= -->
+    <record id="unece_ltr" model="uom.unece.code">
+        <field name="code">LTR</field>
+        <field name="name">Litre</field>
+        <field name="category">volume</field>
+    </record>
+    <record id="unece_mlt" model="uom.unece.code">
+        <field name="code">MLT</field>
+        <field name="name">Millilitre</field>
+        <field name="category">volume</field>
+    </record>
+    <record id="unece_mtq" model="uom.unece.code">
+        <field name="code">MTQ</field>
+        <field name="name">Cubic metre</field>
+        <field name="category">volume</field>
+    </record>
+    <record id="unece_cmq" model="uom.unece.code">
+        <field name="code">CMQ</field>
+        <field name="name">Cubic centimetre</field>
+        <field name="category">volume</field>
+    </record>
+    <record id="unece_gll" model="uom.unece.code">
+        <field name="code">GLL</field>
+        <field name="name">Gallon (US)</field>
+        <field name="category">volume</field>
+    </record>
+
+    <!-- =========================== LUNGIME =========================== -->
+    <record id="unece_mtr" model="uom.unece.code">
+        <field name="code">MTR</field>
+        <field name="name">Metre</field>
+        <field name="category">length</field>
+    </record>
+    <record id="unece_cmt" model="uom.unece.code">
+        <field name="code">CMT</field>
+        <field name="name">Centimetre</field>
+        <field name="category">length</field>
+    </record>
+    <record id="unece_mmt" model="uom.unece.code">
+        <field name="code">MMT</field>
+        <field name="name">Millimetre</field>
+        <field name="category">length</field>
+    </record>
+    <record id="unece_kmt" model="uom.unece.code">
+        <field name="code">KMT</field>
+        <field name="name">Kilometre</field>
+        <field name="category">length</field>
+    </record>
+    <record id="unece_inh" model="uom.unece.code">
+        <field name="code">INH</field>
+        <field name="name">Inch</field>
+        <field name="category">length</field>
+    </record>
+    <record id="unece_fot" model="uom.unece.code">
+        <field name="code">FOT</field>
+        <field name="name">Foot</field>
+        <field name="category">length</field>
+    </record>
+    <record id="unece_yrd" model="uom.unece.code">
+        <field name="code">YRD</field>
+        <field name="name">Yard</field>
+        <field name="category">length</field>
+    </record>
+    <record id="unece_smi" model="uom.unece.code">
+        <field name="code">SMI</field>
+        <field name="name">Mile (statute mile)</field>
+        <field name="category">length</field>
+    </record>
+
+    <!-- =========================== SUPRAFAȚĂ ========================= -->
+    <record id="unece_mtk" model="uom.unece.code">
+        <field name="code">MTK</field>
+        <field name="name">Square metre</field>
+        <field name="category">area</field>
+    </record>
+    <record id="unece_cmk" model="uom.unece.code">
+        <field name="code">CMK</field>
+        <field name="name">Square centimetre</field>
+        <field name="category">area</field>
+    </record>
+    <record id="unece_ftk" model="uom.unece.code">
+        <field name="code">FTK</field>
+        <field name="name">Square foot</field>
+        <field name="category">area</field>
+    </record>
+
+    <!-- ============================ NUMĂR ============================ -->
+    <record id="unece_c62" model="uom.unece.code">
+        <field name="code">C62</field>
+        <field name="name">One (piece)</field>
+        <field name="category">count</field>
+    </record>
+    <record id="unece_h87" model="uom.unece.code">
+        <field name="code">H87</field>
+        <field name="name">Piece</field>
+        <field name="category">count</field>
+    </record>
+    <record id="unece_nar" model="uom.unece.code">
+        <field name="code">NAR</field>
+        <field name="name">Number of articles</field>
+        <field name="category">count</field>
+    </record>
+    <record id="unece_dzn" model="uom.unece.code">
+        <field name="code">DZN</field>
+        <field name="name">Dozen</field>
+        <field name="category">count</field>
+    </record>
+    <record id="unece_pr" model="uom.unece.code">
+        <field name="code">PR</field>
+        <field name="name">Pair</field>
+        <field name="category">count</field>
+    </record>
+    <record id="unece_set" model="uom.unece.code">
+        <field name="code">SET</field>
+        <field name="name">Set</field>
+        <field name="category">count</field>
+    </record>
+
+    <!-- ===================== AMBALAJE (Rec 21) ======================= -->
+    <record id="unece_xbx" model="uom.unece.code">
+        <field name="code">XBX</field>
+        <field name="name">Box</field>
+        <field name="category">packaging</field>
+    </record>
+    <record id="unece_xct" model="uom.unece.code">
+        <field name="code">XCT</field>
+        <field name="name">Carton</field>
+        <field name="category">packaging</field>
+    </record>
+    <record id="unece_xpk" model="uom.unece.code">
+        <field name="code">XPK</field>
+        <field name="name">Package</field>
+        <field name="category">packaging</field>
+    </record>
+    <record id="unece_xbg" model="uom.unece.code">
+        <field name="code">XBG</field>
+        <field name="name">Bag</field>
+        <field name="category">packaging</field>
+    </record>
+    <record id="unece_xpf" model="uom.unece.code">
+        <field name="code">XPF</field>
+        <field name="name">Pallet</field>
+        <field name="category">packaging</field>
+    </record>
+    <record id="unece_xro" model="uom.unece.code">
+        <field name="code">XRO</field>
+        <field name="name">Roll</field>
+        <field name="category">packaging</field>
+    </record>
+
+    <!-- ============================= TIMP ============================ -->
+    <record id="unece_min" model="uom.unece.code">
+        <field name="code">MIN</field>
+        <field name="name">Minute</field>
+        <field name="category">time</field>
+    </record>
+    <record id="unece_hur" model="uom.unece.code">
+        <field name="code">HUR</field>
+        <field name="name">Hour</field>
+        <field name="category">time</field>
+    </record>
+    <record id="unece_day" model="uom.unece.code">
+        <field name="code">DAY</field>
+        <field name="name">Day</field>
+        <field name="category">time</field>
+    </record>
+    <record id="unece_wee" model="uom.unece.code">
+        <field name="code">WEE</field>
+        <field name="name">Week</field>
+        <field name="category">time</field>
+    </record>
+    <record id="unece_mon" model="uom.unece.code">
+        <field name="code">MON</field>
+        <field name="name">Month</field>
+        <field name="category">time</field>
+    </record>
+    <record id="unece_ann" model="uom.unece.code">
+        <field name="code">ANN</field>
+        <field name="name">Year</field>
+        <field name="category">time</field>
+    </record>
+
+    <!-- ============================ ENERGIE ========================== -->
+    <record id="unece_kwh" model="uom.unece.code">
+        <field name="code">KWH</field>
+        <field name="name">Kilowatt hour</field>
+        <field name="category">energy</field>
+    </record>
+    <record id="unece_mwh" model="uom.unece.code">
+        <field name="code">MWH</field>
+        <field name="name">Megawatt hour</field>
+        <field name="category">energy</field>
+    </record>
+    <record id="unece_kwt" model="uom.unece.code">
+        <field name="code">KWT</field>
+        <field name="name">Kilowatt</field>
+        <field name="category">energy</field>
+    </record>
+
+</odoo>
