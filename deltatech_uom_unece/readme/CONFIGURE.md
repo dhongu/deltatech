@@ -1,8 +1,15 @@
-The codes are in **Settings → Technical → UNECE Codes**. The module ships the
-subset in current use — mass, volume, length, area, count, packaging, time and
-energy. Add what you are missing from the UN/ECE Recommendation 20 (units) and
-Recommendation 21 (packaging, the codes prefixed with `X`) lists; both are
-accepted by UBL/Peppol BIS 3, by CIUS-RO and by the eTransport schema.
+The codes are in **Settings → Technical → UNECE Codes**, filterable by source:
+Recommendation 20 for units, Recommendation 21 for packaging (the codes prefixed
+with `X`). Both are accepted by UBL/Peppol BIS 3, by CIUS-RO and by the
+eTransport schema.
+
+The full nomenclature is loaded on install from the SAF-T schema published by
+ANAF, so you should not need to add anything. When ANAF republishes the list,
+regenerate the data with `scripts/import_unece_from_saft.py`.
+
+One caveat on code length: the nomenclature holds `XLTR`, four characters, while
+eTransport's own `CodUMType` accepts only two or three. Such a code is reportable
+in SAF-T but will be rejected on a transport declaration.
 
 The code itself goes on the unit, in **Settings → Technical → Units of Measure**,
 field **UNECE Code**. The field is also available as an optional column in the

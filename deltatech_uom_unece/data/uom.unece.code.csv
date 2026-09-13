@@ -1,0 +1,2164 @@
+id,code,name,source
+unece_10,10,group,rec20
+unece_11,11,outfit,rec20
+unece_13,13,ration,rec20
+unece_14,14,shot,rec20
+unece_15,15,"stick, military",rec20
+unece_20,20,twenty foot container,rec20
+unece_21,21,forty foot container,rec20
+unece_22,22,decilitre per gram,rec20
+unece_23,23,gram per cubic centimetre,rec20
+unece_24,24,theoretical pound,rec20
+unece_25,25,gram per square centimetre,rec20
+unece_27,27,theoretical ton,rec20
+unece_28,28,kilogram per square metre,rec20
+unece_33,33,kilopascal square metre per gram,rec20
+unece_34,34,kilopascal per millimetre,rec20
+unece_35,35,millilitre per square centimetre second,rec20
+unece_37,37,ounce per square foot,rec20
+unece_38,38,"ounce per square foot per 0,01inch",rec20
+unece_40,40,millilitre per second,rec20
+unece_41,41,millilitre per minute,rec20
+unece_56,56,sitas,rec20
+unece_57,57,mesh,rec20
+unece_58,58,net kilogram,rec20
+unece_59,59,part per million,rec20
+unece_60,60,percent weight,rec20
+unece_61,61,part per billion (US),rec20
+unece_74,74,millipascal,rec20
+unece_77,77,milli-inch,rec20
+unece_80,80,pound per square inch absolute,rec20
+unece_81,81,henry,rec20
+unece_85,85,foot pound-force,rec20
+unece_87,87,pound per cubic foot,rec20
+unece_89,89,poise,rec20
+unece_91,91,stokes,rec20
+unece_1i,1I,fixed rate,rec20
+unece_2a,2A,radian per second,rec20
+unece_2b,2B,radian per second squared,rec20
+unece_2c,2C,roentgen,rec20
+unece_2g,2G,volt AC,rec20
+unece_2h,2H,volt DC,rec20
+unece_2i,2I,British thermal unit (international table) per hour,rec20
+unece_2j,2J,cubic centimetre per second,rec20
+unece_2k,2K,cubic foot per hour,rec20
+unece_2l,2L,cubic foot per minute,rec20
+unece_2m,2M,centimetre per second,rec20
+unece_2n,2N,decibel,rec20
+unece_2p,2P,kilobyte,rec20
+unece_2q,2Q,kilobecquerel,rec20
+unece_2r,2R,kilocurie,rec20
+unece_2u,2U,megagram,rec20
+unece_2x,2X,metre per minute,rec20
+unece_2y,2Y,milliroentgen,rec20
+unece_2z,2Z,millivolt,rec20
+unece_3b,3B,megajoule,rec20
+unece_3c,3C,manmonth,rec20
+unece_4c,4C,centistokes,rec20
+unece_4g,4G,microlitre,rec20
+unece_4h,4H,micrometre (micron),rec20
+unece_4k,4K,milliampere,rec20
+unece_4l,4L,megabyte,rec20
+unece_4m,4M,milligram per hour,rec20
+unece_4n,4N,megabecquerel,rec20
+unece_4o,4O,microfarad,rec20
+unece_4p,4P,newton per metre,rec20
+unece_4q,4Q,ounce inch,rec20
+unece_4r,4R,ounce foot,rec20
+unece_4t,4T,picofarad,rec20
+unece_4u,4U,pound per hour,rec20
+unece_4w,4W,ton (US) per hour,rec20
+unece_4x,4X,kilolitre per hour,rec20
+unece_5a,5A,barrel (US) per minute,rec20
+unece_5b,5B,batch,rec20
+unece_5e,5E,MMSCF/day,rec20
+unece_5j,5J,hydraulic horse power,rec20
+unece_a10,A10,ampere square metre per joule second,rec20
+unece_a11,A11,angstrom,rec20
+unece_a12,A12,astronomical unit,rec20
+unece_a13,A13,attojoule,rec20
+unece_a14,A14,barn,rec20
+unece_a15,A15,barn per electronvolt,rec20
+unece_a16,A16,barn per steradian electronvolt,rec20
+unece_a17,A17,barn per steradian,rec20
+unece_a18,A18,becquerel per kilogram,rec20
+unece_a19,A19,becquerel per cubic metre,rec20
+unece_a2,A2,ampere per centimetre,rec20
+unece_a20,A20,British thermal unit (international table) per second square foot degree Rankine,rec20
+unece_a21,A21,British thermal unit (international table) per pound degree Rankine,rec20
+unece_a22,A22,British thermal unit (international table) per second foot degree Rankine,rec20
+unece_a23,A23,British thermal unit (international table) per hour square foot degree Rankine,rec20
+unece_a24,A24,candela per square metre,rec20
+unece_a26,A26,coulomb metre,rec20
+unece_a27,A27,coulomb metre squared per volt,rec20
+unece_a28,A28,coulomb per cubic centimetre,rec20
+unece_a29,A29,coulomb per cubic metre,rec20
+unece_a3,A3,ampere per millimetre,rec20
+unece_a30,A30,coulomb per cubic millimetre,rec20
+unece_a31,A31,coulomb per kilogram second,rec20
+unece_a32,A32,coulomb per mole,rec20
+unece_a33,A33,coulomb per square centimetre,rec20
+unece_a34,A34,coulomb per square metre,rec20
+unece_a35,A35,coulomb per square millimetre,rec20
+unece_a36,A36,cubic centimetre per mole,rec20
+unece_a37,A37,cubic decimetre per mole,rec20
+unece_a38,A38,cubic metre per coulomb,rec20
+unece_a39,A39,cubic metre per kilogram,rec20
+unece_a4,A4,ampere per square centimetre,rec20
+unece_a40,A40,cubic metre per mole,rec20
+unece_a41,A41,ampere per square metre,rec20
+unece_a42,A42,curie per kilogram,rec20
+unece_a43,A43,deadweight tonnage,rec20
+unece_a44,A44,decalitre,rec20
+unece_a45,A45,decametre,rec20
+unece_a47,A47,decitex,rec20
+unece_a48,A48,degree Rankine,rec20
+unece_a49,A49,denier,rec20
+unece_a5,A5,ampere square metre,rec20
+unece_a53,A53,electronvolt,rec20
+unece_a54,A54,electronvolt per metre,rec20
+unece_a55,A55,electronvolt square metre,rec20
+unece_a56,A56,electronvolt square metre per kilogram,rec20
+unece_a59,A59,8-part cloud cover,rec20
+unece_a6,A6,ampere per square metre kelvin squared,rec20
+unece_a68,A68,exajoule,rec20
+unece_a69,A69,farad per metre,rec20
+unece_a7,A7,ampere per square millimetre,rec20
+unece_a70,A70,femtojoule,rec20
+unece_a71,A71,femtometre,rec20
+unece_a73,A73,foot per second squared,rec20
+unece_a74,A74,foot pound-force per second,rec20
+unece_a75,A75,freight ton,rec20
+unece_a76,A76,gal,rec20
+unece_a8,A8,ampere second,rec20
+unece_a84,A84,gigacoulomb per cubic metre,rec20
+unece_a85,A85,gigaelectronvolt,rec20
+unece_a86,A86,gigahertz,rec20
+unece_a87,A87,gigaohm,rec20
+unece_a88,A88,gigaohm metre,rec20
+unece_a89,A89,gigapascal,rec20
+unece_a9,A9,rate,rec20
+unece_a90,A90,gigawatt,rec20
+unece_a91,A91,gon,rec20
+unece_a93,A93,gram per cubic metre,rec20
+unece_a94,A94,gram per mole,rec20
+unece_a95,A95,gray,rec20
+unece_a96,A96,gray per second,rec20
+unece_a97,A97,hectopascal,rec20
+unece_a98,A98,henry per metre,rec20
+unece_a99,A99,bit,rec20
+unece_aa,AA,ball,rec20
+unece_ab,AB,bulk pack,rec20
+unece_acr,ACR,acre,rec20
+unece_act,ACT,activity,rec20
+unece_ad,AD,byte,rec20
+unece_ae,AE,ampere per metre,rec20
+unece_ah,AH,additional minute,rec20
+unece_ai,AI,average minute per call,rec20
+unece_ak,AK,fathom,rec20
+unece_al,AL,access line,rec20
+unece_amh,AMH,ampere hour,rec20
+unece_amp,AMP,ampere,rec20
+unece_ann,ANN,year,rec20
+unece_apz,APZ,troy ounce or apothecary ounce,rec20
+unece_aq,AQ,anti-hemophilic factor (AHF) unit,rec20
+unece_as,AS,assortment,rec20
+unece_asm,ASM,alcoholic strength by mass,rec20
+unece_asu,ASU,alcoholic strength by volume,rec20
+unece_atm,ATM,standard atmosphere,rec20
+unece_awg,AWG,american wire gauge,rec20
+unece_ay,AY,assembly,rec20
+unece_az,AZ,British thermal unit (international table) per pound,rec20
+unece_b1,B1,barrel (US) per day,rec20
+unece_b10,B10,bit per second,rec20
+unece_b11,B11,joule per kilogram kelvin,rec20
+unece_b12,B12,joule per metre,rec20
+unece_b13,B13,joule per square metre,rec20
+unece_b14,B14,joule per metre to the fourth power,rec20
+unece_b15,B15,joule per mole,rec20
+unece_b16,B16,joule per mole kelvin,rec20
+unece_b17,B17,credit,rec20
+unece_b18,B18,joule second,rec20
+unece_b19,B19,digit,rec20
+unece_b20,B20,joule square metre per kilogram,rec20
+unece_b21,B21,kelvin per watt,rec20
+unece_b22,B22,kiloampere,rec20
+unece_b23,B23,kiloampere per square metre,rec20
+unece_b24,B24,kiloampere per metre,rec20
+unece_b25,B25,kilobecquerel per kilogram,rec20
+unece_b26,B26,kilocoulomb,rec20
+unece_b27,B27,kilocoulomb per cubic metre,rec20
+unece_b28,B28,kilocoulomb per square metre,rec20
+unece_b29,B29,kiloelectronvolt,rec20
+unece_b3,B3,batting pound,rec20
+unece_b30,B30,gibibit,other
+unece_b31,B31,kilogram metre per second,rec20
+unece_b32,B32,kilogram metre squared,rec20
+unece_b33,B33,kilogram metre squared per second,rec20
+unece_b34,B34,kilogram per cubic decimetre,rec20
+unece_b35,B35,kilogram per litre,rec20
+unece_b4,B4,"barrel, imperial",rec20
+unece_b41,B41,kilojoule per kelvin,rec20
+unece_b42,B42,kilojoule per kilogram,rec20
+unece_b43,B43,kilojoule per kilogram kelvin,rec20
+unece_b44,B44,kilojoule per mole,rec20
+unece_b45,B45,kilomole,rec20
+unece_b46,B46,kilomole per cubic metre,rec20
+unece_b47,B47,kilonewton,rec20
+unece_b48,B48,kilonewton metre,rec20
+unece_b49,B49,kiloohm,rec20
+unece_b50,B50,kiloohm metre,rec20
+unece_b52,B52,kilosecond,rec20
+unece_b53,B53,kilosiemens,rec20
+unece_b54,B54,kilosiemens per metre,rec20
+unece_b55,B55,kilovolt per metre,rec20
+unece_b56,B56,kiloweber per metre,rec20
+unece_b57,B57,light year,rec20
+unece_b58,B58,litre per mole,rec20
+unece_b59,B59,lumen hour,rec20
+unece_b60,B60,lumen per square metre,rec20
+unece_b61,B61,lumen per watt,rec20
+unece_b62,B62,lumen second,rec20
+unece_b63,B63,lux hour,rec20
+unece_b64,B64,lux second,rec20
+unece_b66,B66,megaampere per square metre,rec20
+unece_b67,B67,megabecquerel per kilogram,rec20
+unece_b68,B68,gigabit,rec20
+unece_b69,B69,megacoulomb per cubic metre,rec20
+unece_b7,B7,cycle,rec20
+unece_b70,B70,megacoulomb per square metre,rec20
+unece_b71,B71,megaelectronvolt,rec20
+unece_b72,B72,megagram per cubic metre,rec20
+unece_b73,B73,meganewton,rec20
+unece_b74,B74,meganewton metre,rec20
+unece_b75,B75,megaohm,rec20
+unece_b76,B76,megaohm metre,rec20
+unece_b77,B77,megasiemens per metre,rec20
+unece_b78,B78,megavolt,rec20
+unece_b79,B79,megavolt per metre,rec20
+unece_b8,B8,joule per cubic metre,rec20
+unece_b80,B80,gigabit per second,rec20
+unece_b81,B81,reciprocal metre squared reciprocal second,rec20
+unece_b82,B82,inch per linear foot,rec20
+unece_b83,B83,metre to the fourth power,rec20
+unece_b84,B84,microampere,rec20
+unece_b85,B85,microbar,rec20
+unece_b86,B86,microcoulomb,rec20
+unece_b87,B87,microcoulomb per cubic metre,rec20
+unece_b88,B88,microcoulomb per square metre,rec20
+unece_b89,B89,microfarad per metre,rec20
+unece_b90,B90,microhenry,rec20
+unece_b91,B91,microhenry per metre,rec20
+unece_b92,B92,micronewton,rec20
+unece_b93,B93,micronewton metre,rec20
+unece_b94,B94,microohm,rec20
+unece_b95,B95,microohm metre,rec20
+unece_b96,B96,micropascal,rec20
+unece_b97,B97,microradian,rec20
+unece_b98,B98,microsecond,rec20
+unece_b99,B99,microsiemens,rec20
+unece_bar,BAR,bar [unit of pressure],rec20
+unece_bb,BB,base box,rec20
+unece_bft,BFT,board foot,rec20
+unece_bhp,BHP,brake horse power,rec20
+unece_bil,BIL,billion (EUR),rec20
+unece_bld,BLD,dry barrel (US),rec20
+unece_bll,BLL,barrel (US),rec20
+unece_bp,BP,hundred board foot,rec20
+unece_bpm,BPM,beats per minute,rec20
+unece_bql,BQL,becquerel,rec20
+unece_btu,BTU,British thermal unit (international table),rec20
+unece_bua,BUA,bushel (US),rec20
+unece_bui,BUI,bushel (UK),rec20
+unece_c0,C0,call,rec20
+unece_c10,C10,millifarad,rec20
+unece_c11,C11,milligal,rec20
+unece_c12,C12,milligram per metre,rec20
+unece_c13,C13,milligray,rec20
+unece_c14,C14,millihenry,rec20
+unece_c15,C15,millijoule,rec20
+unece_c16,C16,millimetre per second,rec20
+unece_c17,C17,millimetre squared per second,rec20
+unece_c18,C18,millimole,rec20
+unece_c19,C19,mole per kilogram,rec20
+unece_c20,C20,millinewton,rec20
+unece_c21,C21,kibibit,rec20
+unece_c22,C22,millinewton per metre,rec20
+unece_c23,C23,milliohm metre,rec20
+unece_c24,C24,millipascal second,rec20
+unece_c25,C25,milliradian,rec20
+unece_c26,C26,millisecond,rec20
+unece_c27,C27,millisiemens,rec20
+unece_c28,C28,millisievert,rec20
+unece_c29,C29,millitesla,rec20
+unece_c3,C3,microvolt per metre,rec20
+unece_c30,C30,millivolt per metre,rec20
+unece_c31,C31,milliwatt,rec20
+unece_c32,C32,milliwatt per square metre,rec20
+unece_c33,C33,milliweber,rec20
+unece_c34,C34,mole,rec20
+unece_c35,C35,mole per cubic decimetre,rec20
+unece_c36,C36,mole per cubic metre,rec20
+unece_c37,C37,kilobit,rec20
+unece_c38,C38,mole per litre,rec20
+unece_c39,C39,nanoampere,rec20
+unece_c40,C40,nanocoulomb,rec20
+unece_c41,C41,nanofarad,rec20
+unece_c42,C42,nanofarad per metre,rec20
+unece_c43,C43,nanohenry,rec20
+unece_c44,C44,nanohenry per metre,rec20
+unece_c45,C45,nanometre,rec20
+unece_c46,C46,nanoohm metre,rec20
+unece_c47,C47,nanosecond,rec20
+unece_c48,C48,nanotesla,rec20
+unece_c49,C49,nanowatt,rec20
+unece_c50,C50,neper,rec20
+unece_c51,C51,neper per second,rec20
+unece_c52,C52,picometre,rec20
+unece_c53,C53,newton metre second,rec20
+unece_c54,C54,newton metre squared per kilogram squared,rec20
+unece_c55,C55,newton per square metre,rec20
+unece_c56,C56,newton per square millimetre,rec20
+unece_c57,C57,newton second,rec20
+unece_c58,C58,newton second per metre,rec20
+unece_c59,C59,octave,rec20
+unece_c60,C60,ohm centimetre,rec20
+unece_c61,C61,ohm metre,rec20
+unece_c62,C62,one,rec20
+unece_c63,C63,parsec,rec20
+unece_c64,C64,pascal per kelvin,rec20
+unece_c65,C65,pascal second,rec20
+unece_c66,C66,pascal second per cubic metre,rec20
+unece_c67,C67,pascal second per metre,rec20
+unece_c68,C68,petajoule,rec20
+unece_c69,C69,phon,rec20
+unece_c7,C7,centipoise,rec20
+unece_c70,C70,picoampere,rec20
+unece_c71,C71,picocoulomb,rec20
+unece_c72,C72,picofarad per metre,rec20
+unece_c73,C73,picohenry,rec20
+unece_c74,C74,kilobit per second,rec20
+unece_c75,C75,picowatt,rec20
+unece_c76,C76,picowatt per square metre,rec20
+unece_c78,C78,pound-force,rec20
+unece_c79,C79,kilovolt ampere hour,rec20
+unece_c8,C8,millicoulomb per kilogram,rec20
+unece_c80,C80,rad,rec20
+unece_c81,C81,radian,rec20
+unece_c82,C82,radian square metre per mole,rec20
+unece_c83,C83,radian square metre per kilogram,rec20
+unece_c84,C84,radian per metre,rec20
+unece_c85,C85,reciprocal angstrom,rec20
+unece_c86,C86,reciprocal cubic metre,rec20
+unece_c87,C87,reciprocal cubic metre per second,rec20
+unece_c88,C88,reciprocal electron volt per cubic metre,rec20
+unece_c89,C89,reciprocal henry,rec20
+unece_c9,C9,coil group,rec20
+unece_c90,C90,reciprocal joule per cubic metre,rec20
+unece_c91,C91,reciprocal kelvin or kelvin to the power minus one,rec20
+unece_c92,C92,reciprocal metre,rec20
+unece_c93,C93,reciprocal square metre,rec20
+unece_c94,C94,reciprocal minute,rec20
+unece_c95,C95,reciprocal mole,rec20
+unece_c96,C96,reciprocal pascal or pascal to the power minus one,rec20
+unece_c97,C97,reciprocal second,rec20
+unece_c99,C99,reciprocal second per metre squared,rec20
+unece_cct,CCT,carrying capacity in metric ton,rec20
+unece_cdl,CDL,candela,rec20
+unece_cel,CEL,degree Celsius,rec20
+unece_cen,CEN,hundred,rec20
+unece_cg,CG,card,rec20
+unece_cgm,CGM,centigram,rec20
+unece_ckg,CKG,coulomb per kilogram,rec20
+unece_clf,CLF,hundred leave,rec20
+unece_clt,CLT,centilitre,rec20
+unece_cmk,CMK,square centimetre,rec20
+unece_cmq,CMQ,cubic centimetre,rec20
+unece_cmt,CMT,centimetre,rec20
+unece_cnp,CNP,hundred pack,rec20
+unece_cnt,CNT,cental (UK),rec20
+unece_cou,COU,coulomb,rec20
+unece_ctg,CTG,content gram,rec20
+unece_ctm,CTM,metric carat,rec20
+unece_ctn,CTN,content ton (metric),rec20
+unece_cur,CUR,curie,rec20
+unece_cwa,CWA,hundred pound (cwt) / hundred weight (US),rec20
+unece_cwi,CWI,hundred weight (UK),rec20
+unece_d03,D03,kilowatt hour per hour,rec20
+unece_d04,D04,lot  [unit of weight],rec20
+unece_d1,D1,reciprocal second per steradian,rec20
+unece_d10,D10,siemens per metre,rec20
+unece_d11,D11,mebibit,rec20
+unece_d12,D12,siemens square metre per mole,rec20
+unece_d13,D13,sievert,rec20
+unece_d15,D15,sone,rec20
+unece_d16,D16,square centimetre per erg,rec20
+unece_d17,D17,square centimetre per steradian erg,rec20
+unece_d18,D18,metre kelvin,rec20
+unece_d19,D19,square metre kelvin per watt,rec20
+unece_d2,D2,reciprocal second per steradian metre squared,rec20
+unece_d20,D20,square metre per joule,rec20
+unece_d21,D21,square metre per kilogram,rec20
+unece_d22,D22,square metre per mole,rec20
+unece_d23,D23,pen gram (protein),rec20
+unece_d24,D24,square metre per steradian,rec20
+unece_d25,D25,square metre per steradian joule,rec20
+unece_d26,D26,square metre per volt second,rec20
+unece_d27,D27,steradian,rec20
+unece_d29,D29,terahertz,rec20
+unece_d30,D30,terajoule,rec20
+unece_d31,D31,terawatt,rec20
+unece_d32,D32,terawatt hour,rec20
+unece_d33,D33,tesla,rec20
+unece_d34,D34,tex,rec20
+unece_d36,D36,megabit,rec20
+unece_d41,D41,tonne per cubic metre,rec20
+unece_d42,D42,tropical year,rec20
+unece_d43,D43,unified atomic mass unit,rec20
+unece_d44,D44,var,rec20
+unece_d45,D45,volt squared per kelvin squared,rec20
+unece_d46,D46,volt - ampere,rec20
+unece_d47,D47,volt per centimetre,rec20
+unece_d48,D48,volt per kelvin,rec20
+unece_d49,D49,millivolt per kelvin,rec20
+unece_d5,D5,kilogram per square centimetre,rec20
+unece_d50,D50,volt per metre,rec20
+unece_d51,D51,volt per millimetre,rec20
+unece_d52,D52,watt per kelvin,rec20
+unece_d53,D53,watt per metre kelvin,rec20
+unece_d54,D54,watt per square metre,rec20
+unece_d55,D55,watt per square metre kelvin,rec20
+unece_d56,D56,watt per square metre kelvin to the fourth power,rec20
+unece_d57,D57,watt per steradian,rec20
+unece_d58,D58,watt per steradian square metre,rec20
+unece_d59,D59,weber per metre,rec20
+unece_d6,D6,roentgen per second,rec20
+unece_d60,D60,weber per millimetre,rec20
+unece_d61,D61,minute [unit of angle],rec20
+unece_d62,D62,second [unit of angle],rec20
+unece_d63,D63,book,rec20
+unece_d65,D65,round,rec20
+unece_d68,D68,number of words,rec20
+unece_d69,D69,inch to the fourth power,rec20
+unece_d73,D73,joule square metre,rec20
+unece_d74,D74,kilogram per mole,rec20
+unece_d77,D77,megacoulomb,rec20
+unece_d78,D78,megajoule per second,rec20
+unece_d80,D80,microwatt,rec20
+unece_d81,D81,microtesla,rec20
+unece_d82,D82,microvolt,rec20
+unece_d83,D83,millinewton metre,rec20
+unece_d85,D85,microwatt per square metre,rec20
+unece_d86,D86,millicoulomb,rec20
+unece_d87,D87,millimole per kilogram,rec20
+unece_d88,D88,millicoulomb per cubic metre,rec20
+unece_d89,D89,millicoulomb per square metre,rec20
+unece_d91,D91,rem,rec20
+unece_d93,D93,second per cubic metre,rec20
+unece_d94,D94,second per cubic metre radian,rec20
+unece_d95,D95,joule per gram,rec20
+unece_daa,DAA,decare,rec20
+unece_dad,DAD,ten day,rec20
+unece_day,DAY,day,rec20
+unece_db,DB,dry pound,rec20
+unece_dd,DD,degree [unit of angle],rec20
+unece_dec,DEC,decade,rec20
+unece_dg,DG,decigram,rec20
+unece_dj,DJ,decagram,rec20
+unece_dlt,DLT,decilitre,rec20
+unece_dma,DMA,cubic decametre,rec20
+unece_dmk,DMK,square decimetre,rec20
+unece_dmo,DMO,standard kilolitre,rec20
+unece_dmq,DMQ,cubic decimetre,rec20
+unece_dmt,DMT,decimetre,rec20
+unece_dn,DN,decinewton metre,rec20
+unece_dpc,DPC,dozen piece,rec20
+unece_dpr,DPR,dozen pair,rec20
+unece_dpt,DPT,displacement tonnage,rec20
+unece_dra,DRA,dram (US),rec20
+unece_dri,DRI,dram (UK),rec20
+unece_drl,DRL,dozen roll,rec20
+unece_dt,DT,dry ton,rec20
+unece_dtn,DTN,decitonne,rec20
+unece_dwt,DWT,pennyweight,rec20
+unece_dzn,DZN,dozen,rec20
+unece_dzp,DZP,dozen pack,rec20
+unece_e01,E01,newton per square centimetre,rec20
+unece_e07,E07,megawatt hour per hour,rec20
+unece_e08,E08,megawatt per hertz,rec20
+unece_e09,E09,milliampere hour,rec20
+unece_e10,E10,degree day,rec20
+unece_e12,E12,mille,rec20
+unece_e14,E14,kilocalorie (international table),rec20
+unece_e15,E15,kilocalorie (thermochemical) per hour,rec20
+unece_e16,E16,million Btu(IT) per hour,rec20
+unece_e17,E17,cubic foot per second,rec20
+unece_e18,E18,tonne per hour,rec20
+unece_e19,E19,ping,rec20
+unece_e20,E20,megabit per second,rec20
+unece_e21,E21,shares,rec20
+unece_e22,E22,TEU,rec20
+unece_e23,E23,tyre,rec20
+unece_e25,E25,active unit,rec20
+unece_e27,E27,dose,rec20
+unece_e28,E28,air dry ton,rec20
+unece_e30,E30,strand,rec20
+unece_e31,E31,square metre per litre,rec20
+unece_e32,E32,litre per hour,rec20
+unece_e33,E33,foot per thousand,rec20
+unece_e34,E34,gigabyte,rec20
+unece_e35,E35,terabyte,rec20
+unece_e36,E36,petabyte,rec20
+unece_e37,E37,pixel,rec20
+unece_e38,E38,megapixel,rec20
+unece_e39,E39,dots per inch,rec20
+unece_e4,E4,gross kilogram,rec20
+unece_e40,E40,part per hundred thousand,rec20
+unece_e41,E41,kilogram-force per square millimetre,rec20
+unece_e42,E42,kilogram-force per square centimetre,rec20
+unece_e43,E43,joule per square centimetre,rec20
+unece_e44,E44,kilogram-force metre per square centimetre,rec20
+unece_e45,E45,milliohm,rec20
+unece_e46,E46,kilowatt hour per cubic metre,rec20
+unece_e47,E47,kilowatt hour per kelvin,rec20
+unece_e48,E48,service unit,rec20
+unece_e49,E49,working day,rec20
+unece_e50,E50,accounting unit,rec20
+unece_e51,E51,job,rec20
+unece_e52,E52,run foot,rec20
+unece_e53,E53,test,rec20
+unece_e54,E54,trip,rec20
+unece_e55,E55,use,rec20
+unece_e56,E56,well,rec20
+unece_e57,E57,zone,rec20
+unece_e58,E58,exabit per second,rec20
+unece_e59,E59,exbibyte,rec20
+unece_e60,E60,pebibyte,rec20
+unece_e61,E61,tebibyte,rec20
+unece_e62,E62,gibibyte,rec20
+unece_e63,E63,mebibyte,rec20
+unece_e64,E64,kibibyte,rec20
+unece_e65,E65,exbibit per metre,rec20
+unece_e66,E66,exbibit per square metre,rec20
+unece_e67,E67,exbibit per cubic metre,rec20
+unece_e68,E68,gigabyte per second,rec20
+unece_e69,E69,gibibit per metre,rec20
+unece_e70,E70,gibibit per square metre,rec20
+unece_e71,E71,gibibit per cubic metre,rec20
+unece_e72,E72,kibibit per metre,rec20
+unece_e73,E73,kibibit per square metre,rec20
+unece_e74,E74,kibibit per cubic metre,rec20
+unece_e75,E75,mebibit per metre,rec20
+unece_e76,E76,mebibit per square metre,rec20
+unece_e77,E77,mebibit per cubic metre,rec20
+unece_e78,E78,petabit,rec20
+unece_e79,E79,petabit per second,rec20
+unece_e80,E80,pebibit per metre,rec20
+unece_e81,E81,pebibit per square metre,rec20
+unece_e82,E82,pebibit per cubic metre,rec20
+unece_e83,E83,terabit,rec20
+unece_e84,E84,terabit per second,rec20
+unece_e85,E85,tebibit per metre,rec20
+unece_e86,E86,tebibit per cubic metre,rec20
+unece_e87,E87,tebibit per square metre,rec20
+unece_e88,E88,bit per metre,rec20
+unece_e89,E89,bit per square metre,rec20
+unece_e90,E90,reciprocal centimetre,rec20
+unece_e91,E91,reciprocal day,rec20
+unece_e92,E92,cubic decimetre per hour,rec20
+unece_e93,E93,kilogram per hour,rec20
+unece_e94,E94,kilomole per second,rec20
+unece_e95,E95,mole per second,rec20
+unece_e96,E96,degree per second,rec20
+unece_e97,E97,millimetre per degree Celcius metre,rec20
+unece_e98,E98,degree Celsius per kelvin,rec20
+unece_e99,E99,hectopascal per bar,rec20
+unece_ea,EA,each,rec20
+unece_eb,EB,electronic mail box,rec20
+unece_eq,EQ,equivalent gallon,rec20
+unece_f01,F01,bit per cubic metre,rec20
+unece_f02,F02,kelvin per kelvin,rec20
+unece_f03,F03,kilopascal per bar,rec20
+unece_f04,F04,millibar per bar,rec20
+unece_f05,F05,megapascal per bar,rec20
+unece_f06,F06,poise per bar,rec20
+unece_f07,F07,pascal per bar,rec20
+unece_f08,F08,milliampere per inch,rec20
+unece_f10,F10,kelvin per hour,rec20
+unece_f11,F11,kelvin per minute,rec20
+unece_f12,F12,kelvin per second,rec20
+unece_f13,F13,slug,rec20
+unece_f14,F14,gram per kelvin,rec20
+unece_f15,F15,kilogram per kelvin,rec20
+unece_f16,F16,milligram per kelvin,rec20
+unece_f17,F17,pound-force per foot,rec20
+unece_f18,F18,kilogram square centimetre,rec20
+unece_f19,F19,kilogram square millimetre,rec20
+unece_f20,F20,pound inch squared,rec20
+unece_f21,F21,pound-force inch,rec20
+unece_f22,F22,pound-force foot per ampere,rec20
+unece_f23,F23,gram per cubic decimetre,rec20
+unece_f24,F24,kilogram per kilomol,rec20
+unece_f25,F25,gram per hertz,rec20
+unece_f26,F26,gram per day,rec20
+unece_f27,F27,gram per hour,rec20
+unece_f28,F28,gram per minute,rec20
+unece_f29,F29,gram per second,rec20
+unece_f30,F30,kilogram per day,rec20
+unece_f31,F31,kilogram per minute,rec20
+unece_f32,F32,milligram per day,rec20
+unece_f33,F33,milligram per minute,rec20
+unece_f34,F34,milligram per second,rec20
+unece_f35,F35,gram per day kelvin,rec20
+unece_f36,F36,gram per hour kelvin,rec20
+unece_f37,F37,gram per minute kelvin,rec20
+unece_f38,F38,gram per second kelvin,rec20
+unece_f39,F39,kilogram per day kelvin,rec20
+unece_f40,F40,kilogram per hour kelvin,rec20
+unece_f41,F41,kilogram per minute kelvin,rec20
+unece_f42,F42,kilogram per second kelvin,rec20
+unece_f43,F43,milligram per day kelvin,rec20
+unece_f44,F44,milligram per hour kelvin,rec20
+unece_f45,F45,milligram per minute kelvin,rec20
+unece_f46,F46,milligram per second kelvin,rec20
+unece_f47,F47,newton per millimetre,rec20
+unece_f48,F48,pound-force per inch,rec20
+unece_f49,F49,rod [unit of distance],rec20
+unece_f50,F50,micrometre per kelvin,rec20
+unece_f51,F51,centimetre per kelvin,rec20
+unece_f52,F52,metre per kelvin,rec20
+unece_f53,F53,millimetre per kelvin,rec20
+unece_f54,F54,milliohm per metre,rec20
+unece_f55,F55,ohm per mile (statute mile),rec20
+unece_f56,F56,ohm per kilometre,rec20
+unece_f57,F57,milliampere per pound-force per square inch,rec20
+unece_f58,F58,reciprocal bar,rec20
+unece_f59,F59,milliampere per bar,rec20
+unece_f60,F60,degree Celsius per bar,rec20
+unece_f61,F61,kelvin per bar,rec20
+unece_f62,F62,gram per day bar,rec20
+unece_f63,F63,gram per hour bar,rec20
+unece_f64,F64,gram per minute bar,rec20
+unece_f65,F65,gram per second bar,rec20
+unece_f66,F66,kilogram per day bar,rec20
+unece_f67,F67,kilogram per hour bar,rec20
+unece_f68,F68,kilogram per minute bar,rec20
+unece_f69,F69,kilogram per second bar,rec20
+unece_f70,F70,milligram per day bar,rec20
+unece_f71,F71,milligram per hour bar,rec20
+unece_f72,F72,milligram per minute bar,rec20
+unece_f73,F73,milligram per second bar,rec20
+unece_f74,F74,gram per bar,rec20
+unece_f75,F75,milligram per bar,rec20
+unece_f76,F76,milliampere per millimetre,rec20
+unece_f77,F77,pascal second per kelvin,rec20
+unece_f78,F78,inch of water,rec20
+unece_f79,F79,inch of mercury,rec20
+unece_f80,F80,water horse power,rec20
+unece_f81,F81,bar per kelvin,rec20
+unece_f82,F82,hectopascal per kelvin,rec20
+unece_f83,F83,kilopascal per kelvin,rec20
+unece_f84,F84,millibar per kelvin,rec20
+unece_f85,F85,megapascal per kelvin,rec20
+unece_f86,F86,poise per kelvin,rec20
+unece_f87,F87,volt per litre minute,rec20
+unece_f88,F88,newton centimetre,rec20
+unece_f89,F89,newton metre per degree,rec20
+unece_f90,F90,newton metre per ampere,rec20
+unece_f91,F91,bar litre per second,rec20
+unece_f92,F92,bar cubic metre per second,rec20
+unece_f93,F93,hectopascal litre per second,rec20
+unece_f94,F94,hectopascal cubic metre per second,rec20
+unece_f95,F95,millibar litre per second,rec20
+unece_f96,F96,millibar cubic metre per second,rec20
+unece_f97,F97,megapascal litre per second,rec20
+unece_f98,F98,megapascal cubic metre per second,rec20
+unece_f99,F99,pascal litre per second,rec20
+unece_fah,FAH,degree Fahrenheit,rec20
+unece_far,FAR,farad,rec20
+unece_fbm,FBM,fibre metre,rec20
+unece_fc,FC,thousand cubic foot,rec20
+unece_ff,FF,hundred cubic metre,rec20
+unece_fh,FH,micromole,rec20
+unece_fit,FIT,failures in time,rec20
+unece_fl,FL,flake ton,rec20
+unece_fot,FOT,foot,rec20
+unece_fp,FP,pound per square foot,rec20
+unece_fr,FR,foot per minute,rec20
+unece_fs,FS,foot per second,rec20
+unece_ftk,FTK,square foot,rec20
+unece_ftq,FTQ,cubic foot,rec20
+unece_g01,G01,pascal cubic metre per second,rec20
+unece_g04,G04,centimetre per bar,rec20
+unece_g05,G05,metre per bar,rec20
+unece_g06,G06,millimetre per bar,rec20
+unece_g08,G08,square inch per second,rec20
+unece_g09,G09,square metre per second kelvin,rec20
+unece_g10,G10,stokes per kelvin,rec20
+unece_g11,G11,gram per cubic centimetre bar,rec20
+unece_g12,G12,gram per cubic decimetre bar,rec20
+unece_g13,G13,gram per litre bar,rec20
+unece_g14,G14,gram per cubic metre bar,rec20
+unece_g15,G15,gram per millilitre bar,rec20
+unece_g16,G16,kilogram per cubic centimetre bar,rec20
+unece_g17,G17,kilogram per litre bar,rec20
+unece_g18,G18,kilogram per cubic metre bar,rec20
+unece_g19,G19,newton metre per kilogram,rec20
+unece_g2,G2,US gallon per minute,rec20
+unece_g20,G20,pound-force foot per pound,rec20
+unece_g21,G21,cup [unit of volume],rec20
+unece_g23,G23,peck,rec20
+unece_g24,G24,tablespoon (US),rec20
+unece_g25,G25,teaspoon (US),rec20
+unece_g26,G26,stere,rec20
+unece_g27,G27,cubic centimetre per kelvin,rec20
+unece_g28,G28,litre per kelvin,rec20
+unece_g29,G29,cubic metre per kelvin,rec20
+unece_g3,G3,Imperial gallon per minute,rec20
+unece_g30,G30,millilitre per kelvin,rec20
+unece_g31,G31,kilogram per cubic centimetre,rec20
+unece_g32,G32,ounce (avoirdupois) per cubic yard,rec20
+unece_g33,G33,gram per cubic centimetre kelvin,rec20
+unece_g34,G34,gram per cubic decimetre kelvin,rec20
+unece_g35,G35,gram per litre kelvin,rec20
+unece_g36,G36,gram per cubic metre kelvin,rec20
+unece_g37,G37,gram per millilitre kelvin,rec20
+unece_g38,G38,kilogram per cubic centimetre kelvin,rec20
+unece_g39,G39,kilogram per litre kelvin,rec20
+unece_g40,G40,kilogram per cubic metre kelvin,rec20
+unece_g41,G41,square metre per second bar,rec20
+unece_g42,G42,microsiemens per centimetre,rec20
+unece_g43,G43,microsiemens per metre,rec20
+unece_g44,G44,nanosiemens per centimetre,rec20
+unece_g45,G45,nanosiemens per metre,rec20
+unece_g46,G46,stokes per bar,rec20
+unece_g47,G47,cubic centimetre per day,rec20
+unece_g48,G48,cubic centimetre per hour,rec20
+unece_g49,G49,cubic centimetre per minute,rec20
+unece_g50,G50,gallon (US) per hour,rec20
+unece_g51,G51,litre per second,rec20
+unece_g52,G52,cubic metre per day,rec20
+unece_g53,G53,cubic metre per minute,rec20
+unece_g54,G54,millilitre per day,rec20
+unece_g55,G55,millilitre per hour,rec20
+unece_g56,G56,cubic inch per hour,rec20
+unece_g57,G57,cubic inch per minute,rec20
+unece_g58,G58,cubic inch per second,rec20
+unece_g59,G59,milliampere per litre minute,rec20
+unece_g60,G60,volt per bar,rec20
+unece_g61,G61,cubic centimetre per day kelvin,rec20
+unece_g62,G62,cubic centimetre per hour kelvin,rec20
+unece_g63,G63,cubic centimetre per minute kelvin,rec20
+unece_g64,G64,cubic centimetre per second kelvin,rec20
+unece_g65,G65,litre per day kelvin,rec20
+unece_g66,G66,litre per hour kelvin,rec20
+unece_g67,G67,litre per minute kelvin,rec20
+unece_g68,G68,litre per second kelvin,rec20
+unece_g69,G69,cubic metre per day kelvin,rec20
+unece_g70,G70,cubic metre per hour kelvin,rec20
+unece_g71,G71,cubic metre per minute kelvin,rec20
+unece_g72,G72,cubic metre per second kelvin,rec20
+unece_g73,G73,millilitre per day kelvin,rec20
+unece_g74,G74,millilitre per hour kelvin,rec20
+unece_g75,G75,millilitre per minute kelvin,rec20
+unece_g76,G76,millilitre per second kelvin,rec20
+unece_g77,G77,millimetre to the fourth power,rec20
+unece_g78,G78,cubic centimetre per day bar,rec20
+unece_g79,G79,cubic centimetre per hour bar,rec20
+unece_g80,G80,cubic centimetre per minute bar,rec20
+unece_g81,G81,cubic centimetre per second bar,rec20
+unece_g82,G82,litre per day bar,rec20
+unece_g83,G83,litre per hour bar,rec20
+unece_g84,G84,litre per minute bar,rec20
+unece_g85,G85,litre per second bar,rec20
+unece_g86,G86,cubic metre per day bar,rec20
+unece_g87,G87,cubic metre per hour bar,rec20
+unece_g88,G88,cubic metre per minute bar,rec20
+unece_g89,G89,cubic metre per second bar,rec20
+unece_g90,G90,millilitre per day bar,rec20
+unece_g91,G91,millilitre per hour bar,rec20
+unece_g92,G92,millilitre per minute bar,rec20
+unece_g93,G93,millilitre per second bar,rec20
+unece_g94,G94,cubic centimetre per bar,rec20
+unece_g95,G95,litre per bar,rec20
+unece_g96,G96,cubic metre per bar,rec20
+unece_g97,G97,millilitre per bar,rec20
+unece_g98,G98,microhenry per kiloohm,rec20
+unece_g99,G99,microhenry per ohm,rec20
+unece_gb,GB,gallon (US) per day,rec20
+unece_gbq,GBQ,gigabecquerel,rec20
+unece_gdw,GDW,"gram, dry weight",rec20
+unece_ge,GE,pound per gallon (US),rec20
+unece_gf,GF,gram per metre (gram per 100 centimetres),rec20
+unece_gfi,GFI,gram of fissile isotope,rec20
+unece_ggr,GGR,great gross,rec20
+unece_gia,GIA,gill (US),rec20
+unece_gic,GIC,"gram, including container",rec20
+unece_gii,GII,gill (UK),rec20
+unece_gip,GIP,"gram, including inner packaging",rec20
+unece_gj,GJ,gram per millilitre,rec20
+unece_gl,GL,gram per litre,rec20
+unece_gld,GLD,dry gallon (US),rec20
+unece_gli,GLI,gallon (UK),rec20
+unece_gll,GLL,gallon (US),rec20
+unece_gm,GM,gram per square metre,rec20
+unece_go,GO,milligram per square metre,rec20
+unece_gp,GP,milligram per cubic metre,rec20
+unece_gq,GQ,microgram per cubic metre,rec20
+unece_grm,GRM,gram,rec20
+unece_grn,GRN,grain,rec20
+unece_gro,GRO,gross,rec20
+unece_gv,GV,gigajoule,rec20
+unece_gwh,GWH,gigawatt hour,rec20
+unece_h03,H03,henry per kiloohm,rec20
+unece_h04,H04,henry per ohm,rec20
+unece_h05,H05,millihenry per kiloohm,rec20
+unece_h06,H06,millihenry per ohm,rec20
+unece_h07,H07,pascal second per bar,rec20
+unece_h08,H08,microbecquerel,rec20
+unece_h09,H09,reciprocal year,rec20
+unece_h10,H10,reciprocal hour,rec20
+unece_h11,H11,reciprocal month,rec20
+unece_h12,H12,degree Celsius per hour,rec20
+unece_h13,H13,degree Celsius per minute,rec20
+unece_h14,H14,degree Celsius per second,rec20
+unece_h15,H15,square centimetre per gram,rec20
+unece_h16,H16,square decametre,rec20
+unece_h18,H18,square hectometre,rec20
+unece_h19,H19,cubic hectometre,rec20
+unece_h20,H20,cubic kilometre,rec20
+unece_h21,H21,blank,rec20
+unece_h22,H22,volt square inch per pound-force,rec20
+unece_h23,H23,volt per inch,rec20
+unece_h24,H24,volt per microsecond,rec20
+unece_h25,H25,percent per kelvin,rec20
+unece_h26,H26,ohm per metre,rec20
+unece_h27,H27,degree per metre,rec20
+unece_h28,H28,microfarad per kilometre,rec20
+unece_h29,H29,microgram per litre,rec20
+unece_h30,H30,square micrometre (square micron),rec20
+unece_h31,H31,ampere per kilogram,rec20
+unece_h32,H32,ampere squared second,rec20
+unece_h33,H33,farad per kilometre,rec20
+unece_h34,H34,hertz metre,rec20
+unece_h35,H35,kelvin metre per watt,rec20
+unece_h36,H36,megaohm per kilometre,rec20
+unece_h37,H37,megaohm per metre,rec20
+unece_h38,H38,megaampere,rec20
+unece_h39,H39,megahertz kilometre,rec20
+unece_h40,H40,newton per ampere,rec20
+unece_h41,H41,"newton metre watt to the power minus 0,5",rec20
+unece_h42,H42,pascal per metre,rec20
+unece_h43,H43,siemens per centimetre,rec20
+unece_h44,H44,teraohm,rec20
+unece_h45,H45,volt second per metre,rec20
+unece_h46,H46,volt per second,rec20
+unece_h47,H47,watt per cubic metre,rec20
+unece_h48,H48,attofarad,rec20
+unece_h49,H49,centimetre per hour,rec20
+unece_h50,H50,reciprocal cubic centimetre,rec20
+unece_h51,H51,decibel per kilometre,rec20
+unece_h52,H52,decibel per metre,rec20
+unece_h53,H53,kilogram per bar,rec20
+unece_h54,H54,kilogram per cubic decimetre kelvin,rec20
+unece_h55,H55,kilogram per cubic decimetre bar,rec20
+unece_h56,H56,kilogram per square metre second,rec20
+unece_h57,H57,inch per two pi radiant,rec20
+unece_h58,H58,metre per volt second,rec20
+unece_h59,H59,square metre per newton,rec20
+unece_h60,H60,cubic metre per cubic metre,rec20
+unece_h61,H61,millisiemens per centimetre,rec20
+unece_h62,H62,millivolt per minute,rec20
+unece_h63,H63,milligram per square centimetre,rec20
+unece_h64,H64,milligram per gram,rec20
+unece_h65,H65,millilitre per cubic metre,rec20
+unece_h66,H66,millimetre per year,rec20
+unece_h67,H67,millimetre per hour,rec20
+unece_h68,H68,millimole per gram,rec20
+unece_h69,H69,picopascal per kilometre,rec20
+unece_h70,H70,picosecond,rec20
+unece_h71,H71,percent per month,rec20
+unece_h72,H72,percent per hectobar,rec20
+unece_h73,H73,percent per decakelvin,rec20
+unece_h74,H74,watt per metre,rec20
+unece_h75,H75,decapascal,rec20
+unece_h76,H76,gram per millimetre,rec20
+unece_h77,H77,module width,rec20
+unece_h79,H79,French gauge,rec20
+unece_h80,H80,rack unit,rec20
+unece_h81,H81,millimetre per minute,rec20
+unece_h82,H82,big point,rec20
+unece_h83,H83,litre per kilogram,rec20
+unece_h84,H84,gram millimetre,rec20
+unece_h85,H85,reciprocal week,rec20
+unece_h87,H87,piece,rec20
+unece_h88,H88,megaohm kilometre,rec20
+unece_h89,H89,percent per ohm,rec20
+unece_h90,H90,percent per degree,rec20
+unece_h91,H91,percent per ten thousand,rec20
+unece_h92,H92,percent per one hundred thousand,rec20
+unece_h93,H93,percent per hundred,rec20
+unece_h94,H94,percent per thousand,rec20
+unece_h95,H95,percent per volt,rec20
+unece_h96,H96,percent per bar,rec20
+unece_h98,H98,percent per inch,rec20
+unece_h99,H99,percent per metre,rec20
+unece_ha,HA,hank,rec20
+unece_hba,HBA,hectobar,rec20
+unece_hbx,HBX,hundred boxes,rec20
+unece_hc,HC,hundred count,rec20
+unece_hdw,HDW,"hundred kilogram, dry weight",rec20
+unece_hea,HEA,head,rec20
+unece_hgm,HGM,hectogram,rec20
+unece_hh,HH,hundred cubic foot,rec20
+unece_hiu,HIU,hundred international unit,rec20
+unece_hkm,HKM,"hundred kilogram, net mass",rec20
+unece_hlt,HLT,hectolitre,rec20
+unece_hm,HM,mile per hour (statute mile),rec20
+unece_hmq,HMQ,million cubic metre,rec20
+unece_hmt,HMT,hectometre,rec20
+unece_hpa,HPA,hectolitre of pure alcohol,rec20
+unece_htz,HTZ,hertz,rec20
+unece_hur,HUR,hour,rec20
+unece_ia,IA,inch pound (pound inch),rec20
+unece_ie,IE,person,rec20
+unece_inh,INH,inch,rec20
+unece_ink,INK,square inch,rec20
+unece_inq,INQ,cubic inch,rec20
+unece_isd,ISD,international sugar degree,rec20
+unece_iu,IU,inch per second,rec20
+unece_iug,IUG,international unit per gram,rec20
+unece_iv,IV,inch per second squared,rec20
+unece_j10,J10,percent per millimetre,rec20
+unece_j12,J12,per mille per psi,rec20
+unece_j13,J13,degree API,rec20
+unece_j14,J14,degree Baume (origin scale),rec20
+unece_j15,J15,degree Baume (US heavy),rec20
+unece_j16,J16,degree Baume (US light),rec20
+unece_j17,J17,degree Balling,rec20
+unece_j18,J18,degree Brix,rec20
+unece_j19,J19,degree Fahrenheit hour square foot per British thermal unit (thermochemical),rec20
+unece_j2,J2,joule per kilogram,rec20
+unece_j20,J20,degree Fahrenheit per kelvin,rec20
+unece_j21,J21,degree Fahrenheit per bar,rec20
+unece_j22,J22,degree Fahrenheit hour square foot per British thermal unit (international table),rec20
+unece_j23,J23,degree Fahrenheit per hour,rec20
+unece_j24,J24,degree Fahrenheit per minute,rec20
+unece_j25,J25,degree Fahrenheit per second,rec20
+unece_j26,J26,reciprocal degree Fahrenheit,rec20
+unece_j27,J27,degree Oechsle,rec20
+unece_j28,J28,degree Rankine per hour,rec20
+unece_j29,J29,degree Rankine per minute,rec20
+unece_j30,J30,degree Rankine per second,rec20
+unece_j31,J31,degree Twaddell,rec20
+unece_j32,J32,micropoise,rec20
+unece_j33,J33,microgram per kilogram,rec20
+unece_j34,J34,microgram per cubic metre kelvin,rec20
+unece_j35,J35,microgram per cubic metre bar,rec20
+unece_j36,J36,microlitre per litre,rec20
+unece_j38,J38,baud,rec20
+unece_j39,J39,British thermal unit (mean),rec20
+unece_j40,J40,British thermal unit (international table) foot per hour square foot degree Fahrenheit,rec20
+unece_j41,J41,British thermal unit (international table) inch per hour square foot degree Fahrenheit,rec20
+unece_j42,J42,British thermal unit (international table) inch per second square foot degree Fahrenheit,rec20
+unece_j43,J43,British thermal unit (international table) per pound degree Fahrenheit,rec20
+unece_j44,J44,British thermal unit (international table) per minute,rec20
+unece_j45,J45,British thermal unit (international table) per second,rec20
+unece_j46,J46,British thermal unit (thermochemical) foot per hour square foot degree Fahrenheit,rec20
+unece_j47,J47,British thermal unit (thermochemical) per hour,rec20
+unece_j48,J48,British thermal unit (thermochemical) inch per hour square foot degree Fahrenheit,rec20
+unece_j49,J49,British thermal unit (thermochemical) inch per second square foot degree Fahrenheit,rec20
+unece_j50,J50,British thermal unit (thermochemical) per pound degree Fahrenheit,rec20
+unece_j51,J51,British thermal unit (thermochemical) per minute,rec20
+unece_j52,J52,British thermal unit (thermochemical) per second,rec20
+unece_j53,J53,coulomb square metre per kilogram,rec20
+unece_j54,J54,megabaud,rec20
+unece_j55,J55,watt second,rec20
+unece_j56,J56,bar per bar,rec20
+unece_j57,J57,barrel (UK petroleum),rec20
+unece_j58,J58,barrel (UK petroleum) per minute,rec20
+unece_j59,J59,barrel (UK petroleum) per day,rec20
+unece_j60,J60,barrel (UK petroleum) per hour,rec20
+unece_j61,J61,barrel (UK petroleum) per second,rec20
+unece_j62,J62,barrel (US petroleum) per hour,rec20
+unece_j63,J63,barrel (US petroleum) per second,rec20
+unece_j64,J64,bushel (UK) per day,rec20
+unece_j65,J65,bushel (UK) per hour,rec20
+unece_j66,J66,bushel (UK) per minute,rec20
+unece_j67,J67,bushel (UK) per second,rec20
+unece_j68,J68,bushel (US dry) per day,rec20
+unece_j69,J69,bushel (US dry) per hour,rec20
+unece_j70,J70,bushel (US dry) per minute,rec20
+unece_j71,J71,bushel (US dry) per second,rec20
+unece_j72,J72,centinewton metre,rec20
+unece_j73,J73,centipoise per kelvin,rec20
+unece_j74,J74,centipoise per bar,rec20
+unece_j75,J75,calorie (mean),rec20
+unece_j76,J76,calorie (international table) per gram degree Celsius,rec20
+unece_j78,J78,calorie (thermochemical) per centimetre second degree Celsius,rec20
+unece_j79,J79,calorie (thermochemical) per gram degree Celsius,rec20
+unece_j81,J81,calorie (thermochemical) per minute,rec20
+unece_j82,J82,calorie (thermochemical) per second,rec20
+unece_j83,J83,clo,rec20
+unece_j84,J84,centimetre per second kelvin,rec20
+unece_j85,J85,centimetre per second bar,rec20
+unece_j87,J87,cubic centimetre per cubic metre,rec20
+unece_j90,J90,cubic decimetre per day,rec20
+unece_j91,J91,cubic decimetre per cubic metre,rec20
+unece_j92,J92,cubic decimetre per minute,rec20
+unece_j93,J93,cubic decimetre per second,rec20
+unece_j95,J95,ounce (UK fluid) per day,rec20
+unece_j96,J96,ounce (UK fluid) per hour,rec20
+unece_j97,J97,ounce (UK fluid) per minute,rec20
+unece_j98,J98,ounce (UK fluid) per second,rec20
+unece_j99,J99,ounce (US fluid) per day,rec20
+unece_je,JE,joule per kelvin,rec20
+unece_jk,JK,megajoule per kilogram,rec20
+unece_jm,JM,megajoule per cubic metre,rec20
+unece_jnt,JNT,pipeline joint,rec20
+unece_jou,JOU,joule,rec20
+unece_jps,JPS,hundred metre,rec20
+unece_jwl,JWL,number of jewels,rec20
+unece_k1,K1,kilowatt demand,rec20
+unece_k10,K10,ounce (US fluid) per hour,rec20
+unece_k11,K11,ounce (US fluid) per minute,rec20
+unece_k12,K12,ounce (US fluid) per second,rec20
+unece_k13,K13,foot per degree Fahrenheit,rec20
+unece_k14,K14,foot per hour,rec20
+unece_k15,K15,foot pound-force per hour,rec20
+unece_k16,K16,foot pound-force per minute,rec20
+unece_k17,K17,foot per psi,rec20
+unece_k18,K18,foot per second degree Fahrenheit,rec20
+unece_k19,K19,foot per second psi,rec20
+unece_k2,K2,kilovolt ampere reactive demand,rec20
+unece_k20,K20,reciprocal cubic foot,rec20
+unece_k21,K21,cubic foot per degree Fahrenheit,rec20
+unece_k22,K22,cubic foot per day,rec20
+unece_k23,K23,cubic foot per psi,rec20
+unece_k26,K26,gallon (UK) per day,rec20
+unece_k27,K27,gallon (UK) per hour,rec20
+unece_k28,K28,gallon (UK) per second,rec20
+unece_k3,K3,kilovolt ampere reactive hour,rec20
+unece_k30,K30,gallon (US liquid) per second,rec20
+unece_k31,K31,gram-force per square centimetre,rec20
+unece_k32,K32,gill (UK) per day,rec20
+unece_k33,K33,gill (UK) per hour,rec20
+unece_k34,K34,gill (UK) per minute,rec20
+unece_k35,K35,gill (UK) per second,rec20
+unece_k36,K36,gill (US) per day,rec20
+unece_k37,K37,gill (US) per hour,rec20
+unece_k38,K38,gill (US) per minute,rec20
+unece_k39,K39,gill (US) per second,rec20
+unece_k40,K40,standard acceleration of free fall,rec20
+unece_k41,K41,grain per gallon (US),rec20
+unece_k42,K42,horsepower (boiler),rec20
+unece_k43,K43,horsepower (electric),rec20
+unece_k45,K45,inch per degree Fahrenheit,rec20
+unece_k46,K46,inch per psi,rec20
+unece_k47,K47,inch per second degree Fahrenheit,rec20
+unece_k48,K48,inch per second psi,rec20
+unece_k49,K49,reciprocal cubic inch,rec20
+unece_k50,K50,kilobaud,rec20
+unece_k51,K51,kilocalorie (mean),rec20
+unece_k52,K52,kilocalorie (international table) per hour metre degree Celsius,rec20
+unece_k53,K53,kilocalorie (thermochemical),rec20
+unece_k54,K54,kilocalorie (thermochemical) per minute,rec20
+unece_k55,K55,kilocalorie (thermochemical) per second,rec20
+unece_k58,K58,kilomole per hour,rec20
+unece_k59,K59,kilomole per cubic metre kelvin,rec20
+unece_k6,K6,kilolitre,rec20
+unece_k60,K60,kilomole per cubic metre bar,rec20
+unece_k61,K61,kilomole per minute,rec20
+unece_k62,K62,litre per litre,rec20
+unece_k63,K63,reciprocal litre,rec20
+unece_k64,K64,pound (avoirdupois) per degree Fahrenheit,rec20
+unece_k65,K65,pound (avoirdupois) square foot,rec20
+unece_k66,K66,pound (avoirdupois) per day,rec20
+unece_k67,K67,pound per foot hour,rec20
+unece_k68,K68,pound per foot second,rec20
+unece_k69,K69,pound (avoirdupois) per cubic foot degree Fahrenheit,rec20
+unece_k70,K70,pound (avoirdupois) per cubic foot psi,rec20
+unece_k71,K71,pound (avoirdupois) per gallon (UK),rec20
+unece_k73,K73,pound (avoirdupois) per hour degree Fahrenheit,rec20
+unece_k74,K74,pound (avoirdupois) per hour psi,rec20
+unece_k75,K75,pound (avoirdupois) per cubic inch degree Fahrenheit,rec20
+unece_k76,K76,pound (avoirdupois) per cubic inch psi,rec20
+unece_k77,K77,pound (avoirdupois) per psi,rec20
+unece_k78,K78,pound (avoirdupois) per minute,rec20
+unece_k79,K79,pound (avoirdupois) per minute degree Fahrenheit,rec20
+unece_k80,K80,pound (avoirdupois) per minute psi,rec20
+unece_k81,K81,pound (avoirdupois) per second,rec20
+unece_k82,K82,pound (avoirdupois) per second degree Fahrenheit,rec20
+unece_k83,K83,pound (avoirdupois) per second psi,rec20
+unece_k84,K84,pound per cubic yard,rec20
+unece_k85,K85,pound-force per square foot,rec20
+unece_k86,K86,pound-force per square inch degree Fahrenheit,rec20
+unece_k87,K87,psi cubic inch per second,rec20
+unece_k88,K88,psi litre per second,rec20
+unece_k89,K89,psi cubic metre per second,rec20
+unece_k90,K90,psi cubic yard per second,rec20
+unece_k91,K91,pound-force second per square foot,rec20
+unece_k92,K92,pound-force second per square inch,rec20
+unece_k93,K93,reciprocal psi,rec20
+unece_k94,K94,quart (UK liquid) per day,rec20
+unece_k95,K95,quart (UK liquid) per hour,rec20
+unece_k96,K96,quart (UK liquid) per minute,rec20
+unece_k97,K97,quart (UK liquid) per second,rec20
+unece_k98,K98,quart (US liquid) per day,rec20
+unece_k99,K99,quart (US liquid) per hour,rec20
+unece_ka,KA,cake,rec20
+unece_kat,KAT,katal,rec20
+unece_kb,KB,kilocharacter,rec20
+unece_kba,KBA,kilobar,rec20
+unece_kcc,KCC,kilogram of choline chloride,rec20
+unece_kdw,KDW,kilogram drained net weight,rec20
+unece_kel,KEL,kelvin,rec20
+unece_kgm,KGM,kilogram,rec20
+unece_kgs,KGS,kilogram per second,rec20
+unece_khy,KHY,kilogram of hydrogen peroxide,rec20
+unece_khz,KHZ,kilohertz,rec20
+unece_ki,KI,kilogram per millimetre width,rec20
+unece_kic,KIC,"kilogram, including container",rec20
+unece_kip,KIP,"kilogram, including inner packaging",rec20
+unece_kj,KJ,kilosegment,rec20
+unece_kjo,KJO,kilojoule,rec20
+unece_kl,KL,kilogram per metre,rec20
+unece_klk,KLK,lactic dry material percentage,rec20
+unece_klx,KLX,kilolux,rec20
+unece_kma,KMA,kilogram of methylamine,rec20
+unece_kmh,KMH,kilometre per hour,rec20
+unece_kmk,KMK,square kilometre,rec20
+unece_kmq,KMQ,kilogram per cubic metre,rec20
+unece_kmt,KMT,kilometre,rec20
+unece_kni,KNI,kilogram of nitrogen,rec20
+unece_knm,KNM,kilonewton per square metre,rec20
+unece_kns,KNS,kilogram named substance,rec20
+unece_knt,KNT,knot,rec20
+unece_ko,KO,milliequivalence caustic potash per gram of product,rec20
+unece_kpa,KPA,kilopascal,rec20
+unece_kph,KPH,kilogram of potassium hydroxide (caustic potash),rec20
+unece_kpo,KPO,kilogram of potassium oxide,rec20
+unece_kpp,KPP,kilogram of phosphorus pentoxide (phosphoric anhydride),rec20
+unece_kr,KR,kiloroentgen,rec20
+unece_ksd,KSD,kilogram of substance 90 % dry,rec20
+unece_ksh,KSH,kilogram of sodium hydroxide (caustic soda),rec20
+unece_kt,KT,kit,rec20
+unece_ktn,KTN,kilotonne,rec20
+unece_kur,KUR,kilogram of uranium,rec20
+unece_kva,KVA,kilovolt - ampere,rec20
+unece_kvr,KVR,kilovar,rec20
+unece_kvt,KVT,kilovolt,rec20
+unece_kw,KW,kilogram per millimetre,rec20
+unece_kwh,KWH,kilowatt hour,rec20
+unece_kwn,KWN,Kilowatt hour per normalized cubic metre,rec20
+unece_kwo,KWO,kilogram of tungsten trioxide,rec20
+unece_kws,KWS,Kilowatt hour per standard cubic metre,rec20
+unece_kwt,KWT,kilowatt,rec20
+unece_kx,KX,millilitre per kilogram,rec20
+unece_l10,L10,quart (US liquid) per minute,rec20
+unece_l11,L11,quart (US liquid) per second,rec20
+unece_l12,L12,metre per second kelvin,rec20
+unece_l13,L13,metre per second bar,rec20
+unece_l14,L14,square metre hour degree Celsius per kilocalorie (international table),rec20
+unece_l15,L15,millipascal second per kelvin,rec20
+unece_l16,L16,millipascal second per bar,rec20
+unece_l17,L17,milligram per cubic metre kelvin,rec20
+unece_l18,L18,milligram per cubic metre bar,rec20
+unece_l19,L19,millilitre per litre,rec20
+unece_l2,L2,litre per minute,rec20
+unece_l20,L20,reciprocal cubic millimetre,rec20
+unece_l21,L21,cubic millimetre per cubic metre,rec20
+unece_l23,L23,mole per hour,rec20
+unece_l24,L24,mole per kilogram kelvin,rec20
+unece_l25,L25,mole per kilogram bar,rec20
+unece_l26,L26,mole per litre kelvin,rec20
+unece_l27,L27,mole per litre bar,rec20
+unece_l28,L28,mole per cubic metre kelvin,rec20
+unece_l29,L29,mole per cubic metre bar,rec20
+unece_l30,L30,mole per minute,rec20
+unece_l31,L31,milliroentgen aequivalent men,rec20
+unece_l32,L32,nanogram per kilogram,rec20
+unece_l33,L33,ounce (avoirdupois) per day,rec20
+unece_l34,L34,ounce (avoirdupois) per hour,rec20
+unece_l35,L35,ounce (avoirdupois) per minute,rec20
+unece_l36,L36,ounce (avoirdupois) per second,rec20
+unece_l37,L37,ounce (avoirdupois) per gallon (UK),rec20
+unece_l38,L38,ounce (avoirdupois) per gallon (US),rec20
+unece_l39,L39,ounce (avoirdupois) per cubic inch,rec20
+unece_l40,L40,ounce (avoirdupois)-force,rec20
+unece_l41,L41,ounce (avoirdupois)-force inch,rec20
+unece_l42,L42,picosiemens per metre,rec20
+unece_l43,L43,peck (UK),rec20
+unece_l44,L44,peck (UK) per day,rec20
+unece_l45,L45,peck (UK) per hour,rec20
+unece_l46,L46,peck (UK) per minute,rec20
+unece_l47,L47,peck (UK) per second,rec20
+unece_l48,L48,peck (US dry) per day,rec20
+unece_l49,L49,peck (US dry) per hour,rec20
+unece_l50,L50,peck (US dry) per minute,rec20
+unece_l51,L51,peck (US dry) per second,rec20
+unece_l52,L52,psi per psi,rec20
+unece_l53,L53,pint (UK) per day,rec20
+unece_l54,L54,pint (UK) per hour,rec20
+unece_l55,L55,pint (UK) per minute,rec20
+unece_l56,L56,pint (UK) per second,rec20
+unece_l57,L57,pint (US liquid) per day,rec20
+unece_l58,L58,pint (US liquid) per hour,rec20
+unece_l59,L59,pint (US liquid) per minute,rec20
+unece_l60,L60,pint (US liquid) per second,rec20
+unece_l63,L63,slug per day,rec20
+unece_l64,L64,slug per foot second,rec20
+unece_l65,L65,slug per cubic foot,rec20
+unece_l66,L66,slug per hour,rec20
+unece_l67,L67,slug per minute,rec20
+unece_l68,L68,slug per second,rec20
+unece_l69,L69,tonne per kelvin,rec20
+unece_l70,L70,tonne per bar,rec20
+unece_l71,L71,tonne per day,rec20
+unece_l72,L72,tonne per day kelvin,rec20
+unece_l73,L73,tonne per day bar,rec20
+unece_l74,L74,tonne per hour kelvin,rec20
+unece_l75,L75,tonne per hour bar,rec20
+unece_l76,L76,tonne per cubic metre kelvin,rec20
+unece_l77,L77,tonne per cubic metre bar,rec20
+unece_l78,L78,tonne per minute,rec20
+unece_l79,L79,tonne per minute kelvin,rec20
+unece_l80,L80,tonne per minute bar,rec20
+unece_l81,L81,tonne per second,rec20
+unece_l82,L82,tonne per second kelvin,rec20
+unece_l83,L83,tonne per second bar,rec20
+unece_l84,L84,ton (UK shipping),rec20
+unece_l85,L85,ton long per day,rec20
+unece_l86,L86,ton (US shipping),rec20
+unece_l87,L87,ton short per degree Fahrenheit,rec20
+unece_l88,L88,ton short per day,rec20
+unece_l89,L89,ton short per hour degree Fahrenheit,rec20
+unece_l90,L90,ton short per hour psi,rec20
+unece_l91,L91,ton short per psi,rec20
+unece_l92,L92,ton (UK long) per cubic yard,rec20
+unece_l93,L93,ton (US short) per cubic yard,rec20
+unece_l94,L94,ton-force (US short),rec20
+unece_l95,L95,common year,rec20
+unece_l96,L96,sidereal year,rec20
+unece_l98,L98,yard per degree Fahrenheit,rec20
+unece_l99,L99,yard per psi,rec20
+unece_la,LA,pound per cubic inch,rec20
+unece_lac,LAC,lactose excess percentage,rec20
+unece_lbr,LBR,pound,rec20
+unece_lbt,LBT,troy pound (US),rec20
+unece_ld,LD,litre per day,rec20
+unece_lef,LEF,leaf,rec20
+unece_lf,LF,linear foot,rec20
+unece_lh,LH,labour hour,rec20
+unece_lk,LK,link,rec20
+unece_lm,LM,linear metre,rec20
+unece_ln,LN,length,rec20
+unece_lo,LO,lot  [unit of procurement],rec20
+unece_lp,LP,liquid pound,rec20
+unece_lpa,LPA,litre of pure alcohol,rec20
+unece_lr,LR,layer,rec20
+unece_ls,LS,lump sum,rec20
+unece_ltn,LTN,ton (UK) or long ton (US),rec20
+unece_ltr,LTR,litre,rec20
+unece_lub,LUB,"metric ton, lubricating oil",rec20
+unece_lum,LUM,lumen,rec20
+unece_lux,LUX,lux,rec20
+unece_ly,LY,linear yard,rec20
+unece_m1,M1,milligram per litre,rec20
+unece_m10,M10,reciprocal cubic yard,rec20
+unece_m11,M11,cubic yard per degree Fahrenheit,rec20
+unece_m12,M12,cubic yard per day,rec20
+unece_m13,M13,cubic yard per hour,rec20
+unece_m14,M14,cubic yard per psi,rec20
+unece_m15,M15,cubic yard per minute,rec20
+unece_m16,M16,cubic yard per second,rec20
+unece_m17,M17,kilohertz metre,rec20
+unece_m18,M18,gigahertz metre,rec20
+unece_m19,M19,Beaufort,rec20
+unece_m20,M20,reciprocal megakelvin or megakelvin to the power minus one,rec20
+unece_m21,M21,reciprocal kilovolt - ampere reciprocal hour,rec20
+unece_m22,M22,millilitre per square centimetre minute,rec20
+unece_m23,M23,newton per centimetre,rec20
+unece_m24,M24,ohm kilometre,rec20
+unece_m25,M25,percent per degree Celsius,rec20
+unece_m26,M26,gigaohm per metre,rec20
+unece_m27,M27,megahertz metre,rec20
+unece_m29,M29,kilogram per kilogram,rec20
+unece_m30,M30,reciprocal volt - ampere reciprocal second,rec20
+unece_m31,M31,kilogram per kilometre,rec20
+unece_m32,M32,pascal second per litre,rec20
+unece_m33,M33,millimole per litre,rec20
+unece_m34,M34,newton metre per square metre,rec20
+unece_m35,M35,millivolt - ampere,rec20
+unece_m36,M36,30-day month,rec20
+unece_m37,M37,actual/360,rec20
+unece_m38,M38,kilometre per second squared,rec20
+unece_m39,M39,centimetre per second squared,rec20
+unece_m4,M4,monetary value,rec20
+unece_m40,M40,yard per second squared,rec20
+unece_m41,M41,millimetre per second squared,rec20
+unece_m42,M42,mile (statute mile) per second squared,rec20
+unece_m43,M43,mil,rec20
+unece_m44,M44,revolution,rec20
+unece_m45,M45,degree [unit of angle] per second squared,rec20
+unece_m46,M46,revolution per minute,rec20
+unece_m47,M47,circular mil,rec20
+unece_m48,M48,square mile (based on U.S. survey foot),rec20
+unece_m49,M49,chain (based on U.S. survey foot),rec20
+unece_m5,M5,microcurie,rec20
+unece_m50,M50,furlong,rec20
+unece_m51,M51,foot (U.S. survey),rec20
+unece_m52,M52,mile (based on U.S. survey foot),rec20
+unece_m53,M53,metre per pascal,rec20
+unece_m55,M55,metre per radiant,rec20
+unece_m56,M56,shake,rec20
+unece_m57,M57,mile per minute,rec20
+unece_m58,M58,mile per second,rec20
+unece_m59,M59,metre per second pascal,rec20
+unece_m60,M60,metre per hour,rec20
+unece_m61,M61,inch per year,rec20
+unece_m62,M62,kilometre per second,rec20
+unece_m63,M63,inch per minute,rec20
+unece_m64,M64,yard per second,rec20
+unece_m65,M65,yard per minute,rec20
+unece_m66,M66,yard per hour,rec20
+unece_m67,M67,acre-foot (based on U.S. survey foot),rec20
+unece_m68,M68,cord (128 ft3),rec20
+unece_m69,M69,cubic mile (UK statute),rec20
+unece_m7,M7,micro-inch,rec20
+unece_m70,M70,"ton, register",rec20
+unece_m71,M71,cubic metre per pascal,rec20
+unece_m72,M72,bel,rec20
+unece_m73,M73,kilogram per cubic metre pascal,rec20
+unece_m74,M74,kilogram per pascal,rec20
+unece_m75,M75,kilopound-force,rec20
+unece_m76,M76,poundal,rec20
+unece_m77,M77,kilogram metre per second squared,rec20
+unece_m78,M78,pond,rec20
+unece_m79,M79,square foot per hour,rec20
+unece_m80,M80,stokes per pascal,rec20
+unece_m81,M81,square centimetre per second,rec20
+unece_m82,M82,square metre per second pascal,rec20
+unece_m83,M83,denier,rec20
+unece_m84,M84,pound per yard,rec20
+unece_m85,M85,"ton, assay",rec20
+unece_m86,M86,pfund,rec20
+unece_m87,M87,kilogram per second pascal,rec20
+unece_m88,M88,tonne per month,rec20
+unece_m89,M89,tonne per year,rec20
+unece_m9,M9,million Btu per 1000 cubic foot,rec20
+unece_m90,M90,kilopound per hour,rec20
+unece_m91,M91,pound per pound,rec20
+unece_m92,M92,pound-force foot,rec20
+unece_m93,M93,newton metre per radian,rec20
+unece_m94,M94,kilogram metre,rec20
+unece_m95,M95,poundal foot,rec20
+unece_m96,M96,poundal inch,rec20
+unece_m97,M97,dyne metre,rec20
+unece_m98,M98,kilogram centimetre per second,rec20
+unece_m99,M99,gram centimetre per second,rec20
+unece_mah,MAH,megavolt ampere reactive hour,rec20
+unece_mal,MAL,megalitre,rec20
+unece_mam,MAM,megametre,rec20
+unece_mar,MAR,megavar,rec20
+unece_maw,MAW,megawatt,rec20
+unece_mbe,MBE,thousand standard brick equivalent,rec20
+unece_mbf,MBF,thousand board foot,rec20
+unece_mbr,MBR,millibar,rec20
+unece_mc,MC,microgram,rec20
+unece_mcu,MCU,millicurie,rec20
+unece_md,MD,air dry metric ton,rec20
+unece_mgm,MGM,milligram,rec20
+unece_mhz,MHZ,megahertz,rec20
+unece_mik,MIK,square mile (statute mile),rec20
+unece_mil,MIL,thousand,rec20
+unece_min,MIN,minute [unit of time],rec20
+unece_mio,MIO,million,rec20
+unece_miu,MIU,million international unit,rec20
+unece_mld,MLD,milliard,rec20
+unece_mlt,MLT,millilitre,rec20
+unece_mmk,MMK,square millimetre,rec20
+unece_mmq,MMQ,cubic millimetre,rec20
+unece_mmt,MMT,millimetre,rec20
+unece_mnd,MND,"kilogram, dry weight",rec20
+unece_mon,MON,month,rec20
+unece_mpa,MPA,megapascal,rec20
+unece_mqh,MQH,cubic metre per hour,rec20
+unece_mqs,MQS,cubic metre per second,rec20
+unece_msk,MSK,metre per second squared,rec20
+unece_mtk,MTK,square metre,rec20
+unece_mtq,MTQ,cubic metre,rec20
+unece_mtr,MTR,metre,rec20
+unece_mts,MTS,metre per second,rec20
+unece_mva,MVA,megavolt - ampere,rec20
+unece_mwh,MWH,megawatt hour (1000 kW.h),rec20
+unece_n1,N1,pen calorie,rec20
+unece_n10,N10,pound foot per second,rec20
+unece_n11,N11,pound inch per second,rec20
+unece_n12,N12,Pferdestaerke,rec20
+unece_n13,N13,centimetre of mercury (0 ºC),rec20
+unece_n14,N14,centimetre of water (4 ºC),rec20
+unece_n15,N15,foot of water (39.2 ºF),rec20
+unece_n16,N16,inch of mercury (32 ºF),rec20
+unece_n17,N17,inch of mercury (60 ºF),rec20
+unece_n18,N18,inch of water (39.2 ºF),rec20
+unece_n19,N19,inch of water (60 ºF),rec20
+unece_n20,N20,kip per square inch,rec20
+unece_n21,N21,poundal per square foot,rec20
+unece_n22,N22,ounce (avoirdupois) per square inch,rec20
+unece_n23,N23,conventional metre of water,rec20
+unece_n24,N24,gram per square millimetre,rec20
+unece_n25,N25,pound per square yard,rec20
+unece_n26,N26,poundal per square inch,rec20
+unece_n27,N27,foot to the fourth power,rec20
+unece_n28,N28,cubic decimetre per kilogram,rec20
+unece_n29,N29,cubic foot per pound,rec20
+unece_n3,N3,print point,rec20
+unece_n30,N30,cubic inch per pound,rec20
+unece_n31,N31,kilonewton per metre,rec20
+unece_n32,N32,poundal per inch,rec20
+unece_n33,N33,pound-force per yard,rec20
+unece_n34,N34,poundal second per square foot,rec20
+unece_n35,N35,poise per pascal,rec20
+unece_n36,N36,newton second per square metre,rec20
+unece_n37,N37,kilogram per metre second,rec20
+unece_n38,N38,kilogram per metre minute,rec20
+unece_n39,N39,kilogram per metre day,rec20
+unece_n40,N40,kilogram per metre hour,rec20
+unece_n41,N41,gram per centimetre second,rec20
+unece_n42,N42,poundal second per square inch,rec20
+unece_n43,N43,pound per foot minute,rec20
+unece_n44,N44,pound per foot day,rec20
+unece_n45,N45,cubic metre per second pascal,rec20
+unece_n46,N46,foot poundal,rec20
+unece_n47,N47,inch poundal,rec20
+unece_n48,N48,watt per square centimetre,rec20
+unece_n49,N49,watt per square inch,rec20
+unece_n50,N50,British thermal unit (international table) per square foot hour,rec20
+unece_n51,N51,British thermal unit (thermochemical) per square foot hour,rec20
+unece_n52,N52,British thermal unit (thermochemical) per square foot minute,rec20
+unece_n53,N53,British thermal unit (international table) per square foot second,rec20
+unece_n54,N54,British thermal unit (thermochemical) per square foot second,rec20
+unece_n55,N55,British thermal unit (international table) per square inch second,rec20
+unece_n56,N56,calorie (thermochemical) per square centimetre minute,rec20
+unece_n57,N57,calorie (thermochemical) per square centimetre second,rec20
+unece_n58,N58,British thermal unit (international table) per cubic foot,rec20
+unece_n59,N59,British thermal unit (thermochemical) per cubic foot,rec20
+unece_n60,N60,British thermal unit (international table) per degree Fahrenheit,rec20
+unece_n61,N61,British thermal unit (thermochemical) per degree Fahrenheit,rec20
+unece_n62,N62,British thermal unit (international table) per degree Rankine,rec20
+unece_n63,N63,British thermal unit (thermochemical) per degree Rankine,rec20
+unece_n64,N64,British thermal unit (thermochemical) per pound degree Rankine,rec20
+unece_n65,N65,kilocalorie (international table) per gram kelvin,rec20
+unece_n66,N66,British thermal unit (39 ºF),rec20
+unece_n67,N67,British thermal unit (59 ºF),rec20
+unece_n68,N68,British thermal unit (60 ºF),rec20
+unece_n69,N69,calorie (20 ºC),rec20
+unece_n70,N70,quad (1015 BtuIT),rec20
+unece_n71,N71,therm (EC),rec20
+unece_n72,N72,therm (U.S.),rec20
+unece_n73,N73,British thermal unit (thermochemical) per pound,rec20
+unece_n74,N74,British thermal unit (international table) per hour square foot degree Fahrenheit,rec20
+unece_n75,N75,British thermal unit (thermochemical) per hour square foot degree Fahrenheit,rec20
+unece_n76,N76,British thermal unit (international table) per second square foot degree Fahrenheit,rec20
+unece_n77,N77,British thermal unit (thermochemical) per second square foot degree Fahrenheit,rec20
+unece_n78,N78,kilowatt per square metre kelvin,rec20
+unece_n79,N79,kelvin per pascal,rec20
+unece_n80,N80,watt per metre degree Celsius,rec20
+unece_n81,N81,kilowatt per metre kelvin,rec20
+unece_n82,N82,kilowatt per metre degree Celsius,rec20
+unece_n83,N83,metre per degree Celcius metre,rec20
+unece_n84,N84,degree Fahrenheit hour per British thermal unit (international table),rec20
+unece_n85,N85,degree Fahrenheit hour per British thermal unit (thermochemical),rec20
+unece_n86,N86,degree Fahrenheit second per British thermal unit (international table),rec20
+unece_n87,N87,degree Fahrenheit second per British thermal unit (thermochemical),rec20
+unece_n88,N88,degree Fahrenheit hour square foot per British thermal unit (international table) inch,rec20
+unece_n89,N89,degree Fahrenheit hour square foot per British thermal unit (thermochemical) inch,rec20
+unece_n90,N90,kilofarad,rec20
+unece_n91,N91,reciprocal joule,rec20
+unece_n92,N92,picosiemens,rec20
+unece_n93,N93,ampere per pascal,rec20
+unece_n94,N94,franklin,rec20
+unece_n95,N95,ampere minute,rec20
+unece_n96,N96,biot,rec20
+unece_n97,N97,gilbert,rec20
+unece_n98,N98,volt per pascal,rec20
+unece_n99,N99,picovolt,rec20
+unece_na,NA,milligram per kilogram,rec20
+unece_nar,NAR,number of articles,rec20
+unece_ncl,NCL,number of cells,rec20
+unece_new,NEW,newton,rec20
+unece_nf,NF,message,rec20
+unece_nil,NIL,nil,rec20
+unece_niu,NIU,number of international units,rec20
+unece_nl,NL,load,rec20
+unece_nm3,NM3,Normalised cubic metre,rec20
+unece_nmi,NMI,nautical mile,rec20
+unece_nmp,NMP,number of packs,rec20
+unece_npt,NPT,number of parts,rec20
+unece_nt,NT,net ton,rec20
+unece_nu,NU,newton metre,rec20
+unece_nx,NX,part per thousand,rec20
+unece_oa,OA,panel,rec20
+unece_ode,ODE,ozone depletion equivalent,rec20
+unece_odg,ODG,ODS Grams,rec20
+unece_odk,ODK,ODS Kilograms,rec20
+unece_odm,ODM,ODS Milligrams,rec20
+unece_ohm,OHM,ohm,rec20
+unece_on,ON,ounce per square yard,rec20
+unece_onz,ONZ,ounce (avoirdupois),rec20
+unece_opm,OPM,oscillations per minute,rec20
+unece_ot,OT,overtime hour,rec20
+unece_oza,OZA,fluid ounce (US),rec20
+unece_ozi,OZI,fluid ounce (UK),rec20
+unece_p1,P1,percent,rec20
+unece_p10,P10,coulomb per metre,rec20
+unece_p11,P11,kiloweber,rec20
+unece_p12,P12,gamma,rec20
+unece_p13,P13,kilotesla,rec20
+unece_p14,P14,joule per second,rec20
+unece_p15,P15,joule per minute,rec20
+unece_p16,P16,joule per hour,rec20
+unece_p17,P17,joule per day,rec20
+unece_p18,P18,kilojoule per second,rec20
+unece_p19,P19,kilojoule per minute,rec20
+unece_p2,P2,pound per foot,rec20
+unece_p20,P20,kilojoule per hour,rec20
+unece_p21,P21,kilojoule per day,rec20
+unece_p22,P22,nanoohm,rec20
+unece_p23,P23,ohm circular-mil per foot,rec20
+unece_p24,P24,kilohenry,rec20
+unece_p25,P25,lumen per square foot,rec20
+unece_p26,P26,phot,rec20
+unece_p27,P27,footcandle,rec20
+unece_p28,P28,candela per square inch,rec20
+unece_p29,P29,footlambert,rec20
+unece_p30,P30,lambert,rec20
+unece_p31,P31,stilb,rec20
+unece_p32,P32,candela per square foot,rec20
+unece_p33,P33,kilocandela,rec20
+unece_p34,P34,millicandela,rec20
+unece_p35,P35,Hefner-Kerze,rec20
+unece_p36,P36,international candle,rec20
+unece_p37,P37,British thermal unit (international table) per square foot,rec20
+unece_p38,P38,British thermal unit (thermochemical) per square foot,rec20
+unece_p39,P39,calorie (thermochemical) per square centimetre,rec20
+unece_p40,P40,langley,rec20
+unece_p41,P41,decade (logarithmic),rec20
+unece_p42,P42,pascal squared second,rec20
+unece_p43,P43,bel per metre,rec20
+unece_p44,P44,pound mole,rec20
+unece_p45,P45,pound mole per second,rec20
+unece_p46,P46,pound mole per minute,rec20
+unece_p47,P47,kilomole per kilogram,rec20
+unece_p48,P48,pound mole per pound,rec20
+unece_p49,P49,newton square metre per ampere,rec20
+unece_p5,P5,five pack,rec20
+unece_p50,P50,weber metre,rec20
+unece_p51,P51,mol per kilogram pascal,rec20
+unece_p52,P52,mol per cubic metre pascal,rec20
+unece_p53,P53,unit pole,rec20
+unece_p54,P54,milligray per second,rec20
+unece_p55,P55,microgray per second,rec20
+unece_p56,P56,nanogray per second,rec20
+unece_p57,P57,gray per minute,rec20
+unece_p58,P58,milligray per minute,rec20
+unece_p59,P59,microgray per minute,rec20
+unece_p60,P60,nanogray per minute,rec20
+unece_p61,P61,gray per hour,rec20
+unece_p62,P62,milligray per hour,rec20
+unece_p63,P63,microgray per hour,rec20
+unece_p64,P64,nanogray per hour,rec20
+unece_p65,P65,sievert per second,rec20
+unece_p66,P66,millisievert per second,rec20
+unece_p67,P67,microsievert per second,rec20
+unece_p68,P68,nanosievert per second,rec20
+unece_p69,P69,rem per second,rec20
+unece_p70,P70,sievert per hour,rec20
+unece_p71,P71,millisievert per hour,rec20
+unece_p72,P72,microsievert per hour,rec20
+unece_p73,P73,nanosievert per hour,rec20
+unece_p74,P74,sievert per minute,rec20
+unece_p75,P75,millisievert per minute,rec20
+unece_p76,P76,microsievert per minute,rec20
+unece_p77,P77,nanosievert per minute,rec20
+unece_p78,P78,reciprocal square inch,rec20
+unece_p79,P79,pascal square metre per kilogram,rec20
+unece_p80,P80,millipascal per metre,rec20
+unece_p81,P81,kilopascal per metre,rec20
+unece_p82,P82,hectopascal per metre,rec20
+unece_p83,P83,standard atmosphere per metre,rec20
+unece_p84,P84,technical atmosphere per metre,rec20
+unece_p85,P85,torr per metre,rec20
+unece_p86,P86,psi per inch,rec20
+unece_p87,P87,cubic metre per second square metre,rec20
+unece_p88,P88,rhe,rec20
+unece_p89,P89,pound-force foot per inch,rec20
+unece_p90,P90,pound-force inch per inch,rec20
+unece_p91,P91,perm (0 ºC),rec20
+unece_p92,P92,perm (23 ºC),rec20
+unece_p93,P93,byte per second,rec20
+unece_p94,P94,kilobyte per second,rec20
+unece_p95,P95,megabyte per second,rec20
+unece_p96,P96,reciprocal volt,rec20
+unece_p97,P97,reciprocal radian,rec20
+unece_p98,P98,pascal to the power sum of stoichiometric numbers,rec20
+unece_p99,P99,mole per cubiv metre to the power sum of stoichiometric numbers,rec20
+unece_pal,PAL,pascal,rec20
+unece_pd,PD,pad,rec20
+unece_pfl,PFL,proof litre,rec20
+unece_pgl,PGL,proof gallon,rec20
+unece_pi,PI,pitch,rec20
+unece_pla,PLA,degree Plato,rec20
+unece_po,PO,pound per inch of length,rec20
+unece_pq,PQ,page per inch,rec20
+unece_pr,PR,pair,rec20
+unece_ps,PS,pound-force per square inch,rec20
+unece_ptd,PTD,dry pint (US),rec20
+unece_pti,PTI,pint (UK),rec20
+unece_ptl,PTL,liquid pint (US),rec20
+unece_ptn,PTN,portion,rec20
+unece_q10,Q10,joule per tesla,rec20
+unece_q11,Q11,erlang,rec20
+unece_q12,Q12,octet,rec20
+unece_q13,Q13,octet per second,rec20
+unece_q14,Q14,shannon,rec20
+unece_q15,Q15,hartley,rec20
+unece_q16,Q16,natural unit of information,rec20
+unece_q17,Q17,shannon per second,rec20
+unece_q18,Q18,hartley per second,rec20
+unece_q19,Q19,natural unit of information per second,rec20
+unece_q20,Q20,second per kilogramm,rec20
+unece_q21,Q21,watt square metre,rec20
+unece_q22,Q22,second per radian cubic metre,rec20
+unece_q23,Q23,weber to the power minus one,rec20
+unece_q24,Q24,reciprocal inch,rec20
+unece_q25,Q25,dioptre,rec20
+unece_q26,Q26,one per one,rec20
+unece_q27,Q27,newton metre per metre,rec20
+unece_q28,Q28,kilogram per square metre pascal second,rec20
+unece_q29,Q29,microgram per hectogram,rec20
+unece_q30,Q30,pH (potential of Hydrogen),rec20
+unece_q31,Q31,kilojoule per gram,rec20
+unece_q32,Q32,femtolitre,rec20
+unece_q33,Q33,picolitre,rec20
+unece_q34,Q34,nanolitre,rec20
+unece_q35,Q35,megawatts per minute,rec20
+unece_q36,Q36,square metre per cubic metre,rec20
+unece_q37,Q37,Standard cubic metre per day,rec20
+unece_q38,Q38,Standard cubic metre per hour,rec20
+unece_q39,Q39,Normalized cubic metre per day,rec20
+unece_q40,Q40,Normalized cubic metre per hour,rec20
+unece_q41,Q41,Joule per normalised cubic metre,rec20
+unece_q42,Q42,Joule per standard cubic metre,rec20
+unece_q3,Q3,meal,rec20
+unece_qa,QA,page - facsimile,rec20
+unece_qan,QAN,quarter (of a year),rec20
+unece_qb,QB,page - hardcopy,rec20
+unece_qr,QR,quire,rec20
+unece_qtd,QTD,dry quart (US),rec20
+unece_qti,QTI,quart (UK),rec20
+unece_qtl,QTL,liquid quart (US),rec20
+unece_qtr,QTR,quarter (UK),rec20
+unece_r1,R1,pica,rec20
+unece_r9,R9,thousand cubic metre,rec20
+unece_rh,RH,running or operating hour,rec20
+unece_rm,RM,ream,rec20
+unece_rom,ROM,room,rec20
+unece_rp,RP,pound per ream,rec20
+unece_rpm,RPM,revolutions per minute,rec20
+unece_rps,RPS,revolutions per second,rec20
+unece_rt,RT,revenue ton mile,rec20
+unece_s3,S3,square foot per second,rec20
+unece_s4,S4,square metre per second,rec20
+unece_san,SAN,half year (6 months),rec20
+unece_sco,SCO,score,rec20
+unece_scr,SCR,scruple,rec20
+unece_sec,SEC,second [unit of time],rec20
+unece_set,SET,set,rec20
+unece_sg,SG,segment,rec20
+unece_sie,SIE,siemens,rec20
+unece_sm3,SM3,Standard cubic metre,rec20
+unece_smi,SMI,mile (statute mile),rec20
+unece_sq,SQ,square,rec20
+unece_sqr,SQR,"square, roofing",rec20
+unece_sr,SR,strip,rec20
+unece_stc,STC,stick,rec20
+unece_sti,STI,stone (UK),rec20
+unece_stk,STK,"stick, cigarette",rec20
+unece_stl,STL,standard litre,rec20
+unece_stn,STN,ton (US) or short ton (UK/US),rec20
+unece_stw,STW,straw,rec20
+unece_sw,SW,skein,rec20
+unece_sx,SX,shipment,rec20
+unece_syr,SYR,syringe,rec20
+unece_t0,T0,telecommunication line in service,rec20
+unece_t3,T3,thousand piece,rec20
+unece_tah,TAH,kiloampere hour (thousand ampere hour),rec20
+unece_tan,TAN,total acid number,rec20
+unece_ti,TI,thousand square inch,rec20
+unece_tic,TIC,"metric ton, including container",rec20
+unece_tip,TIP,"metric ton, including inner packaging",rec20
+unece_tkm,TKM,tonne kilometre,rec20
+unece_tms,TMS,"kilogram of imported meat, less offal",rec20
+unece_tne,TNE,tonne (metric ton),rec20
+unece_tp,TP,ten pack,rec20
+unece_tpi,TPI,teeth per inch,rec20
+unece_tpr,TPR,ten pair,rec20
+unece_tqd,TQD,thousand cubic metre per day,rec20
+unece_trl,TRL,trillion (EUR),rec20
+unece_tst,TST,ten set,rec20
+unece_tts,TTS,ten thousand sticks,rec20
+unece_u1,U1,treatment,rec20
+unece_u2,U2,tablet,rec20
+unece_ub,UB,telecommunication line in service average,rec20
+unece_uc,UC,telecommunication port,rec20
+unece_va,VA,volt - ampere per kilogram,rec20
+unece_vlt,VLT,volt,rec20
+unece_vp,VP,percent volume,rec20
+unece_w2,W2,wet kilo,rec20
+unece_wa,WA,watt per kilogram,rec20
+unece_wb,WB,wet pound,rec20
+unece_wcd,WCD,cord,rec20
+unece_we,WE,wet ton,rec20
+unece_web,WEB,weber,rec20
+unece_wee,WEE,week,rec20
+unece_wg,WG,wine gallon,rec20
+unece_whr,WHR,watt hour,rec20
+unece_wm,WM,working month,rec20
+unece_wsd,WSD,standard,rec20
+unece_wtt,WTT,watt,rec20
+unece_x1,X1,Gunter's chain,rec20
+unece_ydk,YDK,square yard,rec20
+unece_ydq,YDQ,cubic yard,rec20
+unece_yrd,YRD,yard,rec20
+unece_z11,Z11,hanging container,rec20
+unece_zp,ZP,page,rec20
+unece_zz,ZZ,mutually defined,rec20
+unece_x1a,X1A,"Drum, steel",rec21
+unece_x1b,X1B,"Drum, aluminium",rec21
+unece_x1d,X1D,"Drum, plywood",rec21
+unece_x1f,X1F,"Container, flexible",rec21
+unece_x1g,X1G,"Drum, fibre",rec21
+unece_x1w,X1W,"Drum, wooden",rec21
+unece_x2c,X2C,"Barrel, wooden",rec21
+unece_x3a,X3A,"Jerrican, steel",rec21
+unece_x3h,X3H,"Jerrican, plastic",rec21
+unece_x43,X43,"Bag, super bulk",rec21
+unece_x44,X44,"Bag, polybag",rec21
+unece_x4a,X4A,"Box, steel",rec21
+unece_x4b,X4B,"Box, aluminium",rec21
+unece_x4c,X4C,"Box, natural wood",rec21
+unece_x4d,X4D,"Box, plywood",rec21
+unece_x4f,X4F,"Box, reconstituted wood",rec21
+unece_x4g,X4G,"Box, fibreboard",rec21
+unece_x4h,X4H,"Box, plastic",rec21
+unece_x5h,X5H,"Bag, woven plastic",rec21
+unece_x5l,X5L,"Bag, textile",rec21
+unece_x5m,X5M,"Bag, paper",rec21
+unece_x6h,X6H,"Composite packaging, plastic receptacle",rec21
+unece_x6p,X6P,"Composite packaging, glass receptacle",rec21
+unece_x7a,X7A,"Case, car",rec21
+unece_x7b,X7B,"Case, wooden",rec21
+unece_x8a,X8A,"Pallet, wooden",rec21
+unece_x8b,X8B,"Crate, wooden",rec21
+unece_x8c,X8C,"Bundle, wooden",rec21
+unece_xaa,XAA,"Intermediate bulk container, rigid plastic",rec21
+unece_xab,XAB,"Receptacle, fibre",rec21
+unece_xac,XAC,"Receptacle, paper",rec21
+unece_xad,XAD,"Receptacle, wooden",rec21
+unece_xae,XAE,Aerosol,rec21
+unece_xaf,XAF,"Pallet, modular, collars 80cms * 60cms",rec21
+unece_xag,XAG,"Pallet, shrinkwrapped",rec21
+unece_xah,XAH,"Pallet, 100cms * 110cms",rec21
+unece_xai,XAI,Clamshell,rec21
+unece_xaj,XAJ,Cone,rec21
+unece_xal,XAL,Ball,rec21
+unece_xam,XAM,"Ampoule, non-protected",rec21
+unece_xap,XAP,"Ampoule, protected",rec21
+unece_xat,XAT,Atomizer,rec21
+unece_xav,XAV,Capsule,rec21
+unece_xb4,XB4,Belt,rec21
+unece_xba,XBA,Barrel,rec21
+unece_xbb,XBB,Bobbin,rec21
+unece_xbc,XBC,Bottlecrate / bottlerack,rec21
+unece_xbd,XBD,Board,rec21
+unece_xbe,XBE,Bundle,rec21
+unece_xbf,XBF,"Balloon, non-protected",rec21
+unece_xbg,XBG,Bag,rec21
+unece_xbh,XBH,Bunch,rec21
+unece_xbi,XBI,Bin,rec21
+unece_xbj,XBJ,Bucket,rec21
+unece_xbk,XBK,Basket,rec21
+unece_xbl,XBL,"Bale, compressed",rec21
+unece_xbm,XBM,Basin,rec21
+unece_xbn,XBN,"Bale, non-compressed",rec21
+unece_xbo,XBO,"Bottle, non-protected, cylindrical",rec21
+unece_xbp,XBP,"Balloon, protected",rec21
+unece_xbq,XBQ,"Bottle, protected cylindrical",rec21
+unece_xbr,XBR,Bar,rec21
+unece_xbs,XBS,"Bottle, non-protected, bulbous",rec21
+unece_xbt,XBT,Bolt,rec21
+unece_xbu,XBU,Butt,rec21
+unece_xbv,XBV,"Bottle, protected bulbous",rec21
+unece_xbw,XBW,"Box, for liquids",rec21
+unece_xbx,XBX,Box,rec21
+unece_xby,XBY,"Board, in bundle/bunch/truss",rec21
+unece_xbz,XBZ,"Bars, in bundle/bunch/truss",rec21
+unece_xca,XCA,"Can, rectangular",rec21
+unece_xcb,XCB,"Crate, beer",rec21
+unece_xcc,XCC,Churn,rec21
+unece_xcd,XCD,"Can, with handle and spout",rec21
+unece_xce,XCE,Creel,rec21
+unece_xcf,XCF,Coffer,rec21
+unece_xcg,XCG,Cage,rec21
+unece_xch,XCH,Chest,rec21
+unece_xci,XCI,Canister,rec21
+unece_xcj,XCJ,Coffin,rec21
+unece_xck,XCK,Cask,rec21
+unece_xcl,XCL,Coil,rec21
+unece_xcm,XCM,Card,rec21
+unece_xcn,XCN,"Container, not otherwise specified as transport equipment",rec21
+unece_xco,XCO,"Carboy, non-protected",rec21
+unece_xcp,XCP,"Carboy, protected",rec21
+unece_xcq,XCQ,Cartridge,rec21
+unece_xcr,XCR,Crate,rec21
+unece_xcs,XCS,Case,rec21
+unece_xct,XCT,Carton,rec21
+unece_xcu,XCU,Cup,rec21
+unece_xcv,XCV,Cover,rec21
+unece_xcw,XCW,"Cage, roll",rec21
+unece_xcx,XCX,"Can, cylindrical",rec21
+unece_xcy,XCY,Cylinder,rec21
+unece_xcz,XCZ,Canvas,rec21
+unece_xda,XDA,"Crate, multiple layer, plastic",rec21
+unece_xdb,XDB,"Crate, multiple layer, wooden",rec21
+unece_xdc,XDC,"Crate, multiple layer, cardboard",rec21
+unece_xdg,XDG,"Cage, Commonwealth Handling Equipment Pool  (CHEP)",rec21
+unece_xdh,XDH,"Box, Commonwealth Handling Equipment Pool (CHEP), Eurobox",rec21
+unece_xdi,XDI,"Drum, iron",rec21
+unece_xdj,XDJ,"Demijohn, non-protected",rec21
+unece_xdk,XDK,"Crate, bulk, cardboard",rec21
+unece_xdl,XDL,"Crate, bulk, plastic",rec21
+unece_xdm,XDM,"Crate, bulk, wooden",rec21
+unece_xdn,XDN,Dispenser,rec21
+unece_xdp,XDP,"Demijohn, protected",rec21
+unece_xdr,XDR,Drum,rec21
+unece_xds,XDS,"Tray, one layer no cover, plastic",rec21
+unece_xdt,XDT,"Tray, one layer no cover, wooden",rec21
+unece_xdu,XDU,"Tray, one layer no cover, polystyrene",rec21
+unece_xdv,XDV,"Tray, one layer no cover, cardboard",rec21
+unece_xdw,XDW,"Tray, two layers no cover, plastic tray",rec21
+unece_xdx,XDX,"Tray, two layers no cover, wooden",rec21
+unece_xdy,XDY,"Tray, two layers no cover, cardboard",rec21
+unece_xec,XEC,"Bag, plastic",rec21
+unece_xed,XED,"Case, with pallet base",rec21
+unece_xee,XEE,"Case, with pallet base, wooden",rec21
+unece_xef,XEF,"Case, with pallet base, cardboard",rec21
+unece_xeg,XEG,"Case, with pallet base, plastic",rec21
+unece_xeh,XEH,"Case, with pallet base, metal",rec21
+unece_xei,XEI,"Case, isothermic",rec21
+unece_xen,XEN,Envelope,rec21
+unece_xfb,XFB,Flexibag,rec21
+unece_xfc,XFC,"Crate, fruit",rec21
+unece_xfd,XFD,"Crate, framed",rec21
+unece_xfe,XFE,Flexitank,rec21
+unece_xfi,XFI,Firkin,rec21
+unece_xfl,XFL,Flask,rec21
+unece_xfo,XFO,Footlocker,rec21
+unece_xfp,XFP,Filmpack,rec21
+unece_xfr,XFR,Frame,rec21
+unece_xft,XFT,Foodtainer,rec21
+unece_xfw,XFW,"Cart, flatbed",rec21
+unece_xfx,XFX,"Bag, flexible container",rec21
+unece_xgb,XGB,"Bottle, gas",rec21
+unece_xgi,XGI,Girder,rec21
+unece_xgl,XGL,"Container, gallon",rec21
+unece_xgr,XGR,"Receptacle, glass",rec21
+unece_xgu,XGU,"Tray, containing horizontally stacked flat items",rec21
+unece_xgy,XGY,"Bag, gunny",rec21
+unece_xgz,XGZ,"Girders, in bundle/bunch/truss",rec21
+unece_xha,XHA,"Basket, with handle, plastic",rec21
+unece_xhb,XHB,"Basket, with handle, wooden",rec21
+unece_xhc,XHC,"Basket, with handle, cardboard",rec21
+unece_xhg,XHG,Hogshead,rec21
+unece_xhn,XHN,Hanger,rec21
+unece_xhr,XHR,Hamper,rec21
+unece_xia,XIA,"Package, display, wooden",rec21
+unece_xib,XIB,"Package, display, cardboard",rec21
+unece_xic,XIC,"Package, display, plastic",rec21
+unece_xid,XID,"Package, display, metal",rec21
+unece_xie,XIE,"Package, show",rec21
+unece_xif,XIF,"Package, flow",rec21
+unece_xig,XIG,"Package, paper wrapped",rec21
+unece_xih,XIH,"Drum, plastic",rec21
+unece_xik,XIK,"Package, cardboard, with bottle grip-holes",rec21
+unece_xil,XIL,"Tray, rigid, lidded stackable (CEN TS 14482:2002)",rec21
+unece_xin,XIN,Ingot,rec21
+unece_xiz,XIZ,"Ingots, in bundle/bunch/truss",rec21
+unece_xjb,XJB,"Bag, jumbo",rec21
+unece_xjc,XJC,"Jerrican, rectangular",rec21
+unece_xjg,XJG,Jug,rec21
+unece_xjr,XJR,Jar,rec21
+unece_xjt,XJT,Jutebag,rec21
+unece_xjy,XJY,"Jerrican, cylindrical",rec21
+unece_xkg,XKG,Keg,rec21
+unece_xki,XKI,Kit,rec21
+unece_xle,XLE,Luggage,rec21
+unece_xlg,XLG,Log,rec21
+unece_xlt,XLT,Lot,rec21
+unece_xlu,XLU,Lug,rec21
+unece_xlv,XLV,Liftvan,rec21
+unece_xlz,XLZ,"Logs, in bundle/bunch/truss",rec21
+unece_xma,XMA,"Crate, metal",rec21
+unece_xmb,XMB,"Bag, multiply",rec21
+unece_xmc,XMC,"Crate, milk",rec21
+unece_xme,XME,"Container, metal",rec21
+unece_xmr,XMR,"Receptacle, metal",rec21
+unece_xms,XMS,"Sack, multi-wall",rec21
+unece_xmt,XMT,Mat,rec21
+unece_xmw,XMW,"Receptacle, plastic wrapped",rec21
+unece_xmx,XMX,Matchbox,rec21
+unece_xna,XNA,Not available,rec21
+unece_xne,XNE,Unpacked or unpackaged,rec21
+unece_xnf,XNF,"Unpacked or unpackaged, single unit",rec21
+unece_xng,XNG,"Unpacked or unpackaged, multiple units",rec21
+unece_xns,XNS,Nest,rec21
+unece_xnt,XNT,Net,rec21
+unece_xnu,XNU,"Net, tube, plastic",rec21
+unece_xnv,XNV,"Net, tube, textile",rec21
+unece_xoa,XOA,"Pallet, CHEP 40 cm x 60 cm",rec21
+unece_xob,XOB,"Pallet, CHEP 80 cm x 120 cm",rec21
+unece_xoc,XOC,"Pallet, CHEP 100 cm x 120 cm",rec21
+unece_xod,XOD,"Pallet, AS 4068-1993",rec21
+unece_xoe,XOE,"Pallet, ISO T11",rec21
+unece_xof,XOF,"Platform, unspecified weight or dimension",rec21
+unece_xok,XOK,Block,rec21
+unece_xot,XOT,Octabin,rec21
+unece_xou,XOU,"Container, outer",rec21
+unece_xp2,XP2,Pan,rec21
+unece_xpa,XPA,Packet,rec21
+unece_xpb,XPB,"Pallet, box Combined open-ended box and pallet",rec21
+unece_xpc,XPC,Parcel,rec21
+unece_xpd,XPD,"Pallet, modular, collars 80cms * 100cms",rec21
+unece_xpe,XPE,"Pallet, modular, collars 80cms * 120cms",rec21
+unece_xpf,XPF,Pen,rec21
+unece_xpg,XPG,Plate,rec21
+unece_xph,XPH,Pitcher,rec21
+unece_xpi,XPI,Pipe,rec21
+unece_xpj,XPJ,Punnet,rec21
+unece_xpk,XPK,Package,rec21
+unece_xpl,XPL,Pail,rec21
+unece_xpn,XPN,Plank,rec21
+unece_xpo,XPO,Pouch,rec21
+unece_xpp,XPP,Piece,rec21
+unece_xpr,XPR,"Receptacle, plastic",rec21
+unece_xpt,XPT,Pot,rec21
+unece_xpu,XPU,Tray,rec21
+unece_xpv,XPV,"Pipes, in bundle/bunch/truss",rec21
+unece_xpx,XPX,Pallet,rec21
+unece_xpy,XPY,"Plates, in bundle/bunch/truss",rec21
+unece_xpz,XPZ,"Planks, in bundle/bunch/truss",rec21
+unece_xqa,XQA,"Drum, steel, non-removable head",rec21
+unece_xqb,XQB,"Drum, steel, removable head",rec21
+unece_xqc,XQC,"Drum, aluminium, non-removable head",rec21
+unece_xqd,XQD,"Drum, aluminium, removable head",rec21
+unece_xqf,XQF,"Drum, plastic, non-removable head",rec21
+unece_xqg,XQG,"Drum, plastic, removable head",rec21
+unece_xqh,XQH,"Barrel, wooden, bung type",rec21
+unece_xqj,XQJ,"Barrel, wooden, removable head",rec21
+unece_xqk,XQK,"Jerrican, steel, non-removable head",rec21
+unece_xql,XQL,"Jerrican, steel, removable head",rec21
+unece_xqm,XQM,"Jerrican, plastic, non-removable head",rec21
+unece_xqn,XQN,"Jerrican, plastic, removable head",rec21
+unece_xqp,XQP,"Box, wooden, natural wood, ordinary",rec21
+unece_xqq,XQQ,"Box, wooden, natural wood, with sift proof walls",rec21
+unece_xqr,XQR,"Box, plastic, expanded",rec21
+unece_xqs,XQS,"Box, plastic, solid",rec21
+unece_xrd,XRD,Rod,rec21
+unece_xrg,XRG,Ring,rec21
+unece_xrj,XRJ,"Rack, clothing hanger",rec21
+unece_xrk,XRK,Rack,rec21
+unece_xrl,XRL,Reel,rec21
+unece_xro,XRO,Roll,rec21
+unece_xrt,XRT,Rednet,rec21
+unece_xrz,XRZ,"Rods, in bundle/bunch/truss",rec21
+unece_xsa,XSA,Sack,rec21
+unece_xsb,XSB,Slab,rec21
+unece_xsc,XSC,"Crate, shallow",rec21
+unece_xsd,XSD,Spindle,rec21
+unece_xse,XSE,Sea-chest,rec21
+unece_xsh,XSH,Sachet,rec21
+unece_xsi,XSI,Skid,rec21
+unece_xsk,XSK,"Case, skeleton",rec21
+unece_xsl,XSL,Slipsheet,rec21
+unece_xsm,XSM,Sheetmetal,rec21
+unece_xso,XSO,Spool,rec21
+unece_xsp,XSP,"Sheet, plastic wrapping",rec21
+unece_xss,XSS,"Case, steel",rec21
+unece_xst,XST,Sheet,rec21
+unece_xsu,XSU,Suitcase,rec21
+unece_xsv,XSV,"Envelope, steel",rec21
+unece_xsw,XSW,Shrinkwrapped,rec21
+unece_xsy,XSY,Sleeve,rec21
+unece_xsz,XSZ,"Sheets, in bundle/bunch/truss",rec21
+unece_xt1,XT1,Tablet,rec21
+unece_xtb,XTB,Tub,rec21
+unece_xtc,XTC,Tea-chest,rec21
+unece_xtd,XTD,"Tube, collapsible",rec21
+unece_xte,XTE,Tyre,rec21
+unece_xtg,XTG,"Tank container, generic",rec21
+unece_xti,XTI,Tierce,rec21
+unece_xtk,XTK,"Tank, rectangular",rec21
+unece_xtl,XTL,"Tub, with lid",rec21
+unece_xtn,XTN,Tin,rec21
+unece_xto,XTO,Tun,rec21
+unece_xtr,XTR,Trunk,rec21
+unece_xts,XTS,Truss,rec21
+unece_xtt,XTT,"Bag, tote",rec21
+unece_xtu,XTU,Tube,rec21
+unece_xtv,XTV,"Tube, with nozzle",rec21
+unece_xtw,XTW,"Pallet, triwall",rec21
+unece_xty,XTY,"Tank, cylindrical",rec21
+unece_xtz,XTZ,"Tubes, in bundle/bunch/truss",rec21
+unece_xuc,XUC,Uncaged,rec21
+unece_xun,XUN,Unit,rec21
+unece_xva,XVA,Vat,rec21
+unece_xvg,XVG,"Bulk, gas (at 1031 mbar and 15°C)",rec21
+unece_xvi,XVI,Vial,rec21
+unece_xvk,XVK,Vanpack,rec21
+unece_xvl,XVL,"Bulk, liquid",rec21
+unece_xvo,XVO,"Bulk, solid, large particles (“nodules”)",rec21
+unece_xvp,XVP,Vacuum-packed,rec21
+unece_xvq,XVQ,"Bulk, liquefied gas (at abnormal temperature/pressure)",rec21
+unece_xvn,XVN,Vehicle,rec21
+unece_xvr,XVR,"Bulk, solid, granular particles (“grains”)",rec21
+unece_xvs,XVS,"Bulk, scrap metal",rec21
+unece_xvy,XVY,"Bulk, solid, fine particles (“powders”)",rec21
+unece_xwa,XWA,Intermediate bulk container,rec21
+unece_xwb,XWB,Wickerbottle,rec21
+unece_xwc,XWC,"Intermediate bulk container, steel",rec21
+unece_xwd,XWD,"Intermediate bulk container, aluminium",rec21
+unece_xwf,XWF,"Intermediate bulk container, metal",rec21
+unece_xwg,XWG,"Intermediate bulk container, steel, pressurised > 10 kpa",rec21
+unece_xwh,XWH,"Intermediate bulk container, aluminium, pressurised > 10 kpa",rec21
+unece_xwj,XWJ,"Intermediate bulk container, metal, pressure 10 kpa",rec21
+unece_xwk,XWK,"Intermediate bulk container, steel, liquid",rec21
+unece_xwl,XWL,"Intermediate bulk container, aluminium, liquid",rec21
+unece_xwm,XWM,"Intermediate bulk container, metal, liquid",rec21
+unece_xwn,XWN,"Intermediate bulk container, woven plastic, without coat/liner",rec21
+unece_xwp,XWP,"Intermediate bulk container, woven plastic, coated",rec21
+unece_xwq,XWQ,"Intermediate bulk container, woven plastic, with liner",rec21
+unece_xwr,XWR,"Intermediate bulk container, woven plastic, coated and liner",rec21
+unece_xws,XWS,"Intermediate bulk container, plastic film",rec21
+unece_xwt,XWT,"Intermediate bulk container, textile with out coat/liner",rec21
+unece_xwu,XWU,"Intermediate bulk container, natural wood, with inner liner",rec21
+unece_xwv,XWV,"Intermediate bulk container, textile, coated",rec21
+unece_xww,XWW,"Intermediate bulk container, textile, with liner",rec21
+unece_xwx,XWX,"Intermediate bulk container, textile, coated and liner",rec21
+unece_xwy,XWY,"Intermediate bulk container, plywood, with inner liner",rec21
+unece_xwz,XWZ,"Intermediate bulk container, reconstituted wood, with inner liner",rec21
+unece_xxa,XXA,"Bag, woven plastic, without inner coat/liner",rec21
+unece_xxb,XXB,"Bag, woven plastic, sift proof",rec21
+unece_xxc,XXC,"Bag, woven plastic, water resistant",rec21
+unece_xxd,XXD,"Bag, plastics film",rec21
+unece_xxf,XXF,"Bag, textile, without inner coat/liner",rec21
+unece_xxg,XXG,"Bag, textile, sift proof",rec21
+unece_xxh,XXH,"Bag, textile, water resistant",rec21
+unece_xxj,XXJ,"Bag, paper, multi-wall",rec21
+unece_xxk,XXK,"Bag, paper, multi-wall, water resistant",rec21
+unece_xya,XYA,"Composite packaging, plastic receptacle in steel drum",rec21
+unece_xyb,XYB,"Composite packaging, plastic receptacle in steel crate box",rec21
+unece_xyc,XYC,"Composite packaging, plastic receptacle in aluminium drum",rec21
+unece_xyd,XYD,"Composite packaging, plastic receptacle in aluminium crate",rec21
+unece_xyf,XYF,"Composite packaging, plastic receptacle in wooden box",rec21
+unece_xyg,XYG,"Composite packaging, plastic receptacle in plywood drum",rec21
+unece_xyh,XYH,"Composite packaging, plastic receptacle in plywood box",rec21
+unece_xyj,XYJ,"Composite packaging, plastic receptacle in fibre drum",rec21
+unece_xyk,XYK,"Composite packaging, plastic receptacle in fibreboard box",rec21
+unece_xyl,XYL,"Composite packaging, plastic receptacle in plastic drum",rec21
+unece_xym,XYM,"Composite packaging, plastic receptacle in solid plastic box",rec21
+unece_xyn,XYN,"Composite packaging, glass receptacle in steel drum",rec21
+unece_xyp,XYP,"Composite packaging, glass receptacle in steel crate box",rec21
+unece_xyq,XYQ,"Composite packaging, glass receptacle in aluminium drum",rec21
+unece_xyr,XYR,"Composite packaging, glass receptacle in aluminium crate",rec21
+unece_xys,XYS,"Composite packaging, glass receptacle in wooden box",rec21
+unece_xyt,XYT,"Composite packaging, glass receptacle in plywood drum",rec21
+unece_xyv,XYV,"Composite packaging, glass receptacle in wickerwork hamper",rec21
+unece_xyw,XYW,"Composite packaging, glass receptacle in fibre drum",rec21
+unece_xyx,XYX,"Composite packaging, glass receptacle in fibreboard box",rec21
+unece_xyy,XYY,"Composite packaging, glass receptacle in expandable plastic pack",rec21
+unece_xyz,XYZ,"Composite packaging, glass receptacle in solid plastic pack",rec21
+unece_xza,XZA,"Intermediate bulk container, paper, multi-wall",rec21
+unece_xzb,XZB,"Bag, large",rec21
+unece_xzc,XZC,"Intermediate bulk container, paper, multi-wall, water resistant",rec21
+unece_xzd,XZD,"Intermediate bulk container, rigid plastic, with structural equipment, solids",rec21
+unece_xzf,XZF,"Intermediate bulk container, rigid plastic, freestanding, solids",rec21
+unece_xzg,XZG,"Intermediate bulk container, rigid plastic, with structural equipment, pressurised",rec21
+unece_xzh,XZH,"Intermediate bulk container, rigid plastic, freestanding, pressurised",rec21
+unece_xzj,XZJ,"Intermediate bulk container, rigid plastic, with structural equipment, liquids",rec21
+unece_xzk,XZK,"Intermediate bulk container, rigid plastic, freestanding, liquids",rec21
+unece_xzl,XZL,"Intermediate bulk container, composite, rigid plastic, solids",rec21
+unece_xzm,XZM,"Intermediate bulk container, composite, flexible plastic, solids",rec21
+unece_xzn,XZN,"Intermediate bulk container, composite, rigid plastic, pressurised",rec21
+unece_xzp,XZP,"Intermediate bulk container, composite, flexible plastic, pressurised",rec21
+unece_xzq,XZQ,"Intermediate bulk container, composite, rigid plastic, liquids",rec21
+unece_xzr,XZR,"Intermediate bulk container, composite, flexible plastic, liquids",rec21
+unece_xzs,XZS,"Intermediate bulk container, composite",rec21
+unece_xzt,XZT,"Intermediate bulk container, fibreboard",rec21
+unece_xzu,XZU,"Intermediate bulk container, flexible",rec21
+unece_xzv,XZV,"Intermediate bulk container, metal, other than steel",rec21
+unece_xzw,XZW,"Intermediate bulk container, natural wood",rec21
+unece_xzx,XZX,"Intermediate bulk container, plywood",rec21
+unece_xzy,XZY,"Intermediate bulk container, reconstituted wood",rec21
+unece_xzz,XZZ,Mutually defined,rec21
+unece_xltr,XLTR,"Bulk, litre of liquid petroleum products (at 1031 mbar and 15°C)",other
+unece_dbm,DBM,Decibel-milliwatts,other
+unece_dbw,DBW,Decibel watt,other
+unece_fnu,FNU,Formazin nephelometric unit,other
+unece_had,HAD,Piece Day,other
+unece_hmo,HMO,Piece Month,other
+unece_hwe,HWE,Piece Week,other
+unece_kwy,KWY,kilowatt year,other
+unece_mkd,MKD,Square Metre Day,other
+unece_mkm,MKM,Square Metre Month,other
+unece_mkw,MKW,Square Metre Week,other
+unece_mnj,MNJ,Mega Joule per Normalised cubic Metre,other
+unece_mqd,MQD,Cubic Metre Day,other
+unece_mqm,MQM,Cubic Metre Month,other
+unece_mqw,MQW,Cubic Metre Week,other
+unece_mrd,MRD,Metre Day,other
+unece_mrm,MRM,Metre Month,other
+unece_mrw,MRW,Metre Week,other
+unece_mtz,MTZ,milihertz,other
+unece_ntu,NTU,Nephelometric turbidity unit,other
+unece_z9,Z9,nanomole,other
+unece_xo1,XO1,Two sided cage on wheels with fixing strap,other
+unece_xo2,XO2,Trolley,other
+unece_xo3,XO3,Oneway pallet ISO 0 - 1/2 EURO Pallet,other
+unece_xo4,XO4,Oneway pallet ISO 1 - 1/1 EURO Pallet,other
+unece_xo5,XO5,Oneway pallet ISO 2 - 2/1 EURO Pallet,other
+unece_xo6,XO6,Pallet with exceptional dimensions,other
+unece_xo7,XO7,Wooden pallet  40 cm x 80 cm,other
+unece_xo8,XO8,Plastic pallet SRS 60 cm x 80 cm,other
+unece_xo9,XO9,Plastic pallet SRS 80 cm x 120 cm,other
+unece_xog,XOG,Pallet ISO 0 - 1/2 EURO Pallet,other
+unece_xoh,XOH,Pallet ISO 1 - 1/1 EURO Pallet,other
+unece_xoi,XOI,Pallet ISO 2 – 2/1 EURO Pallet,other
+unece_xoj,XOJ,1/4 EURO Pallet,other
+unece_xol,XOL,1/8 EURO Pallet,other
+unece_xom,XOM,Synthetic pallet ISO 1,other
+unece_xon,XON,Synthetic pallet ISO 2,other
+unece_xop,XOP,Wholesaler pallet,other
+unece_xoq,XOQ,Pallet 80 X 100 cm,other
+unece_xor,XOR,Pallet 60 X 100 cm,other
+unece_xos,XOS,Oneway pallet,other
+unece_xov,XOV,Returnable pallet,other
+unece_xow,XOW,"Large bag, pallet sized",other
+unece_xox,XOX,A wheeled pallet with raised rim (81 x 67 x 135),other
+unece_xoy,XOY,A Wheeled pallet with raised rim (81 x 72 x 135),other
+unece_xoz,XOZ,Wheeled pallet with raised rim ( 81 x 60 x 16),other
+unece_xp1,XP1,CHEP pallet 60 cm x 80 cm,other
+unece_xp3,XP3,LPR pallet 60 cm x 80 cm,other
+unece_xp4,XP4,LPR pallet 80 cm x 120 cm,other
+unece_xsx,XSX,Set,other

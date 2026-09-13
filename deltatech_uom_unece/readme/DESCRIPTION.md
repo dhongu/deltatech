@@ -16,10 +16,13 @@ not recognise, without raising an error. That has two consequences, both silent:
   millilitre is missing altogether. Square metres, square feet and millilitres
   all travel as `C62`. This module corrects the three of them on install.
 
-The codes live in their own model rather than in a selection field: the
-published lists hold well over a thousand codes, and which ones you need depends
-on your trade. A consultant adds the missing one from the interface, with no
-code change and no deployment.
+The codes come from the nomenclature ANAF publishes with the SAF-T schema, at
+<https://static.anaf.ro/static/10/Anaf/Informatii_R/RO_SAFT_SchemaDefCod_16.02.2026.xlsx>
+(sheet `Unitati_masura`): over two thousand entries from UN/ECE Recommendation 20
+(units) and 21 (packaging), with the English name and ANAF's Romanian
+translation. They are loaded into a model of their own rather than a selection
+field, so a consultant can add or correct an entry from the interface when ANAF
+republishes the list, with no code change and no deployment.
 
 Both paths that build electronic documents are covered: eTransport reads the
 code through `uom.uom._get_unece_code()`, while UBL and CII invoices reach it
