@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+<!--
+    Repară maparea unităților STANDARD care azi pleacă greșit.
+
+    `UOM_TO_UNECE_CODE` din `account/models/uom_uom.py` caută XML ID-urile
+    `uom.uom_square_meter` și `uom.uom_square_foot`, dar `uom/data/uom_data.xml`
+    definește `uom.product_uom_square_meter` și `uom.product_uom_square_foot`.
+    Numele au divergat, căutarea nu găsește nimic și cele două unități cad pe
+    `C62`. Mililitrul nu e deloc în dicționar, deci ajunge tot acolo.
+
+    Efectul se vede în orice document electronic: metrul pătrat pleacă la ANAF
+    declarat ca „bucată", atât pe factură cât și pe e-Transport, fără nicio
+    eroare. Verificat pe o bază 19.0+e în septembrie 2026.
+
+    Nu completăm aici decât unitățile care azi sunt GREȘITE. Restul se
+    mapează corect prin dicționarul standard, iar un câmp completat degeaba
+    ar însemna o a doua sursă de adevăr pentru aceeași valoare.
+
+    ⚠️ `noupdate="1"`: dacă clientul schimbă codul, upgrade-ul nu i-l rescrie.
+-->
+
+    <record id="uom.product_uom_square_meter" model="uom.uom">
+        <field name="unece_code_id" ref="unece_mtk"/>
+    </record>
+
+    <record id="uom.product_uom_square_foot" model="uom.uom">
+        <field name="unece_code_id" ref="unece_ftk"/>
+    </record>
+
+    <record id="uom.product_uom_milliliter" model="uom.uom">
+        <field name="unece_code_id" ref="unece_mlt"/>
+    </record>
+
+</odoo>

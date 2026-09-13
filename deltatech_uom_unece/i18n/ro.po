@@ -1,0 +1,398 @@
+# Traducerea modulului Odoo.
+# This file contains the translation of the following modules:
+# 	* deltatech_uom_unece
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-13 05:18+0000\n"
+"PO-Revision-Date: 2026-09-13 05:18+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__active
+msgid "Active"
+msgstr "Activ"
+
+#. module: deltatech_uom_unece
+#: model_terms:ir.actions.act_window,help:deltatech_uom_unece.uom_unece_code_action
+msgid "Add a UNECE code"
+msgstr "Adaugă un cod UNECE"
+
+#. module: deltatech_uom_unece
+#: model_terms:ir.ui.view,arch_db:deltatech_uom_unece.uom_unece_code_view_search
+msgid "Archived"
+msgstr "Arhivat"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields.selection,name:deltatech_uom_unece.selection__uom_unece_code__category__area
+msgid "Area"
+msgstr "Suprafață"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_xbg
+msgid "Bag"
+msgstr "Pungă"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_xbx
+msgid "Box"
+msgstr "Cutie"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_xct
+msgid "Carton"
+msgstr "Carton"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__category
+#: model_terms:ir.ui.view,arch_db:deltatech_uom_unece.uom_unece_code_view_search
+msgid "Category"
+msgstr "Categorie"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_cmt
+msgid "Centimetre"
+msgstr "Centimetru"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__code
+msgid "Code"
+msgstr "Cod"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,help:deltatech_uom_unece.field_uom_unece_code__code
+msgid "Code sent as the unitCode attribute, e.g. KGM for kilogram."
+msgstr "Codul trimis ca atribut unitCode, de exemplu KGM pentru kilogram."
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,help:deltatech_uom_unece.field_uom_uom__unece_code_id
+msgid ""
+"Code sent in electronic documents (e-invoice, eTransport) for this unit. "
+"When empty, the code built into Odoo is used."
+msgstr "Codul trimis în documentele electronice (e-Factura, e-Transport) pentru această unitate. Când e gol, se folosește codul predefinit din Odoo."
+
+#. module: deltatech_uom_unece
+#: model_terms:ir.actions.act_window,help:deltatech_uom_unece.uom_unece_code_action
+msgid ""
+"Codes sent as the unit in electronic documents. Take new ones from the\n"
+"                UN/ECE Recommendation 20 and 21 lists."
+msgstr ""
+"Codurile trimise ca unitate în documentele electronice. Codurile noi se iau din\n"
+"                listele UN/ECE Recomandarea 20 și 21."
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields.selection,name:deltatech_uom_unece.selection__uom_unece_code__category__count
+msgid "Count"
+msgstr "Număr"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_cmq
+msgid "Cubic centimetre"
+msgstr "Centimetru cub"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_mtq
+msgid "Cubic metre"
+msgstr "Metru cub"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_day
+msgid "Day"
+msgstr "Zi"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__display_name
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_uom__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_dzn
+msgid "Dozen"
+msgstr "Duzină"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields.selection,name:deltatech_uom_unece.selection__uom_unece_code__category__energy
+msgid "Energy"
+msgstr "Energie"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_fot
+msgid "Foot"
+msgstr "Picior"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_gll
+msgid "Gallon (US)"
+msgstr "Galon (SUA)"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_grm
+msgid "Gram"
+msgstr "Gram"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_hur
+msgid "Hour"
+msgstr "Oră"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__id
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_uom__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_inh
+msgid "Inch"
+msgstr "Țol"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_kgm
+msgid "Kilogram"
+msgstr "Kilogram"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_kmt
+msgid "Kilometre"
+msgstr "Kilometru"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_kwt
+msgid "Kilowatt"
+msgstr "Kilowatt"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_kwh
+msgid "Kilowatt hour"
+msgstr "Kilowatt-oră"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields.selection,name:deltatech_uom_unece.selection__uom_unece_code__category__length
+msgid "Length"
+msgstr "Lungime"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_ltr
+msgid "Litre"
+msgstr "Litru"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields.selection,name:deltatech_uom_unece.selection__uom_unece_code__category__mass
+msgid "Mass"
+msgstr "Masă"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,help:deltatech_uom_unece.field_uom_unece_code__name
+msgid "Meaning of the code in the UN/ECE list."
+msgstr "Semnificația codului în lista UN/ECE."
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_mwh
+msgid "Megawatt hour"
+msgstr "Megawatt-oră"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_mtr
+msgid "Metre"
+msgstr "Metru"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_smi
+msgid "Mile (statute mile)"
+msgstr "Milă (milă terestră)"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_mgm
+msgid "Milligram"
+msgstr "Miligram"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_mlt
+msgid "Millilitre"
+msgstr "Mililitru"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_mmt
+msgid "Millimetre"
+msgstr "Milimetru"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_min
+msgid "Minute"
+msgstr "Minut"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_mon
+msgid "Month"
+msgstr "Lună"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_unece_code__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_nar
+msgid "Number of articles"
+msgstr "Număr de articole"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_c62
+msgid "One (piece)"
+msgstr "Unu (bucată)"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields.selection,name:deltatech_uom_unece.selection__uom_unece_code__category__other
+msgid "Other"
+msgstr "Altele"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_onz
+msgid "Ounce"
+msgstr "Uncie"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_xpk
+msgid "Package"
+msgstr "Pachet"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields.selection,name:deltatech_uom_unece.selection__uom_unece_code__category__packaging
+msgid "Packaging"
+msgstr "Ambalaje"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_pr
+msgid "Pair"
+msgstr "Pereche"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_xpf
+msgid "Pallet"
+msgstr "Palet"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_h87
+msgid "Piece"
+msgstr "Bucată"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_lbr
+msgid "Pound"
+msgstr "Livră"
+
+#. module: deltatech_uom_unece
+#: model:ir.model,name:deltatech_uom_unece.model_uom_uom
+msgid "Product Unit of Measure"
+msgstr "Unitate de măsură produs"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_xro
+msgid "Roll"
+msgstr "Rolă"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_set
+msgid "Set"
+msgstr "Set"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_cmk
+msgid "Square centimetre"
+msgstr "Centimetru pătrat"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_ftk
+msgid "Square foot"
+msgstr "Picior pătrat"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_mtk
+msgid "Square metre"
+msgstr "Metru pătrat"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.constraint,message:deltatech_uom_unece.constraint_uom_unece_code_code_format
+msgid ""
+"The UNECE code must be 2 or 3 characters, digits or capital letters only."
+msgstr "Codul UNECE trebuie să aibă 2 sau 3 caractere, doar cifre sau litere mari."
+
+#. module: deltatech_uom_unece
+#: model:ir.model.constraint,message:deltatech_uom_unece.constraint_uom_unece_code_code_uniq
+msgid "The UNECE code must be unique."
+msgstr "Codul UNECE trebuie să fie unic."
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields.selection,name:deltatech_uom_unece.selection__uom_unece_code__category__time
+msgid "Time"
+msgstr "Timp"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_tne
+msgid "Tonne (metric ton)"
+msgstr "Tonă (tonă metrică)"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields,field_description:deltatech_uom_unece.field_uom_uom__unece_code_id
+msgid "UNECE Code"
+msgstr "Cod UNECE"
+
+#. module: deltatech_uom_unece
+#: model:ir.actions.act_window,name:deltatech_uom_unece.uom_unece_code_action
+#: model:ir.ui.menu,name:deltatech_uom_unece.uom_unece_code_menu
+msgid "UNECE Codes"
+msgstr "Coduri UNECE"
+
+#. module: deltatech_uom_unece
+#: model:ir.model,name:deltatech_uom_unece.model_uom_unece_code
+msgid "UNECE Unit of Measure Code"
+msgstr "Cod UNECE de unitate de măsură"
+
+#. module: deltatech_uom_unece
+#: model:ir.model.fields.selection,name:deltatech_uom_unece.selection__uom_unece_code__category__volume
+msgid "Volume"
+msgstr "Volum"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_wee
+msgid "Week"
+msgstr "Săptămână"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_yrd
+msgid "Yard"
+msgstr "Yard"
+
+#. module: deltatech_uom_unece
+#: model:uom.unece.code,name:deltatech_uom_unece.unece_ann
+msgid "Year"
+msgstr "An"
