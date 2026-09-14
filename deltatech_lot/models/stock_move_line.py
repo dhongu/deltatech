@@ -14,7 +14,7 @@ class StockMoveLine(models.Model):
         if picking_type_code and picking_type_code == "incoming":
             product = self.env["product.product"].browse(self.env.context.get("default_product_id", False))
             if product.tracking == "lot":
-                return self.env["ir.sequence"].next_by_code("stock.lot.serial")
+                return self.env["ir.sequence"].sudo().next_by_code("stock.lot.serial")
         return False
 
     @api.onchange("location_id", "lot_id")

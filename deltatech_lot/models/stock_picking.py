@@ -15,6 +15,6 @@ class StockPicking(models.Model):
                 if picking_type.code in ["incoming", "dropship"]:
                     for line in picking.move_line_ids:
                         if line.product_id.tracking == "lot" and not line.lot_name:
-                            line.lot_name = self.env["ir.sequence"].next_by_code("stock.lot.serial")
+                            line.lot_name = self.env["ir.sequence"].sudo().next_by_code("stock.lot.serial")
 
         return super().button_validate()
