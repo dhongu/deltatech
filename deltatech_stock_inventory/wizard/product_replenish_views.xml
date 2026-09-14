@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="stock.view_product_replenish" />
         <field name="arch" type="xml">
             <field name="company_id" position="after">
-                <!-- group_id eliminat: procurement.group nu mai există în O19 -->
+                <field name="reference_id" />
             </field>
         </field>
     </record>
