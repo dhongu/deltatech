@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//widget[@name='purchase_file_uploader']" position="before">
                 <button name="action_create_invoice" type="object" string="Create Bill"
+                        class="btn-primary"
                         invisible="state != 'purchase' or invoice_status != 'to invoice'" />
             </xpath>
         </field>
