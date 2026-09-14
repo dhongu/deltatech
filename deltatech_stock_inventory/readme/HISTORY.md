@@ -1,3 +1,17 @@
+## 19.0.2.9.0 (2026-09-14)
+
+- **Grupare** este din nou disponibil în wizard-ul de reaprovizionare produs (*product.replenish*).
+  Câmpul exista în 18.0 ca `group_id` (`procurement.group`), eliminat la portarea pe 19.0 pentru că
+  modelul `procurement.group` nu mai există în core — a fost înlocuit acum cu noul mecanism O19,
+  `stock.reference` (`reference_ids` pe `stock.move`).
+- Gruparea se completează **automat, o dată pe zi și pe depozit**: toate reaprovizionările lansate
+  în aceeași zi, din același depozit, primesc aceeași referință și ajung astfel pe un singur
+  `stock.picking`, în loc de câte un document separat per produs. Câmpul rămâne editabil, dacă se
+  dorește altă grupare manuală.
+- Garda anti-duplicare e păstrată, dar acum e per produs+referință (nu per referință, cum era în
+  18.0 per grup) — altfel gruparea zilnică automată ar bloca reaprovizionarea celui de-al doilea
+  produs din aceeași zi.
+
 ## 19.0.2.8.0 (2026-09-10)
 
 - **Valuation snapshot on the inventory line.** The line now carries the unit valuation cost
