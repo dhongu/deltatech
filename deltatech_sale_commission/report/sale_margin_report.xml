@@ -135,6 +135,7 @@
         <field name="model">sale.margin.report</field>
         <field name="arch" type="xml">
             <pivot>
+                <field name="user_id" type="row" />
                 <field name="categ_id" type="row" />
                 <field name="date" type="row" />
                 <!--                <field name="product_uom_qty" type="measure" />-->
