@@ -8,6 +8,8 @@
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
                     <field name="line_ids" string="Product" filter_domain="[('line_ids.product_id', 'ilike', self)]" />
+                    <field name="line_ids" string="Vendor"
+                           filter_domain="[('line_ids.product_id.seller_ids.partner_id', 'ilike', self)]" />
                 </field>
             </field>
         </record>
