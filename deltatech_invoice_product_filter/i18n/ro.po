@@ -20,3 +20,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_invoice_product_filter.view_account_invoice_filter
 msgid "Product"
 msgstr "Produs"
+
+#. module: deltatech_invoice_product_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_product_filter.view_account_invoice_filter
+msgid "Vendor"
+msgstr "Furnizor"
