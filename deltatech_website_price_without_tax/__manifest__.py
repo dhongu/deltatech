@@ -5,7 +5,7 @@
     "name": "eCommerce Product Price Without Tax",
     "summary": "Display Product Price Without Tax",
     "category": "Website",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
