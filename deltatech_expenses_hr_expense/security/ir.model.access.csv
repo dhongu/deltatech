@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_deltatech_expenses_import_hr,access_deltatech_expenses_import_hr,model_deltatech_expenses_import_hr,deltatech_expenses.group_expenses_user,1,1,1,1
