@@ -24,12 +24,6 @@
                         groups="deltatech_expenses.group_expenses_accounting"
                     />
                     <button
-                        name="action_open_import_hr_expenses"
-                        string="Preia cheltuieli HR"
-                        invisible="state not in ('draft', 'advance')"
-                        type="object"
-                    />
-                    <button
                         name="invalidate_expenses"
                         string="Invalidate"
                         invisible="state != 'done'"
