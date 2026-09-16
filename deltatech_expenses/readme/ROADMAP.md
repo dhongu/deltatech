@@ -125,7 +125,8 @@ suplimentare. Verificate în cod pe 2026-07-11:
 
 ## Arhitectură
 
-- **Dependența `hr_expense` este forțată la toate instalările.** Doar guard-ul `action_post` și
-  wizardul de import au nevoie de `hr_expense`. *De evaluat mutarea acestui strat într-un modul-punte
-  (`deltatech_expenses_hr`) auto-instalat când ambele module sunt prezente, ca să nu aducem stack-ul
-  HR pe baze pur contabile.*
+- **Dependența `hr_expense` era forțată la toate instalările** — FĂCUT. Guard-ul `action_post`,
+  câmpul `hr_expense_id`, wizardul de import și butonul „Preia cheltuieli HR" au fost mutate în
+  modulul-punte `deltatech_expenses_hr_expense` (`depends: [deltatech_expenses, hr_expense]`,
+  `auto_install: True`), instalat automat doar când ambele module sunt prezente. Nucleul
+  `deltatech_expenses` nu mai depinde de `hr`/stack-ul de cheltuieli standard.

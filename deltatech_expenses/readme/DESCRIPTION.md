@@ -24,7 +24,7 @@ acoperă procese de business distincte și pot coexista în aceeași bază de da
 | **Avans de trezorerie (542)** | Da — acordare, decontare și închiderea contului 542 | Nu |
 | **Diurnă** | Da — câmp `diem` (implicit 42,5) și calcul `total_diem` | Nu |
 | **Documente generate** | Chitanțe de achiziție (`in_receipt`), plăți (`account.payment`) și note contabile de diferență/diurnă | În funcție de modul de plată (vezi mai jos) |
-| **Dependențe** | `l10n_ro`, `account`, `product`, `hr`, `hr_expense`, `deltatech_partner_generic` | `hr`, `account` |
+| **Dependențe** | `l10n_ro`, `account`, `product`, `hr`, `deltatech_partner_generic` | `hr`, `account` |
 | **Specific RO** | Da — numerotare proprie, jurnale casă/diurnă, plan de conturi RO | Nu (generic, multi-țară) |
 
 ## Notele contabile generate de `hr_expense`
@@ -44,25 +44,15 @@ Pe scurt: folosește **`deltatech_expenses`** pentru fluxul românesc *avans de 
 închidere cont 542*, și **`hr_expense`** pentru fluxul generic *angajatul/firma plătește → (eventual) rambursare*.
 
 
-# Integrarea cu `hr_expense` (prevenirea dublării cheltuielilor)
+# Integrarea cu `hr_expense` (modul separat, opțional)
 
-Întrucât cele două module pot coexista, există riscul ca aceeași cheltuială să fie contabilizată de două ori
-(o dată prin Decont și o dată prin `hr_expense`). Pentru a preveni acest lucru:
+Nucleul `deltatech_expenses` nu depinde de `hr_expense`. Companiile care folosesc și modulul standard de
+cheltuieli al Odoo pot instala suplimentar **`deltatech_expenses_hr_expense`**, care adaugă puntea dintre
+cele două (preluarea cheltuielilor `hr.expense` ca linii de decont și prevenirea dublei contabilizări) —
+vezi descrierea acelui modul.
 
-- Pe formularul decontului, butonul **"Preia cheltuieli HR"** (disponibil în stările Draft/Advance) deschide
-  un wizard cu cheltuielile `hr.expense` eligibile ale angajatului (aprobate/depuse, fără notă contabilă proprie,
-  nelegate de alt decont). Cheltuielile selectate devin linii de decont și sunt legate prin `expenses_deduction_id`.
-- Cheltuielile `hr.expense` au câmpul `expenses_deduction_id` care le leagă de un Decont de cheltuieli. Când acesta
-  este completat, `action_post` din modulul standard **sare postarea** acelei cheltuieli — notele contabile se
-  generează exclusiv din Decont, iar butoanele de postare standard sunt ascunse. Cheltuielile **nelegate** se
-  postează normal, ca de obicei.
-- Fiecare linie de decont reține originea (`hr_expense_id`); la ștergerea liniei, cheltuiala `hr.expense` este
-  eliberată automat și redevine disponibilă pentru fluxul standard.
-- Fișa angajatului (`hr.employee`) are un buton smart **"Deconturi"** care afișează numărul deconturilor și
-  deschide lista filtrată pentru acel angajat.
-
-Astfel contabilizarea rămâne unică: ori prin Decont (pentru cheltuielile preluate), ori prin `hr_expense`
-(pentru restul).
+Fișa angajatului (`hr.employee`) are un buton smart **"Deconturi"** care afișează numărul deconturilor și
+deschide lista filtrată pentru acel angajat (disponibil indiferent dacă puntea `hr_expense` e instalată).
 
 
 # Exemplu de Testare: Decontarea Cheltuielilor din Avans

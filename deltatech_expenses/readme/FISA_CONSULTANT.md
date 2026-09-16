@@ -45,7 +45,9 @@ Date minime pentru demo:
 
 ## 5. Configurare inițială
 
-1. Instalați modulul `deltatech_expenses` (atrage și `hr`, `hr_expense`).
+1. Instalați modulul `deltatech_expenses` (atrage și `hr`). Dacă folosiți și modulul standard de
+   cheltuieli (`hr_expense`), instalați și `deltatech_expenses_hr_expense` pentru puntea de preluare
+   a cheltuielilor standard în decont (vezi fișa acelui modul).
 2. Creați/identificați un jurnal general al cărui **cont implicit este 542** și folosiți-l ca
    „Jurnal cheltuieli" pe decont.
 3. Verificați jurnalul de numerar (Casă) și contul său implicit (5311).
@@ -69,42 +71,11 @@ avansuri de trezorerie al angajatului).
 
 ![Nota contabilă de acordare a avansului (542 = 5311)](screenshots/02_nota_avans.png)
 
-### Pasul 2 — (Opțional) Preluarea unei cheltuieli din modulul standard `hr_expense`
+> **Preluare din modulul standard de cheltuieli:** dacă instalați și `deltatech_expenses_hr_expense`,
+> pe formularul decontului apare butonul **„Preia cheltuieli HR"**, care preia cheltuielile eligibile
+> din `hr.expense` ca linii de decont. Detaliile acelui flux sunt descrise în fișa modulului-punte.
 
-Dacă angajatul a înregistrat cheltuieli prin modulul standard, butonul **„Preia cheltuieli HR"**
-(vizibil în stările Ciornă/Avans) deschide un wizard cu cheltuielile eligibile ale angajatului —
-aprobate, fără notă contabilă proprie și nelegate de alt decont.
-
-![Wizardul „Preia cheltuieli HR" cu cheltuielile eligibile](screenshots/03_preia_hr_wizard.png)
-
-Puteți **selecta mai multe cheltuieli** dintr-o dată — toate devin linii în decontul curent.
-
-La confirmare, fiecare cheltuială selectată devine o **linie de decont** (cu suma, TVA-ul, furnizorul
-și contul de cheltuială preluate din `hr.expense`) și este **legată** de decont. TVA-ul este mapat
-corect indiferent de configurarea taxei (TVA inclus în preț sau „pe deasupra"), astfel încât netul și
-TVA-ul liniei corespund exact cu cheltuiala originală. Pe cheltuiala
-`hr.expense` apare un banner care indică decontul, iar butoanele de postare standard sunt ascunse —
-astfel **nu se mai contabilizează și din `hr_expense`**, evitând dublarea cheltuielii.
-
-![Cheltuiala hr.expense legată de decont (postare standard dezactivată)](screenshots/04_hr_expense_legat.png)
-
-**Două moduri de a prelua mai multe cheltuieli într-un decont anume:**
-
-1. **Din decont** (descris mai sus): deschideți decontul țintă → **„Preia cheltuieli HR"** → bifați
-   cheltuielile dorite → **Preia**. Toate intră în decontul curent.
-2. **Din lista de cheltuieli**: în **Cheltuieli**, selectați (bifați) mai multe cheltuieli ale
-   aceluiași angajat → meniul **Acțiuni → „Adaugă în decont de cheltuieli"** → alegeți decontul țintă
-   (doar deconturile în Ciornă/Avans ale angajatului) → **Preia**.
-
-> **Notă contabilă la acest pas:** preluarea **nu** generează nicio notă contabilă — doar adaugă
-> liniile în decont. Cheltuielile se contabilizează abia la **validarea decontului** (Pasul 3),
-> împreună cu celelalte linii.
-
-> **Reversibilitate:** la **invalidarea** unui decont (butonul „Invalidare"), liniile preluate din
-> `hr.expense` se șterg automat, iar cheltuielile respective sunt **eliberate** — redevin disponibile
-> pentru fluxul standard sau pentru o nouă preluare. Liniile introduse manual rămân pentru re-validare.
-
-### Pasul 3 — Introducerea cheltuielilor și validarea decontului
+### Pasul 2 — Introducerea cheltuielilor și validarea decontului
 
 Adăugați liniile de cheltuieli (furnizor, sumă cu TVA inclus, cont de cheltuială). Fiecare linie are
 un **tip**:
@@ -130,17 +101,16 @@ chitanța de achiziție.
 ### Note de monografie și raportare (notele generate la fiecare pas)
 
 - **Acordare avans** (Pasul 1): **Dr 542 = Cr 5311/5121** (suma avansului);
-- **Preluare cheltuială HR** (Pasul 2): *nicio notă* — doar se adaugă linia în decont;
-- **Decontare cheltuieli** (Pasul 3, la validare), pentru liniile de tip „Cheltuieli", în două note:
+- **Decontare cheltuieli** (Pasul 2, la validare), pentru liniile de tip „Cheltuieli", în două note:
   - chitanța de achiziție: **Dr 6xx + Dr 4426 = Cr 401** (cheltuială fără TVA + TVA deductibil);
   - decontarea din avans: **Dr 401 = Cr 542** (reconciliată cu chitanța);
-- **Plată furnizor** (Pasul 3, liniile de tip „Plată furnizor"): **Dr 401 = Cr 542**, reconciliată cu
+- **Plată furnizor** (Pasul 2, liniile de tip „Plată furnizor"): **Dr 401 = Cr 542**, reconciliată cu
   facturile furnizor deschise;
 - **Diurnă** (la validare): **Dr 625 = Cr 542** (totalul diurnei);
 - **Diferență** (la validare): **Dr/Cr 5311 = Cr/Dr 542**, astfel încât soldul 542 al angajatului
   devine **zero**.
 
-### Pasul 4 — Urmărirea deconturilor pe angajat
+### Pasul 3 — Urmărirea deconturilor pe angajat
 
 Fișa angajatului afișează butonul smart **„Deconturi"** cu numărul deconturilor; un clic deschide
 lista filtrată pentru acel angajat.
@@ -153,7 +123,7 @@ lista filtrată pentru acel angajat.
 |---|---|
 | `account` | note contabile de avans, decontare, diurnă și diferență; chitanțe `in_receipt` și plăți |
 | `hr` | angajatul (`hr.employee`); partenerul contabil derivă din `work_contact_id` |
-| `hr_expense` | preluarea cheltuielilor standard în decont și prevenirea dublei contabilizări |
+| `deltatech_expenses_hr_expense` (opțional) | preluarea cheltuielilor standard `hr_expense` în decont și prevenirea dublei contabilizări |
 | `l10n_ro` | planul de conturi și TVA-ul românesc |
 | `deltatech_partner_generic` | partener generic pentru liniile fără furnizor explicit |
 
@@ -168,7 +138,6 @@ Ce rămâne manual: configurarea jurnalelor/conturilor și verificarea soldului 
 - [ ] Liniile de cheltuieli calculează corect subtotalul și TVA-ul deductibil.
 - [ ] Diferența (avans − cheltuieli − diurnă) este corectă.
 - [ ] După validare, soldul contului 542 al angajatului este zero.
-- [ ] Cheltuielile preluate din `hr_expense` nu se mai postează din modulul standard.
 
 ## 9. Mesaje de eroare frecvente
 
@@ -176,9 +145,10 @@ Ce rămâne manual: configurarea jurnalelor/conturilor și verificarea soldului 
 |-----------------|-----------------|-----------|
 | Notele de avans nu au partener | Angajatul nu are „Work Contact" | Completați partenerul pe fișa angajatului (sau acceptați note interne) |
 | Contul 542 nu se închide | Jurnalul de cheltuieli nu are contul implicit 542 | Setați contul implicit 542 pe jurnalul de cheltuieli |
-| Nu pot prelua cheltuieli HR | Decontul nu este în Ciornă/Avans, sau cheltuielile nu sunt eligibile | Aduceți decontul în Ciornă/Avans; verificați că cheltuielile sunt aprobate și nelegate |
-| Cheltuiala standard „nu se postează" | Este legată de un decont (`expenses_deduction_id`) | Comportament intenționat — contabilizarea se face prin decont |
 | „Furnizorul ... nu are un cont de datorii (401)" | Linie „Plată furnizor" cu un furnizor fără cont de plătit configurat | Completați „Cont de plătit" pe fișa furnizorului |
+
+Pentru mesajele legate de preluarea cheltuielilor standard (`hr_expense`), vezi fișa modulului
+`deltatech_expenses_hr_expense`.
 
 ## 10. Capturi de ecran
 
@@ -187,13 +157,14 @@ Capturile (`readme/screenshots/`) sunt **generate automat** din `tests/test_scre
 planul de conturi RO (`setup_country("ro")`):
 
 1. `01_decont_avans.png` — decontul în starea „Avans": avans 1.000 lei, linii de cheltuieli (cazare,
-   transport și biletul preluat din HR), diurnă (2 zile × 42,50) și diferența calculată.
+   transport), diurnă (2 zile × 42,50) și diferența calculată.
 2. `02_nota_avans.png` — nota contabilă de acordare a avansului (Dr 542 = Cr 5311).
-3. `03_preia_hr_wizard.png` — wizardul „Preia cheltuieli HR" cu cheltuielile eligibile ale angajatului.
-4. `04_hr_expense_legat.png` — cheltuiala `hr.expense` legată de decont (banner + postare standard dezactivată).
-5. `05_angajat_deconturi.png` — fișa angajatului cu butonul smart „Deconturi".
-6. `06_decont_validat.png` — decontul în starea „Efectuat" după validare.
-7. `07_nota_decontare.png` — nota de decontare din avans (Dr 401 = Cr 542), reconciliată cu chitanța.
+3. `05_angajat_deconturi.png` — fișa angajatului cu butonul smart „Deconturi".
+4. `06_decont_validat.png` — decontul în starea „Efectuat" după validare.
+5. `07_nota_decontare.png` — nota de decontare din avans (Dr 401 = Cr 542), reconciliată cu chitanța.
+
+Capturile wizard-ului „Preia cheltuieli HR" (fostele `03`/`04`) s-au mutat în modulul
+`deltatech_expenses_hr_expense`, care le generează acum independent.
 
 Regenerare:
 
