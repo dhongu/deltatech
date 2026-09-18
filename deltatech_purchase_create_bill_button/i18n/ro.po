@@ -24,4 +24,4 @@ msgstr "Creare factură"
 #. module: deltatech_purchase_create_bill_button
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_create_bill_button.purchase_order_kpis_tree
 msgid "Create Bills"
-msgstr "Creare facturi"
+msgstr "Creați facturi"
