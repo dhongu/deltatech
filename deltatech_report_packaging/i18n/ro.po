@@ -265,3 +265,59 @@ msgstr "Stare"
 #: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_report_material_line__material_type__wood
 msgid "Wood"
 msgstr "Lemn"
+
+#. module: deltatech_report_packaging
+#: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.product_template_form_view
+msgid ""
+"<span class=\"text-muted\">\n"
+"                            Materials taken from the product category. Add a material above to\n"
+"                            configure this product on its own.\n"
+"                        </span>"
+msgstr ""
+"<span class=\"text-muted\">\n"
+"                            Materiale preluate de la categoria de produs. Adăugați un material mai sus pentru\n"
+"                            a configura acest produs separat.\n"
+"                        </span>"
+
+#. module: deltatech_report_packaging
+#: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.product_category_form_view
+msgid ""
+"<span class=\"text-muted\">\n"
+"                            Materials used by the products of this category that have none of\n"
+"                            their own. Subcategories without their own configuration use these\n"
+"                            as well.\n"
+"                        </span>"
+msgstr ""
+"<span class=\"text-muted\">\n"
+"                            Materiale folosite de produsele acestei categorii care nu au\n"
+"                            configurare proprie. Subcategoriile fără configurare proprie le\n"
+"                            folosesc și ele.\n"
+"                        </span>"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.constraint,message:deltatech_report_packaging.constraint_packaging_product_material_owner_exclusive
+msgid ""
+"A packaging material belongs either to a product or to a product category."
+msgstr ""
+"Un material de ambalare aparține fie unui produs, fie unei categorii de produse."
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_product__inherited_packaging_material_ids
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_template__inherited_packaging_material_ids
+msgid "Packaging materials of the category"
+msgstr "Materiale de ambalare ale categoriei"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,help:deltatech_report_packaging.field_product_product__inherited_packaging_material_ids
+#: model:ir.model.fields,help:deltatech_report_packaging.field_product_template__inherited_packaging_material_ids
+msgid ""
+"Materials the product takes from its category as long as it has none of its "
+"own. Configuring a material on the product replaces all of them."
+msgstr ""
+"Materiale pe care produsul le preia de la categoria sa cât timp nu are "
+"materiale proprii. Configurarea unui material pe produs le înlocuiește pe toate."
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__categ_id
+msgid "Product category"
+msgstr "Categorie de produs"

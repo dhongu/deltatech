@@ -14,6 +14,46 @@
                             <field name="qty_sale"/>
                         </list>
                     </field>
+                    <div colspan="2" invisible="packaging_material_ids">
+                        <span class="text-muted">
+                            Materials taken from the product category. Add a material above to
+                            configure this product on its own.
+                        </span>
+                        <field name="inherited_packaging_material_ids" nolabel="1" readonly="1">
+                            <list create="false" delete="false" edit="false">
+                                <field name="categ_id"/>
+                                <field name="material_type"/>
+                                <field name="qty_purchase"/>
+                                <field name="qty_sale"/>
+                            </list>
+                        </field>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_category_form_view" model="ir.ui.view">
+        <field name="name">product.category.form.packaging.material</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='first']" position="after">
+                <group name="packaging" string="Packaging materials">
+                    <div colspan="2">
+                        <span class="text-muted">
+                            Materials used by the products of this category that have none of
+                            their own. Subcategories without their own configuration use these
+                            as well.
+                        </span>
+                    </div>
+                    <field name="packaging_material_ids" nolabel="1" colspan="2">
+                        <list editable="bottom">
+                            <field name="material_type"/>
+                            <field name="qty_purchase"/>
+                            <field name="qty_sale"/>
+                        </list>
+                    </field>
                 </group>
             </xpath>
         </field>
