@@ -35,6 +35,13 @@ Reference" into the vendor bill's "Reference" and "Payment Reference"
 fields when a bill is created from a purchase order. This module
 restores that copy as well, matching the Odoo 18 behavior.
 
+The same applies to the purchase order list: in Odoo 19 the "Create
+Bills" header button was kept only on the "Purchase Orders" list, while
+the Requests for Quotation list (the default dashboard list) lost it.
+This module restores it there as well, so several purchase orders can be
+selected and billed in one go — including returns, which Odoo converts
+automatically into a vendor credit note when the total is negative.
+
 **Table of contents**
 
 .. contents::
