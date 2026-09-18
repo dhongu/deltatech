@@ -6,8 +6,13 @@ echivalent, dar necesită UoM-uri configurate per produs/furnizor - infrastructu
 care de regulă nu există deja pentru clienții care doar aveau un multiplu simplu
 (ex. "100 buc/cutie") completat pe regula de aprovizionare.
 
-Acest modul reintroduce `qty_multiple` exact ca în Odoo <= 18.0, cu aceeași logică
-de rotunjire, fără nicio dependență de unități de măsură suplimentare. Dacă
-`qty_multiple` e setat pe o regulă de aprovizionare, cantitatea de comandat se
-rotunjește direct la un multiplu al acestei valori; altfel comportamentul nativ
-(`replenishment_uom_id`) rămâne neschimbat.
+Acest modul reintroduce `qty_multiple` ca în Odoo <= 18.0, fără nicio dependență de
+unități de măsură suplimentare. Dacă `qty_multiple` e setat pe o regulă de
+aprovizionare, cantitatea de comandat se rotunjește direct la un multiplu al acestei
+valori; altfel comportamentul nativ (`replenishment_uom_id`) rămâne neschimbat.
+
+Rotunjirea urmează Odoo <= 18.0 - în jos când există un plafon (`product_max_qty`),
+ca să nu fie depășit, în sus în rest - cu o singură abatere deliberată: niciodată
+până la zero. Când necesarul e mai mic decât multiplul, rotunjirea nativă îl duce la
+0 și regula nu mai comandă niciodată, adică un plafon sub multiplu dezactivează
+regula în tăcere. În acest caz se comandă un multiplu întreg.
