@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-18 13:39+0000\n"
-"PO-Revision-Date: 2026-09-18 13:39+0000\n"
+"POT-Creation-Date: 2026-09-18 16:01+0000\n"
+"PO-Revision-Date: 2026-09-18 16:01+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -192,6 +192,12 @@ msgid "Metal"
 msgstr ""
 
 #. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_product__packaging_material_no_inherit
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_template__packaging_material_no_inherit
+msgid "No packaging material"
+msgstr ""
+
+#. module: deltatech_report_packaging
 #: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_invoice_material__material_type__pet
 #: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_product_material__material_type__pet
 #: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_report_material_line__material_type__pet
@@ -305,6 +311,15 @@ msgstr ""
 #. module: deltatech_report_packaging
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material__state
 msgid "State"
+msgstr ""
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,help:deltatech_report_packaging.field_product_product__packaging_material_no_inherit
+#: model:ir.model.fields,help:deltatech_report_packaging.field_product_template__packaging_material_no_inherit
+msgid ""
+"The product uses no packaging material at all, even when its category "
+"configures some. Leave it unset for the product to take the materials of its"
+" category as long as it has none of its own."
 msgstr ""
 
 #. module: deltatech_report_packaging

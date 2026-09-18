@@ -300,3 +300,34 @@ class TestPackagingMaterialCategory(AccountTestInvoicingCommon):
             self.product_a.product_tmpl_id.inherited_packaging_material_ids.material_type,
             "paper",
         )
+
+    def test_a_product_can_opt_out_of_the_materials_of_its_category(self):
+        self.product_a.product_tmpl_id.packaging_material_no_inherit = True
+
+        self.assertFalse(
+            self.product_a.product_tmpl_id._get_packaging_materials(),
+            "a product packed in nothing stays empty inside a category that is packed",
+        )
+        self.assertFalse(self.product_a.product_tmpl_id.inherited_packaging_material_ids)
+
+    def test_opting_out_reports_no_material_on_the_invoice(self):
+        self.product_a.product_tmpl_id.packaging_material_no_inherit = True
+        invoice = self._create_invoice(quantity=2.0)
+
+        invoice.action_post()
+
+        self.assertFalse(invoice.packaging_material_ids)
+
+    def test_materials_of_the_product_are_used_even_when_opting_out(self):
+        self.product_a.product_tmpl_id.packaging_material_no_inherit = True
+        self.product_a.product_tmpl_id.packaging_material_ids = [
+            Command.create({"material_type": "wood", "qty_sale": 0.5, "qty_purchase": 0.5}),
+        ]
+
+        materials = self.product_a.product_tmpl_id._get_packaging_materials()
+
+        self.assertEqual(
+            materials.material_type,
+            "wood",
+            "the option only stops the inheritance, it does not clear the product",
+        )

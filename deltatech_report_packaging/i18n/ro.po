@@ -321,3 +321,21 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__categ_id
 msgid "Product category"
 msgstr "Categorie de produs"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_product__packaging_material_no_inherit
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_template__packaging_material_no_inherit
+msgid "No packaging material"
+msgstr "Fără material de ambalare"
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,help:deltatech_report_packaging.field_product_product__packaging_material_no_inherit
+#: model:ir.model.fields,help:deltatech_report_packaging.field_product_template__packaging_material_no_inherit
+msgid ""
+"The product uses no packaging material at all, even when its category "
+"configures some. Leave it unset for the product to take the materials of its"
+" category as long as it has none of its own."
+msgstr ""
+"Produsul nu folosește niciun material de ambalare, chiar dacă categoria sa "
+"are materiale configurate. Lăsați opțiunea nebifată pentru ca produsul să "
+"preia materialele categoriei cât timp nu are materiale proprii."

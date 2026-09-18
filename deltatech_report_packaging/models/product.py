@@ -36,6 +36,12 @@ class ProductTemplate(models.Model):
         "product_tmpl_id",
         string="Packaging materials",
     )
+    packaging_material_no_inherit = fields.Boolean(
+        string="No packaging material",
+        help="The product uses no packaging material at all, even when its category "
+        "configures some. Leave it unset for the product to take the materials of its "
+        "category as long as it has none of its own.",
+    )
     inherited_packaging_material_ids = fields.Many2many(
         "packaging.product.material",
         string="Packaging materials of the category",
@@ -44,12 +50,17 @@ class ProductTemplate(models.Model):
         "its own. Configuring a material on the product replaces all of them.",
     )
 
-    @api.depends("packaging_material_ids", "categ_id.packaging_material_ids")
+    @api.depends(
+        "packaging_material_ids",
+        "packaging_material_no_inherit",
+        "categ_id.packaging_material_ids",
+    )
     def _compute_inherited_packaging_material_ids(self):
         for product in self:
             inherited = self.env["packaging.product.material"]
-            if not product.packaging_material_ids and product.categ_id:
-                inherited = product.categ_id._get_packaging_materials()
+            if not product.packaging_material_ids and not product.packaging_material_no_inherit:
+                if product.categ_id:
+                    inherited = product.categ_id._get_packaging_materials()
             product.inherited_packaging_material_ids = inherited
 
     def _get_packaging_materials(self):
@@ -58,11 +69,15 @@ class ProductTemplate(models.Model):
         Resolving at read time rather than copying the materials when the product is
         created keeps every product in step with its category, whether it was added by
         hand, imported or created from the website.
+
+        An empty configuration means "take the materials of the category", so a product
+        packed in nothing at all inside a category that is packed has to say so with
+        ``packaging_material_no_inherit``.
         """
         self.ensure_one()
         if self.packaging_material_ids:
             return self.packaging_material_ids
-        if not self.categ_id:
+        if self.packaging_material_no_inherit or not self.categ_id:
             return self.env["packaging.product.material"]
         return self.categ_id._get_packaging_materials()
 
