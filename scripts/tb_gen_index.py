@@ -34,7 +34,10 @@ Structura paginii (doar EN):
 
 Textul primește `color` explicit (TB["body"] / TB["muted"]): store-ul Odoo Apps
 randează descrierea pe fundal alb, iar culoarea moștenită de acolo ieșea gri-deschis
-și greu lizibilă. Ambele nuanțe sunt alese pentru fundal deschis.
+și greu lizibilă. Ambele nuanțe sunt alese pentru fundal deschis, iar wrapper-ul își
+impune propriul `background-color:#ffffff` + reset de variabile Bootstrap (THEME_RESET):
+în backendul Odoo aceeași descriere e randată în tema curentă, iar pe tema dark fundalul
+moștenit e închis — fără fundal propriu, textul închis devine invizibil.
 Verdele Terrabit DOAR ca `background-color`/bordură, niciodată singura sursă de
 lizibilitate. Validare: scripts/tb_apps_preview.py (light + dark-sane).
 
@@ -106,14 +109,33 @@ MUTED = TB["muted"]
 # `font-weight:400` e obligatoriu: store-ul pune descrierea într-un `.oe_styling_v8`
 # care forțează `font-weight:300`. Moștenit, textul mic (cross-sell, stats, note) iese
 # subțire și pare gri-decolorat, chiar dacă `color` inline e corect.
-WRAP_OPEN = f'<div class="mx-auto px-3" style="max-width:1100px;font-family:{FONT};color:{BODY};font-weight:400;">'
+# Fundal propriu, explicit alb: în backendul Odoo (Apps > modul) descrierea e randată
+# în interiorul temei curente. Pe tema dark, fundalul moștenit e închis, iar culorile
+# de text de aici sunt fixate pe închis => text invizibil. Pagina își duce deci propriul
+# fundal alb și își resetează variabilele Bootstrap moștenite (body/border/card/nav),
+# ca să arate identic pe apps.odoo.com și în backend, light sau dark.
+THEME_RESET = (
+    "background-color:#ffffff;"
+    f"--bs-body-color:{BODY};--bs-body-bg:#ffffff;--bs-emphasis-color:{BODY};"
+    "--bs-border-color:#dee2e6;"
+    "--bs-card-bg:#ffffff;--bs-card-color:" + BODY + ";--bs-card-border-color:#dee2e6;"
+    f"--bs-link-color:{TB['primary']};--bs-link-hover-color:{TB['dark']};"
+    f"--bs-nav-link-color:{BODY};--bs-nav-pills-link-active-bg:{TB['primary']};"
+    "--bs-nav-pills-link-active-color:#ffffff;"
+    "--bs-code-color:#b4266b;--bs-heading-color:" + BODY + ";"
+)
+
+WRAP_OPEN = (
+    f'<div class="mx-auto px-3 py-3 rounded-4" style="max-width:1100px;font-family:{FONT};'
+    f'color:{BODY};font-weight:400;{THEME_RESET}">'
+)
 
 HERO = """%(marker)s
-<div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:%(primary)s;">
+<div class="text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:%(primary)s;color:#ffffff;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
     style="background-color:%(dark)s;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
   %(icon)s
-  <h1 class="text-white fw-bold mb-3" style="font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">%(name)s</h1>
+  <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">%(name)s</h1>
   %(summary)s
   <div>
     %(badges)s
@@ -129,8 +151,8 @@ HERO_ICON = (
 SUMMARY = '<p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">%s</p>'
 
 BADGE = (
-    '<span class="d-inline-block rounded-pill fw-semibold text-white m-1"'
-    ' style="background-color:%(dark)s;padding:8px 16px;font-size:12px;">%(t)s</span>'
+    '<span class="d-inline-block rounded-pill fw-semibold m-1"'
+    ' style="background-color:%(dark)s;color:#ffffff;padding:8px 16px;font-size:12px;">%(t)s</span>'
 )
 BADGE_ACCENT = (
     '<span class="d-inline-block rounded-pill fw-bold m-1"'
@@ -179,8 +201,8 @@ STAT_ITEMS = [
 ]
 
 SUPPORT = """
-<div class="text-white text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:%(dark)s;">
-  <h2 class="text-white fw-bold mb-2" style="font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
+<div class="text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:%(dark)s;color:#ffffff;">
+  <h2 class="fw-bold mb-2" style="color:#ffffff;font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
   <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
      Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,
      the Americas, Asia and Africa &mdash; by companies we have never even met. That is the
@@ -193,7 +215,7 @@ SUPPORT = """
 
 CROSS_SELL_OPEN = """
 <section class="rounded-4 p-4 mb-3 border">
-  <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
+  <h2 class="text-center fw-bold mb-1" style="color:%(body)s;font-size:24px;border:none;">More apps by Terrabit</h2>
   <p class="text-center mb-4" style="color:%(muted)s;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=%(apps_author)s" target="_blank" rel="noopener"
        class="fw-semibold" style="color:%(primary)s;">All apps &rarr;</a></p>
@@ -204,8 +226,8 @@ CROSS_SELL_CARD = """    <div class="col-md-3 col-sm-6">
          class="card h-100 text-decoration-none border" style="color:%(body)s;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:%(primary)s;">%(initials)s</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:%(primary)s;">%(initials)s</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">%(name)s</span>
               <span class="d-block" style="font-size:11px;color:%(muted)s;">%(category)s</span>
