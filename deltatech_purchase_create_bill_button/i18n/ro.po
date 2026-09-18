@@ -20,3 +20,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_create_bill_button.purchase_order_form
 msgid "Create Bill"
 msgstr "Creare factură"
+
+#. module: deltatech_purchase_create_bill_button
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_create_bill_button.purchase_order_kpis_tree
+msgid "Create Bills"
+msgstr "Creați facturi"

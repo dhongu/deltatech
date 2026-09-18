@@ -14,4 +14,15 @@
         </field>
     </record>
 
+    <record id="purchase_order_kpis_tree" model="ir.ui.view">
+        <field name="name">purchase.order.list.create.bill.button</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_kpis_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='button_cancel']" position="before">
+                <button name="action_create_invoice" type="object" string="Create Bills" />
+            </xpath>
+        </field>
+    </record>
+
 </odoo>
