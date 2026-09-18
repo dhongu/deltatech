@@ -14,7 +14,8 @@
                             <field name="qty_sale"/>
                         </list>
                     </field>
-                    <div colspan="2" invisible="packaging_material_ids">
+                    <field name="packaging_material_no_inherit" invisible="packaging_material_ids"/>
+                    <div colspan="2" invisible="packaging_material_ids or packaging_material_no_inherit">
                         <span class="text-muted">
                             Materials taken from the product category. Add a material above to
                             configure this product on its own.

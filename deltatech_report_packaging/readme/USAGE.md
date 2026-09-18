@@ -11,6 +11,8 @@ set on a top category covers every subcategory under it. The materials of the pr
 take precedence over the ones of the category and replace all of them at once, and the
 product form shows what it inherits as long as it has none of its own.
 
+An empty configuration means *take the materials of the category*, so a product that uses no packaging material at all inside a category that does has to say so: tick **No packaging material** on the product. The option only stops the inheritance — a product that has materials of its own keeps using them.
+
 Nothing is copied on the product: the materials are resolved when the quantities are
 computed, so products created by hand, imported or coming from the website all follow
 their category, and a change made on a category applies at once to its products.
