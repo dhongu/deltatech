@@ -36,14 +36,22 @@ alternativ&#259; legat&#259; explicit de produs sau de furnizor. Matematic mecan
 echivalent, dar necesit&#259; UoM-uri configurate per produs/furnizor - infrastructur&#259;
 care de regul&#259; nu exist&#259; deja pentru clien&#539;ii care doar aveau un multiplu simplu
 (ex. "100 buc/cutie") completat pe regula de aprovizionare.</p>
-<p>Acest modul reintroduce <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_multiple</code> exact ca &#238;n Odoo &lt;= 18.0, cu aceea&#537;i logic&#259;
-de rotunjire, f&#259;r&#259; nicio dependen&#539;&#259; de unit&#259;&#539;i de m&#259;sur&#259; suplimentare. Dac&#259;
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_multiple</code> e setat pe o regul&#259; de aprovizionare, cantitatea de comandat se
-rotunje&#537;te direct la un multiplu al acestei valori; altfel comportamentul nativ
-(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">replenishment_uom_id</code>) r&#259;m&#226;ne neschimbat.</p>
+<p>Acest modul reintroduce <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_multiple</code> ca &#238;n Odoo &lt;= 18.0, f&#259;r&#259; nicio dependen&#539;&#259; de
+unit&#259;&#539;i de m&#259;sur&#259; suplimentare. Dac&#259; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_multiple</code> e setat pe o regul&#259; de
+aprovizionare, cantitatea de comandat se rotunje&#537;te direct la un multiplu al acestei
+valori; altfel comportamentul nativ (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">replenishment_uom_id</code>) r&#259;m&#226;ne neschimbat.</p>
+<p>Rotunjirea urmeaz&#259; Odoo &lt;= 18.0 - &#238;n jos c&#226;nd exist&#259; un plafon (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product_max_qty</code>),
+ca s&#259; nu fie dep&#259;&#537;it, &#238;n sus &#238;n rest - cu o singur&#259; abatere deliberat&#259;: niciodat&#259;
+p&#226;n&#259; la zero. C&#226;nd necesarul e mai mic dec&#226;t multiplul, rotunjirea nativ&#259; &#238;l duce la
+0 &#537;i regula nu mai comand&#259; niciodat&#259;, adic&#259; un plafon sub multiplu dezactiveaz&#259;
+regula &#238;n t&#259;cere. &#206;n acest caz se comand&#259; un multiplu &#238;ntreg.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.1 (2026-09-18)</h2>
+<ul>
+<li>Fix: never round the reorder quantity down to zero. When the needed quantity was smaller than <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_multiple</code> and a maximum quantity was set, the Odoo &lt;= 18.0 rounding produced 0, so the rule silently stopped replenishing forever. Such rules now order one full multiple instead of nothing.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.0 (2026-08-21)</h2>
 <ul>
 <li>Add: restore <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_multiple</code> on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.warehouse.orderpoint</code>, removed by Odoo in 19.0 in favor of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">replenishment_uom_id</code>. Rounds the computed reorder quantity up/down to a multiple, without requiring any per-product/vendor unit of measure setup.</li>

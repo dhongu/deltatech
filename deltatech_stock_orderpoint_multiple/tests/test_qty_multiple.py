@@ -46,6 +46,24 @@ class TestStockOrderpointQtyMultiple(TransactionCase):
         orderpoint = self._make_orderpoint(qty_multiple=100, product_max_qty=1000)
         self.assertEqual(orderpoint._get_multiple_rounded_qty(1100), 1100)
 
+    def test_never_rounds_down_to_zero_when_need_is_below_multiple(self):
+        # Regression: rounding down a need smaller than the multiple yields 0, and
+        # the rule then never orders anything - a cap below the multiple silently
+        # disables replenishment. Order one full multiple instead of nothing.
+        orderpoint = self._make_orderpoint(qty_multiple=10, product_max_qty=6, product_min_qty=5)
+        self.assertEqual(orderpoint._get_multiple_rounded_qty(6), 10)
+
+    def test_rounds_down_when_result_stays_positive(self):
+        # The Odoo <= 18.0 "stay within the cap" behaviour must be preserved
+        # whenever rounding down still leaves something to order.
+        orderpoint = self._make_orderpoint(qty_multiple=10, product_max_qty=22, product_min_qty=10)
+        self.assertEqual(orderpoint._get_multiple_rounded_qty(16), 10)
+
+    def test_rounds_up_when_multiple_equals_need(self):
+        # Exactly one multiple short: rounding down would also give 0.
+        orderpoint = self._make_orderpoint(qty_multiple=10, product_max_qty=10, product_min_qty=5)
+        self.assertEqual(orderpoint._get_multiple_rounded_qty(9), 10)
+
     def test_native_replenishment_uom_is_not_shadowed_by_default(self):
         # Regression: qty_multiple must default to "unset" (0) so it never
         # silently overrides the native `replenishment_uom_id` mechanism on
