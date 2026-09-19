@@ -6,14 +6,39 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-10 11:57+0000\n"
-"PO-Revision-Date: 2026-09-10 11:57+0000\n"
+"POT-Creation-Date: 2026-09-18 16:01+0000\n"
+"PO-Revision-Date: 2026-09-18 16:01+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: deltatech_report_packaging
+#: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.product_template_form_view
+msgid ""
+"<span class=\"text-muted\">\n"
+"                            Materials taken from the product category. Add a material above to\n"
+"                            configure this product on its own.\n"
+"                        </span>"
+msgstr ""
+
+#. module: deltatech_report_packaging
+#: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.product_category_form_view
+msgid ""
+"<span class=\"text-muted\">\n"
+"                            Materials used by the products of this category that have none of\n"
+"                            their own. Subcategories without their own configuration use these\n"
+"                            as well.\n"
+"                        </span>"
+msgstr ""
+
+#. module: deltatech_report_packaging
+#: model:ir.model.constraint,message:deltatech_report_packaging.constraint_packaging_product_material_owner_exclusive
+msgid ""
+"A packaging material belongs either to a product or to a product category."
+msgstr ""
 
 #. module: deltatech_report_packaging
 #: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_invoice_material__material_type__aluminium
@@ -70,6 +95,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__display_name
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material__display_name
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material_line__display_name
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_category__display_name
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_template__display_name
 msgid "Display Name"
 msgstr ""
@@ -87,6 +113,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__id
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material__id
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material_line__id
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_category__id
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_template__id
 msgid "ID"
 msgstr ""
@@ -150,10 +177,24 @@ msgid "Material Type"
 msgstr ""
 
 #. module: deltatech_report_packaging
+#: model:ir.model.fields,help:deltatech_report_packaging.field_product_product__inherited_packaging_material_ids
+#: model:ir.model.fields,help:deltatech_report_packaging.field_product_template__inherited_packaging_material_ids
+msgid ""
+"Materials the product takes from its category as long as it has none of its "
+"own. Configuring a material on the product replaces all of them."
+msgstr ""
+
+#. module: deltatech_report_packaging
 #: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_invoice_material__material_type__metal
 #: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_product_material__material_type__metal
 #: model:ir.model.fields.selection,name:deltatech_report_packaging.selection__packaging_report_material_line__material_type__metal
 msgid "Metal"
+msgstr ""
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_product__packaging_material_no_inherit
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_template__packaging_material_no_inherit
+msgid "No packaging material"
 msgstr ""
 
 #. module: deltatech_report_packaging
@@ -176,11 +217,19 @@ msgstr ""
 #. module: deltatech_report_packaging
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_account_bank_statement_line__packaging_material_ids
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_account_move__packaging_material_ids
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_category__packaging_material_ids
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_product__packaging_material_ids
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_template__packaging_material_ids
 #: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.account_move_form_view
+#: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.product_category_form_view
 #: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.product_template_form_view
 msgid "Packaging materials"
+msgstr ""
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_product__inherited_packaging_material_ids
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_product_template__inherited_packaging_material_ids
+msgid "Packaging materials of the category"
 msgstr ""
 
 #. module: deltatech_report_packaging
@@ -209,8 +258,18 @@ msgid "Product"
 msgstr ""
 
 #. module: deltatech_report_packaging
+#: model:ir.model,name:deltatech_report_packaging.model_product_category
+msgid "Product Category"
+msgstr ""
+
+#. module: deltatech_report_packaging
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__product_tmpl_id
 msgid "Product Tmpl"
+msgstr ""
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_product_material__categ_id
+msgid "Product category"
 msgstr ""
 
 #. module: deltatech_report_packaging
@@ -252,6 +311,15 @@ msgstr ""
 #. module: deltatech_report_packaging
 #: model:ir.model.fields,field_description:deltatech_report_packaging.field_packaging_report_material__state
 msgid "State"
+msgstr ""
+
+#. module: deltatech_report_packaging
+#: model:ir.model.fields,help:deltatech_report_packaging.field_product_product__packaging_material_no_inherit
+#: model:ir.model.fields,help:deltatech_report_packaging.field_product_template__packaging_material_no_inherit
+msgid ""
+"The product uses no packaging material at all, even when its category "
+"configures some. Leave it unset for the product to take the materials of its"
+" category as long as it has none of its own."
 msgstr ""
 
 #. module: deltatech_report_packaging

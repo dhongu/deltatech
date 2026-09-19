@@ -37,7 +37,7 @@ class AccountMove(models.Model):
 
             quantities_by_material = defaultdict(float)
             for product, quantity in quantities_by_product.items():
-                for material in product.product_tmpl_id.packaging_material_ids:
+                for material in product.product_tmpl_id._get_packaging_materials():
                     quantities_by_material[material.material_type] += quantity * material._get_qty(direction)
 
             # `packaging_material_sync` tells the lines that this write comes from the
