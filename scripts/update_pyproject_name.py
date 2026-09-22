@@ -39,9 +39,26 @@ def update_name(filename):
     if "project" not in data:
         data["project"] = {}
 
+    # "dependencies" TREBUIE sa fie in project.dynamic (doar daca nu e deja
+    # declarata static): altfel unelte precum pyproject_dependencies (folosit
+    # de oca-gen-external-dependencies pentru requirements.txt) cred ca
+    # modulul are 0 dependinte statice si nu mai intreaba deloc build
+    # backend-ul (whool), care le calculeaza corect din external_dependencies
+    # din __manifest__.py. Un "dependencies" static explicit (ex. pentru
+    # pachete git+odoo-addon nepublicate) e o alternativa valida si nu
+    # trebuie combinat cu dynamic (whool interzice combinatia).
+    changed = False
+    if "dependencies" not in data["project"]:
+        dynamic = data["project"].setdefault("dynamic", [])
+        if "dependencies" not in dynamic:
+            dynamic.append("dependencies")
+            changed = True
+
     if data["project"].get("name") != package_name:
         data["project"]["name"] = package_name
+        changed = True
 
+    if changed:
         # 4. Scrie inapoi in pyproject.toml
         with open(filename, "wb") as f:
             tomli_w.dump(data, f)

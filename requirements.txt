@@ -4,3 +4,4 @@ extruct
 phonenumbers
 unidecode
 w3lib
+xlsxwriter

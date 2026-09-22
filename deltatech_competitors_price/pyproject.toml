@@ -6,4 +6,7 @@ build-backend = "whool.buildapi"
 
 [project]
 name = "odoo-addon-deltatech-competitors-price"
-dependencies = ["extruct", "w3lib"]
+dependencies = [
+    "extruct",
+    "w3lib",
+]
