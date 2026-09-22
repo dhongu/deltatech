@@ -2,6 +2,8 @@
 # See README.rst file on addons root folder for license details
 
 
+from collections import defaultdict
+
 from odoo import _, models
 from odoo.exceptions import UserError
 
@@ -50,8 +52,17 @@ class StockMoveLine(models.Model):
         `available_quantity` (quantity minus reserved): this move already
         holds its own reservation on that quant, so netting reservations out
         here would count the move's own reservation as competing demand.
+
+        The whole recordset is validated in one call, before `super()` writes
+        anything to the quants, so every line reads the same untouched stock.
+        Checked one by one, two lines of 1 against a stock of 1 are each legal
+        and the transfer still lands at -1 -- the way PTC reached negative
+        stock twice, by picking 2 pieces to shelve when only 1 was on hand.
+        `consumed` therefore carries what the earlier lines of this same batch
+        already took from each quant.
         """
         Quant = self.env["stock.quant"]
+        consumed = defaultdict(float)
         for ml in self:
             location = ml.location_id
             if not location or location.usage != "internal" or location.allow_negative_stock:
@@ -72,7 +83,14 @@ class StockMoveLine(models.Model):
                 ("package_id", "=", ml.package_id.id if ml.package_id else False),
                 ("owner_id", "=", ml.owner_id.id if ml.owner_id else False),
             ]
-            physical_qty = sum(Quant.sudo().search(domain).mapped("quantity"))
+            key = (
+                ml.product_id.id,
+                location.id,
+                lot_id.id if lot_id else False,
+                ml.package_id.id if ml.package_id else False,
+                ml.owner_id.id if ml.owner_id else False,
+            )
+            physical_qty = sum(Quant.sudo().search(domain).mapped("quantity")) - consumed[key]
             if ml.product_id.uom_id.compare(physical_qty - quantity, 0) < 0:
                 raise UserError(
                     _(
@@ -86,3 +104,4 @@ class StockMoveLine(models.Model):
                         "location_name": location.name,
                     }
                 )
+            consumed[key] += quantity
