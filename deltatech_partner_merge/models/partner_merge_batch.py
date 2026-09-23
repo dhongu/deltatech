@@ -1,6 +1,7 @@
 # ©  2026 Terrabit
 # See README.rst file on addons root folder for license details
 
+import contextlib
 import logging
 import time
 
@@ -285,12 +286,10 @@ class PartnerMergeBatch(models.Model):
             pass
 
         res = {}
-        try:
+        with contextlib.suppress(_Rollback):
             with self.env.cr.savepoint():
                 res.update(self._run_merge(self.env.cr))
                 raise _Rollback()
-        except _Rollback:
-            pass
         self.report = self._format(res, applied=False)
         self.state = "simulated"
         return True

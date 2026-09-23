@@ -1,6 +1,7 @@
 # © 2025 Deltatech / Terrabit
 # Tests for TransportConfig model
 
+import contextlib
 import os
 import shutil
 import tempfile
@@ -274,22 +275,14 @@ class TestTransportConfigMultiExport(TransactionCase):
         self.commit_patcher.start()
 
     def tearDown(self):
-        try:
+        with contextlib.suppress(Exception):
             self.clone_patcher.stop()
-        except Exception:
-            pass
-        try:
+        with contextlib.suppress(Exception):
             self.commit_patcher.stop()
-        except Exception:
-            pass
-        try:
+        with contextlib.suppress(Exception):
             shutil.rmtree = self._orig_rmtree
-        except Exception:
-            pass
-        try:
+        with contextlib.suppress(Exception):
             self._orig_rmtree(self.temp_dir, ignore_errors=True)
-        except Exception:
-            pass
         super().tearDown()
 
     def test_multi_config_export_both_csvs_created(self):

@@ -1,6 +1,7 @@
 # © 2025 Deltatech / Terrabit
 # Standard Odoo test for deltatech_transport_change
 
+import contextlib
 import os
 import shutil
 import tempfile
@@ -114,28 +115,18 @@ class TestTransportExport(TransactionCase):
 
     def tearDown(self):  # noqa: D401
         # Stop the patchers and cleanup temp directory
-        try:
+        with contextlib.suppress(Exception):
             self.get_module_path_patcher.stop()
-        except Exception:
-            pass
-        try:
+        with contextlib.suppress(Exception):
             self.clone_patcher.stop()
-        except Exception:
-            pass
-        try:
+        with contextlib.suppress(Exception):
             self.commit_patcher.stop()
-        except Exception:
-            pass
         # restore shutil.rmtree
-        try:
+        with contextlib.suppress(Exception):
             if hasattr(self, "_orig_rmtree"):
                 shutil.rmtree = self._orig_rmtree
-        except Exception:
-            pass
-        try:
+        with contextlib.suppress(Exception):
             shutil.rmtree(self.temp_dir, ignore_errors=True)
-        except Exception:
-            pass
         super().tearDown()
 
     # Helper for get_module_path patch

@@ -1,7 +1,7 @@
 {
     "name": "Partner Merge in Bulk",
     "summary": "Merge partners duplicated on the same VAT number, in bulk, in minutes instead of hours",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",

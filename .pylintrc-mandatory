@@ -19,7 +19,6 @@ disable=all
 # Rămân active în .pylintrc (rularea opțională, --exit-zero). Se mută înapoi aici
 # pe măsură ce le curățăm:
 #   context-overridden
-#   except-pass
 #   inheritable-method-lambda
 #   manifest-required-key
 #   missing-readme
@@ -35,7 +34,8 @@ disable=all
 #   translation-positional-used
 #   translation-required
 
-enable=anomalous-backslash-in-string,
+enable=except-pass,
+    anomalous-backslash-in-string,
     assignment-from-none,
     attribute-deprecated,
     dangerous-default-value,
