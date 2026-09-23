@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, http
+from odoo import http
 from odoo.http import request
 
 from odoo.addons.sale.controllers import portal
@@ -13,17 +13,26 @@ class CustomerPortal(portal.CustomerPortal):
         values = super()._prepare_portal_layout_values()
         if "show_order_fiter" in request.env.context:
             searchbar_filters = {
-                "all": {"label": _("All"), "domain": []},
-                "open_order": {"label": _("Open Orders"), "domain": [("stage", "not in", ["delivered", "cancel"])]},
-                "closed_order": {"label": _("Closed Orders"), "domain": [("stage", "in", ["delivered", "cancel"])]},
-                "placed": {"label": _("Placed"), "domain": [("stage", "=", "placed")]},
-                "in_process": {"label": _("In Process"), "domain": [("stage", "=", "in_process")]},
-                "waiting": {"label": _("Waiting availability"), "domain": [("stage", "=", "waiting")]},
-                "postponed": {"label": _("Postponed"), "domain": [("stage", "=", "postponed")]},
-                "to_be_delivery": {"label": _("To Be Delivery"), "domain": [("stage", "=", "to_be_delivery")]},
-                "in_delivery": {"label": _("In Delivery"), "domain": [("stage", "=", "in_delivery")]},
-                "delivered": {"label": _("Delivered"), "domain": [("stage", "=", "delivered")]},
-                "cancel": {"label": _("Canceled"), "domain": [("stage", "=", "cancel")]},
+                "all": {"label": request.env._("All"), "domain": []},
+                "open_order": {
+                    "label": request.env._("Open Orders"),
+                    "domain": [("stage", "not in", ["delivered", "cancel"])],
+                },
+                "closed_order": {
+                    "label": request.env._("Closed Orders"),
+                    "domain": [("stage", "in", ["delivered", "cancel"])],
+                },
+                "placed": {"label": request.env._("Placed"), "domain": [("stage", "=", "placed")]},
+                "in_process": {"label": request.env._("In Process"), "domain": [("stage", "=", "in_process")]},
+                "waiting": {"label": request.env._("Waiting availability"), "domain": [("stage", "=", "waiting")]},
+                "postponed": {"label": request.env._("Postponed"), "domain": [("stage", "=", "postponed")]},
+                "to_be_delivery": {
+                    "label": request.env._("To Be Delivery"),
+                    "domain": [("stage", "=", "to_be_delivery")],
+                },
+                "in_delivery": {"label": request.env._("In Delivery"), "domain": [("stage", "=", "in_delivery")]},
+                "delivered": {"label": request.env._("Delivered"), "domain": [("stage", "=", "delivered")]},
+                "cancel": {"label": request.env._("Canceled"), "domain": [("stage", "=", "cancel")]},
             }
             values.update(
                 {
@@ -35,10 +44,10 @@ class CustomerPortal(portal.CustomerPortal):
     def _get_sale_searchbar_sortings(self):
         sortings = super()._get_sale_searchbar_sortings()
         if "stage" in sortings:
-            sortings["stage"]["label"] = _("Order Status")
+            sortings["stage"]["label"] = request.env._("Order Status")
         sortings.update(
             {
-                "order_stage": {"label": _("Order Stage"), "order": "stage"},
+                "order_stage": {"label": request.env._("Order Stage"), "order": "stage"},
             }
         )
         return sortings
