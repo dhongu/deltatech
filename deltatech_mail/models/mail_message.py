@@ -3,7 +3,7 @@
 
 from email.utils import formataddr
 
-from odoo import _, api, models
+from odoo import api, models
 from odoo.exceptions import UserError
 
 
@@ -17,4 +17,4 @@ class Message(models.Model):
             return super()._get_default_from()
         if self.env.user.company_id.email:
             return formataddr((self.env.user.company_id.name, self.env.user.company_id.email))
-        raise UserError(_("Unable to post message, please configure the company's email address."))
+        raise UserError(self.env._("Unable to post message, please configure the company's email address."))
