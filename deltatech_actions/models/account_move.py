@@ -8,7 +8,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models
-from odoo.tools import str2bool
+from odoo.tools import SQL, str2bool
 
 from .cleanup_summary import autovacuum_run, log_prefix, rows_summary
 
@@ -70,17 +70,21 @@ class AccountMove(models.Model):
         :return: None
         """
         max_date = datetime.now() - relativedelta(days=max_date_days) if max_date_days else None
-        date_clause = "AND create_date <= %(create_date)s" if max_date else ""
+        date_clause = SQL("AND create_date <= %s", max_date) if max_date else SQL()
 
-        query = f"""SELECT name, count(name) as count_name
+        query = SQL(
+            """SELECT name, count(name) as count_name
         FROM ir_attachment
         WHERE mimetype='application/xml' AND res_model='account.move'
-        {date_clause}
+        %s
         GROUP BY name
-        HAVING COUNT(name) > %(duplicates)s limit %(limit)s;
-        """
-        params = {"limit": limit, "duplicates": duplicates, "create_date": max_date}
-        self.env.cr.execute(query, params=params)
+        HAVING COUNT(name) > %s limit %s;
+        """,
+            date_clause,
+            duplicates,
+            limit,
+        )
+        self.env.cr.execute(query)
         res = self.env.cr.fetchall()
         counter = 1
         att_count = len(res)
