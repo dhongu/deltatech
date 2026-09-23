@@ -1,4 +1,4 @@
-from odoo import _, api, models
+from odoo import api, models
 from odoo.exceptions import ValidationError
 from odoo.tools import format_list
 
@@ -59,7 +59,7 @@ class ProductProduct(models.Model):
 
     @api.model
     def _unique_code_field_label(self, field_name):
-        return _("Internal Reference") if field_name == "default_code" else _("Barcode")
+        return self.env._("Internal Reference") if field_name == "default_code" else self.env._("Barcode")
 
     def _check_unique_field_all(self, products, field_name):
         if self.env.user.has_group("deltatech_product_unique_code.group_product_duplicate_code"):
@@ -98,7 +98,7 @@ class ProductProduct(models.Model):
 
                 if other_records:
                     error_msgs.append(
-                        _(
+                        self.env._(
                             "- %(label)s '%(val)s' already assigned to: %(records)s",
                             label=label,
                             val=val,
@@ -108,7 +108,7 @@ class ProductProduct(models.Model):
 
             if error_msgs:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The %(label)s must be unique (including archived products):\n%(msgs)s",
                         label=label,
                         msgs="\n".join(error_msgs),
