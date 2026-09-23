@@ -36,9 +36,10 @@ class Website(models.Model):
             )
             previous_values = dict(self.env.cr.fetchall())
 
-        super()._compute_show_line_subtotals_tax_selection()
+        res = super()._compute_show_line_subtotals_tax_selection()
 
         for website in self:
             previous_value = previous_values.get(website.id)
             if previous_value:
                 website.show_line_subtotals_tax_selection = previous_value
+        return res
