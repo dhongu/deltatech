@@ -63,6 +63,13 @@ Odoo.
 Changelog
 =========
 
+19.0.1.0.1 (2026-09-23)
+-----------------------
+
+- The merge simulation rolls back its savepoint through
+  ``contextlib.suppress(_Rollback)`` instead of
+  ``except _Rollback: pass``; behavior is unchanged.
+
 19.0.1.0.0 (2026-08-18)
 -----------------------
 
