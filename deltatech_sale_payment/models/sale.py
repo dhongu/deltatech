@@ -53,11 +53,8 @@ class SaleOrder(models.Model):
         "transaction_ids.amount",
         "transaction_ids.provider_id",
         "invoice_ids.state",
-        "invoice_ids.payment_state",
         "invoice_ids.amount_residual_signed",
         "invoice_ids.amount_total_signed",
-        "invoice_ids.transaction_ids.is_post_processed",
-        "invoice_ids.transaction_ids.payment_id",
     )
     def _compute_payment(self):
         for order in self:
@@ -69,19 +66,17 @@ class SaleOrder(models.Model):
             pending_tx = all_tx.filtered(lambda t: t.state == "pending")
             cancel_tx = all_tx.filtered(lambda t: t.state == "cancel")
 
-            counted_tx = done_tx
-            amount_paid = 0.0
-            for invoice in order.invoice_ids.filtered(lambda a: a.state == "posted"):
-                amount_invoice = invoice.amount_total_signed - invoice.amount_residual_signed
-                if amount_invoice:
-                    amount_paid += amount_invoice
-                    # se scad doar tranzactiile care au generat plata in contabilitate: suma lor e deja
-                    # in `amount_invoice`. O tranzactie post-procesata fara plata (ex. provider fara jurnal,
-                    # comenzi importate din marketplace) nu apare in factura si trebuie numarata separat.
-                    counted_tx -= invoice.sudo().transaction_ids.filtered(
-                        lambda a: a.is_post_processed and a.payment_id
-                    )
-            amount_paid = max(0.0, amount_paid + sum(counted_tx.mapped("amount")))
+            # Aceiasi bani pot fi vazuti de doua ori: ca tranzactie confirmata si ca suma incasata
+            # pe factura. O tranzactie fara plata contabila (provider fara jurnal, ex. card Shopify)
+            # ajunge pe factura abia la reconcilierea decontarii, deci nu se poate sti din date daca
+            # e deja inclusa. Se ia maximul celor doua surse: nu dubleaza decontarea si nici nu pierde
+            # tranzactia inca nedecontata (card 382 + link 44 cu plata pe factura -> 426).
+            invoice_paid = sum(
+                invoice.amount_total_signed - invoice.amount_residual_signed
+                for invoice in order.invoice_ids.filtered(lambda a: a.state == "posted")
+            )
+            transaction_paid = sum(done_tx.mapped("amount"))
+            amount_paid = max(0.0, invoice_paid, transaction_paid)
             order.payment_amount = amount_paid
 
             # Status — ordinea contează: authorized > pending > cancelled > initiated
