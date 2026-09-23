@@ -11,6 +11,8 @@ class TestSaleOrderPaymentInvoice(AccountTestInvoicingCommon):
         cls.env.user.groups_id |= cls.env.ref("sales_team.group_sale_manager")
         cls.provider = cls.env["payment.provider"].create({"name": "Provider Without Journal", "code": "none"})
         cls.payment_method = cls.env.ref("payment.payment_method_unknown")
+        # the suite may forbid selling below cost (deltatech_sale_margin); keep the order at a profit
+        cls.product_a.standard_price = 0.0
         cls.sale_order = cls.env["sale.order"].create(
             {
                 "partner_id": cls.partner_a.id,
