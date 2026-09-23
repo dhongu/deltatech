@@ -6,7 +6,7 @@ import base64
 import logging
 import xml.etree.ElementTree as ET
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -128,7 +128,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         try:
             root = ET.fromstring(content)
         except ET.ParseError as e:
-            raise UserError(_("Invalid XML: %s") % e) from e
+            raise UserError(self.env._("Invalid XML: %s") % e) from e
 
         # Header
         invoice_id = root.findtext("cbc:ID", namespaces=NS)
@@ -246,7 +246,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         the product mapping before anything is written."""
         self.ensure_one()
         if not self.data_file:
-            raise UserError(_("Please select an XML file."))
+            raise UserError(self.env._("Please select an XML file."))
         content = base64.b64decode(self.data_file)
         invoice_xml = self._parse_xml(content)
         return self._process_invoice_data(invoice_xml)
@@ -258,7 +258,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         the product on any line before confirming the import."""
         self.ensure_one()
         if not self.data_file:
-            raise UserError(_("Please select an XML file."))
+            raise UserError(self.env._("Please select an XML file."))
         content = base64.b64decode(self.data_file)
         invoice_data = self._parse_xml(content)
         order, partner, _warning = self._resolve_order_and_partner(invoice_data)
@@ -297,7 +297,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         """Run the import using the product mapping reviewed/adjusted in the preview."""
         self.ensure_one()
         if not self.data_file:
-            raise UserError(_("Please select an XML file."))
+            raise UserError(self.env._("Please select an XML file."))
         content = base64.b64decode(self.data_file)
         invoice_data = self._parse_xml(content)
         product_map = {line.sequence: line.product_id for line in self.line_ids}
