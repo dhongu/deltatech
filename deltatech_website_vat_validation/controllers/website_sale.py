@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _
+
 from odoo.http import request
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
@@ -57,10 +57,12 @@ class WebsiteSaleVATValidation(WebsiteSale):
                                     address_values["is_company"] = True
                             else:
                                 invalid_fields.add("vat")
-                                error_messages.append(_("The VAT number is not valid according to ANAF"))
+                                error_messages.append(request.env._("The VAT number is not valid according to ANAF"))
                     else:
                         invalid_fields.add("vat")
-                        error_messages.append(_("The VAT number must contain only digits (after the country code)"))
+                        error_messages.append(
+                            request.env._("The VAT number must contain only digits (after the country code)")
+                        )
 
         for field in ["vat", "email", "phone"]:
             value = address_values.get(field, False)
@@ -69,6 +71,6 @@ class WebsiteSaleVATValidation(WebsiteSale):
                 partner_exists = request.env["res.partner"].sudo().search(domain, limit=1)
                 if partner_exists:
                     invalid_fields.add(field)
-                    error_messages.append(_("An other partner already exists with the same %s", value))
+                    error_messages.append(request.env._("An other partner already exists with the same %s", value))
 
         return invalid_fields, missing_fields, error_messages

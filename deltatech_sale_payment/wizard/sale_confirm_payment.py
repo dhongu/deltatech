@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -30,7 +30,7 @@ class SaleConfirmPayment(models.TransientModel):
         defaults = super().default_get(fields_list)
         active_id = self.env.context.get("active_id", False)
         if not active_id:
-            raise UserError(_("Please select a sale order"))
+            raise UserError(self.env._("Please select a sale order"))
 
         order = self.env["sale.order"].browse(active_id)
         defaults["currency_id"] = order.currency_id.id
@@ -56,7 +56,7 @@ class SaleConfirmPayment(models.TransientModel):
         order = self.env["sale.order"].browse(active_id)
 
         if self.amount < 0:
-            raise UserError(_("Then amount must be positive"))
+            raise UserError(self.env._("Then amount must be positive"))
 
         if self.transaction_id:
             self.update_transaction()

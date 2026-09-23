@@ -110,6 +110,16 @@ Viewing installment entries from a Partner
 On any partner form, click the **Rates** smart button to see all journal
 entries linked to installment payment terms for that partner.
 
+Changelog
+=========
+
+19.0.2.0.2 (2026-09-23)
+-----------------------
+
+- Translatable strings in code use ``self.env._()`` instead of ``_()``,
+  the Odoo 19 convention (pylint-odoo ``prefer-env-translation``). The
+  translated messages are unchanged.
+
 Bug Tracker
 ===========
 

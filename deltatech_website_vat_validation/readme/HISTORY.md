@@ -1,3 +1,15 @@
+## 19.0.0.0.4 (2026-09-23)
+
+- Translatable strings in code use `self.env._()` instead of `_()`, the Odoo 19
+  convention (pylint-odoo `prefer-env-translation`). The translated messages are
+  unchanged.
+
+## 19.0.0.0.3 (2026-09-23)
+
+- Overrides that call `super()` without returning its result now pass it on
+  (pylint-odoo `missing-return`). The parent methods return `None` today, so the
+  behavior is unchanged.
+
 ## 19.0.0.0.2 (2026-08-21)
 
 - Add: `website.show_line_subtotals_tax_selection` ("Display Product Prices") is a computed+stored field with no Romanian override, so `website_sale` resets it to `tax_excluded` on every recompute of `company_id.account_fiscal_country_id` - triggered, for example, by any write on the company's own partner address (e.g. a nightly ANAF partner sync). The new `Website._compute_show_line_subtotals_tax_selection` override preserves the previously saved value instead of letting it reset silently, without forcing either option.
