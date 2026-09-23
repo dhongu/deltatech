@@ -96,11 +96,12 @@ class DeltatechExpensesDeduction(models.Model):
         }
 
     def _release_imported_lines(self):
-        super()._release_imported_lines()
+        res = super()._release_imported_lines()
         # eliberăm cheltuielile hr.expense preluate: ștergem liniile importate, iar override-ul
         # unlink dezleagă cheltuiala (expenses_deduction_id=False), redevenind disponibilă pentru
         # fluxul standard sau o nouă preluare. Liniile introduse manual rămân pentru re-validare.
         self.expenses_line_ids.filtered("hr_expense_id").unlink()
+        return res
 
 
 class DeltatechExpensesDeductionLine(models.Model):
