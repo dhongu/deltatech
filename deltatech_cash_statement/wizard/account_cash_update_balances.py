@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -23,7 +23,7 @@ class AccountCashUpdateBalances(models.TransientModel):
             if statement:
                 defaults["balance_start"] = statement.balance_start
         if not statement:
-            raise UserError(_("Please select only Open or Posted statements"))
+            raise UserError(self.env._("Please select only Open or Posted statements"))
         return defaults
 
     def do_update_balance(self):
