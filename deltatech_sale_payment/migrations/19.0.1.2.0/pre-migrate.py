@@ -32,6 +32,11 @@ def migrate(cr, version):
 
 def compute_payment_fields(cr):
     """Fill the three stored fields of every sale order, like ``_compute_payment``."""
+    # the same documents as sale.order.invoice_ids: deltatech_sale_store adds the receipts
+    move_types = ["out_invoice", "out_refund"]
+    cr.execute("SELECT 1 FROM ir_module_module WHERE name = 'deltatech_sale_store' AND state = 'installed'")
+    if cr.fetchone():
+        move_types.append("out_receipt")
     cr.execute(
         SQL(
             """
@@ -55,7 +60,7 @@ def compute_payment_fields(cr):
                           JOIN account_move_line aml ON aml.id = rel.invoice_line_id
                           JOIN account_move am ON am.id = aml.move_id
                          WHERE am.state = 'posted'
-                           AND am.move_type IN ('out_invoice', 'out_refund')
+                           AND am.move_type = ANY(%s)
                        ) sub
                  GROUP BY sub.order_id
             ),
@@ -87,23 +92,32 @@ def compute_payment_fields(cr):
                   LEFT JOIN inv ON inv.order_id = so.id
                   LEFT JOIN provider ON provider.order_id = so.id
                   LEFT JOIN res_currency cur ON cur.id = so.currency_id
+            ),
+            final AS (
+                SELECT id, amount, provider_id,
+                       CASE
+                           -- compare_amounts(amount, total) >= 0 within the currency rounding
+                           WHEN amount > 0 AND amount - amount_total > -rounding / 2 THEN 'done'
+                           WHEN amount > 0 THEN 'partial'
+                           WHEN NOT has_tx THEN 'without'
+                           WHEN has_authorized THEN 'authorized'
+                           WHEN has_pending THEN 'pending'
+                           WHEN has_cancel THEN 'cancelled'
+                           ELSE 'initiated'
+                       END AS status
+                  FROM computed
             )
             UPDATE sale_order so
-               SET payment_amount = c.amount,
-                   provider_id = c.provider_id,
-                   payment_status = CASE
-                       -- compare_amounts(amount, total) >= 0 within the currency rounding
-                       WHEN c.amount > 0 AND c.amount - c.amount_total > -c.rounding / 2 THEN 'done'
-                       WHEN c.amount > 0 THEN 'partial'
-                       WHEN NOT c.has_tx THEN 'without'
-                       WHEN c.has_authorized THEN 'authorized'
-                       WHEN c.has_pending THEN 'pending'
-                       WHEN c.has_cancel THEN 'cancelled'
-                       ELSE 'initiated'
-                   END
-              FROM computed c
-             WHERE c.id = so.id
-            """
+               SET payment_amount = f.amount,
+                   payment_status = f.status,
+                   provider_id = f.provider_id
+              FROM final f
+             WHERE f.id = so.id
+               -- write only the rows that change: less WAL, less bloat on large tables
+               AND (so.payment_amount, so.payment_status, so.provider_id)
+                   IS DISTINCT FROM (f.amount, f.status, f.provider_id)
+            """,
+            move_types,
         )
     )
-    _logger.info("deltatech_sale_payment: payment fields computed in SQL on %s sale orders", cr.rowcount)
+    _logger.info("deltatech_sale_payment: payment fields updated in SQL on %s sale orders", cr.rowcount)

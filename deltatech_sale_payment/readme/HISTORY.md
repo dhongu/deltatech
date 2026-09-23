@@ -9,7 +9,7 @@ Brings back what 18.0.1.2.0 (#2469, #2482) added and never reached 19.0, and rep
 - An order is `done` when the amount paid reaches its total within the currency rounding.
 - Search filters for every status (without, initiated, pending, authorized, partially paid, paid, cancelled), a "Payment Status" group-by, and colour decorations on the form.
 - The payment link proposes what is left to pay on the order (total minus the amount paid); it used to propose 0 once an invoice existed.
-- Migration: the three fields are computed in SQL, set-based, before the registry loads (seconds instead of an ORM recompute of every order), for databases coming from 18.0 as well as from 19.0.1.1.x. The SQL was checked against `_compute_payment` order by order.
+- Migration: the three fields are computed in SQL, set-based, before the registry loads (seconds instead of an ORM recompute of every order), for databases coming from 18.0 as well as from 19.0.1.1.x. Only the rows that change are written, and the receipts that `deltatech_sale_store` adds to `invoice_ids` are included. Checked against `_compute_payment` order by order, and on a 470,000-order database: 26 s for the whole module update, 0 differences on a random sample.
 
 ## 19.0.1.1.5 (2026-09-23)
 
