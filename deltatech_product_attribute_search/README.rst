@@ -88,8 +88,20 @@ never widens it.
 Changelog
 =========
 
-19.0.1.0.0 (2026-09-23)
+19.0.1.0.1 (2026-09-23)
 =======================
+
+- Own Apps Store banner. The module was carrying the screenshot the
+  pre-commit hook copies from ``deltatech``, which put another module's
+  title on the page of a search module. The content is pinned in
+  ``static/description/banner.json`` rather than left to the heuristic
+  over ``DESCRIPTION.md``, so regenerating the whole suite produces the
+  same banner: a title short enough for one line (the generator drops
+  the subtitle once the title wraps) and three features under the
+  truncation limit.
+
+19.0.1.0.0 (2026-09-23)
+-----------------------
 
 - First version. ``product.product`` searches now also look at the
   values of the variant's attributes, both on the product field of an
