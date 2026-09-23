@@ -56,6 +56,7 @@ class SaleOrder(models.Model):
         "invoice_ids.amount_residual_signed",
         "invoice_ids.amount_total_signed",
         "invoice_ids.transaction_ids.is_post_processed",
+        "invoice_ids.transaction_ids.payment_id",
     )
     def _compute_payment(self):
         for order in self:
@@ -77,7 +78,10 @@ class SaleOrder(models.Model):
                 paid = inv.amount_total_signed - inv.amount_residual_signed
                 if paid:
                     invoice_paid += paid
-                    done_tx -= inv.transaction_ids.filtered(lambda t: t.is_post_processed)
+                    # se scad doar tranzactiile care au generat plata in contabilitate: suma lor e deja
+                    # in `paid`. O tranzactie post-procesata fara plata (ex. provider fara jurnal,
+                    # comenzi importate din marketplace) nu apare in factura si trebuie numarata separat.
+                    done_tx -= inv.sudo().transaction_ids.filtered(lambda t: t.is_post_processed and t.payment_id)
 
             amount_paid = max(0.0, invoice_paid + sum(done_tx.mapped("amount")))
             order.payment_amount = amount_paid
