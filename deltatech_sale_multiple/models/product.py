@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools import float_compare, float_round
 
@@ -83,9 +83,9 @@ class ProductProduct(models.Model):
     @api.constrains("qty_multiple", "qty_minim")
     def _check_sale_quantity_rules(self) -> None:
         if any(product.qty_multiple < 0 for product in self):
-            raise ValidationError(_("The sale quantity multiple must be greater than or equal to zero."))
+            raise ValidationError(self.env._("The sale quantity multiple must be greater than or equal to zero."))
         if any(product.qty_minim < 0 for product in self):
-            raise ValidationError(_("The minimum sale quantity must be greater than or equal to zero."))
+            raise ValidationError(self.env._("The minimum sale quantity must be greater than or equal to zero."))
 
     def _should_enforce_sale_quantity_rules(self) -> bool:
         """Return whether quantity rules apply in the current business context."""

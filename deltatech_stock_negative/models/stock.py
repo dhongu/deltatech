@@ -4,7 +4,7 @@
 
 from collections import defaultdict
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import UserError
 
 
@@ -93,7 +93,7 @@ class StockMoveLine(models.Model):
             physical_qty = sum(Quant.sudo().search(domain).mapped("quantity")) - consumed[key]
             if ml.product_id.uom_id.compare(physical_qty - quantity, 0) < 0:
                 raise UserError(
-                    _(
+                    self.env._(
                         "You have chosen to avoid negative stock. %(lot_qty)s pieces of %(product_name)s"
                         " are remaining in location %(location_name)s. "
                         "Please adjust your quantities or correct your stock with an inventory adjustment."
