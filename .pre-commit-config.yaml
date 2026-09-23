@@ -25,6 +25,17 @@ default_language_version:
   python: python3
   node: "22.9.0"
 repos:
+  # Compatibilitatea licenței cu dependențele, după tabelul Odoo Apps
+  # (AGPL-3/GPL-3/OEEL-1 nu pot depinde de module proprietare). pylint-odoo verifică
+  # doar că licența e permisă, nu și relația cu dependențele.
+  - repo: local
+    hooks:
+      - id: license-compat
+        name: Licența modulului e compatibilă cu dependențele (Odoo Apps)
+        entry: python3 scripts/check_license_compat.py --addons-dir=.
+        language: system
+        files: '__manifest__\.py$'
+        pass_filenames: false
   - repo: local
     hooks:
       - id: update-pyproject-name
@@ -163,7 +174,7 @@ repos:
       - id: ruff-format
 
   - repo: https://github.com/OCA/pylint-odoo
-    rev: v9.2.0
+    rev: v10.0.11
     hooks:
       - id: pylint_odoo
         name: pylint with optional checks

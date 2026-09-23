@@ -1,3 +1,8 @@
+## 19.0.0.9.1 (2026-09-23)
+
+- The attachment cleanup queries for invoice XMLs and picking PDFs are built with
+  `SQL()` instead of f-strings with optional clauses; the executed SQL is unchanged.
+
 ## 19.0.0.9.0
 
 - A single attachment with a NULL `file_size` raised

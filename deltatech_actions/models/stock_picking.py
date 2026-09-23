@@ -8,7 +8,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models
-from odoo.tools import str2bool
+from odoo.tools import SQL, str2bool
 
 from .cleanup_summary import autovacuum_run, log_prefix, rows_summary
 
@@ -74,20 +74,22 @@ class StockPicking(models.Model):
             max_date = datetime.now() - relativedelta(days=max_date_days)
         if not pattern:
             pattern = "%%"
-        params = {"limit": limit, "create_date": max_date, "pattern": pattern}
-        states_clause = ""
-        if states:
-            states_clause = "AND sp.state IN %(states)s"
-            params["states"] = tuple(states)
-        query = f"""SELECT att.id, att.file_size FROM ir_attachment att
+        states_clause = SQL("AND sp.state IN %s", tuple(states)) if states else SQL()
+        query = SQL(
+            """SELECT att.id, att.file_size FROM ir_attachment att
                             JOIN stock_picking sp ON sp.id = att.res_id
                             WHERE att.res_model = 'stock.picking'
                             AND (att.mimetype = 'application/pdf' OR att.mimetype = 'application/octet-stream')
-                            AND att.create_date <= %(create_date)s AND att.name like %(pattern)s
-                            {states_clause}
-                            limit %(limit)s;
-                            """
-        self.env.cr.execute(query, params=params)
+                            AND att.create_date <= %s AND att.name like %s
+                            %s
+                            limit %s;
+                            """,
+            max_date,
+            pattern,
+            states_clause,
+            limit,
+        )
+        self.env.cr.execute(query)
         res = self.env.cr.fetchall()
         attachment_ids = [item[0] for item in res]
         # `or 0`: ir_attachment.file_size is nullable, and a single NULL row used to
