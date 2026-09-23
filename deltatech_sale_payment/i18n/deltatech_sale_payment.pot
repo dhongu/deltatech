@@ -174,3 +174,39 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sale_confirm_payment_form
 msgid "or"
 msgstr ""
+
+
+#. module: deltatech_sale_payment
+#: model:ir.model.fields.selection,name:deltatech_sale_payment.selection__sale_order__payment_status__pending
+msgid "Pending"
+msgstr ""
+
+#. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Without payment"
+msgstr ""
+
+#. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Payment pending"
+msgstr ""
+
+#. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Payment authorized"
+msgstr ""
+
+#. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Partially paid"
+msgstr ""
+
+#. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Paid"
+msgstr ""
+
+#. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Payment cancelled"
+msgstr ""

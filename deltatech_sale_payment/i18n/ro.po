@@ -169,3 +169,38 @@ msgstr "Fără"
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sale_confirm_payment_form
 msgid "or"
 msgstr "sau"
+
+#. module: deltatech_sale_payment
+#: model:ir.model.fields.selection,name:deltatech_sale_payment.selection__sale_order__payment_status__pending
+msgid "Pending"
+msgstr "În așteptare"
+
+#. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Without payment"
+msgstr "Fără plată"
+
+#. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Payment pending"
+msgstr "Plată în așteptare"
+
+#. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Payment authorized"
+msgstr "Plată autorizată"
+
+#. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Partially paid"
+msgstr "Plătită parțial"
+
+#. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Paid"
+msgstr "Plată efectuată"
+
+#. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Payment cancelled"
+msgstr "Plată anulată"
