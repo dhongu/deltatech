@@ -12,19 +12,28 @@ class TestWarehouseAccess(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
 
-        stock_user_group = cls.env.ref("stock.group_stock_user")
+        test_groups = cls.env.ref("stock.group_stock_user")
+        # These tests validate an outgoing picking that is deliberately not linked to a sale order.
+        # `deltatech_picking_restrict_entry_exit` forbids exactly that, unless the user belongs to its
+        # bypass group, so exempt the test users whenever that module shares the database.
+        restrict_group = cls.env.ref(
+            "deltatech_picking_restrict_entry_exit.group_picking_restrict_entry_exit",
+            raise_if_not_found=False,
+        )
+        if restrict_group:
+            test_groups |= restrict_group
         cls.user_allowed = cls.env["res.users"].create(
             {
                 "name": "Allowed User",
                 "login": "wa_allowed_user",
-                "group_ids": [(6, 0, [stock_user_group.id])],
+                "group_ids": [(6, 0, test_groups.ids)],
             }
         )
         cls.user_denied = cls.env["res.users"].create(
             {
                 "name": "Denied User",
                 "login": "wa_denied_user",
-                "group_ids": [(6, 0, [stock_user_group.id])],
+                "group_ids": [(6, 0, test_groups.ids)],
             }
         )
 

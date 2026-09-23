@@ -25,6 +25,12 @@ class StockPicking(models.Model):
 
     # self.env.user.has_group("deltatech_picking_restrict_entry_exit.group_picking_restrict_entry_exit")
     def button_validate(self):
+        # `sale_line_id` / `purchase_line_id` are added on stock.move by `sale_stock` / `purchase_stock`,
+        # which are not dependencies of this module. Without them there is no sale/purchase order to link
+        # a move to, so the corresponding check simply does not apply.
+        move_fields = self.env["stock.move"]._fields
+        has_sale_line = "sale_line_id" in move_fields
+        has_purchase_line = "purchase_line_id" in move_fields
         for picking in self:  # this should restrict validation of delivery/receipts with unaccounted lines or with quantities greater than ordered
             if not self.return_id and not self.backorder_id:  # again returns and backorders are not restricted
                 if not self.env.user.has_group(
@@ -61,7 +67,7 @@ class StockPicking(models.Model):
                             move.quantity or move.product_uom_qty
                         ):  # in barcode app if you add and delete a line it will have quantity 0 and product_uom_qty 0 on the picking
                             if picking_type.code == "outgoing":
-                                if not move.sale_line_id:
+                                if has_sale_line and not move.sale_line_id:
                                     raise UserError(
                                         self.env._(
                                             "You cannot validate the picking because the product %s is not linked to a sale order line."
@@ -69,7 +75,7 @@ class StockPicking(models.Model):
                                         % move.product_id.display_name
                                     )
                             elif picking_type.code == "incoming":
-                                if not move.purchase_line_id:
+                                if has_purchase_line and not move.purchase_line_id:
                                     raise UserError(
                                         self.env._(
                                             "You cannot validate the picking because the product %s is not linked to a purchase order line."
