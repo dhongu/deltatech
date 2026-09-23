@@ -52,10 +52,8 @@ class SaleOrder(models.Model):
         "transaction_ids.amount",
         "transaction_ids.provider_id",
         "invoice_ids.state",
-        "invoice_ids.payment_state",
         "invoice_ids.amount_residual_signed",
         "invoice_ids.amount_total_signed",
-        "invoice_ids.transaction_ids.is_post_processed",
     )
     def _compute_payment(self):
         for order in self:
@@ -65,21 +63,16 @@ class SaleOrder(models.Model):
             cancel_tx = all_tx.filtered(lambda t: t.state == "cancel")
             pending_tx = all_tx.filtered(lambda t: t.state == "pending")
 
-            # Facturile reconciliate complet ("paid"/"partial") se contabilizează prin
-            # suma facturii; tranzacțiile lor post-procesate se elimină din done_tx
-            # pentru a evita dubla numărare.
-            # Facturile "in_payment" (înregistrate dar nereconciliate cu banca) NU se
-            # includ în suma facturii — plata lor rămâne vizibilă prin done_tx direct.
-            invoice_paid = 0.0
-            for inv in order.invoice_ids.filtered(lambda i: i.state == "posted"):
-                if inv.payment_state not in ("paid", "partial"):
-                    continue
-                paid = inv.amount_total_signed - inv.amount_residual_signed
-                if paid:
-                    invoice_paid += paid
-                    done_tx -= inv.transaction_ids.filtered(lambda t: t.is_post_processed)
-
-            amount_paid = max(0.0, invoice_paid + sum(done_tx.mapped("amount")))
+            # Aceiasi bani pot fi vazuti de doua ori: ca tranzactie confirmata si ca suma incasata
+            # pe factura. O tranzactie fara plata contabila (provider fara jurnal, ex. card Shopify)
+            # ajunge pe factura abia la reconcilierea decontarii, deci nu se poate sti din date daca
+            # e deja inclusa. Se ia maximul celor doua surse: nu dubleaza decontarea si nici nu pierde
+            # tranzactia inca nedecontata (card 382 + link 44 cu plata pe factura -> 426).
+            invoice_paid = sum(
+                inv.amount_total_signed - inv.amount_residual_signed
+                for inv in order.invoice_ids.filtered(lambda i: i.state == "posted")
+            )
+            amount_paid = max(0.0, invoice_paid, sum(done_tx.mapped("amount")))
             order.payment_amount = amount_paid
 
             # Status — ordinea contează: authorized suprascrie cancelled
