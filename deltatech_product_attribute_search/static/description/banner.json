@@ -1,0 +1,10 @@
+{
+  "title": "Attribute Search",
+  "summary": "Attribute values become searchable everywhere",
+  "icon": "box",
+  "features": [
+    "Find a variant by variety, size or grade",
+    "Mix words: apples gala 80 narrows in one go",
+    "Noisy attributes can be left out of search"
+  ]
+}

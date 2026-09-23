@@ -5,7 +5,7 @@
 {
     "name": "Product Attribute Search",
     "summary": "Find a variant by typing its attribute values, on any product field",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "support@terrabit.ro",
