@@ -1,3 +1,9 @@
+## 19.0.1.9.1 (2026-09-23)
+
+- Translatable strings in code use `self.env._()` instead of `_()`, the Odoo 19
+  convention (pylint-odoo `prefer-env-translation`). The translated messages are
+  unchanged.
+
 ## 19.0.1.9.0
 
 - New **"Visible only to"** (``allowed_user_ids``) field on business processes: when set, the process — together with its steps, tests, step tests, issues and the process/test reports — is visible only to the listed users. Left empty (the default), nothing changes and the process stays visible to everyone. Business admins always see every process and are the only ones who can edit the field (Responsible tab).

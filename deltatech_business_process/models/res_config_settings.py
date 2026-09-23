@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 """Settings for the process library source discovery."""
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 
 class ResConfigSettings(models.TransientModel):
@@ -47,11 +47,11 @@ class ResConfigSettings(models.TransientModel):
         synced = self.env["business.process.library"].sync_git_repos()
         if synced:
             names = ", ".join(label for label, _ in synced)
-            msg = _("Synced: %s") % names
+            msg = self.env._("Synced: %s") % names
         else:
-            msg = _("No git repositories configured or sync failed.")
+            msg = self.env._("No git repositories configured or sync failed.")
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
-            "params": {"title": _("Process Library — Git Sync"), "message": msg, "sticky": False},
+            "params": {"title": self.env._("Process Library — Git Sync"), "message": msg, "sticky": False},
         }
