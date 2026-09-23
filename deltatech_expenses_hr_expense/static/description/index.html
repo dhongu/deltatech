@@ -1,0 +1,225 @@
+<div class="mx-auto px-3 py-3 rounded-4" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;font-weight:400;background-color:#ffffff;--bs-body-color:#212529;--bs-body-bg:#ffffff;--bs-emphasis-color:#212529;--bs-border-color:#dee2e6;--bs-card-bg:#ffffff;--bs-card-color:#212529;--bs-card-border-color:#dee2e6;--bs-link-color:#006F42;--bs-link-hover-color:#00432a;--bs-nav-link-color:#212529;--bs-nav-pills-link-active-bg:#006F42;--bs-nav-pills-link-active-color:#ffffff;--bs-code-color:#b4266b;--bs-heading-color:#212529;">
+<!-- tb-gen v1 -->
+<div class="text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
+  <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
+    style="background-color:#00432a;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
+  <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Expenses Deduction - HR Expense Bridge" style="width:72px;height:72px;border:none;"/></span></div>
+  <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Expenses Deduction - HR Expense Bridge</h1>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Preia cheltuielile standard (hr_expense) &#238;n Decontul de cheltuieli (deltatech_expenses)</p>
+  <div>
+    <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Accounting &amp; Finance</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">OPL-1</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Online &bull; Odoo.sh &bull; On-premise</span>
+  </div>
+</div>
+
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">Punte &#238;ntre modulul standard de cheltuieli <strong><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code></strong> &#537;i <strong><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code></strong> (Decont de
+cheltuieli din avans de trezorerie, cont 542), pentru companiile care folosesc ambele fluxuri &#537;i vor
+s&#259; evite dubla contabilizare a acelora&#537;i cheltuieli.</p>
+<p>Se instaleaz&#259; <strong>automat</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">auto_install</code>) doar atunci c&#226;nd ambele module &#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code> &#537;i
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code> &#8212; sunt prezente &#238;n baza de date. Companiile care nu folosesc modulul standard de
+cheltuieli nu primesc acest modul, deci nu v&#259;d bifa &#8222;Cheltuieli" pe produs adus&#259; de <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>
+dec&#226;t dac&#259; chiar au nevoie de el.</p>
+<p>Features:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Buton <strong>&#8222;Preia cheltuieli HR"</strong> pe formularul Decontului (st&#259;rile Ciorn&#259;/Avans): deschide un wizard
+  cu cheltuielile <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense</code> eligibile ale angajatului (aprobate/depuse, f&#259;r&#259; not&#259; contabil&#259;
+  proprie, nelegate de alt decont) &#537;i le adaug&#259; ca linii de decont.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Ac&#539;iune contextual&#259; pe lista de cheltuieli standard: &#8222;Adaug&#259; &#238;n decont de cheltuieli" &#8212; trimite mai
+  multe cheltuieli selectate c&#259;tre un decont ales.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Cheltuielile <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense</code> legate de un decont (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">expenses_deduction_id</code>) nu se mai posteaz&#259; prin
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">action_post</code> standard &#8212; contabilizarea se face exclusiv prin Decont, evit&#226;nd dublarea. Formularul
+  cheltuielii arat&#259; un banner &#537;i ascunde butoanele de postare standard.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>La invalidarea unui decont, liniile importate din <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense</code> se &#537;terg automat, iar cheltuielile
+  respective sunt eliberate &#8212; redevin disponibile pentru fluxul standard sau o nou&#259; preluare.</div></div></li></ul>
+<p>Configurare: niciuna suplimentar&#259; &#8212; func&#539;ioneaz&#259; imediat ce ambele module sunt instalate.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.1 (2026-09-23)</h2>
+<ul>
+<li>Overrides that call <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">super()</code> without returning its result now pass it on
+  (pylint-odoo <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">missing-return</code>). The parent methods return <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">None</code> today, so the
+  behavior is unchanged.</li>
+</ul>
+</div>
+</div>
+
+<div class="row text-center mt-4 mb-1 g-3">
+  <div class="col-md-6">
+    <div class="border rounded-3 p-4 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Modules published on Odoo Apps</div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="border rounded-3 p-4 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Odoo Partner &mdash; implementation &amp; support</div>
+    </div>
+  </div>
+</div>
+
+
+<div class="text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:#00432a;color:#ffffff;">
+  <h2 class="fw-bold mb-2" style="color:#ffffff;font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
+  <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
+     Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,
+     the Americas, Asia and Africa &mdash; by companies we have never even met. That is the
+     advantage of building modules that simply work.</p>
+  <a href="https://www.terrabit.ro/contactus" target="_blank" rel="noopener"
+     class="d-inline-block fw-bold text-decoration-none rounded-3"
+     style="background-color:#57B952;color:#04331f;padding:14px 32px;font-size:15px;">Contact Terrabit &rarr;</a>
+</div>
+
+
+<section class="rounded-4 p-4 mb-3 border">
+  <h2 class="text-center fw-bold mb-1" style="color:#212529;font-size:24px;border:none;">More apps by Terrabit</h2>
+  <p class="text-center mb-4" style="color:#3d4752;">Other modules from the same publisher, built to work together.
+    <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
+       class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
+  <div class="row g-3">
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AC</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Deltatech Account</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_analytic" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AA</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account Analytic</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Analytic lines enhancements</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edi_ubl_advice" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UD</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech UBL despatch advice</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Deltatech Account UBL despatch advice</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_average_payment_period" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AP</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Average Payment Period</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Computes average duration of cash accounting</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_expenses" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">ED</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Expenses Deduction</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Expenses Deduction &amp; Disposition of Cashing</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Tools</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Generic module</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edit_currency_rate" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Edit Currency Rate</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Edit the currency rate on the invoice</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_actions" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AC</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Actions</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Other</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Cleaning and other actions</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+</div>

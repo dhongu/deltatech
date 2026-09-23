@@ -57,6 +57,13 @@ Benefits
 Changelog
 =========
 
+19.0.0.0.3 (2026-09-23)
+-----------------------
+
+- Overrides that call ``super()`` without returning its result now pass
+  it on (pylint-odoo ``missing-return``). The parent methods return
+  ``None`` today, so the behavior is unchanged.
+
 19.0.0.0.2 (2026-08-21)
 -----------------------
 
