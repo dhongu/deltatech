@@ -22,7 +22,6 @@ disable=all
 #   inheritable-method-lambda
 #   manifest-required-key
 #   missing-readme
-#   missing-return
 #   no-search-all
 #   no-wizard-in-models
 #   odoo-addons-relative-import
@@ -34,7 +33,8 @@ disable=all
 #   translation-positional-used
 #   translation-required
 
-enable=except-pass,
+enable=missing-return,
+    except-pass,
     anomalous-backslash-in-string,
     assignment-from-none,
     attribute-deprecated,
