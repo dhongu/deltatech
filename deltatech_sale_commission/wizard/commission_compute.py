@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class CommissionCompute(models.TransientModel):
@@ -80,7 +80,7 @@ class CommissionCompute(models.TransientModel):
             res.append(line.id)
         return {
             "domain": "[('id','in', [" + ",".join(map(str, res)) + "])]",
-            "name": _("Commission"),
+            "name": self.env._("Commission"),
             "view_mode": "list,form",
             "res_model": "sale.margin.report",
             "view_id": False,
