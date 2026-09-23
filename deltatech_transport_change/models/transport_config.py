@@ -1,3 +1,4 @@
+import contextlib
 import csv
 import io
 import logging
@@ -105,12 +106,10 @@ class TransportConfig(models.Model):
                         cfg.message_post(body=f"[Git] Push failed on {branch}: {e}")
             finally:
                 # Cleanup temp clone
-                try:
+                with contextlib.suppress(Exception):
                     import shutil
 
                     shutil.rmtree(tmp_root, ignore_errors=True)
-                except Exception:
-                    pass
 
         for cfg in self:
             cfg.write({"last_export": fields.Datetime.now()})
