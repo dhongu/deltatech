@@ -3,7 +3,7 @@
 
 from email.utils import formataddr
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
@@ -28,7 +28,7 @@ class MailMail(models.Model):
                     }
                 )
             else:
-                raise UserError(_("Unable to post message, please configure the company's email address."))
+                raise UserError(self.env._("Unable to post message, please configure the company's email address."))
 
         model = self.model
         if model:

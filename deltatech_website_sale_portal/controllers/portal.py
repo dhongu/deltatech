@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, http
+from odoo import http
 from odoo.fields import Domain
 from odoo.http import request
 
@@ -14,8 +14,8 @@ class CustomerPortal(portal.CustomerPortal):
         sortings = super()._get_sale_searchbar_sortings()
         sortings.update(
             {
-                "name": {"label": _("Order Name"), "order": "name"},
-                "client_order_ref": {"label": _("Client Reference"), "order": "client_order_ref"},
+                "name": {"label": request.env._("Order Name"), "order": "name"},
+                "client_order_ref": {"label": request.env._("Client Reference"), "order": "client_order_ref"},
             }
         )
         return sortings
@@ -51,9 +51,9 @@ class CustomerPortal(portal.CustomerPortal):
         result = super().portal_my_quotes(page=page, date_begin=date_begin, date_end=date_end, sortby=sortby, **kw)
 
         searchbar_inputs = {
-            "client_order_ref": {"label": _("Search in Client Reference"), "input": "client_order_ref"},
-            "name": {"label": _("Search in Name"), "input": "name"},
-            "all": {"label": _("Search in All"), "input": "all"},
+            "client_order_ref": {"label": request.env._("Search in Client Reference"), "input": "client_order_ref"},
+            "name": {"label": request.env._("Search in Name"), "input": "name"},
+            "all": {"label": request.env._("Search in All"), "input": "all"},
         }
 
         result.qcontext["searchbar_inputs"] = searchbar_inputs
@@ -65,9 +65,9 @@ class CustomerPortal(portal.CustomerPortal):
         result = super().portal_my_orders(page=page, date_begin=date_begin, date_end=date_end, sortby=sortby, **kw)
 
         searchbar_inputs = {
-            "client_order_ref": {"label": _("Search in Client Reference"), "input": "client_order_ref"},
-            "name": {"label": _("Search in Name"), "input": "name"},
-            "all": {"label": _("Search in All"), "input": "all"},
+            "client_order_ref": {"label": request.env._("Search in Client Reference"), "input": "client_order_ref"},
+            "name": {"label": request.env._("Search in Name"), "input": "name"},
+            "all": {"label": request.env._("Search in All"), "input": "all"},
         }
 
         result.qcontext["searchbar_inputs"] = searchbar_inputs

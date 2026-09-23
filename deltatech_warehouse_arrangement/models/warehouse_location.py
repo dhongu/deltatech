@@ -3,6 +3,9 @@
 # See README.rst file on addons root folder for license details
 
 
+# pylint: disable=prefer-env-translation
+# Clasă/funcție fără acces la `env` (client API, helper la nivel de modul): `_()` ia limba din
+# cererea HTTP curentă. Trecerea la `env._` ar cere transmiterea lui `env` în constructor.
 from odoo import _, fields, models
 
 

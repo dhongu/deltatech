@@ -1,6 +1,6 @@
 from datetime import datetime, time
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.tools import float_compare, float_is_zero, format_date
 
 # Move states that still represent an open (not yet done/cancelled) flow, the
@@ -19,7 +19,7 @@ class StockWarehouseOrderpoint(models.Model):
         wizard = self.env["stock.replenishment.explanation"].create({"orderpoint_id": self.id})
         return {
             "type": "ir.actions.act_window",
-            "name": _("Why this replenishment?"),
+            "name": self.env._("Why this replenishment?"),
             "res_model": "stock.replenishment.explanation",
             "res_id": wizard.id,
             "view_mode": "form",
@@ -249,8 +249,8 @@ class StockWarehouseOrderpoint(models.Model):
             risks.append(
                 {
                     "level": "danger",
-                    "title": _("No supply route / rule"),
-                    "detail": _(
+                    "title": self.env._("No supply route / rule"),
+                    "detail": self.env._(
                         "No stock rule resolves for this product at this location, so nothing can be "
                         "procured even when stock is needed. Check the product's routes."
                     ),
@@ -261,8 +261,8 @@ class StockWarehouseOrderpoint(models.Model):
             risks.append(
                 {
                     "level": "danger",
-                    "title": _("No vendor found"),
-                    "detail": _(
+                    "title": self.env._("No vendor found"),
+                    "detail": self.env._(
                         "No supplier is configured, so Odoo injects a %(days)s-day lead time. This pushes the "
                         "forecast horizon a year out and usually distorts the quantity. Set a vendor on the product.",
                         days=int(kw["no_vendor_delay"]),
@@ -272,7 +272,7 @@ class StockWarehouseOrderpoint(models.Model):
 
         # Demand scheduled beyond the lead horizon is invisible to the forecast.
         if not float_is_zero(kw["beyond_qty"], precision_rounding=kw["rounding"]):
-            detail = _(
+            detail = self.env._(
                 "%(qty)s %(uom)s of demand is scheduled after the lead horizon (%(date)s) and is NOT counted "
                 "in the forecast. If it falls due before a replenishment arrives, you can stock out. Increase the "
                 "Replenishment Horizon (currently %(horizon)s days) to make it visible.",
@@ -281,15 +281,17 @@ class StockWarehouseOrderpoint(models.Model):
                 date=format_date(op.env, kw["beyond_date"]) if kw["beyond_date"] else "",
                 horizon=kw["horizon_days"],
             )
-            risks.append({"level": "warning", "title": _("Demand beyond the horizon is invisible"), "detail": detail})
+            risks.append(
+                {"level": "warning", "title": self.env._("Demand beyond the horizon is invisible"), "detail": detail}
+            )
 
         # Forecast at/above min -> no order, but a deadline says a stockout is coming anyway.
         if not kw["below_min"] and op.deadline_date:
             risks.append(
                 {
                     "level": "warning",
-                    "title": _("Potential stockout despite no order"),
-                    "detail": _(
+                    "title": self.env._("Potential stockout despite no order"),
+                    "detail": self.env._(
                         "Forecast (%(forecast)s) is at or above Min (%(min)s), so nothing is ordered — but a "
                         "deadline of %(deadline)s was found. A future arrival is likely expected only after stock "
                         "dips below Min. Check the Forecast Report.",
@@ -308,8 +310,8 @@ class StockWarehouseOrderpoint(models.Model):
                 risks.append(
                     {
                         "level": "info",
-                        "title": _("Rounded up to a multiple"),
-                        "detail": _(
+                        "title": self.env._("Rounded up to a multiple"),
+                        "detail": self.env._(
                             "The raw need (%(raw)s) was rounded up to %(rounded)s to respect the multiple "
                             "'%(multiple)s' (+%(extra)s %(uom)s).",
                             raw=fmt(kw["raw_to_order"]),
@@ -326,8 +328,8 @@ class StockWarehouseOrderpoint(models.Model):
             risks.append(
                 {
                     "level": "info",
-                    "title": _("Manual quantity override"),
-                    "detail": _(
+                    "title": self.env._("Manual quantity override"),
+                    "detail": self.env._(
                         "A manual To Order quantity (%(manual)s) is set, overriding the computed %(computed)s.",
                         manual=fmt(op.qty_to_order_manual),
                         computed=fmt(op.qty_to_order_computed),
@@ -340,8 +342,8 @@ class StockWarehouseOrderpoint(models.Model):
             risks.append(
                 {
                     "level": "info",
-                    "title": _("Snoozed"),
-                    "detail": _(
+                    "title": self.env._("Snoozed"),
+                    "detail": self.env._(
                         "This rule is snoozed until %(date)s and will be skipped until then.",
                         date=format_date(op.env, op.snoozed_until),
                     ),
@@ -352,8 +354,10 @@ class StockWarehouseOrderpoint(models.Model):
             risks.append(
                 {
                     "level": "success",
-                    "title": _("No visibility or horizon issues detected"),
-                    "detail": _("The forecast window covers the scheduled demand and a supply route is available."),
+                    "title": self.env._("No visibility or horizon issues detected"),
+                    "detail": self.env._(
+                        "The forecast window covers the scheduled demand and a supply route is available."
+                    ),
                 }
             )
         return risks

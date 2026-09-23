@@ -2,7 +2,7 @@
 # Dorin Hongu <dhongu(@)gmail(.)com>
 # See README.rst file on addons root folder for license details
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import SQL
 
@@ -45,7 +45,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
     def _compute_order_lines_warning(self):
         for wizard in self:
             if wizard.order_id and wizard.order_id.order_line:
-                wizard.order_lines_warning = _(
+                wizard.order_lines_warning = self.env._(
                     "Purchase order already has lines. Import will update only the existing order lines; "
                     "new lines from the source document will not be added to the purchase order."
                 )
@@ -153,14 +153,14 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
 
         xml_total = invoice_data.get("payable_amount") or invoice_data.get("tax_inclusive_amount")
         order_amount = order.amount_total
-        label = _("total")
+        label = self.env._("total")
 
         if not xml_total:
             xml_total = invoice_data.get("tax_exclusive_amount") or invoice_data.get("line_extension_amount")
             if not xml_total:
                 xml_total = sum(line.get("line_total", 0.0) for line in invoice_data.get("lines", []))
             order_amount = order.amount_untaxed
-            label = _("untaxed total")
+            label = self.env._("untaxed total")
 
         if xml_total is None:
             return False
@@ -185,14 +185,14 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         }
         if total_check["matches"]:
             return (
-                _(
+                self.env._(
                     "Total check OK: purchase order %(label)s %(order_amount)s %(currency)s matches XML %(label)s "
                     "%(xml_amount)s %(currency)s."
                 )
                 % values
             )
         return (
-            _(
+            self.env._(
                 "Warning: purchase order %(label)s %(order_amount)s %(currency)s differs from XML %(label)s "
                 "%(xml_amount)s %(currency)s (difference %(difference)s %(currency)s)."
             )
@@ -268,7 +268,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
 
         if not partner:
             raise UserError(
-                _(
+                self.env._(
                     "No vendor found for supplier VAT '%(vat)s' / name '%(name)s'. "
                     "Launch the import from a purchase order or create the vendor first."
                 )
@@ -458,7 +458,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 picking.action_assign()
                 if picking.state != "assigned":
                     # Same message as in deltatech_fast_purchase for consistency
-                    raise UserError(_("The stock transfer cannot be validated!"))
+                    raise UserError(self.env._("The stock transfer cannot be validated!"))
             if picking.state == "assigned":
                 # Update header fields to mirror receipt_to_stock
                 picking_vals = {"origin": order.partner_ref or order.name}
@@ -705,11 +705,11 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 if picking:
                     line_map = {ml.get("product").id: ml.get("qty", 0.0) for ml in mapped_lines if ml.get("product")}
                     self._validate_receipt_quantities(picking, line_map, order=order)
-                    pick_log = _("Receipt updated: %s") % picking.name
+                    pick_log = self.env._("Receipt updated: %s") % picking.name
                 else:
-                    pick_log = _("No receipt found to validate.")
+                    pick_log = self.env._("No receipt found to validate.")
             else:
-                pick_log = _(
+                pick_log = self.env._(
                     "Receipt validation skipped: no purchase order was resolved from the context or source document."
                 )
 
@@ -728,7 +728,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 # with every line at zero quantity/amount - a useless ghost document. This
                 # hits the SPV auto-import flow, where a purchase order can be created and
                 # attached to its XML before it is ever confirmed (tichet #9287).
-                bill_log = _(
+                bill_log = self.env._(
                     "Vendor bill creation skipped: purchase order %(order)s is not confirmed "
                     "yet, so there is nothing to invoice."
                 ) % {"order": order.name}
@@ -742,18 +742,20 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                         bill = self._create_vendor_bill(invoice_data, order, mapped_lines=mapped_lines)
                         self.bill_id = bill and bill.id or False
                     except UserError as e:
-                        bill_log = _("Vendor bill not created: %s") % str(e)
+                        bill_log = self.env._("Vendor bill not created: %s") % str(e)
             else:
-                bill_log = _(
+                bill_log = self.env._(
                     "Vendor bill creation skipped: no purchase order was resolved from the context or source document."
                 )
 
         # Build messages
         messages = []
 
-        messages.append(_("Vendor: %(name)s (%(vat)s)") % {"name": partner.display_name, "vat": partner.vat or "-"})
         messages.append(
-            _("Order: %(order)s | XML Reference: %(ref)s")
+            self.env._("Vendor: %(name)s (%(vat)s)") % {"name": partner.display_name, "vat": partner.vat or "-"}
+        )
+        messages.append(
+            self.env._("Order: %(order)s | XML Reference: %(ref)s")
             % {"order": (order.name if order else "-"), "ref": (invoice_data.get("order_ref") or "-")}
         )
         total_check = self._get_order_total_check(order, invoice_data)
@@ -761,32 +763,32 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             messages.append(self._format_total_check_message(total_check))
         if vat_mismatch_warning:
             messages.append(
-                _(
+                self.env._(
                     "Warning: Supplier VAT in source document (%(xml_vat)s) differs from order supplier (%(po_vat)s). Proceeded with order's vendor."
                 )
                 % {"xml_vat": supplier_vat or "-", "po_vat": partner.vat or "-"}
             )
         if updated:
-            messages.append(_("Identified products and updated prices for %s line(s).") % len(updated))
+            messages.append(self.env._("Identified products and updated prices for %s line(s).") % len(updated))
         if created:
-            messages.append(_("Created products (%s):\n") % len(created) + "\n".join(created))
+            messages.append(self.env._("Created products (%s):\n") % len(created) + "\n".join(created))
         if order and updated_lines_count:
-            messages.append(_("Updated %s purchase order lines from source document.") % updated_lines_count)
+            messages.append(self.env._("Updated %s purchase order lines from source document.") % updated_lines_count)
         if order and added_count:
-            messages.append(_("Added %s lines to the purchase order from source document.") % added_count)
+            messages.append(self.env._("Added %s lines to the purchase order from source document.") % added_count)
         if order and not_found:
-            messages.append(_("Unmatched lines in the order: %s") % ", ".join(not_found))
+            messages.append(self.env._("Unmatched lines in the order: %s") % ", ".join(not_found))
         elif not_found:
-            messages.append(_("Unmatched products: %s") % ", ".join(not_found))
+            messages.append(self.env._("Unmatched products: %s") % ", ".join(not_found))
         if pick_log:
             messages.append(pick_log)
         if duplicate_bill:
             messages.append(
-                _("Vendor bill already exists for this invoice reference (%s). No new bill was created.")
+                self.env._("Vendor bill already exists for this invoice reference (%s). No new bill was created.")
                 % (duplicate_bill.ref or duplicate_bill.name)
             )
         elif bill:
-            messages.append(_("Vendor bill created: %s") % (bill.ref or ""))
+            messages.append(self.env._("Vendor bill created: %s") % (bill.ref or ""))
         elif bill_log:
             messages.append(bill_log)
 
