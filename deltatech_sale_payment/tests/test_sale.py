@@ -1,4 +1,5 @@
 from datetime import date
+from unittest.mock import patch
 
 from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
@@ -111,9 +112,17 @@ class TestSaleOrderPayment(TransactionCase):
         self.sale_order.write({"transaction_ids": [(4, tx.id)]})
         return tx
 
+    def test_compute_payment_pending(self):
+        # Pending transaction -> its own "pending" status
+        self._create_transaction(amount=100.0, state="pending")
+        self.sale_order._compute_payment()
+        self.assertEqual(self.sale_order.payment_status, "pending")
+        self.assertEqual(self.sale_order.payment_amount, 0.0)
+        self.assertEqual(self.sale_order.provider_id, self.provider)
+
     def test_compute_payment_initiated(self):
-        # Create a non-done transaction (pending) -> initiated status
-        self._create_transaction(amount=10.0, state="pending")
+        # Draft / error transaction (neither pending nor done) -> initiated status
+        self._create_transaction(amount=10.0, state="error")
         self.sale_order._compute_payment()
         self.assertEqual(self.sale_order.payment_status, "initiated")
         self.assertEqual(self.sale_order.payment_amount, 0.0)
@@ -207,13 +216,43 @@ class TestSaleOrderPayment(TransactionCase):
         return tx
 
     def test_compute_payment_multiple_transactions_initiated_provider_from_last_by_id(self):
-        # Two non-done transactions with different providers -> initiated, provider from the last tx by id
-        self._create_transaction(amount=10.0, state="pending", provider=self.provider)
+        # Two draft / error transactions with different providers -> initiated, provider from the last tx by id
+        self._create_transaction(amount=10.0, state="draft", provider=self.provider)
         self._create_transaction(amount=5.0, state="error", provider=self.provider2)
         self.sale_order._compute_payment()
         self.assertEqual(self.sale_order.payment_status, "initiated")
         self.assertEqual(self.sale_order.payment_amount, 0.0)
         self.assertEqual(self.sale_order.provider_id, self.provider2)
+
+    def test_compute_payment_multiple_pending_and_error(self):
+        # pending takes precedence over error; provider from the last pending tx
+        self._create_transaction(amount=10.0, state="error", provider=self.provider)
+        self._create_transaction(amount=5.0, state="pending", provider=self.provider2)
+        self._create_transaction(amount=5.0, state="error", provider=self.provider)
+        self.sale_order._compute_payment()
+        self.assertEqual(self.sale_order.payment_status, "pending")
+        self.assertEqual(self.sale_order.provider_id, self.provider2)
+
+    def test_payment_status_is_stored_and_follows_transactions(self):
+        # Stored field: no explicit _compute_payment call, the ORM keeps it up to date
+        tx = self._create_transaction(amount=self.sale_order.amount_total, state="pending")
+        self.assertEqual(self.sale_order.payment_status, "pending")
+        tx.state = "done"
+        self.assertEqual(self.sale_order.payment_status, "done")
+        self.assertEqual(self.sale_order.payment_amount, self.sale_order.amount_total)
+
+    def test_payment_link_amount_is_what_is_left_to_pay(self):
+        self._create_transaction(amount=30.0, state="done")
+        wizard_create = type(self.env["payment.link.wizard"]).create
+        created = []
+
+        def spy(model, vals_list):
+            created.append(vals_list)
+            return wizard_create(model, vals_list)
+
+        with patch.object(type(self.env["payment.link.wizard"]), "create", spy):
+            self.sale_order.action_payment_link()
+        self.assertEqual(created[0]["amount"], self.sale_order.amount_total - 30.0)
 
     def test_compute_payment_multiple_transactions_authorized_provider_from_last_authorized(self):
         # Mix of states: last overall is pending, but there are authorized ones -> status authorized
@@ -334,7 +373,7 @@ class TestSaleOrderPayment(TransactionCase):
 
         # Create a pending transaction
         self._create_transaction(amount=10.0, state="pending")
-        orders = self.env["sale.order"].search([("id", "=", self.sale_order.id), ("payment_status", "=", "initiated")])
+        orders = self.env["sale.order"].search([("id", "=", self.sale_order.id), ("payment_status", "=", "pending")])
         self.assertIn(self.sale_order, orders)
 
         # Create an authorized transaction
@@ -376,7 +415,10 @@ class TestSaleOrderPayment(TransactionCase):
         orders = {"without": self._create_order()}
 
         orders["initiated"] = self._create_order()
-        self._create_transaction_for_order(orders["initiated"], amount=10.0, state="pending")
+        self._create_transaction_for_order(orders["initiated"], amount=10.0, state="error")
+
+        orders["pending"] = self._create_order()
+        self._create_transaction_for_order(orders["pending"], amount=10.0, state="pending")
 
         orders["authorized"] = self._create_order()
         self._create_transaction_for_order(orders["authorized"], amount=20.0, state="authorized")
