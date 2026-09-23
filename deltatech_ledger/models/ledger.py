@@ -1,11 +1,11 @@
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class Ledger(models.Model):
     _name = "ledger.ledger"
     _description = "Ledger"
 
-    name = fields.Char(string="Number of Record", default=lambda self: _("New"))
+    name = fields.Char(string="Number of Record", default=lambda self: self.env._("New"))
     record_date = fields.Date(string="Record Date")
     document_number = fields.Char(string="Document Number")
     place_of_origin = fields.Char(string="Place of Origin")
