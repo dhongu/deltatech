@@ -114,7 +114,7 @@ class ResConfigSettings(models.TransientModel):
         return res
 
     def set_values(self):
-        super().set_values()
+        res = super().set_values()
         for field_name, xmlid in CRON_ACTIVE_FIELDS.items():
             cron = self.env.ref(xmlid, raise_if_not_found=False)
             if cron and cron.active != self[field_name]:
@@ -127,6 +127,7 @@ class ResConfigSettings(models.TransientModel):
         icp = self.env["ir.config_parameter"].sudo()
         for field_name, key in BOOL_PARAM_FIELDS.items():
             icp.set_param(key, "True" if self[field_name] else "False")
+        return res
 
     # -- Duplicate XML attachments (account_move.cron_clean_xml_attachments) --
     dt_actions_xml_limit = fields.Integer(
