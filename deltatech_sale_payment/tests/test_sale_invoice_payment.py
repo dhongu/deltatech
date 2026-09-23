@@ -74,3 +74,17 @@ class TestSaleOrderPaymentInvoice(AccountTestInvoicingCommon):
         self.sale_order.invalidate_recordset(["payment_amount", "payment_status"])
         self.assertEqual(self.sale_order.payment_amount, 40.0)
         self.assertEqual(self.sale_order.payment_status, "partial")
+
+    def test_settled_card_transaction_is_not_counted_twice(self):
+        # Tranzactia pe card (fara plata contabila) acopera toata comanda; factura se inchide
+        # ulterior din extrasul bancar al procesatorului, printr-o plata care nu e legata de
+        # tranzactie. Sunt aceiasi bani: suma incasata nu trebuie sa fie dublul totalului.
+        self._create_transaction(self.sale_order.amount_total)
+        self.env["account.payment.register"].with_context(
+            active_model="account.move", active_ids=self.invoice.ids
+        ).create({"journal_id": self.company_data["default_journal_bank"].id})._create_payments()
+        self.assertFalse(self.invoice.amount_residual)
+
+        self.sale_order.invalidate_recordset(["payment_amount", "payment_status"])
+        self.assertEqual(self.sale_order.payment_amount, self.sale_order.amount_total)
+        self.assertEqual(self.sale_order.payment_status, "done")
