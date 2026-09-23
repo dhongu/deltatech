@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 
@@ -33,7 +33,7 @@ class StockPrepareBatch(models.TransientModel):
                 if not partner:
                     partner = order.partner_id
                 if partner != order.partner_id:
-                    raise UserError(_("Please select orders for the same customer."))
+                    raise UserError(self.env._("Please select orders for the same customer."))
             if partner:
                 defaults["partner_id"] = partner.id
         return defaults
@@ -117,7 +117,7 @@ class StockPrepareBatch(models.TransientModel):
                             quantity = 0
                 if not found:
                     raise UserError(
-                        _("The product [%(product_code)s]%(product_name)s was not found for this partner.")
+                        self.env._("The product [%(product_code)s]%(product_name)s was not found for this partner.")
                         % {"product_code": line.product_id.default_code, "product_name": line.product_id.name}
                     )
                 if quantity > 0:
@@ -145,7 +145,7 @@ class StockPrepareBatch(models.TransientModel):
                             quantity = 0
                 if not found:
                     raise UserError(
-                        _("The product [%(product_code)s]%(product_name)s was not found for this partner.")
+                        self.env._("The product [%(product_code)s]%(product_name)s was not found for this partner.")
                         % {"product_code": line.product_id.default_code, "product_name": line.product_id.name}
                     )
                 if quantity > 0:
