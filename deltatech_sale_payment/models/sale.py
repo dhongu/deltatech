@@ -62,7 +62,12 @@ class SaleOrder(models.Model):
                 amount_invoice = invoice.amount_total_signed - invoice.amount_residual_signed
                 if amount_invoice:
                     amount += amount_invoice
-                    transactions = transactions - invoice.sudo().transaction_ids.filtered(lambda a: a.is_post_processed)
+                    # se scad doar tranzactiile care au generat plata in contabilitate: suma lor e deja
+                    # in `amount_invoice`. O tranzactie post-procesata fara plata (ex. provider fara jurnal,
+                    # comenzi importate din marketplace) nu apare in factura si trebuie numarata separat.
+                    transactions = transactions - invoice.sudo().transaction_ids.filtered(
+                        lambda a: a.is_post_processed and a.payment_id
+                    )
 
             for transaction in transactions:
                 amount += transaction.amount
